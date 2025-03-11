@@ -1905,6 +1905,7 @@ static void compat_post_load_030100(struct loaddata *loading,
     unit_list_iterate(pplayer->units, punit) {
       unit_assign_specific_activity_target(punit,
                                            &punit->activity,
+                                           punit->action,
                                            &punit->activity_target);
     } unit_list_iterate_end;
   } players_iterate_alive_end;

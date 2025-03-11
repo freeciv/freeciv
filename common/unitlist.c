@@ -127,10 +127,11 @@ bool can_units_do_on_map(const struct civ_map *nmap,
 ****************************************************************************/
 bool can_units_do_activity(const struct civ_map *nmap,
                            const struct unit_list *punits,
-                           enum unit_activity activity)
+                           enum unit_activity activity,
+                           enum gen_action action)
 {
   unit_list_iterate(punits, punit) {
-    if (can_unit_do_activity(nmap, punit, activity)) {
+    if (can_unit_do_activity(nmap, punit, activity, action)) {
       return TRUE;
     }
   } unit_list_iterate_end;
@@ -144,10 +145,11 @@ bool can_units_do_activity(const struct civ_map *nmap,
 bool can_units_do_activity_targeted(const struct civ_map *nmap,
                                     const struct unit_list *punits,
                                     enum unit_activity activity,
+                                    enum gen_action action,
                                     struct extra_type *pextra)
 {
   unit_list_iterate(punits, punit) {
-    if (can_unit_do_activity_targeted(nmap, punit, activity, pextra)) {
+    if (can_unit_do_activity_targeted(nmap, punit, activity, action, pextra)) {
       return TRUE;
     }
   } unit_list_iterate_end;

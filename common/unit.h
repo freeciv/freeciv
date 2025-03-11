@@ -342,14 +342,17 @@ bool can_unit_continue_current_activity(const struct civ_map *nmap,
                                         struct unit *punit);
 bool can_unit_do_activity(const struct civ_map *nmap,
                           const struct unit *punit,
-                          enum unit_activity activity);
+                          enum unit_activity activity,
+                          enum gen_action action);
 bool can_unit_do_activity_targeted(const struct civ_map *nmap,
                                    const struct unit *punit,
                                    enum unit_activity activity,
+                                   enum gen_action action,
                                    struct extra_type *target);
 bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
                                       const struct unit *punit,
                                       enum unit_activity activity,
+                                      enum gen_action action,
                                       struct extra_type *target,
                                       const struct tile *ptile);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity,

@@ -77,10 +77,12 @@ bool can_units_do_on_map(const struct civ_map *nmap,
                                        const struct unit *punit));
 bool can_units_do_activity(const struct civ_map *nmap,
                            const struct unit_list *punits,
-                           enum unit_activity activity);
+                           enum unit_activity activity,
+                           enum gen_action action);
 bool can_units_do_activity_targeted(const struct civ_map *nmap,
                                     const struct unit_list *punits,
                                     enum unit_activity activity,
+                                    enum gen_action action,
                                     struct extra_type *pextra);
 bool can_units_do_any_road(const struct civ_map *nmap,
                            const struct unit_list *punits);

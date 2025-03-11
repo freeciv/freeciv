@@ -122,12 +122,13 @@ void bounce_unit(struct unit *punit, bool verbose);
 bool unit_activity_needs_target_from_client(enum unit_activity activity);
 void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
+                                          enum gen_action action,
                                           struct extra_type **target);
 void unit_forget_last_activity(struct unit *punit);
 void unit_make_contact(const struct unit *punit,
                        struct tile *ptile, struct player *pplayer);
 
-/* creation/deletion/upgrading */
+/* Creation/deletion/upgrading */
 void transform_unit(struct unit *punit, const struct unit_type *to_unit,
                     int vet_loss);
 struct unit *create_unit(struct player *pplayer, struct tile *ptile,

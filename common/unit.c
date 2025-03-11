@@ -869,15 +869,18 @@ bool can_unit_continue_current_activity(const struct civ_map *nmap,
   struct extra_type *target = punit->activity_target;
   enum unit_activity current2 = 
               (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
+  enum gen_action action = punit->action;
   bool result;
 
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = NULL;
 
-  result = can_unit_do_activity_targeted(nmap, punit, current2, target);
+  result = can_unit_do_activity_targeted(nmap, punit, current2, action,
+                                         target);
 
   punit->activity = current;
   punit->activity_target = target;
+  punit->action = action;
 
   return result;
 }
@@ -891,7 +894,8 @@ bool can_unit_continue_current_activity(const struct civ_map *nmap,
 **************************************************************************/
 bool can_unit_do_activity(const struct civ_map *nmap,
                           const struct unit *punit,
-                          enum unit_activity activity)
+                          enum unit_activity activity,
+                          enum gen_action action)
 {
   struct extra_type *target = NULL;
 
@@ -921,7 +925,8 @@ bool can_unit_do_activity(const struct civ_map *nmap,
     }
   }
 
-  return can_unit_do_activity_targeted(nmap, punit, activity, target);
+  return can_unit_do_activity_targeted(nmap, punit, activity, action,
+                                       target);
 }
 
 /**********************************************************************//**
@@ -931,10 +936,11 @@ bool can_unit_do_activity(const struct civ_map *nmap,
 bool can_unit_do_activity_targeted(const struct civ_map *nmap,
                                    const struct unit *punit,
                                    enum unit_activity activity,
+                                   enum gen_action action,
                                    struct extra_type *target)
 {
-  return can_unit_do_activity_targeted_at(nmap, punit, activity, target,
-					  unit_tile(punit));
+  return can_unit_do_activity_targeted_at(nmap, punit, activity, action,
+                                          target, unit_tile(punit));
 }
 
 /**********************************************************************//**
@@ -944,6 +950,7 @@ bool can_unit_do_activity_targeted(const struct civ_map *nmap,
 bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
                                       const struct unit *punit,
                                       enum unit_activity activity,
+                                      enum gen_action action,
                                       struct extra_type *target,
                                       const struct tile *ptile)
 {
@@ -995,42 +1002,42 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_CLEAN,
+    return is_action_enabled_unit_on_tile(nmap, action,
                                           punit, ptile, target);
 
   case ACTIVITY_MINE:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_MINE, punit,
+    return is_action_enabled_unit_on_tile(nmap, action, punit,
                                           ptile, target);
 
   case ACTIVITY_PLANT:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_PLANT,
+    return is_action_enabled_unit_on_tile(nmap, action,
                                           punit, ptile, NULL);
 
   case ACTIVITY_IRRIGATE:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_IRRIGATE, punit,
+    return is_action_enabled_unit_on_tile(nmap, action, punit,
                                           ptile, target);
 
   case ACTIVITY_CULTIVATE:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_CULTIVATE,
+    return is_action_enabled_unit_on_tile(nmap, action,
                                           punit, ptile, NULL);
 
   case ACTIVITY_FORTIFYING:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_self()");
-    return is_action_enabled_unit_on_self(nmap, ACTION_FORTIFY,
+    return is_action_enabled_unit_on_self(nmap, action,
                                           punit);
 
   case ACTIVITY_FORTIFIED:
@@ -1040,14 +1047,14 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_BASE,
+    return is_action_enabled_unit_on_tile(nmap, action,
                                           punit, ptile, target);
 
   case ACTIVITY_GEN_ROAD:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_ROAD,
+    return is_action_enabled_unit_on_tile(nmap, action,
                                           punit, ptile, target);
 
   case ACTIVITY_SENTRY:
@@ -1062,7 +1069,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    RETURN_IS_ACTIVITY_ENABLED_UNIT_ON(action_by_number(ACTION_PILLAGE));
+    RETURN_IS_ACTIVITY_ENABLED_UNIT_ON(action_by_number(action));
 
   case ACTIVITY_EXPLORE:
     return (!unit_type_get(punit)->fuel && !is_losing_hp(punit));
@@ -1071,14 +1078,14 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(nmap, ACTION_TRANSFORM_TERRAIN,
+    return is_action_enabled_unit_on_tile(nmap, action,
                                           punit, ptile, NULL);
 
   case ACTIVITY_CONVERT:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_self()");
-    return is_action_enabled_unit_on_self(nmap, ACTION_CONVERT, punit);
+    return is_action_enabled_unit_on_self(nmap, action, punit);
 
   case ACTIVITY_LAST:
     break;
@@ -1086,6 +1093,7 @@ bool can_unit_do_activity_targeted_at(const struct civ_map *nmap,
 
   log_error("can_unit_do_activity_targeted_at() unknown activity %d",
             activity);
+
   return FALSE;
 
 #undef RETURN_IS_ACTIVITY_ENABLED_UNIT_ON

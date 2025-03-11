@@ -918,7 +918,8 @@ int action_sub_target_id_for_action(const struct action *paction,
       struct extra_type *pextra = NULL;
       enum unit_activity activity = action_get_activity(paction);
 
-      unit_assign_specific_activity_target(actor_unit, &activity, &pextra);
+      unit_assign_specific_activity_target(actor_unit, &activity,
+                                           action_number(paction), &pextra);
 
       if (pextra != NULL) {
         return extra_number(pextra);

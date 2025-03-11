@@ -39,13 +39,13 @@ enum quickselect_type {
 };
 
 #define can_unit_do_activity_client(_punit_, _act_) \
-  can_unit_do_activity(&(wld.map), _punit_, _act_)
+  can_unit_do_activity(&(wld.map), _punit_, _act_, activity_default_action(_act_))
 #define can_unit_do_activity_targeted_client(_punit_, _act_, _tgt_) \
-  can_unit_do_activity_targeted(&(wld.map), _punit_, _act_, _tgt_)
+  can_unit_do_activity_targeted(&(wld.map), _punit_, _act_, activity_default_action(_act_), _tgt_)
 #define can_units_do_activity_client(_punits_, _act_) \
-  can_units_do_activity(&(wld.map), _punits_, _act_)
+  can_units_do_activity(&(wld.map), _punits_, _act_, activity_default_action(_act_))
 #define can_units_do_activity_targeted_client(_punits_, _act_, _tgt_) \
-  can_units_do_activity_targeted(&(wld.map), _punits_, _act_, _tgt_)
+  can_units_do_activity_targeted(&(wld.map), _punits_, _act_, activity_default_action(_act_), _tgt_)
 
 void control_init(void);
 void control_free(void);

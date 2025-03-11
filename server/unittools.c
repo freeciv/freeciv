@@ -1081,12 +1081,13 @@ bool unit_activity_needs_target_from_client(enum unit_activity activity)
 **************************************************************************/
 void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
+                                          enum gen_action action,
                                           struct extra_type **target)
 {
   const struct civ_map *nmap = &(wld.map);
 
   if (*activity == ACTIVITY_PILLAGE
-      && *target == NULL) {
+      && *target == nullptr) {
     struct tile *ptile = unit_tile(punit);
     struct extra_type *tgt;
     bv_extras extras = *tile_extras(ptile);
@@ -1095,7 +1096,8 @@ void unit_assign_specific_activity_target(struct unit *punit,
 
       BV_CLR(extras, extra_index(tgt));
 
-      if (can_unit_do_activity_targeted(nmap, punit, *activity, tgt)) {
+      if (can_unit_do_activity_targeted(nmap, punit, *activity, action,
+                                        tgt)) {
         *target = tgt;
         return;
       }
@@ -1171,7 +1173,8 @@ void place_partisans(struct tile *pcenter, struct player *powner,
     struct unit *punit;
 
     punit = unit_virtual_prepare(powner, ptile, u_type, 0, 0, -1, -1);
-    if (can_unit_do_activity(nmap, punit, ACTIVITY_FORTIFYING)) {
+    if (can_unit_do_activity(nmap, punit, ACTIVITY_FORTIFYING,
+                             activity_default_action(ACTIVITY_FORTIFYING))) {
       punit->activity = ACTIVITY_FORTIFIED; /* Yes; directly fortified */
     }
 
@@ -4636,7 +4639,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
         fc_assert(activity == ACTIVITY_SENTRY);
 
-        if (can_unit_do_activity(nmap, punit, activity)) {
+        if (can_unit_do_activity(nmap, punit, activity, order.action)) {
           punit->done_moving = TRUE;
           set_unit_activity(punit, activity, order.action);
           send_unit_info(NULL, punit);
