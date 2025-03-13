@@ -7882,6 +7882,16 @@ static bool load_ruleset_actions(struct section_file *file,
   }
 
   if (ok) {
+    action_iterate(act) {
+      struct action *paction = action_by_number(act);
+
+      if (!paction->configured) {
+        sz_strlcpy(paction->ui_name, action_ui_name_default(act));
+      }
+    } action_iterate_end;
+  }
+
+  if (ok) {
     sec = secfile_sections_by_name_prefix(file, ENABLER_SECTION_PREFIX);
 
     if (sec == nullptr && compat->compat_mode && compat->version < RSFORMAT_3_3) {
