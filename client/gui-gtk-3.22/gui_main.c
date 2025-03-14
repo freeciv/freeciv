@@ -736,7 +736,7 @@ gboolean fc_lost_focus(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
   client_focus = FALSE;
 
-  return TRUE;
+  return FALSE;
 }
 
 /**********************************************************************//**
@@ -746,7 +746,7 @@ gboolean fc_gained_focus(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
   client_focus = TRUE;
 
-  return TRUE;
+  return FALSE;
 }
 
 /**********************************************************************//**

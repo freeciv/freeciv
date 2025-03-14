@@ -744,7 +744,7 @@ gboolean fc_lost_focus(GtkEventControllerFocus *controller,
 {
   client_focus = FALSE;
 
-  return TRUE;
+  return FALSE;
 }
 
 /**********************************************************************//**
@@ -755,7 +755,7 @@ gboolean fc_gained_focus(GtkEventControllerFocus *controller,
 {
   client_focus = TRUE;
 
-  return TRUE;
+  return FALSE;
 }
 
 /**********************************************************************//**
