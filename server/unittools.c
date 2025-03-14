@@ -345,9 +345,10 @@ bool unit_versus_unit(struct unit *attacker, struct unit *defender,
 }
 
 /**********************************************************************//**
-  This is the basic unit versus unit classic bombardment routine.
-  1) ALOT of modifiers bonuses etc is added to the 2 units rates.
-  2) Do rate attacks and don't kill the defender, then return.
+  This is the basic unit versus unit bombardment routine.
+  1) A LOT of modifiers, bonuses etc are added to the 2 units' rates.
+  2) Do rate attacks, never kill defender if action has
+     non-lethal sub result.
 **************************************************************************/
 void unit_bombs_unit(struct unit *attacker, struct unit *defender,
                      int *att_hp, int *def_hp)
