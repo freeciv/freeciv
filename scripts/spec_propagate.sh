@@ -38,7 +38,7 @@ patch_rulesetdir() {
         esac
     done
     rm "$P"
-    if [ "x$rej" != x ]; then
+    if [ "$rej" != "" ]; then
         echo "*** fix up rejects manually: $rej"
     fi
     if [ -f "data/ruledit/${COMMENTS}" ]; then
