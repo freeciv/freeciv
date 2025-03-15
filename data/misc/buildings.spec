@@ -69,7 +69,7 @@ tiles = { "row", "column", "tag"
 ;  4,  3, "a.alphabet"
 ;  4,  4, "a.bridge_building"
   4,  5, "b.capitalization"
-;  4,  6, "a.philosphy"
+;  4,  6, "a.philosophy"
 ;  4,  7, "a.chemistry"
 
   5,  0, "b.apollo_program"
