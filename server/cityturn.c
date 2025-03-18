@@ -2254,6 +2254,7 @@ static bool worklist_change_build_target(struct player *pplayer,
         } unit_tech_reqs_iterate_end;
 
 
+        purge = FALSE;
         if (missing != NULL) {
           if (!multiple) {
             notify_player(pplayer, city_tile(pcity),
@@ -2278,7 +2279,9 @@ static bool worklist_change_build_target(struct player *pplayer,
                                                  saved_id);
         }
         city_checked = FALSE;
-	break;
+        if (!purge) {
+          break;
+        }
       } else {
         purge = !can_city_build_unit_later(nmap, pcity, pupdate);
       }
@@ -2304,7 +2307,7 @@ static bool worklist_change_build_target(struct player *pplayer,
           city_checked = FALSE;
         }
       } else {
-	/* Yep, we can go after pupdate instead.  Joy! */
+	/* Yep, we can go after pupdate instead. Joy! */
         notify_player(pplayer, city_tile(pcity), E_WORKLIST, ftc_server,
                       _("Production of %s is upgraded to %s in %s."),
                       utype_name_translation(ptarget), 
