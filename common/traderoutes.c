@@ -242,7 +242,7 @@ int city_trade_removable(const struct city *pcity, int priority,
            j > 0 && proute->goods->replace_priority > sorted[j - 1]->goods->replace_priority;
            j--) ;
 
-      /* Search place amoung same priority ones. */
+      /* Search place among same priority ones. */
       for (; j > 0
              && (proute->value < sorted[j - 1]->value)
              && (proute->goods->replace_priority == sorted[j - 1]->goods->replace_priority) ;
