@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk4
 runtime: org.gnome.Platform
-runtime-version: '47'
+runtime-version: '48'
 sdk: org.gnome.Sdk
 command: freeciv-gtk4
 rename-icon: freeciv-client
