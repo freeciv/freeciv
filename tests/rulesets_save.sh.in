@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #/***********************************************************************
-# Freeciv - Copyright (C) 2017-2023
+# Freeciv - Copyright (C) 2017-2025
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2, or (at your option)
@@ -77,8 +77,8 @@ for ruleset in $rulesets; do
     exit 1
   fi
   result="`diff -u \"${resaved_path}\" \"${reresaved_path}\"`"
-  if test "x$result" != "x" ; then
-    echo "$result"
+  if test "${result}" != "" ; then
+    echo "${result}"
     echo "Unstable ruleset saving."
     exit 1
   fi
