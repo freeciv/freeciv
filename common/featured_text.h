@@ -69,7 +69,7 @@ extern "C" {
  * Full name sequence: [strike] ... [/strike]
  * Abbreviation sequence: [s] ... [/s]
  * Text tag type: TTT_STRIKE
- * 
+ *
  * - Underline.
  * Full name sequence: [underline] ... [/underline]
  * Abbreviation sequence: [u] ... [/u]
@@ -104,12 +104,12 @@ typedef int ft_offset_t;
 #define FT_OFFSET_UNSET ((ft_offset_t) -1)
 
 /* Opaque type. */
-struct text_tag;               
+struct text_tag;
 
 /* Define struct text_tag_list. */
 #define SPECLIST_TAG text_tag
 #define SPECLIST_TYPE struct text_tag
-#include "speclist.h"           
+#include "speclist.h"
 
 #define text_tag_list_iterate(tags, ptag) \
   TYPED_LIST_ITERATE(struct text_tag, tags, ptag)

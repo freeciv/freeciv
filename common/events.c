@@ -325,7 +325,7 @@ bool is_city_event(enum event_type event)
 }
 
 /**********************************************************************//**
-  Initialize events. 
+  Initialize events.
   Now also initialise sorted_events[].
 **************************************************************************/
 void events_init(void)
@@ -372,7 +372,7 @@ void events_init(void)
 }
 
 /**********************************************************************//**
-  Free events. 
+  Free events.
 **************************************************************************/
 void events_free(void)
 {

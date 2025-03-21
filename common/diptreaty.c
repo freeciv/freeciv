@@ -70,7 +70,7 @@ bool could_meet_with_player(const struct player *pplayer,
           && diplomacy_possible(pplayer,aplayer)
           && get_player_bonus(pplayer, EFT_NO_DIPLOMACY) <= 0
           && get_player_bonus(aplayer, EFT_NO_DIPLOMACY) <= 0
-          && (player_has_embassy(aplayer, pplayer) 
+          && (player_has_embassy(aplayer, pplayer)
               || player_has_embassy(pplayer, aplayer)
               || player_diplstate_get(pplayer, aplayer)->contact_turns_left
                  > 0
@@ -161,7 +161,7 @@ bool add_clause(struct treaty *ptreaty, struct player *pfrom,
     log_error("Illegal tech value %i in clause.", val);
     return FALSE;
   }
-  
+
   if (is_pact_clause(type)
       && ((ds == DS_PEACE && type == CLAUSE_PEACE)
           || (ds == DS_ARMISTICE && type == CLAUSE_PEACE)
@@ -170,7 +170,7 @@ bool add_clause(struct treaty *ptreaty, struct player *pfrom,
     /* we already have this diplomatic state */
     log_error("Illegal treaty suggested between %s and %s - they "
               "already have this treaty level.",
-              nation_rule_name(nation_of_player(ptreaty->plr0)), 
+              nation_rule_name(nation_of_player(ptreaty->plr0)),
               nation_rule_name(nation_of_player(ptreaty->plr1)));
     return FALSE;
   }
@@ -247,7 +247,7 @@ bool add_clause(struct treaty *ptreaty, struct player *pfrom,
   pclause->type  = type;
   pclause->from  = pfrom;
   pclause->value = val;
-  
+
   clause_list_append(ptreaty->clauses, pclause);
 
   ptreaty->accept0 = FALSE;

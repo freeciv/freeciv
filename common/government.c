@@ -137,7 +137,7 @@ const char *government_rule_name(const struct government *pgovern)
 }
 
 /**********************************************************************//**
-  Return the (translated) name of the given government. 
+  Return the (translated) name of the given government.
   You don't have to free the return pointer.
 **************************************************************************/
 const char *government_name_translation(const struct government *pgovern)
@@ -148,7 +148,7 @@ const char *government_name_translation(const struct government *pgovern)
 }
 
 /**********************************************************************//**
-  Return the (translated) name of the given government of a player. 
+  Return the (translated) name of the given government of a player.
   You don't have to free the return pointer.
 **************************************************************************/
 const char *government_name_for_player(const struct player *pplayer)

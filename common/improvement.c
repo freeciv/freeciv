@@ -237,7 +237,7 @@ const struct impr_type *valid_improvement_by_number(const Impr_type_id id)
 }
 
 /**********************************************************************//**
-  Return the (translated) name of the given improvement. 
+  Return the (translated) name of the given improvement.
   You don't have to free the return pointer.
 **************************************************************************/
 const char *improvement_name_translation(const struct impr_type *pimprove)
@@ -1139,7 +1139,7 @@ enum test_result test_player_sell_building_now(struct player *pplayer,
   }
 
   /* Check if particular building can be solt */
-  if (pimprove != NULL 
+  if (pimprove != NULL
       && !can_city_sell_building(pcity, pimprove)) {
     return TR_OTHER_FAILURE;
   }

@@ -571,7 +571,7 @@ static bool can_extra_be_removed(const struct extra_type *pextra,
     if (extra_has_flag(pextra, EF_AUTO_ON_CITY_CENTER)) {
       struct tile *vtile = tile_virtual_new(ptile);
 
-      /* Would extra get rebuilt if removed */ 
+      /* Would extra get rebuilt if removed */
       tile_remove_extra(vtile, pextra);
       if (player_can_build_extra(pextra, city_owner(pcity), vtile)) {
         /* No need to worry about conflicting extras - extra would had

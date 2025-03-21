@@ -378,8 +378,8 @@ struct city {
   bool was_happy;
   bool had_famine;
 
-  int anarchy;                  /* anarchy rounds count */ 
-  int rapture;                  /* rapture rounds count */ 
+  int anarchy;                  /* anarchy rounds count */
+  int rapture;                  /* rapture rounds count */
   int turn_founded;
   int turn_last_built;
 

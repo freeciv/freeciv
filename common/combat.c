@@ -341,7 +341,7 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
   double def_P_lose1 = 1 - att_P_lose1;
 
   /*
-    This calculates 
+    This calculates
 
     binomial_coeff(def_N_lose-1 + lr, lr)
       * def_P_lose1^(def_N_lose-1)
@@ -449,7 +449,7 @@ void get_modified_firepower(const struct civ_map *nmap,
     *def_fp = MIN(*def_fp, game.info.low_firepower_pearl_harbor);
   }
 
-  /* 
+  /*
    * When attacked by fighters, helicopters have their firepower
    * reduced to low firepower bonus.
    */
@@ -496,7 +496,7 @@ double unit_win_chance(const struct civ_map *nmap,
 }
 
 /*******************************************************************//**
-  Try defending against nuclear attack; if successful, return a city which 
+  Try defending against nuclear attack; if successful, return a city which
   had enough luck and EFT_NUKE_PROOF.
   If the attack was successful return NULL.
 ***********************************************************************/
@@ -766,7 +766,7 @@ int get_virtual_defense_power(const struct civ_map *nmap,
 
 /*******************************************************************//**
  return the modified defense power of a unit.
- An veteran aegis cruiser in a mountain city with SAM and SDI defense 
+ An veteran aegis cruiser in a mountain city with SAM and SDI defense
  being attacked by a missile gets defense 288.
 ***********************************************************************/
 int get_total_defense_power(const struct unit *attacker,

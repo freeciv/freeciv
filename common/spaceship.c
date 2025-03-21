@@ -132,7 +132,7 @@ bool next_spaceship_component(struct player *pplayer,
                               struct spaceship_component *fill)
 {
   fc_assert_ret_val(fill != NULL, FALSE);
-  
+
   if (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     /* "nice" governments prefer to keep success 100%;
@@ -185,12 +185,12 @@ bool next_spaceship_component(struct player *pplayer,
     int i;
 
     if (!BV_ISSET(ship->structure, 0)) {
-      /* if we don't have the first structural, place that! */
+      /* If we don't have the first structural, place that! */
       fill->type = SSHIP_PLACE_STRUCTURAL;
       fill->num = 0;
       return TRUE;
     }
-    
+
     if (ship->habitation >= 1
         && !BV_ISSET(ship->structure, modules_info[0].required)) {
       req = modules_info[0].required;

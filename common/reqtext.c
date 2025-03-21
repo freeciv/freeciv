@@ -1252,7 +1252,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     fc_strlcat(buf, prefix, bufsz);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   /* TRANS: "Requires that you are playing Asian style 
+                   /* TRANS: "Requires that you are playing Asian style
                     * nation." */
                    _("Requires that you are playing %s style nation."),
                    style_name_translation(preq->source.value.style));
@@ -1779,7 +1779,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
           /* TRANS: %s is a list of unit classes separated by "or". */
           cat_snprintf(buf, bufsz, Q_("?uclasslist:Requires %s units."),
                        astr_str(&list));
-        } else { 
+        } else {
           /* TRANS: %s is a list of unit classes separated by "or". */
           cat_snprintf(buf, bufsz, Q_("?uclasslist:Does not apply to "
                                       "%s units."),

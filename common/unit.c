@@ -867,8 +867,8 @@ bool can_unit_continue_current_activity(const struct civ_map *nmap,
 {
   enum unit_activity current = punit->activity;
   struct extra_type *target = punit->activity_target;
-  enum unit_activity current2 = 
-              (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
+  enum unit_activity current2
+    = (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
   enum gen_action action = punit->action;
   bool result;
 
@@ -1495,7 +1495,7 @@ bool is_plr_zoc_srv(const struct player *pplayer, const struct tile *ptile0,
   enemy unit (that has a ZOC) on a terrain that has zoc rules.
 
   Since this function is used in the client, it has to deal with some
-  client-specific features, like FoW and the fact that the client cannot 
+  client-specific features, like FoW and the fact that the client cannot
   see units inside enemy cities.
 **************************************************************************/
 bool is_plr_zoc_client(const struct player *pplayer, const struct tile *ptile0,
@@ -1833,7 +1833,7 @@ int get_transporter_occupancy(const struct unit *ptrans)
 }
 
 /**********************************************************************//**
-  Helper for transporter_for_unit() and transporter_for_unit_at() 
+  Helper for transporter_for_unit() and transporter_for_unit_at()
 **************************************************************************/
 static struct unit *base_transporter_for_unit(const struct unit *pcargo,
                                               const struct tile *ptile,

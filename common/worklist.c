@@ -44,13 +44,13 @@ void worklist_init(struct worklist *pwl)
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     /* just setting the entry to zero: */
     pwl->entries[i].kind = VUT_NONE;
-    /* all the union pointers should be in the same place: */ 
+    /* all the union pointers should be in the same place: */
     pwl->entries[i].value.building = NULL;
   }
 }
 
 /************************************************************************//**
-  Returns the number of entries in the worklist.  The returned value can
+  Returns the number of entries in the worklist. The returned value can
   also be used as the next available worklist index (assuming that
   len < MAX_LEN_WORKLIST).
 ****************************************************************************/
@@ -104,7 +104,7 @@ bool worklist_peek_ith(const struct worklist *pwl,
 void worklist_advance(struct worklist *pwl)
 {
   worklist_remove(pwl, 0);
-}  
+}
 
 /************************************************************************//**
   Copy contents from worklist src to worklist dst.
@@ -134,15 +134,15 @@ void worklist_remove(struct worklist *pwl, int idx)
   }
   /* just setting the entry to zero: */
   pwl->entries[pwl->length - 1].kind = VUT_NONE;
-  /* all the union pointers should be in the same place: */ 
+  /* all the union pointers should be in the same place: */
   pwl->entries[pwl->length - 1].value.building = NULL;
   pwl->length--;
 }
 
 /************************************************************************//**
-  Adds the id to the next available slot in the worklist.  'id' is the ID of
+  Adds the id to the next available slot in the worklist. 'id' is the ID of
   the unit/building to be produced; is_unit specifies whether it's a unit or
-  a building.  Returns TRUE if successful.
+  a building. Returns TRUE if successful.
 ****************************************************************************/
 bool worklist_append(struct worklist *pwl, const struct universal *prod)
 {
@@ -160,8 +160,8 @@ bool worklist_append(struct worklist *pwl, const struct universal *prod)
 
 /************************************************************************//**
   Inserts the production at the location idx in the worklist, thus moving
-  all subsequent entries down.  'id' specifies the unit/building to
-  be produced; is_unit tells whether it's a unit or building.  Returns TRUE
+  all subsequent entries down. 'id' specifies the unit/building to
+  be produced; is_unit tells whether it's a unit or building. Returns TRUE
   if successful.
 ****************************************************************************/
 bool worklist_insert(struct worklist *pwl, const struct universal *prod,

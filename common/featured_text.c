@@ -854,7 +854,6 @@ static size_t extract_sequence_text(const char *featured_text,
   }
   return stop - featured_text + 1;
 }
-                                    
 
 /**********************************************************************//**
   Separate the text from the text features. 'tags' can be nullptr.

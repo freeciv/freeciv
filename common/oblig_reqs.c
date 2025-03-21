@@ -840,7 +840,7 @@ void oblig_hard_reqs_free(void)
       ae_contra_close(oreq->contras);
     } obligatory_req_vector_iterate_end;
     obligatory_req_vector_free(&oblig_hard_reqs_sr[i]);
-  }  
+  }
 }
 
 /**********************************************************************//**

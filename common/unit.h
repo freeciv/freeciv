@@ -51,7 +51,7 @@ enum unit_orders {
 };
 
 enum unit_focus_status {
-  FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE  
+  FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE
 };
 
 enum goto_route_type {

@@ -182,7 +182,7 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
   Return the "happy cost" (the number of citizens who are discontented)
   for this unit.
 **************************************************************************/
-int utype_happy_cost(const struct unit_type *ut, 
+int utype_happy_cost(const struct unit_type *ut,
                      const struct player *pplayer)
 {
   return ut->happy_cost * get_player_bonus(pplayer, EFT_UNHAPPY_FACTOR);

@@ -740,7 +740,7 @@ char *mapimg_help(const char *cmdname)
     astr_str(&defaults[MAPDEF_TURNS]), astr_str(&defaults[MAPDEF_ZOOM]),
     astr_str(&defaults[MAPDEF_MAP]),
     astr_str(&str_format), astr_str(&str_showplr));
-  
+
   mapdef_destroy(pmapdef);
   astr_free(&str_format);
   astr_free(&str_showplr);
@@ -2986,6 +2986,7 @@ static void base_coor_hexa(struct img *pimg, int *base_x, int *base_y,
                            int x, int y)
 {
   int nat_x, nat_y;
+
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, x, y);
 
   *base_x = nat_x * TILE_SIZE + ((nat_y % 2) ? TILE_SIZE / 2 : 0);

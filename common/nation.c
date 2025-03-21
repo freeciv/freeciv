@@ -143,7 +143,7 @@ const char *nation_rule_name(const struct nation_type *pnation)
 }
 
 /************************************************************************//**
-  Return the (translated) adjective for the given nation. 
+  Return the (translated) adjective for the given nation.
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_adjective_translation(const struct nation_type *pnation)
@@ -153,7 +153,7 @@ const char *nation_adjective_translation(const struct nation_type *pnation)
 }
 
 /************************************************************************//**
-  Return the (translated) plural noun of the given nation. 
+  Return the (translated) plural noun of the given nation.
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_plural_translation(const struct nation_type *pnation)
@@ -163,7 +163,7 @@ const char *nation_plural_translation(const struct nation_type *pnation)
 }
 
 /************************************************************************//**
-  Return the (translated) adjective for the given nation of a player. 
+  Return the (translated) adjective for the given nation of a player.
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_adjective_for_player(const struct player *pplayer)
@@ -172,7 +172,7 @@ const char *nation_adjective_for_player(const struct player *pplayer)
 }
 
 /************************************************************************//**
-  Return the (translated) plural noun of the given nation of a player. 
+  Return the (translated) plural noun of the given nation of a player.
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_plural_for_player(const struct player *pplayer)

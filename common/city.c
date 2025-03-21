@@ -687,7 +687,7 @@ const char *city_improvement_name_translation(const struct city *pcity,
 
   if (state) {
     fc_snprintf(buffer, sizeof(buffer), "%s(%s)",
-                improvement_name_translation(pimprove), state); 
+                improvement_name_translation(pimprove), state);
     return buffer;
   } else {
     return improvement_name_translation(pimprove);
@@ -853,7 +853,7 @@ bool can_city_build_improvement_direct(const struct city *pcity,
 **************************************************************************/
 bool can_city_build_improvement_now(const struct city *pcity,
                                     const struct impr_type *pimprove)
-{  
+{
   if (!can_city_build_improvement_direct(pcity, pimprove)) {
     return FALSE;
   }
@@ -897,7 +897,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Return whether given city can build given unit, ignoring whether unit 
+  Return whether given city can build given unit, ignoring whether unit
   is obsolete.
 **************************************************************************/
 bool can_city_build_unit_direct(const struct civ_map *nmap,
@@ -941,7 +941,7 @@ bool can_city_build_unit_direct(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Return whether given city can build given unit; returns FALSE if unit is 
+  Return whether given city can build given unit; returns FALSE if unit is
   obsolete.
 **************************************************************************/
 bool can_city_build_unit_now(const struct civ_map *nmap,
@@ -1026,7 +1026,7 @@ bool can_city_build_now(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Returns whether city can ever build given target, unit or improvement. 
+  Returns whether city can ever build given target, unit or improvement.
 **************************************************************************/
 bool can_city_build_later(const struct civ_map *nmap,
                           const struct city *pcity,
@@ -1087,7 +1087,7 @@ bool city_can_change_build(const struct city *pcity)
 void city_choose_build_default(const struct civ_map *nmap, struct city *pcity)
 {
   if (NULL == city_tile(pcity)) {
-    /* When a "dummy" city is created with no tile, then choosing a build 
+    /* When a "dummy" city is created with no tile, then choosing a build
      * target could fail. This currently might happen during map editing.
      * FIXME: assumes the first unit is always "valid", so check for
      * obsolete units elsewhere. */
@@ -1241,7 +1241,7 @@ bool city_has_building(const struct city *pcity,
                        const struct impr_type *pimprove)
 {
   if (NULL == pimprove) {
-    /* Callers should ensure that any external data is tested with 
+    /* Callers should ensure that any external data is tested with
      * valid_improvement_by_number() */
     return FALSE;
   }
@@ -1346,9 +1346,9 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
       }
     }
 
-    prod += (prod 
+    prod += (prod
              * get_tile_output_bonus(pcity, ptile, output,
-                                     EFT_OUTPUT_PER_TILE)) 
+                                     EFT_OUTPUT_PER_TILE))
             / 100;
     if (penalty_limit > 0 && prod > penalty_limit) {
       if (prod <= game.info.granularity) {
@@ -1750,7 +1750,7 @@ int city_style_by_rule_name(const char *s)
 }
 
 /**********************************************************************//**
-  Return the (translated) name of the given city style. 
+  Return the (translated) name of the given city style.
   You don't have to free the return pointer.
 **************************************************************************/
 const char *city_style_name_translation(const int style)
@@ -2106,7 +2106,7 @@ bool is_friendly_city_near(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Return TRUE iff a city exists within a city radius of the given 
+  Return TRUE iff a city exists within a city radius of the given
   location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
 bool city_exists_within_max_city_map(const struct civ_map *nmap,
@@ -2527,7 +2527,7 @@ static void citizen_base_mood(struct city *pcity)
   *angry = MIN(base_angry, size - spes);
 
   /* Create unhappy citizens. In the beginning, all who are not content,
-   * specialists or angry are unhappy. This is changed by luxuries and 
+   * specialists or angry are unhappy. This is changed by luxuries and
    * buildings later. */
   *unhappy = (size - spes - *content - *angry);
 
@@ -2536,7 +2536,7 @@ static void citizen_base_mood(struct city *pcity)
 }
 
 /**********************************************************************//**
-  Make people happy: 
+  Make people happy:
    * angry citizen are eliminated first
    * then content are made happy, then unhappy content, etc.
    * each conversions costs 2 or 4 luxuries.
@@ -2824,7 +2824,7 @@ int city_pollution(const struct city *pcity, int shield_total)
 }
 
 /**********************************************************************//**
-  Gets whether cities that pcity trades with had the plague. If so, it 
+  Gets whether cities that pcity trades with had the plague. If so, it
   returns the health penalty in tenth of percent which depends on the size
   of both cities. The health penalty is given as the product of the ruleset
   option 'game.info.illness_trade_infection' (in percent) and the square
@@ -2957,12 +2957,12 @@ inline void set_city_production(struct city *pcity)
   /* Calculate city production!
    *
    * This is a rather complicated process if we allow rules to become
-   * more generalized.  We can assume that there are no recursive dependency
+   * more generalized. We can assume that there are no recursive dependency
    * loops, but there are some dependencies that do not follow strict
-   * ordering.  For instance corruption must be calculated before 
+   * ordering. For instance corruption must be calculated before
    * trade taxes can be counted up, which must occur before the science bonus
-   * is added on.  But the calculation of corruption must include the
-   * trade bonus.  To do this without excessive special casing means that in
+   * is added on. But the calculation of corruption must include the
+   * trade bonus. To do this without excessive special casing means that in
    * this case the bonuses are multiplied on twice (but only saved the second
    * time).
    */
@@ -2996,7 +2996,7 @@ inline void set_city_production(struct city *pcity)
       if (settings->cancelling == TRI_ACTIVE) {
         can_trade = TRUE;
       }
-    } 
+    }
 
     if (can_trade) {
       int value;
@@ -3398,7 +3398,7 @@ void city_remove_improvement(struct city *pcity,
 {
   log_debug("Improvement %s removed from city %s",
             improvement_rule_name(pimprove), pcity->name);
-  
+
   pcity->built[improvement_index(pimprove)].turn = I_DESTROYED;
 
   if (is_server() && is_wonder(pimprove)) {

@@ -36,8 +36,8 @@ typedef int Tech_type_id;
   use Tech_type_id very widely, and don't use (-1) flag values. (?)
 */
 /* [more accurately]
- * Unlike most other indices, the Tech_type_id is widely used, because it 
- * so frequently passed to packet and scripting.  The client menu routines 
+ * Unlike most other indices, the Tech_type_id is widely used, because it
+ * so frequently passed to packet and scripting. The client menu routines
  * sometimes add and subtract these numbers.
  */
 #define A_NONE 0
@@ -136,8 +136,8 @@ struct advance {
   bv_tech_flags flags;
   struct strvec *helptext;
 
-  /* 
-   * Message displayed to the first player to get a bonus tech 
+  /*
+   * Message displayed to the first player to get a bonus tech
    */
   char *bonus_message;
 
@@ -146,7 +146,7 @@ struct advance {
    * be right if game.info.tech_cost_style is TECH_COST_CIV1CIV2. */
   double cost;
 
-  /* 
+  /*
    * Number of requirements this technology has _including_
    * itself. Precalculated at server then send to client.
    */

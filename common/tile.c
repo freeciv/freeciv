@@ -172,7 +172,7 @@ const bv_extras *tile_extras_null(void)
     empty_cleared = TRUE;
   }
 
-  return &(empty_extras);  
+  return &(empty_extras);
 }
 
 /************************************************************************//**
@@ -688,7 +688,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
     tile_mine(ptile, tgt);
     return TRUE;
 
-  case ACTIVITY_IRRIGATE: 
+  case ACTIVITY_IRRIGATE:
     tile_irrigate(ptile, tgt);
     return TRUE;
 
