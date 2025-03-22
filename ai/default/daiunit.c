@@ -68,7 +68,6 @@
 /* ai/default */
 #include "aiferry.h"
 #include "aiguard.h"
-#include "aihand.h"
 #include "daiair.h"
 #include "daicity.h"
 #include "daidata.h"

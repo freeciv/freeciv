@@ -25,11 +25,11 @@
 
 /* ai/default */
 #include "aiferry.h"
-#include "aihand.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
+#include "daihand.h"
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"

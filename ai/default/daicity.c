@@ -53,10 +53,10 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aihand.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
+#include "daihand.h"
 #include "daimilitary.h"
 #include "daieffects.h"
 #include "daiplayer.h"

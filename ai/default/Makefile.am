@@ -19,8 +19,6 @@ libdefaultai_la_SOURCES = \
 		aiferry.h	\
 		aiguard.c	\
 		aiguard.h	\
-		aihand.c	\
-		aihand.h	\
 		daiair.c	\
 		daiair.h	\
 		daiactions.c	\
@@ -37,6 +35,8 @@ libdefaultai_la_SOURCES = \
 		daidomestic.h	\
 		daieffects.c	\
 		daieffects.h	\
+		daihand.c	\
+		daihand.h	\
 		daihunter.c	\
 		daihunter.h	\
 		dailog.c	\

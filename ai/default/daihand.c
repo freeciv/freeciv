@@ -63,7 +63,7 @@
 #include "daitech.h"
 #include "daitools.h"
 
-#include "aihand.h"
+#include "daihand.h"
 
 /*****************************************************************************
   A man builds a city

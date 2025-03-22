@@ -30,7 +30,7 @@
 #include "srv_log.h"
 
 /* ai/default */
-#include "aihand.h"
+#include "daihand.h"
 
 
 #include "daiactions.h"
