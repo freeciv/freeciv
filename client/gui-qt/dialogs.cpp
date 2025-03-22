@@ -4355,7 +4355,7 @@ void show_tileset_error(bool fatal, const char *tset_name, const char *msg)
     ask->setStandardButtons(QMessageBox::Ok);
     ask->setWindowTitle(_("Tileset error"));
 
-    if (std_gui != nullptr) {
+    if (std_gui != nullptr && !fatal) {
       ask->setAttribute(Qt::WA_DeleteOnClose);
       ask->show();
     } else {
