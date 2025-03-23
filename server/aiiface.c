@@ -34,10 +34,6 @@
 
 #include "aiiface.h"
 
-#ifdef AI_MOD_STATIC_THREADED
-bool fc_ai_threaded_setup(struct ai_type *ai);
-#endif
-
 #ifdef AI_MOD_STATIC_TEX
 bool fc_ai_tex_setup(struct ai_type *ai);
 #endif
@@ -133,7 +129,7 @@ bool load_ai_module(const char *modname)
 void ai_init(void)
 {
   bool failure = FALSE;
-#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_THREADED) || defined(AI_MOD_STATIC_TEX) || defined(AI_MOD_STATIC_STUB)
+#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_TEX) || defined(AI_MOD_STATIC_STUB)
   /* First !defined(AI_MODULES) case is for default ai support. */
   struct ai_type *ai;
 #endif
@@ -174,17 +170,6 @@ void ai_init(void)
     }
   }
 #endif /* AI_MOD_STATIC_CLASSIC */
-
-#ifdef AI_MOD_STATIC_THREADED
-  ai = ai_type_alloc();
-  if (ai != NULL) {
-    init_ai(ai);
-    if (!fc_ai_threaded_setup(ai)) {
-      log_error(_("Failed to setup \"%s\" AI module"), "threaded");
-      ai_type_dealloc();
-    }
-  }
-#endif /* AI_MOD_STATIC_THREADED */
 
 #ifdef AI_MOD_STATIC_TEX
   ai = ai_type_alloc();
