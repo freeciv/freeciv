@@ -2335,7 +2335,7 @@ reqs	=
       "Action", "Transport Disembark", "Local", FALSE
     }
 
-; Allow everyone to declar war on the terrorist nation
+; Allow everyone to declare war on the terrorist nation
 [effect_incident_plant_nuke_caught]
 type	= "Casus_Belli_Caught"
 value	= 1000
