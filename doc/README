@@ -94,6 +94,8 @@ freeciv-qt:  This uses the QT library, either Qt5 or Qt6.
 
 freeciv-sdl2:  This uses Simple DirectMedia Layer libraries version 2.
 
+freeciv-sdl3:  This uses Simple DirectMedia Layer libraries version 3.
+
 
 Starting a game:
 ================

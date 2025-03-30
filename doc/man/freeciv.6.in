@@ -13,7 +13,7 @@
 .SH NAME
 freeciv \- The Freeciv game (overview)
 .SH SYNOPSIS
-.B freeciv-gtk3.22|freeciv-gtk4|freeciv-sdl2|freeciv-qt|\
+.B freeciv-gtk3.22|freeciv-gtk4|freeciv-sdl2|freeciv-sdl3|freeciv-qt|\
 freeciv-\fI[various...]\fP [ options... ]
 .br
 .B freeciv-server [ options... ]
@@ -118,6 +118,7 @@ Feel free to use it as you wish.
 .IR freeciv-gtk4 (6)
 .IR freeciv-qt (6)
 .IR freeciv-sdl2 (6)
+.IR freeciv-sdl3 (6)
 .IR freeciv-mp-cli (6)
 .IR freeciv-mp-gtk3 (6)
 .IR freeciv-mp-gtk4 (6)
