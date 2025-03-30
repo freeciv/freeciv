@@ -63,7 +63,6 @@ endif
 
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
-ICUVER=72
 CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 
 INSTSUB=${ARCHDIR}
@@ -72,7 +71,13 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
+ICUVER=76
+SSP=
+GLES=
 else
+ICUVER=72
+SSP=libssp-0.dll
+GLES=libEGL.dll libGLESv2.dll
 endif
 
 #
@@ -326,7 +331,7 @@ COMMON_DLLS := \
 	libbrotlicommon.dll \
 	libreadline8.dll \
 	libtermcap-0.dll \
-	libssp-0.dll \
+	${SSP} \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
@@ -394,8 +399,7 @@ GTK4_FCMP_DLLS := \
 	libdeflate.dll \
 	libjbig-0.dll \
 	libsharpyuv-0.dll \
-	libEGL.dll \
-	libGLESv2.dll
+	${GLES}
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
