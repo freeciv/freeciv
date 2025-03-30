@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-01-16 22:18+0200\n"
-"PO-Revision-Date: 2024-10-07 19:23+0200\n"
+"POT-Creation-Date: 2025-03-30 20:04+0300\n"
+"PO-Revision-Date: 2025-03-28 14:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: gl_ES\n"
@@ -140,7 +140,7 @@ msgstr "Mover taxa"
 
 #: tools/ruledit/edit_utype.cpp:139
 msgid "Transport Capacity"
-msgstr ""
+msgstr "Capacidade de transporte"
 
 #: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
@@ -160,7 +160,7 @@ msgstr "Etiqueta de son de loita alternativa"
 
 #: tools/ruledit/edit_utype.cpp:220
 msgid "Cargo"
-msgstr ""
+msgstr "Carga"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -348,18 +348,14 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opción non recoñecida: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:127
-msgid "built in Qt5 mode."
-msgstr "construído en modo Qt5."
-
-#: tools/ruledit/ruledit_qt.cpp:129
 msgid "built in Qt6x mode."
 msgstr "construído en modo Qt6x."
 
-#: tools/ruledit/ruledit_qt.cpp:131
+#: tools/ruledit/ruledit_qt.cpp:129
 msgid "built in Qt6 mode."
 msgstr "construído en modo Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:138
+#: tools/ruledit/ruledit_qt.cpp:136
 #, c-format
 msgid ""
 "%s%s\n"
@@ -370,91 +366,91 @@ msgstr ""
 "commit: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:153
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Give ruleset to use as starting point."
 msgstr "Dar un conxunto de regras para usar como punto de partida."
 
-#: tools/ruledit/ruledit_qt.cpp:161
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Start editing"
 msgstr "Comezar a editar"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
 msgstr "Misc"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
 msgstr "Técnico"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
 msgstr "Edificios"
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
 msgstr "Unidades"
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Achievements"
 msgstr "Logros"
 
-#: tools/ruledit/ruledit_qt.cpp:182
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Goods"
 msgstr "Bens"
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Governments"
 msgstr "Gobernos"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Enablers"
 msgstr "Activadores"
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Extras"
 msgstr "Extras"
 
-#: tools/ruledit/ruledit_qt.cpp:190
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Terrains"
 msgstr "Terreos"
 
-#: tools/ruledit/ruledit_qt.cpp:192
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Multipliers"
 msgstr "Multiplicadores"
 
-#: tools/ruledit/ruledit_qt.cpp:194
+#: tools/ruledit/ruledit_qt.cpp:192
 msgid "Counters"
 msgstr "Contadores"
 
-#: tools/ruledit/ruledit_qt.cpp:196
+#: tools/ruledit/ruledit_qt.cpp:194
 msgid "Nations"
 msgstr "Nacións"
 
-#: tools/ruledit/ruledit_qt.cpp:205
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Welcome to freeciv-ruledit"
 msgstr "Benvido a freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:252
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Old ruleset to a new format"
 msgstr "Antigo conxunto de regras cun novo formato"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:253
 msgid "Ruleset loaded"
 msgstr "Cargouse o conxunto de regras"
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:277
 msgid "Ruleset loading failed!"
 msgstr "Produciuse un erro ao cargar o conxunto de regras!"
 
-#: tools/ruledit/ruledit_qt.cpp:457
+#: tools/ruledit/ruledit_qt.cpp:455
 msgid "Freeciv Ruleset Editor"
 msgstr "Editor de regras Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:490
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Are you sure you want to quit?"
 msgstr "Estás certo de que queres saír?"
 
-#: tools/ruledit/ruledit_qt.cpp:494
+#: tools/ruledit/ruledit_qt.cpp:492
 msgid "Quit?"
 msgstr "Saír?"
 
@@ -504,10 +500,8 @@ msgid "Type"
 msgstr "Tipo"
 
 #: tools/ruledit/tab_achievement.cpp:108
-#, fuzzy
-#| msgid "Value:"
 msgid "Value"
-msgstr "Valor:"
+msgstr "Valor"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
@@ -939,3 +933,6 @@ msgstr "Extra conflitivo"
 #: tools/ruledit/validity.c:319
 msgid "Hidden extra"
 msgstr "Extra oculto"
+
+#~ msgid "built in Qt5 mode."
+#~ msgstr "construído en modo Qt5."
