@@ -123,7 +123,7 @@ static enum pf_action pf_get_action(const struct tile *ptile,
 
   if (non_allied_city && PF_AA_CITY_ATTACK & param->actions) {
     /* Consider that there are potentially units, even if
-     * is_non_allied_unit_tile() returned NULL (usually when
+     * is_non_allied_unit_tile() returned nullptr (usually when
      * '!param->omniscience'). */
     return ((utype_can_take_over(param->utype)
              || pf_attack_possible(ptile, TILE_KNOWN_UNSEEN, param))
@@ -240,21 +240,21 @@ pf_get_move_scope(const struct tile *ptile,
     scope |= PF_MS_NATIVE;
   }
 
-  if (NULL != pcity
+  if (pcity != nullptr
       && (utype_can_take_over(param->utype)
           || pplayers_allied(param->owner, city_owner(pcity)))
       && ((previous_scope & PF_MS_CITY) /* City channel previously tested */
           || uclass_has_flag(uclass, UCF_BUILD_ANYWHERE)
           || is_native_near_tile(param->map, uclass, ptile)
           || (1 == game.info.citymindist
-              && is_city_channel_tile(param->map, uclass, ptile, NULL)))) {
+              && is_city_channel_tile(param->map, uclass, ptile, nullptr)))) {
     scope |= PF_MS_CITY;
   }
 
   if (PF_MS_NONE == scope) {
     /* Check for transporters. Useless if we already got another way to
      * move. */
-    bool allied_city_tile = (NULL != pcity
+    bool allied_city_tile = (pcity != nullptr
                              && pplayers_allied(param->owner,
                                                 city_owner(pcity)));
     const struct unit_type *utype;
@@ -686,15 +686,15 @@ pft_fill_default_parameter(struct pf_parameter *parameter,
                            const struct unit_type *punittype)
 {
   parameter->map = nmap;
-  parameter->get_TB = NULL;
-  parameter->get_EC = NULL;
-  parameter->is_pos_dangerous = NULL;
-  parameter->get_moves_left_req = NULL;
-  parameter->get_costs = NULL;
-  parameter->get_zoc = NULL;
+  parameter->get_TB = nullptr;
+  parameter->get_EC = nullptr;
+  parameter->is_pos_dangerous = nullptr;
+  parameter->get_moves_left_req = nullptr;
+  parameter->get_costs = nullptr;
+  parameter->get_zoc = nullptr;
   parameter->get_move_scope = pf_get_move_scope;
-  parameter->get_action = NULL;
-  parameter->is_action_possible = NULL;
+  parameter->get_action = nullptr;
+  parameter->is_action_possible = nullptr;
   parameter->actions = PF_AA_NONE;
 
   parameter->utype = punittype;
@@ -739,7 +739,7 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
                                  struct player *powner)
 {
   int veteran_level = get_unittype_bonus(powner, pstart_tile, punittype,
-                                         NULL, EFT_VETERAN_BUILD);
+                                         nullptr, EFT_VETERAN_BUILD);
 
   if (veteran_level >= utype_veteran_levels(punittype)) {
     veteran_level = utype_veteran_levels(punittype) - 1;
@@ -758,7 +758,7 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
-  parameter->transported_by_initially = NULL;
+  parameter->transported_by_initially = nullptr;
   parameter->cargo_depth = 0;
   BV_CLR_ALL(parameter->cargo_types);
   parameter->owner = powner;
@@ -789,8 +789,8 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
-  parameter->transported_by_initially = (NULL != ptrans ? unit_type_get(ptrans)
-                                         : NULL);
+  parameter->transported_by_initially = (ptrans != nullptr ? unit_type_get(ptrans)
+                                         : nullptr);
   parameter->cargo_depth = unit_cargo_depth(punit);
   BV_CLR_ALL(parameter->cargo_types);
   unit_cargo_iterate(punit, pcargo) {
@@ -819,7 +819,7 @@ static inline void pft_fill_parameter(struct pf_parameter *parameter,
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_server() ? is_plr_zoc_srv : is_plr_zoc_client;
   } else {
-    parameter->get_zoc = NULL;
+    parameter->get_zoc = nullptr;
   }
 }
 
@@ -863,7 +863,7 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_server() ? is_plr_zoc_srv : is_plr_zoc_client;
   } else {
-    parameter->get_zoc = NULL;
+    parameter->get_zoc = nullptr;
   }
 
   if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
@@ -916,11 +916,11 @@ static void pft_fill_attack_param(struct pf_parameter *parameter,
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_server() ? is_plr_zoc_srv : is_plr_zoc_client;
   } else {
-    parameter->get_zoc = NULL;
+    parameter->get_zoc = nullptr;
   }
 
   /* It is too complicated to work with danger here */
-  parameter->is_pos_dangerous = NULL;
+  parameter->is_pos_dangerous = nullptr;
 
   if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
     /* Unit needs fuel */
@@ -1010,21 +1010,21 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   parameter->combined.get_move_scope = amphibious_move_scope;
   parameter->combined.get_TB = amphibious_behaviour;
   parameter->combined.get_EC = amphibious_extra_cost;
-  if (NULL != parameter->land.is_pos_dangerous
-      || NULL != parameter->sea.is_pos_dangerous) {
+  if (parameter->land.is_pos_dangerous != nullptr
+      || parameter->sea.is_pos_dangerous != nullptr) {
     parameter->combined.is_pos_dangerous = amphibious_is_pos_dangerous;
   } else {
-    parameter->combined.is_pos_dangerous = NULL;
+    parameter->combined.is_pos_dangerous = nullptr;
   }
-  if (parameter->sea.get_moves_left_req != NULL) {
+  if (parameter->sea.get_moves_left_req != nullptr) {
     parameter->combined.get_moves_left_req = parameter->sea.get_moves_left_req;
-  } else if (parameter->land.get_moves_left_req != NULL) {
+  } else if (parameter->land.get_moves_left_req != nullptr) {
     parameter->combined.get_moves_left_req = parameter->land.get_moves_left_req;
   } else {
-    parameter->combined.get_moves_left_req = NULL;
+    parameter->combined.get_moves_left_req = nullptr;
   }
-  parameter->combined.get_action = NULL;
-  parameter->combined.is_action_possible = NULL;
+  parameter->combined.get_action = nullptr;
+  parameter->combined.is_action_possible = nullptr;
 
   parameter->combined.data = parameter;
 }
