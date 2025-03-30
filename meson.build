@@ -1,5 +1,7 @@
 
-project('freeciv', ['c'], meson_version: '>= 0.57.0')
+project('freeciv', ['c'],
+        meson_version: '>= 0.57.0',
+        version : run_command('fc_version', check : true).stdout())
 
 if not get_option('ack_experimental')
   error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.\n' +
