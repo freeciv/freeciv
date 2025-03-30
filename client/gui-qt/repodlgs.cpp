@@ -853,7 +853,7 @@ QSize research_diagram::size()
 }
 
 /************************************************************************//**
-  Consctructor for science_report
+  Constructor for science_report
 ****************************************************************************/
 science_report::science_report(): QWidget()
 {
