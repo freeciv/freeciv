@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-01-16 22:18+0200\n"
-"PO-Revision-Date: 2024-10-07 19:23+0200\n"
+"POT-Creation-Date: 2025-03-30 20:13+0300\n"
+"PO-Revision-Date: 2025-03-28 14:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: gl_ES\n"
@@ -140,7 +140,7 @@ msgstr "Mover taxa"
 
 #: tools/ruledit/edit_utype.cpp:139
 msgid "Transport Capacity"
-msgstr ""
+msgstr "Capacidade de transporte"
 
 #: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
@@ -160,7 +160,7 @@ msgstr "Etiqueta de son de loita alternativa"
 
 #: tools/ruledit/edit_utype.cpp:220
 msgid "Cargo"
-msgstr ""
+msgstr "Carga"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -504,10 +504,8 @@ msgid "Type"
 msgstr "Tipo"
 
 #: tools/ruledit/tab_achievement.cpp:108
-#, fuzzy
-#| msgid "Value:"
 msgid "Value"
-msgstr "Valor:"
+msgstr "Valor"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
