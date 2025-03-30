@@ -321,7 +321,7 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
     exthrai.reqs_from.reqlist = texaireq_list_new();
 
     exthrai.thread_running = TRUE;
- 
+
     fc_thread_cond_init(&exthrai.msgs_to.thr_cond);
     fc_mutex_init(&exthrai.msgs_to.mutex);
     fc_thread_start(&exthrai.ait, texai_thread_start, ait);

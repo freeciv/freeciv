@@ -475,7 +475,7 @@ static void texwai_treaty_evaluate(struct player *pplayer,
   Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_treaty_accepted(struct player *pplayer,
-                                   struct player *aplayer, 
+                                   struct player *aplayer,
                                    struct treaty *ptreaty)
 {
   TEXAI_AIT;
