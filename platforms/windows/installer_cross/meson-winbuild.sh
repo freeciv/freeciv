@@ -8,7 +8,7 @@
 #
 
 MESON_WINBUILD_VERSION="3.3.0-dev"
-MIN_WINVER=0x0603 # Windows 8.1. Qt6-client and Qt6-ruledit builds override this
+MIN_WINVER=0x0A00 # Windows 10.
 CROSSER_FEATURE_LEVEL=2.9
 
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
@@ -88,17 +88,14 @@ case "${GUI}" in
   qt6) CLIENT="qt"
        FCMP="qt"
        TOOLS="${TOOLS},ruledit"
-       MIN_WINVER=0x0A00
        QTPARAMS="-Dqtver=qt6" ;;
   qt6x) CLIENT="qt"
         FCMP="qt"
         TOOLS="${TOOLS},ruledit"
-        MIN_WINVER=0x0A00
         QTPARAMS="-Dqtver=qt6x" ;;
   ruledit) CLIENT="[]"
            FCMP="[]"
            TOOLS="ruledit"
-           MIN_WINVER=0x0A00
            QTPARAMS="-Dqtver=qt6" ;;
 esac
 
