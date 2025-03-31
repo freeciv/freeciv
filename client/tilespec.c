@@ -4089,10 +4089,11 @@ static void tileset_setup_road(struct tileset *t,
     fc_assert(FALSE);
   }
 
-  /* Corner road graphics are used by ESTYLE_ROAD_ALL_SEPARATE and
-   * ESTYLE_ROAD_PARITY_COMBINED. */
+  /* Corner road graphics are used by ESTYLE_ROAD_ALL_SEPARATE,
+   * ESTYLE_ROAD_PARITY_COMBINED and ESTYLE_ROAD_ALL_COMBINED. */
   if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE
-      || extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
+      || extrastyle == ESTYLE_ROAD_PARITY_COMBINED
+      || extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
 
