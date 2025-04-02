@@ -117,8 +117,8 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
 
 #ifdef NEVER
       CITY_LOG(LOG_DEBUG, pcity, "desire for %s against %s(%d,%d) is %.2f",
-               unit_name_orig(punittype),
-               unit_name_orig(unit_type_get(attacker)), 
+               utype_rule_name(punittype),
+               unit_rule_name(attacker),
                TILE_XY(attacker->tile), want);
 #endif /* NEVER */
 
