@@ -8,8 +8,8 @@ docs =				\
 	doxygen.md		\
 	FAQ			\
 	HACKING			\
+	INSTALL.autotools	\
 	INSTALL.Cygwin		\
-	INSTALL.meson		\
 	HOWTOPLAY		\
 	README.achievements     \
 	README.actions		\

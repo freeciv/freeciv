@@ -1,603 +1,230 @@
-This document is about using old autotools based build system.
-Installing with modern meson based build system is documented
-in doc/INSTALL.meson.
+==============================
+Installing Freeciv with Meson:
+==============================
 
-===================
-Installing Freeciv:
-===================
+This file describes how to compile and install Freeciv with the
+Meson build system support. The other supported way to compile and
+install Freeciv is using autotools as described in doc/INSTALL.autotools.
 
-This file describes how to compile and install Freeciv. Last time we
-made sure this file is up to date was 16-Jul-06.
-Last minor update was 18-Jan-25.
 
-There may be a localized version of this file in the ./doc directory,
-named INSTALL.<locale> (e.g., INSTALL.de).
+Prerequisites:
+==============
 
-This document contains sections and subsections as follows:
-     0. Prerequisites:
-     1. Prerequisites for the clients:
-          1a. Prerequisites for the Gtk3.22 client:
-          1b. Prerequisites for the Gtk4 client:
-          1c. Prerequisites for the SDL2 client:
-          1d. Prerequisites for the Qt client:
-     2. Generating Makefiles
-          2a. Generating the Makefile for git versions:
-          2b. Generating the Makefile for release versions:
-     3. Compiling Freeciv:
-     4. Installation:
-     5. Native Language Support:
-     6. Readline Support:
-     7. Reinier's Solaris Installation Notes:
-     8. Mac OS X and Darwin notes:
-     9. Windows notes:
+Freeciv has mostly the same prerequisites no matter if it's built
+with autotools or meson and ninja. The only difference is the requirement
+of the build system itself. Meson build does not need autotools, nor does
+autotools build need meson. See INSTALL.autotools file for the
+common prerequisites.
 
+For the meson based build minimum version of meson is 0.63.0.
 
-0. Prerequisites:
-=================
 
-Freeciv has a number of prerequisites. Note, that apart from the first
-prerequisite, the Freeciv configuration process is smart enough to work
-out whether your system is suitable. If in doubt, just try it.
+Overview:
+=========
 
- - Unix (or similar)
+There's two parts in building freeciv. First one needs to configure the
+build, and then execute it.
 
-   The Unix operating system, a work-alike such as Linux or FreeBSD,
-   or some OS that provides a very Unix-like personality or mode, like
-   EMX under OS/2 or the Cygwin toolkit under Windows.
-   (See https://www.cygwin.com/). Support for BSD-style TCP/IP sockets
-   is essential, as is a Bourne-shell compatible shell, such as GNU "bash".
-   (Most Unixes fit the bill...)
+Build directory is configured with the 'meson' command. This is equivalent
+of running './configure' in autotools based system. Meson does not allow
+configuring the source directory. It always requires separate build directory.
+Just create an empty directory, cd in to it, and run meson with path to
+source directory as parameter. You can also give configure options in this
+phase.
 
- - An ANSI C compiler.
+> mkdir build ; cd build
+> meson setup ../freeciv-3.1.0
 
-   Freeciv is written in very portable (almost) ANSI C. Both 32- and 64-
-   bit machines are supported. You cannot use a "K&R C" compiler, or
-   a C++ compiler.
+You need to configure the build directory just once. As source files get
+updated, you can just execute incremental builds in the build directory.
+You can have multiple build directories configured to use the same source
+directory, typically set up with different configure options. You can
+for example have separate build directories for different kinds of clients.
 
-   Development of Freeciv is primarily done with "gcc", the GNU
-   project's excellent C compiler. Releases can be compiled with gcc
-   or most other compilers (such as clang or the unbundled Solaris C compiler).
+The build is executed with 'ninja' command. This is equivalent of running
+'make' in autotools based system. It's also used to install freeciv
 
- - A "make" program.
+> ninja
+> ninja install
 
-   Freeciv developers generally use "gmake", the GNU make program.
 
-   Officially released versions of Freeciv are designed to have
-   makefiles which work with most make programs.
+Configure options:
+==================
 
-   You can check if you have GNU make installed on your system by
-   typing:
+Configure options are given as '-D<option>=<value>'.
+For example to set freeciv installation prefix as
+'/home/cazfi/freeciv-install':
 
-    % make -v                   [and if this doesn't work, try "gmake -v"]
+> meson setup ../src -Dprefix=/home/cazfi/freeciv-install
 
-   The output should include "GNU Make" somewhere.
+You can give configure options when you first set up the build directory
+(like in example above), or you can change configure options for the
+build directory later by 'meson configure' subcommand like this:
 
- - libtool version 2.2 or better
+> meson configure -Dprefix=/home/cazfi/freeciv-install
 
- - libcurl;
-   - For autotools based builds version 7.15.4 or better
-   - For meson based builds 7.56.0 or better
+You get full list of configure options by running 'meson configure'
+subcommand without any configure options to set
 
-   Libcurl takes care of https, and sometimes http, communication
-   with external services like the metaserver, and the modpack downloads
-   by the modpack installer.
+> meson configure
 
-   https://curl.se/
+Some of the configure options are implemented by meson itself for
+all meson-based projects. Some options are implemented in freeciv build
+system, and they are specific to freeciv.
 
- - libicu
 
-   Libicu helps handling UTF-8 texts
+Notable generic configure options:
+----------------------------------
 
-   https://icu.unicode.org/
+prefix (string):
+  The directory where Freeciv will be installed. You can install multiple
+  versions of Freeciv in parallel by using different prefix for each.
+  It's also a good idea to use prefix to avoid messing your system directories
 
- - libsqlite3 is required unless both authentication and modpack
-   installer support have been disabled from the build.
+debug (boolean):
+  Whether debug version of Freeciv should be built. While this is generic
+  option, some functionality in Freeciv depends on this setting.
 
-   https://www.sqlite.org/
+werror (boolean):
+  Turn compiler warnings to hard errors. This is recommended for
+  any development builds of freeciv, to make sure that newly introduced
+  warnings get noticed.
 
-The git version has additional requirements. A release version
-contains the generated files.
+default_library ('shared'/'static'/'both')
+  In case of freeciv, this affects build of common libfreeciv library.
+  The default is to build shared library, and as the binaries then
+  need to find the shared library at their run time, setting
+  system up for that may require some extra work. If one uses
+  this setting to build static library instead, it's going to be
+  included in the binaries themselves, so they don't need to find it.
 
- - The programs from GNU gettext version 0.16 or better
 
-   Especial the xgettext program is required to create the *.gmo
-   files which aren't included in the git tree.
-
- - GNU autoconf version 2.69 or better
-
-   Autoconf is required to create configure from configure.ac.
-
- - GNU automake version 1.13 or better
-
-   Automake is required to create the various Makefile.in from
-   Makefile.am.
-
- - Python version 3.6
-
-   Some source files are generated by python scripts.
-   In general, the minimum supported python version will follow
-   that required for the meson build's minimum meson version;
-   see INSTALL.meson for that.
-
-
-1. Prerequisites for the clients:
-=================================
-
-The Freeciv client comes in the following forms:
-* Gtk+ 3.0 widget library, version 3.22 ("Gtk+ 3.22")
-* Gtk 4.0 widget library, version 4.0
-* SDL2
-* Qt
-
-These forms have different prerequisites, explained separately below.
-
-Your system will need to satisfy at least one of these sets of prerequisites.
-
-Note that most Linux systems have separate library packages for "runtime"
-library support and for development support (for compiling programs
-which use those libraries). To compile Freeciv on such systems you
-will need to have the appropriate "development" packages installed.
-
-Sound support is built in by default if development files for
-"SDL2" and "SDL2_mixer" libraries are found from the system.
-Minimum version for SDL2 is 2.0.6.
-
-     https://github.com/libsdl-org/SDL_mixer/releases/download/release-2.8.0/SDL2_mixer-2.8.0.tar.gz
-
-
-1a. Prerequisites for the Gtk+ 3.22 client:
-==========================================
-
- - "pkgconf", or older "pkg-config"
-
-   "pkgconf" is a system for managing library compile/link flags that
-   works with automake and autoconf. You may obtain it at:
-
-      https://distfiles.dereferenced.org/pkgconf/pkgconf-2.0.2.tar.xz
-
- - The "Glib" utility library.
-
-   The "Glib" utility library provides non-graphical functions used by the
-   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
-
-   Freeciv requires a version of "Glib" greater or equal to 2.50
-
-   If the Freeciv configure process tells you that you don't have the
-   Glib library installed, then it may be obtained from here:
-
-     https://download.gnome.org/sources/glib/2.78/glib-2.78.4.tar.xz
-
- - The "Atk" accessibility library.
-
-   The "Atk" library provides a set of interfaces for accessibility.
-   It allows people with disabilities to utilize all the functionality
-   provided by Gtk+ apps. You may obtain it at:
-
-     https://download.gnome.org/sources/atk/2.38/atk-2.38.0.tar.xz
-
- - The "Pango" text layout and rendering library.
-
-   "Pango" is library for layout and rendering of text, with an emphasis
-   on internationalization. You may obtain it at:
-
-     https://download.gnome.org/sources/pango/1.50/pango-1.50.14.tar.xz
-
- - The "Gdk-Pixbuf" image loading/saving library
-
-   "Gdk-Pixbuf" used to be part of "Gtk+" itself, but is now separate
-   project. It may be obtained from:
-
-     https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.10.tar.xz
-
- - The "Gtk+" widget library.
-
-   The "Gtk+" widget library was designed for the GIMP graphics program.
-   Since then it has gained popularity as an easy to program, free toolkit.
-
-   "Gtk+ 3.22" is the default client. If you don't specify any client with
-   "--enable-client" to configure, you will get "Gtk+ 3.22" client.
-
-   The "Gtk+" library comes with one companion libraries:
-
-     "Gdk":
-       Provides an abstraction layer over X-Windows/LinuxFB/Windows to implement
-       basic drawing functions, windows, clipping, etc.
-
-   Freeciv requires a version of "Gtk+" greater or equal to 3.22.0.
-
-   If the Freeciv configure process tells you that you don't have the
-   Gtk+ library installed, then it may be obtained from here:
-
-     https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.41.tar.xz
-
-   "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
-
-If you are going to make these yourself, build and install them in the
-following order: pkgconf, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
-
-1b. Prerequisites for the Gtk 4.0 client:
-==========================================
-
- - "pkgconf", or older "pkg-config"
-
-   "pkgconf" is a system for managing library compile/link flags that
-   works with automake and autoconf. You may obtain it at:
-
-      https://distfiles.dereferenced.org/pkgconf/pkgconf-2.0.2.tar.xz
-
- - The "Glib" utility library.
-
-   The "Glib" utility library provides non-graphical functions used by the
-   "Gdk" and "Gtk" libraries, like hash tables, single linked lists, etc.
-
-   Freeciv requires a version of "Glib" greater or equal to 2.66
-
-   If the Freeciv configure process tells you that you don't have the
-   Glib library installed, then it may be obtained from here:
-
-     https://download.gnome.org/sources/glib/2.78/glib-2.78.4.tar.xz
-
- - The "Atk" accessibility library.
-
-   The "Atk" library provides a set of interfaces for accessibility.
-   It allows people with disabilities to utilize all the functionality
-   provided by Gtk apps. You may obtain it at:
-
-     https://download.gnome.org/sources/atk/2.38/atk-2.38.0.tar.xz
-
- - The "Pango" text layout and rendering library.
-
-   "Pango" is library for layout and rendering of text, with an emphasis
-   on internationalization. You may obtain it at:
-
-     https://download.gnome.org/sources/pango/1.50/pango-1.50.14.tar.xz
-
- - The "Gdk-Pixbuf" image loading/saving library
-
-   You may be obtain it at:
-
-     https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.10.tar.xz
-
- - The "Gtk" widget library.
-
-   The "Gtk" widget library was designed for the GIMP graphics program.
-   Since then it has gained popularity as an easy to program, free toolkit.
-
-   The "Gtk" library comes with one companion libraries:
-
-     "Gdk":
-       Provides an abstraction layer over X-Windows/LinuxFB/Windows to implement
-       basic drawing functions, windows, clipping, etc.
-
-   Freeciv requires a version of "Gtk" greater or equal to 4.0.0.
-
-   If the Freeciv configure process tells you that you don't have the
-   Gtk library installed, then it may be obtained from here:
-
-     https://download.gnome.org/sources/gtk/4.12/gtk-4.12.5.tar.xz
-
-   "Gtk" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
-
-If you are going to make these yourself, build and install them in the
-following order: pkgconf, Glib, Atk, Pango, Gdk-Pixbuf, Gtk.
-
-1c. Prerequisites for the SDL2 client:
-=====================================
-
- - The "SDL2" library.
-
-   "Simple DirectMedia Layer is a cross-platform multimedia library designed
-    to provide low level access to audio, keyboard, mouse, joystick, 3D hardware
-    via OpenGL, and 2D video framebuffer." (https://www.libsdl.org/)
-
-   These features make it a good choice for portable games. You may obtain it
-   at:
-
-   https://github.com/libsdl-org/SDL/releases/download/release-2.28.5/SDL2-2.28.5.tar.gz
-
-   To compile the client using the "SDL2" library add "--enable-client=sdl2"
-   to the Freeciv configure script. See the section below for more
-   information about the configure script.
-
- - The "SDL2_image" library.
-
-   This library loads the PNG images (with the help of libpng) and converts
-   them to "SDL surfaces" that can be handled by the "SDL" library. You may
-   obtain it at:
-
-   https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.2/SDL2_image-2.8.2.tar.gz
-
- - The "SDL2_gfx" library.
-
-   https://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz
-
- - The "SDL2_ttf" library.
-
-   https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.22.0/SDL2_ttf-2.22.0.tar.gz
-
- - The "freetype" library.
-
-   This library helps to render text for the SDL2 client, using an externally
-   provided TrueType font. You may obtain it at:
-
-   https://download.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.xz
-
-1d. Prerequisites for the Qt client:
-====================================
-
- - C++ compiler.
-
-   Qt-client is written in C++, so you need appropriate compiler.
-   Compiler needs to support c++17 standard.
-
-   In Freeciv development, g++ has been the primary C++ compiler.
-   Also clang++ has been used.
-
- - Qt Meta Object Compiler (moc)
-
-   Qt's Meta Object Compiler is a command usually called 'moc', or
-   'moc-qt6'.
-   You may want install 'qtchooser' to find correct moc version for you
-   when you have multiple Qt versions installed in parallel.
-
-   If configure does not find (correct) moc, you can give it with
-   environment variable MOCCMD, e.g.,
-   ../src/configure MOCCMD="/home/freeciv/local-qt/bin/moc" --enable-client=qt
-
- - Qt6Core, Qt6Gui, and Qt6Widgets libraries and headers.
-   At least version 6.0 is required.
-
-
-2. Generating Makefiles
-=======================
-This section contains two parts, one for generating makefiles from git
-versions and one for generating makefiles from release versions.
-
-2a. Generating the Makefile for git versions:
-=============================================
-
-This step is only needed for git versions.
-
-To create the makefile just type
-
- % ./autogen.sh
-
-This will create the configure script and will run it. All parameters
-of autogen.sh are passed to configure. Read the next section about the
-parameters which can be passed to configure.
-
-2b. Generating the Makefile for release versions:
-=================================================
-
-Before you compile Freeciv, you must generate a Makefile. This makefile
-is configured to suit the features available on your machine.
-
-This configuration is done using the GNU "configure" script.
-
-To use "configure", "cd" to directory where you want the build
-to end, and run it from the top directory containing
-the Freeciv files:
-
- % ../src/configure
-
-This script will then attempt to determine the relevant features (and
-misfeatures!!) of your system. It should print a page or two of
-diagnostics about your machine, then stop gracefully.
-
-If you'd like help on the various options supported by the configure
-script, try the --help option, like this:
-
- % ../src/configure --help
-
-By default the configure script will choose the Gtk+ client if the
-required libraries are found. If you prefer to override this default,
-you can give configure the "--enable-client=sdl2" option.
-
-If you want to change the compiler options, set the CFLAGS environment
-variable in your shell before running "configure". For example:
-
- % CFLAGS="-O -g -pipe" ../src//configure  [for people using Bourne shell or bash]
-
-or
-
- % setenv CFLAGS "-O -g -pipe"
- % ../src/configure                        [for people using C shell or tcsh]
-
-If you're tracking down a "core dump", we suggest that you use
-a value of "-g" for CFLAGS.
-
-When you install Freeciv (later), the game components will be copied into
-subdirectories of /usr/local by default. If you would like to use some
-other installation prefix besides /usr/local, you should specify it now:
-
- % ../src/configure --prefix=/opt/freeciv
-
-If for some reason using "configure" gives you trouble, follow these steps:
-
-  - Read the prerequisites section carefully, to determine if your
-    system meets all the requirements.
-
-  - If the problem is with "gettext", please read the Native Language
-    Support section, below, for possible work-arounds.
-
-  - Let us know, so that we can fix it for the next release!!
-
-    Send mail to the freeciv-dev mailing list, telling us what you did,
-    and what the result is. It would be helpful to include the output
-    of the configure script, and the contents of the "config.status",
-    "config.cache" and "config.log" files, which are generated by the
-    configure script.
-
-    You can find out about the freeciv-dev mailing list on our web
-    site, at https://www.freeciv.org/
-
-
-3. Compiling Freeciv:
-=====================
-
-If all has gone well previous to this point, then compiling Freeciv
-should be as easy as typing "make" (or preferably, "gmake").
-
-If you have problems, read the file BUGS, and follow the advice
-carefully. If the problem is with "gettext", please read the Native
-Language Support section, below, for possible work-arounds.
-
-After compilation, the important results are:
-
-  - The "client/freeciv-<GUI>" and "server/freeciv-server" binaries.
-  - The "data/" directory, which contains the graphics and scenarios.
-  - The "translations/" directory, which contains the localization files.
-  - The "fcgui" and "fcser" scripts.
-
-It's perfectly feasible to play Freeciv in this directory, without
-installing it. If you do this, the "fcgui" and "fcser" scripts may be
-useful, although they are not as necessary as they used to be.
-
-See the README file for more information.
-
-(However you cannot use Internationalization when playing Freeciv from
-the source directory; you must install Freeciv for that.)
-
-
-4. Installation:
-================
-
-Installing Freeciv involves installing the components mentioned in the
-Compiling Freeciv section. These need to be copied to a directory such
-as /usr/local (the default), /usr/games, /usr/games/freeciv,
-/usr/local/freeciv, or some other suitable directory.
-
-Typing "make install" should install everything correctly on your machine.
-You may like to use the --prefix=DIR configure option (see the Generating
-the Makefile section) to ensure the files get placed where you want.
-
-When the Freeciv client and Freeciv server are run they both need to
-find some files from the "data" directory. By default freeciv looks
-in the following directories, in order, for any data files: the current
-directory; the "data" subdirectory of the current directory; the
-subdirectory ".freeciv" in the user's home directory; and the directory
-where the files are placed by running "make install". You can override
-this search patch by setting the FREECIV_DATA_PATH environment variable, to
-a single directory or a list of directories separated by colons.
-
-For example:
-
-  % setenv FREECIV_DATA_PATH "/usr/games/freeciv/data:./data"
-  (for users of csh, tcsh, etc.)
-
-  % FREECIV_DATA_PATH="/usr/games/freeciv/data:./data"; export FREECIV_DATA_PATH
-  (for users of sh, bash, ksh, zsh, etc.)
-
-Also, note that you generally must install Freeciv if you wish to use
-its Native Language Support. See the README file for more information.
-
-
-5. Native Language Support:
-===========================
-
-Freeciv uses the "gettext" system for Native Language Support.
-
-If you experience problems with gettext in either configuring or compiling
-Freeciv, there are a few work-arounds you can try:
-
-1. If you don't need Native Language Support, disable it using the
-   "--disable-nls" configure option:
-
-      % ../src/configure --disable-nls
-      % make
-
-2. You can try to install the latest version of GNU gettext.
-   It may be obtained from here:
-
-      https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
-
-
-6. Readline Support:
-====================
-
-Freeciv has optional support for the readline library.
-
-Readline support is what makes the server command line behave sensibly,
-making it possible to
- - Use the backspace key.
- - Use the cursor to move back and forth on the line you have written.
- - Use TAB completion of commands and command arguments. Ie, when you
-   push tab the server will finish the word for you if there is only one
-   possible choice.
- - Use the up and down cursor to scroll through the history of previously
-   entered commands.
- - etc.
-
-The configure script will check if you have the readline library correctly
-installed. If so it will automatically set up the makefiles so that readline
-is compiled into the server. If not then it will just silently configure
-without readline support.
-You can force configure to include readline or die trying by giving
-configure the --with-readline option:
-
- % ../src/configure --with-readline
-
-Some linux distributions (and possibly other operating systems) have
-readline version 4 incorrectly installed, so that readline is not
-set up to declare it's dynamic dependencies. In that case configure
-will try to guess which extra libs it should link against and add them.
-The configure script will give a warning if it had to add extra libs
-to make readline work. This should be harmless, and is just meant as
-a reminder to the folks who distribute readline. :)
-
-7. Reinier's Solaris Installation Notes:
-========================================
-
-Solaris (2.5 and up) has its own version of X in /usr/openwin, its own
-version of make in /usr/ccs/bin/make, and its own compiler (to be purchased
-separately) which, if you have it, is available in /opt/SUNWspro/bin.
-Solaris does not provide any of the stuff required for imlib, gdk and gtk,
-either, which is required to build the GTK+ client. However, with some
-patience, everything can be compiled without problems.
-
-Make sure your environment variables, especially $PATH and $LD_LIBRARY_PATH,
-and the configure options do not point to an inconsistent set of software,
-and compiling will be fine.
-
-You can set up your $PATH and configure to use only GNU
-tools. Furthermore, Freeciv is known to compile with MIT X, and with
-certain combinations of GNU and Sun tools. The exact recipes depend on your
-local installation.
-
-
-8. Mac OS X and Darwin notes:
-=============================
-
-Pkg-config files installed with icu4c homebrew package are not found
-from normal path. This shows up as a configure error:
-"icu development files not found. Adjusting PKG_CONFIG_PATH may help"
-One needs to adjust PKG_CONFIG_PATH before configure, like this:
-> export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
-
-Mac OS has a library called libedit that provides similar functionality to
-readline, but is not a suitable replacement for freeciv use of readline.
-You need to provide real readline implementation (e.g. from homebrew) to
-get readline functionality to the freeciv server.
-
-Readline files from homebrew are not found from normal paths, but
-you need to adjust CPPFLAGS and LDFLAGS before configure.
-If you don't have CPPFLAGS or LDFLAGS defined at all beforehand, use:
-> export CPPFLAGS="-I$(brew --prefix readline)/include"
-> export LDFLAGS="-L$(brew --prefix readline)/lib"
-If you already have either defined, include also those existing
-path components, e.g. CPPFLAGS:
-> export CPPFLAGS="-I$(brew --prefix readline)/include:$CPPFLAGS"
-
-
-9. Windows notes:
-=================
-
-Windows version of Freeciv can be built either with Msys2 or Cygwin.
-Official Windows binaries are built with Msys2, and they are self-contained
-packages. For using Cygwin version, you need Cygwin environment installed.
-
-Build instructions for Msys2 versions are documented on doc/README.msys2
-
-Cygwin specific installation notes can be found in doc/INSTALL.Cygwin.
-
-** END **
+Freeciv specific configure options:
+-----------------------------------
+
+clients (array):
+  List of clients to build. To disable client build completely, give an
+  empty array ('-Dclients=[]'). Currently gtk3.22-, sdl2-, qt-,
+  gtk4-, sdl3-, gtk4x-, and stub-client builds are supported.
+  By default builds just gtk4-client.
+
+fcmp (array):
+  List of freeciv modpack installer UIs to build. To disable their build
+  completely, give an empty array ('-Dfcmp=[]'). Currently gtk3, qt, gtk4,
+  gtk4x, and cli are supported. By default builds just gtk4 UI.
+
+cacert-path (string):
+  Custom path to CA cert bundle. If this is empty, default path will be used.
+  This affects mostly downloading custom modpacks with modpack installer from
+  an 'https' URL.
+
+followtag (string):
+  Custom followtag name. If this is empty, default follow tag is used.
+  That's the version tag that the client checks from the metaserver to
+  see if there's newer freeciv versions of the kind available.
+
+json-protocol (boolean):
+  Build json-protocol support in. Json-protocol is an alternative to the default
+  raw-protocol between freeciv server and client.
+
+syslua ('try'/'true'/'false')
+  Whether to use lua from the system, or to build lua included in freeciv
+  source tree. The default is 'try' to use lua from the system if possible,
+  but fallback to using freeciv's included one if not found from system.
+
+sys-tolua-cmd (boolean):
+  Whether to use tolua command from the system, or to build one
+  included in the freeciv source tree. For native build
+  the default is false, i.e., to use freeciv's own tolua.
+  When cross-compiling, this setting is ignored, and tolua is
+  always used from the build system.
+
+mwand ('try'/'true'/'false')
+  Whether to build against MagickWand to have support for additional
+  mapimg formats. The default is 'try' to enable the support if possible.
+
+readline ('try'/'true'/'false')
+  Whether to enable readline functionality on server.
+  The default is 'try' to enable it if suitable readline found.
+
+audio ('none'/'sdl2'/'sdl3'):
+  What kind of sound support should be built to the clients. Defaults to sdl2.
+
+tools (array):
+  Extra tools to build:
+   * ruledit : Ruleset editor
+   * manual  : Manual generator
+   * ruleup  : Ruleset upgrader
+  Default is to build them all.
+
+nls (boolean):
+  Build in Native Language Support. Defaults to true.
+
+gitrev (boolean):
+  Include git commit id to the version string.
+
+server ('disabled'/'enabled'/'freeciv-web'):
+  Whether to build server, or not. Special value 'freeciv-web'
+  means that freeciv-web version will be built instead of
+  the regular server.
+
+appimage (boolean):
+  Make build suitable for AppImage packaging. This affects paths from
+  which various resources are looked from, and produces build that
+  doesn't work outside AppImage.
+
+gen-packets-args (array):
+  Additional packet generator arguments passed to common/generate_packets.py.
+
+qtver ('qt6'/'qt6x'):
+  Whether to build Qt6, or experimental Qt6 versions of the binaries.
+
+project-definition (string):
+  Filename of the project definition to use. See below for contents of
+  such a file
+
+min-win-ver (string):
+  Minimum Windows version the build should support. Versions listed on
+  https://learn.microsoft.com/en-us/cpp/porting/modifying-winver-and-win32-winnt?view=msvc-170
+
+localeprefix (string):
+  If non-empty, will be used instead of default prefix when constructing locale path.
+  Default prefix is the regular prefix on most systems,
+  but current directory ('.') in Windows.
+  Unlike regular prefix, this can also be a relative path.
+
+python (string):
+  Python interpreter to use. Defaults to 'python3'
+
+svgflags (boolean)
+  Add support for svg flags features on clients where this is supported,
+  currently only Qt.
+
+fcdb (array):
+  fcdb (player authentication) backends to build.
+  Possible backends are sqlite3, mariadb, and odbc.
+  The default is sqlite3.
+
+
+Project definition file
+-----------------------
+Each line of project definition line must have keyword in the beginning,
+separated by a space from the rest of the line containing the value.
+
+There's an example file bootstrap/freeciv.fcproj
+
+Supported keys:
+META_URL             - URL of the default metaserver
+MODPACK_LIST_URL     - URL of the default modpack list
+FREECIV_STORAGE_DIR  - Directory where freeciv stores user files
+FREECIV_DEFAULT_PORT - Default port of the server
+
+
+run.sh
+------
+
+One of the build results is script named 'run.sh' in the build directory -
+it does not get installed to the installation directory. This script can
+be used to run freeciv executables from the build directory.
+Give the executable name and parameters as parameters to ./run.sh, e.g.,
+./run.sh freeciv-server --help

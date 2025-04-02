@@ -13,7 +13,7 @@ It's still possible to build some freeciv components with
 the older autotools system, but that's not covered in this document.
 
 See also the generic installation notes of meson based builds
-in doc/INSTALL.meson.
+in INSTALL.
 
 Cygwin is a free Unix variant for MS Windows operating systems.
 It comes with an X server, Xorg.
