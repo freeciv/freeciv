@@ -117,27 +117,27 @@ static void dai_manage_spaceship(struct player *pplayer)
 void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
                    int *income)
 {
-  if (NULL != trade) {
+  if (trade != nullptr) {
     *trade = 0;
   }
-  if (NULL != expenses) {
+  if (expenses != nullptr) {
     *expenses = 0;
   }
-  if (NULL != income) {
+  if (income != nullptr) {
     *income = 0;
   }
 
   /* Find total trade surplus, gold expenses, and gold income */
   city_list_iterate(pplayer->cities, pcity) {
-    if (NULL != trade) {
+    if (trade != nullptr) {
       *trade += pcity->surplus[O_TRADE];
     }
 
-    if (NULL != expenses) {
+    if (expenses != nullptr) {
       *expenses += pcity->usage[O_GOLD];
     }
 
-    if (NULL != income) {
+    if (income != nullptr) {
       /* Also the immediately used gold is part of income, not only surplus */
       *income += pcity->usage[O_GOLD] + pcity->surplus[O_GOLD];
     }
@@ -214,7 +214,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
   struct research *research = research_get(pplayer);
   enum celebration celebrate = AI_CELEBRATION_UNCHECKED;
-  struct adv_data *ai = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, nullptr);
   int can_celebrate = 0, total_cities = 0;
   int trade = 0;         /* total amount of trade generated */
   int expenses = 0;      /* total amount of gold upkeep */
@@ -232,7 +232,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   const struct civ_map *nmap = &(wld.map);
 
 #ifdef DEBUG_TIMERS
-  struct timer *taxtimer = NULL;
+  struct timer *taxtimer = nullptr;
 #endif
 
   struct cm_parameter cmp;
@@ -254,14 +254,14 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 
   /* City parameters needed for celebrations. */
   cm_init_parameter(&cmp);
-  cmp.require_happy = TRUE;    /* note this one */
+  cmp.require_happy = TRUE;    /* Note this one */
   cmp.allow_disorder = FALSE;
   cmp.allow_specialists = TRUE;
   cmp.factor[O_FOOD] = 20;
   cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
 
   /* Define reserve (gold/bulbs) needed for rapture (celebration). */
-  turns_for_rapture = ai->celebrate ? 0 : (game.info.rapturedelay + 1) * 3;
+  turns_for_rapture = adv->celebrate ? 0 : (game.info.rapturedelay + 1) * 3;
 
   log_base(LOGLEVEL_TAX, "%s [max] rate=%d", player_name(pplayer), maxrate);
 
@@ -651,14 +651,14 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   /* === Cleanup === */
 
   /* Cancel all celebrations from the last turn. */
-  ai->celebrate = FALSE;
+  adv->celebrate = FALSE;
 
   /* Now do celebrate or reset the city states if needed. */
   if (celebrate == AI_CELEBRATION_YES) {
     log_base(LOGLEVEL_TAX, "*** %s CELEBRATES! ***", player_name(pplayer));
 
     /* We do celebrate! */
-    ai->celebrate = TRUE;
+    adv->celebrate = TRUE;
 
     city_list_iterate(pplayer->cities, pcity) {
       struct cm_result *cmr = cm_result_new(pcity);
@@ -668,7 +668,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
         cm_query_result(pcity, &cmp, cmr, FALSE);
         if (cmr->found_a_valid) {
           apply_cmresult_to_city(pcity, cmr);
-          city_refresh_from_main_map(nmap, pcity, NULL);
+          city_refresh_from_main_map(nmap, pcity, nullptr);
           if (!city_happy(pcity)) {
             CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
           }
@@ -683,7 +683,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
       /* KLUDGE: Must refresh to restore the original values which
        * were clobbered in cm_query_result(), after the tax rates
        * were changed. */
-      city_refresh_from_main_map(nmap, pcity, NULL);
+      city_refresh_from_main_map(nmap, pcity, nullptr);
     } city_list_iterate_end;
   }
 
@@ -706,21 +706,21 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 *****************************************************************************/
 static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, nullptr);
 
   if (!pplayer->is_alive || has_handicap(pplayer, H_AWAY)) {
     return;
   }
 
   if (adv->goal.revolution != government_of_player(pplayer)) {
-    dai_government_change(pplayer, adv->goal.revolution); /* change */
+    dai_government_change(pplayer, adv->goal.revolution); /* Change */
   }
 
   /* Crank up tech want */
   if (adv->goal.govt.req == A_UNSET
       || research_invention_state(research_get(pplayer),
                                   adv->goal.govt.req) == TECH_KNOWN) {
-    return; /* already got it! */
+    return; /* Already got it! */
   } else if (adv->goal.govt.val > 0) {
     /* We have few cities in the beginning, compensate for this to ensure
      * that we are sufficiently forward-looking. */
