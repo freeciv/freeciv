@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2024.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-01 21:12+0200\n"
-"PO-Revision-Date: 2024-01-29 09:16+0500\n"
+"POT-Creation-Date: 2025-04-03 23:11+0500\n"
+"PO-Revision-Date: 2025-04-03 15:39+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
@@ -74,13 +74,11 @@ msgstr "Тег 2-го дополнительного значка удалени
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
 #: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
 msgid "Helptext"
-msgstr ""
+msgstr "Текст справки"
 
 #: tools/ruledit/edit_extra.cpp:136 tools/ruledit/edit_terrain.cpp:112
-#, fuzzy
-#| msgid "Nations"
 msgid "Native to"
-msgstr "Народы"
+msgstr "Родной для"
 
 #: tools/ruledit/edit_gov.cpp:70 tools/ruledit/edit_impr.cpp:128
 msgid "Sound tag"
@@ -111,10 +109,8 @@ msgid "Second alt gfx tag"
 msgstr "Тег 2-го доп. значка действия"
 
 #: tools/ruledit/edit_tech.cpp:60
-#, fuzzy
-#| msgid "Move Cost"
 msgid "Cost"
-msgstr "Очки Движения"
+msgstr "Стоимость"
 
 #: tools/ruledit/edit_terrain.cpp:61
 msgid "Move Cost"
@@ -130,7 +126,7 @@ msgstr "Тег 2-го доп. граф. значка"
 
 #: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
-msgstr ""
+msgstr "Класс"
 
 #: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
@@ -154,7 +150,7 @@ msgstr "Очки Движения"
 
 #: tools/ruledit/edit_utype.cpp:139
 msgid "Transport Capacity"
-msgstr ""
+msgstr "Вместимость транспорта"
 
 #: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
@@ -174,7 +170,7 @@ msgstr "Тег доп. звука битвы"
 
 #: tools/ruledit/edit_utype.cpp:220
 msgid "Cargo"
-msgstr ""
+msgstr "Груз"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -483,7 +479,7 @@ msgstr "Название Правила"
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
-#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:132 tools/ruledit/tab_enablers.cpp:240
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
@@ -509,15 +505,13 @@ msgstr "(Нет)"
 msgid "Name"
 msgstr "Название"
 
-#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
 msgstr "Тип"
 
 #: tools/ruledit/tab_achievement.cpp:108
-#, fuzzy
-#| msgid "Value:"
 msgid "Value"
-msgstr "Значение:"
+msgstr "Значение"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
@@ -581,15 +575,15 @@ msgstr "Удалить этот Счётчик"
 msgid "A counter with that rule name already exists!"
 msgstr "Счётчик с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_enablers.cpp:137
+#: tools/ruledit/tab_enablers.cpp:138
 msgid "Actor Requirements"
 msgstr "Требования к Деятелю"
 
-#: tools/ruledit/tab_enablers.cpp:144
+#: tools/ruledit/tab_enablers.cpp:145
 msgid "Target Requirements"
 msgstr "Требования к цели"
 
-#: tools/ruledit/tab_enablers.cpp:151
+#: tools/ruledit/tab_enablers.cpp:152
 msgid "Add Enabler"
 msgstr "Добавить Включатель"
 
@@ -597,30 +591,30 @@ msgstr "Добавить Включатель"
 msgid "Remove this Enabler"
 msgstr "Удалить этот Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
-#: tools/ruledit/tab_enablers.cpp:248
+#: tools/ruledit/tab_enablers.cpp:164 tools/ruledit/tab_enablers.cpp:235
+#: tools/ruledit/tab_enablers.cpp:247
 msgid "Enabler Issues"
 msgstr "Ошибки Включателя"
 
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:227
+#: tools/ruledit/tab_enablers.cpp:226
 msgid "Repair Enabler"
 msgstr "Починить Включатель"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:232
+#: tools/ruledit/tab_enablers.cpp:231
 msgid "Improve Enabler"
 msgstr "Улучшить Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr "Включатель (цель)"
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
 msgstr "Включатель (деятель)"
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, c-format
 msgid "action enabler for %s"
 msgstr "включатель действия для %s"
