@@ -5,18 +5,19 @@
 #
 #  Translators:
 #
+# SPDX-FileCopyrightText:
 #   Dmitriy Genzel <dg@cs.brown.edu>, 2001-2006.
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2024.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-01-16 22:18+0200\n"
-"PO-Revision-Date: 2024-02-28 04:25+0500\n"
+"POT-Creation-Date: 2025-04-04 02:13+0500\n"
+"PO-Revision-Date: 2025-04-04 02:11+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -4141,13 +4142,11 @@ msgstr "Председатель %s"
 
 #: data/nation/conch.ruleset:3
 msgid "Conch"
-msgstr ""
+msgstr "Конки"
 
 #: data/nation/conch.ruleset:4
-#, fuzzy
-#| msgid "?plural:Comanches"
 msgid "?plural:Conch"
-msgstr "Команчи"
+msgstr "Конки"
 
 #: data/nation/conch.ruleset:6
 msgid ""
@@ -4162,6 +4161,17 @@ msgid ""
 "to tourists, and the Conch Republic has been involved in other protests by "
 "Key West and the Florida Keys."
 msgstr ""
+"Как часть протеста против выставления пограничного поста США в округе Монро "
+"штата Флорида, в 1982 году город Ки-Уэст заявил о выходе из состава США и "
+"провозгласил республику Конк (Conch Republic, где слово конк (Conch) пришло "
+"из диалекта соседних Багамских островов — там им называют местных жителей "
+"европейского происхождения). Сразу после этого свежепровозглашённая "
+"республика объявила Соединённым Штатам войну, а через минуту заявила о своей "
+"капитуляции и запросила милилард долларов иностранной помощи. Провозглашение "
+"фейковой республики привлекло внимание к флоридским островам Ки, а "
+"пограничный пост тихо исчез. На текущий момент Республика Конк и её "
+"атрибутика являются по сути аттракционом для туристов, однако может быть "
+"использована и используется как антураж при прочих протестах."
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
@@ -4820,16 +4830,12 @@ msgstr ""
 "карибской страной."
 
 #: data/nation/donetsk.ruleset:3
-#, fuzzy
-#| msgid "Nenets"
 msgid "Donetsk"
-msgstr "Ненцы"
+msgstr "Дончане"
 
 #: data/nation/donetsk.ruleset:4
-#, fuzzy
-#| msgid "?plural:Dominicans"
 msgid "?plural:Donchyani"
-msgstr "Доминикцы"
+msgstr "Дончане"
 
 #: data/nation/donetsk.ruleset:6
 msgid ""
@@ -4855,18 +4861,24 @@ msgid ""
 "called the \"attempted illegal annexation\" and demanded that Russia "
 "\"immediately, completely and unconditionally withdraw.\""
 msgstr ""
+"Донецкая Народная Республика (ДНР) — бывшая Донецкая область Украины, "
+"самопровозглашённое, непризнанное, с 21 февраля 2022 года частично "
+"признанное государство, а с сентября 2022 года — регион в составе Российской "
+"Федерации. ДНР возникла как ответ на государственный переворот в Украине, "
+"который жители Донецкой области не признали. Новые \"власти\" Украины в свою "
+"очередь назвали дончан сепаратистами и террористами и развязали против ДНР "
+"полномасштабную войну. С февраля 2022 года в войну на стороне ДНР явно "
+"вступила Россия."
 
 #: data/nation/donetsk.ruleset:40 data/nation/luhansk.ruleset:37
-#, fuzzy, c-format
-#| msgid "Hetman %s"
+#, c-format
 msgid "Kremlin %s"
-msgstr "Гетман %s"
+msgstr "Князь %s"
 
 #: data/nation/donetsk.ruleset:40 data/nation/luhansk.ruleset:37
-#, fuzzy, c-format
-#| msgid "?female:Hetman %s"
+#, c-format
 msgid "?female:Kremlin %s"
-msgstr "Гетман %s"
+msgstr "Княгиня %s"
 
 #: data/nation/dryad.ruleset:3
 msgid "Dryad"
@@ -6130,14 +6142,6 @@ msgid "?plural:Greenlanders"
 msgstr "Гренландцы"
 
 #: data/nation/greenlander.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Legend says that the Great Shaman Qitdlarssuaq led the Inuit people to "
-#| "Thule (Qaanaaq) on the west coast of Greenland in the 10th century. "
-#| "Around the same time, Scandinavian settlers arrived at the fjords on the "
-#| "southwestern tip of the island. Today, Greenland is a self-governing "
-#| "country within the Kingdom of Denmark with mixed Inuit and Scaninavian "
-#| "population."
 msgid ""
 "Legend says that the Great Shaman Qitdlarssuaq led the Inuit people to Thule "
 "(Qaanaaq) on the west coast of Greenland in the 10th century. Around the "
@@ -8179,16 +8183,12 @@ msgstr ""
 "в 1766 году."
 
 #: data/nation/louisianian.ruleset:3
-#, fuzzy
-#| msgid "Lithuanian"
 msgid "Louisianian"
-msgstr "Литовцы"
+msgstr "Луизианцы"
 
 #: data/nation/louisianian.ruleset:4
-#, fuzzy
-#| msgid "?plural:Bosnians"
 msgid "?plural:Louisianians"
-msgstr "Боснийцы"
+msgstr "Луизианцы"
 
 #: data/nation/louisianian.ruleset:6
 msgid ""
@@ -8198,40 +8198,37 @@ msgid ""
 "February 26, 1861 when it finally joined the Confederate States of America. "
 "The state was formally admitted back into the union on July 9, 1868."
 msgstr ""
+"Луизиана — один из южных штатов США, бывшая колония Франции. В январе 1861 "
+"года штат вышел из США, чтобы в феврале того же года присоединиться к "
+"Конфедерации (КША). В июле 1868 года штат формально вернулся в состав США."
 
 #: data/nation/louisianian.ruleset:45
-#, fuzzy, c-format
-#| msgid "High King %s"
+#, c-format
 msgid "Kingfish %s"
-msgstr "Высокий Король %s"
+msgstr "Король Рыб %s"
 
 #: data/nation/louisianian.ruleset:45
-#, fuzzy, c-format
-#| msgid "High Queen %s"
+#, c-format
 msgid "Queenfish %s"
-msgstr "Высокая Королева %s"
+msgstr "Королева Рыб %s"
 
 #: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
-#, fuzzy, c-format
-#| msgid "Governor %s"
+#, c-format
 msgid "Governeror %s"
 msgstr "Губернатор %s"
 
 #: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
-#, fuzzy, c-format
-#| msgid "?female:Governor %s"
+#, c-format
 msgid "?female:Governeror %s"
 msgstr "Губернатор %s"
 
 #: data/nation/luhansk.ruleset:3
 msgid "Luhansk"
-msgstr ""
+msgstr "Луганчане"
 
 #: data/nation/luhansk.ruleset:4
-#, fuzzy
-#| msgid "?plural:Luwians"
 msgid "?plural:Luhansk"
-msgstr "Лувийцы"
+msgstr "Луганчане"
 
 #: data/nation/luhansk.ruleset:6
 msgid ""
@@ -8254,6 +8251,14 @@ msgid ""
 "and other occupied territories, following illegitimate referendums which "
 "were illegal under international law."
 msgstr ""
+"Луганская Народная Республика (ЛНР) — бывшая Луганская область Украины, "
+"самопровозглашённое, непризнанное, с 21 февраля 2022 года частично "
+"признанное государство, а с сентября 2022 года — регион в составе Российской "
+"Федерации. ЛНР возникла как ответ на государственный переворот в Украине, "
+"который жители Луганской области не признали. Новые \"власти\" Украины в "
+"свою очередь назвали луганчан сепаратистами и террористами и развязали "
+"против ЛНР полномасштабную войну. С февраля 2022 года в войну на стороне ЛНР "
+"явно вступила Россия."
 
 #: data/nation/luwian.ruleset:3
 msgid "Luwian"
@@ -9028,16 +9033,12 @@ msgstr ""
 "Италией."
 
 #: data/nation/minnesotan.ruleset:3
-#, fuzzy
-#| msgid "Lesothoan"
 msgid "Minnesotan"
-msgstr "Лесотцы"
+msgstr "Миннесотцы"
 
 #: data/nation/minnesotan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Lesothoans"
 msgid "?plural:Minnesotans"
-msgstr "Лесотцы"
+msgstr "Миннесотцы"
 
 #: data/nation/minnesotan.ruleset:6
 msgid ""
@@ -9045,6 +9046,9 @@ msgid ""
 "environment and many lakes present. It was admitted into the union as a "
 "state on May 11th, 1858."
 msgstr ""
+"Миннесота — штат на \"Среднем Западе\" США, известный своим сравнительно "
+"холодным климатом и обилием озёр. Миннесота вошла в состав США 11 мая 1858 "
+"года."
 
 #: data/nation/miskito.ruleset:3
 msgid "Miskito"
@@ -9753,13 +9757,11 @@ msgstr ""
 
 #: data/nation/northirish.ruleset:3
 msgid "Northern Irish"
-msgstr ""
+msgstr "Североирландцы"
 
 #: data/nation/northirish.ruleset:4
-#, fuzzy
-#| msgid "?plural:Cornish"
 msgid "?plural:Northern Irish"
-msgstr "Корнуэльцы"
+msgstr "Североирландцы"
 
 #: data/nation/northirish.ruleset:6
 msgid ""
@@ -9772,6 +9774,16 @@ msgid ""
 "both sides a say in the affairs of the region.Northern Ireland is known for "
 "its scenic landscapes and cultural heritage."
 msgstr ""
+"Северная Ирландия — автономия в составе Соединённого Королевства "
+"Великобритании и Северной Ирландии, занимающая северо-восточную часть "
+"острова Ирландия. История Северной Ирландии — летопись конфликтов и "
+"содействия между т.н. \"юнионистами\", отстаивающими место региона в "
+"Королевстве, и ирландскими националистами, борющимися за воссоединение с "
+"Республикой Ирландия. В 1998 году было подписано Белфастское \"Соглашение "
+"Страстно́й пятницы\", завершившее \"горячую\" фазу противостояния, и "
+"утвердившее разграничение полномочий между великобританским и локальным "
+"правительствами. Северная Ирландия известна своими живописными ландшафтами и "
+"богатым культурным наследием."
 
 #: data/nation/northirish.ruleset:39 data/nation/scottishgaelic.ruleset:37
 #: data/nation/scottish.ruleset:26
@@ -10772,11 +10784,11 @@ msgstr ""
 
 #: data/nation/poyaisian.ruleset:3
 msgid "Poyais"
-msgstr ""
+msgstr "Пояис"
 
 #: data/nation/poyaisian.ruleset:4
 msgid "Poyaisians"
-msgstr ""
+msgstr "Пояис"
 
 #: data/nation/poyaisian.ruleset:6
 msgid ""
@@ -10784,18 +10796,25 @@ msgid ""
 "1821 to 1837 located in Central America, totally not a scam devised by "
 "MacGregor to sell people fake government bonds for land ill fit for farming."
 msgstr ""
+"Пояис (Poyais) — вымышленная территория в Центральной Америке, в Британском "
+"Гондурасе, которую выдумал шотландский авантюрист и соратник Симона Боливара "
+"Грегор МакГрегор. В 1821 году МакГрегор, спасаясь от преследования испанской "
+"армией, бежал в Лондон, где объявил себя \"Касиком территории Пояис\", якобы "
+"выкупленной им у туземного вождя за виски и ружья. В период с 1821 по 1837 "
+"годы МакГрегор продавал в Англии и Франции бонды на заселение и колонизацию "
+"новых земель. Обманутые им колонисты прибывали на незаселённый заболоченный "
+"берег, где заболевали лихорадкой — только части из них удалось выбраться в "
+"британский Белиз и выжить."
 
 #: data/nation/poyaisian.ruleset:30
-#, fuzzy, c-format
-#| msgid "Cacique %s"
+#, c-format
 msgid "Cazique %s"
 msgstr "Касик %s"
 
 #: data/nation/poyaisian.ruleset:30
-#, fuzzy, c-format
-#| msgid "Calipha %s"
+#, c-format
 msgid "Cazica %s"
-msgstr "Халифа %s"
+msgstr "Касика %s"
 
 #: data/nation/prussian.ruleset:3
 msgid "Prussian"
@@ -13105,13 +13124,11 @@ msgstr ""
 
 #: data/nation/tokiponan.ruleset:3
 msgid "Toki Ponan"
-msgstr ""
+msgstr "Токипона"
 
 #: data/nation/tokiponan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Tongans"
 msgid "?plural:Toki Ponans"
-msgstr "Тонганцы"
+msgstr "Токипона"
 
 #: data/nation/tokiponan.ruleset:6
 msgid ""
@@ -13119,6 +13136,9 @@ msgid ""
 "its extremely small size, consisting of 14 letters and anywhere from 120 "
 "words to 137 words."
 msgstr ""
+"Токипона — искусственный язык, созданный канадской лингвисткой Соней Ланг в "
+"2001 году. Он характеризуется исключительно малым размером словаря — от 120 "
+"до 137 слов."
 
 #: data/nation/toltec.ruleset:3
 msgid "Toltec"
@@ -13399,28 +13419,14 @@ msgid "?female:Turkmenbashi %s"
 msgstr "Туркменбаши %s"
 
 #: data/nation/tuvaluan.ruleset:3
-#, fuzzy
-#| msgid "Tuvan"
 msgid "Tuvaluan"
-msgstr "Тувинцы"
+msgstr "Тувалуанцы"
 
 #: data/nation/tuvaluan.ruleset:4
-#, fuzzy
-#| msgid "?plural:Tuvans"
 msgid "?plural:I-Tuvaluan"
-msgstr "Тувинцы"
+msgstr "Тувалуанцы"
 
 #: data/nation/tuvaluan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Gilbert Islands, known in Gilbertese as Tungaru, are an island chain "
-#| "in the Pacific Ocean. Inhabited by Micronesians since prehistoric times, "
-#| "they were united under a common chiefdom in the late 19th century. "
-#| "Together with the Ellice Islands they were annexed by the British in 1892 "
-#| "who established the colony of Gilbert and Ellice Islands. Upon "
-#| "independence in 1976, the people of the Gilbert Islands adopted Kiribati "
-#| "(the Gilbertese rendering of \"Gilberts\") as the name of the newly "
-#| "established republic."
 msgid ""
 "The Ellice Islands are an island chain in the Pacific Ocean. Inhabited by "
 "Micronesians since prehistoric times, they were united under a common "
@@ -13430,12 +13436,12 @@ msgid ""
 "Tuvalu, which means 'Eight standing together', referencing the eight "
 "inhabited islands."
 msgstr ""
-"Острова Гилберта, также известные как Тунгару — островная цепь в Тихом "
-"океане. Заселённый микронезийцами с доисторических времён, архипелаг вместе "
-"с островами Эллис в 1892 году был аннексирован Британией, основавшей на них "
-"колонию «острова Гилберта и Эллис». С получением независимости в 1976 году "
-"население стало использовать слово Кирибати (искажённое английское «острова "
-"Гилбертс») в качестве названия страны."
+"Острова Эллис — островная цепь в Тихом океане. Заселённый микронезийцами с "
+"доисторических времён, архипелаг вместе с островами Гилберта в 1892 году был "
+"аннексирован Британией, основавшей на них колонию «острова Гилберта и "
+"Эллис». Острова Эллис получили независимость в 1978 году под названием "
+"Тувалу, что означает \"восемь в ряд\" — ссылка на 8 необитаемых островов "
+"архипелага."
 
 #: data/nation/tuvan.ruleset:3
 msgid "Tuvan"

@@ -5,18 +5,19 @@
 #
 #  Translators:
 #
+# SPDX-FileCopyrightText:
 #   Dmitriy Genzel <dg@cs.brown.edu>, 2001-2006.
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2024.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-01-16 22:18+0200\n"
-"PO-Revision-Date: 2024-01-29 09:16+0500\n"
+"POT-Creation-Date: 2025-04-04 02:14+0500\n"
+"PO-Revision-Date: 2025-04-03 15:39+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
@@ -74,13 +75,11 @@ msgstr "Тег 2-го дополнительного значка удалени
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
 #: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
 msgid "Helptext"
-msgstr ""
+msgstr "Текст справки"
 
 #: tools/ruledit/edit_extra.cpp:136 tools/ruledit/edit_terrain.cpp:112
-#, fuzzy
-#| msgid "Nations"
 msgid "Native to"
-msgstr "Народы"
+msgstr "Родной для"
 
 #: tools/ruledit/edit_gov.cpp:70 tools/ruledit/edit_impr.cpp:128
 msgid "Sound tag"
@@ -111,10 +110,8 @@ msgid "Second alt gfx tag"
 msgstr "Тег 2-го доп. значка действия"
 
 #: tools/ruledit/edit_tech.cpp:60
-#, fuzzy
-#| msgid "Move Cost"
 msgid "Cost"
-msgstr "Очки Движения"
+msgstr "Стоимость"
 
 #: tools/ruledit/edit_terrain.cpp:61
 msgid "Move Cost"
@@ -130,7 +127,7 @@ msgstr "Тег 2-го доп. граф. значка"
 
 #: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
-msgstr ""
+msgstr "Класс"
 
 #: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
@@ -154,7 +151,7 @@ msgstr "Очки Движения"
 
 #: tools/ruledit/edit_utype.cpp:139
 msgid "Transport Capacity"
-msgstr ""
+msgstr "Вместимость транспорта"
 
 #: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
@@ -174,7 +171,7 @@ msgstr "Тег доп. звука битвы"
 
 #: tools/ruledit/edit_utype.cpp:220
 msgid "Cargo"
-msgstr ""
+msgstr "Груз"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -362,20 +359,14 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неизвестный параметр: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:127
-msgid "built in Qt5 mode."
-msgstr "собран в режиме Qt5."
+msgid "built in Qt6x mode."
+msgstr "собрано в режиме Qt6x."
 
 #: tools/ruledit/ruledit_qt.cpp:129
-#, fuzzy
-#| msgid "built in Qt6 mode."
-msgid "built in Qt6x mode."
-msgstr "собран в режиме Qt6."
-
-#: tools/ruledit/ruledit_qt.cpp:131
 msgid "built in Qt6 mode."
 msgstr "собран в режиме Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:138
+#: tools/ruledit/ruledit_qt.cpp:136
 #, c-format
 msgid ""
 "%s%s\n"
@@ -386,91 +377,91 @@ msgstr ""
 "commit: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:153
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Give ruleset to use as starting point."
 msgstr "Укажите набор правил, который будет начальным."
 
-#: tools/ruledit/ruledit_qt.cpp:161
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Start editing"
 msgstr "Начать редактирование"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
 msgstr "Разное"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
 msgstr "Открытия"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
 msgstr "Здания"
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
 msgstr "Соединения"
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Achievements"
 msgstr "Достижения"
 
-#: tools/ruledit/ruledit_qt.cpp:182
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Goods"
 msgstr "Товары"
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Governments"
 msgstr "Формы Правления"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Enablers"
 msgstr "Включатели"
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Extras"
 msgstr "Сооружения"
 
-#: tools/ruledit/ruledit_qt.cpp:190
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Terrains"
 msgstr "Рельефы"
 
-#: tools/ruledit/ruledit_qt.cpp:192
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Multipliers"
 msgstr "Множители"
 
-#: tools/ruledit/ruledit_qt.cpp:194
+#: tools/ruledit/ruledit_qt.cpp:192
 msgid "Counters"
 msgstr "Счётчики"
 
-#: tools/ruledit/ruledit_qt.cpp:196
+#: tools/ruledit/ruledit_qt.cpp:194
 msgid "Nations"
 msgstr "Народы"
 
-#: tools/ruledit/ruledit_qt.cpp:205
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Welcome to freeciv-ruledit"
 msgstr "Добро пожаловать в редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:252
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Old ruleset to a new format"
 msgstr "Преобразование набора в новый формат"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:253
 msgid "Ruleset loaded"
 msgstr "Набор правил загружен"
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:277
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:457
+#: tools/ruledit/ruledit_qt.cpp:455
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:490
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:494
+#: tools/ruledit/ruledit_qt.cpp:492
 msgid "Quit?"
 msgstr "Выйти?"
 
@@ -520,10 +511,8 @@ msgid "Type"
 msgstr "Тип"
 
 #: tools/ruledit/tab_achievement.cpp:108
-#, fuzzy
-#| msgid "Value:"
 msgid "Value"
-msgstr "Значение:"
+msgstr "Значение"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
