@@ -43,7 +43,7 @@ def file_path(s: "str | Path") -> Path:
     """Parse the given path and check basic validity."""
     path = Path(s)
 
-    if path.is_reserved() or not path.name:
+    if not path.name:
         raise ValueError("not a valid file path: %r" % s)
     if path.exists() and not path.is_file():
         raise ValueError("not a file: %r" % s)
