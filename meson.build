@@ -300,6 +300,8 @@ if host_system == 'windows'
 
   if min_win_ver != ''
     add_global_arguments('-D_WIN32_WINNT=' + min_win_ver, language: ['c', 'cpp'])
+  else
+    add_global_arguments('-D_WIN32_WINNT=0x0A00', language : ['c', 'cpp'])
   endif
 
   if cxx_build
@@ -313,15 +315,6 @@ if host_system == 'windows'
         add_global_arguments('-Wno-c99-extensions', language : 'cpp')
       endif
     endif
-    if min_win_ver == ''
-      if qtver == 'qt6' or qtver == 'qt6x'
-        add_global_arguments('-D_WIN32_WINNT=0x0A00', language : ['c', 'cpp'])
-      else
-        add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
-      endif
-    endif
-  elif min_win_ver == ''
-    add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
   endif
 
   net_dep = c_compiler.find_library('ws2_32')
