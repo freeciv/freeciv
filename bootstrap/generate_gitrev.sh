@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Freeciv - Copyright (C) 2007 - The Freeciv Project
+# Freeciv - Copyright (C) 2007-2025 - The Freeciv Project
 
 # This script generates fc_gitrev_gen.h from fc_gitrev_gen.h.tmpl.
 # See fc_gitrev_gen.h.tmpl for details.
@@ -24,8 +24,8 @@ REV2="dist"
  # (REVSTATE will be OFF)
  if command -v git >/dev/null ; then
    REVTMP="$(git rev-parse --short HEAD 2>/dev/null)"
-   if test "x$REVTMP" != "x" ; then
-     # This is git repository. Check for local modifications
+   if test "$REVTMP" != "" ; then
+     # This is a git repository. Check for local modifications
      if (cd "$SRCROOT" ; git diff --quiet); then
        REVSTATE=ON
        REV2="$REVTMP"
