@@ -75,7 +75,7 @@ struct plocation {
 
   /* If the full address is to a location inside this this field should
    * point to it. If this location is the final location this field should
-   * be NULL. */
+   * be nullptr. */
   struct plocation *sub_location;
 };
 
