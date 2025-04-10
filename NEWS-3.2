@@ -5,3 +5,109 @@ Welcome to Freeciv 3.2.0-beta2
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.0-beta1 to 3.2.0-beta2
+---------------------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.0-beta2>, 2025-04-10)
+
+3.2.0-beta1 fixes a number of issues seen with beta1.
+
+Server / General
+
+    * Fixed unused entry warnings from loading pre-3.0 savegames
+      RM#1160 RM#1166 RM#1167 RM#1170
+    * Bug reporting URL corrected in meson based builds RM#1236
+    * /write command no longer includes deprecated /metamessage commands
+      in the generated script RM#1247
+    * Fixed worklist purging for units that cannot be updated RM#1257
+
+Changes affecting server operators
+
+    * Fixed mapimg2anim ffmpeg detection failure RM#1246
+
+General
+
+    * Various internal changes which should only affect developers.
+      osdn#46353 RM#1112 RM#1120 RM#1190 RM#1206 RM#1187 RM#1220 RM#1225
+      RM#1232 RM#1241 RM#1248 RM#1264
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#1078 RM#1089 RM#1106 RM#1117 RM#1130 RM#1155 RM#1169 RM#1171
+      RM#1181 RM#1202 RM#1205 RM#1209 RM#1223 RM#1226 RM#1233 RM#1235
+
+Clients
+
+    * Corrected client knowledge about original city owner RM#1067
+
+    * gtk
+         + Fixed freeciv window focus handling RM#813
+
+    * qt
+         + Fixed crash on fatal tileset error display when client
+           is fully set up RM#1262
+
+    * sdl3
+         + Fixed sdl3-client theme to work without sdl2-client theme
+           RM#1251
+
+Tools
+Ruleset editor
+
+    * Prevent opening multiple requirement editors for the same Good
+      RM#1076
+    * Allowed enabler addtion and removal on regular ruledit builds
+      RM#1128
+    * Fixed enabler removal RM#1192
+
+Help / Documentation
+
+    * Added NEWS-3.2 document RM#1146
+    * Doxygen documentation updates RM#1090 RM#1119 RM#1185 RM#1254
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1196 RM#1203 RM#1261
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1245 RM#1231 RM#1256 RM#1268 RM#1274
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Russian
+         + Incomplete translations:
+           Finnish (99% core, 90% nations, 100% ruledit)
+           Galician (99% core, 99% nations, 100% ruledit)
+           Polish (99% core, 99% nations, 99% ruledit)
+           Slovak (3% core, 0% nations, 1% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1172 RM#1173 RM#1175 RM#1179 RM#1198 RM#1201 RM#1222 RM#1244
+    * Meson based build improvements
+         + run.sh now sets also FREECIV_SAVE_PATH RM#1194
+         + Added C11 threads support RM#1197
+         + Correctly require zstd.h before enabling zstd compression
+           in build RM#1207
+    * Autotools based build improvements
+         + Added configure check if a variable argument can be
+           defined const RM#1178
+         + Fixed failures of configure checks for sdl2 subprojects
+           to find math library functions RM#1243
+    * Silenced deprecated declarations warnings from C++ builds RM#1180
+    * Metainfo improvements
+         + Updated sdl3-client screenshot RM#1081
+    * Fixed Qt5-mode compile with gcc-15 development version RM#1176
+    * emscripten build updates
+         + Added emssetup.sh script for easier setting up
+           build environment RM#1193
+         + emscripten updated to 4.0.5 RM#1253
+    * Generating gitrev no longer requires wc or tail commands RM#1199
+    * generate_doc.sh now creates required doc -directory RM#1228
+    * Appimage updates
+         + Linuxdeploy updated to version 1-alpha-20250213-2 RM#1249
+         + Added build of sdl3-client appimage RM#1250
+    * Flatpak updates
+         + Updated gnome Platform and Sdk to version 48 RM#1258
