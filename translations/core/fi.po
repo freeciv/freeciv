@@ -47633,7 +47633,9 @@ msgstr ""
 #: server/rssanity.c:1006
 #, c-format
 msgid "Tech %s is initial for everyone, but %s has no root_req for it."
-msgstr "Teknologia %s on määritetty aloitusteknologiaksi kaikille pelaajille, mutta %s eivät omista sen root_req:ä."
+msgstr ""
+"Teknologia %s on määritetty aloitusteknologiaksi kaikille pelaajille, mutta "
+"%s eivät omista sen root_req:ä."
 
 #: server/rssanity.c:1023
 #, c-format
@@ -47645,7 +47647,9 @@ msgstr ""
 #: server/rssanity.c:1031
 #, c-format
 msgid "Tech %s is initial for %s, but they have no root_req for it."
-msgstr "Teknologia %s on määritetty aloitusteknologiaksi %s, mutta he eivät omista sen root_req:ä."
+msgstr ""
+"Teknologia %s on määritetty aloitusteknologiaksi %s, mutta he eivät omista "
+"sen root_req:ä."
 
 #: server/rssanity.c:1043
 #, c-format
@@ -47797,7 +47801,9 @@ msgstr "%s mahdollistajalla on kohteen vaatimuslista. %s ei omaa kohdetta."
 msgid ""
 "Action enabler for %s has a local DiplRel requirement %s in target_reqs! "
 "Please read the section \"Requirement vector rules\" in doc/README.actions"
-msgstr "%s mahdollistajalla on paikallinen DiplRel vaatimus %s target_req:ssä! Tutustu dc/README.actions lukuun \"Requirement vector rules\""
+msgstr ""
+"%s mahdollistajalla on paikallinen DiplRel vaatimus %s target_req:ssä! "
+"Tutustu dc/README.actions lukuun \"Requirement vector rules\""
 
 #: server/rssanity.c:1420
 #, c-format
@@ -47847,13 +47853,17 @@ msgstr "Yksikköluokan %s yksiköt eivät voi olla missään."
 msgid ""
 "Achievement %s has no message for consecutive gainers though it's possible "
 "to be gained by multiple players"
-msgstr "Saavutuksella %s ei ole viestiä myöhemmille saajilleen vaikka monet pelaajat voivat saada sen."
+msgstr ""
+"Saavutuksella %s ei ole viestiä myöhemmille saajilleen vaikka monet pelaajat "
+"voivat saada sen."
 
 #: server/rssanity.c:1550
 #, c-format
 msgid ""
 "There's nation %s listed in embedded nations, but there's no such nation."
-msgstr "Kansa %s listattu sisällytettävissä kansoissa, mutta sellaista kansaa ei ole olemassa."
+msgstr ""
+"Kansa %s listattu sisällytettävissä kansoissa, mutta sellaista kansaa ei ole "
+"olemassa."
 
 #: server/rssanity.c:1680
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."

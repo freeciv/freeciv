@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-01 21:12+0200\n"
+"POT-Creation-Date: 2025-03-30 20:21+0300\n"
 "PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -482,7 +482,7 @@ msgstr "規則名稱"
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
-#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:132 tools/ruledit/tab_enablers.cpp:240
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
@@ -508,7 +508,7 @@ msgstr ""
 msgid "Name"
 msgstr "名稱"
 
-#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
 msgstr ""
 
@@ -594,15 +594,15 @@ msgstr "移除這項科技"
 msgid "A counter with that rule name already exists!"
 msgstr "已存在以此命名的科技！"
 
-#: tools/ruledit/tab_enablers.cpp:137
+#: tools/ruledit/tab_enablers.cpp:138
 msgid "Actor Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:144
+#: tools/ruledit/tab_enablers.cpp:145
 msgid "Target Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:151
+#: tools/ruledit/tab_enablers.cpp:152
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "Add Enabler"
@@ -614,38 +614,38 @@ msgstr "行為啟用者"
 msgid "Remove this Enabler"
 msgstr "移除這項科技"
 
-#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
-#: tools/ruledit/tab_enablers.cpp:248
+#: tools/ruledit/tab_enablers.cpp:164 tools/ruledit/tab_enablers.cpp:235
+#: tools/ruledit/tab_enablers.cpp:247
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "Enabler Issues"
 msgstr "行為啟用者"
 
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:227
+#: tools/ruledit/tab_enablers.cpp:226
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "Repair Enabler"
 msgstr "行為啟用者"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:232
+#: tools/ruledit/tab_enablers.cpp:231
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "Improve Enabler"
 msgstr "行為啟用者"
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "Enabler (actor)"
 msgstr "行為啟用者"
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, fuzzy, c-format
 #| msgid "Action Enabler"
 msgid "action enabler for %s"

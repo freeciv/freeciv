@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
+"POT-Creation-Date: 2025-04-10 20:12+0300\n"
 "PO-Revision-Date: 2025-03-28 22:05+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -42562,48 +42562,47 @@ msgstr "Agora tes un casus belli contra %s. Fixeron %s."
 msgid "You now have a casus belli against the %s. They did %s to the %s."
 msgstr "Agora tes un casus belli contra %s. Fixéronlle %s ao %s."
 
-#: server/aiiface.c:91
+#: server/aiiface.c:87
 #, c-format
 msgid "Cannot open AI module %s (%s)"
 msgstr "Non se pode abrir o módulo AI %s (%s)"
 
-#: server/aiiface.c:98
+#: server/aiiface.c:94
 #, c-format
 msgid "Cannot find capstr function from ai module %s (%s)"
 msgstr "Non se pode atopar a función capstr do módulo ai %s (%s)"
 
-#: server/aiiface.c:105
+#: server/aiiface.c:101
 #, c-format
 msgid "Incompatible ai module %s:"
 msgstr "Módulo ai %s incompatible:"
 
-#: server/aiiface.c:106
+#: server/aiiface.c:102
 #, c-format
 msgid "  Module options:    %s"
 msgstr " Opcións do módulo: %s"
 
-#: server/aiiface.c:107
+#: server/aiiface.c:103
 #, c-format
 msgid "  Supported options: %s"
 msgstr " Opcións admitidas: %s"
 
-#: server/aiiface.c:115
+#: server/aiiface.c:111
 #, c-format
 msgid "Cannot find setup function from ai module %s (%s)"
 msgstr "Non se pode atopar a función de configuración do módulo ai %s (%s)"
 
-#: server/aiiface.c:122
+#: server/aiiface.c:118
 #, c-format
 msgid "Setup of ai module %s failed."
 msgstr "Fallou a configuración do módulo ia %s."
 
-#: server/aiiface.c:172 server/aiiface.c:183 server/aiiface.c:194
-#: server/aiiface.c:205
+#: server/aiiface.c:168 server/aiiface.c:179 server/aiiface.c:190
 #, c-format
 msgid "Failed to setup \"%s\" AI module"
 msgstr "Produciuse un erro ao configurar o módulo IA \"%s\""
 
-#: server/aiiface.c:224
+#: server/aiiface.c:209
 #, c-format
 msgid "Failed to setup default AI module \"%s\", cannot continue."
 msgstr ""

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-01 21:12+0200\n"
+"POT-Creation-Date: 2025-03-30 20:21+0300\n"
 "PO-Revision-Date: 2021-09-27 11:02+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -477,7 +477,7 @@ msgstr "Regulnomo"
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
-#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:132 tools/ruledit/tab_enablers.cpp:240
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
@@ -503,7 +503,7 @@ msgstr ""
 msgid "Name"
 msgstr "Nomo"
 
-#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
 msgstr "Tipo"
 
@@ -582,15 +582,15 @@ msgstr "Forigi tiun teknologion"
 msgid "A counter with that rule name already exists!"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:137
+#: tools/ruledit/tab_enablers.cpp:138
 msgid "Actor Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:144
+#: tools/ruledit/tab_enablers.cpp:145
 msgid "Target Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:151
+#: tools/ruledit/tab_enablers.cpp:152
 msgid "Add Enabler"
 msgstr ""
 
@@ -599,30 +599,30 @@ msgstr ""
 msgid "Remove this Enabler"
 msgstr "Formovu apriorajn elektaĵojn"
 
-#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
-#: tools/ruledit/tab_enablers.cpp:248
+#: tools/ruledit/tab_enablers.cpp:164 tools/ruledit/tab_enablers.cpp:235
+#: tools/ruledit/tab_enablers.cpp:247
 msgid "Enabler Issues"
 msgstr ""
 
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:227
+#: tools/ruledit/tab_enablers.cpp:226
 msgid "Repair Enabler"
 msgstr ""
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:232
+#: tools/ruledit/tab_enablers.cpp:231
 msgid "Improve Enabler"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, c-format
 msgid "action enabler for %s"
 msgstr ""

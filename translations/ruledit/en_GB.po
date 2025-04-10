@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6.0\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-01 21:12+0200\n"
+"POT-Creation-Date: 2025-03-30 20:21+0300\n"
 "PO-Revision-Date: 2018-04-07 11:33+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -486,7 +486,7 @@ msgstr "Rule Name"
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
 #: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
-#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:132 tools/ruledit/tab_enablers.cpp:240
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
 #: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
@@ -512,7 +512,7 @@ msgstr ""
 msgid "Name"
 msgstr "Name"
 
-#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:113
+#: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
 msgstr ""
 
@@ -591,15 +591,15 @@ msgstr "Remove this tech"
 msgid "A counter with that rule name already exists!"
 msgstr "A tech with that rule name already exists!"
 
-#: tools/ruledit/tab_enablers.cpp:137
+#: tools/ruledit/tab_enablers.cpp:138
 msgid "Actor Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:144
+#: tools/ruledit/tab_enablers.cpp:145
 msgid "Target Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:151
+#: tools/ruledit/tab_enablers.cpp:152
 #, fuzzy
 msgid "Add Enabler"
 msgstr "Action Enabler"
@@ -609,33 +609,33 @@ msgstr "Action Enabler"
 msgid "Remove this Enabler"
 msgstr "Remove this tech"
 
-#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
-#: tools/ruledit/tab_enablers.cpp:248
+#: tools/ruledit/tab_enablers.cpp:164 tools/ruledit/tab_enablers.cpp:235
+#: tools/ruledit/tab_enablers.cpp:247
 #, fuzzy
 msgid "Enabler Issues"
 msgstr "Action Enabler"
 
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:227
+#: tools/ruledit/tab_enablers.cpp:226
 #, fuzzy
 msgid "Repair Enabler"
 msgstr "Remove this tech"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:232
+#: tools/ruledit/tab_enablers.cpp:231
 #, fuzzy
 msgid "Improve Enabler"
 msgstr "Remove this tech"
 
-#: tools/ruledit/tab_enablers.cpp:389
+#: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:400
+#: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:419
+#: tools/ruledit/tab_enablers.cpp:420
 #, fuzzy, c-format
 #| msgid "Action Enabler"
 msgid "action enabler for %s"
