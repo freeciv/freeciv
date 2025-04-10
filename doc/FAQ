@@ -1093,10 +1093,6 @@ freeciv-gtk4 --tiles hexemplio
 
 5 Mac OS X
 
-   As of 3.1, a zip file with a real Mac application "freeciv.app" is
-   available on the https://www.freeciv.org/download.html page.
-   Requires MacOS 11.x or later (Big Sur or Monterey).
-
-   For earlier versions of MacOS, there are unofficial installer
+   For some earlier versions of MacOS, there are unofficial installer
    packages available, see the Install-MacOSX page on the Freeciv wiki
    for links and more information.
