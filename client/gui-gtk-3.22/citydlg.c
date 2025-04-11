@@ -3350,7 +3350,7 @@ static void set_cityopt_values(struct city_dialog *pdialog)
 
 /******************** Callbacks for: Close, Prev, Next. ******************/
 /**********************************************************************//**
-  User has clicked rename city-button
+  User has closed city dialog
 **************************************************************************/
 static void close_callback(GtkWidget *w, gpointer data)
 {
@@ -3358,13 +3358,19 @@ static void close_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User has closed rename city dialog
+  User has closed city dialog
 **************************************************************************/
 static void city_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
+  int width, height;
+  GtkWidget *cont_area;
 
   pdialog = (struct city_dialog *) data;
+
+  cont_area = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
+  width = gtk_widget_get_allocated_width(GTK_WIDGET(cont_area));
+  height = gtk_widget_get_allocated_height(GTK_WIDGET(cont_area));
 
   gtk_widget_hide(pdialog->shell);
 
@@ -3377,12 +3383,12 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   /* Save size of the city dialog. */
   GUI_GTK_OPTION(citydlg_xsize)
     = CLIP(GUI_GTK3_22_CITYDLG_MIN_XSIZE,
-           gtk_widget_get_allocated_width(pdialog->shell),
+           width,
            GUI_GTK3_22_CITYDLG_MAX_XSIZE);
   GUI_GTK_OPTION(citydlg_ysize)
-    = CLIP(GUI_GTK3_22_CITYDLG_MIN_XSIZE,
-           gtk_widget_get_allocated_height(pdialog->shell),
-           GUI_GTK3_22_CITYDLG_MAX_XSIZE);
+    = CLIP(GUI_GTK3_22_CITYDLG_MIN_YSIZE,
+           height,
+           GUI_GTK3_22_CITYDLG_MAX_YSIZE);
 
   last_page
     = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
