@@ -229,8 +229,8 @@ void call_incident(enum incident_type type, enum casus_belli_range scope,
     players_iterate(receiver) {
       CALL_PLR_AI_FUNC(incident, victim,
                        type, scope, paction, receiver, violator, victim);
-    }
-  } players_iterate_end;
+    } players_iterate_end;
+  }
 }
 
 /**********************************************************************//**
