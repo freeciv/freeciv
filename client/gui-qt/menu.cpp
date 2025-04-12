@@ -3767,7 +3767,7 @@ void mr_menu::save_options_now()
 }
 
 /**********************************************************************//**
-  Invoke popup for quiting game
+  Invoke popup for quitting game
 **************************************************************************/
 void mr_menu::quit_game()
 {
