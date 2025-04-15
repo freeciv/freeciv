@@ -346,7 +346,7 @@ struct cm_result *cm_result_new(struct city *pcity)
 {
   struct cm_result *result;
 
-  /* initialise all values */
+  /* Initialise all values */
   result = fc_calloc(1, sizeof(*result));
   result->city_radius_sq = pcity ? city_map_radius_sq_get(pcity)
                                  : CITY_MAP_MAX_RADIUS_SQ;
@@ -354,10 +354,10 @@ struct cm_result *cm_result_new(struct city *pcity)
     = fc_calloc(city_map_tiles(result->city_radius_sq),
                 sizeof(*result->worker_positions));
 
-  /* test if the city pointer is valid; the cm_result struct can be
+  /* Test if the city pointer is valid; the cm_result struct can be
    * returned as it uses the maximal possible value for the size of
    * 'worker_positions' (= city_map_tiles(CITY_MAP_MAX_RADIUS_SQ))*/
-  fc_assert_ret_val(pcity != NULL, result);
+  fc_assert_ret_val(pcity != nullptr, result);
 
   return result;
 }
@@ -367,8 +367,8 @@ struct cm_result *cm_result_new(struct city *pcity)
 ****************************************************************************/
 void cm_result_destroy(struct cm_result *result)
 {
-  if (result != NULL) {
-    if (result->worker_positions != NULL) {
+  if (result != nullptr) {
+    if (result->worker_positions != nullptr) {
       FC_FREE(result->worker_positions);
     }
     FC_FREE(result);
@@ -555,8 +555,8 @@ static const struct cm_tile_type *tile_type_get(const struct cm_state *state,
                                                 int type)
 {
   /* Sanity check the index. */
-  fc_assert_ret_val(0 <= type, NULL);
-  fc_assert_ret_val(state->lattice.size > type, NULL);
+  fc_assert_ret_val(0 <= type, nullptr);
+  fc_assert_ret_val(state->lattice.size > type, nullptr);
 
   return state->lattice.p[type];
 }
@@ -565,13 +565,14 @@ static const struct cm_tile_type *tile_type_get(const struct cm_state *state,
   Retrieve a tile of a particular type by index. For a given tile type
   there are a certain number of tiles (1 or more), which may be iterated
   over using this function for index. Don't call this for is_specialist
-  types.  See also tile_type_num_tiles().
+  types.
+  See also tile_type_num_tiles().
 ****************************************************************************/
 static const struct cm_tile *tile_get(const struct cm_tile_type *ptype, int j)
 {
-  fc_assert_ret_val(!ptype->is_specialist, NULL);
-  fc_assert_ret_val(0 <= j, NULL);
-  fc_assert_ret_val(j < ptype->tiles.size, NULL);
+  fc_assert_ret_val(!ptype->is_specialist, nullptr);
+  fc_assert_ret_val(0 <= j, nullptr);
+  fc_assert_ret_val(j < ptype->tiles.size, nullptr);
 
   return &ptype->tiles.p[j];
 }
@@ -2023,7 +2024,7 @@ static void end_search(struct cm_state *state)
   print_performance(performance.current);
 #endif /* PRINT_TIME_STATS_EVERY_QUERY */
 
-  performance.current = NULL;
+  performance.current = nullptr;
 #endif /* GATHER_TIME_STATS */
 }
 
@@ -2129,7 +2130,7 @@ void cm_query_result(struct city *pcity,
   /* Refresh the city. Otherwise the CM can give wrong results or just be
    * slower than necessary. Note that cities are often passed in in an
    * unrefreshed state (which should probably be fixed). */
-  city_refresh_from_main_map(nmap, pcity, NULL);
+  city_refresh_from_main_map(nmap, pcity, nullptr);
 
   cm_find_best_solution(state, param, result, negative_ok);
   cm_state_free(state);
@@ -2261,7 +2262,7 @@ int cm_result_citizens(const struct cm_result *result)
 void cm_result_from_main_map(struct cm_result *result,
                              const struct city *pcity)
 {
-  cm_result_copy(result, pcity, NULL);
+  cm_result_copy(result, pcity, nullptr);
 }
 
 /************************************************************************//**
@@ -2281,11 +2282,11 @@ static void cm_result_copy(struct cm_result *result,
          * city_map_tiles(result->city_radius_sq));
 
   city_tile_iterate_index(nmap, result->city_radius_sq, pcenter, ptile, ctindex) {
-    if (workers_map == NULL) {
+    if (workers_map == nullptr) {
       /* Use the main map */
       struct city *pwork = tile_worked(ptile);
 
-      result->worker_positions[ctindex] = (NULL != pwork && pwork == pcity);
+      result->worker_positions[ctindex] = (pwork != nullptr && pwork == pcity);
     } else {
       result->worker_positions[ctindex] = workers_map[ctindex];
     }
@@ -2442,7 +2443,7 @@ void cm_print_city(const struct city *pcity)
                           cindex) {
     struct city *pwork = tile_worked(ptile);
 
-    if (NULL != pwork && pwork == pcity) {
+    if (pwork != nullptr && pwork == pcity) {
       int cx, cy;
 
       city_tile_index_to_xy(&cx, &cy, cindex,
