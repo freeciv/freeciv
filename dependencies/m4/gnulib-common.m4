@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 107
+# serial 108
 dnl Copyright (C) 2007-2025 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -1304,7 +1304,7 @@ AC_DEFUN([gl_CC_ALLOW_WARNINGS],
   AC_REQUIRE([AC_PROG_CC])
   AC_CACHE_CHECK([for C compiler option to allow warnings],
     [gl_cv_cc_wallow],
-    [rm -f conftest*
+    [rm -fr conftest*
      echo 'int dummy;' > conftest.c
      AC_TRY_COMMAND([${CC-cc} $CFLAGS $CPPFLAGS -c conftest.c 2>conftest1.err]) >/dev/null
      AC_TRY_COMMAND([${CC-cc} $CFLAGS $CPPFLAGS -Wno-error -c conftest.c 2>conftest2.err]) >/dev/null
@@ -1317,7 +1317,7 @@ AC_DEFUN([gl_CC_ALLOW_WARNINGS],
      else
        gl_cv_cc_wallow=none
      fi
-     rm -f conftest*
+     rm -fr conftest*
     ])
   case "$gl_cv_cc_wallow" in
     none) GL_CFLAG_ALLOW_WARNINGS='' ;;
@@ -1335,7 +1335,7 @@ AC_DEFUN([gl_CXX_ALLOW_WARNINGS],
   if test -n "$CXX" && test "$CXX" != no; then
     AC_CACHE_CHECK([for C++ compiler option to allow warnings],
       [gl_cv_cxx_wallow],
-      [rm -f conftest*
+      [rm -fr conftest*
        echo 'int dummy;' > conftest.cc
        AC_TRY_COMMAND([${CXX-c++} $CXXFLAGS $CPPFLAGS -c conftest.cc 2>conftest1.err]) >/dev/null
        AC_TRY_COMMAND([${CXX-c++} $CXXFLAGS $CPPFLAGS -Wno-error -c conftest.cc 2>conftest2.err]) >/dev/null
@@ -1348,7 +1348,7 @@ AC_DEFUN([gl_CXX_ALLOW_WARNINGS],
        else
          gl_cv_cxx_wallow=none
        fi
-       rm -f conftest*
+       rm -fr conftest*
       ])
     case "$gl_cv_cxx_wallow" in
       none) GL_CXXFLAG_ALLOW_WARNINGS='' ;;
