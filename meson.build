@@ -941,12 +941,12 @@ elif qtver == 'qt6x'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT6X_MODE', 1)
   qt_opts = 'cpp_std=c++17'
-  qt_cppflags = '-std=c++17'
+  qt_cppflags = ['-std=c++17', '-fPIC']
 else
   qt_minver='0x060000'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   qt_opts = 'cpp_std=c++17'
-  qt_cppflags = '-std=c++17'
+  qt_cppflags = ['-std=c++17', '-fPIC']
 endif
 
 if get_option('audio') != 'none'
