@@ -930,7 +930,7 @@ if qtver == 'qt6x'
   qt_opts = 'cpp_std=c++17'
   qt_cppflags = ['-std=c++17', '-fPIC']
 else
-  qt_minver='0x060000'
+  qt_minver='0x060400'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   qt_opts = 'cpp_std=c++17'
   qt_cppflags = ['-std=c++17', '-fPIC']
@@ -3648,7 +3648,7 @@ if get_option('clients').contains('qt')
 
 if not qtfine
   if qtver == 'qt6'
-    error('Qt6 >= 6.0 required for qt-client in Qt6 mode, but not found')
+    error('Qt6 >= 6.4 required for qt-client in Qt6 mode, but not found')
   elser
     error('Qt6 >= 6.7 required for qt-client in Qt6x mode, but not found')
   endif
@@ -4344,7 +4344,7 @@ if get_option('fcmp').contains('qt')
 
 if not qtfine
   if qtver == 'qt6'
-    error('Qt6 >= 6.0 required for qt-modpack-installer in Qt6 mode, but not found')
+    error('Qt6 >= 6.4 required for qt-modpack-installer in Qt6 mode, but not found')
   else
     error('Qt6 >= 6.7 required for qt-modpack-installer in Qt6x mode, but not found')
   endif
@@ -4432,7 +4432,7 @@ if get_option('tools').contains('ruledit')
 
 if not qtfine
   if qtver == 'qt6'
-    error('Qt6 >= 6.0 required for ruledit in Qt6 mode, but not found')
+    error('Qt6 >= 6.4 required for ruledit in Qt6 mode, but not found')
   else
     error('Qt6 >= 6.7 required for ruledit in Qt6x mode, but not found')
   endif
