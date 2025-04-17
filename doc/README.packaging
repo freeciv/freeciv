@@ -25,6 +25,8 @@ Updating from 3.1 to 3.2
 * Minimum meson requirement for builds made with it is 0.60.0
 * Meson based build is no longer considered experimental, but a supported one
 * Build with meson supports building experimental sdl3-client
+* Qt6Svg is a new optional dependency for the Qt-client.
+  See "Qt-client svgflags support" below.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -159,6 +161,12 @@ applies to loading of all the section files: savegames, rulesets, tileset
 spec files... If compression support is built into Freeciv, you can
 compress any of these files and Freeciv can still load them. Freeciv ships
 with all the data files uncompressed, except scenarios which are gzipped.
+
+----------------------------------------------------------------------
+Qt-client svgflags support
+--------------------------
+If Qt-client is built with -Dsvgflags=true, the Qt6Svg is also
+a requirement for sensible behavior.
 
 ----------------------------------------------------------------------
 Loadable AI modules
