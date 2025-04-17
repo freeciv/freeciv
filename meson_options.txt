@@ -20,14 +20,19 @@ option('followtag',
        value: '',
        description: 'Custom followtag')
 
+option('iconv',
+       type: 'feature',
+       value: 'auto',
+       description: 'Use iconv for text encoding conversion')
+
 option('json-protocol',
-       type: 'boolean',
-       value: false,
+       type: 'feature',
+       value: 'auto',
        description: 'Build in json-protocol support')
 
 option('syslua',
-       type: 'combo',
-       choices: ['try', 'true', 'false'],
+       type: 'feature',
+       value: 'auto',
        description: 'Use lua from system')
 
 option('sys-tolua-cmd',
@@ -36,13 +41,13 @@ option('sys-tolua-cmd',
        description: 'Use tolua cmd from the system even for native builds')
 
 option('mwand',
-       type: 'combo',
-       choices: ['try', 'true', 'false'],
+       type: 'feature',
+       value: 'auto',
        description: 'Build MagickWand support to mapimg')
 
 option('readline',
-       type: 'combo',
-       choices: ['try', 'true', 'false'],
+       type: 'feature',
+       value: 'auto',
        description: 'Enable readline functionality')
 
 option('audio',
@@ -58,8 +63,8 @@ option('tools',
        description: 'Extra tools to build')
 
 option('nls',
-       type: 'boolean',
-       value: true,
+       type: 'feature',
+       value: 'auto',
        description: 'Native Language Support')
 
 option('gitrev',

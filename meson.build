@@ -407,6 +407,57 @@ foreach hdr : priv_headers
   endif
 endforeach
 
+### Compiler checks
+
+if c_compiler.compiles('''
+#include <assert.h>
+int main(void) { static_assert(1, "1 is not true"); }''',
+  name: 'c23 Static Assert')
+  pub_conf_data.set('FREECIV_C23_STATIC_ASSERT', 1)
+endif
+
+if c_compiler.compiles('''
+#include <assert.h>
+int main(void) { _Static_assert(1, "1 is not true"); }''',
+  name: 'c11 Static Assert')
+  pub_conf_data.set('FREECIV_C11_STATIC_ASSERT', 1)
+endif
+
+if cxx_build and cxx_compiler.compiles('''
+#include <assert.h>
+int main(void) { static_assert(1, "1 is not true"); }''',
+  name: 'c++11 Static Assert')
+  pub_conf_data.set('FREECIV_CXX11_STATIC_ASSERT', 1)
+endif
+
+if c_compiler.compiles('''
+#include <assert.h>
+#include <string.h>
+static const char str[] = "12345";
+int main(void) { _Static_assert(5 == strlen(str), "Wrong length"); }''',
+  name: 'strlen() in static assert')
+  pub_conf_data.set('FREECIV_STATIC_STRLEN', 1)
+endif
+
+# Check for c23 nullptr that can be passed as sentinel
+if c_compiler.compiles('''
+#include <stddef.h>
+void sentinental(...) __attribute__((__sentinel__(0)));
+void caller(void) { sentinental(nullptr); }''',
+  name: 'c23 nullptr',
+  include_directories: include_directories(cross_inc_path),
+  args: ['-Wformat'])
+  pub_conf_data.set('FREECIV_HAVE_C23_NULLPTR', 1)
+endif
+
+if cxx_build and cxx_compiler.compiles('''
+#include <cstddef>
+int main(void) { int *var = nullptr; return 0; }''',
+  name: 'cxx nullptr',
+  include_directories: include_directories(cross_inc_path))
+  pub_conf_data.set('FREECIV_HAVE_CXX_NULLPTR', 1)
+endif
+
 if host_system == 'windows'
   # We don't want Cygwin to find these, so checking only under "real" Windows layer
 
@@ -521,11 +572,9 @@ if c_compiler.has_header('unistd.h')
   liblua_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
 endif
 
-if c_compiler.has_function('BCryptGenRandom', args: ['-lbcrypt', '-O'])
-  bcrypt_lib_dep = c_compiler.find_library('bcrypt')
+bcrypt_dep = c_compiler.find_library('bcrypt', required: false)
+if bcrypt_dep.found()
   priv_conf_data.set('HAVE_BCRYPTGENRANDOM', 1)
-else
-  bcrypt_lib_dep = []
 endif
 
 if c_compiler.has_function('getaddrinfo',
@@ -546,127 +595,38 @@ int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''',
   endif
 endif
 
-if c_compiler.has_header('libcharset.h', args: header_arg)
-  if c_compiler.has_function('locale_charset', args: ['-O'])
-    priv_conf_data.set('HAVE_LIBCHARSET', 1)
-    charset_dep = []
-  else
-    charset_dep = c_compiler.find_library('charset', dirs: cross_lib_path,
-                                          required: false)
-    if charset_dep.found() and c_compiler.has_function('locale_charset',
-                                                       dependencies: charset_dep,
-                                                       args: ['-O'])
-      priv_conf_data.set('HAVE_LIBCHARSET', 1)
-    else
-      charset_dep = []
-    endif
-  endif
-else
-  charset_dep = []
+charset_dep = dependency('libcharset', required: false)
+if charset_dep.found()
+  priv_conf_data.set('HAVE_LIBCHARSET', 1)
+  pub_conf_data.set('FREECIV_HAVE_LIBCHARSET', 1)
 endif
 
-rl_req = get_option('readline')
-if rl_req != 'false'
-  readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
-                                         required:false)
-
-  if readline_dep.found() and c_compiler.has_function('rl_completion_suppress_append',
-                                                      dependencies: readline_dep,
-                                                      args: ['-O'])
-    pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
-  elif rl_req == 'true'
-    error('Readline support requested but not found.')
-  endif
-else
-  readline_dep = []
+readline_dep = dependency('readline', required: get_option('readline'))
+if readline_dep.found()
+  pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
 endif
 
-if c_compiler.has_header('bzlib.h', args: header_arg)
+### Compressor libraries
+# These are optional (all automagic), but if they are found, we use them
+# Maybe these could become features to preserve the automagic but let downstreams
+# disable them if they want to?
+
+bz2_dep = dependency('bzip2', required: false)
+if bz2_dep.found()
   priv_conf_data.set('HAVE_BZLIB_H', 1)
-
-  bz2_dep = c_compiler.find_library('bz2', dirs: cross_lib_path,
-                                    required:false)
-
-  if bz2_dep.found()
-    pub_conf_data.set('FREECIV_HAVE_LIBBZ2', 1)
-  endif
-else
-  bz2_dep = []
+  pub_conf_data.set('FREECIV_HAVE_LIBBZ2', 1)
 endif
 
-if c_compiler.has_header('lzma.h', args: header_arg)
+lzma_dep = dependency('liblzma', required: false)
+if lzma_dep.found()
   priv_conf_data.set('HAVE_LZMA_H', 1)
-
-  lzma_dep = c_compiler.find_library('lzma', dirs: cross_lib_path,
-                                     required:false)
-
-  if lzma_dep.found()
-    pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
-  endif
-else
-  lzma_dep = []
+  pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
 endif
 
-if c_compiler.has_header('zstd.h', args: header_arg)
+zstd_dep = dependency('zstd', required: false)
+if zstd_dep.found()
   priv_conf_data.set('HAVE_ZSTD_H', 1)
-
-  zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
-                                     required:false)
-
-  if zstd_dep.found()
-    pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
-  endif
-else
-  zstd_dep = []
-endif
-
-if c_compiler.compiles('''
-#include <assert.h>
-int main(void) { static_assert(1, "1 is not true"); }''',
-  name: 'c23 Static Assert')
-  pub_conf_data.set('FREECIV_C23_STATIC_ASSERT', 1)
-endif
-
-if c_compiler.compiles('''
-#include <assert.h>
-int main(void) { _Static_assert(1, "1 is not true"); }''',
-  name: 'c11 Static Assert')
-  pub_conf_data.set('FREECIV_C11_STATIC_ASSERT', 1)
-endif
-
-if cxx_build and cxx_compiler.compiles('''
-#include <assert.h>
-int main(void) { static_assert(1, "1 is not true"); }''',
-  name: 'c++11 Static Assert')
-  pub_conf_data.set('FREECIV_CXX11_STATIC_ASSERT', 1)
-endif
-
-if c_compiler.compiles('''
-#include <assert.h>
-#include <string.h>
-static const char str[] = "12345";
-int main(void) { _Static_assert(5 == strlen(str), "Wrong length"); }''',
-  name: 'strlen() in static assert')
-  pub_conf_data.set('FREECIV_STATIC_STRLEN', 1)
-endif
-
-# Check for c23 nullptr that can be passed as sentinel
-if c_compiler.compiles('''
-#include <stddef.h>
-void sentinental(...) __attribute__((__sentinel__(0)));
-void caller(void) { sentinental(nullptr); }''',
-  name: 'c23 nullptr',
-  include_directories: include_directories(cross_inc_path),
-  args: ['-Wformat'])
-  pub_conf_data.set('FREECIV_HAVE_C23_NULLPTR', 1)
-endif
-
-if cxx_build and cxx_compiler.compiles('''
-#include <cstddef>
-int main(void) { int *var = nullptr; return 0; }''',
-  name: 'cxx nullptr',
-  include_directories: include_directories(cross_inc_path))
-  pub_conf_data.set('FREECIV_HAVE_CXX_NULLPTR', 1)
+  pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
 endif
 
 if emscripten
@@ -693,68 +653,55 @@ else
     error('Mandatory header zlib.h not found!')
   endif
   icu_dep = dependency('icu-uc')
-  syslua = get_option('syslua')
-  if syslua != 'false'
-    lua_dep_tmp = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required:false)
-  endif
+  syslua_dep = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required: get_option('syslua'))
 endif
 
 # Set unconditionally, as it was checked as hard requirement
 pub_conf_data.set('FREECIV_HAVE_LIBZ', 1)
 
-mw_req = get_option('mwand')
+mw_dep = dependency('MagickWand', required: false)
 mw_extra_dep = []
-if mw_req != 'false'
-  mw_dep = dependency('MagickWand', version : '>= 7.0', required : false)
-  if mw_dep.found()
-    pub_conf_data.set('FREECIV_MWAND7', '1')
-    mwand_incl = '#include <MagickWand/MagickWand.h>'
-  else
-    mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
-    if not mw_dep.found()
-      mw_dep = dependency('MagickWand-6.Q16HDRI', required: false)
-    endif
-    if mw_dep.found()
-      mwand_incl = '#include <wand/MagickWand.h>'
-      mwand_incl = '#include <wand/MagickWand.h>'
-    endif
-  endif
-  if mw_dep.found()
-    if not c_compiler.links(mwand_incl + '''
-int main(void) { MagickWandGenesis(); }''',
-    name: 'mwand links',
-    dependencies: mw_dep)
-      mw_extra_dep = [c_compiler.find_library('urlmon', dirs: cross_lib_path,
-                                              required: false),
-                      c_compiler.find_library('gdi32', dirs: cross_lib_path,
-                                              required: false)]
-      if c_compiler.links(mwand_incl + '''
-int main(void) { MagickWandGenesis(); }''',
-      name: 'mwand links',
-      dependencies: [mw_dep, mw_extra_dep, zlib_dep, lzma_dep, net_dep])
-        priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
-      elif mw_req == 'true'
-        error('MagickWand support requested but not found.')
-      else
-        mw_dep = []
-        mw_extra_dep = []
-      endif
-    else
-      priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
-    endif
-  elif mw_req == 'true'
-    error('MagickWand support requested but not found.')
-  endif
-else
-  mw_dep = []
+if not mw_dep.found() and get_option('mwand').enabled()
+  mw_dep = dependency('MagickWand-6.Q16HDRI', required: true)
 endif
 
-if syslua != 'false' and lua_dep_tmp.found()
+if mw_dep.found() and get_option('mwand').enabled()
+  if mw_dep.version().version_compare('>= 7.0')
+    pub_conf_data.set('FREECIV_MWAND7', '1')
+    mwand_incl = '#include <MagickWand/MagickWand.h>'
+  elif mw_dep.version().version_compare('>= 6.0')
+    pub_conf_data.set('FREECIV_MWAND6', '1')
+    mwand_incl = '#include <wand/MagickWand.h>'
+  else
+    error('MagickWand version 6.0 or newer is required.')
+  endif
+  if not c_compiler.links(
+    mwand_incl + '\nint main(void) { MagickWandGenesis(); }',
+    name: 'mwand links',
+    dependencies: mw_dep
+  )
+    mw_extra_dep = [
+      c_compiler.find_library('urlmon', dirs: cross_lib_path, required: false),
+      c_compiler.find_library('gdi32', dirs: cross_lib_path, required: false)
+    ]
+    if c_compiler.links(
+      mwand_incl + '\nint main(void) { MagickWandGenesis(); }',
+      name: 'mwand links',
+      dependencies: [mw_dep, mw_extra_dep, zlib_dep, lzma_dep, net_dep]
+    )
+      priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+    else
+      error('MagickWand support requested but not found.') # Extra deps don't work
+    endif
+  else
+    error('MagickWand support requested but not found.') # Can't link mwand, everything went wrong!
+  endif
+endif
+
+if syslua_dep.found()
   lua_inc_path = []
   lua_sources = []
-  lua_dep = lua_dep_tmp
-elif syslua == 'true'
-  error('Syslua requested but not found.')
+  lua_dep = syslua_dep
 else
   lua_inc_path = 'dependencies/lua-5.4/src'
   lua_sources = [
@@ -801,37 +748,27 @@ int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''',
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
 
-if c_compiler.has_function('iconv', args: [header_arg, '-O'])
+iconv_dep = dependency('libiconv', required: get_option('iconv'))
+if iconv_dep.found()
   priv_conf_data.set('HAVE_ICONV', 1)
-  iconv_lib_dep = []
-elif c_compiler.has_header_symbol('iconv.h', 'iconv', args: header_arg)
-  iconv_lib_dep = c_compiler.find_library('iconv', dirs: cross_lib_path,
-                                          required: false)
-  if iconv_lib_dep.found()
-    priv_conf_data.set('HAVE_ICONV', 1)
+  if c_compiler.compiles(
+    '''#include <stddef.h>
+    #include <iconv.h>
+    int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0; }''',
+    name: 'iconv const',
+    include_directories: include_directories(cross_inc_path))
+    priv_conf_data.set('ICONV_CONST', 'const')
+  else
+    priv_conf_data.set('ICONV_CONST', '')
   endif
-else
-  iconv_lib_dep = []
-endif
-
-if c_compiler.compiles('''#include <stddef.h>
-#include <iconv.h>
-int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0; }''',
-  name: 'iconv const',
-  include_directories: include_directories(cross_inc_path))
-  priv_conf_data.set('ICONV_CONST', 'const')
-else
-  priv_conf_data.set('ICONV_CONST', '')
 endif
 
 if get_option('cacert-path') != ''
-  priv_conf_data.set('CUSTOM_CACERT_PATH',
-                     '"' + get_option('cacert-path') + '"')
+  priv_conf_data.set_quoted('CUSTOM_CACERT_PATH',get_option('cacert-path'))
 endif
 
 if get_option('followtag') != ''
-  pub_conf_data.set('FOLLOWTAG',
-                    '"' + get_option('followtag') + '"')
+  pub_conf_data.set_quoted('FOLLOWTAG',get_option('followtag'))
 endif
 
 potential_size_t_formats = [ '%zu', '%ld', '%lld', '%I64d', '%I32d' ]
@@ -965,60 +902,34 @@ else
   audio_sdl_src = []
 endif
 
-if get_option('json-protocol')
-  if not c_compiler.has_header('jansson.h')
-    error('json-protocol requires jansson.h header, but it is not found')
-  endif
+jansson_dep = dependency('jansson', required: get_option('json-protocol'))
+if jansson_dep.found()
   pub_conf_data.set('FREECIV_JSON_CONNECTION', 1)
-  jansson_dep = c_compiler.find_library('jansson')
-else
-  jansson_dep = []
 endif
 
-nls_req = get_option('nls')
-
-if c_compiler.has_header('libintl.h', args: header_arg)
-  pub_conf_data.set('FREECIV_HAVE_LIBINTL_H', 1)
-  priv_conf_data.set('HAVE_LIBINTL_H', 1)
-elif nls_req
-  error('nls support requested, but libintl.h header not found')
-endif
-
-if nls_req
-  pub_conf_data.set('FREECIV_ENABLE_NLS', 1)
+nls_dep = dependency('intl', required: get_option('nls'))
+if nls_dep.found()
   priv_conf_data.set('ENABLE_NLS', 1)
-  gettext_dep = c_compiler.find_library('intl', dirs: cross_lib_path,
-                                        required: false)
-else
-  gettext_dep = []
+  priv_conf_data.set('HAVE_LIBINTL_H', 1)
+  pub_conf_data.set('FREECIV_ENABLE_NLS', 1)
+  pub_conf_data.set('FREECIV_HAVE_LIBINTL_H', 1)
 endif
 
 if emscripten
   curl_dep = []
   m_dep = []
 else
-  curl_dep = c_compiler.find_library('curl', dirs: cross_lib_path)
-  m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
+  curl_dep = dependency('libcurl', version: '>=7.56.0', required: true) # curl_mime_init
+  m_dep = c_compiler.find_library('m', dirs: cross_lib_path, required: false) # Some platforms (linux) have a standalone libm, most don't
+endif
+
+sqlite3_required = false
+if get_option('fcdb').contains('sqlite3') or get_option('fcmp').length() > 0
+  sqlite3_required = true
 endif
 
 if not emscripten
-  if c_compiler.compiles(net_incl + '''
-#include <stddef.h>
-#include <curl/curl.h>
-int main(void) { curl_mime *mime = curl_mime_init(NULL); }''',
-  name: 'curl mime API',
-  include_directories: include_directories(cross_inc_path)
-  )
-    priv_conf_data.set('HAVE_CURL_MIME_API', 1)
-  else
-    error('Too old libcurl version - does not support mime API')
-  endif
-endif
-
-if not emscripten
-  sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
-else
-  sqlite3_dep = []
+  sqlite3_dep = dependency('sqlite3', required: sqlite3_required) # Should this be conditional on fcdb || modpack?
 endif
 
 fcdb = false
@@ -1042,7 +953,7 @@ if get_option('fcdb').contains('mariadb')
   ]
   mdb_dep = dependency('mariadb', required: false)
   if not mdb_dep.found()
-    mdb_dep = dependency('libmariadb')
+    mdb_dep = dependency('libmariadb', required: true)
   endif
   fcdb_dep = [ fcdb_dep, mdb_dep ]
 endif
@@ -1053,7 +964,8 @@ if get_option('fcdb').contains('odbc')
   fcdb_src = [ fcdb_src,
     'dependencies/luasql/src/ls_odbc.c',
   ]
-  fcdb_dep = [ fcdb_dep, dependency('odbc') ]
+  odbc_dep = dependency('odbc', required: true)
+  fcdb_dep = [ fcdb_dep, odbc_dep ]
 endif
 
 if fcdb
@@ -1154,7 +1066,7 @@ endforeach
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: ['c', 'cpp'])
 
-if get_option('nls')
+if get_option('nls').enabled()
   subdir('translations/core')
   subdir('translations/nations')
   subdir('translations/ruledit')
@@ -1479,8 +1391,8 @@ common_lib = library('freeciv',
   dependencies: [zlib_dep,
                  curl_dep, m_dep, icu_dep,
                  net_dep, jansson_dep, lua_dep, bz2_dep, lzma_dep, zstd_dep,
-                 bcrypt_lib_dep, iconv_lib_dep,
-                 gettext_dep, charset_dep, mw_dep,
+                 bcrypt_dep, iconv_dep,
+                 nls_dep, charset_dep, mw_dep,
                  dependency('threads')],
   install : true
   )
@@ -1625,7 +1537,7 @@ if server_type != 'disabled'
     servericon,
     include_directories: server_inc,
     link_with: [server_lib, common_lib, ais],
-    dependencies: [m_dep, net_dep, readline_dep, gettext_dep, fcdb_dep,
+    dependencies: [m_dep, net_dep, readline_dep, nls_dep, fcdb_dep,
                    mw_extra_dep],
     install: true,
     win_subsystem: 'console'
@@ -3416,7 +3328,7 @@ executable('freeciv-gtk3.22',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_50'],
   include_directories: client_inc,
-  dependencies: [gtk322_dep, net_dep, gettext_dep, mw_extra_dep],
+  dependencies: [gtk322_dep, net_dep, nls_dep, mw_extra_dep],
   link_with: client_common,
   install: true,
   win_subsystem: 'windows'
@@ -3509,7 +3421,7 @@ executable('freeciv-gtk4',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66'],
   include_directories: client_inc,
-  dependencies: [gtk4_dep, net_dep, gettext_dep, mw_extra_dep],
+  dependencies: [gtk4_dep, net_dep, nls_dep, mw_extra_dep],
   link_with: client_common,
   install: true,
   win_subsystem: 'windows'
@@ -3594,7 +3506,7 @@ executable('freeciv-gtk4x',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_76',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_76'],
   include_directories: client_inc,
-  dependencies: [gtk5_dep, net_dep, gettext_dep, mw_extra_dep],
+  dependencies: [gtk5_dep, net_dep, nls_dep, mw_extra_dep],
   link_with: client_common,
   install: true,
   win_subsystem: 'windows'
@@ -3727,7 +3639,7 @@ executable('freeciv-qt',
   'client/gui-qt/wldlg.cpp',
   mocced_client, clienticon,
   include_directories: [client_inc, include_directories('client/gui-qt')],
-  dependencies: [qt_dep, net_dep, gettext_dep, mw_extra_dep],
+  dependencies: [qt_dep, net_dep, nls_dep, mw_extra_dep],
   override_options: qt_opts,
   link_with: client_common,
   install: true,
@@ -3978,7 +3890,7 @@ executable('freeciv-sdl2',
   include_directories: [client_inc, sdl2_gfx_inc ],
   dependencies: [sdl2main_dep, audio_dep,
                  sdl2_image_dep, sdl2_gfx_dep, sdl2_ttf_dep,
-                 net_dep, gettext_dep, mw_extra_dep],
+                 net_dep, nls_dep, mw_extra_dep],
   link_with: client_common,
   install: true,
   win_subsystem: 'windows'
@@ -4047,6 +3959,7 @@ sdl3_gfx_cargs = []
 sdl3_image_dep = []
 sdl3_ttf_dep = []
 
+
 if not emscripten
   sdl3_gfx_inc = include_directories('dependencies')
 
@@ -4110,7 +4023,7 @@ executable('freeciv-sdl3',
   include_directories: [client_inc, sdl3_gfx_inc ],
   dependencies: [sdl3main_dep, audio_dep,
                  sdl3_image_dep, sdl3_gfx_dep, sdl3_ttf_dep,
-                 net_dep, gettext_dep, mw_extra_dep],
+                 net_dep, nls_dep, mw_extra_dep],
   link_with: client_common,
   install: true,
   win_subsystem: 'windows'
@@ -4209,7 +4122,7 @@ executable('freeciv-stub',
   'client/gui-stub/wldlg.c',
   clienticon,
   include_directories: client_inc,
-  dependencies: [audio_dep, net_dep, gettext_dep, mw_extra_dep],
+  dependencies: [audio_dep, net_dep, nls_dep, mw_extra_dep],
   link_with: client_common,
   install: true,
   win_subsystem: 'console'
@@ -4250,7 +4163,7 @@ executable('freeciv-mp-gtk3',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_50'],
   include_directories: tool_inc,
   sources: [verhdr],
-  dependencies: [gtk322_dep, sqlite3_dep, gettext_dep],
+  dependencies: [gtk322_dep, sqlite3_dep, nls_dep],
   link_with: [common_lib, fcmp_common],
   install: true,
   win_subsystem: 'windows'
@@ -4288,7 +4201,7 @@ executable('freeciv-mp-gtk4',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_66'],
   include_directories: tool_inc,
   sources: [verhdr],
-  dependencies: [gtk4_dep, sqlite3_dep, gettext_dep],
+  dependencies: [gtk4_dep, sqlite3_dep, nls_dep],
   link_with: [common_lib, fcmp_common],
   install: true,
   win_subsystem: 'windows'
@@ -4325,7 +4238,7 @@ executable('freeciv-mp-gtk4x',
             '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_76'],
   include_directories: tool_inc,
   sources: [verhdr],
-  dependencies: [gtk5_dep, sqlite3_dep, gettext_dep],
+  dependencies: [gtk5_dep, sqlite3_dep, nls_dep],
   link_with: [common_lib, fcmp_common],
   install: true,
   win_subsystem: 'windows'
@@ -4369,7 +4282,7 @@ executable('freeciv-mp-qt',
   mocced_fcmp, mpicon,
   include_directories: tool_inc,
   sources: [verhdr],
-  dependencies: [qt_dep, sqlite3_dep, gettext_dep],
+  dependencies: [qt_dep, sqlite3_dep, nls_dep],
   link_with: [common_lib, fcmp_common],
   override_options: qt_opts,
   install: true,
@@ -4399,7 +4312,7 @@ executable('freeciv-mp-cli',
   mpicon,
   include_directories: tool_inc,
   sources: [verhdr],
-  dependencies: [sqlite3_dep, gettext_dep],
+  dependencies: [sqlite3_dep, nls_dep],
   link_with: [common_lib, fcmp_common],
   install: true,
   win_subsystem: 'console'
@@ -4427,7 +4340,7 @@ executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, fcdb_dep,
+  dependencies: [m_dep, net_dep, readline_dep, nls_dep, fcdb_dep,
                  mw_extra_dep],
   install: true,
   win_subsystem: 'console'
@@ -4509,7 +4422,7 @@ executable('freeciv-ruledit',
   'tools/ruledit/values_dlg.cpp',
   mocced_ruledit, rulediticon,
   include_directories: tool_inc,
-  dependencies: [qt_dep, m_dep, net_dep, readline_dep, gettext_dep,
+  dependencies: [qt_dep, m_dep, net_dep, readline_dep, nls_dep,
                  fcdb_dep, mw_extra_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   override_options: qt_opts,
@@ -4556,7 +4469,7 @@ executable('freeciv-manual',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
-  dependencies: [m_dep, net_dep, readline_dep, gettext_dep, fcdb_dep,
+  dependencies: [m_dep, net_dep, readline_dep, nls_dep, fcdb_dep,
                  mw_extra_dep],
   install: true,
   win_subsystem: 'console'
@@ -4727,3 +4640,202 @@ custom_target('gzip_ChangeLog-1.0-S3_0',
               input: 'ChangeLog-1.0-S3_0',
               install: true,
               install_dir: join_paths(get_option('datadir'), 'doc/freeciv'))
+
+summary(
+  {
+    'prefix': get_option('prefix'),
+    'bindir': get_option('bindir'),
+    'datadir': get_option('datadir'),
+    'libdir': get_option('libdir'),
+    'localedir': priv_conf_data.get('LOCALEDIR')
+  },
+  section: 'Directories',
+)
+
+environment_summary = {
+  'AppImage Build': get_option('appimage'),
+  'Emscripten Build': emscripten,
+  'Build': build_machine.system(),
+  'Build CPU Family': build_machine.cpu_family(),
+  'Host CPU Family': host_machine.cpu_family(),
+  'Cross-compiling': meson.is_cross_build(),
+  'Build Endianness': build_machine.endian(),
+  'Host Endianness': host_machine.endian(),
+  'Target': host_system,
+  'Version': meson.project_version(),
+  'Linker': c_compiler.get_linker_id(),
+  'C Compiler': c_compiler.get_id(),
+  'C Compiler Version': c_compiler.version(),
+}
+
+if cxx_build
+  environment_summary += {
+    'C++ Compiler': cxx_compiler.get_id(),
+    'C++ Compiler Version': cxx_compiler.version(),
+  }
+endif
+
+if get_option('python') != ''
+  environment_summary += {
+    'Python': get_option('python'),
+  }
+endif
+
+if proj_def != ''
+  environment_summary += {
+    'Project Definition': proj_def,
+  }
+endif
+
+if get_option('cacert-path') != ''
+  environment_summary += {
+    'CACert Path': get_option('cacert-path'),
+  }
+endif
+
+summary(
+    environment_summary,
+    section: 'Environment',
+    bool_yn: true,
+)
+
+if get_option('clients').length() > 0
+  summary( {
+    'GTK3': get_option('clients').contains('gtk3') ? gtk322_dep : false,
+    'GTK4': get_option('clients').contains('gtk4') ? gtk4_dep : false,
+    'GTK4x': get_option('clients').contains('gtk4x') ? gtk5_dep : false,
+    'Qt': get_option('clients').contains('qt') ? qt_dep : false,
+    'SDL2': get_option('clients').contains('sdl2') ? sdl2_dep : false,
+    'SDL3': get_option('clients').contains('sdl3') ? sdl3_dep : false,
+    'Stub': get_option('clients').contains('stub') ? stub_dep : false,
+    },
+    section: 'Clients',
+    bool_yn: true,
+    )
+endif
+
+if get_option('fcmp').length()> 0
+  summary( {
+    'CLI': get_option('fcmp').contains('cli'),
+    'GTK3': get_option('fcmp').contains('gtk3') ? gtk322_dep : false,
+    'GTK4': get_option('fcmp').contains('gtk4') ? gtk4_dep : false,
+    'GTK4x': get_option('fcmp').contains('gtk4x') ? gtk5_dep : false,
+    'Qt': get_option('fcmp').contains('qt') ? qt_dep : false,
+    },
+    section: 'Modpack Installer',
+    bool_yn: true,
+  )
+endif
+
+featurevals = {
+  'Audio': get_option('audio') == 'none' ? false : get_option('audio'),
+  'Authentication': get_option('fcdb').length() > 0,
+  'Custom followtag': get_option('followtag') != ''? get_option('followtag') : false,
+  'Genpackets additional Arguments': get_option('gen-packets-args').length() > 0 ? get_option('gen-packets-args') : false,
+  'Git Revision Included': get_option('gitrev'),
+  'JSON Protocol Support': jansson_dep,
+  'MagickWand': get_option('mwand').enabled() ? mw_dep : false,
+  'Modpack Installer': get_option('fcmp').length() > 0 ? get_option('fcmp') : false,
+  'Native Language Support': nls_dep,
+  'Readline': get_option('readline').enabled() ? readline_dep : false,
+  'Server': get_option('server') != 'disabled' ? get_option('server') : false,
+  'SVG Flag Support': get_option('svgflags'),
+  'System Lua': get_option('syslua').enabled() ? lua_dep : false,
+  'Tools': get_option('tools').length() > 0 ? get_option('tools'): false,
+  'Use system `tolua` command for native build': get_option('sys-tolua-cmd'),
+  'Windows Minimum Version': get_option('min-win-ver') != '' ? get_option('min-win-ver') : false,
+}
+
+if get_option('fcdb').length() > 0
+  fcdb_vals = {}
+  foreach db : get_option('fcdb')
+    if db == 'sqlite3'
+      fcdb_vals += {
+        'SQLite3': sqlite3_dep,
+      }
+    elif db == 'mariadb'
+      fcdb_vals += {
+        'Mariadb': mdb_dep,
+      }
+    elif db == 'odbc'
+      fcdb_vals += {
+        'PostgreSQL': odbc_dep,
+      }
+    endif
+  endforeach
+endif
+
+if get_option('clients').contains('qt')
+  featurevals += {
+    'Qt Version': get_option('qtver'),
+  }
+endif
+
+summary(
+    featurevals,
+    bool_yn: true,
+    section: 'Features',
+)
+
+summary_depvals = {}
+
+summary_depvals += {
+  'Bcrypt': bcrypt_dep,
+  'Bz2':  bz2_dep,
+  'Charset': charset_dep,
+  'cURL': curl_dep,
+  'M': m_dep,
+  'Lua': lua_dep,
+  'Network': net_dep != [] ? net_dep : 'Not Required on this platform',
+  'Readline': readline_dep,
+}
+
+if net_dep != []
+  summary_depvals += {
+    'Network': net_dep,
+  }
+endif
+
+if get_option('clients').contains('sdl2') or get_option('audio') == 'sdl2'
+  summary_depvals += {
+    'SDL2': sdl2main_dep
+  }
+
+  if get_option('audio') == 'sdl2'
+    summary_depvals += {
+      'SDL2_mixer': audio_sdl2_dep,
+    }
+  endif
+  if get_option('clients').contains('sdl2')
+    summary_depvals += {
+      'SDL2_gfx': sdl2_gfx_dep,
+      'SDL2_image': sdl2_image_dep,
+      'SDL2_ttf': sdl2_ttf_dep,
+    }
+  endif
+endif
+
+
+if get_option('clients').contains('sdl3') or get_option('audio') == 'sdl3'
+  summary_depvals += {
+    'SDL3': sdl3main_dep,
+  }
+  if get_option('audio') == 'sdl3'
+    summary_depvals += {
+      'SDL3_mixer': audio_sdl3_dep,
+    }
+  endif
+  if get_option('clients').contains('sdl3')
+    summary_depvals += {
+      'SDL3_gfx': sdl3_gfx_dep,
+      'SDL3_image': sdl3_image_dep,
+      'SDL3_ttf': sdl3_ttf_dep,
+    }
+  endif
+endif
+
+summary(
+    summary_depvals,
+    bool_yn: true,
+    section: 'Dependencies',
+)
