@@ -83,7 +83,7 @@ extern const char *const packet_functional_capability;
 #define SPECHASH_IDATA_FREE (packet_handler_hash_data_free_fn_t) free
 #include "spechash.h"
 
-static struct packet_handler_hash *packet_handlers = NULL;
+static struct packet_handler_hash *packet_handlers = nullptr;
 
 #ifdef USE_COMPRESSION
 static int stat_size_alone = 0;
@@ -101,7 +101,7 @@ static inline int get_compression_level(void)
   if (-2 == level) {
     const char *s = getenv("FREECIV_COMPRESSION_LEVEL");
 
-    if (NULL == s || !str_to_int(s, &level) || -1 > level || 9 < level) {
+    if (s == nullptr || !str_to_int(s, &level) || -1 > level || 9 < level) {
       level = -1;
     }
   }
@@ -368,7 +368,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
 /**********************************************************************//**
   Read and return a packet from the connection 'pc'. The type of the
   packet is written in 'ptype'. On error, the connection is closed and
-  the function returns NULL.
+  the function returns nullptr.
 **************************************************************************/
 void *get_packet_from_connection_raw(struct connection *pc,
                                      enum packet_type *ptype)
@@ -388,12 +388,12 @@ void *get_packet_from_connection_raw(struct connection *pc,
   void *(*receive_handler)(struct connection *);
 
   if (!pc->used) {
-    return NULL; /* connection was closed, stop reading */
+    return nullptr; /* Connection was closed, stop reading */
   }
 
   if (pc->buffer->ndata < data_type_size(pc->packet_header.length)) {
     /* Not got enough for a length field yet */
-    return NULL;
+    return nullptr;
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
@@ -414,7 +414,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
       log_compress("COMPRESS: got a jumbo packet of size %d",
                    whole_packet_len);
     } else {
-      /* to return NULL below */
+      /* To return nullptr below */
       whole_packet_len = 6;
     }
   } else if (len_read >= COMPRESSION_BORDER) {
@@ -427,7 +427,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
 #endif /* USE_COMPRESSION */
 
   if ((unsigned)whole_packet_len > pc->buffer->ndata) {
-    return NULL; /* not all data has been read */
+    return nullptr; /* Not all data has been read */
   }
 
 #ifdef USE_COMPRESSION
@@ -436,7 +436,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
                 "The connection will be closed now.");
     connection_close(pc, _("illegal packet size"));
 
-    return NULL;
+    return nullptr;
   }
 
   if (compressed_packet) {
@@ -464,7 +464,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
           log_verbose("Uncompressing of the packet stream failed. "
                       "The connection will be closed now.");
           connection_close(pc, _("decoding error"));
-          return NULL;
+          return nullptr;
         }
       }
 
@@ -513,19 +513,19 @@ void *get_packet_from_connection_raw(struct connection *pc,
     log_verbose("The packet stream is corrupt. The connection "
                 "will be closed now.");
     connection_close(pc, _("decoding error"));
-    return NULL;
+    return nullptr;
   }
 
   dio_get_type_raw(&din, pc->packet_header.type, &utype.itype);
   utype.type = utype.itype;
 
   if (utype.type >= PACKET_LAST
-      || (receive_handler = pc->phs.handlers->receive[utype.type]) == NULL) {
+      || (receive_handler = pc->phs.handlers->receive[utype.type]) == nullptr) {
     log_verbose("Received unsupported packet type %d (%s). The connection "
                 "will be closed now.",
                 utype.type, packet_name(utype.type));
     connection_close(pc, _("unsupported packet type"));
-    return NULL;
+    return nullptr;
   }
 
   log_packet("got packet type=(%s)%d len=%d from %s",
@@ -586,7 +586,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
   data = receive_handler(pc);
   if (!data) {
     connection_close(pc, _("incompatible packet contents"));
-    return NULL;
+    return nullptr;
   } else {
     return data;
   }
@@ -709,7 +709,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
     /* wrong attribute data */
     if (pplayer->attribute_block_buffer.data) {
       free(pplayer->attribute_block_buffer.data);
-      pplayer->attribute_block_buffer.data = NULL;
+      pplayer->attribute_block_buffer.data = nullptr;
     }
     pplayer->attribute_block_buffer.length = 0;
     log_error("Received wrong attribute chunk");
@@ -719,7 +719,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
   if (chunk->offset == 0) {
     if (pplayer->attribute_block_buffer.data) {
       free(pplayer->attribute_block_buffer.data);
-      pplayer->attribute_block_buffer.data = NULL;
+      pplayer->attribute_block_buffer.data = nullptr;
     }
     pplayer->attribute_block_buffer.data = fc_malloc(chunk->total_length);
     pplayer->attribute_block_buffer.length = chunk->total_length;
@@ -729,13 +729,13 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 
   if (chunk->offset + chunk->chunk_length == chunk->total_length) {
     /* Received full attribute block */
-    if (pplayer->attribute_block.data != NULL) {
+    if (pplayer->attribute_block.data != nullptr) {
       free(pplayer->attribute_block.data);
     }
     pplayer->attribute_block.data = pplayer->attribute_block_buffer.data;
     pplayer->attribute_block.length = pplayer->attribute_block_buffer.length;
 
-    pplayer->attribute_block_buffer.data = NULL;
+    pplayer->attribute_block_buffer.data = nullptr;
     pplayer->attribute_block_buffer.length = 0;
   }
 }
@@ -811,9 +811,9 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 **************************************************************************/
 static void packet_handlers_free(void)
 {
-  if (packet_handlers != NULL) {
+  if (packet_handlers != nullptr) {
     packet_handler_hash_destroy(packet_handlers);
-    packet_handlers = NULL;
+    packet_handlers = nullptr;
   }
 }
 
@@ -874,7 +874,7 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
   free_tokens(tokens, tokens_num);
 
   /* Ensure the hash table is created. */
-  if (packet_handlers == NULL) {
+  if (packet_handlers == nullptr) {
     packet_handlers = packet_handler_hash_new();
   }
 
@@ -888,7 +888,7 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
                                phandlers);
   }
 
-  fc_assert(phandlers != NULL);
+  fc_assert(phandlers != nullptr);
 
   return phandlers;
 }

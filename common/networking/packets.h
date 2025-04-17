@@ -48,7 +48,7 @@ do {                                                    \
 #define web_lsend_packet(packetname, pconn, pack, ...)  \
 do {                                                    \
   const struct packet_web_ ##packetname *_pptr_ = pack; \
-  if (_pptr_ != NULL) {                                 \
+  if (_pptr_ != nullptr) {                              \
     lsend_packet_web_ ##packetname(pconn, _pptr_, ##__VA_ARGS__ );  \
   }                                                     \
 } while (FALSE);
@@ -166,7 +166,7 @@ void packets_deinit(void);
 #define RECEIVE_PACKET_END(result) \
   if (!packet_check(&din, pc)) { \
     FREE_PACKET_STRUCT(&packet_buf); \
-    return NULL; \
+    return nullptr; \
   } \
   remove_packet_from_buffer(pc->buffer); \
   result = fc_malloc(sizeof(*result)); \
@@ -176,7 +176,7 @@ void packets_deinit(void);
 #define RECEIVE_PACKET_FIELD_ERROR(field, ...) \
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
   FREE_PACKET_STRUCT(&packet_buf); \
-  return NULL
+  return nullptr;
 
 #endif /* FREECIV_JSON_PROTOCOL */
 
