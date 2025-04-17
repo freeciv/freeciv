@@ -157,6 +157,12 @@ compress any of these files and Freeciv can still load them. Freeciv ships
 with all the data files uncompressed, except scenarios which are gzipped.
 
 ----------------------------------------------------------------------
+Qt-client svgflags support
+--------------------------
+If Qt-client is built with -Dsvgflags=true, the Qt6Svg is also
+a requirement for sensible behavior.
+
+----------------------------------------------------------------------
 Loadable AI modules
 -------------------
 Freeciv can be built with support of loading AI code from custom module.
