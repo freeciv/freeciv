@@ -924,16 +924,18 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
 endif
 
 if qtver == 'qt6x'
-  qt_minver='0x060700'
+  qt_minver = '0x060700'
+  qt_vercheck = '6.7'
+  qt_modename = 'Qt6x'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT6X_MODE', 1)
   qt_opts = 'cpp_std=c++17'
-  qt_cppflags = ['-std=c++17', '-fPIC']
 else
-  qt_minver='0x060400'
+  qt_minver = '0x060400'
+  qt_vercheck = '6.4'
+  qt_modename = 'Qt6'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   qt_opts = 'cpp_std=c++17'
-  qt_cppflags = ['-std=c++17', '-fPIC']
 endif
 
 if get_option('audio') != 'none'
@@ -3620,38 +3622,14 @@ if gtk4_theme
 endif
 
 qt_mod = import('qt6')
-qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
-
-if qt_dep.found() and cxx_build
-  if cxx_compiler.compiles(
-'''#include <QtCore>
-int main()
-{
-#if QT_VERSION < ''' + qt_minver + '''
-  fail
-#endif
-  return 0;
-}
-''',
-    name: 'qt minver',
-    args: qt_cppflags,
-    dependencies: qt_dep)
-    qtfine = true
-  else
-    qtfine = false
-  endif
-else
-  qtfine = false
-endif
-
+qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'],
+                    version: '>= ' + qt_vercheck,
+                    required: false)
 if get_option('clients').contains('qt')
 
-if not qtfine
-  if qtver == 'qt6'
-    error('Qt6 >= 6.4 required for qt-client in Qt6 mode, but not found')
-  elser
-    error('Qt6 >= 6.7 required for qt-client in Qt6x mode, but not found')
-  endif
+if not qt_dep.found()
+  error('Qt6 >= ' + qt_vercheck + ' required for qt-client in ' + \
+        qt_modename + ' mode, but not found')
 endif
 
 mocced_client = qt_mod.preprocess(
@@ -4342,12 +4320,9 @@ endif
 
 if get_option('fcmp').contains('qt')
 
-if not qtfine
-  if qtver == 'qt6'
-    error('Qt6 >= 6.4 required for qt-modpack-installer in Qt6 mode, but not found')
-  else
-    error('Qt6 >= 6.7 required for qt-modpack-installer in Qt6x mode, but not found')
-  endif
+if not qt_dep.found()
+  error('Qt6 >= ' + qt_vercheck + ' required for qt-modpack-installer in ' + \
+        qt_modename + ' mode, but not found')
 endif
 
 mocced_fcmp = qt_mod.preprocess(
@@ -4430,12 +4405,9 @@ endif
 
 if get_option('tools').contains('ruledit')
 
-if not qtfine
-  if qtver == 'qt6'
-    error('Qt6 >= 6.4 required for ruledit in Qt6 mode, but not found')
-  else
-    error('Qt6 >= 6.7 required for ruledit in Qt6x mode, but not found')
-  endif
+if not qt_dep.found()
+  error('Qt6 >= ' + qt_vercheck +' required for ruledit in ' + \
+        qt_modename + ' mode, but not found')
 endif
 
 mocced_ruledit = qt_mod.preprocess(
