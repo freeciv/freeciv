@@ -18,6 +18,15 @@ common prerequisites.
 
 For the meson based build minimum version of meson is 0.60.0.
 
+
+Meson specific prerequisites for the Qt client:
+-----------------------------------------------
+
+ - If the Qt-client is built with svgflags features
+   (configured with -Dsvgflags=true), to really enable them
+   also at runtime, Qt6Svg libraries and headers are needed.
+
+
 Prerequisites for the SDL3 client:
 ----------------------------------
 
