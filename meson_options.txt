@@ -1,126 +1,169 @@
-option('clients',
-       type: 'array',
-       choices: ['gtk3.22','sdl2', 'qt', 'gtk4', 'stub', 'sdl3', 'gtk4x'],
-       value: ['gtk4'],
-       description: 'Clients to build')
+option(
+    'clients',
+    type: 'array',
+    choices: ['gtk3.22', 'sdl2', 'qt', 'gtk4', 'stub', 'sdl3', 'gtk4x'],
+    value: ['gtk4'],
+    description: 'Clients to build',
+)
 
-option('fcmp',
-       type: 'array',
-       choices: ['gtk3','qt','cli','gtk4', 'gtk4x'],
-       value: ['gtk4'],
-       description: 'Modpack installer UIs to build')
+option(
+    'fcmp',
+    type: 'array',
+    choices: ['gtk3', 'qt', 'cli', 'gtk4', 'gtk4x'],
+    value: ['gtk4'],
+    description: 'Modpack installer UIs to build',
+)
 
-option('cacert-path',
-       type: 'string',
-       value: '',
-       description: 'Custom path to CA cert bundle')
+option(
+    'cacert-path',
+    type: 'string',
+    value: '',
+    description: 'Custom path to CA cert bundle',
+)
 
-option('followtag',
-       type: 'string',
-       value: '',
-       description: 'Custom followtag')
+option('followtag', type: 'string', value: '', description: 'Custom followtag')
 
-option('iconv',
-       type: 'feature',
-       value: 'auto',
-       description: 'Use iconv for text encoding conversion')
+option(
+    'iconv',
+    type: 'feature',
+    value: 'auto',
+    description: 'Use iconv for text encoding conversion',
+)
 
-option('json-protocol',
-       type: 'feature',
-       value: 'auto',
-       description: 'Build in json-protocol support')
+option(
+    'json-protocol',
+    type: 'feature',
+    value: 'auto',
+    description: 'Build in json-protocol support',
+)
 
-option('syslua',
-       type: 'feature',
-       value: 'auto',
-       description: 'Use lua from system')
+option(
+    'syslua',
+    type: 'feature',
+    value: 'auto',
+    description: 'Use lua from system',
+)
 
-option('sys-tolua-cmd',
-       type: 'boolean',
-       value: false,
-       description: 'Use tolua cmd from the system even for native builds')
+option(
+    'sys-tolua-cmd',
+    type: 'boolean',
+    value: false,
+    description: 'Use tolua cmd from the system even for native builds',
+)
 
-option('mwand',
-       type: 'feature',
-       value: 'auto',
-       description: 'Build MagickWand support to mapimg')
+option(
+    'mwand',
+    type: 'feature',
+    value: 'auto',
+    description: 'Build MagickWand support to mapimg',
+)
 
-option('readline',
-       type: 'feature',
-       value: 'auto',
-       description: 'Enable readline functionality')
+option(
+    'readline',
+    type: 'feature',
+    value: 'auto',
+    description: 'Enable readline functionality',
+)
 
-option('audio',
-       type: 'combo',
-       choices: ['none', 'sdl2', 'sdl3'],
-       value: 'sdl2',
-       description: 'Sound support type to build')
+option(
+    'audio',
+    type: 'combo',
+    choices: ['none', 'sdl2', 'sdl3'],
+    value: 'sdl2',
+    description: 'Sound support type to build',
+)
 
-option('tools',
-       type: 'array',
-       choices: ['ruledit', 'manual', 'ruleup'],
-       value: ['ruledit', 'manual', 'ruleup'],
-       description: 'Extra tools to build')
+option(
+    'tools',
+    type: 'array',
+    choices: ['ruledit', 'manual', 'ruleup'],
+    value: ['ruledit', 'manual', 'ruleup'],
+    description: 'Extra tools to build',
+)
 
-option('nls',
-       type: 'feature',
-       value: 'auto',
-       description: 'Native Language Support')
+option(
+    'nls',
+    type: 'feature',
+    value: 'auto',
+    description: 'Native Language Support',
+)
 
-option('gitrev',
-       type: 'boolean',
-       value: false,
-       description: 'Include git commit id to the version string')
+option(
+    'gitrev',
+    type: 'boolean',
+    value: false,
+    description: 'Include git commit id to the version string',
+)
 
-option('server',
-       type: 'combo',
-       choices: ['disabled', 'enabled', 'freeciv-web' ],
-       value: 'enabled',
-       description: 'What kind of server should be build, if any')
+option(
+    'server',
+    type: 'combo',
+    choices: ['disabled', 'enabled', 'freeciv-web'],
+    value: 'enabled',
+    description: 'What kind of server should be build, if any',
+)
 
-option('appimage',
-       type: 'boolean',
-       value: false,
-       description: 'Make a build suitable for AppImage packaging')
+option(
+    'appimage',
+    type: 'boolean',
+    value: false,
+    description: 'Make a build suitable for AppImage packaging',
+)
 
-option('gen-packets-args',
-       type: 'array',
-       value: [],
-       description: 'Additional arguments for the packet generator')
+option(
+    'gen-packets-args',
+    type: 'array',
+    value: [],
+    description: 'Additional arguments for the packet generator',
+)
 
-option('qtver',
-       type: 'combo',
-       choices: ['qt6', 'qt6x'],
-       value: 'qt6',
-       description: 'Whether to build Qt6, or experimental Qt6 versions of the binaries')
+option(
+    'qtver',
+    type: 'combo',
+    choices: ['qt6', 'qt6x'],
+    value: 'qt6',
+    description: 'Whether to build Qt6, or experimental Qt6 versions of the binaries',
+)
 
-option('project-definition',
-       type: 'string',
-       value: '',
-       description: 'File with project definition')
+option(
+    'project-definition',
+    type: 'string',
+    value: '',
+    description: 'File with project definition',
+)
 
-option('min-win-ver',
-       type: 'string',
-       value: '',
-       description: 'Minimum Windows version to support')
+option(
+    'min-win-ver',
+    type: 'string',
+    value: '',
+    description: 'Minimum Windows version to support',
+)
 
-option('svgflags',
-       type: 'boolean',
-       value: false,
-       description: 'svg flags features enabled on build level')
+option(
+    'svgflags',
+    type: 'boolean',
+    value: false,
+    description: 'svg flags features enabled on build level',
+)
 
-option('localeprefix',
-       type: 'string',
-       value: '',
-       description: 'Localedir prefix to use instead of regular prefix')
+option(
+    'localeprefix',
+    type: 'string',
+    value: '',
+    description: 'Localedir prefix to use instead of regular prefix',
+)
 
-option('python',
-       type: 'string',
-       value: 'python3',
-       description: 'Python interpreter to use')
+option(
+    'python',
+    type: 'string',
+    value: 'python3',
+    description: 'Python interpreter to use',
+)
 
-option('fcdb',
-       type: 'array',
-       choices: ['sqlite3','mariadb','odbc'],
-       value: ['sqlite3'],
-       description: 'fcdb (player authentication) backends to build')
+option(
+    'fcdb',
+    type: 'array',
+    choices: ['sqlite3', 'mariadb', 'odbc'],
+    value: ['sqlite3'],
+    description: 'fcdb (player authentication) backends to build',
+)
