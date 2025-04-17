@@ -3492,7 +3492,7 @@ static void sg_save_map_owner(struct savedata *saving)
         fc_snprintf(token, sizeof(token), "%d",
                     ptile->infra_turns);
       } else {
-        fc_snprintf(token, sizeof(token), "0"); 
+        fc_snprintf(token, sizeof(token), "0");
       }
       strcat(line, token);
       if (x + 1 < MAP_NATIVE_WIDTH) {
@@ -3673,7 +3673,7 @@ static void sg_save_map_known(struct savedata *saving)
             p = player_index(pplayer);
             l = p / 32;
             known[l * MAP_INDEX_SIZE + tile_index(ptile)]
-              |= (1u << (p % 32)); /* "p % 32" = "p - l * 32" */ 
+              |= (1u << (p % 32)); /* "p % 32" = "p - l * 32" */
           }
         } players_iterate_end;
       } whole_map_iterate_end;

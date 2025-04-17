@@ -963,7 +963,7 @@ static void compat_load_020600(struct loaddata *loading,
     }
 
     /* Renamed 'capital' to 'got_first_city'. */
-    if (secfile_lookup_bool(loading->file, &got_first_city, 
+    if (secfile_lookup_bool(loading->file, &got_first_city,
                             "player%d.capital", plrno)) {
       secfile_insert_bool(loading->file, got_first_city,
                           "player%d.got_first_city", plrno);
