@@ -136,7 +136,7 @@ const Direction *luascript_dir(enum direction8);
 
 /* script_arg_error on nil value */
 #define LUASCRIPT_CHECK_ARG_NIL(L, value, narg, type, ...)                   \
-  if ((value) == NULL) {                                                     \
+  if ((value) == nullptr) {                                                     \
     luascript_arg_error(L, narg, "got 'nil', '" #type "' expected");         \
     return LUASCRIPT_ASSERT_CAT(, __VA_ARGS__);                              \
   }
@@ -144,7 +144,7 @@ const Direction *luascript_dir(enum direction8);
 /* script_arg_error on nil value. The first argument is the lua state and the
  * second is the pointer to self. */
 #define LUASCRIPT_CHECK_SELF(L, value, ...)                                  \
-  if ((value) == NULL) {                                                     \
+  if ((value) == nullptr) {                                                     \
     luascript_arg_error(L, 2, "got 'nil' for self");                         \
     return LUASCRIPT_ASSERT_CAT(, __VA_ARGS__);                              \
   }

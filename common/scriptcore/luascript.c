@@ -68,14 +68,14 @@ static const char *luascript_unsafe_symbols_secure[] = {
   "debug",
   "dofile",
   "loadfile",
-  NULL
+  nullptr
 };
 
 static const char *luascript_unsafe_symbols_permissive[] = {
   "debug",
   "dofile",
   "loadfile",
-  NULL
+  nullptr
 };
 
 #if LUA_VERSION_NUM != LUASCRIPT_SECURE_LUA_VERSION1 && LUA_VERSION_NUM != LUASCRIPT_SECURE_LUA_VERSION2
@@ -97,7 +97,7 @@ static luaL_Reg luascript_lualibs_secure[] = {
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_DBLIBNAME, luaopen_debug},
-  {NULL, NULL}
+  {nullptr, nullptr}
 };
 
 static luaL_Reg luascript_lualibs_permissive[] = {
@@ -111,7 +111,7 @@ static luaL_Reg luascript_lualibs_permissive[] = {
   {LUA_DBLIBNAME, luaopen_debug},
   {LUA_IOLIBNAME, luaopen_io },
   {LUA_OSLIBNAME, luaopen_os},
-  {NULL, NULL}
+  {nullptr, nullptr}
 };
 #else  /* LUA_VERSION_NUM */
 #error "Unsupported lua version"
@@ -279,7 +279,7 @@ static void luascript_blacklist(lua_State *L, const char *lsymbols[])
 {
   int i;
 
-  for (i = 0; lsymbols[i] != NULL; i++) {
+  for (i = 0; lsymbols[i] != nullptr; i++) {
     lua_pushnil(L);
     lua_setglobal(L, lsymbols[i]);
   }
@@ -307,7 +307,7 @@ int luascript_error(lua_State *L, const char *format, ...)
 **************************************************************************/
 int luascript_error_vargs(lua_State *L, const char *format, va_list vargs)
 {
-  fc_assert_ret_val(L != NULL, -1);
+  fc_assert_ret_val(L != nullptr, -1);
 
   luaL_where(L, 1);
   lua_pushvfstring(L, format, vargs);
@@ -337,10 +337,10 @@ struct fc_lua *luascript_new(luascript_log_func_t output_fct,
   fcl->state = luaL_newstate();
   if (!fcl->state) {
     FC_FREE(fcl);
-    return NULL;
+    return nullptr;
   }
   fcl->output_fct = output_fct;
-  fcl->caller = NULL;
+  fcl->caller = nullptr;
 
   if (secured_environment) {
     luascript_openlibs(fcl->state, luascript_lualibs_secure);
@@ -367,7 +367,7 @@ struct fc_lua *luascript_get_fcl(lua_State *L)
 {
   struct fc_lua *fcl;
 
-  fc_assert_ret_val(L, NULL);
+  fc_assert_ret_val(L, nullptr);
 
   /* Get the freeciv lua struct from the lua state. */
   lua_pushstring(L, LUASCRIPT_GLOBAL_VAR_NAME);
@@ -375,7 +375,7 @@ struct fc_lua *luascript_get_fcl(lua_State *L)
   fcl = lua_touserdata(L, -1);
 
   /* This is an error! */
-  fc_assert_ret_val(fcl != NULL, NULL);
+  fc_assert_ret_val(fcl != nullptr, nullptr);
 
   return fcl;
 }
@@ -386,7 +386,7 @@ struct fc_lua *luascript_get_fcl(lua_State *L)
 void luascript_destroy(struct fc_lua *fcl)
 {
   if (fcl) {
-    fc_assert_ret(fcl->caller == NULL);
+    fc_assert_ret(fcl->caller == nullptr);
 
     /* Free function data. */
     luascript_func_free(fcl);
@@ -487,7 +487,7 @@ void luascript_pop_returns(struct fc_lua *fcl, const char *func_name,
         {
           void **pres = va_arg(args, void**);
 
-          *pres = tolua_tousertype(fcl->state, -1, NULL);
+          *pres = tolua_tousertype(fcl->state, -1, nullptr);
         }
         break;
     }
@@ -567,7 +567,7 @@ bool luascript_check_function(struct fc_lua *fcl, const char *funcname)
   Evaluate a Lua function call or loaded script on the stack.
   Return nonzero if an error occurred.
 
-  If available pass the source code string as code, else NULL.
+  If available pass the source code string as code, else nullptr.
 
   Will pop function and arguments (1 + narg values) from the stack.
   Will push nret return values to the stack.
@@ -643,9 +643,9 @@ int luascript_do_file(struct fc_lua *fcl, const char *filename)
 
   status = luaL_loadfile(fcl->state, filename);
   if (status) {
-    luascript_report(fcl, status, NULL);
+    luascript_report(fcl, status, nullptr);
   } else {
-    status = luascript_call(fcl, 0, 0, NULL);
+    status = luascript_call(fcl, 0, 0, nullptr);
   }
   return status;
 }
@@ -679,7 +679,7 @@ bool luascript_callback_invoke(struct fc_lua *fcl,
   luascript_push_args(fcl, nargs, parg_types, args);
 
   /* Call the function with nargs arguments, return 1 results */
-  if (luascript_call(fcl, nargs, 1, NULL)) {
+  if (luascript_call(fcl, nargs, 1, nullptr)) {
     return FALSE;
   }
 
@@ -687,7 +687,7 @@ bool luascript_callback_invoke(struct fc_lua *fcl,
   if (lua_isboolean(fcl->state, -1)) {
     stop_emission = lua_toboolean(fcl->state, -1);
   }
-  lua_pop(fcl->state, 1);   /* pop return value */
+  lua_pop(fcl->state, 1);   /* Pop return value */
 
   return stop_emission;
 }
@@ -700,30 +700,30 @@ bool luascript_callback_invoke(struct fc_lua *fcl,
 void luascript_remove_exported_object(struct fc_lua *fcl, void *object)
 {
   if (fcl && fcl->state) {
-    fc_assert_ret(object != NULL);
+    fc_assert_ret(object != nullptr);
 
     /* The following is similar to tolua_release(..) in src/lib/tolua_map.c */
     /* Find the userdata representing 'object' */
     lua_pushstring(fcl->state, "tolua_ubox");
-    /* stack: ubox */
+    /* Stack: ubox */
     lua_rawget(fcl->state, LUA_REGISTRYINDEX);
-    /* stack: ubox u */
+    /* Stack: ubox u */
     lua_pushlightuserdata(fcl->state, object);
-    /* stack: ubox ubox[u] */
+    /* Stack: ubox ubox[u] */
     lua_rawget(fcl->state, -2);
 
     if (!lua_isnil(fcl->state, -1)) {
-      fc_assert(object == tolua_tousertype(fcl->state, -1, NULL));
+      fc_assert(object == tolua_tousertype(fcl->state, -1, nullptr));
       /* Change API type to 'Nonexistent' */
-      /* stack: ubox ubox[u] mt */
+      /* Stack: ubox ubox[u] mt */
       tolua_getmetatable(fcl->state, "Nonexistent");
       lua_setmetatable(fcl->state, -2);
-      /* Set the userdata payload to NULL */
-      *((void **)lua_touserdata(fcl->state, -1)) = NULL;
+      /* Set the userdata payload to nullptr */
+      *((void **)lua_touserdata(fcl->state, -1)) = nullptr;
       /* Remove from ubox */
-      /* stack: ubox ubox[u] u */
+      /* Stack: ubox ubox[u] u */
       lua_pushlightuserdata(fcl->state, object);
-      /* stack: ubox ubox[u] u nil */
+      /* Stack: ubox ubox[u] u nil */
       lua_pushnil(fcl->state);
       lua_rawset(fcl->state, -4);
     }
@@ -742,7 +742,7 @@ void luascript_vars_save(struct fc_lua *fcl, struct section_file *file,
   fc_assert_ret(fcl->state);
 
   lua_getglobal(fcl->state, "_freeciv_state_dump");
-  if (luascript_call(fcl, 0, 1, NULL) == 0) {
+  if (luascript_call(fcl, 0, 1, nullptr) == 0) {
     const char *vars;
 
     vars = lua_tostring(fcl->state, -1);
@@ -783,7 +783,7 @@ void luascript_vars_load(struct fc_lua *fcl, struct section_file *file,
  * 4-bit enums, here is a helper function to return Direction objects. */
 /********************************************************************//******
   Returns a pointer to a given value of enum direction8 (always the same
-  address for the same value), or NULL if the direction is invalid
+  address for the same value), or nullptr if the direction is invalid
   on the current map.
 ****************************************************************************/
 const Direction *luascript_dir(enum direction8 dir)
@@ -795,6 +795,6 @@ const Direction *luascript_dir(enum direction8 dir)
   if (is_valid_dir(dir)) {
     return &etalon[dir];
   } else {
-    return NULL;
+    return nullptr;
   }
 }
