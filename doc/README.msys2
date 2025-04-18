@@ -224,7 +224,7 @@ Get the freeciv sources there somehow. Some options are:
 ====================================
 
 - Freeciv linked against readline in msys2 does not work.
-  Configure freeciv with --without-readline
+  Configure freeciv with -Dreadline=false
 
 
  TODO
