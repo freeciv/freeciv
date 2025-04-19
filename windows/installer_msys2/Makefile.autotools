@@ -118,7 +118,7 @@ gtk4-installer:
 sdl2-installer:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
 
-qt-installer: qt5-installer
+qt-installer: qt6-installer
 
 qt5-installer:
 	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt5 --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt5
