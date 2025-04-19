@@ -1,4 +1,17 @@
 #!/bin/sh
+#/***********************************************************************
+# Freeciv - Copyright (C) 2004-2025
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2, or (at your option)
+#   any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#***********************************************************************/
 
 files=`find $1 -name "*.h" \
        | sort \
@@ -7,6 +20,7 @@ files=`find $1 -name "*.h" \
        | grep -v tolua_.*_gen\.h \
        | grep -v fc_config\.h \
        | grep -v dependencies \
+       | grep -v SDL3_rotozoom\.h \
        | grep -v utility/md5\.h `
 
 echo "# Header files without any include guard:"
