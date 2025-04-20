@@ -28,11 +28,9 @@
 /* SDL2 */
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL_image.h>
-#include <SDL_syswm.h>
 #include <SDL_ttf.h>
 #else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_syswm.h>
 #include <SDL2/SDL_ttf.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
