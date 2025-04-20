@@ -399,7 +399,8 @@ void dai_choose_paratrooper(struct ai_type *ait, const struct civ_map *nmap,
       continue;
     }
 
-    if (!allow_gold_upkeep && utype_upkeep_cost(u_type, pplayer, O_GOLD) > 0) {
+    if (!allow_gold_upkeep
+        && utype_upkeep_cost(u_type, nullptr, pplayer, O_GOLD) > 0) {
       continue;
     }
 

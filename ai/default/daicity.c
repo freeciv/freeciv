@@ -691,11 +691,11 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
 **************************************************************************/
 static int unit_food_upkeep(struct unit *punit)
 {
-  struct player *pplayer = unit_owner(punit);
-  int upkeep = utype_upkeep_cost(unit_type_get(punit), pplayer, O_FOOD);
+  int upkeep = unit_upkeep_cost(punit, O_FOOD);
 
-  if (punit->id != 0 && punit->homecity == 0)
-    upkeep = 0; /* thanks, Peter */
+  if (punit->id != 0 && punit->homecity == 0) {
+    upkeep = 0; /* Thanks, Peter */
+  }
 
   return upkeep;
 }

@@ -3485,7 +3485,7 @@ void update_national_activities(struct player *pplayer, int old_gold)
       && game.info.homeless_gold_upkeep) {
     unit_list_iterate(pplayer->units, punit) {
       if (is_unit_homeless(punit)) {
-        int gold = utype_upkeep_cost(unit_type_get(punit), pplayer, O_GOLD);
+        int gold = unit_upkeep_cost(punit, O_GOLD);
 
         punit->upkeep[O_GOLD] = gold;
         punit->server.upkeep_paid[O_GOLD] = gold;

@@ -2958,3 +2958,15 @@ enum gen_action activity_default_action(enum unit_activity act)
 
   return act_act[act];
 }
+
+/**********************************************************************//**
+  Get the upkeep of a unit.
+  @param punit Unit to get upkeep for
+  @param otype What kind of upkeep we are interested about
+  @return Upkeep of the specified type
+**************************************************************************/
+int unit_upkeep_cost(const struct unit *punit, Output_type_id otype)
+{
+  return utype_upkeep_cost(unit_type_get(punit), punit, unit_owner(punit),
+                           otype);
+}

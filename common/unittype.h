@@ -817,8 +817,9 @@ int utype_pop_value(const struct unit_type *punittype, const struct city *pcity)
 enum unit_move_type utype_move_type(const struct unit_type *punittype);
 void set_unit_move_type(struct unit_class *puclass);
 
-/* player related unit functions */
-int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
+/* Player related unit functions */
+int utype_upkeep_cost(const struct unit_type *ut, const struct unit *punit,
+                      struct player *pplayer,
                       Output_type_id otype);
 int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
 

@@ -816,8 +816,7 @@ Upgrade_Unit
     Upgrade amount obsolete units per turn.
 
 Upkeep_Factor
-    Multiply unit upkeep by amount. This is checked at unit type level,
-    requirements related to individual units do not work.
+    Multiply unit upkeep by amount.
 
 Upkeep_Free
     Improvements with amount or less upkeep cost become free to upkeep (others

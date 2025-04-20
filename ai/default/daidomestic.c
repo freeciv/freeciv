@@ -515,7 +515,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
   }
 
   if (worker_type != NULL
-      && pcity->surplus[O_FOOD] > utype_upkeep_cost(worker_type,
+      && pcity->surplus[O_FOOD] > utype_upkeep_cost(worker_type, nullptr,
                                                     pplayer, O_FOOD)) {
     if (worker_want > 0) {
       CITY_LOG(LOG_DEBUG, pcity,
@@ -559,7 +559,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
       / TRAIT_DEFAULT_VALUE;
 
     if (founder_type
-        && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type,
+        && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type, nullptr,
                                                        pplayer, O_FOOD)) {
 
       if (founder_want > choice->want) {

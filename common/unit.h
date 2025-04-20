@@ -548,6 +548,8 @@ int unit_bribe_cost(const struct unit *punit, const struct player *briber,
 int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
                      const struct unit *briber_unit);
 
+int unit_upkeep_cost(const struct unit *punit, Output_type_id otype);
+
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
                          bool force);
 bool unit_transport_unload(struct unit *pcargo);

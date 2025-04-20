@@ -115,7 +115,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
   }
 
   unit_type_iterate(unittype) {
-    cost = utype_upkeep_cost(unittype, client.conn.playing, O_GOLD);
+    cost = utype_upkeep_cost(unittype, nullptr, client_player(), O_GOLD);
 
     if (cost == 0) {
       /* Short-circuit all of the following checks. */

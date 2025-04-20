@@ -3113,13 +3113,11 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove,
 ****************************************************************************/
 void update_unit_upkeep(struct unit *punit, int free_uk[O_LAST])
 {
-  const struct unit_type *ut = unit_type_get(punit);
-  struct player *plr = unit_owner(punit);
   bool update = FALSE;
   int cost;
 
   output_type_iterate(o) {
-    cost = utype_upkeep_cost(ut, plr, o);
+    cost = unit_upkeep_cost(punit, o);
     if (cost > 0) {
       if (free_uk[o] > cost) {
         free_uk[o] -= cost;

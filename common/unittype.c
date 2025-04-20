@@ -129,10 +129,21 @@ const struct unit_type *unit_type_get(const struct unit *punit)
 /**********************************************************************//**
   Returns the upkeep of a unit of this type.
 **************************************************************************/
-int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
+int utype_upkeep_cost(const struct unit_type *ut, const struct unit *punit,
+                      struct player *pplayer,
                       Output_type_id otype)
 {
   int val = ut->upkeep[otype], gold_upkeep_factor;
+  struct tile *ptile;
+  struct city *pcity;
+
+  if (punit != nullptr) {
+    ptile = unit_tile(punit);
+    pcity = game_city_by_number(punit->homecity);
+  } else {
+    ptile = nullptr;
+    pcity = nullptr;
+  }
 
   if (BV_ISSET(ut->flags, UTYF_FANATIC)
       && get_player_bonus(pplayer, EFT_FANATICS) > 0) {
@@ -171,7 +182,10 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
                                   &(const struct req_context) {
                                     .player   = pplayer,
                                     .output   = get_output_type(otype),
-                                    .unittype = ut
+                                    .unittype = ut,
+                                    .unit     = punit,
+                                    .tile     = ptile,
+                                    .city     = pcity
                                   },
                                   NULL, EFT_UPKEEP_FACTOR);
 

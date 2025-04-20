@@ -618,7 +618,8 @@ bool dai_choose_attacker_air(struct ai_type *ait, const struct civ_map *nmap,
       continue;
     }
 
-    if (!allow_gold_upkeep && utype_upkeep_cost(punittype, pplayer, O_GOLD) > 0) {
+    if (!allow_gold_upkeep
+        && utype_upkeep_cost(punittype, nullptr, pplayer, O_GOLD) > 0) {
       continue;
     }
 

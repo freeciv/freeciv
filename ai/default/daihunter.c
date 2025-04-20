@@ -91,7 +91,8 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     struct unit_type_ai *utai = utype_ai_data(ut, ait);
     int desire;
 
-    if (!allow_gold_upkeep && utype_upkeep_cost(ut, pplayer, O_GOLD) > 0) {
+    if (!allow_gold_upkeep && utype_upkeep_cost(ut, nullptr,
+                                                pplayer, O_GOLD) > 0) {
       continue;
     }
 

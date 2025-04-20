@@ -6374,7 +6374,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
    * otherwise these don't get initialized (and AI calculations
    * etc may use junk values). */
   output_type_iterate(o) {
-    punit->upkeep[o] = utype_upkeep_cost(unit_type_get(punit), plr, o);
+    punit->upkeep[o] = unit_upkeep_cost(punit, o);
   } output_type_iterate_end;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &unconverted,

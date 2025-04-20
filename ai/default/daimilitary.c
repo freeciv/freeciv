@@ -152,7 +152,8 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
   struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(putype) {
-    if (!allow_gold_upkeep && utype_upkeep_cost(putype, pplayer, O_GOLD) > 0) {
+    if (!allow_gold_upkeep
+        && utype_upkeep_cost(putype, nullptr, pplayer, O_GOLD) > 0) {
       continue;
     }
 
@@ -201,7 +202,8 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
       }
     }
 
-    if (!allow_gold_upkeep && utype_upkeep_cost(putype, pplayer, O_GOLD) > 0) {
+    if (!allow_gold_upkeep
+        && utype_upkeep_cost(putype, nullptr, pplayer, O_GOLD) > 0) {
       continue;
     }
 
