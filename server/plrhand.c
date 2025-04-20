@@ -3483,9 +3483,6 @@ void update_national_activities(struct player *pplayer, int old_gold)
    * once homeless_gold_upkeep retired. */
   if (game.info.gold_upkeep_style != GOLD_UPKEEP_CITY
       && game.info.homeless_gold_upkeep) {
-    int free_uk[O_LAST];
-
-    memset(free_uk, 0, sizeof(free_uk));
     unit_list_iterate(pplayer->units, punit) {
       if (is_unit_homeless(punit)) {
         int gold = utype_upkeep_cost(unit_type_get(punit), pplayer, O_GOLD);
