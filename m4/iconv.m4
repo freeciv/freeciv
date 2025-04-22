@@ -1,6 +1,6 @@
 # iconv.m4
-# serial 28
-dnl Copyright (C) 2000-2002, 2007-2014, 2016-2024 Free Software Foundation,
+# serial 30
+dnl Copyright (C) 2000-2002, 2007-2014, 2016-2025 Free Software Foundation,
 dnl Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
