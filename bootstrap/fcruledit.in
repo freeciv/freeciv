@@ -18,20 +18,20 @@ BUILDDIR=`dirname $0`
 PROGNAME=freeciv-ruledit
 EXENAME=${PROGNAME}@EXEEXT@
 
-if test -x "$BUILDDIR/tools/ruledit/$EXENAME" ; then
-  EXE=$BUILDDIR/tools/ruledit/$EXENAME
-elif test -x "$BUILDDIR/$EXENAME" ; then
-  EXE=$BUILDDIR/$EXENAME
+if test -x "${BUILDDIR}/tools/ruledit/${EXENAME}" ; then
+  EXE="${BUILDDIR}/tools/ruledit/${EXENAME}"
+elif test -x "${BUILDDIR}/${EXENAME}" ; then
+  EXE="${BUILDDIR}/${EXENAME}"
 else
-  echo "Unable to find rule editor executable: $EXENAME"
+  echo "Unable to find rule editor executable: ${EXENAME}"
   exit 1
 fi
 
-if test "x$FREECIV_DATA_PATH" = "x" ; then
+if test "${FREECIV_DATA_PATH}" = "" ; then
   FREECIV_DATA_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@@FREECIV_STORAGE_DIR@@HOST_DIR_SEPARATOR@@DATASUBDIR@"
 fi
 FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@top_builddir@@HOST_DIR_SEPARATOR@data@HOST_PATH_SEPARATOR@@top_srcdir@@HOST_DIR_SEPARATOR@data"
 export FREECIV_DATA_PATH
 
-echo "Running $EXE"
-exec "$EXE" ${1+"$@"}
+echo "Running ${EXE}"
+exec "${EXE}" ${1+"$@"}

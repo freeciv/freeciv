@@ -18,18 +18,18 @@ BUILDDIR=`dirname $0`
 PROGNAME=freeciv-ruleup
 EXENAME=${PROGNAME}@EXEEXT@
 
-if test "x$FREECIV_DATA_PATH" = "x" ; then
+if test "${FREECIV_DATA_PATH}" = "" ; then
   FREECIV_DATA_PATH=".@HOST_PATH_SEPARATOR@data"
 fi
 FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@top_builddir@@HOST_DIR_SEPARATOR@data@HOST_PATH_SEPARATOR@@top_srcdir@@HOST_DIR_SEPARATOR@data"
 export FREECIV_DATA_PATH
 
-[ -x $BUILDDIR@HOST_DIR_SEPARATOR@tools@HOST_DIR_SEPARATOR@$EXENAME ] && EXE=$BUILDDIR@HOST_DIR_SEPARATOR@tools@HOST_DIR_SEPARATOR@$EXENAME
-[ -x $BUILDDIR@HOST_DIR_SEPARATOR@$EXENAME ] && EXE=$BUILDDIR@HOST_DIR_SEPARATOR@$EXENAME
+[ -x "${BUILDDIR}@HOST_DIR_SEPARATOR@tools@HOST_DIR_SEPARATOR@${EXENAME}" ] && EXE="${BUILDDIR}@HOST_DIR_SEPARATOR@tools@HOST_DIR_SEPARATOR@${EXENAME}"
+[ -x "${BUILDDIR}@HOST_DIR_SEPARATOR@${EXENAME}" ] && EXE="${BUILDDIR}@HOST_DIR_SEPARATOR@${EXENAME}"
 
-if [ "$EXE" = "" ]; then
-  echo $0: Unable to find rule upgrader executable $EXENAME.
+if [ "${EXE}" = "" ]; then
+  echo $0: Unable to find rule upgrader executable ${EXENAME}.
   exit 1
 fi
 
-exec $EXE ${1+"$@"}
+exec "${EXE}" ${1+"$@"}
