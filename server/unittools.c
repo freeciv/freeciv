@@ -1172,11 +1172,12 @@ void place_partisans(struct tile *pcenter, struct player *powner,
          && find_a_good_partisan_spot(pcenter, powner, u_type,
                                       sq_radius, &ptile)) {
     struct unit *punit;
+    enum gen_action action = activity_default_action(ACTIVITY_FORTIFYING);
 
     punit = unit_virtual_prepare(powner, ptile, u_type, 0, 0, -1, -1);
-    if (can_unit_do_activity(nmap, punit, ACTIVITY_FORTIFYING,
-                             activity_default_action(ACTIVITY_FORTIFYING))) {
+    if (can_unit_do_activity(nmap, punit, ACTIVITY_FORTIFYING, action)) {
       punit->activity = ACTIVITY_FORTIFIED; /* Yes; directly fortified */
+      punit->action = action;
     }
 
     (void) place_unit(punit, powner, NULL, NULL, FALSE);
