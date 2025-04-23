@@ -50,7 +50,7 @@ if ! CC=emcc CXX=em++ AR=emar meson setup \
      -Ddefault_library=static \
      -Ddebug=true \
      -Daudio=none \
-     -Dmwand=false \
+     -Dmwand=disabled \
      -Dtools=[] \
      -Dclients=stub,sdl2 \
      -Dfcmp=[] \

@@ -558,20 +558,10 @@ else
   charset_dep = []
 endif
 
-rl_req = get_option('readline')
-if rl_req != 'false'
-  readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
-                                         required:false)
-
-  if readline_dep.found() and c_compiler.has_function('rl_completion_suppress_append',
-                                                      dependencies: readline_dep,
-                                                      args: ['-O'])
+# Readline 4.3 ensures that we have `rl_completion_suppress_append`
+readline_dep = dependency('readline', version: '>= 4.3', required: get_option('readline'))
+if readline_dep.found()
     pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
-  elif rl_req == 'true'
-    error('Readline support requested but not found.')
-  endif
-else
-  readline_dep = []
 endif
 
 if c_compiler.has_header('bzlib.h', args: header_arg)
@@ -686,68 +676,58 @@ else
     error('Mandatory header zlib.h not found!')
   endif
   icu_dep = dependency('icu-uc')
-  syslua = get_option('syslua')
-  if syslua != 'false'
-    lua_dep_tmp = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required:false)
-  endif
 endif
 
 # Set unconditionally, as it was checked as hard requirement
 pub_conf_data.set('FREECIV_HAVE_LIBZ', 1)
 
-mw_req = get_option('mwand')
+mw_dep = dependency('MagickWand', 'MagickWand-6.Q16HDRI', required: get_option('mwand'))
 mw_extra_dep = []
-if mw_req != 'false'
-  mw_dep = dependency('MagickWand', version : '>= 7.0', required : false)
-  if mw_dep.found()
+if mw_dep.found()
+  if mw_dep.version().version_compare('>= 7.0')
     pub_conf_data.set('FREECIV_MWAND7', '1')
     mwand_incl = '#include <MagickWand/MagickWand.h>'
+  elif mw_dep.version().version_compare('>= 6.0')
+    pub_conf_data.set('FREECIV_MWAND6', '1')
+    mwand_incl = '#include <wand/MagickWand.h>'
   else
-    mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
-    if not mw_dep.found()
-      mw_dep = dependency('MagickWand-6.Q16HDRI', required: false)
-    endif
-    if mw_dep.found()
-      mwand_incl = '#include <wand/MagickWand.h>'
-      mwand_incl = '#include <wand/MagickWand.h>'
-    endif
+    error('MagickWand version 6.0 or newer is required.')
   endif
-  if mw_dep.found()
-    if not c_compiler.links(mwand_incl + '''
-int main(void) { MagickWandGenesis(); }''',
+  if c_compiler.links(
+    mwand_incl + '\nint main(void) { MagickWandGenesis(); }',
     name: 'mwand links',
-    dependencies: mw_dep)
-      mw_extra_dep = [c_compiler.find_library('urlmon', dirs: cross_lib_path,
-                                              required: false),
-                      c_compiler.find_library('gdi32', dirs: cross_lib_path,
-                                              required: false)]
-      if c_compiler.links(mwand_incl + '''
-int main(void) { MagickWandGenesis(); }''',
-      name: 'mwand links',
-      dependencies: [mw_dep, mw_extra_dep, zlib_dep, lzma_dep, net_dep])
-        priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
-      elif mw_req == 'true'
-        error('MagickWand support requested but not found.')
-      else
-        mw_dep = []
-        mw_extra_dep = []
-      endif
-    else
+    dependencies: mw_dep,
+  )
+    priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+  else
+    mw_extra_dep = [
+      c_compiler.find_library(
+        'urlmon',
+        dirs: cross_lib_path,
+        required: false,
+      ),
+      c_compiler.find_library(
+        'gdi32',
+        dirs: cross_lib_path,
+        required: false,
+      ),
+    ]
+    if c_compiler.links(
+      mwand_incl + '\nint main(void) { MagickWandGenesis(); }',
+      name: 'mwand links with additional deps',
+      dependencies: [mw_dep, mw_extra_dep, zlib_dep, lzma_dep, net_dep],
+    )
       priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+    else
+      error('MagickWand found but could not link sanity check.')
     endif
-  elif mw_req == 'true'
-    error('MagickWand support requested but not found.')
   endif
-else
-  mw_dep = []
 endif
 
-if syslua != 'false' and lua_dep_tmp.found()
-  lua_inc_path = []
+lua_dep = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required: get_option('syslua'))
+if lua_dep.found()
+  lua_inc_path = ''
   lua_sources = []
-  lua_dep = lua_dep_tmp
-elif syslua == 'true'
-  error('Syslua requested but not found.')
 else
   lua_inc_path = 'dependencies/lua-5.4/src'
   lua_sources = [

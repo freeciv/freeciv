@@ -26,8 +26,8 @@ option('json-protocol',
        description: 'Build in json-protocol support')
 
 option('syslua',
-       type: 'combo',
-       choices: ['try', 'true', 'false'],
+       type: 'feature',
+       value: 'auto',
        description: 'Use lua from system')
 
 option('sys-tolua-cmd',
@@ -36,13 +36,13 @@ option('sys-tolua-cmd',
        description: 'Use tolua cmd from the system even for native builds')
 
 option('mwand',
-       type: 'combo',
-       choices: ['try', 'true', 'false'],
+       type: 'feature',
+       value: 'auto',
        description: 'Build MagickWand support to mapimg')
 
 option('readline',
-       type: 'combo',
-       choices: ['try', 'true', 'false'],
+       type: 'feature',
+       value: 'auto',
        description: 'Enable readline functionality')
 
 option('audio',
