@@ -1,7 +1,7 @@
-
 project('freeciv', ['c'],
         meson_version: '>= 0.63.0',
-        version : run_command('fc_version', check : true).stdout())
+        version : run_command('fc_version', check : true).stdout(),
+        default_options: ['warning_level=1'])
 
 c_compiler = meson.get_compiler('c')
 
@@ -23,7 +23,6 @@ c_args = [
   ]
 
 c_cpp_args = [
-  '-Wall',
   '-Wmissing-declarations',
   '-Wpointer-arith',
   '-Wcast-align',
