@@ -130,7 +130,7 @@ AC_ARG_ENABLE([ack-legacy],
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ack-legacy) ;;
 esac], [ack_legacy=no])
 if test "x$ack_legacy" != "xyes" ; then
-  AC_MSG_ERROR([Recommended build system for freeciv is meson. See doc/INSTALL.meson.
+  AC_MSG_ERROR([Recommended build system for freeciv is meson. See INSTALL.
 To still build with autotools, configure with --enable-ack-legacy option.])
 fi
 
