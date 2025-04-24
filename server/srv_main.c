@@ -66,6 +66,7 @@
 #include "citymap.h"
 
 /* common */
+#include "accessarea.h"
 #include "achievements.h"
 #include "calendar.h"
 #include "capstr.h"
@@ -1376,6 +1377,7 @@ static void begin_phase(bool is_new_phase)
   alive_phase_players_iterate(pplayer) {
     update_revolution(pplayer);
     update_capital(pplayer);
+    access_areas_refresh(&(wld.map), pplayer);
   } alive_phase_players_iterate_end;
 
   if (is_new_phase) {

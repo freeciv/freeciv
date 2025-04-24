@@ -32,6 +32,7 @@
 #include "support.h"
 
 /* common */
+#include "accessarea.h"
 #include "achievements.h"
 #include "actions.h"
 #include "ai.h"
@@ -9201,6 +9202,7 @@ static void nullcheck_secfile_destroy(struct section_file *file)
 **************************************************************************/
 void rulesets_deinit(void)
 {
+  access_info_close();
   script_server_free();
   requirement_vector_free(&reqs_list);
 }
@@ -9225,6 +9227,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   compat_info.compat_mode = compat_mode;
   compat_info.log_cb = logger;
 
+  access_info_close();
   game_ruleset_free();
   /* Reset the list of available player colors. */
   playercolor_free();
@@ -9431,6 +9434,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
       set_unit_type_caches(ptype);
     } unit_type_iterate_end;
     city_production_caravan_shields_init();
+
+    access_info_init(nullptr);
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();

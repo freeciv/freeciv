@@ -29,6 +29,7 @@ extern "C" {
 #include "workertask.h"
 #include "worklist.h"
 
+struct access_area;
 struct impr_type;
 struct unit;
 struct unit_list;
@@ -371,7 +372,7 @@ struct city {
   int turn_plague;              /* last turn with an illness in the city */
   int city_radius_sq;           /* current squared city radius */
 
-  /* turn states */
+  /* Turn states */
   int airlift;
   bool did_buy;
   bool did_sell;
@@ -450,6 +451,8 @@ struct city {
       void *ais[FREECIV_AI_MOD_LAST];
 
       struct vision *vision;
+
+      struct access_area *aarea;
     } server;
 
     struct {

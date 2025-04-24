@@ -14,6 +14,8 @@ AM_CPPFLAGS = \
 	$(MAPIMG_WAND_CFLAGS) $(JANSSON_CFLAGS)
 
 libfreeciv_la_SOURCES = \
+		accessarea.c	\
+		accessarea.h	\
 		achievements.c	\
 		achievements.h	\
 		actions.c	\
