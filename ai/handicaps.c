@@ -128,9 +128,9 @@ const char *handicap_desc(enum handicap_type htype, bool *inverted)
     *inverted = TRUE;
     return _("Can change city production type without penalty.");
   case H_ASSESS_DANGER_LIMITED:
-    return _("Limits the distance to search for threatening enemy units.");    
+    return _("Limits the distance to search for threatening enemy units.");
   case H_LAST:
-    break; /* fall through -- should never see this */
+    break; /* Fall through -- should never see this */
   }
 
   /* Should never reach here */
