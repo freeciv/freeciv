@@ -1022,8 +1022,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN
         && pnation->init_buildings[0] != B_LAST) {
       ruleset_error(logger, LOG_ERROR,
-                    "Barbarian nation %s has init_buildings set but will "
-                    "never see them", nation_rule_name(pnation));
+                    "Nation %s has init_buildings set but as barbarians will "
+                    "never get them.", nation_rule_name(pnation));
     }
 
     if (!default_gov_failed && pnation->init_government == game.government_during_revolution) {
