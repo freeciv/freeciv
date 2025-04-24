@@ -392,7 +392,7 @@ struct pf_parameter {
                                         const struct pf_parameter *param);
   bool ignore_none_scopes;
 
-  /* Callback which determines the behavior of a tile. If NULL
+  /* Callback which determines the behavior of a tile. If nullptr,
    * TB_NORMAL is assumed. It can be assumed that the implementation
    * of "path_finding.h" will cache this value. */
   enum tile_behavior (*get_TB) (const struct tile *ptile,
@@ -400,7 +400,7 @@ struct pf_parameter {
                                 const struct pf_parameter *param);
 
   /* Callback which can be used to provide extra costs depending on the
-   * tile. Can be NULL. It can be assumed that the implementation of
+   * tile. Can be nullptr. It can be assumed that the implementation of
    * "path_finding.h" will cache this value. */
   unsigned (*get_EC) (const struct tile *ptile, enum known_type known,
                       const struct pf_parameter *param);
@@ -426,18 +426,18 @@ struct pf_parameter {
    * of "common" is_my_zoc. Also AI might need to partially ignore
    * ZoC for strategic planning purposes (take into account enemy cities
    * but not units for example).
-   * If this callback is NULL, ZoC are ignored. */
+   * If this callback is nullptr, ZoC are ignored. */
   bool (*get_zoc) (const struct player *pplayer, const struct tile *ptile,
                    const struct civ_map *zmap);
 
-  /* If this callback is non-NULL and returns TRUE this position is
+  /* If this callback is not nullptr and returns TRUE this position is
    * dangerous. The unit will never end a turn at a dangerous
-   * position. Can be NULL. */
+   * position. Can be nullptr. */
   bool (*is_pos_dangerous) (const struct tile *ptile, enum known_type,
                             const struct pf_parameter *param);
 
-  /* If this callback is non-NULL and returns the required moves left to
-   * move to this tile and to leave the position safely. Can be NULL. */
+  /* If this callback is not nullptr and returns the required moves left to
+   * move to this tile and to leave the position safely. Can be nullptr. */
   int (*get_moves_left_req) (const struct tile *ptile, enum known_type,
                              const struct pf_parameter *param);
 
