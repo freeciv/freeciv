@@ -10,8 +10,8 @@ using MSYS2 from https://www.msys2.org/
 ==============
 
 Current official premade MSYS2 environment version info:
-[premade]:  msys2-freeciv-win64-230220.7z
-[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20230127.exe
+[premade]:  msys2-freeciv-win64-240810.7z
+[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20240727.exe
 
 See chapter "Premade environment" for what these mean. The info
 is located here for quick reference for the specific freeciv revision.
@@ -38,7 +38,6 @@ is located here for quick reference for the specific freeciv revision.
  with listing of versions current at the time of this freeciv version.
 
  "<arch>" in the package names depends on the build target:
- - win32    -> "i686"
  - win64    -> "x86_64"
  - win64-10 -> "ucrt-x86_64"
 
@@ -79,9 +78,9 @@ is located here for quick reference for the specific freeciv revision.
  freeciv.
 
  - git
- - automake1.16
+ - automake1.17
  - libtool
- - autoconf2.71
+ - autoconf2.72
  - autoconf-wrapper
 
 2.1.2) Arch-specific packages needed for building freeciv
@@ -143,8 +142,7 @@ by the date (YYMMDD) in the freeciv msys2 environment
 Most packages are included for all of win32, win64 and
 ucrt64 (win64, with minimum requirement of Windows 10) targets.
 For each package listed below with <arch> in the name, actually
-three packages are installed;
-one with a name where <arch> is replaced by 'i686',
+two packages are installed;
 one where <arch> is replaced by 'x86_64', and
 one where <arch> is replaced by 'ucrt-x86_64'
 
@@ -154,9 +152,9 @@ Following packages have been installed:
 - tar
 - git
 - patch
-- automake1.16
+- automake1.17
 - libtool
-- autoconf2.71
+- autoconf2.72
 - autoconf-wrapper
 - gdb
 - mingw-w64-<arch>-gcc
@@ -167,16 +165,19 @@ Following packages have been installed:
 - mingw-w64-<arch>-gtk3
 - mingw-w64-<arch>-gtk4
 - mingw-w64-<arch>-nsis
+- mingw-w64-<arch>-7zip
 - mingw-w64-<arch>-SDL2_mixer
 - mingw-w64-<arch>-SDL2_image
 - mingw-w64-<arch>-SDL2_ttf
 - mingw-w64-<arch>-SDL2_gfx
 - mingw-w64-<arch>-imagemagick
-- mingw-w64-i686-qt5-base, mingw-w64-x86_64-qt5-base
+- mingw-w64-x86_64-qt5-base
+- mingw-w64-x86_64-qt5-svg
 - mingw-w64-<arch>-drmingw
 - mingw-w64-<arch>-meson
 - mingw-w64-<arch>-tolua
 - mingw-w64-ucrt-x86_64-qt6-base
+- mingw-w64-ucrt-x86_64-qt6-svg
 
 After all the packages were installed 'pacman -Scc' was run to completely
 empty the package cache for having smaller environment package.
@@ -186,7 +187,7 @@ empty the package cache for having smaller environment package.
 ====================================
 
 Launch build target specific msys2 shell;
-ucrt64.exe, mingw64.exe or mingw32.exe.
+ucrt64.exe or mingw64.exe.
 Get the freeciv sources there somehow. Some options are:
 1) Download freeciv tarball within msys2 shell with wget
 2) Use git within msys2 shell to get them from version control
@@ -215,7 +216,7 @@ Get the freeciv sources there somehow. Some options are:
  newer Windows versions could otherwise have.
  The version is set via MIN_WIN_VER variable. For values to use, see
  list in: https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
- Current default is 0x0603 (Windows 8.1) for "win32" and "win64".
+ Current default is 0x0603 (Windows 8.1) for "win64".
  This is also the lowest value that msys2 upstream supports.
  For "win64-10" the default is 0x0A00 (Windows 10)
 

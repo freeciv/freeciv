@@ -72,12 +72,8 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=76
-SSP=
-GLES=
 else
-ICUVER=72
-SSP=libssp-0.dll
-GLES=libEGL.dll libGLESv2.dll
+ICUVER=75
 endif
 
 #
@@ -290,6 +286,7 @@ COMMON_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
@@ -331,7 +328,6 @@ COMMON_DLLS := \
 	libbrotlicommon.dll \
 	libreadline8.dll \
 	libtermcap-0.dll \
-	${SSP} \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
 	libMagickCore-${MAGICKVER}.dll \
@@ -398,8 +394,7 @@ GTK4_FCMP_DLLS := \
 	libwebp-7.dll \
 	libdeflate.dll \
 	libjbig-0.dll \
-	libsharpyuv-0.dll \
-	${GLES}
+	libsharpyuv-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
@@ -419,7 +414,15 @@ SDL2_DLLS := \
 	libzstd.dll \
 	libjxl.dll \
 	libbrotlienc.dll \
-	libhwy.dll
+	libhwy.dll \
+	libavif-16.dll \
+	libwebpdemux-2.dll \
+	libjxl_cms.dll \
+	libaom.dll \
+	libdav1d-7.dll \
+	rav1e.dll \
+	libSvtAv1Enc-2.dll \
+	libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
@@ -482,6 +485,7 @@ RULEDIT_QT5_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
@@ -540,6 +544,7 @@ RULEDIT_QT6_DLLS := \
 	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
+	libnghttp3-9.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
