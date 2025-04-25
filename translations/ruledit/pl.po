@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_1\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-01-02 22:28+0200\n"
-"PO-Revision-Date: 2024-12-27 18:56+0100\n"
+"POT-Creation-Date: 2024-12-26 16:07+0200\n"
+"PO-Revision-Date: 2025-04-10 19:35+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -526,15 +526,15 @@ msgstr "Napraw aktywator"
 msgid "Improve Enabler"
 msgstr "Ulepsz aktywator"
 
-#: tools/ruledit/tab_enablers.cpp:390
+#: tools/ruledit/tab_enablers.cpp:389
 msgid "Enabler (target)"
 msgstr "Aktywator (cel)"
 
-#: tools/ruledit/tab_enablers.cpp:401
+#: tools/ruledit/tab_enablers.cpp:400
 msgid "Enabler (actor)"
 msgstr "Aktywator (agent)"
 
-#: tools/ruledit/tab_enablers.cpp:420
+#: tools/ruledit/tab_enablers.cpp:419
 #, c-format
 msgid "action enabler for %s"
 msgstr "aktywator dla %s"
