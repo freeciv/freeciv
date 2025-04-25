@@ -236,7 +236,7 @@ private:
 };
 
 /**************************************************************************
-  A QPushButton that includes data like function to call and parmeters
+  A QPushButton that includes data like function to call and parameters
 **************************************************************************/
 class Choice_dialog_button: public QPushButton
 {
