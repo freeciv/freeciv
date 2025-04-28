@@ -72,8 +72,10 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=76
+RAV1E=librav1e.dll
 else
 ICUVER=75
+RAV1E=rav1e.dll
 endif
 
 #
@@ -420,7 +422,7 @@ SDL2_DLLS := \
 	libjxl_cms.dll \
 	libaom.dll \
 	libdav1d-7.dll \
-	rav1e.dll \
+	$(RAV1E) \
 	libSvtAv1Enc-2.dll \
 	libyuv.dll
 
