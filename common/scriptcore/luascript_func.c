@@ -153,7 +153,7 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
       *(parg_types + i) = va_arg(args, int);
     }
   } else {
-    parg_types = NULL;
+    parg_types = nullptr;
   }
 
   if (nreturns > 0) {
@@ -165,7 +165,7 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
       *(pret_types + i) = va_arg(args, int);
     }
   } else {
-    pret_types = NULL;
+    pret_types = nullptr;
   }
 
   pfunc = func_new(required, nargs, parg_types, nreturns, pret_types);
@@ -193,7 +193,7 @@ void luascript_func_free(struct fc_lua *fcl)
 {
   if (fcl && fcl->funcs) {
     luascript_func_hash_destroy(fcl->funcs);
-    fcl->funcs = NULL;
+    fcl->funcs = nullptr;
   }
 }
 
@@ -202,9 +202,9 @@ void luascript_func_free(struct fc_lua *fcl)
 **************************************************************************/
 void luascript_func_init(struct fc_lua *fcl)
 {
-  fc_assert_ret(fcl != NULL);
+  fc_assert_ret(fcl != nullptr);
 
-  if (fcl->funcs == NULL) {
+  if (fcl->funcs == nullptr) {
     /* Define the prototypes for the needed lua functions. */
     fcl->funcs = luascript_func_hash_new();
   }
@@ -248,7 +248,7 @@ bool luascript_func_call_valist(struct fc_lua *fcl, const char *func_name,
   luascript_push_args(fcl, pfunc->nargs, pfunc->arg_types, args);
 
   /* Call the function with nargs arguments, return 1 results */
-  if (luascript_call(fcl, pfunc->nargs, pfunc->nreturns, NULL) == 0) {
+  if (luascript_call(fcl, pfunc->nargs, pfunc->nreturns, nullptr) == 0) {
     /* Successful call to the script. */
     success = TRUE;
 
