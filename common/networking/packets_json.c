@@ -66,7 +66,7 @@ extern const char *const packet_functional_capability;
 /**********************************************************************//**
   Read and return a packet from the connection 'pc'. The type of the
   packet is written in 'ptype'. On error, the connection is closed and
-  the function returns NULL.
+  the function returns nullptr.
 **************************************************************************/
 void *get_packet_from_connection_json(struct connection *pc,
                                       enum packet_type *ptype)
@@ -84,12 +84,12 @@ void *get_packet_from_connection_json(struct connection *pc,
   json_t *pint;
 
   if (!pc->used) {
-    return NULL;                /* Connection was closed, stop reading */
+    return nullptr;       /* Connection was closed, stop reading */
   }
 
   if (pc->buffer->ndata < data_type_size(pc->packet_header.length)) {
     /* Not enough for a length field yet */
-    return NULL;
+    return nullptr;
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
@@ -99,7 +99,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   whole_packet_len = len_read;
 
   if ((unsigned)whole_packet_len > pc->buffer->ndata) {
-    return NULL;                /* Not all data has been read */
+    return nullptr;            /* Not all data has been read */
   }
 
   /*
@@ -111,7 +111,7 @@ void *get_packet_from_connection_json(struct connection *pc,
                 "will be closed now.");
     connection_close(pc, _("decoding error"));
 
-    return NULL;
+    return nullptr;
   }
 
   /*
@@ -125,7 +125,7 @@ void *get_packet_from_connection_json(struct connection *pc,
                                  whole_packet_len - 3, 0, &error);
 
     /* Set the connection mode */
-    pc->json_mode = (pc->json_packet != NULL);
+    pc->json_mode = (pc->json_packet != nullptr);
   }
 
   if (pc->json_mode) {
@@ -147,14 +147,14 @@ void *get_packet_from_connection_json(struct connection *pc,
             pc->buffer->ndata);
 
     if (!pc->json_packet) {
-      return NULL;
+      return nullptr;
     }
 
     pint = json_object_get(pc->json_packet, "pid");
 
     if (!pint) {
       log_error("ERROR: Unable to get packet type.");
-      return NULL;
+      return nullptr;
     }
 
     utype.type = json_integer_value(pint);
@@ -164,13 +164,13 @@ void *get_packet_from_connection_json(struct connection *pc,
   }
 
   if (utype.type >= PACKET_LAST
-      || (receive_handler = pc->phs.handlers->receive[utype.type]) == NULL) {
+      || (receive_handler = pc->phs.handlers->receive[utype.type]) == nullptr) {
     log_verbose("Received unsupported packet type %d (%s). The connection "
                 "will be closed now.",
                 utype.type, packet_name(utype.type));
     connection_close(pc, _("unsupported packet type"));
 
-    return NULL;
+    return nullptr;
   }
 
   log_packet("got packet type=(%s) len=%d from %s",
@@ -233,7 +233,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   data = receive_handler(pc);
   if (!data) {
     connection_close(pc, _("incompatible packet contents"));
-    return NULL;
+    return nullptr;
   } else {
     return data;
   }

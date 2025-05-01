@@ -27,7 +27,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 #define SEND_PACKET_START(packet_type)                                  \
   unsigned char buffer[MAX_LEN_PACKET * 5];                             \
   struct plocation *pid_addr;                                           \
-  char *json_buffer = NULL;                                             \
+  char *json_buffer = nullptr;                                          \
   struct json_data_out dout;                                            \
   dio_output_init(&(dout.raw), buffer, sizeof(buffer));                 \
   if (pc->json_mode) {                                                  \
@@ -37,7 +37,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     dio_put_uint8_json(&dout, pid_addr, packet_type);                   \
     FC_FREE(pid_addr);                                                  \
   } else {                                                              \
-    dout.json = NULL;                                                   \
+    dout.json = nullptr;                                                \
     dio_put_type_raw(&dout.raw, pc->packet_header.length, 0);           \
     dio_put_type_raw(&dout.raw, pc->packet_header.type, packet_type);   \
   }
@@ -101,7 +101,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   } else {                                      \
     if (!packet_check(&din, pc)) {              \
       FREE_PACKET_STRUCT(&packet_buf);          \
-      return NULL;                              \
+      return nullptr;                           \
     }                                           \
     remove_packet_from_buffer(pc->buffer);      \
     result = fc_malloc(sizeof(*result));        \
@@ -112,7 +112,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 #define RECEIVE_PACKET_FIELD_ERROR(field, ...)           \
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
   FREE_PACKET_STRUCT(&packet_buf);                       \
-  return NULL;
+  return nullptr;
 
 /* Utilities to move string vectors in and out of packets. */
 #define PACKET_STRVEC_INSERT(dest, src) \
