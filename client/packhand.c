@@ -1270,7 +1270,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 
   improvement_iterate(pimprove) {
     /* Don't update the non-visible improvements, they could hide the
-     * previously seen informations about the city (diplomat investigation).
+     * previously seen information about the city (diplomat investigation).
      */
     if (is_improvement_visible(pimprove)) {
       bool have = BV_ISSET(packet->improvements,
@@ -2403,7 +2403,7 @@ void handle_player_remove(int playerno)
     close_intel_dialog(pplayer);
   }
 
-  /* Update the connection informations. */
+  /* Update the connection information. */
   if (client_player() == pplayer) {
     client.conn.playing = NULL;
   }
