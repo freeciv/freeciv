@@ -2346,7 +2346,7 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Inialize unit-type structures.
+  Initialize unit-type structures.
 **************************************************************************/
 void unit_types_init(void)
 {
