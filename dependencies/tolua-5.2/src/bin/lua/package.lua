@@ -156,8 +156,8 @@ function classPackage:register ()
  output("{")
  output(" tolua_open(tolua_S);")
  output(" tolua_reg_types(tolua_S);")
- output(" tolua_module(tolua_S,NULL,",self:hasvar(),");")
- output(" tolua_beginmodule(tolua_S,NULL);")
+ output(" tolua_module(tolua_S, nullptr, ",self:hasvar(),");")
+ output(" tolua_beginmodule(tolua_S, nullptr);")
  local i=1
  while self[i] do
   self[i]:register()

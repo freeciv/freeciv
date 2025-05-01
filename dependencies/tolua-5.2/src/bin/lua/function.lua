@@ -145,7 +145,7 @@ function classFunction:supcode ()
  -- check self
  if class and self.name~='new' and static==nil then
 	 output('#ifndef TOLUA_RELEASE\n')
-  output('  if (!self) tolua_error(tolua_S,"invalid \'self\' in function \''..self.name..'\'",NULL);');
+  output('  if (!self) tolua_error(tolua_S,"invalid \'self\' in function \''..self.name..'\'", nullptr);');
 	 output('#endif\n')
  end
 
@@ -230,10 +230,10 @@ function classFunction:supcode ()
      output('   {')
      output('#ifdef __cplusplus\n')
      output('    void* tolua_obj = new',t,'(tolua_ret);')
-	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,'.. (_collect[t] or 'NULL') ..'),"',t,'");')
+	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj, '.. (_collect[t] or 'nullptr') ..'),"',t,'");')
      output('#else\n')
      output('    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(',t,'));')
-	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,NULL),"',t,'");')
+	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj, nullptr),"',t,'");')
      output('#endif\n')
      output('   }')
     elseif self.ptr == '&' then

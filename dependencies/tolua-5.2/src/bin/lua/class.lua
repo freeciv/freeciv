@@ -35,10 +35,10 @@ function classClass:register ()
  	output('#ifdef __cplusplus\n')
  	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",'.._collect[self.type]..');')
  	output('#else\n')
- 	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",NULL);')
+ 	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'", nullptr);')
  	output('#endif\n')
  else
-	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",NULL);')
+	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'", nullptr);')
  end
  output(' tolua_beginmodule(tolua_S,"'..self.lname..'");')
  local i=1

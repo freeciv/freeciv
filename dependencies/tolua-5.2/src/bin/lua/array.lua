@@ -87,7 +87,7 @@ function classArray:supcode ()
  output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
 	output('#ifndef TOLUA_RELEASE\n')
  output(' if (tolua_index<0 || tolua_index>='..self.dim..')')
- output('  tolua_error(tolua_S,"array indexing out of range.",NULL);')
+ output('  tolua_error(tolua_S,"array indexing out of range.", nullptr);')
 	output('#endif\n')
 
  -- return value
@@ -144,7 +144,7 @@ function classArray:supcode ()
   output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
 	 output('#ifndef TOLUA_RELEASE\n')
   output(' if (tolua_index<0 || tolua_index>='..self.dim..')')
-  output('  tolua_error(tolua_S,"array indexing out of range.",NULL);')
+  output('  tolua_error(tolua_S,"array indexing out of range.", nullptr);')
 		output('#endif\n')
 
   -- assign value
@@ -188,7 +188,7 @@ function classArray:register ()
  if self.csetname then
   output(' tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..','..self.csetname..');')
  else
-  output(' tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..',NULL);')
+  output(' tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..', nullptr);')
  end
 end
 
