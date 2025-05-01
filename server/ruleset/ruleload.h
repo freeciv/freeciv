@@ -33,7 +33,6 @@ extern "C" {
  *    - ruleset of the development version at the given date
  */
 
-#define RSFORMAT_3_3  40
 #define RSFORMAT_3_4  50
 #define RSFORMAT_CURRENT RSFORMAT_3_4
 

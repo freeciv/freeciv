@@ -47,8 +47,8 @@ enum effect_type req_base_effects[] =
     EFT_COUNT
   };
 
-/* These have been made mandatory in freeciv-3.3 */
-enum effect_type req_base_effects_3_3[] =
+/* These have been made mandatory in freeciv-3.4 */
+enum effect_type req_base_effects_3_4[] =
   {
     /* None yet */
     EFT_COUNT
@@ -551,8 +551,8 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
       break;
     }
   }
-  for (i = 0; req_base_effects_3_3[i] != EFT_COUNT; i++) {
-    if (peffect->type == req_base_effects_3_3[i]) {
+  for (i = 0; req_base_effects_3_4[i] != EFT_COUNT; i++) {
+    if (peffect->type == req_base_effects_3_4[i]) {
       els->base_effects.effect_present[peffect->type] = TRUE;
       break;
     }
@@ -1156,13 +1156,13 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       ok = FALSE;
     }
   }
-  for (i = 0; req_base_effects_3_3[i] != EFT_COUNT; i++) {
-    if (!els.base_effects.effect_present[req_base_effects_3_3[i]]) {
-      const char *ename = effect_type_name(req_base_effects_3_3[i]);
+  for (i = 0; req_base_effects_3_4[i] != EFT_COUNT; i++) {
+    if (!els.base_effects.effect_present[req_base_effects_3_4[i]]) {
+      const char *ename = effect_type_name(req_base_effects_3_4[i]);
 
-      if (compat != NULL && compat->compat_mode && compat->version < RSFORMAT_3_3) {
+      if (compat != nullptr && compat->compat_mode && compat->version < RSFORMAT_3_4) {
         log_deprecation("There is no base %s effect.", ename);
-        if (compat->log_cb != NULL) {
+        if (compat->log_cb != nullptr) {
           char buf[512];
 
           fc_snprintf(buf, sizeof(buf), _("Missing base %s effect. Please add one."), ename);
@@ -1411,24 +1411,24 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         }
       } requirement_vector_iterate_end;
 
-      if (compat == NULL || !compat->compat_mode
-          || compat->version >= RSFORMAT_3_3) {
+      if (compat == nullptr || !compat->compat_mode
+          || compat->version >= RSFORMAT_3_4) {
         /* Support for letting some of the following hard requirements be
          * implicit were retired in Freeciv 3.0. Others were retired later.
          * Make sure that the opposite of each hard action requirement
          * blocks all its action enablers. */
 
         struct req_vec_problem *problem
-            = action_enabler_suggest_repair(enabler);
+          = action_enabler_suggest_repair(enabler);
 
-        if (problem != NULL) {
+        if (problem != nullptr) {
           ruleset_error(logger, LOG_ERROR, "%s", problem->description);
           req_vec_problem_free(problem);
           ok = FALSE;
         }
 
         problem = action_enabler_suggest_improvement(enabler);
-        if (problem != NULL) {
+        if (problem != nullptr) {
           /* There is a potential for improving this enabler. */
           log_deprecation("%s", problem->description);
           req_vec_problem_free(problem);
