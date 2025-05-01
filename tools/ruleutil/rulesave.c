@@ -21,6 +21,7 @@
 #include "string_vector.h"
 
 /* common */
+#include "accessarea.h"
 #include "achievements.h"
 #include "counters.h"
 #include "game.h"
@@ -1801,6 +1802,15 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, pgood->helptext, path, "helptext");
   } goods_type_re_active_iterate_end;
+
+  {
+    const struct unit_type *access_unit = access_info_access_unit();
+
+    if (access_unit != nullptr) {
+      secfile_insert_str(sfile, utype_rule_name(access_unit),
+                         "aarea.access_unit");
+    }
+  }
 
   /* Clauses */
   comment_clauses(sfile);

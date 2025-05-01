@@ -7387,6 +7387,24 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   if (ok) {
+    const char *uname = secfile_lookup_str_default(file, nullptr,
+                                                   "aarea.access_unit");
+    const struct unit_type *access_unit = nullptr;
+
+    if (uname != nullptr && uname[0] != '\0') {
+      access_unit = unit_type_by_rule_name(uname);
+
+      if (access_unit == nullptr) {
+        ruleset_error(nullptr, LOG_ERROR, "%s: access unit %s unknown.",
+                      filename, uname);
+        ok = FALSE;
+      }
+    }
+
+    access_info_init(access_unit);
+  }
+
+  if (ok) {
     sec = secfile_sections_by_name_prefix(file, CLAUSE_SECTION_PREFIX);
 
     if (sec != NULL) {
@@ -9434,8 +9452,6 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
       set_unit_type_caches(ptype);
     } unit_type_iterate_end;
     city_production_caravan_shields_init();
-
-    access_info_init(nullptr);
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();

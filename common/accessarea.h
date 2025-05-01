@@ -38,6 +38,7 @@ struct access_area {
 
 void access_info_init(const struct unit_type *aunit);
 void access_info_close(void);
+const struct unit_type *access_info_access_unit(void);
 
 void access_areas_refresh(struct civ_map *nmap, struct player *plr);
 

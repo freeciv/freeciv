@@ -607,6 +607,12 @@ name             = _("Goods")
 replace_priority = 1
 
 
+[aarea]
+; Unit type to use to determine access areas. Access area is the area this unit
+; can access (move to)
+access_unit = ""
+
+
 ; /* <-- avoid gettext warnings
 ;
 ; Clause types

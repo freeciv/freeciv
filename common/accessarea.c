@@ -67,6 +67,14 @@ void access_info_close(void)
 }
 
 /*********************************************************************//**
+  Get access_unit of the access_info
+*************************************************************************/
+const struct unit_type *access_info_access_unit(void)
+{
+  return ainfo.access_unit;
+}
+
+/*********************************************************************//**
   Free access area list.
   @param alist List to clear
 *************************************************************************/

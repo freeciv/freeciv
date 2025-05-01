@@ -634,6 +634,12 @@ reveal_trade_partner = FALSE
 ; "Arrival" - Goods are chosen when trade route is established, when unit arrives to destination
 goods_selection = "Leaving"
 
+[aarea]
+; Unit type to use to determine access areas. Access area is the area this unit
+; can access (move to)
+access_unit = ""
+
+
 ; /* <-- avoid gettext warnings
 ;
 ; Goods types:
