@@ -55,9 +55,9 @@ static void citylog_map_index(enum log_level level);
 static void citylog_map_radius_sq(enum log_level level);
 #endif /* FREECIV_DEBUG */
 
-/* Get city tile informations using the city tile index. */
+/* Get city tile information using the city tile index. */
 static struct iter_index *city_map_index = NULL;
-/* Get city tile informations using the city tile coordinates. This is an
+/* Get city tile information using the city tile coordinates. This is an
  * [x][y] array of integer values corresponding to city_map_index. The
  * coordinates x and y are in the range [0, CITY_MAP_MAX_SIZE] */
 static int city_map_xy[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
@@ -2783,11 +2783,11 @@ int city_illness_calc(const struct city *pcity, int *ill_base,
     illness_size = (int)((1.0 - exp(- (float)use_size / 10.0))
                          * 10.0 * game.info.illness_base_factor);
     if (is_server()) {
-      /* on the server we recalculate the illness due to trade as we have
-       * all informations */
+      /* On the server we recalculate the illness due to trade as we have
+       * all the information */
       illness_trade = get_trade_illness(pcity);
     } else {
-      /* on the client we have to rely on the value saved within the city
+      /* On the client we have to rely on the value saved within the city
        * struct */
       illness_trade = pcity->illness_trade;
     }

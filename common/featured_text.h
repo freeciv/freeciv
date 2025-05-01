@@ -46,7 +46,7 @@ extern "C" {
  * Text tag.
  *
  * The text_tag type is a structure which tag a particular modification for
- * a string. It contains many informations, which the type of modification,
+ * a string. It contains much information, which the type of modification,
  * the start of the modification in bytes from the start of the string, and
  * the stop of it. It also can contains many others fields, according to
  * sequence type.

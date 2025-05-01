@@ -167,7 +167,7 @@ private:
 };
 
 /***************************************************************************
-  Widget around map view to display informations like demographics report,
+  Widget around map view to display information like demographics report,
   top 5 cities, traveler's report.
 ***************************************************************************/
 class notify_dialog:public fcwidget
