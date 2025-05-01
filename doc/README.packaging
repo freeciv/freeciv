@@ -106,9 +106,6 @@ to configure, and last thing configure outputs will be that list.
 Shared libfreeciv
 -----------------
 Libfreeciv contains code common to server, client, and various tools.
-By default it's built as static library, but you can build it as
-a shared library by giving configure option "--enable-shared"
-(and possibly "--disable-static")
 
 ----------------------------------------------------------------------
 Generated files
@@ -134,10 +131,10 @@ You may want to remove some of these when Freeciv is uninstalled.
 ----------------------------------------------------------------------
 Building multiple clients at once
 ---------------------------------
-Starting from 2.2 it has been possible to build multiple clients running
-'make' just once. Just give configure option "--enable-client" comma
+Starting from 2.2 it has been possible to build multiple clients
+in just one build. Just give configure option "-Dclients" comma
 separated list of clients to compile,
-e.g. "--enable-client=gtk3.22,gtk4,sdl2,qt"
+e.g. "-Dclients=gtk3.22,gtk4,sdl2,qt"
 
 ----------------------------------------------------------------------
 Savegame compression support
@@ -171,6 +168,8 @@ a requirement for sensible behavior.
 ----------------------------------------------------------------------
 Loadable AI modules
 -------------------
+This feature is still available in autotools based builds only.
+There's no options to enable it in meson based builds.
 Freeciv can be built with support of loading AI code from custom module.
 There can be multiple modules loaded at once, and AI players can use
 different module from each other.
@@ -178,7 +177,7 @@ This feature is not enabled by default. When it's not enabled, default
 AI code is built in to server and always used.
 You can enable this feature with '--enable-aimodules'. For this to work
 you have to enable also building of shared libraries (and modules) with
-'--enable-shared' as discussed in chapter 'Shared libfreeciv'
+'--enable-shared'
 All modules, both default and custom, must be installed under
 ${libdir}/fcai (/usr/lib/fcai for example) for their loading to work.
 
