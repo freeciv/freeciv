@@ -268,9 +268,22 @@ value   = 100
 type    = "Max_Rates"
 value   = 100
 
-[effect_base_unit_upkeep]
+[effect_base_unit_upkeep_not_gold]
 type    = "Upkeep_Factor"
 value   = 1
+reqs    =
+    { "type",       "name", "range", "present"
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_base_unit_upkeep_gold]
+type    = "Upkeep_Factor"
+value   = 1
+reqs    =
+    { "type",       "name",        "range"
+      "OutputType", "Gold",        "Local"
+      "UnitState",  "HasHomeCity", "Local"
+    }
 
 [effect_republic_unit_upkeep]
 type    = "Upkeep_Factor"

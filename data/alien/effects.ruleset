@@ -100,9 +100,22 @@ reqs    =
 type    = "City_Vision_Radius_Sq"
 value   = 5
 
-[effect_base_unit_upkeep]
+[effect_base_unit_upkeep_not_gold]
 type    = "Upkeep_Factor"
-value	= 1
+value   = 1
+reqs    =
+    { "type",       "name", "range", "present"
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_base_unit_upkeep_gold]
+type    = "Upkeep_Factor"
+value   = 1
+reqs    =
+    { "type",       "name",        "range"
+      "OutputType", "Gold",        "Local"
+      "UnitState",  "HasHomeCity", "Local"
+    }
 
 [effect_empire_size_base]
 type    = "Empire_Size_Base"

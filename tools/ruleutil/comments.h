@@ -73,7 +73,6 @@ void comment_civstyle_granary(struct section_file *sfile);
 void comment_civstyle_ransom_gold(struct section_file *sfile);
 void comment_civstyle_gameloss_style(struct section_file *sfile);
 void comment_civstyle_gold_upkeep_style(struct section_file *sfile);
-void comment_civstyle_homeless_gold_upkeep(struct section_file *sfile);
 void comment_civstyle_airlift_always(struct section_file *sfile);
 void comment_wonder_visibility_small_wonders(struct section_file *sfile);
 void comment_incite_cost(struct section_file *sfile);

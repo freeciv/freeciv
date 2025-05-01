@@ -1440,11 +1440,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
                        gold_upkeep_style_name(game.info.gold_upkeep_style),
                        "civstyle.gold_upkeep_style");
   }
-  if (game.info.homeless_gold_upkeep) {
-    comment_civstyle_homeless_gold_upkeep(sfile);
-  }
-  save_default_bool(sfile, game.info.homeless_gold_upkeep, FALSE,
-                    "civstyle.homeless_gold_upkeep", nullptr);
   save_default_int(sfile, game.info.granularity,
                    1, "civstyle.output_granularity", nullptr);
 

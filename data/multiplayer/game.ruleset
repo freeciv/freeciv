@@ -174,10 +174,6 @@ paradrop_to_transport    = FALSE
 ;            upkeep are disbanded.
 gold_upkeep_style = "City"
 
-; Whether also homeless units pay gold upkeep. Enabling requires that
-; gold_upkeep_style is not "City"
-homeless_gold_upkeep = FALSE
-
 ; How many points of output one basic unit consists of. Typically you
 ; want this to be some 10^n.
 output_granularity = 1

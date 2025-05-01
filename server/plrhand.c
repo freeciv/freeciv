@@ -3479,10 +3479,7 @@ void update_national_activities(struct player *pplayer, int old_gold)
 {
   char buf[200 + MAX_LEN_NAME];
 
-  /* gold_upkeep_style check currently redundant, but something we need
-   * once homeless_gold_upkeep retired. */
-  if (game.info.gold_upkeep_style != GOLD_UPKEEP_CITY
-      && game.info.homeless_gold_upkeep) {
+  if (game.info.gold_upkeep_style != GOLD_UPKEEP_CITY) {
     unit_list_iterate(pplayer->units, punit) {
       if (is_unit_homeless(punit)) {
         int gold = unit_upkeep_cost(punit, O_GOLD);

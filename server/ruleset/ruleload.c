@@ -6791,14 +6791,19 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       ok = FALSE;
     }
 
-    game.info.homeless_gold_upkeep
-      = secfile_lookup_bool_default(file, FALSE, "civstyle.homeless_gold_upkeep");
+    if (compat->compat_mode
+        && compat->version < RSFORMAT_3_4) {
+      game.server.deprecated.homeless_gold_upkeep
+        = secfile_lookup_bool_default(file, FALSE, "civstyle.homeless_gold_upkeep");
 
-    if (game.info.homeless_gold_upkeep
-        && game.info.gold_upkeep_style == GOLD_UPKEEP_CITY) {
-      ruleset_error(NULL, LOG_ERROR,
-                    "Cannot have homeless_gold_upkeep while gold_upkeep_style \"City\".");
-      ok = FALSE;
+      if (game.server.deprecated.homeless_gold_upkeep
+          && game.info.gold_upkeep_style == GOLD_UPKEEP_CITY) {
+        ruleset_error(NULL, LOG_ERROR,
+                      "Cannot have homeless_gold_upkeep while gold_upkeep_style \"City\".");
+        ok = FALSE;
+      }
+    } else {
+      game.server.deprecated.homeless_gold_upkeep = TRUE;
     }
 
     game.info.granularity = secfile_lookup_int_default(file, 1,
@@ -6810,7 +6815,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.airlift_to_always_enabled
       = secfile_lookup_bool_default(file, TRUE, "civstyle.airlift_to_always_enabled");
 
-    /* section: wonder_visibility */
+    /* Section: wonder_visibility */
     if (ok) {
       const char *text;
 

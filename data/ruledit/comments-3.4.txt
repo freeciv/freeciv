@@ -1424,11 +1424,6 @@ gold_upkeep_style = "\n\
 ;            upkeep are disbanded.\
 "
 
-homeless_gold_upkeep = "\n\
-; Whether also homeless units pay gold upkeep. Enabling requires that\n\
-; gold_upkeep_style is not \"City\"\
-"
-
 airlift_always_enabled = "\n\
 ; Is it possible to airlift even with zero airlift capacity when\n\
 ; airliftingstyle server setting has been set to unlimited airlifts?\

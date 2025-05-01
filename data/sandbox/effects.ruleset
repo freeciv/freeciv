@@ -836,35 +836,37 @@ reqs    =
 type    = "Upkeep_Factor"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "OutputType", "Gold", "Local", TRUE
-      "Gov", "Anarchy", "Player", FALSE
-      "Gov", "Tribal", "Player", FALSE
-      "Gov", "Communism", "Player", FALSE
-;      "Gov", "Despotism", "Player", FALSE
-;      "Gov", "Monarchy", "Player", FALSE
-;      "Gov", "Fundamentalism", "Player", FALSE
-;      "Gov", "Federation", "Player", FALSE
-      "Gov", "Republic", "Player", FALSE
-;      "Gov", "Democracy", "Player", FALSE
+    { "type",       "name",           "range",  "present"
+      "OutputType", "Gold",           "Local",  TRUE
+      "Gov",        "Anarchy",        "Player", FALSE
+      "Gov",        "Tribal",         "Player", FALSE
+      "Gov",        "Communism",      "Player", FALSE
+;      "Gov",        "Despotism",      "Player", FALSE
+;      "Gov",        "Monarchy",       "Player", FALSE
+;      "Gov",        "Fundamentalism", "Player", FALSE
+;      "Gov",        "Federation",     "Player", FALSE
+      "Gov",        "Republic",       "Player", FALSE
+;      "Gov",        "Democracy",      "Player", FALSE
+      "UnitState",  "HasHomeCity",    "Local",   TRUE
     }
 
-; additive with previous => x2 for Fundamentalism, Federation, Democracy
+; Additive with previous => x2 for Fundamentalism, Federation, Democracy
 [effect_base_unit_upkeep_gold_2]
 type    = "Upkeep_Factor"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "OutputType", "Gold", "Local", TRUE
-      "Gov", "Anarchy", "Player", FALSE
-      "Gov", "Tribal", "Player", FALSE
-      "Gov", "Communism", "Player", FALSE
-      "Gov", "Despotism", "Player", FALSE
-      "Gov", "Monarchy", "Player", FALSE
-;      "Gov", "Fundamentalism", "Player", FALSE
-;      "Gov", "Federation", "Player", FALSE
-      "Gov", "Republic", "Player", FALSE
-;      "Gov", "Democracy", "Player", FALSE
+    { "type",       "name",           "range",  "present"
+      "OutputType", "Gold",           "Local",  TRUE
+      "Gov",        "Anarchy",        "Player", FALSE
+      "Gov",        "Tribal",         "Player", FALSE
+      "Gov",        "Communism",      "Player", FALSE
+      "Gov",        "Despotism",      "Player", FALSE
+      "Gov",        "Monarchy",       "Player", FALSE
+;      "Gov",        "Fundamentalism", "Player", FALSE
+;      "Gov",        "Federation",     "Player", FALSE
+      "Gov",        "Republic",       "Player", FALSE
+;      "Gov",        "Democracy",      "Player", FALSE
+      "UnitState",  "HasHomeCity",    "Local",   TRUE
     }
 
 [effect_base_unit_upkeep_shield]

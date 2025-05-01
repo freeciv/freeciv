@@ -434,6 +434,49 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
   struct rscompat_info *info = (struct rscompat_info *)data;
 
   if (info->version < RSFORMAT_3_4) {
+    if (!game.server.deprecated.homeless_gold_upkeep) {
+      if (peffect->type == EFT_UPKEEP_FACTOR) {
+        bool gold_included = TRUE;
+        bool only_gold = FALSE;
+
+        requirement_vector_iterate(&peffect->reqs, preq) {
+          if (preq->source.kind == VUT_OTYPE) {
+            if ((preq->source.value.outputtype != O_GOLD
+                 && preq->present)
+                || (preq->source.value.outputtype == O_GOLD
+                    && !preq->present)) {
+              gold_included = FALSE;
+            } else if (preq->source.value.outputtype == O_GOLD) {
+              only_gold = TRUE;
+            }
+          }
+        } requirement_vector_iterate_end;
+
+        if (gold_included) {
+          if (!only_gold) {
+            struct effect *copy = effect_copy(peffect, EFT_UPKEEP_FACTOR);
+
+            /* Split to gold-only and not-gold effects.
+             * Make sure the gold-only is the one we currently handle
+             * (and not the one we add), so we don't encounter it again
+             * when iterating forward. */
+            requirement_vector_append(&peffect->reqs,
+                                      req_from_str("OutputType", "Local",
+                                                   FALSE, TRUE, FALSE,
+                                                   "Gold"));
+            requirement_vector_append(&copy->reqs,
+                                      req_from_str("OutputType", "Local",
+                                                   FALSE, FALSE, FALSE,
+                                                   "Gold"));
+          }
+
+          requirement_vector_append(&peffect->reqs,
+                                    req_from_str("UnitState", "Local",
+                                                 FALSE, TRUE, FALSE,
+                                                 "HasHomeCity"));
+        }
+      }
+    }
   }
 
   /* Go to the next effect. */

@@ -543,7 +543,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 globalwarming;
   GOLD gold;
   GOLD_UPKEEP_STYLE gold_upkeep_style;
-  BOOL homeless_gold_upkeep;
   UINT32 infrapoints;
   REVOLENTYPE revolentype;
   GOVERNMENT default_government_id;

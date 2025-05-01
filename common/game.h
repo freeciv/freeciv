@@ -127,6 +127,10 @@ struct civ_game {
       /* Defined in the ruleset. */
 
       /* Game settings & other data. */
+      struct {
+        bool homeless_gold_upkeep;
+      } deprecated;
+
       enum city_names_mode allowed_city_names;
       enum plrcolor_mode plrcolormode;
       int aqueductloss;

@@ -70,7 +70,6 @@ static struct {
   char *civstyle_ransom_gold;
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
-  char *civstyle_homeless_gold_upkeep;
   char *civstyle_airlift_always;
   char *wonder_visibility_small_wonders;
   char *incite_cost;
@@ -202,8 +201,6 @@ bool comments_load(void)
                "entrydoc.gameloss_style");
   comment_load(comments_storage.civstyle_gold_upkeep_style, comment_file,
                "entrydoc.gold_upkeep_style");
-  comment_load(comments_storage.civstyle_homeless_gold_upkeep, comment_file,
-               "entrydoc.homeless_gold_upkeep");
   comment_load(comments_storage.civstyle_airlift_always, comment_file,
                "entrydoc.airlift_always_enabled");
   comment_load(comments_storage.wonder_visibility_small_wonders, comment_file,
@@ -636,15 +633,6 @@ void comment_civstyle_gameloss_style(struct section_file *sfile)
 void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.civstyle_gold_upkeep_style,
-                      "civstyle");
-}
-
-/**********************************************************************//**
-  Write civstyle homeless_gold_upkeep settings header.
-**************************************************************************/
-void comment_civstyle_homeless_gold_upkeep(struct section_file *sfile)
-{
-  comment_entry_write(sfile, comments_storage.civstyle_homeless_gold_upkeep,
                       "civstyle");
 }
 
