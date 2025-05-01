@@ -170,7 +170,7 @@ Nationality is fulfilled by any citizens of the given nationality
 OriginalOwner is the city founding nation
 ServerSetting is if a Boolean server setting is enabled. The setting must be
  visible to all players and affect the game rules.
-FormAge is time since latest unit upgrade of conversion.
+FormAge is time since latest unit upgrade or conversion.
 PlayerState is one of "Barbarian",
  or "HasCapital" (true if player had capital at the beginning of the turn)
 PlayerFlag is one of
