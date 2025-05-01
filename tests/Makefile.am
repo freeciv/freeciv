@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 # Currently the "src-check" directive creates a check-output file containing
-# the results of the checks.  It might be better to actually fail the make run
+# the results of the checks. It might be better to actually fail the make run
 # if the check fails.
 src-check:
 	$(srcdir)/src-check.sh
@@ -19,6 +19,7 @@ EXTRA_DIST =	check_macros.sh			\
 		rs_test_res/ruleset_list_dist.txt \
 		rs_test_res/ruleset_list_opt.txt \
 		rs_test_res/ruleset_loads.sh.in	\
+		rs_test_res/generate_ruleset_loads.sh \
 		rulesets_autohelp.sh.in		\
 		src-check.sh			\
 		trailing_spaces.sh		\
