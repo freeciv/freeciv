@@ -933,7 +933,7 @@ void set_client_state(enum client_states newstate)
       client_game_init();
     } else {
       /* From an upper state means that we didn't quit the server,
-       * so a lot of informations are still in effect. */
+       * so a lot of information is still in effect. */
       client_game_reset();
       options_dialogs_update();
     }
