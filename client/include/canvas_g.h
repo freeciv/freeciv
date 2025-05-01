@@ -42,7 +42,7 @@ GUI_FUNC_PROTO(void, canvas_copy, struct canvas *dest, struct canvas *src,
 GUI_FUNC_PROTO(void, canvas_put_sprite, struct canvas *pcanvas,
                int canvas_x, int canvas_y, struct sprite *sprite,
                int offset_x, int offset_y, int width, int height);
-GUI_FUNC_PROTO(void, canvas_put_sprite_full, struct canvas *pcanvas, 
+GUI_FUNC_PROTO(void, canvas_put_sprite_full, struct canvas *pcanvas,
                int canvas_x, int canvas_y,
                struct sprite *sprite)
 GUI_FUNC_PROTO(void, canvas_put_sprite_full_scaled, struct canvas *pcanvas,
