@@ -37,7 +37,7 @@ void citizens_init(struct city *pcity)
     return;
   }
 
-  /* For the nationality of the citizens the informations for all player
+  /* For the nationality of the citizens the information for all player
    * slots are allocated as once. Considering a size of citizens (= char)
    * this results in an allocation of 2 * 128 * 1 bytes for the citizens
    * per nation as well as the timer for a nationality change. */
