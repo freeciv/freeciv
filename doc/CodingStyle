@@ -627,7 +627,8 @@ functions available natively.
   -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations
   -Wstrict-prototypes -Wnested-externs -Wl,--no-add-needed" if you use gcc.
 
-- Always check compilation with the configure option --enable-debug set.
+- Always check compilation with the configure options
+  -Ddebug=true -Dwerror=true
 
 - Header files should be compatible with C++ but code (.c) files need not
   be. This means some C++ keywords (like "this" or "class") may not be used
