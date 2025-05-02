@@ -2450,7 +2450,7 @@ type	= "Trade_Revenue_Bonus"
 value	= 1585
 
 [effect_upkeep_shield2gold]
-type    = "Shield2Gold_Factor"
+type    = "Shield2Gold_Pct"
 value   = 100
 reqs    =
     { "type",         "name",            "range"

@@ -626,7 +626,7 @@ adv_want dai_effect_value(struct player *pplayer,
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
   case EFT_CITY_IMAGE:
-  case EFT_SHIELD2GOLD_FACTOR:
+  case EFT_SHIELD2GOLD_PCT:
     break;
   case EFT_PERFORMANCE:
   case EFT_NATION_PERFORMANCE:

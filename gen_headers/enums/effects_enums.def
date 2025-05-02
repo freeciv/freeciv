@@ -102,7 +102,7 @@ values
   VISIBLE_WALLS                     "Visible_Walls"
   TECH_COST_FACTOR                  "Tech_Cost_Factor"
   /* [x%] gold upkeep instead of [1] shield upkeep for units */
-  SHIELD2GOLD_FACTOR                "Shield2Gold_Factor"
+  SHIELD2GOLD_PCT                   "Shield2Gold_Pct"
   TILE_WORKABLE                     "Tile_Workable"
   /* The index for the city image of the given city style. */
   CITY_IMAGE                        "City_Image"
