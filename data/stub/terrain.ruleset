@@ -198,15 +198,15 @@ ocean_resources = FALSE
 ; color.r              = color of the terrain (red value)
 ; color.g              = color of the terrain (green value)
 ; color.b              = color of the terrain (blue value)
-; helptext	       = optional help text string; should escape all raw
-;		         newlines so that xgettext parsing works
+; helptext             = optional help text string; should escape all raw
+;                        newlines so that xgettext parsing works
 
 [terrain_generic]
 name                 = _("Generic")
 graphic              = "generic"
-graphic_alt	     = "grassland"
+graphic_alt          = "grassland"
 graphic_alt2         = "-"
-identifier	     = "g"
+identifier           = "g"
 class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
@@ -246,16 +246,16 @@ property_green       = 50
 color.r              = 200
 color.g              = 200
 color.b              = 200
-helptext	     = _("\
+helptext             = _("\
 This is only possible land terrain.\
 ")
 
 [terrain_ocean]
 name                 = _("Ocean")
 graphic              = "coast"
-graphic_alt	     = "-"
+graphic_alt          = "-"
 graphic_alt2         = "-"
-identifier	     = " "
+identifier           = " "
 class                = "Oceanic"
 movement_cost        = 1
 defense_bonus        = 0
@@ -294,7 +294,7 @@ property_ocean_depth = 10
 color.r              = 50
 color.g              = 50
 color.b              = 230
-helptext	     = _("\
+helptext             = _("\
 This is only possible oceanic terrain.\
 ")
 

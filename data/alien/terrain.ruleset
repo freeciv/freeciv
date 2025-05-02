@@ -211,8 +211,8 @@ ocean_resources = TRUE
 ; color.r              = color of the terrain (red value)
 ; color.g              = color of the terrain (green value)
 ; color.b              = color of the terrain (blue value)
-; helptext	       = optional help text string; should escape all raw
-;		         newlines so that xgettext parsing works
+; helptext             = optional help text string; should escape all raw
+;                        newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 
@@ -261,9 +261,9 @@ No unit can enter this terrain, nor can city work the tile.\
 [terrain_savannah]
 name                 = _("Savannah")
 graphic              = "savannah"
-graphic_alt	     = "grassland"
+graphic_alt          = "grassland"
 graphic_alt2         = "-"
-identifier	     = "g" ; Since this used to be "Grassland"
+identifier           = "g" ; Since this used to be "Grassland"
 class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
@@ -303,16 +303,16 @@ property_green       = 50
 color.r              = 10
 color.g              = 123
 color.b              = 2
-helptext	     = _("\
+helptext             = _("\
 For some reason, there is Earth like plants and animals around.\
 ")
 
 [terrain_alien_forest]
 name                 = _("Alien Forest")
 graphic              = "alien_forest"
-graphic_alt	     = "forest"
+graphic_alt          = "forest"
 graphic_alt2         = "-"
-identifier	     = "f"
+identifier           = "f"
 class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
@@ -352,7 +352,7 @@ property_foliage     = 50
 color.r              = 43
 color.g              = 107
 color.b              = 19
-helptext	     = _("\
+helptext             = _("\
 These forests are filled with strange alien organisms. This planet's \
 radiation makes it impossible for Earthly organisms to survive here.\n\n\
 Cities can work these tiles only when Organic Structures is known. \
@@ -362,9 +362,9 @@ Inventing Alien Rights gives +1 production bonus to Alien Forest tiles.\
 [terrain_radiating_rocks]
 name                 = _("Radiating Rocks")
 graphic              = "radiating_rocks"
-graphic_alt	     = "desert"
+graphic_alt          = "desert"
 graphic_alt2         = "-"
-identifier	     = "d"
+identifier           = "d"
 class                = "Land"
 movement_cost        = 2
 defense_bonus        = 50
@@ -404,7 +404,7 @@ property_tropical    = 50
 color.r              = 205
 color.g              = 92
 color.b              = 92
-helptext	     = _("\
+helptext             = _("\
 Planet's radiation makes it impossible for Earth organisms to survive here.\
 \n\n\
 Cities can work these tiles only when Organic Structures is known.\
@@ -551,7 +551,7 @@ property_ocean_depth = 35
 color.r              = 0
 color.g              = 0
 color.b              = 200
-helptext	     = _("\
+helptext             = _("\
 This is normal oceanic terrain.\
 ")
 

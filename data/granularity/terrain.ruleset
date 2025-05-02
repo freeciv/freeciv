@@ -207,15 +207,15 @@ ocean_resources = FALSE
 ; color.r              = color of the terrain (red value)
 ; color.g              = color of the terrain (green value)
 ; color.b              = color of the terrain (blue value)
-; helptext	       = optional help text string; should escape all raw
-;		         newlines so that xgettext parsing works
+; helptext             = optional help text string; should escape all raw
+;                        newlines so that xgettext parsing works
 
 [terrain_grassland]
 name                 = _("Grassland")
 graphic              = "grassland"
-graphic_alt	     = "-"
+graphic_alt          = "-"
 graphic_alt2         = "-"
-identifier	     = "g"
+identifier           = "g"
 class                = "Land"
 movement_cost        = 50
 defense_bonus        = 0
@@ -255,16 +255,16 @@ property_green       = 50
 color.r              = 200
 color.g              = 200
 color.b              = 200
-helptext	     = _("\
+helptext             = _("\
 Grasslands afford exceptional agricultural opportunities.\
 ")
 
 [terrain_forest]
 name                 = _("Forest")
 graphic              = "forest"
-graphic_alt	     = "-"
+graphic_alt          = "-"
 graphic_alt2         = "-"
-identifier	     = "f"
+identifier           = "f"
 class                = "Land"
 movement_cost        = 150
 defense_bonus        = 30
@@ -304,16 +304,16 @@ property_foliage     = 50
 color.r              = 43
 color.g              = 107
 color.b              = 19
-helptext	     = _("\
+helptext             = _("\
 Forest provides easily harvested resources.\
 ")
 
 [terrain_mountains]
 name                 = _("Mountains")
 graphic              = "mountains"
-graphic_alt	     = "-"
+graphic_alt          = "-"
 graphic_alt2         = "-"
-identifier	     = "m"
+identifier           = "m"
 class                = "Land"
 movement_cost        = 500
 defense_bonus        = 100
@@ -352,7 +352,7 @@ property_mountainous = 75
 color.r              = 129
 color.g              = 127
 color.b              = 118
-helptext	     = _("\
+helptext             = _("\
 Hard to farm. Hard to develop. Hard to pass.\
 ")
 
@@ -409,9 +409,9 @@ Plains are very broad, sparse regions, which makes trade slightly\
 [terrain_ocean]
 name                 = _("Ocean")
 graphic              = "coast"
-graphic_alt	     = "-"
+graphic_alt          = "-"
 graphic_alt2         = "-"
-identifier	     = " "
+identifier           = " "
 class                = "Oceanic"
 movement_cost        = 50
 defense_bonus        = 0
@@ -450,16 +450,16 @@ property_ocean_depth = 10
 color.r              = 50
 color.g              = 50
 color.b              = 230
-helptext	     = _("\
+helptext             = _("\
 Shallow Ocean usually exist only next to land.\
 ")
 
 [terrain_deep_ocean]
 name                 = _("Deep Ocean")
 graphic              = "deep_ocean"
-graphic_alt	     = "floor"
+graphic_alt          = "floor"
 graphic_alt2         = "coast"
-identifier	     = ":"
+identifier           = ":"
 class                = "Oceanic"
 movement_cost        = 50
 defense_bonus        = 0
@@ -498,7 +498,7 @@ property_ocean_depth = 85
 color.r              = 0
 color.g              = 33
 color.b              = 129
-helptext	     = _("\
+helptext             = _("\
 Deep Ocean usually exist further away from the land.\
 ")
 
