@@ -17,7 +17,6 @@
 
 #include "fc_prehdrs.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -29,12 +28,9 @@
 #include <signal.h>
 #endif
 
-#ifdef FREECIV_MSWINDOWS
-#include <windows.h>
-#endif
-
 /* utility */
 #include "deprecations.h"
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -67,17 +63,7 @@ int main(int argc, char *argv[])
   bool showvers = FALSE;
   char *option = NULL;
 
-  /* Load Windows post-crash debugger */
-#ifdef FREECIV_MSWINDOWS
-# ifndef FREECIV_NDEBUG
-  if (LoadLibrary("exchndl.dll") == NULL) {
-#  ifdef FREECIV_DEBUG
-    fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif /* FREECIV_DEBUG */
-  }
-# endif /* FREECIV_NDEBUG */
-#endif /* FREECIV_MSWINDOWS */
-
+  executable_init();
   setup_interrupt_handlers();
 
   /* Initialize server */

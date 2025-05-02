@@ -15,18 +15,13 @@
 #include <fc_config.h>
 #endif
 
-#include "fc_prehdrs.h"
-
 // ANSI
 #include <stdlib.h>
 
 #include <signal.h>
 
-#ifdef FREECIV_MSWINDOWS
-#include <windows.h>
-#endif
-
 // utility
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -65,16 +60,7 @@ int main(int argc, char **argv)
   int ui_options;
   int exit_status = EXIT_SUCCESS;
 
-  // Load Windows post-crash debugger
-#ifdef FREECIV_MSWINDOWS
-# ifndef FREECIV_NDEBUG
-  if (LoadLibrary("exchndl.dll") == nullptr) {
-#  ifdef FREECIV_DEBUG
-    fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif // FREECIV_DEBUG
-  }
-# endif // FREECIV_NDEBUG
-#endif // FREECIV_MSWINDOWS
+  executable_init();
 
   /* Initialize the fc_interface functions needed to understand rules.
    * fc_interface_init_tool() includes low level support like

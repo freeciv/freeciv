@@ -15,16 +15,9 @@
 #include <fc_config.h>
 #endif
 
-#include "fc_prehdrs.h"
-
-#ifdef FREECIV_MSWINDOWS
-#include <windows.h>	/* LoadLibrary() */
-#endif
-
 #include <math.h>
 #include <signal.h>
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -33,6 +26,7 @@
 #include "capstr.h"
 #include "dataio.h"
 #include "deprecations.h"
+#include "executable.h"
 #include "fcbacktrace.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
@@ -363,16 +357,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
   int aii;
   int uret;
 
-  /* Load Windows post-crash debugger */
-#ifdef FREECIV_MSWINDOWS
-# ifndef FREECIV_NDEBUG
-  if (LoadLibrary("exchndl.dll") == NULL) {
-#  ifdef FREECIV_DEBUG
-    fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif /* FREECIV_DEBUG */
-  }
-# endif /* FREECIV_NDEBUG */
-#endif /* FREECIV_MSWINDOWS */
+  executable_init();
 
   /* fc_interface_init_client() includes low level support like
    * guaranteeing that fc_vsnprintf() will work after it,
