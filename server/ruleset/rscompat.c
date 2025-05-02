@@ -451,7 +451,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
   struct rscompat_info *info = (struct rscompat_info *)data;
 
   if (info->version < RSFORMAT_3_3) {
-    if (peffect->type == EFT_SHIELD2GOLD_FACTOR) {
+    if (peffect->type == EFT_SHIELD2GOLD_PCT) {
       requirement_vector_append(&(peffect->reqs),
                                 req_from_str("UnitTypeFlag", "Local",
                                              FALSE, FALSE, FALSE,
@@ -672,6 +672,8 @@ const char *rscompat_effect_name_3_3(const char *old_name)
 {
   if (!fc_strcasecmp("Martial_Law_Each", old_name)) {
     return "Martial_Law_By_Unit";
+  } else if (!fc_strcasecmp("Shield2Gold_Factor", old_name)) {
+    return "Shield2Gold_Pct";
   }
 
   return old_name;

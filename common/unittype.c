@@ -141,7 +141,7 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
   }
 
   /* Switch shield upkeep to gold upkeep if
-     - the effect 'EFT_SHIELD2GOLD_FACTOR' is non-zero (it gives the
+     - the effect 'EFT_SHIELD2GOLD_PCT  is non-zero (it gives the
        conversion factor in percent) and
      FIXME: Should the ai know about this? */
   if (otype == O_GOLD || otype == O_SHIELD) {
@@ -150,7 +150,7 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
                                     .player   = pplayer,
                                     .unittype = ut
                                   },
-                                  NULL, EFT_SHIELD2GOLD_FACTOR);
+                                  NULL, EFT_SHIELD2GOLD_PCT);
 
     if (gold_upkeep_factor > 0) {
       switch (otype) {
