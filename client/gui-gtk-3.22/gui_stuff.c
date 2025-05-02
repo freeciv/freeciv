@@ -185,7 +185,7 @@ void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
 }
 
 /**********************************************************************//**
-  Return whether current itree item is selected 
+  Return whether current itree item is selected
 **************************************************************************/
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
 {
@@ -344,7 +344,7 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
   }
 
   dialog_list = g_list_remove(dialog_list, dlg);
-  
+
   /* Raise the return dialog set by gui_dialog_set_return_dialog() */
   if (dlg->return_dialog_id != -1) {
     GList *it;
@@ -358,11 +358,11 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
       }
     }
   }
-  
+
   if (dlg->title) {
     free(dlg->title);
   }
-  
+
   free(dlg);
 }
 
@@ -376,10 +376,10 @@ static gint gui_dialog_delete_handler(GtkWidget *widget,
 {
   struct gui_dialog *dlg = data;
 
-  /* emit response signal. */
+  /* Emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
-                                                                               
-  /* do the destroy by default. */
+
+  /* Do the destroy by default. */
   return FALSE;
 }
 
@@ -392,18 +392,18 @@ static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
 {
   GtkWidget* notebook;
   int n;
-  
+
   notebook = dlg->v.tab.notebook;
   n = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   if (gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), n)
       != dlg->v.tab.child) {
     gui_dialog_set_return_dialog(dlg, NULL);
-  }			                                  
-  
-  /* emit response signal. */
+  }
+
+  /* Emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
-                                                                               
-  /* do the destroy by default. */
+
+  /* Do the destroy by default. */
   return FALSE;
 }
 
@@ -458,8 +458,8 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
     return;
   }
   dlg->type = GUI_DIALOG_WINDOW;
-  
-  /* Create a new reference to the main widget, so it won't be 
+
+  /* Create a new reference to the main widget, so it won't be
    * destroyed in gtk_notebook_remove_page() */
   g_object_ref(dlg->vbox);
 
@@ -484,7 +484,7 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
 	
   gtk_window_set_default_size(GTK_WINDOW(dlg->v.window),
                               dlg->default_width,
-			      dlg->default_height);    
+                              dlg->default_height);
   gtk_widget_show_all(window);
 }
 
@@ -528,7 +528,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   *pdlg = dlg;
   dlg->user_data = user_data;
   dlg->title = NULL;
-  
+
   dlg->default_width = 200;
   dlg->default_height = 300;
 
@@ -648,7 +648,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   dlg->action_area = action_area;
 
   dlg->response_callback = gui_dialog_destroyed;
-  
+
   dlg->id = dialog_id_counter;
   dialog_id_counter++;
   dlg->return_dialog_id = -1;

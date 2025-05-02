@@ -49,7 +49,7 @@
 /**********************************************************************//**
   Close and destroy the dialog.
 **************************************************************************/
-void close_connection_dialog(void) 
+void close_connection_dialog(void)
 {
 }
 

@@ -173,7 +173,7 @@ static GtkWidget *more_arrow_pixmap_button;
 static GtkWidget *more_arrow_pixmap_container;
 
 static int unit_id_top;
-static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
+static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer = NULL;
@@ -261,7 +261,7 @@ static gboolean timer_callback(gpointer data)
 
 /**********************************************************************//**
   Print extra usage information, including one line help on each option,
-  to stderr. 
+  to stderr.
 **************************************************************************/
 static void print_usage(void)
 {
@@ -318,7 +318,7 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
   switch (arg) {
     case GTK_DIR_TAB_FORWARD:
     case GTK_DIR_TAB_BACKWARD:
-      
+
       if (!gtk_widget_get_can_focus(w)) {
 	return FALSE;
       }
@@ -553,9 +553,9 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     return TRUE;
 
   case GDK_KEY_KP_Begin:
-  case GDK_KEY_KP_5: 
+  case GDK_KEY_KP_5:
   case GDK_KEY_5:
-    key_recall_previous_focus_unit(); 
+    key_recall_previous_focus_unit();
     return TRUE;
 
   case GDK_KEY_Escape:
@@ -925,7 +925,7 @@ static void populate_unit_image_table(void)
   gtk_container_add(GTK_CONTAINER(unit_image_button), unit_image);
   gtk_grid_attach(GTK_GRID(table), unit_image_button, 0, 0, 1, 1);
   g_signal_connect(unit_image_button, "button_press_event",
-                   G_CALLBACK(select_unit_image_callback), 
+                   G_CALLBACK(select_unit_image_callback),
                    GINT_TO_POINTER(-1));
 
   if (!GUI_GTK_OPTION(small_display_layout)) {
@@ -1253,9 +1253,9 @@ static void setup_widgets(void)
 				        |GDK_POINTER_MOTION_MASK);
   gtk_container_add(GTK_CONTAINER(avbox), overview_scrolled_window);
 
-  gtk_container_add(GTK_CONTAINER(overview_scrolled_window), 
+  gtk_container_add(GTK_CONTAINER(overview_scrolled_window),
                     overview_canvas);
- 
+
   g_signal_connect(overview_canvas, "draw",
         	   G_CALLBACK(overview_canvas_draw), NULL);
 
@@ -1379,7 +1379,7 @@ static void setup_widgets(void)
       break;
     case 2:
       w = flake_label;
-      flake_ebox = ebox; 
+      flake_ebox = ebox;
       break;
     default:
     case 3:
@@ -2361,7 +2361,7 @@ void popup_quit_dialog(void)
 
     gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
-    g_signal_connect(dialog, "response", 
+    g_signal_connect(dialog, "response",
 	G_CALLBACK(quit_dialog_response), NULL);
     g_signal_connect(dialog, "destroy",
 	G_CALLBACK(gtk_widget_destroyed), &dialog);
@@ -2627,7 +2627,7 @@ static void adjust_default_options(void)
 
   if (scr_height > 0) {
     /* Adjust these options only if we do know the screen height. */
-  
+
     if (scr_height <= 480) {
       /* Freeciv is practically unusable outside fullscreen mode in so
        * small display */

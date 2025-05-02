@@ -1237,7 +1237,7 @@ static bool propval_equal(struct propval *pva,
     return nation_hashes_are_equal(pva->data.v_nation_hash,
                                    pvb->data.v_nation_hash);
   case VALTYPE_GOV:
-    return pva->data.v_gov == pvb->data.v_gov; 
+    return pva->data.v_gov == pvb->data.v_gov;
   case VALTYPE_TILE_VISION_DATA:
     if (!BV_ARE_EQUAL(pva->data.v_tile_vision->tile_known,
                       pvb->data.v_tile_vision->tile_known)) {
@@ -1307,7 +1307,7 @@ static void propstate_destroy(struct propstate *ps)
 /************************************************************************//**
   Replace the stored property value with a new one. The old value will
   be freed if needed.
-  
+
   NB: Does NOT make a copy of 'pv'.
 ****************************************************************************/
 static void propstate_set_value(struct propstate *ps,
@@ -2911,7 +2911,7 @@ static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata)
   pp = objprop_get_property_page(op);
   value.data.v_const_string = gtk_entry_get_text(entry);
 
-  property_page_change_value(pp, op, &value);  
+  property_page_change_value(pp, op, &value);
 }
 
 /************************************************************************//**
@@ -2928,7 +2928,7 @@ static void objprop_widget_spin_button_changed(GtkSpinButton *spin,
   pp = objprop_get_property_page(op);
   value.data.v_int = gtk_spin_button_get_value_as_int(spin);
 
-  property_page_change_value(pp, op, &value);  
+  property_page_change_value(pp, op, &value);
 }
 
 /************************************************************************//**
@@ -3126,7 +3126,7 @@ static void objprop_setup_widget(struct objprop *op)
   according to the value of the bound object. If a stored modified value
   exists, then check it against the object's current value and remove it
   if they are equal.
-  
+
   If 'ob' is NULL, then clear the widget.
 ****************************************************************************/
 static void objprop_refresh_widget(struct objprop *op,
@@ -3160,7 +3160,7 @@ static void objprop_refresh_widget(struct objprop *op,
 
   if (pv && modified) {
     struct propval *pv_mod;
-   
+
     pv_mod = objbind_get_modified_value(ob, op);
     if (pv_mod) {
       if (propval_equal(pv, pv_mod)) {
@@ -3594,7 +3594,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   gtk_container_add(GTK_CONTAINER(hbox), button);
   ev->panel_button = button;
 
-  
+
   /* Create the data store. */
 
   switch (propid) {
@@ -4149,7 +4149,7 @@ static void extviewer_panel_button_clicked(GtkButton *button,
   struct extviewer *ev;
   struct property_page *pp;
   struct objprop *op;
-  
+
   ev = userdata;
   if (!ev) {
     return;
@@ -4810,7 +4810,7 @@ property_page_new(enum editor_object_type objtype,
   num_columns++;
   gtype_array = fc_malloc(num_columns * sizeof(GType));
   gtype_array[0] = G_TYPE_POINTER;
-    
+
   property_page_objprop_iterate(pp, op) {
     if (objprop_show_in_listview(op)) {
       gtype_array[col_id] = objprop_get_gtype(op);
@@ -5005,7 +5005,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
   gtk_container_set_border_width(GTK_CONTAINER(vbox2), 4);
   gtk_container_add(GTK_CONTAINER(scrollwin), vbox2);
-  
+
   property_page_objprop_iterate(pp, op) {
     if (!objprop_has_widget(op)) {
       continue;
@@ -5031,7 +5031,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_container_add(GTK_CONTAINER(hbox2), label);
 
   entry = gtk_entry_new();
-  gtk_widget_set_tooltip_text(entry, 
+  gtk_widget_set_tooltip_text(entry,
       _("Enter a filter string to limit which properties are shown. "
         "The filter is one or more text patterns separated by | "
         "(\"or\") or & (\"and\"). The symbol & has higher precedence "
@@ -5397,7 +5397,7 @@ static void property_page_fill_widgets(struct property_page *pp)
     GtkTreeRowReference *rr;
     GtkTreeModel *model;
     GtkTreePath *path;
-    
+
     model = GTK_TREE_MODEL(pp->object_store);
 
     property_page_objbind_iterate(pp, ob) {

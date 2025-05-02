@@ -18,7 +18,7 @@
 typedef void (*input_dialog_callback_t)(gpointer response_cli_data,
                                         gint response, const char *input);
 
-GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 
+GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
                                const char *text, const char *postinputtest,
                                input_dialog_callback_t response_callback,
                                gpointer response_cli_data);

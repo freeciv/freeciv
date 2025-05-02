@@ -17,7 +17,7 @@
 
 #include <stdio.h>
 
-#include <gtk/gtk.h>  
+#include <gtk/gtk.h>
 
 /* utility */
 #include "fcintl.h"
@@ -63,7 +63,7 @@ static void input_dialog_close(GtkDialog *shell, gpointer data)
 /**********************************************************************//**
   Create a popup with a text entry box and "OK" and "Cancel" buttons.
 **************************************************************************/
-GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 
+GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
                                const char *text, const char *postinputtest,
                                input_dialog_callback_t response_callback,
                                gpointer response_cli_data)

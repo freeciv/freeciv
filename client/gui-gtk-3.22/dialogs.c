@@ -119,7 +119,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
   gtk_container_add(GTK_CONTAINER(shell->vbox), vbox);
 
-  headline_label = gtk_label_new(headline);   
+  headline_label = gtk_label_new(headline);
   gtk_container_add(GTK_CONTAINER(vbox), headline_label);
   gtk_widget_set_name(headline_label, "notify_label");
 
@@ -239,7 +239,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 void popup_connect_msg(const char *headline, const char *message)
 {
   GtkWidget *shell, *label;
-  
+
   shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(shell), headline);
   setup_dialog(shell, toplevel);
@@ -659,7 +659,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
       gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
           GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
       gtk_container_add(GTK_CONTAINER(sw), list);
-     
+
       render = gtk_cell_renderer_pixbuf_new();
       column = gtk_tree_view_column_new_with_attributes("Flag", render,
           "pixbuf", 2, NULL);
@@ -697,9 +697,9 @@ static void create_nation_selection_lists(void)
 {
   GtkWidget *nation_list;
   GtkWidget *group_name_label;
-  
+
   int i;
-  
+
   for (i = 0; i < nation_group_count(); i++) {
     struct nation_group* group = (nation_group_by_number(i));
     if (is_nation_group_hidden(group)) {
@@ -713,7 +713,7 @@ static void create_nation_selection_lists(void)
                                group_name_label);
     }
   }
-  
+
   nation_list = create_list_of_nations_in_group(NULL, nation_group_count());
   /* Even this list can be empty if there are no pickable nations (due to
    * a combination of start position and nationset restrictions). */
@@ -845,7 +845,7 @@ static void create_races_dialog(struct player *pplayer)
   GtkWidget *text;
   GtkWidget *notebook;
   GtkWidget *sw;
-  GtkWidget *list;  
+  GtkWidget *list;
   GtkListStore *store;
   GtkCellRenderer *render;
   GtkTreeViewColumn *column;
@@ -1006,7 +1006,7 @@ static void create_races_dialog(struct player *pplayer)
     }
 
     races_notebook = gtk_notebook_new();
-    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(races_notebook), GTK_POS_LEFT);  
+    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(races_notebook), GTK_POS_LEFT);
     gtk_grid_attach(GTK_GRID(nation_selection_list), races_notebook,
                     0, 2, 2, 1);
 
@@ -1057,7 +1057,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), table, label);
 
-  /* Leader. */ 
+  /* Leader. */
   {
     GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
 

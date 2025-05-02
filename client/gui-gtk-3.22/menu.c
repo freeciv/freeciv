@@ -735,7 +735,7 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
                                _("Leaving a local game will end it!"));
     setup_dialog(dialog, toplevel);
     gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
-    g_signal_connect(dialog, "response", 
+    g_signal_connect(dialog, "response",
                      G_CALLBACK(leave_local_game_response), NULL);
     gtk_window_present(GTK_WINDOW(dialog));
   } else {
@@ -2616,7 +2616,7 @@ void real_menus_update(void)
                            units_can_load(punits));
   menu_entry_set_sensitive("UNIT_DEBOARD",
                            units_can_unload(&(wld.map), punits));
-  menu_entry_set_sensitive("UNIT_UNSENTRY", 
+  menu_entry_set_sensitive("UNIT_UNSENTRY",
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
   menu_entry_set_sensitive("AUTO_WORKER",
@@ -2662,7 +2662,7 @@ void real_menus_update(void)
 
   extras = extra_type_list_by_cause(EC_IRRIGATION);
 
-  if (extra_type_list_size(extras) > 0) { 
+  if (extra_type_list_size(extras) > 0) {
     struct extra_type *tgt;
 
     tgt = extra_type_list_get(extras, 0);
@@ -2689,7 +2689,7 @@ void real_menus_update(void)
         break;
       }
     } unit_list_iterate_end;
-    
+
     if (city_on_tile && units_can_do_action(punits, ACTION_JOIN_CITY,
                                             TRUE)) {
       menus_rename("BUILD_CITY",

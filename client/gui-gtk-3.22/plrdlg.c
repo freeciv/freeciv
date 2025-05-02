@@ -252,11 +252,11 @@ static gint plrdlg_sort_func(GtkTreeModel *model,
   gtk_tree_model_get_value(model, a, PLR_DLG_COL_ID, &value);
   player1 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
-  
+
   gtk_tree_model_get_value(model, b, PLR_DLG_COL_ID, &value);
   player2 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
-  
+
   return player_dlg_columns[n].sort_func(player1, player2);
 }
 
@@ -323,8 +323,8 @@ static void toggle_view(GtkCheckMenuItem* item, gpointer data)
 **************************************************************************/
 static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
 {
-  gui_options.player_dlg_show_dead_players = 
-    gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
+  gui_options.player_dlg_show_dead_players
+    = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
   real_players_dialog_update(NULL);
 }
 

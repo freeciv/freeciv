@@ -272,8 +272,8 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), notebook);
- 
-  /* overview tab. */
+
+  /* Overview tab. */
   table = gtk_grid_new();
   g_object_set(table, "margin", 6, NULL);
 

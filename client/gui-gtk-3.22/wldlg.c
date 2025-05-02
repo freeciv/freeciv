@@ -124,7 +124,7 @@ void update_worklist_report_dialog(void)
     gtk_list_store_set(worklists_store, &it,
                        0, global_worklist_name(pgwl),
                        1, global_worklist_id(pgwl),
-                       -1); 
+                       -1);
   } global_worklists_iterate_end;
 }
 
@@ -252,7 +252,7 @@ static GtkWidget *create_worklists_report(void)
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
 
   worklists_list = list;
-  
+
   rend = gtk_cell_renderer_text_new();
   g_object_set(rend, "editable", TRUE, NULL);
   g_signal_connect(rend, "edited",
@@ -420,7 +420,7 @@ static void popup_worklist(struct global_worklist *pgwl)
 static void popdown_worklist(struct global_worklist *pgwl)
 {
   GtkWidget *shell;
-  
+
   if ((shell = get_worklist(global_worklist_id(pgwl)))) {
     GtkWidget *parent;
 
@@ -742,7 +742,7 @@ static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
   if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return;
   }
-  
+
   src_model = GTK_TREE_MODEL(ptr->src);
   dst_model = GTK_TREE_MODEL(ptr->dst);
 
@@ -786,13 +786,13 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
                                        gpointer data)
 {
   struct worklist_data *ptr;
-    
+
   ptr = data;
 
   if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return FALSE;
   }
-  
+
   if ((ev->state & GDK_SHIFT_MASK) && ev->keyval == GDK_KEY_Insert) {
     queue_prepend(ptr);
     return TRUE;
@@ -898,7 +898,7 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
   if (gtk_tree_selection_count_selected_rows(selection) > 0) {
     int num_rows = 0;
     GtkTreeIter it;
-    
+
     gtk_widget_set_sensitive(ptr->up_cmd, TRUE);
     gtk_widget_set_sensitive(ptr->down_cmd, TRUE);
     if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ptr->dst), &it)) {
@@ -907,7 +907,7 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
       } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(ptr->dst), &it));
     }
     if (num_rows > 1) {
-      gtk_widget_set_sensitive(ptr->remove_cmd, TRUE);      
+      gtk_widget_set_sensitive(ptr->remove_cmd, TRUE);
     } else {
       gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
     }
@@ -1031,7 +1031,7 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
     g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(pos));
 
     gtk_tree_view_insert_column_with_data_func(view,
-	i, titles[i], rend, cell_render_func, ppcity, NULL); 
+	i, titles[i], rend, cell_render_func, ppcity, NULL);
     col = gtk_tree_view_get_column(view, i);
 
     if (pos >= 2) {
@@ -1072,7 +1072,7 @@ GtkWidget *create_worklist(void)
   ptr->dst = dst_store;
   ptr->future = FALSE;
 
-  /* create shell. */ 
+  /* Create shell. */
   editor = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(editor), 6);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(editor),

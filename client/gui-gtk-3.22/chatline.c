@@ -142,7 +142,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
   const char *theinput;
 
   theinput = gtk_entry_get_text(w);
-  
+
   if (*theinput) {
     if (client_state() == C_S_RUNNING
         && GUI_GTK_OPTION(allied_chat_only)
@@ -602,7 +602,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
     return FALSE;
   }
 
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view),
                                         GTK_TEXT_WINDOW_WIDGET,
                                         event->x, event->y, &x, &y);
 
@@ -731,7 +731,7 @@ static gboolean motion_notify_event(GtkWidget *text_view,
 {
   gint x, y;
 
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view), 
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view),
                                         GTK_TEXT_WINDOW_WIDGET,
                                         event->x, event->y, &x, &y);
   set_cursor_if_appropriate(GTK_TEXT_VIEW(text_view), x, y);
@@ -851,7 +851,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
         break; /* Not a valid link type case. */
       }
 
-      tag = gtk_text_buffer_create_tag(buf, NULL, 
+      tag = gtk_text_buffer_create_tag(buf, NULL,
                                        "foreground-rgba", &pcolor->color,
                                        "underline", PANGO_UNDERLINE_SINGLE,
                                        NULL);

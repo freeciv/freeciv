@@ -65,7 +65,7 @@ struct sprite *crop_sprite(struct sprite *source,
   cr = cairo_create(new->surface);
   cairo_rectangle(cr, 0, 0, width, height);
   cairo_clip(cr);
-  
+
   cairo_set_source_surface(cr, source->surface, -x, -y);
   cairo_paint(cr);
   if (mask) {
@@ -296,7 +296,7 @@ struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
 
   get_sprite_dimensions(src, &width, &height);
 
-  new->surface = cairo_surface_create_similar(src->surface, 
+  new->surface = cairo_surface_create_similar(src->surface,
       CAIRO_CONTENT_COLOR_ALPHA, new_w, new_h);
 
   cr = cairo_create(new->surface);

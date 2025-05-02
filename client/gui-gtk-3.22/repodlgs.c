@@ -1355,7 +1355,7 @@ static GtkListStore *units_report_store_new(void)
   for (i = 0; i < URD_COL_NUM; i++) {
     cols[i] = unit_report_columns[i].type;
   }
-  
+
   return gtk_list_store_newv(URD_COL_NUM, cols);
 }
 
@@ -1439,7 +1439,7 @@ static void units_report_update(struct units_report *preport)
 
     upgradable = client_has_player()
                  && NULL != can_upgrade_unittype(client_player(), utype);
-    
+
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        URD_COL_UTYPE_NAME, utype_name_translation(utype),

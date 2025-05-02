@@ -78,9 +78,9 @@ static gboolean popit_button_release(GtkWidget *w, GdkEventButton *ev)
   Put the popup on a smart position, after the real size of the widget is
   known: left of the cursor if within the right half of the map, and vice
   versa; displace the popup so as not to obscure it by the mouse cursor;
-  stay always within the map if possible. 
+  stay always within the map if possible.
 **************************************************************************/
-static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc, 
+static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
                                            gpointer data)
 {
   struct tmousepos *mousepos = data;
@@ -319,7 +319,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
                && clipboard_copy_production(ptile)) {
       /* <SHIFT> + RMB on city/unit: Copy Production. */
       /* If nothing to copy, fall through to rectangle selection. */
-      
+
       /* Already done the copy */
     } else if (ev->state & GDK_CONTROL_MASK) {
       /* <CONTROL> + RMB : Quickselect a land unit. */

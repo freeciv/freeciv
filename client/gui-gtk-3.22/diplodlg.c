@@ -200,7 +200,7 @@ void gui_recv_remove_clause(struct treaty *ptreaty, struct player *they)
 }
 
 /************************************************************************//**
-  Popup the dialog 10% inside the main-window 
+  Popup the dialog 10% inside the main-window
 ****************************************************************************/
 static void popup_diplomacy_dialog(struct treaty *ptreaty, struct player *they,
                                    struct player *initiator)
@@ -521,7 +521,7 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
 
   index = gtk_tree_path_get_indices(path);
 
-  i = 0; 
+  i = 0;
   clause_list_iterate(pdialog->treaty->clauses, pclause) {
     if (i == index[0]) {
       dsend_packet_diplomacy_remove_clause_req(&client.conn,
@@ -1243,7 +1243,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
   struct player *pgiver =
       (struct player *) g_object_get_data(G_OBJECT(w), "plr");
   int amount = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w));
-  
+
   if (amount >= 0 && amount <= pgiver->economic.gold) {
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty->plr1),

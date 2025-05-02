@@ -483,7 +483,7 @@ static void activated_topic(GtkTreeView *view, gpointer data)
   if (!path) {
     return;
   }
-  
+
   gtk_tree_model_get(model, &it, 1, &pitem, -1);
 
   if (help_history_pos >= 0
@@ -1602,7 +1602,7 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_TEXT:
   default:
-    /* it was a pure text item */ 
+    /* It was a pure text item */
     gtk_text_buffer_set_text(help_text, pitem->text, -1);
     gtk_widget_show(help_text_sw);
     break;

@@ -152,7 +152,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
                              const char *title,
                              enum unit_select_location_mode loc);
 static GtkTreeStore *usdlg_tab_store_new(void);
-static bool usdlg_tab_update(struct unit_select_dialog *pdialog, 
+static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
                              struct usdata_hash *ushash,
                              enum unit_select_location_mode loc);
 static void usdlg_tab_append_utype(GtkTreeStore *store,
@@ -1001,7 +1001,7 @@ static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
       ushash = usdlg_data_new(pdialog->ptile);
 
       usdata_hash_lookup(ushash, utid, &data);
-      if (data != NULL 
+      if (data != NULL
           && unit_list_size(data->units[loc][act]) != 0) {
         unit_list_iterate(data->units[loc][act], punit) {
           usdlg_cmd_exec_unit(punit, cmd);

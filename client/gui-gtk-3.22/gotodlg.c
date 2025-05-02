@@ -380,7 +380,7 @@ static void update_source_label(void)
 
     astr_init(&strs[i]);
     if (air_text != NULL) {
-      astr_add(&strs[i], 
+      astr_add(&strs[i],
                /* TRANS: goto/airlift dialog. "Paris (airlift: 2/4)".
                 * A set of these appear in an "and"-separated list. */
                _("%s (airlift: %s)"),
@@ -409,7 +409,7 @@ static void update_source_label(void)
   /* Finally, update the label. */
   {
     struct astring label = ASTRING_INIT, list = ASTRING_INIT;
-    astr_set(&label, 
+    astr_set(&label,
              /* TRANS: goto/airlift dialog. Current location of units; %s is an
               * "and"-separated list of cities and associated info */
              _("Currently in: %s"),
@@ -432,7 +432,7 @@ static void update_source_label(void)
 static void update_goto_dialog(GtkToggleButton *button)
 {
   bool nonempty = FALSE;
-  
+
   if (!client_has_player()) {
     /* Case global observer. */
     return;

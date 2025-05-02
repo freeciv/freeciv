@@ -65,7 +65,7 @@ static GtkWidget *scenario_authors;
 static GtkWidget *scenario_filename;
 static GtkWidget *scenario_version;
 
-static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store; 
+static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store;
 
 static GtkListStore *server_playerlist_store;
 static GtkWidget *server_playerlist_view;
@@ -828,7 +828,7 @@ static void server_scan_error(struct server_scan *scan,
   output_window_append(ftc_client, message);
   log_error("%s", message);
 
-  /* Main thread will finalize the scan later (or even concurrently) - 
+  /* Main thread will finalize the scan later (or even concurrently) -
    * do not do anything here to cause double free or raze condition. */
 }
 
@@ -850,8 +850,8 @@ static void update_network_lists(void)
   Network connection state defines.
 **************************************************************************/
 enum connection_state {
-  LOGIN_TYPE, 
-  NEW_PASSWORD_TYPE, 
+  LOGIN_TYPE,
+  NEW_PASSWORD_TYPE,
   ENTER_PASSWORD_TYPE,
   WAITING_TYPE
 };
@@ -1050,7 +1050,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
     sz_strlcpy(user_name, gtk_entry_get_text(GTK_ENTRY(network_login)));
     sz_strlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(network_host)));
     server_port = atoi(gtk_entry_get_text(GTK_ENTRY(network_port)));
-  
+
     if (connect_to_server(user_name, server_host, server_port,
                           errbuf, sizeof(errbuf)) != -1) {
     } else {
@@ -1058,7 +1058,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 
       output_window_append(ftc_client, errbuf);
     }
-    return; 
+    return;
   case NEW_PASSWORD_TYPE:
     if (w != network_password) {
       sz_strlcpy(fc_password,
@@ -1070,7 +1070,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
         send_packet_authentication_reply(&client.conn, &reply);
 
         set_connection_state(WAITING_TYPE);
-      } else { 
+      } else {
         append_network_statusbar(_("Passwords don't match, enter password."),
                                  TRUE);
 
@@ -2661,7 +2661,7 @@ GtkWidget *create_start_page(void)
   spin = gtk_spin_button_new_with_range(1, MAX_NUM_PLAYERS, 1);
   start_aifill_spin = spin;
   gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-  gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), 
+  gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin),
                                     GTK_UPDATE_IF_VALID);
   if (server_optset != NULL) {
     struct option *paifill = optset_option_by_name(server_optset, "aifill");
@@ -2806,7 +2806,7 @@ GtkWidget *create_start_page(void)
     pregame_votebar = voteinfo_bar_new(TRUE);
   }
   gtk_container_add(GTK_CONTAINER(box), pregame_votebar);
-  
+
 
   toolkit_view = inputline_toolkit_view_new();
   gtk_container_add(GTK_CONTAINER(box), toolkit_view);
@@ -2930,7 +2930,7 @@ GtkWidget *create_load_page(void)
 
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(load_callback), NULL);
-  
+
   sbox = gtk_grid_new();
   gtk_widget_set_halign(sbox, GTK_ALIGN_CENTER);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),

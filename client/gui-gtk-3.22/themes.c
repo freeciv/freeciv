@@ -174,14 +174,14 @@ char **get_usable_themes_in_directory(const char *directory, int *count)
       /* File doesn't exist */
       continue;
     }
-    
+
     if (!S_ISREG(stat_result.st_mode)) {
       /* Not a regular file */
       continue;
     }
-    
+
     /* Otherwise it's ok */
-    
+
     /* Increase array size if needed */
     if (*count == t_size) {
       theme_names = fc_realloc(theme_names, t_size * 2 * sizeof(char *));
