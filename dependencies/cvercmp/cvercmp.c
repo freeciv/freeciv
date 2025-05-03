@@ -1,6 +1,6 @@
 /*********************************************************
 *                                                        *
-* (c) 2011-2016 Marko Lindqvist                          *
+* (c) 2011-2025 Marko Lindqvist                          *
 *                                                        *
 * Version contributed to Freeciv has been made available *
 * under GNU Public License; either version 2, or         *
@@ -233,7 +233,7 @@ static char **cvercmp_ver_tokenize(const char *ver)
   int idx;
   int verlen = strlen(ver);
   char **tokens;
-  int i;
+  int i, token_i;
   int tokenlen;
 
   for (idx = 0; idx < verlen; idx += cvercmp_next_token(ver + idx) + 1) {
@@ -242,12 +242,20 @@ static char **cvercmp_ver_tokenize(const char *ver)
 
   tokens = (char **) calloc(sizeof(char *), num + 1);
 
-  for (i = 0, idx = 0; i < num; i++) {
+  for (i = 0, idx = 0, token_i = 0; i < num; i++) {
     tokenlen = cvercmp_next_token(ver + idx);
-    tokens[i] = (char *) malloc(sizeof(char) * (tokenlen + 1));
-    strncpy(tokens[i], ver + idx, tokenlen);
-    tokens[i][tokenlen] = '\0';
-    idx += tokenlen + 1; /* Skip character separating tokens. */
+
+    /* Zero tokenlength can happen when there are multiple
+     * consecutive token separators. */
+    if (tokenlen > 0) {
+      tokens[token_i] = (char *) malloc(sizeof(char) * (tokenlen + 1));
+      strncpy(tokens[token_i], ver + idx, tokenlen);
+      tokens[token_i][tokenlen] = '\0';
+      token_i++;
+      idx += tokenlen + 1; // Skip character separating tokens.
+    } else {
+      idx++;
+    }
   }
 
   return tokens;
@@ -276,7 +284,7 @@ static char **cvercmp_ver_subtokenize(const char *ver)
 
   /* Treat NULL string as empty string */
   if (!ver) {
-      ver = "";
+    ver = "";
   }
   verlen = strlen(ver);
 
