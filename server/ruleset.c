@@ -6510,18 +6510,19 @@ static bool load_action_range(struct section_file *file, action_id act)
 static bool load_action_kind(struct section_file *file, action_id act)
 {
   struct action *paction = action_by_number(act);
+  const char *var_name = action_target_kind_ruleset_var_name(act);
 
-  if (action_target_kind_ruleset_var_name(act) == NULL) {
-    /* Target kind can't be loaded from the ruleset. */
-  }
-
-  action_by_number(act)->target_kind
+  if (var_name != NULL) {
+    action_by_number(act)->target_kind
       = secfile_lookup_enum_default(file,
                                     actres_target_kind_default(
                                       paction->result),
                                     action_target_kind,
-                                    "actions.%s",
-                                    action_target_kind_ruleset_var_name(act));
+                                    "actions.%s", var_name);
+  } else {
+    action_by_number(act)->target_kind
+      = actres_target_kind_default(paction->result);
+  }
 
   return TRUE;
 }
