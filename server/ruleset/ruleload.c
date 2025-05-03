@@ -7487,9 +7487,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                              "%s.type",
                                                               sec_name);
 
-        enum counter_behaviour cb = counter_behaviour_by_name(counter_type,
+        enum counter_behavior cb = counter_behavior_by_name(counter_type,
                                         fc_strcasecmp);
-        if (!counter_behaviour_is_valid(cb)) {
+        if (!counter_behavior_is_valid(cb)) {
           ruleset_error(NULL, LOG_ERROR,
                         "\"%s\" unknown counter type \"%s\".",
                         filename, counter_type);
@@ -8251,7 +8251,7 @@ static void send_ruleset_counters(struct conn_list *dest)
     sz_strlcpy(packet.name, untranslated_name(&pcount->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&pcount->name));
     packet.checkpoint = pcount->checkpoint;
-    packet.behaviour = pcount->type;
+    packet.behavior = pcount->type;
     packet.type = pcount->target;
     packet.def = pcount->def;
 

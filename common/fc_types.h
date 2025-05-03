@@ -109,7 +109,7 @@ enum output_type_id {
 
 /* Counters related types. See common/counters.h */
 /* Used in the network protocol. */
-#define SPECENUM_NAME counter_behaviour
+#define SPECENUM_NAME counter_behavior
 #define SPECENUM_VALUE1 CB_CITY_OWNED_TURNS
 #define SPECENUM_VALUE1NAME "Owned"
 #define SPECENUM_VALUE2 CB_CITY_CELEBRATION_TURNS
@@ -121,7 +121,7 @@ enum output_type_id {
 
 
 
-#define SPECENUM_COUNT COUNTER_BEHAVIOUR_LAST
+#define SPECENUM_COUNT COUNTER_BEHAVIOR_LAST
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */

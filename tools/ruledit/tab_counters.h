@@ -68,7 +68,7 @@ class tab_counter : public QWidget
     void same_name_toggle(bool checked);
     void edit_effects();
     bool initialize_new_counter(struct counter *padv);
-    void counter_behaviour_selected(int item);
+    void counter_behavior_selected(int item);
 };
 
 

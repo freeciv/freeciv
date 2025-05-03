@@ -5691,11 +5691,11 @@ void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
 
   names_set(&curr->name, NULL, packet->name, packet->rule_name);
   curr->checkpoint = packet->checkpoint;
-  curr->type = packet->behaviour;
+  curr->type = packet->behavior;
   curr->target = packet->type;
   curr->def = packet->def;
 
-  if (!counter_behaviour_is_valid(curr->type)
+  if (!counter_behavior_is_valid(curr->type)
       || curr->target != CTGT_CITY) {
     return;
   }
