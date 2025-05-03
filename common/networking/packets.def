@@ -268,7 +268,7 @@ type WONDER_VISIB       = uint8(enum wonder_visib_type)
 type TRANSP_DEF_TYPE    = uint8(enum transp_def_type)
 type AI_LEVEL           = uint8(enum ai_level)
 type COUNTER_TARGET     = uint8(enum counter_target)
-type COUNTER_BEHAVIOUR  = uint8(enum counter_behaviour)
+type COUNTER_BEHAVIOR   = uint8(enum counter_behavior)
 type CITY_WL_CB         = uint8(enum city_wl_cancel_behavior)
 type CITY_ACQUIRE_TYPE  = uint8(enum city_acquire_type)
 
@@ -1925,7 +1925,7 @@ PACKET_RULESET_COUNTER = 513; sc, lsend
   UINT32 def;
   UINT32 checkpoint;
   COUNTER_TARGET type;
-  COUNTER_BEHAVIOUR behaviour;
+  COUNTER_BEHAVIOR behavior;
 end
 
 PACKET_RULESET_MUSIC = 240; sc, lsend

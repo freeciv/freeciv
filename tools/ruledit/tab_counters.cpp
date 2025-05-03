@@ -115,19 +115,20 @@ tab_counter::tab_counter(ruledit_gui *ui_in) : QWidget()
   widgets_row(label, empty_widget, checkpoint);
 
   {
-    enum counter_behaviour current;
+    enum counter_behavior current;
     type = new QComboBox(this);
 
     label = new QLabel(QString::fromUtf8(R__("Behavior")));
     label->setParent(this);
 
-    for (current = counter_behaviour_begin(); current > counter_behaviour_end(); current = counter_behaviour_next(current)) {
+    for (current = counter_behavior_begin(); current > counter_behavior_end();
+         current = counter_behavior_next(current)) {
       QVariant value(current);
 
-      type->addItem(counter_behaviour_name(current), value);
+      type->addItem(counter_behavior_name(current), value);
     };
 
-    connect(type, SIGNAL(activated(int)), this, SLOT(counter_behaviour_selected(int)));
+    connect(type, SIGNAL(activated(int)), this, SLOT(counter_behavior_selected(int)));
     widgets_row(label, empty_widget, type);
   }
 
@@ -156,9 +157,9 @@ tab_counter::tab_counter(ruledit_gui *ui_in) : QWidget()
 }
 
 /**********************************************************************//**
-  Called when counter behaviour is set by user
+  Called when counter behavior is set by user
 **************************************************************************/
-void tab_counter::counter_behaviour_selected(int item)
+void tab_counter::counter_behavior_selected(int item)
 {
   QVariant item_data;
 
@@ -167,7 +168,7 @@ void tab_counter::counter_behaviour_selected(int item)
     return;
   }
   item_data = type->currentData();
-  selected->type =  (enum counter_behaviour) item_data.toInt();
+  selected->type =  (enum counter_behavior) item_data.toInt();
 
   update_counter_info(selected);
   refresh();
@@ -336,7 +337,7 @@ void tab_counter::add_now()
 
   // Try to reuse freed counter slot
   city_counters_iterate(pcount) {
-    if (pcount->type == COUNTER_BEHAVIOUR_LAST
+    if (pcount->type == COUNTER_BEHAVIOR_LAST
         || pcount->ruledit_disabled) {
       if (initialize_new_counter(pcount)) {
         update_counter_info(pcount);
