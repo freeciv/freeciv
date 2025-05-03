@@ -28,13 +28,13 @@ struct counter
   struct name_translation name;
   struct strvec *helptext;
   bool ruledit_disabled;
-  enum counter_behaviour type;
+  enum counter_behavior type;
   enum counter_target target;
   int checkpoint;
-  int def;    /* default value for each entity of given type
+  int def;    /* Default value for each entity of given type
                * for this counter */
 
-  int index;  /* index in specific (city/player/world) array */
+  int index;  /* Index in specific (city/player/world) array */
 };
 
 void counters_init(void);
