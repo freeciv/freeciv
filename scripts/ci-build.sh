@@ -67,6 +67,7 @@ meson setup .. \
       -Dqtver=qt6
 ninja
 ninja install
+echo "Freeciv build successful!"
 ;;
 
 "os_x")
@@ -141,6 +142,7 @@ meson setup .. \
       && exit $meson_exit_status)
 ninja
 ninja install
+echo "Freeciv build successful!"
 
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/mac-meson/bin/
