@@ -199,3 +199,16 @@ values
   /* Hardcoded action that's just controlled by enablers */
   ENABLER_CHECK
 end
+
+/* CityStatus requirement types. */
+/* Values used in the network protocol. */
+enum citystatus_type
+  prefix CITYS_
+  count  LAST
+values
+  OWNED_BY_ORIGINAL "OwnedByOriginal"
+  STARVED           "Starved"
+  DISORDER          "Disorder"
+  CELEBRATION       "Celebration"
+  TRANSFERRED       "Transferred"
+end

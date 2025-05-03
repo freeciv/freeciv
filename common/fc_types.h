@@ -413,25 +413,6 @@ const char *ai_level_name_update_cb(const char *old);
 #include "specenum_gen.h"
 
 /*
- * CityStatus requirement types.
- *
- * Used in the network protocol
- */
-#define SPECENUM_NAME citystatus_type
-#define SPECENUM_VALUE0 CITYS_OWNED_BY_ORIGINAL
-#define SPECENUM_VALUE0NAME "OwnedByOriginal"
-#define SPECENUM_VALUE1 CITYS_STARVED
-#define SPECENUM_VALUE1NAME "Starved"
-#define SPECENUM_VALUE2 CITYS_DISORDER
-#define SPECENUM_VALUE2NAME "Disorder"
-#define SPECENUM_VALUE3 CITYS_CELEBRATION
-#define SPECENUM_VALUE3NAME "Celebration"
-#define SPECENUM_VALUE4 CITYS_TRANSFERRED
-#define SPECENUM_VALUE4NAME "Transferred"
-#define SPECENUM_COUNT CITYS_LAST
-#include "specenum_gen.h"
-
-/*
  * PlayerState requirement types.
  *
  * Used in the network protocol
