@@ -8,7 +8,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 10-Jul-24.
+Last minor update was 03-May-25.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -194,9 +194,6 @@ Minimum version for SDL2 is 2.0.6.
    The "Gtk+" widget library was designed for the GIMP graphics program.
    Since then it has gained popularity as an easy to program, free toolkit.
 
-   "Gtk+ 3.22" is the default client. If you don't specify any client with
-   "--enable-client" to configure, you will get "Gtk+ 3.22" client.
-
    The "Gtk+" library comes with one companion libraries:
 
      "Gdk":
@@ -262,6 +259,9 @@ following order: pkgconf, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    The "Gtk" widget library was designed for the GIMP graphics program.
    Since then it has gained popularity as an easy to program, free toolkit.
+
+   "Gtk 4" is the default client. If you don't specify any client with
+   "--enable-client" to configure, you will get "Gtk 4" client.
 
    The "Gtk" library comes with one companion libraries:
 
