@@ -2,7 +2,7 @@
 
 # emsbuild.sh: Build freeciv using emsdk
 #
-# (c) 2023 Freeciv team
+# (c) 2023-2025 Freeciv team
 #
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
@@ -12,17 +12,18 @@ if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   exit 1
 fi
 
-EMSDK_ROOT="$1"
+if ! test -f "$1/emsdk_env.sh" ; then
+  echo "No environment setup script emsdk_env.sh in \"$1\"" >&2
+  exit 1
+fi
+
+# Absolute paths
+EMSDK_ROOT="$(cd $1 && pwd)"
 BUILD_ROOT="$(pwd)"
 PLATFORM_ROOT="$(cd $(dirname "$0") && pwd)"
 
 if test "${PLATFORM_ROOT}" = "${BUILD_ROOT}" ; then
   echo "Run $0 from a separate build directory." >&2
-  exit 1
-fi
-
-if ! test -f "${EMSDK_ROOT}/emsdk_env.sh" ; then
-  echo "No environment setup script emsdk_env.sh in \"${EMSDK_ROOT}\"" >&2
   exit 1
 fi
 
