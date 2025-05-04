@@ -87,10 +87,10 @@ void connections_set_close_callback(conn_close_fn_t func)
 **************************************************************************/
 void connection_close(struct connection *pconn, const char *reason)
 {
-  fc_assert_ret(NULL != pconn);
+  fc_assert_ret(pconn != nullptr);
 
-  if (NULL != reason && NULL == pconn->closing_reason) {
-    /* NB: we don't overwrite the original reason. */
+  if (reason != nullptr && pconn->closing_reason == nullptr) {
+    /* NB: We don't overwrite the original reason. */
     pconn->closing_reason = fc_strdup(reason);
   }
 
@@ -181,7 +181,7 @@ static int write_socket_data(struct connection *pc,
 
     tv.tv_sec = 0; tv.tv_usec = 0;
 
-    if (fc_select(pc->sock + 1, NULL, &writefs, &exceptfs, &tv) <= 0) {
+    if (fc_select(pc->sock + 1, nullptr, &writefs, &exceptfs, &tv) <= 0) {
       if (errno != EINTR) {
         break;
       } else {
@@ -217,7 +217,8 @@ static int write_socket_data(struct connection *pc,
     buf->ndata -= start;
     memmove(buf->data, buf->data+start, buf->ndata);
     pc->last_write = timer_renew(pc->last_write, TIMER_USER, TIMER_ACTIVE,
-                                 pc->last_write != NULL ? NULL : "socket write");
+                                 pc->last_write != nullptr
+                                 ? nullptr : "socket write");
     timer_start(pc->last_write);
   }
 
@@ -262,7 +263,7 @@ static bool add_connection_data(struct connection *pconn,
 {
   struct socket_packet_buffer *buf;
 
-  if (NULL == pconn
+  if (pconn == nullptr
       || !pconn->used
       || (is_server() && pconn->server.is_closing)) {
     return TRUE;
@@ -287,7 +288,7 @@ static bool add_connection_data(struct connection *pconn,
 bool connection_send_data(struct connection *pconn,
                           const unsigned char *data, int len)
 {
-  if (NULL == pconn
+  if (pconn == nullptr
       || !pconn->used
       || (is_server() && pconn->server.is_closing)) {
     return TRUE;
@@ -335,7 +336,8 @@ void connection_do_buffer(struct connection *pc)
 **************************************************************************/
 void connection_do_unbuffer(struct connection *pc)
 {
-  if (NULL == pc || !pc->used || (is_server() && pc->server.is_closing)) {
+  if (pc == nullptr || !pc->used
+      || (is_server() && pc->server.is_closing)) {
     return;
   }
 
@@ -372,7 +374,7 @@ void conn_list_do_unbuffer(struct conn_list *dest)
 
 /**********************************************************************//**
   Find connection by exact user name, from game.all_connections,
-  case-insensitive.  Returns NULL if not found.
+  case-insensitive. Returns nullptr if not found.
 **************************************************************************/
 struct connection *conn_by_user(const char *user_name)
 {
@@ -382,12 +384,12 @@ struct connection *conn_by_user(const char *user_name)
     }
   } conn_list_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
   Like conn_by_username(), but allow unambiguous prefix (i.e. abbreviation).
-  Returns NULL if could not match, or if ambiguous or other problem, and
+  Returns nullptr if could not match, or if ambiguous or other problem, and
   fills *result with characterisation of match/non-match (see
   "utility/shared.[ch]").
 **************************************************************************/
@@ -408,20 +410,20 @@ struct connection *conn_by_user_prefix(const char *user_name,
   if (*result < M_PRE_AMBIGUOUS) {
     return conn_list_get(game.all_connections, ind);
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
 /**********************************************************************//**
   Find connection by id, from game.all_connections.
-  Returns NULL if not found.
+  Returns nullptr if not found.
   Number of connections will always be relatively small given
   current implementation, so linear search should be fine.
 **************************************************************************/
 struct connection *conn_by_number(int id)
 {
   conn_list_iterate(game.all_connections, pconn) {
-    fc_assert_msg(pconn != NULL,
+    fc_assert_msg(pconn != nullptr,
                   "Trying to look at the id of a non existing connection");
 
     if (pconn->id == id) {
@@ -430,7 +432,7 @@ struct connection *conn_by_number(int id)
   }
   conn_list_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -465,11 +467,11 @@ static void free_socket_packet_buffer(struct socket_packet_buffer *buf)
 /**********************************************************************//**
   Return pointer to static string containing a description for this
   connection, based on pconn->name, pconn->addr, and (if applicable)
-  pconn->playing->name.  (Also pconn->established and pconn->observer.)
+  pconn->playing->name. (Also pconn->established and pconn->observer.)
 
   Note that when pconn is client.conn (connection to server),
   pconn->name and pconn->addr contain empty string, and pconn->playing
-  is NULL: in this case return string "server".
+  is nullptr: in this case return string "server".
 **************************************************************************/
 const char *conn_description(const struct connection *pconn)
 {
@@ -483,22 +485,22 @@ const char *conn_description(const struct connection *pconn)
   } else {
     sz_strlcpy(buffer, "server");
   }
-  if (NULL != pconn->closing_reason) {
+  if (pconn->closing_reason != nullptr) {
     /* TRANS: Appending the reason why a connection has closed.
      * Preserve leading space. */
     cat_snprintf(buffer, sizeof(buffer), _(" (%s)"), pconn->closing_reason);
   } else if (!pconn->established) {
-    /* TRANS: preserve leading space. */
+    /* TRANS: Preserve leading space. */
     sz_strlcat(buffer, _(" (connection incomplete)"));
     return buffer;
   }
-  if (NULL != pconn->playing) {
-    /* TRANS: preserve leading space. */
+  if (pconn->playing != nullptr) {
+    /* TRANS: Preserve leading space. */
     cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
                  player_name(pconn->playing));
   }
   if (pconn->observer) {
-    /* TRANS: preserve leading space. */
+    /* TRANS: Preserve leading space. */
     sz_strlcat(buffer, _(" (observer)"));
   }
 
@@ -512,7 +514,7 @@ bool can_conn_edit(const struct connection *pconn)
 {
   return (can_conn_enable_editing(pconn)
           && game.info.is_edit_mode
-          && (NULL != pconn->playing || pconn->observer));
+          && (pconn->playing != nullptr || pconn->observer));
 }
 
 /**********************************************************************//**
@@ -563,8 +565,8 @@ static void init_packet_hashes(struct connection *pc)
   pc->phs.handlers = packet_handlers_initial();
 
   for (i = 0; i < PACKET_LAST; i++) {
-    pc->phs.sent[i] = NULL;
-    pc->phs.received[i] = NULL;
+    pc->phs.sent[i] = nullptr;
+    pc->phs.received[i] = nullptr;
   }
 }
 
@@ -577,22 +579,22 @@ static void free_packet_hashes(struct connection *pc)
 
   if (pc->phs.sent) {
     for (i = 0; i < PACKET_LAST; i++) {
-      if (pc->phs.sent[i] != NULL) {
+      if (pc->phs.sent[i] != nullptr) {
         genhash_destroy(pc->phs.sent[i]);
       }
     }
     free(pc->phs.sent);
-    pc->phs.sent = NULL;
+    pc->phs.sent = nullptr;
   }
 
   if (pc->phs.received) {
     for (i = 0; i < PACKET_LAST; i++) {
-      if (pc->phs.received[i] != NULL) {
+      if (pc->phs.received[i] != nullptr) {
         genhash_destroy(pc->phs.received[i]);
       }
     }
     free(pc->phs.received);
-    pc->phs.received = NULL;
+    pc->phs.received = nullptr;
   }
 }
 
@@ -605,8 +607,8 @@ void connection_common_init(struct connection *pconn)
   pconn->established = FALSE;
   pconn->used = TRUE;
   packet_header_init(&pconn->packet_header);
-  pconn->closing_reason = NULL;
-  pconn->last_write = NULL;
+  pconn->closing_reason = nullptr;
+  pconn->last_write = nullptr;
   pconn->buffer = new_socket_packet_buffer();
   pconn->send_buffer = new_socket_packet_buffer();
   pconn->statistics.bytes_send = 0;
@@ -635,19 +637,19 @@ void connection_common_close(struct connection *pconn)
     fc_closesocket(pconn->sock);
     pconn->used = FALSE;
     pconn->established = FALSE;
-    if (NULL != pconn->closing_reason) {
+    if (pconn->closing_reason != nullptr) {
       free(pconn->closing_reason);
     }
 
     free_socket_packet_buffer(pconn->buffer);
-    pconn->buffer = NULL;
+    pconn->buffer = nullptr;
 
     free_socket_packet_buffer(pconn->send_buffer);
-    pconn->send_buffer = NULL;
+    pconn->send_buffer = nullptr;
 
     if (pconn->last_write) {
       timer_destroy(pconn->last_write);
-      pconn->last_write = NULL;
+      pconn->last_write = nullptr;
     }
 
     free_compression_queue(pconn);
@@ -676,10 +678,10 @@ void conn_reset_delta_state(struct connection *pc)
 
   for (i = 0; i < PACKET_LAST; i++) {
     if (packet_has_game_info_flag(i)) {
-      if (NULL != pc->phs.sent && NULL != pc->phs.sent[i]) {
+      if (pc->phs.sent != nullptr && pc->phs.sent[i] != nullptr) {
         genhash_clear(pc->phs.sent[i]);
       }
-      if (NULL != pc->phs.received && NULL != pc->phs.received[i]) {
+      if (pc->phs.received != nullptr && pc->phs.received[i] != nullptr) {
         genhash_clear(pc->phs.received[i]);
       }
     }
@@ -756,27 +758,29 @@ bool conn_is_global_observer(const struct connection *pconn)
 }
 
 /**********************************************************************//**
-  Returns the player that this connection is attached to, or NULL. Note
+  Returns the player that this connection is attached to, or nullptr. Note
   that this will return the observed player for connections that are
   observing players.
 **************************************************************************/
 struct player *conn_get_player(const struct connection *pconn)
 {
-  if (!pconn) {
-    return NULL;
+  if (pconn == nullptr) {
+    return nullptr;
   }
+
   return pconn->playing;
 }
 
 /**********************************************************************//**
   Returns the current access level of the given connection.
-  NB: If 'pconn' is NULL, this function will return ALLOW_NONE.
+  NB: If 'pconn' is nullptr, this function will return ALLOW_NONE.
 **************************************************************************/
 enum cmdlevel conn_get_access(const struct connection *pconn)
 {
-  if (!pconn) {
+  if (pconn == nullptr) {
     return ALLOW_NONE; /* Would not want to give hack on error... */
   }
+
   return pconn->access_level;
 }
 
@@ -808,7 +812,7 @@ struct conn_pattern *conn_pattern_new(enum conn_pattern_type type,
 **************************************************************************/
 void conn_pattern_destroy(struct conn_pattern *ppattern)
 {
-  fc_assert_ret(NULL != ppattern);
+  fc_assert_ret(ppattern != nullptr);
   free(ppattern->wildcard);
   free(ppattern);
 }
@@ -819,7 +823,7 @@ void conn_pattern_destroy(struct conn_pattern *ppattern)
 bool conn_pattern_match(const struct conn_pattern *ppattern,
                         const struct connection *pconn)
 {
-  const char *test = NULL;
+  const char *test = nullptr;
 
   switch (ppattern->type) {
   case CPT_USER:
@@ -835,7 +839,7 @@ bool conn_pattern_match(const struct conn_pattern *ppattern,
     break;
   }
 
-  if (NULL != test) {
+  if (test != nullptr) {
     return wildcard_fit_string(ppattern->wildcard, test);
   } else {
     log_error("%s(): Invalid pattern type (%d)",
@@ -893,22 +897,24 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
     remove_leading_trailing_spaces(pattern_type);
     type = conn_pattern_type_by_name(pattern_type, fc_strcasecmp);
     if (!conn_pattern_type_is_valid(type)) {
-      if (NULL != error_buf) {
+      if (error_buf != nullptr) {
         fc_snprintf(error_buf, error_buf_len,
                     _("\"%s\" is not a valid pattern type"),
                     pattern_type);
       }
-      return NULL;
+
+      return nullptr;
     }
   } else {
     /* Use 'prefer' type. */
     p = pattern;
     type = prefer;
     if (!conn_pattern_type_is_valid(type)) {
-      if (NULL != error_buf) {
+      if (error_buf != nullptr) {
         fc_strlcpy(error_buf, _("Missing pattern type"), error_buf_len);
       }
-      return NULL;
+
+      return nullptr;
     }
   }
 
@@ -918,20 +924,21 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
   }
 
   if ('\0' == *p) {
-    if (NULL != error_buf) {
+    if (error_buf != nullptr) {
       fc_strlcpy(error_buf, _("Missing pattern"), error_buf_len);
     }
-    return NULL;
+
+    return nullptr;
   }
 
   return conn_pattern_new(type, p);
 }
 
 /**********************************************************************//**
-  Returns TRUE if the connection is valid, i.e. not NULL, not closed, not
-  closing, etc.
+  Returns TRUE if the connection is valid, i.e. not nullptr, not closed,
+  not closing, etc.
 **************************************************************************/
 bool conn_is_valid(const struct connection *pconn)
 {
-  return (pconn && pconn->used && !pconn->server.is_closing);
+  return (pconn != nullptr && pconn->used && !pconn->server.is_closing);
 }
