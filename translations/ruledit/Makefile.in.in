@@ -7,8 +7,20 @@
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
 #
-# Origin: gettext-0.23
-GETTEXT_MACRO_VERSION = 0.22
+# Origin: gettext-0.24
+GETTEXT_MACRO_VERSION = 0.24
+
+# This Makefile makes use of the variable assignment operator != standardized
+# by POSIX:2024
+# <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/make.html>.
+# It thus requires a 'make' implementation that supports this operator !=.
+# As of 2024, these are: GNU make >= 4.0, FreeBSD make, NetBSD make,
+# OpenBSD make. This means that building on specific platforms requires
+# use of GNU make:
+#   - On macOS, use /opt/homebrew/bin/gmake.
+#   - On Solaris 11 OpenIndiana, use /usr/bin/gmake = /usr/gnu/bin/make.
+#   - On Solaris 11.4, install GNU make yourself.
+#   - On AIX, use /opt/freeware/bin/make.
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
@@ -64,19 +76,61 @@ MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter
 
-POFILES = @POFILES@
-GMOFILES = @GMOFILES@
-UPDATEPOFILES = @UPDATEPOFILES@
-DUMMYPOFILES = @DUMMYPOFILES@
-DISTFILES.common = Makefile.in.in remove-potcdate.sed \
-$(DISTFILES.common.extra1) $(DISTFILES.common.extra2) $(DISTFILES.common.extra3)
-DISTFILES = $(DISTFILES.common) Makevars POTFILES.in meson.build \
-$(POFILES) $(GMOFILES) \
-$(DISTFILES.extra1) $(DISTFILES.extra2) $(DISTFILES.extra3)
+# The list of files which contain translatable strings.
+POTFILES != sed -e '/^\#/d' < $(srcdir)/POTFILES.in
+# This is computed as $(foreach file, $(POTFILES), $(top_srcdir)/$(file))
+POTFILES_DEPS != for file in $(POTFILES); do echo $(top_srcdir)/$$file; done
 
-POTFILES = \
+# The set of available translations.
+ALL_LINGUAS != if test -f $(srcdir)/LINGUAS; then \
+                 sed -e '/^\#/d' < $(srcdir)/LINGUAS; \
+               else \
+                 echo $(LINGUAS); \
+               fi
+# This is computed as $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).po)
+POFILES != for lang in $(ALL_LINGUAS); do echo $(srcdir)/$$lang.po; done
+# This is computed as $(foreach lang, $(ALL_LINGUAS), $(srcdir)/$(lang).gmo)
+GMOFILES != for lang in $(ALL_LINGUAS); do echo $(srcdir)/$$lang.gmo; done
+# This is computed as $(foreach lang, $(ALL_LINGUAS), $(lang).po-update)
+UPDATEPOFILES != for lang in $(ALL_LINGUAS); do echo $$lang.po-update; done
+# This is computed as $(foreach lang, $(ALL_LINGUAS), $(lang).nop)
+DUMMYPOFILES != for lang in $(ALL_LINGUAS); do echo $$lang.nop; done
 
-CATALOGS = @CATALOGS@
+DISTFILES.common = \
+  Makefile.in.in remove-potcdate.sed \
+  $(DISTFILES.common.extra1) $(DISTFILES.common.extra2) \
+  $(DISTFILES.common.extra3) $(DISTFILES.common.extra4) \
+  $(DISTFILES.common.extra5) $(DISTFILES.common.extra6)
+DISTFILES = \
+  $(DISTFILES.common) \
+  Makevars POTFILES.in \
+  meson.build \
+  $(POFILES) $(GMOFILES) \
+  $(DISTFILES.extra1) $(DISTFILES.extra2) \
+  $(DISTFILES.extra3) $(DISTFILES.extra4) \
+  $(DISTFILES.extra5) $(DISTFILES.extra6)
+
+# The set of desired translations, as specified by the installer or distributor.
+DESIRED_LINGUAS = @DESIRED_LINGUAS@
+# The set of translations to install. This is computed based on $(ALL_LINGUAS)
+# and $(DESIRED_LINGUAS). It is a subset of $(ALL_LINGUAS).
+# We use the presentlang catalog if desiredlang is
+#   a. equal to presentlang, or
+#   b. a variant of presentlang (because in this case, presentlang can be used
+#      as a fallback for messages which are not translated in the desiredlang
+#      catalog).
+INST_LINGUAS != for presentlang in $(ALL_LINGUAS); do \
+                  useit=false; \
+                  for desiredlang in $(DESIRED_LINGUAS); do \
+                    case "$$desiredlang" in \
+                      "$$presentlang" | "$$presentlang"_* | "$$presentlang".* | "$$presentlang"@*) \
+                        useit=true ;; \
+                    esac; \
+                  done; \
+                  if $$useit; then echo $$presentlang; fi; \
+                done
+# This is computed as $(foreach lang, $(INST_LINGUAS), $(lang).gmo)
+CATALOGS != for lang in $(INST_LINGUAS); do echo $$lang.gmo; done
 
 POFILESDEPS_ = $(srcdir)/$(DOMAIN).pot
 POFILESDEPS_yes = $(POFILESDEPS_)
@@ -88,13 +142,14 @@ DISTFILESDEPS_yes = $(DISTFILESDEPS_)
 DISTFILESDEPS_no =
 DISTFILESDEPS = $(DISTFILESDEPS_$(DIST_DEPENDS_ON_UPDATE_PO))
 
-# Makevars gets inserted here. (Don't remove this line!)
+# Include the customization of this po/ directory.
+include $(srcdir)/Makevars
 
 all: all-@USE_NLS@
 
 
 .SUFFIXES:
-.SUFFIXES: .po .gmo .sed .nop .po-create .po-update
+.SUFFIXES: .po .gmo .nop .po-create .po-update
 
 # The .pot file, stamp-po, .po files, and .gmo files appear in release tarballs.
 # The GNU Coding Standards say in
@@ -158,16 +213,12 @@ $(srcdir)/stamp-po: $(srcdir)/$(DOMAIN).pot
 	  mv $(srcdir)/stamp-poT $(srcdir)/stamp-po; \
 	}
 
-# Note: Target 'all' must not depend on target '$(DOMAIN).pot-update',
-# otherwise packages like GCC can not be built if only parts of the source
-# have been downloaded.
-
 # This target rebuilds $(DOMAIN).pot; it is an expensive operation.
 # Note that $(DOMAIN).pot is not touched if it doesn't need to be changed.
 # The determination of whether the package xyz is a GNU one is based on the
 # heuristic whether some file in the top level directory mentions "GNU xyz".
 # If GNU 'find' is available, we avoid grepping through monster files.
-$(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in
+$(DOMAIN).pot-update: $(POTFILES_DEPS) $(srcdir)/POTFILES.in
 	package_gnu="$(PACKAGE_GNU)"; \
 	test -n "$$package_gnu" || { \
 	  if { if (LC_ALL=C find --version) 2>/dev/null | grep GNU >/dev/null; then \
@@ -401,7 +452,7 @@ mostlyclean:
 clean: mostlyclean
 
 distclean: clean
-	rm -f Makefile Makefile.in POTFILES
+	rm -f Makefile Makefile.in
 
 maintainer-clean: distclean
 	@echo "This command is intended for maintainers to use;"
@@ -496,11 +547,24 @@ $(DUMMYPOFILES):
 update-gmo: Makefile $(GMOFILES)
 	@:
 
+# Include all the Rules-* extensions. Documented in
+# <https://www.gnu.org/software/gettext/manual/html_node/po_002fRules_002d_002a.html>
+RULES_FILES != cd $(srcdir) \
+               && for file in Rules-*; do \
+                    if test -f "$$file"; then \
+                      case "$$file" in \
+                        *.orig | *.bak | *~) ;; \
+                        *) echo $(srcdir)/"$$file" ;; \
+                      esac; \
+                    fi; \
+                  done
+include $(RULES_FILES)
+
 # Recreate Makefile by invoking config.status. Explicitly invoke the shell,
 # because execution permission bits may not work on the current file system.
 # Use @SHELL@, which is the shell determined by autoconf for the use by its
 # scripts, not $(SHELL) which is hardwired to /bin/sh and may be deficient.
-Makefile: Makefile.in.in Makevars $(top_builddir)/config.status @POMAKEFILEDEPS@
+Makefile: Makefile.in.in Makevars $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && @SHELL@ ./config.status $(subdir)/$@.in po-directories
 
