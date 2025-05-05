@@ -5732,6 +5732,55 @@ is_citystatus_req_active(const struct civ_map *nmap,
 
     return TRI_MAYBE;
 
+  case CITYS_CAPITALCONNECTED:
+    if (!is_server()) {
+      /* Client has no idea. */
+      return TRI_MAYBE;
+    }
+
+    switch (req->range) {
+    case REQ_RANGE_CITY:
+      return BOOL_TO_TRISTATE(context->city->server.aarea != nullptr
+                              && context->city->server.aarea->capital);
+    case REQ_RANGE_TRADE_ROUTE:
+      {
+        enum fc_tristate ret;
+
+        if (context->city->server.aarea != nullptr
+            && context->city->server.aarea->capital) {
+          return TRI_YES;
+        }
+
+        ret = TRI_NO;
+        trade_partners_iterate(context->city, trade_partner) {
+          if (trade_partner == nullptr) {
+            ret = TRI_MAYBE;
+          } else if (trade_partner->server.aarea != nullptr
+                     && trade_partner->server.aarea->capital) {
+            return TRI_YES;
+          }
+        } trade_partners_iterate_end;
+
+        return ret;
+      }
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+
+    fc_assert_msg(FALSE, "Invalid range %d for citystatus CapitalConnected.",
+                         req->range);
+
+    return TRI_MAYBE;
+
   case CITYS_LAST:
     break;
   }
@@ -7983,6 +8032,9 @@ const char *universal_name_translation(const struct universal *psource,
     case CITYS_TRANSFERRED:
       /* TRANS: CityStatus value - city has changed hands */
       fc_strlcat(buf, _("Transferred"), bufsz);
+      break;
+    case CITYS_CAPITALCONNECTED:
+      fc_strlcat(buf, _("CapitalConnected"), bufsz);
       break;
     case CITYS_LAST:
       fc_assert(psource->value.citystatus != CITYS_LAST);

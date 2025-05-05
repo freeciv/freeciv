@@ -211,4 +211,5 @@ values
   DISORDER          "Disorder"
   CELEBRATION       "Celebration"
   TRANSFERRED       "Transferred"
+  CAPITALCONNECTED  "CapitalConnected"
 end

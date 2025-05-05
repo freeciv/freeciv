@@ -152,7 +152,7 @@ MaxRegionTiles is about the number of tiles of the same continent or ocean as
  the target tile in the given range (including the tile itself). At "Continent"
  range this is just the full continent/ocean size.
 CityStatus is "OwnedByOriginal", "Transferred", "Starved",
- "Disorder", or "Celebration"
+ "Disorder", "Celebration", or "CapitalConnected"
  The difference between "OwnedByOriginal" and "Transferred" is that
  former is fulfilled also for liberated cities.
 DiplRel is a diplomatic relationship.

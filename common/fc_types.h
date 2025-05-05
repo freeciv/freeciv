@@ -1094,6 +1094,12 @@ typedef float adv_want;
 #define SPECENUM_VALUE1NAME "Founded"
 #include "specenum_gen.h"
 
+struct access_area {
+  const struct player *plr;
+  struct city_list *cities;
+  bool capital;
+};
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

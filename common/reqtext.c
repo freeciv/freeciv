@@ -3131,6 +3131,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case CITYS_TRANSFERRED:
         city_property = _("transferred");
         break;
+      case CITYS_CAPITALCONNECTED:
+        city_property = _("capitalconnected");
+        break;
       case CITYS_LAST:
         fc_assert(preq->source.value.citystatus != CITYS_LAST);
         break;

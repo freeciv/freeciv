@@ -21,12 +21,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct access_area {
-  const struct player *plr;
-  struct city_list *cities;
-  bool capital;
-};
-
 /* get 'struct access_area_list' and related functions: */
 #define SPECLIST_TAG aarea
 #define SPECLIST_TYPE struct access_area
