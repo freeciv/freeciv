@@ -40,7 +40,7 @@ struct name_translation {
                                            Often the same as 'vernacular'. */
 };
 
-/* Inititalization macro. */
+/* Initialization macro. */
 #define NAME_INIT { NULL, "\0", "\0" }
 
 /************************************************************************//**
