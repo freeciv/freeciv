@@ -29,7 +29,7 @@ enum editor_object_type {
   OBJTYPE_CITY,
   OBJTYPE_PLAYER,
   OBJTYPE_GAME,
-  
+
   NUM_OBJTYPES
 };
 

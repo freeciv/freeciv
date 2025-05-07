@@ -54,7 +54,7 @@ struct sprite *client_government_sprite(void);
 
 void center_on_something(void);
 
-/* 
+/*
  * A compound id (cid) can hold all objects a city can build:
  * improvements (with wonders) and units. This is achieved by
  * seperation the value set: a cid < B_LAST denotes a improvement
@@ -103,9 +103,9 @@ int collect_eventually_buildable_targets(struct universal *targets,
 int collect_already_built_targets(struct universal *targets,
                                   struct city *pcity);
 
-/* the number of units in city */
+/* The number of units in city */
 int num_present_units_in_city(struct city* pcity);
-int num_supported_units_in_city(struct city* pcity);	
+int num_supported_units_in_city(struct city* pcity);
 
 void handle_event(const char *featured_text, struct tile *ptile,
                   enum event_type event, int turn, int phase, int conn_id);

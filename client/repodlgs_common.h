@@ -40,8 +40,8 @@ void get_economy_report_data(struct improvement_entry *entries,
 			     int *num_entries_used, int *total_cost,
 			     int *total_income);
 /* This function returns an array with the gold upkeeped units.
- * FIXME: Many clients doesn't yet use this function and show also only the
- * buildings in the economy reports 
+ * FIXME: Many clients doen't yet use this function and show also only the
+ * buildings in the economy reports.
  * I think that there should be only one function which returns an array of
  * char* arrays like some other common functions but that means updating all
  * client simultaneously and I simply can't */

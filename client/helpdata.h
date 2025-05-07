@@ -72,8 +72,10 @@ const char *helptext_extra_for_terrain_str(struct extra_type *pextra,
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \
         help_iter_start();                \
-        while ((pitem = help_iter_next())) {   
-#define help_items_iterate_end }}
+        while ((pitem = help_iter_next())) {
+#define help_items_iterate_end            \
+  }                                       \
+}
 
 enum help_page_type help_type_by_requirement(const struct requirement *req);
 

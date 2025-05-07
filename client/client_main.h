@@ -40,7 +40,7 @@ extern "C" {
  * C_S_RUNNING:      Connected ith game in progress.
  * C_S_OVER:         Connected with game over.
  */
-enum client_states { 
+enum client_states {
   C_S_INITIAL,
   C_S_DISCONNECTED,
   C_S_PREPARING,
