@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2024-12-27 00:02+0200\n"
+"POT-Creation-Date: 2025-04-25 14:52+0300\n"
 "PO-Revision-Date: 2020-10-09 00:48+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -10412,47 +10412,47 @@ msgstr ""
 msgid "Select destination"
 msgstr "请选择目的地"
 
-#: client/gui-sdl2/graphics.c:316
+#: client/gui-sdl2/graphics.c:314
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
 msgstr ""
 
-#: client/gui-sdl2/graphics.c:339
+#: client/gui-sdl2/graphics.c:337
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
 
-#: client/gui-sdl2/graphics.c:525
+#: client/gui-sdl2/graphics.c:523
 #, c-format
 msgid "Unable to initialize SDL2 library: %s"
 msgstr ""
 
-#: client/gui-sdl2/graphics.c:533
+#: client/gui-sdl2/graphics.c:531
 #, c-format
 msgid "Unable to initialize SDL2_ttf library: %s"
 msgstr ""
 
-#: client/gui-sdl2/graphics.c:579
+#: client/gui-sdl2/graphics.c:577
 #, fuzzy, c-format
 msgid "Failed to create RGB surface: %s"
 msgstr "创建新 AI 玩家错误：%s。"
 
-#: client/gui-sdl2/graphics.c:593
+#: client/gui-sdl2/graphics.c:591
 #, fuzzy, c-format
 msgid "Failed to create renderer: %s"
 msgstr "创建新 AI 玩家错误：%s。"
 
-#: client/gui-sdl2/graphics.c:603
+#: client/gui-sdl2/graphics.c:601
 #, fuzzy, c-format
 msgid "Failed to create texture: %s"
 msgstr "创建新 AI 玩家错误：%s。"
 
-#: client/gui-sdl2/graphics.c:638
+#: client/gui-sdl2/graphics.c:636
 #, fuzzy
 msgid "SDL2 Client for Freeciv"
 msgstr "用于 Freeciv 的客户端"
 
-#: client/gui-sdl2/graphics.c:645
+#: client/gui-sdl2/graphics.c:643
 #, fuzzy, c-format
 msgid "Failed to create main window: %s"
 msgstr "创建新 AI 玩家错误：%s。"
@@ -11072,7 +11072,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl2/plrdlg.c:719 client/plrdlg_common.c:572
-#: server/stdinhand.c:3601 server/stdinhand.c:6741
+#: server/stdinhand.c:3598 server/stdinhand.c:6738
 msgid "AI"
 msgstr "AI"
 
@@ -16155,46 +16155,46 @@ msgstr ""
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "您投票支持“%s”"
 
-#: client/tilespec.c:3904
+#: client/tilespec.c:3905
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr ""
 
-#: client/tilespec.c:3924
+#: client/tilespec.c:3925
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 
-#: client/tilespec.c:3960
+#: client/tilespec.c:3961
 #, fuzzy, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "缺少基础sprite标记“%s1”。"
 
-#: client/tilespec.c:4214
+#: client/tilespec.c:4215
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr ""
 
-#: client/tilespec.c:5486
+#: client/tilespec.c:5487
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:6066
+#: client/tilespec.c:6067
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:6240
+#: client/tilespec.c:6241
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr ""
 
-#: client/tilespec.c:6245
+#: client/tilespec.c:6246
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -17251,7 +17251,7 @@ msgid "a unit"
 msgstr "%d 部队"
 
 #. TRANS: in place of player name or "global observer"
-#: common/actions.h:54 common/fc_types.h:1044 server/stdinhand.c:5588
+#: common/actions.h:54 common/fc_types.h:1044 server/stdinhand.c:5585
 msgid "nothing"
 msgstr ""
 
@@ -17529,7 +17529,7 @@ msgstr " - 欢庆中"
 msgid "Civil Disorder"
 msgstr "城市： 市民骚乱"
 
-#: common/events.c:101 data/civ1/game.ruleset:1193
+#: common/events.c:101 data/civ1/game.ruleset:1197
 #, fuzzy
 msgid "Famine"
 msgstr "城市： 饥荒"
@@ -17844,7 +17844,7 @@ msgid "Action failed"
 msgstr "玩家已被摧毁"
 
 #. TRANS: "vote" as a process
-#: common/events.c:183 server/stdinhand.c:4494
+#: common/events.c:183 server/stdinhand.c:4491
 msgid "New vote"
 msgstr ""
 
@@ -22972,67 +22972,67 @@ msgstr "银行"
 msgid "Feb"
 msgstr ""
 
-#: data/civ1/game.ruleset:1184 data/classic/game.ruleset:1734
-#: data/sandbox/game.ruleset:3081 data/civ2civ3/game.ruleset:1866
-#: data/alien/game.ruleset:1416
+#: data/civ1/game.ruleset:1188 data/classic/game.ruleset:1738
+#: data/sandbox/game.ruleset:3085 data/civ2civ3/game.ruleset:1870
+#: data/alien/game.ruleset:1420
 msgid "Earthquake"
 msgstr ""
 
-#: data/civ1/game.ruleset:1202 data/classic/game.ruleset:1744
-#: data/sandbox/game.ruleset:3099 data/civ2civ3/game.ruleset:1884
-#: data/alien/game.ruleset:1421
+#: data/civ1/game.ruleset:1206 data/classic/game.ruleset:1748
+#: data/sandbox/game.ruleset:3103 data/civ2civ3/game.ruleset:1888
+#: data/alien/game.ruleset:1425
 msgid "Fire"
 msgstr ""
 
-#: data/civ1/game.ruleset:1211 data/sandbox/game.ruleset:3090
-#: data/civ2civ3/game.ruleset:1875
+#: data/civ1/game.ruleset:1215 data/sandbox/game.ruleset:3094
+#: data/civ2civ3/game.ruleset:1879
 msgid "Flood"
 msgstr ""
 
-#: data/civ1/game.ruleset:1221
+#: data/civ1/game.ruleset:1225
 #, fuzzy
 msgid "Piracy"
 msgstr "文学"
 
-#: data/civ1/game.ruleset:1233
+#: data/civ1/game.ruleset:1237
 #, fuzzy
 msgid "Plague"
 msgstr "删除条款"
 
-#: data/civ1/game.ruleset:1243
+#: data/civ1/game.ruleset:1247
 msgid "Volcano"
 msgstr ""
 
-#: data/civ1/game.ruleset:1357 data/civ2/game.ruleset:1602
-#: data/classic/game.ruleset:1866 data/sandbox/game.ruleset:3347
-#: data/civ2civ3/game.ruleset:2080 data/multiplayer/game.ruleset:1826
+#: data/civ1/game.ruleset:1361 data/civ2/game.ruleset:1606
+#: data/classic/game.ruleset:1870 data/sandbox/game.ruleset:3351
+#: data/civ2civ3/game.ruleset:2084 data/multiplayer/game.ruleset:1830
 msgid "Goods"
 msgstr "货物"
 
-#: data/civ1/game.ruleset:1452 data/civ2/game.ruleset:1697
-#: data/classic/game.ruleset:1962 data/sandbox/game.ruleset:3471
-#: data/civ2civ3/game.ruleset:2175 data/alien/game.ruleset:1637
+#: data/civ1/game.ruleset:1456 data/civ2/game.ruleset:1701
+#: data/classic/game.ruleset:1966 data/sandbox/game.ruleset:3475
+#: data/civ2civ3/game.ruleset:2179 data/alien/game.ruleset:1641
 #, fuzzy
 msgid "Team 1"
 msgstr "团队"
 
-#: data/civ1/game.ruleset:1453 data/civ2/game.ruleset:1698
-#: data/classic/game.ruleset:1963 data/sandbox/game.ruleset:3472
-#: data/civ2civ3/game.ruleset:2176 data/alien/game.ruleset:1638
+#: data/civ1/game.ruleset:1457 data/civ2/game.ruleset:1702
+#: data/classic/game.ruleset:1967 data/sandbox/game.ruleset:3476
+#: data/civ2civ3/game.ruleset:2180 data/alien/game.ruleset:1642
 #, fuzzy
 msgid "Team 2"
 msgstr "团队"
 
-#: data/civ1/game.ruleset:1454 data/civ2/game.ruleset:1699
-#: data/classic/game.ruleset:1964 data/sandbox/game.ruleset:3473
-#: data/civ2civ3/game.ruleset:2177 data/alien/game.ruleset:1639
+#: data/civ1/game.ruleset:1458 data/civ2/game.ruleset:1703
+#: data/classic/game.ruleset:1968 data/sandbox/game.ruleset:3477
+#: data/civ2civ3/game.ruleset:2181 data/alien/game.ruleset:1643
 #, fuzzy
 msgid "Team 3"
 msgstr "团队"
 
-#: data/civ1/game.ruleset:1455 data/civ2/game.ruleset:1700
-#: data/classic/game.ruleset:1965 data/sandbox/game.ruleset:3474
-#: data/civ2civ3/game.ruleset:2178 data/alien/game.ruleset:1640
+#: data/civ1/game.ruleset:1459 data/civ2/game.ruleset:1704
+#: data/classic/game.ruleset:1969 data/sandbox/game.ruleset:3478
+#: data/civ2civ3/game.ruleset:2182 data/alien/game.ruleset:1644
 #, fuzzy
 msgid "Team 4"
 msgstr "团队"
@@ -23931,7 +23931,7 @@ msgstr "大头领"
 
 #: data/civ1/nations.ruleset:1561 data/civ2/nations.ruleset:2156
 #: data/nation/barbarian.ruleset:5 data/nation/singlebarbarian.ruleset:5
-#: server/stdinhand.c:3599 server/stdinhand.c:6739
+#: server/stdinhand.c:3596 server/stdinhand.c:6736
 msgid "Barbarian"
 msgstr "野人"
 
@@ -24915,7 +24915,7 @@ msgid "Fish"
 msgstr "鱼"
 
 #: data/civ1/terrain.ruleset:1234 data/civ2/terrain.ruleset:1414
-#: data/classic/terrain.ruleset:1717 data/sandbox/game.ruleset:3309
+#: data/classic/terrain.ruleset:1717 data/sandbox/game.ruleset:3313
 #: data/sandbox/terrain.ruleset:2033 data/civ2civ3/terrain.ruleset:1927
 #: data/multiplayer/terrain.ruleset:1689
 msgid "Gems"
@@ -27052,7 +27052,7 @@ msgid "Silk"
 msgstr "蚕丝"
 
 #: data/civ2/terrain.ruleset:1531 data/classic/terrain.ruleset:1834
-#: data/sandbox/game.ruleset:3299 data/sandbox/terrain.ruleset:2151
+#: data/sandbox/game.ruleset:3303 data/sandbox/terrain.ruleset:2151
 #: data/civ2civ3/terrain.ruleset:2045 data/multiplayer/terrain.ruleset:1806
 msgid "Spice"
 msgstr "香料"
@@ -27655,7 +27655,7 @@ msgstr "您找到了一座友好城市。"
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "友好的流浪者被您感动并加入了您的队伍。"
 
-#: data/default/default.lua:115 server/unittools.c:3209
+#: data/default/default.lua:115 server/unittools.c:3210
 msgid "An abandoned village is here."
 msgstr "这里是一座废弃的村庄。"
 
@@ -27663,7 +27663,7 @@ msgstr "这里是一座废弃的村庄。"
 msgid "You have unleashed a horde of barbarians!"
 msgstr "您激活了一群野人！"
 
-#: data/default/default.lua:126 server/unittools.c:3212
+#: data/default/default.lua:126 server/unittools.c:3213
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "您的 %s 被野人杀死了！"
@@ -28105,19 +28105,19 @@ msgstr ""
 msgid "BCE"
 msgstr ""
 
-#: data/classic/game.ruleset:1739
+#: data/classic/game.ruleset:1743
 msgid "Pestilence"
 msgstr ""
 
-#: data/classic/game.ruleset:1749 data/sandbox/game.ruleset:3108
-#: data/civ2civ3/game.ruleset:1893
+#: data/classic/game.ruleset:1753 data/sandbox/game.ruleset:3112
+#: data/civ2civ3/game.ruleset:1897
 #, fuzzy
 #| msgid "Industrial"
 msgid "Industrial Accident"
 msgstr "工业化"
 
-#: data/classic/game.ruleset:1758 data/sandbox/game.ruleset:3117
-#: data/civ2civ3/game.ruleset:1902
+#: data/classic/game.ruleset:1762 data/sandbox/game.ruleset:3121
+#: data/civ2civ3/game.ruleset:1906
 #, fuzzy
 msgid "Nuclear Accident"
 msgstr "核能"
@@ -29676,144 +29676,144 @@ msgstr ""
 msgid "%sUse Ancient Transportation Network%s"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3150 data/civ2civ3/game.ruleset:1935
+#: data/sandbox/game.ruleset:3154 data/civ2civ3/game.ruleset:1939
 #, fuzzy
 msgid "Spaceship Launch"
 msgstr "宇宙飞船"
 
-#: data/sandbox/game.ruleset:3154 data/civ2civ3/game.ruleset:1939
+#: data/sandbox/game.ruleset:3158 data/civ2civ3/game.ruleset:1943
 #, fuzzy
 msgid "You're the first one to launch a spaceship towards Alpha Centauri!"
 msgstr "%s 宇宙飞船已经到达半人马星座。"
 
-#: data/sandbox/game.ruleset:3155 data/civ2civ3/game.ruleset:1940
+#: data/sandbox/game.ruleset:3159 data/civ2civ3/game.ruleset:1944
 #, fuzzy
 msgid "You have launched a spaceship towards Alpha Centauri!"
 msgstr "%s 宇宙飞船已经到达半人马星座。"
 
-#: data/sandbox/game.ruleset:3158 data/civ2civ3/game.ruleset:1943
+#: data/sandbox/game.ruleset:3162 data/civ2civ3/game.ruleset:1947
 msgid "Entire Map Known"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3163 data/civ2civ3/game.ruleset:1948
+#: data/sandbox/game.ruleset:3167 data/civ2civ3/game.ruleset:1952
 #, fuzzy
 msgid "You're the first one to have mapped the entire world!"
 msgstr "您收到了 %s 的世界地图。"
 
-#: data/sandbox/game.ruleset:3164 data/civ2civ3/game.ruleset:1949
+#: data/sandbox/game.ruleset:3168 data/civ2civ3/game.ruleset:1953
 #, fuzzy
 msgid "You have mapped the entire world!"
 msgstr "您收到了 %s 的世界地图。"
 
-#: data/sandbox/game.ruleset:3167 data/civ2civ3/game.ruleset:1952
+#: data/sandbox/game.ruleset:3171 data/civ2civ3/game.ruleset:1956
 #, fuzzy
 #| msgid "Land Area"
 msgid "Land Ahoy"
 msgstr "陆地区域"
 
-#: data/sandbox/game.ruleset:3172 data/civ2civ3/game.ruleset:1957
+#: data/sandbox/game.ruleset:3176 data/civ2civ3/game.ruleset:1961
 msgid "Your people were the first in history to sight a foreign shore!"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3173 data/civ2civ3/game.ruleset:1958
+#: data/sandbox/game.ruleset:3177 data/civ2civ3/game.ruleset:1962
 msgid "You sighted your first foreign shore!"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3176 data/civ2civ3/game.ruleset:1961
+#: data/sandbox/game.ruleset:3180 data/civ2civ3/game.ruleset:1965
 #, fuzzy
 #| msgid "Literacy"
 msgid "Literate"
 msgstr "文学"
 
-#: data/sandbox/game.ruleset:3182 data/civ2civ3/game.ruleset:1967
+#: data/sandbox/game.ruleset:3186 data/civ2civ3/game.ruleset:1971
 #, fuzzy, no-c-format
 msgid "Your nation is the first to reach 100% literacy!"
 msgstr "您收到了 %s 的世界地图。"
 
-#: data/sandbox/game.ruleset:3184 data/civ2civ3/game.ruleset:1969
+#: data/sandbox/game.ruleset:3188 data/civ2civ3/game.ruleset:1973
 #, fuzzy, no-c-format
 msgid "Your nation has reached 100% literacy!"
 msgstr "您解放了 %s！"
 
-#: data/sandbox/game.ruleset:3187 data/civ2civ3/game.ruleset:1972
+#: data/sandbox/game.ruleset:3191 data/civ2civ3/game.ruleset:1976
 msgid "Multicultural"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3192 data/civ2civ3/game.ruleset:1977
+#: data/sandbox/game.ruleset:3196 data/civ2civ3/game.ruleset:1981
 #, fuzzy
 msgid "You're the first nation to have citizens of multiple nationalities!"
 msgstr "您收到了 %s 的世界地图。"
 
-#: data/sandbox/game.ruleset:3193 data/civ2civ3/game.ruleset:1978
+#: data/sandbox/game.ruleset:3197 data/civ2civ3/game.ruleset:1982
 #, fuzzy
 msgid "Your nation now has citizens of multiple nationalities!"
 msgstr "您解放了 %s！"
 
-#: data/sandbox/game.ruleset:3196 data/civ2civ3/game.ruleset:1981
+#: data/sandbox/game.ruleset:3200 data/civ2civ3/game.ruleset:1985
 msgid "Metropolis"
-msgstr ""
-
-#: data/sandbox/game.ruleset:3201 data/civ2civ3/game.ruleset:1986
-#, fuzzy
-msgid "Your nation is the first with a city of population 20!"
-msgstr "您的国家被推入内战，%s 被宣布为起义政府的首领。"
-
-#: data/sandbox/game.ruleset:3202 data/civ2civ3/game.ruleset:1987
-msgid "One of your cities has reached population 20!"
 msgstr ""
 
 #: data/sandbox/game.ruleset:3205 data/civ2civ3/game.ruleset:1990
 #, fuzzy
+msgid "Your nation is the first with a city of population 20!"
+msgstr "您的国家被推入内战，%s 被宣布为起义政府的首领。"
+
+#: data/sandbox/game.ruleset:3206 data/civ2civ3/game.ruleset:1991
+msgid "One of your cities has reached population 20!"
+msgstr ""
+
+#: data/sandbox/game.ruleset:3209 data/civ2civ3/game.ruleset:1994
+#, fuzzy
 msgid "Cultured City"
 msgstr "未来技术 %d"
 
-#: data/sandbox/game.ruleset:3210 data/civ2civ3/game.ruleset:1995
+#: data/sandbox/game.ruleset:3214 data/civ2civ3/game.ruleset:1999
 #, fuzzy
 msgid "Your nation is the first with a city of 1000 culture points!"
 msgstr "您的国家被推入内战，%s 被宣布为起义政府的首领。"
 
-#: data/sandbox/game.ruleset:3211 data/civ2civ3/game.ruleset:1996
+#: data/sandbox/game.ruleset:3215 data/civ2civ3/game.ruleset:2000
 #, fuzzy
 msgid "One of your cities has 1000 culture points!"
 msgstr "您解放了 %s！"
 
-#: data/sandbox/game.ruleset:3214 data/civ2civ3/game.ruleset:1999
+#: data/sandbox/game.ruleset:3218 data/civ2civ3/game.ruleset:2003
 #, fuzzy
 #| msgid "United Nations"
 msgid "Cultured Nation"
 msgstr "联合国"
 
-#: data/sandbox/game.ruleset:3218 data/civ2civ3/game.ruleset:2003
+#: data/sandbox/game.ruleset:3222 data/civ2civ3/game.ruleset:2007
 #, fuzzy
 msgid "Your nation is the first one to achieve 10000 culture points!"
 msgstr "您的国家被推入内战，%s 被宣布为起义政府的首领。"
 
-#: data/sandbox/game.ruleset:3219 data/civ2civ3/game.ruleset:2004
+#: data/sandbox/game.ruleset:3223 data/civ2civ3/game.ruleset:2008
 #, fuzzy
 msgid "Your nation has achieved 10000 culture points!"
 msgstr "您解放了 %s！"
 
-#: data/sandbox/game.ruleset:3295
+#: data/sandbox/game.ruleset:3299
 msgid "Wares"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3319
+#: data/sandbox/game.ruleset:3323
 msgid "Jewelry"
 msgstr ""
 
-#: data/sandbox/game.ruleset:3329
+#: data/sandbox/game.ruleset:3333
 #, fuzzy
 #| msgid "Order"
 msgid "Ore"
 msgstr "命令"
 
-#: data/sandbox/game.ruleset:3337
+#: data/sandbox/game.ruleset:3341
 #, fuzzy
 #| msgid "Metallurgy"
 msgid "Metal"
 msgstr "冶金"
 
-#: data/sandbox/game.ruleset:3358
+#: data/sandbox/game.ruleset:3362
 #, fuzzy
 msgid "Equipment"
 msgstr "需要："
@@ -31943,19 +31943,19 @@ msgstr ""
 msgid "BGE"
 msgstr ""
 
-#: data/alien/game.ruleset:1426
+#: data/alien/game.ruleset:1430
 msgid "Radiation Burst"
 msgstr ""
 
-#: data/alien/game.ruleset:1431
+#: data/alien/game.ruleset:1435
 msgid "Rebels"
 msgstr ""
 
-#: data/alien/game.ruleset:1436
+#: data/alien/game.ruleset:1440
 msgid "Alien Microbes"
 msgstr ""
 
-#: data/alien/game.ruleset:1540
+#: data/alien/game.ruleset:1544
 #, fuzzy
 #| msgid "Cities"
 msgid "Commodities"
@@ -36779,181 +36779,181 @@ msgstr ""
 #. TRANS: With this and other color team names, uniqueness is more
 #. TRANS: important than precise translation. To see the colors, start a
 #. TRANS: multiplayer game with 32 players and look at the Nations report.
-#: data/multiplayer/game.ruleset:1927
+#: data/multiplayer/game.ruleset:1931
 #, fuzzy
 msgid "?team name:Red"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1929
+#: data/multiplayer/game.ruleset:1933
 msgid "?team name:Yellow"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1931
-msgid "?team name:Blue"
-msgstr ""
-
-#. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1933
-#, fuzzy
-msgid "?team name:Purple"
-msgstr "教士"
-
-#. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1935
-msgid "?team name:Orange"
+msgid "?team name:Blue"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1937
 #, fuzzy
+msgid "?team name:Purple"
+msgstr "教士"
+
+#. TRANS: Name of a color; used as unique identifier for a team
+#: data/multiplayer/game.ruleset:1939
+msgid "?team name:Orange"
+msgstr ""
+
+#. TRANS: Name of a color; used as unique identifier for a team
+#: data/multiplayer/game.ruleset:1941
+#, fuzzy
 msgid "?team name:Magenta"
 msgstr "王公"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1939
+#: data/multiplayer/game.ruleset:1943
 #, fuzzy
 msgid "?team name:Cornflower"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1941
-msgid "?team name:Emerald"
-msgstr ""
-
-#. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1943
-#, fuzzy
-msgid "?team name:Salmon"
-msgstr "王公"
-
-#. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1945
-msgid "?team name:Green"
+msgid "?team name:Emerald"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1947
 #, fuzzy
-msgid "?team name:Burgundy"
-msgstr "教士"
+msgid "?team name:Salmon"
+msgstr "王公"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1949
-msgid "?team name:Pink"
+msgid "?team name:Green"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1951
-msgid "?team name:Silver"
-msgstr ""
+#, fuzzy
+msgid "?team name:Burgundy"
+msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1953
-msgid "?team name:Heliotrope"
+msgid "?team name:Pink"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1955
-msgid "?team name:Fuchsia"
+msgid "?team name:Silver"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1957
-msgid "?team name:Azure"
+msgid "?team name:Heliotrope"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:1959
+msgid "?team name:Fuchsia"
+msgstr ""
+
+#. TRANS: Name of a color; used as unique identifier for a team
+#: data/multiplayer/game.ruleset:1961
+msgid "?team name:Azure"
+msgstr ""
+
+#. TRANS: Name of a color; used as unique identifier for a team
+#: data/multiplayer/game.ruleset:1963
 #, fuzzy
 msgid "?team name:Gold"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1961
+#: data/multiplayer/game.ruleset:1965
 #, fuzzy
 msgid "?team name:Khaki"
 msgstr "红衣主教"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1963
+#: data/multiplayer/game.ruleset:1967
 #, fuzzy
 msgid "?team name:Butter"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1965
+#: data/multiplayer/game.ruleset:1969
 #, fuzzy
 msgid "?team name:Mint"
 msgstr "王公"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1967
+#: data/multiplayer/game.ruleset:1971
 #, fuzzy
 msgid "?team name:Lime"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1969
+#: data/multiplayer/game.ruleset:1973
 #, fuzzy
 msgid "?team name:Peach"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1971
+#: data/multiplayer/game.ruleset:1975
 #, fuzzy
 msgid "?team name:Vermilion"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1973
+#: data/multiplayer/game.ruleset:1977
 #, fuzzy
 msgid "?team name:Puce"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1975
+#: data/multiplayer/game.ruleset:1979
 #, fuzzy
 msgid "?team name:Mustard"
 msgstr "王公"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1977
+#: data/multiplayer/game.ruleset:1981
 #, fuzzy
 msgid "?team name:Aubergine"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1979
+#: data/multiplayer/game.ruleset:1983
 #, fuzzy
 msgid "?team name:Brown"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1981
+#: data/multiplayer/game.ruleset:1985
 #, fuzzy
 msgid "?team name:Pumpkin"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1983
+#: data/multiplayer/game.ruleset:1987
 msgid "?team name:Turquoise"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1985
+#: data/multiplayer/game.ruleset:1989
 #, fuzzy
 msgid "?team name:Crimson"
 msgstr "教士"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1987
+#: data/multiplayer/game.ruleset:1991
 msgid "?team name:Lavender"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1989
+#: data/multiplayer/game.ruleset:1993
 #, fuzzy
 msgid "?team name:Cream"
 msgstr "教士"
@@ -38761,26 +38761,26 @@ msgstr ""
 msgid "Can only be used in server console."
 msgstr "只能在服务器控制台中使用。"
 
-#: tools/civmanual.c:376 server/stdinhand.c:1808
+#: tools/civmanual.c:376 server/stdinhand.c:1805
 msgid "Minimum:"
 msgstr ""
 
-#: tools/civmanual.c:377 tools/civmanual.c:415 server/stdinhand.c:1809
-#: server/stdinhand.c:1828 server/stdinhand.c:1844
+#: tools/civmanual.c:377 tools/civmanual.c:415 server/stdinhand.c:1806
+#: server/stdinhand.c:1825 server/stdinhand.c:1841
 #, fuzzy
 msgid "Default:"
 msgstr "默认服务器"
 
-#: tools/civmanual.c:378 server/stdinhand.c:1810
+#: tools/civmanual.c:378 server/stdinhand.c:1807
 #, fuzzy
 msgid "Maximum:"
 msgstr "无部队数上限，"
 
-#: tools/civmanual.c:385 server/stdinhand.c:1817
+#: tools/civmanual.c:385 server/stdinhand.c:1814
 msgid "Possible values:"
 msgstr ""
 
-#: tools/civmanual.c:398 server/stdinhand.c:1836
+#: tools/civmanual.c:398 server/stdinhand.c:1833
 msgid "Possible values (option can take any number of these):"
 msgstr ""
 
@@ -40139,7 +40139,7 @@ msgstr "饥荒导致 %s 的人口减少。"
 msgid "Famine destroys %s entirely."
 msgstr "饥荒彻底毁灭了 %s。"
 
-#: server/cityturn.c:1234 server/cityturn.c:2093
+#: server/cityturn.c:1234 server/cityturn.c:2095
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -40466,62 +40466,62 @@ msgid ""
 "Postponing..."
 msgstr "%s 不能建造工作列表中的 %s ；科技还没有达到。推迟之……"
 
-#: server/cityturn.c:2114 server/cityturn.c:2182
+#: server/cityturn.c:2118 server/cityturn.c:2186
 #, fuzzy, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s 不能建造工作列表中的 %s 。删除之……"
 
-#: server/cityturn.c:2133 server/cityturn.c:2171 server/cityturn.c:2306
-#: server/cityturn.c:2354
+#: server/cityturn.c:2137 server/cityturn.c:2175 server/cityturn.c:2310
+#: server/cityturn.c:2358
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "%3$s 中 %1$s 的生产升级为 %2$s。"
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:2220
+#: server/cityturn.c:2224
 #, fuzzy, c-format
 msgid "The %s worklist is now empty."
 msgstr "%s 的工作列表现在为空。"
 
-#: server/cityturn.c:2388
+#: server/cityturn.c:2392
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s 不能保养 %s，部队被解散。"
 
-#: server/cityturn.c:2428
+#: server/cityturn.c:2432
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "%s 中的市民因未能保养 %s 而发生死亡！"
 
-#: server/cityturn.c:2434
+#: server/cityturn.c:2438
 #, fuzzy, c-format
 #| msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgid "Citizens in %s perish for their failure to upkeep units!"
 msgstr "%s 中的市民因未能保养 %s 而发生死亡！"
 
-#: server/cityturn.c:2477 server/cityturn.c:2683
+#: server/cityturn.c:2481 server/cityturn.c:2687
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s 正在建造 %s ，但那已不再可用。"
 
-#: server/cityturn.c:2517
+#: server/cityturn.c:2521
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%1$s 在 %3$s 中建成 %2$s 。"
 
-#: server/cityturn.c:2524
+#: server/cityturn.c:2528
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s 已经建成 %s。"
 
-#: server/cityturn.c:2545
+#: server/cityturn.c:2549
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "%s 推进了研究，您立刻获得 %d 项进展。"
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2559
+#: server/cityturn.c:2563
 #, fuzzy, c-format
 #| msgid "The %s have acquired %s from %s."
 msgid "?frombldg:Acquired %s from %s."
@@ -40529,114 +40529,114 @@ msgstr "%1$s 从 %3$s 获得了 %2$s。"
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2565
+#: server/cityturn.c:2569
 #, fuzzy, c-format
 #| msgid "The %s have acquired %s from %s."
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "%1$s 从 %3$s 获得了 %2$s。"
 
-#: server/cityturn.c:2572
+#: server/cityturn.c:2576
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s 开始建造宇宙飞船！"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2708
+#: server/cityturn.c:2712
 #, fuzzy, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr "* 能够修筑新城市。\n"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2743
+#: server/cityturn.c:2747
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s 已经建成 %s。"
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2780
+#: server/cityturn.c:2784
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s 消耗 %d 人口. %s 缩小规模至 %d."
 
-#: server/cityturn.c:2860
+#: server/cityturn.c:2864
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "无法支付 %2$s 中的 %1$s 的维护费，已售出建筑物！"
 
-#: server/cityturn.c:3011
+#: server/cityturn.c:3015
 #, fuzzy, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "黄金不足。 %s 被解散了"
 
-#: server/cityturn.c:3255 server/cityturn.c:4094
+#: server/cityturn.c:3259 server/cityturn.c:4098
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s 附近被污染。"
 
-#: server/cityturn.c:3429
+#: server/cityturn.c:3433
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr ""
 
-#: server/cityturn.c:3435
+#: server/cityturn.c:3439
 #, fuzzy, c-format
 msgid "Celebrations canceled in %s."
 msgstr "该民族已经被使用了。"
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3524
+#: server/cityturn.c:3528
 msgid " Unrest threatens to spread beyond the city."
 msgstr ""
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3531
+#: server/cityturn.c:3535
 #, fuzzy, c-format
 #| msgid "Civil disorder in %s."
 msgid "Civil disorder in %s.%s"
 msgstr "在 %s 发生市民骚乱。"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3536
+#: server/cityturn.c:3540
 #, fuzzy, c-format
 #| msgid "CIVIL DISORDER CONTINUES in %s."
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "%s 中的市民骚乱在继续。"
 
-#: server/cityturn.c:3542
+#: server/cityturn.c:3546
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s 恢复了秩序。"
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3554
+#: server/cityturn.c:3558
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "人民推翻了您的 %s ，您的国家处在混乱之中。"
 
-#: server/cityturn.c:3598
+#: server/cityturn.c:3602
 #, fuzzy, c-format
 #| msgid "%s can't build %s yet, and we can't disband our only city."
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr "%s 尚无法建造 %s，并且我们不可能解散我们唯一的城市。"
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3627
+#: server/cityturn.c:3631
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s 被裁减为 %s。"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3837
+#: server/cityturn.c:3841
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3844
+#: server/cityturn.c:3848
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -40644,7 +40644,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3849
+#: server/cityturn.c:3853
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -40652,102 +40652,102 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3864
+#: server/cityturn.c:3868
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3871
+#: server/cityturn.c:3875
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3876
+#: server/cityturn.c:3880
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:3925
+#: server/cityturn.c:3929
 #, fuzzy, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s 被裁减为 %s。"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3963
+#: server/cityturn.c:3967
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3969
+#: server/cityturn.c:3973
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3974
+#: server/cityturn.c:3978
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:4066
+#: server/cityturn.c:4070
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "%s 中所有贮存的食物都被摧毁了"
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:4088
+#: server/cityturn.c:4092
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%s 遭到 %s 的攻击"
 
-#: server/cityturn.c:4102
+#: server/cityturn.c:4106
 #, fuzzy, c-format
 #| msgid "Pollution near %s."
 msgid "Fallout near %s."
 msgstr "%s 附近被污染。"
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:4113
+#: server/cityturn.c:4117
 #, fuzzy, c-format
 #| msgid "Famine destroys %s entirely."
 msgid "%s destroys %s entirely."
 msgstr "饥荒彻底毁灭了 %s。"
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:4119
+#: server/cityturn.c:4123
 #, fuzzy, c-format
 #| msgid "Famine causes population loss in %s."
 msgid "%s causes population loss in %s."
 msgstr "饥荒导致 %s 的人口减少。"
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:4144
+#: server/cityturn.c:4148
 #, fuzzy, c-format
 #| msgid "The %s destroyed the %s in %s."
 msgid "%s destroys %s in %s."
 msgstr "%1$s 在摧毁了 %3$s 中的 %2$s 。"
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:4169
+#: server/cityturn.c:4173
 #, fuzzy, c-format
 #| msgid "Production of %s is upgraded to %s in %s."
 msgid "Production of %s in %s destroyed."
 msgstr "%3$s 中 %1$s 的生产升级为 %2$s。"
 
-#: server/cityturn.c:4339
+#: server/cityturn.c:4343
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4361
+#: server/cityturn.c:4365
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -47105,7 +47105,7 @@ msgstr ""
 msgid "Scenario victory to %s."
 msgstr "团队胜利属于 %s"
 
-#: server/srv_main.c:410 server/srv_main.c:411 server/stdinhand.c:4698
+#: server/srv_main.c:410 server/srv_main.c:411 server/stdinhand.c:4695
 msgid "Game is over."
 msgstr "游戏结束"
 
@@ -47273,12 +47273,12 @@ msgstr ""
 msgid "You are not allowed to edit."
 msgstr "不允许您设置此选项。"
 
-#: server/srv_main.c:2282 server/stdinhand.c:4275
+#: server/srv_main.c:2282 server/stdinhand.c:4272
 #, fuzzy, c-format
 msgid "%s nation is not available for user selection."
 msgstr "民族 %s 在这个情景中不能使用。"
 
-#: server/srv_main.c:2288 server/stdinhand.c:4283
+#: server/srv_main.c:2288 server/stdinhand.c:4280
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s 民族已经被使用了。"
@@ -47318,7 +47318,7 @@ msgid ""
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:3030 server/stdinhand.c:3964
+#: server/srv_main.c:3030 server/stdinhand.c:3961
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "找不到规则集目录“%s” "
@@ -47612,7 +47612,7 @@ msgstr "无法在游戏开始后删除玩家。"
 msgid "Removed player %s from the game."
 msgstr "从游戏中删除玩家 %s。"
 
-#: server/stdinhand.c:1215 server/stdinhand.c:3753 server/stdinhand.c:3955
+#: server/stdinhand.c:1215 server/stdinhand.c:3750 server/stdinhand.c:3952
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "出于安全的原因不允许使用名字“%s”。"
@@ -47632,294 +47632,294 @@ msgstr "正在装入脚本文件：%s"
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "无法读入命令行脚本文件“%s”。"
 
-#: server/stdinhand.c:1256 server/stdinhand.c:4855
+#: server/stdinhand.c:1256 server/stdinhand.c:4852
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "无法读入脚本文件“%s”。"
 
-#: server/stdinhand.c:1330
+#: server/stdinhand.c:1327
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "无法写入脚本文件“%s”。"
 
-#: server/stdinhand.c:1343
+#: server/stdinhand.c:1340
 msgid "You cannot use the write command on this server for security reasons."
 msgstr "出于安全的原因您不能在此服务器上使用 write 命令。"
 
 #. TRANS: Failed to write server script, e.g., 'example.serv'
-#: server/stdinhand.c:1363
+#: server/stdinhand.c:1360
 #, fuzzy, c-format
 msgid "Failed to write %s."
 msgstr "创建新 AI 玩家错误：%s。"
 
 #. TRANS: Wrote server script, e.g., 'example.serv'
-#: server/stdinhand.c:1369
+#: server/stdinhand.c:1366
 #, fuzzy, c-format
 #| msgid "Wonders: %s."
 msgid "Wrote %s."
 msgstr "奇迹：%s."
 
-#: server/stdinhand.c:1395
+#: server/stdinhand.c:1392
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr "无法为连接“%2$s”降低命令访问级别“%1$s”；您只有“%3$s”。"
 
-#: server/stdinhand.c:1404
+#: server/stdinhand.c:1401
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "将连接 %2$s 的命令访问级别设置为“%1$s”。"
 
-#: server/stdinhand.c:1454
+#: server/stdinhand.c:1451
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr "现在每个人都可通过发出“first”成为游戏组织者“%s”。"
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1475
 msgid "Command access levels in effect:"
 msgstr "有效的命令访问级别："
 
-#: server/stdinhand.c:1491
+#: server/stdinhand.c:1488
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "新连接的命令访问级别：%s"
 
-#: server/stdinhand.c:1494
+#: server/stdinhand.c:1491
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "将赋予第一个获得它的玩家的命令访问级别：%s"
 
 #. TRANS: comma and 'or' separated list of access levels
-#: server/stdinhand.c:1513
+#: server/stdinhand.c:1510
 #, fuzzy, c-format
 msgid "Command access level must be one of %s."
 msgstr "错误：命令访问级别必须是 “none”、“info”、“ctrl” 或 “hack” 之一。"
 
-#: server/stdinhand.c:1519
+#: server/stdinhand.c:1516
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "无法将命令访问级别增加到“%s”；您自己只有“%s”。"
 
-#: server/stdinhand.c:1546 server/stdinhand.c:1560 server/stdinhand.c:1581
+#: server/stdinhand.c:1543 server/stdinhand.c:1557 server/stdinhand.c:1578
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "将新连入玩家的命令访问级别设置为“%s”。"
 
-#: server/stdinhand.c:1551 server/stdinhand.c:1565 server/stdinhand.c:1575
+#: server/stdinhand.c:1548 server/stdinhand.c:1562 server/stdinhand.c:1572
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "将第一个抢到的玩家的命令访问级别设置为“%s”。"
 
-#: server/stdinhand.c:1610
+#: server/stdinhand.c:1607
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "从服务器命令行发出“first”命令没有意义。"
 
-#: server/stdinhand.c:1614
+#: server/stdinhand.c:1611
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "您已经拥有命令访问级别“%s”或更高。"
 
-#: server/stdinhand.c:1619
+#: server/stdinhand.c:1616
 #, fuzzy
 msgid "Someone else is already game organizer."
 msgstr "已经有人是游戏组织者了。"
 
-#: server/stdinhand.c:1624
+#: server/stdinhand.c:1621
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "连接 %s 决定成为游戏组织者。"
 
-#: server/stdinhand.c:1637
+#: server/stdinhand.c:1634
 msgid "Default cmdlevel lowered to 'basic' on game start."
 msgstr ""
 
-#: server/stdinhand.c:1687
+#: server/stdinhand.c:1684
 #, c-format
 msgid "Invalid argument %d."
 msgstr "非法参数 %d。"
 
-#: server/stdinhand.c:1694 server/stdinhand.c:3307 server/stdinhand.c:3455
-#: server/stdinhand.c:3467 server/stdinhand.c:3640 server/stdinhand.c:3742
+#: server/stdinhand.c:1691 server/stdinhand.c:3304 server/stdinhand.c:3452
+#: server/stdinhand.c:3464 server/stdinhand.c:3637 server/stdinhand.c:3739
 #, fuzzy, c-format
 msgid ""
 "Usage:\n"
 "%s"
 msgstr "用法： away"
 
-#: server/stdinhand.c:1701
+#: server/stdinhand.c:1698
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "动态超时设置为 %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1779
+#: server/stdinhand.c:1776
 #, fuzzy, c-format
 msgid "Option: %s  -  %s"
 msgstr "选项：%s 已被设置为“%s”。"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1784
+#: server/stdinhand.c:1781
 #, fuzzy, c-format
 msgid "Option: %s"
 msgstr "选项 %s"
 
-#: server/stdinhand.c:1792 server/stdinhand.c:6407
+#: server/stdinhand.c:1789 server/stdinhand.c:6404
 msgid "Description:"
 msgstr "描述："
 
-#: server/stdinhand.c:1797
+#: server/stdinhand.c:1794
 #, c-format
 msgid "Status: %s"
 msgstr "状态：%s"
 
-#: server/stdinhand.c:1798
+#: server/stdinhand.c:1795
 msgid "changeable"
 msgstr "可改变的"
 
-#: server/stdinhand.c:1798
+#: server/stdinhand.c:1795
 msgid "fixed"
 msgstr "固定的"
 
-#: server/stdinhand.c:1807 server/stdinhand.c:1828 server/stdinhand.c:1842
+#: server/stdinhand.c:1804 server/stdinhand.c:1825 server/stdinhand.c:1839
 #, fuzzy
 msgid "Value:"
 msgstr "男"
 
-#: server/stdinhand.c:1864
+#: server/stdinhand.c:1861
 msgid "Explanations are available for the following server options:"
 msgstr "可以获得以下服务器选项的帮助信息："
 
-#: server/stdinhand.c:1909
+#: server/stdinhand.c:1906
 msgid "No explanation for that yet."
 msgstr "尚无关于它的解释。"
 
-#: server/stdinhand.c:1912 server/stdinhand.c:2943
+#: server/stdinhand.c:1909 server/stdinhand.c:2940
 msgid "Ambiguous option name."
 msgstr "有歧义的选项名称。"
 
-#: server/stdinhand.c:1932
+#: server/stdinhand.c:1929
 #, c-format
 msgid "Server Operator: %s"
 msgstr "服务器操作员：%s"
 
-#: server/stdinhand.c:1971
+#: server/stdinhand.c:1968
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
 msgstr ""
 
-#: server/stdinhand.c:2008 server/stdinhand.c:2046 server/stdinhand.c:2064
+#: server/stdinhand.c:2005 server/stdinhand.c:2043 server/stdinhand.c:2061
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "玩家“%s”现在拥有AI技能级别“%s”。"
 
-#: server/stdinhand.c:2051
+#: server/stdinhand.c:2048
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s 不是由 AI 控制的。"
 
-#: server/stdinhand.c:2072
+#: server/stdinhand.c:2069
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "默认AI技能级别设置为“%s”。"
 
-#: server/stdinhand.c:2089
+#: server/stdinhand.c:2086
 msgid "This command is client only."
 msgstr "该命令只能在客户端使用。"
 
-#: server/stdinhand.c:2096
+#: server/stdinhand.c:2093
 msgid "Only players may use the away command."
 msgstr "只有玩家可以使用离开命令。"
 
-#: server/stdinhand.c:2107
+#: server/stdinhand.c:2104
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s 设置为离开模式。"
 
-#: server/stdinhand.c:2112
+#: server/stdinhand.c:2109
 #, c-format
 msgid "%s returned to game."
 msgstr "%s 回到了游戏。"
 
-#: server/stdinhand.c:2179
+#: server/stdinhand.c:2176
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "抱歉，您无权查看选项“%s”。"
 
-#: server/stdinhand.c:2188
+#: server/stdinhand.c:2185
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "未知的选项“%s”。"
 
-#: server/stdinhand.c:2201
+#: server/stdinhand.c:2198
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "当前规则集合目录为“%s”"
 
-#: server/stdinhand.c:2225
+#: server/stdinhand.c:2222
 msgid "All options with non-default values"
 msgstr "所有不为缺省值的选项。"
 
-#: server/stdinhand.c:2228
+#: server/stdinhand.c:2225
 msgid "All options"
 msgstr "所有选项"
 
-#: server/stdinhand.c:2231
+#: server/stdinhand.c:2228
 msgid "Vital options"
 msgstr "必需选项"
 
-#: server/stdinhand.c:2234
+#: server/stdinhand.c:2231
 msgid "Situational options"
 msgstr "情景相关的选项"
 
-#: server/stdinhand.c:2237
+#: server/stdinhand.c:2234
 msgid "Rarely used options"
 msgstr "很少使用的选项"
 
-#: server/stdinhand.c:2240
+#: server/stdinhand.c:2237
 msgid "Options locked by the ruleset"
 msgstr ""
 
-#: server/stdinhand.c:2252
+#: server/stdinhand.c:2249
 msgid "In the column '##' the status of the option is shown:"
 msgstr ""
 
-#: server/stdinhand.c:2253
+#: server/stdinhand.c:2250
 #, fuzzy
 msgid " - a '!' means the option is locked by the ruleset."
 msgstr "= 表示选项的值是它的默认值"
 
-#: server/stdinhand.c:2254
+#: server/stdinhand.c:2251
 #, fuzzy
 msgid " - a '+' means you may change the option."
 msgstr "+ 表示您可以改变选项"
 
-#: server/stdinhand.c:2255
+#: server/stdinhand.c:2252
 #, fuzzy
 msgid " - a '~' means that option follows default value."
 msgstr "= 表示选项的值是它的默认值"
 
-#: server/stdinhand.c:2256
+#: server/stdinhand.c:2253
 #, fuzzy
 msgid " - a '=' means the value is same as default."
 msgstr "= 表示选项的值是它的默认值"
 
-#: server/stdinhand.c:2258
+#: server/stdinhand.c:2255
 #, fuzzy, c-format
 msgid "%-*s ## value (min, max)"
 msgstr "%-20s值  （最小值，最大值）"
 
-#: server/stdinhand.c:2259
+#: server/stdinhand.c:2256
 msgid "Option"
 msgstr "选项"
 
-#: server/stdinhand.c:2302
+#: server/stdinhand.c:2299
 msgid "A help text for each option is available via 'help <option>'."
 msgstr ""
 
-#: server/stdinhand.c:2306
+#: server/stdinhand.c:2303
 #, fuzzy
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
@@ -47929,30 +47929,30 @@ msgstr ""
 "请使用“show situational”或“show rare”以显示更多选项。\n"
 "请使用“show changed”以显示具有非缺省值的设置。"
 
-#: server/stdinhand.c:2408
+#: server/stdinhand.c:2405
 msgid "Cannot change teams once game has begun."
 msgstr "不能在游戏开始后修改团队。"
 
-#: server/stdinhand.c:2418 server/stdinhand.c:2560 server/stdinhand.c:2751
-#: server/stdinhand.c:2776 server/stdinhand.c:2818 server/stdinhand.c:2849
-#: server/stdinhand.c:2891 server/stdinhand.c:2916 server/stdinhand.c:2978
+#: server/stdinhand.c:2415 server/stdinhand.c:2557 server/stdinhand.c:2748
+#: server/stdinhand.c:2773 server/stdinhand.c:2815 server/stdinhand.c:2846
+#: server/stdinhand.c:2888 server/stdinhand.c:2913 server/stdinhand.c:2975
 #, fuzzy, c-format
 msgid ""
 "Undefined argument. Usage:\n"
 "%s"
 msgstr "未定义的参数。用法：set <选项> <值>。"
 
-#: server/stdinhand.c:2440
+#: server/stdinhand.c:2437
 #, fuzzy, c-format
 #| msgid "No such team %s.  Please give a valid team name or number."
 msgid "No such team %s. Please give a valid team name or number."
 msgstr "团队 %s 不存在。请给出有效的团队名字或编号。"
 
-#: server/stdinhand.c:2447
+#: server/stdinhand.c:2444
 msgid "Cannot team a barbarian."
 msgstr "不能和野人组成团队。"
 
-#: server/stdinhand.c:2455
+#: server/stdinhand.c:2452
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "%s 加入团队 %s。"
@@ -47960,18 +47960,18 @@ msgstr "%s 加入团队 %s。"
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2485 server/voting.c:539
+#: server/stdinhand.c:2482 server/voting.c:539
 #, fuzzy
 msgid "Teamvote"
 msgstr "团队"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2485 server/voting.c:544
+#: server/stdinhand.c:2482 server/voting.c:544
 msgid "Vote"
 msgstr ""
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
-#: server/stdinhand.c:2488
+#: server/stdinhand.c:2485
 #, c-format
 msgid ""
 "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
@@ -47979,210 +47979,210 @@ msgid ""
 msgstr ""
 
 #. TRANS: preserve leading space
-#: server/stdinhand.c:2493
+#: server/stdinhand.c:2490
 msgid " no dissent"
 msgstr ""
 
-#: server/stdinhand.c:2501
+#: server/stdinhand.c:2498
 msgid "There are no votes going on."
 msgstr "当前没有举行投票。"
 
-#: server/stdinhand.c:2546 server/stdinhand.c:2671 server/stdinhand.c:4523
-#: server/stdinhand.c:4722
+#: server/stdinhand.c:2543 server/stdinhand.c:2668 server/stdinhand.c:4520
+#: server/stdinhand.c:4719
 msgid "You are not allowed to use this command."
 msgstr "不允许您使用该命令。"
 
-#: server/stdinhand.c:2555
+#: server/stdinhand.c:2552
 #, fuzzy, c-format
 msgid "The argument \"%s\" is ambiguous."
 msgstr "帮助参数“%s”有歧义。"
 
-#: server/stdinhand.c:2572
+#: server/stdinhand.c:2569
 #, fuzzy
 msgid "There are no votes running."
 msgstr "当前没有举行投票。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2575
+#: server/stdinhand.c:2572
 #, fuzzy, c-format
 msgid "No legal last vote (%d %s)."
 msgstr "没有合法的上次投票。"
 
-#: server/stdinhand.c:2576
+#: server/stdinhand.c:2573
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] ""
 
-#: server/stdinhand.c:2583
+#: server/stdinhand.c:2580
 msgid "Value must be an integer."
 msgstr "值必须是一个整数。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2590 server/stdinhand.c:2680
+#: server/stdinhand.c:2587 server/stdinhand.c:2677
 #, c-format
 msgid "No such vote (%d)."
 msgstr "没有这样的投票（%d）。"
 
-#: server/stdinhand.c:2596
+#: server/stdinhand.c:2593
 #, fuzzy
 msgid "You are not allowed to vote on that."
 msgstr "不允许您设置此选项。"
 
-#: server/stdinhand.c:2601
+#: server/stdinhand.c:2598
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "您投票支持“%s”"
 
-#: server/stdinhand.c:2605
+#: server/stdinhand.c:2602
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "您投票反对“%s”"
 
-#: server/stdinhand.c:2610
+#: server/stdinhand.c:2607
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2647
+#: server/stdinhand.c:2644
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr ""
 
-#: server/stdinhand.c:2654
+#: server/stdinhand.c:2651
 #, fuzzy
 msgid "You don't have any vote going on."
 msgstr "您在这里没有工人。"
 
-#: server/stdinhand.c:2661
+#: server/stdinhand.c:2658
 #, fuzzy
 msgid "There isn't any vote going on."
 msgstr "当前没有举行投票。"
 
 #. TRANS: "votes" as a process
-#: server/stdinhand.c:2667
+#: server/stdinhand.c:2664
 msgid "All votes have been removed."
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2686
+#: server/stdinhand.c:2683
 #, fuzzy, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr "不允许您设置此选项。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2693
+#: server/stdinhand.c:2690
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2703
+#: server/stdinhand.c:2700
 #, fuzzy, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr "抱歉，%s 取消了从 %s 到您的城市 %s 的贸易路线。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2710
+#: server/stdinhand.c:2707
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr ""
 
-#: server/stdinhand.c:2731
+#: server/stdinhand.c:2728
 msgid "Can only use this command once game has begun."
 msgstr "只能在游戏开始后使用此命令。"
 
-#: server/stdinhand.c:2762
+#: server/stdinhand.c:2759
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "不再调试 %s 外交"
 
-#: server/stdinhand.c:2766
+#: server/stdinhand.c:2763
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "调试 %s 外交"
 
-#: server/stdinhand.c:2787
+#: server/stdinhand.c:2784
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "不再调试 %s 科技"
 
-#: server/stdinhand.c:2791
+#: server/stdinhand.c:2788
 #, c-format
 msgid "%s tech debugged"
 msgstr "调试 %s 科技"
 
-#: server/stdinhand.c:2806 server/stdinhand.c:2809
+#: server/stdinhand.c:2803 server/stdinhand.c:2806
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr ""
 
-#: server/stdinhand.c:2823 server/stdinhand.c:2854
+#: server/stdinhand.c:2820 server/stdinhand.c:2851
 msgid "Value 2 & 3 must be integer."
 msgstr "第二和第三个值必须是整数。"
 
-#: server/stdinhand.c:2827 server/stdinhand.c:2858
+#: server/stdinhand.c:2824 server/stdinhand.c:2855
 msgid "Bad map coordinates."
 msgstr "错误的地图坐标。"
 
-#: server/stdinhand.c:2832
+#: server/stdinhand.c:2829
 msgid "No city at this coordinate."
 msgstr "此坐标没有城市。"
 
-#: server/stdinhand.c:2837
+#: server/stdinhand.c:2834
 #, c-format
 msgid "%s no longer debugged"
 msgstr "不再调试 %s"
 
-#: server/stdinhand.c:2864 server/stdinhand.c:2905
+#: server/stdinhand.c:2861 server/stdinhand.c:2902
 #, fuzzy, c-format
 msgid "%s %s no longer debugged."
 msgstr "不再调试 %s 的 %s 。"
 
-#: server/stdinhand.c:2879
+#: server/stdinhand.c:2876
 #, fuzzy
 msgid "Ferry system is no longer in debug mode."
 msgstr "不再调试 %s 的 %s 。"
 
-#: server/stdinhand.c:2883
+#: server/stdinhand.c:2880
 msgid "Ferry system in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2896
+#: server/stdinhand.c:2893
 msgid "Value 2 must be integer."
 msgstr "第二个值必须是整数。"
 
-#: server/stdinhand.c:2900
+#: server/stdinhand.c:2897
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "部队 %d 不存在。"
 
-#: server/stdinhand.c:2940
+#: server/stdinhand.c:2937
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr ""
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
-#: server/stdinhand.c:2948
+#: server/stdinhand.c:2945
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
 msgstr ""
 
-#: server/stdinhand.c:3020
+#: server/stdinhand.c:3017
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr ""
 
-#: server/stdinhand.c:3113
+#: server/stdinhand.c:3110
 #, c-format
 msgid "Console: '%s' has been set to %s."
 msgstr "控制台：'%s' 已被设置为 %s."
 
-#: server/stdinhand.c:3159
+#: server/stdinhand.c:3156
 #, fuzzy
 msgid "You cannot take a new player at this time."
 msgstr "抱歉，本游戏中不能接替真人玩家。"
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:3167
+#: server/stdinhand.c:3164
 #, c-format
 msgid ""
 "You cannot take a new player because the maximum of %d player has already "
@@ -48192,546 +48192,546 @@ msgid_plural ""
 "been reached (maxplayers setting)."
 msgstr[0] ""
 
-#: server/stdinhand.c:3179
+#: server/stdinhand.c:3176
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
 
-#: server/stdinhand.c:3204
+#: server/stdinhand.c:3201
 msgid "Sorry, one can't observe globally in this game."
 msgstr "抱歉，本游戏中不能旁观全局。"
 
-#: server/stdinhand.c:3212
+#: server/stdinhand.c:3209
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "抱歉，本游戏中不能旁观野人。"
 
-#: server/stdinhand.c:3215
+#: server/stdinhand.c:3212
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "抱歉，本游戏中不能接替野人。"
 
-#: server/stdinhand.c:3224
+#: server/stdinhand.c:3221
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "抱歉，本游戏中不能旁观已死去的玩家。"
 
-#: server/stdinhand.c:3228
+#: server/stdinhand.c:3225
 msgid "Sorry, one can't take dead players in this game."
 msgstr "抱歉，本游戏中不能接替已死去的玩家。"
 
-#: server/stdinhand.c:3238
+#: server/stdinhand.c:3235
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "抱歉，本游戏中不能旁观 AI 玩家。"
 
-#: server/stdinhand.c:3241
+#: server/stdinhand.c:3238
 msgid "Sorry, one can't take AI players in this game."
 msgstr "抱歉，本游戏中不能接替 AI 玩家。"
 
-#: server/stdinhand.c:3251
+#: server/stdinhand.c:3248
 msgid "Sorry, one can't observe human players in this game."
 msgstr "抱歉，本游戏中不能旁观真人玩家。"
 
-#: server/stdinhand.c:3255
+#: server/stdinhand.c:3252
 msgid "Sorry, one can't take human players in this game."
 msgstr "抱歉，本游戏中不能接替真人玩家。"
 
-#: server/stdinhand.c:3265
+#: server/stdinhand.c:3262
 msgid "Sorry, one can't observe in this game."
 msgstr "抱歉，本游戏中不能旁观。"
 
-#: server/stdinhand.c:3270
+#: server/stdinhand.c:3267
 msgid "Sorry, one can't take players in this game."
 msgstr "抱歉，本游戏中不能接替玩家。"
 
-#: server/stdinhand.c:3277
+#: server/stdinhand.c:3274
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "抱歉，本游戏中不能接替已经连入的玩家。"
 
-#: server/stdinhand.c:3314 server/stdinhand.c:3462
+#: server/stdinhand.c:3311 server/stdinhand.c:3459
 #, fuzzy
 msgid "Only the player name form is allowed."
 msgstr "不能使用该名字。"
 
-#: server/stdinhand.c:3364
+#: server/stdinhand.c:3361
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s 已经控制 %s 了。使用“observe”将删除 %s"
 
-#: server/stdinhand.c:3375
+#: server/stdinhand.c:3372
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s 已经旁观 %s 了。"
 
-#: server/stdinhand.c:3380
+#: server/stdinhand.c:3377
 #, c-format
 msgid "%s is already observing."
 msgstr "%s 已经在旁观了。"
 
-#: server/stdinhand.c:3412
+#: server/stdinhand.c:3409
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s 现在旁观 %s"
 
-#: server/stdinhand.c:3416
+#: server/stdinhand.c:3413
 #, c-format
 msgid "%s now observes"
 msgstr "%s 现在旁观"
 
-#: server/stdinhand.c:3483
+#: server/stdinhand.c:3480
 #, fuzzy
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr "无法在游戏开始后删除玩家。"
 
-#: server/stdinhand.c:3507
+#: server/stdinhand.c:3504
 #, c-format
 msgid "A delegation is active for player '%s'. /take not possible."
 msgstr ""
 
-#: server/stdinhand.c:3522
+#: server/stdinhand.c:3519
 #, fuzzy, c-format
 msgid "%s already controls %s."
 msgstr "%s 已经控制 %s 了"
 
-#: server/stdinhand.c:3536
+#: server/stdinhand.c:3533
 #, fuzzy, c-format
 msgid "There is no free player slot for %s."
 msgstr "没有名为 %s 的玩家或连接。"
 
-#: server/stdinhand.c:3552
+#: server/stdinhand.c:3549
 #, fuzzy, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "只能在服务器控制台中使用。"
 
-#: server/stdinhand.c:3556
+#: server/stdinhand.c:3553
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr ""
 
-#: server/stdinhand.c:3595
+#: server/stdinhand.c:3592
 #, fuzzy, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s 现在控制 %s （%s，%s）"
 
-#: server/stdinhand.c:3602 server/stdinhand.c:6743
+#: server/stdinhand.c:3599 server/stdinhand.c:6740
 msgid "Human"
 msgstr "真人"
 
-#: server/stdinhand.c:3604
+#: server/stdinhand.c:3601
 msgid "Alive"
 msgstr "活的"
 
-#: server/stdinhand.c:3605
+#: server/stdinhand.c:3602
 msgid "Dead"
 msgstr "死的"
 
-#: server/stdinhand.c:3608
+#: server/stdinhand.c:3605
 #, fuzzy, c-format
 msgid "%s failed to attach to any player."
 msgstr "%s 没有附接到任何玩家。"
 
-#: server/stdinhand.c:3661
+#: server/stdinhand.c:3658
 msgid "You can not detach other users."
 msgstr "你不能使别的用户脱离。"
 
-#: server/stdinhand.c:3670
+#: server/stdinhand.c:3667
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s 没有附接到任何玩家。"
 
-#: server/stdinhand.c:3680
+#: server/stdinhand.c:3677
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s 正从 %s 脱离"
 
-#: server/stdinhand.c:3683
+#: server/stdinhand.c:3680
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s 不再旁观。"
 
-#: server/stdinhand.c:3748
+#: server/stdinhand.c:3745
 msgid "Cannot load a game while another is running."
 msgstr "不能在游戏运行时载入另一个游戏。"
 
-#: server/stdinhand.c:3796
+#: server/stdinhand.c:3793
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "无法找到名为“%s”的存盘文件或情景。"
 
-#: server/stdinhand.c:3810
+#: server/stdinhand.c:3807
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "无法载入存盘文件：%s"
 
-#: server/stdinhand.c:3928
+#: server/stdinhand.c:3925
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
 msgstr ""
 
-#: server/stdinhand.c:3934
+#: server/stdinhand.c:3931
 msgid "This setting can't be modified after the game has started."
 msgstr "在游戏开始之后不能修改该设置。"
 
 #. TRANS: scenario name
-#: server/stdinhand.c:3939
+#: server/stdinhand.c:3936
 #, c-format
 msgid ""
 "The ruleset of \"%s\" can be changed by switching to a compatible ruleset "
 "before loading it."
 msgstr ""
 
-#: server/stdinhand.c:3948
+#: server/stdinhand.c:3945
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "规则集目录已经是“%s”"
 
-#: server/stdinhand.c:3997
+#: server/stdinhand.c:3994
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "规则集合目录被设置为“%s”"
 
-#: server/stdinhand.c:4000
+#: server/stdinhand.c:3997
 #, fuzzy, c-format
 msgid "Failed loading rulesets from directory \"%s\", using \"%s\""
 msgstr "当前规则集合目录为“%s”"
 
-#: server/stdinhand.c:4020 server/stdinhand.c:4056 server/stdinhand.c:6659
+#: server/stdinhand.c:4017 server/stdinhand.c:4053 server/stdinhand.c:6656
 msgid "That would be rather silly, since you are not a player."
 msgstr ""
 
-#: server/stdinhand.c:4027
+#: server/stdinhand.c:4024
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr ""
 
-#: server/stdinhand.c:4039
+#: server/stdinhand.c:4036
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:4065 server/stdinhand.c:6664
+#: server/stdinhand.c:4062 server/stdinhand.c:6661
 #, fuzzy
 msgid "Your ignore list is empty."
 msgstr "%s 的工作列表现在为空。"
 
-#: server/stdinhand.c:4072
+#: server/stdinhand.c:4069
 msgid "Missing range. Try /help unignore."
 msgstr ""
 
-#: server/stdinhand.c:4081 server/stdinhand.c:4089 server/stdinhand.c:4095
+#: server/stdinhand.c:4078 server/stdinhand.c:4086 server/stdinhand.c:4092
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr ""
 
-#: server/stdinhand.c:4104
+#: server/stdinhand.c:4101
 #, fuzzy, c-format
 msgid "Invalid entry number: %d."
 msgstr "无效的名字“%s”"
 
-#: server/stdinhand.c:4107
+#: server/stdinhand.c:4104
 #, fuzzy, c-format
 msgid "Invalid range: %d to %d."
 msgstr "非法参数 %d。"
 
-#: server/stdinhand.c:4121
+#: server/stdinhand.c:4118
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:4151
+#: server/stdinhand.c:4148
 msgid "Two arguments needed. See '/help playercolor'."
 msgstr ""
 
-#: server/stdinhand.c:4178
+#: server/stdinhand.c:4175
 #, fuzzy
 msgid "Can only unset player color before game starts."
 msgstr "无法在游戏开始之前改变比率。"
 
-#: server/stdinhand.c:4184
+#: server/stdinhand.c:4181
 msgid "Invalid player color definition. See '/help playercolor'."
 msgstr ""
 
 #. TRANS: "... [c0ffee] for Caesar ... to Hammurabi."
-#: server/stdinhand.c:4195
+#: server/stdinhand.c:4192
 #, c-format
 msgid "Warning: new color [%s] for %s is identical to %s."
 msgstr ""
 
-#: server/stdinhand.c:4208
+#: server/stdinhand.c:4205
 #, fuzzy, c-format
 msgid "Color of player %s set to [%s]."
 msgstr "%s 加入团队 %s。"
 
-#: server/stdinhand.c:4237
+#: server/stdinhand.c:4234
 msgid "At least one argument needed. See '/help playernation'."
 msgstr ""
 
-#: server/stdinhand.c:4244
+#: server/stdinhand.c:4241
 #, fuzzy
 msgid "Can only set player nation before game starts."
 msgstr "无法在游戏开始之前改变比率。"
 
-#: server/stdinhand.c:4261
+#: server/stdinhand.c:4258
 #, fuzzy, c-format
 msgid "Nation of player %s reset."
 msgstr "创建新 AI 玩家错误：%s。"
 
-#: server/stdinhand.c:4268
+#: server/stdinhand.c:4265
 #, fuzzy, c-format
 #| msgid "Unrecognized option: \"%s\"\n"
 msgid "Unrecognized nation: %s."
 msgstr "无法识别的选项：“%s”\n"
 
 #. TRANS: Nation resetting form of /playernation does not require sex
-#: server/stdinhand.c:4291
+#: server/stdinhand.c:4288
 msgid "Leader sex must be given when setting nation."
 msgstr ""
 
-#: server/stdinhand.c:4302
+#: server/stdinhand.c:4299
 #, c-format
 msgid "Unrecognized gender: %s, expecting 1 or 0."
 msgstr ""
 
-#: server/stdinhand.c:4311
+#: server/stdinhand.c:4308
 #, fuzzy, c-format
 #| msgid "Unrecognized option: \"%s\"\n"
 msgid "Unrecognized style: %s."
 msgstr "无法识别的选项：“%s”\n"
 
-#: server/stdinhand.c:4335
+#: server/stdinhand.c:4332
 #, fuzzy, c-format
 msgid "Nation of player %s set to [%s]."
 msgstr "%s 加入团队 %s。"
 
-#: server/stdinhand.c:4352
+#: server/stdinhand.c:4349
 msgid "Goodbye."
 msgstr "再见。"
 
-#: server/stdinhand.c:4425
+#: server/stdinhand.c:4422
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "抱歉，不允许您使用服务器命令。"
 
-#: server/stdinhand.c:4450
+#: server/stdinhand.c:4447
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "警告：“%s”被解释为“%s”，但有歧义。试用“%shelp”。"
 
-#: server/stdinhand.c:4454
+#: server/stdinhand.c:4451
 #, fuzzy, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "未知的命令。试用“%shelp”。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4482
+#: server/stdinhand.c:4479
 #, fuzzy
 msgid "Your new vote canceled your previous vote."
 msgstr "您的新投票取消了您以前的投票。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4489
+#: server/stdinhand.c:4486
 msgid "New teamvote"
 msgstr ""
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4501
+#: server/stdinhand.c:4498
 #, fuzzy, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "新投票（编号 %d），由 %s：%s 发起。"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4511
+#: server/stdinhand.c:4508
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:4556
+#: server/stdinhand.c:4553
 msgid "(server prompt)"
 msgstr "（服务器提示）"
 
-#: server/stdinhand.c:4702
+#: server/stdinhand.c:4699
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr "结束游戏。服务器将在所有客户端断开连接后立刻重启动。"
 
-#: server/stdinhand.c:4707
+#: server/stdinhand.c:4704
 msgid "Cannot end the game: no game running."
 msgstr "无法结束游戏：游戏尚未运行。"
 
-#: server/stdinhand.c:4727
+#: server/stdinhand.c:4724
 msgid "You cannot surrender now."
 msgstr "您现在不能投降。"
 
-#: server/stdinhand.c:4734
+#: server/stdinhand.c:4731
 #, fuzzy
 #| msgid "You have already bought this turn."
 msgid "You have already conceded the game."
 msgstr "您已经在本回合中购买过了。"
 
-#: server/stdinhand.c:4743
+#: server/stdinhand.c:4740
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s 已经认输，不可能赢得游戏了。"
 
-#: server/stdinhand.c:4794
+#: server/stdinhand.c:4791
 #, fuzzy
 msgid "Guessing argument 'ruleset'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:4798
+#: server/stdinhand.c:4795
 #, fuzzy
 msgid "Guessing argument 'game'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:4806
+#: server/stdinhand.c:4803
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr ""
 
-#: server/stdinhand.c:4821
+#: server/stdinhand.c:4818
 #, fuzzy
 msgid "Reset all settings to the values at the game start."
 msgstr "在游戏开始之后不能修改该设置。"
 
-#: server/stdinhand.c:4824
+#: server/stdinhand.c:4821
 msgid "No saved settings from the game start available."
 msgstr ""
 
-#: server/stdinhand.c:4828
+#: server/stdinhand.c:4825
 #, fuzzy
 msgid "No game started..."
 msgstr "游戏已开始。"
 
-#: server/stdinhand.c:4837
+#: server/stdinhand.c:4834
 msgid "Reset all settings to ruleset values."
 msgstr ""
 
-#: server/stdinhand.c:4840
+#: server/stdinhand.c:4837
 #, fuzzy
 msgid "Failed to reset settings to ruleset values."
 msgstr "所有不为缺省值的选项。"
 
-#: server/stdinhand.c:4846
+#: server/stdinhand.c:4843
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 
-#: server/stdinhand.c:4864
+#: server/stdinhand.c:4861
 #, fuzzy
 msgid "Reset all settings to default values."
 msgstr "所有不为缺省值的选项。"
 
-#: server/stdinhand.c:4870
+#: server/stdinhand.c:4867
 msgid "Settings re-initialized."
 msgstr ""
 
-#: server/stdinhand.c:4902
+#: server/stdinhand.c:4899
 #, fuzzy, c-format
 msgid "Option '%s' reset to default value, and will track any default changes."
 msgstr "所有不为缺省值的选项。"
 
-#: server/stdinhand.c:4967
+#: server/stdinhand.c:4964
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
 msgstr ""
 
-#: server/stdinhand.c:4977
+#: server/stdinhand.c:4974
 #, fuzzy, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
 msgstr "无法读入命令行脚本文件“%s”。"
 
-#: server/stdinhand.c:4990 server/stdinhand.c:5003
+#: server/stdinhand.c:4987 server/stdinhand.c:5000
 msgid "Unsafe Lua code can only be run by explicit command."
 msgstr ""
 
-#: server/stdinhand.c:4995 server/stdinhand.c:5008
+#: server/stdinhand.c:4992 server/stdinhand.c:5005
 msgid "You aren't allowed to run unsafe Lua code."
 msgstr "不允许使用不安全的Lua脚本"
 
-#: server/stdinhand.c:5027
+#: server/stdinhand.c:5024
 #, fuzzy, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
 msgstr "出于安全的原因不允许使用名字“%s”。"
 
-#: server/stdinhand.c:5041
+#: server/stdinhand.c:5038
 #, fuzzy, c-format
 msgid "No Freeciv script found by the name '%s'."
 msgstr "没有名字为“%s”的命令脚本。"
 
-#: server/stdinhand.c:5066 server/stdinhand.c:5079
+#: server/stdinhand.c:5063 server/stdinhand.c:5076
 #, fuzzy, c-format
 msgid "Loading Freeciv script file '%s'."
 msgstr "正在装入脚本文件：%s"
 
-#: server/stdinhand.c:5073 server/stdinhand.c:5086
+#: server/stdinhand.c:5070 server/stdinhand.c:5083
 #, fuzzy, c-format
 msgid "Cannot read Freeciv script '%s'."
 msgstr "无法读入命令行脚本文件“%s”。"
 
-#: server/stdinhand.c:5135
+#: server/stdinhand.c:5132
 msgid "Game not started - cannot delegate yet."
 msgstr ""
 
 #. TRANS: do not translate the command 'delegate'.
-#: server/stdinhand.c:5191
+#: server/stdinhand.c:5188
 #, c-format
 msgid "Valid arguments for 'delegate' are: %s."
 msgstr ""
 
-#: server/stdinhand.c:5211
+#: server/stdinhand.c:5208
 #, fuzzy, c-format
 msgid "Command level '%s' or greater needed to modify others' delegations."
 msgstr "无法在游戏开始后删除玩家。"
 
-#: server/stdinhand.c:5220
+#: server/stdinhand.c:5217
 msgid "Please specify a player for whom delegation should be canceled."
 msgstr ""
 
-#: server/stdinhand.c:5231 server/stdinhand.c:5261
+#: server/stdinhand.c:5228 server/stdinhand.c:5258
 #, fuzzy
 msgid "You can't switch players from the console."
 msgstr "抱歉，本游戏中不能接替真人玩家。"
 
-#: server/stdinhand.c:5250
+#: server/stdinhand.c:5247
 msgid "Please specify a player for whom the delegation should be shown."
 msgstr ""
 
-#: server/stdinhand.c:5275
+#: server/stdinhand.c:5272
 #, fuzzy
 msgid "Please specify a player to take control of."
 msgstr "创建新 AI 玩家错误：%s。"
 
-#: server/stdinhand.c:5297
+#: server/stdinhand.c:5294
 msgid "Please specify a user to whom control is to be delegated."
 msgstr ""
 
-#: server/stdinhand.c:5318
+#: server/stdinhand.c:5315
 #, fuzzy, c-format
 msgid ""
 "Command level '%s' or greater or special permission needed to modify others' "
 "delegations."
 msgstr "无法在游戏开始后删除玩家。"
 
-#: server/stdinhand.c:5328
+#: server/stdinhand.c:5325
 #, fuzzy
 msgid "You do not control a player."
 msgstr "您没有附接到任何玩家。"
 
-#: server/stdinhand.c:5353
+#: server/stdinhand.c:5350
 #, c-format
 msgid ""
 "Can't delegate control of '%s' belonging to %s while they are controlling "
 "another player."
 msgstr ""
 
-#: server/stdinhand.c:5359
+#: server/stdinhand.c:5356
 #, c-format
 msgid "Can't change delegation of '%s' while controlled by delegate %s."
 msgstr ""
 
-#: server/stdinhand.c:5366
+#: server/stdinhand.c:5363
 msgid ""
 "You can't delegate control while you are controlling a delegated player "
 "yourself."
 msgstr ""
 
 #. TRANS: don't translate 'delegate cancel'
-#: server/stdinhand.c:5380
+#: server/stdinhand.c:5377
 #, c-format
 msgid ""
 "%s already owns '%s', so cannot also be delegate. Use '%sdelegate cancel' to "
@@ -48739,281 +48739,281 @@ msgid ""
 msgstr ""
 
 #. TRANS: don't translate '/delegate cancel'
-#: server/stdinhand.c:5389
+#: server/stdinhand.c:5386
 msgid ""
 "You can't delegate control to yourself. Use '/delegate cancel' to cancel an "
 "existing delegation."
 msgstr ""
 
-#: server/stdinhand.c:5402 server/stdinhand.c:5418
+#: server/stdinhand.c:5399 server/stdinhand.c:5415
 #, fuzzy, c-format
 msgid "Control of player '%s' delegated to user %s."
 msgstr "%s 加入团队 %s。"
 
-#: server/stdinhand.c:5414 server/stdinhand.c:5428
+#: server/stdinhand.c:5411 server/stdinhand.c:5425
 #, fuzzy, c-format
 msgid "No delegation defined for '%s'."
 msgstr "没有名字为“%s”的连接。"
 
-#: server/stdinhand.c:5448 server/stdinhand.c:5523 server/stdinhand.c:5552
+#: server/stdinhand.c:5445 server/stdinhand.c:5520 server/stdinhand.c:5549
 msgid "Unexpected failure."
 msgstr ""
 
-#: server/stdinhand.c:5453
+#: server/stdinhand.c:5450
 #, c-format
 msgid "Your delegated control of player '%s' was canceled."
 msgstr ""
 
-#: server/stdinhand.c:5458
+#: server/stdinhand.c:5455
 #, fuzzy, c-format
 msgid "Delegation of '%s' canceled."
 msgstr "该民族已经被使用了。"
 
 #. TRANS: don't translate '/delegate restore'.
-#: server/stdinhand.c:5471
+#: server/stdinhand.c:5468
 msgid ""
 "You are already controlling a delegated player. Use '/delegate restore' to "
 "relinquish control of your current player first."
 msgstr ""
 
 #. TRANS: don't translate '/delegate cancel'.
-#: server/stdinhand.c:5485
+#: server/stdinhand.c:5482
 msgid ""
 "Can't take player while you have delegated control yourself. Use '/delegate "
 "cancel' to cancel your own delegation first."
 msgstr ""
 
-#: server/stdinhand.c:5495
+#: server/stdinhand.c:5492
 #, fuzzy, c-format
 msgid "You already control '%s'."
 msgstr "%s 已经控制 %s 了"
 
-#: server/stdinhand.c:5504
+#: server/stdinhand.c:5501
 #, fuzzy, c-format
 msgid "Control of player '%s' has not been delegated to you."
 msgstr "选项：%s 已被设置为“%s”。"
 
-#: server/stdinhand.c:5513
+#: server/stdinhand.c:5510
 #, fuzzy, c-format
 msgid "Another user already controls player '%s'."
 msgstr "%s 已经控制 %s 了"
 
-#: server/stdinhand.c:5529
+#: server/stdinhand.c:5526
 #, fuzzy, c-format
 msgid "%s is now controlling player '%s'."
 msgstr "%s 不是由 AI 控制的。"
 
-#: server/stdinhand.c:5541
+#: server/stdinhand.c:5538
 #, fuzzy
 msgid "You are not currently controlling a delegated player."
 msgstr "您没有附接到任何玩家。"
 
 #. TRANS: "<user> is now connected to <player>" where <player>
 #. * can also be "global observer" or "nothing"
-#: server/stdinhand.c:5560
+#: server/stdinhand.c:5557
 #, fuzzy, c-format
 msgid "%s is now connected as %s."
 msgstr "%s 尚未连接。"
 
-#: server/stdinhand.c:5580
+#: server/stdinhand.c:5577
 #, fuzzy, c-format
 msgid "%s (observer)"
 msgstr " （旁观者）"
 
-#: server/stdinhand.c:5585
+#: server/stdinhand.c:5582
 #, fuzzy
 msgid "global observer"
 msgstr "旁观者"
 
-#: server/stdinhand.c:5643
+#: server/stdinhand.c:5640
 #, fuzzy
 msgid "Ambiguous 'mapimg' command."
 msgstr "有歧义的选项名称。"
 
-#: server/stdinhand.c:5669 server/stdinhand.c:5996
+#: server/stdinhand.c:5666 server/stdinhand.c:5993
 #, fuzzy, c-format
 msgid "The valid arguments are: %s."
 msgstr "非法参数 %d。"
 
-#: server/stdinhand.c:5684
+#: server/stdinhand.c:5681
 #, fuzzy
 msgid "Missing argument for 'mapimg define'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:5690 server/stdinhand.c:5699
+#: server/stdinhand.c:5687 server/stdinhand.c:5696
 #, fuzzy, c-format
 msgid "Can't use definition: %s."
 msgstr "无效的名字“%s”"
 
-#: server/stdinhand.c:5707
+#: server/stdinhand.c:5704
 #, fuzzy, c-format
 msgid "Defined as map image definition %d: '%s'."
 msgstr "无效的名字“%s”"
 
-#: server/stdinhand.c:5717
+#: server/stdinhand.c:5714
 #, fuzzy
 msgid "Missing argument for 'mapimg delete'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:5728
+#: server/stdinhand.c:5725
 msgid "All map image definitions deleted."
 msgstr ""
 
-#: server/stdinhand.c:5738
+#: server/stdinhand.c:5735
 #, fuzzy, c-format
 msgid "Couldn't delete definition: %s."
 msgstr "无效的名字“%s”"
 
-#: server/stdinhand.c:5741
+#: server/stdinhand.c:5738
 #, c-format
 msgid "Map image definition %d deleted."
 msgstr ""
 
-#: server/stdinhand.c:5746
+#: server/stdinhand.c:5743
 #, fuzzy, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:5769
+#: server/stdinhand.c:5766
 #, fuzzy, c-format
 msgid "Couldn't show definition: %s."
 msgstr "无效的名字“%s”"
 
-#: server/stdinhand.c:5774
+#: server/stdinhand.c:5771
 #, fuzzy, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:5785
+#: server/stdinhand.c:5782
 msgid "Map color test images saved."
 msgstr ""
 
-#: server/stdinhand.c:5791
+#: server/stdinhand.c:5788
 #, fuzzy
 msgid "Missing argument for 'mapimg create'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:5809 server/stdinhand.c:5826
+#: server/stdinhand.c:5806 server/stdinhand.c:5823
 #, fuzzy, c-format
 msgid "Error saving map image %d: %s."
 msgstr "正在装入脚本文件：%s"
 
-#: server/stdinhand.c:5831
+#: server/stdinhand.c:5828
 #, fuzzy, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
 msgstr "缺少参数“%s”。\n"
 
-#: server/stdinhand.c:5859
+#: server/stdinhand.c:5856
 msgid "No player given for aicmd."
 msgstr ""
 
-#: server/stdinhand.c:5876
+#: server/stdinhand.c:5873
 msgid "No command for the AI console defined."
 msgstr ""
 
-#: server/stdinhand.c:5890
+#: server/stdinhand.c:5887
 #, c-format
 msgid "AI console for player %s. Command: '%s'."
 msgstr ""
 
-#: server/stdinhand.c:5896
+#: server/stdinhand.c:5893
 #, c-format
 msgid "No AI console defined for the AI '%s' of player %s."
 msgstr ""
 
-#: server/stdinhand.c:5900
+#: server/stdinhand.c:5897
 #, fuzzy, c-format
 msgid "No AI defined for player %s."
 msgstr "没有名字为“%s”的连接。"
 
-#: server/stdinhand.c:5940
+#: server/stdinhand.c:5937
 msgid "Freeciv database script deactivated at compile time."
 msgstr ""
 
-#: server/stdinhand.c:5947
+#: server/stdinhand.c:5944
 msgid ""
 "Freeciv database script not activated at server start. See the Freeciv "
 "server's --auth command line option."
 msgstr ""
 
-#: server/stdinhand.c:5966
+#: server/stdinhand.c:5963
 msgid "Ambiguous fcdb command."
 msgstr ""
 
-#: server/stdinhand.c:6100
+#: server/stdinhand.c:6097
 #, fuzzy, c-format
 msgid ""
 "Not enough human players ('minplayers' server setting has value %d); game "
 "will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:6107
+#: server/stdinhand.c:6104
 #, fuzzy
 msgid "No players; game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:6112
+#: server/stdinhand.c:6109
 #, fuzzy
 msgid ""
 "Not enough nations in the current nation set for all players; game will not "
 "start. (See 'nationset' setting.)"
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:6117
+#: server/stdinhand.c:6114
 #, fuzzy
 msgid "Not enough nations for all players; game will not start."
 msgstr "玩家人数不足，不能开始游戏。"
 
-#: server/stdinhand.c:6123
+#: server/stdinhand.c:6120
 msgid ""
 "Neither 'startcity' nor 'startunits' setting gives players anything to start "
 "game with; game will not start."
 msgstr ""
 
-#: server/stdinhand.c:6134
+#: server/stdinhand.c:6131
 msgid "All players are ready; starting game."
 msgstr "所有玩家就绪；启动游戏。"
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:6150
+#: server/stdinhand.c:6147
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "无法开始游戏：游戏正在等待所有的客户端断开连接。"
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:6157
+#: server/stdinhand.c:6154
 msgid "Cannot start the game: it is already running."
 msgstr "无法开始游戏：它已经在运行了。"
 
-#: server/stdinhand.c:6189
+#: server/stdinhand.c:6186
 #, c-format
 msgid "Cutting connection %s."
 msgstr "切断连接 %s。"
 
-#: server/stdinhand.c:6190
+#: server/stdinhand.c:6187
 #, fuzzy
 msgid "connection cut"
 msgstr "切断连接"
 
-#: server/stdinhand.c:6278
+#: server/stdinhand.c:6275
 #, fuzzy
 msgid "You may not kick yourself."
 msgstr "您必须选择您的性别。"
 
-#: server/stdinhand.c:6301
+#: server/stdinhand.c:6298
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
 
-#: server/stdinhand.c:6328
+#: server/stdinhand.c:6325
 #, fuzzy
 msgid "kicked"
 msgstr "已阻塞"
 
-#: server/stdinhand.c:6344
+#: server/stdinhand.c:6341
 #, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
@@ -49053,190 +49053,190 @@ msgstr ""
 "  quit   -  退出"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:6381
+#: server/stdinhand.c:6378
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "命令： %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:6387
+#: server/stdinhand.c:6384
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "命令： %s"
 
-#: server/stdinhand.c:6392
+#: server/stdinhand.c:6389
 msgid "Synopsis: "
 msgstr "提要： "
 
-#: server/stdinhand.c:6401
+#: server/stdinhand.c:6398
 #, c-format
 msgid "Level: %s"
 msgstr "级别： %s"
 
-#: server/stdinhand.c:6425
+#: server/stdinhand.c:6422
 msgid "The following server commands are available:"
 msgstr "可以使用下列服务器命令："
 
-#: server/stdinhand.c:6487
+#: server/stdinhand.c:6484
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:6549
+#: server/stdinhand.c:6546
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "帮助参数“%s”有歧义。"
 
-#: server/stdinhand.c:6556
+#: server/stdinhand.c:6553
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "没有匹配的帮助参数“%s”。"
 
-#: server/stdinhand.c:6597
+#: server/stdinhand.c:6594
 msgid "List of connections to server:"
 msgstr "到服务器的连接列表："
 
-#: server/stdinhand.c:6601
+#: server/stdinhand.c:6598
 msgid "<no connections>"
 msgstr "<无连接>"
 
-#: server/stdinhand.c:6622
+#: server/stdinhand.c:6619
 #, fuzzy
 msgid "List of all delegations:"
 msgstr "团队列表："
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6634
+#: server/stdinhand.c:6631
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr ""
 
 #. TRANS: preserve leading space
-#: server/stdinhand.c:6637
+#: server/stdinhand.c:6634
 #, fuzzy
 msgid " (active)"
 msgstr "活动"
 
-#: server/stdinhand.c:6643
+#: server/stdinhand.c:6640
 msgid "No delegations defined."
 msgstr ""
 
-#: server/stdinhand.c:6668
+#: server/stdinhand.c:6665
 msgid "Your ignore list:"
 msgstr ""
 
-#: server/stdinhand.c:6684
+#: server/stdinhand.c:6681
 msgid "List of players:"
 msgstr "玩家列表："
 
-#: server/stdinhand.c:6688 server/stdinhand.c:6920
+#: server/stdinhand.c:6685 server/stdinhand.c:6917
 msgid "<no players>"
 msgstr "<无玩家>"
 
-#: server/stdinhand.c:6718
+#: server/stdinhand.c:6715
 #, fuzzy, c-format
 msgid ", user %s"
 msgstr "用户 %s，"
 
-#: server/stdinhand.c:6722
+#: server/stdinhand.c:6719
 msgid ", ready"
 msgstr "，就绪"
 
-#: server/stdinhand.c:6726
+#: server/stdinhand.c:6723
 msgid ", not ready"
 msgstr "未就绪"
 
-#: server/stdinhand.c:6732
+#: server/stdinhand.c:6729
 msgid ", Dead"
 msgstr "，死亡"
 
-#: server/stdinhand.c:6746
+#: server/stdinhand.c:6743
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: server/stdinhand.c:6747
+#: server/stdinhand.c:6744
 #, c-format
 msgid ", difficulty level %s"
 msgstr "，难度级别 %s"
 
-#: server/stdinhand.c:6753
+#: server/stdinhand.c:6750
 #, fuzzy, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " %d 个连接："
 
-#: server/stdinhand.c:6760
+#: server/stdinhand.c:6757
 #, fuzzy, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s 来自 %s （命令访问级别 %s ），缓冲区大小 ＝ %d kb"
 
 #. TRANS: preserve leading space
-#: server/stdinhand.c:6766
+#: server/stdinhand.c:6763
 msgid " (observer mode)"
 msgstr " （旁观者模式）"
 
 #. TRANS: don't translate text between ''
-#: server/stdinhand.c:6785
+#: server/stdinhand.c:6782
 #, fuzzy, c-format
 msgid "List of rulesets available with '%sread' command:"
 msgstr "可以获得以下服务器选项的帮助信息："
 
-#: server/stdinhand.c:6806
+#: server/stdinhand.c:6803
 msgid "List of scenarios available:"
 msgstr "可用的情景列表："
 
 #. TRANS: don't translate text between ''
-#: server/stdinhand.c:6831
+#: server/stdinhand.c:6828
 #, fuzzy
 msgid "List of nation sets available for 'nationset' option:"
 msgstr "可以获得以下服务器选项的帮助信息："
 
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
-#: server/stdinhand.c:6845
+#: server/stdinhand.c:6842
 #, fuzzy, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
 msgstr[0] "%2d ：“%s” ： %d 个玩家"
 
-#: server/stdinhand.c:6868
+#: server/stdinhand.c:6865
 msgid "List of teams:"
 msgstr "团队列表："
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6878
+#: server/stdinhand.c:6875
 #, fuzzy, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d ：“%s” ： %d 个玩家"
 
-#: server/stdinhand.c:6899
+#: server/stdinhand.c:6896
 #, fuzzy
 msgid "No map image definitions."
 msgstr "玩家的初始部队列表"
 
-#: server/stdinhand.c:6901
+#: server/stdinhand.c:6898
 #, fuzzy
 msgid "List of map image definitions:"
 msgstr "玩家的初始部队列表"
 
-#: server/stdinhand.c:6906
+#: server/stdinhand.c:6903
 #, c-format
 msgid "[%2d] %s"
 msgstr ""
 
-#: server/stdinhand.c:6917
+#: server/stdinhand.c:6914
 #, fuzzy
 msgid "List of player colors:"
 msgstr "玩家列表："
 
-#: server/stdinhand.c:6923
+#: server/stdinhand.c:6920
 #, fuzzy, c-format
 msgid "%s (user %s): [%s]"
 msgstr "新投票（编号 %d），由 %s：%s 发起。"
 
-#: server/stdinhand.c:6984
+#: server/stdinhand.c:6981
 #, fuzzy, c-format
 #| msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgid "Bad list argument: '%s'. Try '%shelp list'."
@@ -50101,7 +50101,7 @@ msgstr "您的 %1$s 从 %3$s 处窃取了 %2$s。"
 msgid "Your %s didn't find a %s to %s in %s."
 msgstr "您的 %1$s 从 %3$s 处窃取了 %2$s。"
 
-#: server/unithand.c:5148 server/unittools.c:3080
+#: server/unithand.c:5148 server/unittools.c:3081
 msgid "Cannot attack unless you declare war first."
 msgstr "除非您首先宣战否则无法攻击。"
 
@@ -50240,118 +50240,118 @@ msgstr "与 %s 建立了这些贸易路线：\n"
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "抱歉，您的 %s 无法在 %s 和 %s 之间建立贸易路线！"
 
-#: server/unittools.c:444
+#: server/unittools.c:445
 #, fuzzy, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "已经将 %s 免费升级到 %s。"
 
-#: server/unittools.c:489
+#: server/unittools.c:490
 #, fuzzy, c-format
 #| msgid "Your %s has run out of hit points."
 msgid ""
 "Your %s has run out of hit points because it was not supported by a city."
 msgstr "您的 %s 已经耗尽了生命值。"
 
-#: server/unittools.c:494
+#: server/unittools.c:495
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr "您的 %s 已经耗尽了生命值。"
 
-#: server/unittools.c:569
+#: server/unittools.c:570
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "您的 %s 已经回去添加燃料。"
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:754
+#: server/unittools.c:755
 #, fuzzy, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "您的 %s 变得更有经验！"
 
-#: server/unittools.c:774
+#: server/unittools.c:775
 #, fuzzy, c-format
 msgid "%s converted to %s."
 msgstr "%s 征服了 %s。"
 
-#: server/unittools.c:780
+#: server/unittools.c:781
 #, fuzzy, c-format
 msgid "%s cannot be converted."
 msgstr " %s 不能被取代。"
 
-#: server/unittools.c:793
+#: server/unittools.c:794
 #, fuzzy, c-format
 msgid "Orders for %s aborted because activity is no longer available."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:1215
+#: server/unittools.c:1216
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "已将您的 %s 传送到 %s 。"
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1281
+#: server/unittools.c:1282
 #, fuzzy, c-format
 msgid "Moved your %s."
 msgstr "解散了您的 %s。"
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1308
+#: server/unittools.c:1309
 #, c-format
 msgid "Disbanded your %s."
 msgstr "解散了您的 %s。"
 
-#: server/unittools.c:1875
+#: server/unittools.c:1876
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "不能防御 %s ，%s 输掉了游戏。"
 
-#: server/unittools.c:1879
+#: server/unittools.c:1880
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "丢掉 %s 就意味着输掉游戏！下次小心点！"
 
-#: server/unittools.c:1940
+#: server/unittools.c:1941
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s 随 %s 的损失而损失。"
 
-#: server/unittools.c:1982
+#: server/unittools.c:1983
 #, fuzzy, c-format
 #| msgid "Your %s could not find the %s to sabotage in %s."
 msgid "You looted parts of %s map!"
 msgstr "您的 %1$s 未能在 %3$s 中发现 %2$s 以进行破坏。"
 
-#: server/unittools.c:1991
+#: server/unittools.c:1992
 #, fuzzy, c-format
 msgid "You loot %d gold!"
 msgid_plural "You loot %d gold!"
 msgstr[0] "您得到了 %d 黄金。"
 
 #. TRANS: Getting a city as loot
-#: server/unittools.c:2057
+#: server/unittools.c:2058
 #, fuzzy, c-format
 msgid "You conquer %s as loot!"
 msgstr "您征服了 %s "
 
-#: server/unittools.c:2287
+#: server/unittools.c:2288
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s 从 %s 的解体中逃脱出来，并流亡到 %s。"
 
-#: server/unittools.c:2412
+#: server/unittools.c:2413
 #, fuzzy, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "捕获野人头领，获得 %d 赎金。"
 
-#: server/unittools.c:2417
+#: server/unittools.c:2418
 #, fuzzy, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
 msgstr[0] "每回合 %3d 黄金"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2524
+#: server/unittools.c:2525
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -50359,21 +50359,21 @@ msgid_plural ""
 msgstr[0] "您的 %s 对 %s 的 %s （以及 %d 其它部队）的攻击成功！"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2551
+#: server/unittools.c:2552
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "在 %2$s 的 %3$s 的攻击下损失了 %1$s 。"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2561
+#: server/unittools.c:2562
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "在 %2$s 的 %3$s 攻击 %4$s 的 %5$s 时损失了 %1$s 。"
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2577
+#: server/unittools.c:2578
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s (和 %2$s) 。"
@@ -50381,7 +50381,7 @@ msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s (和 %2$s) 。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2588
+#: server/unittools.c:2589
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -50390,138 +50390,138 @@ msgstr[0] "在 %3$s 的 %4$s 的攻击下损失了 %2$s %1$d 。"
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2603
+#: server/unittools.c:2604
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2623
+#: server/unittools.c:2624
 #, fuzzy, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2880
+#: server/unittools.c:2881
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "您的 %s 被 %s “核”了。"
 
-#: server/unittools.c:2883 server/unittools.c:2905
+#: server/unittools.c:2884 server/unittools.c:2906
 msgid "yourself"
 msgstr "您自己"
 
-#: server/unittools.c:2887
+#: server/unittools.c:2888
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "%s 的 %s 遭到核武器的攻击。"
 
-#: server/unittools.c:2902
+#: server/unittools.c:2903
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s 遭到 %s 的核武器的攻击。"
 
-#: server/unittools.c:2910
+#: server/unittools.c:2911
 #, c-format
 msgid "You nuked %s."
 msgstr "您以核武器攻击 %s。"
 
-#: server/unittools.c:2921
+#: server/unittools.c:2922
 #, fuzzy, c-format
 #| msgid "%s has been destroyed by %s."
 msgid "%s was destroyed by the nuke."
 msgstr "%s 被 %s 毁灭了。"
 
-#: server/unittools.c:2925
+#: server/unittools.c:2926
 #, fuzzy, c-format
 #| msgid "You nuked %s."
 msgid "Your nuke destroyed %s."
 msgstr "您以核武器攻击 %s。"
 
-#: server/unittools.c:2955
+#: server/unittools.c:2956
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s 引爆了核弹！"
 
-#: server/unittools.c:2970
+#: server/unittools.c:2971
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s 运输成功。"
 
-#: server/unittools.c:3054
+#: server/unittools.c:3055
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "此部队不能空降到 %s。"
 
 #. TRANS: Paratroopers ... Paradrop Unit
-#: server/unittools.c:3065
+#: server/unittools.c:3066
 #, fuzzy, c-format
 msgid "%s cannot conquer a city with \"%s\"."
 msgstr "无法修建城市。"
 
-#: server/unittools.c:3094
+#: server/unittools.c:3095
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "您的 %s 被空降到 %s 并全部损失。"
 
-#: server/unittools.c:3114
+#: server/unittools.c:3115
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "您的 %s 在空降目的地被敌方部队杀死了。"
 
-#: server/unittools.c:3202
+#: server/unittools.c:3203
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
 msgstr[0] "您找到 %d 黄金。"
 
-#: server/unittools.c:3599
+#: server/unittools.c:3600
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:4416
+#: server/unittools.c:4417
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:4504
+#: server/unittools.c:4505
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s 的命令被取消因为它给出了无效的活动。"
 
-#: server/unittools.c:4514
+#: server/unittools.c:4515
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s 的命令被取消因为它给出了无效的位置。"
 
-#: server/unittools.c:4525
+#: server/unittools.c:4526
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "因有部队挡在路中而取消对 %s 的命令。"
 
-#: server/unittools.c:4570
+#: server/unittools.c:4571
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:4711
+#: server/unittools.c:4712
 #, fuzzy, c-format
 msgid "%s could not do %s to %s."
 msgstr "%s 征服了 %s。"
 
-#: server/unittools.c:4749
+#: server/unittools.c:4750
 #, fuzzy, c-format
 #| msgid "Orders for %s aborted because building of city failed."
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr "因修建城市失败而取消对 %s 的命令。"
 
-#: server/unittools.c:4773
+#: server/unittools.c:4774
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "您的 %s 得到了无效的命令。"
 
-#: server/unittools.c:4901
+#: server/unittools.c:4902
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:27+0300\n"
+"POT-Creation-Date: 2025-04-25 14:52+0300\n"
 "PO-Revision-Date: 2025-03-28 22:05+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10073,47 +10073,47 @@ msgstr "Envíaos de volta"
 msgid "Select destination"
 msgstr "Seleccione o destino"
 
-#: client/gui-sdl2/graphics.c:316
+#: client/gui-sdl2/graphics.c:314
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
 msgstr "load_surf: fallo ao cargar o ficheiro gráfico %s!"
 
-#: client/gui-sdl2/graphics.c:339
+#: client/gui-sdl2/graphics.c:337
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
 "Non se pode crear Sprite (Superficie) de tamaño %d x %d %d Bits en formato %d"
 
-#: client/gui-sdl2/graphics.c:525
+#: client/gui-sdl2/graphics.c:523
 #, c-format
 msgid "Unable to initialize SDL2 library: %s"
 msgstr "Non foi posíbel inicializar a biblioteca SDL2: %s"
 
-#: client/gui-sdl2/graphics.c:533
+#: client/gui-sdl2/graphics.c:531
 #, c-format
 msgid "Unable to initialize SDL2_ttf library: %s"
 msgstr "Non foi posíbel inicializar a biblioteca SDL2_ttf: %s"
 
-#: client/gui-sdl2/graphics.c:579
+#: client/gui-sdl2/graphics.c:577
 #, c-format
 msgid "Failed to create RGB surface: %s"
 msgstr "Produciuse un erro ao crear a superficie RGB: %s"
 
-#: client/gui-sdl2/graphics.c:593
+#: client/gui-sdl2/graphics.c:591
 #, c-format
 msgid "Failed to create renderer: %s"
 msgstr "Produciuse un erro ao crear o renderizador: %s"
 
-#: client/gui-sdl2/graphics.c:603
+#: client/gui-sdl2/graphics.c:601
 #, c-format
 msgid "Failed to create texture: %s"
 msgstr "Produciuse un erro ao crear textura: %s"
 
-#: client/gui-sdl2/graphics.c:638
+#: client/gui-sdl2/graphics.c:636
 msgid "SDL2 Client for Freeciv"
 msgstr "Cliente SDL2 para Freeciv"
 
-#: client/gui-sdl2/graphics.c:645
+#: client/gui-sdl2/graphics.c:643
 #, c-format
 msgid "Failed to create main window: %s"
 msgstr "Produciuse un erro ao crear a xanela principal: %s"
@@ -16364,27 +16364,27 @@ msgstr ""
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "Non hai gráficos de estilo río \"%s*\" para \"%s\" adicional"
 
-#: client/tilespec.c:3904
+#: client/tilespec.c:3905
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr "Non hai gráficos coa etiqueta \"%s_bg/mg/fg\" para \"%s\" adicional"
 
-#: client/tilespec.c:3924
+#: client/tilespec.c:3925
 #, fuzzy, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr "Terreo \"%s\": non hai cela gráfica \"%s\", \"%s\" ou \"%s\"."
 
-#: client/tilespec.c:3960
+#: client/tilespec.c:3961
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Falta o sprite base para a etiqueta \"%s\"."
 
-#: client/tilespec.c:4214
+#: client/tilespec.c:4215
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Nación %s: sen bandeira nacional."
 
-#: client/tilespec.c:5486
+#: client/tilespec.c:5487
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -16393,7 +16393,7 @@ msgstr ""
 "O conxunto de celas \"%s\" non admite camiños de acceso longos, como %d. O "
 "camiño non se mostra como se esperaba."
 
-#: client/tilespec.c:6066
+#: client/tilespec.c:6067
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -16402,12 +16402,12 @@ msgstr ""
 "O conxunto de celas \"%s\" non admite o tamaño das grandes cidades, como %d. "
 "O tamaño non se mostra como se esperaba."
 
-#: client/tilespec.c:6240
+#: client/tilespec.c:6241
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Estilo de cidade \"%s\": sen gráficos de cidade."
 
-#: client/tilespec.c:6245
+#: client/tilespec.c:6246
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "Estilo de cidade \"%s\": non hai gráficos ocupados."
