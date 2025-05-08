@@ -1,10 +1,91 @@
 ========================
-Welcome to Freeciv 3.1.4
+Welcome to Freeciv 3.1.5
 ========================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.4 to 3.1.5
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.5>, 2025-05-09)
+
+3.1.5 is a generic bugfix release.
+
+Server / General
+
+    * Bug reporting URL corrected in meson based builds RM#1236
+    * /write command no longer includes deprecated
+      /metamessage commands in the generated script RM#1247
+    * Fixed worklist purging for units that cannot be updated RM#1257
+
+Changes affecting server operators
+
+    * Fixed mapimg2anim ffmpeg detection failure RM#1246
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1206 RM#1220 RM#1225 RM#1271 RM#1280 RM#1265
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#1202 RM#1205 RM#1209 RM#1223 RM#1226 RM#1233 RM#1235
+    * Better consider action enabler imposed restrictions on
+      selecting rampage targets RM#1242
+
+Clients
+
+    * Fixed corner road graphics for RoadAllCombined tile types RM#1276
+
+    * qt
+         + Fixed crash on fatal tileset error display when client is
+           fully set up RM#1262
+
+
+Help / Documentation
+
+    * Doxygen documentation updates RM#1254
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1261 RM#1322
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1231 RM#1256 RM#1268 RM#1307
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Galician (96% core, 99% nations, 99% ruledit),
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1198 RM#1201 RM#1222 RM#1244 RM#1297 RM#1298 RM#1310 RM#1327
+    * Generating gitrev no longer requires wc or tail commands RM#1199
+    * Meson based build improvements
+         + Correctly require zstd.h before enabling zstd compression
+           in build RM#1207
+         + Provide freeciv version information for meson system RM#1272
+         + Fixed Qt6 version detection RM#1296
+    * Autotools based build improvements
+         + Fixed failures of configure checks for sdl2 subprojects
+           to find math library functions RM#1243
+    * Appimage updates
+         + Linuxdeploy updated to version 1-alpha-20250213-2 RM#1249
+    * Flatpak updates
+         + Updated gnome Platform and Sdk to version 48 RM#1258
+         + Updated kde Platform and Sdk to version 6.9 RM#1299
+    * Fixed sdl2-client build on systems without X11 present RM#1314
+    * Windows Installers updates
+         + 'make qt-installer' now correctly builds Qt6-client installer
+           RM#1311
+         + Msys2 environment updated to 240810 snapshot level
+           RM#1290 RM#1328
+    * Applied official patch 5 to included copy of Lua RM#1319
 
 
 CHANGES FROM 3.1.3 to 3.1.4
