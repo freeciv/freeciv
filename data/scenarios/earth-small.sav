@@ -1,6 +1,6 @@
 
 [scenario]
-game_version=3019403
+game_version=3020000
 is_scenario=TRUE
 name=_("Earth (classic/small)")
 authors=_("Map: Daniel Gudlat, Daniel Markstedt\nStart positions: Jason Dorje Short, Mateusz Stefek, David Fernandez")
@@ -17,7 +17,7 @@ ruleset_caps="+std-terrains"
 options=" +version3"
 version=60
 reason="Scenario"
-revision="3.1.94.3-alpha2+"
+revision="3.2.0-beta2"
 orig_version="old savegame3, or older"
 rulesetdir="classic"
 dbid=-1
@@ -36,8 +36,8 @@ extras_vector="Irrigation","Mine","Oil Well","Pollution","Hut","Farmland","Fallo
 multipliers_size=0
 city_options_size=3
 city_options_vector="Disband","Sci_Specialists","Tax_Specialists"
-action_size=124
-action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Attack 2","Suicide Attack","Suicide Attack 2","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Bombard Lethal","Bombard Lethal 2","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Transport Board","Transport Board 2","Transport Board_3","Transport Deboard","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Embark 4","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Load","Transport Load 2","Transport Load 3","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Wipe Units","Spy Escape","Unit Move","Unit Move 2","Unit Move 3","Teleport","Teleport Conquer","Teleport Frighten","Teleport Frighten Conquer","Teleport Enter","Teleport Enter Conquer","Clean","Collect Ransom","User Action 1","User Action 2","User Action 3","User Action 4"
+action_size=125
+action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Attack 2","Suicide Attack","Suicide Attack 2","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Bombard 4","Bombard Lethal","Bombard Lethal 2","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Transport Board","Transport Board 2","Transport Board_3","Transport Deboard","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Embark 4","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Load","Transport Load 2","Transport Load 3","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Wipe Units","Spy Escape","Unit Move","Unit Move 2","Unit Move 3","Teleport","Teleport Conquer","Teleport Frighten","Teleport Frighten Conquer","Teleport Enter","Teleport Enter Conquer","Clean","Collect Ransom","User Action 1","User Action 2","User Action 3","User Action 4"
 action_decision_size=3
 action_decision_vector="nothing","passive","active"
 server_side_agent_size=3
@@ -84,7 +84,7 @@ warminglevel=8
 nuclearwinter=0
 cooling=0
 coolinglevel=8
-random_seed=1462211189
+random_seed=332678192
 global_advances="1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 save_players=FALSE
 save_known=FALSE
@@ -197,52 +197,52 @@ startpos={"x","y","exclude","nations"
 33,19,FALSE,"Algerian#Numidian#Carthaginian"
 40,25,FALSE,"Ethiopian"
 53,20,FALSE,"Tibetan"
-49,14,FALSE,"Kazakh#Hunnic"
-9,23,FALSE,"Mexican#Aztec"
-19,35,FALSE,"Guarani#Paraguayan"
-30,24,FALSE,"Mali#Songhai#Malian"
-44,19,FALSE,"Sumerian#Babylonian#Iraqi"
-39,13,FALSE,"Slavic#Polish"
+49,14,FALSE,"Hunnic#Kazakh"
+9,23,FALSE,"Aztec#Mexican"
+19,35,FALSE,"Paraguayan#Guarani"
+30,24,FALSE,"Malian#Songhai#Mali"
+44,19,FALSE,"Babylonian#Sumerian#Iraqi"
+39,13,FALSE,"Polish#Slavic"
 10,11,FALSE,"Inuit"
-32,12,FALSE,"Briton#English#British"
+32,12,FALSE,"English#Briton#British"
 38,18,FALSE,"Greek#Hellenic"
 35,12,FALSE,"Danish"
 73,37,FALSE,"Maori#New Zealand"
 36,29,FALSE,"Kongo#Congolese"
-29,17,FALSE,"Celtiberian#Portuguese"
+29,17,FALSE,"Portuguese#Celtiberian"
 15,39,FALSE,"Chilean#Mapuche"
-46,18,FALSE,"Iranian#Persian"
+46,18,FALSE,"Persian#Iranian"
 57,30,FALSE,"Indonesian"
 43,12,FALSE,"Russian#Soviet"
 62,13,FALSE,"Manchu"
-66,36,FALSE,"Australian Aboriginal#Australian"
-56,24,FALSE,"Khmer#Thai#Cambodian"
-36,17,FALSE,"Italian#Roman"
-41,17,FALSE,"Byzantine#Hittite#Turkish"
+66,36,FALSE,"Australian#Australian Aboriginal"
+56,24,FALSE,"Cambodian#Khmer#Thai"
+36,17,FALSE,"Roman#Italian"
+41,17,FALSE,"Turkish#Byzantine#Hittite"
 39,34,FALSE,"South African#Zulu"
 10,15,FALSE,"Sioux"
 56,12,FALSE,"Mongol#Xiongnu"
 31,16,FALSE,"Spanish#Iberian"
-15,15,FALSE,"Canadian#Iroquois"
+15,15,FALSE,"Iroquois#Canadian"
 19,38,FALSE,"Argentine"
-17,32,FALSE,"Bolivian#Aymara"
+17,32,FALSE,"Aymara#Bolivian"
 43,22,FALSE,"Arab#Saudi"
-21,32,FALSE,"Tupi#Brazilian"
+21,32,FALSE,"Brazilian#Tupi"
 67,29,FALSE,"Polynesian#Papuan"
-36,10,FALSE,"Norwegian#Viking#Swedish"
+36,10,FALSE,"Swedish#Norwegian#Viking"
 17,26,FALSE,"Taino#Venezuelan"
 59,17,FALSE,"Chinese#Han"
 62,17,FALSE,"Korean"
 38,21,FALSE,"Egyptian Arab#Egyptian"
-15,31,FALSE,"Peruvian#Inca"
+15,31,FALSE,"Inca#Peruvian"
 7,19,FALSE,"Apache"
 50,10,FALSE,"Siberian#Tatar"
 13,19,FALSE,"Cherokee"
 50,21,FALSE,"Indian"
 67,16,FALSE,"Japanese"
 34,14,FALSE,"French#Celtic#Dutch"
-11,24,FALSE,"Mayan#Central American"
-37,14,FALSE,"German#Austrian#Germanic"
+11,24,FALSE,"Central American#Mayan"
+37,14,FALSE,"Austrian#German#Germanic"
 }
 e00_0000="00000000000000000000000000000000000000000000000000000000000000000000000000000000"
 e00_0001="00000000000000000000000000000000000000000000000000000000000000000000000000000000"
