@@ -473,7 +473,7 @@ are shown. E.g. on the default "normal" level you get all of the
 "fatal", "error", "warning", and "normal" level messages.
 
 If you compiled with FREECIV_DEBUG defined (an easy way to do this is to
-configure with --enable-debug), then you can get debug level messages
+configure with -Ddebug=true), then you can get debug level messages
 by setting the level to "debug" (or 5). Also, it is possible to
 control debug level messages (but not other messages) on a per-file
 and per-line basis. To do this use "--debug debug:str1:str2" (as many
