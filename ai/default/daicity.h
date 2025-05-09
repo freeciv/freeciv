@@ -34,29 +34,29 @@ struct ai_invasion {
 struct ai_city {
   adv_want worth; /* Cache city worth here, sum of all weighted incomes */
 
-  int building_turn;            /* only recalculate every Nth turn */
-  int building_wait;            /* for weighting values */
+  int building_turn;            /* Only recalculate every Nth turn */
+  int building_wait;            /* For weighting values */
 #define BUILDING_WAIT_MINIMUM (1)
 
-  struct adv_choice choice;     /* to spend gold in the right place only */
+  struct adv_choice choice;     /* To spend gold in the right place only */
 
   struct ai_invasion invasion;
   int attack, bcost; /* This is also for invasion - total power and value of
                       * all units coming to kill us. */
 
-  unsigned int danger;          /* danger to be compared to assess_defense */
-  unsigned int grave_danger;    /* danger, should show positive feedback */
-  unsigned int urgency;         /* how close the danger is; if zero,
+  unsigned int danger;          /* Danger to be compared to assess_defense */
+  unsigned int grave_danger;    /* Danger, should show positive feedback */
+  unsigned int urgency;         /* How close the danger is; if zero,
                                    bodyguards can leave */
-  int wallvalue;                /* how much it helps for defenders to be
+  int wallvalue;                /* How much it helps for defenders to be
                                    ground units */
 
-  int distance_to_wonder_city;  /* wondercity will set this for us,
+  int distance_to_wonder_city;  /* Wondercity will set this for us,
                                    avoiding paradox */
 
-  bool celebrate;               /* try to celebrate in this city */
-  bool diplomat_threat;         /* enemy diplomat or spy is near the city */
-  bool has_diplomat;            /* this city has diplomat or spy defender */
+  bool celebrate;               /* Try to celebrate in this city */
+  bool diplomat_threat;         /* Enemy diplomat or spy is near the city */
+  bool has_diplomat;            /* This city has diplomat or spy defender */
 
   /* These values are for builder (UTYF_WORKERS) and founder (UTYF_CITIES) units.
    * Negative values indicate that the city needs a boat first;
@@ -110,7 +110,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
                                       const struct unit_type *utype);
 
-adv_want dai_city_want(struct player *pplayer, struct city *acity, 
+adv_want dai_city_want(struct player *pplayer, struct city *acity,
                        struct adv_data *adv, struct impr_type *pimprove);
 
 #endif /* FC__DAICITY_H */
