@@ -75,7 +75,7 @@ ICUVER=76
 # By default build all installers.
 all: all-$(WINARCH)
 
-all-win64: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer gtk4-installer
+all-win64: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer
 
 all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt6-installer gtk4-installer
 
