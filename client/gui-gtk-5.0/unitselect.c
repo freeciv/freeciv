@@ -652,7 +652,7 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
                                   act, unit_list_size(data->units[loc][act]),
                                   &it_act, &it_utype);
 
-        /* Level 3: Display all units with this activitiy
+        /* Level 3: Display all units with this activity
          *          (and transported units in further level(s)). */
         unit_list_iterate(data->units[loc][act], punit) {
           GtkTreeIter it_unit;
