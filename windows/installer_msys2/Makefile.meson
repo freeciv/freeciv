@@ -84,7 +84,7 @@ endif
 
 all: all-$(WINARCH)
 
-all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
+all-win64: gtk3.22-installer sdl2-installer qt5-installer ruledit-installer-qt5
 
 all-win32: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
 
