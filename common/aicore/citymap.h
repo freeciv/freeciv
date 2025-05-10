@@ -17,12 +17,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
-
 /* utility */
 #include "support.h" /* bool type */
 
-/* common */
-#include "fc_types.h"
+struct player;
+struct tile;
 
 void citymap_turn_init(struct player *pplayer);
 void citymap_reserve_city_spot(struct tile *ptile, int id);

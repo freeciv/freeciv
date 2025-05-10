@@ -17,10 +17,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-
-/* common */
-#include "fc_types.h"
-
+struct city;
+struct player;
 
 struct player *player_leading_spacerace(void);
 int player_distance_to_player(struct player *pplayer, struct player *target);

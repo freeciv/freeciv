@@ -17,8 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/* common */
-#include "fc_types.h"
+struct unit_type;
 
 bool aia_utype_is_considered_spy_vs_city(const struct unit_type *putype);
 bool aia_utype_is_considered_spy(const struct unit_type *putype);

@@ -22,8 +22,8 @@ extern "C" {
 #include "log.h"                /* enum log_level */
 #include "shared.h"
 
-/* common */
-#include "fc_types.h"
+struct civ_map;
+struct unit;
 
 enum foreign_trade_limit
 {
