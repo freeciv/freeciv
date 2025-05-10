@@ -58,8 +58,8 @@ struct resource_type {
 
 /* === */
 
-#define T_NONE (NULL) /* A special flag meaning no terrain type. */
-#define T_UNKNOWN (NULL) /* An unknown terrain. */
+#define T_NONE (nullptr) /* A special flag meaning no terrain type. */
+#define T_UNKNOWN (nullptr) /* An unknown terrain. */
 
 /* The first terrain value. */
 #define T_FIRST 0
@@ -89,13 +89,13 @@ struct terrain {
 
   enum terrain_class tclass;
 
-  int movement_cost; /* whole MP, not scaled by SINGLE_MOVE */
+  int movement_cost; /* Whole MP, not scaled by SINGLE_MOVE */
   int defense_bonus; /* % defense bonus - defaults to zero */
 
   int output[O_LAST];
 
-  struct extra_type **resources; /* NULL-terminated */
-  int *resource_freq; /* same length as resources */
+  struct extra_type **resources; /* nullptr-terminated */
+  int *resource_freq; /* Same length as resources */
 
 #define RESOURCE_FREQUENCY_MINIMUM (0)
 #define RESOURCE_FREQUENCY_DEFAULT (1)
@@ -129,7 +129,7 @@ struct terrain {
 
   const struct unit_type *animal;
 
-  /* May be NULL if the transformation is impossible. */
+  /* May be nullptr if the transformation is impossible. */
   struct terrain *warmer_wetter_result, *warmer_drier_result;
   struct terrain *cooler_wetter_result, *cooler_drier_result;
 
@@ -263,15 +263,15 @@ void terrains_free(void);
 struct terrain *terrain_array_first(void);
 const struct terrain *terrain_array_last(void);
 
-#define terrain_type_iterate(_p)					\
-{									\
-  struct terrain *_p = terrain_array_first();				\
-  if (NULL != _p) {							\
+#define terrain_type_iterate(_p)                                        \
+{                                                                       \
+  struct terrain *_p = terrain_array_first();                           \
+  if (_p != nullptr) {                                                  \
     for (; _p <= terrain_array_last(); _p++) {
 
-#define terrain_type_iterate_end					\
-    }									\
-  }									\
+#define terrain_type_iterate_end                                        \
+    }                                                                   \
+  }                                                                     \
 }
 
 #define terrain_re_active_iterate(_p)                      \
@@ -283,10 +283,10 @@ const struct terrain *terrain_array_last(void);
   } terrain_type_iterate_end;
 
 #define terrain_resources_iterate(pterrain, _res, _freq)                  \
-  if (NULL != pterrain && NULL != pterrain->resources) {                  \
+  if (pterrain != nullptr && pterrain->resources != nullptr) {            \
     int _res##_index;                                                     \
     for (_res##_index = 0;                                                \
-         pterrain->resources[_res##_index] != NULL;                       \
+         pterrain->resources[_res##_index] != nullptr;                    \
          _res##_index++) {                                                \
       struct extra_type *_res = pterrain->resources[_res##_index];        \
       int _freq = pterrain->resource_freq[_res##_index];

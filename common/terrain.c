@@ -49,9 +49,9 @@ void terrains_init(void)
     /* Can't use terrain_by_number here because it does a bounds check. */
     civ_terrains[i].item_number = i;
     civ_terrains[i].ruledit_disabled = FALSE;
-    civ_terrains[i].ruledit_dlg = NULL;
-    civ_terrains[i].rgb = NULL;
-    civ_terrains[i].animal = NULL;
+    civ_terrains[i].ruledit_dlg = nullptr;
+    civ_terrains[i].rgb = nullptr;
+    civ_terrains[i].animal = nullptr;
 
     for (j = 0; j < MAX_EXTRA_TYPES; j++) {
       civ_terrains[i].extra_removal_times[j] = 0;
@@ -65,27 +65,27 @@ void terrains_init(void)
 void terrains_free(void)
 {
   terrain_type_iterate(pterrain) {
-    if (NULL != pterrain->helptext) {
+    if (pterrain->helptext != nullptr) {
       strvec_destroy(pterrain->helptext);
-      pterrain->helptext = NULL;
+      pterrain->helptext = nullptr;
     }
-    if (pterrain->resources != NULL) {
+    if (pterrain->resources != nullptr) {
       /* Server allocates this on ruleset loading, client when
        * ruleset packet is received. */
       free(pterrain->resources);
-      pterrain->resources = NULL;
+      pterrain->resources = nullptr;
     }
-    if (pterrain->resource_freq != NULL) {
+    if (pterrain->resource_freq != nullptr) {
       /* Server allocates this on ruleset loading, client when
        * ruleset packet is received. */
       free(pterrain->resource_freq);
-      pterrain->resource_freq = NULL;
+      pterrain->resource_freq = nullptr;
     }
-    if (pterrain->rgb != NULL) {
+    if (pterrain->rgb != nullptr) {
       /* Server allocates this on ruleset loading, client when
        * ruleset packet is received. */
       rgbcolor_destroy(pterrain->rgb);
-      pterrain->rgb = NULL;
+      pterrain->rgb = nullptr;
     }
   } terrain_type_iterate_end;
 }
@@ -98,7 +98,8 @@ struct terrain *terrain_array_first(void)
   if (game.control.terrain_count > 0) {
     return civ_terrains;
   }
-  return NULL;
+
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -109,7 +110,8 @@ const struct terrain *terrain_array_last(void)
   if (game.control.terrain_count > 0) {
     return &civ_terrains[game.control.terrain_count - 1];
   }
-  return NULL;
+
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -157,8 +159,9 @@ struct terrain *terrain_by_number(const Terrain_type_id type)
 {
   if (type < 0 || type >= game.control.terrain_count) {
     /* This isn't an error; some T_UNKNOWN callers depend on it. */
-    return NULL;
+    return nullptr;
   }
+
   return &civ_terrains[type];
 }
 
@@ -217,7 +220,7 @@ struct terrain *terrain_by_translated_name(const char *name)
 struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag)
 {
   int num = 0;
-  struct terrain *terr = NULL;
+  struct terrain *terr = nullptr;
 
   terrain_type_iterate(pterr) {
     if (terrain_has_flag(pterr, flag)) {
@@ -257,12 +260,13 @@ bool terrain_has_resource(const struct terrain *pterrain,
 {
   struct extra_type **r = pterrain->resources;
 
-  while (NULL != *r) {
+  while (*r != nullptr) {
     if (*r == presource) {
       return TRUE;
     }
     r++;
   }
+
   return FALSE;
 }
 
@@ -329,7 +333,7 @@ bool is_terrain_card_near(const struct civ_map *nmap,
                           const struct terrain *pterrain,
                           bool check_self)
 {
-  if (pterrain == NULL) {
+  if (pterrain == nullptr) {
     return FALSE;
   }
 
@@ -350,7 +354,7 @@ bool is_terrain_near_tile(const struct civ_map *nmap,
                           const struct terrain *pterrain,
                           bool check_self)
 {
-  if (pterrain == NULL) {
+  if (pterrain == nullptr) {
     return FALSE;
   }
 
@@ -397,7 +401,7 @@ bool is_resource_card_near(const struct civ_map *nmap,
                            const struct extra_type *pres,
                            bool check_self)
 {
-  if (pres == NULL) {
+  if (pres == nullptr) {
     return FALSE;
   }
 
@@ -418,7 +422,7 @@ bool is_resource_near_tile(const struct civ_map *nmap,
                            const struct extra_type *pres,
                            bool check_self)
 {
-  if (pres == NULL) {
+  if (pres == nullptr) {
     return FALSE;
   }
 
@@ -545,7 +549,7 @@ const char *get_infrastructure_text(bv_extras extras)
 
 /**********************************************************************//**
   Returns the highest-priority (best) extra to be pillaged from the
-  terrain set.  May return NULL if nothing is available.
+  terrain set. May return nullptr if nothing is available.
 **************************************************************************/
 struct extra_type *get_preferred_pillage(bv_extras extras)
 {
@@ -573,7 +577,7 @@ struct extra_type *get_preferred_pillage(bv_extras extras)
     } extra_type_by_cause_iterate_rev_end;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -661,7 +665,7 @@ int count_terrain_class_near_tile(const struct civ_map *nmap,
 const char *terrain_class_name_translation(enum terrain_class tclass)
 {
   if (!terrain_class_is_valid(tclass)) {
-    return NULL;
+    return nullptr;
   }
 
   return _(terrain_class_name(tclass));
@@ -702,12 +706,12 @@ int terrain_extra_build_time(const struct terrain *pterrain,
 {
   int factor;
 
-  if (tgt != NULL && tgt->build_time != 0) {
+  if (tgt != nullptr && tgt->build_time != 0) {
     /* Extra specific build time */
     return tgt->build_time;
   }
 
-  if (tgt == NULL) {
+  if (tgt == nullptr) {
     factor = 1;
   } else {
     factor = tgt->build_time_factor;
@@ -792,18 +796,18 @@ void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name,
 
   fc_assert_ret(id >= TER_USER_1 && id <= TER_USER_LAST);
 
-  if (user_terrain_flags[tfid].name != NULL) {
+  if (user_terrain_flags[tfid].name != nullptr) {
     FC_FREE(user_terrain_flags[tfid].name);
-    user_terrain_flags[tfid].name = NULL;
+    user_terrain_flags[tfid].name = nullptr;
   }
 
   if (name && name[0] != '\0') {
     user_terrain_flags[tfid].name = fc_strdup(name);
   }
 
-  if (user_terrain_flags[tfid].helptxt != NULL) {
+  if (user_terrain_flags[tfid].helptxt != nullptr) {
     FC_FREE(user_terrain_flags[tfid].helptxt);
-    user_terrain_flags[tfid].helptxt = NULL;
+    user_terrain_flags[tfid].helptxt = nullptr;
   }
 
   if (helptxt && helptxt[0] != '\0') {
@@ -817,7 +821,7 @@ void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name,
 const char *terrain_flag_id_name_cb(enum terrain_flag_id flag)
 {
   if (flag < TER_USER_1 || flag > TER_USER_LAST) {
-    return NULL;
+    return nullptr;
   }
 
   return user_terrain_flags[flag-TER_USER_1].name;
