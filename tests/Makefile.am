@@ -11,6 +11,7 @@ CLEANFILES = check-output
 EXTRA_DIST =	check_macros.sh			\
 		copyright.sh			\
 		fcintl.sh			\
+		generate_rs_not_broken.sh	\
 		header_guard.sh			\
 		rulesets_not_broken.sh.in	\
 		rulesets_save.sh.in		\

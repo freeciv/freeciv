@@ -1262,8 +1262,15 @@ gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
                        build_by_default: get_option('gitrev'))
 
 rsloads = custom_target('rsloads', output: 'ruleset_loads.sh',
-                        command: [sh_exe, files('tests/rs_test_res//generate_ruleset_loads.sh'),
-                        '@OUTPUT@'])
+                        command: [sh_exe,
+                                  files('tests/rs_test_res/generate_ruleset_loads.sh'),
+                                  '@OUTPUT@'])
+
+rs_not_broken = custom_target('rs_not_broken', output: 'rulesets_not_broken.sh',
+                              command: [sh_exe,
+                                        files('tests/generate_rs_not_broken.sh'),
+                                        '@OUTPUT@'],
+                              depends: rsloads)
 
 if host_system == 'windows'
   tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')
