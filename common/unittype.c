@@ -159,7 +159,10 @@ int utype_upkeep_cost(const struct unit_type *ut, const struct unit *punit,
     gold_upkeep_factor = get_target_bonus_effects(NULL,
                                   &(const struct req_context) {
                                     .player   = pplayer,
-                                    .unittype = ut
+                                    .unittype = ut,
+                                    .unit     = punit,
+                                    .tile     = ptile,
+                                    .city     = pcity
                                   },
                                   NULL, EFT_SHIELD2GOLD_PCT);
 
