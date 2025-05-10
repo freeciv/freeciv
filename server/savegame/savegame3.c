@@ -7118,8 +7118,8 @@ static void sg_load_player_vision(struct loaddata *loading,
                                   struct player *plr)
 {
   int plrno = player_number(plr);
-  int total_ncities =
-      secfile_lookup_int_default(loading->file, -1,
+  int total_ncities
+    = secfile_lookup_int_default(loading->file, -1,
                                  "player%d.dc_total", plrno);
   int i;
   bool someone_alive = FALSE;
@@ -7185,12 +7185,24 @@ static void sg_load_player_vision(struct loaddata *loading,
 
   whole_map_iterate(&(wld.map), ptile) {
     struct player_tile *plrtile = map_get_player_tile(ptile, plr);
+    bool regr_warn = FALSE;
 
     extra_type_by_cause_iterate(EC_RESOURCE, pres) {
-      if (BV_ISSET(plrtile->extras, extra_number(pres))) {
-        plrtile->resource = pres;
-        if (!terrain_has_resource(plrtile->terrain, pres)) {
-          BV_CLR(plrtile->extras, extra_number(pres));
+      int pres_id = extra_number(pres);
+
+      if (BV_ISSET(plrtile->extras, pres_id)) {
+        if (plrtile->terrain == nullptr) {
+          if (!regr_warn) {
+            sg_regr(3030000, "FoW tile (%d, %d) has extras, though it's on unknown.",
+                    TILE_XY(ptile));
+            regr_warn = TRUE;
+          }
+          BV_CLR(plrtile->extras, pres_id);
+        } else {
+          plrtile->resource = pres;
+          if (!terrain_has_resource(plrtile->terrain, pres)) {
+            BV_CLR(plrtile->extras, pres_id);
+          }
         }
       }
     } extra_type_by_cause_iterate_end;
