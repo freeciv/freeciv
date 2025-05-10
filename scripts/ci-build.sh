@@ -173,11 +173,9 @@ emsdk)
   fi
 )
 
-EMSDKDIR="$(cd ../emsdk && pwd)"
-
 mkdir build
 cd build
-../platforms/emscripten/emsbuild.sh "${EMSDKDIR}"
+../platforms/emscripten/emsbuild.sh "../../emsdk"
 
 echo "Freeciv build successful!"
 ;;
