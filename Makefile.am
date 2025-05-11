@@ -113,7 +113,4 @@ doc_DATA = $(docs)
 src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
 
-doc:
-	"$(top_srcdir)/scripts/generate_doc.sh" "$(top_srcdir)"
-
-.PHONY: src-check doc
+.PHONY: src-check
