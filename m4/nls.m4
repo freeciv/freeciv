@@ -1,7 +1,6 @@
 # nls.m4
-# serial 6 (gettext-0.20.2)
-dnl Copyright (C) 1995-2003, 2005-2006, 2008-2014, 2016, 2019-2024 Free
-dnl Software Foundation, Inc.
+# serial 6 (gettext-0.24)
+dnl Copyright (C) 1995-2025 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
