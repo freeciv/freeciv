@@ -1411,14 +1411,16 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-    if (VUT_ADVANCE == pobs->source.kind && pobs->present) {
+    if (VUT_ADVANCE == pobs->source.kind
+        && pobs->present && !pobs->quiet) {
       cat_snprintf(buf, bufsz,
                    _("%s The discovery of %s will make %s obsolete.\n"),
                    BULLET,
                    advance_name_translation(pobs->source.value.advance),
                    improvement_name_translation(pimprove));
     }
-    if (VUT_IMPROVEMENT == pobs->source.kind && pobs->present) {
+    if (VUT_IMPROVEMENT == pobs->source.kind
+        && pobs->present && !pobs->quiet) {
       cat_snprintf(buf, bufsz,
                    /* TRANS: both %s are improvement names */
                    _("%s The presence of %s in the city will make %s "
