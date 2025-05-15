@@ -87,7 +87,7 @@ supported for backward compatibility, but SQLite is probably a better
 option for new deployments unless you have special requirements.
 
 In order to use this, the server must have been built with
-'--enable-fcdb=mysql'.
+'-Dfcdb=mariadb'.
 
 You can still use an existing pre-2.4 MySQL authentication database with
 Freeciv 2.4 or later. Note however that the format of the configuration
