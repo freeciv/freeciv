@@ -133,7 +133,12 @@ bool api_methods_player_can_employ(lua_State *L, Player *pplayer,
 
 City *api_methods_player_primary_capital(lua_State *L, Player *pplayer);
 
-const char *api_methods_get_diplstate(lua_State *L, Player *pplayer1, Player *pplayer2);
+const char *api_methods_get_diplstate(lua_State *L, Player *pplayer1,
+                                      Player *pplayer2);
+bool api_methods_player_has_embassy(lua_State *L, Player *pplayer,
+                                    Player *target);
+bool api_methods_player_team_has_embassy(lua_State *L, Player *pplayer,
+                                         Player *target);
 
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech);

@@ -12,7 +12,7 @@
 *****************************************************************************/
 
 /*****************************************************************************
-  ADVERTISEMENT: do not attempt to change the name of the API functions.
+  ADVERTISEMENT: Do not attempt to change the name of the API functions.
   They may be in use in Lua scripts in savefiles, so once released, the
   name and signature cannot change shape even in new major versions of
   Freeciv, until the relevant save format version can no longer be loaded.
@@ -242,6 +242,10 @@ module Player {
 
   const char *api_methods_get_diplstate
     @ diplstate(lua_State *L, Player *pplayer1, Player *pplayer2);
+  bool api_methods_player_has_embassy
+    @ has_embassy(lua_State *L, Player *pplayer, Player *target);
+  bool api_methods_player_team_has_embassy
+    @ team_has_embassy(lua_State *L, Player *pplayer, Player *target);
 }
 
 module methods_private {
