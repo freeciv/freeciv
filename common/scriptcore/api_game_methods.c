@@ -864,6 +864,32 @@ const char *api_methods_get_diplstate(lua_State *L, Player *pplayer1,
 }
 
 /**********************************************************************//**
+  Return whether player has an embassy with target player.
+**************************************************************************/
+bool api_methods_player_has_embassy(lua_State *L, Player *pplayer,
+                                    Player *target)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, target, 3, Player, FALSE);
+
+  return player_has_embassy(pplayer, target);
+}
+
+/**********************************************************************//**
+  Return whether player's team has an embassy with target player.
+**************************************************************************/
+bool api_methods_player_team_has_embassy(lua_State *L, Player *pplayer,
+                                         Player *target)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, target, 3, Player, FALSE);
+
+  return team_has_embassy(pplayer->team, target);
+}
+
+/**********************************************************************//**
   Return if a unit can upgrade considering where it is now.
   If is_free is FALSE, considers local city and the owner's treasury.
 **************************************************************************/
