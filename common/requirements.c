@@ -630,7 +630,7 @@ struct universal universal_by_number(const enum universals_n kind,
 
   switch (source.kind) {
   case VUT_NONE:
-    /* Avoid compiler warning about unitialized source.value */
+    /* Avoid compiler warning about uninitialized source.value */
     source.value.advance = NULL;
 
     return source;
@@ -844,7 +844,7 @@ struct universal universal_by_number(const enum universals_n kind,
 
   /* If we reach here there's been an error. */
   source.kind = universals_n_invalid();
-  /* Avoid compiler warning about unitialized source.value */
+  /* Avoid compiler warning about uninitialized source.value */
   source.value.advance = NULL;
 
   return source;
