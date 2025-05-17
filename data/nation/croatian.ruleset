@@ -4,15 +4,15 @@ name   = _("Croatian")
 plural = _("?plural:Croatians")
 groups = "Modern", "European"
 legend = _("Croatia is a country in Southeast Europe. In the 7th century they\
-migrated into the region and established a duchy which evolved to a kingdom\
-in the 10th century under Tomislav. After the Trpimirović dynasty followed\
-a period of symbiotic regimes with varying foreign powers, mostly notably\
-with Austro-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed\
-independence from Austria-Hungary alongside other Southeast European nations.\
-In World War II, the Axis installed a fascist puppet government that was later\
-dismantled by resistance. Croatia was a member state of the newfound Yugoslav\
-Federation until 1991 when they proclaimed independence leading to four years\
-long conflict resulting it Croatia securing its autonomy.")
+ migrated into the region and established a duchy which evolved to a kingdom\
+ in the 10th century under Tomislav. After the Trpimirović dynasty followed\
+ a period of symbiotic regimes with varying foreign powers, mostly notably\
+ with Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed\
+ independence from Austria-Hungary alongside other Southeast European nations.\
+ In World War II, the Axis installed a fascist puppet government that was later\
+ dismantled by resistance. Croatia was a member state of the newfound Yugoslav\
+ Federation until 1991 when they proclaimed independence leading to four years\
+ long conflict resulting in Croatia securing its autonomy.")
 
 leaders = {
  "name",                        "sex"
@@ -31,6 +31,8 @@ leaders = {
  "Franjo Frankopan",            "Male"
  "Franjo Tuđman",               "Male"
  "Josip Jelačić",               "Male"
+ "Jelena",                      "Female"
+ "Kolinda Grabar-Kitarović",    "Female"
 }
 
 ruler_titles = {
