@@ -461,7 +461,7 @@ static void compat_load_020400(struct loaddata *loading,
           for (p = 0; p < maxslots; p++) {
             l = p / 32;
             for (x = 0; x < xsize; x++) {
-              /* This test causes bit-shifts of >=32 (undefined behaviour), but
+              /* This test causes bit-shifts of >=32 (undefined behavior), but
                * on common platforms, information happens not to be lost, just
                * oddly arranged. */
               if (known_row_old[l * xsize + x] & (1u << (p - l * 8))) {
@@ -510,9 +510,9 @@ static void compat_load_020400(struct loaddata *loading,
         /* In 2.3.x and prior, saveturns=0 meant no turn-based saves.
          * This is now controlled by the "autosaves" setting. */
         if (!fc_strcasecmp("saveturns", name)) {
-          /* XXX: hardcodes details from GAME_AUTOSAVES_DEFAULT
+          /* XXX: Hardcodes details from GAME_AUTOSAVES_DEFAULT
            * and settings.c:autosaves_name() (but these defaults reflect
-           * 2.3's behaviour). */
+           * 2.3's behavior). */
           const char *const nosave = "GAMEOVER|QUITIDLE|INTERRUPT";
           const char *const save = "TURN|GAMEOVER|QUITIDLE|INTERRUPT";
           int nturns;

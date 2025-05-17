@@ -835,7 +835,7 @@ a crude detection of inland seas or lakes, which should be improved upon).
 Tile ownership is decided only by the server, and sent to the clients, which
 draw border lines between tiles of differing ownership. Owner information is
 sent for all tiles that are known by a client, whether or not they are fogged.
-A patch to convert this to "semi-fogged" behaviour, whereby clients receive
+A patch to convert this to "semi-fogged" behavior, whereby clients receive
 limited information about non-neighboring and unseen enemies, is available
 at http://freecivac.sf.net/.
 

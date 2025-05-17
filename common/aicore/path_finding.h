@@ -56,7 +56,7 @@ extern "C" {
  *   The intended meaning for EC is "how much we want to avoid this tile",
  *   see DISCUSSION below for more.
  *
- *   tile behaviour (TB): the extra information about a tile which
+ *   tile behavior (TB): the extra information about a tile which
  *   tells us whether we can enter and leave tile as normal (see enum
  *   tile_behavior).
  *
@@ -124,7 +124,7 @@ extern "C" {
  * paths/tiles we want to consider. For example, a trireme might want to
  * never enter deep sea. A chariot, would like to find paths going to
  * enemy cities but not going _through_ them. This can be achieved
- * through an additional tile_behaviour callback, which would return
+ * through an additional tile_behavior callback, which would return
  * TB_IGNORE for tiles we don't want to visit and TB_DONT_LEAVE for tiles
  * we won't be able to leave (at least alive).
  *
@@ -146,7 +146,7 @@ extern "C" {
  *
  *
  * FORMULAE:
- *   For calculating total_MC (given particular tile_behaviour)
+ *   For calculating total_MC (given particular tile_behavior)
  *     total_MC = ((turn + 1) * move_rate - moves_left)
  *
  *   For calculating total_CC:
@@ -255,7 +255,7 @@ extern "C" {
  * not guaranteed to get the one with the least steps in it. If you care,
  * specifying EC to be 1 will do the job.
  * 3. To prevent AI from thinking that it can pass through "chokepoints"
- * controlled by enemy cities, you can specify tile behaviour of each
+ * controlled by enemy cities, you can specify tile behavior of each
  * occupied enemy city to be TB_DONT_LEAVE.
  */
 

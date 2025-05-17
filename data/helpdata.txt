@@ -850,7 +850,7 @@ where no citizens are naturally content, angry citizens will appear; \
 these must all be made merely unhappy before any unhappy citizens can \
 be made content, but in all other respects behave as unhappy citizens.\
 "),
-; Behaviour of angry citizens is actually a bit more complicated than
+; Behavior of angry citizens is actually a bit more complicated than
 ; this. See city_refresh_from_main_map() in common/city.c.
 _("\
 Luxury makes citizens happy. For every two luxury points a city \

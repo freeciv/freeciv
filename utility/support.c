@@ -770,7 +770,7 @@ bool fc_strrep(char *str, size_t len, const char *search,
   truncation occurred.
 
   Not sure about the asserts below, but they are easier than
-  trying to ensure correct behaviour on strange inputs.
+  trying to ensure correct behavior on strange inputs.
   In particular note that n == 0 is prohibited (e.g., since there
   must at least be room for a nul); could consider other options.
 ****************************************************************************/

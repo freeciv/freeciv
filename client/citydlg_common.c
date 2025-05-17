@@ -533,7 +533,7 @@ static void city_sum_add_real(struct city_sum *sum, double value,
 {
   size_t i;
 
-  /* Likely to lead to quadratic behaviour, but who cares: */
+  /* Likely to lead to quadratic behavior, but who cares: */
   for (i = 0; i < sum->n; i++) {
     fc_assert(sum->sums != NULL);
     if ((strcmp(sum->sums[i].posdesc, posdesc) == 0)

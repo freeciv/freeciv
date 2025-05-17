@@ -47,7 +47,7 @@ than English.\
 
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
-; random nation selection, and possibly ruleset behaviour.
+; random nation selection, and possibly ruleset behavior.
 ; It`s OK to not define any nation groups at all.
 ; name          = name of the group (used adjectivally)
 ; hidden        = TRUE to not include this group in the "pick nation" dialog

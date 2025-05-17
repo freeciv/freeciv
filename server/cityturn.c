@@ -3623,7 +3623,7 @@ static void update_city_activity(struct city *pcity)
     /* History can decrease, but never go below zero */
     pcity->history = MAX(pcity->history, 0);
 
-    /* Keep old behaviour when building new improvement could keep
+    /* Keep old behavior when building new improvement could keep
        city celebrating */
     if (!is_happy) {
       is_happy = city_happy(pcity);
