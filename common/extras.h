@@ -385,4 +385,4 @@ bool player_knows_extra_exist(const struct player *pplayer,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__EXTRAS_H */
+#endif /* FC__EXTRAS_H */

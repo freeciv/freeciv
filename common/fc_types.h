@@ -53,6 +53,7 @@ extern "C" {
 #define MAX_ACHIEVEMENT_TYPES 40
 #define MAX_NUM_ACTION_AUTO_PERFORMERS 12
 #define MAX_NUM_MULTIPLIERS 50
+#define MAX_TILEDEFS 8
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
 #define MAX_NUM_NATION_SETS 32 /* Used in the network protocol.
                                 * RULESET_NATION_SETS packet may become too big

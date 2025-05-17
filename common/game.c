@@ -51,6 +51,7 @@
 #include "style.h"
 #include "tech.h"
 #include "terrain.h"
+#include "tiledef.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -525,6 +526,7 @@ void game_ruleset_init(void)
   trade_route_types_init();
   terrains_init();
   extras_init();
+  tiledefs_init();
   goods_init();
   improvements_init();
   techs_init();
@@ -587,6 +589,7 @@ void game_ruleset_free(void)
   role_unit_precalcs_free();
   improvements_free();
   goods_free();
+  tiledefs_free();
   extras_free();
   music_styles_free();
   city_styles_free();

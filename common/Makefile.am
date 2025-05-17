@@ -120,6 +120,8 @@ libfreeciv_la_SOURCES = \
 		terrain.h	\
 		tile.c		\
 		tile.h		\
+		tiledef.c	\
+		tiledef.h	\
 		traderoutes.c	\
 		traderoutes.h	\
 		traits.h	\
