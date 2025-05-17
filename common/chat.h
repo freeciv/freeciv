@@ -14,7 +14,7 @@
 #define FC__CHAT_H
 
 /* Definitions related to interpreting chat messages.
- * Behaviour generally can't be changed at whim because client and
+ * Behavior generally can't be changed at whim because client and
  * server are assumed to agree on these details. */
 
 #ifdef __cplusplus

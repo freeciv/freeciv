@@ -80,7 +80,7 @@ static inline bool pf_attack_possible(const struct tile *ptile,
       }
       /* NB: if there are UTYF_NEVER_PROTECTS units on the tile, 'attack_any'
          has to get set TRUE at least once to enable an attack to the tile,
-         which is exactly correct behaviour. */
+         which is exactly correct behavior. */
     }
   } unit_list_iterate_end;
 
@@ -484,7 +484,7 @@ static unsigned amphibious_extra_cost(const struct tile *ptile,
 }
 
 
-/* ===================== Tile Behaviour Callbacks ==================== */
+/* ===================== Tile Behavior Callbacks ===================== */
 
 /************************************************************************//**
   PF callback to prohibit going into the unknown. Also makes sure we
@@ -539,8 +539,8 @@ enum tile_behavior no_intermediate_fights(const struct tile *ptile,
   A callback for amphibious movement
 ****************************************************************************/
 static enum tile_behavior
-amphibious_behaviour(const struct tile *ptile, enum known_type known,
-                     const struct pf_parameter *param)
+amphibious_behavior(const struct tile *ptile, enum known_type known,
+                    const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
   const bool ferry_move = is_native_tile(amphibious->sea.utype, ptile);
@@ -1008,7 +1008,7 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   parameter->combined.move_rate = move_rate;
   parameter->combined.get_MC = amphibious_move;
   parameter->combined.get_move_scope = amphibious_move_scope;
-  parameter->combined.get_TB = amphibious_behaviour;
+  parameter->combined.get_TB = amphibious_behavior;
   parameter->combined.get_EC = amphibious_extra_cost;
   if (NULL != parameter->land.is_pos_dangerous
       || NULL != parameter->sea.is_pos_dangerous) {

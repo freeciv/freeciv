@@ -12,7 +12,7 @@ Quickstart:
 
 - To play Freeciv normally: don't do anything special; the new
   features all have defaults which give the standard Freeciv
-  behaviour.
+  behavior.
 
 - To play a game with rules more like Civ1, start the server with:
        ./fcser -r data/civ1.serv

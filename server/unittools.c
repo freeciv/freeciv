@@ -1570,7 +1570,7 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
    * knock some levels off. */
   lvls = utype_veteran_system(to_unit)->levels - 1;
   punit->veteran = MIN(punit->veteran, lvls);
-  /* Keeping the old behaviour, so first clip top, then reduce */
+  /* Keeping the old behavior, so first clip top, then reduce */
   punit->veteran = MAX(punit->veteran - vet_loss, 0);
 
   /* Scale HP and MP, rounding down. Be careful with integer arithmetic,

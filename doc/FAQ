@@ -389,7 +389,7 @@ games?
    So the goal of compatibility is mainly used as a limiting factor in
    development: when a new feature is added to Freeciv that makes gameplay
    different, it is generally implemented in such a way that the
-   "traditional" behaviour remains available as an option. However, we're
+   "traditional" behavior remains available as an option. However, we're
    not aiming for absolute 100% compatibility; in particular, we're not
    aiming for bug-compatibility.
 

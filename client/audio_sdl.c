@@ -45,7 +45,7 @@ struct sample {
 };
 
 /* Sounds don't sound good on Windows unless the buffer size is 4k,
- * but this seems to cause strange behaviour on other systems,
+ * but this seems to cause strange behavior on other systems,
  * such as a delay before playing the sound. */
 #ifdef FREECIV_MSWINDOWS
 const size_t buf_size = 4096;

@@ -421,7 +421,7 @@ char *fc_utf8_validate_rep_dup(const char *utf8_string)
   number of used bytes, used strlen() instead.
 
   NB: 'utf8_string' must be UTF-8 valid (see fc_utf8_validate()), or the
-  behaviour of this function will be unknown.
+  behavior of this function will be unknown.
 ****************************************************************************/
 size_t fc_utf8_strlen(const char *utf8_string)
 {

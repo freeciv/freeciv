@@ -29,15 +29,15 @@
 struct player;
 
 enum winning_strategy {
-  WIN_OPEN,     /* still undetermined */
-  WIN_WAR,      /* we have no other choice than to crush all opposition */
-  WIN_SPACE,    /* we will race for space, peace very important */
-  WIN_CAPITAL   /* we cannot win unless we take war_target's capital */
+  WIN_OPEN,     /* Still undetermined */
+  WIN_WAR,      /* We have no other choice than to crush all opposition */
+  WIN_SPACE,    /* We will race for space, peace very important */
+  WIN_CAPITAL   /* We cannot win unless we take war_target's capital */
 };
 
 #define SPECENUM_NAME war_reason
-#define SPECENUM_VALUE0 DAI_WR_BEHAVIOUR
-#define SPECENUM_VALUE0NAME "Behaviour"
+#define SPECENUM_VALUE0 DAI_WR_BEHAVIOR
+#define SPECENUM_VALUE0NAME "Behavior"
 #define SPECENUM_VALUE1 DAI_WR_SPACE
 #define SPECENUM_VALUE1NAME "Space"
 #define SPECENUM_VALUE2 DAI_WR_EXCUSE
