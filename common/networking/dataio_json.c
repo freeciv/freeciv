@@ -69,9 +69,9 @@ static bool dio_get_bool8_json_internal(json_t *json_packet,
 **************************************************************************/
 static CURL *get_curl(void)
 {
-  static CURL *curl_easy_handle = NULL;
+  static CURL *curl_easy_handle = nullptr;
 
-  if (curl_easy_handle == NULL) {
+  if (curl_easy_handle == nullptr) {
     curl_easy_handle = curl_easy_init();
   } else {
     /* Reuse the existing CURL easy handle */
@@ -94,7 +94,7 @@ static int plocation_write_field(json_t *item,
 {
   int e = -1;
 
-  if (location->sub_location == NULL) {
+  if (location->sub_location == nullptr) {
     e = json_object_set_new(item, location->name, data);
   } else {
     e = plocation_write_data(json_object_get(item, location->name),
@@ -113,7 +113,7 @@ static int plocation_write_elem(json_t *item,
 {
   int e = -1;
 
-  if (location->sub_location == NULL) {
+  if (location->sub_location == nullptr) {
     if (location->number == -1) {
       e = json_array_append_new(item, data);
     } else {
@@ -165,7 +165,7 @@ static json_t *plocation_read_data(json_t *item,
 static json_t *plocation_read_field(json_t *item,
                                     const struct plocation *location)
 {
-  if (location->sub_location == NULL) {
+  if (location->sub_location == nullptr) {
     return json_object_get(item, location->name);
   } else {
     return plocation_read_data(json_object_get(item, location->name),
@@ -179,7 +179,7 @@ static json_t *plocation_read_field(json_t *item,
 static json_t *plocation_read_elem(json_t *item,
                                    const struct plocation *location)
 {
-  if (location->sub_location == NULL) {
+  if (location->sub_location == nullptr) {
     return json_array_get(item, location->number);
   } else {
     return plocation_read_data(json_array_get(item, location->number),
@@ -204,7 +204,8 @@ static json_t *plocation_read_data(json_t *item,
     return plocation_read_elem(item, location);
   default:
     log_error("Unknown packet part location kind.");
-    return NULL;
+
+    return nullptr;
   }
 }
 
@@ -1123,7 +1124,7 @@ int dio_put_memory_json(struct json_data_out *dout,
 }
 
 /**********************************************************************//**
-  Insert NULL-terminated string.
+  Insert nullptr-terminated string.
 **************************************************************************/
 int dio_put_string_json(struct json_data_out *dout,
                         const struct plocation *location,
@@ -1152,13 +1153,13 @@ int dio_put_estring_json(struct json_data_out *dout,
   if (dout->json) {
     char *escaped_value;
 
-    /* Let CURL find the length it self by passing 0 */
+    /* Let CURL find the length itself by passing 0 */
     escaped_value = curl_easy_escape(get_curl(), value, 0);
 
     /* Handle as a regular string from now on. */
     e = dio_put_string_json(dout, location, escaped_value);
 
-    /* CURL's memory management wants to free this it self. */
+    /* CURL's memory management wants to free this itself. */
     curl_free(escaped_value);
   } else {
     e = dio_put_estring_raw(&dout->raw, value);
@@ -1404,7 +1405,7 @@ bool dio_get_memory_json(struct connection *pc, struct data_in *din,
 }
 
 /**********************************************************************//**
-  Receive at max max_dest_size bytes long NULL-terminated string.
+  Receive at max max_dest_size bytes long nullptr-terminated string.
 **************************************************************************/
 static bool dio_get_string_json_internal(json_t *json_packet,
                                          const struct plocation *location,
@@ -1430,7 +1431,7 @@ static bool dio_get_string_json_internal(json_t *json_packet,
 }
 
 /**********************************************************************//**
-  Receive at max max_dest_size bytes long NULL-terminated string.
+  Receive at max max_dest_size bytes long nullptr-terminated string.
 **************************************************************************/
 bool dio_get_string_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location,
@@ -1466,8 +1467,9 @@ bool dio_get_estring_json(struct connection *pc, struct data_in *din,
       return FALSE;
     }
 
-    /* Let CURL find the length it self by passing 0 */
-    unescaped_value = curl_easy_unescape(get_curl(), escaped_value, 0, NULL);
+    /* Let CURL find the length itself by passing 0 */
+    unescaped_value = curl_easy_unescape(get_curl(), escaped_value,
+                                         0, nullptr);
 
     /* Done with the escaped value. */
     FC_FREE(escaped_value);
@@ -1477,7 +1479,7 @@ bool dio_get_estring_json(struct connection *pc, struct data_in *din,
            /* Don't copy the memory following unescaped_value. */
            MIN(max_dest_size, strlen(unescaped_value) + 1));
 
-    /* CURL's memory management wants to free this it self. */
+    /* CURL's memory management wants to free this itself. */
     curl_free(unescaped_value);
 
     /* Make sure that the string is terminated. */
