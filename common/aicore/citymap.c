@@ -45,7 +45,7 @@
  * the negative of the ID of the city or unit that has reserved the
  * tile.
  *
- * Code that uses the citymap should modify its behaviour based on
+ * Code that uses the citymap should modify its behavior based on
  * positive values encountered, and never attempt to steal a tile
  * which has a negative value.
  */

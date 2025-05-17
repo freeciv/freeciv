@@ -1357,7 +1357,7 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
                      player_name(pplayer));
     adip->countdown = -10;
     break;
-  case DAI_WR_BEHAVIOUR:
+  case DAI_WR_BEHAVIOR:
     dai_diplo_notify(target,
                      _("*%s (AI)* I have tolerated your vicious antics "
                        "long enough! To war!"),
@@ -1508,7 +1508,7 @@ static void war_countdown(struct ai_type *ait, struct player *pplayer,
                          "Long live our glorious alliance!"),
                        player_name(pplayer));
       break;
-    case DAI_WR_BEHAVIOUR:
+    case DAI_WR_BEHAVIOR:
     case DAI_WR_EXCUSE:
       dai_diplo_notify(ally,
                        PL_("*%s (AI)* %s has grossly violated their treaties "
@@ -1623,7 +1623,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
         && dai_diplomacy_get(ait, pplayer, aplayer)->countdown == -1) {
       DIPLO_LOG(ait, LOG_DIPL2, pplayer, aplayer, "Plans war in revenge");
       war_countdown(ait, pplayer, aplayer, map_size_checked(),
-                    DAI_WR_BEHAVIOUR);
+                    DAI_WR_BEHAVIOR);
     }
   } players_iterate_end;
 

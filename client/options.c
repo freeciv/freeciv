@@ -6047,7 +6047,7 @@ void options_load(void)
 
   /* More backwards compatibility, for removed options that had been
    * folded into then-existing options. Here, the backwards-compatibility
-   * behaviour overrides the "destination" option. */
+   * behavior overrides the "destination" option. */
 
   /* Removed in 2.4 */
   if (!secfile_lookup_bool_default(sf, TRUE,

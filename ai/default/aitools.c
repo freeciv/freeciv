@@ -548,7 +548,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
   } else if (long_path && unit_is_cityfounder(punit)) {
-    /* Default tile behaviour;
+    /* Default tile behavior;
      * move as far along the path to the destination as we can;
      * that is, ignore the presence of enemy units when computing the
      * path.
@@ -564,7 +564,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     parameter->get_TB = no_fights;
   } else if (is_losing_hp(punit)) {
     /* Losing hitpoints over time (helicopter in default rules) */
-    /* Default tile behaviour */
+    /* Default tile behavior */
   } else if (utype_may_act_at_all(unit_type_get(punit))) {
     switch (unit_data->task) {
     case AIUNIT_AUTO_SETTLER:
@@ -585,7 +585,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
       parameter->get_TB = no_fights;
       break;
     case AIUNIT_NONE:
-      /* Default tile behaviour */
+      /* Default tile behavior */
       break;
     }
   } else {

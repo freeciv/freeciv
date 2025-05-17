@@ -7163,7 +7163,7 @@ void tileset_init(struct tileset *t)
   views.
 
   NB: The 'layer' argument is NOT a LAYER_* value, but rather one of 0, 1, 2.
-  Using other values for 'layer' here will result in undefined behaviour. ;)
+  Using other values for 'layer' here will result in undefined behavior. ;)
 ****************************************************************************/
 int fill_basic_terrain_layer_sprite_array(struct tileset *t,
                                           struct drawn_sprite *sprs,

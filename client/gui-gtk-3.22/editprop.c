@@ -6423,7 +6423,7 @@ void property_editor_reload(struct property_editor *pe,
   lists of patterns. A pattern may be preceded by '!' to have its result
   negated.
 
-  NB: If you change the behaviour of this function, be sure to update
+  NB: If you change the behavior of this function, be sure to update
   the filter tooltip in property_page_new().
 ****************************************************************************/
 static struct property_filter *property_filter_new(const char *filter)
@@ -6497,7 +6497,7 @@ static struct property_filter *property_filter_new(const char *filter)
   a|b&c - Matches all properties whose names contain either an "a",
           or contain both "b" and "c".
 
-  NB: If you change the behaviour of this function, be sure to update
+  NB: If you change the behavior of this function, be sure to update
   the filter tooltip in property_page_new().
 ****************************************************************************/
 static bool property_filter_match(struct property_filter *pf,

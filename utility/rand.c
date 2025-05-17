@@ -245,8 +245,8 @@ void fc_rand_set_state(RANDOM_STATE state)
 
 /*********************************************************************//**
   Test one aspect of randomness, using n numbers.
-  Reports results to LOG_TEST; with good randomness, behaviourchange
-  and behavioursame should be about the same size.
+  Reports results to LOG_TEST; with good randomness, behaviorchange
+  and behaviorsame should be about the same size.
   Tests current random state; saves and restores state, so can call
   without interrupting current sequence.
 *************************************************************************/
@@ -255,7 +255,7 @@ void test_random1(int n)
   RANDOM_STATE saved_state;
   int i, old_value = 0, new_value;
   bool didchange, olddidchange = FALSE;
-  int behaviourchange = 0, behavioursame = 0;
+  int behaviorchange = 0, behaviorsame = 0;
 
   saved_state = fc_rand_state();
   /* fc_srand(time(NULL)); */  /* Use current state */
@@ -266,9 +266,9 @@ void test_random1(int n)
       didchange = (new_value != old_value);
       if (i > 1) {              /* Have olddidchange */
         if (didchange != olddidchange) {
-          behaviourchange++;
+          behaviorchange++;
         } else {
-          behavioursame++;
+          behaviorsame++;
         }
       }
       olddidchange = didchange;
@@ -276,7 +276,7 @@ void test_random1(int n)
     old_value = new_value;
   }
   log_test("test_random1(%d) same: %d, change: %d",
-           n, behavioursame, behaviourchange);
+           n, behaviorsame, behaviorchange);
 
   /* Restore state: */
   fc_rand_set_state(saved_state);

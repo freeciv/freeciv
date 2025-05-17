@@ -202,8 +202,8 @@ FERRY SYSTEM
 The ferry (i.e. boats transporting land units) system of Freeciv is
 probably better described by statistical mechanics than by logic.
 Both ferries and prospective passenger (PP) move around in what looks
-like a random fashion, trying to get closer to each other.  On
-average, they succeed.  This behaviour has good reasons behind it, is
+like a random fashion, trying to get closer to each other.
+On average, they succeed. This behavior has good reasons behind it, is
 hell to debug but means that small bugs don't affect overall picture
 visibly (and stay unfixed as a result).
 
@@ -217,7 +217,7 @@ Because most units recalculate their destination every turn, ignoring
 prior arrangements is the only good strategy -- it means that a boat
 will not rely on the PP to notify it when it's not needed anymore.
 This is not very effective but can only be changed when the PPs behave
-more responsibly.  See diplomat code for more responsible behaviour --
+more responsibly. See diplomat code for more responsible behavior --
 they try to check if the old target is still good before trying to
 find a new one.
 
@@ -246,7 +246,7 @@ Now they exist in parallel, although developed to a different degree.
 DIPLOMACY
 =========
 
-The AI's diplomatic behaviour is current only regulated by the
+The AI's diplomatic behavior is current only regulated by the
 'diplomacy' server setting.
 
 Easier AI levels propose cease-fire on first contact.

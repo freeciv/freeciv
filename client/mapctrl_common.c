@@ -55,7 +55,7 @@ static int rec_w, rec_h;                /* width, heigth in pixels */
 bool rbutton_down = FALSE;
 bool rectangle_active = FALSE;
 
-/* This changes the behaviour of left mouse
+/* This changes the behavior of left mouse
    button in Area Selection mode. */
 bool tiles_hilited_cities = FALSE;
 

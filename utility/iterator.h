@@ -26,7 +26,7 @@ extern "C" {
   Iterator base class. "Derived" iterators must have this struct as
   their first member (as a "vtable") and provide implementations of the
   "pure virtual" member functions. See the function comment headers
-  below for the expected behaviour of these functions.
+  below for the expected behavior of these functions.
 ***********************************************************************/
 struct iterator {
   void (*next)(struct iterator *it);

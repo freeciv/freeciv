@@ -1213,7 +1213,7 @@ nationgroups = "\
 \n\
 ; Descriptions of nation groups\n\
 ; These are more cosmetic than sets; they affect the \"pick nation\" dialog,\n\
-; random nation selection, and possibly ruleset behaviour.\n\
+; random nation selection, and possibly ruleset behavior.\n\
 ; It`s OK to not define any nation groups at all.\n\
 ; name          = name of the group (used adjectivally)\n\
 ; hidden        = TRUE to not include this group in the \"pick nation\" dialog\n\
