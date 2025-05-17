@@ -16,9 +16,9 @@ if you try to use some distribution not a Debian derivative.
 Scripts to create installers require specific crosser version
 (MAJOR.MINOR, or "CROSSER_FEATURE_LEVEL") to know what exact files
 they need to package with freeciv.
-See CROSSER_FEATURE_LEVEL on top of winbuild.sh and meson-winbuild.sh
-under platforms/windows/installer_cross/ to see what is
-the crosser version currently supported and required.
+See CROSSER_FEATURE_LEVEL on top of
+platforms/windows/installer_cross/meson-winbuild.sh
+to see what is the crosser version currently supported and required.
 
 
  Using docker container for building with crosser
@@ -42,7 +42,7 @@ Unpack downloaded package under /usr/crosser/
 (likely you need to create that directory - or to create
 it as a symbolic link to another location)
 so that after unpacking you will have, e.g.
-/usr/crosser/win64stack-full-2.5/
+/usr/crosser/win64stack-full-2.9/
 
 Install MinGW cross-compiler, also for C++.
 On Debian derivatives those packages are
@@ -54,21 +54,17 @@ Other requirements
 
 TODO: Find out what other native side requirements
       crosser build has and list them.
-      At least 'ninja' is needed, in case of meson
-      based build.
+      At least 'ninja' is needed.
 
 
  Building Windows Installers with crosser
 =========================================
 
 If everything is set up correctly, easiest way
-to do the build is to run either
-> ./meson-build_all_installer.sh (meson based build)
-or
-> ./build_all_installer.sh (autotools based build)
+to do the build is to run
+> ./meson-build_all_installer.sh
 on platforms/windows/installer_cross/.
-Currently these scripts need to be run on their own
+Currently this script needs to be run on its own
 directory, and they produce their output there
 (within freeciv tree). If everything success, final
 installers are generated to meson/output/
-or autotools/output/
