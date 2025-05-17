@@ -31,6 +31,8 @@ leaders = {
  "Franjo Frankopan",            "Male"
  "Franjo Tuđman",               "Male"
  "Josip Jelačić",               "Male"
+ "Jelena",                      "Female"
+ "Kolinda Grabar-Kitarović",    "Female"
 }
 
 ruler_titles = {
