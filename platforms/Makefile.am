@@ -13,6 +13,7 @@ EXTRA_DIST =						\
 		flatpak/org.freeciv.gtk4x.yml		\
 		flatpak/org.freeciv.gtk3.mp.yml		\
 		flatpak/org.freeciv.gtk4.mp.yml		\
+		flatpak/org.freeciv.gtk4x.mp.yml	\
 		flatpak/org.freeciv.qt.yml		\
 		flatpak/org.freeciv.qt.mp.yml		\
 		flatpak/org.freeciv.sdl2.yml		\
