@@ -1953,6 +1953,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_tech_classes;
   UINT16 num_tech_types;
   UINT16 num_extra_types;
+  UINT16 num_tiledef_types;
   UINT16 num_base_types;
   UINT16 num_road_types;
   UINT16 num_resource_types;

@@ -31,6 +31,15 @@ struct tiledef
 void tiledefs_init(void);
 void tiledefs_free(void);
 
+int tiledef_count(void);
+int tiledef_number(const struct tiledef *td);
+struct tiledef *tiledef_by_number(int id);
+
+/* For optimization purposes (being able to have it as macro instead of function
+ * call) this is now same as tiledef_number(). tiledef.c does have semantically
+ * correct implementation too. */
+#define tiledef_index(_td_) (_td_)->id
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

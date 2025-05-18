@@ -2857,6 +2857,8 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
+  game.control.num_tiledef_types = 0;
+
   /* extra names */
 
   if (ok) {

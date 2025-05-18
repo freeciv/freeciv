@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* common */
+#include "game.h"
+
 #include "tiledef.h"
 
 static struct tiledef tiledefs[MAX_TILEDEFS];
@@ -42,4 +45,44 @@ void tiledefs_free(void)
   for (i = 0; i < MAX_TILEDEFS; i++) {
     extra_type_list_destroy(tiledefs[i].extras);
   }
+}
+
+/************************************************************************//**
+  Return the number of tiledef_types
+****************************************************************************/
+int tiledef_count(void)
+{
+  return game.control.num_tiledef_types;
+}
+
+/************************************************************************//**
+  Return the tiledef id.
+****************************************************************************/
+int tiledef_number(const struct tiledef *td)
+{
+  fc_assert_ret_val(td != nullptr, -1);
+
+  return td->id;
+}
+
+#ifndef tiledef_index
+/************************************************************************//**
+  Return the tiledef index.
+****************************************************************************/
+int tiledef_index(const struct tiledef *td)
+{
+  fc_assert_ret_val(td != nullptr, -1);
+
+  return td - tiledefs;
+}
+#endif /* tiledef_index */
+
+/************************************************************************//**
+  Return tiledef type of given id.
+****************************************************************************/
+struct tiledef *tiledef_by_number(int id)
+{
+  fc_assert_ret_val(id >= 0 && id < MAX_TILEDEFS, nullptr);
+
+  return &tiledefs[id];
 }
