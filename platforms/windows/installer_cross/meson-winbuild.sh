@@ -1,15 +1,18 @@
 #!/bin/sh
 
-# meson-winbuild.sh: Cross-compiling freeciv from linux to Windows using Crosser dllstack
-#                    and Meson
+# meson-winbuild.sh: Cross-compiling freeciv from linux to Windows using
+#                    Crosser dllstack and Meson
 #
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.3.0-dev"
 MIN_WINVER=0x0A00 # Windows 10.
 CROSSER_FEATURE_LEVEL=2.10
+
+SRC_DIR="$(cd "$(dirname "$0")" || exit 1 ; pwd)"
+SRC_ROOT="$(cd "${SRC_DIR}/../../.." || exit 1 ; pwd)"
+BUILD_ROOT="$(pwd)"
 
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   echo "Usage: $0 <crosser dir> <gui>"
@@ -17,7 +20,7 @@ if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
 fi
 
 if test "$1" = "-v" || test "$1" = "--version" ; then
-  echo "meson-winbuild.sh version ${MESON_WINBUILD_VERSION}"
+  echo "$(basename "$0") version $("${SRC_ROOT}/fc_version")"
   exit
 fi
 
@@ -44,10 +47,6 @@ if ! test -f "${DLLSPATH}/crosser.txt" ; then
   echo "Directory \"${DLLSPATH}\" does not look like crosser environment!" >&2
   exit 1
 fi
-
-SRC_DIR="$(cd "$(dirname "$0")" || exit 1 ; pwd)"
-SRC_ROOT="$(cd "${SRC_DIR}/../../.." || exit 1 ; pwd)"
-BUILD_ROOT="$(pwd)"
 
 VERREV="$("${SRC_ROOT}/fc_version")"
 if test "${INST_CROSS_MODE}" != "release" ; then
