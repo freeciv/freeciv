@@ -33,16 +33,16 @@
 #include "aisupport.h"
 
 /*******************************************************************//**
-  Find who is leading the space race. Returns NULL if nobody is.
+  Find who is leading the space race. Returns nullptr if nobody is.
 ***********************************************************************/
 struct player *player_leading_spacerace(void)
 {
-  struct player *best = NULL;
+  struct player *best = nullptr;
   int best_arrival = FC_INFINITY;
   enum spaceship_state best_state = SSHIP_NONE;
 
   if (!victory_enabled(VC_SPACERACE)) {
-    return NULL;
+    return nullptr;
   }
 
   players_iterate_alive(pplayer) {
@@ -109,7 +109,7 @@ int city_gold_worth(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int worth = 0, i;
-  struct unit_type *u = NULL;
+  struct unit_type *u = nullptr;
   const struct civ_map *nmap = &(wld.map);
 
   if (!game.scenario.prevent_new_cities) {
@@ -117,7 +117,7 @@ int city_gold_worth(struct city *pcity)
                                   action_id_get_role(ACTION_FOUND_CITY));
   }
 
-  if (u != NULL) {
+  if (u != nullptr) {
     worth += utype_buy_gold_cost(pcity, u, 0); /* Cost of settler */
   }
   for (i = 1; i < city_size_get(pcity); i++) {
