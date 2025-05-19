@@ -730,7 +730,7 @@ static void insert_allows(struct universal *psource,
 static struct help_item *new_help_item(int type)
 {
   struct help_item *pitem;
-  
+
   pitem = fc_malloc(sizeof(struct help_item));
   pitem->topic = NULL;
   pitem->text = NULL;
@@ -1259,9 +1259,9 @@ void boot_help_texts(void)
           continue;
         }
       }
-      
+
       /* It wasn't a "generate" node: */
-      
+
       pitem = new_help_item(HELP_TEXT);
       pitem->topic = fc_strdup(Q_(secfile_lookup_str(sf, "%s.name",
                                                      sec_name)));
@@ -1323,7 +1323,7 @@ int num_help_items(void)
 const struct help_item *get_help_item(int pos)
 {
   int size;
-  
+
   check_help_nodes_init();
   size = help_list_size(help_nodes);
   if (pos < 0 || pos > size) {
@@ -1366,7 +1366,7 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
     idx++;
   }
   help_list_iterate_end;
-  
+
   if (!pitem) {
     idx = -1;
     vitem.topic = vtopic;
@@ -1408,7 +1408,7 @@ void help_iter_start(void)
 const struct help_item *help_iter_next(void)
 {
   const struct help_item *pitem;
-  
+
   check_help_nodes_init();
   pitem = help_list_link_data(help_nodes_iterator);
   if (pitem) {
@@ -2434,7 +2434,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_IGTER)) {
     cat_snprintf(buf, bufsz,
-                 /* TRANS: "MP" = movement points. %s may have a 
+                 /* TRANS: "MP" = movement points. %s may have a
                   * fractional part. */
                  _("%s Ignores terrain effects (moving costs at most %s MP "
                    "per tile).\n"), BULLET,
@@ -3435,7 +3435,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 
   {
     int j;
-    
+
     for (j = 0; j < MAX_NUM_TECH_LIST; j++) {
       if (game.rgame.global_init_techs[j] == A_LAST) {
         break;
@@ -4510,7 +4510,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         struct output_type *potype =
           output_type != O_LAST ? get_output_type(output_type) : NULL;
 
-        world_value = 
+        world_value =
           get_target_bonus_effects(NULL,
                                    &(const struct req_context) {
                                      .unittype = unittype,
@@ -5179,7 +5179,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
         astr_init(&utype_names[i]);
         if (count[i] > 1) {
           /* TRANS: a unit type followed by a count. For instance,
-           * "Fighter (2)" means two Fighters. Count is never 1. 
+           * "Fighter (2)" means two Fighters. Count is never 1.
            * Used in a list. */
           astr_set(&utype_names[i], _("%s (%d)"),
                    utype_name_translation(utypes[i]), count[i]);

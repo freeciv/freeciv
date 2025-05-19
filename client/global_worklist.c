@@ -423,7 +423,7 @@ static void global_worklist_save(const struct global_worklist *pgwl,
   fc_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
-  secfile_insert_str(file, pgwl->name, "%s.wl_name", path_str);  
+  secfile_insert_str(file, pgwl->name, "%s.wl_name", path_str);
 
   switch (pgwl->status) {
   case STATUS_UNBUILT:

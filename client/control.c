@@ -680,7 +680,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   This function may be called from packhand.c, via unit_focus_update(),
   as a result of packets indicating change in activity for a unit. Also
   called when user press the "Wait" command.
- 
+
   FIXME: Add feature to focus only units of a certain category.
 
   @param accept_current The current focus can be kept if no other candidates
@@ -700,7 +700,7 @@ void unit_focus_advance(bool accept_current)
   clear_hover_state();
 
   unit_list_iterate(get_units_in_focus(), punit) {
-    /* 
+    /*
      * Is the unit which just lost focus a non-AI unit? If yes this
      * enables the auto end turn.
      */
@@ -766,7 +766,7 @@ void unit_focus_advance(bool accept_current)
 
   unit_focus_set(candidate);
 
-  /* 
+  /*
    * Handle auto-turn-done mode: If a unit was in focus (did move),
    * but now none are (no more to move) and there was at least one
    * non-AI unit this turn which was focused, then fake a Turn Done
@@ -806,7 +806,7 @@ void unit_focus_update(void)
     if ((punit->activity == ACTIVITY_IDLE
 	 || punit->activity == ACTIVITY_GOTO
 	 || unit_has_orders(punit))
-	&& punit->moves_left > 0 
+	&& punit->moves_left > 0
 	&& !punit->done_moving
         && punit->ssa_controller == SSA_NONE) {
       return;
@@ -971,7 +971,7 @@ double blink_turn_done_button(void)
   Update unit icons (and arrow) in the information display, for specified
   punit as the active unit and other units on the same square.  In practice
   punit is almost always (or maybe strictly always?) the focus unit.
-  
+
   Static vars store some info on current (ie previous) state, to avoid
   unnecessary redraws; initialise to "flag" values to always redraw first
   time.  In principle we _might_ need more info (eg ai.control, connecting),
@@ -1009,7 +1009,7 @@ void update_unit_pix_label(struct unit_list *punitlist)
       }
     }
     unit_list_iterate_end;
-    
+
     if (i > num_units_below) {
       set_unit_icons_more_arrow(TRUE);
     } else {
@@ -1414,7 +1414,7 @@ static bool can_be_irrigated(const struct tile *ptile,
 **************************************************************************/
 bool can_unit_do_connect(struct unit *punit,
                          enum unit_activity activity,
-                         struct extra_type *tgt) 
+                         struct extra_type *tgt)
 {
   struct tile *ptile = unit_tile(punit);
   struct road_type *proad = NULL;
@@ -2395,7 +2395,7 @@ void request_unit_pillage(struct unit *punit)
 /**********************************************************************//**
   Toggle display of city outlines on the map
 **************************************************************************/
-void request_toggle_city_outlines(void) 
+void request_toggle_city_outlines(void)
 {
   if (!can_client_change_view()) {
     return;
@@ -2413,7 +2413,7 @@ void request_toggle_city_output(void)
   if (!can_client_change_view()) {
     return;
   }
-  
+
   gui_options.draw_city_output = !gui_options.draw_city_output;
   update_map_canvas_visible();
 }
@@ -2421,7 +2421,7 @@ void request_toggle_city_output(void)
 /**********************************************************************//**
   Toggle display of grid lines on the map
 **************************************************************************/
-void request_toggle_map_grid(void) 
+void request_toggle_map_grid(void)
 {
   if (!can_client_change_view()) {
     return;
@@ -2434,7 +2434,7 @@ void request_toggle_map_grid(void)
 /**********************************************************************//**
   Toggle display of national borders on the map
 **************************************************************************/
-void request_toggle_map_borders(void) 
+void request_toggle_map_borders(void)
 {
   if (!can_client_change_view()) {
     return;
@@ -2447,7 +2447,7 @@ void request_toggle_map_borders(void)
 /**********************************************************************//**
   Toggle display of native tiles on the map
 **************************************************************************/
-void request_toggle_map_native(void) 
+void request_toggle_map_native(void)
 {
   if (!can_client_change_view()) {
     return;
@@ -2482,7 +2482,7 @@ void request_toggle_city_names(void)
   gui_options.draw_city_names ^= 1;
   update_map_canvas_visible();
 }
- 
+
 /**********************************************************************//**
   Toggle display of city growth (turns-to-grow)
 **************************************************************************/

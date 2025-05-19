@@ -975,7 +975,7 @@ void handle_city_info(const struct packet_city_info *packet)
 
   /* Update caravan dialog */
   if ((production_changed || shield_stock_changed)
-      && action_selection_target_city() == pcity->id) {   
+      && action_selection_target_city() == pcity->id) {
     dsend_packet_unit_get_actions(&client.conn,
                                   action_selection_actor_unit(),
                                   action_selection_target_unit(),
@@ -1051,7 +1051,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     }
 
     players_iterate(pp) {
-      unit_list_iterate(pp->units, punit) { 
+      unit_list_iterate(pp->units, punit) {
 	if (punit->homecity == pcity->id) {
           unit_list_prepend(pcity->units_supported, punit);
         }
@@ -1246,7 +1246,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     }
 
     city_name_set(pcity, packet->name);
-    
+
     memset(pcity->feel, 0, sizeof(pcity->feel));
     memset(pcity->specialists, 0, sizeof(pcity->specialists));
   }
@@ -1792,7 +1792,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       repaint_unit = TRUE;
 
       /* Wakeup Focus */
-      if (gui_options.wakeup_focus 
+      if (gui_options.wakeup_focus
           && plr != nullptr
           && is_human(plr)
           && owner == plr
@@ -2344,7 +2344,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   if (update_aifill_button || update_ai_skill_level) {
     update_start_page();
   }
-  
+
   if (can_client_change_view()) {
     update_info_label();
   }
@@ -2911,7 +2911,7 @@ void handle_conn_info(const struct packet_conn_info *pinfo)
             pinfo->observer, (int) pinfo->access_level);
   log_debug("conn_info \"%s\" \"%s\" \"%s\"",
             pinfo->username, pinfo->addr, pinfo->capability);
-  
+
   if (!pinfo->used) {
     /* Forget the connection */
     if (!pconn) {
@@ -3461,7 +3461,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   }
 
   if (known_changed || tile_changed) {
-    /* 
+    /*
      * A tile can only change if it was known before and is still
      * known. In the other cases the tile is new or removed.
      */
@@ -4699,7 +4699,7 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   }
 
   /* set later by PACKET_NATION_AVAILABILITY */
-  pnation->client.is_pickable = FALSE; 
+  pnation->client.is_pickable = FALSE;
   pnation->is_playable = packet->is_playable;
   pnation->barb_type = packet->barbarian_type;
 

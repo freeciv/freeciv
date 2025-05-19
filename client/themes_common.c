@@ -39,7 +39,7 @@
   - Theme implementation is gui specific and most themes can not be shared
     between different guis.
   Theme is recognized by its name.
-  
+
   Theme is stored in a directory called like the theme. The directory contains
   some data files. Each gui defines its own format in the
   get_usable_themes_in_directory() function.
@@ -48,7 +48,7 @@
 /* A directory containing a list of usable themes */
 struct theme_directory {
   /* Path on the filesystem */
-  char *path; 
+  char *path;
   /* Array of theme names */
   char **themes;
   /* Themes array length */

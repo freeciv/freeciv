@@ -80,7 +80,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "connectdlg_common.h"  /* client_kill_server() */
-#include "control.h" 
+#include "control.h"
 #include "editor.h"
 #include "global_worklist.h"
 #include "gui_properties.h"
@@ -646,7 +646,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
     sz_strlcpy(music_set_name, gui_options.default_music_set_name);
   }
   if (sound_plugin_name[0] == '\0') {
-    sz_strlcpy(sound_plugin_name, gui_options.default_sound_plugin_name); 
+    sz_strlcpy(sound_plugin_name, gui_options.default_sound_plugin_name);
   }
   if (server_host[0] == '\0') {
     sz_strlcpy(server_host, gui_options.default_server_host);
@@ -654,7 +654,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
     sz_strlcpy(gui_options.default_server_host, server_host);
   }
   if (user_name[0] == '\0') {
-    sz_strlcpy(user_name, gui_options.default_user_name); 
+    sz_strlcpy(user_name, gui_options.default_user_name);
   }
   if (metaserver[0] == '\0') {
     if (0 == strcmp(gui_options.default_metaserver, DEFAULT_METASERVER_OPTION)) {

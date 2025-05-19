@@ -225,7 +225,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     for (j = 0; j < pserver->nplayers ; j++) {
       const char *name, *nation, *type, *plrhost;
 
-      name = secfile_lookup_str_default(file, "", 
+      name = secfile_lookup_str_default(file, "",
                                         "server%d.player%d.name", i, j);
       pserver->players[j].name = fc_strdup(name);
 
@@ -233,7 +233,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                                         "server%d.player%d.type", i, j);
       pserver->players[j].type = fc_strdup(type);
 
-      plrhost = secfile_lookup_str_default(file, "", 
+      plrhost = secfile_lookup_str_default(file, "",
                                            "server%d.player%d.host", i, j);
       pserver->players[j].host = fc_strdup(plrhost);
 
@@ -554,7 +554,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 #ifndef FREECIV_HAVE_WINSOCK
   /* Set the Time-to-Live field for the packet  */
   ttl = SERVER_LAN_TTL;
-  if (setsockopt(send_sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
+  if (setsockopt(send_sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl,
                  sizeof(ttl))) {
     char errstr[2048];
 
@@ -569,7 +569,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
 #endif /* FREECIV_HAVE_WINSOCK */
 
-  if (setsockopt(send_sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
+  if (setsockopt(send_sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt,
                  sizeof(opt))) {
     char errstr[2048];
 
@@ -584,7 +584,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   dio_output_init(&dout, buffer, sizeof(buffer));
   dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
   size = dio_output_used(&dout);
- 
+
 
   if (sendto(send_sock, buffer, size, 0, &addr.saddr,
              sockaddr_size(&addr)) < 0) {

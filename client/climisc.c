@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/*********************************************************************** 
+/***********************************************************************
   This module contains various general - mostly highlevel - functions
   used throughout the client.
 ***********************************************************************/
@@ -1270,7 +1270,7 @@ void client_unit_init_act_prob_cache(struct unit *punit)
   This is only guesswork based on unit properties. One should not
   take UNIT_BG_FLYING seriously meaning that unit can fly - custom
   ruleset might have units with similar properties but explains these
-  properties by some other means than by flying. 
+  properties by some other means than by flying.
 **************************************************************************/
 enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
 {

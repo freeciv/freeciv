@@ -210,7 +210,7 @@ static int cmp_love(const struct player *player1,
   } else {
     love2 = player2->ai_common.love[player_index(client.conn.playing)];
   }
-  
+
   return love1 - love2;
 }
 

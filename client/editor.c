@@ -484,7 +484,7 @@ static void editor_grab_applied_player(const struct tile *ptile)
   } else if (tile_owner(ptile) != NULL) {
     apno = player_number(tile_owner(ptile));
   }
-  
+
   if (player_by_number(apno) != NULL) {
     editor_tool_set_applied_player(editor_get_tool(), apno);
     editgui_refresh();
@@ -692,7 +692,7 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
       popup_properties(ptile);
       break;
     }
-    
+
     if (modifiers == EKM_SHIFT) {
       editor->selection_mode = SELECTION_MODE_ADD;
     } else if (modifiers == EKM_ALT) {
@@ -1018,7 +1018,7 @@ void editor_set_current_tile(const struct tile *ptile)
   if (editor == NULL) {
     return;
   }
-  
+
   editor->current_tile = ptile;
 }
 
@@ -1030,7 +1030,7 @@ const struct tile *editor_get_current_tile(void)
   if (editor == NULL) {
     return NULL;
   }
-  
+
   return editor->current_tile;
 }
 

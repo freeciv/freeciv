@@ -99,7 +99,7 @@ void get_economy_report_data(struct improvement_entry *entries,
 }
 
 /************************************************************************//**
-  Returns an array of units with gold_upkeep. Number of units in 
+  Returns an array of units with gold_upkeep. Number of units in
   the array is added to num_entries_used.
 ****************************************************************************/
 void get_economy_report_units_data(struct unit_entry *entries,
