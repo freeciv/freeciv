@@ -64,14 +64,14 @@ reqs = { "type", "name", "range"
 ;
 ; music_peaceful = Music to play when nation in peaceful mood
 ; music_combat   = Music to play when nation in combat mood
-; reqs		 = requirements to activate the style (see effects.ruleset
-;		   and README.effects for help on requirements)
+; reqs           = requirements to activate the style (see effects.ruleset
+;                  and README.effects for help on requirements)
 ;
 ; */ <-- avoid gettext warnings
 
 [musicstyle_generic]
 music_peaceful     = "music_generic"
 music_combat       = "music_generic"
-reqs	=
+reqs    =
     { "type", "name", "range"
     }

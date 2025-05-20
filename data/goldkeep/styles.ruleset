@@ -162,15 +162,15 @@ reqs = { "type", "name", "range"
 ;
 ; music_peaceful = Music to play when nation in peaceful mood
 ; music_combat   = Music to play when nation in combat mood
-; reqs		 = requirements to activate the style (see effects.ruleset
-;		   and README.effects for help on requirements)
+; reqs           = requirements to activate the style (see effects.ruleset
+;                  and README.effects for help on requirements)
 ;
 ; */ <-- avoid gettext warnings
 
 [musicstyle_european]
 music_peaceful     = "music_european_peace"
 music_combat       = "music_european_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Style", "European", "Player"
     }
@@ -178,7 +178,7 @@ reqs	=
 [musicstyle_classical]
 music_peaceful     = "music_classical_peace"
 music_combat       = "music_classical_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Style", "Classical", "Player"
     }
@@ -186,7 +186,7 @@ reqs	=
 [musicstyle_tropical]
 music_peaceful     = "music_tropical_peace"
 music_combat       = "music_tropical_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Style", "Tropical", "Player"
     }
@@ -194,7 +194,7 @@ reqs	=
 [musicstyle_asian]
 music_peaceful     = "music_asian_peace"
 music_combat       = "music_asian_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Style", "Asian", "Player"
     }
@@ -202,7 +202,7 @@ reqs	=
 [musicstyle_babylonian]
 music_peaceful     = "music_babylonian_peace"
 music_combat       = "music_babylonian_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Style", "Babylonian", "Player"
     }
@@ -210,7 +210,7 @@ reqs	=
 [musicstyle_celtic]
 music_peaceful     = "music_celtic_peace"
 music_combat       = "music_celtic_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Style", "Celtic", "Player"
     }
@@ -218,7 +218,7 @@ reqs	=
 [musicstyle_renaissance]
 music_peaceful     = "music_renaissance_peace"
 music_combat       = "music_renaissance_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Tech", "University", "Player"
     }
@@ -226,7 +226,7 @@ reqs	=
 [musicstyle_industrial]
 music_peaceful     = "music_industrial_peace"
 music_combat       = "music_industrial_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
     }
@@ -234,7 +234,7 @@ reqs	=
 [musicstyle_electricage]
 music_peaceful     = "music_electricage_peace"
 music_combat       = "music_electricage_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Tech", "Automobile", "Player"
     }
@@ -242,7 +242,7 @@ reqs	=
 [musicstyle_modern]
 music_peaceful     = "music_modern_peace"
 music_combat       = "music_modern_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Tech", "Rocketry", "Player"
     }
@@ -250,7 +250,7 @@ reqs	=
 [musicstyle_postmodern]
 music_peaceful     = "music_postmodern_peace"
 music_combat       = "music_postmodern_combat"
-reqs	=
+reqs    =
     { "type", "name", "range"
       "Tech", "Superconductors", "Player"
     }
