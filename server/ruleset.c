@@ -5951,7 +5951,10 @@ static bool load_ruleset_cities(struct section_file *file,
 
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
-  if (section_list_size(sec) >= SP_MAX) {
+  if (!sec) {
+    ruleset_error(NULL, LOG_ERROR, "\"%s\": No specialists.", filename);
+    ok = FALSE;
+  } else if (section_list_size(sec) >= SP_MAX) {
     ruleset_error(NULL, LOG_ERROR,
                   "\"%s\": Too many specialists (%d, max %d).",
                   filename, section_list_size(sec), SP_MAX);
@@ -6009,7 +6012,7 @@ static bool load_ruleset_cities(struct section_file *file,
 
   if (ok && DEFAULT_SPECIALIST == -1) {
     ruleset_error(NULL, LOG_ERROR,
-                  "\"%s\": must give a min_size of 0 for at least one "
+                  "\"%s\": must have zero reqs for at least one "
                   "specialist type.", filename);
     ok = FALSE;
   }
