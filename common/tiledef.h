@@ -40,6 +40,21 @@ struct tiledef *tiledef_by_number(int id);
  * correct implementation too. */
 #define tiledef_index(_td_) (_td_)->id
 
+const char *tiledef_name_translation(const struct tiledef *td);
+const char *tiledef_rule_name(const struct tiledef *td);
+struct tiledef *tiledef_by_rule_name(const char *name);
+struct tiledef *tiledef_by_translated_name(const char *name);
+
+#define tiledef_iterate(_p)                                                 \
+{                                                                           \
+  int _i_##_p;                                                              \
+  for (_i_##_p = 0; _i_##_p < game.control.num_tiledef_types; _i_##_p++) {  \
+    struct tiledef *_p = tiledef_by_number(_i_##_p);
+
+#define tiledef_iterate_end                       \
+  }                                               \
+}
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

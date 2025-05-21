@@ -86,3 +86,59 @@ struct tiledef *tiledef_by_number(int id)
 
   return &tiledefs[id];
 }
+
+/************************************************************************//**
+  Return the (translated) name of the tiledef.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *tiledef_name_translation(const struct tiledef *td)
+{
+  return name_translation_get(&td->name);
+}
+
+/************************************************************************//**
+  Return the (untranslated) rule name of the tiledef.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *tiledef_rule_name(const struct tiledef *td)
+{
+  return rule_name_get(&td->name);
+}
+
+/************************************************************************//**
+  Returns tiledef matching rule name or nullptr if there is no tiledef
+  with such name.
+****************************************************************************/
+struct tiledef *tiledef_by_rule_name(const char *name)
+{
+  const char *qs;
+
+  if (name == nullptr) {
+    return nullptr;
+  }
+
+  qs = Qn_(name);
+
+  tiledef_iterate(td) {
+    if (!fc_strcasecmp(tiledef_rule_name(td), qs)) {
+      return td;
+    }
+  } tiledef_iterate_end;
+
+  return nullptr;
+}
+
+/************************************************************************//**
+  Returns tiledef matching the translated name, or nullptr if there is no
+  tiledef with that name.
+****************************************************************************/
+struct tiledef *tiledef_by_translated_name(const char *name)
+{
+  tiledef_iterate(td) {
+    if (0 == strcmp(tiledef_name_translation(td), name)) {
+      return td;
+    }
+  } tiledef_iterate_end;
+
+  return nullptr;
+}
