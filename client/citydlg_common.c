@@ -1167,10 +1167,11 @@ void get_city_dialog_airlift_value(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Provide a list of all citizens in the city, in order.  "index"
-  should be the happiness index (currently [0..4]; 4 = final
-  happiness).  "citizens" should be an array large enough to hold all
-  citizens (use MAX_CITY_SIZE to be on the safe side).
+  Provide a list of all citizens in the city, in order. "idx"
+  should be the happiness index from FEELING_BASE to FEELING_FINAL.
+  "categories" should be an array large enough to hold all citizens
+  (use MAX_CITY_SIZE to be on the safe side).
+  Return number of categories filled (presumed equal to city size).
 **************************************************************************/
 int get_city_citizen_types(struct city *pcity, enum citizen_feeling idx,
                            enum citizen_category *categories)
