@@ -68,6 +68,11 @@ meson setup .. \
 ninja
 ninja install
 echo "Freeciv build successful!"
+
+# Check that each ruleset loads
+echo "Checking rulesets"
+ninja rulesets_not_broken.sh
+./rulesets_not_broken.sh
 ;;
 
 "mac-meson")
@@ -206,10 +211,6 @@ cd build
 make -s -j$(nproc)
 make install
 echo "Freeciv build successful!"
-
-# Check that each ruleset loads
-echo "Checking rulesets"
-./tests/rulesets_not_broken.sh
 
 # Check ruleset saving
 echo "Checking ruleset saving"
