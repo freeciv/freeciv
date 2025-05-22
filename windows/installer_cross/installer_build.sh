@@ -43,7 +43,7 @@ add_gtk_common_env() {
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
   cp $1/bin/libpangowin32-1.0-0.dll $2/ &&
   cp $1/bin/libfontconfig-1.dll $2/ &&
-  cp $1/bin/libxml2-2.dll $2/ &&
+  cp $1/bin/libxml2-16.dll $2/ &&
   cp $1/bin/libjpeg-9.dll $2/ &&
   mkdir -p $2/bin &&
   cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/
@@ -102,11 +102,12 @@ add_common_env() {
   cp $1/bin/libsqlite3-0.dll  $2/ &&
   cp $1/bin/libiconv-2.dll    $2/ &&
   cp $1/bin/libz.dll.1.3.1    $2/ &&
-  cp $1/lib/icuuc66.dll       $2/ &&
-  cp $1/lib/icudt66.dll       $2/ &&
+  cp $1/bin/icuuc71.dll       $2/ &&
+  cp $1/bin/icudt71.dll       $2/ &&
   cp $1/bin/libpng16-16.dll   $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
+  cp $1/bin/libharfbuzz-subset-0.dll $2/ &&
   cp $1/bin/libpsl-5.dll      $2/ &&
   cp $1/bin/libMagickWand-7.Q16HDRI-10.dll $2/ &&
   cp $1/bin/libMagickCore-7.Q16HDRI-10.dll $2/ &&
