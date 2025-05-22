@@ -162,7 +162,6 @@ client/gui-qt/mapctrl.cpp
 client/gui-qt/mapview.cpp
 client/gui-qt/menu.cpp
 client/gui-qt/messagedlg.cpp
-client/gui-qt/messagewin.cpp
 client/gui-qt/optiondlg.cpp
 client/gui-qt/pages.cpp
 client/gui-qt/plrdlg.cpp
@@ -246,19 +245,16 @@ client/tilespec.c
 client/tilespec.h
 common/actions.c
 common/actions.h
-common/actres.c
 common/actres.h
 common/ai.c
 common/calendar.c
 common/city.c
 common/city.h
 common/clientutils.c
-common/counters.c
 common/effects.c
 common/events.c
 common/extras.h
 common/fc_types.h
-common/featured_text.c
 common/game.h
 common/government.c
 common/mapimg.c
@@ -275,7 +271,6 @@ common/sex.c
 common/team.c
 common/tech.c
 common/tech.h
-common/terrain.h
 common/traderoutes.h
 common/unit.c
 common/unit.h
@@ -293,7 +288,6 @@ data/civ1/cities.ruleset
 data/civ1/game.ruleset
 data/civ1/governments.ruleset
 data/civ1/nations.ruleset
-data/civ1/script.lua
 data/civ1/styles.ruleset
 data/civ1/techs.ruleset
 data/civ1/terrain.ruleset
@@ -304,7 +298,6 @@ data/civ2/cities.ruleset
 data/civ2/game.ruleset
 data/civ2/governments.ruleset
 data/civ2/nations.ruleset
-data/civ2/script.lua
 data/civ2/styles.ruleset
 data/civ2/techs.ruleset
 data/civ2/terrain.ruleset
@@ -377,7 +370,6 @@ data/granularity/buildings.ruleset
 data/granularity/cities.ruleset
 data/granularity/game.ruleset
 data/granularity/governments.ruleset
-data/granularity/script.lua
 data/granularity/styles.ruleset
 data/granularity/techs.ruleset
 data/granularity/terrain.ruleset
@@ -462,7 +454,6 @@ gen_headers/enums/terrain_enums.def
 translations/Strings.txt
 tools/ruleup.c
 tools/fcmp/download.c
-tools/fcmp/modinst.c
 tools/fcmp/modinst.h
 tools/fcmp/mpcli.c
 tools/fcmp/mpcmdline.c
@@ -509,7 +500,6 @@ server/meta.c
 server/plrhand.c
 server/report.c
 server/ruleset/ruleload.c
-server/ruleset/rscompat.c
 server/ruleset/rssanity.c
 server/savegame/savecompat.c
 server/savegame/savegame2.c
@@ -537,7 +527,6 @@ utility/fciconv.c
 utility/inputfile.c
 utility/log.c
 utility/netfile.c
-utility/netintf.c
 utility/randseed.c
 utility/registry_ini.c
 utility/registry_xml.c
