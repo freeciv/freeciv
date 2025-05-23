@@ -61,10 +61,8 @@ TODO: Find out what other native side requirements
 =========================================
 
 If everything is set up correctly, easiest way
-to do the build is to run
-> ./meson-build_all_installer.sh
-on platforms/windows/installer_cross/.
-Currently this script needs to be run on its own
-directory, and they produce their output there
-(within freeciv tree). If everything success, final
-installers are generated to meson/output/
+to do the build is to
+> cd <build dir>
+and run
+> <src dir>/platforms/windows/installer_cross/meson-build_all_installer.sh
+If everything success, final installers are created to <build dir>/meson/output/
