@@ -58,6 +58,7 @@ values
   EXTRA              "Extra"
   EXTRAFLAG          "ExtraFlag"
   FORM_AGE           "FormAge"
+  FUTURETECHS        "FutureTechs"
   GOOD               "Good"
   GOVERNMENT         "Gov"
   IMPROVEMENT        "Building"

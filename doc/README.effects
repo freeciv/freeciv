@@ -60,6 +60,7 @@ Requirement types and supported ranges
 Tech:            World, Alliance, Team, Player, Local
 TechFlag:        World, Alliance, Team, Player, Local
 MinTechs:        World, Player
+FutureTechs:     World, Player
 MinCities:       Player
 Achievement:     World, Alliance, Team, Player
 Counter:         City

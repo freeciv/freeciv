@@ -2945,6 +2945,47 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_FUTURETECHS:
+    switch (preq->range) {
+    case REQ_RANGE_WORLD:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires %d future techs to be known in the world."),
+                     preq->source.value.future_techs);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented when %d future techs are known in the world."),
+                     preq->source.value.future_techs);
+      }
+      return TRUE;
+    case REQ_RANGE_PLAYER:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires player to know %d future techs."),
+                     preq->source.value.future_techs);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented when player knows %d future techs."),
+                     preq->source.value.future_techs);
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_MINCITIES:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:

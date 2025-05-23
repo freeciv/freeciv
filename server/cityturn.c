@@ -1808,6 +1808,21 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           purge = TRUE;
         }
         break;
+      case VUT_FUTURETECHS:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "%d future techs must be known. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        preq->source.value.future_techs);
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_futuretechs");
+        } else {
+          purge = TRUE;
+        }
+        break;
       case VUT_MINCITIES:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

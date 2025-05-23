@@ -400,6 +400,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
       break;
 
     case VUT_MINTECHS:
+    case VUT_FUTURETECHS:
       /* At ranges 'Player' and 'World' */
       if (rc > 2) {
         ruleset_error(logger, LOG_ERROR,

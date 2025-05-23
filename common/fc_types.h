@@ -575,6 +575,7 @@ typedef union {
   int age;
   int form_age;
   int min_techs;
+  int future_techs;
   int min_cities;
   int latitude;
   int distance_sq;

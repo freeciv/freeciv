@@ -473,6 +473,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_FUTURETECHS:
+    source->value.future_techs = atoi(value);
+    if (source->value.future_techs > 0) {
+      return;
+    }
+    break;
   case VUT_MINCITIES:
     source->value.min_cities = atoi(value);
     if (source->value.min_cities > 0) {
@@ -792,6 +798,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MINTECHS:
     source.value.min_techs = value;
     return source;
+  case VUT_FUTURETECHS:
+    source.value.future_techs = value;
+    return source;
   case VUT_MINCITIES:
     source.value.min_cities = value;
     return source;
@@ -979,6 +988,8 @@ int universal_number(const struct universal *source)
     return source->value.form_age;
   case VUT_MINTECHS:
     return source->value.min_techs;
+  case VUT_FUTURETECHS:
+    return source->value.future_techs;
   case VUT_MINCITIES:
     return source->value.min_cities;
   case VUT_ACTION:
@@ -1172,6 +1183,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_PLAYER_FLAG:
       case VUT_PLAYER_STATE:
       case VUT_MINCITIES:
+      case VUT_FUTURETECHS:
         req.range = REQ_RANGE_PLAYER;
         break;
       case VUT_MINYEAR:
@@ -1220,6 +1232,7 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_ACHIEVEMENT:
     case VUT_MINTECHS:
+    case VUT_FUTURETECHS:
       invalid = (req.range < REQ_RANGE_PLAYER);
       break;
     case VUT_ADVANCE:
@@ -1459,6 +1472,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_DIPLREL_UNITANY_O:
     case VUT_MAXTILEUNITS:
     case VUT_MINTECHS:
+    case VUT_FUTURETECHS:
     case VUT_MINCITIES:
     case VUT_MINLATITUDE:
     case VUT_MAXLATITUDE:
@@ -3790,6 +3804,44 @@ is_mintechs_req_active(const struct civ_map *nmap,
                   (research_get(context->player)->techs_researched - 1)
                   >= req->source.value.min_techs
               );
+    }
+  default:
+    return TRI_MAYBE;
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a minimum future technologies requirement is satisfied
+  in a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a mintechs requirement
+**************************************************************************/
+static enum fc_tristate
+is_futuretechs_req_active(const struct civ_map *nmap,
+                          const struct req_context *context,
+                          const struct req_context *other_context,
+                          const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_FUTURETECHS);
+
+  switch (req->range) {
+  case REQ_RANGE_WORLD:
+    players_iterate_alive(plr) {
+      if (research_get(plr)->future_tech
+          >= req->source.value.future_techs) {
+        return TRI_YES;
+      }
+    } players_iterate_alive_end;
+
+    return TRI_NO;
+  case REQ_RANGE_PLAYER:
+    if (context->player == nullptr) {
+      return TRI_MAYBE;
+    } else {
+      return BOOL_TO_TRISTATE(research_get(context->player)->future_tech
+                              >= req->source.value.future_techs);
     }
   default:
     return TRI_MAYBE;
@@ -6246,6 +6298,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_DIPLREL_UNITANY_O] = {is_diplrel_unitany_o_req_active, REQUCH_NO},
   [VUT_EXTRA] = {is_extra_req_active, REQUCH_NO, REQUC_LOCAL},
   [VUT_EXTRAFLAG] = {is_extraflag_req_active, REQUCH_NO, REQUC_LOCAL},
+  [VUT_FUTURETECHS] = {is_futuretechs_req_active, REQUCH_ACT, REQUC_WORLD},
   [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
   [VUT_GOVERNMENT] = {is_gov_req_active, REQUCH_NO},
   [VUT_IMPROVEMENT] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
@@ -6802,6 +6855,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_MINCULTURE:
   case VUT_MINFOREIGNPCT:
   case VUT_MINTECHS:
+  case VUT_FUTURETECHS:
   case VUT_MINCITIES:
   case VUT_NATIONALITY:
   case VUT_ORIGINAL_OWNER: /* As long as midgame player creation or civil war possible */
@@ -7463,6 +7517,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.form_age == psource2->value.form_age;
   case VUT_MINTECHS:
     return psource1->value.min_techs == psource2->value.min_techs;
+  case VUT_FUTURETECHS:
+    return psource1->value.future_techs == psource2->value.future_techs;
   case VUT_MINCITIES:
     return psource1->value.min_cities == psource2->value.min_cities;
   case VUT_ACTION:
@@ -7632,6 +7688,10 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_MINTECHS:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.min_techs);
+
+    return buffer;
+  case VUT_FUTURETECHS:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.future_techs);
 
     return buffer;
   case VUT_MINCITIES:
@@ -7895,6 +7955,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MINTECHS:
     cat_snprintf(buf, bufsz, _("%d Techs"),
                  psource->value.min_techs);
+    return buf;
+  case VUT_FUTURETECHS:
+    cat_snprintf(buf, bufsz, _("%d Future techs"),
+                 psource->value.future_techs);
     return buf;
   case VUT_MINCITIES:
     cat_snprintf(buf, bufsz, _("%d Cities"),
