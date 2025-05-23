@@ -162,7 +162,7 @@ static void migrate_options_from_2_5()
 }
 
 /**********************************************************************//**
-  The main loop for the UI.  This is called from main(), and when it
+  The main loop for the UI. This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
 int qtg_ui_main(int argc, char *argv[])
@@ -182,7 +182,7 @@ int qtg_ui_main(int argc, char *argv[])
 #ifdef FREECIV_SVG_FLAGS
       svg_flag_enable();
 #else  // FREECIV_SVG_FLAGS
-      fc_fprintf(stderr, _("svg flags not enabled in this freeciv build."));
+      fc_fprintf(stderr, _("svg flags not enabled in this freeciv build.\n"));
 #endif // FREECIV_SVG_FLAGS
     }
 
