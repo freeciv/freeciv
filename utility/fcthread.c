@@ -74,6 +74,22 @@ void fc_thread_wait(fc_thread *thread)
 }
 
 /*******************************************************************//**
+  Get thread id
+***********************************************************************/
+fc_thread_id fc_thread_self(void)
+{
+  return thrd_current();
+}
+
+/*******************************************************************//**
+  Tell if two threads are the same
+***********************************************************************/
+bool fc_threads_equal(fc_thread_id thr1, fc_thread_id thr2)
+{
+  return thrd_equal(thr1, thr2);
+}
+
+/*******************************************************************//**
   Initialize mutex
 ***********************************************************************/
 void fc_mutex_init(fc_mutex *mutex)
@@ -194,6 +210,22 @@ void fc_thread_wait(fc_thread *thread)
   void **return_value = NULL;
 
   pthread_join(*thread, return_value);
+}
+
+/*******************************************************************//**
+  Get thread id
+***********************************************************************/
+fc_thread_id fc_thread_self(void)
+{
+  return pthread_self();
+}
+
+/*******************************************************************//**
+  Tell if two threads are the same
+***********************************************************************/
+bool fc_threads_equal(fc_thread_id thr1, fc_thread_id thr2)
+{
+  return pthread_equal(thr1, thr2);
 }
 
 /*******************************************************************//**
@@ -324,6 +356,22 @@ void fc_thread_wait(fc_thread *thread)
   }
 
   CloseHandle(*thread);
+}
+
+/*******************************************************************//**
+  Get thread id
+***********************************************************************/
+fc_thread_id fc_thread_self(void)
+{
+  return GetCurrentThreadId();
+}
+
+/*******************************************************************//**
+  Tell if two threads are the same
+***********************************************************************/
+bool fc_threads_equal(fc_thread_id thr1, fc_thread_id thr2)
+{
+  return thr1 == thr2;
 }
 
 /*******************************************************************//**
