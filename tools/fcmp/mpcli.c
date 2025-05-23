@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 /* utility */
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -97,6 +98,8 @@ static void setup_modpack_list(const char *name, const char *URL,
 int main(int argc, char *argv[])
 {
   int ui_options;
+
+  executable_init();
 
   fcmp_init();
 

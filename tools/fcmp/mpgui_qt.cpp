@@ -30,6 +30,7 @@
 #include <QVBoxLayout>
 
 // utility
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -83,6 +84,8 @@ static void gui_download_modpack(QString URL);
 int main(int argc, char **argv)
 {
   int ui_options;
+
+  executable_init();
 
   fcmp_init();
 
