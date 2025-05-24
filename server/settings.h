@@ -26,7 +26,7 @@ extern "C" {
 #include "server_settings.h"
 
 struct sset_val_name {
-  const char *support;          /* Untranslated long support name, used 
+  const char *support;          /* Untranslated long support name, used
                                  * for saving. */
   const char *pretty;           /* Translated, used to display to the
                                  * users. */

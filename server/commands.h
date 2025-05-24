@@ -33,21 +33,21 @@ enum cmd_echo {
      eg accidentally removing a player in a running game.
 */
 enum command_id {
-  /* old one-letter commands: */
+  /* Old one-letter commands: */
   CMD_START_GAME = 0,
   CMD_HELP,
   CMD_LIST,
   CMD_QUIT,
   CMD_CUT,
 
-  /* completely non-harmful: */
+  /* Completely non-harmful: */
   CMD_EXPLAIN,
   CMD_SHOW,
   CMD_WALL,
   CMD_CONNECTMSG,
   CMD_VOTE,
-  
-  /* mostly non-harmful: */
+
+  /* Mostly non-harmful: */
   CMD_DEBUG,
   CMD_SET,
   CMD_TEAM,
@@ -79,9 +79,9 @@ enum command_id {
   CMD_PLAYERCOLOR,
   CMD_PLAYERNATION,
 
-  /* potentially harmful: */
+  /* Potentially harmful: */
   CMD_END_GAME,
-  CMD_SURRENDER, /* not really harmful, info level */
+  CMD_SURRENDER, /* Not really harmful, info level */
   CMD_REMOVE,
   CMD_SAVE,
   CMD_SCENSAVE,
@@ -100,14 +100,14 @@ enum command_id {
   CMD_LOCK,
   CMD_UNLOCK,
 
-  /* undocumented */
+  /* Undocumented */
   CMD_RFCSTYLE,
   CMD_SRVID,
 
-  /* pseudo-commands: */
-  CMD_NUM,              /* the number of commands - for iterations */
-  CMD_UNRECOGNIZED,     /* used as a possible iteration result */
-  CMD_AMBIGUOUS         /* used as a possible iteration result */
+  /* Pseudo-commands: */
+  CMD_NUM,              /* The number of commands - for iterations */
+  CMD_UNRECOGNIZED,     /* Used as a possible iteration result */
+  CMD_AMBIGUOUS         /* Used as a possible iteration result */
 };
 
 const struct command *command_by_number(int i);

@@ -23,8 +23,8 @@
 
 struct ai_data;
 
-/* 
- * Change these and remake to watch logs from a specific 
+/*
+ * Change these and remake to watch logs from a specific
  * part of the AI code.
  */
 #define LOGLEVEL_BODYGUARD LOG_DEBUG

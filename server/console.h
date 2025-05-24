@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 #define MAX_LEN_CONSOLE_LINE 1024  /* closing '\0' included */
 
-/* 
+/*
  * A note on "rfc-style":
  *
  * This style of server output, started with the /rfcstyle server
@@ -63,7 +63,7 @@ void con_write(enum rfc_status rfc_status, const char *message, ...)
 /* write to console and add line-break, and show prompt if required.
    ie, same as con_write, but without the format string stuff. */
 void con_puts(enum rfc_status rfc_status, const char *str);
-     
+
 /* ensure timely update */
 void con_flush(void);
 
