@@ -64,7 +64,11 @@ meson setup .. \
       -Dack_experimental=true \
       -Dclients='gtk3.22','qt','sdl2','gtk4' \
       -Dfcmp='gtk3','qt','cli','gtk4' \
-      -Dqtver=qt6
+      -Dqtver=qt6 \
+  || (let meson_exit_status=$? \
+      && echo "meson.log:" \
+      && cat meson-logs/meson-log.txt \
+      && exit ${meson_exit_status})
 ninja
 ninja install
 echo "Freeciv build successful!"
@@ -139,7 +143,7 @@ meson setup .. \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
       && cat meson-logs/meson-log.txt \
-      && exit $meson_exit_status)
+      && exit ${meson_exit_status})
 ninja
 ninja install
 echo "Freeciv build successful!"
