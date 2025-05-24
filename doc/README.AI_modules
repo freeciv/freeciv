@@ -43,6 +43,9 @@ Leonidas [#ff0000]: Team 0, user Unassigned
 3. Building freeciv with AI-modules support
 -------------------------------------------
 
+This build time configurability for AI modules is currently
+available only with the old autotools build system.
+
 There's three configure options controlling AI-modules support to be
 built in to freeciv.
 
