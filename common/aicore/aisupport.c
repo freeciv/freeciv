@@ -105,12 +105,11 @@ int player_distance_to_player(struct player *pplayer, struct player *target)
 /*******************************************************************//**
   Rough calculation of the worth of pcity in gold.
 ***********************************************************************/
-int city_gold_worth(struct city *pcity)
+int city_gold_worth(const struct civ_map *nmap, struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int worth = 0, i;
   struct unit_type *u = nullptr;
-  const struct civ_map *nmap = &(wld.map);
 
   if (!game.scenario.prevent_new_cities) {
     u = best_role_unit_for_player(city_owner(pcity),
