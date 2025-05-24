@@ -101,7 +101,7 @@ option('min-win-ver',
 
 option('svgflags',
        type: 'boolean',
-       value: false,
+       value: true,
        description: 'svg flags features enabled on build level')
 
 option('localeprefix',
