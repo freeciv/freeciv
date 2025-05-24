@@ -45,8 +45,8 @@ type    = "City_Vision_Radius_Sq"
 value   = 5
 
 [effect_base_unit_upkeep]
-type	= "Upkeep_Factor"
-value	= 1
+type	= "Upkeep_Pct"
+value	= 100
 
 [effect_empire_size_base]
 type    = "Empire_Size_Base"

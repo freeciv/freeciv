@@ -83,7 +83,7 @@ values
   /* Multiply unhappy upkeep by this effect */
   UNHAPPY_FACTOR                    "Unhappy_Factor"
   /* Multiply upkeep by this effect */
-  UPKEEP_FACTOR                     "Upkeep_Factor"
+  UPKEEP_PCT                        "Upkeep_Pct"
   /* This many units are free from upkeep */
   UNIT_UPKEEP_FREE_PER_CITY         "Unit_Upkeep_Free_Per_City"
   OUTPUT_WASTE                      "Output_Waste"

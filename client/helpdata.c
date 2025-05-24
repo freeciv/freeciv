@@ -4504,6 +4504,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
        * is sufficient reason to list it in that gov's help.
        * Guard accesses to these with 'playerwide' or 'world_value_valid'. */
       int world_value = -999, net_value = -999;
+
       if (world_value_valid) {
         /* Get government-independent world value of effect if the extra
          * requirements were simple enough. */
@@ -4526,7 +4527,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          * output types. Generate lists for that. */
         bool harvested_only = TRUE; /* Consider only output types from fields */
 
-        if (peffect->type == EFT_UPKEEP_FACTOR
+        if (peffect->type == EFT_UPKEEP_PCT
             || peffect->type == EFT_UNIT_UPKEEP_FREE_PER_CITY
             || peffect->type == EFT_OUTPUT_BONUS
             || peffect->type == EFT_OUTPUT_BONUS_2) {
@@ -4624,7 +4625,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                        BULLET, peffect->value);
         }
         break;
-      case EFT_UPKEEP_FACTOR:
+      case EFT_UPKEEP_PCT:
         if (world_value_valid && !unittype) {
           if (net_value == 0) {
             if (output_type != O_LAST) {
@@ -4640,6 +4641,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
             }
           } else if (net_value != world_value) {
             double ratio = (double)net_value / world_value;
+
             if (output_type != O_LAST) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is the output type, like 'shield'

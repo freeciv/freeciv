@@ -587,7 +587,7 @@ adv_want dai_effect_value(struct player *pplayer,
   /* Currently not supported for building AI - wait for modpack users */
   case EFT_CITY_UNHAPPY_SIZE:
   case EFT_UNHAPPY_FACTOR:
-  case EFT_UPKEEP_FACTOR:
+  case EFT_UPKEEP_PCT:
   case EFT_UNIT_UPKEEP_FREE_PER_CITY:
   case EFT_CIVIL_WAR_CHANCE:
   case EFT_EMPIRE_SIZE_BASE:

@@ -190,7 +190,7 @@ int utype_upkeep_cost(const struct unit_type *ut, const struct unit *punit,
                                     .tile     = ptile,
                                     .city     = pcity
                                   },
-                                  NULL, EFT_UPKEEP_FACTOR);
+                                  NULL, EFT_UPKEEP_PCT) / 100;
 
   return val;
 }

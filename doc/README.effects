@@ -814,8 +814,8 @@ Upgrade_Price_Pct
 Upgrade_Unit
     Upgrade amount obsolete units per turn.
 
-Upkeep_Factor
-    Multiply unit upkeep by amount.
+Upkeep_Pct
+    Unit upkeep is amount percents.
 
 Upkeep_Free
     Improvements with amount or less upkeep cost become free to upkeep (others

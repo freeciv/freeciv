@@ -321,16 +321,16 @@ reqs	=
     }
 
 [effect_base_unit_upkeep_not_gold]
-type    = "Upkeep_Factor"
-value   = 1
+type    = "Upkeep_Pct"
+value   = 100
 reqs    =
     { "type",       "name", "range", "present"
       "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_base_unit_upkeep_gold]
-type    = "Upkeep_Factor"
-value   = 1
+type    = "Upkeep_Pct"
+value   = 100
 reqs    =
     { "type",       "name",        "range"
       "OutputType", "Gold",        "Local"
@@ -338,8 +338,8 @@ reqs    =
     }
 
 [effect_republic_unit_upkeep]
-type    = "Upkeep_Factor"
-value	= 1
+type    = "Upkeep_Pct"
+value	= 100
 reqs   =
     { "type", "name", "range"
       "Gov", "Republic", "Player"
@@ -347,8 +347,8 @@ reqs   =
     }
 
 [effect_democracy_unit_upkeep]
-type    = "Upkeep_Factor"
-value	= 1
+type    = "Upkeep_Pct"
+value	= 100
 reqs   =
     { "type", "name", "range"
       "Gov", "Democracy", "Player"
@@ -2225,8 +2225,8 @@ reqs    =
     }
 
 [effect_fundamentalism_unit_upkeep]
-type    = "Upkeep_Factor"
-value   = 2
+type    = "Upkeep_Pct"
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
