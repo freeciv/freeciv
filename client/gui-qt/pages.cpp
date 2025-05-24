@@ -543,6 +543,7 @@ void fc_client::create_load_page()
           &QItemSelectionModel::selectionChanged, this,
           &fc_client::slot_selection_changed);
 #ifdef FC_QT6X_MODE
+  // Qt-6.7
   connect(show_preview, &QCheckBox::checkStateChanged, this,
           &fc_client::state_preview);
 #else  // FC_QT6X_MODE

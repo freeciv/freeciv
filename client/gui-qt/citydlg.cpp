@@ -1947,6 +1947,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
       cma_celeb_checkbox = new QCheckBox;
       slider_grid->addWidget(cma_celeb_checkbox, i + 1, 2 , 1 , 1);
 #ifdef FC_QT6X_MODE
+      // Qt-6.7
       connect(cma_celeb_checkbox,
               &QCheckBox::checkStateChanged, this, &city_dialog::cma_toggle_changed);
 #else  // FC_QT6X_MODE
@@ -1959,6 +1960,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
       cma_max_growth = new QCheckBox;
       slider_grid->addWidget(cma_max_growth, i + 1, 2 , 1 , 1);
 #ifdef FC_QT6X_MODE
+      // Qt-6.7
       connect(cma_max_growth,
               &QCheckBox::checkStateChanged, this, &city_dialog::cma_toggle_changed);
 #else  // FC_QT6X_MODE

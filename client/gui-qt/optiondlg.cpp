@@ -480,6 +480,7 @@ void option_dialog::set_button_color(QPushButton *button,
     QColor col;
 
 #ifdef FC_QT6X_MODE
+    // Qt-6.4
     col = QColor::fromString(colorname);
 #else  // FC_QT6X_MODE
     col.setNamedColor(colorname);
@@ -725,6 +726,7 @@ void option_dialog::add_option(struct option *poption)
     button->setAutoFillBackground(true);
     button->setAutoDefault(false);
 #ifdef FC_QT6X_MODE
+    // Qt-6.4
     c = QColor::fromString(ft_color.foreground);
 #else  // FC_QT6X_MODE
     c.setNamedColor(ft_color.foreground);
@@ -741,6 +743,7 @@ void option_dialog::add_option(struct option *poption)
     button->setAutoFillBackground(true);
     button->setAutoDefault(false);
 #ifdef FC_QT6X_MODE
+    // Qt-6.4
     c = QColor::fromString(ft_color.background);
 #else  // FC_QT6X_MODE
     c.setNamedColor(ft_color.background);

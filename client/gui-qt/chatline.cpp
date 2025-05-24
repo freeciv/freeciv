@@ -301,6 +301,7 @@ chatwdg::chatwdg(QWidget *parent)
           this, &chatwdg::toggle_size);
   connect(remove_links, &QAbstractButton::clicked, this, &chatwdg::rm_links);
 #ifdef FC_QT6X_MODE
+  // Qt-6.7
   connect(cb, &QCheckBox::checkStateChanged, this, &chatwdg::state_changed);
 #else  // FC_QT6X_MODE
   connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed_depr);
@@ -623,6 +624,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
             color = bg_color.name();
           } else {
 #ifdef FC_QT6X_MODE
+            // Qt-6.4
             qc = QColor::fromString(color);
 #else  // FC_QT6X_MODE
             qc.setNamedColor(color);
@@ -638,6 +640,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
         color = text_tag_color_background(ptag);
         if (
 #ifdef FC_QT6X_MODE
+            // Qt-6.4
             QColor::isValidColorName(color)
 #else  // FC_QT6X_MODE
             QColor::isValidColor(color)
