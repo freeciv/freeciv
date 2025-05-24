@@ -303,12 +303,13 @@ static int dai_goldequiv_clause(struct ai_type *ait,
 {
   bool close_here;
   struct ai_plr *ai;
-  int worth = 0; /* worth for pplayer of what aplayer gives */
+  int worth = 0; /* Worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
   struct player *giver;
   const struct player *penemy;
   struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
   bool is_dangerous;
+  const struct civ_map *nmap = &(wld.map);
 
   ai = dai_plr_data_get(ait, pplayer, &close_here);
 
@@ -530,7 +531,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, aplayer, "city destroyed during negotiations");
     } else if (give) {
       /* AI must be crazy to trade away its cities */
-      worth -= city_gold_worth(offer);
+      worth -= city_gold_worth(nmap, offer);
       if (is_capital(offer)) {
         worth = -BIG_NUMBER; /* Never! Ever! */
       } else {
@@ -541,7 +542,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
         worth /= 2;
       }
     } else {
-      worth = city_gold_worth(offer);
+      worth = city_gold_worth(nmap, offer);
     }
     if (offer != NULL) {
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, aplayer, "worth of %s is %d", 
