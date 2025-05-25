@@ -34,14 +34,14 @@ init_units = ""
 civilwar_nations = "israeli", "egyptian", "jordanian"
 
 cities =
-;claimed Palestinian capital
+; Claimed Palestinian capital
  "Al-Quds", ;Jerusalem
 
-;de facto captials
+; De facto capitals
  "Ghazza", ;Gaza
  "Ram Allah", ;Ramallah
 
-;other cities in Palestinian territories
+; Other cities in Palestinian territories
  "Ariha", ;Jericho
  "Al-Halil", ;Hebron
  "Bayt Lahm", ;Betlehem
@@ -69,7 +69,7 @@ cities =
  "Beit Sahour",
  "Abu Dis",
 
-;Israeli cities with large Arab populations
+; Israeli cities with large Arab populations
  "An-Nasira", ;Nazareth
  "Umm al-Fahm",
  "Rahat",
