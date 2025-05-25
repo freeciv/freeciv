@@ -31,6 +31,15 @@ export INST_CROSS_MODE="$2"
 
 SRC_DIR="$(cd "$(dirname "$0")" || exit 1 ; pwd)"
 
+# Lower level meson-winbuild.sh has a similar check,
+# but relying on it would mean running it for every client,
+# and failing each. We want to fail at once here.
+if test "$(pwd)" = "${SRC_DIR}" ; then
+  echo "Attempt to run $(basename "$0") within source directory!" >&2
+  echo "You must run it from a separate build directory!" >&2
+  exit 1
+fi
+
 if ! test -d "${DLLSPATH}" ; then
   echo "Dllstack directory \"${DLLSPATH}\" not found!" >&2
   exit 1

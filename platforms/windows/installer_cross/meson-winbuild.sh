@@ -24,6 +24,12 @@ if test "$1" = "-v" || test "$1" = "--version" ; then
   exit
 fi
 
+if test "${BUILD_ROOT}" = "${SRC_DIR}" ; then
+  echo "Attempt to run $(basename "$0") within source directory!" >&2
+  echo "You must run it from a separate build directory!" >&2
+  exit 1
+fi
+
 GUI="$2"
 
 if test "${GUI}" != "gtk3.22" && test "${GUI}" != "gtk4" &&
