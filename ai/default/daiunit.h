@@ -25,7 +25,7 @@ struct pf_path;
 struct section_file;
 
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_WORKER, AIUNIT_BUILD_CITY,
-                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT, 
+                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT,
                     AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER,
                     AIUNIT_TRADE, AIUNIT_WONDER };
 
@@ -39,9 +39,9 @@ struct unit_ai {
   struct tile *prev_struct, *cur_struct;
   struct tile **prev_pos, **cur_pos;
 
-  int target; /* target we hunt */
-  bv_player hunted; /* if a player is hunting us, set by that player */
-  bool done;  /* we are done controlling this unit this turn */
+  int target; /* Target we hunt */
+  bv_player hunted; /* If a player is hunting us, set by that player */
+  bool done;  /* We are done controlling this unit this turn */
 
   enum ai_unit_task task;
 };
@@ -86,9 +86,10 @@ extern struct unit_type *simple_ai_types[U_LAST];
 #define RAMPAGE_HUT_OR_BETTER        99998
 #define RAMPAGE_FREE_CITY_OR_BETTER  99999
 #define BODYGUARD_RAMPAGE_THRESHOLD (SHIELD_WEIGHTING * 4)
+
 bool dai_military_rampage(struct unit *punit, int thresh_adj,
                           int thresh_move);
-void dai_manage_units(struct ai_type *ait, struct player *pplayer); 
+void dai_manage_units(struct ai_type *ait, struct player *pplayer);
 void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
                      struct unit *punit);
 void dai_manage_military(struct ai_type *ait, const struct civ_map *nmap,
@@ -147,7 +148,7 @@ void dai_unit_close(struct ai_type *ait, struct unit *punit);
 {                                                                       \
   struct unit_type *_ut;                                                \
   int _ut##_index = 0;                                                  \
-  while (NULL != (_ut = simple_ai_types[_ut##_index++])) {
+  while ((_ut = simple_ai_types[_ut##_index++]) != nullptr) {
 
 #define simple_ai_unit_type_iterate_end                                 \
   }                                                                     \
