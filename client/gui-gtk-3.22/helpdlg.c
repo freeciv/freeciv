@@ -66,6 +66,7 @@ static GtkWidget *help_view_sw;
 static GtkWidget *help_view;
 
 static GtkWidget *help_frame;
+static int help_frame_width = 520, help_frame_height = 350;
 static GtkTextBuffer *help_text;
 static GtkWidget *help_text_sw;
 static GtkWidget *help_vbox;
@@ -601,7 +602,7 @@ static void create_help_dialog(void)
 
   help_frame = gtk_frame_new("");
   gtk_container_add(GTK_CONTAINER(hbox), help_frame);
-  gtk_widget_set_size_request(help_frame, 520, 350);
+  gtk_widget_set_size_request(help_frame, help_frame_width, help_frame_height);
   gtk_widget_show(help_frame);
 
   help_box = gtk_grid_new();
@@ -1752,6 +1753,9 @@ static void help_command_callback(GtkWidget *w, gint response_id)
       help_command_update();
     }
   } else {
+	  /* Save size of the dialog. */
+    help_frame_width = gtk_widget_get_allocated_width(help_frame);
+    help_frame_height = gtk_widget_get_allocated_height(help_frame);
     gtk_widget_destroy(help_dialog_shell);
   }
 }
