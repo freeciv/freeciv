@@ -12,6 +12,7 @@ EXTRA_DIST =	check_macros.sh			\
 		copyright.sh			\
 		fcintl.sh			\
 		generate_rs_not_broken.sh	\
+		generate_rs_save.sh		\
 		header_guard.sh			\
 		rulesets_not_broken.sh.in	\
 		rulesets_save.sh.in		\
