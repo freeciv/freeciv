@@ -67,6 +67,7 @@ static GtkWidget *help_view_sw;
 static GtkWidget *help_view;
 
 static GtkWidget *help_frame;
+static int help_dlog_width = 520, help_dlog_height = 350;
 static GtkTextBuffer *help_text;
 static GtkWidget *help_text_sw;
 static GtkWidget *help_vbox;
@@ -561,6 +562,9 @@ static void create_help_dialog(void)
                    G_CALLBACK(help_command_callback), NULL);
   g_signal_connect(help_dialog_shell, "destroy",
                    G_CALLBACK(help_destroy_callback), NULL);
+  gtk_window_set_default_size (GTK_WINDOW(help_dialog_shell),
+                                 help_dlog_width,
+                                 help_dlog_height);
 
   hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(help_dialog_shell))),
@@ -1806,6 +1810,10 @@ static void help_command_callback(GtkWidget *w, gint response_id)
       help_command_update();
     }
   } else {
+    /* Save size of the dialog. */
+    gtk_window_get_default_size (GTK_WINDOW(help_dialog_shell),
+                                 &help_dlog_width,
+                                 &help_dlog_height);
     gtk_window_destroy(GTK_WINDOW(help_dialog_shell));
   }
 }
