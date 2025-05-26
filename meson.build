@@ -39,7 +39,8 @@ c_cpp_args = [
 
 cpp_args = [
   '-Wno-deprecated-declarations',
-  '-fPIC'
+  '-fPIC',
+  '-Wtrailing-whitespace'
   ]
 
 foreach arg : c_args
