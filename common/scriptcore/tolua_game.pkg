@@ -616,7 +616,7 @@ module find {
   Achievement *api_find_achievement
     @ achievement (lua_State *L, int achievement_id);
   Disaster *api_find_disaster_by_name
-    @ achievement (lua_State *L, const char *name_orig);
+    @ disaster (lua_State *L, const char *name_orig);
   Disaster *api_find_disaster
     @ disaster (lua_State *L, int disaster_id);
   Direction *api_utilities_str2dir
