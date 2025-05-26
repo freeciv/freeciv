@@ -66,13 +66,13 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aiferry.h"
 #include "aiguard.h"
 #include "daiair.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomat.h"
 #include "daieffects.h"
+#include "daiferry.h"
 #include "daihunter.h"
 #include "dailog.h"
 #include "daimilitary.h"

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIFERRY_H
-#define FC__AIFERRY_H
+#ifndef FC__DAIFERRY_H
+#define FC__DAIFERRY_H
 
 #include "support.h"            /* bool type */
 
@@ -85,4 +85,4 @@ bool is_boss_of_boat(struct ai_type *ait, struct unit *punit);
 void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
                           struct unit *punit);
 
-#endif /* FC__AIFERRY_H */
+#endif /* FC__DAIFERRY_H */

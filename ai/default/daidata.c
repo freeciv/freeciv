@@ -33,10 +33,10 @@
 #include "advdata.h"
 
 /* ai/default */
-#include "aiferry.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daieffects.h"
+#include "daiferry.h"
 #include "daiplayer.h"
 #include "daisettler.h"
 #include "daiunit.h"

@@ -24,11 +24,11 @@
 #include "advdata.h"
 
 /* ai/default */
-#include "aiferry.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
+#include "daiferry.h"
 #include "daihand.h"
 #include "dailog.h"
 #include "daimilitary.h"

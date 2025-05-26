@@ -52,7 +52,7 @@
 #include "daitools.h"
 #include "daiunit.h"
 
-#include "aiferry.h"
+#include "daiferry.h"
 
  
 /* =================== constants with special meaning =================== */
