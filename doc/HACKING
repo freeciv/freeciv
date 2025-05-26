@@ -1204,25 +1204,19 @@ under our control, and all output to the command line must be converted.
 Debugging and Profiling
 ===========================================================================
 
-Debugging has to be activated on compile time. For autotools based builds
-that's done by adding the option '--enable-debug=no/some/yes/checks'
-to the configure script. See m4/debug.m4 for exact compiler flags each
-value sets. The different values have roughly the following meaning:
+Debugging has to be activated on compile time. That's done by adding
+the option '-Ddebug=true' to the meson configure.
+When debugging is enabled:
+  - FREECIV_DEBUG is defined
+  - Debugging log level available ("debug", log_debug())
 
-  no:     no debugging enabled(FREECIV_NDEBUG and NDEBUG are defined)
-          additional compiler flags for optimisation (-O3 -fomit-frame-pointer)
-  some:   default build (neither FREECIV_NDEBUG nor FREECIV_DEBUG is defined)
-  yes:    debugging enable (FREECIV_DEBUG is defined)
-          debugging log level available ("debug", log_debug())
-          more compiler warning flags than with lower debug levels
-  checks: same as 'yes' but with additional compiler check that are not
-          even expected to work on all configurations
-
-Profiling is enabled by '--enable-gprof'. After the compilation run freeciv
-normally. It will be 5 to 10 times slower due to the added calls to the
-profiling functions. After freeciv quits normally (not after a crash) the
-file gmon.out is written. It can be analyzed by calling
-'gprof ./server/freeciv-server gmon.out > gprof.txt'. More information can
-be found at http://sourceware.org/binutils/docs/gprof/index.html.
+On autotools based builds profiling is enabled by '--enable-gprof'.
+After the compilation run freeciv normally. It will be 5 to 10 times
+slower due to the added calls to the profiling functions.
+After freeciv quits normally (not after a crash) the file gmon.out
+is written. It can be analyzed by calling
+'gprof ./server/freeciv-server gmon.out > gprof.txt'.
+More information can be found at
+https://sourceware.org/binutils/docs/gprof/index.html.
 
 ===========================================================================
