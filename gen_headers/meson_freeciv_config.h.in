@@ -78,6 +78,9 @@
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
+/* No freeciv specific debugging support at all */
+#mesondefine FREECIV_NDEBUG
+
 /* Winsock available */
 #mesondefine FREECIV_HAVE_WINSOCK
 

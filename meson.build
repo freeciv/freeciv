@@ -109,6 +109,10 @@ else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
 
+if get_option('buildtype') == 'release'
+  pub_conf_data.set('FREECIV_NDEBUG', 1)
+endif
+
 if host_system == 'windows'
   storage_dir = '"~\\\\.freeciv"'
   storage_dir = '~\\\\.freeciv'
