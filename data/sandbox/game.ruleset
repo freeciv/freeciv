@@ -948,4 +948,5 @@ set =
       "northlatitude", 1000, TRUE
       "southlatitude", -1000, TRUE
       "disasters", 100, FALSE
+      "animals", 14, FALSE
     }

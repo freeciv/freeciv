@@ -833,4 +833,5 @@ set =
       "revolentype", "RANDQUICK"
       "tradeworldrelpct", 100
       "disasters", 100
+      "animals", 14
     }
