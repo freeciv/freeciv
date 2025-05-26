@@ -367,7 +367,7 @@ struct named_sprites {
     enum extrastyle_id extrastyle;
     union {
       struct anim *single;
-      struct sprite *cardinals[MAX_INDEX_CARDINAL];
+      struct anim *cardinals[MAX_INDEX_CARDINAL];
       struct {
         struct anim
           *foreground,
@@ -4129,13 +4129,11 @@ void tileset_setup_extra(struct tileset *t,
         for (i = 0; i < t->num_index_cardinal; i++) {
           fc_snprintf(buffer, sizeof(buffer), "%s_%s",
                       tag, cardinal_index_str(t, i));
-          t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer,
-                                                             TRUE, TRUE, FALSE);
-          if (!t->sprites.extras[id].u.cardinals[i]) {
-            t->sprites.extras[id].u.cardinals[i] = load_sprite(t, tag,
-                                                               TRUE, TRUE, FALSE);
+          t->sprites.extras[id].u.cardinals[i] = anim_load(t, buffer, 0);
+          if (t->sprites.extras[id].u.cardinals[i] == nullptr) {
+            t->sprites.extras[id].u.cardinals[i] = anim_load(t, tag, 0);
           }
-          if (!t->sprites.extras[id].u.cardinals[i]) {
+          if (t->sprites.extras[id].u.cardinals[i] == nullptr) {
             tileset_error(LOG_FATAL, tileset_name_get(t),
                           _("No cardinal-style graphics \"%s*\" for "
                             "extra \"%s\""),
@@ -5263,7 +5261,7 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
           if (!hidden) {
             int idx = get_irrigation_index(t, pextra, textras_near);
 
-            ADD_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[idx]);
+            ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[eidx].u.cardinals[idx]);
           }
         }
       }
@@ -7456,7 +7454,7 @@ int fill_basic_extra_sprite_array(const struct tileset *t,
     ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.single);
     break;
   case ESTYLE_CARDINALS:
-    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.cardinals[0]);
+    ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.cardinals[0]);
     break;
   case ESTYLE_ROAD_ALL_SEPARATE:
   case ESTYLE_ROAD_PARITY_COMBINED:

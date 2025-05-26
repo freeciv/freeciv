@@ -113,8 +113,8 @@ tiles = { "row", "column", "tag"
 
 ; Other extras
  0,  6, "tx.oil_mine:0"
- 1,  6, "tx.irrigation"
- 2,  6, "tx.farmland"
+ 1,  6, "tx.irrigation:0"
+ 2,  6, "tx.farmland:0"
  3,  6, "tx.mine:0"
  4,  6, "tx.pollution:0"
  5,  6, "tx.village:0"

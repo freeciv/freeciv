@@ -488,8 +488,8 @@ tiles = { "row", "column", "tag"
 
 ; Terrain improvements and similar:
 
- 16,  0, "tx.farmland"
- 16,  1, "tx.irrigation"
+ 16,  0, "tx.farmland:0"
+ 16,  1, "tx.irrigation:0"
  16,  2, "tx.mine:0"
  16,  3, "tx.oil_mine:0"
  16,  4, "tx.pollution:0"
