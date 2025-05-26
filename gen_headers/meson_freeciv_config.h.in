@@ -97,6 +97,9 @@
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
+/* No freeciv specific debugging support at all */
+#mesondefine FREECIV_NDEBUG
+
 /* Testmatic integration enabled */
 #mesondefine FREECIV_TESTMATIC
 
