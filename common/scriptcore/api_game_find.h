@@ -63,6 +63,9 @@ Terrain *api_find_terrain_by_name(lua_State *L, const char *name_orig);
 Achievement *api_find_achievement(lua_State *L, int achievement_id);
 Achievement *api_find_achievement_by_name(lua_State *L, const char *name_orig);
 
+Specialist *api_find_specialist_by_name(lua_State *L, const char *name_orig);
+Specialist *api_find_specialist(lua_State *L, int spec_id);
+
 Disaster *api_find_disaster(lua_State *L, int disaster_id);
 Disaster *api_find_disaster_by_name(lua_State *L, const char *name_orig);
 

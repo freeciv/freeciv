@@ -52,6 +52,7 @@ do
     "Disaster",
     "Achievement",
     "Action",
+    "Specialist",
     "Direction",
     "Game_Info"
   }

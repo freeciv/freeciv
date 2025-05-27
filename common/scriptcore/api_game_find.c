@@ -319,6 +319,27 @@ Achievement *api_find_achievement_by_name(lua_State *L, const char *name_orig)
 }
 
 /**********************************************************************//**
+  Return the specialist with the given name_orig.
+**************************************************************************/
+Specialist *api_find_specialist_by_name(lua_State *L, const char *name_orig)
+{
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, name_orig, 2, string, nullptr);
+
+  return specialist_by_rule_name(name_orig);
+}
+
+/**********************************************************************//**
+  Return the specialist with the given spec_id index.
+**************************************************************************/
+Specialist *api_find_specialist(lua_State *L, int spec_id)
+{
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+
+  return specialist_by_number((Specialist_type_id) spec_id);
+}
+
+/**********************************************************************//**
   Return the disaster with the given disaster_id index.
 **************************************************************************/
 Disaster *api_find_disaster(lua_State *L, int disaster_id)

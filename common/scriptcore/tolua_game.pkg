@@ -116,6 +116,10 @@ struct Action {
   const int id;
 };
 
+struct Specialist {
+  const int item_number @ id;
+};
+
 struct Direction {
   /* nothing here, it's enum */
 };
@@ -541,6 +545,14 @@ module Action {
     @ target_kind (lua_State *L, Action *self);
 }
 
+/* Module Specialist */
+module Specialist {
+  const char *api_methods_specialist_rule_name
+    @ rule_name (lua_State *L, Specialist *self);
+  const char *api_methods_specialist_name_translation
+    @ name_translation (lua_State *L, Specialist *self);
+}
+
 /* Module Unit_List_Link. */
 module Unit_List_Link {
   Unit *api_methods_unit_list_link_data
@@ -615,6 +627,10 @@ module find {
     @ achievement (lua_State *L, const char *name_orig);
   Achievement *api_find_achievement
     @ achievement (lua_State *L, int achievement_id);
+  Specialist *api_find_specialist_by_name
+    @ specialist (lua_State *L, const char *name_orig);
+  Specialist *api_find_specialist
+    @ specialist (lua_State *L, int spec_id);
   Disaster *api_find_disaster_by_name
     @ disaster (lua_State *L, const char *name_orig);
   Disaster *api_find_disaster
