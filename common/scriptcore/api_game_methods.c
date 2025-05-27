@@ -1101,6 +1101,29 @@ const char *api_methods_action_target_kind(lua_State *L, Action *pact)
 }
 
 /**********************************************************************//**
+  Return specialist rule name
+**************************************************************************/
+const char *api_methods_specialist_rule_name(lua_State *L, Specialist *s)
+{
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, s, nullptr);
+
+  return specialist_rule_name(s);
+}
+
+/**********************************************************************//**
+  Return translated name for specialist
+**************************************************************************/
+const char *api_methods_specialist_name_translation(lua_State *L,
+                                                    Specialist *s)
+{
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, s, nullptr);
+
+  return specialist_plural_translation(s);
+}
+
+/**********************************************************************//**
   Return the native x coordinate of the tile.
 **************************************************************************/
 int api_methods_tile_nat_x(lua_State *L, Tile *ptile)

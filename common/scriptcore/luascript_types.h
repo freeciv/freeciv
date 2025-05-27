@@ -33,6 +33,7 @@ extern "C" {
 #include "improvement.h"
 #include "nation.h"
 #include "player.h"
+#include "specialist.h"
 #include "tech.h"
 #include "terrain.h"
 #include "tile.h"
@@ -60,6 +61,7 @@ typedef enum direction8 Direction;
 typedef struct disaster_type Disaster;
 typedef struct achievement Achievement;
 typedef struct action Action;
+typedef struct specialist Specialist;
 typedef struct packet_game_info Game_Info;
 
 typedef void Nonexistent;
@@ -108,6 +110,8 @@ typedef const struct city_list_link City_List_Link;
 #define SPECENUM_VALUE16NAME "Achievement"
 #define SPECENUM_VALUE17      API_TYPE_ACTION
 #define SPECENUM_VALUE17NAME "Action"
+#define SPECENUM_VALUE18      API_TYPE_SPECIALIST
+#define SPECENUM_VALUE18NAME "Specialist"
 #include "specenum_gen.h"
 
 #ifdef __cplusplus
