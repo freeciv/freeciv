@@ -14,7 +14,7 @@
 #***********************************************************************/
 
 # The revision from the old branch to pick if no revision is specified
-DEFAULT_REVISION="47d50855ff"
+DEFAULT_REVISION="6e739ceb06"
 
 # The branch of the previous version
 PREVIOUS_BRANCH="S3_3"
