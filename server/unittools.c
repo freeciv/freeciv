@@ -4098,6 +4098,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   bool unit_lives;
   bool adj;
   enum direction8 facing;
+  bool flagless = unit_has_type_flag(punit, UTYF_FLAGLESS);
 
   /* Some checks. */
   fc_assert_ret_val(punit != NULL, FALSE);
@@ -4285,7 +4286,13 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   if (unit_lives) {
     wakeup_neighbor_sentries(punit);
   }
-  unit_make_contact(punit, pdesttile, pplayer);
+
+  /* Do not pass 'punit' to unit_make_contact(), as it
+   * might refer to a dead unit.
+   * Flagless units do not make contact. */
+  if (!flagless) {
+    unit_make_contact(nullptr, pdesttile, pplayer);
+  }
 
   if (unit_lives) {
     /* Special checks for ground units in the ocean. */
@@ -5183,13 +5190,15 @@ void random_movements(struct player *pplayer)
   owner if nullptr, but they may be different.
 **************************************************************************/
 void unit_make_contact(const struct unit *punit,
-                       struct tile *ptile, struct player *pplayer) {
-  fc_assert_ret(punit != nullptr);
+                       struct tile *ptile, struct player *pplayer)
+{
+  fc_assert_ret(punit != nullptr
+                || (ptile != nullptr && pplayer != nullptr));
 
-  if (unit_has_type_flag(punit, UTYF_FLAGLESS)) {
+  if (punit != nullptr && unit_has_type_flag(punit, UTYF_FLAGLESS)) {
     return; /* Flagless unit can't make contact */
   }
 
-  maybe_make_contact(ptile ? ptile : unit_tile(punit),
-                     pplayer ? pplayer : unit_owner(punit));
+  maybe_make_contact(ptile != nullptr ? ptile : unit_tile(punit),
+                     pplayer != nullptr ? pplayer : unit_owner(punit));
 }
