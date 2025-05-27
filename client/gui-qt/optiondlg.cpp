@@ -477,14 +477,8 @@ void option_dialog::set_button_color(QPushButton *button,
   if (button != nullptr && colorname != nullptr && colorname[0] != '\0') {
     QString s1 = "QPushButton { background-color: ";
     QString s2 = ";}";
-    QColor col;
+    QColor col = QColor::fromString(colorname);
 
-#ifdef FC_QT6X_MODE
-    // Qt-6.4
-    col = QColor::fromString(colorname);
-#else  // FC_QT6X_MODE
-    col.setNamedColor(colorname);
-#endif // FC_QT6X_MODE
     button->setStyleSheet(s1 + col.name() + s2);
   }
 }
@@ -725,12 +719,7 @@ void option_dialog::add_option(struct option *poption)
     button->setObjectName("text_color");
     button->setAutoFillBackground(true);
     button->setAutoDefault(false);
-#ifdef FC_QT6X_MODE
-    // Qt-6.4
     c = QColor::fromString(ft_color.foreground);
-#else  // FC_QT6X_MODE
-    c.setNamedColor(ft_color.foreground);
-#endif // FC_QT6X_MODE
     pal = button->palette();
     pal.setColor(QPalette::Button, c);
     button->setPalette(pal);
@@ -742,12 +731,7 @@ void option_dialog::add_option(struct option *poption)
     button->setObjectName("text_background");
     button->setAutoFillBackground(true);
     button->setAutoDefault(false);
-#ifdef FC_QT6X_MODE
-    // Qt-6.4
     c = QColor::fromString(ft_color.background);
-#else  // FC_QT6X_MODE
-    c.setNamedColor(ft_color.background);
-#endif // FC_QT6X_MODE
     pal = button->palette();
     pal.setColor(QPalette::Button, c);
     button->setPalette(pal);
