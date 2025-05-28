@@ -1871,6 +1871,8 @@ static void migrate_options_from_gtk3_22(void)
   MIGRATE_OPTION(chatline_autocompletion);
   MIGRATE_OPTION(citydlg_xsize);
   MIGRATE_OPTION(citydlg_ysize);
+  MIGRATE_OPTION(helpdlg_xsize);
+  MIGRATE_OPTION(helpdlg_ysize);
   MIGRATE_OPTION(popup_tech_help);
 
   MIGRATE_STR_OPTION(font_city_label);
