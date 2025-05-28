@@ -22,6 +22,37 @@
 
 #include "fcthread.h"
 
+static at_thread_exit_cb *ate_cb = NULL;
+
+/*******************************************************************//**
+  Register callback to be called whenever a thread finishes.
+  This can be called only once. Latter calls will cause an error message
+  and return FALSE.
+***********************************************************************/
+bool register_at_thread_exit_callback(at_thread_exit_cb *cb)
+{
+  if (ate_cb != NULL) {
+    log_error("Trying to register multiple at_thread_exit callbacks.");
+    log_error("That's not supported yet.");
+
+    return FALSE;
+  }
+
+  ate_cb = cb;
+
+  return TRUE;
+}
+
+/*******************************************************************//**
+  Called at thread exit by all the thread implementations.
+***********************************************************************/
+static void at_thread_exit(void)
+{
+  if (ate_cb != NULL) {
+    ate_cb();
+  }
+}
+
 #ifdef FREECIV_C11_THR
 
 struct fc_thread_wrap_data {
@@ -40,6 +71,8 @@ static int fc_thread_wrapper(void *arg)
   data->func(data->arg);
 
   free(data);
+
+  at_thread_exit();
 
   return EXIT_SUCCESS;
 }
@@ -171,6 +204,8 @@ static void *fc_thread_wrapper(void *arg)
   data->func(data->arg);
 
   free(data);
+
+  at_thread_exit();
 
   return NULL;
 }
@@ -317,6 +352,8 @@ static DWORD WINAPI fc_thread_wrapper(LPVOID arg)
   data->func(data->arg);
 
   free(data);
+
+  at_thread_exit();
 
   return 0;
 }

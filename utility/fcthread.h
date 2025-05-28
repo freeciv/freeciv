@@ -86,6 +86,10 @@ void fc_thread_cond_signal(fc_thread_cond *cond);
 
 bool has_thread_cond_impl(void);
 
+typedef void (at_thread_exit_cb)(void);
+
+bool register_at_thread_exit_callback(at_thread_exit_cb *cb);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
