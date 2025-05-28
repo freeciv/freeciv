@@ -215,6 +215,46 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
     int clean_time = -1, pillage_time = -1;
     bool terrain_independent_extras = FALSE;
 
+    /* Special handling for transform.
+     * Transforming from a land to ocean, or from ocean to land, may require
+     * a number of adjacent tiles of the right terrain class. If so,
+     * we provide that bit of info.
+     * The terrain.ruleset file may include a transform from a land to
+     * ocean, or from ocean to land, which then is not possible because
+     * the value of land_channel_requirement or ocean_reclaim_requirement
+     * prevents it. 101 is the value that prevents it. */
+    bool can_transform_water2land =
+         (terrain_control.ocean_reclaim_requirement_pct < 101);
+    bool can_transform_land2water =
+         (terrain_control.land_channel_requirement_pct < 101);
+    int num_adj_tiles = wld.map.num_valid_dirs;
+    int num_land_tiles_needed =
+        ceil((terrain_control.ocean_reclaim_requirement_pct/100.0) *
+              num_adj_tiles);
+    int num_water_tiles_needed =
+        ceil((terrain_control.land_channel_requirement_pct/100.0) *
+              num_adj_tiles);
+
+    if (can_transform_water2land && num_land_tiles_needed > 0) {
+      cat_snprintf(outbuf, outlen,
+          PL_("To transform a water tile to a land tile, the water tile "
+              "must have %d adjacent land tile.\n",
+              "To transform a water tile to a land tile, the water tile "
+              "must have %d adjacent land tiles.\n",
+              num_land_tiles_needed),
+          num_land_tiles_needed);
+    }
+    if (can_transform_land2water && num_water_tiles_needed > 0) {
+      cat_snprintf(outbuf, outlen,
+          PL_("To transform a land tile to a water tile, the land tile "
+              "must have %d adjacent water tile.\n",
+              "To transform a land tile to a water tile, the land tile "
+              "must have %d adjacent water tiles.\n",
+              num_water_tiles_needed),
+          num_water_tiles_needed);
+    }
+    CATLSTR(outbuf, outlen, "\n");
+
     CATLSTR(outbuf, outlen,
             /* TRANS: Header for fixed-width terrain alteration table.
              * TRANS: Translators cannot change column widths :( */
@@ -253,6 +293,24 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                                             NULL, &for_terr)) ? ""
           : terrain_name_translation(pterrain->transform_result);
 
+        /* More special handling for transform.
+         * Check if it is really possible. */
+        if (strcmp(transform_result, "") != 0
+            && pterrain->transform_result != T_NONE) {
+          enum terrain_class ter_class =
+               terrain_type_terrain_class(pterrain);
+          enum terrain_class trans_ter_class =
+               terrain_type_terrain_class(pterrain->transform_result);
+          if (!can_transform_water2land
+              && ter_class == TC_OCEAN && trans_ter_class == TC_LAND) {
+            transform_result = "";
+          }
+          if (!can_transform_land2water
+              && ter_class == TC_LAND && trans_ter_class == TC_OCEAN) {
+            transform_result = "";
+          }
+        }
+
         /* Use get_internal_string_length() for correct alignment with
          * multibyte character encodings */
         tslen = 12 - (int)get_internal_string_length(terrain);
@@ -268,7 +326,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->plant_result == T_NONE) ? "-" : plant_time,
             plant_result,
             MAX(0, pslen), "",
-            (pterrain->transform_result == T_NONE) ? "-" : transform_time,
+            (!strcmp(transform_result, "")) ? "-" : transform_time,
             transform_result);
 
         if (clean_time != 0) {
