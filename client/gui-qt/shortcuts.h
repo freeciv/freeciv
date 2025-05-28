@@ -177,7 +177,6 @@ public:
   fc_sc_button();
   fc_sc_button(fc_shortcut *s);
   fc_shortcut *sc;
-  fc_shortcut *sc_orig;
   void show_info(QString str);
 private slots:
   void popup_error();
@@ -204,4 +203,4 @@ private slots:
   void edit_shortcut();
 };
 
-#endif /* FC__SHORTCUSDLG_H */
+#endif // FC__SHORTCUTSDLG_H
