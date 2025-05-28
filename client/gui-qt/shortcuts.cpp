@@ -527,7 +527,8 @@ fc_sc_button::fc_sc_button(): QPushButton()
 **************************************************************************/
 fc_sc_button::fc_sc_button(fc_shortcut *s): QPushButton()
 {
-  sc_orig = s;
+  fc_shortcut *sc_orig = s;
+
   sc = new fc_shortcut;
   sc->id = sc_orig->id;
   sc->key = sc_orig->key;
