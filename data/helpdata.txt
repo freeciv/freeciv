@@ -1346,10 +1346,9 @@ expect to have no movement points left.\
 
 [help_counters]
 name = "Counters"
-text = _("Counters are currently hard-coded entity, which value could been \
-tested to fire various possibilities, like allowing to build unit, or to \
-enabling effect (reduce/increase production), etc. Currently only city \
-counters are supported.")
+text = _("Once a counter for a specific thing, such as turns since \
+the city was conquered, reach its trigger value, ruleset specified \
+effects are enabled.")
 
 [help_gen_counters]
 generate = " Counters"
