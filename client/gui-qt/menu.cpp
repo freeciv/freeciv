@@ -2736,7 +2736,7 @@ void mr_menu::slot_conn_road()
 }
 
 /**********************************************************************//**
-  Action "TRANSFROM TERRAIN"
+  Action "TRANSFORM TERRAIN"
 **************************************************************************/
 void mr_menu::slot_transform()
 {
