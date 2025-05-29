@@ -77,6 +77,11 @@ echo "Freeciv build successful!"
 echo "Checking rulesets"
 ninja rulesets_not_broken.sh
 ./rulesets_not_broken.sh
+
+# Check ruleset saving
+echo "Checking ruleset saving"
+ninja rulesets_save.sh
+./rulesets_save.sh
 ;;
 
 "mac-meson")
@@ -215,10 +220,6 @@ cd build
 make -s -j$(nproc)
 make install
 echo "Freeciv build successful!"
-
-# Check ruleset saving
-echo "Checking ruleset saving"
-./tests/rulesets_save.sh
 
 # Check ruleset upgrade
 echo "Ruleset upgrade"
