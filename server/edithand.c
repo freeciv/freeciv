@@ -19,6 +19,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
@@ -360,7 +361,9 @@ void handle_edit_tile_extra(struct connection *pc, int tile,
     return;
   }
 
-  if (eowner != MAP_TILE_OWNER_NULL) {
+  if (eowner != MAP_TILE_OWNER_NULL
+      && (eowner != MAX_UINT8
+          || has_capability("ownernull16", pc->capability))) {
     plr_eowner = player_by_number(eowner);
   } else {
     plr_eowner = NULL;
@@ -392,7 +395,9 @@ void handle_edit_tile(struct connection *pc,
     return;
   }
 
-  if (packet->eowner != MAP_TILE_OWNER_NULL) {
+  if (packet->eowner != MAP_TILE_OWNER_NULL
+      && (packet->eowner != MAX_UINT8
+          || has_capability("ownernull16", pc->capability))) {
     eowner = player_by_number(packet->eowner);
   } else {
     eowner = NULL;
