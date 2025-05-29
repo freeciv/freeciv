@@ -566,7 +566,7 @@ extern const int DIR_DX[8];
 extern const int DIR_DY[8];
 
 /* Used for network transmission; do not change. */
-#define MAP_TILE_OWNER_NULL	 MAX_UINT8
+#define MAP_TILE_OWNER_NULL	 MAX_UINT16
 
 #define MAP_DEFAULT_HUTS         15
 #define MAP_MIN_HUTS             0

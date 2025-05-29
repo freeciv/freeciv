@@ -20,6 +20,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
@@ -1628,7 +1629,9 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
   if (ptile->extras_owner != NULL) {
     packet->eowner = player_number(ptile->extras_owner);
   } else {
-    packet->eowner = MAP_TILE_OWNER_NULL;
+    packet->eowner
+      = has_capability("ownernull16", client.conn.capability)
+        ? MAP_TILE_OWNER_NULL : MAX_UINT8;
   }
 
   if (ptile->label == NULL) {
