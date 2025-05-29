@@ -60,6 +60,7 @@
 #include "specialist.h"
 #include "style.h"
 #include "tech.h"
+#include "tiledef.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unittype.h"
@@ -102,6 +103,7 @@
 #define BASE_SECTION_PREFIX "base_"
 #define ROAD_SECTION_PREFIX "road_"
 #define RESOURCE_SECTION_PREFIX "resource_"
+#define TILEDEF_SECTION_PREFIX "tiledef_"
 #define GOODS_SECTION_PREFIX "goods_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
 #define SUPER_SPECIALIST_SECTION_PREFIX "super_specialist_"
@@ -118,7 +120,7 @@
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 #define check_cityname(name) (check_strlen(name, MAX_LEN_CITYNAME, NULL))
 
-/* avoid re-reading files */
+/* Avoid re-reading files */
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define MAX_SECTION_LABEL 64
 #define section_strlcpy(dst, src) \
@@ -128,6 +130,7 @@ static char *terrain_sections = NULL;
 static char *extra_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
+static char *tiledef_sections = nullptr;
 
 static struct requirement_vector reqs_list;
 
@@ -2851,7 +2854,7 @@ static bool load_terrain_names(struct section_file *file,
   if (ok) {
     game.control.terrain_count = nval;
 
-    /* avoid re-reading files */
+    /* Avoid re-reading files */
     if (terrain_sections) {
       free(terrain_sections);
     }
@@ -2873,9 +2876,7 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
-  game.control.num_tiledef_types = 0;
-
-  /* extra names */
+  /* Extra names */
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, EXTRA_SECTION_PREFIX);
@@ -3069,6 +3070,46 @@ static bool load_terrain_names(struct section_file *file,
                       "Resource section %s does not list extra this resource belongs to.",
                       sec_name);
         ok = FALSE;
+      }
+    }
+  }
+
+  section_list_destroy(sec);
+  sec = nullptr;
+
+  /* Tiledef names */
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, TILEDEF_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_TILEDEFS) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": Too many tiledefs (%d, max %d)",
+                    filename, nval, MAX_TILEDEFS);
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
+    int idx;
+
+    game.control.num_tiledef_types = nval;
+
+    if (tiledef_sections) {
+      free(tiledef_sections);
+    }
+    tiledef_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    if (ok) {
+      for (idx = 0; idx < nval; idx++) {
+        const char *sec_name = section_name(section_list_get(sec, idx));
+        struct tiledef *td = tiledef_by_number(idx);
+
+        if (!ruleset_load_names(&td->name, NULL, file, sec_name)) {
+          ok = FALSE;
+          break;
+        }
+        section_strlcpy(&tiledef_sections[idx * MAX_SECTION_LABEL], sec_name);
       }
     }
   }
@@ -4215,6 +4256,47 @@ static bool load_ruleset_terrain(struct section_file *file,
         }
       } extra_type_iterate_end;
     } extra_type_iterate_end;
+  }
+
+  if (ok) {
+    /* Tiledef details */
+    tiledef_iterate(td) {
+      int tdidx = tiledef_index(td);
+      const char *section = &tiledef_sections[tdidx * MAX_SECTION_LABEL];
+      const char **slist;
+      int ej;
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.extras", section);
+      for (ej = 0; ej < nval; ej++) {
+        const char *sval = slist[ej];
+        struct extra_type *pextra = extra_type_by_rule_name(sval);
+
+        if (pextra != nullptr) {
+          extra_type_list_iterate(td->extras, old_extra) {
+            if (pextra == old_extra) {
+              ruleset_error(nullptr, LOG_ERROR,
+                            "%s: Duplicate extra %s.",
+                            section, extra_rule_name(pextra));
+              ok = FALSE;
+              break;
+            }
+          } extra_type_list_iterate_end;
+
+          if (ok) {
+            extra_type_list_append(td->extras, pextra);
+          }
+        } else {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "%s: Unknown extra name \"%s\".",
+                        section, sval);
+          ok = FALSE;
+        }
+
+        if (!ok) {
+          break;
+        }
+      }
+    } tiledef_iterate_end;
   }
 
   if (ok) {

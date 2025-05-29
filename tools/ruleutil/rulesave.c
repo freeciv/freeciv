@@ -34,6 +34,7 @@
 #include "sex.h"
 #include "specialist.h"
 #include "style.h"
+#include "tiledef.h"
 #include "unittype.h"
 #include "version.h"
 
@@ -3048,6 +3049,29 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       }
     }
   } extra_type_by_cause_iterate_end;
+
+  // comment_tiledefs(sfile);
+
+  sect_idx = 0;
+  tiledef_iterate(td) {
+    char path[512];
+    const char *extra_names[MAX_EXTRA_TYPES];
+    int set_count;
+
+    fc_snprintf(path, sizeof(path), "tiledef_%d", sect_idx++);
+
+    save_name_translation(sfile, &(td->name), path);
+
+    set_count = 0;
+    extra_type_list_iterate(td->extras, pextra) {
+      extra_names[set_count++] = extra_rule_name(pextra);
+    } extra_type_list_iterate_end;
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, extra_names, set_count,
+                             "%s.extras", path);
+    }
+  } tiledef_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
