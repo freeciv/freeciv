@@ -1075,8 +1075,7 @@ static struct terrain *char2terrain(char ch)
 }
 
 /************************************************************************//**
-  Load technology from path_name and if doesn't exist (because savegame
-  is too old) load from path.
+  Load technology from path + "_name".
 ****************************************************************************/
 static Tech_type_id technology_load(struct section_file *file,
                                     const char *path, int plrno)
@@ -1091,7 +1090,7 @@ static Tech_type_id technology_load(struct section_file *file,
   name = secfile_lookup_str(file, path_with_name, plrno);
 
   if (!name || name[0] == '\0') {
-    /* used by researching_saved */
+    /* Used by researching_saved */
     return A_UNKNOWN;
   }
   if (fc_strcasecmp(name, "A_FUTURE") == 0) {

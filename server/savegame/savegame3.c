@@ -1163,8 +1163,7 @@ static char terrain2char(const struct terrain *pterrain)
 }
 
 /************************************************************************//**
-  Load technology from path_name and if doesn't exist (because savegame
-  is too old) load from path.
+  Load technology from path + "_name".
 ****************************************************************************/
 static Tech_type_id technology_load(struct section_file *file,
                                     const char *path, int plrno)
