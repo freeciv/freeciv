@@ -628,7 +628,7 @@ extern const int DIR_DY[8];
 int map_signed_latitude(const struct tile *ptile);
 
 /* Used for network protocol; do not change. */
-#define MAP_TILE_OWNER_NULL      MAX_UINT8
+#define MAP_TILE_OWNER_NULL      MAX_UINT16
 
 #define MAP_DEFAULT_HUTS         15
 #define MAP_MIN_HUTS             0
