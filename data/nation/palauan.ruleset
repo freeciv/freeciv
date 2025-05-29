@@ -4,7 +4,7 @@ name   = _("Palauan")
 plural = _("?plural:Palauans")
 groups = "Modern", "Oceanian"
 legend = _("Palaos is a very little country,\
- with only 20000 inhabitants aproximately.\
+ with only 20000 inhabitants approximately.\
  It is composed of more than 300 islands of volcanic origin.")
 
 leaders = {
