@@ -107,6 +107,10 @@ add_qt6_env() {
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
 
+add_qt6_client_env() {
+  cp $1/bin/Qt6Svg.dll $2/
+}
+
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
   cp $1/bin/SDL2_ttf.dll $2/
@@ -237,7 +241,7 @@ else
     exit 1
   fi
 
-  case $GUI in
+  case "${GUI}" in
     gtk3.22)
       if ! add_gtk3_env "$DLLSPATH" "$INSTDIR" ; then
         echo "Copying gtk3 environment failed!" >&2
@@ -269,6 +273,10 @@ else
       fi
       if ! add_qt6_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying Qt6 environment failed!" >&2
+        exit 1
+      fi
+      if ! add_qt6_client_env "${DLLSPATH}" "${INSTDIR}" ; then
+        echo "Copying Qt6 client environment failed!" >&2
         exit 1
       fi
       ;;
