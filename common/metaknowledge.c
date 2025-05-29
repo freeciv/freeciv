@@ -151,7 +151,7 @@ static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
   Is an evaluation of the requirement accurate when pov_player evaluates
   it?
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
   TODO: Move the data to a data file. That will
@@ -164,12 +164,12 @@ static bool is_req_knowable(const struct player *pov_player,
                             const struct requirement *req,
                             const enum   req_problem_type prob_type)
 {
-  fc_assert_ret_val_msg(NULL != pov_player, FALSE, "No point of view");
+  fc_assert_ret_val_msg(pov_player != nullptr, FALSE, "No point of view");
 
-  if (context == NULL) {
+  if (context == nullptr) {
     context = req_context_empty();
   }
-  if (other_context == NULL) {
+  if (other_context == nullptr) {
     other_context = req_context_empty();
   }
 
@@ -181,7 +181,7 @@ static bool is_req_knowable(const struct player *pov_player,
       || req->source.kind == VUT_MINHP) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      if (context->unit == NULL) {
+      if (context->unit == nullptr) {
         /* The unit may exist but not be passed when the problem type is
          * RPT_POSSIBLE. */
         return prob_type == RPT_CERTAIN;
@@ -206,7 +206,7 @@ static bool is_req_knowable(const struct player *pov_player,
   if (req->source.kind == VUT_UNITSTATE) {
     fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, FALSE, "Wrong range");
 
-    if (context->unit == NULL) {
+    if (context->unit == nullptr) {
       /* The unit may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -235,7 +235,7 @@ static bool is_req_knowable(const struct player *pov_player,
   if (req->source.kind == VUT_MINMOVES) {
     fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, FALSE, "Wrong range");
 
-    if (context->unit == NULL) {
+    if (context->unit == nullptr) {
       /* The unit may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -265,7 +265,7 @@ static bool is_req_knowable(const struct player *pov_player,
     fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL,
                           FALSE, "Wrong range");
 
-    if (context->unit == NULL) {
+    if (context->unit == nullptr) {
       /* The unit may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -286,8 +286,8 @@ static bool is_req_knowable(const struct player *pov_player,
       || req->source.kind == VUT_DIPLREL_UNITANY_O) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      if (other_context->player == NULL
-          || context->player == NULL) {
+      if (other_context->player == nullptr
+          || context->player == nullptr) {
         /* The two players may exist but not be passed when the problem
          * type is RPT_POSSIBLE. */
         return prob_type == RPT_CERTAIN;
@@ -307,7 +307,7 @@ static bool is_req_knowable(const struct player *pov_player,
       /* TODO: Non symmetric diplomatic relationships. */
       break;
     case REQ_RANGE_PLAYER:
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         /* The target player may exist but not be passed when the problem
          * type is RPT_POSSIBLE. */
         return prob_type == RPT_CERTAIN;
@@ -346,7 +346,7 @@ static bool is_req_knowable(const struct player *pov_player,
   }
 
   if (req->source.kind == VUT_MINSIZE) {
-    if (context->city == NULL) {
+    if (context->city == nullptr) {
       /* The city may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -360,7 +360,7 @@ static bool is_req_knowable(const struct player *pov_player,
   if (req->source.kind == VUT_CITYTILE) {
     struct city *pcity;
 
-    if (context->city == NULL) {
+    if (context->city == nullptr) {
       switch (req->source.value.citytile) {
       case CITYT_CENTER:
       case CITYT_SAME_CONTINENT:
@@ -380,7 +380,7 @@ static bool is_req_knowable(const struct player *pov_player,
       }
     }
 
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -446,7 +446,7 @@ static bool is_req_knowable(const struct player *pov_player,
     /* The only legal range when this was written was local. */
     fc_assert(req->range == REQ_RANGE_LOCAL);
 
-    if (context->city == NULL) {
+    if (context->city == nullptr) {
       /* RPT_CERTAIN: Can't be. No city to contain it.
        * RPT_POSSIBLE: A city like that may exist but not be passed. */
       return prob_type == RPT_CERTAIN;
@@ -475,7 +475,7 @@ static bool is_req_knowable(const struct player *pov_player,
       return FALSE;
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
-      if (context->city == NULL) {
+      if (context->city == nullptr) {
         /* RPT_CERTAIN: Can't be. No city to contain it.
          * RPT_POSSIBLE: A city like that may exist but not be passed. */
         return prob_type == RPT_CERTAIN;
@@ -497,7 +497,7 @@ static bool is_req_knowable(const struct player *pov_player,
       /* No way to know if a city has an improvement */
       return FALSE;
     case REQ_RANGE_TILE:
-      if (context->tile == NULL) {
+      if (context->tile == nullptr) {
         /* RPT_CERTAIN: Can't be. No tile to contain it.
          * RPT_POSSIBLE: A tile city like that may exist but not be passed. */
         return prob_type == RPT_CERTAIN;
@@ -551,7 +551,7 @@ static bool is_req_knowable(const struct player *pov_player,
 
   if (req->source.kind == VUT_NATION
       || req->source.kind == VUT_NATIONGROUP) {
-    if (context->player == NULL
+    if (context->player == nullptr
         && (req->range == REQ_RANGE_PLAYER
             || req->range == REQ_RANGE_TEAM
             || req->range == REQ_RANGE_ALLIANCE)) {
@@ -566,7 +566,7 @@ static bool is_req_knowable(const struct player *pov_player,
 
   if (req->source.kind == VUT_ADVANCE || req->source.kind == VUT_TECHFLAG) {
     if (req->range == REQ_RANGE_PLAYER) {
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         /* The player (that may or may not possess the tech) may exist but
          * not be passed when the problem type is RPT_POSSIBLE. */
         return prob_type == RPT_CERTAIN;
@@ -581,7 +581,7 @@ static bool is_req_knowable(const struct player *pov_player,
 
   if (req->source.kind == VUT_GOVERNMENT) {
     if (req->range == REQ_RANGE_PLAYER) {
-      if (context->player == NULL) {
+      if (context->player == nullptr) {
         /* The player (that may or may not possess the tech) may exist but
          * not be passed when the problem type is RPT_POSSIBLE. */
         return prob_type == RPT_CERTAIN;
@@ -593,7 +593,7 @@ static bool is_req_knowable(const struct player *pov_player,
   }
 
   if (req->source.kind == VUT_MAXTILEUNITS) {
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -642,7 +642,7 @@ static bool is_req_knowable(const struct player *pov_player,
       || req->source.kind == VUT_EXTRAFLAG
       || req->source.kind == VUT_ROADFLAG) {
     if (req->range == REQ_RANGE_LOCAL) {
-      if (context->extra == NULL) {
+      if (context->extra == nullptr) {
         /* The extra may exist but not be passed when the problem type is
          * RPT_POSSIBLE. */
         return prob_type == RPT_CERTAIN;
@@ -660,7 +660,7 @@ static bool is_req_knowable(const struct player *pov_player,
       || req->source.kind == VUT_EXTRA
       || req->source.kind == VUT_EXTRAFLAG
       || req->source.kind == VUT_ROADFLAG) {
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -712,7 +712,7 @@ static bool is_req_knowable(const struct player *pov_player,
   }
 
   if (req->source.kind == VUT_MAX_REGION_TILES) {
-    if (context->tile == NULL) {
+    if (context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -751,7 +751,8 @@ static bool is_req_knowable(const struct player *pov_player,
 
   if (req->source.kind == VUT_TILE_REL) {
     enum known_type needed;
-    if (context->tile == NULL || other_context->tile == NULL) {
+
+    if (context->tile == nullptr || other_context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
       return prob_type == RPT_CERTAIN;
@@ -820,7 +821,7 @@ static bool is_req_knowable(const struct player *pov_player,
 /**********************************************************************//**
   Evaluate a single requirement given pov_player's knowledge.
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
   Note: Assumed to use pov_player's data.
@@ -847,7 +848,7 @@ mke_eval_req(const struct player *pov_player,
 /**********************************************************************//**
   Evaluate a requirement vector given pov_player's knowledge.
 
-  context and other_context may be NULL. This is equivalent to passing
+  context and other_context may be nullptr. This is equivalent to passing
   empty contexts.
 
   Note: Assumed to use pov_player's data.
