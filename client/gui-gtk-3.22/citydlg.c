@@ -1873,8 +1873,19 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   int citizen_bar_width, citizen_bar_height;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
+  int num_supers
+    = city_try_fill_superspecialists(pcity,
+                                     ARRAY_SIZE(categories) - num_citizens,
+                                     &categories[num_citizens]);
   cairo_t *cr;
 
+  if (num_supers >= 0) {
+    /* Just draw superspecialists in the common roster */
+    num_citizens += num_supers;
+  } else {
+    /* FIXME: show them in some compact way */
+    num_citizens = ARRAY_SIZE(categories);
+  }
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
   /* last icon is always drawn in full, and so has reserved                */
@@ -1938,9 +1949,13 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   struct city *pcity = pdialog->pcity;
   int granaryturns;
   int non_workers = city_specialists(pcity);
+  int supers = city_superspecialists(pcity);
 
   /* fill the buffers with the necessary info */
-  if (non_workers) {
+  if (supers) {
+    fc_snprintf(buf[INFO_SIZE], sizeof(buf[INFO_SIZE]), "%3d (%3d+%d)",
+                pcity->size, non_workers, supers);
+  } else if (non_workers) {
     fc_snprintf(buf[INFO_SIZE], sizeof(buf[INFO_SIZE]), "%3d (%3d)",
                 pcity->size, non_workers);
   } else {

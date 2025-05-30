@@ -685,7 +685,9 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     struct specialist *s = specialist_by_number(sp);
     char path[512];
 
-    fc_snprintf(path, sizeof(path), "specialist_%d", sect_idx++);
+    fc_snprintf(path, sizeof(path),
+                is_super_specialist_id(sp)
+                ? "super_specialist_%d" : "specialist_%d", sect_idx++);
 
     save_name_translation(sfile, &(s->name), path);
 

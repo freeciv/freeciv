@@ -47,6 +47,7 @@ extern int default_specialist;
 
 /* General specialist accessor functions. */
 Specialist_type_id specialist_count(void);
+Specialist_type_id normal_specialist_count(void);
 Specialist_type_id specialist_index(const struct specialist *sp);
 Specialist_type_id specialist_number(const struct specialist *sp);
 
@@ -57,6 +58,11 @@ struct specialist *specialist_by_translated_name(const char *name);
 const char *specialist_rule_name(const struct specialist *sp);
 const char *specialist_plural_translation(const struct specialist *sp);
 const char *specialist_abbreviation_translation(const struct specialist *sp);
+
+bool is_super_specialist_id(Specialist_type_id sp);
+bool is_normal_specialist_id(Specialist_type_id sp);
+bool is_super_specialist(const struct specialist *sp);
+bool is_normal_specialist(const struct specialist *sp);
 
 /* Ancillary routines */
 const char *specialists_abbreviation_string(void);
@@ -77,6 +83,26 @@ void specialists_free(void);
   for (sp = 0; sp < specialist_count(); sp++) {
 
 #define specialist_type_iterate_end                                         \
+  }                                                                         \
+}
+
+#define normal_specialist_type_iterate(sp)             \
+{                     \
+  Specialist_type_id sp;                \
+                                                                            \
+  for (sp = 0; sp < normal_specialist_count(); sp++) {
+
+#define normal_specialist_type_iterate_end                                         \
+  }                                                                         \
+}
+
+#define super_specialist_type_iterate(sp)             \
+{                     \
+  Specialist_type_id sp;                \
+                                                                            \
+  for (sp = normal_specialist_count(); sp < specialist_count(); sp++) {
+
+#define super_specialist_type_iterate_end                                         \
   }                                                                         \
 }
 

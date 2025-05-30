@@ -61,11 +61,11 @@ static int get_entertainers(const struct city *pcity)
 {
   int providers = 0;
 
-  specialist_type_iterate(i) {
+  normal_specialist_type_iterate(i) {
     if (get_specialist_output(pcity, i, O_LUXURY) >= game.info.happy_cost) {
       providers += pcity->specialists[i];
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   return providers;
 }
@@ -855,14 +855,19 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
 
   case VUT_SPECIALIST:
     if (preq->present) {
+      if (is_super_specialist(preq->source.value.specialist)
+          && pcity->specialists[specialist_index(preq->source.value.specialist)] > 0) {
+        /* The superspecialist won't leave */
+        break;
+      }
       requirement_vector_iterate(&(preq->source.value.specialist)->reqs,
                                  sreq) {
         if (!dai_can_requirement_be_met_in_city(sreq, pplayer, pcity)) {
           return FALSE;
         }
       } requirement_vector_iterate_end;
-    } /* It is always possible to remove a specialist. */
-  break;
+    } /* Almost always there can be a specialist other than given one */
+    break;
 
   case VUT_NATIONALITY:
     /* Crude, but the right answer needs to consider civil wars. */

@@ -74,6 +74,14 @@ Specialist_type_id specialist_count(void)
 }
 
 /**********************************************************************//**
+  Return the number of normal specialist_types.
+**************************************************************************/
+Specialist_type_id normal_specialist_count(void)
+{
+  return game.control.num_normal_specialists;
+}
+
+/**********************************************************************//**
   Return the specialist index.
 
   Currently same as specialist_number(), paired with specialist_count()
@@ -164,6 +172,48 @@ const char *specialist_plural_translation(const struct specialist *sp)
 const char *specialist_abbreviation_translation(const struct specialist *sp)
 {
   return name_translation_get(&sp->abbreviation);
+}
+
+/**********************************************************************//**
+  If this is a superspecialist: is not included into city population,
+  is not controlled by player.
+**************************************************************************/
+bool is_super_specialist_id(Specialist_type_id sp)
+{
+  if (sp >= game.control.num_specialist_types) {
+    return FALSE;
+  }
+  return sp >= game.control.num_normal_specialists;
+}
+
+/**********************************************************************//**
+  If this is a normal specialist: included into city population,
+  can be reassigned by player.
+**************************************************************************/
+bool is_normal_specialist_id(Specialist_type_id sp)
+{
+  if (sp < 0) {
+    return FALSE;
+  }
+  return sp < game.control.num_normal_specialists;
+}
+
+/**********************************************************************//**
+  If this is a superspecialist: is not included into city population,
+  is not controlled by player. Assumes a valid specialist pointer.
+**************************************************************************/
+bool is_super_specialist(const struct specialist *sp)
+{
+  return is_super_specialist_id(specialist_index(sp));
+}
+
+/**********************************************************************//**
+  If this is a normal specialist: included into city population,
+  can be reassigned by player. Assumes a valid specialist pointer.
+**************************************************************************/
+bool is_normal_specialist(const struct specialist *sp)
+{
+  return is_normal_specialist_id(specialist_index(sp));
 }
 
 /**********************************************************************//**

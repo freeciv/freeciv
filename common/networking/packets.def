@@ -1967,6 +1967,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_city_styles;
   UINT16 terrain_count;
   UINT16 num_specialist_types;
+  UINT16 num_normal_specialists;
   UINT16 num_nation_groups;
   UINT16 num_nation_sets;
 

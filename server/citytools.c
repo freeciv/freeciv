@@ -2536,7 +2536,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
                   bool dipl_invest)
 {
   int i;
-  int ppl = 0;
+  int ppl = 0; /* Counter of citizens for sanity check */
 
   fc_assert(!pcity->server.needs_arrange);
 
@@ -2563,7 +2563,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->specialists_size = specialist_count();
   specialist_type_iterate(sp) {
     packet->specialists[sp] = pcity->specialists[sp];
-    ppl += packet->specialists[sp];
+    if (is_normal_specialist_id(sp)) {
+      ppl += packet->specialists[sp];
+    }
   } specialist_type_iterate_end;
 
   /* The nationality of the citizens. */

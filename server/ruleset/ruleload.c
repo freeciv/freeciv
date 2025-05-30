@@ -104,6 +104,7 @@
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define GOODS_SECTION_PREFIX "goods_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
+#define SUPER_SPECIALIST_SECTION_PREFIX "super_specialist_"
 #define TERRAIN_SECTION_PREFIX "terrain_"
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
@@ -206,6 +207,9 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  const char *path,
                                  struct veteran_system **vsystem, char *err,
                                  size_t err_len);
+static bool load_specialist(const struct section *psection,
+                            struct specialist *s,
+                            struct section_file *file);
 
 char *script_buffer = NULL;
 char *parser_buffer = NULL;
@@ -5821,15 +5825,59 @@ static bool load_muuk_as_action_auto(struct section_file *file,
 }
 
 /**********************************************************************//**
+  Load a single specialist or superspecialist section.
+  Return if everything ran ok
+**************************************************************************/
+static bool load_specialist(const struct section *psection,
+                            struct specialist *s,
+                            struct section_file *file)
+{
+  struct requirement_vector *reqs;
+  const char *sec_name = section_name(psection);
+  const char *item, *tag;
+
+  if (!ruleset_load_names(&s->name, nullptr, file, sec_name)) {
+    return FALSE;
+  }
+
+  item = secfile_lookup_str_default(file, untranslated_name(&s->name),
+                                    "%s.short_name", sec_name);
+  name_set(&s->abbreviation, nullptr, item);
+
+  tag = secfile_lookup_str(file, "%s.graphic", sec_name);
+  if (nullptr == tag) {
+    ruleset_error(nullptr, LOG_ERROR,
+                  "\"%s\": No graphic tag for specialist at %s.",
+                  secfile_name(file), sec_name);
+    return FALSE;
+  }
+  sz_strlcpy(s->graphic_str, tag);
+  sz_strlcpy(s->graphic_alt,
+             secfile_lookup_str_default(file, "-",
+                                        "%s.graphic_alt", sec_name));
+
+  reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
+  if (nullptr == reqs) {
+    return FALSE;
+  }
+  requirement_vector_copy(&s->reqs, reqs);
+
+  s->helptext = lookup_strvec(file, sec_name, "helptext");
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load cities.ruleset file
 **************************************************************************/
 static bool load_ruleset_cities(struct section_file *file,
                                 struct rscompat_info *compat)
 {
   const char *filename = secfile_name(file);
-  const char *item;
-  struct section_list *sec;
+  struct section_list *sec, *ssec = nullptr;
+  int specs_count;
   bool ok = TRUE;
+  int i = 0;
 
   if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
@@ -5840,57 +5888,38 @@ static bool load_ruleset_cities(struct section_file *file,
 
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
+
   if (!sec) {
-    ruleset_error(NULL, LOG_ERROR, "\"%s\": No specialists.", filename);
+    ruleset_error(nullptr, LOG_ERROR, "\"%s\": No normal specialists.", filename);
+
     ok = FALSE;
-  } else if (section_list_size(sec) >= SP_MAX) {
-    ruleset_error(NULL, LOG_ERROR,
-                  "\"%s\": Too many specialists (%d, max %d).",
-                  filename, section_list_size(sec), SP_MAX);
-    ok = FALSE;
+  } else {
+    specs_count = section_list_size(sec);
+    ssec = secfile_sections_by_name_prefix(file, SUPER_SPECIALIST_SECTION_PREFIX);
+    /* Superspecialists are optional */
+    if (ssec) {
+      specs_count += section_list_size(ssec);
+    }
+    if (specs_count >= SP_MAX) {
+        ruleset_error(nullptr, LOG_ERROR,
+                      "\"%s\": Too many specialists (%d, max %d).",
+                      filename, specs_count, SP_MAX);
+        ok = FALSE;
+    }
   }
 
-  if (ok) {
-    int i = 0;
-    const char *tag;
 
-    game.control.num_specialist_types = section_list_size(sec);
+  if (ok) {
+    game.control.num_specialist_types = specs_count;
 
     section_list_iterate(sec, psection) {
       struct specialist *s = specialist_by_number(i);
-      struct requirement_vector *reqs;
-      const char *sec_name = section_name(psection);
 
-      if (!ruleset_load_names(&s->name, NULL, file, sec_name)) {
-        ok = FALSE;
+      ok = load_specialist(psection, s, file);
+
+      if (!ok) {
         break;
       }
-
-      item = secfile_lookup_str_default(file, untranslated_name(&s->name),
-                                        "%s.short_name", sec_name);
-      name_set(&s->abbreviation, NULL, item);
-
-      tag = secfile_lookup_str(file, "%s.graphic", sec_name);
-      if (tag == NULL) {
-        ruleset_error(NULL, LOG_ERROR,
-                      "\"%s\": No graphic tag for specialist at %s.",
-                      filename, sec_name);
-        ok = FALSE;
-        break;
-      }
-      sz_strlcpy(s->graphic_str, tag);
-      sz_strlcpy(s->graphic_alt,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.graphic_alt", sec_name));
-
-      reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&s->reqs, reqs);
-
-      s->helptext = lookup_strvec(file, sec_name, "helptext");
 
       if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
         DEFAULT_SPECIALIST = i;
@@ -5899,14 +5928,37 @@ static bool load_ruleset_cities(struct section_file *file,
     } section_list_iterate_end;
   }
 
-  if (ok && DEFAULT_SPECIALIST == -1) {
-    ruleset_error(NULL, LOG_ERROR,
-                  "\"%s\": must have zero reqs for at least one "
-                  "specialist type.", filename);
-    ok = FALSE;
+  if (ok){
+    if (DEFAULT_SPECIALIST == -1) {
+      ruleset_error(nullptr, LOG_ERROR,
+                    "\"%s\": must have zero reqs for at least one "
+                    "specialist type.", filename);
+      ok = FALSE;
+    } else {
+      game.control.num_normal_specialists = i;
+    }
   }
   section_list_destroy(sec);
-  sec = NULL;
+  sec = nullptr;
+
+  if (ssec) {
+    if (ok) {
+      section_list_iterate(ssec, psection) {
+        struct specialist *s = specialist_by_number(i);
+
+        ok = load_specialist(psection, s, file);
+
+        if (!ok) {
+          break;
+        }
+
+        i++;
+      } section_list_iterate_end;
+    }
+
+    section_list_destroy(ssec);
+    ssec = nullptr;
+  }
 
   if (ok) {
     /* City Parameters */

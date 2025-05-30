@@ -4362,6 +4362,11 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }
+  if (is_super_specialist(pspec)) {
+    cat_snprintf(buf, bufsz,
+                 _("Superspecialist: is not counted within city population,"
+                   "\ncan not be assigned to or from another occupation.\n"));
+  }
 
   /* Requirements for this specialist. */
   requirement_vector_iterate(&pspec->reqs, preq) {

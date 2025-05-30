@@ -3303,11 +3303,14 @@ static void redraw_city_dialog(struct city *pcity)
 
   /* count != 0 */
   /* ==================================================== */
-  /* Draw Citizens */
+  /* Draw Citizens and Superspecialists*/
   count = (pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]
            + pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]
-           + city_specialists(pcity));
+           + city_specialists(pcity) + city_superspecialists(pcity));
 
+  /* FIXME: at great counts of superspecialists, the roster gets too crowded. */
+  /* Currently, we just truncate the roster. */
+  count = MAX(count, MAX_CITY_SIZE);
   buf = get_citizen_surface(CITIZEN_HAPPY, 0);
 
   if (count > 13) {
@@ -3324,6 +3327,7 @@ static void redraw_city_dialog(struct city *pcity)
   pcity_dlg->spec_area.y = pwindow->dst->dest_rect.y + dest.y;
   pcity_dlg->spec_area.w = count * step;
   pcity_dlg->spec_area.h = buf->h;
+  limit = dest.x + pcity_dlg->spec_area.w - step; /* Max dest.x to draw */
 
   if (pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]) {
     for (i = 0; i < pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]; i++) {
@@ -3371,6 +3375,10 @@ static void redraw_city_dialog(struct city *pcity)
       buf = adj_surf(get_citizen_surface(CITIZEN_SPECIALIST + spe, i));
 
       for (i = 0; i < pcity->specialists[spe]; i++) {
+        if (dest.x > limit) {
+          /* No place to draw the rest */
+          break;
+        }
         alphablit(buf, NULL, pwindow->dst->surface, &dest, 255);
         dest.x += step;
       }

@@ -3299,10 +3299,10 @@ static void redraw_city_dialog(struct city *pcity)
 
   /* count != 0 */
   /* ==================================================== */
-  /* Draw Citizens */
+  /* Draw Citizens and Superspecialists*/
   count = (pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]
            + pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]
-           + city_specialists(pcity));
+           + city_specialists(pcity) + city_superspecialists(pcity));
 
   buf = get_citizen_surface(CITIZEN_HAPPY, 0);
 

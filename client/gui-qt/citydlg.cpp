@@ -2895,9 +2895,21 @@ void city_dialog::update_citizens()
   QPainter p;
   QPixmap *pix;
   int num_citizens = get_city_citizen_types(dlgcity, FEELING_FINAL, categories);
+  int num_supers
+    = city_try_fill_superspecialists(dlgcity,
+                                     ARRAY_SIZE(categories) - num_citizens,
+                                     &categories[num_citizens]);
+
   int w = tileset_small_sprite_width(tileset) / gui()->map_scale;
   int h = tileset_small_sprite_height(tileset) / gui()->map_scale;
 
+  if (num_supers >= 0) {
+    /* Just draw superspecialists in the common roster */
+    num_citizens += num_supers;
+  } else {
+    /* FIXME: show them in some compact way */
+    num_citizens = ARRAY_SIZE(categories);
+  }
   i = 1 + (num_citizens * 5 / 200);
   w = w  / i;
   QRect source_rect(0, 0, w, h);
@@ -3130,7 +3142,7 @@ void city_dialog::update_info_label()
   char buf_info[NUM_INFO_FIELDS][512];
   char buf_tooltip[NUM_INFO_FIELDS][512];
   int granaryturns;
-  int spec;
+  int spec, supers;
 
   for (int i = 0; i < NUM_INFO_FIELDS; i++) {
     buf_info[i][0] = '\0';
@@ -3139,11 +3151,19 @@ void city_dialog::update_info_label()
 
   // Fill the buffers with the necessary info
   spec = city_specialists(dlgcity);
+  supers = city_superspecialists(dlgcity);
+
   fc_snprintf(buf_info[INFO_CITIZEN], sizeof(buf_info[INFO_CITIZEN]),
               "%3d (%4d)", dlgcity->size, spec);
-  fc_snprintf(buf_tooltip[INFO_CITIZEN], sizeof(buf_tooltip[INFO_CITIZEN]),
-              _("Population: %d, Specialists: %d"),
-              dlgcity->size, spec);
+  if (supers) {
+    fc_snprintf(buf_tooltip[INFO_CITIZEN], sizeof(buf_tooltip[INFO_CITIZEN]),
+                _("Population: %d, Specialists: %d + %d"),
+                dlgcity->size, spec, supers);
+  } else {
+    fc_snprintf(buf_tooltip[INFO_CITIZEN], sizeof(buf_tooltip[INFO_CITIZEN]),
+                _("Population: %d, Specialists: %d"),
+                dlgcity->size, spec);
+  }
   fc_snprintf(buf_info[INFO_FOOD], sizeof(buf_info[INFO_FOOD]), "%3d (%+4d)",
               dlgcity->prod[O_FOOD], dlgcity->surplus[O_FOOD]);
   fc_snprintf(buf_info[INFO_SHIELD], sizeof(buf_info[INFO_SHIELD]),

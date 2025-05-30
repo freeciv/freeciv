@@ -782,7 +782,9 @@ void handle_city_info(const struct packet_city_info *packet)
   }
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = packet->specialists[sp];
-    city_size_add(pcity, pcity->specialists[sp]);
+    if (is_normal_specialist_id(sp)) {
+      city_size_add(pcity, pcity->specialists[sp]);
+    }
   } specialist_type_iterate_end;
 
   if (city_size_get(pcity) != packet->size) {

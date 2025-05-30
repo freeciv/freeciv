@@ -302,9 +302,9 @@ void apply_cmresult_to_city(struct city *pcity,
     }
   } city_tile_iterate_skip_free_worked_end;
 
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     pcity->specialists[sp] = cmr->specialists[sp];
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 }
 
 /**********************************************************************//**
@@ -721,12 +721,12 @@ static citizens city_reduce_specialists(struct city *pcity, citizens change)
 
   fc_assert_ret_val(0 < change, 0);
 
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     citizens fix = MIN(want, pcity->specialists[sp]);
 
     pcity->specialists[sp] -= fix;
     want -= fix;
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   return change - want;
 }

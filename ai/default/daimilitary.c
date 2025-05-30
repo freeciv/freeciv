@@ -1812,13 +1812,13 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   }
 
   if (!martial_need) {
-    specialist_type_iterate(sp) {
+    normal_specialist_type_iterate(sp) {
       if (pcity->specialists[sp] > 0
           && get_specialist_output(pcity, sp, O_LUXURY) > 0) {
         martial_need = TRUE;
         break;
       }
-    } specialist_type_iterate_end;
+    } normal_specialist_type_iterate_end;
   }
 
   if (martial_need

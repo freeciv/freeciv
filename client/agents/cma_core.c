@@ -107,9 +107,9 @@ static bool fc_results_are_equal(const struct cm_result *result1,
   T(disorder);
   T(happy);
 
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     T(specialists[sp]);
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   output_type_iterate(ot) {
     T(surplus[ot]);
@@ -219,7 +219,7 @@ static bool apply_result_on_server(struct city *pcity,
   } city_tile_iterate_skip_free_worked_end;
 
   /* Change the excess non-default specialists to default. */
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     int i;
 
     if (sp == DEFAULT_SPECIALIST) {
@@ -235,7 +235,7 @@ static bool apply_result_on_server(struct city *pcity,
         first_request_id = last_request_id;
       }
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   /* now all surplus people are DEFAULT_SPECIALIST */
 
@@ -260,7 +260,7 @@ static bool apply_result_on_server(struct city *pcity,
 
   /* Set all specialists except DEFAULT_SPECIALIST (all the unchanged
    * ones remain as DEFAULT_SPECIALIST). */
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     int i;
 
     if (sp == DEFAULT_SPECIALIST) {
@@ -276,7 +276,7 @@ static bool apply_result_on_server(struct city *pcity,
         first_request_id = last_request_id;
       }
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   if (last_request_id == 0 || ALWAYS_APPLY_AT_SERVER) {
       /*

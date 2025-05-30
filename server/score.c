@@ -386,9 +386,9 @@ int total_player_citizens(const struct player *pplayer)
                + pplayer->score.unhappy
                + pplayer->score.angry);
 
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     count += pplayer->score.specialists[sp];
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   return count;
 }

@@ -99,8 +99,8 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
     return;
   }
 
-  if (to < 0 || to >= specialist_count()
-      || from < 0 || from >= specialist_count()
+  if (!is_normal_specialist_id(to)
+      || !is_normal_specialist_id(from)
       || !city_can_use_specialist(pcity, to)
       || pcity->specialists[from] == 0) {
     /* This could easily just be due to clicking faster on the specialist
@@ -222,12 +222,12 @@ void handle_city_make_worker(struct player *pplayer,
 
   city_map_update_worker(pcity, ptile);
 
-  specialist_type_iterate(i) {
+  normal_specialist_type_iterate(i) {
     if (pcity->specialists[i] > 0) {
       pcity->specialists[i]--;
       break;
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   city_refresh(pcity);
   sanity_check_city(pcity);

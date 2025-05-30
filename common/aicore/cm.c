@@ -715,8 +715,9 @@ static void apply_solution(struct cm_state *state,
   fc_assert_ret(0 == soln->idle);
 
   /* Clear all specialists, and remove all workers from fields (except
-   * the city center). */
-  memset(&pcity->specialists, 0, sizeof(pcity->specialists));
+   * the city center). Don't touch superspecialists. */
+  memset(&pcity->specialists, 0,
+         sizeof(pcity->specialists[0]) * normal_specialist_count());
 
   city_map_iterate(city_radius_sq, cindex, x, y) {
     if (is_free_worked_index(cindex)) {
@@ -1038,7 +1039,7 @@ static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
 
   /* for each specialist type, create a tile_type that has as production
    * the bonus for the specialist (if the city is allowed to use it) */
-  specialist_type_iterate(i) {
+  normal_specialist_type_iterate(i) {
     if (city_can_use_specialist(pcity, i)) {
       type.spec = i;
       output_type_iterate(output) {
@@ -1047,7 +1048,7 @@ static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
 
       tile_type_lattice_add(lattice, &type, 0);
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 }
 
 /************************************************************************//**
@@ -2240,9 +2241,9 @@ int cm_result_specialists(const struct cm_result *result)
 {
   int count = 0;
 
-  specialist_type_iterate(spec) {
+  normal_specialist_type_iterate(spec) {
     count += result->specialists[spec];
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   return count;
 }

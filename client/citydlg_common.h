@@ -68,6 +68,8 @@ void get_city_dialog_airlift_value(const struct city *pcity,
 
 int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
                            enum citizen_category *categories);
+int city_try_fill_superspecialists(struct city *pcity, int cat_len,
+                                   enum citizen_category *categories);
 void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(struct tile *ptile);

@@ -3337,16 +3337,31 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
 }
 
 /**********************************************************************//**
-  Give the number of specialists in a city.
+  Give the number of citizens who are specialists in a city.
+  Does not count superspecialists
 **************************************************************************/
 citizens city_specialists(const struct city *pcity)
 {
   citizens count = 0;
 
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     fc_assert_ret_val(MAX_CITY_SIZE - count > pcity->specialists[sp], 0);
     count += pcity->specialists[sp];
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
+
+  return count;
+}
+
+/**********************************************************************//**
+  Give the number of superspecialists in a city
+**************************************************************************/
+int city_superspecialists(const struct city *pcity)
+{
+  int count = 0;
+
+  super_specialist_type_iterate(sp) {
+    count += pcity->specialists[sp];
+  } super_specialist_type_iterate_end;
 
   return count;
 }
@@ -3362,7 +3377,7 @@ Specialist_type_id best_specialist(Output_type_id otype,
   int best = DEFAULT_SPECIALIST;
   int val = get_specialist_output(pcity, best, otype);
 
-  specialist_type_iterate(i) {
+  normal_specialist_type_iterate(i) {
     if (!pcity || city_can_use_specialist(pcity, i)) {
       int val2 = get_specialist_output(pcity, i, otype);
 
@@ -3371,7 +3386,7 @@ Specialist_type_id best_specialist(Output_type_id otype,
 	val = val2;
       }
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   return best;
 }

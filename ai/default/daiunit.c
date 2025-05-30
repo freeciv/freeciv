@@ -2788,11 +2788,11 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
     int entertainers = 0;
     bool enough = FALSE;
 
-    specialist_type_iterate(sp) {
+    normal_specialist_type_iterate(sp) {
       if (get_specialist_output(pcity, sp, O_LUXURY) > 0) {
         entertainers += pcity->specialists[sp];
       }
-    } specialist_type_iterate_end;
+    } normal_specialist_type_iterate_end;
 
     martless_unhappy += entertainers; /* We want to use martial law instead
                                        * of entertainers. */

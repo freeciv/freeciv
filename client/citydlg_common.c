@@ -1204,6 +1204,8 @@ void get_city_dialog_airlift_value(const struct city *pcity,
   should be the happiness index from FEELING_BASE to FEELING_FINAL.
   "categories" should be an array large enough to hold all citizens
   (use MAX_CITY_SIZE to be on the safe side).
+  Note that superspecialists are not included. There can be theoretically
+  times more superspecialists working than MAX_CITY_SIZE.
   Return number of categories filled (presumed equal to city size).
 **************************************************************************/
 int get_city_citizen_types(struct city *pcity, enum citizen_feeling idx,
@@ -1226,17 +1228,40 @@ int get_city_citizen_types(struct city *pcity, enum citizen_feeling idx,
     categories[i] = CITIZEN_ANGRY;
   }
 
-  specialist_type_iterate(sp) {
+  normal_specialist_type_iterate(sp) {
     for (n = 0; n < pcity->specialists[sp]; n++, i++) {
       categories[i] = CITIZEN_SPECIALIST + sp;
     }
-  } specialist_type_iterate_end;
+  } normal_specialist_type_iterate_end;
 
   if (city_size_get(pcity) != i) {
     log_error("get_city_citizen_types() %d citizens "
               "not equal %d city size in \"%s\".",
               i, city_size_get(pcity), city_name_get(pcity));
   }
+
+  return i;
+}
+
+/**********************************************************************//**
+  Try to fill city superspecialists into categories[cat_len] array.
+  If succeeds, return how many are filled.
+  If there are too many of them, fill as many as fits
+  and return negative value.
+**************************************************************************/
+int city_try_fill_superspecialists(struct city *pcity, int cat_len,
+                                   enum citizen_category *categories)
+{
+  int i = 0, n;
+
+  super_specialist_type_iterate(sp) {
+    for (n = 0; n < pcity->specialists[sp]; n++, i++) {
+      if (i >= cat_len) {
+        return -1;
+      }
+      categories[i] = CITIZEN_SPECIALIST + sp;
+    }
+  } super_specialist_type_iterate_end;
 
   return i;
 }
@@ -1259,9 +1284,9 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
   /* Loop through all specialists in order until we find a usable one
    * (or run out of choices). */
   to = from;
-  fc_assert(to >= 0 && to < specialist_count());
+  fc_assert(is_normal_specialist_id(to));
   do {
-    to = (to + 1) % specialist_count();
+    to = (to + 1) % normal_specialist_count();
   } while (to != from && !city_can_use_specialist(pcity, to));
 
   if (from != to) {
