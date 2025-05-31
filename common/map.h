@@ -634,7 +634,7 @@ int map_signed_latitude(const struct tile *ptile);
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
 
-#define MAP_DEFAULT_ANIMALS      20
+#define MAP_DEFAULT_ANIMALS      15
 #define MAP_MIN_ANIMALS          0
 #define MAP_MAX_ANIMALS          500
 
