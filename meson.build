@@ -1443,7 +1443,7 @@ ais = static_library('fc_ai',
   'ai/default/daiplayer.c',
   'ai/default/daisettler.c',
   'ai/default/daiunit.c',
-  sources: [verhdr],
+  sources: [verhdr, specenum],
   include_directories: [server_inc, include_directories('ai/default')]
   )
 
