@@ -269,8 +269,8 @@ struct named_sprites {
   struct sprite *government[G_LAST];
 
   struct {
-    struct sprite *icon[U_LAST][ACTIVITY_LAST];
-    struct sprite *facing[U_LAST][DIR8_MAGIC_MAX][ACTIVITY_LAST];
+    struct anim *icon[U_LAST][ACTIVITY_LAST];
+    struct anim *facing[U_LAST][DIR8_MAGIC_MAX][ACTIVITY_LAST];
   } units;
 
   struct sprite_vector nation_flag;
@@ -3886,7 +3886,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   char buf[2048];
   const char *act_name = unit_activity_name(activity);
 
-  if (act_name == NULL) {
+  if (act_name == nullptr) {
     /* gcc-9 thinks this is possible. */
     return FALSE;
   }
@@ -3916,20 +3916,18 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
    * probably meant icon gfx to be used as fallback for all orientations */
-  t->sprites.units.facing[uidx][dir][activity] = load_sprite(t, buf,
-                                                             TRUE, TRUE, FALSE);
+  t->sprites.units.facing[uidx][dir][activity] = anim_load(t, buf, 0);
 
   if (activity == ACTIVITY_IDLE
-      && t->sprites.units.facing[uidx][dir][activity] == NULL) {
+      && t->sprites.units.facing[uidx][dir][activity] == nullptr) {
     /* Backward compatibility: Set Idle sprite from tag with no activity defined. */
     fc_snprintf(buf, sizeof(buf), "%s_%s", base_str,
                 dir_get_tileset_name(loaddir));
 
-    t->sprites.units.facing[uidx][dir][activity] = load_sprite(t, buf,
-                                                               TRUE, TRUE, FALSE);
+    t->sprites.units.facing[uidx][dir][activity] = anim_load(t, buf, 0);
   }
 
-  if (t->sprites.units.facing[uidx][dir][activity] != NULL) {
+  if (t->sprites.units.facing[uidx][dir][activity] != nullptr) {
     return TRUE;
   }
 
@@ -3950,18 +3948,16 @@ static bool tileset_setup_unit_type_from_tag(struct tileset *t,
 
     fc_snprintf(buffer, sizeof(buffer), "%s_%s",
                 tag, unit_activity_name(activity));
-    t->sprites.units.icon[uidx][activity] = load_sprite(t, buffer,
-                                                        TRUE, TRUE, FALSE);
+    t->sprites.units.icon[uidx][activity] = anim_load(t, buffer, 0);
 
     if (activity == ACTIVITY_IDLE
-        && t->sprites.units.icon[uidx][activity] == NULL) {
+        && t->sprites.units.icon[uidx][activity] == nullptr) {
       /* Backward compatibility: Set Idle sprite from tag with no activity defined. */
-      t->sprites.units.icon[uidx][activity] = load_sprite(t, tag,
-                                                          TRUE, TRUE, FALSE);
+      t->sprites.units.icon[uidx][activity] = anim_load(t, tag, 0);
     }
   } activity_type_iterate_end;
 
-  has_icon = t->sprites.units.icon[uidx][ACTIVITY_IDLE] != NULL;
+  has_icon = t->sprites.units.icon[uidx][ACTIVITY_IDLE] != nullptr;
 
 #define LOAD_FACING_SPRITE(dir)                                                 \
   if (!tileset_setup_unit_direction(t, uidx, tag, dir, activity, has_icon)) {   \
@@ -4004,7 +4000,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
       && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)
       && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt2)) {
     tileset_error(LOG_FATAL, tileset_name_get(t),
-                  _("Missing %s unit sprite for tags \"%s\" and alternatives "
+                  _("Missing %s unit sprites for tags \"%s\" and alternatives "
                     "\"%s\" and \"%s\"."),
                   utype_rule_name(ut), ut->graphic_str,
                   ut->graphic_alt, ut->graphic_alt2);
@@ -4013,7 +4009,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
   if (!t->sprites.units.icon[uidx][ACTIVITY_IDLE]) {
     if (!direction8_is_valid(t->unit_default_orientation)) {
       tileset_error(LOG_FATAL, tileset_name_get(t),
-                    _("Unit type %s has no unoriented sprite and "
+                    _("Unit type %s has no unoriented sprites and "
                       "tileset has no unit_default_orientation."),
                     utype_rule_name(ut));
     } else {
@@ -4021,7 +4017,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
        * unit_default_orientation, because tileset_setup_unit_type_from_tag()
        * checked for this. */
       fc_assert(t->sprites.units.facing[uidx][t->unit_default_orientation]
-                != NULL);
+                != nullptr);
     }
   }
 }
@@ -7062,26 +7058,34 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
      * turn out to have an icon sprite */
   }
 
-  if (t->sprites.units.icon[uidx][activity] != NULL
-      && (icon || t->sprites.units.facing[uidx][facing][activity] == NULL)) {
+  if (t->sprites.units.icon[uidx][activity] != nullptr
+      && (icon || t->sprites.units.facing[uidx][facing][activity] == nullptr)) {
     /* Has icon sprite, and we prefer to (or must) use it */
-    return t->sprites.units.icon[uidx][activity];
-  } else if (t->sprites.units.icon[uidx][ACTIVITY_IDLE] != NULL
+    if (icon) {
+      return t->sprites.units.icon[uidx][activity]->sprites[0];
+    } else {
+      return anim_get_current_frame(t->sprites.units.icon[uidx][activity]);
+    }
+  } else if (t->sprites.units.icon[uidx][ACTIVITY_IDLE] != nullptr
              && (icon
-                 || t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE] == NULL)) {
+                 || t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE] == nullptr)) {
     /* Has icon sprite, and we prefer to (or must) use it */
-    return t->sprites.units.icon[uidx][ACTIVITY_IDLE];
+    if (icon) {
+      return t->sprites.units.icon[uidx][ACTIVITY_IDLE]->sprites[0];
+    } else {
+      return anim_get_current_frame(t->sprites.units.icon[uidx][ACTIVITY_IDLE]);
+    }
   } else {
     /* We should have a valid orientation by now. Failure to have either
      * an icon sprite or default orientation should have been caught at
      * tileset load. */
-    fc_assert_ret_val(direction8_is_valid(facing), NULL);
+    fc_assert_ret_val(direction8_is_valid(facing), nullptr);
 
-    if (t->sprites.units.facing[uidx][facing][activity] == NULL) {
-      return t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE];
+    if (t->sprites.units.facing[uidx][facing][activity] == nullptr) {
+      return anim_get_current_frame(t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE]);
     }
 
-    return t->sprites.units.facing[uidx][facing][activity];
+    return anim_get_current_frame(t->sprites.units.facing[uidx][facing][activity]);
   }
 }
 
