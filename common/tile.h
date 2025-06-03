@@ -53,17 +53,17 @@ struct tile {
               * (index_to_native_pos()). */
   Continent_id continent;
   bv_extras extras;
-  struct extra_type *resource;          /* NULL for no resource */
-  struct terrain *terrain;		/* NULL for unknown tiles */
+  struct extra_type *resource;          /* nullptr for no resource */
+  struct terrain *terrain;              /* nullptr for unknown tiles */
   struct unit_list *units;
-  struct city *worked;			/* NULL for not worked */
-  struct player *owner;			/* NULL for not owned */
+  struct city *worked;                  /* nullptr for not worked */
+  struct player *owner;                 /* nullptr for not owned */
   struct extra_type *placing;
   int infra_turns;
   struct player *extras_owner;
   struct tile *claimer;
   int altitude;
-  char *label;                          /* NULL for no label */
+  char *label;                          /* nullptr for no label */
   char *spec_sprite;
 };
 
@@ -102,7 +102,7 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
 
 #define tile_resource(_tile) ((_tile)->resource)
 static inline bool tile_resource_is_valid(const struct tile *ptile)
-{ return ptile->resource != NULL
+{ return ptile->resource != nullptr
     && BV_ISSET(ptile->extras, ptile->resource->id);
 }
 /* const struct resource *tile_resource(const struct tile *ptile); */

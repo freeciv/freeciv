@@ -45,7 +45,7 @@ int tile_index(const struct tile *ptile)
 
 #ifndef tile_owner
 /************************************************************************//**
-  Return the player who owns this tile (or NULL if none).
+  Return the player who owns this tile (or nullptr if none).
 ****************************************************************************/
 struct player *tile_owner(const struct tile *ptile)
 {
@@ -55,7 +55,7 @@ struct player *tile_owner(const struct tile *ptile)
 
 #ifndef tile_claimer
 /************************************************************************//**
-  Return the player who owns this tile (or NULL if none).
+  Return the player who owns this tile (or nullptr if none).
 ****************************************************************************/
 struct tile *tile_claimer(const struct tile *ptile)
 {
@@ -64,35 +64,36 @@ struct tile *tile_claimer(const struct tile *ptile)
 #endif
 
 /************************************************************************//**
-  Set the owner of a tile (may be NULL).
+  Set the owner of a tile (may be nullptr).
 ****************************************************************************/
 void tile_set_owner(struct tile *ptile, struct player *pplayer,
                     struct tile *claimer)
 {
   if (BORDERS_DISABLED != game.info.borders
       /* City tiles are always owned by the city owner. */
-      || (tile_city(ptile) != NULL || ptile->owner != NULL)) {
+      || (tile_city(ptile) != nullptr || ptile->owner != nullptr)) {
     ptile->owner = pplayer;
     ptile->claimer = claimer;
   }
 }
 
 /************************************************************************//**
-  Return the city on this tile (or NULL), checking for city center.
+  Return the city on this tile (or nullptr), checking for city center.
 ****************************************************************************/
 struct city *tile_city(const struct tile *ptile)
 {
   struct city *pcity = ptile->worked;
 
-  if (NULL != pcity && is_city_center(pcity, ptile)) {
+  if (pcity != nullptr && is_city_center(pcity, ptile)) {
     return pcity;
   }
-  return NULL;
+
+  return nullptr;
 }
 
 #ifndef tile_worked
 /************************************************************************//**
-  Return any city working the specified tile (or NULL).
+  Return any city working the specified tile (or nullptr).
 ****************************************************************************/
 struct city *tile_worked(const struct tile *ptile)
 {
@@ -101,7 +102,7 @@ struct city *tile_worked(const struct tile *ptile)
 #endif
 
 /************************************************************************//**
-  Set the city/worker on the tile (may be NULL).
+  Set the city/worker on the tile (may be nullptr).
 ****************************************************************************/
 void tile_set_worked(struct tile *ptile, struct city *pcity)
 {
@@ -124,7 +125,7 @@ struct terrain *tile_terrain(const struct tile *ptile)
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 {
   /* The terrain change is valid if one of the following is TRUE:
-   * - pterrain is NULL (= unknown terrain)
+   * - pterrain is nullptr (= unknown terrain)
    * - ptile is a virtual tile, or otherwise not on the map being checked
    * - pterrain does not has the flag TER_NO_CITIES
    * - there is no city on ptile
@@ -137,11 +138,11 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
   /* Assert disabled for now, so we don't need to make this function
    * care about what map is being changed. */
 #if 0
-  fc_assert_msg(NULL == pterrain
+  fc_assert_msg(pterrain == nullptr
                 || !is_server()
                 || !tile_map_check(nmap, ptile)
                 || !terrain_has_flag(pterrain, TER_NO_CITIES)
-                || NULL == tile_city(ptile),
+                || tile_city(ptile) == nullptr,
                 "At (%d, %d), the terrain \"%s\" (nb %d) doesn't "
                 "support cities, whereas \"%s\" (nb %d) is built there.",
                 TILE_XY(ptile), terrain_rule_name(pterrain),
@@ -150,8 +151,8 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 #endif /* 0 */
 
   ptile->terrain = pterrain;
-  if (ptile->resource != NULL) {
-    if (NULL != pterrain
+  if (ptile->resource != nullptr) {
+    if (pterrain != nullptr
         && terrain_has_resource(pterrain, ptile->resource)) {
       BV_SET(ptile->extras, extra_index(ptile->resource));
     } else {
@@ -161,7 +162,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 }
 
 /************************************************************************//**
-  Returns a bit vector of the extras present at NULL tile.
+  Returns a bit vector of the extras present at nullptr tile.
 ****************************************************************************/
 const bv_extras *tile_extras_null(void)
 {
@@ -352,10 +353,10 @@ void tile_set_resource(struct tile *ptile, struct extra_type *presource)
     return; /* No change */
   }
 
-  if (ptile->resource != NULL) {
+  if (ptile->resource != nullptr) {
     tile_remove_extra(ptile, ptile->resource);
   }
-  if (presource != NULL) {
+  if (presource != nullptr) {
     if (ptile->terrain && terrain_has_resource(ptile->terrain, presource)) {
       tile_add_extra(ptile, presource);
     }
@@ -419,14 +420,14 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
                        const struct extra_type *tgt)
 {
   struct terrain *pterrain = tile_terrain(ptile);
-  int eff = get_target_bonus_effects(NULL,
+  int eff = get_target_bonus_effects(nullptr,
                                      &(const struct req_context) {
                                        .tile = ptile,
                                        .activity = activity,
                                        .extra = tgt
-                                     }, NULL, EFT_ACTIVITY_TIME);
+                                     }, nullptr, EFT_ACTIVITY_TIME);
 
-  fc_assert(tgt != NULL || !is_targeted_activity(activity));
+  fc_assert(tgt != nullptr || !is_targeted_activity(activity));
 
   if (eff > 0) {
     /* Use effect provided value */
@@ -467,9 +468,9 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
 ****************************************************************************/
 static void tile_create_extra(struct tile *ptile, struct extra_type *pextra)
 {
-  if (fc_funcs->create_extra != NULL) {
+  if (fc_funcs->create_extra != nullptr) {
     /* Assume callback calls tile_add_extra() itself. */
-    fc_funcs->create_extra(ptile, pextra, NULL);
+    fc_funcs->create_extra(ptile, pextra, nullptr);
   } else {
     tile_add_extra(ptile, pextra);
   }
@@ -480,7 +481,7 @@ static void tile_create_extra(struct tile *ptile, struct extra_type *pextra)
 ****************************************************************************/
 static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
 {
-  if (fc_funcs->destroy_extra != NULL) {
+  if (fc_funcs->destroy_extra != nullptr) {
     /* Assume callback calls tile_remove_extra() itself. */
     fc_funcs->destroy_extra(ptile, pextra);
   } else {
@@ -609,27 +610,27 @@ bool tile_extra_rm_apply(struct tile *ptile, struct extra_type *tgt)
 }
 
 /************************************************************************//**
-  Build irrigation on the tile.  This may change the extras of the tile
+  Build irrigation on the tile. This may change the extras of the tile
   or change the terrain type itself.
 ****************************************************************************/
 static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
 {
-  fc_assert(tgt != NULL);
+  fc_assert(tgt != nullptr);
 
-  if (tgt != NULL) {
+  if (tgt != nullptr) {
     tile_extra_apply(ptile, tgt);
   }
 }
 
 /************************************************************************//**
-  Build a mine on the tile.  This may change the extras of the tile
+  Build a mine on the tile. This may change the extras of the tile
   or change the terrain type itself.
 ****************************************************************************/
 static void tile_mine(struct tile *ptile, struct extra_type *tgt)
 {
-  fc_assert(tgt != NULL);
+  fc_assert(tgt != nullptr);
 
-  if (tgt != NULL) {
+  if (tgt != nullptr) {
     tile_extra_apply(ptile, tgt);
   }
 }
@@ -954,7 +955,7 @@ bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause)
 ****************************************************************************/
 void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
 {
-  if (pextra != NULL) {
+  if (pextra != nullptr) {
     BV_SET(ptile->extras, extra_index(pextra));
   }
 }
@@ -964,10 +965,10 @@ void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
 ****************************************************************************/
 void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
 {
-  if (pextra != NULL) {
+  if (pextra != nullptr) {
     BV_CLR(ptile->extras, extra_index(pextra));
     if (ptile->resource == pextra) {
-      ptile->resource = NULL;
+      ptile->resource = nullptr;
     }
   }
 }
@@ -1098,24 +1099,24 @@ bool tile_set_label(struct tile *ptile, const char *label)
 {
   bool changed = FALSE;
 
-  /* Handle empty label as NULL label */
-  if (label != NULL && label[0] == '\0') {
-    label = NULL;
+  /* Handle empty label as nullptr label */
+  if (label != nullptr && label[0] == '\0') {
+    label = nullptr;
   }
 
-  if (ptile->label != NULL) {
-    if (label == NULL) {
+  if (ptile->label != nullptr) {
+    if (label == nullptr) {
       changed = TRUE;
     } else if (strcmp(ptile->label, label)) {
       changed = TRUE;
     }
     FC_FREE(ptile->label);
-    ptile->label = NULL;
-  } else if (label != NULL) {
+    ptile->label = nullptr;
+  } else if (label != nullptr) {
     changed = TRUE;
   }
 
-  if (label != NULL) {
+  if (label != nullptr) {
     if (strlen(label) >= MAX_LEN_MAP_LABEL) {
       log_error("Overlong map label '%s'", label);
     }
@@ -1130,5 +1131,5 @@ bool tile_set_label(struct tile *ptile, const char *label)
 ****************************************************************************/
 bool tile_is_placing(const struct tile *ptile)
 {
-  return ptile->placing != NULL;
+  return ptile->placing != nullptr;
 }
