@@ -129,6 +129,16 @@ static void option_dialog_reponse_callback(GtkDialog *dialog,
 static void option_dialog_destroy_callback(GtkWidget *object, gpointer data)
 {
   struct option_dialog *pdialog = (struct option_dialog *) data;
+  GtkWidget* cont_area;
+  GtkAllocation allocation;
+  int           baseline;
+
+  /* Save size of the dialog. */
+  cont_area = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
+  gtk_widget_get_allocated_size(GTK_WIDGET(cont_area),
+                                &allocation, &baseline);
+  GUI_GTK_OPTION(optionsdlg_xsize) = allocation.width;
+  GUI_GTK_OPTION(optionsdlg_ysize) = allocation.height;
 
   if (NULL != pdialog->shell) {
     /* Mark as destroyed, see also option_dialog_destroy(). */
@@ -377,7 +387,9 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   /* Shell */
   setup_dialog(pdialog->shell, toplevel);
   gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
-  gtk_window_set_default_size(GTK_WINDOW(pdialog->shell), -1, 480);
+  gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
+                              GUI_GTK_OPTION(optionsdlg_xsize),
+                              GUI_GTK_OPTION(optionsdlg_ysize));
   g_signal_connect(pdialog->shell, "response",
                    G_CALLBACK(option_dialog_reponse_callback), pdialog);
   g_signal_connect(pdialog->shell, "destroy",

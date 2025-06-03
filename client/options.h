@@ -318,6 +318,8 @@ struct client_options
   int gui_gtk3_22_citydlg_ysize;
   int gui_gtk3_22_helpdlg_xsize;
   int gui_gtk3_22_helpdlg_ysize;
+  int gui_gtk3_22_optionsdlg_xsize;
+  int gui_gtk3_22_optionsdlg_ysize;
   int gui_gtk3_22_popup_tech_help;
   int gui_gtk3_22_governor_range_min;
   int gui_gtk3_22_governor_range_max;
@@ -356,6 +358,8 @@ struct client_options
   int gui_gtk4_citydlg_ysize;
   int gui_gtk4_helpdlg_xsize;
   int gui_gtk4_helpdlg_ysize;
+  int gui_gtk4_optionsdlg_xsize;
+  int gui_gtk4_optionsdlg_ysize;
   int gui_gtk4_popup_tech_help;
   int gui_gtk4_governor_range_min;
   int gui_gtk4_governor_range_max;
@@ -394,6 +398,8 @@ struct client_options
   int gui_gtk5_citydlg_ysize;
   int gui_gtk5_helpdlg_xsize;
   int gui_gtk5_helpdlg_ysize;
+  int gui_gtk5_optionsdlg_xsize;
+  int gui_gtk5_optionsdlg_ysize;
   int gui_gtk5_popup_tech_help;
   int gui_gtk5_governor_range_min;
   int gui_gtk5_governor_range_max;
@@ -675,6 +681,15 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK3_22_HELPDLG_MIN_YSIZE      128
 #define GUI_GTK3_22_HELPDLG_MAX_YSIZE      4096
 
+/* gui-gtk3_22: [xy]size of the options dialog */
+#define GUI_GTK3_22_OPTIONSDLG_DEFAULT_XSIZE  128
+#define GUI_GTK3_22_OPTIONSDLG_MIN_XSIZE      128
+#define GUI_GTK3_22_OPTIONSDLG_MAX_XSIZE      4096
+
+#define GUI_GTK3_22_OPTIONSDLG_DEFAULT_YSIZE  400
+#define GUI_GTK3_22_OPTIONSDLG_MIN_YSIZE      128
+#define GUI_GTK3_22_OPTIONSDLG_MAX_YSIZE      4096
+
 #define GUI_GTK3_22_GOV_RANGE_MIN_DEFAULT  -20
 #define GUI_GTK3_22_GOV_RANGE_MIN_MIN      -100
 #define GUI_GTK3_22_GOV_RANGE_MIN_MAX      0
@@ -701,6 +716,15 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK4_HELPDLG_MIN_YSIZE      128
 #define GUI_GTK4_HELPDLG_MAX_YSIZE      4096
 
+/* gui-gtk4: [xy]size of the options dialog */
+#define GUI_GTK4_OPTIONSDLG_DEFAULT_XSIZE  128
+#define GUI_GTK4_OPTIONSDLG_MIN_XSIZE      128
+#define GUI_GTK4_OPTIONSDLG_MAX_XSIZE      4096
+
+#define GUI_GTK4_OPTIONSDLG_DEFAULT_YSIZE  480
+#define GUI_GTK4_OPTIONSDLG_MIN_YSIZE      128
+#define GUI_GTK4_OPTIONSDLG_MAX_YSIZE      4096
+
 #define GUI_GTK4_GOV_RANGE_MIN_DEFAULT  -20
 #define GUI_GTK4_GOV_RANGE_MIN_MIN      -100
 #define GUI_GTK4_GOV_RANGE_MIN_MAX      0
@@ -726,6 +750,15 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK5_HELPDLG_DEFAULT_YSIZE  512
 #define GUI_GTK5_HELPDLG_MIN_YSIZE      128
 #define GUI_GTK5_HELPDLG_MAX_YSIZE      4096
+
+/* gui-gtk5.0: [xy]size of the options dialog */
+#define GUI_GTK5_OPTIONSDLG_DEFAULT_XSIZE  128
+#define GUI_GTK5_OPTIONSDLG_MIN_XSIZE      128
+#define GUI_GTK5_OPTIONSDLG_MAX_XSIZE      4096
+
+#define GUI_GTK5_OPTIONSDLG_DEFAULT_YSIZE  480
+#define GUI_GTK5_OPTIONSDLG_MIN_YSIZE      128
+#define GUI_GTK5_OPTIONSDLG_MAX_YSIZE      4096
 
 #define GUI_GTK5_GOV_RANGE_MIN_DEFAULT  -20
 #define GUI_GTK5_GOV_RANGE_MIN_MIN      -100
