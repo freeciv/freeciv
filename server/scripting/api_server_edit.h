@@ -80,6 +80,8 @@ void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr);
 void api_edit_remove_building(lua_State *L, City *pcity, Building_Type *impr);
 bool api_edit_city_reduce_specialists(lua_State *L, City *pcity,
                                       Specialist *s, int amount);
+bool api_edit_city_add_specialist(lua_State *L, City *pcity,
+                                  Specialist *s, int amount);
 Player *api_edit_create_player(lua_State *L, const char *username,
                                Nation_Type *pnation, const char *ai);
 void api_edit_change_gold(lua_State *L, Player *pplayer, int amount);

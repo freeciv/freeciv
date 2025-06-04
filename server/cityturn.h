@@ -32,8 +32,9 @@ void city_refresh_queue_processing(void);
 void auto_arrange_workers(struct city *pcity);        /* Will arrange the workers */
 void apply_cmresult_to_city(struct city *pcity, const struct cm_result *cmr);
 
-bool city_change_size(struct city *pcity, citizens new_size,
-                      struct player *nationality, const char *reason);
+bool city_change_size(struct city *pcity, citizens size,
+                      struct player *nationality,
+                      Specialist_type_id sid, const char *reason);
 bool city_reduce_size(struct city *pcity, citizens pop_loss,
                       struct player *destroyer, const char *reason);
 void city_repair_size(struct city *pcity, int change);

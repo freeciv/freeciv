@@ -4304,7 +4304,7 @@ static bool city_build(struct player *pplayer, struct unit *punit,
 
     fc_assert_ret_val(pcity != NULL, FALSE);
 
-    city_change_size(pcity, size, nationality, NULL);
+    city_change_size(pcity, size, nationality, -1, nullptr);
   }
 
   /* May cause an incident even if the target tile is unclaimed. A ruleset

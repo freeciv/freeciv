@@ -553,6 +553,10 @@ module Action {
 
 /* Module Specialist */
 module Specialist {
+  module properties {
+    bool api_methods_specialist_is_super
+      @ is_super (lua_State *L, Specialist *s);
+  }
   const char *api_methods_specialist_rule_name
     @ rule_name (lua_State *L, Specialist *self);
   const char *api_methods_specialist_name_translation

@@ -916,8 +916,9 @@ static void city_reset_foodbox(struct city *pcity, int new_size,
   Increase city size by one. We do not refresh borders or send info about
   the city to the clients as part of this function. There might be several
   calls to this function at once, and those actions are needed only once.
+  If s is not supplied, adds a specialist respecting the city preferences
 **************************************************************************/
-static bool city_increase_size(struct city *pcity)
+static bool city_increase_size(struct city *pcity, Specialist_type_id sid)
 {
   int new_food;
   int savings_pct = city_growth_granary_savings(pcity);
@@ -961,26 +962,31 @@ static bool city_increase_size(struct city *pcity)
   }
   pcity->food_stock = MIN(pcity->food_stock, new_food);
 
-  /* If there is enough food, and the city is big enough,
-   * make new citizens into scientists or taxmen -- Massimo */
-
-  /* Ignore food if no square can be worked */
-  city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
-                                     ptile, _index, _x, _y) {
-    if (tile_worked(ptile) != pcity /* Quick test */
-     && city_can_work_tile(pcity, ptile)) {
-      have_square = TRUE;
-    }
-  } city_tile_iterate_skip_free_worked_end;
-
-  if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
-      && is_city_option_set(pcity, CITYO_SCIENCE_SPECIALISTS)) {
-    pcity->specialists[best_specialist(O_SCIENCE, pcity)]++;
-  } else if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
-             && is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
-    pcity->specialists[best_specialist(O_GOLD, pcity)]++;
+  if (sid >= 0) {
+    fc_assert_action(is_normal_specialist_id(sid), sid = DEFAULT_SPECIALIST);
+    pcity->specialists[sid]++;
   } else {
-    pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
+    /* If there is enough food, and the city is big enough,
+     * make new citizens into scientists or taxmen -- Massimo */
+
+    /* Ignore food if no square can be worked */
+    city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
+                                       ptile, _index, _x, _y) {
+      if (tile_worked(ptile) != pcity /* Quick test */
+       && city_can_work_tile(pcity, ptile)) {
+        have_square = TRUE;
+      }
+    } city_tile_iterate_skip_free_worked_end;
+
+    if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
+        && is_city_option_set(pcity, CITYO_SCIENCE_SPECIALISTS)) {
+      pcity->specialists[best_specialist(O_SCIENCE, pcity)]++;
+    } else if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
+               && is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
+      pcity->specialists[best_specialist(O_GOLD, pcity)]++;
+    } else {
+      pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
+    }
   }
 
   /* Deprecated signal. Connect your lua functions to "city_size_change" that's
@@ -993,9 +999,12 @@ static bool city_increase_size(struct city *pcity)
 
 /**********************************************************************//**
   Do the city refresh after its size has increased, by any amount.
+  Any added citizens detected during check belong to nationality.
+  aaw means that the workers in the city will be auto-arranged.
 **************************************************************************/
 static void city_refresh_after_city_size_increase(struct city *pcity,
-                                                  struct player *nationality)
+                                                  struct player *nationality,
+                                                  bool aaw)
 {
   struct player *powner = city_owner(pcity);
 
@@ -1005,7 +1014,9 @@ static void city_refresh_after_city_size_increase(struct city *pcity,
   /* Refresh the city data; this also checks the squared city radius. */
   city_refresh(pcity);
 
-  auto_arrange_workers(pcity);
+  if (aaw) {
+    auto_arrange_workers(pcity);
+  }
 
   /* Update cities that have trade routes with us */
   trade_partners_iterate(pcity, pcity2) {
@@ -1027,9 +1038,14 @@ static void city_refresh_after_city_size_increase(struct city *pcity,
 
 /**********************************************************************//**
   Change the city size. Return TRUE iff the city is still alive afterwards.
+  If the size increases, the new citizens belong to nationality.
+  If sid is negative, tries to take best specialist according to city setting
+  but most times overwrites this selection in following auto-arrangement.
+  reason for signal ("script" or nullptr)
 **************************************************************************/
 bool city_change_size(struct city *pcity, citizens size,
-                      struct player *nationality, const char *reason)
+                      struct player *nationality,
+                      Specialist_type_id sid, const char *reason)
 {
   int change = size - city_size_get(pcity);
 
@@ -1040,7 +1056,7 @@ bool city_change_size(struct city *pcity, citizens size,
     int id = pcity->id;
 
     /* Increase city size until size reached, or increase fails */
-    while (size > current_size && city_increase_size(pcity)) {
+    while (size > current_size && city_increase_size(pcity, sid)) {
       /* TODO: This is currently needed only because there's
        *       deprecated script signal "city_growth" emitted.
        *       Check the need after signal has been dropped completely. */
@@ -1051,7 +1067,7 @@ bool city_change_size(struct city *pcity, citizens size,
       current_size++;
     }
 
-    city_refresh_after_city_size_increase(pcity, nationality);
+    city_refresh_after_city_size_increase(pcity, nationality, sid < 0);
 
     real_change = current_size - old_size;
 
@@ -1096,11 +1112,11 @@ static void city_populate(struct city *pcity, struct player *nationality)
     } else {
       bool success;
 
-      success = city_increase_size(pcity);
+      success = city_increase_size(pcity, -1);
       map_claim_border(pcity->tile, pcity->owner, -1);
 
       if (success) {
-        city_refresh_after_city_size_increase(pcity, nationality);
+        city_refresh_after_city_size_increase(pcity, nationality, TRUE);
         script_server_signal_emit("city_size_change", pcity,
                                   (lua_Integer)1, "growth");
       }
@@ -4198,10 +4214,10 @@ static bool do_city_migration(struct city *pcity_from,
 
   /* Increase size of receiver city */
   if (city_exist(to_id)) {
-    bool incr_success = city_increase_size(pcity_to);
+    bool incr_success = city_increase_size(pcity_to, -1);
 
     if (city_exist(to_id)) {
-      city_refresh_after_city_size_increase(pcity_to, pplayer_citizen);
+      city_refresh_after_city_size_increase(pcity_to, pplayer_citizen, TRUE);
       city_refresh_vision(pcity_to);
       if (city_refresh(pcity_to)) {
         auto_arrange_workers(pcity_to);

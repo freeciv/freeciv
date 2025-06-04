@@ -1170,6 +1170,17 @@ const char *api_methods_specialist_name_translation(lua_State *L,
 }
 
 /**********************************************************************//**
+  Return if specialist is a superspecialist
+**************************************************************************/
+bool api_methods_specialist_is_super(lua_State *L, Specialist *s)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, s, FALSE);
+
+  return is_super_specialist(s);
+}
+
+/**********************************************************************//**
   Return the native x coordinate of the tile.
 **************************************************************************/
 int api_methods_tile_nat_x(lua_State *L, Tile *ptile)

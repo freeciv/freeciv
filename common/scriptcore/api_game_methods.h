@@ -164,6 +164,7 @@ const char *api_methods_action_target_kind(lua_State *L, Action *pact);
 const char *api_methods_specialist_rule_name(lua_State *L, Specialist *s);
 const char *api_methods_specialist_name_translation(lua_State *L,
                                                     Specialist *s);
+bool api_methods_specialist_is_super(lua_State *L, Specialist *s);
 
 /* Tile */
 int api_methods_tile_nat_x(lua_State *L, Tile *ptile);

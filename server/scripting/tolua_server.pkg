@@ -153,6 +153,9 @@ module edit {
   bool api_edit_city_reduce_specialists
     @ reduce_specialists (lua_State *L, City *pcity, Specialist *s,
                           int amount = 1);
+  bool api_edit_city_add_specialist
+    @ add_specialist (lua_State *L, City *pcity, Specialist *s,
+                      int amount = 1);
   void api_edit_create_owned_extra
     @ create_owned_extra (lua_State *L, Tile *ptile,
                           const char *name, Player *pplayer);
@@ -437,6 +440,10 @@ end
 
 function City:reduce_specialists(spec, amount)
   return edit.reduce_specialists(self, spec, amount or 1)
+end
+
+function City:add_specialist(spec, amount)
+  return edit.add_specialist(self, spec, amount or 1)
 end
 
 function City:change_size(change, nationality)
