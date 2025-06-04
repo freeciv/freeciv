@@ -234,6 +234,8 @@ module Player {
     @ can_build_direct(lua_State *L, Player *pplayer, Building_Type *itype);
   bool api_methods_player_can_build_unit_direct
     @ can_build_direct(lua_State *L, Player *pplayer, Unit_Type *utype);
+  bool api_methods_player_can_employ
+    @ can_employ(lua_State *L, Player *pplayer, Specialist *s);
 
   City *api_methods_player_primary_capital
     @ primary_capital(lua_State *L, Player *pplayer);
@@ -305,6 +307,10 @@ module City {
 
   int api_methods_city_nationality_citizens
     @ nationality_citizens(lua_State *L, City *self, Player *nationality);
+  bool api_methods_city_can_employ
+    @ can_employ(lua_State *L, City *pcity, Specialist *s);
+  int api_methods_city_num_specialists
+    @ num_specialists (lua_State *L, City *pcity, Specialist *s);
 }
 
 $[
@@ -672,6 +678,9 @@ module effects {
   int api_effects_tile_bonus
     @ tile_bonus(lua_State *L, Tile *ptile, City *pcity,
                  const char *output_id, const char *effect_type);
+  int api_effects_specialist_bonus
+    @ specialist_bonus (lua_State *L, Specialist *s, lua_Object d,
+                        const char *output_id, const char *effect_type);
   int api_effects_unit_vs_tile_bonus
     @ unit_vs_tile_bonus(lua_State *L, Unit *punit, Tile *ptile,
                          const char *effect_type);

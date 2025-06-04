@@ -778,6 +778,50 @@ void api_edit_remove_building(lua_State *L, City *pcity, Building_Type *impr)
 }
 
 /**********************************************************************//**
+  Reduce specialists of given type s in a way like toggling in the client.
+  Does not place workers on map, just switches to another specialist.
+  Does nothing if there is less than amount specialists s in pcity.
+  Return if given number could be repurposed.
+**************************************************************************/
+bool api_edit_city_reduce_specialists(lua_State *L, City *pcity,
+                                      Specialist *s, int amount)
+{
+  Specialist_type_id from, to;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, s, 2, Specialist, FALSE);
+  LUASCRIPT_CHECK_ARG(L, amount >= 0, 3, "must be non-negative", FALSE);
+
+  from = specialist_index(s);
+  if (pcity->specialists[from] < amount) {
+    return FALSE;
+  }
+  to = from;
+  do {
+    to = (to + 1) % specialist_count();
+  } while (to != from && !city_can_use_specialist(pcity, to));
+
+  if (to == from) {
+    /* We can use only the default specialist */
+    return FALSE;
+  } else {
+    /* City population must be correct */
+    fc_assert_ret_val_msg(pcity->specialists[to] <= MAX_CITY_SIZE - amount,
+                          FALSE, "Wrong specialist number in %s",
+                          city_name_get(pcity));
+    pcity->specialists[from] -= amount;
+    pcity->specialists[to] += amount;
+
+    city_refresh(pcity);
+    /* sanity_check_city(pcity); -- hopefully we don't break things here? */
+    send_city_info(city_owner(pcity), pcity);
+
+    return TRUE;
+  }
+}
+
+/**********************************************************************//**
   Create a new player.
 **************************************************************************/
 Player *api_edit_create_player(lua_State *L, const char *username,

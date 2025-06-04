@@ -67,6 +67,9 @@ bool api_methods_is_capital(lua_State *L, City *pcity);
 bool api_methods_is_primary_capital(lua_State *L, City *pcity);
 int api_methods_city_nationality_citizens(lua_State *L, City *pcity,
                                           Player *nationality);
+int api_methods_city_num_specialists(lua_State *L, City *pcity,
+                                     Specialist *s);
+bool api_methods_city_can_employ(lua_State *L, City *pcity, Specialist *s);
 
 /* Counter */
 const char *api_methods_counter_rule_name(lua_State *L, Counter *c);
@@ -125,6 +128,8 @@ bool api_methods_player_can_build_unit_direct(lua_State *L, Player *pplayer,
                                               Unit_Type *utype);
 bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
                                               Building_Type *itype);
+bool api_methods_player_can_employ(lua_State *L, Player *pplayer,
+                                   Specialist *s);
 
 City *api_methods_player_primary_capital(lua_State *L, Player *pplayer);
 

@@ -417,6 +417,35 @@ int api_methods_city_nationality_citizens(lua_State *L, City *pcity,
 }
 
 /**********************************************************************//**
+  Return number of specialists of type s working in pcity.
+  If no s is specified, return number of citizens employed as specialists.
+**************************************************************************/
+int api_methods_city_num_specialists(lua_State *L, City *pcity,
+                                     Specialist *s)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pcity, 0);
+
+  if (nullptr != s) {
+    return pcity->specialists[specialist_index(s)];
+  } else {
+    return city_specialists(pcity);
+  }
+}
+
+/**********************************************************************//**
+  Return if pcity agrees with reqs of specialist s
+**************************************************************************/
+bool api_methods_city_can_employ(lua_State *L, City *pcity, Specialist *s)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, s, 3, Specialist, FALSE);
+
+  return city_can_use_specialist(pcity, specialist_index(s));
+}
+
+/**********************************************************************//**
    Return rule name for Government
 **************************************************************************/
 const char *api_methods_government_rule_name(lua_State *L,
@@ -787,6 +816,23 @@ bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
   LUASCRIPT_CHECK_ARG_NIL(L, itype, 3, Building_Type, FALSE);
 
   return can_player_build_improvement_direct(pplayer, itype);
+}
+
+/**********************************************************************//**
+  Return if pplayer agrees with Player+-ranged reqs of specialist s
+**************************************************************************/
+bool api_methods_player_can_employ(lua_State *L, Player *pplayer,
+                                   Specialist *s)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, s, 3, Specialist, FALSE);
+
+  return
+    are_reqs_active_ranges(REQ_RANGE_PLAYER, REQ_RANGE_WORLD,
+                              &(const struct req_context) {
+                                .player = pplayer,
+                              }, nullptr, &s->reqs, RPT_POSSIBLE);
 }
 
 /**********************************************************************//**

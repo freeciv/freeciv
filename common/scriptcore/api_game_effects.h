@@ -32,6 +32,9 @@ int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
                            const char *effect_type);
 int api_effects_tile_bonus(lua_State *L, Tile *ptile, City *pcity,
                            const char *output_id, const char *effect_type);
+int
+api_effects_specialist_bonus(lua_State *L, Specialist *s, lua_Object d,
+                             const char *output_id, const char *effect_type);
 int api_effects_unit_vs_tile_bonus(lua_State *L, Unit *punit, Tile *ptile,
                                    const char *effect_type);
 
