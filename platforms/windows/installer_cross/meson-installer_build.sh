@@ -108,7 +108,8 @@ add_qt6_env() {
 }
 
 add_qt6_client_env() {
-  cp $1/bin/Qt6Svg.dll $2/
+  cp $1/bin/Qt6Svg.dll $2/ &&
+  cp $1/plugins/imageformats/qsvg.dll $2/plugins/imageformats/
 }
 
 add_sdl2_env() {
