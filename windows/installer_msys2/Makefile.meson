@@ -57,7 +57,8 @@ else
 error "Unsupported MSYSTEM environment"
 endif
 
-IMSYS2_DIR = $(shell pwd)
+IMSYS2_DIR != pwd
+FREECIV_VERSION != $(SRC_ROOT)/fc_version
 
 ifeq ($(MIN_WIN_VER),)
 MIN_WIN_VER=$(PREF_WIN_VER)
@@ -146,8 +147,6 @@ ruledit-install-qt6:
 	make -f $(MAKEFILE_NAME) GUI=qt6 EXTRA_CONFIG="-Dqtver=qt6 $(EXTRA_CONFIG)" install-ruledit-qt6
 
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
-	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
 	# Create portable .7z
 	mkdir -p $(7ZDIR)
 	7z a -r $(7ZDIR)/Freeciv-$(FREECIV_VERSION)-client-$(WINARCH)-$(GUI).7z ./$(INST_DIR)/$(WINARCH)-client-$(GUI)/*
@@ -402,8 +401,6 @@ install-env-qt6: install-env-qt6-fcmp
 installer-ruledit-common: install-ruledit-$(GUI)
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
-	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell $(SRC_ROOT)/fc_version))
 	# Create portable .7z
 	mkdir -p $(7ZDIR)
 	7z a -r $(7ZDIR)/Freeciv-$(FREECIV_VERSION)-ruledit-$(WINARCH)-$(GUI).7z ./$(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/*
