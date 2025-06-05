@@ -143,6 +143,10 @@ int main(int argc, char *argv[])
 
     if (fcmp.autoinstall == NULL) {
       download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
+
+      log_normal("%s", "");
+      log_normal(_("To install a modpack, run:"));
+      log_normal(_("%s -i <URL>"), argv[0]);
     } else {
       const char *errmsg;
 
