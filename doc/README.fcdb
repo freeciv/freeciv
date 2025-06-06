@@ -86,6 +86,7 @@ MySQL was the only backend supported before Freeciv version 2.4, so is
 supported for backward compatibility, but SQLite is probably a better
 option for new deployments unless you have special requirements.
 
+This is currently supported only in autotools based builds.
 In order to use this, the server must have been built with
 '--enable-fcdb=mysql'.
 
