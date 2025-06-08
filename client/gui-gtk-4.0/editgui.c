@@ -1612,6 +1612,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
 
 /************************************************************************//**
   Handle ctrl+[key] combinations.
+  Mac only - Handle meta+[key] combinations.
 ****************************************************************************/
 static gboolean handle_edit_key_press_with_ctrl(guint keyval)
 {
@@ -1675,7 +1676,8 @@ gboolean handle_edit_key_press(guint keyval, GdkModifierType state)
 
   /* Check ctrl before shift - this is correct also for the case where
    * they are both active. */
-  if (state & GDK_CONTROL_MASK) {
+  /* ACCL_MOD_MASK is GDK_META_MASK on Mac, else GDK_CONTROL_MASK */
+  if (state & ACCL_MOD_MASK) {
     return handle_edit_key_press_with_ctrl(keyval);
   }
 

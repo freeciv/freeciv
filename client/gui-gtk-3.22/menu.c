@@ -74,14 +74,6 @@
 #define GTK_STOCK_EDIT NULL
 #endif
 
-/* Mac uses "command"/"meta" key for menu accelerator modifier key */
-#ifdef __APPLE__
-#define ACCL_MOD_KEY GDK_META_MASK
-#else
-#define ACCL_MOD_KEY GDK_CONTROL_MASK
-#endif
-
-
 static GtkBuilder *ui_builder = NULL;
 
 static void menu_entry_set_active(const char *key,
