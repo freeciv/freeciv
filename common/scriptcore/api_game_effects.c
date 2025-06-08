@@ -96,11 +96,11 @@ int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
     return 0;
   }
 
-  return get_target_bonus_effects(NULL,
+  return get_target_bonus_effects(nullptr,
                                   &(const struct req_context) {
                                     .player = unit_owner(punit),
                                     .city = unit_tile(punit)
-                                      ? tile_city(unit_tile(punit)) : NULL,
+                                      ? tile_city(unit_tile(punit)) : nullptr,
                                     .tile = unit_tile(punit),
                                     .unit = punit,
                                     .unittype = unit_type_get(punit),
@@ -127,7 +127,7 @@ int api_effects_tile_bonus(lua_State *L, Tile *ptile, City *pcity,
                            const char *output_id, const char *effect_type)
 {
   const struct player *pplayer;
-  const struct output_type *poutput = NULL;
+  const struct output_type *poutput = nullptr;
   enum effect_type etype;
 
   LUASCRIPT_CHECK_STATE(L, 0);
@@ -139,7 +139,7 @@ int api_effects_tile_bonus(lua_State *L, Tile *ptile, City *pcity,
     return 0;
   }
 
-  if (output_id != NULL) {
+  if (output_id != nullptr) {
     enum output_type_id id = output_type_by_identifier(output_id);
 
     if (id != O_LAST) {
@@ -149,16 +149,16 @@ int api_effects_tile_bonus(lua_State *L, Tile *ptile, City *pcity,
     }
   }
 
-  pplayer = (pcity != NULL ? city_owner(pcity) : NULL);
+  pplayer = (pcity != nullptr ? city_owner(pcity) : nullptr);
 
-  return get_target_bonus_effects(NULL,
+  return get_target_bonus_effects(nullptr,
                                   &(const struct req_context) {
                                     .player = pplayer,
                                     .city = pcity,
                                     .tile = ptile,
                                     .output = poutput,
                                   },
-                                  NULL,
+                                  nullptr,
                                   etype);
 }
 
@@ -190,7 +190,7 @@ api_effects_specialist_bonus(lua_State *L, Specialist *s, lua_Object d,
     return 0;
   }
 
-  if (output_id != NULL) {
+  if (output_id != nullptr) {
     enum output_type_id id = output_type_by_identifier(output_id);
 
     if (O_LAST == id){
