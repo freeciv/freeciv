@@ -70,14 +70,6 @@
 
 #include "menu.h"
 
-/* Mac uses "command"/"meta" key for menu accelerator modifier key */
-#ifdef __APPLE__
-#define ACCL_MOD_KEY "<Meta>"
-#else
-#define ACCL_MOD_KEY "<ctrl>"
-#endif
-
-
 static GMenu *main_menubar = NULL;
 static bool menus_built = FALSE;
 

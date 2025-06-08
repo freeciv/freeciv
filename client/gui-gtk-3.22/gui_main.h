@@ -19,6 +19,13 @@
 #include "gui_main_g.h"
 #include "options.h"
 
+/* Mac uses "command"/"meta" key for menu accelerator modifier key */
+#ifdef __APPLE__
+#define ACCL_MOD_KEY GDK_META_MASK
+#else
+#define ACCL_MOD_KEY GDK_CONTROL_MASK
+#endif
+
 #define GUI_NAME_FULL  "gui-gtk-3.22"
 #define GUI_NAME_SHORT "gtk3.22"
 
