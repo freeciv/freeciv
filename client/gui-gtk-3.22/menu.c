@@ -208,7 +208,7 @@ static void show_focus_unit_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data);
 static void full_screen_callback(GtkCheckMenuItem *item, gpointer data);
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
-static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
+static void toggle_fog_callback(GtkCheckMenuItem *item, gpointer data);
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
 static void save_scenario_callback(GtkMenuItem *item, gpointer data);
 static void center_view_callback(GtkMenuItem *item, gpointer data);
@@ -1482,9 +1482,11 @@ static void recalc_borders_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "TOGGLE_FOG" callback.
 ****************************************************************************/
-static void toggle_fog_callback(GtkMenuItem *item, gpointer data)
+static void toggle_fog_callback(GtkCheckMenuItem *item, gpointer data)
 {
-  key_editor_toggle_fogofwar();
+  if (game.client.fog_of_war ^ gtk_check_menu_item_get_active(item)) {
+    key_editor_toggle_fogofwar();
+  }
 }
 
 /************************************************************************//**
