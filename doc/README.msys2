@@ -137,7 +137,7 @@ For each package listed below with <arch> in the name, actually
 three packages are installed;
 one where <arch> is replaced by 'x86_64',
 one where <arch> is replaced by 'ucrt-x86_64', and
-one where <arch> is replaced bu 'clang-x86_64'
+one where <arch> is replaced by 'clang-x86_64'
 
 
 Following packages have been installed:
