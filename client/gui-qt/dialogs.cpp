@@ -677,15 +677,15 @@ void races_dialog::update_nationset_combo()
 /***********************************************************************//**
   Selected group of nation
 ***************************************************************************/
-void races_dialog::group_selected(const QItemSelection &sl,
-                                  const QItemSelection &ds)
+void races_dialog::group_selected(const QItemSelection &selected)
 {
-  QModelIndexList indexes = sl.indexes();
+  QModelIndexList indexes = selected.indexes();
   QModelIndex index ;
 
   if (indexes.isEmpty()) {
     return;
   }
+
   index = indexes.at(0);
   set_index(index.row());
 }
@@ -754,8 +754,7 @@ void races_dialog::set_index(int index)
 /***********************************************************************//**
   Sets selected nation and updates style and leaders selector
 ***************************************************************************/
-void races_dialog::nation_selected(const QItemSelection &selected,
-                                   const QItemSelection &deselcted)
+void races_dialog::nation_selected(const QItemSelection &selected)
 {
   char buf[4096];
   QModelIndex index ;
@@ -805,8 +804,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
 /***********************************************************************//**
   Sets selected style
 ***************************************************************************/
-void races_dialog::style_selected(const QItemSelection &selected,
-                                   const QItemSelection &deselcted)
+void races_dialog::style_selected(const QItemSelection &selected)
 {
   QModelIndex index ;
   QVariant qvar;
