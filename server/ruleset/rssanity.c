@@ -422,7 +422,8 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
       /* Can have multiple, since it's flag based (wrapx & wrapy) */
     case VUT_EXTRA:
       /* Note that there can be more than 1 extra / tile. */
-    case VUT_MAXTILEUNITS:
+    case VUT_MAXTILETOTALUNITS:
+    case VUT_MAXTILETOPUNITS:
       /* Can require different numbers on e.g. local/adjacent tiles. */
     case VUT_NATION:
       /* Can require multiple nations at Team/Alliance/World range. */

@@ -57,73 +57,74 @@ beyond a few hundred requirements).
 Requirement types and supported ranges
 ======================================
 
-Tech:            World, Alliance, Team, Player, Local
-TechFlag:        World, Alliance, Team, Player, Local
-MinTechs:        World, Player
-FutureTechs:     World, Player
-MinCities:       Player
-Achievement:     World, Alliance, Team, Player
-Counter:         City
-Gov:             Player
-Building:        World, Alliance, Team, Player, Continent, Traderoute, City,
-                 Tile, Local
-BuildingFlag:    Local, Tile, City
-BuildingGenus:   Local
-Site:            World, Alliance, Team, Player, Continent, Traderoute, City,
-                 Tile, Local
-Extra:           Local, Tile, Adjacent, CAdjacent, Traderoute, City
-RoadFlag:        Local, Tile, Adjacent, CAdjacent, Traderoute, City
-ExtraFlag:       Local, Tile, Adjacent, CAdjacent, Traderoute, City
-Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
-Good:            City
-UnitType:        Local, Tile, CAdjacent, Adjacent
-UnitTypeFlag:    Local, Tile, CAdjacent, Adjacent
-UnitClass:       Local, Tile, CAdjacent, Adjacent
-UnitClassFlag:   Local, Tile, CAdjacent, Adjacent
-Nation:          World, Alliance, Team, Player
-NationGroup:     World, Alliance, Team, Player
-Nationality:     Traderoute, City
-PlayerFlag:      Player
-PlayerState:     Player
-OriginalOwner:   City
-DiplRel:         World, Alliance, Team, Player, Local
-DiplRelTile:     Alliance, Team, Player, Local
-DiplRelTileOther:Local
-DiplRelUnitAny:  Alliance, Team, Player, Local
+Tech:              World, Alliance, Team, Player, Local
+TechFlag:          World, Alliance, Team, Player, Local
+MinTechs:          World, Player
+FutureTechs:       World, Player
+MinCities:         Player
+Achievement:       World, Alliance, Team, Player
+Counter:           City
+Gov:               Player
+Building:          World, Alliance, Team, Player, Continent, Traderoute,
+                   City, Tile, Local
+BuildingFlag:      Local, Tile, City
+BuildingGenus:     Local
+Site:              World, Alliance, Team, Player, Continent, Traderoute,
+                   City, Tile, Local
+Extra:             Local, Tile, Adjacent, CAdjacent, Traderoute, City
+RoadFlag:          Local, Tile, Adjacent, CAdjacent, Traderoute, City
+ExtraFlag:         Local, Tile, Adjacent, CAdjacent, Traderoute, City
+Terrain:           Tile, Adjacent, CAdjacent, Traderoute, City
+Good:              City
+UnitType:          Local, Tile, CAdjacent, Adjacent
+UnitTypeFlag:      Local, Tile, CAdjacent, Adjacent
+UnitClass:         Local, Tile, CAdjacent, Adjacent
+UnitClassFlag:     Local, Tile, CAdjacent, Adjacent
+Nation:            World, Alliance, Team, Player
+NationGroup:       World, Alliance, Team, Player
+Nationality:       Traderoute, City
+PlayerFlag:        Player
+PlayerState:       Player
+OriginalOwner:     City
+DiplRel:           World, Alliance, Team, Player, Local
+DiplRelTile:       Alliance, Team, Player, Local
+DiplRelTileOther:  Local
+DiplRelUnitAny:    Alliance, Team, Player, Local
 DiplRelUnitAnyOther: Local
-Action:          Local
-OutputType:      Local
-Specialist:      Local
-MinYear:         World
-MinCalFrag:      World
-Topology:        World
-Wrap:            World
-ServerSetting:   World
-Age (of unit):   Local
-Age (of city):   City
-Age (of player): Player
-FormAge:         Local
-MinSize:         Traderoute, City
-MinCulture:      World, Alliance, Team, Player, Traderoute, City
-MinForeignPct:   Traderoute, City
-AI:              Player
-MaxUnitsOnTile:  Tile, Adjacent, CAdjacent
-TerrainClass:    Tile, Adjacent, CAdjacent, Traderoute, City
-TerrainFlag:     Tile, Adjacent, CAdjacent, Traderoute, City
-TerrainAlter:    Tile
-MinLatitude:     Tile, Adjacent, CAdjacent, World
-MaxLatitude:     Tile, Adjacent, CAdjacent, World
-CityTile:        Tile, Adjacent, CAdjacent
-CityStatus:      Traderoute, City
-Style:           Player
-UnitState:       Local
-Activity:        Local
-MinMoveFrags:    Local
-MinVeteran:      Local
-MinHitPoints:    Local
-TileRel:         Tile, Adjacent, CAdjacent
-MaxDistanceSq:   Tile
-MaxRegionTiles:  Continent, Adjacent, CAdjacent
+Action:            Local
+OutputType:        Local
+Specialist:        Local
+MinYear:           World
+MinCalFrag:        World
+Topology:          World
+Wrap:              World
+ServerSetting:     World
+Age (of unit):     Local
+Age (of city):     City
+Age (of player):   Player
+FormAge:           Local
+MinSize:           Traderoute, City
+MinCulture:        World, Alliance, Team, Player, Traderoute, City
+MinForeignPct:     Traderoute, City
+AI:                Player
+MaxUnitsOnTile:    Tile, Adjacent, CAdjacent
+MaxTopUnitsOnTile: Tile, Adjacent, CAdjacent
+TerrainClass:      Tile, Adjacent, CAdjacent, Traderoute, City
+TerrainFlag:       Tile, Adjacent, CAdjacent, Traderoute, City
+TerrainAlter:      Tile
+MinLatitude:       Tile, Adjacent, CAdjacent, World
+MaxLatitude:       Tile, Adjacent, CAdjacent, World
+CityTile:          Tile, Adjacent, CAdjacent
+CityStatus:        Traderoute, City
+Style:             Player
+UnitState:         Local
+Activity:          Local
+MinMoveFrags:      Local
+MinVeteran:        Local
+MinHitPoints:      Local
+TileRel:           Tile, Adjacent, CAdjacent
+MaxDistanceSq:     Tile
+MaxRegionTiles:    Continent, Adjacent, CAdjacent
 
 
 Site is like Building, except that the requirement is fulfilled even after

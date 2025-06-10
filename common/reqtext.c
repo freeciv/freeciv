@@ -2279,24 +2279,24 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
     switch (preq->range) {
     case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("At most %d unit may be present on the tile.",
-                         "At most %d units may be present on the tile.",
-                         preq->source.value.max_tile_units),
-                     preq->source.value.max_tile_units);
+                     PL_("At most %d total unit may be present on the tile.",
+                         "At most %d total units may be present on the tile.",
+                         preq->source.value.max_tile_total_units),
+                     preq->source.value.max_tile_total_units);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("There must be more than %d unit present on "
+                     PL_("There must be more than %d total unit present on "
                          "the tile.",
-                         "There must be more than %d units present on "
+                         "There must be more than %d total units present on "
                          "the tile.",
-                         preq->source.value.max_tile_units),
-                     preq->source.value.max_tile_units);
+                         preq->source.value.max_tile_total_units),
+                     preq->source.value.max_tile_total_units);
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -2304,19 +2304,19 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("The tile or at least one cardinally adjacent tile "
-                         "must have %d unit or fewer.",
+                         "must have %d total unit or fewer.",
                          "The tile or at least one cardinally adjacent tile "
-                         "must have %d units or fewer.",
-                         preq->source.value.max_tile_units),
-                     preq->source.value.max_tile_units);
+                         "must have %d total units or fewer.",
+                         preq->source.value.max_tile_total_units),
+                     preq->source.value.max_tile_total_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("The tile and all cardinally adjacent tiles must "
-                         "have more than %d unit each.",
+                         "have more than %d total unit each.",
                          "The tile and all cardinally adjacent tiles must "
-                         "have more than %d units each.",
-                         preq->source.value.max_tile_units),
-                     preq->source.value.max_tile_units);
+                         "have more than %d total units each.",
+                         preq->source.value.max_tile_total_units),
+                     preq->source.value.max_tile_total_units);
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -2324,19 +2324,93 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("The tile or at least one adjacent tile must have "
-                         "%d unit or fewer.",
+                         "%d total unit or fewer.",
                          "The tile or at least one adjacent tile must have "
-                         "%d units or fewer.",
-                         preq->source.value.max_tile_units),
-                     preq->source.value.max_tile_units);
+                         "%d total units or fewer.",
+                         preq->source.value.max_tile_total_units),
+                     preq->source.value.max_tile_total_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("The tile and all adjacent tiles must have more "
-                         "than %d unit each.",
+                         "than %d total unit each.",
                          "The tile and all adjacent tiles must have more "
-                         "than %d units each.",
-                         preq->source.value.max_tile_units),
-                     preq->source.value.max_tile_units);
+                         "than %d total units each.",
+                         preq->source.value.max_tile_total_units),
+                     preq->source.value.max_tile_total_units);
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADE_ROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_MAXTILETOPUNITS:
+    switch (preq->range) {
+    case REQ_RANGE_TILE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("At most %d untransported unit may be present on the tile.",
+                         "At most %d untransported units may be present on the tile.",
+                         preq->source.value.max_tile_top_units),
+                     preq->source.value.max_tile_top_units);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("There must be more than %d untransported unit present on "
+                         "the tile.",
+                         "There must be more than %d untransported units present on "
+                         "the tile.",
+                         preq->source.value.max_tile_top_units),
+                     preq->source.value.max_tile_top_units);
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("The tile or at least one cardinally adjacent tile "
+                         "must have %d untransporte unit or fewer.",
+                         "The tile or at least one cardinally adjacent tile "
+                         "must have %d untransporte units or fewer.",
+                         preq->source.value.max_tile_top_units),
+                     preq->source.value.max_tile_top_units);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("The tile and all cardinally adjacent tiles must "
+                         "have more than %d untransported unit each.",
+                         "The tile and all cardinally adjacent tiles must "
+                         "have more than %d untransported units each.",
+                         preq->source.value.max_tile_top_units),
+                     preq->source.value.max_tile_top_units);
+      }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("The tile or at least one adjacent tile must have "
+                         "%d untransported unit or fewer.",
+                         "The tile or at least one adjacent tile must have "
+                         "%d untransported units or fewer.",
+                         preq->source.value.max_tile_top_units),
+                     preq->source.value.max_tile_top_units);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("The tile and all adjacent tiles must have "
+                         "more than %d untransported unit each.",
+                         "The tile and all adjacent tiles must have "
+                         "more than %d untransported units each.",
+                         preq->source.value.max_tile_top_units),
+                     preq->source.value.max_tile_top_units);
       }
       return TRUE;
     case REQ_RANGE_CITY:

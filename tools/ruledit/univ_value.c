@@ -173,8 +173,11 @@ bool universal_value_initial(struct universal *src)
   case VUT_DIPLREL_UNITANY_O:
     src->value.diplrel = DS_WAR;
     return TRUE;
-  case VUT_MAXTILEUNITS:
-    src->value.max_tile_units = 0;
+  case VUT_MAXTILETOTALUNITS:
+    src->value.max_tile_total_units = 0;
+    return TRUE;
+  case VUT_MAXTILETOPUNITS:
+    src->value.max_tile_top_units = 0;
     return TRUE;
   case VUT_STYLE:
     if (game.control.num_styles <= 0) {
@@ -511,7 +514,8 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINSIZE:
   case VUT_MINYEAR:
   case VUT_MINCALFRAG:
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
+  case VUT_MAXTILETOPUNITS:
   case VUT_MINCULTURE:
   case VUT_MINFOREIGNPCT:
   case VUT_MINMOVES:

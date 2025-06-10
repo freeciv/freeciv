@@ -1838,7 +1838,40 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           purge = TRUE;
         }
         break;
-      case VUT_MAXTILEUNITS:
+      case VUT_MAXTILETOTALUNITS:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        PL_("%s can't build %s from the worklist; "
+                            "more than %d total unit on tile."
+                            "  Postponing...",
+                            "%s can't build %s from the worklist; "
+                            "more than %d total units on tile."
+                            "  Postponing...",
+                            preq->source.value.max_tile_total_units),
+                        city_link(pcity),
+                        tgt_name,
+                        preq->source.value.max_tile_total_units);
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_tileunits");
+        } else {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        PL_("%s can't build %s from the worklist; "
+                            "fewer than %d total unit on tile."
+                            "  Postponing...",
+                            "%s can't build %s from the worklist; "
+                            "fewer than %d total units on tile."
+                            "  Postponing...",
+                            preq->source.value.max_tile_total_units + 1),
+                        city_link(pcity),
+                        tgt_name,
+                        preq->source.value.max_tile_total_units + 1);
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_tileunits");
+        }
+        break;
+      case VUT_MAXTILETOPUNITS:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
@@ -1848,12 +1881,12 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                             "%s can't build %s from the worklist; "
                             "more than %d units on tile."
                             "  Postponing...",
-                            preq->source.value.max_tile_units),
+                            preq->source.value.max_tile_top_units),
                         city_link(pcity),
                         tgt_name,
-                        preq->source.value.max_tile_units);
+                        preq->source.value.max_tile_top_units);
           script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_tileunits");
+                                    pcity, "need_tiletopunits");
         } else {
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
@@ -1863,12 +1896,12 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                             "%s can't build %s from the worklist; "
                             "fewer than %d units on tile."
                             "  Postponing...",
-                            preq->source.value.max_tile_units + 1),
+                            preq->source.value.max_tile_top_units + 1),
                         city_link(pcity),
                         tgt_name,
-                        preq->source.value.max_tile_units + 1);
+                        preq->source.value.max_tile_top_units + 1);
           script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_tileunits");
+                                    pcity, "need_tiletopunits");
         }
         break;
       case VUT_AI_LEVEL:

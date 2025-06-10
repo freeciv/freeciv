@@ -385,7 +385,8 @@ tactical_req_cb(const struct req_context *context,
   case VUT_UNITSTATE:
   case VUT_ACTIVITY:
   case VUT_MINSIZE:
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
+  case VUT_MAXTILETOPUNITS:
   case VUT_MINHP:
   case VUT_MINMOVES:
   case VUT_COUNTER:

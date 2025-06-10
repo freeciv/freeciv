@@ -592,7 +592,8 @@ static bool is_req_knowable(const struct player *pov_player,
     }
   }
 
-  if (req->source.kind == VUT_MAXTILEUNITS) {
+  if (req->source.kind == VUT_MAXTILETOTALUNITS
+      || req->source.kind == VUT_MAXTILETOPUNITS) {
     if (context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */

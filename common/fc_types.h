@@ -569,7 +569,8 @@ typedef union {
   enum impr_flag_id impr_flag;
   enum plr_flag_id plr_flag;
   int minmoves;
-  int max_tile_units;
+  int max_tile_total_units;
+  int max_tile_top_units;
   int minveteran;
   int min_hit_points;
   int age;

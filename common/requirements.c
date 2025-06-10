@@ -527,9 +527,15 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
-  case VUT_MAXTILEUNITS:
-    source->value.max_tile_units = atoi(value);
-    if (0 <= source->value.max_tile_units) {
+  case VUT_MAXTILETOTALUNITS:
+    source->value.max_tile_total_units = atoi(value);
+    if (0 <= source->value.max_tile_total_units) {
+      return;
+    }
+    break;
+  case VUT_MAXTILETOPUNITS:
+    source->value.max_tile_top_units = atoi(value);
+    if (0 <= source->value.max_tile_top_units) {
       return;
     }
     break;
@@ -828,8 +834,11 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_AI_LEVEL:
     source.value.ai_level = value;
     return source;
-  case VUT_MAXTILEUNITS:
-    source.value.max_tile_units = value;
+  case VUT_MAXTILETOTALUNITS:
+    source.value.max_tile_total_units = value;
+    return source;
+  case VUT_MAXTILETOPUNITS:
+    source.value.max_tile_top_units = value;
     return source;
   case VUT_TERRAINCLASS:
     source.value.terrainclass = value;
@@ -1006,8 +1015,10 @@ int universal_number(const struct universal *source)
     return source->value.minforeignpct;
   case VUT_AI_LEVEL:
     return source->value.ai_level;
-  case VUT_MAXTILEUNITS:
-    return source->value.max_tile_units;
+  case VUT_MAXTILETOTALUNITS:
+    return source->value.max_tile_total_units;
+  case VUT_MAXTILETOPUNITS:
+    return source->value.max_tile_top_units;
   case VUT_TERRAINCLASS:
     return source->value.terrainclass;
    case VUT_ROADFLAG:
@@ -1153,7 +1164,8 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_TERRAINCLASS:
       case VUT_TERRAINALTER:
       case VUT_CITYTILE:
-      case VUT_MAXTILEUNITS:
+      case VUT_MAXTILETOTALUNITS:
+      case VUT_MAXTILETOPUNITS:
       case VUT_MINLATITUDE:
       case VUT_MAXLATITUDE:
       case VUT_MAX_DISTANCE_SQ:
@@ -1330,7 +1342,8 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = (req.range != REQ_RANGE_TILE);
       break;
     case VUT_CITYTILE:
-    case VUT_MAXTILEUNITS:
+    case VUT_MAXTILETOTALUNITS:
+    case VUT_MAXTILETOPUNITS:
       invalid = (req.range != REQ_RANGE_TILE
                  && req.range != REQ_RANGE_CADJACENT
                  && req.range != REQ_RANGE_ADJACENT);
@@ -1470,7 +1483,8 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_DIPLREL_TILE_O:
     case VUT_DIPLREL_UNITANY:
     case VUT_DIPLREL_UNITANY_O:
-    case VUT_MAXTILEUNITS:
+    case VUT_MAXTILETOTALUNITS:
+    case VUT_MAXTILETOPUNITS:
     case VUT_MINTECHS:
     case VUT_FUTURETECHS:
     case VUT_MINCITIES:
@@ -2881,24 +2895,24 @@ is_minforeignpct_req_active(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Determine whether a maximum units on tile requirement is satisfied in a
-  given context, ignoring parts of the requirement that can be handled
+  Determine whether a maximum total units on tile requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
   uniformly for all requirement types.
 
   context, other_context and req must not be null,
   and req must be a maxunitsontile requirement
 **************************************************************************/
 static enum fc_tristate
-is_maxunitsontile_req_active(const struct civ_map *nmap,
-                             const struct req_context *context,
-                             const struct req_context *other_context,
-                             const struct requirement *req)
+is_maxtotalunitsontile_req_active(const struct civ_map *nmap,
+                                  const struct req_context *context,
+                                  const struct req_context *other_context,
+                                  const struct requirement *req)
 {
   int max_units;
 
-  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAXTILEUNITS);
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAXTILETOTALUNITS);
 
-  max_units = req->source.value.max_tile_units;
+  max_units = req->source.value.max_tile_total_units;
 
   /* TODO: If can't see V_INVIS -> TRI_MAYBE */
   switch (req->range) {
@@ -2929,6 +2943,109 @@ is_maxunitsontile_req_active(const struct civ_map *nmap,
     }
     adjc_iterate(nmap, context->tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= max_units) {
+        return TRI_YES;
+      }
+    } adjc_iterate_end;
+    return TRI_NO;
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADE_ROUTE:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
+
+  return TRI_MAYBE;
+}
+
+
+/**********************************************************************//**
+  Determine whether a maximum top units on tile requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a maxunitsontile requirement
+**************************************************************************/
+static enum fc_tristate
+is_maxtopunitsontile_req_active(const struct civ_map *nmap,
+                                const struct req_context *context,
+                                const struct req_context *other_context,
+                                const struct requirement *req)
+{
+  int max_units;
+  int count;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAXTILETOPUNITS);
+
+  max_units = req->source.value.max_tile_top_units;
+
+  /* TODO: If can't see V_INVIS -> TRI_MAYBE */
+  switch (req->range) {
+  case REQ_RANGE_TILE:
+    if (!context->tile) {
+      return TRI_MAYBE;
+    }
+    count = 0;
+    unit_list_iterate(context->tile->units, punit) {
+      if (!unit_transported(punit)) {
+        count++;
+      }
+    } unit_list_iterate_end;
+    return BOOL_TO_TRISTATE(count <= max_units);
+  case REQ_RANGE_CADJACENT:
+    if (!context->tile) {
+      return TRI_MAYBE;
+    }
+    count = 0;
+    unit_list_iterate(context->tile->units, punit) {
+      if (!unit_transported(punit)) {
+        count++;
+      }
+    } unit_list_iterate_end;
+    if (count <= max_units) {
+      return TRI_YES;
+    }
+    cardinal_adjc_iterate(nmap, context->tile, adjc_tile) {
+      count = 0;
+      unit_list_iterate(adjc_tile->units, punit) {
+        if (!unit_transported(punit)) {
+          count++;
+        }
+      } unit_list_iterate_end;
+      if (count <= max_units) {
+        return TRI_YES;
+      }
+    } cardinal_adjc_iterate_end;
+
+    return TRI_NO;
+  case REQ_RANGE_ADJACENT:
+    if (!context->tile) {
+      return TRI_MAYBE;
+    }
+    count = 0;
+    unit_list_iterate(context->tile->units, punit) {
+      if (!unit_transported(punit)) {
+        count++;
+      }
+    } unit_list_iterate_end;
+    if (count <= max_units) {
+      return TRI_YES;
+    }
+    adjc_iterate(nmap, context->tile, adjc_tile) {
+      count = 0;
+      unit_list_iterate(adjc_tile->units, punit) {
+        if (!unit_transported(punit)) {
+          count++;
+        }
+      } unit_list_iterate_end;
+      if (count <= max_units) {
         return TRI_YES;
       }
     } adjc_iterate_end;
@@ -6310,7 +6427,8 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_MAX_DISTANCE_SQ] = {is_max_distance_sq_req_active, REQUCH_YES},
   [VUT_MAX_REGION_TILES] = {is_max_region_tiles_req_active, REQUCH_NO},
   [VUT_MAXLATITUDE] = {is_latitude_req_active, REQUCH_YES},
-  [VUT_MAXTILEUNITS] = {is_maxunitsontile_req_active, REQUCH_NO},
+  [VUT_MAXTILETOTALUNITS] = {is_maxtotalunitsontile_req_active, REQUCH_NO},
+  [VUT_MAXTILETOPUNITS] = {is_maxtopunitsontile_req_active, REQUCH_NO},
   [VUT_MINCALFRAG] = {is_mincalfrag_req_active, REQUCH_NO},
   [VUT_MINCULTURE] = {is_minculture_req_active, REQUCH_NO},
   [VUT_MINFOREIGNPCT] = {is_minforeignpct_req_active, REQUCH_NO},
@@ -6864,7 +6982,8 @@ bool universal_never_there(const struct universal *source)
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
   case VUT_DIPLREL_UNITANY_O:
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
+  case VUT_MAXTILETOPUNITS:
   case VUT_UTYPE:
   case VUT_UCLASS:
   case VUT_MINVETERAN:
@@ -7536,8 +7655,10 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.minforeignpct == psource2->value.minforeignpct;
   case VUT_AI_LEVEL:
     return psource1->value.ai_level == psource2->value.ai_level;
-  case VUT_MAXTILEUNITS:
-    return psource1->value.max_tile_units == psource2->value.max_tile_units;
+  case VUT_MAXTILETOTALUNITS:
+    return psource1->value.max_tile_total_units == psource2->value.max_tile_total_units;
+  case VUT_MAXTILETOPUNITS:
+    return psource1->value.max_tile_top_units == psource2->value.max_tile_top_units;
   case VUT_TERRAINCLASS:
     return psource1->value.terrainclass == psource2->value.terrainclass;
   case VUT_ROADFLAG:
@@ -7718,8 +7839,11 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_AI_LEVEL:
     return ai_level_name(psource->value.ai_level);
-  case VUT_MAXTILEUNITS:
-    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.max_tile_units);
+  case VUT_MAXTILETOTALUNITS:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.max_tile_total_units);
+    return buffer;
+  case VUT_MAXTILETOPUNITS:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.max_tile_top_units);
     return buffer;
   case VUT_TERRAINCLASS:
     return terrain_class_name(psource->value.terrainclass);
@@ -7993,11 +8117,18 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz, _("%s AI"),
                  ai_level_translated_name(psource->value.ai_level)); /* FIXME */
     return buf;
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
+    /* TRANS: here <= means 'less than or equal' */
+    cat_snprintf(buf, bufsz, PL_("<=%d total unit",
+                                 "<=%d total units",
+                                 psource->value.max_tile_total_units),
+                 psource->value.max_tile_total_units);
+    return buf;
+  case VUT_MAXTILETOPUNITS:
     /* TRANS: here <= means 'less than or equal' */
     cat_snprintf(buf, bufsz, PL_("<=%d unit",
-                                 "<=%d units", psource->value.max_tile_units),
-                 psource->value.max_tile_units);
+                                 "<=%d units", psource->value.max_tile_top_units),
+                 psource->value.max_tile_top_units);
     return buf;
   case VUT_TERRAINCLASS:
     /* TRANS: Terrain class: "Land terrain" */
