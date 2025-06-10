@@ -50,7 +50,7 @@ enum effect_type req_base_effects[] =
 /* These have been made mandatory in freeciv-3.3 */
 enum effect_type req_base_effects_3_3[] =
   {
-    /* None yet */
+    EFT_UPKEEP_FACTOR,
     EFT_COUNT
   };
 
