@@ -150,9 +150,9 @@ public:
 
 private slots:
   void set_index(int index);
-  void nation_selected(const QItemSelection &sl, const QItemSelection &ds);
-  void style_selected(const QItemSelection &sl, const QItemSelection &ds);
-  void group_selected(const QItemSelection &sl, const QItemSelection &ds);
+  void nation_selected(const QItemSelection &selected);
+  void style_selected(const QItemSelection &selected);
+  void group_selected(const QItemSelection &selected);
   void nationset_changed(int index);
   void leader_selected(int index);
   void ok_pressed();
