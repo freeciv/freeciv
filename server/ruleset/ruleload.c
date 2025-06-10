@@ -4317,6 +4317,8 @@ static bool load_government_names(struct section_file *file,
   struct section_list *sec;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+  const char *flag;
+  int i;
 
   if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
@@ -4382,6 +4384,34 @@ static bool load_government_names(struct section_file *file,
         }
       } multipliers_iterate_end;
     }
+  }
+
+  /* User government flag names */
+  for (i = 0;
+       (flag = secfile_lookup_str_default(file, nullptr,
+                                          "control.government_flags%d.name",
+                                          i));
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, nullptr,
+        "control.government_flags%d.helptxt", i);
+
+    if (gov_flag_id_by_name(flag, fc_strcasecmp)
+        != gov_flag_id_invalid()) {
+      ruleset_error(nullptr, LOG_ERROR,
+                    "\"%s\": Duplicate government flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
+    if (i > MAX_NUM_USER_GOVERNMENT_FLAGS) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": Too many user government flags!",
+                    filename);
+      ok = FALSE;
+      break;
+    }
+
+    set_user_gov_flag_name(GOVF_USER_FLAG_1 + i, flag, helptxt);
   }
 
   section_list_destroy(sec);

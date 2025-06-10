@@ -13,6 +13,7 @@ EXTRA_DIST = \
 		city_enums.def		\
 		effects_enums.def	\
 		fc_types_enums.def	\
+		government_enums.def	\
 		manual_enums.def	\
 		terrain_enums.def	\
 		$(ENUMS_GEN)

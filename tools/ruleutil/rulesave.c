@@ -1916,9 +1916,31 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "government");
   int sect_idx;
+  bool uflags_government = FALSE;
+  int i;
 
   if (sfile == nullptr) {
     return FALSE;
+  }
+
+  for (i = 0; i < MAX_NUM_USER_GOVERNMENT_FLAGS; i++) {
+    const char *flagname = gov_flag_id_name_cb(i + GOVF_USER_FLAG_1);
+    const char *helptxt = gov_flag_helptxt(i + GOVF_USER_FLAG_1);
+
+    if (flagname != nullptr) {
+      if (!uflags_government) {
+        comment_uflags_government(sfile);
+        uflags_government = TRUE;
+      }
+
+      secfile_insert_str(sfile, flagname, "control.government_flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formatting code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
+      secfile_insert_str(sfile, helptxt,
+                         "control.government_flags%d.helptxt", i);
+    }
   }
 
   save_gov_ref(sfile, game.government_during_revolution, "governments",
