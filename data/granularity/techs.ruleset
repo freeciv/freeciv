@@ -176,6 +176,17 @@ graphic     = "a.astronomy"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_brewing]
+name        = _("Brewing")
+req1        = "Medicine"
+req2        = "Currency"
+flags       = ""
+graphic     = "a.brewing"
+graphic_alt = "-"
+helptext    = _("\
+The art of industrial brewing.\
+")
+
 [advance_bronze_weapons]
 name        = _("Bronze Weapons")
 req1        = "Mining"
