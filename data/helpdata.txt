@@ -1702,14 +1702,15 @@ space: done giving orders  (unit stays put)\n\
 "), _("\
 Unit Movement:\n\
 ==============\n\
-  1: move south-west\n\
-  2: move south\n\
-  3: move south-east\n\
-  4: move west\n\
-  6: move east\n\
-  7: move north-west\n\
-  8: move north\n\
-  9: move north-east\n\
+  (Some do not apply in some map topologies)\n\n\
+  1,End:       move down and left\n\
+  2,Down:      move down\n\
+  3,Page Down: move down and right\n\
+  4,Left:      move left\n\
+  6,Right:     move right\n\
+  7,Home:      move up and left\n\
+  8,Up:        move up\n\
+  9,Page Up:   move up and right\n\
 "), _("\
 Main Map (Keys):\n\
 ================\n\
