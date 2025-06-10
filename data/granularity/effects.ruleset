@@ -235,6 +235,24 @@ reqs	=
       "OutputType", "Luxury",      "Local"
     }
 
+[effect_brewery_gold]
+type    = "Output_Bonus"
+value	= 15
+reqs	=
+    { "type",       "name",    "range"
+      "Building",   "Brewery", "City"
+      "OutputType", "Gold",    "Local"
+    }
+
+[effect_brewery_luxury]
+type    = "Output_Bonus"
+value	= 25
+reqs	=
+    { "type",       "name",    "range"
+      "Building",   "Brewery", "City"
+      "OutputType", "Luxury",  "Local"
+    }
+
 [effect_culture_tech]
 type    = "Culture_Pct"
 value   = 50
