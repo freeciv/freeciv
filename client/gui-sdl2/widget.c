@@ -616,8 +616,8 @@ void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock)
   Delete Widget from Main widgets list ( begin_widget_list )
 
   NOTE: This function does not destroy Widget, only remove its pointer from
-  list. To destroy this Widget totaly ( free mem... ) call macro:
-  del_widget_from_gui_list( pwidget ).  This macro call this function.
+  list. To destroy this Widget totally ( free mem... ) call macro:
+  del_widget_from_gui_list( pwidget ). This macro call this function.
 **************************************************************************/
 void del_widget_pointer_from_gui_list(struct widget *gui)
 {
