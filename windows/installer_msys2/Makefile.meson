@@ -97,6 +97,9 @@ all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-instal
 
 all-win32+: gtk3.22-install sdl2-install gtk4-install qt5-install ruledit-install-qt5
 
+release:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dbuildtype=release -Doptimization=3 $(EXTRA_CONFIG)" all
+
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
