@@ -217,6 +217,7 @@ Get the freeciv sources there somehow. Some options are:
   - "ruledit-installer"
   - "snapshot", if your freeciv sources are in git checkout directory,
                 builds all installers with commit id in version number
+  - "release", build all installers with high optimization etc
 
  You can also set minimum Windows version targeted. While setting this
  to an older version allows those Windows versions to run the created
