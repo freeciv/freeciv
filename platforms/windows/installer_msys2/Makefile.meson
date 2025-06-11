@@ -70,6 +70,9 @@ all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer rule
 
 all-win64+: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
+release:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dbuildtype=release -Doptimization=3 $(EXTRA_CONFIG)" all
+
 snapshot:
 	cd $(SRC_ROOT) ; ./scripts/refresh_changelog.sh
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
