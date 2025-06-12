@@ -4243,6 +4243,7 @@ def write_common_header(path: "str | Path | None", packets: PacketsDefinition):
 #include "conn_types.h"
 #include "disaster.h"
 #include "events.h"
+#include "government.h"
 #include "player.h"
 #include "tech.h"
 #include "unit.h"

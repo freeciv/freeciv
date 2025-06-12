@@ -8979,6 +8979,31 @@ static void send_ruleset_governments(struct conn_list *dest)
 {
   struct packet_ruleset_government gov;
   struct packet_ruleset_government_ruler_title title;
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_GOVERNMENT_FLAGS; i++) {
+    struct packet_ruleset_gov_flag fpacket;
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + GOVF_USER_FLAG_1;
+
+    flagname = impr_flag_id_name(i + GOVF_USER_FLAG_1);
+    if (flagname == nullptr) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = gov_flag_helptxt(i + GOVF_USER_FLAG_1);
+    if (helptxt == nullptr) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_gov_flag(dest, &fpacket);
+  }
 
   governments_iterate(g) {
     /* Send one packet_government */
@@ -8986,6 +9011,8 @@ static void send_ruleset_governments(struct conn_list *dest)
 
     /* Shallow-copy (borrow) requirement vector */
     gov.reqs = g->reqs;
+
+    gov.flags = g->flags;
 
     sz_strlcpy(gov.name, untranslated_name(&g->name));
     sz_strlcpy(gov.rule_name, rule_name_get(&g->name));

@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 518
+Max id: 519
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -287,6 +287,7 @@ type BV_CAUSES          = bitvector(bv_causes)
 type BV_RMCAUSES        = bitvector(bv_rmcauses)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
+type BV_GOV_FLAGS       = bitvector(bv_gov_flags)
 type BV_IMPRS           = bitvector(bv_imprs)
 type BV_PLAYER          = bitvector(bv_player)
 type BV_STARTPOS_NATIONS= bitvector(bv_startpos_nations)
@@ -1568,7 +1569,14 @@ PACKET_RULESET_GOVERNMENT = 145; sc, lsend
   STRING sound_str[MAX_LEN_NAME];
   STRING sound_alt[MAX_LEN_NAME];
   STRING sound_alt2[MAX_LEN_NAME];
+  BV_GOV_FLAGS flags;
   STRVEC helptext;
+end
+
+PACKET_RULESET_GOV_FLAG = 519; sc, lsend
+  UINT8       id;
+  STRING      name[MAX_LEN_NAME];
+  STRING      helptxt[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend

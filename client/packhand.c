@@ -4119,6 +4119,7 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   sz_strlcpy(gov->sound_str, p->sound_str);
   sz_strlcpy(gov->sound_alt, p->sound_alt);
   sz_strlcpy(gov->sound_alt2, p->sound_alt2);
+  gov->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(gov->helptext, p->helptext);
 
@@ -4138,6 +4139,32 @@ void handle_ruleset_government_ruler_title
   (void) government_ruler_title_new(gov, nation_by_number(packet->nation),
                                     packet->male_title,
                                     packet->female_title);
+}
+
+/************************************************************************//**
+  Packet ruleset_gov_flag handler.
+****************************************************************************/
+void handle_ruleset_gov_flag(const struct packet_ruleset_gov_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= GOVF_USER_FLAG_1 && p->id <= GOVF_LAST_USER_FLAG,
+                    "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = nullptr;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = nullptr;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_gov_flag_name(p->id, flagname, helptxt);
 }
 
 /************************************************************************//**
