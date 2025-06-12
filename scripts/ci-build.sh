@@ -83,6 +83,12 @@ ninja rulesets_not_broken.sh
 echo "Checking ruleset saving"
 ninja rulesets_save.sh
 ./rulesets_save.sh
+
+echo "Running Freeciv server autogame"
+cd ${HOME}/freeciv/meson/bin/
+./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
+
+echo "Freeciv server autogame successful!"
 ;;
 
 "mac-meson")
@@ -232,12 +238,6 @@ echo "Checking ruleset upgrade"
 # Check ruleset autohelp generation
 echo "Checking ruleset auto help generation"
 ./tests/rulesets_autohelp.sh
-
-echo "Running Freeciv server autogame"
-cd ${HOME}/freeciv/default/bin/
-./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
-
-echo "Freeciv server autogame successful!"
 ;;
 
 *)
