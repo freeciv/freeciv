@@ -57,7 +57,7 @@
   We don't need a hunter in this city if we already have one. Return
   existing hunter if any.
 **************************************************************************/
-static struct unit *dai_hunter_find(struct player *pplayer, 
+static struct unit *dai_hunter_find(struct player *pplayer,
                                     struct city *pcity)
 {
   unit_list_iterate(pcity->units_supported, punit) {
@@ -185,7 +185,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
     }
 
     /* FIXME: We need to store some data that can tell us if
-     * enemy transports are protected by anti-missile technology. 
+     * enemy transports are protected by anti-missile technology.
      * In this case, want nuclear much more! */
     desire = (ut->hp
               * MIN(ut->attack_strength, 30) /* nuke fix */
@@ -559,9 +559,9 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       }
 
       UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %s %s[%d](%d,%d) "
-               "with want %d, dist1 %d, dist2 %d", 
+               "with want %d, dist1 %d, dist2 %d",
                nation_rule_name(nation_of_unit(target)),
-               unit_rule_name(target), 
+               unit_rule_name(target),
                target->id,
                TILE_XY(target_tile),
                stackthreat,

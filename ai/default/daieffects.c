@@ -48,8 +48,8 @@
   specialists who provide at least HAPPY_COST luxury, being the number of
   luxuries needed to make one citizen content or happy.
 
-  The AI assumes that for any specialist that provides HAPPY_COST luxury, 
-  if we can get that luxury from some other source it allows the specialist 
+  The AI assumes that for any specialist that provides HAPPY_COST luxury,
+  if we can get that luxury from some other source it allows the specialist
   to become a worker.  The benefits from an extra worker are weighed against
   the losses from acquiring the two extra luxury.
 
@@ -98,12 +98,12 @@ adv_want dai_content_effect_value(const struct player *pplayer,
     int factor = 2;
 
     /* Try to build wonders to offset empire size unhappiness */
-    if (city_list_size(pplayer->cities) 
+    if (city_list_size(pplayer->cities)
         > get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
       if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE) > 0) {
         int step_bonus = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
 
-        factor += city_list_size(pplayer->cities) 
+        factor += city_list_size(pplayer->cities)
           / MAX(step_bonus, 1);
       }
       factor += 2;
@@ -312,7 +312,7 @@ adv_want dai_effect_value(struct player *pplayer,
     }
     break;
   case EFT_AIRLIFT:
-    /* FIXME: We need some smart algorithm here. The below is 
+    /* FIXME: We need some smart algorithm here. The below is
      * totally braindead. */
     v += c + MIN(adv->stats.units.airliftable, 13);
     break;
@@ -399,7 +399,7 @@ adv_want dai_effect_value(struct player *pplayer,
         /* The idea being that if we have a full granary, we have an
          * automatic surplus of our granary excess in addition to anything
          * collected by city workers. */
-        extra_food += pcity->food_stock - 
+        extra_food += pcity->food_stock -
                       city_granary_size(city_size_get(pcity) - 1);
       }
 

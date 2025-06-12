@@ -21,7 +21,7 @@
 /* utility */
 #include "mem.h"
 #include "log.h"
-#include "support.h" 
+#include "support.h"
 #include "timing.h"
 
 /* common */
@@ -66,12 +66,12 @@
 
 
 /* COMMENTS */
-/* 
+/*
    This code tries hard to do the right thing, including looking
    into the future (wrt to government), and also doing this in a
    modpack friendly manner. However, there are some pieces missing.
 
-   A tighter integration into the city management code would 
+   A tighter integration into the city management code would
    give more optimal city placements, since existing cities could
    move their workers around to give a new city better placement.
    Occasionally you will see cities being placed sub-optimally
@@ -111,7 +111,7 @@
 /* Percentage bonus to city locations near an ocean. */
 #define NAVAL_EMPHASIS 20
 
-/* Modifier for defense bonus that is applied to city location want. 
+/* Modifier for defense bonus that is applied to city location want.
  * This is % of defense % to increase want by. */
 #define DEFENSE_EMPHASIS 20
 
@@ -408,7 +408,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
                     + (result->best_other.tdc != NULL
                        ? result->best_other.tdc->sum : 0);
   } else if (result->best_other.tdc != NULL) {
-    /* Baseline is best extra tile only. This is why making new cities 
+    /* Baseline is best extra tile only. This is why making new cities
      * is so darn good. */
     result->total = result->best_other.tdc->sum;
   } else {
@@ -967,7 +967,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
 
     /* FIXME: Maybe penalty for using an existing boat is too high?
      * We shouldn't make the penalty for building a new boat too high though.
-     * Building a new boat is like a war against a weaker enemy -- 
+     * Building a new boat is like a war against a weaker enemy --
      * good for the economy. (c) Bush family */
     cr2 = settler_map_iterate(ait, &parameter, punit,
                               unit_build_shield_cost_base(ferry));
@@ -1139,11 +1139,11 @@ BUILD_CITY:
     if (result && result->result > best_impr) {
       UNIT_LOG(LOG_DEBUG, punit, "city want " ADV_WANT_PRINTF, result->result);
       if (tile_city(result->tile)) {
-        UNIT_LOG(LOG_DEBUG, punit, "immigrates to %s (%d, %d)", 
+        UNIT_LOG(LOG_DEBUG, punit, "immigrates to %s (%d, %d)",
                  city_name_get(tile_city(result->tile)),
                  TILE_XY(result->tile));
       } else {
-        UNIT_LOG(LOG_DEBUG, punit, "makes city at (%d, %d)", 
+        UNIT_LOG(LOG_DEBUG, punit, "makes city at (%d, %d)",
                  TILE_XY(result->tile));
         if (punit->server.debug) {
           print_cityresult(pplayer, result);

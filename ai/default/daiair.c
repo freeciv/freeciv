@@ -187,7 +187,7 @@ static adv_want dai_evaluate_tile_for_air_attack(const struct civ_map *nmap,
   /* Cost of our unit */
   unit_cost = unit_build_shield_cost_base(punit);
   /* This is to say "wait, ill unit will get better!" */
-  unit_cost = unit_cost * unit_type_get(punit)->hp / punit->hp; 
+  unit_cost = unit_cost * unit_type_get(punit)->hp / punit->hp;
 
   /* Determine cost of enemy units */
   victim_cost = stack_cost(punit, pdefender);
@@ -221,7 +221,7 @@ static adv_want dai_evaluate_tile_for_air_attack(const struct civ_map *nmap,
   profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defense, 1)
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
   if (profit > 0) {
-    profit = military_amortize(unit_owner(punit), 
+    profit = military_amortize(unit_owner(punit),
                                game_city_by_number(punit->homecity),
                                profit, sortie_time, balanced_cost);
     log_debug("%s at (%d, %d) is a worthy target with profit " ADV_WANT_PRINTF,
@@ -272,7 +272,7 @@ static adv_want find_something_to_bomb(struct ai_type *ait,
       continue;
     }
 
-    if (has_handicap(pplayer, H_FOG) 
+    if (has_handicap(pplayer, H_FOG)
         && !map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       /* The tile is fogged */
       continue;
@@ -484,7 +484,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
     }
   } else {
     try to attack something
-  } 
+  }
   TODO: Distant target selection, support for fuel > 2
 **********************************************************************/
 void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
@@ -542,7 +542,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
 
     if (find_something_to_bomb(ait, nmap, punit, &path, &dst_tile) > 0) {
       /* Found target, coordinates are in punit's goto_dest.
-       * TODO: separate attacking into a function, check for the best 
+       * TODO: separate attacking into a function, check for the best
        * tile to attack from */
       fc_assert_ret(path != NULL && dst_tile != NULL);
       if (!adv_follow_path(punit, path, dst_tile)) {
@@ -562,7 +562,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
       }
       pf_path_destroy(path);
     } else {
-      log_debug("%s cannot find anything to kill and is staying put", 
+      log_debug("%s cannot find anything to kill and is staying put",
                 unit_rule_name(punit));
       def_ai_unit_data(punit, ait)->done = TRUE;
       unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);

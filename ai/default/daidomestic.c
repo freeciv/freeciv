@@ -88,7 +88,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     return;
   }
 
-  if (pcity == wonder_city 
+  if (pcity == wonder_city
       || wonder_city == NULL
       || city_data->distance_to_wonder_city <= 0
       || !city_production_gets_caravan_shields(&wonder_city->production)
@@ -141,7 +141,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     fc_assert_ret(VUT_IMPROVEMENT == wonder_city->production.kind);
 
     want /= MAX(dist, 1);
-    CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with " ADV_WANT_PRINTF, 
+    CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with " ADV_WANT_PRINTF,
              utype_rule_name(unit_type),
              city_name_get(wonder_city),
              want);
@@ -640,7 +640,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
 /***********************************************************************//**
   Calculate walking distances to wonder city from nearby cities.
 ***************************************************************************/
-void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer, 
+void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
                               struct adv_data *adv)
 {
   struct pf_map *pfm;

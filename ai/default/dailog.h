@@ -16,8 +16,8 @@
 /* utility */
 #include "log.h"
 #include "support.h"
- 
-/* Change these and remake to watch logs from a specific 
+
+/* Change these and remake to watch logs from a specific
    part of the AI code. */
 #define LOGLEVEL_TECH LOG_DEBUG
 
