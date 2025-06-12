@@ -26,13 +26,13 @@ cd $(dirname $0)
 # List of rulesets to copy
 rulesets="$(cat ruleset_list_dist.txt) $(cat ruleset_list_opt.txt)"
 
-if test "x$1" = "x" ; then
-  REVISION=$DEFAULT_REVISION
+if test "$1" = "" ; then
+  REVISION="${DEFAULT_REVISION}"
 else
-  REVISION=$1
+  REVISION="$1"
 fi
 
-# sanity check
+# Sanity check
 git merge-base --is-ancestor $REVISION $PREVIOUS_BRANCH
 
 tmpdir="tmp"
