@@ -283,10 +283,10 @@ int tile_move_cost_ptrs(const struct civ_map *nmap,
                         const struct player *pplayer,
                         const struct tile *t1, const struct tile *t2);
 
-/***************************************************************
+/************************************************************************//**
   The cost to move punit from where it is to tile x,y.
   It is assumed the move is a valid one, e.g. the tiles are adjacent.
-***************************************************************/
+****************************************************************************/
 static inline int map_move_cost_unit(const struct civ_map *nmap,
                                      struct unit *punit,
                                      const struct tile *ptile)
@@ -296,9 +296,9 @@ static inline int map_move_cost_unit(const struct civ_map *nmap,
                              unit_tile(punit), ptile);
 }
 
-/***************************************************************
+/************************************************************************//**
   Move cost between two tiles
-***************************************************************/
+****************************************************************************/
 static inline int map_move_cost(const struct civ_map *nmap,
                                 const struct player *pplayer,
                                 const struct unit_type *punittype,
@@ -731,6 +731,9 @@ moves. Includes MAP_MAX_LINEAR_SIZE because a map can be non wrapping. */
  * elements defined above.
  */
 
+/************************************************************************//**
+  Convert map position to tile index.
+****************************************************************************/
 static inline int map_pos_to_index(struct civ_map *nmap, int map_x, int map_y)
 {
   /* Note: writing this as a macro is hard; it needs temp variables. */
@@ -738,28 +741,37 @@ static inline int map_pos_to_index(struct civ_map *nmap, int map_x, int map_y)
 
   CHECK_MAP_POS(map_x, map_y);
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
+
   return native_pos_to_index(nat_x, nat_y);
 }
 
+/************************************************************************//**
+  Convert tile index to x-coordinate of map position.
+****************************************************************************/
 static inline int index_to_map_pos_x(int mindex)
 {
   /* Note: writing this as a macro is hard; it needs temp variables. */
   int map_x, map_y;
 
   index_to_map_pos(&map_x, &map_y, mindex);
+
   return map_x;
 }
 
+/************************************************************************//**
+  Convert tile index to y-coordinate of map position.
+****************************************************************************/
 static inline int index_to_map_pos_y(int mindex)
 {
   /* Note: writing this as a macro is hard; it needs temp variables. */
   int map_x, map_y;
 
   index_to_map_pos(&map_x, &map_y, mindex);
+
   return map_y;
 }
 
-/****************************************************************************
+/************************************************************************//**
   A "border position" is any map position that _may have_ positions within
   real map distance dist that are non-normal. To see its correctness,
   consider the case where dist is 1 or 0.
