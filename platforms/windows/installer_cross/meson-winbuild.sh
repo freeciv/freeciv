@@ -79,6 +79,7 @@ fi
 
 QTPARAMS=""
 
+AUDIO=sdl2
 TOOLS=manual,ruleup
 case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;
@@ -162,6 +163,7 @@ if ! meson setup \
      -Dsyslua=false \
      -Dmwand="${MWAND}" \
      -Dreadline=false \
+     -Daudio="${AUDIO}" \
      -Dserver="${SERVER}" \
      -Dtools="${TOOLS}" \
      -Ddefault_library=static \
