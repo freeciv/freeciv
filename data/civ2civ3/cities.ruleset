@@ -49,9 +49,9 @@ name            = _("Entertainers")
 ; (The original specialist names in the classic ruleset and derivatives were
 ; not designed to be user-visible.)
 rule_name       = "elvis"
-short_name	= _("?Elvis:E")
+short_name      = _("?Elvis:E")
 graphic         = "specialist.entertainer"
-reqs		=
+reqs            =
     { "type", "name", "range"
 ; Nothing
     }
@@ -64,9 +64,9 @@ See the section on Happiness for the effects of luxury points.\
 [specialist_scientist]
 name            = _("Scientists")
 rule_name       = "scientist"
-short_name	= _("?Scientist:S")
+short_name      = _("?Scientist:S")
 graphic         = "specialist.scientist"
-reqs		=
+reqs            =
     { "type", "name", "range"
 ; Nothing
     }
@@ -79,9 +79,9 @@ Voyage.\
 [specialist_taxman]
 name            = _("Taxmen")
 rule_name       = "taxman"
-short_name	= _("?Taxman:T")
+short_name      = _("?Taxman:T")
 graphic         = "specialist.taxman"
-reqs		=
+reqs            =
     { "type", "name", "range"
 ; Nothing
     }
@@ -92,12 +92,12 @@ A.Smith's Trading Co.\
 ")
 
 [parameters]
-add_to_size_limit  = 8		; cities >= this cannot be added to.
+add_to_size_limit = 8           ; cities >= this cannot be added to.
 angry_citizens = TRUE           ; set to FALSE to disable angry citizens
 celebrate_size_limit = 3        ; cities >= can celebrate
 
 changable_tax = TRUE            ; set to FALSE to disallow changing of tax rates
-;forced_science = 0		; set these fields when changeable_tax is turned off
+;forced_science = 0             ; set these fields when changeable_tax is turned off
 ;forced_luxury = 100
 ;forced_gold = 0
 
