@@ -221,7 +221,7 @@ struct city_sprite {
 };
 
 struct river_sprites {
-  struct sprite
+  struct anim
     *spec[MAX_INDEX_CARDINAL],
     *outlet[MAX_INDEX_CARDINAL];
 };
@@ -3777,8 +3777,8 @@ static bool load_river_sprites(struct tileset *t,
   for (i = 0; i < t->num_index_cardinal; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_s_%s",
                 tag_pfx, cardinal_index_str(t, i));
-    store->spec[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
-    if (store->spec[i] == NULL) {
+    store->spec[i] = anim_load(t, buffer, 0);
+    if (store->spec[i] == nullptr) {
       return FALSE;
     }
   }
@@ -3786,8 +3786,8 @@ static bool load_river_sprites(struct tileset *t,
   for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%s",
                 tag_pfx, dir_get_tileset_name(t->cardinal_tileset_dirs[i]));
-    store->outlet[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
-    if (store->outlet[i] == NULL) {
+    store->outlet[i] = anim_load(t, buffer, 0);
+    if (store->outlet[i] == nullptr) {
       log_error("Missing \"%s\" for \"%s\".", buffer, tag_pfx);
       return FALSE;
     }
@@ -6139,7 +6139,7 @@ int fill_sprite_array(struct tileset *t,
               int idx = extra_index(priver);
 
               if (BV_ISSET(textras_near[didx], idx)) {
-                ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
+                ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
               }
             }
           } extra_type_list_iterate_end;
@@ -6177,7 +6177,7 @@ int fill_sprite_array(struct tileset *t,
                 }
               }
 
-              ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
+              ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
             }
           }
         } extra_type_list_iterate_end;
@@ -7502,7 +7502,7 @@ int fill_basic_road_sprite_array(const struct tileset *t,
   extrastyle = t->sprites.extras[idx].extrastyle;
 
   if (extrastyle == ESTYLE_RIVER) {
-    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[0]);
+    ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[0]);
   } else {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       if (!t->valid_tileset_dirs[i]) {
