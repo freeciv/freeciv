@@ -5174,6 +5174,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int want;
   int tmp_int;
   const struct civ_map *nmap = &(wld.map);
+  enum capital_type cap;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -5202,10 +5203,23 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &value, "%s.size",
                                      citystr), FALSE, "%s", secfile_error());
-  size = (citizens)value; /* set the correct type */
+  size = (citizens)value; /* Set the correct type */
   sg_warn_ret_val(value == (int)size, FALSE,
                   "Invalid city size: %d, set to %d", value, size);
   city_size_set(pcity, size);
+
+  cap = capital_type_by_name(secfile_lookup_str_default(loading->file, nullptr,
+                                                        "%s.capital", citystr),
+                             fc_strcasecmp);
+
+  if (capital_type_is_valid(cap)) {
+    pcity->capital = cap;
+    if (cap == CAPITAL_PRIMARY) {
+      plr->primary_capital_id = pcity->id;
+    }
+  } else {
+    pcity->capital = CAPITAL_NOT;
+  }
 
   for (i = 0; i < loading->specialist.size; i++) {
     sg_warn_ret_val(secfile_lookup_int(loading->file, &value, "%s.nspe%d",
@@ -5738,6 +5752,9 @@ static void sg_save_player_cities(struct savedata *saving,
       secfile_insert_int(saving->file, -1, "%s.original", buf);
     }
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
+
+    secfile_insert_str(saving->file, capital_type_name(pcity->capital),
+                       "%s.capital", buf);
 
     j = 0;
     specialist_type_iterate(sp) {
