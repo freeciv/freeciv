@@ -185,7 +185,7 @@ cd build
 echo "Freeciv build successful!"
 ;;
 
-*)
+autotools)
 # Fetch S3_3 in the background for the ruleset upgrade test
 git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_3:S3_3 &
 
@@ -232,5 +232,10 @@ cd ${HOME}/freeciv/default/bin/
 ./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
 
 echo "Freeciv server autogame successful!"
+;;
+
+*)
+echo "Unknown ci-job \"$1\"" >&2
+exit 1
 ;;
 esac
