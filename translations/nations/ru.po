@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
-"PO-Revision-Date: 2025-04-03 22:06+0500\n"
+"POT-Creation-Date: 2025-06-13 13:21+0500\n"
+"PO-Revision-Date: 2025-06-13 13:13+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -300,7 +300,7 @@ msgstr "Аббат %s"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1050,7 +1050,7 @@ msgstr "Бейлиф %s"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2709,13 +2709,13 @@ msgstr ""
 "национальностей: боснийцев, сербов и хорватов."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "Ban %s"
 msgstr "Бан %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "?female:Ban %s"
@@ -4447,14 +4447,41 @@ msgstr "Хорваты"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
-"Хорватия — страна южных славян, попавшая после падения Византии под власть "
-"Австро-Венгерской, а не Османской империи. В течение большей части ХХ века "
-"Хорватия была частью Югославии."
+"Хорватия — страна в Юго-Восточной Европе, расположенная на побережье "
+"Адриатического моря. В VI-IX вв. бывшие римские провинции Иллирия, Истрия и "
+"Далмация были заселены славянами, преимущественно из племени хорватов. К IX "
+"веку уже существовали раннесредневековые княжества, которые были объединены "
+"в государство, банская Хорватия, зависимое от королей франков, а в 925 году "
+"бан Томислав был впервые назван Папой королём. После упадка династии "
+"Трпимировичей в конце XI в. земли Хорватии попали под власть венгров. На "
+"рубеже XV-XVI веков бóльшая часть хорватских земель перешла под власть "
+"Османской империи, а знать северных территорий принесла вассальную присягу "
+"Габсбургам. В 1918 году Хорватия наряду с другими Балканскими государствами "
+"провозгласила независимость от Австро-Венгрии и вошла в состав "
+"новообразованного Королевства Сербов, Хорватов и Словенцев, переименованного "
+"в 1929 году в Королевство Югославия. В апреле 1941 года Югославия была "
+"захвачена Германией, которая разделила её территорию между Венгрией, "
+"Италией, Румынией и Болгарией, установив на ней марионеточные режимы. После "
+"освобождения от фашистов была провозглашена Федеративная Народная Республика "
+"Югославия, переименованная в 1963 году в СФРЮ. В 1991 году республика "
+"Хорватия провозгласила независимость, однако, в отличие от Словении, мирно "
+"\"развестись\" с Югославией не получилось — разразилась четырёхлетняя "
+"гражданская война, сопровождавшаяся выселением с обжитых мест сербов, хорват "
+"и боснийцев, а также этническими чистками со всех сторон. Лишь в 1998 году "
+"Хорватия вернула себе все территории республики Хорватия в составе СФРЮ. В "
+"2013 году Хорватия стала членом ЕС."
 
 #: data/nation/crusader.ruleset:3
 msgid "Crusader"
@@ -10372,7 +10399,7 @@ msgstr "Палауанцы"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 "Республика Пала́у — очень маленькая страна с населением около 20 тысяч "
@@ -10533,7 +10560,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -10544,7 +10571,7 @@ msgstr ""
 "конце XVI века, и колония контролировалась иезуитами вплоть до их изгнания в "
 "1767 году. В 1811 году Парагвай стал первой южноамериканской страной, "
 "добившейся независимости от Испании. Страной управлял ряд авторитарных "
-"правителей, но тирания сопровождалась и ростом военной и экономической мощи. "
+"правителей, но тирания сопровождалась ростом военной и экономической мощи. "
 "Война 1864—1870 с Тройственным Союзом привела к практически полному "
 "уничтожению Парагвая, потерявшего больше половины своей территории и 80% "
 "мужского населения. История Парагвая остаётся отмеченной нестабильностью и "
@@ -12447,7 +12474,7 @@ msgstr "Южные йеменцы"
 #: data/nation/southyemeni.ruleset:6
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 "Окрестности порта Аден в 1839 году были колонизированы британцами. Южный "
