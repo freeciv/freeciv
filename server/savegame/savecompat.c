@@ -25,6 +25,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "plrhand.h"
 #include "setcompat.h"
 #include "settings.h"
 #include "unittools.h"
@@ -83,6 +84,8 @@ static void compat_load_030200(struct loaddata *loading, enum sgf_version format
 static void compat_load_030300(struct loaddata *loading, enum sgf_version format_class);
 static void compat_post_load_030100(struct loaddata *loading,
                                     enum sgf_version format_class);
+static void compat_post_load_030300(struct loaddata *loading,
+                                    enum sgf_version format_class);
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading);
@@ -129,7 +132,7 @@ static struct compatibility compat[] = {
   /* version 51 to 59 are reserved for possible changes in 3.1.x */
   { 60, compat_load_030200, NULL },
   /* version 61 to 69 are reserved for possible changes in 3.2.x */
-  { 70, compat_load_030300, NULL },
+  { 70, compat_load_030300, compat_post_load_030300 },
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
@@ -191,8 +194,8 @@ void sg_load_compat(struct loaddata *loading, enum sgf_version format_class)
   Some compatibility needs access to game state not available in
   sg_load_compat(). Do those here.
 
-  This function is called after a savegame has loaded the game state. The
-  data should be changed in the game state since the game already is done
+  This function is called after a savegame has loaded the game state.
+  The data should be changed in the game state since the game already is done
   loading. Prefer using sg_load_compat() when possible.
 ****************************************************************************/
 void sg_load_post_load_compat(struct loaddata *loading,
@@ -2645,6 +2648,25 @@ static void compat_load_030300(struct loaddata *loading,
                          plrno, cnro);
     }
   } player_slots_iterate_end;
+}
+
+/************************************************************************//**
+  Update loaded game data from 3.3.x to something usable by 3.3.0.
+****************************************************************************/
+static void compat_post_load_030300(struct loaddata *loading,
+                                    enum sgf_version format_class)
+{
+  /* Check status and return if not OK (sg_success FALSE). */
+  sg_check_ret();
+
+  /* Capital information was not saved in older savegames,
+   * so we have no capital setup at all at the moment.
+   * Best we can do is to do recalculation now. It might be
+   * a bit off compared to the situation before the game was saved,
+   * but definitely better than not setting capitals at all. */
+  players_iterate_alive(pplayer) {
+    update_capital(pplayer);
+  } players_iterate_alive_end;
 }
 
 /************************************************************************//**
