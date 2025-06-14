@@ -73,7 +73,7 @@ typedef int Tech_type_id;
 /* Changing these breaks network compatibility. */
 /* If a new flag is added techtools.c:research_tech_lost() should be checked */
 #define SPECENUM_NAME tech_flag_id
-/* player gets extra tech if rearched first */
+/* player gets extra tech if researched first */
 #define SPECENUM_VALUE0 TF_BONUS_TECH
 /* TRANS: this and following strings are 'tech flags', which may rarely
  * be presented to the player in ruleset help text */
