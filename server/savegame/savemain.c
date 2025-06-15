@@ -28,6 +28,7 @@
 /* server */
 #include "console.h"
 #include "notify.h"
+#include "plrhand.h"
 
 /* server/savegame */
 #include "savegame2.h"
@@ -59,11 +60,11 @@ void savegame_load(struct section_file *sfile)
   }
 
   if (has_capabilities("+version3", savefile_options)) {
-    /* load new format (freeciv 3.0.x and newer) */
+    /* Load new format (freeciv 3.0.x and newer) */
     log_verbose("loading savefile in 3.0+ format ...");
     savegame3_load(sfile);
   } else if (has_capabilities("+version2", savefile_options)) {
-    /* load old format (freeciv 2.3 - 2.6) */
+    /* Load old format (freeciv 2.3 - 2.6) */
     log_verbose("loading savefile in 2.3 - 2.6 format ...");
     savegame2_load(sfile);
   } else {
@@ -82,6 +83,15 @@ void savegame_load(struct section_file *sfile)
       CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
     } city_list_iterate_end;
   } players_iterate_end;
+
+  /* Capital information was not saved in savegames,
+   * so we have no capital setup at all at the moment.
+   * Best we can do is to do recalculation now. It might be
+   * a bit off compared to the situation before the game was saved,
+   * but definitely better than not setting capitals at all. */
+  players_iterate_alive(pplayer) {
+    update_capital(pplayer);
+  } players_iterate_alive_end;
 
 #ifdef DEBUG_TIMERS
   timer_stop(loadtimer);
