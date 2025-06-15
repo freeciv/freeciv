@@ -532,7 +532,7 @@ struct unit_type {
   int firepower;
   struct combat_bonus_list *bonuses;
 
-#define U_NOT_OBSOLETED (NULL)
+#define U_NOT_OBSOLETED (nullptr)
   const struct unit_type *obsoleted_by;
   const struct unit_type *converted_to;
   int convert_time;
@@ -863,7 +863,7 @@ const struct unit_type *unit_type_array_last(void);
 #define unit_type_iterate(_p)                                           \
 {                                                                       \
   struct unit_type *_p = unit_type_array_first();                       \
-  if (NULL != _p) {                                                     \
+  if (_p != nullptr) {                                                  \
     const struct unit_type *_end_##_p = unit_type_array_last();         \
     for (; _p <= _end_##_p; _p++) {
 
@@ -916,7 +916,7 @@ const struct unit_class *unit_class_array_last(void);
 #define unit_class_iterate(_p)                                          \
 {                                                                       \
   struct unit_class *_p = unit_class_array_first();                     \
-  if (NULL != _p) {                                                     \
+  if (_p != nullptr) {                                                  \
     const struct unit_class *_end_##_p = unit_class_array_last();       \
     for (; _p <= _end_##_p; _p++) {
 
