@@ -78,7 +78,7 @@ DEFAULT_FOLLOW_TAG=S3_4
 # On FREECIV_DEBUG builds, optional capability "debug" gets automatically
 # appended to this.
 #
-NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Jun.10"
+NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Jun.17"
 FREECIV_DISTRIBUTOR=""
 
 if test "${FREECIV_LABEL_FORCE}" != "" ; then
