@@ -1402,7 +1402,7 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::slot_autocaravan);
   act->setShortcut(QKeySequence(tr("ctrl+j")));
   act = multiplayer_menu->addAction(_("Set/Unset rally point"));
-  act->setShortcut(QKeySequence(tr("shift+s")));
+  act->setShortcut(QKeySequence(tr("shift+ctrl+r")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_rally);
   act = multiplayer_menu->addAction(_("Quick Airlift"));
   act->setShortcut(QKeySequence(tr("ctrl+y")));
