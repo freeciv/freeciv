@@ -300,8 +300,8 @@ bool resize_window(struct widget *pwindow, SDL_Surface *bcgd,
 /**********************************************************************//**
   Move window as event instructs.
 **************************************************************************/
-static Uint16 move_window_motion(SDL_MouseMotionEvent *motion_event,
-                                 void *data)
+static widget_id move_window_motion(SDL_MouseMotionEvent *motion_event,
+                                    void *data)
 {
   struct move *pmove = (struct move *)data;
   int xrel, yrel;
@@ -330,16 +330,16 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *motion_event,
 /**********************************************************************//**
   Button up event handler for the window moving event loop.
 **************************************************************************/
-static Uint16 move_window_button_up(SDL_MouseButtonEvent *button_event,
-                                    void *data)
+static widget_id move_window_button_up(SDL_MouseButtonEvent *button_event,
+                                       void *data)
 {
   struct move *pmove = (struct move *)data;
 
   if (pmove && pmove->moved) {
-    return (Uint16)ID_MOVED_WINDOW;
+    return (widget_id)ID_MOVED_WINDOW;
   }
 
-  return (Uint16)ID_WINDOW;
+  return (widget_id)ID_WINDOW;
 }
 
 /**********************************************************************//**

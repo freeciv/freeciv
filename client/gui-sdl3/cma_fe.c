@@ -87,17 +87,17 @@ static int exit_cma_dialog_callback(struct widget *pwidget)
 /**********************************************************************//**
   User released mouse button while in scrollbar.
 **************************************************************************/
-static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
-                                     void *data)
+static widget_id scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
+                                        void *data)
 {
-  return (Uint16)ID_SCROLLBAR;
+  return (widget_id)ID_SCROLLBAR;
 }
 
 /**********************************************************************//**
   User moved mouse while holding scrollbar.
 **************************************************************************/
-static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                          void *data)
+static widget_id scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
+                                             void *data)
 {
   struct hmove *motion = (struct hmove *)data;
   char cbuf[4];
@@ -128,11 +128,11 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
                 *(int *)motion->pscroll_bar->data.ptr);
     copy_chars_to_utf8_str(motion->pscroll_bar->next->string_utf8, cbuf);
 
-    /* redraw label */
+    /* Redraw label */
     widget_redraw(motion->pscroll_bar->next);
     widget_mark_dirty(motion->pscroll_bar->next);
 
-    /* redraw scrollbar */
+    /* Redraw scrollbar */
     if (get_wflags(motion->pscroll_bar) & WF_RESTORE_BACKGROUND) {
       refresh_widget_background(motion->pscroll_bar);
     }

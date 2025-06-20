@@ -416,7 +416,7 @@ int draw_edit(struct widget *pedit, Sint16 start_x, Sint16 start_y)
   NOTE: This functions can return NULL in 'edit_widget->string_utf8->text' but
         never free 'edit_widget->string_utf8' struct.
 **************************************************************************/
-static Uint16 edit_key_down(SDL_KeyboardEvent *key, void *data)
+static widget_id edit_key_down(SDL_KeyboardEvent *key, void *data)
 {
   struct text_edit *edt = (struct text_edit *)data;
   struct utf8_char *input_chain_tmp;
@@ -570,7 +570,7 @@ static Uint16 edit_key_down(SDL_KeyboardEvent *key, void *data)
     break;
   default:
     break;
-  } /* key pressed switch */
+  } /* Key pressed switch */
 
   if (redraw) {
     redraw_edit_chain(edt);
@@ -582,7 +582,7 @@ static Uint16 edit_key_down(SDL_KeyboardEvent *key, void *data)
 /**********************************************************************//**
   Handle textinput strings coming to the edit widget
 **************************************************************************/
-static Uint16 edit_textinput(const char *text, void *data)
+static widget_id edit_textinput(const char *text, void *data)
 {
   struct text_edit *edt = (struct text_edit *)data;
   struct utf8_char *input_chain_tmp;
@@ -652,8 +652,8 @@ static Uint16 edit_textinput(const char *text, void *data)
 /**********************************************************************//**
   Handle mouse down events on edit widget.
 **************************************************************************/
-static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *button_event,
-                                     void *data)
+static widget_id edit_mouse_button_down(SDL_MouseButtonEvent *button_event,
+                                        void *data)
 {
   struct text_edit *edt = (struct text_edit *)data;
 
@@ -662,12 +662,12 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *button_event,
           && button_event->x < edt->pwidget->size.x + edt->bg->w
           && button_event->y >= edt->pwidget->size.y
           && button_event->y < edt->pwidget->size.y + edt->bg->h)) {
-      /* exit from loop */
-      return (Uint16)ED_MOUSE;
+      /* Exit from loop */
+      return (widget_id)ED_MOUSE;
     }
   }
 
-  return (Uint16)ID_ERROR;
+  return (widget_id)ID_ERROR;
 }
 
 /**********************************************************************//**
@@ -709,7 +709,7 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
   edt.end_text_chain->next = NULL;
   edt.end_text_chain->prev = NULL;
 
-  /* set font style (if any ) */
+  /* Set font style (if any ) */
   if (!((edit_widget->string_utf8->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(edit_widget->string_utf8->font,
                      (edit_widget->string_utf8->style & 0x0F));
@@ -720,7 +720,7 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
                              edt.end_text_chain->chr, 0,
                              edit_widget->string_utf8->fgcol);
 
-  /* create surface for each font in chain and find chain length */
+  /* Create surface for each font in chain and find chain length */
   if (edt.begin_text_chain) {
     input_chain_tmp = edt.begin_text_chain;
 
@@ -762,9 +762,9 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
   set_wstate(edit_widget, FC_WS_PRESSED);
   {
     /* Local loop */
-    Uint16 rety = gui_event_loop((void *)&edt, NULL,
-                                 edit_key_down, NULL, edit_textinput, NULL, NULL, NULL,
-                                 edit_mouse_button_down, NULL, NULL);
+    widget_id rety = gui_event_loop((void *)&edt, NULL,
+                                    edit_key_down, NULL, edit_textinput, NULL, NULL, NULL,
+                                    edit_mouse_button_down, NULL, NULL);
 
     if (edt.begin_text_chain == edt.end_text_chain) {
       edt.begin_text_chain = NULL;
