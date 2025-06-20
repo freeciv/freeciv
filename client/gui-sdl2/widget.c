@@ -583,7 +583,7 @@ struct widget *get_widget_pointer_from_main_list(Uint16 id)
 /**********************************************************************//**
   Add Widget to Main widgets list ( begin_widget_list )
 **************************************************************************/
-void add_to_gui_list(Uint16 id, struct widget *gui)
+void add_to_gui_list(widget_id id, struct widget *gui)
 {
   if (begin_main_widget_list != NULL) {
     gui->next = begin_main_widget_list;
