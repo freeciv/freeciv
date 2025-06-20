@@ -359,7 +359,7 @@ static void add_target_to_production(struct widget *target)
 
   /* check if we change to the same target */
   if (are_universals_equal(&prod, &editor->currently_building)) {
-    /* comit changes and exit - double click detection */
+    /* commit changes and exit - double click detection */
     ok_worklist_editor_callback(NULL);
     return;
   }
