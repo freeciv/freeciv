@@ -230,7 +230,7 @@ static bool parse_options(int argc, char **argv)
 /**********************************************************************//**
   Main handler for key presses
 **************************************************************************/
-static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
+static widget_id main_key_down_handler(SDL_Keysym key, void *data)
 {
   static struct widget *pwidget;
 
@@ -238,7 +238,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
     return widget_pressed_action(pwidget);
   } else {
     if (key.sym == SDLK_TAB) {
-      /* input */
+      /* Input */
       popup_input_line();
     } else {
       if (map_event_handler(key)
@@ -311,7 +311,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Main key release handler.
 **************************************************************************/
-static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
+static widget_id main_key_up_handler(SDL_Keysym key, void *data)
 {
   if (selected_widget) {
     unselect_widget_action();
@@ -322,8 +322,8 @@ static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Main finger down handler.
 **************************************************************************/
-static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
-                                       void *data)
+static widget_id main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
+                                          void *data)
 {
   struct widget *pwidget;
   /* Touch event coordinates are normalized (0...1). */
@@ -345,17 +345,20 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
       finger_behavior.ptile = canvas_pos_to_tile(x, y, mouse_zoom);
     }
   }
+
   return ID_ERROR;
 }
+
 /**********************************************************************//**
   Main finger release handler.
 **************************************************************************/
-static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *touch_event,
-                                     void *data)
+static widget_id main_finger_up_handler(SDL_TouchFingerEvent *touch_event,
+                                        void *data)
 {
   /* Touch event coordinates are normalized (0...1). */
   int x = touch_event->x * main_window_width();
   int y = touch_event->y * main_window_height();
+
   /* Screen wasn't pressed over a widget. */
   if (finger_behavior.finger_down_ticks
       && !find_next_widget_at_pos(NULL, x, y)) {
@@ -374,8 +377,8 @@ static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *touch_event,
 /**********************************************************************//**
   Main mouse click handler.
 **************************************************************************/
-static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
-                                             void *data)
+static widget_id main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
+                                                void *data)
 {
   struct widget *pwidget;
 
@@ -386,12 +389,12 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
       return widget_pressed_action(pwidget);
     }
   } else {
-    /* no visible widget at this position -> map click */
+    /* No visible widget at this position -> map click */
 #ifdef UNDER_CE
     if (!check_scroll_area(button_event->x, button_event->y)) {
 #endif
     if (!button_behavior.counting) {
-      /* start counting */
+      /* Start counting */
       button_behavior.counting = TRUE;
       button_behavior.button_down_ticks = SDL_GetTicks();
       *button_behavior.event = *button_event;
@@ -410,10 +413,10 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
 /**********************************************************************//**
   Main mouse button release handler.
 **************************************************************************/
-static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
-                                           void *data)
+static widget_id main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
+                                              void *data)
 {
-  if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
+  if (button_behavior.button_down_ticks /* Button wasn't pressed over a widget */
       && !find_next_widget_at_pos(NULL, button_event->x, button_event->y)) {
     *button_behavior.event = *button_event;
     button_up_on_map(&button_behavior);
@@ -436,13 +439,13 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
 /**********************************************************************//**
   Main handler for mouse movement handling.
 **************************************************************************/
-static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                        void *data)
+static widget_id main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
+                                           void *data)
 {
   static struct widget *pwidget;
   struct tile *ptile;
 
-  /* stop evaluating button hold time when moving to another tile in medium
+  /* Stop evaluating button hold time when moving to another tile in medium
    * hold state or above */
   if (button_behavior.counting && (button_behavior.hold_state >= MB_HOLD_MEDIUM)) {
     ptile = canvas_pos_to_tile(motion_event->x, motion_event->y,
@@ -599,21 +602,23 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 /**********************************************************************//**
   SDL2-client main loop.
 **************************************************************************/
-Uint16 gui_event_loop(void *data,
-                      void (*loop_action)(void *data),
-                      Uint16 (*key_down_handler)(SDL_Keysym key, void *data),
-                      Uint16 (*key_up_handler)(SDL_Keysym key, void *data),
-                      Uint16 (*textinput_handler)(const char *text, void *data),
-                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *touch_event, void *data),
-                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *touch_event, void *data),
-                      Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *touch_event,
-                                                      void *data),
-                      Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
+widget_id gui_event_loop(void *data,
+                         void (*loop_action)(void *data),
+                         widget_id (*key_down_handler)(SDL_Keysym key, void *data),
+                         widget_id (*key_up_handler)(SDL_Keysym key, void *data),
+                         widget_id (*textinput_handler)(const char *text, void *data),
+                         widget_id (*finger_down_handler)(SDL_TouchFingerEvent *touch_event,
                                                           void *data),
-                      Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
+                         widget_id (*finger_up_handler)(SDL_TouchFingerEvent *touch_event,
                                                         void *data),
-                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
-                                                     void *data))
+                         widget_id (*finger_motion_handler)(SDL_TouchFingerEvent *touch_event,
+                                                            void *data),
+                         widget_id (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
+                                                                void *data),
+                         widget_id (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
+                                                              void *data),
+                         widget_id (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
+                                                           void *data))
 {
   Uint16 ID;
   static fc_timeval tv;

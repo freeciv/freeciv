@@ -1191,17 +1191,17 @@ static int toggle_block_callback(struct widget *pcheckbox)
 /**********************************************************************//**
   User released mouse button while adjusting rates.
 **************************************************************************/
-static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
-                                            void *data)
+static widget_id report_scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
+                                               void *data)
 {
-  return (Uint16)ID_SCROLLBAR;
+  return (widget_id)ID_SCROLLBAR;
 }
 
 /**********************************************************************//**
   User moved a mouse while adjusting rates.
 **************************************************************************/
-static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                                 void *data)
+static widget_id report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
+                                                    void *data)
 {
   struct rates_move *motion = (struct rates_move *)data;
   struct widget *tax_label = economy_dlg->end_widget_list->prev->prev;
@@ -1215,7 +1215,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_ev
       && (motion_event->x >= motion->min)
       && (motion_event->x <= motion->max)) {
 
-    /* set up directions */
+    /* Set up directions */
     if (motion_event->xrel > 0) {
       dir = 15;
       inc = 10;
@@ -1224,7 +1224,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_ev
       inc = -10;
     }
 
-    /* make checks */
+    /* Make checks */
     x = motion->horiz_src->size.x;
     if (((x + dir) <= motion->max) && ((x + dir) >= motion->min)) {
       /* src in range */
@@ -1253,7 +1253,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_ev
         }
       }
 
-      /* undraw scrollbars */
+      /* Undraw scrollbars */
       widget_undraw(motion->horiz_src);
       widget_mark_dirty(motion->horiz_src);
 
@@ -1275,14 +1275,14 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_ev
       fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *motion->dst_rate);
       copy_chars_to_utf8_str(motion->label_dst->string_utf8, cbuf);
 
-      /* redraw label */
+      /* Redraw label */
       widget_redraw(motion->label_src);
       widget_mark_dirty(motion->label_src);
 
       widget_redraw(motion->label_dst);
       widget_mark_dirty(motion->label_dst);
 
-      /* redraw scrollbar */
+      /* Redraw scrollbar */
       if (get_wflags(motion->horiz_src) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(motion->horiz_src);
       }

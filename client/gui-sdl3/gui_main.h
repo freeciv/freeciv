@@ -69,6 +69,8 @@ struct theme;
   || ((event).type == SDL_EVENT_MOUSE_BUTTON_DOWN                           \
       && (event).button.button == SDL_BUTTON_LEFT))
 
+typedef Uint16 widget_id;
+
 enum mouse_button_hold_state {
   MB_HOLD_SHORT,
   MB_HOLD_MEDIUM,
@@ -109,20 +111,22 @@ void disable_focus_animation(void);
 extern int MOVE_STEP_X, MOVE_STEP_Y;
 bool FilterMouseMotionEvents(void *data, SDL_Event *event);
 
-Uint16 gui_event_loop(void *data, void (*loop_action)(void *data),
-                      Uint16 (*key_down_handler)(SDL_KeyboardEvent *key, void *data),
-                      Uint16 (*key_up_handler)(SDL_KeyboardEvent *key, void *data),
-                      Uint16 (*textinput_handler)(const char *text, void *data),
-                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *touch_event, void *data),
-                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *touch_event, void *data),
-                      Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *touch_event,
-                                                      void *data),
-                      Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
+widget_id gui_event_loop(void *data, void (*loop_action)(void *data),
+                         widget_id (*key_down_handler)(SDL_KeyboardEvent *key, void *data),
+                         widget_id (*key_up_handler)(SDL_KeyboardEvent *key, void *data),
+                         widget_id (*textinput_handler)(const char *text, void *data),
+                         widget_id (*finger_down_handler)(SDL_TouchFingerEvent *touch_event,
                                                           void *data),
-                      Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
+                         widget_id (*finger_up_handler)(SDL_TouchFingerEvent *touch_event,
                                                         void *data),
-                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
-                                                     void *data));
+                         widget_id (*finger_motion_handler)(SDL_TouchFingerEvent *touch_event,
+                                                            void *data),
+                         widget_id (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
+                                                                void *data),
+                         widget_id (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
+                                                              void *data),
+                         widget_id (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
+                                                           void *data));
 
 unsigned default_font_size(struct theme *act_theme);
 void update_font_from_theme(int theme_font_size);
