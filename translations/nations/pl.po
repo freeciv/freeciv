@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_2 (nations)\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
-"PO-Revision-Date: 2024-12-16 10:28+0100\n"
+"POT-Creation-Date: 2025-06-12 21:16+0300\n"
+"PO-Revision-Date: 2025-06-16 20:56+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Language: pl-PL\n"
 
 #: data/nation/abkhaz.ruleset:3
@@ -295,7 +295,7 @@ msgstr "Przeor %s"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1032,7 +1032,7 @@ msgstr "?female:Baliw %s"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2674,13 +2674,13 @@ msgstr ""
 "przez trzy grupy etniczne: Bośniaków, Sebów i Chorwatów."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "Ban %s"
 msgstr "Ban  %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "?female:Ban %s"
@@ -4387,15 +4387,29 @@ msgstr "?plural:Chorwaci"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
-"Chorwacja to rejon położony na Bałkanach, który znalazł się pod rządami "
-"Cesarstwa Austriacko-Węgierskiego (w przeciwieństwie do innych regionów, "
-"które po upadku Bizancjum zostały wcielone do Imperium Osmańskiego). Przez "
-"większość XX wieku Chorwacja była częścią Jugosławii."
+"Chorwacja to kraj w południowo-wschodniej Europie. W VII wieku protoplaści "
+"przyyemigrowali do regionu i założyli księstwo, które przekształciło się w "
+"królestwo w X wieku pod rządami Tomisława. Po dynastii Trpimirovićów "
+"nastąpił okres wspólnych rządów z różnymi obcymi mocarstwami, głównie z "
+"Austro-Węgrami i Imperium Osmańskim. W 1918 roku Chorwacja ogłosiła "
+"niepodległość od Austro-Węgier wraz z innymi krajami Europy Południowo-"
+"Wschodniej. Podczas II Wojny Światowej państwa Osi wprowadziły faszystowski "
+"rząd marionetkowy, który został później usunięty przez ruch oporu. Chorwacja "
+"była członkiem nowo powstałej Federacji Jugosłowiańskiej do 1991 roku, kiedy "
+"to ogłosiła niepodległość, co doprowadziło do czteroletniego konfliktu, w "
+"wyniku którego Chorwacja uzyskała autonomię."
 
 #: data/nation/crusader.ruleset:3
 msgid "Crusader"
@@ -4597,8 +4611,8 @@ msgstr ""
 "Dakowie to starożytne plemiona mieszkające na lewym brzegu dolnego Dunaju, "
 "na terenach obecnej Rumunii. Prawdopodobnie byli spokrewnieni z Trakami i "
 "innymi plemionami paleo-bałkańskimi. Plemiona dackie zjednoczyły się pod "
-"rządami króla Burebisty. Po wojnach z Rzymem zostali pokonani w roku 106 "
-"p.n.e. Dacja stała się prowincją rzymską i uległa rzymskiej kolonizacji. "
+"rządami króla Burebisty. Po wojnach z Rzymem zostali pokonani w roku 106 p.n."
+"e. Dacja stała się prowincją rzymską i uległa rzymskiej kolonizacji. "
 "Pozostali Dakowie zmieszali się z plemionami wschodniogermańskimi, a później "
 "ze Słowianami."
 
@@ -5120,9 +5134,9 @@ msgstr ""
 "dwunastu miast. W VI w. p.n.e. ich cywilizacja zaczęła podupadać na skutek "
 "najazdów Rzymian i Galów. Rzym był najprawdopodobniej państwem-miastem, "
 "które wyzwoliło się spod etruskiej dominacji, co mogło spowodować, że w "
-"podaniach rzymskich Etruskowie są często pokazywani w negatywny sposób "
-"(m.in. jako ludzie wyuzdani). Nadmienić jednak trzeba, że rzymska kultura "
-"wiele zawdzięcza swoim etruskim przodkom."
+"podaniach rzymskich Etruskowie są często pokazywani w negatywny sposób (m."
+"in. jako ludzie wyuzdani). Nadmienić jednak trzeba, że rzymska kultura wiele "
+"zawdzięcza swoim etruskim przodkom."
 
 #: data/nation/european.ruleset:3
 msgid "European"
@@ -5894,8 +5908,8 @@ msgstr ""
 "indoeuropejskich. Niewiele wiemy o pochodzeniu starożytnych Germanów. Ich "
 "języki zawierają dużo elementów niespotyanych w innych językach "
 "indoeuropejskich. Pierwsze ślady Germanów znaleziono na Nizinie "
-"Północnoniemieckiej i w południowej Skandynawii. Od drugiej połowy II w. "
-"p.n.e. ścierali się z Rzymianami, a we wczesnych wiekach średnich germańskie "
+"Północnoniemieckiej i w południowej Skandynawii. Od drugiej połowy II w. p.n."
+"e. ścierali się z Rzymianami, a we wczesnych wiekach średnich germańskie "
 "królestwa powstały na terenach niegdysiejszego cesarstwa "
 "zachodniorzymskiego. Do tego czasu większość ludów germańskich porzuciło "
 "dawne religie politeistyczne na rzecz chrześcijaństwa."
@@ -6067,14 +6081,6 @@ msgid "?plural:Greenlanders"
 msgstr "?plural:Grenlandczycy"
 
 #: data/nation/greenlander.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Legend says that the Great Shaman Qitdlarssuaq led the Inuit people to "
-#| "Thule (Qaanaaq) on the west coast of Greenland in the 10th century. "
-#| "Around the same time, Scandinavian settlers arrived at the fjords on the "
-#| "southwestern tip of the island. Today, Greenland is a self-governing "
-#| "country within the Kingdom of Denmark with mixed Inuit and Scaninavian "
-#| "population."
 msgid ""
 "Legend says that the Great Shaman Qitdlarssuaq led the Inuit people to Thule "
 "(Qaanaaq) on the west coast of Greenland in the 10th century. Around the "
@@ -10266,7 +10272,7 @@ msgstr "?plural:Paluanie"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 "Palau to bardzo małe państwo z ok. 20000 mieszkańcami. Składa się z ponad "
@@ -10425,7 +10431,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -10443,9 +10449,9 @@ msgstr ""
 "okresami niestabilności i autorytarnych rządów, choć zdołał też pokonać "
 "Boliwię w tzw. wojnie o Chaco w latach 1932-1936. Przez dużą część XX w. "
 "państwo rządzone było przez generała Stroessnera, który po II Wojnie "
-"Światowej dawał schronienie nazistowskim zbrodniarzom. Na przełomie "
-"tysiąclecia Paragwaj wprowadził jednak rządy demokratyczne i poszczycić się "
-"może dużym wzrostem gospodarczym."
+"Światowej dawał schronienie nazistowskim zbrodniarzom. Na przełomie XX i XXI "
+"wiekw Paragwaj wprowadził jednak rządy demokratyczne i poszczycić się może "
+"dużym wzrostem gospodarczym."
 
 #: data/nation/parthian.ruleset:3
 msgid "Parthian"
@@ -12266,7 +12272,7 @@ msgstr "?plural:Południowi Jemeńczycy"
 #: data/nation/southyemeni.ruleset:6
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 "Obszar wokół miasta Aden został skolonizowany przez Brytyjczyków w 1839 "
@@ -13110,8 +13116,8 @@ msgid ""
 "protectorate. The country became independent in 1956."
 msgstr ""
 "Fenicjanie zbudowali Kartaginę na obszarze obecnej Tunezji. Kartagina "
-"wyrosła na mocarstwo basenu Morza Śródziemnego, aż do czasu, gdy w 146 r. "
-"p.n.e. pobili ją Rzymianie. Nieco później podboje muzułmańskich Arabów w VII "
+"wyrosła na mocarstwo basenu Morza Śródziemnego, aż do czasu, gdy w 146 r. p."
+"n.e. pobili ją Rzymianie. Nieco później podboje muzułmańskich Arabów w VII "
 "wieku doprowadziły do migracji ludności do krajów arabskich i osmańskich. W "
 "XVI w. na te tereny wprowadzali się Żydzi i hiszpańscy Maurowie. Tunezja "
 "zyskała dużą niezależność od Imperium Osmańskiego w 1861 roku, lecz w 1881 "
@@ -14256,6 +14262,17 @@ msgstr ""
 "Zimbabwe rządzone jest przez Roberta Mugabe, który wśród wspólnoty "
 "międzynarodowej ma równie niskie notowania jak poprzedni reżim."
 
+#~ msgid ""
+#~ "Croatia is the region of the Southern Slavs that was held by the Austro-"
+#~ "Hungarian Empire, rather than coming under Ottoman rule after the "
+#~ "collapse of Byzantium. During most of the 20th century it was part of the "
+#~ "Yugoslav Federation."
+#~ msgstr ""
+#~ "Chorwacja to rejon położony na Bałkanach, który znalazł się pod rządami "
+#~ "Cesarstwa Austriacko-Węgierskiego (w przeciwieństwie do innych regionów, "
+#~ "które po upadku Bizancjum zostały wcielone do Imperium Osmańskiego). "
+#~ "Przez większość XX wieku Chorwacja była częścią Jugosławii."
+
 #~ msgid "\\303\\205lander"
 #~ msgstr "Alandzki"
 
@@ -15351,10 +15368,10 @@ msgstr ""
 #~ "Nazi Germany in the Anschluss in 1938. This lasted until the end of World "
 #~ "War II in 1945, after which Austria was occupied by the Allies."
 #~ msgstr ""
-#~ "Początki Austrii sięgają czasów Imperium Rzymskiego, gdy około 15 r. "
-#~ "p.n.e. celtyckie królestwo zostało podbite przez Rzymian. W połowie I w. "
-#~ "n.e. stało się ono prowincją rzymską o nazwie Noricum, które obejmowało "
-#~ "tereny dzisiejszej Austrii. W 788 r. obszar został podbity przez Karola "
+#~ "Początki Austrii sięgają czasów Imperium Rzymskiego, gdy około 15 r. p.n."
+#~ "e. celtyckie królestwo zostało podbite przez Rzymian. W połowie I w. n.e. "
+#~ "stało się ono prowincją rzymską o nazwie Noricum, które obejmowało tereny "
+#~ "dzisiejszej Austrii. W 788 r. obszar został podbity przez Karola "
 #~ "Wielkiego, który wprowadził tam chrześcijaństwo. Pod rządami lokalnej "
 #~ "dynastii Habsburgów, Austria stała się jednym w największych mocarstw "
 #~ "Europy. W 1867 państwo przekształciło się w Austro-Węgry. Imperium upadło "

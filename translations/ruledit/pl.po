@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
-"PO-Revision-Date: 2024-11-14 18:59+0100\n"
+"POT-Creation-Date: 2025-06-12 21:17+0300\n"
+"PO-Revision-Date: 2025-06-16 20:57+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
@@ -293,8 +293,8 @@ msgstr "debug POZIOM"
 #: tools/ruledit/ruledit.cpp:161
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
-"d:plik1,min,max:...)"
+"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub d:plik1,min,"
+"max:...)"
 
 #: tools/ruledit/ruledit.cpp:167
 msgid "Set debug log level (one of f,e,w,n,v)"
@@ -466,7 +466,7 @@ msgstr "Nazwa zasady"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
-#: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
+#: tools/ruledit/tab_counters.cpp:214 tools/ruledit/tab_counters.cpp:215
 #: tools/ruledit/tab_enablers.cpp:132 tools/ruledit/tab_enablers.cpp:240
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
@@ -498,13 +498,11 @@ msgid "Type"
 msgstr "Typ"
 
 #: tools/ruledit/tab_achievement.cpp:108
-#, fuzzy
-#| msgid "Value:"
 msgid "Value"
-msgstr "Wartość:"
+msgstr "Wartość"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
-#: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
+#: tools/ruledit/tab_counters.cpp:135 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
@@ -553,15 +551,15 @@ msgstr "Punkt kontrolny"
 msgid "Behavior"
 msgstr "Zachowanie"
 
-#: tools/ruledit/tab_counters.cpp:138
+#: tools/ruledit/tab_counters.cpp:139
 msgid "Add Counter"
 msgstr "Dodaj liczni"
 
-#: tools/ruledit/tab_counters.cpp:141
+#: tools/ruledit/tab_counters.cpp:142
 msgid "Remove this Counter"
 msgstr "Usuń ten licznik"
 
-#: tools/ruledit/tab_counters.cpp:274
+#: tools/ruledit/tab_counters.cpp:275
 msgid "A counter with that rule name already exists!"
 msgstr "Licznik z tą nazwa zasady już istnieje!"
 
