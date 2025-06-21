@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-01-16 22:18+0200\n"
-"PO-Revision-Date: 2024-11-14 18:59+0100\n"
+"POT-Creation-Date: 2025-06-12 21:17+0300\n"
+"PO-Revision-Date: 2025-06-16 20:57+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
@@ -276,90 +276,86 @@ msgstr "Wymagane przez %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:106
 #, c-format
 msgid "Failed to load %s."
 msgstr "Nie udało się wczytać %s."
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:142
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:146 tools/ruledit/ruledit.cpp:152
 msgid "debug LEVEL"
 msgstr "debug POZIOM"
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:147
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
 "Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
 "d:plik1,min,max:...)"
 
-#: tools/ruledit/ruledit.cpp:167
+#: tools/ruledit/ruledit.cpp:153
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr "Ustaw poziom debugowania (jedną z liter f,e,w,n,v)"
 
-#: tools/ruledit/ruledit.cpp:170
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:159
 msgid "ruleset RULESET"
 msgstr "ruleset ZESTAW ZASAD"
 
-#: tools/ruledit/ruledit.cpp:174
+#: tools/ruledit/ruledit.cpp:160
 msgid "Ruleset to use as the starting point."
 msgstr "Zestaw zasad będący punktem wyjścia."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:178
+#: tools/ruledit/ruledit.cpp:164
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SYGNAŁ]"
 
-#: tools/ruledit/ruledit.cpp:179
+#: tools/ruledit/ruledit.cpp:165
 msgid "Raise a signal on failed assertion"
 msgstr "Zwróć sygnał w przypadku błędnej asercji"
 
-#: tools/ruledit/ruledit.cpp:193
+#: tools/ruledit/ruledit.cpp:179
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Można edytować tylko jeden zestaw zasad na raz.\n"
 
-#: tools/ruledit/ruledit.cpp:200
+#: tools/ruledit/ruledit.cpp:186
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Nieprawidłowy poziom debugowania \"%s\" podany w opcji --debug.\n"
 
-#: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
+#: tools/ruledit/ruledit.cpp:188 tools/ruledit/ruledit.cpp:201
 msgid "Try using --help.\n"
 msgstr "Spróbuj --help.\n"
 
-#: tools/ruledit/ruledit.cpp:213
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Nieprawidłowy numer sygnału \"%s\".\n"
 
-#: tools/ruledit/ruledit.cpp:222
+#: tools/ruledit/ruledit.cpp:208
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:127
-msgid "built in Qt5 mode."
-msgstr "skompilowano w trybie Qt5."
-
-#: tools/ruledit/ruledit_qt.cpp:129
 #, fuzzy
 #| msgid "built in Qt6 mode."
 msgid "built in Qt6x mode."
 msgstr "skompilowano w trybie Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:131
+#: tools/ruledit/ruledit_qt.cpp:129
 msgid "built in Qt6 mode."
 msgstr "skompilowano w trybie Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:138
+#: tools/ruledit/ruledit_qt.cpp:136
 #, c-format
 msgid ""
 "%s%s\n"
@@ -370,91 +366,91 @@ msgstr ""
 "łatka: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:153
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Give ruleset to use as starting point."
 msgstr "Podaj zestaw zasad będący punktem wyjścia."
 
-#: tools/ruledit/ruledit_qt.cpp:161
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Start editing"
 msgstr "Rozpocznij edycję"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
 msgstr "Budynki"
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
 msgstr "Jednostki"
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Achievements"
 msgstr "Osiągnięcia"
 
-#: tools/ruledit/ruledit_qt.cpp:182
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Goods"
 msgstr "Dobra"
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Governments"
 msgstr "Ustroje"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Enablers"
 msgstr "Aktywatory"
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Extras"
 msgstr "Usprawnienia"
 
-#: tools/ruledit/ruledit_qt.cpp:190
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Terrains"
 msgstr "Tereny"
 
-#: tools/ruledit/ruledit_qt.cpp:192
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Multipliers"
 msgstr "Mnożniki"
 
-#: tools/ruledit/ruledit_qt.cpp:194
+#: tools/ruledit/ruledit_qt.cpp:192
 msgid "Counters"
 msgstr "Liczniki"
 
-#: tools/ruledit/ruledit_qt.cpp:196
+#: tools/ruledit/ruledit_qt.cpp:194
 msgid "Nations"
 msgstr "Narody"
 
-#: tools/ruledit/ruledit_qt.cpp:205
+#: tools/ruledit/ruledit_qt.cpp:203
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:252
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:253
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:277
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/ruledit_qt.cpp:457
+#: tools/ruledit/ruledit_qt.cpp:455
 msgid "Freeciv Ruleset Editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:490
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno chcesz zakończyć?"
 
-#: tools/ruledit/ruledit_qt.cpp:494
+#: tools/ruledit/ruledit_qt.cpp:492
 msgid "Quit?"
 msgstr "Zakończyć?"
 
@@ -472,7 +468,7 @@ msgstr "Nazwa zasady"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
-#: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
+#: tools/ruledit/tab_counters.cpp:214 tools/ruledit/tab_counters.cpp:215
 #: tools/ruledit/tab_enablers.cpp:133 tools/ruledit/tab_enablers.cpp:253
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
@@ -504,13 +500,11 @@ msgid "Type"
 msgstr "Typ"
 
 #: tools/ruledit/tab_achievement.cpp:108
-#, fuzzy
-#| msgid "Value:"
 msgid "Value"
-msgstr "Wartość:"
+msgstr "Wartość"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
-#: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
+#: tools/ruledit/tab_counters.cpp:135 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
@@ -559,15 +553,15 @@ msgstr "Punkt kontrolny"
 msgid "Behavior"
 msgstr "Zachowanie"
 
-#: tools/ruledit/tab_counters.cpp:138
+#: tools/ruledit/tab_counters.cpp:139
 msgid "Add Counter"
 msgstr "Dodaj liczni"
 
-#: tools/ruledit/tab_counters.cpp:141
+#: tools/ruledit/tab_counters.cpp:142
 msgid "Remove this Counter"
 msgstr "Usuń ten licznik"
 
-#: tools/ruledit/tab_counters.cpp:274
+#: tools/ruledit/tab_counters.cpp:275
 msgid "A counter with that rule name already exists!"
 msgstr "Licznik z tą nazwa zasady już istnieje!"
 
@@ -939,6 +933,9 @@ msgstr "Niezgodne usprawnienie"
 #: tools/ruledit/validity.c:319
 msgid "Hidden extra"
 msgstr "Ukryte usprawnienie"
+
+#~ msgid "built in Qt5 mode."
+#~ msgstr "skompilowano w trybie Qt5."
 
 #~ msgid "Requirement"
 #~ msgstr "Wymagania"
