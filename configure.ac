@@ -2006,8 +2006,6 @@ AC_CONFIG_FILES([fcruleup:bootstrap/fcruleup.in], [chmod +x fcruleup])
 if test "x$ruledit" = "xyes" ; then
   AC_CONFIG_FILES([fcruledit:bootstrap/fcruledit.in], [chmod +x fcruledit])
 fi
-AC_CONFIG_FILES([tests/rulesets_not_broken.sh],
-                [chmod +x tests/rulesets_not_broken.sh])
 AC_CONFIG_FILES([tests/rulesets_save.sh],
                 [chmod +x tests/rulesets_save.sh])
 AC_CONFIG_FILES([tests/rulesets_upgrade.sh],
