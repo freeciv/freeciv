@@ -71,11 +71,13 @@ CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=76
+ICUVER=77
 RAV1E=librav1e.dll
+SVTAV1ENV=libSvtAv1Enc-3.dll
 else
 ICUVER=75
 RAV1E=rav1e.dll
+SVTAV1ENV=libSvtAv1Enc-2.dll
 endif
 
 #
@@ -346,7 +348,7 @@ SDL2_DLLS := \
         libaom.dll \
         libdav1d-7.dll \
 	$(RAV1E) \
-        libSvtAv1Enc-2.dll \
+        ${SVTAV1ENV} \
         libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
