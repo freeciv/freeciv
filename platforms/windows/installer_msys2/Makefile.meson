@@ -52,9 +52,13 @@ CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=76
+ICUVER=77
+SVTAV1ENV=libSvtAv1Enc-3.dll
+SNDFILES=libwavpack-1.dll libxmp.dll
 else
 ICUVER=76
+SVTAV1ENV=libSvtAv1Enc-2.dll
+SNDFILES=libmodplug-1.dll
 endif
 
 #
@@ -179,7 +183,7 @@ SOUND_DLLS := \
 	libvorbisfile-3.dll \
 	libvorbis-0.dll \
 	libogg-0.dll \
-	libmodplug-1.dll
+	${SNDFILES}
 
 COMMON_DLLS := \
 	libcairo-2.dll \
@@ -339,7 +343,7 @@ SDL2_DLLS := \
 	libaom.dll \
 	libdav1d-7.dll \
 	librav1e.dll \
-	libSvtAv1Enc-2.dll \
+	${SVTAV1ENV} \
 	libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
