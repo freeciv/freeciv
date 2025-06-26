@@ -1,10 +1,118 @@
-==============================
-Welcome to Freeciv 3.2.0-beta2
-==============================
+============================
+Welcome to Freeciv 3.2.0-RC1
+============================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.0-beta2 to 3.2.0-RC1
+-------------------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.0-RC1>, 2025-06-26)
+
+3.2.0-RC1 is the first Release Candidate of freeciv-3.2.
+Number of bugs have been fixed since beta2.
+
+Server / General
+
+    * Fixed an variable lookup problem when loading rulesets RM#114
+    * Supplied scenarios now correctly show 3.2 as their format version
+      (they have been saved with freeciv-3.2.0-beta2) RM#1381 RM#1385
+    * Fixed server crash when loading malformed savegame RM#1382
+    * Fixed an error that unowned tiles were sent to client as owned
+      by player number 255 when there was such a player in the game
+      RM#1474
+    * Moved from beta to stable mode RM#1448
+
+Changes affecting players (supplied rulesets)
+
+    * civ2civ3 & sandbox
+         + Number of Storms reduced RM#1456
+
+Changes affecting other rulesets / modders
+
+    * "quiet" requirement property is now respected in building
+      "obsolete_by" definitions RM#1238
+    * Improved sanity checks at specialists loading RM#1400
+    * Lua handling of achievement and disaster names fixed RM#1458
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1280 RM#1265 RM#1312 RM#1359 RM#1365 RM#1360 RM#1434 RM#1498
+      RM#1468
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where
+      it should RM#1409
+    * Better consider action enabler imposed restrictions on selecting
+      rampage targets RM#1242
+
+Clients
+
+    * Fixed corner road graphics for RoadAllCombined tile types RM#1276
+
+    * gtk
+         + Fixed saving and restoring city dialog size RM#1289
+         + Use "meta" key as menu accelerator on MacOS RM#1292 RM#1489
+         + Client now remembers size of the help dialog RM#1287
+         + Client now remembers size of the options dialog RM#1288
+         + gtk3.22 only Fixed edit mode fog of war toggle sync RM#1492
+
+
+Help / Documentation
+
+    * Doxygen documentation updates RM#1401 RM#1466
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1322 RM#1335 RM#1394 RM#1354 RM#1430 RM#1277 RM#1386 RM#1472
+      RM#1476 RM#1496 RM#1397
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1285 RM#509 RM#1306 RM#1307 RM#1340 RM#1343 RM#1344 RM#1347
+      RM#1364 RM#1366 RM#1446 RM#1390 RM#1441 RM#1447
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Russian
+         + Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+           Polish (99% core, 100% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1297 RM#1298 RM#1310 RM#1327 RM#1370 RM#1388 RM#1342 RM#1368
+      RM#1391 RM#1398
+    * Meson based build improvements
+         + Provide freeciv version information for meson system RM#1272
+         + Fixed Qt6 version detection RM#1296
+         + Svg flag features enabled by default in the build level
+           RM#1442
+         + Asserts are now properly disabled in release builds RM#1455
+         + Fixed an dependency issue very rarely causing build failures
+           RM#1479
+    * Fixed DeprecationWarning: pathlib.PurePath.is_reserved() RM#1227
+    * Windows Installers updates
+         + 'make qt-installer' now correctly builds Qt6-client installer
+           RM#1311
+         + gtk4-client is not built to "win64" target RM#1376
+    * Fixed sdl2-client build on systems without X11 present RM#1314
+    * Flatpak updates
+         + Updated kde Platform and Sdk to version 6.9 RM#1299
+    * Applied official patches to included copy of Lua
+         + Patch 5 RM#1319
+         + Patch 6 RM#1330
+         + Patch 7 RM#1341
+         + Patch 8 RM#1407
+    * Fixed SDL3_rotozoom errors from 'make src-check' RM#1291
+    * emscripten build improvements
+         + Updated emscripten to 4.0.9 RM#1357 RM#1463
+         + emsbuild.sh now accepts relative path to the environment
+           RM#1358
+    * Crosser updated to 2.10 RM#1393 RM#1424
 
 
 CHANGES FROM 3.2.0-beta1 to 3.2.0-beta2
