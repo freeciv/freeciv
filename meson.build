@@ -1277,10 +1277,16 @@ rs_not_broken = custom_target('rs_not_broken', output: 'rulesets_not_broken.sh',
                               depends: rsloads)
 
 rs_save = custom_target('rs_save', output: 'rulesets_save.sh',
-                              command: [sh_exe,
-                                        files('tests/generate_rs_save.sh'),
-                                        '@OUTPUT@'],
-                              depends: rsloads)
+                         command: [sh_exe,
+                                   files('tests/generate_rs_save.sh'),
+                                   '@OUTPUT@'],
+                         depends: rsloads)
+
+rs_upgrade = custom_target('rs_upgrade', output: 'rulesets_upgrade.sh',
+                           command: [sh_exe,
+                                     files('tests/generate_rs_upgrade.sh'),
+                                     '@OUTPUT@'],
+                           depends: rs_save)
 
 if host_system == 'windows'
   tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')

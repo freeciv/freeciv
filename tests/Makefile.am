@@ -13,6 +13,7 @@ EXTRA_DIST =	check_macros.sh			\
 		fcintl.sh			\
 		generate_rs_not_broken.sh	\
 		generate_rs_save.sh		\
+		generate_rs_upgrade.sh		\
 		header_guard.sh			\
 		rulesets_save.sh.in		\
 		rulesets_upgrade.sh.in		\
