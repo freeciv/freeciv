@@ -28,7 +28,7 @@
 **************************************************************************/
 const char *api_intl__(lua_State *L, const char *untranslated)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
   LUASCRIPT_CHECK_ARG_NIL(L, untranslated, 2, string, "");
 
   return _(untranslated);
@@ -39,7 +39,7 @@ const char *api_intl__(lua_State *L, const char *untranslated)
 **************************************************************************/
 const char *api_intl_N_(lua_State *L, const char *untranslated)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
   LUASCRIPT_CHECK_ARG_NIL(L, untranslated, 2, string, "");
 
   return N_(untranslated);
@@ -50,7 +50,7 @@ const char *api_intl_N_(lua_State *L, const char *untranslated)
 **************************************************************************/
 const char *api_intl_Q_(lua_State *L, const char *untranslated)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
   LUASCRIPT_CHECK_ARG_NIL(L, untranslated, 2, string, "");
 
   return Q_(untranslated);
@@ -62,7 +62,7 @@ const char *api_intl_Q_(lua_State *L, const char *untranslated)
 const char *api_intl_PL_(lua_State *L, const char *singular,
                          const char *plural, int n)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
   LUASCRIPT_CHECK_ARG_NIL(L, singular, 2, string, "");
   LUASCRIPT_CHECK_ARG_NIL(L, plural, 3, string, "");
 
