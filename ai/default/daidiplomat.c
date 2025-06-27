@@ -60,10 +60,10 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aiguard.h"
 #include "daiactions.h"
 #include "daicity.h"
 #include "daidata.h"
+#include "daiguard.h"
 #include "daihand.h"
 #include "dailog.h"
 #include "daimilitary.h"

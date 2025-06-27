@@ -30,7 +30,7 @@
 #include "daiplayer.h"
 #include "daiunit.h"
 
-#include "aiguard.h"
+#include "daiguard.h"
 
 enum bodyguard_enum {
   BODYGUARD_WANTED = -1,

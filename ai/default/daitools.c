@@ -59,9 +59,9 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aiguard.h"
 #include "daidata.h"
 #include "daiferry.h"
+#include "daiguard.h"
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
