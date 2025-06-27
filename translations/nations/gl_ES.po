@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
-"PO-Revision-Date: 2025-03-28 22:00+0100\n"
+"POT-Creation-Date: 2025-06-12 21:16+0300\n"
+"PO-Revision-Date: 2025-06-27 12:31+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: gl_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -290,7 +290,7 @@ msgstr "Abade %s"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1027,7 +1027,7 @@ msgstr "Alguacila %s"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2669,13 +2669,13 @@ msgstr ""
 "constituíntes: bosníacos, serbios e croatas."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "Ban %s"
 msgstr "Ban %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "?female:Ban %s"
@@ -4013,7 +4013,6 @@ msgid "?plural:Colombians"
 msgstr "Colombianos"
 
 #: data/nation/colombian.ruleset:6
-#, fuzzy
 msgid ""
 "Colombia is a country in northern South America. The region was an "
 "Amerindian cultural center in pre-European time. The Spanish began settling "
@@ -4021,9 +4020,9 @@ msgid ""
 "independence."
 msgstr ""
 "Colombia é un país do norte de América do Sur. A rexión foi un centro "
-"cultural amerindio na época preeuropea. Os españois comezaron a colonizar a "
-"costa norte de Colombia ao redor de 1500. En 1819 a República de Colombia "
-"logrou a independencia."
+"cultural amerindio na época preeuropea. Os españois comezaron a asentarse na "
+"costa norte de Colombia arredor do ano 1500. En 1819, a República de "
+"Colombia obtivo a independencia."
 
 #: data/nation/comanche.ruleset:3
 msgid "Comanche"
@@ -4396,15 +4395,18 @@ msgstr "Croatas"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
-"Croacia é a rexión dos eslavos do sur que estaba en poder do Imperio "
-"austrohúngaro, en lugar de pasar baixo o dominio otomán despois do colapso "
-"de Bizancio. Durante a maior parte do século XX formou parte da Federación "
-"Iugoslava."
 
 #: data/nation/crusader.ruleset:3
 msgid "Crusader"
@@ -4519,7 +4521,6 @@ msgid "?plural:Cyrenaicans"
 msgstr "Cirenaicos"
 
 #: data/nation/cyrenaican.ruleset:6
-#, fuzzy
 msgid ""
 "Cyrenaica is a historical region in Eastern Libya. In Classical Antiquity "
 "the region was part of the Greek cultural realm. From the 7th century "
@@ -4530,15 +4531,15 @@ msgid ""
 "the Gaddafi regime. The site of much of Libya's oil reserves, Cyrenaica has "
 "seen renewed calls for autonomy following the overthrow of Gaddafi."
 msgstr ""
-"Cirenaica é unha rexión histórica do leste de Libia. Na Antigüidade Clásica "
-"a rexión formaba parte do reino cultural grego. A partir do século VII a "
-"rexión estivo controlada por varias dinastías árabes. Cirenaica foi ocupada "
-"por Italia en 1911. Despois da Segunda Guerra Mundial existía un emirato de "
-"Cirenaica de curta duración, do cal a dinastía gobernante Senussi estableceu "
-"un reino libio unido en 1951. A Cirenaica foi un fervedoiro de resistencia "
-"contra o réxime de Gadafi. Cirenaica, o lugar onde se atopan gran parte das "
-"reservas de petróleo de Libia, recibiu renovadas peticións de autonomía tras "
-"o derrocamento de Gadafi."
+"A Cirenaica é unha rexión histórica do leste de Libia. Na Antigüidade "
+"Clásica, a rexión formaba parte do reino cultural grego. Desde o século VII "
+"en diante, a rexión estivo controlada por varias dinastías árabes. A "
+"Cirenaica foi ocupada por Italia en 1911. Despois da Segunda Guerra Mundial, "
+"existiu un efímero Emirato de Cirenaica, no que a dinastía gobernante "
+"Senussi estableceu un Reino Libio unido en 1951. A Cirenaica foi un foco de "
+"resistencia contra o réxime de Gadafi. A Cirenaica, onde se atopan gran "
+"parte das reservas de petróleo de Libia, recibiu renovadas chamadas á "
+"autonomía tras o derrocamento de Gadafi."
 
 #: data/nation/czechoslovak.ruleset:3
 msgid "Czechoslovakian"
@@ -5402,7 +5403,6 @@ msgid "?plural:Floridians"
 msgstr "Floridianos"
 
 #: data/nation/florida.ruleset:6
-#, fuzzy
 msgid ""
 "Florida is the third most populous state of the USA and is well known for "
 "its tourism. It was repeatedly colonized by Spain and Great Britain before "
@@ -6219,18 +6219,17 @@ msgid "?plural:Guyanese"
 msgstr "Guyaneses"
 
 #: data/nation/guyanese.ruleset:7
-#, fuzzy
 msgid ""
 "Originally inhabited by the Arawk, Guyana was colonized by the Dutch but "
 "became a British colony after the Napoleonic Wars. It gained independence in "
 "1966. Under Forbes Burnham Guyana became a Marxist oriented country, but in "
 "the 1980s it started its transition to a market democracy."
 msgstr ""
-"Orixinalmente habitada polos arawk, Güiana foi colonizada polos holandeses "
+"Orixinalmente habitada polos arawk, Güiana foi colonizada polos holandeses, "
 "pero converteuse nunha colonia británica despois das guerras napoleónicas. "
-"Obtivo a independencia en 1966. Baixo Forbes Burnham Guyana converteuse nun "
-"país de orientación marxista, pero na década de 1980 comezou a súa "
-"transición cara a unha democracia de mercado."
+"Obtivo a independencia en 1966. Baixo o mandato de Forbes Burnham, Güiana "
+"converteuse nun país de orientación marxista, pero na década de 1980 comezou "
+"a súa transición cara a unha democracia de mercado."
 
 #: data/nation/guyanese.ruleset:27 data/nation/lankese.ruleset:22
 #, c-format
@@ -6381,7 +6380,6 @@ msgid "?plural:Hasinay"
 msgstr "Hasinais"
 
 #: data/nation/hasinay.ruleset:6
-#, fuzzy
 msgid ""
 "A Caddoan political league from East Texas, the Hasinay Confederacy "
 "consisted of a group of agricultural villages. Though they were involved in "
@@ -6390,12 +6388,13 @@ msgid ""
 "in line with the other mound-building cultures of the Southeast. The word "
 "Texas is derived from Caddoan word for \"Friend.\""
 msgstr ""
-"Unha liga política caddoana do leste de Texas, a Confederación Hasinay "
-"estaba formada por un grupo de aldeas agrícolas. Aínda que estaban "
-"implicados en redes comerciais que os conectaban con persoas tan ao oeste "
-"como as políticas de Pueblo do suroeste americano, os seus lazos culturais "
-"estaban máis en liña coas outras culturas de construción de montículos do "
-"sueste. A palabra Texas deriva da palabra caddoana para \"amigo\"."
+"Unha liga política caddoana do leste de Texas, a Confederación Hasinay, "
+"consistía nun grupo de aldeas agrícolas. Aínda que estaban involucradas en "
+"redes comerciais que as conectaban con xente tan ao oeste como as "
+"comunidades políticas puebloanas do suroeste americano, os seus lazos "
+"culturais estaban máis fortemente aliñados cos doutras culturas construtoras "
+"de túmulos do sueste. A palabra Texas deriva da palabra caddoana para "
+"\"amigo\"."
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
@@ -7830,7 +7829,6 @@ msgid "?plural:Lesothoans"
 msgstr "Lesotoenses"
 
 #: data/nation/lesothoan.ruleset:6
-#, fuzzy
 msgid ""
 "Lesotho first formed a unified polity in the early 19th century under king "
 "Moshoeshoe I, who united the Sotho clans. Moshoeshoe sought protection from "
@@ -7839,13 +7837,13 @@ msgid ""
 "all sides, that country's apartheid policies prevented its integration into "
 "South Africa. In 1966 Basutoland became the independent Kingdom of Lesotho."
 msgstr ""
-"Lesotho formou por primeira vez unha organización política unificada a "
-"principios do século XIX baixo o mandato do rei Moshoeshoe I, que uniu aos "
-"clans Sotho. Moshoeshoe buscou protección dos británicos contra as "
-"incursións dos bóers e en 1869 o país converteuse no protectorado británico "
-"de Basutoland. Aínda que rodeado de Sudáfrica por todos os lados, as "
-"políticas de apartheid dese país impediron a súa integración en Sudáfrica. "
-"En 1966 Basutoland converteuse no Reino independente de Lesoto."
+"Lesoto formou por primeira vez un estado político unificado a principios do "
+"século XIX baixo o rei Moshoeshoe I, quen uniu os clans sotho. Moshoeshoe "
+"buscou protección dos británicos contra as incursións dos bóers e en 1869 o "
+"país converteuse no protectorado británico de Basutolandia. Aínda que estaba "
+"rodeado por Sudáfrica por todos os lados, as políticas de apartheid dese "
+"país impediron a súa integración en Sudáfrica. En 1966, Basutolandia "
+"converteuse no Reino independente de Lesoto."
 
 #: data/nation/liberian.ruleset:3
 msgid "Liberian"
@@ -9560,7 +9558,6 @@ msgid "?plural:Nicaraguans"
 msgstr "Nicaragüeses"
 
 #: data/nation/nicaraguan.ruleset:6
-#, fuzzy
 msgid ""
 "The largest of the Central American republics, Nicaragua is known for its "
 "turbulent history. The country lived through numerous civil wars and foreign "
@@ -9569,12 +9566,12 @@ msgid ""
 "last Somoza was overthrown by sandinista revolutionaries, starting 11 years "
 "of civil war between the sandinista government and the contras."
 msgstr ""
-"A maior das repúblicas centroamericanas, Nicaragua é coñecida pola súa "
-"convulsa historia. O país viviu numerosas guerras civís e intervencións "
+"Nicaragua, a maior das repúblicas centroamericanas, é coñecida pola súa "
+"turbulenta historia. O país viviu numerosas guerras civís e intervencións "
 "estranxeiras ata que Anastasio Somoza estableceu unha ditadura notoriamente "
 "corrupta na década de 1930. A súa familia continuou gobernando ata 1979, "
-"cando o último Somoza foi derrocado polos revolucionarios sandinistas, "
-"iniciando 11 anos de guerra civil entre o goberno sandinista e os contras."
+"cando o último Somoza foi derrocado por revolucionarios sandinistas, dando "
+"comezo a 11 anos de guerra civil entre o goberno sandinista e os contras."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -10278,8 +10275,9 @@ msgid "?plural:Palauans"
 msgstr "Palauans"
 
 #: data/nation/palauan.ruleset:6
+#, fuzzy
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 "Palaos é un país moi pequeno, con só 20.000 habitantes aproximadamente. Está "
@@ -10428,6 +10426,7 @@ msgid "?plural:Paraguayans"
 msgstr "Paraguaios"
 
 #: data/nation/paraguayan.ruleset:6
+#, fuzzy
 msgid ""
 "Paraguay is located in the heartland of South America. It was conquered by "
 "the Spanish in the late 16th century. The colony was mostly controlled by "
@@ -10437,7 +10436,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -11005,7 +11004,6 @@ msgid "?plural:Rusyns"
 msgstr "Rusins"
 
 #: data/nation/rusyn.ruleset:6
-#, fuzzy
 msgid ""
 "The Rusyns are an ethnic group on the western periphery of the East Slavic "
 "nations. They live mainly in the Polish-Ukrainian-Slovak borderland and in "
@@ -11014,13 +11012,13 @@ msgid ""
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
-"Os rusinos son un grupo étnico da periferia occidental das nacións eslavas "
+"Os rutenios son un grupo étnico na periferia occidental das nacións eslavas "
 "orientais. Viven principalmente na fronteira polaco-ucraína-eslovaca e na "
-"Vojvodina. Na época medieval a patria Rusyn era o lugar do Ducado de "
-"Galicia\\342\\200\\223Volhynia e do Reino de Rus. En tempos posteriores as "
-"terras estaban baixo o dominio polaco e posteriormente austríaco. Os rusinos "
-"formaron dous estados efémeros despois da Primeira Guerra Mundial: a "
-"República de Lemko-Rusyn e a República de Komancza."
+"Voivodina. Na época medieval, a patria rutena era o lugar do Ducado de "
+"Galicia-Volinia e o Reino de Rus. Posteriormente, as terras estiveron baixo "
+"o dominio polaco e, máis tarde, austríaco. Os rutenios formaron dous estados "
+"efémeros despois da Primeira Guerra Mundial: a República Lemko-Rutena e a "
+"República Komancza."
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
@@ -11137,7 +11135,6 @@ msgid "?plural:Saint Lucian"
 msgstr "Santa Lucianos"
 
 #: data/nation/saintlucian.ruleset:6
-#, fuzzy
 msgid ""
 "Saint Lucia is an island nation in the Eastern Caribbean. During the "
 "colonial era, Saint Lucia changed hands between France and Britain no less "
@@ -11145,11 +11142,11 @@ msgid ""
 "became independent in 1979. It a member both of the Commonwealth and La "
 "Francophonie. The economy is based on tourism, bananas and sugar."
 msgstr ""
-"Santa Lucía é unha nación insular do Caribe Oriental. Durante a época "
+"Santa Lucía é unha nación insular do Caribe Oriental. Durante a era "
 "colonial, Santa Lucía cambiou de mans entre Francia e Gran Bretaña nada "
-"menos que catorce veces ata que os británicos finalmente a conseguiron en "
+"menos que catorce veces ata que os británicos finalmente a aseguraron en "
 "1814. A illa independizouse en 1979. É membro tanto da Commonwealth como da "
-"Francofonía. A economía baséase no turismo, o plátano e o azucre."
+"Francofonía. A economía baséase no turismo, as bananas e o azucre."
 
 #: data/nation/saka.ruleset:3
 msgid "Saka"
@@ -11915,7 +11912,6 @@ msgid "?plural:Sikhs"
 msgstr "Sikhs"
 
 #: data/nation/sikh.ruleset:6
-#, fuzzy
 msgid ""
 "Sikhs are the followers of a monotheistic religion originating from the "
 "Indian Subcontinent in the 15th century. The Punjab, on the border of "
@@ -11923,9 +11919,9 @@ msgid ""
 "Empire existed in the region."
 msgstr ""
 "Os sikhs son os seguidores dunha relixión monoteísta orixinaria do "
-"subcontinente indio no século XV. O Punjab, na fronteira de Paquistán e "
-"India, é o corazón do sikhismo. No século XIX existía na rexión un Imperio "
-"Sikh."
+"subcontinente indio no século XV. O Punjab, na fronteira entre Paquistán e a "
+"India, é o corazón do sikhismo. No século XIX existía un imperio sikh na "
+"rexión."
 
 #: data/nation/sikkimese.ruleset:3
 msgid "Sikkimese"
@@ -12278,9 +12274,10 @@ msgid "?plural:South Yemenis"
 msgstr "Iemenís do sur"
 
 #: data/nation/southyemeni.ruleset:6
+#, fuzzy
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 "A área arredor de Adén foi colonizada polos británicos en 1839. Iemen do Sur "
@@ -14227,7 +14224,6 @@ msgid "?plural:Zhuang"
 msgstr "Zhuang"
 
 #: data/nation/zhuang.ruleset:6
-#, fuzzy
 msgid ""
 "The Zhuang people live in far southwestern China, an ancient border region "
 "that has long separated Sinitic civilization from the aboriginal peoples of "
@@ -14239,16 +14235,16 @@ msgid ""
 "Lao, Thai, and Shan nations. After the Han, the Zhuang are the most populous "
 "ethnic group of the People's Republic of China."
 msgstr ""
-"O pobo Zhuang vive no extremo suroeste de China, unha antiga rexión "
-"fronteiriza que separaba durante moito tempo a civilización sinítica dos "
-"pobos aborixes do sueste asiático. Coñecidos polo seu rego único e os seus "
-"arrozales escénicos en terrazas, estiveron baixo a presión de varias "
-"dinastías chinesas durante a maior parte da época antiga. No século X d.C., "
-"os zhuang estaban baixo un duro goberno da dinastía Song chinesa. Despois "
-"dunha rebelión en 1052 dirixida polo heroe popular Nong Zhigao foi esmagada, "
-"moitos Zhuang emigraron cara ao sur formando a base das nacións Lao, "
-"Tailandia e Shan. Despois dos Han, os zhuang son o grupo étnico máis poboado "
-"da República Popular Chinesa."
+"Os zhuang viven no extremo suroeste da China, nunha antiga rexión "
+"fronteiriza que durante moito tempo separou a civilización sínica dos pobos "
+"aborixes do sueste asiático. Coñecidos polos seus sistemas de regadío únicos "
+"e polas súas pintorescas socalcos de arroz, estiveron baixo presión de "
+"varias dinastías chinesas durante a maior parte da era antiga. Cara ao "
+"século X d.C., os zhuang estaban baixo o duro goberno da dinastía Song "
+"chinesa. Despois de que unha rebelión no ano 1052, liderada polo heroe "
+"popular Nong Zhigao, fose esmagada, moitos zhuang migraron cara ao sur, "
+"formando a base das nacións lao, tailandesa e shan. Despois dos han, os "
+"zhuang son o grupo étnico máis numeroso da República Popular da China."
 
 #: data/nation/zimbabwean.ruleset:3
 msgid "Zimbabwean"
@@ -14276,3 +14272,62 @@ msgstr ""
 "acabar co goberno da minoría branca en 1979. Desde 1980 o país está "
 "gobernado por Robert Mugabe, quen recibiu a nivel internacional unha "
 "reputación igual de pobre que o anterior réxime."
+
+#~ msgid ""
+#~ "Croatia is the region of the Southern Slavs that was held by the Austro-"
+#~ "Hungarian Empire, rather than coming under Ottoman rule after the "
+#~ "collapse of Byzantium. During most of the 20th century it was part of the "
+#~ "Yugoslav Federation."
+#~ msgstr ""
+#~ "Croacia é a rexión dos eslavos do sur que estaba en poder do Imperio "
+#~ "austrohúngaro, en lugar de pasar baixo o dominio otomán despois do "
+#~ "colapso de Bizancio. Durante a maior parte do século XX formou parte da "
+#~ "Federación Iugoslava."
+
+#~ msgid ""
+#~ "Palaos is a very little country, with only 20000 inhabitants "
+#~ "aproximately. It is composed of more than 300 islands of volcanic origin."
+#~ msgstr ""
+#~ "Palaos é un país moi pequeno, con só 20.000 habitantes aproximadamente. "
+#~ "Está composto por máis de 300 illas de orixe volcánica."
+
+#~ msgid ""
+#~ "Paraguay is located in the heartland of South America. It was conquered "
+#~ "by the Spanish in the late 16th century. The colony was mostly controlled "
+#~ "by the Jesuits until their expulsion in 1767. In 1811, Paraguay was the "
+#~ "first South American country to achieve independence from Spain. A number "
+#~ "of highly authoritarian rulers governed the country as a tyranny but also "
+#~ "turned it into a military and economic powerhouse. The War of the Triple "
+#~ "Alliance of 1864-1870 led to the near annihilation of Paraguay, which "
+#~ "lost half of its territory and eighty per cent of its male population. "
+#~ "Paraguay's history remains marked by instability and authoritarianism, "
+#~ "alhough it managed to defeat Bolivia in the Chaco War of 1932-1936. For "
+#~ "much of the 20th century the country was ruled by General Stroessner, who "
+#~ "provided a safe haven for Nazi war criminals. Around the turn of the "
+#~ "millennium however Paraguay started to see a democratic system of "
+#~ "government and an impressive economic growth."
+#~ msgstr ""
+#~ "Paraguai está situado no corazón de América do Sur. Foi conquistada polos "
+#~ "españois a finais do século XVI. A colonia estivo maioritariamente "
+#~ "controlada polos xesuítas ata a súa expulsión en 1767. En 1811, Paraguai "
+#~ "foi o primeiro país suramericano en lograr a súa independencia de España. "
+#~ "Varios gobernantes altamente autoritarios gobernaron o país como unha "
+#~ "tiranía pero tamén o converteron nunha potencia militar e económica. A "
+#~ "Guerra da Triple Alianza de 1864-1870 provocou a case aniquilación do "
+#~ "Paraguai, que perdeu a metade do seu territorio e o oitenta por cento da "
+#~ "súa poboación masculina. A historia do Paraguai segue marcada pola "
+#~ "inestabilidade e o autoritarismo, aínda que conseguiu derrotar a Bolivia "
+#~ "na Guerra do Chaco de 1932-1936. Durante gran parte do século XX, o país "
+#~ "estivo gobernado polo xeneral Stroessner, que proporcionou un refuxio "
+#~ "seguro aos criminais de guerra nazis. Con todo, ao redor do cambio de "
+#~ "milenio, Paraguai comezou a ver un sistema de goberno democrático e un "
+#~ "crecemento económico impresionante."
+
+#~ msgid ""
+#~ "The area around Aden was colonized by the British in 1839. South Yemen "
+#~ "declared independence in 1967 and joined the communist bloc. It was "
+#~ "united with North Yemen in 1990."
+#~ msgstr ""
+#~ "A área arredor de Adén foi colonizada polos británicos en 1839. Iemen do "
+#~ "Sur declarou a súa independencia en 1967 e uniuse ao bloque comunista. "
+#~ "Foi unido co Iemen do Norte en 1990."
