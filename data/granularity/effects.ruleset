@@ -341,6 +341,16 @@ reqs	=
       "OutputType", "Shield",       "Local"
     }
 
+[effect_brewery_wheat]
+type    = "Output_Add_Tile"
+value   = 50
+reqs	=
+    { "type",       "name",    "range"
+      "Extra",      "Wheat",   "Tile"
+      "Building",   "Brewery", "City"
+      "OutputType", "Food",    "Local"
+    }
+
 [effect_rock_pile_capital]
 type    = "Capital_City"
 value	= 1

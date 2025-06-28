@@ -128,7 +128,8 @@ sound_alt	= "b_generic"
 sound_alt2      = "-"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Increases luxury output by 25%, and gold output by 15%.\
+Increases luxury output by 25%, and gold output by 15%. \
+Adds food output of the Wheat tiles by 50.\
 ")
 
 [building_city_walls]
