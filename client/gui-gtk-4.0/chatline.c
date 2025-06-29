@@ -75,7 +75,7 @@ bool inputline_has_focus(void)
 }
 
 /**********************************************************************//**
-  Gives the focus to the intput line.
+  Gives the focus to the input line.
 **************************************************************************/
 void inputline_grab_focus(void)
 {
