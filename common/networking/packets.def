@@ -1418,6 +1418,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 unit_class_id;
   UINT16 build_cost;
   UINT8 pop_cost;
+  UINT8 spectype_id;
   UINT8 attack_strength;
   UINT8 defense_strength;
   MOVEFRAGS move_rate;

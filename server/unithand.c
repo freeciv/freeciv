@@ -1829,6 +1829,15 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
+  } else if (target_city
+             && (action_has_result_safe(paction, ACTRES_JOIN_CITY)
+                 && action_actor_utype_hard_reqs_ok(paction,
+                                                    unit_type_get(punit))
+                 && is_super_specialist(unit_type_get(punit)->spec_type)
+                 && MAX_CITY_SIZE
+                    <= target_city->specialists
+                       [specialist_index(unit_type_get(punit)->spec_type)])) {
+    explnat->kind = ANEK_CITY_NO_CAPACITY;
   } else if ((action_has_result_safe(paction, ACTRES_NUKE_UNITS)
               || action_has_result_safe(paction, ACTRES_ATTACK)
               || action_has_result_safe(paction, ACTRES_WIPE_UNITS))
@@ -4214,6 +4223,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 {
   int amount = unit_pop_value(punit);
   const struct unit_type *act_utype;
+  Specialist_type_id spec_id = DEFAULT_SPECIALIST;
 
   /* Sanity check: The actor is still alive. */
   fc_assert_ret_val(punit, FALSE);
@@ -4223,11 +4233,21 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity, FALSE);
 
-  fc_assert_ret_val(amount > 0, FALSE);
-
   city_size_add(pcity, amount);
+  if (is_super_specialist(act_utype->spec_type)) {
+    Specialist_type_id sspec = specialist_index(act_utype->spec_type);
+
+    fc_assert_ret_val(pcity->specialists[sspec] < MAX_CITY_SIZE, FALSE);
+    pcity->specialists[sspec]++;
+  } else {
+    fc_assert_ret_val(amount > 0, FALSE);
+    /* Hardly much needed but let it be */
+    spec_id = specialist_index(act_utype->spec_type);
+  }
   /* Make the new people something, otherwise city fails the checks */
-  pcity->specialists[DEFAULT_SPECIALIST] += amount;
+  fc_assert_ret_val(MAX_CITY_SIZE - pcity->specialists[spec_id] >= amount,
+                    FALSE);
+  pcity->specialists[spec_id] += amount;
   citizens_update(pcity, unit_nationality(punit));
   /* Refresh the city data. */
   city_refresh(pcity);
@@ -4280,6 +4300,8 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   struct player *nationality;
   struct player *towner;
   const struct unit_type *act_utype;
+  Specialist_type_id sid;
+  struct city *pcity;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -4294,17 +4316,19 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   }
 
   act_utype = unit_type_get(punit);
-
+  sid = specialist_index(act_utype->spec_type);
   nationality = unit_nationality(punit);
 
   create_city(pplayer, ptile, name, nationality);
-  size = unit_type_get(punit)->city_size;
-  if (size > 1) {
-    struct city *pcity = tile_city(ptile);
-
-    fc_assert_ret_val(pcity != NULL, FALSE);
-
-    city_change_size(pcity, size, nationality, -1, nullptr);
+  size = act_utype->city_size;
+  pcity = tile_city(ptile); /* A callback may destroy or replace it any time */
+  if (nullptr != pcity) {
+    if (is_super_specialist_id(sid) && pcity->specialists[sid] < MAX_CITY_SIZE) {
+      pcity->specialists[sid]++;
+    }
+    if (size > 1) {
+      city_change_size(pcity, size, nationality, -1, nullptr);
+    }
   }
 
   /* May cause an incident even if the target tile is unclaimed. A ruleset

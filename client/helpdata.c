@@ -2904,20 +2904,43 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          "  %s initial population: %d.\n",
                          utype->city_size),
                      BULLET, utype->city_size);
+        if (is_super_specialist(utype->spec_type)) {
+          cat_snprintf(buf, bufsz,
+                       /* FIXME: Here we'd better have a singular specialist
+                        * but the translated name is plural by definition. */
+                       /* TRANS: * ... Great Artist(s) ... */
+                       _("  %s the city starts with a %s superspecialist.\n"),
+                       BULLET, specialist_plural_translation(utype->spec_type));
+        }
         break;
       case ACTRES_JOIN_CITY:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: the %d is population. */
-                     PL_("  %s max target size: %d.\n",
-                         "  %s max target size: %d.\n",
-                         game.info.add_to_size_limit - utype->pop_cost),
-                     BULLET, game.info.add_to_size_limit - utype->pop_cost);
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: the %d is the population added. */
-                     PL_("  %s adds %d population.\n",
-                         "  %s adds %d population.\n",
-                         utype->pop_cost),
-                     BULLET, utype->pop_cost);
+        if (utype->pop_cost > 0 ){
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the %d is population. */
+                       PL_("  %s max target size: %d.\n",
+                           "  %s max target size: %d.\n",
+                           game.info.add_to_size_limit - utype->pop_cost),
+                       BULLET, game.info.add_to_size_limit - utype->pop_cost);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the %d is the population added. */
+                       PL_("  %s adds %d population.\n",
+                           "  %s adds %d population.\n",
+                           utype->pop_cost),
+                       BULLET, utype->pop_cost);
+        }
+        if (is_super_specialist(utype->spec_type)) {
+          cat_snprintf(buf, bufsz,
+                       /* FIXME: Here we'd better have a singular specialist
+                        * but the translated name is plural by definition. */
+                       /* TRANS: * ... Great Artist(s) ... */
+                       _("  %s adds a %s superspecialist to the city.\n"),
+                       BULLET, specialist_plural_translation(utype->spec_type));
+        } else if (DEFAULT_SPECIALIST != specialist_index(utype->spec_type)) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: * ... Scientists */
+                       _("  %s adds to cities as %s.\n"),
+                       BULLET, specialist_plural_translation(utype->spec_type));
+        }
         break;
       case ACTRES_BOMBARD:
         cat_snprintf(buf, bufsz,

@@ -344,6 +344,8 @@ utypes = "\
 ; build_cost    = production shields required to build\n\
 ; pop_cost      = population removed from city when built; for \'Join City\'\n\
 ;                 units this is also the population added to the destination\n\
+; specialist    = optional: add a superspecialist of this type when joining to\n\
+;                 or creating a city (if normal specialist: join as this type)\n\
 ; attack        = base attack strength (0 = cannot attack)\n\
 ; defense       = base defense strength (0 = cannot defend)\n\
 ; hitpoints     = how much damage unit can withstand\n\

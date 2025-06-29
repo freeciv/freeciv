@@ -3747,6 +3747,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->uclass             = uclass_by_number(p->unit_class_id);
   u->build_cost         = p->build_cost;
   u->pop_cost           = p->pop_cost;
+  u->spec_type          = specialist_by_number(p->spectype_id);
   u->attack_strength    = p->attack_strength;
   u->defense_strength   = p->defense_strength;
   u->move_rate          = p->move_rate;

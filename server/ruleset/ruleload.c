@@ -2406,6 +2406,22 @@ static bool load_ruleset_units(struct section_file *file,
                                                  "%s.city_slots", sec_name);
       u->city_size = secfile_lookup_int_default(file, 1,
                                                 "%s.city_size", sec_name);
+      if ((sval
+           = secfile_lookup_str_default(file, nullptr, "%s.specialist", sec_name))) {
+        if (!(u->spec_type = specialist_by_rule_name(sval))) {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "\"%s\" unit_type \"%s\":"
+                        " bad specialist \"%s\".",
+                        filename, utype_rule_name(u), sval);
+          ok = FALSE;
+        }
+      } else {
+        /* Specialists must have been processed before */
+        fc_assert_action(DEFAULT_SPECIALIST >= 0
+                         && specialist_by_number(DEFAULT_SPECIALIST),
+                         ok = FALSE; break);
+        u->spec_type = specialist_by_number(DEFAULT_SPECIALIST);
+      }
 
       sval = secfile_lookup_str_default(file, transp_def_type_name(TDT_ALIGHT),
                                         "%s.tp_defense", sec_name);
@@ -8072,6 +8088,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.unit_class_id = uclass_number(utype_class(u));
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;
+    packet.spectype_id = specialist_index(u->spec_type);
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;

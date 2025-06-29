@@ -517,6 +517,8 @@ struct unit_type {
   int build_cost;                       /* Use wrappers to access this. */
   int pop_cost;                         /* Number of workers the unit contains
                                          * (e.g., settlers, engineers) */
+  struct specialist *spec_type; /* affects only founding and adding to cities */
+
   int attack_strength;
   int defense_strength;
   int move_rate;

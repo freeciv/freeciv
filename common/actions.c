@@ -32,6 +32,7 @@
 #include "oblig_reqs.h"
 #include "research.h"
 #include "server_settings.h"
+#include "specialist.h"
 #include "unit.h"
 
 
@@ -2401,8 +2402,8 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
 {
   switch (paction->result) {
   case ACTRES_JOIN_CITY:
-    if (actor_unittype->pop_cost <= 0) {
-      /* Reason: Must have population to add. */
+    if (actor_unittype->pop_cost <= 0 && !is_super_specialist(actor_unittype->spec_type)) {
+      /* Reason: Must have something to add. */
       return FALSE;
     }
     break;

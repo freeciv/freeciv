@@ -212,6 +212,8 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ; build_cost    = production shields required to build
 ; pop_cost      = population removed from city when built; for 'Join City'
 ;                 units this is also the population added to the destination
+; specialist    = optional: add a superspecialist of this type when joining to
+;                 or creating a city (if normal specialist: join as this type)
 ; attack        = base attack strength (0 = cannot attack)
 ; defense       = base defense strength (0 = cannot defend)
 ; hitpoints     = how much damage unit can withstand
