@@ -341,10 +341,11 @@ bool api_edit_perform_action_unit_vs_city(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) == ATK_CITY, 3,
+                      "Not a city-targeted action", FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_city(&(wld.map), paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
@@ -366,11 +367,12 @@ bool api_edit_perform_action_unit_vs_city_impr(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) == ATK_CITY, 3,
+                      "Not a city-targeted action", FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, Building_Type, FALSE);
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_city(&(wld.map), paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
@@ -392,11 +394,12 @@ bool api_edit_perform_action_unit_vs_city_tech(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) == ATK_CITY, 3,
+                      "Not a city-targeted action", FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, Tech_Type, FALSE);
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_city(&(wld.map), paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
@@ -419,10 +422,11 @@ bool api_edit_perform_action_unit_vs_unit(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) == ATK_UNIT, 3,
+                      "Not a unit-targeted action", FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, Unit, FALSE);
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_UNIT, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_unit(nmap, paction->id, punit, tgt)) {
     return unit_perform_action(unit_owner(punit), punit->id,
@@ -463,15 +467,18 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
     break;
   case ATK_CITY:
     /* Not handled here. */
-    fc_assert(action_get_target_kind(paction) != ATK_CITY);
+    LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) != ATK_CITY, 3,
+                        "City-targeted action applied to tile", FALSE);
     break;
   case ATK_UNIT:
     /* Not handled here. */
-    fc_assert(action_get_target_kind(paction) != ATK_UNIT);
+    LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) != ATK_UNIT, 3,
+                        "Unit-targeted action applied to tile", FALSE);
     break;
   case ATK_SELF:
     /* Not handled here. */
-    fc_assert(action_get_target_kind(paction) != ATK_SELF);
+    LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) != ATK_SELF, 3,
+                        "Self-targeted action applied to tile", FALSE);
     break;
   case ATK_COUNT:
     /* Should not exist */
@@ -525,15 +532,18 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
     break;
   case ATK_CITY:
     /* Not handled here. */
-    fc_assert(action_get_target_kind(paction) != ATK_CITY);
+    LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) != ATK_CITY, 3,
+                        "City-targeted action applied to tile", FALSE);
     break;
   case ATK_UNIT:
     /* Not handled here. */
-    fc_assert(action_get_target_kind(paction) != ATK_UNIT);
+    LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) != ATK_UNIT, 3,
+                        "Unit-targeted action applied to tile", FALSE);
     break;
   case ATK_SELF:
     /* Not handled here. */
-    fc_assert(action_get_target_kind(paction) != ATK_SELF);
+    LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) != ATK_SELF, 3,
+                        "Self-targeted action applied to tile", FALSE);
     break;
   case ATK_COUNT:
     /* Should not exist */
@@ -563,9 +573,10 @@ bool api_edit_perform_action_unit_vs_self(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG(L, action_get_target_kind(paction) == ATK_SELF, 3,
+                      "Not a self-targeted action", FALSE);
 
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_SELF, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_self(nmap, paction->id, punit)) {
     return unit_perform_action(unit_owner(punit), punit->id,
