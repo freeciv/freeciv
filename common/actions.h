@@ -41,6 +41,10 @@ extern "C" {
 #define SPECENUM_NAME action_actor_kind
 #define SPECENUM_VALUE0 AAK_UNIT
 #define SPECENUM_VALUE0NAME N_("a unit")
+#define SPECENUM_VALUE1 AAK_CITY
+#define SPECENUM_VALUE1NAME N_("a city")
+#define SPECENUM_VALUE2 AAK_PLAYER
+#define SPECENUM_VALUE2NAME N_("a player")
 #define SPECENUM_COUNT AAK_COUNT
 #include "specenum_gen.h"
 

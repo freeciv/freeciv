@@ -560,6 +560,10 @@ static bool impr_allows_actions(const struct city *pcity,
           }
         } unit_type_iterate_end;
         break;
+      case AAK_CITY:
+      case AAK_PLAYER:
+        /* No traceable limitations */
+        return TRUE;
       case AAK_COUNT:
         fc_assert(action_id_get_actor_kind(act) != AAK_COUNT);
         break;
