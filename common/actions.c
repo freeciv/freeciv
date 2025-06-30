@@ -963,6 +963,7 @@ bool actions_are_ready(void)
   Create a new action.
 **************************************************************************/
 static struct action *action_new(action_id id,
+                                 enum action_actor_kind aak,
                                  enum action_result result,
                                  const int min_distance,
                                  const int max_distance,
@@ -990,7 +991,7 @@ static struct action *action_new(action_id id,
   /* Not set here */
   BV_CLR_ALL(action->sub_results);
 
-  action->actor_kind = AAK_UNIT;
+  action->actor_kind = aak;
   action->target_kind = actres_target_kind_default(result);
   action->sub_target_kind = actres_sub_target_kind_default(result);
   action->target_complexity = actres_target_compl_calc(result);
@@ -1035,7 +1036,7 @@ unit_action_new(action_id id,
                 const int max_distance,
                 bool actor_consuming_always)
 {
-  struct action *act = action_new(id, result,
+  struct action *act = action_new(id, AAK_UNIT, result,
                                   min_distance, max_distance,
                                   actor_consuming_always);
 
@@ -1055,7 +1056,7 @@ static struct action *
 player_action_new(action_id id,
                   enum action_result result)
 {
-  struct action *act = action_new(id, result,
+  struct action *act = action_new(id, AAK_PLAYER, result,
                                   0, 0, FALSE);
 
   return act;
@@ -2299,8 +2300,10 @@ struct action *action_is_blocked_by(const struct civ_map *nmap,
   action_iterate(blocker_id) {
     struct action *blocker = action_by_number(blocker_id);
 
-    fc_assert_action(action_get_actor_kind(blocker) == AAK_UNIT,
-                     continue);
+    if (action_get_actor_kind(blocker) != AAK_UNIT) {
+      /* Currently, only unit's actions may block each other */
+      continue;
+    }
 
     if (!action_would_be_blocked_by(act, blocker)) {
       /* It doesn't matter if it is legal. It won't block the action. */
@@ -5630,6 +5633,10 @@ bool action_enabler_possible_actor(const struct action_enabler *ae)
 
     /* No actor detected. */
     return FALSE;
+  case AAK_CITY:
+  case AAK_PLAYER:
+    /* Currently can't detect */
+    return TRUE;
   case AAK_COUNT:
     fc_assert(action_get_actor_kind(paction) != AAK_COUNT);
     break;
@@ -5656,6 +5663,10 @@ static bool action_has_possible_actor_hard_reqs(struct action *paction)
       }
     } unit_type_iterate_end;
     break;
+  case AAK_CITY:
+  case AAK_PLAYER:
+    /* No ruleset hard reqs atm */
+    return TRUE;
   case AAK_COUNT:
     fc_assert(action_get_actor_kind(paction) != AAK_COUNT);
     break;
