@@ -472,8 +472,6 @@ const char *action_get_ui_name_mnemonic(action_id act_id,
 const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
-
-const char *action_ui_name_ruleset_var_name(int act);
 const char *action_ui_name_default(int act);
 
 const char *action_min_range_ruleset_var_name(int act);
