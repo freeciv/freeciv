@@ -2761,7 +2761,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     pcity->before_change_shields -= cost;
     pcity->shield_stock -= cost;
     pcity->turn_last_built = game.info.turn;
-    /* to eliminate micromanagement */
+    /* To eliminate micromanagement */
     if (is_great_wonder(pimprove)) {
       notify_player(NULL, city_tile(pcity), E_WONDER_BUILD, ftc_server,
                     _("The %s have finished building %s in %s."),
@@ -2950,7 +2950,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     return city_exist(saved_city_id);
   }
 
-  if (pcity->shield_stock >= unit_shield_cost) {
+  if (pcity->shield_stock >= unit_shield_cost
+      && is_action_enabled_city(nmap, ACTION_FINISH_UNIT, pcity)) {
     int pop_cost = utype_pop_value(utype, pcity);
     struct unit *punit;
 
@@ -3081,10 +3082,11 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
   case VUT_UTYPE:
     return city_build_unit(pplayer, pcity);
   default:
-    /* must never happen! */
+    /* Must never happen! */
     fc_assert(FALSE);
     break;
   };
+
   return FALSE;
 }
 

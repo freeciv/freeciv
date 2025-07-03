@@ -492,11 +492,17 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
 {
+  struct action_enabler *enabler;
+
   if (!info->compat_mode || info->version >= RSFORMAT_CURRENT) {
     /* There isn't anything here that should be done outside of compat
      * mode. */
     return;
   }
+
+  enabler = action_enabler_new();
+  enabler->action = ACTION_FINISH_UNIT;
+  action_enabler_add(enabler);
 
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */

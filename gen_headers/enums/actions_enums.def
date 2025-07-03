@@ -145,6 +145,7 @@ values
   ACTION_GAIN_VETERANCY                   "Gain Veterancy"
   ACTION_ESCAPE                           "Escape"
   ACTION_CIVIL_WAR                        "Civil War"
+  ACTION_FINISH_UNIT                      "Finish Unit"
 
   # User actions
   ACTION_USER_ACTION1                     "User Action 1"

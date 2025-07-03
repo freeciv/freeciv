@@ -564,6 +564,10 @@ bool is_action_enabled_player(const struct civ_map *nmap,
                               const action_id wanted_action,
                               const struct player *actor_plr);
 
+bool is_action_enabled_city(const struct civ_map *nmap,
+                            const action_id wanted_action,
+                            const struct city *actor_city);
+
 struct act_prob action_prob_vs_city(const struct civ_map *nmap,
                                     const struct unit *actor,
                                     const action_id act_id,

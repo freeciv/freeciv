@@ -993,5 +993,11 @@ actor_reqs    =
 [enabler_gain_veterancy]
 action        = "Gain Veterancy"
 actor_reqs    =
-    { "type",           "name",         "range", "present"
+    { "type", "name", "range", "present"
+    }
+
+[enabler_finish_unit]
+action        = "Finish Unit"
+actor_reqs    =
+    { "type", "name", "range", "present"
     }
