@@ -1,3 +1,1115 @@
+commit 3b5286af342b38f5787546a35763bbfec99d171e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 4 00:13:54 2025 +0300
+
+    'make update-po' before 3.2.0-RC1 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cd2287ebbb1f34c9df8a959b4c426ba13c2e5468
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 3 02:55:44 2025 +0300
+
+    NEWS-3.2: Refresh 3.2.0-RC1 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ac99ba7cd4ac9537f53da8bda2848bc933bb4360
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 24 15:20:29 2025 +0300
+
+    ci-build.sh: Output meson log on meson failure
+
+    See RM #1443
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b7f4636c1a2943bb0de8739873cf7fa5467a1fe4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 30 00:53:46 2025 +0300
+
+    Comment typofix: "intput" -> "input"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 361d1f63c7c79f2f62e7a4b6fb4a8125214e1821
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 13 08:27:36 2025 +0300
+
+    CI: Rename 'normal' job as 'autotools'
+
+    See RM #1499
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 403154ce906bd1d2e37c0207e1a13efb470c8587
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 10 04:44:54 2025 +0300
+
+    Qt: Cleanup races_dialog slots parameters
+
+    - Drop unused 'deselcted' parameters
+    - Unify parameter names between the declaration and definition
+    - Fix indentation issue on races_dialog::style_selected()
+
+    See RM #1495
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 13692681ca57742241b3dedbb13904c2c9d81896
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 30 06:16:03 2025 +0300
+
+    CodingStyle: Instruct test build with '-Doptimization=2'
+
+    See RM #1477
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f93fa1cc7caaf104204b09d48cb6bb784691af8b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 28 02:15:14 2025 +0300
+
+    Msgmerge Galician translation from main branch
+
+    Main translation updates by ninjum
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6bc245b1a1941ba2d3fad337edaebdea8ca4529d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 26 23:21:31 2025 +0300
+
+    NEWS-3.2: Add 3.2.0-RC1 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 92bfa069ebfd287362af3af2983ab1a9484a9bcc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 28 05:51:06 2025 +0300
+
+    Qt: Drop sc_orig from class fc_sc_button
+
+    See RM #1468
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b35ddb5e1fde1b290794ee6edf210bbe008f2d3c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 24 08:00:57 2025 +0300
+
+    Pass civ_map to city_gold_worth()
+
+    See RM #1409
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3e03db93685eabca3471cbfe82a7ac8b4bd1f67f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon May 26 21:57:50 2025 +0300
+
+    HACKING: Update autotools options to meson ones
+
+    See RM #1447
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bd7de58eae31a4d9097b28088b55986d319a98ef
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 28 00:26:23 2025 +0300
+
+    Update to emscripten 4.0.9
+
+    See RM #1463
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3a77dfbeccc6be0102f09dbef27726183d4a217d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 24 18:07:21 2025 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 863256c2d8bba080a2cd96042637a3bfaeebc162
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 8 05:39:34 2025 +0300
+
+    gtk3.22: Fix edit mode FoW toggle sync
+
+    The FoW mode was being toggled when ever
+    the toggle and underlying option were synced,
+    even if they were in sync already. This lead to
+    recursive toggling of the option on and off.
+
+    Reported by Dean Brown
+
+    See RM #1492
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 94dde393976b37833a7bf13892b88a46406be92e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 21 22:00:33 2025 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2025-06-16)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f9db33292ec183675a008ce8387a7f0d6e55d7f7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 29 05:13:00 2025 +0300
+
+    Correct technology_load() function header
+
+    See RM #1466
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0ba90063decf5fc98e70aff2c6096bb0b72b43aa
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jun 2 02:53:24 2025 +0300
+
+    Meson: Make libfc_ai to depend on specenum
+
+    See RM #1479
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d826985d7d619b531de906cdde99b1d468ce0ef0
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Jun 7 20:08:14 2025 -0400
+
+    gtk: Fix handle_edit_key_press() to handle Mac modifier
+
+    Macro for platform specific menu accelerator modifier keys
+    moved from menu.c to gui_main.h.
+
+    See RM #1489
+
+commit 6e47a4563bbbdbcc5691f3e6fdc1c48a25d47488
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 10 06:40:40 2025 +0300
+
+    CI: Run meson job also on arm runner
+
+    See RM #1498
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit edca06fb0e21765724e9c48756c263fcd1620ed7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 24 13:41:30 2025 +0300
+
+    README.AI_modules: Note that only autotools supported
+
+    Build time configuration of AI modules is not yet
+    available in meson based build system.
+
+    See RM #1441
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 79e34a0f72bf3cfd9c3679464959f37839bfe6d0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 20 11:38:12 2025 +0300
+
+    Comment typofix: "comit" -> "commit"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 33895ee6381d7cc87c3734f3307a6583ea4b2548
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 10 04:07:57 2025 +0300
+
+    Switch branch to stable mode
+
+    See RM #1448
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 543b15703e0cf3a294f150f65779f1f4795ca048
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon May 26 19:45:31 2025 +0300
+
+    Meson: Define FREECIV_NDEBUG on release builds
+
+    See RM #1455
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fbe931db702cb4d509c8362263a1a1b7ebf42ac2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 23 19:59:54 2025 +0300
+
+    Add fc_thread_self() and fc_threads_equal()
+
+    See RM #1434
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8172537b2a2659eebe79240aa088638f711a548f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 17 05:09:23 2025 +0300
+
+    Change "behaviour" to "behavior"
+
+    See RM #1397
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 52ff5529e4fcc62ee0823b9173fd0b225832a624
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon May 26 21:30:48 2025 +0300
+
+    civ2civ3/sandbox: Reduce number of Storms
+
+    See RM #1456
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 24d1de4bdf1daee85678dc3a5e9219d0e4b82f0d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 6 23:16:32 2025 +0300
+
+    README.fcdb: Note that mysql available in autotools builds only
+
+    See RM #1390
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8d386240823e1ad063030cfa6fe4ee29179f08a3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 14 05:58:31 2025 +0300
+
+    Comment typofix: "rearched" -> "researched"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 098e8abe69a73a324cf8f2bb18c0c29d7f76a6da
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Fri Jun 13 13:23:31 2025 +0500
+
+    Update for Russian translation
+
+commit d1d952b7aa9487aa96e78fa11b16a6dd9e203507
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Jun 9 22:40:19 2025 -0400
+
+    helpdata.txt: Update Unit Movement Controls section
+
+    See RM #1496
+
+commit d171c309396dc7b8d3536d0d8780854129c8cc18
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 24 14:31:51 2025 +0300
+
+    Meson: Enable svgflags by default in the build
+
+    See RM #1442
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b31de0734083861a7158f7d95056c6b103a45ea5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 15 05:19:35 2025 +0300
+
+    tileset-demo.sav: Clear resources on unknown FoW tiles
+
+    Then saved with 3.2.0-beta2.
+
+    See RM #1385
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dabc91be92c6b5b8372b24b9272c6744dcf216a9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 29 13:58:12 2025 +0300
+
+    Fix assignment of unowned tiles
+
+    Unowned tiles and extras were sent to the client as owned
+    by the player 255.
+
+    See RM #1474
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 06c95fdd312874e98cb56b1d8f27466b794d2538
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 29 21:57:53 2025 +0300
+
+    palauan.ruleset: Fix legend typo
+
+    See RM #1476
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 529e28501c3efee31a930a69e64616214221b3d6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 10 06:28:16 2025 +0300
+
+    Comment typofix: "totaly" -> "totally"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 911c8379b12ad9889c959288ea0dc763905f854b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 17 06:52:11 2025 +0300
+
+    gnulib-common.m4: Refresh from gnulib
+
+    Serial remains 110
+
+    See RM #1398
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bed992f525eeb3b67d0cc0eb4a3ca6c7ad836c79
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 25 23:50:30 2025 +0300
+
+    palestinian.ruleset: Fix comment typo "captials"
+
+    See RM #1446
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 72a8ab26590ca9cab0f068d13ef02d52418aca41
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Jun 2 23:38:42 2025 -0400
+
+    gtk: save options dlog size
+
+    See RM #1288
+
+commit 24745c34628d4638e4e532b730a252b7b3998788
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 16 22:02:54 2025 +0300
+
+    Makefile.in.in: Refresh from gettext-0.25
+
+    See RM #1391
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0491b1be5be44c20aac793c44d9c0990d56f8842
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 11 00:56:25 2025 +0300
+
+    savegame3: Sanity check that FoW tile with resource is known
+
+    See RM #1382
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9e418e20f1160fbf4dab504c48ee79e8a82869c9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 29 06:20:37 2025 +0300
+
+    Rewrite main helptext for counters
+
+    See RM #1472
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d3052bd26625d1487ac17de46443dec311c8310e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 11 01:27:02 2025 +0300
+
+    southyemeni.ruleset: Fix legend typo
+
+    See RM #1386
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1bd533b4270f3a47393bcd3992f1b5c88668e13a
+Author: Dino <macwiz23@comcast.net>
+Date:   Tue May 27 23:55:40 2025 -0400
+
+    helpdata.c: Tell land <-> sea transform rules
+
+    See RM #1277
+
+commit c04b39e4bef22cc5942045ebbb374fd29349c4d1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 10 04:28:28 2025 +0300
+
+    ci-build.sh: Execute emsbuild.sh with relative path
+
+    See RM #1360
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 38247510b62e7dc3fb4fcd1c4d2d85193bcaa3a3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 23 16:50:19 2025 +0300
+
+    Qt: Add newline after svg flags error message
+
+    The message printed when svg flags are enabled in
+    the client options, but disabled in the build,
+    was missing a newline.
+
+    See RM #1430
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c706157ce55cd2c67dce0016d7c66dc9f0ee066b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 22 03:42:16 2025 +0300
+
+    installer_cross: Make autotools build to use crosser-2.10
+
+    See RM #1424
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5debbd4656ad646287650f7ea1694f0ab5d9b704
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 10 01:07:22 2025 +0300
+
+    README: Update autotools options to meson ones
+
+    See RM #1366
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 303ecd8479552b36e749d6b010d765fedcb6e73a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 10 01:53:24 2025 +0300
+
+    Refresh supplied scenarios with freeciv-3.2.0-beta2
+
+    See RM #1381
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7839e5099b01f1509dc150c0ca9495fb9449992d
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat May 24 20:49:04 2025 -0400
+
+    gtk: Remember the size of the help dlog
+
+    See RM #1287
+
+commit 5aa6adf43c0a2c5ad84568bed9e3e8d242943fcd
+Author: Ihnatus <ignatus31oct@mail.ru>
+Date:   Mon May 26 23:36:03 2025 +0300
+
+    Lua: Fix getting achievements and disasters by name
+
+    See RM #1458
+
+    Signed-off-by: Ihnatus <ignatus31oct@mail.ru>
+
+commit cf9551d3326729cc2bd652635d25ee01b870fb14
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 18 09:13:13 2025 +0300
+
+    Apply patch 8 for lua-5.4.7
+
+    See RM #1407
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 43631ef2c8fe145127aba139a093e090c9dc046b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 19:28:20 2025 +0300
+
+    paraguayan.ruleset: Fix legend typo
+
+    See RM #1354
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bc34e59061da664e61e4921cb90d52a25785e022
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 4 22:15:52 2025 +0300
+
+    emsbuild.sh: Accept relative path to environment
+
+    See RM #1358
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1e1aa0baa44dffcbfde1ecfa69b6dc7468d53d1d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 29 21:27:37 2025 +0300
+
+    Comment typofix: "TRANSFROM" -> "TRANSFORM"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 518a6504884007816035811198921eb468f6d283
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 18:26:07 2025 +0300
+
+    Rename counter_behaviour as counter_behavior
+
+    See RM #1365
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d21ed91fa6acc5cc04c0ad96ae5dead9c10d7349
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 16 21:57:39 2025 +0300
+
+    Update to crosser-2.10
+
+    See RM #1393
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bd627f5095423049f29514550c98beeb8dc0f75f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 29 06:06:14 2025 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ef8c6a33337ecd576b892451613421a6a116d787
+Author: Dino <macwiz23@comcast.net>
+Date:   Sun Apr 13 22:36:52 2025 -0400
+
+    Mac: Use meta/command key as menu accelerator
+
+    See RM #1292
+
+commit a449d25a7bed286280bccbb52a7fa93f003030ea
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 4 19:15:05 2025 +0300
+
+    Update lib-link.m4 to serial 35
+
+    See RM #1368
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit aef52b6787ab1bfae4f1c77ae9acde16d992247e
+Author: Ihnatus <ignatus31oct@mail.ru>
+Date:   Tue May 20 23:36:45 2025 +0300
+
+    Improve checks at cities.ruleset specialists load
+
+    Not access nil pointer if no specialists at all are defined.
+    Give correct hint if no default specialist is specified.
+
+    See RM #1400
+
+    Signed-off-by: Ihnatus <ignatus31oct@mail.ru>
+
+commit 5d03784c16347dcf137dfaccfe9c6322c592d581
+Author: quakec1m4 <duly-collide-dove@duck.com>
+Date:   Fri May 16 20:34:14 2025 +0200
+
+    croatian.ruleset: Update legend
+
+    A less reductive description of Croatia.
+
+    See RM #1394
+
+commit 5a986ac82dbc033e2318b06bc5c80bce28b72f17
+Author: Ihnatus <ignatus31oct@mail.ru>
+Date:   Wed May 21 21:14:53 2025 +0300
+
+    Correct the documentation of get_city_citizen_types()
+
+    See RM #1401
+
+    Signed-off-by: Ihnatus <ignatus31oct@mail.ru>
+
+commit 4089e931138742eb67f23e3bfc373d8ed08d8ee9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 16:38:03 2025 +0300
+
+    INSTALL: Correct default client documentation
+
+    See RM #1364
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d0d3665f4590beaf9b9303abec218d2dcb61c6f7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 10:07:39 2025 +0300
+
+    load_action_kind(): Correct for actions without ruleset variable
+
+    If an action has no target kind ruleset variable name,
+    do not look the target kind from "actions."
+
+    See RM #114
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f2bcc2fbddcc15ff8acc0e1e441b5a4eb71801b4
+Author: Dino <macwiz23@comcast.net>
+Date:   Wed May 14 23:48:12 2025 -0400
+
+    Respect 'quiet' in building obsolete_by
+
+    See RM #1238
+
+commit f22f7b085b1ae2729cee2dd9b0be146e79af66ff
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 21 17:41:13 2025 +0300
+
+    Comment typofix: "ans" -> "and"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c3663459204c28c33b60888b0e3d850e72f6f468
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 02:30:28 2025 +0300
+
+    CodingStyle: Update autotools options to meson ones
+
+    See RM #1347
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a8268c3c3b7a42266453a03072fd172ebcf14d87
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 9 04:13:09 2025 +0300
+
+    Msys2: Do not build gtk4-client for "win64" by default
+
+    See RM #1376
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9ee137a78234ae7e5c9148613ecd22be9fc5405d
+Author: Dino <macwiz23@comcast.net>
+Date:   Fri May 9 20:38:49 2025 -0400
+
+    gtk: Fix saving and restoring city dlog size
+
+    Minor style corrections by Marko Lindqvist
+
+    See RM #1289
+
+commit f1140b444a279ad6ce2ef4b458e1bbdc3e4e33a6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 03:45:03 2025 +0300
+
+    ci-build.sh: Print success message after meson jobs
+
+    See RM #1359
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 43a4b603767c899c326568c4412df41424e5fd37
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 2 02:54:15 2025 +0300
+
+    README.effects: Fix typo in FormAge documentation
+
+    See RM #1344
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3865802475ea465ffb9c7b6ddf86c61e60c42834
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 17 19:04:45 2025 +0300
+
+    Comment typofix: "unitialized" -> "uninitialized"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7e13c9700fc6aeaea44f085af80c00f40a4c7ed7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 2 02:28:16 2025 +0300
+
+    alaskan.ruleset: Fix comment typos
+
+    See RM #1343
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dec00fb6048dcd1edd553c9a11577f0ce6182f80
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 2 03:06:34 2025 +0300
+
+    gnulib-common.m4: Update to serial 110
+
+    See RM #1342
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 55fc07ffefe8e7921c3d72713e7102a819a94b2a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 2 01:06:53 2025 +0300
+
+    Apply patch 7 for lua-5.4.7
+
+    See RM #1341
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ba8a4a08a29cb5b214ccab6eca7246f96379a1c7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 14 17:46:33 2025 +0300
+
+    Autotools: Refresh gettext .m4 files from gettext-0.24.1
+
+    See RM #1388
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit af57db27b232dcbe0cc173dcce03541d92b06276
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon May 5 00:37:02 2025 +0300
+
+    Makefile.in.in: Refresh from gettext-0.24.1
+
+    See RM #1370
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ea2603b111285ff2b7442a3190b90652ea24fc50
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 2 00:46:28 2025 +0300
+
+    README.packaging: Update autotools options to meson ones
+
+    See RM #1340
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c0f9bf29ec858965aed4eb95181910e1e8b6bcba
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 3 02:45:59 2025 +0300
+
+    Update to emscripten 4.0.8
+
+    See RM #1357
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5e692e5d812fd5e049d132c479a01e94fa1969d8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 1 19:38:12 2025 +0300
+
+    Correct "informations" to "information"
+
+    See RM #1335
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 40d007def4685c0dc069743a0e9ac5bdb4f8eeb6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 9 19:27:16 2025 +0300
+
+    Comment typofix: "activitiy" -> "activity"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f430fd3b17743103e556692cd8e4cc0c4bc3ed96
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 30 20:26:56 2025 +0300
+
+    Apply patch 6 for lua-5.4.7
+
+    See RM #1330
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4fa87046fa7b0602c29baf4b9c9003e04280639b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 9 01:39:47 2025 +0300
+
+    FAQ: Update latest stable version number to 3.1.5
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 043047d9098f3c9dfe1e8cf703540784dc546eec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 25 10:39:49 2025 +0300
+
+    game.ruleset: Fix "disater" typo
+
+    See RM #1307
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6dd66439c1fadcfe9203d927768b5a908e9217b0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 6 19:02:35 2025 +0300
+
+    Comment typofix: "Inititalization" -> "Initialization"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 099de8c84e80a79875b663f8288e9d2c8cfebbe6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 19 05:47:50 2025 +0300
+
+    Filter out SDL3_rotozoom.[ch] from files to src-check
+
+    See RM #1291
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b8b7a88dbbebeff0f0da8fcc0bc42d7597195e16
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 27 08:05:20 2025 +0300
+
+    gnulib-common.m4: Update to serial 109
+
+    See RM #1327
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e610520dc1a466f70707f6dc1bd4a60443de9c5c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 24 06:34:26 2025 +0300
+
+    Apply patch 5 for lua-5.4.7
+
+    See RM #1319
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1b7954debfba12c308f72ea60a10414d48fb80f2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 18 04:13:24 2025 +0300
+
+    README.msys2: Document readline disabling in meson build
+
+    It was still documented autotools way.
+
+    See RM #1306
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 914ace7141a0fbdb2df2e6d1a80584b1563a4888
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 20 05:02:53 2025 +0300
+
+    update_national_activities(): Clean out 'free_uk[]'
+
+    See RM #1312
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0bf5dc007e43ce87ea59ec8e5fe97cfcd5862209
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 1 15:48:34 2025 +0300
+
+    Comment typofix: "Inialize" -> "Initialize"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a1214b6871932cd75114435db45749e441fc96f4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Apr 22 04:34:16 2025 +0300
+
+    iconv.m4: Update to serial 30
+
+    See RM #1310
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7150bb130d38c1eb162183e2b1ea4209d17bfbfc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 24 13:19:28 2025 +0300
+
+    rssanity: Reword barbarian's init buildings message
+
+    See RM #1322
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a72d831ae8a90685d30b5d7eeeb0dbe1caafbca6
+Author: Dino <macwiz23@comcast.net>
+Date:   Tue Feb 18 00:08:50 2025 -0500
+
+    AI: Check is_action_enabled_unit_on_stack() in dai_rampage_want()
+
+    Otherwise the attacker might change the target tile to one
+    where there are no units it can actually attack.
+
+    Minor update to the patch by Marko Lindqvist
+
+    See RM #1242
+
+commit 65e63b84e98da67db4ff4f9b62c6e02d6e87baf5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 17 12:28:27 2025 +0300
+
+    Update host-cpu-c-abi.m4 to serial 20
+
+    See RM #1298
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4b694e4f1f96392ba55c3a74de789d24ef2188da
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 17 06:56:37 2025 +0300
+
+    Document Qt6Svg requirement for Qt-client
+
+    See RM #509
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 66c933f30af75d58a6e3ac797e77fa182d480a5c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 17 02:14:07 2025 +0300
+
+    Flatpak: Update Qt Sdk & Platform to 6.9
+
+    See RM #1299
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6c16447e74ce5c21ddc77f037c8b119c08dfefbf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 25 06:50:50 2025 +0300
+
+    Comment typofix: "parmeters" -> "parameters"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a93c7b6163590ffade7d794a2553b09d7fae55e2
+Author: Marcin Serwin <marcin@serwin.dev>
+Date:   Sun Apr 20 20:41:33 2025 +0200
+
+    sdl2: Remove unused SDL_syswm header
+
+    See RM #1314
+
+    Signed-off-by: Marcin Serwin <marcin@serwin.dev>
+
+commit e31c5731509bccb3b3515f72c54040fa6299fc54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 16 18:45:24 2025 +0300
+
+    Meson: Add -fPIC for Qt6 compile test
+
+    Reported by Zdenek Sojka
+
+    See RM #1296
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dc0935de43c8c3e7d866c86e62f0aed1fd1c7168
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 17 01:22:30 2025 +0300
+
+    gnulib-common.m4: Update to serial 108
+
+    See RM #1297
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5d72f48c0daffeee8ffa467e33e412f20e3fb80a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 20 01:02:37 2025 +0300
+
+    Msys2 autotools: Build Qt6 installer for qt-installer target
+
+    See RM #1311
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0c57a968427e8638beb9f392a7a8d0b5a1edbaa1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 12 13:50:32 2025 +0300
+
+    call_incident(): Move 'players_iterate_end' to correct place
+
+    See RM #1265
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9b0e923fcbbd7ac72465bf24eeb9f9799d6bd6cc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 5 18:56:13 2025 +0300
+
+    Document sdl3-client prerequisites
+
+    See RM #1285
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6d9b78e5b3542f053d6b5df40b459ab0055f7629
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 5 11:05:04 2025 +0300
+
+    Remove deprecated pathlib.PurePath.is_reserved() usage
+
+    See RM #1227
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2de1f56dfd0492508c93f861e7dc56aa2fdefa49
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Apr 3 01:49:00 2025 +0300
+
+    Replace unit_name_orig() calls
+
+    The function does not exist. It was used in commented out code.
+    Replacements are utype_rule_name() and unit_rule_name()
+
+    See RM #1280
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c6dab6c3b024fc25e9464a24195f277933ab5188
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 12 16:18:17 2025 +0300
+
+    Comment typofix: "quiting" -> "quitting"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 98b681d86edde8958628efb89817677ab60ff924
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Mar 31 21:59:59 2025 +0300
+
+    Fix corner road graphics for RoadAllCombined
+
+    Patch by Jakob Ilves
+
+    See RM #1276
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6ad1075b1a5096d02b8c5731518e90e5981a164b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 30 23:14:54 2025 +0300
+
+    Meson: Set 'version' for project()
+
+    See RM #1272
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5c04c2af7684be01e2986cea7b2261be281082cd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 11 02:03:46 2025 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dbf152cd66a7f80f6cc45353f77b04895cbbc7c8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 11 02:00:23 2025 +0300
+
+    Finalize 3.2.0-beta2 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit d2c1275ab90a29bb5aa0bd041754e2a9ec41b353
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Apr 11 01:52:39 2025 +0300

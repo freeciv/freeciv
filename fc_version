@@ -9,17 +9,17 @@ MAJOR_VERSION="3"
 MINOR_VERSION="2"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-beta2+"
+VERSION_LABEL="-RC1"
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
-if test "$VERSION_LABEL" = "" ; then
+if test "${VERSION_LABEL}" = "" ; then
   RELEASE_TYPE="stable"
-  #RELEASE_DATE="2024-06-08"
+  #RELEASE_DATE="2025-07-11"
   NEWS_URL="https://www.freeciv.org/wiki/NEWS-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
 else
   RELEASE_TYPE="development"
-  #RELEASE_DATE="2025-04-11"
+  RELEASE_DATE="2025-07-04"
   NEWS_URL="https://www.freeciv.org/wiki/NEWS-3.2.0"
 fi
 
