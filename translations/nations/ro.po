@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
+"POT-Creation-Date: 2025-06-12 21:16+0300\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -277,7 +277,7 @@ msgstr "Despre"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -970,7 +970,7 @@ msgstr "brazilian"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2470,13 +2470,13 @@ msgid ""
 msgstr ""
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, fuzzy, c-format
 msgid "Ban %s"
 msgstr "în %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, fuzzy, c-format
 msgid "?female:Ban %s"
@@ -3942,10 +3942,17 @@ msgstr "Croaţi"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
 
 #: data/nation/crusader.ruleset:3
@@ -8973,7 +8980,7 @@ msgstr "?plural:Papuaşi"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 
@@ -9106,7 +9113,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -10649,7 +10656,7 @@ msgstr "Americani"
 #: data/nation/southyemeni.ruleset:6
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 

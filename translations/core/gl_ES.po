@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-06-26 23:01+0300\n"
+"POT-Creation-Date: 2025-07-03 02:50+0300\n"
 "PO-Revision-Date: 2025-06-27 12:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2201,7 +2201,7 @@ msgstr "(sen nome)"
 #: client/gui-gtk-3.22/repodlgs.c:1620 client/gui-gtk-4.0/action_dialog.c:483
 #: client/gui-gtk-4.0/action_dialog.c:970 client/gui-gtk-4.0/citydlg.c:3318
 #: client/gui-gtk-4.0/repodlgs.c:1649 client/gui-qt/citydlg.cpp:3483
-#: client/gui-qt/dialogs.cpp:3660 client/gui-qt/dialogs.cpp:3723
+#: client/gui-qt/dialogs.cpp:3658 client/gui-qt/dialogs.cpp:3721
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1640
 #: client/gui-sdl2/action_dialog.c:1903 client/gui-sdl2/citydlg.c:1192
 #: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1640
@@ -2216,7 +2216,7 @@ msgstr[1] "O Tesouro contén %d ouro."
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:492
-#: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3729
+#: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3727
 #: client/gui-sdl2/action_dialog.c:1928 client/gui-sdl3/action_dialog.c:1928
 #, c-format
 msgid ""
@@ -2233,14 +2233,14 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-3.22/action_dialog.c:494
-#: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3732
+#: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3730
 #: client/gui-sdl2/action_dialog.c:1909 client/gui-sdl3/action_dialog.c:1909
 msgid "Bribe Enemy Unit"
 msgstr "Subornar Unidade Inimiga"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:500
-#: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3744
+#: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3742
 #: client/gui-sdl2/action_dialog.c:1978 client/gui-sdl3/action_dialog.c:1978
 #, c-format
 msgid ""
@@ -2259,14 +2259,14 @@ msgstr[1] ""
 #: client/gui-gtk-3.22/action_dialog.c:502
 #: client/gui-gtk-3.22/action_dialog.c:999
 #: client/gui-gtk-4.0/action_dialog.c:502
-#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3746
+#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3744
 #: client/gui-sdl2/action_dialog.c:1762 client/gui-sdl2/action_dialog.c:1990
 #: client/gui-sdl3/action_dialog.c:1762 client/gui-sdl3/action_dialog.c:1990
 msgid "Traitors Demand Too Much!"
 msgstr "Os traidores esixen moito!"
 
 #: client/gui-gtk-3.22/action_dialog.c:584
-#: client/gui-gtk-4.0/action_dialog.c:584 client/gui-qt/dialogs.cpp:3173
+#: client/gui-gtk-4.0/action_dialog.c:584 client/gui-qt/dialogs.cpp:3171
 msgid "Steal Technology"
 msgstr "Roubar tecnoloxía"
 
@@ -2317,8 +2317,8 @@ msgstr "_Avances:"
 #: client/gui-gtk-3.22/action_dialog.c:668
 #: client/gui-gtk-3.22/action_dialog.c:850
 #: client/gui-gtk-4.0/action_dialog.c:666
-#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3202
-#: client/gui-qt/dialogs.cpp:3853 client/gui-sdl2/action_dialog.c:493
+#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3200
+#: client/gui-qt/dialogs.cpp:3851 client/gui-sdl2/action_dialog.c:493
 #: client/gui-sdl2/action_dialog.c:1429 client/gui-sdl3/action_dialog.c:493
 #: client/gui-sdl3/action_dialog.c:1429
 #, c-format
@@ -2336,7 +2336,7 @@ msgid "_Sabotage"
 msgstr "_Sabotaxe"
 
 #: client/gui-gtk-3.22/action_dialog.c:783
-#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3816
+#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3814
 #: client/gui-sdl2/action_dialog.c:1336 client/gui-sdl3/action_dialog.c:1336
 msgid "Select Improvement to Sabotage"
 msgstr "Escolle Mellora para a sabotaxe"
@@ -2347,14 +2347,14 @@ msgid "_Improvements:"
 msgstr "_Melloras:"
 
 #: client/gui-gtk-3.22/action_dialog.c:830
-#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3836
+#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3834
 #: client/gui-qt/menu.cpp:1118 client/gui-sdl2/action_dialog.c:1369
 #: client/gui-sdl3/action_dialog.c:1369
 msgid "City Production"
 msgstr "Produción da cidade"
 
 #: client/gui-gtk-3.22/action_dialog.c:980
-#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3669
+#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3667
 #: client/gui-sdl2/action_dialog.c:1678 client/gui-sdl3/action_dialog.c:1678
 #, c-format
 msgid "You can't incite a revolt in %s."
@@ -2368,7 +2368,7 @@ msgstr "Non se pode incitar á cidade!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:988
-#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3678
+#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3676
 #: client/gui-sdl2/action_dialog.c:1699 client/gui-sdl3/action_dialog.c:1699
 #, c-format
 msgid ""
@@ -2385,14 +2385,14 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-3.22/action_dialog.c:990
-#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3682
+#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3680
 #: client/gui-sdl2/action_dialog.c:1646 client/gui-sdl3/action_dialog.c:1646
 msgid "Incite a Revolt!"
 msgstr "¡Incita a unha revolta!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:997
-#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3694
+#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3692
 #: client/gui-sdl2/action_dialog.c:1750 client/gui-sdl3/action_dialog.c:1750
 #, c-format
 msgid ""
@@ -2458,14 +2458,14 @@ msgstr "Obxectivos adicionais:"
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-3.22/action_dialog.c:1402
-#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2061
+#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2059
 #: client/gui-sdl2/action_dialog.c:972 client/gui-sdl3/action_dialog.c:972
 #, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Escolla a estratexia de %s"
 
 #: client/gui-gtk-3.22/action_dialog.c:1407
-#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2066
+#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2064
 #, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
@@ -2475,7 +2475,7 @@ msgstr ""
 "E agora que?"
 
 #: client/gui-gtk-3.22/action_dialog.c:1413
-#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2072
+#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2070
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -2486,14 +2486,14 @@ msgstr ""
 
 #. TRANS: Your Spy is ready to act against Roman Freight.
 #: client/gui-gtk-3.22/action_dialog.c:1419
-#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2078
+#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2076
 #, c-format
 msgid "Your %s is ready to act against %s %s."
 msgstr "O teu %s está preparado para actuar contra %s %s."
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
 #: client/gui-gtk-3.22/action_dialog.c:1428
-#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2088
+#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2086
 #, c-format
 msgid "Your %s is waiting for your command."
 msgstr "O teu %s está esperando as tuas ordes."
@@ -3487,25 +3487,25 @@ msgid "I_nspect City"
 msgstr "I_nspeccionar a cidade"
 
 #: client/gui-gtk-3.22/dialogs.c:294 client/gui-gtk-4.0/dialogs.c:294
-#: client/gui-qt/dialogs.cpp:1314
+#: client/gui-qt/dialogs.cpp:1312
 msgid "You say you wanna revolution?"
 msgstr "Vostede di que quere unha revolución?"
 
 #: client/gui-gtk-3.22/dialogs.c:295 client/gui-gtk-4.0/dialogs.c:295
-#: client/gui-qt/dialogs.cpp:1315
+#: client/gui-qt/dialogs.cpp:1313
 msgid "Revolution!"
 msgstr "Revolución!"
 
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-3.22/dialogs.c:363 client/gui-gtk-4.0/dialogs.c:363
-#: client/gui-qt/dialogs.cpp:3880 client/gui-sdl2/dialogs.c:2301
+#: client/gui-qt/dialogs.cpp:3878 client/gui-sdl2/dialogs.c:2301
 #: client/gui-sdl3/dialogs.c:2298
 msgid "What To Pillage"
 msgstr "Que Saquear"
 
 #. TRANS: Pillage dialog target text.
 #: client/gui-gtk-3.22/dialogs.c:367 client/gui-gtk-4.0/dialogs.c:367
-#: client/gui-qt/dialogs.cpp:3880
+#: client/gui-qt/dialogs.cpp:3878
 msgid "Select what to pillage:"
 msgstr "Selecciona o que queres pillar:"
 
@@ -3584,24 +3584,24 @@ msgid "You must select your sex."
 msgstr "Debes seleccionar o teu sexo."
 
 #: client/gui-gtk-3.22/dialogs.c:1396 client/gui-gtk-4.0/dialogs.c:1414
-#: client/gui-qt/dialogs.cpp:850
+#: client/gui-qt/dialogs.cpp:848
 msgid "You must select your style."
 msgstr "Debes seleccionar o teu estilo."
 
 #: client/gui-gtk-3.22/dialogs.c:1405 client/gui-gtk-4.0/dialogs.c:1424
-#: client/gui-qt/dialogs.cpp:855 client/gui-sdl2/dialogs.c:2613
+#: client/gui-qt/dialogs.cpp:853 client/gui-sdl2/dialogs.c:2613
 #: client/gui-sdl3/dialogs.c:2610
 msgid "You must type a legal name."
 msgstr "Debes escribir un nome legal."
 
 #: client/gui-gtk-3.22/dialogs.c:1448 client/gui-gtk-4.0/dialogs.c:1485
-#: client/gui-qt/dialogs.cpp:4389
+#: client/gui-qt/dialogs.cpp:4387
 msgid "Upgrade Unit!"
 msgstr "Actualiza a unidade!"
 
 #: client/gui-gtk-3.22/dialogs.c:1457 client/gui-gtk-3.22/repodlgs.c:1640
 #: client/gui-gtk-4.0/dialogs.c:1494 client/gui-gtk-4.0/repodlgs.c:1669
-#: client/gui-qt/dialogs.cpp:4392 client/gui-qt/repodlgs.cpp:226
+#: client/gui-qt/dialogs.cpp:4390 client/gui-qt/repodlgs.cpp:226
 #: client/gui-sdl2/dialogs.c:704 client/gui-sdl2/repodlgs.c:225
 #: client/gui-sdl3/dialogs.c:700 client/gui-sdl3/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
@@ -3616,7 +3616,7 @@ msgid "Disband Units"
 msgstr "Dissolver unidades"
 
 #: client/gui-gtk-3.22/dialogs.c:1548 client/gui-gtk-4.0/dialogs.c:1587
-#: client/gui-qt/dialogs.cpp:4346
+#: client/gui-qt/dialogs.cpp:4344
 #, c-format
 msgid ""
 "Tileset \"%s\" problem, it's probably incompatible with the ruleset:\n"
@@ -3627,7 +3627,7 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-3.22/dialogs.c:1555 client/gui-gtk-4.0/dialogs.c:1594
-#: client/gui-qt/dialogs.cpp:4350
+#: client/gui-qt/dialogs.cpp:4348
 #, c-format
 msgid ""
 "Tileset problem, it's probably incompatible with the ruleset:\n"
@@ -3652,7 +3652,7 @@ msgid "Are you sure you want to do %s?"
 msgstr "Estás seguro de que queres facer %s?"
 
 #: client/gui-gtk-3.22/dialogs.c:1651 client/gui-gtk-4.0/dialogs.c:1693
-#: client/gui-qt/dialogs.cpp:4988 client/gui-sdl2/dialogs.c:3808
+#: client/gui-qt/dialogs.cpp:4986 client/gui-sdl2/dialogs.c:3808
 #: client/gui-sdl3/dialogs.c:3806
 #, c-format
 msgid "No image for tag \"%s\", requested by the server."
@@ -6685,7 +6685,7 @@ msgstr ""
 "Actualmente estás usando %s."
 
 #: client/gui-gtk-3.22/tileset_dlg.c:49 client/gui-gtk-4.0/tileset_dlg.c:48
-#: client/gui-qt/dialogs.cpp:3979
+#: client/gui-qt/dialogs.cpp:3977
 msgid "Can't load requested tileset."
 msgstr "Non se pode cargar o conxunto de celas solicitado."
 
@@ -7422,42 +7422,42 @@ msgstr "O teu nome de líder"
 msgid "Ok"
 msgstr "Dacordo"
 
-#: client/gui-qt/dialogs.cpp:862
+#: client/gui-qt/dialogs.cpp:860
 msgid "Nation has been chosen by other player"
 msgstr "A nación foi escollida por outro xogador"
 
-#: client/gui-qt/dialogs.cpp:1119
+#: client/gui-qt/dialogs.cpp:1117
 msgid "Goto Location"
 msgstr "Ir á localización"
 
-#: client/gui-qt/dialogs.cpp:1121
+#: client/gui-qt/dialogs.cpp:1119
 msgid "Inspect City"
 msgstr "Inspeccionar a cidade"
 
-#: client/gui-qt/dialogs.cpp:2251
+#: client/gui-qt/dialogs.cpp:2249
 msgid "&Wait"
 msgstr "&Agarda"
 
-#: client/gui-qt/dialogs.cpp:2255
+#: client/gui-qt/dialogs.cpp:2253
 msgid "Do nothing"
 msgstr "Non facer nada"
 
-#: client/gui-qt/dialogs.cpp:3173
+#: client/gui-qt/dialogs.cpp:3171
 msgid "Steal"
 msgstr "Roubar"
 
-#: client/gui-qt/dialogs.cpp:3815 client/gui-qt/menu.cpp:1430
+#: client/gui-qt/dialogs.cpp:3813 client/gui-qt/menu.cpp:1430
 #: common/events.c:125 common/events.c:135
 msgid "Sabotage"
 msgstr "Sabotaxe"
 
-#: client/gui-qt/dialogs.cpp:3915
+#: client/gui-qt/dialogs.cpp:3913
 msgid "Are you sure you want to disband that %1 unit?"
 msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Estás seguro de que queres disolver esa unidade %1?"
 msgstr[1] "Estás seguro de que queres disolver esas %1 unidades?"
 
-#: client/gui-qt/dialogs.cpp:3918 client/gui-qt/pages.cpp:1777
+#: client/gui-qt/dialogs.cpp:3916 client/gui-qt/pages.cpp:1777
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:1711
 #: client/gui-sdl2/action_dialog.c:1940 client/gui-sdl2/citydlg.c:1262
 #: client/gui-sdl2/cma_fe.c:361 client/gui-sdl2/diplodlg.c:1504
@@ -7469,7 +7469,7 @@ msgstr[1] "Estás seguro de que queres disolver esas %1 unidades?"
 msgid "Yes"
 msgstr "Si"
 
-#: client/gui-qt/dialogs.cpp:3919 client/gui-qt/pages.cpp:1779
+#: client/gui-qt/dialogs.cpp:3917 client/gui-qt/pages.cpp:1779
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:1722
 #: client/gui-sdl2/action_dialog.c:1950 client/gui-sdl2/citydlg.c:1249
 #: client/gui-sdl2/cma_fe.c:371 client/gui-sdl2/diplodlg.c:1492
@@ -7482,67 +7482,67 @@ msgstr "Si"
 msgid "No"
 msgstr "Non"
 
-#: client/gui-qt/dialogs.cpp:3920
+#: client/gui-qt/dialogs.cpp:3918
 msgid "Disband units"
 msgstr "Disolver unidades"
 
-#: client/gui-qt/dialogs.cpp:3964
+#: client/gui-qt/dialogs.cpp:3962
 msgid "Modpack suggests using %1 tileset."
 msgstr "Modpack suxire usar %1 conxunto de celas."
 
-#: client/gui-qt/dialogs.cpp:3969
+#: client/gui-qt/dialogs.cpp:3967
 msgid "Keep current tileset"
 msgstr "Mantén o conxunto de celas actual"
 
-#: client/gui-qt/dialogs.cpp:3970
+#: client/gui-qt/dialogs.cpp:3968
 msgid "Load tileset"
 msgstr "Cargar conxunto de celas"
 
-#: client/gui-qt/dialogs.cpp:3995
+#: client/gui-qt/dialogs.cpp:3993
 msgid "Modpack suggests using %1 soundset."
 msgstr "Modpack suxire usar %1 conxunto de sons."
 
-#: client/gui-qt/dialogs.cpp:4000
+#: client/gui-qt/dialogs.cpp:3998
 msgid "Keep current soundset"
 msgstr "Mantén o conxunto de sons actual"
 
-#: client/gui-qt/dialogs.cpp:4001
+#: client/gui-qt/dialogs.cpp:3999
 msgid "Load soundset"
 msgstr "Cargar conxunto de sons"
 
-#: client/gui-qt/dialogs.cpp:4020
+#: client/gui-qt/dialogs.cpp:4018
 msgid "Modpack suggests using %1 musicset."
 msgstr "Modpack suxire usar %1 conxunto de música."
 
-#: client/gui-qt/dialogs.cpp:4025
+#: client/gui-qt/dialogs.cpp:4023
 msgid "Keep current musicset"
 msgstr "Mantén o conxunto de música actual"
 
-#: client/gui-qt/dialogs.cpp:4026
+#: client/gui-qt/dialogs.cpp:4024
 msgid "Load musicset"
 msgstr "Cargar conxunto de música"
 
-#: client/gui-qt/dialogs.cpp:4356
+#: client/gui-qt/dialogs.cpp:4354
 msgid "Tileset error"
 msgstr "Erro de conxunto de celas"
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/dialogs.cpp:4578
+#: client/gui-qt/dialogs.cpp:4576
 msgid "MP:"
 msgstr "PM:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:4683
+#: client/gui-qt/dialogs.cpp:4681
 msgid "%1 HP:%2/%3"
 msgstr "%1 HP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:4688 client/gui-qt/hudwidget.cpp:1503
+#: client/gui-qt/dialogs.cpp:4686 client/gui-qt/hudwidget.cpp:1503
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 unidade"
 msgstr[1] "%1 unidades"
 
-#: client/gui-qt/dialogs.cpp:4954
+#: client/gui-qt/dialogs.cpp:4952
 msgid "Are you sure you want to do %1?"
 msgstr "Estás seguro de que queres facer %1?"
 

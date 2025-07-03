@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
+"POT-Creation-Date: 2025-06-12 21:16+0300\n"
 "PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -290,7 +290,7 @@ msgstr "Aba %s"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1051,7 +1051,7 @@ msgstr "?female:Vogt %s"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2741,13 +2741,13 @@ msgstr ""
 "agus Cròthaisich."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "Ban %s"
 msgstr "Ban %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "?female:Ban %s"
@@ -4463,15 +4463,18 @@ msgstr "?plural:Muinntir na Cròthaise"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
-"'S e a' Chròthais sgìre nan Slàbhach Deasach a bha fo smachd Impireachd na h-"
-"Ostaire 's na h-Ungaire agus cha do thuit i fo bhuaidh nan Otomanach an "
-"dèidh tuiteam Biosaint. Bha i 'na pàirt de Cho-nasgadh nan Iùgoslabh cuid "
-"mhòr dhen 20mh linn."
 
 #: data/nation/crusader.ruleset:3
 msgid "Crusader"
@@ -10105,7 +10108,7 @@ msgstr "?plural:Muinntir Phaputha"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 
@@ -10236,6 +10239,22 @@ msgid "?plural:Paraguayans"
 msgstr "?plural:Muinntir Pharaguaidh"
 
 #: data/nation/paraguayan.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Paraguay is located in the heartland of South America. It was conquered "
+#| "by the Spanish in the late 16th century. The colony was mostly controlled "
+#| "by the Jesuits until their expulsion in 1767. In 1811, Paraguay was the "
+#| "first South American country to achieve independence from Spain. A number "
+#| "of highly authoritarian rulers governed the country as a tyranny but also "
+#| "turned it into a military and economic powerhouse. The War of the Triple "
+#| "Alliance of 1864-1870 led to the near annihilation of Paraguay, which "
+#| "lost half of its territory and eighty per cent of its male population. "
+#| "Paraguay's history remains marked by instability and authoritarianism, "
+#| "alhough it managed to defeat Bolivia in the Chaco War of 1932-1936. For "
+#| "much of the 20th century the country was ruled by General Stroessner, who "
+#| "provided a safe haven for Nazi war criminals. Around the turn of the "
+#| "millennium however Paraguay started to see a democratic system of "
+#| "government and an impressive economic growth."
 msgid ""
 "Paraguay is located in the heartland of South America. It was conquered by "
 "the Spanish in the late 16th century. The colony was mostly controlled by "
@@ -10245,7 +10264,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -12020,9 +12039,14 @@ msgid "?plural:South Yemenis"
 msgstr "?plural:Muinntir Eaman a Deas"
 
 #: data/nation/southyemeni.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The area around Aden was colonized by the British in 1839. South Yemen "
+#| "declared independence in 1967 and joined the communist bloc. It was "
+#| "united with North Yemen in 1990."
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 "Chaidh sgìre Aden a thuineachadh leis na Breatannaich ann an 1839. Ghairm "
@@ -13925,6 +13949,17 @@ msgstr ""
 "daoine geala ann an 1979 an dèidh cogaidh chatharra. Tha an dùthaich air a "
 "bhith fo smachd Robert Mugabe a-mach o 1980 agus tha cliù eadar-nàiseanta a "
 "cheart cho bochd aige 's a bha aig an fhear roimhe."
+
+#~ msgid ""
+#~ "Croatia is the region of the Southern Slavs that was held by the Austro-"
+#~ "Hungarian Empire, rather than coming under Ottoman rule after the "
+#~ "collapse of Byzantium. During most of the 20th century it was part of the "
+#~ "Yugoslav Federation."
+#~ msgstr ""
+#~ "'S e a' Chròthais sgìre nan Slàbhach Deasach a bha fo smachd Impireachd "
+#~ "na h-Ostaire 's na h-Ungaire agus cha do thuit i fo bhuaidh nan Otomanach "
+#~ "an dèidh tuiteam Biosaint. Bha i 'na pàirt de Cho-nasgadh nan Iùgoslabh "
+#~ "cuid mhòr dhen 20mh linn."
 
 #~ msgid "American"
 #~ msgstr "Muinntir Aimeireaga"

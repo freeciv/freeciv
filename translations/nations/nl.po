@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
+"POT-Creation-Date: 2025-06-12 21:16+0300\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: Jos Maalderink <josmaalderink@hotmail.com>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -291,7 +291,7 @@ msgstr "Abt %s"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1051,7 +1051,7 @@ msgstr "Landvoogdes %s"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2721,13 +2721,13 @@ msgstr ""
 "drie verschillende volkeren: Bosnjakken, Serven en Kroaten."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "Ban %s"
 msgstr "Ban %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "?female:Ban %s"
@@ -4449,15 +4449,18 @@ msgstr "?plural:Kroaten"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
-"Kroatië is het deel van het woongebied van de Zuidelijke Slaven dat behouden "
-"werd door het Oostenrijks-Hongaarse rijk en iet onder Ottomaans bestuur kwam "
-"te staan na het ineenstorten van Byzantium. Gedurende het grootste gedeelte "
-"van de twintigste eeuw was het een lidstaat van de Joegoslavische Federatie."
 
 #: data/nation/crusader.ruleset:3
 msgid "Crusader"
@@ -9859,7 +9862,7 @@ msgstr "?plural:Papuas"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 
@@ -9993,7 +9996,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -11584,7 +11587,7 @@ msgstr "?plural:Zuid-Afrikanen"
 #: data/nation/southyemeni.ruleset:6
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 
@@ -13390,6 +13393,18 @@ msgstr ""
 "waren van de macht. Een burgeroorlog dwong Smith in 1979 een einde te maken "
 "aan het blanke minderheidsbestuur. Since 1980 wordt het land bestuurd door "
 "Robert Mugabe, die net zo'n slechte reputatie heeft als het vorige regime."
+
+#~ msgid ""
+#~ "Croatia is the region of the Southern Slavs that was held by the Austro-"
+#~ "Hungarian Empire, rather than coming under Ottoman rule after the "
+#~ "collapse of Byzantium. During most of the 20th century it was part of the "
+#~ "Yugoslav Federation."
+#~ msgstr ""
+#~ "Kroatië is het deel van het woongebied van de Zuidelijke Slaven dat "
+#~ "behouden werd door het Oostenrijks-Hongaarse rijk en iet onder Ottomaans "
+#~ "bestuur kwam te staan na het ineenstorten van Byzantium. Gedurende het "
+#~ "grootste gedeelte van de twintigste eeuw was het een lidstaat van de "
+#~ "Joegoslavische Federatie."
 
 #~ msgid "American"
 #~ msgstr "Amerikaanse"

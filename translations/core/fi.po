@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-06-24 17:16+0300\n"
+"POT-Creation-Date: 2025-07-03 02:50+0300\n"
 "PO-Revision-Date: 2025-06-24 18:05+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -47,7 +47,7 @@ msgstr[0] "%s realisoi omaisuuttaan: %s myyty hintaan %d."
 msgstr[1] "%s realisoi omaisuuttaan: %s myyty hintaan %d."
 
 # Away-moodissa pelaaja menee AI-hallinnoitavaksi.
-#: ai/default/daidiplomacy.c:371
+#: ai/default/daidiplomacy.c:372
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
 msgstr ""
@@ -55,12 +55,12 @@ msgstr ""
 "pelaajan puolesta."
 
 # AI teitittelee...
-#: ai/default/daidiplomacy.c:381
+#: ai/default/daidiplomacy.c:382
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (AI)* Purkakaa ensin liittonne pelaajan %s kanssa, %s."
 
-#: ai/default/daidiplomacy.c:391
+#: ai/default/daidiplomacy.c:392
 #, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
@@ -69,12 +69,12 @@ msgstr ""
 "*%s (AI)* Haluaisin ensin odottaa varmistuakseni ettette te ja %s enää ole "
 "yhteistyössä, %s."
 
-#: ai/default/daidiplomacy.c:405
+#: ai/default/daidiplomacy.c:406
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (AI)* Lopettakaamme ensin vihollisuutemme, %s."
 
-#: ai/default/daidiplomacy.c:410
+#: ai/default/daidiplomacy.c:411
 #, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
@@ -83,47 +83,47 @@ msgstr ""
 "*%s (AI)* Olisi suotavaa, jos ensin pitäisitte tulitauon hieman pidempään, "
 "%s."
 
-#: ai/default/daidiplomacy.c:433
+#: ai/default/daidiplomacy.c:434
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr "*%s (AI)* En luota teihin vielä riittävästi liittoutumista varten, %s."
 
-#: ai/default/daidiplomacy.c:527
+#: ai/default/daidiplomacy.c:528
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s (AI)* En tunne mainitsemaanne kaupunkia."
 
-#: ai/default/daidiplomacy.c:558
+#: ai/default/daidiplomacy.c:559
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr "*%s (AI)* Pahoittelen, näkymän jako kanssanne ei ole turvallista."
 
-#: ai/default/daidiplomacy.c:688
+#: ai/default/daidiplomacy.c:689
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s (AI)* Tämä sopimus ei ollut erityisen hyvä kannaltamme, %s!"
 
-#: ai/default/daidiplomacy.c:711
+#: ai/default/daidiplomacy.c:712
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (AI)* Tervetuloa liittolaiseksemme, %s!"
 
-#: ai/default/daidiplomacy.c:715
+#: ai/default/daidiplomacy.c:716
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr "*%s (AI)* Aivan, kestäköön liittomme ikuisesti, %s."
 
-#: ai/default/daidiplomacy.c:722
+#: ai/default/daidiplomacy.c:723
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (AI)* Aivan, rauha meidän aikanamme!"
 
-#: ai/default/daidiplomacy.c:727
+#: ai/default/daidiplomacy.c:728
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* Olen samaa mieltä. Lopettakaamme vihanpito, %s."
 
-#: ai/default/daidiplomacy.c:994
+#: ai/default/daidiplomacy.c:995
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -132,7 +132,7 @@ msgstr ""
 "*%s (AI)* Tervehdys, %s! Voimmeko ehdottaa tulitaukoa jotta ehdimme paremmin "
 "tutustua?"
 
-#: ai/default/daidiplomacy.c:1002
+#: ai/default/daidiplomacy.c:1003
 #, c-format
 msgid ""
 "*%s (AI)* I found you %s! Now make it worth my letting you live, or be "
@@ -141,22 +141,22 @@ msgstr ""
 "%s (AI)* Löysin sinut %s! Anna minulle hyvä syy jättää teidät murskaamatta "
 "tai valmistaudu tuhoosi."
 
-#: ai/default/daidiplomacy.c:1356
+#: ai/default/daidiplomacy.c:1357
 #, c-format
 msgid "*%s (AI)* Space will never be yours."
 msgstr "*%s (AI)* Avaruus ei tule koskaan kuulumaan teille."
 
-#: ai/default/daidiplomacy.c:1362
+#: ai/default/daidiplomacy.c:1363
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* Olen sietänyt äksyilyänne riittävän pitkään! Tulkoon sota!"
 
-#: ai/default/daidiplomacy.c:1368
+#: ai/default/daidiplomacy.c:1369
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* Rauhaa? Ehkä joskus toiste."
 
-#: ai/default/daidiplomacy.c:1374
+#: ai/default/daidiplomacy.c:1375
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -165,17 +165,17 @@ msgstr ""
 "*%s (AI)* Lopultakin yhytin teidät! Luulitteko tosiaan pääsevänne kuin koira "
 "veräjästä?"
 
-#: ai/default/daidiplomacy.c:1381
+#: ai/default/daidiplomacy.c:1382
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* Desanttienne sabotaašitoiminta sai ansaitsemansa lopun!"
 
-#: ai/default/daidiplomacy.c:1389
+#: ai/default/daidiplomacy.c:1390
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* Liittolaiseni (%s) ahdistelu oli vihonviimeinen erheenne!"
 
-#: ai/default/daidiplomacy.c:1496
+#: ai/default/daidiplomacy.c:1497
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -190,7 +190,7 @@ msgstr[1] ""
 "*%s (AI)* %s saa tuta sotavoimiemme täyden mahdin %d vuoron kuluttua, jotta "
 "avaruusaluksen laukaisu tulee estetyksi."
 
-#: ai/default/daidiplomacy.c:1507
+#: ai/default/daidiplomacy.c:1508
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -199,7 +199,7 @@ msgstr ""
 "*%s (AI)* Odotamme teidän auttavan tässä asiassa. Kauan eläköön mahtava "
 "liittomme!"
 
-#: ai/default/daidiplomacy.c:1514
+#: ai/default/daidiplomacy.c:1515
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated their treaties with us for own gain.  We "
@@ -218,7 +218,7 @@ msgstr[1] ""
 "edukseen. Vastaamme voimakeinoin %d vuoron kuluttua ja odotamme teidän "
 "kunnioittavan liittoumaamme toimimalla samoin!"
 
-#: ai/default/daidiplomacy.c:1528
+#: ai/default/daidiplomacy.c:1529
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -233,13 +233,13 @@ msgstr[1] ""
 "*%s (AI)* %s ui rahassa, joten aiomme ryöstää ja rosvota hänen "
 "kansakuntansa! Sota julistetaan %d vuoron kuluttua."
 
-#: ai/default/daidiplomacy.c:1537
+#: ai/default/daidiplomacy.c:1538
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Jos haluatte osille ryöstösaaliista, tulkaa mukaan vaan!"
 
-#: ai/default/daidiplomacy.c:1543
+#: ai/default/daidiplomacy.c:1544
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -254,13 +254,13 @@ msgstr[1] ""
 "*%s (AI)* %s käy hermoillemme! Julistamme sodan %d vuoron kuluttua ja "
 "revimme hänen naurettavan kansakuntansa silpuksi."
 
-#: ai/default/daidiplomacy.c:1554
+#: ai/default/daidiplomacy.c:1555
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (AI)* Odotamme apuanne tässä sodassa; olettehan mahtavia liittolaisiamme."
 
-#: ai/default/daidiplomacy.c:1561
+#: ai/default/daidiplomacy.c:1562
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -275,7 +275,7 @@ msgstr[1] ""
 "*%s (AI)* Kunnioitamme liittoamme, alas %s! Julistamme sodan %d vuoron "
 "kuluttua. Tulossa ollaan!"
 
-#: ai/default/daidiplomacy.c:1571
+#: ai/default/daidiplomacy.c:1572
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -292,7 +292,7 @@ msgstr[1] ""
 "vihollisemme. Julistamme sodan %d vuoron kuluttua! Odotamme teidän toimivan "
 "samoin."
 
-#: ai/default/daidiplomacy.c:1652
+#: ai/default/daidiplomacy.c:1653
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -301,7 +301,7 @@ msgstr ""
 "*%s (AI)* Yrityksesi valloittaa avaruus yksin itsellesi toi julki todelliset "
 "aikomuksesi. Liittomme on tästä pitäen ohi!"
 
-#: ai/default/daidiplomacy.c:1668
+#: ai/default/daidiplomacy.c:1669
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -309,7 +309,7 @@ msgid ""
 msgstr ""
 "*%s (AI)* Pyrkimyksesi hallita ulkoavaruutta yksin loukkaa meitä syvästi."
 
-#: ai/default/daidiplomacy.c:1672
+#: ai/default/daidiplomacy.c:1673
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -318,14 +318,14 @@ msgstr ""
 "*%s (AI)* Jos et lopeta avaruusaluksesi rakentamista, minun pitää varmaankin "
 "tehdä asialle jotakin!"
 
-#: ai/default/daidiplomacy.c:1795
+#: ai/default/daidiplomacy.c:1796
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (AI)* Pahoittelen, mutta näkymän jakaminen kanssasi ei ole enää "
 "turvallista."
 
-#: ai/default/daidiplomacy.c:1866
+#: ai/default/daidiplomacy.c:1867
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -334,7 +334,7 @@ msgstr ""
 "*%s (AI)* Tervehdys, oi luotettu liittolaisemme. Pyydämme apuanne - "
 "vihollisemme %s pitää tuhota."
 
-#: ai/default/daidiplomacy.c:1874
+#: ai/default/daidiplomacy.c:1875
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -344,7 +344,7 @@ msgstr ""
 "vieläkään ole vastaanottanut sodanjulistustasi. Pitääkö minun muistuttaa "
 "teitä tekemistänne lupauksista?"
 
-#: ai/default/daidiplomacy.c:1884
+#: ai/default/daidiplomacy.c:1885
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -355,7 +355,7 @@ msgstr ""
 "vieläkin juonia rauhassa, ettekä nosta sormeannekaan! Tällaista on mahdoton "
 "hyväksyä, liittomme olkoon purettu!"
 
-#: ai/default/daidiplomacy.c:1918
+#: ai/default/daidiplomacy.c:1919
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -364,13 +364,13 @@ msgstr ""
 "*%s (AI)* Tervehdys, ystävä, haluaisimme ehdottaa yhteisen edun ajamista "
 "liittoutumalla."
 
-#: ai/default/daidiplomacy.c:1935
+#: ai/default/daidiplomacy.c:1936
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 "*%s (AI)* Tervehdys, naapuri, haluaisimme ehdottaa rauhanomaisempia suhteita."
 
-#: ai/default/daidiplomacy.c:1952
+#: ai/default/daidiplomacy.c:1953
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -379,7 +379,7 @@ msgstr ""
 "*%s (AI)* Tämä jatkuva verenvuodatus väsyttää meitä. Voisimmeko haudata "
 "sotakirveen?"
 
-#: ai/default/daidiplomacy.c:2240
+#: ai/default/daidiplomacy.c:2241
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -2219,7 +2219,7 @@ msgstr "(nimetön)"
 #: client/gui-gtk-3.22/repodlgs.c:1620 client/gui-gtk-4.0/action_dialog.c:483
 #: client/gui-gtk-4.0/action_dialog.c:970 client/gui-gtk-4.0/citydlg.c:3318
 #: client/gui-gtk-4.0/repodlgs.c:1649 client/gui-qt/citydlg.cpp:3483
-#: client/gui-qt/dialogs.cpp:3660 client/gui-qt/dialogs.cpp:3723
+#: client/gui-qt/dialogs.cpp:3658 client/gui-qt/dialogs.cpp:3721
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1640
 #: client/gui-sdl2/action_dialog.c:1903 client/gui-sdl2/citydlg.c:1192
 #: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1640
@@ -2234,7 +2234,7 @@ msgstr[1] "Kassassa on %d kultaa."
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:492
-#: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3729
+#: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3727
 #: client/gui-sdl2/action_dialog.c:1928 client/gui-sdl3/action_dialog.c:1928
 #, c-format
 msgid ""
@@ -2251,14 +2251,14 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-3.22/action_dialog.c:494
-#: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3732
+#: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3730
 #: client/gui-sdl2/action_dialog.c:1909 client/gui-sdl3/action_dialog.c:1909
 msgid "Bribe Enemy Unit"
 msgstr "Lahjo vihollisen yksikkö"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:500
-#: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3744
+#: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3742
 #: client/gui-sdl2/action_dialog.c:1978 client/gui-sdl3/action_dialog.c:1978
 #, c-format
 msgid ""
@@ -2277,14 +2277,14 @@ msgstr[1] ""
 #: client/gui-gtk-3.22/action_dialog.c:502
 #: client/gui-gtk-3.22/action_dialog.c:999
 #: client/gui-gtk-4.0/action_dialog.c:502
-#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3746
+#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3744
 #: client/gui-sdl2/action_dialog.c:1762 client/gui-sdl2/action_dialog.c:1990
 #: client/gui-sdl3/action_dialog.c:1762 client/gui-sdl3/action_dialog.c:1990
 msgid "Traitors Demand Too Much!"
 msgstr "Kapinalliset ovat liian ahneita!"
 
 #: client/gui-gtk-3.22/action_dialog.c:584
-#: client/gui-gtk-4.0/action_dialog.c:584 client/gui-qt/dialogs.cpp:3173
+#: client/gui-gtk-4.0/action_dialog.c:584 client/gui-qt/dialogs.cpp:3171
 msgid "Steal Technology"
 msgstr "Varasta teknologiaa"
 
@@ -2335,8 +2335,8 @@ msgstr "_Edistysaskeleet:"
 #: client/gui-gtk-3.22/action_dialog.c:668
 #: client/gui-gtk-3.22/action_dialog.c:850
 #: client/gui-gtk-4.0/action_dialog.c:666
-#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3202
-#: client/gui-qt/dialogs.cpp:3853 client/gui-sdl2/action_dialog.c:493
+#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3200
+#: client/gui-qt/dialogs.cpp:3851 client/gui-sdl2/action_dialog.c:493
 #: client/gui-sdl2/action_dialog.c:1429 client/gui-sdl3/action_dialog.c:493
 #: client/gui-sdl3/action_dialog.c:1429
 #, c-format
@@ -2354,7 +2354,7 @@ msgid "_Sabotage"
 msgstr "_Sabotoi"
 
 #: client/gui-gtk-3.22/action_dialog.c:783
-#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3816
+#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3814
 #: client/gui-sdl2/action_dialog.c:1336 client/gui-sdl3/action_dialog.c:1336
 msgid "Select Improvement to Sabotage"
 msgstr "Valitse sabotoitava rakennushanke"
@@ -2365,14 +2365,14 @@ msgid "_Improvements:"
 msgstr "Valmistuneet _rakennushankkeet:"
 
 #: client/gui-gtk-3.22/action_dialog.c:830
-#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3836
+#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3834
 #: client/gui-qt/menu.cpp:1118 client/gui-sdl2/action_dialog.c:1369
 #: client/gui-sdl3/action_dialog.c:1369
 msgid "City Production"
 msgstr "Kaupungin tuotanto"
 
 #: client/gui-gtk-3.22/action_dialog.c:980
-#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3669
+#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3667
 #: client/gui-sdl2/action_dialog.c:1678 client/gui-sdl3/action_dialog.c:1678
 #, c-format
 msgid "You can't incite a revolt in %s."
@@ -2386,7 +2386,7 @@ msgstr "Kaupungissa ei voi lietsoa kapinaa!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:988
-#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3678
+#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3676
 #: client/gui-sdl2/action_dialog.c:1699 client/gui-sdl3/action_dialog.c:1699
 #, c-format
 msgid ""
@@ -2403,14 +2403,14 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-3.22/action_dialog.c:990
-#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3682
+#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3680
 #: client/gui-sdl2/action_dialog.c:1646 client/gui-sdl3/action_dialog.c:1646
 msgid "Incite a Revolt!"
 msgstr "Lietso kapinaa!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:997
-#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3694
+#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3692
 #: client/gui-sdl2/action_dialog.c:1750 client/gui-sdl3/action_dialog.c:1750
 #, c-format
 msgid ""
@@ -2476,14 +2476,14 @@ msgstr "Ruutulisäkohteet:"
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-3.22/action_dialog.c:1402
-#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2061
+#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2059
 #: client/gui-sdl2/action_dialog.c:972 client/gui-sdl3/action_dialog.c:972
 #, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Anna toimintaohjeet yksiköllesi %s"
 
 #: client/gui-gtk-3.22/action_dialog.c:1407
-#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2066
+#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2064
 #, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
@@ -2493,7 +2493,7 @@ msgstr ""
 "Mitä nyt?"
 
 #: client/gui-gtk-3.22/action_dialog.c:1413
-#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2072
+#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2070
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -2504,14 +2504,14 @@ msgstr ""
 
 #. TRANS: Your Spy is ready to act against Roman Freight.
 #: client/gui-gtk-3.22/action_dialog.c:1419
-#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2078
+#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2076
 #, c-format
 msgid "Your %s is ready to act against %s %s."
 msgstr "Lähettämäsi %s on valmis toimimaan %s yksikköä %s vastaan."
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
 #: client/gui-gtk-3.22/action_dialog.c:1428
-#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2088
+#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2086
 #, c-format
 msgid "Your %s is waiting for your command."
 msgstr "%ssi odottaa toimintaohjeita"
@@ -3506,25 +3506,25 @@ msgid "I_nspect City"
 msgstr "_Tutki kaupunkia"
 
 #: client/gui-gtk-3.22/dialogs.c:294 client/gui-gtk-4.0/dialogs.c:294
-#: client/gui-qt/dialogs.cpp:1314
+#: client/gui-qt/dialogs.cpp:1312
 msgid "You say you wanna revolution?"
 msgstr "Haluat siis vallankumouksen?"
 
 #: client/gui-gtk-3.22/dialogs.c:295 client/gui-gtk-4.0/dialogs.c:295
-#: client/gui-qt/dialogs.cpp:1315
+#: client/gui-qt/dialogs.cpp:1313
 msgid "Revolution!"
 msgstr "Vallankumous!"
 
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-3.22/dialogs.c:363 client/gui-gtk-4.0/dialogs.c:363
-#: client/gui-qt/dialogs.cpp:3880 client/gui-sdl2/dialogs.c:2301
+#: client/gui-qt/dialogs.cpp:3878 client/gui-sdl2/dialogs.c:2301
 #: client/gui-sdl3/dialogs.c:2298
 msgid "What To Pillage"
 msgstr "Mitä turmellaan"
 
 #. TRANS: Pillage dialog target text.
 #: client/gui-gtk-3.22/dialogs.c:367 client/gui-gtk-4.0/dialogs.c:367
-#: client/gui-qt/dialogs.cpp:3880
+#: client/gui-qt/dialogs.cpp:3878
 msgid "Select what to pillage:"
 msgstr "Valitse mitä haluat turmella:"
 
@@ -3603,24 +3603,24 @@ msgid "You must select your sex."
 msgstr "Kaikki ovat jotain sukupuolta."
 
 #: client/gui-gtk-3.22/dialogs.c:1396 client/gui-gtk-4.0/dialogs.c:1414
-#: client/gui-qt/dialogs.cpp:850
+#: client/gui-qt/dialogs.cpp:848
 msgid "You must select your style."
 msgstr "Kaikilla on oltava tyylinsä."
 
 #: client/gui-gtk-3.22/dialogs.c:1405 client/gui-gtk-4.0/dialogs.c:1424
-#: client/gui-qt/dialogs.cpp:855 client/gui-sdl2/dialogs.c:2613
+#: client/gui-qt/dialogs.cpp:853 client/gui-sdl2/dialogs.c:2613
 #: client/gui-sdl3/dialogs.c:2610
 msgid "You must type a legal name."
 msgstr "Kirjoita jokin järkevä nimi."
 
 #: client/gui-gtk-3.22/dialogs.c:1448 client/gui-gtk-4.0/dialogs.c:1485
-#: client/gui-qt/dialogs.cpp:4389
+#: client/gui-qt/dialogs.cpp:4387
 msgid "Upgrade Unit!"
 msgstr "Ajanmukaista!"
 
 #: client/gui-gtk-3.22/dialogs.c:1457 client/gui-gtk-3.22/repodlgs.c:1640
 #: client/gui-gtk-4.0/dialogs.c:1494 client/gui-gtk-4.0/repodlgs.c:1669
-#: client/gui-qt/dialogs.cpp:4392 client/gui-qt/repodlgs.cpp:226
+#: client/gui-qt/dialogs.cpp:4390 client/gui-qt/repodlgs.cpp:226
 #: client/gui-sdl2/dialogs.c:704 client/gui-sdl2/repodlgs.c:225
 #: client/gui-sdl3/dialogs.c:700 client/gui-sdl3/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
@@ -3635,7 +3635,7 @@ msgid "Disband Units"
 msgstr "Lakkauta yksiköt"
 
 #: client/gui-gtk-3.22/dialogs.c:1548 client/gui-gtk-4.0/dialogs.c:1587
-#: client/gui-qt/dialogs.cpp:4346
+#: client/gui-qt/dialogs.cpp:4344
 #, c-format
 msgid ""
 "Tileset \"%s\" problem, it's probably incompatible with the ruleset:\n"
@@ -3646,7 +3646,7 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-3.22/dialogs.c:1555 client/gui-gtk-4.0/dialogs.c:1594
-#: client/gui-qt/dialogs.cpp:4350
+#: client/gui-qt/dialogs.cpp:4348
 #, c-format
 msgid ""
 "Tileset problem, it's probably incompatible with the ruleset:\n"
@@ -3671,7 +3671,7 @@ msgid "Are you sure you want to do %s?"
 msgstr "Oletko varma että haluat tehdä toimen %s?"
 
 #: client/gui-gtk-3.22/dialogs.c:1651 client/gui-gtk-4.0/dialogs.c:1693
-#: client/gui-qt/dialogs.cpp:4988 client/gui-sdl2/dialogs.c:3808
+#: client/gui-qt/dialogs.cpp:4986 client/gui-sdl2/dialogs.c:3808
 #: client/gui-sdl3/dialogs.c:3806
 #, c-format
 msgid "No image for tag \"%s\", requested by the server."
@@ -5884,7 +5884,7 @@ msgid "_Save"
 msgstr "Tallenna (_S)"
 
 #: client/gui-gtk-3.22/optiondlg.c:374 client/gui-gtk-4.0/optiondlg.c:397
-#: client/gui-qt/optiondlg.cpp:147 client/gui-qt/shortcuts.cpp:631
+#: client/gui-qt/optiondlg.cpp:147 client/gui-qt/shortcuts.cpp:632
 msgid "Reset"
 msgstr "Oletusarvot"
 
@@ -6716,7 +6716,7 @@ msgstr ""
 "Tällä hetkellä käytössä on %s."
 
 #: client/gui-gtk-3.22/tileset_dlg.c:49 client/gui-gtk-4.0/tileset_dlg.c:48
-#: client/gui-qt/dialogs.cpp:3979
+#: client/gui-qt/dialogs.cpp:3977
 msgid "Can't load requested tileset."
 msgstr "Halutun kuvituksen lataaminen epäonnistui."
 
@@ -7202,7 +7202,7 @@ msgid "Results:"
 msgstr "Lopputulos:"
 
 #: client/gui-qt/citydlg.cpp:1907 client/gui-qt/optiondlg.cpp:167
-#: client/gui-qt/shortcuts.cpp:645
+#: client/gui-qt/shortcuts.cpp:646
 msgid "Save"
 msgstr "Tallenna"
 
@@ -7366,7 +7366,7 @@ msgstr "Vanhentuu %1 keksimisen myötä"
 #: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:416
 #: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:620
 #: client/gui-qt/ratesdlg.cpp:78 client/gui-qt/ratesdlg.cpp:168
-#: client/gui-qt/shortcuts.cpp:624 client/gui-sdl2/action_dialog.c:1108
+#: client/gui-qt/shortcuts.cpp:625 client/gui-sdl2/action_dialog.c:1108
 #: client/gui-sdl2/citydlg.c:548 client/gui-sdl2/citydlg.c:1468
 #: client/gui-sdl2/connectdlg.c:314 client/gui-sdl2/connectdlg.c:633
 #: client/gui-sdl2/connectdlg.c:833 client/gui-sdl2/connectdlg.c:1010
@@ -7450,46 +7450,46 @@ msgstr "Hallitsijanimesi"
 
 #: client/gui-qt/dialogs.cpp:571 client/gui-qt/messagedlg.cpp:69
 #: client/gui-qt/optiondlg.cpp:174 client/gui-qt/ratesdlg.cpp:79
-#: client/gui-qt/ratesdlg.cpp:169 client/gui-qt/shortcuts.cpp:652
+#: client/gui-qt/ratesdlg.cpp:169 client/gui-qt/shortcuts.cpp:653
 msgid "Ok"
 msgstr "OK"
 
-#: client/gui-qt/dialogs.cpp:862
+#: client/gui-qt/dialogs.cpp:860
 msgid "Nation has been chosen by other player"
 msgstr "Toisen pelaajan valitsema kansa"
 
-#: client/gui-qt/dialogs.cpp:1119
+#: client/gui-qt/dialogs.cpp:1117
 msgid "Goto Location"
 msgstr "Mene kohteeseen"
 
-#: client/gui-qt/dialogs.cpp:1121
+#: client/gui-qt/dialogs.cpp:1119
 msgid "Inspect City"
 msgstr "Tutki kaupunkia"
 
-#: client/gui-qt/dialogs.cpp:2251
+#: client/gui-qt/dialogs.cpp:2249
 msgid "&Wait"
 msgstr "Odota"
 
-#: client/gui-qt/dialogs.cpp:2255
+#: client/gui-qt/dialogs.cpp:2253
 msgid "Do nothing"
 msgstr "Älä tee mitään"
 
-#: client/gui-qt/dialogs.cpp:3173
+#: client/gui-qt/dialogs.cpp:3171
 msgid "Steal"
 msgstr "Varasta"
 
-#: client/gui-qt/dialogs.cpp:3815 client/gui-qt/menu.cpp:1430
+#: client/gui-qt/dialogs.cpp:3813 client/gui-qt/menu.cpp:1430
 #: common/events.c:125 common/events.c:135
 msgid "Sabotage"
 msgstr "Sabotaasi"
 
-#: client/gui-qt/dialogs.cpp:3915
+#: client/gui-qt/dialogs.cpp:3913
 msgid "Are you sure you want to disband that %1 unit?"
 msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Haluatko todella poistaa käytöstä %1 yksikön?"
 msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 
-#: client/gui-qt/dialogs.cpp:3918 client/gui-qt/pages.cpp:1777
+#: client/gui-qt/dialogs.cpp:3916 client/gui-qt/pages.cpp:1777
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:1711
 #: client/gui-sdl2/action_dialog.c:1940 client/gui-sdl2/citydlg.c:1262
 #: client/gui-sdl2/cma_fe.c:361 client/gui-sdl2/diplodlg.c:1504
@@ -7501,7 +7501,7 @@ msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 msgid "Yes"
 msgstr "Kyllä"
 
-#: client/gui-qt/dialogs.cpp:3919 client/gui-qt/pages.cpp:1779
+#: client/gui-qt/dialogs.cpp:3917 client/gui-qt/pages.cpp:1779
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:1722
 #: client/gui-sdl2/action_dialog.c:1950 client/gui-sdl2/citydlg.c:1249
 #: client/gui-sdl2/cma_fe.c:371 client/gui-sdl2/diplodlg.c:1492
@@ -7514,67 +7514,67 @@ msgstr "Kyllä"
 msgid "No"
 msgstr "Ei"
 
-#: client/gui-qt/dialogs.cpp:3920
+#: client/gui-qt/dialogs.cpp:3918
 msgid "Disband units"
 msgstr "Poista yksiköt käytöstä"
 
-#: client/gui-qt/dialogs.cpp:3964
+#: client/gui-qt/dialogs.cpp:3962
 msgid "Modpack suggests using %1 tileset."
 msgstr "Muunnospaketti ehdottaa kuvituksen %1 käyttöä."
 
-#: client/gui-qt/dialogs.cpp:3969
+#: client/gui-qt/dialogs.cpp:3967
 msgid "Keep current tileset"
 msgstr "Pidä nykyiset kuvitukset"
 
-#: client/gui-qt/dialogs.cpp:3970
+#: client/gui-qt/dialogs.cpp:3968
 msgid "Load tileset"
 msgstr "Lataa kuvitukset"
 
-#: client/gui-qt/dialogs.cpp:3995
+#: client/gui-qt/dialogs.cpp:3993
 msgid "Modpack suggests using %1 soundset."
 msgstr "Muunnospaketti ehdottaa äänistön %1 käyttöä."
 
-#: client/gui-qt/dialogs.cpp:4000
+#: client/gui-qt/dialogs.cpp:3998
 msgid "Keep current soundset"
 msgstr "Pidä nykyinen äänistö"
 
-#: client/gui-qt/dialogs.cpp:4001
+#: client/gui-qt/dialogs.cpp:3999
 msgid "Load soundset"
 msgstr "Lataa äänistö"
 
-#: client/gui-qt/dialogs.cpp:4020
+#: client/gui-qt/dialogs.cpp:4018
 msgid "Modpack suggests using %1 musicset."
 msgstr "Muunnospaketti ehdottaa musiikkivalikoiman %1 käyttöä."
 
-#: client/gui-qt/dialogs.cpp:4025
+#: client/gui-qt/dialogs.cpp:4023
 msgid "Keep current musicset"
 msgstr "Pidä nykyiset musiikit"
 
-#: client/gui-qt/dialogs.cpp:4026
+#: client/gui-qt/dialogs.cpp:4024
 msgid "Load musicset"
 msgstr "Lataa musiikit"
 
-#: client/gui-qt/dialogs.cpp:4356
+#: client/gui-qt/dialogs.cpp:4354
 msgid "Tileset error"
 msgstr "Kuvitusvirhe"
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/dialogs.cpp:4578
+#: client/gui-qt/dialogs.cpp:4576
 msgid "MP:"
 msgstr "LP:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:4683
+#: client/gui-qt/dialogs.cpp:4681
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:4688 client/gui-qt/hudwidget.cpp:1503
+#: client/gui-qt/dialogs.cpp:4686 client/gui-qt/hudwidget.cpp:1503
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
 msgstr[1] "%1 yksikköä"
 
-#: client/gui-qt/dialogs.cpp:4954
+#: client/gui-qt/dialogs.cpp:4952
 msgid "Are you sure you want to do %1?"
 msgstr "Oletko varma että haluat tehdä toimen %1?"
 
@@ -8462,7 +8462,7 @@ msgid "Refresh"
 msgstr "Virkistä"
 
 #: client/gui-qt/optiondlg.cpp:160 client/gui-qt/ratesdlg.cpp:80
-#: client/gui-qt/shortcuts.cpp:638
+#: client/gui-qt/shortcuts.cpp:639
 msgid "Apply"
 msgstr "Käytä kerran"
 
@@ -8956,11 +8956,11 @@ msgid "ExtraButton24"
 msgstr "LisäNappi24"
 
 #. TRANS: Given shortcut(%1) is already assigned
-#: client/gui-qt/shortcuts.cpp:566
+#: client/gui-qt/shortcuts.cpp:567
 msgid "%1 is already assigned to"
 msgstr "%1 on jo käytössä"
 
-#: client/gui-qt/shortcuts.cpp:582
+#: client/gui-qt/shortcuts.cpp:583
 msgid "Shortcuts options"
 msgstr "Pikavalinta-asetukset"
 
@@ -10705,8 +10705,12 @@ msgid ""
 msgid_plural ""
 "To transform a water tile to a land tile, the water tile must have %d "
 "adjacent land tiles.\n"
-msgstr[0] "Muokataksesi vesiruudusta maaruudun, vesiruudun ympärillä täytyy olla %d maaruutu.\n"
-msgstr[1] "Muokataksesi vesiruudusta maaruudun, vesiruudun ympärillä täytyy olla %d maaruutua.\n"
+msgstr[0] ""
+"Muokataksesi vesiruudusta maaruudun, vesiruudun ympärillä täytyy olla %d "
+"maaruutu.\n"
+msgstr[1] ""
+"Muokataksesi vesiruudusta maaruudun, vesiruudun ympärillä täytyy olla %d "
+"maaruutua.\n"
 
 #: client/helpdata.c:249
 #, c-format
@@ -10716,8 +10720,12 @@ msgid ""
 msgid_plural ""
 "To transform a land tile to a water tile, the land tile must have %d "
 "adjacent water tiles.\n"
-msgstr[0] "Muokataksesi maaruudusta vesiruudun, maaruudun ympärillä täytyy olla %d vesiruutu.\n"
-msgstr[1] "Muokataksesi maaruudusta vesiruudun, maaruudun ympärillä täytyy olla %d vesiruutua.\n"
+msgstr[0] ""
+"Muokataksesi maaruudusta vesiruudun, maaruudun ympärillä täytyy olla %d "
+"vesiruutu.\n"
+msgstr[1] ""
+"Muokataksesi maaruudusta vesiruudun, maaruudun ympärillä täytyy olla %d "
+"vesiruutua.\n"
 
 #. TRANS: Header for fixed-width terrain alteration table.
 #. * TRANS: Translators cannot change column widths :(
@@ -37640,7 +37648,10 @@ msgstr ""
 msgid ""
 "Once a counter for a specific thing, such as turns since the city was "
 "conquered, reach its trigger value, ruleset specified effects are enabled."
-msgstr "Kun tietyn asian, kuten kaupungin valtaamisesta kuluneiden kierrosten, laskuri saavuttaa liipaisinarvonsa, sääntökokoelman määrittelemät vaikutukset aktivoituvat."
+msgstr ""
+"Kun tietyn asian, kuten kaupungin valtaamisesta kuluneiden kierrosten, "
+"laskuri saavuttaa liipaisinarvonsa, sääntökokoelman määrittelemät "
+"vaikutukset aktivoituvat."
 
 #: data/helpdata.txt:1358
 msgid ""

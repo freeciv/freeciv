@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
+"POT-Creation-Date: 2025-06-12 21:17+0300\n"
 "PO-Revision-Date: 2017-08-28 19:23+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -480,7 +480,7 @@ msgstr "Nom de Regla"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
-#: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
+#: tools/ruledit/tab_counters.cpp:214 tools/ruledit/tab_counters.cpp:215
 #: tools/ruledit/tab_enablers.cpp:132 tools/ruledit/tab_enablers.cpp:240
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
@@ -520,7 +520,7 @@ msgid "Value"
 msgstr "Valor:"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
-#: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
+#: tools/ruledit/tab_counters.cpp:135 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
@@ -575,19 +575,19 @@ msgstr ""
 msgid "Behavior"
 msgstr ""
 
-#: tools/ruledit/tab_counters.cpp:138
+#: tools/ruledit/tab_counters.cpp:139
 #, fuzzy
 #| msgid "Add Building"
 msgid "Add Counter"
 msgstr "Afegir Edifici"
 
-#: tools/ruledit/tab_counters.cpp:141
+#: tools/ruledit/tab_counters.cpp:142
 #, fuzzy
 #| msgid "Remove this tech"
 msgid "Remove this Counter"
 msgstr "Treure aquesta tecnologia"
 
-#: tools/ruledit/tab_counters.cpp:274
+#: tools/ruledit/tab_counters.cpp:275
 #, fuzzy
 #| msgid "A tech with that rule name already exists!"
 msgid "A counter with that rule name already exists!"

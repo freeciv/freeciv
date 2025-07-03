@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:21+0300\n"
+"POT-Creation-Date: 2025-06-12 21:16+0300\n"
 "PO-Revision-Date: 2023-01-25 15:15+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -298,7 +298,7 @@ msgstr "Abbé %s"
 #: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1036,7 +1036,7 @@ msgstr "Bailli %s"
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:40
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
@@ -2701,13 +2701,13 @@ msgstr ""
 "trois peuples qui la composent : les Bosniaques, les Croates et les Serbes."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "Ban %s"
 msgstr "Ban %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
 #, c-format
 msgid "?female:Ban %s"
@@ -4443,15 +4443,18 @@ msgstr "Croates"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
-"Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
-"Federation."
+"Croatia is a country in Southeast Europe. In the 7th century they migrated "
+"into the region and established a duchy which evolved to a kingdom in the "
+"10th century under Tomislav. After the Trpimirović dynasty followed a period "
+"of symbiotic regimes with varying foreign powers, mostly notably with "
+"Austria-Hungary and the Ottoman Empire. In 1918, Croatia proclaimed "
+"independence from Austria-Hungary alongside other Southeast European "
+"nations. In World War II, the Axis installed a fascist puppet government "
+"that was later dismantled by resistance. Croatia was a member state of the "
+"newfound Yugoslav Federation until 1991 when they proclaimed independence "
+"leading to four years long conflict resulting in Croatia securing its "
+"autonomy."
 msgstr ""
-"La Croatie est la région des états slaves du sud qui a été gardée par "
-"l'empire Austro-hongrois au lieu de tomber sous contrôle Ottoman après la "
-"chute de l'Empire Byzantin. Pendant la plus grande partie du XXème siècle, "
-"elle a fait partie de la fédération yougoslave."
 
 #: data/nation/crusader.ruleset:3
 msgid "Crusader"
@@ -10378,8 +10381,12 @@ msgid "?plural:Palauans"
 msgstr "Paluans"
 
 #: data/nation/palauan.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Palaos is a very little country, with only 20000 inhabitants "
+#| "aproximately. It is composed of more than 300 islands of volcanic origin."
 msgid ""
-"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"Palaos is a very little country, with only 20000 inhabitants approximately. "
 "It is composed of more than 300 islands of volcanic origin."
 msgstr ""
 "Palaos est un très petit pays, avec seulement 20.000 habitants environ. Il "
@@ -10530,6 +10537,22 @@ msgid "?plural:Paraguayans"
 msgstr "Paraguayens"
 
 #: data/nation/paraguayan.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Paraguay is located in the heartland of South America. It was conquered "
+#| "by the Spanish in the late 16th century. The colony was mostly controlled "
+#| "by the Jesuits until their expulsion in 1767. In 1811, Paraguay was the "
+#| "first South American country to achieve independence from Spain. A number "
+#| "of highly authoritarian rulers governed the country as a tyranny but also "
+#| "turned it into a military and economic powerhouse. The War of the Triple "
+#| "Alliance of 1864-1870 led to the near annihilation of Paraguay, which "
+#| "lost half of its territory and eighty per cent of its male population. "
+#| "Paraguay's history remains marked by instability and authoritarianism, "
+#| "alhough it managed to defeat Bolivia in the Chaco War of 1932-1936. For "
+#| "much of the 20th century the country was ruled by General Stroessner, who "
+#| "provided a safe haven for Nazi war criminals. Around the turn of the "
+#| "millennium however Paraguay started to see a democratic system of "
+#| "government and an impressive economic growth."
 msgid ""
 "Paraguay is located in the heartland of South America. It was conquered by "
 "the Spanish in the late 16th century. The colony was mostly controlled by "
@@ -10539,7 +10562,7 @@ msgid ""
 "turned it into a military and economic powerhouse. The War of the Triple "
 "Alliance of 1864-1870 led to the near annihilation of Paraguay, which lost "
 "half of its territory and eighty per cent of its male population. Paraguay's "
-"history remains marked by instability and authoritarianism, alhough it "
+"history remains marked by instability and authoritarianism, although it "
 "managed to defeat Bolivia in the Chaco War of 1932-1936. For much of the "
 "20th century the country was ruled by General Stroessner, who provided a "
 "safe haven for Nazi war criminals. Around the turn of the millennium however "
@@ -12411,9 +12434,14 @@ msgid "?plural:South Yemenis"
 msgstr "Sud-Yéménites"
 
 #: data/nation/southyemeni.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The area around Aden was colonized by the British in 1839. South Yemen "
+#| "declared independence in 1967 and joined the communist bloc. It was "
+#| "united with North Yemen in 1990."
 msgid ""
 "The area around Aden was colonized by the British in 1839. South Yemen "
-"declared independence in 1967 and joined the communist bloc. It was united "
+"declared independence in 1967 and joined the communist block. It was united "
 "with North Yemen in 1990."
 msgstr ""
 "La zone autour d'Aden fut colonisée par les Britaniques en 1839. Le Sud-"
@@ -14447,6 +14475,17 @@ msgstr ""
 "mettre fin à la loi de minorité blanche en 1979. Depuis 1980, le pays a été "
 "gouverné par Robert Mugabe, qui a reçu une réputation internationale aussi "
 "pauvre que le régime précédent."
+
+#~ msgid ""
+#~ "Croatia is the region of the Southern Slavs that was held by the Austro-"
+#~ "Hungarian Empire, rather than coming under Ottoman rule after the "
+#~ "collapse of Byzantium. During most of the 20th century it was part of the "
+#~ "Yugoslav Federation."
+#~ msgstr ""
+#~ "La Croatie est la région des états slaves du sud qui a été gardée par "
+#~ "l'empire Austro-hongrois au lieu de tomber sous contrôle Ottoman après la "
+#~ "chute de l'Empire Byzantin. Pendant la plus grande partie du XXème "
+#~ "siècle, elle a fait partie de la fédération yougoslave."
 
 #, c-format
 #~ msgid "President %s"
