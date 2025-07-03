@@ -1393,3 +1393,9 @@ action        = "Finish Unit"
 actor_reqs    =
     { "type", "name", "range", "present"
     }
+
+[enabler_finish_building]
+action        = "Finish Building"
+actor_reqs    =
+    { "type", "name", "range", "present"
+    }

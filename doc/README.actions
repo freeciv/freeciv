@@ -1576,6 +1576,8 @@ Internal actions
 
 "Finish Unit" - city can finish building a unit
 
+"Finish Building" - city can finish building a building
+
 Ruleset defined actions
 =======================
 User actions are "blank". The ruleset does everything they do. The following

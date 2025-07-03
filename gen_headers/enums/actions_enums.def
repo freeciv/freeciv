@@ -146,6 +146,7 @@ values
   ACTION_ESCAPE                           "Escape"
   ACTION_CIVIL_WAR                        "Civil War"
   ACTION_FINISH_UNIT                      "Finish Unit"
+  ACTION_FINISH_BUILDING                  "Finish Building"
 
   # User actions
   ACTION_USER_ACTION1                     "User Action 1"

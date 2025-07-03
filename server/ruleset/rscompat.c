@@ -504,6 +504,10 @@ void rscompat_postprocess(struct rscompat_info *info)
   enabler->action = ACTION_FINISH_UNIT;
   action_enabler_add(enabler);
 
+  enabler = action_enabler_new();
+  enabler->action = ACTION_FINISH_BUILDING;
+  action_enabler_add(enabler);
+
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);

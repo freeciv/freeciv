@@ -829,6 +829,9 @@ static void hard_code_actions(void)
   actions[ACTION_FINISH_UNIT] =
       city_action_new(ACTION_FINISH_UNIT, ACTRES_ENABLER_CHECK);
 
+  actions[ACTION_FINISH_BUILDING] =
+      city_action_new(ACTION_FINISH_BUILDING, ACTRES_ENABLER_CHECK);
+
   /* The structure even for these need to be created, for
    * the action_id_rule_name() to work on iterations. */
 
@@ -6198,7 +6201,9 @@ const char *action_ui_name_default(int act)
   case ACTION_CIVIL_WAR:
     return N_("%sCivil War%s");
   case ACTION_FINISH_UNIT:
-    return N_("%sFinish Unit%s");
+    return N_("Finish %sUnit%s");
+  case ACTION_FINISH_BUILDING:
+    return N_("Finish %sBuilding%s");
   case ACTION_COUNT:
     fc_assert(act != ACTION_COUNT);
     break;
@@ -6343,6 +6348,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
   case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -6513,6 +6519,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
   case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -6717,6 +6724,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
   case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -6889,6 +6897,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
   case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_FOUND_CITY:
@@ -7100,6 +7109,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_GAIN_VETERANCY:
   case ACTION_CIVIL_WAR:
   case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
   case ACTION_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
@@ -7280,6 +7290,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
   case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

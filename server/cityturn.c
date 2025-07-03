@@ -2696,6 +2696,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   int mod;
   const struct impr_type *pimprove;
   int saved_id = pcity->id;
+  const struct civ_map *nmap = &(wld.map);
 
   if (is_convert_improvement(pcity->production.value.building)) {
     /* Coinage-like improvements that convert production */
@@ -2730,7 +2731,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
                               "unavailable");
     return TRUE;
   }
-  if (pcity->shield_stock >= impr_build_shield_cost(pcity, pimprove)) {
+  if (pcity->shield_stock >= impr_build_shield_cost(pcity, pimprove)
+      && is_action_enabled_city(nmap, ACTION_FINISH_BUILDING, pcity)) {
     int cost;
 
     if (is_small_wonder(pimprove)) {
