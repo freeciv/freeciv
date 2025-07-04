@@ -2093,7 +2093,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 {
   struct player *pplayer;
 
-  /* a NULL packet can be returned from receive_packet_goto_route() */
+  /* A NULL packet can be returned from receive_packet_goto_route() */
   if (!packet) {
     return TRUE;
   }
@@ -2162,7 +2162,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
 
-  /* valid packets from established connections but non-players */
+  /* Valid packets from established connections but non-players */
   if (type == PACKET_CHAT_MSG_REQ
       || type == PACKET_SINGLE_WANT_HACK_REQ
       || type == PACKET_NATION_SELECT_REQ
@@ -2171,6 +2171,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_CONN_PONG
       || type == PACKET_CLIENT_HEARTBEAT
       || type == PACKET_SAVE_SCENARIO
+      || type == PACKET_SYNC_SERIAL
       || is_client_edit_packet(type)) {
 
     /* Except for PACKET_EDIT_MODE (used to set edit mode), check
@@ -2196,7 +2197,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       handle_observer_ready(pconn);
       return TRUE;
     }
-    /* don't support these yet */
+    /* Don't support these yet */
     log_error("Received packet %s(%d) from non-player connection %s.",
               packet_name(type), type, conn_description(pconn));
     return TRUE;
@@ -2206,8 +2207,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       && type != PACKET_NATION_SELECT_REQ
       && type != PACKET_PLAYER_READY
       && type != PACKET_VOTE_SUBMIT
-      && type != PACKET_RULESET_SELECT
-      && type != PACKET_SYNC_SERIAL) {
+      && type != PACKET_RULESET_SELECT) {
     if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
        * out lots of error messages. Ie, we use log_debug(). */
@@ -2246,6 +2246,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   }
 
   pplayer->current_conn = NULL;
+
   return TRUE;
 }
 
