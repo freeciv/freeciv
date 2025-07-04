@@ -1118,7 +1118,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
     break;
 
   case ACTRES_COLLECT_RANSOM:
-    if (!is_barbarian(actor->player)
+    if (!is_barbarian(target->player)
         || !uclass_has_flag(unit_class_get(actor->unit), UCF_COLLECT_RANSOM)) {
       return FALSE;
     }
