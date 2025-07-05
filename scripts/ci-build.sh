@@ -61,6 +61,7 @@ mkdir build
 cd build
 meson setup .. \
   -Dprefix=${HOME}/freeciv/meson \
+  -Ddefault_library=static \
   -Ddebug=true \
   -Dclients='gtk3.22','qt','sdl2','gtk4','stub' \
   -Dfcmp='gtk3','qt','cli','gtk4' \
