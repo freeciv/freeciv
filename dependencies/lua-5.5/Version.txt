@@ -1,0 +1,8 @@
+Sources here are from lua-5.5.0-beta
+(http://www.lua.org/ftp/lua-5.5.0-beta.tar.gz)
+
+Upstream bug fixes from https://www.lua.org/bugs.html applied:
+
+Not entire lua distribution directory hierarchy is included here, and
+some files needed for Freeciv usage have been added.
+Changes applied to included lua source files are included in freeciv_lua.patch

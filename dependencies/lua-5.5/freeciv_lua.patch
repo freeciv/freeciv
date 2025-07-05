@@ -1,0 +1,76 @@
+diff -Nurd lua-5.5/src/ldo.c lua-5.5/src/ldo.c
+--- lua-5.5/src/ldo.c	2025-07-05 05:37:52.108553768 +0300
++++ lua-5.5/src/ldo.c	2025-07-05 05:40:32.053318937 +0300
+@@ -73,7 +73,7 @@
+     try { (f)(L, ud); } catch(...) { if ((c)->status == 0) (c)->status = -1; }
+ #define luai_jmpbuf		int  /* dummy field */
+ 
+-#elif defined(LUA_USE_POSIX)				/* }{ */
++#elif defined(LUA_USE_ULONGJMP)				/* }{ */
+ 
+ /* in POSIX, try _longjmp/_setjmp (more efficient) */
+ #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
+@@ -133,9 +133,9 @@
+         lua_unlock(L);
+         g->panic(L);  /* call panic function (last chance to jump out) */
+       }
+-      abort();
+     }
+   }
++  abort();
+ }
+ 
+ 
+diff -Nurd lua-5.5/src/liolib.c lua-5.5/src/liolib.c
+--- lua-5.5/src/liolib.c	2025-07-05 05:37:52.108553768 +0300
++++ lua-5.5/src/liolib.c	2025-07-05 05:40:32.053318937 +0300
+@@ -53,7 +53,7 @@
+ 
+ #if !defined(l_popen)		/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_POPEN)      /* { */
+ 
+ #define l_popen(L,c,m)		(fflush(NULL), popen(c,m))
+ #define l_pclose(L,file)	(pclose(file))
+@@ -114,7 +114,7 @@
+ 
+ #if !defined(l_fseek)		/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_FSEEKO)	/* { */
+ 
+ #include <sys/types.h>
+ 
+diff -Nurd lua-5.5/src/loslib.c lua-5.5/src/loslib.c
+--- lua-5.5/src/loslib.c	2025-07-05 05:37:52.108553768 +0300
++++ lua-5.5/src/loslib.c	2025-07-05 05:40:32.053318937 +0300
+@@ -75,7 +75,7 @@
+ ** where it uses gmtime_r/localtime_r
+ */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_GMTIME_R)   /* { */
+ 
+ #define l_gmtime(t,r)		gmtime_r(t,r)
+ #define l_localtime(t,r)	localtime_r(t,r)
+@@ -102,7 +102,7 @@
+ */
+ #if !defined(lua_tmpnam)	/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_MKSTEMP)    /* { */
+ 
+ #include <unistd.h>
+ 
+diff -Nurd lua-5.5/src/luaconf.h lua-5.5/src/luaconf.h
+--- lua-5.5/src/luaconf.h	2025-07-05 05:37:52.108553768 +0300
++++ lua-5.5/src/luaconf.h	2025-07-05 05:40:32.053318937 +0300
+@@ -11,6 +11,7 @@
+ #include <limits.h>
+ #include <stddef.h>
+ 
++#include "localluaconf.h"
+ 
+ /*
+ ** ===================================================================
