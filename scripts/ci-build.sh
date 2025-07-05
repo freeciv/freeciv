@@ -57,6 +57,9 @@ if test "$FC_MESON_VER" != "" ; then
   cd ..
 fi
 
+# Fetch S3_3 in the background for the ruleset upgrade test
+git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_3:S3_3 &
+
 mkdir build
 cd build
 meson setup .. \
@@ -83,6 +86,14 @@ ninja rulesets_not_broken.sh
 echo "Checking ruleset saving"
 ninja rulesets_save.sh
 ./rulesets_save.sh
+
+# Check ruleset upgrade
+echo "Ruleset upgrade"
+echo "Preparing test data"
+../tests/rs_test_res/upgrade_ruleset_sync.bash
+echo "Checking ruleset upgrade"
+ninja rulesets_upgrade.sh
+./rulesets_upgrade.sh
 
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/meson/bin/
@@ -202,8 +213,6 @@ echo "Freeciv build successful!"
 ;;
 
 autotools)
-# Fetch S3_3 in the background for the ruleset upgrade test
-git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_3:S3_3 &
 
 # Configure and build Freeciv
 mkdir build
@@ -227,13 +236,6 @@ cd build
 make -s -j$(nproc)
 make install
 echo "Freeciv build successful!"
-
-# Check ruleset upgrade
-echo "Ruleset upgrade"
-echo "Preparing test data"
-../tests/rs_test_res/upgrade_ruleset_sync.bash
-echo "Checking ruleset upgrade"
-./tests/rulesets_upgrade.sh
 
 # Check ruleset autohelp generation
 echo "Checking ruleset auto help generation"
