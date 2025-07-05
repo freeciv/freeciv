@@ -897,17 +897,14 @@ int city_shrink_granary_savings(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Reset the foodbox, usually when a city grows or shrinks.
-  By default it is reset to zero, but this can be increased by Growth_Food
-  of Shrink_Food effects.
+  Reset the foodbox when a city shrinks.
+  By default it is reset to zero, but this can be increased by
+  Shrink_Food effects.
   Usually this should be called before the city changes size.
 **************************************************************************/
-static void city_reset_foodbox(struct city *pcity, int new_size,
-                               bool shrink)
+static void city_shrink_reset_foodbox(struct city *pcity, int new_size)
 {
-  int savings_pct = ( shrink
-                      ? city_shrink_granary_savings(pcity)
-                      : city_growth_granary_savings(pcity));
+  int savings_pct = city_shrink_granary_savings(pcity);
 
   pcity->food_stock = (city_granary_size(new_size) * savings_pct) / 100;
 }
@@ -1135,7 +1132,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
         }
 
         if (city_exist(saved_id)) {
-          city_reset_foodbox(pcity, city_size_get(pcity), TRUE);
+          city_shrink_reset_foodbox(pcity, city_size_get(pcity));
         }
 
         return;
@@ -1152,7 +1149,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
                     _("Famine destroys %s entirely."),
                     city_link(pcity));
     }
-    city_reset_foodbox(pcity, city_size_get(pcity) - 1, TRUE);
+    city_shrink_reset_foodbox(pcity, city_size_get(pcity) - 1);
     if (city_reduce_size(pcity, 1, NULL, "famine")) {
       pcity->had_famine = TRUE;
     }
