@@ -79,6 +79,11 @@ DEFAULT_FOLLOW_TAG=S3_4
 # appended to this.
 #
 NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Jul.05"
+
+# If you are distributing freeciv, and apply any patches at all,
+# patch also this field to contain your identification.
+#
+# See doc/README.packaging chapter "Compatibility of modified versions"
 FREECIV_DISTRIBUTOR=""
 
 if test "${FREECIV_LABEL_FORCE}" != "" ; then
