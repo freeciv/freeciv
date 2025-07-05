@@ -699,7 +699,7 @@ else
   icu_dep = dependency('icu-uc')
   syslua = get_option('syslua')
   if syslua != 'false'
-    lua_dep_tmp = dependency('lua-5.4', 'lua-54', 'lua54', 'lua5.4', required:false)
+    lua_dep_tmp = dependency('lua-5.5', 'lua-55', 'lua55', 'lua5.5', required:false)
   endif
 endif
 
@@ -760,40 +760,40 @@ if syslua != 'false' and lua_dep_tmp.found()
 elif syslua == 'true'
   error('Syslua requested but not found.')
 else
-  lua_inc_path = 'dependencies/lua-5.4/src'
+  lua_inc_path = 'dependencies/lua-5.5/src'
   lua_sources = [
-    'dependencies/lua-5.4/src/lapi.c',
-    'dependencies/lua-5.4/src/lauxlib.c',
-    'dependencies/lua-5.4/src/lbaselib.c',
-    'dependencies/lua-5.4/src/lcode.c',
-    'dependencies/lua-5.4/src/lcorolib.c',
-    'dependencies/lua-5.4/src/lctype.c',
-    'dependencies/lua-5.4/src/ldblib.c',
-    'dependencies/lua-5.4/src/ldebug.c',
-    'dependencies/lua-5.4/src/ldo.c',
-    'dependencies/lua-5.4/src/ldump.c',
-    'dependencies/lua-5.4/src/lfunc.c',
-    'dependencies/lua-5.4/src/lgc.c',
-    'dependencies/lua-5.4/src/linit.c',
-    'dependencies/lua-5.4/src/liolib.c',
-    'dependencies/lua-5.4/src/llex.c',
-    'dependencies/lua-5.4/src/lmathlib.c',
-    'dependencies/lua-5.4/src/lmem.c',
-    'dependencies/lua-5.4/src/loadlib.c',
-    'dependencies/lua-5.4/src/lobject.c',
-    'dependencies/lua-5.4/src/lopcodes.c',
-    'dependencies/lua-5.4/src/loslib.c',
-    'dependencies/lua-5.4/src/lparser.c',
-    'dependencies/lua-5.4/src/lstate.c',
-    'dependencies/lua-5.4/src/lstring.c',
-    'dependencies/lua-5.4/src/lstrlib.c',
-    'dependencies/lua-5.4/src/ltable.c',
-    'dependencies/lua-5.4/src/ltablib.c',
-    'dependencies/lua-5.4/src/ltm.c',
-    'dependencies/lua-5.4/src/lundump.c',
-    'dependencies/lua-5.4/src/lutf8lib.c',
-    'dependencies/lua-5.4/src/lvm.c',
-    'dependencies/lua-5.4/src/lzio.c',
+    'dependencies/lua-5.5/src/lapi.c',
+    'dependencies/lua-5.5/src/lauxlib.c',
+    'dependencies/lua-5.5/src/lbaselib.c',
+    'dependencies/lua-5.5/src/lcode.c',
+    'dependencies/lua-5.5/src/lcorolib.c',
+    'dependencies/lua-5.5/src/lctype.c',
+    'dependencies/lua-5.5/src/ldblib.c',
+    'dependencies/lua-5.5/src/ldebug.c',
+    'dependencies/lua-5.5/src/ldo.c',
+    'dependencies/lua-5.5/src/ldump.c',
+    'dependencies/lua-5.5/src/lfunc.c',
+    'dependencies/lua-5.5/src/lgc.c',
+    'dependencies/lua-5.5/src/linit.c',
+    'dependencies/lua-5.5/src/liolib.c',
+    'dependencies/lua-5.5/src/llex.c',
+    'dependencies/lua-5.5/src/lmathlib.c',
+    'dependencies/lua-5.5/src/lmem.c',
+    'dependencies/lua-5.5/src/loadlib.c',
+    'dependencies/lua-5.5/src/lobject.c',
+    'dependencies/lua-5.5/src/lopcodes.c',
+    'dependencies/lua-5.5/src/loslib.c',
+    'dependencies/lua-5.5/src/lparser.c',
+    'dependencies/lua-5.5/src/lstate.c',
+    'dependencies/lua-5.5/src/lstring.c',
+    'dependencies/lua-5.5/src/lstrlib.c',
+    'dependencies/lua-5.5/src/ltable.c',
+    'dependencies/lua-5.5/src/ltablib.c',
+    'dependencies/lua-5.5/src/ltm.c',
+    'dependencies/lua-5.5/src/lundump.c',
+    'dependencies/lua-5.5/src/lutf8lib.c',
+    'dependencies/lua-5.5/src/lvm.c',
+    'dependencies/lua-5.5/src/lzio.c',
   ]
   lua_dep = dependency('', required:false)
 endif
@@ -1299,7 +1299,7 @@ else
   tolua_cmd = executable('tolua',
     'dependencies/tolua-5.2/src/bin/tolua.c',
     'dependencies/tolua-5.2/src/bin/toluabind.c',
-    include_directories : ['dependencies/lua-5.4/src',
+    include_directories : ['dependencies/lua-5.5/src',
                            'dependencies/tolua-5.2/include'],
     link_with: fc_deps,
     dependencies: m_dep,
