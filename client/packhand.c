@@ -51,6 +51,7 @@
 #include "spaceship.h"
 #include "specialist.h"
 #include "style.h"
+#include "tiledef.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -4491,6 +4492,24 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->compat = p->compat;
   proad->integrates = p->integrates;
   proad->flags = p->flags;
+}
+
+/************************************************************************//**
+  Handle a packet about a particular tiledef type.
+****************************************************************************/
+void handle_ruleset_tiledef(const struct packet_ruleset_tiledef *p)
+{
+  struct tiledef *td = tiledef_by_number(p->id);
+
+  fc_assert_ret_msg(td != nullptr, "Bad tiledef %d.", p->id);
+
+  names_set(&td->name, nullptr, p->name, p->rule_name);
+
+  extra_type_iterate(pextra) {
+    if (BV_ISSET(p->extras, extra_index(pextra))) {
+      extra_type_list_append(td->extras, pextra);
+    }
+  } extra_type_iterate_end;
 }
 
 /************************************************************************//**

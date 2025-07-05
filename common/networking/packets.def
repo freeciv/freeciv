@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 519
+Max id: 520
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1947,6 +1947,14 @@ PACKET_RULESET_CLAUSE = 512; sc, lsend
   CLAUSE type;
   BOOL   enabled;
   REQUIREMENT giver_reqs[*], receiver_reqs[*], either_reqs[*];
+end
+
+PACKET_RULESET_TILEDEF = 520; sc, lsend
+  UINT8 id;
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
+
+  BV_EXTRAS extras;
 end
 
 /**************************************************************************

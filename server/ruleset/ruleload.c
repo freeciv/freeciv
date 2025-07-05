@@ -197,6 +197,7 @@ static void send_ruleset_resources(struct conn_list *dest);
 static void send_ruleset_extras(struct conn_list *dest);
 static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_roads(struct conn_list *dest);
+static void send_ruleset_tiledefs(struct conn_list *dest);
 static void send_ruleset_goods(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_styles(struct conn_list *dest);
@@ -8816,6 +8817,32 @@ static void send_ruleset_roads(struct conn_list *dest)
 }
 
 /**********************************************************************//**
+  Send the tiledefs ruleset information (all individual tiledef types)
+  to the specified connections.
+**************************************************************************/
+static void send_ruleset_tiledefs(struct conn_list *dest)
+{
+  struct packet_ruleset_tiledef packet;
+
+  tiledef_iterate(td) {
+    bv_extras extras;
+
+    packet.id = tiledef_number(td);
+    sz_strlcpy(packet.name, untranslated_name(&td->name));
+    sz_strlcpy(packet.rule_name, rule_name_get(&td->name));
+
+    BV_CLR_ALL(extras);
+    extra_type_list_iterate(td->extras, pextra) {
+      BV_SET(extras, extra_index(pextra));
+    } extra_type_list_iterate_end;
+
+    packet.extras = extras;
+
+    lsend_packet_ruleset_tiledef(dest, &packet);
+  } tiledef_iterate_end;
+}
+
+/**********************************************************************//**
   Send the goods ruleset information (all individual goods types) to the
   specified connections.
 **************************************************************************/
@@ -9768,6 +9795,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_roads(dest);
   send_ruleset_resources(dest);
   send_ruleset_terrain(dest);
+  send_ruleset_tiledefs(dest);
   send_ruleset_goods(dest);
   send_ruleset_buildings(dest);
   send_ruleset_styles(dest);
