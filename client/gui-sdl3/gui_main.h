@@ -69,7 +69,7 @@ struct theme;
   || ((event).type == SDL_EVENT_MOUSE_BUTTON_DOWN                           \
       && (event).button.button == SDL_BUTTON_LEFT))
 
-typedef Uint16 widget_id;
+typedef Uint32 widget_id;
 
 enum mouse_button_hold_state {
   MB_HOLD_SHORT,
