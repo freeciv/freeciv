@@ -2909,10 +2909,19 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
       }
 
       if (punit) {
-        notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT, ftc_server,
-                      /* TRANS: <city> is finished building <unit/building>. */
-                      _("%s is finished building %s."),
-                      city_link(pcity), utype_name_translation(utype));
+        if (punit->carrying
+            && unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {
+          notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT, ftc_server,
+                        /* TRANS: <city> is finished building <unit>, carrying <goods>. */
+                        _("%s is finished building %s, carrying %s."),
+                        city_link(pcity), utype_name_translation(utype),
+                        goods_name_translation(punit->carrying));
+        } else {
+          notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT, ftc_server,
+                        /* TRANS: <city> is finished building <unit/building>. */
+                        _("%s is finished building %s."),
+                        city_link(pcity), utype_name_translation(utype));
+        }
       }
 
       /* After we created the unit remove the citizen. This will also

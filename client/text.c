@@ -376,6 +376,12 @@ const char *popup_info_text(struct tile *ptile)
         /* TRANS: on own line immediately following \n, ... <city> */
         astr_add_line(&str, _("from %s"), city_name_get(hcity));
       }
+      if (punit->carrying
+          && unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {
+        /* TRANS: on own line immediately following \n, from ... */
+        astr_add_line(&str, _("carrying %s"),
+                      goods_name_translation(punit->carrying));
+      }
     } else if (NULL != owner) {
       struct player_diplstate *ds = player_diplstate_get(client_player(),
                                                          owner);
