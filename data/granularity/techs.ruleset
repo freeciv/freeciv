@@ -600,6 +600,7 @@ flags       = ""
 graphic     = "a.strategies"
 graphic_alt = "-"
 helptext    = _("\
+Makes it possible to move 6 units to the same tile. \
 Makes it possible to adjust Offensive Strategies policy.\
 ")
 

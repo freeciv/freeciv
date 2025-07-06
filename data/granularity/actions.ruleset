@@ -350,6 +350,20 @@ target_reqs   =
       "MaxTopUnitsOnTile", "3",            "Tile"
     }
 
+[enabler_deboard_strategies]
+action        = "Transport Deboard"
+actor_reqs    =
+    { "type",      "name",          "range"
+      "UnitState", "OnLivableTile", "Local"
+      "UnitState", "Transported",   "Local"
+      "Tech",      "Strategies",    "Player"
+    }
+target_reqs   =
+    { "type",              "name",         "range"
+      "UnitState",         "Transporting", "Local"
+      "MaxTopUnitsOnTile", "5",            "Tile"
+    }
+
 [enabler_board]
 action        = "Transport Board"
 actor_reqs    =
@@ -374,6 +388,20 @@ target_reqs   =
       "MaxTopUnitsOnTile", "3",             "Tile"
     }
 
+[enabler_unload_strategies]
+action        = "Transport Unload"
+actor_reqs    =
+    { "type",      "name",         "range"
+      "UnitState", "Transporting", "Local"
+      "Tech",      "Strategies",   "Player"
+    }
+target_reqs   =
+    { "type",              "name",          "range"
+      "UnitState",         "OnLivableTile", "Local"
+      "UnitState",         "Transported",   "Local"
+      "MaxTopUnitsOnTile", "5",             "Tile"
+    }
+
 [enabler_disembark_from_native_tile]
 action        = "Transport Disembark"
 actor_reqs    =
@@ -385,6 +413,20 @@ actor_reqs    =
 target_reqs   =
     { "type",              "name", "range"
       "MaxTopUnitsOnTile", "3",    "Tile"
+    }
+
+[enabler_disembark_from_native_tile_strategies]
+action        = "Transport Disembark"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "UnitState",    "Transported",  "Local"
+      "MinMoveFrags", "5",            "Local"
+      "UnitState",    "OnNativeTile", "Local"
+      "Tech",         "Strategies",   "Player"
+    }
+target_reqs   =
+    { "type",              "name", "range"
+      "MaxTopUnitsOnTile", "5",    "Tile"
     }
 
 [enabler_disembark_from_native_city]
@@ -400,6 +442,20 @@ target_reqs   =
       "MaxTopUnitsOnTile", "3",    "Tile"
     }
 
+[enabler_disembark_from_native_city_strategies]
+action        = "Transport Disembark"
+actor_reqs    =
+    { "type",         "name",        "range"
+      "UnitState",    "Transported", "Local"
+      "MinMoveFrags", "5",           "Local"
+      "CityTile",     "Center",      "Tile"
+      "Tech",         "Strategies",  "Player"
+    }
+target_reqs   =
+    { "type",              "name", "range"
+      "MaxTopUnitsOnTile", "5",    "Tile"
+    }
+
 [enabler_disembark_from_non_native]
 action        = "Transport Disembark 2"
 actor_reqs    =
@@ -412,6 +468,21 @@ actor_reqs    =
 target_reqs   =
     { "type",              "name", "range"
       "MaxTopUnitsOnTile", "3",    "Tile"
+    }
+
+[enabler_disembark_from_non_native_strategies]
+action        = "Transport Disembark 2"
+actor_reqs    =
+    { "type",         "name",         "range",  "present"
+      "UnitState",    "Transported",  "Local",  TRUE
+      "MinMoveFrags", "5",            "Local",  TRUE
+      "UnitState",    "OnNativeTile", "Local",  FALSE
+      "CityTile",     "Center",       "Tile",   FALSE
+      "Tech",         "Strategies",   "Player", TRUE
+    }
+target_reqs   =
+    { "type",              "name", "range"
+      "MaxTopUnitsOnTile", "5",    "Tile"
     }
 
 [enabler_embark]
@@ -438,6 +509,19 @@ target_reqs   =
       "MaxTopUnitsOnTile", "3",    "Tile"
     }
 
+[enabler_regular_move_strategies]
+action        = "Unit Move"
+actor_reqs    =
+    { "type",         "name",        "range",  "present"
+      "MinMoveFrags", "1",           "Local",  TRUE
+      "UnitState",    "Transported", "Local",  FALSE
+      "Tech",         "Strategies",  "Player", TRUE
+    }
+target_reqs   =
+    { "type",              "name", "range"
+      "MaxTopUnitsOnTile", "5",    "Tile"
+    }
+
 [enabler_relocate]
 action        = "Teleport"
 actor_reqs    =
@@ -449,6 +533,20 @@ actor_reqs    =
 target_reqs   =
     { "type",              "name", "range"
       "MaxTopUnitsOnTile", "3",    "Tile"
+    }
+
+[enabler_relocate_strategies]
+action        = "Teleport"
+actor_reqs    =
+    { "type",         "name",        "range",  "present"
+      "UnitClass",    "Air",         "Local",  TRUE
+      "MinMoveFrags", "5",           "Local",  TRUE
+      "UnitState",    "Transported", "Local",  FALSE
+      "Tech",         "Strategies",  "Player", TRUE
+    }
+target_reqs   =
+    { "type",              "name", "range"
+      "MaxTopUnitsOnTile", "5",    "Tile"
     }
 
 [enabler_bombard_land]
@@ -583,6 +681,14 @@ action        = "Finish Unit"
 actor_reqs    =
     { "type",              "name", "range"
       "MaxTopUnitsOnTile", "3",    "Tile"
+    }
+
+[enabler_finish_unit_strategies]
+action        = "Finish Unit"
+actor_reqs    =
+    { "type",              "name",       "range"
+      "MaxTopUnitsOnTile", "5",          "Tile"
+      "Tech",              "Strategies", "Player"
     }
 
 [enabler_finish_building]
