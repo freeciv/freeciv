@@ -15,12 +15,9 @@ EXTRA_DIST =	check_macros.sh			\
 		generate_rs_save.sh		\
 		generate_rs_upgrade.sh		\
 		header_guard.sh			\
-		rulesets_save.sh.in		\
-		rulesets_upgrade.sh.in		\
 		rs_test_res/ruleset_is.lua	\
 		rs_test_res/ruleset_list_dist.txt \
 		rs_test_res/ruleset_list_opt.txt \
-		rs_test_res/ruleset_loads.sh.in	\
 		rs_test_res/generate_ruleset_loads.sh \
 		rulesets_autohelp.sh.in		\
 		src-check.sh			\
