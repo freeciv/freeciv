@@ -62,7 +62,7 @@ static GtkTreeSelection *goto_list_selection;
 struct tile *original_tile;
 static bool gotodlg_updating = FALSE;
 
-static void update_goto_dialog(GtkToggleButton *button);
+static void update_goto_dialog(GtkCheckButton *button);
 static void update_source_label(void);
 static void refresh_airlift_column(void);
 static void refresh_airlift_button(void);
@@ -247,7 +247,7 @@ static void create_goto_dialog(void)
   original_tile = get_center_tile_mapcanvas();
 
   update_source_label();
-  update_goto_dialog(GTK_TOGGLE_BUTTON(all_toggle));
+  update_goto_dialog(GTK_CHECK_BUTTON(all_toggle));
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
@@ -428,7 +428,7 @@ static void update_source_label(void)
 /**********************************************************************//**
   Refresh city list (in response to "all cities" checkbox changing).
 **************************************************************************/
-static void update_goto_dialog(GtkToggleButton *button)
+static void update_goto_dialog(GtkCheckButton *button)
 {
   bool nonempty = FALSE;
 
@@ -441,7 +441,7 @@ static void update_goto_dialog(GtkToggleButton *button)
 
   gtk_list_store_clear(goto_list_store);
 
-  if (gtk_toggle_button_get_active(button)) {
+  if (gtk_check_button_get_active(button)) {
     players_iterate(pplayer) {
       nonempty |= list_store_append_player_cities(goto_list_store, pplayer);
     } players_iterate_end;
