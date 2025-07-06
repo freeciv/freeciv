@@ -1743,14 +1743,14 @@ bool place_unit(struct unit *punit, struct player *pplayer,
   punit->server.vision = vision_new(pplayer, ptile);
   unit_refresh_vision(punit);
 
+  unit_get_goods(punit);
+
   send_unit_info(NULL, punit);
   wakeup_neighbor_sentries(punit);
 
   /* The unit may have changed the available tiles in nearby cities. */
   city_map_update_tile_now(ptile);
   sync_cities();
-
-  unit_get_goods(punit);
 
   CALL_FUNC_EACH_AI(unit_created, punit);
   CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
