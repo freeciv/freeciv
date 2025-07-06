@@ -1983,6 +1983,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->done_moving = packet_unit->done_moving;
       check_focus = TRUE;
     }
+    punit->carrying = packet_unit->carrying;
 
     /* This won't change punit; it enqueues the call for later handling. */
     agents_unit_changed(punit);
