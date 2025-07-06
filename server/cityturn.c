@@ -927,6 +927,8 @@ static bool city_increase_size(struct city *pcity)
   struct player *powner = city_owner(pcity);
   const struct impr_type *pimprove = pcity->production.value.building;
   const struct civ_map *nmap = &(wld.map);
+  int stock;
+  int granary;
 
   if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
     /* Need improvement */
@@ -951,13 +953,20 @@ static bool city_increase_size(struct city *pcity)
     return FALSE;
   }
 
+  granary = city_granary_size(city_size_get(pcity));
+  if (pcity->food_stock <= granary) {
+    stock = 0;
+  } else {
+    stock = pcity->food_stock - granary;
+  }
+
   city_size_add(pcity, 1);
 
   /* Do not empty food stock if city is growing by celebrating */
   if (rapture_grow) {
     new_food = city_granary_size(city_size_get(pcity));
   } else {
-    new_food = city_granary_size(city_size_get(pcity)) * savings_pct / 100;
+    new_food = stock + city_granary_size(city_size_get(pcity)) * savings_pct / 100;
   }
   pcity->food_stock = MIN(pcity->food_stock, new_food);
 
