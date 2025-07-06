@@ -24,6 +24,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+
+/* Used in the network protocol. */
 #define SPECENUM_NAME action_actor_kind
 #define SPECENUM_VALUE0 AAK_UNIT
 #define SPECENUM_VALUE0NAME N_("a unit")
