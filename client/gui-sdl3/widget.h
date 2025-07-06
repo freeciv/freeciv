@@ -35,7 +35,7 @@
 #define WINDOW_TITLE_HEIGHT 20
 #endif
 
-#define MAX_ID              0xFFFF
+#define MAX_ID              0xFFFFFFFF
 
 /* Widget Types */
 enum widget_type {		/* allow 64 widgets type */
