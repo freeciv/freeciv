@@ -94,7 +94,7 @@ value   = 1
 
 [effect_empire_size_step_base]
 type    = "Empire_Size_Step"
-value   = 1
+value   = 2
 
 [effect_max_rates_base]
 type    = "Max_Rates"
