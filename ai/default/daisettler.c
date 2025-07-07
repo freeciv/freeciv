@@ -806,7 +806,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
 
     if (boat_cost == 0 && pclass->adv.sea_move == MOVE_NONE
         && tile_continent(ptile) != curcont) {
-      /* We have an accidential land bridge. Ignore it. It will in all
+      /* We have an accidental land bridge. Ignore it. It will in all
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
     }

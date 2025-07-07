@@ -320,7 +320,7 @@ struct tile *immediate_destination(struct unit *punit,
     if (path) {
       for (i = 1; i < path->length; i++) {
         if (path->positions[i].tile == path->positions[i - 1].tile) {
-          /* The path-finding code advices us to wait there to refuel. */
+          /* The path-finding code advice us to wait there to refuel. */
           struct tile *ptile = path->positions[i].tile;
 
           pf_path_destroy(path);

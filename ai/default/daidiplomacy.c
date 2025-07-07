@@ -97,7 +97,7 @@ static void clear_old_treaty(struct player *pplayer, struct player *aplayer);
 
 /******************************************************************//**
   Send a diplomatic message. Use this instead of notify directly
-  because we may want to highligh/present these messages differently
+  because we may want to highlight/present these messages differently
   in the future.
 **********************************************************************/
 static void dai_diplo_notify(struct player *pplayer, const char *text, ...)
@@ -391,7 +391,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       break;
     }
 
-    /* They were allied with an enemy at the begining of the turn. */
+    /* They were allied with an enemy at the beginning of the turn. */
     if (adip->is_allied_with_enemy
         && pclause->type != CLAUSE_CEASEFIRE) {
       dai_diplo_notify(aplayer, _("*%s (AI)* I would like to see you keep your "
