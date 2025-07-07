@@ -77,7 +77,7 @@
 #define LOG_DIPLOMAT LOG_DEBUG
 #define LOG_DIPLOMAT_BUILD LOG_DEBUG
 
-/* 3000 is a just a large number, but not hillariously large as the
+/* 3000 is just a large number, but not hilariously large as the
  * previously used one. This is important for diplomacy. - Per */
 #define DIPLO_DEFENSE_WANT 3000
 

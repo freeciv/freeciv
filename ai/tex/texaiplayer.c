@@ -185,7 +185,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       initialize_infrastructure_cache(msg->plr);
 
       /* Use _safe iterate in case the main thread
-       * destroyes cities while we are iterating through these. */
+       * destroys cities while we are iterating through these. */
       city_list_iterate_safe(msg->plr->cities, pcity) {
         struct adv_choice *choice;
         struct texai_build_choice_req *choice_req
