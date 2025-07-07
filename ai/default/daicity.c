@@ -1735,7 +1735,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 	v += v1;
       } else if (v1 > 0) {
         /* If value of the effect is negative, do not hold it against
-         * the tech - having the tech wont force one to build the
+         * the tech - having the tech won't force one to build the
          * building. */
 
 	/* We might want the technology that will enable this
