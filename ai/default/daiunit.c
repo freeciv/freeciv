@@ -128,7 +128,7 @@ struct unit_type *simple_ai_types[U_LAST];
 /**********************************************************************//**
   Returns the city with the most need of an airlift.
 
-  To be considerd, a city must have an air field. All cities with an
+  To be considered, a city must have an air field. All cities with an
   urgent need for units are serviced before cities in danger.
 
   Return value may be NULL, this means no servicable city found.
@@ -774,7 +774,7 @@ adv_want look_for_charge(struct ai_type *ait, const struct civ_map *nmap,
       if (0 == get_transporter_capacity(buddy)) {
         /* Reduce want based on move cost. We can't do this for
          * transports since they move around all the time, leading
-         * to hillarious flip-flops. */
+         * to hilarious flip-flops. */
         def >>= move_cost / (2 * unit_move_rate(punit));
       }
       if (def > best_def) {
@@ -1177,7 +1177,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
    * never learning steam engine, even though ironclads would be very
    * useful. -- Syela */
   adv_want bk = 0;
-  adv_want want;        /* Want (amortized) of the operaton. */
+  adv_want want;        /* Want (amortized) of the operation. */
   adv_want best = 0;    /* Best of all wants. */
   struct tile *goto_dest_tile = NULL;
   bool can_occupy;
@@ -1583,7 +1583,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         want = 0;
       } else {
         want = kill_desire(benefit, attack, bcost, vulnerability, 1);
-          /* Take into account maintainance of the unit. */
+          /* Take into account maintenance of the unit. */
           /* FIXME: Depends on the government. */
         want -= move_time * SHIELD_WEIGHTING;
         /* Take into account unhappiness
@@ -2996,7 +2996,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
         /* If we reached our destination, ferryboat already called
          * ai_manage_unit() for leader. So no need to continue here.
          * Leader might even be dead.
-         * If this return is removed, surronding unit_list_iterate()
+         * If this return is removed, surrounding unit_list_iterate()
          * has to be replaced with unit_list_iterate_safe()*/
         return;
       }

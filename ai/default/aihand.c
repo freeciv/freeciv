@@ -190,8 +190,8 @@ enum celebration {
   TODO: Audit the use of pplayer->ai.maxbuycost in the code elsewhere,
   then add support for it here.
 
-  This function first determins the minimum tax rate (rate_tax_min) and a tax
-  rate for a balanced treasury (rate_tax_balance). Similarily, the science
+  This function first determines the minimum tax rate (rate_tax_min) and a tax
+  rate for a balanced treasury (rate_tax_balance). Similarly, the science
   rates are determiend (rate_sci_min and rate_sci_balance). Considering the
   minimum rates for tax and science the chance for celebrations is checked. If
   celebration is possible for more than half of the cities, the needed luxury
