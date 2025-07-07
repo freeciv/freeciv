@@ -161,6 +161,9 @@ bool are_requirements_contradictions(const struct requirement *req1,
 bool req_implies_req(const struct requirement *req1,
                      const struct requirement *req2);
 
+struct requirement *
+req_vec_first_contradiction_in_vec(const struct requirement *req,
+                                   const struct requirement_vector *vec);
 bool does_req_contradicts_reqs(const struct requirement *req,
                                const struct requirement_vector *vec);
 

@@ -1743,31 +1743,6 @@ req_vec_first_local_diplrel(const struct requirement_vector *vec)
 }
 
 /**********************************************************************//**
-  Returns the first requirement in the specified requirement vector that
-  contradicts the specified requirement or NULL if no contradiction was
-  detected.
-  @param req the requirement that may contradict the vector
-  @param vec the requirement vector to look in
-  @return the first local DiplRel requirement.
-**************************************************************************/
-static struct requirement *
-req_vec_first_contradiction_in_vec(const struct requirement *req,
-                                   const struct requirement_vector *vec)
-{
-  /* If the requirement is contradicted by any requirement in the vector it
-   * contradicts the entire requirement vector. */
-  requirement_vector_iterate(vec, preq) {
-    if (are_requirements_contradictions(req, preq)) {
-      return preq;
-    }
-  } requirement_vector_iterate_end;
-
-  /* Not a singe requirement in the requirement vector is contradicted be
-   * the specified requirement. */
-  return NULL;
-}
-
-/**********************************************************************//**
   Detects a local DiplRel requirement in a tile targeted action without
   an explicit claimed requirement in the target reqs.
   @param enabler the enabler to look at
