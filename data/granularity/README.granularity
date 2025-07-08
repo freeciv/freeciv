@@ -30,6 +30,7 @@ movement costs is 1/6 points.
    extends one tile away from the center.
  * Units with zero defense value can be captured by any military unit
  * In the beginning cities can grow up to size 3.
+ * You get +30% research bonus for your three first techs
  * Units cannot be upgraded before Engineering is known
  * Research bulbs are for specific tech. If you switch research, accumulated
    progress stays with the previous tech target.
