@@ -53,12 +53,10 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=77
-SVTAV1ENV=libSvtAv1Enc-3.dll
-SNDFILES=libwavpack-1.dll libxmp.dll
+ACCESSKIT=
 else
-ICUVER=76
-SVTAV1ENV=libSvtAv1Enc-2.dll
-SNDFILES=libmodplug-1.dll
+ICUVER=77
+ACCESSKIT=libaccesskit-c-0.15.dll
 endif
 
 #
@@ -183,7 +181,8 @@ SOUND_DLLS := \
 	libvorbisfile-3.dll \
 	libvorbis-0.dll \
 	libogg-0.dll \
-	${SNDFILES}
+	libwavpack-1.dll \
+	libxmp.dll
 
 COMMON_DLLS := \
 	libcairo-2.dll \
@@ -241,7 +240,9 @@ COMMON_DLLS := \
 	libraqm-0.dll \
 	libunistring-5.dll \
 	exchndl.dll \
-	mgwhelp.dll
+	mgwhelp.dll \
+	libngtcp2-16.dll \
+	libngtcp2_crypto_ossl.dll
 
 CLIENT_COMMON_DLLS := \
 	$(SOUND_DLLS)
@@ -301,7 +302,8 @@ FCMP_GTK4_DLLS := \
 	libdeflate.dll \
 	libLerc.dll \
 	libsharpyuv-0.dll \
-	libharfbuzz-subset-0.dll
+	libharfbuzz-subset-0.dll \
+	${ACCESSKIT}
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
@@ -343,7 +345,7 @@ SDL2_DLLS := \
 	libaom.dll \
 	libdav1d-7.dll \
 	librav1e.dll \
-	${SVTAV1ENV} \
+	libSvtAv1Enc-3.dll \
 	libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
