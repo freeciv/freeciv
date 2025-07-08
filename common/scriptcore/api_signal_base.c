@@ -79,7 +79,8 @@ bool api_signal_defined(lua_State *L, const char *signal_name,
 }
 
 /**********************************************************************//**
-  Return the name of the signal with the given index.
+  Return the name of the 'index' callback function of the signal with the
+  name 'signal_name'.
 **************************************************************************/
 const char *api_signal_callback_by_index(lua_State *L,
                                          const char *signal_name,
@@ -98,8 +99,7 @@ const char *api_signal_callback_by_index(lua_State *L,
 }
 
 /**********************************************************************//**
-  Return the name of the 'index' callback function of the signal with the
-  name 'signal_name'.
+  Return the name of the signal with the given index.
 **************************************************************************/
 const char *api_signal_by_index(lua_State *L, int sindex)
 {
