@@ -120,6 +120,15 @@ reqs    =
       "Tech", "Fishing", "Player"
     }
 
+[effect_early_research]
+type    = "Output_Bonus"
+value	= 30
+reqs	=
+    { "type",       "name",    "range",  "present"
+      "MinTechs",   "4",       "Player", FALSE
+      "OutputType", "Science", "Local",  TRUE
+    }
+
 ; Each city has at least one slot to build units
 [effect_city_build_slots_basic]
 type    = "City_Build_Slots"
