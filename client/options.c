@@ -448,6 +448,9 @@ struct client_options gui_options = {
 static bool options_fully_initialized = FALSE;
 
 static int sync_serial = 0;
+static int reply_serial = 0;
+static bool queue_save = FALSE;
+static option_save_log_callback queued_cb;
 
 static const struct strvec *get_mapimg_format_list(const struct option *poption);
 
@@ -752,7 +755,7 @@ struct option *option_next(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the option to its default value.  Returns TRUE if the option changed.
+  Set the option to its default value. Returns TRUE if the option changed.
 ****************************************************************************/
 bool option_reset(struct option *poption)
 {
@@ -5129,7 +5132,7 @@ static bool server_option_bool_def(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this server option of type OT_BOOLEAN.  Returns TRUE if
+  Set the value of this server option of type OT_BOOLEAN. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool server_option_bool_set(struct option *poption, bool val)
@@ -5142,6 +5145,8 @@ static bool server_option_bool_set(struct option *poption, bool val)
 
   send_chat_printf("/set %s %s", psoption->name,
                    val ? "enabled" : "disabled");
+  dsend_packet_sync_serial(&client.conn, ++sync_serial);
+
   return TRUE;
 }
 
@@ -5192,6 +5197,8 @@ static bool server_option_int_set(struct option *poption, int val)
   }
 
   send_chat_printf("/set %s %d", psoption->name, val);
+  dsend_packet_sync_serial(&client.conn, ++sync_serial);
+
   return TRUE;
 }
 
@@ -5234,6 +5241,8 @@ static bool server_option_str_set(struct option *poption, const char *str)
   }
 
   send_chat_printf("/set %s \"%s\"", psoption->name, str);
+  dsend_packet_sync_serial(&client.conn, ++sync_serial);
+
   return TRUE;
 }
 
@@ -5278,6 +5287,8 @@ static bool server_option_enum_set(struct option *poption, int val)
   }
 
   send_chat_printf("/set %s \"%s\"", psoption->name, name);
+  dsend_packet_sync_serial(&client.conn, ++sync_serial);
+
   return TRUE;
 }
 
@@ -5362,6 +5373,8 @@ static bool server_option_bitwise_set(struct option *poption, unsigned val)
   server_option_bitwise_support_base(psoption->bitwise.support_names, val,
                                      name, sizeof(name));
   send_chat_printf("/set %s \"%s\"", psoption->name, name);
+  dsend_packet_sync_serial(&client.conn, ++sync_serial);
+
   return TRUE;
 }
 
@@ -6428,6 +6441,37 @@ static void option_save_output_window_callback(enum log_level lvl,
 }
 
 /************************************************************************//**
+  Save the options as soon as they have been synced with the server.
+****************************************************************************/
+void queue_options_save(option_save_log_callback log_cb)
+{
+  if (reply_serial >= sync_serial) {
+    /* We've already got reply to the latest options sync request */
+    log_debug("Options save immediate (%d vs %d)", sync_serial, reply_serial);
+    desired_settable_options_update();
+    options_save(log_cb);
+  } else {
+    log_debug("Options save queued (%d vs %d)", sync_serial, reply_serial);
+    queue_save = TRUE;
+    queued_cb = log_cb;
+  }
+}
+
+/************************************************************************//**
+  Server has replied to some sync request
+****************************************************************************/
+void options_sync_reply(int serial)
+{
+  reply_serial = serial;
+
+  if (queue_save && reply_serial >= sync_serial) {
+    log_debug("Pop queued options saving.");
+    desired_settable_options_update();
+    options_save(queued_cb);
+  }
+}
+
+/************************************************************************//**
   Save all options.
 ****************************************************************************/
 void options_save(option_save_log_callback log_cb)
@@ -6436,6 +6480,8 @@ void options_save(option_save_log_callback log_cb)
   const char *name = get_current_option_file_name();
   char dir_name[2048];
   int i;
+
+  queue_save = FALSE;
 
   if (log_cb == NULL) {
     /* Default callback */

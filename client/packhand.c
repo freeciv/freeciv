@@ -5740,4 +5740,5 @@ void handle_city_update_counters(const struct packet_city_update_counters *packe
 **************************************************************************/
 void handle_sync_serial_reply(int serial)
 {
+  options_sync_reply(serial);
 }
