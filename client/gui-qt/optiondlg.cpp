@@ -217,8 +217,8 @@ void option_dialog::apply_option(int response)
     close();
     break;
   case RESPONSE_SAVE:
-    desired_settable_options_update();
-    options_save(NULL);
+    apply_options();
+    queue_options_save(NULL);
     break;
   case RESPONSE_RESET:
     full_reset();

@@ -120,8 +120,8 @@ static void option_dialog_reponse_callback(GtkDialog *dialog,
     option_dialog_foreach(pdialog, option_dialog_option_refresh);
     break;
   case RESPONSE_SAVE:
-    desired_settable_options_update();
-    options_save(NULL);
+    option_dialog_foreach(pdialog, option_dialog_option_apply);
+    queue_options_save(NULL);
     break;
   }
 }

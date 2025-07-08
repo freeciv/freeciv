@@ -450,7 +450,10 @@ void options_free(void);
 void server_options_init(void);
 void server_options_free(void);
 void options_load(void);
+void queue_options_save(option_save_log_callback log_cb);
 void options_save(option_save_log_callback log_cb);
+
+void options_sync_reply(int serial);
 
 
 /* Option sets. */
