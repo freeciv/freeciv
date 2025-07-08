@@ -4072,7 +4072,7 @@ static struct unit_move_data_list *construct_move_data_list(struct unit *punit,
 /**********************************************************************//**
   Moves a unit. No checks whatsoever! This is meant as a practical
   function for other functions, like do_airline(), which do the checking
-  themselves.
+  either by themselves or by their callers
 
   If you move a unit you should always use this function, as it also sets
   the transport status of the unit correctly. Note that the source tile (the
