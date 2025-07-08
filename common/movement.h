@@ -68,6 +68,10 @@ bool is_city_channel_tile(const struct civ_map *nmap,
                           const struct unit_class *punitclass,
                           const struct tile *ptile,
                           const struct tile *pexclude);
+bool may_be_city_channel_tile(const struct civ_map *nmap,
+                              const struct unit_class *punitclass,
+                              const struct tile *ptile,
+                              const struct player *pov_player);
 
 bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile);
@@ -98,6 +102,10 @@ bool is_native_near_tile(const struct civ_map *nmap,
 bool can_exist_at_tile(const struct civ_map *nmap,
                        const struct unit_type *utype,
                        const struct tile *ptile);
+bool could_exist_in_city(const struct civ_map *nmap,
+                         const struct player *pov_player,
+                         const struct unit_type *utype,
+                         const struct city *pcity);
 bool can_unit_exist_at_tile(const struct civ_map *nmap,
                             const struct unit *punit, const struct tile *ptile);
 bool can_unit_survive_at_tile(const struct civ_map *nmap,
@@ -146,6 +154,51 @@ void init_move_fragments(void);
 const char *move_points_text_full(int mp, bool reduce, const char *prefix,
                                   const char *none, bool align);
 const char *move_points_text(int mp, bool reduce);
+
+/* Simple algorithm that checks connectivity of _tile_ on _map_
+ * to a tile where _found_ is true via adjacency of tiles where _conn_.
+ * _found_ and _conn_ must be boolean expressions checking tile _piter_.
+ * _conn_ is not checked at starting and finishing _tile_.
+ * Assigns the found tile to _tile_, or nullptr if not found */
+#define MAP_TILE_CONN_TO_BY(_map_, _tile_, _piter_, _found_, _conn_) {\
+  struct dbv tile_processed;                                          \
+  struct tile_list *process_queue = tile_list_new();                  \
+  bool found = FALSE;                                                 \
+                                                                      \
+  dbv_init(&tile_processed, map_num_tiles());                         \
+  for (;;) {                                                          \
+    dbv_set(&tile_processed, tile_index(_tile_));                     \
+    adjc_iterate(_map_, _tile_, _piter_) {                            \
+      if (dbv_isset(&tile_processed, tile_index(_piter_))) {          \
+        continue;                                                     \
+      } else if (_found_) {                                           \
+        _tile_ = _piter_;                                             \
+        found = TRUE;                                                 \
+        break;                                                        \
+      } else if (_conn_) {                                            \
+        tile_list_append(process_queue, _piter_);                     \
+      } else {                                                        \
+        dbv_set(&tile_processed, tile_index(_piter_));                \
+      }                                                               \
+    } adjc_iterate_end;                                               \
+                                                                      \
+    if (found) {                                                      \
+      /* got it*/                                                     \
+      break;                                                          \
+    }                                                                 \
+    if (0 == tile_list_size(process_queue)) {                         \
+      /* No more tile to process. */                                  \
+      _tile_ = nullptr;                                               \
+       break;                                                         \
+    } else {                                                          \
+      _tile_ = tile_list_front(process_queue);                        \
+      tile_list_pop_front(process_queue);                             \
+    }                                                                 \
+  }                                                                   \
+                                                                      \
+  dbv_free(&tile_processed);                                          \
+  tile_list_destroy(process_queue);                                   \
+}
 
 #ifdef __cplusplus
 }

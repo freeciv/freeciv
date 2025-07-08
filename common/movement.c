@@ -244,41 +244,30 @@ bool is_city_channel_tile(const struct civ_map *nmap,
                           const struct tile *ptile,
                           const struct tile *pexclude)
 {
-  struct dbv tile_processed;
-  struct tile_list *process_queue = tile_list_new();
-  bool found = FALSE;
+  MAP_TILE_CONN_TO_BY(nmap, ptile, piter,
+                      piter != pexclude
+                      && is_native_to_class(punitclass, tile_terrain(piter),
+                                            tile_extras(piter)),
+                      piter != pexclude && nullptr != tile_city(piter));
 
-  dbv_init(&tile_processed, map_num_tiles());
-  for (;;) {
-    dbv_set(&tile_processed, tile_index(ptile));
-    adjc_iterate(nmap, ptile, piter) {
-      if (dbv_isset(&tile_processed, tile_index(piter))) {
-        continue;
-      } else if (piter != pexclude
-                 && is_native_to_class(punitclass, tile_terrain(piter),
-                                       tile_extras(piter))) {
-        found = TRUE;
-        break;
-      } else if (piter != pexclude
-                 && NULL != tile_city(piter)) {
-        tile_list_append(process_queue, piter);
-      } else {
-        dbv_set(&tile_processed, tile_index(piter));
-      }
-    } adjc_iterate_end;
+  return nullptr != ptile;
+}
 
-    if (found || 0 == tile_list_size(process_queue)) {
-      break; /* No more tile to process. */
-    } else {
-      ptile = tile_list_front(process_queue);
-      tile_list_pop_front(process_queue);
-    }
-  }
+/************************************************************************//**
+  Check for a city channel with restriction to pov_player current knowledge
+****************************************************************************/
+bool may_be_city_channel_tile(const struct civ_map *nmap,
+                              const struct unit_class *punitclass,
+                              const struct tile *ptile,
+                              const struct player *pov_player)
+{
+  MAP_TILE_CONN_TO_BY(nmap, ptile, piter,
+                      !tile_is_seen(piter, pov_player)
+                      || is_native_to_class(punitclass, tile_terrain(piter),
+                                            tile_extras(piter)),
+                      nullptr != tile_city(piter));
 
-  dbv_free(&tile_processed);
-  tile_list_destroy(process_queue);
-
-  return found;
+  return nullptr != ptile;
 }
 
 /************************************************************************//**
@@ -308,6 +297,49 @@ bool can_exist_at_tile(const struct civ_map *nmap,
   }
 
   return is_native_tile(utype, ptile);
+}
+
+/************************************************************************//**
+  Return if a unit of utype could possibly "exist" at the city tile of pcity
+  given the information known to pov_player. pcity is presumed to exist.
+  nmap is supposed to be client map.
+  This means it can physically be present on the tile (without the use of a
+  transporter). See can_exist_at_tile() for the omniscient check.
+****************************************************************************/
+bool could_exist_in_city(const struct civ_map *nmap,
+                         const struct player *pov_player,
+                         const struct unit_type *utype,
+                         const struct city *pcity)
+{
+  struct unit_class *uclass;
+  struct tile *ctile;
+
+  fc_assert_ret_val(nullptr != pcity && nullptr != utype, FALSE);
+
+  ctile = city_tile(pcity);
+  uclass = utype_class(utype);
+
+  if (uclass_has_flag(uclass, UCF_BUILD_ANYWHERE)) {
+    /* If the city stands, it can exist there */
+    return TRUE;
+  }
+  adjc_iterate(nmap, ctile, ptile) {
+    if (!tile_is_seen(ptile, pov_player)
+        || is_native_tile_to_class(uclass, ptile)) {
+      /* Could be native. This ignores a rare case when we don't see
+       * only the city center and any native terrain is NoCities */
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  if (1 == game.info.citymindist
+      && may_be_city_channel_tile(nmap, uclass, ctile, pov_player)) {
+    /* Channeled. */
+    return TRUE;
+  }
+
+  /* It definitely can't exist there */
+  return FALSE;
 }
 
 /************************************************************************//**
