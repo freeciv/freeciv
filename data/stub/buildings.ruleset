@@ -35,18 +35,18 @@ format_version = 50
 ;                 the name used in savegames must not change, if you want
 ;                 to rename an item after a ruleset has been released, you
 ;                 should set "rule_name" to the original value of "name".
-; genus	        = genus; one of:
+; genus         = genus; one of:
 ;                 "GreatWonder", "SmallWonder", "Improvement", "Special",
 ;                 or "Convert".
-; reqs		= requirements to build the building (see effects.ruleset
-;		  and README.effects for help on requirements)
+; reqs          = requirements to build the building (see effects.ruleset
+;                 and README.effects for help on requirements)
 ; graphic       = icon of improvement (used in city dialog)
 ; graphic_alt   = alternate icon of improvement
 ; graphic_alt2  = second alternative icon.
-; obsolete_by	= requirements for the building to become obsolete
-; build_cost	= production shields required to build
-; upkeep	= monetary upkeep value
-; sabotage	= percent chance of diplomat sabotage being successful
+; obsolete_by   = requirements for the building to become obsolete
+; build_cost    = production shields required to build
+; upkeep        = monetary upkeep value
+; sabotage      = percent chance of diplomat sabotage being successful
 ; sound         = tag of the sound to play when building finished
 ; sound_alt     = alternate sound tag
 ; sound_alt2    = second alternative sound tag
@@ -73,9 +73,9 @@ format_version = 50
 ; */ <-- avoid gettext warnings
 
 [building_generic]
-name		= _("Generic")
-genus		= "Improvement"
-reqs	=
+name            = _("Generic")
+genus           = "Improvement"
+reqs    =
     { "type", "name", "range"
 ; No requirements
     }
@@ -85,12 +85,12 @@ graphic_alt2    = "-"
 obsolete_by     =
     { "type", "name", "range"
     }
-build_cost	= 100
-upkeep		= 0
-sabotage	= 100
-sound		= "b_generic"
-sound_alt	= "b_barracks"
+build_cost      = 100
+upkeep          = 0
+sabotage        = 100
+sound           = "b_generic"
+sound_alt       = "b_barracks"
 sound_alt2      = "-"
-helptext	= _("\
+helptext        = _("\
 This is the only building you can build.\
 ")
