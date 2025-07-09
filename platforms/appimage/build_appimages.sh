@@ -67,7 +67,7 @@ ruledit_appimage() {
 
   cd "build/ruledit-$1"
   if ! meson setup -Dack_experimental=true -Dappimage=true -Dprefix=/usr -Ddefault_library=static \
-                   -Dclients=[] -Dfcmp=[] -Druledit=true -Dqtver=$1 "${SRC_ROOT}"
+                   -Dclients=[] -Dfcmp=[] -Dserver=disabled -Druledit=true -Dqtver=$1 "${SRC_ROOT}"
   then
     echo "ruledit-$1 setup with meson failed!" >&2
     return 1
@@ -79,7 +79,6 @@ ruledit_appimage() {
   fi
 
   cd "${BUILD_ROOT}"
-  rm -f "AppDir/ruledit-$1/usr/share/applications/org.freeciv.server.desktop"
   if ! tools/linuxdeploy-x86_64.AppImage --appdir "AppDir/ruledit-$1" --output appimage
   then
     echo "ruledit-$1 image build with linuxdeploy failed!" >&2
