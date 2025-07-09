@@ -193,7 +193,7 @@ install-ruledit-common: clean-ruledit-install-arch
 	cat licenses/header.txt $(SRC_ROOT)/COPYING > $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-ruledit.cmd Freeciv.url $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 
-SOUND_DLLS := \
+SOUND_DLLS_SDL2 := \
 	SDL2.dll \
 	SDL2_mixer.dll \
 	libFLAC.dll \
@@ -266,13 +266,9 @@ COMMON_DLLS := \
 	libngtcp2-16.dll \
 	libngtcp2_crypto_ossl.dll
 
-CLIENT_COMMON_DLLS := \
-	$(SOUND_DLLS)
-
 install-env-common:
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(CLIENT_COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-client-$(GUI)/ssl/certs
 	cp -R /$(ARCHDIR)/etc/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-client-$(GUI)/ssl/certs/
 
@@ -351,10 +347,13 @@ install-freeciv-qt6: install-freeciv-common
 install-freeciv-qt6x: install-freeciv-common
 
 install-env-gtk3.22: install-env-gtk3-fcmp
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-gtk4: install-env-gtk4-fcmp
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-gtk4x: install-env-gtk4-fcmp
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 SDL2_DLLS := \
 	SDL2_ttf.dll \
@@ -375,6 +374,7 @@ SDL2_DLLS := \
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 FCMP_QT5_DLLS := \
 	Qt5Core.dll \
@@ -419,6 +419,7 @@ CLIENT_QT6_DLLS := \
 install-env-qt6: install-env-qt6-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(CLIENT_QT6_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-qt6x: install-env-qt6
 
