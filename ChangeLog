@@ -1,3 +1,111 @@
+commit d9531d98f892cc2738fae93f78c7c27394a13b36
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 10 07:05:58 2025 +0300
+
+    'make update-po' before 3.2.0-RC2 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1b9007ee5daaf9ac727bea84cf2b083cf2be9db3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 9 12:16:56 2025 +0300
+
+    NEWS-3.2: Add 3.2.0-RC2 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9343474bfd168b8ff44a3588c54127ab779cec6d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 5 01:16:47 2025 +0300
+
+    fc_version: Add doc comment for FREECIV_DISTRIBUTOR
+
+    See RM #1563
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2ac2e6705bc81e18e3732bbb35c0f5f7038f8eef
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 4 23:41:52 2025 +0300
+
+    Accept PACKET_SYNC_SERIAL from non-player connections
+
+    See RM #1562
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dc940a7298405b64138127229b5e876600659b24
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 7 02:42:03 2025 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2025-07-04)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3e37238a482ac8bb44ccbae87a0d96581781d19a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 26 04:30:57 2025 +0300
+
+    CI: Update setup-msys2 to version 2.28.0
+
+    See RM #1539
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a885546a10406fe285e3b7d620baf487e0272b64
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 4 05:57:31 2025 +0300
+
+    Fix check that collect ransom target is a barbarian player
+
+    Reported by Dean Brown
+
+    See RM #1559
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 94183a81f7bcf92953c8a8f260b1647fc6959f34
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 12 09:17:42 2025 +0300
+
+    map.h: Add function headers for inline functions
+
+    See RM #1234
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f97c80c0be83a42f238b9f7439f8a97f57e29bca
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 6 03:28:52 2025 +0300
+
+    Update included lua to version 5.4.8
+
+    See RM #1431
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7a4c515420481b6d537e2a278516daab95859f95
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 4 00:20:35 2025 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d7a41ad4ce96f04c69bb491046e599676a7a26e3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 4 00:16:23 2025 +0300
+
+    Finalize 3.2.0-RC1 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 3b5286af342b38f5787546a35763bbfec99d171e
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Jul 4 00:13:54 2025 +0300
