@@ -27,6 +27,7 @@
 #include "traderoutes.h"
 #include "movement.h"
 #include "research.h"
+#include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -87,6 +88,7 @@ struct action_data {
   int target_building_id;
   int target_tech_id;
   int target_extra_id;
+  int target_specialist_id;
 };
 
 /* TODO: Maybe this should be in the dialog itself? */
@@ -167,6 +169,7 @@ static struct action_data *act_data(action_id act_id,
                                     int target_tile_id,
                                     int target_building_id,
                                     int target_tech_id,
+                                    int target_specialist_id,
                                     int tgt_extra_id)
 {
   struct action_data *data = fc_malloc(sizeof(*data));
@@ -178,6 +181,7 @@ static struct action_data *act_data(action_id act_id,
   data->target_tile_id = target_tile_id;
   data->target_building_id = target_building_id;
   data->target_tech_id = target_tech_id;
+  data->target_specialist_id = target_specialist_id;
   data->target_extra_id = tgt_extra_id;
 
   return data;
@@ -379,6 +383,13 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
       /* TODO: Validate if the extra is there? */
       sub_target = args->target_extra_id;
       if (NULL == extra_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_SPECIALIST:
+      sub_target = args->target_specialist_id;
+      if (nullptr == specialist_by_number(sub_target)) {
         /* Did the ruleset change? */
         failed = TRUE;
       }
@@ -589,7 +600,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
   g_signal_connect(shell, "response", G_CALLBACK(bribe_unit_response),
                    act_data(paction->id, actor->id,
                             0, punit->id, 0,
-                            0, 0, 0));
+                            0, 0, 0, 0));
 }
 
 /**********************************************************************//**
@@ -628,7 +639,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
   g_signal_connect(shell, "response", G_CALLBACK(bribe_stack_response),
                    act_data(paction->id, actor->id,
                             0, 0, ptile->index,
-                            0, 0, 0));
+                            0, 0, 0, 0));
 }
 
 /**********************************************************************//**
@@ -1081,7 +1092,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
     create_improvements_list(client.conn.playing, pcity,
                              act_data(paction->id,
                                       actor->id, pcity->id, 0, 0,
-                                      0, 0, 0));
+                                      0, 0, 0, 0));
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
 }
@@ -1149,7 +1160,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   g_signal_connect(shell, "response", G_CALLBACK(incite_response),
                    act_data(paction->id, actor->id,
                             pcity->id, 0, 0,
-                            0, 0, 0));
+                            0, 0, 0, 0));
 }
 
 /**********************************************************************//**
@@ -1500,7 +1511,7 @@ void popup_action_selection(struct unit *actor_unit,
                (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                (target_tile) ? target_tile->index : TILE_INDEX_NONE,
                /* No target_building or target_tech supplied. (Dec 2019) */
-               B_LAST, A_UNSET,
+               B_LAST, A_UNSET, -1,
                target_extra ? target_extra->id : EXTRA_NONE);
 
   /* Could be caused by the server failing to reply to a request for more

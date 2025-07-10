@@ -3382,6 +3382,7 @@ bool unit_perform_action(struct player *pplayer,
   struct impr_type *sub_tgt_impr;
   struct unit *punit = nullptr;
   struct city *pcity = nullptr;
+  struct specialist *sub_tgt_spec = nullptr;
   const struct civ_map *nmap = &(wld.map);
 
   if (!action_id_exists(action_type)) {
@@ -3461,6 +3462,7 @@ bool unit_perform_action(struct player *pplayer,
   }
 
   sub_tgt_impr = improvement_by_number(sub_tgt_id);
+  sub_tgt_spec = specialist_by_number(sub_tgt_id);
 
   /* Sub targets should now be assigned */
   switch (paction->sub_target_kind) {
@@ -3479,6 +3481,12 @@ bool unit_perform_action(struct player *pplayer,
   case ASTK_EXTRA:
   case ASTK_EXTRA_NOT_THERE:
     if (target_extra == nullptr) {
+      /* Missing sub target */
+      return FALSE;
+    }
+    break;
+  case ASTK_SPECIALIST:
+    if (sub_tgt_spec == nullptr) {
       /* Missing sub target */
       return FALSE;
     }

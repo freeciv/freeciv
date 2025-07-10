@@ -25,6 +25,7 @@
 #include "game.h"
 #include "movement.h"
 #include "research.h"
+#include "specialist.h"
 #include "traderoutes.h"
 #include "unitlist.h"
 
@@ -808,6 +809,13 @@ static int simple_action_callback(struct widget *pwidget)
         failed = TRUE;
       }
       break;
+    case ASTK_SPECIALIST:
+      sub_target = diplomat_dlg->sub_target_id[ASTK_SPECIALIST];
+      if (nullptr == specialist_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
     case ASTK_NONE:
     case ASTK_COUNT:
       /* Shouldn't happen. */
@@ -1030,6 +1038,7 @@ void popup_action_selection(struct unit *actor_unit,
   /* No target building or target tech supplied. (Feb 2020) */
   diplomat_dlg->sub_target_id[ASTK_BUILDING] = B_LAST;
   diplomat_dlg->sub_target_id[ASTK_TECH] = A_UNSET;
+  diplomat_dlg->sub_target_id[ASTK_SPECIALIST] = -1;
 
   if (target_extra) {
     diplomat_dlg->sub_target_id[ASTK_EXTRA] = extra_number(target_extra);

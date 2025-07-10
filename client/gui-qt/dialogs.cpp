@@ -1417,6 +1417,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   sub_target_id[ASTK_TECH] = A_UNSET;
   sub_target_id[ASTK_EXTRA] = EXTRA_NONE;
   sub_target_id[ASTK_EXTRA_NOT_THERE] = EXTRA_NONE;
+  sub_target_id[ASTK_SPECIALIST] = -1;
 
   targeted_unit = nullptr;
   // No buttons are added yet.

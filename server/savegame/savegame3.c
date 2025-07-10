@@ -6554,6 +6554,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
             /* These take an extra. */
             action_wants_extra = TRUE;
             break;
+          case ASTK_SPECIALIST:
+            /* A valid specialist must be supplied. */
+            if (order_sub_tgt < 0
+                || order_sub_tgt >= loading->specialist.size
+                || !loading->specialist.order[order_sub_tgt]) {
+              log_sg("Cannot find specialist %d for %s to become",
+                     order_sub_tgt, unit_rule_name(punit));
+              order->sub_target = NO_TARGET;
+            } else {
+              order->sub_target = specialist_index(loading->specialist.order[order_sub_tgt]);
+            }
+            break;
           case ASTK_NONE:
             /* None of these can take a sub target. */
             fc_assert_msg(order_sub_tgt == -1,

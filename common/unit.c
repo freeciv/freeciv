@@ -35,6 +35,7 @@
 #include "packets.h"
 #include "player.h"
 #include "road.h"
+#include "specialist.h"
 #include "tech.h"
 #include "traderoutes.h"
 #include "unitlist.h"
@@ -2877,6 +2878,13 @@ bool unit_order_list_is_sane(const struct civ_map *nmap,
                       extra_rule_name(pextra));
             return FALSE;
           }
+        }
+        break;
+      case ASTK_SPECIALIST:
+        if (!specialist_by_number(orders[i].sub_target)) {
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(orders[i].action));
+          return FALSE;
         }
         break;
       case ASTK_NONE:

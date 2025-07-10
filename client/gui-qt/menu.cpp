@@ -34,6 +34,7 @@
 #include "goto.h"
 #include "name_translation.h"
 #include "road.h"
+#include "specialist.h"
 #include "unit.h"
 
 // client
@@ -791,6 +792,12 @@ void go_act_menu::create()
                             extra_number(pextra),
                             extra_name_translation(pextra));
           } extra_type_iterate_end;
+          break;
+        case ASTK_SPECIALIST:
+          specialist_type_iterate(spc) {
+            CREATE_SUB_ITEM(sub_target_menu, act_id, spc,
+                            specialist_plural_translation(specialist_by_number(spc)));
+          } specialist_type_iterate_end;
           break;
         case ASTK_NONE:
           // Should not be here.
