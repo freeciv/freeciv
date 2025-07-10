@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-07-03 02:50+0300\n"
+"POT-Creation-Date: 2025-07-10 07:04+0300\n"
 "PO-Revision-Date: 2017-08-28 19:04+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -49766,7 +49766,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "No s'ha pogut carregar el joc de regles"
 
 #: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3900
-#: server/srv_main.c:2540 server/srv_main.c:2545
+#: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s s'ha afegit com a jugador de nivell %s controlat per IA (%s)."
@@ -53470,26 +53470,26 @@ msgstr ""
 "El teu client és massa antic. Per utilitzar aquest servidor actualitza si us "
 "plau el teu client a Freeciv 2.2 o posterior."
 
-#: server/srv_main.c:2140
+#: server/srv_main.c:2141
 msgid "You are not allowed to edit."
 msgstr "No tens permís per editar."
 
-#: server/srv_main.c:2352 server/stdinhand.c:4338
+#: server/srv_main.c:2353 server/stdinhand.c:4338
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "La nació %s no està disponible per als usuaris."
 
-#: server/srv_main.c:2358 server/stdinhand.c:4346
+#: server/srv_main.c:2359 server/stdinhand.c:4346
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nació %s ja està agafada."
 
-#: server/srv_main.c:2374
+#: server/srv_main.c:2375
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s és el dirigent %s %s."
 
-#: server/srv_main.c:2450
+#: server/srv_main.c:2451
 #, fuzzy, c-format
 #| msgid "Waiting to start game: %d out of %d players are ready to start."
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
@@ -53497,27 +53497,27 @@ msgstr ""
 "Esperant per començar la partida: %d de %d jugadors estan a punt per "
 "començar."
 
-#: server/srv_main.c:2476
+#: server/srv_main.c:2477
 msgid "requested more than 'maxplayers' setting"
 msgstr "s'han demanat més jugadors que 'maxplayers'"
 
-#: server/srv_main.c:2483
+#: server/srv_main.c:2484
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "no hi ha prou nacions jugables en aquest joc de nacions (vegeu l'opció "
 "'nationset')"
 
-#: server/srv_main.c:2486
+#: server/srv_main.c:2487
 msgid "not enough playable nations"
 msgstr "no hi ha prou nacions jugables"
 
-#: server/srv_main.c:2833 server/srv_main.c:2837
+#: server/srv_main.c:2834 server/srv_main.c:2838
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s governa els %s."
 
-#: server/srv_main.c:3042
+#: server/srv_main.c:3043
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -53525,46 +53525,46 @@ msgstr ""
 "Aquest programa freeciv-server té suport d'autenticació de jugadors, però "
 "ara mateix no es fa servir."
 
-#: server/srv_main.c:3102 server/stdinhand.c:4027
+#: server/srv_main.c:3103 server/stdinhand.c:4027
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "No s'ha trobat el directori de regles \"%s\" "
 
-#: server/srv_main.c:3122
+#: server/srv_main.c:3123
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "S'està enviant informació al metaservidor <%s>."
 
-#: server/srv_main.c:3126
+#: server/srv_main.c:3127
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "No es comença sense connexió de metaservidor sol·licitada explícitament."
 
-#: server/srv_main.c:3149
+#: server/srv_main.c:3150
 msgid "The game is over..."
 msgstr "La partida ha acabat..."
 
-#: server/srv_main.c:3282
+#: server/srv_main.c:3283
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "No s'ha pogut crear un mapa apropiat, es torna a provar amb una altra llavor "
 "de mapa"
 
-#: server/srv_main.c:3288
+#: server/srv_main.c:3289
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Intent %d/%d"
 
-#: server/srv_main.c:3317
+#: server/srv_main.c:3318
 msgid "Cannot create suitable map with given settings."
 msgstr "No es pot crear un mapa adequat amb els paràmetres donats."
 
-#: server/srv_main.c:3340 server/srv_main.c:3344
+#: server/srv_main.c:3341 server/srv_main.c:3345
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "L'opció '%s' s'ha modificat de %s a %s."
 
-#: server/srv_main.c:3551
+#: server/srv_main.c:3552
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "S'estan acceptant noves connexions de clients al port %d."

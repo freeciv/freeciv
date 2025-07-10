@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-07-03 02:50+0300\n"
+"POT-Creation-Date: 2025-07-10 07:04+0300\n"
 "PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -50788,7 +50788,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Dh'fhàillig luchdadh a-nuas %s"
 
 #: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3900
-#: server/srv_main.c:2540 server/srv_main.c:2545
+#: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
@@ -54612,26 +54612,26 @@ msgstr ""
 "Tha an cliant agad ro shean. Feuch is faigh Freeciv 2.2. no tionndadh nas "
 "ùire dheth ma tha thu airson am frithealaiche seo a chleachdadh."
 
-#: server/srv_main.c:2140
+#: server/srv_main.c:2141
 msgid "You are not allowed to edit."
 msgstr "Chan eil cead deasachaidh agad."
 
-#: server/srv_main.c:2352 server/stdinhand.c:4338
+#: server/srv_main.c:2353 server/stdinhand.c:4338
 #, fuzzy, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Chan eil %s ri fhaighinn mar nàisean sa chluich seo."
 
-#: server/srv_main.c:2358 server/stdinhand.c:4346
+#: server/srv_main.c:2359 server/stdinhand.c:4346
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Tha %s aig cuideigin eile mu thràth."
 
-#: server/srv_main.c:2374
+#: server/srv_main.c:2375
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "Tha %s 'na riaghlaiche %s %s."
 
-#: server/srv_main.c:2450
+#: server/srv_main.c:2451
 #, fuzzy, c-format
 #| msgid "Waiting to start game: %d out of %d players are ready to start."
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
@@ -54639,16 +54639,16 @@ msgstr ""
 "Tha geama gu bhith tòiseachadh: tha %d a-mach à %d cluicheadairean deiseil "
 "ri cluich."
 
-#: server/srv_main.c:2476
+#: server/srv_main.c:2477
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 
-#: server/srv_main.c:2483
+#: server/srv_main.c:2484
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 
-#: server/srv_main.c:2486
+#: server/srv_main.c:2487
 #, fuzzy
 #| msgid "Reducing aifill because there are not enough playable nations."
 msgid "not enough playable nations"
@@ -54656,12 +54656,12 @@ msgstr ""
 "A' lughdachadh aifill a chionn 's nach eil nàiseanan gu leòr ann a ghabhas "
 "cluiche."
 
-#: server/srv_main.c:2833 server/srv_main.c:2837
+#: server/srv_main.c:2834 server/srv_main.c:2838
 #, c-format
 msgid "%s rules the %s."
 msgstr "Tha %s a' riaghladh %s."
 
-#: server/srv_main.c:3042
+#: server/srv_main.c:3043
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -54669,49 +54669,49 @@ msgstr ""
 "Tha taic aig a' phrògram-frithealaiche freeciv a chum dearbhadh "
 "chluicheadairean ach chan eil e 'ga chleachdadh an-dràsta fhèin."
 
-#: server/srv_main.c:3102 server/stdinhand.c:4027
+#: server/srv_main.c:3103 server/stdinhand.c:4027
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Cha deach an t-eòlaire \"%s\" a lorg"
 
-#: server/srv_main.c:3122
+#: server/srv_main.c:3123
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "A' cur an fhiosrachaidh dhan mheata-fhrithealaiche <%s>."
 
-#: server/srv_main.c:3126
+#: server/srv_main.c:3127
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "Cha tòisichear as aonais iarrtas follaiseach airson ceangal meata-"
 "fhrithealaiche. "
 
-#: server/srv_main.c:3149
+#: server/srv_main.c:3150
 msgid "The game is over..."
 msgstr "Seo deireadh a' gheama..."
 
-#: server/srv_main.c:3282
+#: server/srv_main.c:3283
 #, fuzzy
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Dh'fhàillig cruthachadh a' mhapa, a' feuchainn ris a-rithist le sìol mapa "
 "eile"
 
-#: server/srv_main.c:3288
+#: server/srv_main.c:3289
 #, c-format
 msgid "Attempt %d/%d"
 msgstr ""
 
-#: server/srv_main.c:3317
+#: server/srv_main.c:3318
 msgid "Cannot create suitable map with given settings."
 msgstr "Cha ghabh aonad a chruthachadh leis an roghainnean a thagh thu."
 
-#: server/srv_main.c:3340 server/srv_main.c:3344
+#: server/srv_main.c:3341 server/srv_main.c:3345
 #, fuzzy, c-format
 #| msgid "Savegame: '%s' has been set to %s."
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Savegame: Chaidh '%s' a shuidheachadh gu %s."
 
-#: server/srv_main.c:3551
+#: server/srv_main.c:3552
 #, fuzzy, c-format
 #| msgid "Now accepting new client connections."
 msgid "Now accepting new client connections on port %d."

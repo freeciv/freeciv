@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-07-03 02:50+0300\n"
+"POT-Creation-Date: 2025-07-10 07:04+0300\n"
 "PO-Revision-Date: 2016-10-06 17:27+0300\n"
 "Last-Translator: Sviatoslav Golda<swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -50292,7 +50292,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Не вдалося завантажити %s"
 
 #: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3900
-#: server/srv_main.c:2540 server/srv_main.c:2545
+#: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "Додав %s як ШІ рівня %s гравець (%s)."
@@ -54021,50 +54021,50 @@ msgstr ""
 "Ваш клієнт застарий. Щоб використовувати цей сервер, будь ласка, оновіть ваш "
 "клієнт щонайменше до Freeciv 2.2."
 
-#: server/srv_main.c:2140
+#: server/srv_main.c:2141
 msgid "You are not allowed to edit."
 msgstr "Вам не дозволено редагувати."
 
-#: server/srv_main.c:2352 server/stdinhand.c:4338
+#: server/srv_main.c:2353 server/stdinhand.c:4338
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Нація %s не доступна для вибору користувача."
 
-#: server/srv_main.c:2358 server/stdinhand.c:4346
+#: server/srv_main.c:2359 server/stdinhand.c:4346
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Нація %s вже використовується."
 
-#: server/srv_main.c:2374
+#: server/srv_main.c:2375
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s є правителем %s - %s."
 
-#: server/srv_main.c:2450
+#: server/srv_main.c:2451
 #, fuzzy, c-format
 #| msgid "Waiting to start game: %d out of %d players are ready to start."
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
 msgstr "Чекаємо початку гри: %d з %d гравців готові починати."
 
-#: server/srv_main.c:2476
+#: server/srv_main.c:2477
 msgid "requested more than 'maxplayers' setting"
 msgstr "запитано більше ніж установка 'maxplayers'"
 
-#: server/srv_main.c:2483
+#: server/srv_main.c:2484
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr "нестача гральних націй в наборі народів (див установку 'nationset')"
 
-#: server/srv_main.c:2486
+#: server/srv_main.c:2487
 msgid "not enough playable nations"
 msgstr "недостатньо граних народів"
 
-#: server/srv_main.c:2833 server/srv_main.c:2837
+#: server/srv_main.c:2834 server/srv_main.c:2838
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s головує над %s."
 
-#: server/srv_main.c:3042
+#: server/srv_main.c:3043
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -54072,45 +54072,45 @@ msgstr ""
 "Програма freeciv-server має підтримку аутентифікації гравців, але зараз вона "
 "не використовується."
 
-#: server/srv_main.c:3102 server/stdinhand.c:4027
+#: server/srv_main.c:3103 server/stdinhand.c:4027
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Каталог правил \"%s\" не знайдено"
 
-#: server/srv_main.c:3122
+#: server/srv_main.c:3123
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Відправляю інфо на метасервер <%s>."
 
-#: server/srv_main.c:3126
+#: server/srv_main.c:3127
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "Не починаю без явно запитаного з’єднання з метасервером."
 
-#: server/srv_main.c:3149
+#: server/srv_main.c:3150
 msgid "The game is over..."
 msgstr "Кінець гри..."
 
-#: server/srv_main.c:3282
+#: server/srv_main.c:3283
 #, fuzzy
 #| msgid "Failed to create suitable map, retrying with another mapseed"
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr "Невдача при створенні придатної карту, пробую з іншим посівом"
 
-#: server/srv_main.c:3288
+#: server/srv_main.c:3289
 #, c-format
 msgid "Attempt %d/%d"
 msgstr ""
 
-#: server/srv_main.c:3317
+#: server/srv_main.c:3318
 msgid "Cannot create suitable map with given settings."
 msgstr "Не можу створити придатну карту з такими установками."
 
-#: server/srv_main.c:3340 server/srv_main.c:3344
+#: server/srv_main.c:3341 server/srv_main.c:3345
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Опція: %s перевстановлена з %s в %s."
 
-#: server/srv_main.c:3551
+#: server/srv_main.c:3552
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Тепер приймаємо нові з'єднання на порту %d."

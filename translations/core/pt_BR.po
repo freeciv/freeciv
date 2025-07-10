@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.0-beta3\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-07-03 02:50+0300\n"
+"POT-Creation-Date: 2025-07-10 07:04+0300\n"
 "PO-Revision-Date: 2011-02-02 11:49-0200\n"
 "Last-Translator: Djavan Fagundes <djavan@comum.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
@@ -48708,7 +48708,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Falhou ao criar novo jogador %s."
 
 #: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3900
-#: server/srv_main.c:2540 server/srv_main.c:2545
+#: server/srv_main.c:2541 server/srv_main.c:2546
 #, fuzzy, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s foi adicionado como %s nível de jogador controlado por IA."
@@ -52262,54 +52262,54 @@ msgstr ""
 "O seu cliente é muito antigo. Para usar este servidor, por favor, atualize o "
 "seu cliente para o Freeciv 2.2 ou superior."
 
-#: server/srv_main.c:2140
+#: server/srv_main.c:2141
 msgid "You are not allowed to edit."
 msgstr "Você não está autorizado a editar."
 
-#: server/srv_main.c:2352 server/stdinhand.c:4338
+#: server/srv_main.c:2353 server/stdinhand.c:4338
 #, fuzzy, c-format
 msgid "%s nation is not available for user selection."
 msgstr "A nação %s não está disponível no cenário."
 
-#: server/srv_main.c:2358 server/stdinhand.c:4346
+#: server/srv_main.c:2359 server/stdinhand.c:4346
 #, c-format
 msgid "%s nation is already in use."
 msgstr "A nação %s já está em uso."
 
-#: server/srv_main.c:2374
+#: server/srv_main.c:2375
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s o %s é governante %s."
 
-#: server/srv_main.c:2450
+#: server/srv_main.c:2451
 #, fuzzy, c-format
 #| msgid "Waiting to start game: %d out of %d players are ready to start."
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
 msgstr ""
 "Aguardando a hora de início: %d de %d jogadores estão prontas para iniciar."
 
-#: server/srv_main.c:2476
+#: server/srv_main.c:2477
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 
-#: server/srv_main.c:2483
+#: server/srv_main.c:2484
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 
-#: server/srv_main.c:2486
+#: server/srv_main.c:2487
 #, fuzzy
 #| msgid "Reducing aifill because there are not enough playable nations."
 msgid "not enough playable nations"
 msgstr ""
 "Reduzindo campo de IA pelo fato de não haver nações jogáveis suficientes."
 
-#: server/srv_main.c:2833 server/srv_main.c:2837
+#: server/srv_main.c:2834 server/srv_main.c:2838
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s regra o %s."
 
-#: server/srv_main.c:3042
+#: server/srv_main.c:3043
 #, fuzzy
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
@@ -52318,49 +52318,49 @@ msgstr ""
 "Este programa do servidor possui um suporte de autenticação de jogadores, "
 "mas não está atualmente em uso."
 
-#: server/srv_main.c:3102 server/stdinhand.c:4027
+#: server/srv_main.c:3103 server/stdinhand.c:4027
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Diretório de definição de regras \"%s\" não encontrado"
 
-#: server/srv_main.c:3122
+#: server/srv_main.c:3123
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Enviando informação para o metaservidor [%s]"
 
-#: server/srv_main.c:3126
+#: server/srv_main.c:3127
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "Não iniciando sem explicitamente requisitar conexão com metaservidor."
 
-#: server/srv_main.c:3149
+#: server/srv_main.c:3150
 msgid "The game is over..."
 msgstr "O jogo acabou..."
 
-#: server/srv_main.c:3282
+#: server/srv_main.c:3283
 #, fuzzy
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Não é possível criar unidades no %s pelo fato da unidade dada de id %d ser "
 "inválida."
 
-#: server/srv_main.c:3288
+#: server/srv_main.c:3289
 #, c-format
 msgid "Attempt %d/%d"
 msgstr ""
 
-#: server/srv_main.c:3317
+#: server/srv_main.c:3318
 #, fuzzy
 msgid "Cannot create suitable map with given settings."
 msgstr ""
 "Não é possível criar unidades no %s pelo fato da unidade dada de id %d ser "
 "inválida."
 
-#: server/srv_main.c:3340 server/srv_main.c:3344
+#: server/srv_main.c:3341 server/srv_main.c:3345
 #, fuzzy, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Opção: %s foi alterada para \"%s\"."
 
-#: server/srv_main.c:3551
+#: server/srv_main.c:3552
 #, fuzzy, c-format
 #| msgid "Now accepting new client connections."
 msgid "Now accepting new client connections on port %d."

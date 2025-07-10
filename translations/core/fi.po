@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-07-03 02:50+0300\n"
+"POT-Creation-Date: 2025-07-10 07:04+0300\n"
 "PO-Revision-Date: 2025-06-24 18:05+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -47993,7 +47993,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Virhe tallennetun pelin tarvitseman sääntökokoelman '%s' lataamisessa."
 
 #: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3900
-#: server/srv_main.c:2540 server/srv_main.c:2545
+#: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
@@ -51658,53 +51658,53 @@ msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi vähintään "
 "Freeciv-versioon 2.2."
 
-#: server/srv_main.c:2140
+#: server/srv_main.c:2141
 msgid "You are not allowed to edit."
 msgstr "Sinulla ei ole tarvittavia oikeuksia muokkaamiseen."
 
-#: server/srv_main.c:2352 server/stdinhand.c:4338
+#: server/srv_main.c:2353 server/stdinhand.c:4338
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Kansakunta (%s) ei ole käyttäjän valittavissa."
 
-#: server/srv_main.c:2358 server/stdinhand.c:4346
+#: server/srv_main.c:2359 server/stdinhand.c:4346
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Kansakunta (%s) on jo käytössä."
 
 # Johndoe on suomalaisten hallitsija Tarja Halonen.
-#: server/srv_main.c:2374
+#: server/srv_main.c:2375
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:2450
+#: server/srv_main.c:2451
 #, c-format
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
 msgstr ""
 "Odotetaan pelin alkamista: %d / %d elävistä pelaajista valmiina aloittamaan."
 
-#: server/srv_main.c:2476
+#: server/srv_main.c:2477
 msgid "requested more than 'maxplayers' setting"
 msgstr "pyydetty määrä ole enemmän kuin 'maxplayers' asetus sallii"
 
-#: server/srv_main.c:2483
+#: server/srv_main.c:2484
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "käytössä olevassa kansavalikoimassa ei ole riittävästi kansakuntia (kokeile "
 "muuttaa 'nationset' asetusta)"
 
-#: server/srv_main.c:2486
+#: server/srv_main.c:2487
 msgid "not enough playable nations"
 msgstr "Kansakuntia ei ole riittävästi."
 
-#: server/srv_main.c:2833 server/srv_main.c:2837
+#: server/srv_main.c:2834 server/srv_main.c:2838
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:3042
+#: server/srv_main.c:3043
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -51712,44 +51712,44 @@ msgstr ""
 "Tämä freeciv-palvelinohjelma tukee käyttäjien kirjautumista "
 "(autentikaatiota), mutta se ei ole tällä hetkellä käytössä."
 
-#: server/srv_main.c:3102 server/stdinhand.c:4027
+#: server/srv_main.c:3103 server/stdinhand.c:4027
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Sääntökokoelmahakemistoa \"%s\" ei löydy"
 
-#: server/srv_main.c:3122
+#: server/srv_main.c:3123
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Lähetän tietoa metapalvelimelle <%s>"
 
-#: server/srv_main.c:3126
+#: server/srv_main.c:3127
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 
-#: server/srv_main.c:3149
+#: server/srv_main.c:3150
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3282
+#: server/srv_main.c:3283
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3288
+#: server/srv_main.c:3289
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3317
+#: server/srv_main.c:3318
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3340 server/srv_main.c:3344
+#: server/srv_main.c:3341 server/srv_main.c:3345
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3551
+#: server/srv_main.c:3552
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
