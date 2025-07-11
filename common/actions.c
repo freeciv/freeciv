@@ -2845,28 +2845,32 @@ is_action_possible(const struct civ_map *nmap,
   enum fc_tristate out;
   struct action *paction = action_by_number(wanted_action);
   enum action_target_kind tkind = action_get_target_kind(paction);
+  const struct tile *atile = nullptr, *ttile = nullptr;
 
-  if (actor == NULL) {
+  if (actor == nullptr) {
     actor = req_context_empty();
+  } else {
+    atile = actor->tile;
   }
-  if (target == NULL) {
+  if (target == nullptr) {
     target = req_context_empty();
+  } else {
+    ttile = target->tile;
   }
 
-  fc_assert_msg((tkind == ATK_CITY && target->city != NULL)
-                || (tkind == ATK_TILE && target->tile != NULL)
-                || (tkind == ATK_EXTRAS && target->tile != NULL)
-                || (tkind == ATK_UNIT && target->unit != NULL)
+  fc_assert_msg((tkind == ATK_CITY && target->city != nullptr)
+                || (tkind == ATK_TILE && ttile != nullptr)
+                || (tkind == ATK_EXTRAS && ttile != nullptr)
+                || (tkind == ATK_UNIT && target->unit != nullptr)
                 /* At this level each individual unit is tested. */
-                || (tkind == ATK_STACK && target->unit != NULL)
+                || (tkind == ATK_STACK && target->unit != nullptr)
                 || (tkind == ATK_SELF),
                 "Missing target!");
 
-  /* Info leak: The player knows where their unit is. */
-  if (tkind != ATK_SELF
+  /* Info leak: The player knows where their unit/city is. */
+  if (nullptr != atile && nullptr != ttile
       && !action_distance_accepted(paction,
-                                   real_map_distance(actor->tile,
-                                                     target->tile))) {
+                                   real_map_distance(atile, ttile))) {
     /* The distance between the actor and the target isn't inside the
      * action's accepted range. */
     return TRI_NO;
@@ -2908,7 +2912,7 @@ is_action_possible(const struct civ_map *nmap,
   }
 
   if (action_is_blocked_by(nmap, paction, actor->unit,
-                           target->tile, target->city, target->unit)) {
+                           ttile, target->city, target->unit)) {
     /* Allows an action to block an other action. If a blocking action is
      * legal the actions it blocks becomes illegal. */
     return TRI_NO;
@@ -2927,7 +2931,7 @@ is_action_possible(const struct civ_map *nmap,
       || paction->result == ACTRES_WIPE_UNITS
       || paction->result == ACTRES_COLLECT_RANSOM) {
     /* Reason: Keep the old rules. */
-    if (!can_unit_attack_tile(actor->unit, paction, target->tile)) {
+    if (!can_unit_attack_tile(actor->unit, paction, ttile)) {
       return TRI_NO;
     }
   }
@@ -2944,35 +2948,34 @@ is_action_possible(const struct civ_map *nmap,
   }
 
   if (paction->result == ACTRES_NUKE_UNITS) {
-    if (unit_attack_units_at_tile_result(actor->unit, paction,
-                                         target->tile)
+    if (unit_attack_units_at_tile_result(actor->unit, paction, ttile)
         != ATT_OK) {
       /* Unreachable. */
       return TRI_NO;
     }
   } else if (paction->result == ACTRES_PARADROP
              || paction->result == ACTRES_PARADROP_CONQUER) {
-    if (can_player_see_tile(actor->player, target->tile)) {
+    if (can_player_see_tile(actor->player, ttile)) {
       /* Check for seen stuff that may kill the actor unit. */
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (!can_unit_exist_at_tile(nmap, actor->unit, target->tile)
+      if (!can_unit_exist_at_tile(nmap, actor->unit, ttile)
           && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
-              || !unit_could_load_at(actor->unit, target->tile))) {
+              || !unit_could_load_at(actor->unit, ttile))) {
         return TRI_NO;
       }
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (is_non_attack_city_tile(target->tile, actor->player)) {
+      if (is_non_attack_city_tile(ttile, actor->player)) {
         return TRI_NO;
       }
 
       /* Reason: Be merciful. */
       /* Info leak: The player sees all units checked. Invisible units are
        * ignored. */
-      unit_list_iterate(target->tile->units, pother) {
+      unit_list_iterate(ttile->units, pother) {
         if (can_player_see_unit(actor->player, pother)
             && !pplayers_allied(actor->player, unit_owner(pother))) {
           return TRI_NO;
