@@ -76,6 +76,10 @@ bool are_unit_orders_equal(const struct unit_order *order1,
   based on -- one player can't see whether another's cities are currently
   able to airlift. (Clients other than global observers should only call
   this with a non-NULL 'restriction'.)
+  Note that it does not take into account the possibility of conquest
+  of unseen cities by an ally. That is to facilitate airlifting dialog
+  usage most times. It is supposed that you don't ally ones who
+  won't share maps with you when needed.
 **************************************************************************/
 enum unit_airlift_result
     test_unit_can_airlift_to(const struct civ_map *nmap,
@@ -85,11 +89,12 @@ enum unit_airlift_result
 {
   const struct city *psrc_city = tile_city(unit_tile(punit));
   const struct player *punit_owner;
+  const struct tile *dst_tile = NULL;
+  const struct unit_type *putype = unit_type_get(punit);
   enum unit_airlift_result ok_result = AR_OK;
 
   if (0 == punit->moves_left
-      && !utype_may_act_move_frags(unit_type_get(punit),
-                                   ACTION_AIRLIFT, 0)) {
+      && !utype_may_act_move_frags(putype, ACTION_AIRLIFT, 0)) {
     /* No moves left. */
     return AR_NO_MOVES;
   }
@@ -113,13 +118,15 @@ enum unit_airlift_result
     return AR_BAD_DST_CITY;
   }
 
-  if (pdest_city
-      && (NULL == restriction
-          || (tile_get_known(city_tile(pdest_city), restriction)
-              == TILE_KNOWN_SEEN))
-      && !can_unit_exist_at_tile(nmap, punit, city_tile(pdest_city))) {
-    /* Can't exist at the destination tile. */
-    return AR_BAD_DST_CITY;
+  if (NULL != pdest_city) {
+    dst_tile = city_tile(pdest_city);
+
+    if (NULL != restriction
+        ? !could_exist_in_city(nmap, restriction, putype, pdest_city)
+        : !can_exist_at_tile(nmap, putype, dst_tile)) {
+      /* Can't exist at the destination tile. */
+      return AR_BAD_DST_CITY;
+    }
   }
 
   punit_owner = unit_owner(punit);
@@ -134,35 +141,36 @@ enum unit_airlift_result
     return AR_BAD_SRC_CITY;
   }
 
-  if (pdest_city
-      && punit_owner != city_owner(pdest_city)
-      && !(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
-           && pplayers_allied(punit_owner, city_owner(pdest_city)))) {
+  if (NULL != pdest_city && punit_owner != city_owner(pdest_city)
+      && (!(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
+            && pplayers_allied(punit_owner, city_owner(pdest_city)))
+          || is_non_allied_unit_tile(dst_tile, punit_owner))) {
     /* Not allowed to airlift to this destination. */
     return AR_BAD_DST_CITY;
   }
 
-  if (NULL == restriction || city_owner(psrc_city) == restriction) {
-    /* We know for sure whether or not src can airlift this turn. */
-    if (0 >= psrc_city->airlift
-        && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-            || !game.info.airlift_from_always_enabled)) {
-      /* The source cannot airlift for this turn (maybe already airlifted
-       * or no airport).
-       * See also do_airline() in server/unittools.h. */
-      return AR_SRC_NO_FLIGHTS;
-    } /* else, there is capacity; continue to other checks */
-  } else {
-    /* We don't have access to the 'airlift' field. Assume it's OK; can
-     * only find out for sure by trying it. */
-    ok_result = AR_OK_SRC_UNKNOWN;
+  /* Check airlift capacities */
+  if (!game.info.airlift_from_always_enabled) {
+    if (NULL == restriction || city_owner(psrc_city) == restriction) {
+      /* We know for sure whether or not src can airlift this turn. */
+      if (0 >= psrc_city->airlift
+          && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
+        /* The source cannot airlift for this turn (maybe already airlifted
+         * or no airport).
+         * See also do_airline() in server/unittools.h. */
+        return AR_SRC_NO_FLIGHTS;
+      } /* else, there is capacity; continue to other checks */
+    } else {
+      /* We don't have access to the 'airlift' field. Assume it's OK; can
+       * only find out for sure by trying it. */
+      ok_result = AR_OK_SRC_UNKNOWN;
+    }
   }
 
-  if (pdest_city) {
+  if (NULL != pdest_city && !game.info.airlift_to_always_enabled) {
     if (NULL == restriction || city_owner(pdest_city) == restriction) {
       if (0 >= pdest_city->airlift
-          && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
-              || !game.info.airlift_to_always_enabled)) {
+          && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
         /* The destination cannot support airlifted units for this turn
          * (maybe already airlifted or no airport).
          * See also do_airline() in server/unittools.h. */
