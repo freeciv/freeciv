@@ -3513,19 +3513,216 @@ bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
                                              unit_tile(actor_unit));
 }
 
+#define ASSERT_PLAYER_ACTION(_atk)                                              \
+    fc_assert_ret_val_msg(AAK_PLAYER == action_id_get_actor_kind(wanted_action),\
+                          FALSE, "Action %s is performed by %s not %s",         \
+                          action_id_rule_name(wanted_action),                   \
+                          action_actor_kind_name(                               \
+                            action_id_get_actor_kind(wanted_action)),           \
+                          action_actor_kind_name(AAK_PLAYER));                  \
+    fc_assert_ret_val_msg(_atk                                                  \
+                          == action_id_get_target_kind(wanted_action),          \
+                          FALSE, "Action %s is against %s not %s",              \
+                          action_id_rule_name(wanted_action),                   \
+                          action_target_kind_name(                              \
+                            action_id_get_target_kind(wanted_action)),          \
+                          action_target_kind_name(_atk));
+
 /**********************************************************************//**
-  Returns TRUE if actor_plr can do wanted_action as far as
+  Returns TRUE if actor_plr can do wanted_action to themself as far as
   action enablers are concerned.
 **************************************************************************/
-bool is_action_enabled_player(const struct civ_map *nmap,
-                              const action_id wanted_action,
-                              const struct player *actor_plr)
+bool is_action_enabled_player_on_self(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr)
 {
+  if (actor_plr == nullptr) {
+    /* Can't do an action when the actor is missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_SELF);
+
   return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = actor_plr,
                            },
                            nullptr, nullptr, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to target_city as far as
+  action enablers are concerned.
+**************************************************************************/
+bool is_action_enabled_player_on_city(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct city *target_city)
+{
+  const struct impr_type *target_building;
+  const struct unit_type *target_utype;
+
+  if (actor_plr == nullptr || target_city == nullptr) {
+    /* Can't do an action when the actor or the target is missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_CITY);
+
+  target_building = tgt_city_local_building(target_city);
+  target_utype = tgt_city_local_utype(target_city);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = city_owner(target_city),
+                             .city = target_city,
+                             .building = target_building,
+                             .tile = city_tile(target_city),
+                             .unittype = target_utype,
+                           }, nullptr, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to the extras at
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool
+is_action_enabled_player_on_extras(const struct civ_map *nmap,
+                                   const action_id wanted_action,
+                                   const struct player *actor_plr,
+                                   const struct tile *target_tile,
+                                   const struct extra_type *target_extra)
+{
+  if (actor_plr == nullptr || target_tile == nullptr) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_EXTRAS);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = target_tile->extras_owner,
+                             .city = tile_city(target_tile),
+                             .tile = target_tile,
+                           },
+                           target_extra, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to all units at
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_player_on_stack(const struct civ_map *nmap,
+                                       const action_id wanted_action,
+                                       const struct player *actor_plr,
+                                       const struct tile *target_tile,
+                                       const struct extra_type *target_extra)
+{
+  const struct req_context actor_ctxt = {
+    .player = actor_plr,
+  };
+  const struct city *tcity;
+
+  if (actor_plr == nullptr  || target_tile == nullptr
+      || unit_list_size(target_tile->units) == 0) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_STACK);
+
+  tcity = tile_city(target_tile);
+  unit_list_iterate(target_tile->units, target_unit) {
+    if (!is_action_enabled(nmap, wanted_action, &actor_ctxt,
+                           &(const struct req_context) {
+                             .player = unit_owner(target_unit),
+                             .city = tcity,
+                             .tile = target_tile,
+                             .unit = target_unit,
+                             .unittype = unit_type_get(target_unit),
+                           },
+                           nullptr, nullptr)) {
+      /* One unit makes it impossible for all units. */
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  /* Not impossible for any of the units at the tile. */
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to target_tile as far
+  as action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_player_on_tile(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra)
+{
+  if (actor_plr == nullptr || target_tile == nullptr) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_TILE);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = tile_owner(target_tile),
+                             .city = tile_city(target_tile),
+                             .tile = target_tile,
+                           },
+                           target_extra, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to target_unit as far as
+  action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_player_on_unit(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct unit *target_unit)
+{
+  if (actor_plr == nullptr || target_unit == nullptr) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_UNIT);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = unit_owner(target_unit),
+                             .city = tile_city(unit_tile(target_unit)),
+                             .tile = unit_tile(target_unit),
+                             .unit = target_unit,
+                             .unittype = unit_type_get(target_unit),
+                           },
+                           nullptr, nullptr);
 }
 
 /**********************************************************************//**

@@ -560,9 +560,33 @@ bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
                                     const action_id wanted_action,
                                     const struct unit *actor_unit);
 
-bool is_action_enabled_player(const struct civ_map *nmap,
-                              const action_id wanted_action,
-                              const struct player *actor_plr);
+bool is_action_enabled_player_on_self(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr);
+bool is_action_enabled_player_on_city(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct city *target_city);
+bool
+is_action_enabled_player_on_extras(const struct civ_map *nmap,
+                                   const action_id wanted_action,
+                                   const struct player *actor_plr,
+                                   const struct tile *target_tile,
+                                   const struct extra_type *target_extra);
+bool is_action_enabled_player_on_stack(const struct civ_map *nmap,
+                                       const action_id wanted_action,
+                                       const struct player *actor_plr,
+                                       const struct tile *target_tile,
+                                       const struct extra_type *target_extra);
+bool is_action_enabled_player_on_tile(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra);
+bool is_action_enabled_player_on_unit(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct unit *target_unit);
 
 bool is_action_enabled_city(const struct civ_map *nmap,
                             const action_id wanted_action,

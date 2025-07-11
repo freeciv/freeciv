@@ -2918,7 +2918,7 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
   int n;
   const struct civ_map *nmap = &(wld.map);
 
-  if (!is_action_enabled_player(nmap, ACTION_CIVIL_WAR, pplayer)) {
+  if (!is_action_enabled_player_on_self(nmap, ACTION_CIVIL_WAR, pplayer)) {
     return FALSE;
   }
 
