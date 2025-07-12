@@ -1952,6 +1952,9 @@ static bool save_governments_ruleset(const char *filename, const char *name)
   governments_re_active_iterate(pg) {
     char path[512];
     struct ruler_title *prtitle;
+    const char *flag_names[TF_COUNT];
+    int set_count;
+    int flagi;
 
     fc_snprintf(path, sizeof(path), "government_%d", sect_idx++);
 
@@ -1985,6 +1988,18 @@ static bool save_governments_ruleset(const char *filename, const char *name)
         secfile_insert_str(sfile, title,
                            "%s.ruler_female_title", path);
       }
+    }
+
+    set_count = 0;
+    for (flagi = 0; flagi < GOVF_USER_FLAG_1 + MAX_NUM_USER_GOVERNMENT_FLAGS; flagi++) {
+      if (BV_ISSET(pg->flags, flagi)) {
+        flag_names[set_count++] = gov_flag_id_name(flagi);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, flag_names, set_count,
+                             "%s.flags", path);
     }
 
     save_strvec(sfile, pg->helptext, path, "helptext");

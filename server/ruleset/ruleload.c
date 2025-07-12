@@ -4447,6 +4447,10 @@ static bool load_ruleset_governments(struct section_file *file,
       const char *sec_name = section_name(section_list_get(sec, i));
       struct requirement_vector *reqs
         = lookup_req_list(file, sec_name, "reqs", government_rule_name(g));
+      const char **slist;
+      int j;
+      const char *sval;
+      size_t nval;
 
       if (reqs == NULL) {
         ok = FALSE;
@@ -4477,6 +4481,24 @@ static bool load_ruleset_governments(struct section_file *file,
                  secfile_lookup_str_default(file, "-", "%s.sound_alt", sec_name));
       sz_strlcpy(g->sound_alt2,
                  secfile_lookup_str_default(file, "-", "%s.sound_alt2", sec_name));
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
+      BV_CLR_ALL(g->flags);
+      for (j = 0; j < nval; j++) {
+        enum gov_flag_id flag;
+
+        sval = slist[j];
+        flag = gov_flag_id_by_name(sval, fc_strcasecmp);
+        if (!gov_flag_id_is_valid(flag)) {
+          ruleset_error(NULL, LOG_ERROR, "\"%s\" government \"%s\": unknown flag \"%s\".",
+                        filename, government_rule_name(g), sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(g->flags, flag);
+        }
+      }
+      free(slist);
 
       g->helptext = lookup_strvec(file, sec_name, "helptext");
     } governments_iterate_end;
