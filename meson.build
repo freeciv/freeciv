@@ -905,7 +905,6 @@ endif
 if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
   if host_system == 'windows'
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL3main', dirs: cross_lib_path),
                     c_compiler.find_library('SDL3', dirs: cross_lib_path)]
   else
     if emscripten
