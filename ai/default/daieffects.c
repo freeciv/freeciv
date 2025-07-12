@@ -827,6 +827,9 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* We can't meet a government requirement if we have a better one. */
     return !have_better_government(pplayer, preq->source.value.govern);
 
+  case VUT_GOVFLAG:
+    break;
+
   case VUT_IMPROVEMENT:
   case VUT_SITE:
   {

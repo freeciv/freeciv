@@ -65,6 +65,7 @@ MinCities:         Player
 Achievement:       World, Alliance, Team, Player
 Counter:           City
 Gov:               Player
+GovFlag:           Player
 Building:          World, Alliance, Team, Player, Continent, Traderoute,
                    City, Tile, Local
 BuildingFlag:      Local, Tile, City

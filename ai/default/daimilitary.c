@@ -431,7 +431,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_UTFLAG:
   case VUT_UCLASS:
   case VUT_UCFLAG:
-    /* FIXME: support converting siege machines (needs hard reqs checked) */
+    /* FIXME: Support converting siege machines (needs hard reqs checked) */
   case VUT_ACTION:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
@@ -449,6 +449,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
   case VUT_GOVERNMENT:
+  case VUT_GOVFLAG:
   case VUT_ACHIEVEMENT:
   case VUT_IMPR_GENUS:
   case VUT_IMPR_FLAG:

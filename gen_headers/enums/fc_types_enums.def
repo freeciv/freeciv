@@ -61,6 +61,7 @@ values
   FUTURETECHS        "FutureTechs"
   GOOD               "Good"
   GOVERNMENT         "Gov"
+  GOVFLAG            "GovFlag"
   IMPROVEMENT        "Building"
   IMPR_FLAG          "BuildingFlag"
   IMPR_GENUS         "BuildingGenus"

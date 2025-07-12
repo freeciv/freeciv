@@ -304,6 +304,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_GOVFLAG:
+    source->value.govflag = gov_flag_id_by_name(value, fc_strcasecmp);
+    if (gov_flag_id_is_valid(source->value.govflag)) {
+      return;
+    }
+    break;
   case VUT_ACHIEVEMENT:
     source->value.achievement = achievement_by_rule_name(value);
     if (source->value.achievement != nullptr) {
@@ -685,6 +691,9 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_GOVFLAG:
+    source.value.govflag = value;
+    return source;
   case VUT_ACHIEVEMENT:
     source.value.achievement = achievement_by_number(value);
     if (source.value.achievement != nullptr) {
@@ -938,6 +947,8 @@ int universal_number(const struct universal *source)
     return source->value.techflag;
   case VUT_GOVERNMENT:
     return government_number(source->value.govern);
+  case VUT_GOVFLAG:
+    return source->value.govflag;
   case VUT_ACHIEVEMENT:
     return achievement_number(source->value.achievement);
   case VUT_STYLE:
@@ -1182,6 +1193,7 @@ struct requirement req_from_str(const char *type, const char *range,
         req.range = REQ_RANGE_CITY;
         break;
       case VUT_GOVERNMENT:
+      case VUT_GOVFLAG:
       case VUT_ACHIEVEMENT:
       case VUT_STYLE:
       case VUT_ADVANCE:
@@ -1253,6 +1265,7 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_LOCAL);
       break;
     case VUT_GOVERNMENT:
+    case VUT_GOVFLAG:
     case VUT_AI_LEVEL:
     case VUT_STYLE:
     case VUT_MINCITIES:
@@ -1439,6 +1452,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_PLAYER_FLAG:
     case VUT_PLAYER_STATE:
     case VUT_GOVERNMENT:
+    case VUT_GOVFLAG:
     case VUT_TERRAIN:
     case VUT_UTYPE:
     case VUT_UTFLAG:
@@ -3879,6 +3893,30 @@ is_gov_req_active(const struct civ_map *nmap,
   } else {
     return BOOL_TO_TRISTATE(government_of_player(context->player)
                             == req->source.value.govern);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a government flag requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a gov flag requirement
+**************************************************************************/
+static enum fc_tristate
+is_govflag_req_active(const struct civ_map *nmap,
+                      const struct req_context *context,
+                      const struct req_context *other_context,
+                      const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_GOVFLAG);
+
+  if (context->player == nullptr) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(BV_ISSET(government_of_player(context->player)->flags,
+                                     req->source.value.govflag));
   }
 }
 
@@ -6433,6 +6471,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_FUTURETECHS] = {is_futuretechs_req_active, REQUCH_ACT, REQUC_WORLD},
   [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
   [VUT_GOVERNMENT] = {is_gov_req_active, REQUCH_NO},
+  [VUT_GOVFLAG] = {is_govflag_req_active, REQUCH_NO},
   [VUT_IMPROVEMENT] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
   [VUT_SITE] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
   [VUT_IMPR_GENUS] = {is_buildinggenus_req_active, REQUCH_YES},
@@ -6977,6 +7016,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
   case VUT_GOVERNMENT:
+  case VUT_GOVFLAG:
   case VUT_ACHIEVEMENT:
   case VUT_IMPROVEMENT:
   case VUT_SITE:
@@ -7590,6 +7630,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.techflag == psource2->value.techflag;
   case VUT_GOVERNMENT:
     return psource1->value.govern == psource2->value.govern;
+  case VUT_GOVFLAG:
+    return psource1->value.govflag == psource2->value.govflag;
   case VUT_ACHIEVEMENT:
     return psource1->value.achievement == psource2->value.achievement;
   case VUT_STYLE:
@@ -7753,6 +7795,8 @@ const char *universal_rule_name(const struct universal *psource)
     return tech_flag_id_name(psource->value.techflag);
   case VUT_GOVERNMENT:
     return government_rule_name(psource->value.govern);
+  case VUT_GOVFLAG:
+    return gov_flag_id_name(psource->value.govflag);
   case VUT_ACHIEVEMENT:
     return achievement_rule_name(psource->value.achievement);
   case VUT_STYLE:
@@ -7920,6 +7964,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_GOVERNMENT:
     fc_strlcat(buf, government_name_translation(psource->value.govern),
                bufsz);
+    return buf;
+  case VUT_GOVFLAG:
+    cat_snprintf(buf, bufsz, _("\"%s\" gov"),
+                 gov_flag_id_translated_name(psource->value.govflag));
     return buf;
   case VUT_ACHIEVEMENT:
     fc_strlcat(buf, achievement_name_translation(psource->value.achievement),
@@ -8551,6 +8599,9 @@ static enum req_item_found government_found(const struct requirement *preq,
   if (preq->source.kind == VUT_GOVERNMENT) {
     return preq->source.value.govern == source->value.govern ? ITF_YES
                                                              : ITF_NO;
+  } else if (preq->source.kind == VUT_GOVFLAG) {
+    return BV_ISSET(source->value.govern->flags, preq->source.value.govflag)
+      ? ITF_YES : ITF_NO;
   }
 
   return ITF_NOT_APPLICABLE;

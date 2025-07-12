@@ -60,6 +60,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_GOVERNMENT:
     src->value.govern = game.government_during_revolution;
     return TRUE;
+  case VUT_GOVFLAG:
+    src->value.govflag = 0;
+    return TRUE;
   case VUT_IMPROVEMENT:
   case VUT_SITE:
     if (game.control.num_impr_types <= 0) {
@@ -301,6 +304,11 @@ void universal_kind_values(struct universal *univ,
     governments_re_active_iterate(pgov) {
       cb(government_rule_name(pgov), univ->value.govern == pgov, data);
     } governments_re_active_iterate_end;
+    break;
+  case VUT_GOVFLAG:
+    for (i = 0; i < GOVF_LAST_USER_FLAG; i++) {
+      cb(gov_flag_id_name(i), univ->value.govflag == i, data);
+    }
     break;
   case VUT_IMPROVEMENT:
   case VUT_SITE:

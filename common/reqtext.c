@@ -250,6 +250,20 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     return TRUE;
 
+  case VUT_GOVFLAG:
+    if (preq->range != REQ_RANGE_PLAYER) {
+      break;
+    }
+    fc_strlcat(buf, prefix, bufsz);
+    if (preq->present) {
+      cat_snprintf(buf, bufsz, _("Requires a %s government."),
+                   gov_flag_id_translated_name(preq->source.value.govflag));
+    } else {
+      cat_snprintf(buf, bufsz, _("Not available under a %s government."),
+                   gov_flag_id_translated_name(preq->source.value.govflag));
+    }
+    return TRUE;
+
   case VUT_ACHIEVEMENT:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:

@@ -442,6 +442,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_UCLASS:
     case VUT_TILE_REL:
       /* Can check different properties. */
+    case VUT_GOVFLAG:
     case VUT_UTFLAG:
     case VUT_UCFLAG:
     case VUT_TERRFLAG:

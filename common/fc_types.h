@@ -521,7 +521,7 @@ enum req_problem_type {
   (x == RPT_CERTAIN ? RPT_POSSIBLE : RPT_CERTAIN)
 
 /* Originally in requirements.h, bumped up and revised to unify with
- * city_production and worklists.  Functions remain in requirements.c
+ * city_production and worklists. Functions remain in requirements.c
  * Used in the network protocol. */
 typedef union {
   struct advance *advance;
@@ -555,6 +555,7 @@ typedef union {
   Output_type_id outputtype;
   int terrainclass;			/* enum terrain_class */
   int terrainalter;                     /* enum terrain_alteration */
+  int govflag;                          /* enum gov_flag_id */
   int unitclassflag;			/* enum unit_class_flag_id */
   int unitflag;				/* enum unit_flag_id */
   int terrainflag;                      /* enum terrain_flag_id */
