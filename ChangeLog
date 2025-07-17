@@ -1,3 +1,54 @@
+commit cfeaa1d370bc51f8942ff9b3753dfeab2aa2dbf9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 17 12:09:57 2025 +0300
+
+    'make update-po' before 3.2.0 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f973447af7303867b2236cdf167454981c93574c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 17 12:03:11 2025 +0300
+
+    FAQ: Update latest stable version number to 3.2.0
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9f61d753b59a08489891ed0fd26abbda31c7a6fa
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 4 04:42:59 2025 +0300
+
+    Set default followtag to "stable"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 82e37d3b3ff29845be9a6606af4718d883f905a3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 17 11:53:56 2025 +0300
+
+    NEWS-3.2: Update to final 3.2.0
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 49d5e6e04282bf4185ec7fbb17b782274fb38622
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 10 07:21:14 2025 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2b527d8943c6eea0a11f0afeda94787c8b3ba301
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 10 07:08:27 2025 +0300
+
+    Finalize 3.2.0-RC2 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit d9531d98f892cc2738fae93f78c7c27394a13b36
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Thu Jul 10 07:05:58 2025 +0300
