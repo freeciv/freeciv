@@ -7,7 +7,7 @@
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.2.0-alpha"
+MESON_WINBUILD_VERSION="3.2.0"
 MIN_WINVER=0x0603 # Windows 8.1. Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.10
 
