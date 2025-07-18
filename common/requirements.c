@@ -8443,7 +8443,7 @@ universal_fulfills_requirement(const struct requirement *preq,
 /**********************************************************************//**
   Will the universal 'source' fulfill the requirements in the list?
   If 'check_necessary' is FALSE: are there no requirements that 'source'
-    would actively prevent the fulfilment of?
+    would actively prevent the fulfillment of?
   If 'check_necessary' is TRUE: does 'source' help the requirements to be
     fulfilled? (NB 'source' might not be the only source of its type that
     would be sufficient; for instance, if 'source' is a specific terrain
