@@ -22,6 +22,7 @@ dist_noinst_DATA = \
 		installer_msys2/freeciv-mp-qt.cmd		\
 		installer_msys2/freeciv-qt.cmd			\
 		installer_msys2/freeciv-sdl2.cmd		\
+		installer_msys2/freeciv-sdl3.cmd		\
 		installer_msys2/freeciv-server.cmd		\
 		installer_msys2/freeciv-ruledit.cmd		\
 		installer_msys2/Freeciv.url			\
