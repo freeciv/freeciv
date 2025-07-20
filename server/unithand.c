@@ -4235,6 +4235,8 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   int amount = unit_pop_value(punit);
   const struct unit_type *act_utype;
   Specialist_type_id spec_id = DEFAULT_SPECIALIST;
+  int new_food;
+  int savings_pct = city_growth_granary_savings(pcity);
 
   /* Sanity check: The actor is still alive. */
   fc_assert_ret_val(punit, FALSE);
@@ -4245,6 +4247,11 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   fc_assert_ret_val(pcity, FALSE);
 
   city_size_add(pcity, amount);
+
+  new_food = city_granary_size(city_size_get(pcity)) * savings_pct / 100;
+  /* Preserve old food stock, unless granary effect gives us more. */
+  pcity->food_stock = MAX(pcity->food_stock, new_food);
+
   if (is_super_specialist(act_utype->spec_type)) {
     Specialist_type_id sspec = specialist_index(act_utype->spec_type);
 

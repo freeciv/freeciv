@@ -915,7 +915,8 @@ static void city_shrink_reset_foodbox(struct city *pcity, int new_size)
   calls to this function at once, and those actions are needed only once.
   If s is not supplied, adds a specialist respecting the city preferences
 **************************************************************************/
-static bool city_increase_size(struct city *pcity, Specialist_type_id sid)
+static bool city_increase_size(struct city *pcity, bool natural_growth,
+                               Specialist_type_id sid)
 {
   int new_food;
   int savings_pct = city_growth_granary_savings(pcity);
@@ -925,8 +926,6 @@ static bool city_increase_size(struct city *pcity, Specialist_type_id sid)
   struct player *powner = city_owner(pcity);
   const struct impr_type *pimprove = pcity->production.value.building;
   const struct civ_map *nmap = &(wld.map);
-  int stock;
-  int granary;
 
   if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
     /* Need improvement */
@@ -951,22 +950,38 @@ static bool city_increase_size(struct city *pcity, Specialist_type_id sid)
     return FALSE;
   }
 
-  granary = city_granary_size(city_size_get(pcity));
-  if (pcity->food_stock <= granary) {
-    stock = 0;
-  } else {
-    stock = pcity->food_stock - granary;
-  }
+  if (natural_growth) {
+    /* Growth by filled foodbox */
+    int stock;
+    int granary;
 
-  city_size_add(pcity, 1);
+    granary = city_granary_size(city_size_get(pcity));
+    if (pcity->food_stock <= granary) {
+      stock = 0;
+    } else {
+      stock = pcity->food_stock - granary;
+    }
 
-  /* Do not empty food stock if city is growing by celebrating */
-  if (rapture_grow) {
-    new_food = city_granary_size(city_size_get(pcity));
+    city_size_add(pcity, 1);
+
+    /* Do not empty food stock if city is growing by celebrating */
+    if (rapture_grow) {
+      new_food = city_granary_size(city_size_get(pcity));
+    } else {
+      new_food = stock + city_granary_size(city_size_get(pcity)) * savings_pct / 100;
+    }
+
+    /* Never increase amount of food in the foodbox */
+    pcity->food_stock = MIN(pcity->food_stock, new_food);
   } else {
-    new_food = stock + city_granary_size(city_size_get(pcity)) * savings_pct / 100;
+    /* Growth by means like add-to-city or population migration */
+    city_size_add(pcity, 1);
+
+    new_food = city_granary_size(city_size_get(pcity)) * savings_pct / 100;
+
+    /* Preserve old food stock, unless granary effect gives us more. */
+    pcity->food_stock = MAX(pcity->food_stock, new_food);
   }
-  pcity->food_stock = MIN(pcity->food_stock, new_food);
 
   if (sid >= 0) {
     fc_assert_action(is_normal_specialist_id(sid), sid = DEFAULT_SPECIALIST);
@@ -979,7 +994,7 @@ static bool city_increase_size(struct city *pcity, Specialist_type_id sid)
     city_tile_iterate_skip_free_worked(nmap, city_map_radius_sq_get(pcity), pcenter,
                                        ptile, _index, _x, _y) {
       if (tile_worked(ptile) != pcity /* Quick test */
-       && city_can_work_tile(pcity, ptile)) {
+          && city_can_work_tile(pcity, ptile)) {
         have_square = TRUE;
       }
     } city_tile_iterate_skip_free_worked_end;
@@ -1062,7 +1077,7 @@ bool city_change_size(struct city *pcity, citizens size,
     int id = pcity->id;
 
     /* Increase city size until size reached, or increase fails */
-    while (size > current_size && city_increase_size(pcity, sid)) {
+    while (size > current_size && city_increase_size(pcity, FALSE, sid)) {
       /* TODO: This is currently needed only because there's
        *       deprecated script signal "city_growth" emitted.
        *       Check the need after signal has been dropped completely. */
@@ -1118,7 +1133,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
     } else {
       bool success;
 
-      success = city_increase_size(pcity, -1);
+      success = city_increase_size(pcity, TRUE, -1);
       map_claim_border(pcity->tile, pcity->owner, -1);
 
       if (success) {
@@ -4282,7 +4297,7 @@ static bool do_city_migration(struct city *pcity_from,
 
   /* Increase size of receiver city */
   if (city_exist(to_id)) {
-    bool incr_success = city_increase_size(pcity_to, -1);
+    bool incr_success = city_increase_size(pcity_to, FALSE, -1);
 
     if (city_exist(to_id)) {
       city_refresh_after_city_size_increase(pcity_to, pplayer_citizen, TRUE);
