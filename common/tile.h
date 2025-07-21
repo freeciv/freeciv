@@ -101,6 +101,10 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
 #define tile_claimer(_tile) ((_tile)->claimer)
 
 #define tile_resource(_tile) ((_tile)->resource)
+
+/************************************************************************//**
+  Check if the tile has a valid resource on it.
+****************************************************************************/
 static inline bool tile_resource_is_valid(const struct tile *ptile)
 { return ptile->resource != NULL
     && BV_ISSET(ptile->extras, ptile->resource->id);
