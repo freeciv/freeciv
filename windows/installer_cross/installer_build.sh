@@ -292,7 +292,7 @@ else
   esac
 
   if test "$GUI" = "sdl2" ; then
-    if ! ./create-freeciv-sdl2-nsi.sh \
+    if ! ./create-freeciv-sdl-nsi.sh \
            "$INSTDIR" "autotools/output" "$VERREV" "$SETUP" \
            "helpers/uninstaller-helper-gtk3.sh" \
              > "${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"

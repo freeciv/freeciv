@@ -31,7 +31,7 @@ dist_noinst_DATA = \
 		installer_msys2/Makefile.meson			\
 		installer_msys2/cleanup_checkout.sh		\
 		installer_cross/create-freeciv-gtk-qt-nsi.sh	\
-		installer_cross/create-freeciv-sdl2-nsi.sh	\
+		installer_cross/create-freeciv-sdl-nsi.sh	\
 		installer_cross/create-freeciv-ruledit-nsi.sh	\
 		installer_cross/installer_build.sh		\
 		installer_cross/build_all_installers.sh		\
