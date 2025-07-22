@@ -104,7 +104,6 @@ DISTFILES.common = \
 DISTFILES = \
   $(DISTFILES.common) \
   Makevars POTFILES.in \
-  meson.build \
   $(POFILES) $(GMOFILES) \
   $(DISTFILES.extra1) $(DISTFILES.extra2) \
   $(DISTFILES.extra3) $(DISTFILES.extra4) \

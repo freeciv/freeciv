@@ -88,3 +88,5 @@ PO_DEPENDS_ON_POT = no
 # "no".  Set this to no if the POT file and PO files are maintained
 # externally.
 DIST_DEPENDS_ON_UPDATE_PO = yes
+
+DISTFILES.extra1 = meson.build
