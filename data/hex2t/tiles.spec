@@ -29,43 +29,43 @@ tiles = { "row", "column","tag"
 
 ; Roads
 
- 0, 0, "road.road_n"
- 0, 1, "road.road_ne"
- 0, 2, "road.road_e"
- 0, 7, "road.road_se"
- 0, 3, "road.road_s"
- 0, 4, "road.road_sw"
- 0, 5, "road.road_w"
- 0, 6, "road.road_nw"
+ 0, 0, "road.road_n:0"
+ 0, 1, "road.road_ne:0"
+ 0, 2, "road.road_e:0"
+ 0, 7, "road.road_se:0"
+ 0, 3, "road.road_s:0"
+ 0, 4, "road.road_sw:0"
+ 0, 5, "road.road_w:0"
+ 0, 6, "road.road_nw:0"
 
- 0, 8, "road.road_isolated"
+ 0, 8, "road.road_isolated:0"
 
 ; Rails
 
- 1, 0, "road.rail_n"
- 1, 1, "road.rail_ne"
- 1, 2, "road.rail_e"
- 1, 7, "road.rail_se"
- 1, 3, "road.rail_s"
- 1, 4, "road.rail_sw"
- 1, 5, "road.rail_w"
- 1, 6, "road.rail_nw"
+ 1, 0, "road.rail_n:0"
+ 1, 1, "road.rail_ne:0"
+ 1, 2, "road.rail_e:0"
+ 1, 7, "road.rail_se:0"
+ 1, 3, "road.rail_s:0"
+ 1, 4, "road.rail_sw:0"
+ 1, 5, "road.rail_w:0"
+ 1, 6, "road.rail_nw:0"
 
- 1, 8, "road.rail_isolated"
+ 1, 8, "road.rail_isolated:0"
 
 
 ; Maglevs
 
- 2, 0, "road.maglev_n"
- 2, 1, "road.maglev_ne"
- 2, 2, "road.maglev_e"
- 2, 7, "road.maglev_se"
- 2, 3, "road.maglev_s"
- 2, 4, "road.maglev_sw"
- 2, 5, "road.maglev_w"
- 2, 6, "road.maglev_nw"
+ 2, 0, "road.maglev_n:0"
+ 2, 1, "road.maglev_ne:0"
+ 2, 2, "road.maglev_e:0"
+ 2, 7, "road.maglev_se:0"
+ 2, 3, "road.maglev_s:0"
+ 2, 4, "road.maglev_sw:0"
+ 2, 5, "road.maglev_w:0"
+ 2, 6, "road.maglev_nw:0"
 
- 2, 8, "road.maglev_isolated"
+ 2, 8, "road.maglev_isolated:0"
 
 ; terrain : if more t.whateverN are given it picks one randomly for each tile.
 ;  for example with t.desert1 and t.desert2.
