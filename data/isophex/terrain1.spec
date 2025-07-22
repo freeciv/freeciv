@@ -80,41 +80,41 @@ tiles = { "row", "column","tag"
 
 ; Roads
 
-  6,    0, "road.road_isolated"
-  6,    1, "road.road_n"
-  6,    2, "road.road_ne"
-  6,    3, "road.road_e"
-  6,    4, "road.road_se"
-  6,    5, "road.road_s"
-  6,    6, "road.road_sw"
-  6,    7, "road.road_w"
-  6,    8, "road.road_nw"
+  6,    0, "road.road_isolated:0"
+  6,    1, "road.road_n:0"
+  6,    2, "road.road_ne:0"
+  6,    3, "road.road_e:0"
+  6,    4, "road.road_se:0"
+  6,    5, "road.road_s:0"
+  6,    6, "road.road_sw:0"
+  6,    7, "road.road_w:0"
+  6,    8, "road.road_nw:0"
 
 ; Rails
 
-  7,    0, "road.rail_isolated"
-  7,    1, "road.rail_n"
-  7,    2, "road.rail_ne"
-  7,    3, "road.rail_e"
-  7,    4, "road.rail_se"
-  7,    5, "road.rail_s"
-  7,    6, "road.rail_sw"
-  7,    7, "road.rail_w"
-  7,    8, "road.rail_nw"
+  7,    0, "road.rail_isolated:0"
+  7,    1, "road.rail_n:0"
+  7,    2, "road.rail_ne:0"
+  7,    3, "road.rail_e:0"
+  7,    4, "road.rail_se:0"
+  7,    5, "road.rail_s:0"
+  7,    6, "road.rail_sw:0"
+  7,    7, "road.rail_w:0"
+  7,    8, "road.rail_nw:0"
 
 ; Maglevs
 
-  8,    0, "road.maglev_isolated"
-  8,    1, "road.maglev_n"
-  8,    2, "road.maglev_ne"
-  8,    3, "road.maglev_e"
-  8,    4, "road.maglev_se"
-  8,    5, "road.maglev_s"
-  8,    6, "road.maglev_sw"
-  8,    7, "road.maglev_w"
-  8,    8, "road.maglev_nw"
+  8,    0, "road.maglev_isolated:0"
+  8,    1, "road.maglev_n:0"
+  8,    2, "road.maglev_ne:0"
+  8,    3, "road.maglev_e:0"
+  8,    4, "road.maglev_se:0"
+  8,    5, "road.maglev_s:0"
+  8,    6, "road.maglev_sw:0"
+  8,    7, "road.maglev_w:0"
+  8,    8, "road.maglev_nw:0"
 
-;add-ons
+; Add-ons
 
   4,    0, "tx.oil_mine:0"
   4,    1, "tx.oil_rig:0"
@@ -126,7 +126,7 @@ tiles = { "row", "column","tag"
   4,    7, "tx.village:0"
   4,    8, "tx.nets:0"
 
-; misc
+; Misc
 
   5,    0, "t.coast_color"
   5,    0, "t.blend.lake"
@@ -141,9 +141,9 @@ tiles = { "row", "column","tag"
 
 ; goto-path
 
-  5,    7, "path.step"            ; turn boundary within path
-  5,    8, "path.exhausted_mp"    ; tip of path, no MP left
-  5,    9, "path.normal"          ; tip of path with MP remaining
+  5,    7, "path.step"            ; Turn boundary within path
+  5,    8, "path.exhausted_mp"    ; Tip of path, no MP left
+  5,    9, "path.normal"          ; Tip of path with MP remaining
   5,   10, "path.waypoint"
 
 }
