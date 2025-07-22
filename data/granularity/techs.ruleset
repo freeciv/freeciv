@@ -419,6 +419,15 @@ If other players know techs that the Tech Leakage receiving player does not, som
 leak per tech per player each turn.\
 ")
 
+[advance_magnetism]
+name        = _("Magnetism")
+req1        = "Iron Working"
+req2        = "Astronomy"
+flags       = ""
+graphic     = "a.magnetism"
+graphic_alt = "-"
+;helptext    =
+
 [advance_maps]
 name        = _("Maps")
 req1        = "Alphabet"
