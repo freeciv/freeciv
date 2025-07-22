@@ -340,7 +340,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 
 [advance_flight]
 name        = _("Flight")
-req1        = "Strategies"
+req1        = "Naval Strategies"
 req2        = "Engineering"
 flags       = ""
 graphic     = "a.flight"
@@ -475,6 +475,15 @@ req1        = "Diplomacy"
 req2        = "Currency"
 flags       = ""
 graphic     = "a.monarchy"
+graphic_alt = "-"
+;helptext    =
+
+[advance_naval_strategies]
+name        = _("Naval Strategies")
+req1        = "Strategies"
+req2        = "Sailing"
+flags       = ""
+graphic     = "a.naval_strategies"
 graphic_alt = "-"
 ;helptext    =
 
