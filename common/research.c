@@ -585,7 +585,7 @@ void research_update(struct research *presearch)
               i,
               advance_rule_name(advance_by_number(i)),
               tech_state_name(research_invention_state(presearch, i)),
-              presearch->inventions[i].reachable ? "" : " [unrechable]",
+              presearch->inventions[i].reachable ? "" : " [unreachable]",
               presearch->inventions[i].root_reqs_known
               ? "" : " [root reqs aren't known]");
     log_debug("%s: [%3d] %s", research_rule_name(presearch), i, buf);
