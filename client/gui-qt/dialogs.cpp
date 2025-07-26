@@ -118,6 +118,7 @@ static void caravan_help_build(QVariant data1, QVariant data2);
 static void unit_disband_recover(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
 static void nuke_units(QVariant data1, QVariant data2);
+static void collect_ransom(QVariant data1, QVariant data2);
 static void wipe_units(QVariant data1, QVariant data2);
 static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
@@ -277,6 +278,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_BOMBARD3] = bombard3;
   action_function[ACTION_BOMBARD_LETHAL] = bombard_lethal;
   action_function[ACTION_NUKE_UNITS] = nuke_units;
+  action_function[ACTION_COLLECT_RANSOM] = collect_ransom;
 
   // Unit acting against a tile.
   action_function[ACTION_FOUND_CITY] = found_city;
@@ -2744,6 +2746,18 @@ static void nuke_units(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_NUKE_UNITS, actor_id,
+                    target_id, 0, "");
+}
+
+/**********************************************************************//**
+  Action "Collect Ransom" for choice dialog
+***************************************************************************/
+static void collect_ransom(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_COLLECT_RANSOM, actor_id,
                     target_id, 0, "");
 }
 
