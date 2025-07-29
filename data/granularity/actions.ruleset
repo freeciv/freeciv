@@ -51,7 +51,11 @@ bribe_unit_post_success_forced_actions = "Unit Move"
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
-attack_post_success_forced_actions = "Unit Move"
+attack_post_success_forced_actions = "Transport Disembark",
+                                     "Conquer Extras",
+                                     "Enter Hut",
+                                     "Frighten Hut",
+                                     "Unit Move"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
@@ -321,6 +325,16 @@ actor_reqs    =
 target_reqs   =
     { "type",        "name",     "range", "present"
       "TerrainFlag", "NoCities", "Tile",  FALSE
+    }
+
+[enabler_attack_from_native]
+action        = "Attack"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitTypeFlag",  "NonMil",       "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
     }
 
 [enabler_cultivate]
