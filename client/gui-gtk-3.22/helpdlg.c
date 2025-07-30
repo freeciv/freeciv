@@ -1466,8 +1466,11 @@ static void help_update_extra(const struct help_item *pitem, char *title)
         bonus = Q_("?bonus:None");
       }
       gtk_label_set_text(GTK_LABEL(help_elabel[5]), bonus);
+      gtk_widget_set_visible(GTK_WIDGET(help_elabel[4]), TRUE);
+      gtk_widget_set_visible(GTK_WIDGET(help_elabel[5]), TRUE);
     } else {
-      gtk_label_set_text(GTK_LABEL(help_elabel[5]), Q_("?bonus:None"));
+      gtk_widget_set_visible(GTK_WIDGET(help_elabel[4]), FALSE);
+      gtk_widget_set_visible(GTK_WIDGET(help_elabel[5]), FALSE);
     }
 
     helptext_extra(buf, sizeof(buf), client.conn.playing, pitem->text, pextra);
