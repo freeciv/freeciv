@@ -1300,6 +1300,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           if (line == nullptr) {
             break;
           }
+          nat_y++;
           nat_x = strlen(line);
           str_pixmap = str_pixmap + line;
         }
