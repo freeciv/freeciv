@@ -58,7 +58,7 @@ struct text_tag {
     struct {                            /* TTT_LINK only. */
       enum text_link_type type;         /* The target type of the link. */
       int id;                           /* The id of linked object. */
-      char name[MAX_LEN_STR];           /* A string to indentify the link. */
+      char name[MAX_LEN_STR];           /* A string to identify the link. */
     } link;
   };
 };
