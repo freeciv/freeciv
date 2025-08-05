@@ -6510,7 +6510,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
           /* An invalid order. Just drop the orders for this unit. */
           free(punit->orders.list);
           punit->orders.list = NULL;
+          punit->orders.length = 0;
           punit->has_orders = FALSE;
+          punit->goto_tile = NULL;
           break;
         }
 
@@ -6609,7 +6611,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
             /* Missing required action extra target. */
             free(punit->orders.list);
             punit->orders.list = NULL;
+            punit->orders.length = 0;
             punit->has_orders = FALSE;
+            punit->goto_tile = NULL;
             break;
           }
         } else if (order->order != ORDER_PERFORM_ACTION) {
@@ -6633,7 +6637,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
       int j;
 
       punit->has_orders = FALSE;
+      punit->goto_tile = NULL;
       punit->orders.list = NULL;
+      punit->orders.length = 0;
 
       (void) secfile_entry_lookup(loading->file, "%s.orders_index", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.orders_repeat", unitstr);
@@ -8202,8 +8208,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      if (!unit_order_list_is_sane(&(wld.map), punit->orders.length,
-                                   punit->orders.list)) {
+      if (punit->has_orders
+          && !unit_order_list_is_sane(&(wld.map), punit->orders.length,
+                                      punit->orders.list)) {
         log_sg("Invalid unit orders for unit %d.", punit->id);
         free_unit_orders(punit);
       }
