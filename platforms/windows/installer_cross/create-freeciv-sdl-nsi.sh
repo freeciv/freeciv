@@ -1,14 +1,16 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl-nsi.sh <freeciv files dir> <output dir> <version> <win64|win> [uninstall setup script]
+# ./create-freeciv-sdl-nsi.sh <freeciv files dir> <output dir> <version> <win64|win> <gui id> <gui name> [uninstall setup script]
 
-if test "$5" != "" && ! test -x "$5" ; then
-  echo "$5 not an executable script" >&2
+if test "$7" != "" && ! test -x "$7" ; then
+  echo "$7 not an executable script" >&2
   exit 1
 fi
 
 ARCH_KEY_PART="crs"
 ARCH_INST_PART="-crs"
+
+GUI_ID="$5"
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -19,8 +21,8 @@ SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv"
 !define VERSION $3
-!define GUI_ID sdl2
-!define GUI_NAME SDL2
+!define GUI_ID ${GUI_ID}
+!define GUI_NAME $6
 !define WIN_ARCH $4
 !define ARCH_KEY_PART ${ARCH_KEY_PART}
 !define ARCH_INST_PART ${ARCH_INST_PART}
@@ -166,7 +168,7 @@ cat <<EOF
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-gtk4.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-gtk4.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-sdl2.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-sdl2.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Documentation.lnk" "\$INSTDIR\doc\freeciv"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
@@ -231,19 +233,19 @@ echo "  File /r $1/share/locale/$code/*.*"
 
 # Install special fonts for CJK locales
 if [ "$name" = "zh_CN" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.fireflysung"
-echo "  File /r $1/data/themes/gui-sdl2/human/fireflysung.ttf"
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-\$GUI_ID\\human"
+echo "  File /r $1/data/themes/gui-\$GUI_ID/human/COPYING.fireflysung"
+echo "  File /r $1/data/themes/gui-\$GUI_ID/human/fireflysung.ttf"
 fi
 if [ "$name" = "ja" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.sazanami"
-echo "  File /r $1/data/themes/gui-sdl2/human/sazanami-gothic.ttf"
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-\$GUI_ID\\human"
+echo "  File /r $1/data/themes/gui-\$GUI_ID/human/COPYING.sazanami"
+echo "  File /r $1/data/themes/gui-\$GUI_ID/human/sazanami-gothic.ttf"
 fi
 if [ "$name" = "ko" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.UnDotum"
-echo "  File /r $1/data/themes/gui-sdl2/human/UnDotum.ttf"
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-\$GUI_ID\\human"
+echo "  File /r $1/data/themes/gui-\$GUI_ID/human/COPYING.UnDotum"
+echo "  File /r $1/data/themes/gui-\$GUI_ID/human/UnDotum.ttf"
 fi
 
 echo "  SetOutPath \$INSTDIR"
@@ -339,7 +341,7 @@ Function HelperScriptFunction
 FunctionEnd
 
 Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-sdl2.cmd" \$DefaultLanguageCode'
+  nsExec::Exec '"\$INSTDIR\freeciv-\${GUI_ID}.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF
@@ -377,8 +379,8 @@ do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
 
-if test "$5" != "" ; then
-  $5
+if test "$7" != "" ; then
+  $7
 fi
 
 cat <<EOF
