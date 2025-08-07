@@ -294,7 +294,7 @@ else
   if test "$GUI" = "sdl2" ; then
     if ! ./create-freeciv-sdl-nsi.sh \
            "$INSTDIR" "autotools/output" "$VERREV" "$SETUP" \
-           "helpers/uninstaller-helper-gtk3.sh" \
+           "${GUI}" "${GUINAME}" "helpers/uninstaller-helper-gtk3.sh" \
              > "${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
     then
       exit 1
