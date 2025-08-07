@@ -316,7 +316,8 @@ else
 
   if test "${GUI}" = "sdl2" ; then
     if ! "${SRC_DIR}/create-freeciv-sdl-nsi.sh" \
-           "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "${SETUP}" "${UNINSTALLER}" \
+           "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "${SETUP}" \
+           "${GUI}" "${GUINAME}" "${UNINSTALLER}" \
              > "${NSI_FILE}"
     then
       exit 1
