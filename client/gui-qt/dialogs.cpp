@@ -544,13 +544,11 @@ races_dialog::races_dialog(struct player *pplayer,
   connect(styles->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
-          SLOT(style_selected(const QItemSelection &,
-                              const QItemSelection &)));
+          SLOT(style_selected(const QItemSelection &)));
   connect(selected_nation_tabs->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
-          SLOT(nation_selected(const QItemSelection &,
-                              const QItemSelection &)));
+          SLOT(nation_selected(const QItemSelection &)));
   connect(leader_name, SIGNAL(currentIndexChanged(int)),
           SLOT(leader_selected(int)));
   connect(leader_name->lineEdit(), &QLineEdit::returnPressed,
@@ -560,8 +558,7 @@ races_dialog::races_dialog(struct player *pplayer,
   connect(nation_tabs->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
-          SLOT(group_selected(const QItemSelection &,
-                              const QItemSelection &)));
+          SLOT(group_selected(const QItemSelection &)));
 
   ok_button = new QPushButton;
   ok_button->setText(_("Cancel"));
