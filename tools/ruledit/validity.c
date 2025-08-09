@@ -160,7 +160,8 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
 
     if (info->enabled) {
       if (universal_is_mentioned_by_requirements(&info->giver_reqs, uni)
-          || universal_is_mentioned_by_requirements(&info->receiver_reqs, uni)) {
+          || universal_is_mentioned_by_requirements(&info->receiver_reqs, uni)
+          || universal_is_mentioned_by_requirements(&info->either_reqs, uni)) {
         char buf[1024];
 
         /* TRANS: e.g. "Advance clause" */
