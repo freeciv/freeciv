@@ -179,7 +179,7 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
-  
+
   va_start(args, message);
   fc_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);

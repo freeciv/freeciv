@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#include <stdio.h> /* for remove() */ 
+#include <stdio.h> /* for remove() */
 
 /* utility */
 #include "capability.h"
@@ -107,7 +107,7 @@ enum unit_role_id crole_to_role_id(char crole)
     return L_START_ATTACK_FAST;
   case 'A':
     return L_START_ATTACK_STRONG;
-  default: 
+  default:
     return 0;
   }
 }
@@ -190,7 +190,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
                                              utype_has_flag(utype, UTYF_FLAGLESS)),
                     NULL);
 
-  /* For scenarios or dispersion, huts may coincide with player starts (in 
+  /* For scenarios or dispersion, huts may coincide with player starts (in
    * other cases, huts are avoided as start positions). Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
@@ -903,7 +903,7 @@ void send_year_to_clients(void)
   Send game_info packet; some server options and various stuff...
   dest == NULL means game.est_connections
 
-  It may be sent at any time. It MUST be sent before any player info, 
+  It may be sent at any time. It MUST be sent before any player info,
   as it contains the number of players.  To avoid inconsistency, it
   SHOULD be sent after rulesets and any other server settings.
 ****************************************************************************/

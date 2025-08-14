@@ -381,7 +381,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
             && is_great_wonder(pimprove)
             && (pcity = city_from_great_wonder(pimprove))) {
           notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE, ftc_server,
-                        _("Discovery of %s OBSOLETES %s in %s!"), 
+                        _("Discovery of %s OBSOLETES %s in %s!"),
                         research_advance_name_translation
                             (research_get(city_owner(pcity)), tech_found),
                         improvement_name_translation(pimprove),
@@ -1258,7 +1258,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
         j++;
       }
     } advance_index_iterate_max_end;
-  
+
     if (j == 0)  {
       /* We've moved on to future tech */
       if (vresearch->future_tech > presearch->future_tech) {
@@ -1343,7 +1343,7 @@ void handle_player_research(struct player *pplayer, int tech)
   if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
     return;
   }
-  
+
   if (tech != A_FUTURE
       && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
     return;

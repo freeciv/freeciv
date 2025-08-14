@@ -298,7 +298,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   /* This function corresponds to city_can_buy() in the client. */
 
   fc_assert_ret(pcity && player_owns_city(pplayer, pcity));
- 
+
   if (pcity->turn_founded == game.info.turn) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
                   _("Cannot buy in city created this turn."));
@@ -330,7 +330,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return; /* sanity */
   }
   if (cost > pplayer->economic.gold) {
-    /* In case something changed while player tried to buy, or player 
+    /* In case something changed while player tried to buy, or player
      * tried to cheat! */
     /* Split into two to allow localization of two pluralisations. */
     char buf[MAX_LEN_MSG];

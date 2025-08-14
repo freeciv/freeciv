@@ -313,7 +313,7 @@ static bool is_good_password(const char *password, char *msg)
   fc_snprintf(msg, MAX_LEN_MSG,
               _("The password must have at least %d capital letters, %d "
                 "numbers, and be at minimum %d [printable] characters long. "
-                "Try again."), 
+                "Try again."),
               MIN_PASSWORD_CAPS, MIN_PASSWORD_NUMS, MIN_PASSWORD_LEN);
 
   for (i = 0; i < strlen(password); i++) {

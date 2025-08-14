@@ -448,7 +448,7 @@ struct packet_to_handle {
 /*************************************************************************//**
   Simplify a loop by wrapping get_packet_from_connection.
 *****************************************************************************/
-static bool get_packet(struct connection *pconn, 
+static bool get_packet(struct connection *pconn,
                        struct packet_to_handle *ppacket)
 {
   ppacket->data = get_packet_from_connection(pconn, &ppacket->type);
@@ -496,7 +496,7 @@ static void incoming_client_packets(struct connection *pconn)
     connection_do_unbuffer(pconn);
 
 #if PROCESSING_TIME_STATISTICS
-    log_verbose("processed request %d in %gms", request_id, 
+    log_verbose("processed request %d in %gms", request_id,
                 timer_read_seconds(request_time) * 1000.0);
 #endif /* PROCESSING_TIME_STATISTICS */
 
@@ -1107,7 +1107,7 @@ int server_make_connection(int new_sock, const char *client_addr,
 
       conn_list_append(game.all_connections, pconn);
 
-      log_verbose("connection (%s) from %s (%s)", 
+      log_verbose("connection (%s) from %s (%s)",
                   pconn->username, pconn->addr, pconn->server.ipaddr);
       /* Give a ping timeout to send the PACKET_SERVER_JOIN_REQ, or close
        * the mute connection. This timer will be canceled into
@@ -1188,7 +1188,7 @@ int server_open_socket(void)
 
 #ifndef FREECIV_HAVE_WINSOCK
     /* SO_REUSEADDR considered harmful on Win, necessary otherwise */
-    if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, 
+    if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR,
                    (char *)&on, sizeof(on)) == -1) {
       log_error("setsockopt SO_REUSEADDR failed: %s",
                 fc_strerror(fc_get_errno()));
@@ -1610,7 +1610,7 @@ static void send_lanserver_response(void)
   }
 #endif /* FREECIV_HAVE_WINSOCK */
 
-  if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST, 
+  if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST,
                  (const char*)&setting, sizeof(setting))) {
     log_error("Lan response setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return;
