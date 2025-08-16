@@ -76,9 +76,9 @@ all: all-$(WINARCH)
 
 all-win64: gtk3.22-installer sdl2-installer qt5-installer ruledit-installer-qt5
 
-all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
+all-win64-10: gtk3.22-installer sdl2-installer sdl3-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
-all-win64+: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
+all-win64+: gtk3.22-installer sdl2-installer sdl3-installer gtk4-installer qt6-installer ruledit-installer-qt6 qt6x-installer gtk4x-installer
 
 release:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dbuildtype=release -Doptimization=3 $(EXTRA_CONFIG)" all
@@ -104,6 +104,9 @@ sdl2-installer:
 
 qt5-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
+
+sdl3-installer:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=none $(EXTRA_CONFIG)" GUI=sdl3 CLIENT=sdl3 FCMP=gtk4 installer-common
 
 qt6-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
@@ -134,6 +137,9 @@ sdl2-install:
 
 qt5-install:
 	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-freeciv-qt5
+
+sdl3-install:
+	make -f $(MAKEFILE_NAME) GUI=sdl3 CLIENT=sdl3 FCMP=gtk4 install-freeciv-sdl3
 
 qt6-install:
 	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6
@@ -205,6 +211,9 @@ SOUND_DLLS_SDL2 := \
 	libogg-0.dll \
 	libwavpack-1.dll \
 	libxmp.dll
+
+SOUND_DLLS_SDL3 := \
+	SDL3.dll
 
 COMMON_DLLS := \
 	libcairo-2.dll \
@@ -342,6 +351,8 @@ install-freeciv-sdl2: install-freeciv-common
 
 install-freeciv-qt5: install-freeciv-common
 
+install-freeciv-sdl3: install-freeciv-common
+
 install-freeciv-qt6: install-freeciv-common
 
 install-freeciv-qt6x: install-freeciv-common
@@ -371,10 +382,19 @@ SDL2_DLLS := \
 	libSvtAv1Enc-3.dll \
 	libyuv.dll
 
+SDL3_DLLS := \
+	SDL3_ttf.dll \
+	SDL3_image.dll
+
 install-env-sdl2: install-env-gtk4-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+
+install-env-sdl3: install-env-gtk4-fcmp
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL3_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL3)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 FCMP_QT5_DLLS := \
 	Qt5Core.dll \
@@ -509,6 +529,7 @@ clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=gtk4x clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-client clean-install-client clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=sdl3 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-client clean-install-client clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6x clean-build-client clean-install-client clean-installer-common
