@@ -877,7 +877,7 @@ bool mapimg_define(const char *maparg, bool check)
     /* save map string */
     fc_strlcpy(pmapdef->maparg, maparg, MAX_LEN_MAPARG);
 
-    /* add map definiton */
+    /* add map definition */
     mapdef_list_append(mapimg.mapdef, pmapdef);
   } else {
     mapdef_destroy(pmapdef);
