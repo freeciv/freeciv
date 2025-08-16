@@ -21,7 +21,7 @@ located here on top for quick reference for the specific freeciv revision.
 ====================================
 
 - With premade environment, buildable clients are:
-  For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, Qt6, Qt6x
+  For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, sdl3, Qt6, Qt6x
 
 
  Setup
@@ -104,6 +104,10 @@ located here on top for quick reference for the specific freeciv revision.
  - mingw-w64-<arch>-SDL2_image
  - mingw-w64-<arch>-SDL2_ttf
  - mingw-w64-<arch>-SDL2_gfx
+
+2.1.2.6) Arch-specific packages for building sdl3-client
+ - mingw-w64-<arch>-sdl3-image
+ - mingw-w64-<arch>-sdl3-ttf
 
 2.2) Packages needed for building installer package
  These are needed in addition to above ones used in the
@@ -202,6 +206,7 @@ Get the freeciv sources there somehow. Some options are:
      - gtk4
      - gtk4x
      - sdl2
+     - sdl3
      - qt6
      - qt6x
   - "ruledit-installer"
