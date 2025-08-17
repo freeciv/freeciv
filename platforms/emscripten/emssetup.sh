@@ -8,7 +8,7 @@
 # See COPYING available from the same location you got this script.
 
 # https://github.com/emscripten-core/emscripten/blob/main/ChangeLog.md
-EMSDK_VER=4.0.11
+EMSDK_VER=4.0.13
 
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   echo "Usage: $0 <target directory>"
