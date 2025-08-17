@@ -953,7 +953,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   PERCENT tax, science,luxury;
   UINT32 infrapoints;
 
-  UINT16 tech_upkeep;
+  UINT32 tech_upkeep;
   UINT16 science_cost;
 
   BOOL is_connected;
