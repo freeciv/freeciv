@@ -1289,10 +1289,11 @@ static void package_player_info(struct player *plr,
   if (info_level >= INFO_EMBASSY 
       || (receiver
 	  && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
-    packet->tech_upkeep = player_tech_upkeep(plr);
+    packet->tech_upkeep_32 = player_tech_upkeep(plr);
   } else {
-    packet->tech_upkeep = 0;
+    packet->tech_upkeep_32 = 0;
   }
+  packet->tech_upkeep_16 = packet->tech_upkeep_32;
 
   /* Send most civ info about the player only to players who have an
    * embassy. */
