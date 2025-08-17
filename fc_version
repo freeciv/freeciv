@@ -75,7 +75,7 @@ DEFAULT_FOLLOW_TAG=stable
 #   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-NETWORK_CAPSTRING="+Freeciv-3.2-network ownernull16 unignoresync"
+NETWORK_CAPSTRING="+Freeciv-3.2-network ownernull16 unignoresync tu32"
 
 # If you are distributing freeciv, and apply any patches at all,
 # patch also this field to contain your identification.
