@@ -394,6 +394,7 @@ install-env-qt5-fcmp: install-env-common
 	find $(INST_DIR)/$(WINARCH)-client-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 install-env-qt5: install-env-qt5-fcmp
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 FCMP_QT6_DLLS := \
 	Qt6Core.dll \
