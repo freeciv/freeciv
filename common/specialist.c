@@ -58,9 +58,9 @@ void specialists_free(void)
     struct specialist *p = &specialists[i];
 
     requirement_vector_free(&p->reqs);
-    if (NULL != p->helptext) {
+    if (p->helptext != nullptr) {
       strvec_destroy(p->helptext);
-      p->helptext = NULL;
+      p->helptext = nullptr;
     }
   }
 }
@@ -89,7 +89,8 @@ Specialist_type_id normal_specialist_count(void)
 **************************************************************************/
 Specialist_type_id specialist_index(const struct specialist *sp)
 {
-  fc_assert_ret_val(NULL != sp, -1);
+  fc_assert_ret_val(sp != nullptr, -1);
+
   return sp - specialists;
 }
 
@@ -98,7 +99,8 @@ Specialist_type_id specialist_index(const struct specialist *sp)
 **************************************************************************/
 Specialist_type_id specialist_number(const struct specialist *sp)
 {
-  fc_assert_ret_val(NULL != sp, -1);
+  fc_assert_ret_val(sp != nullptr, -1);
+
   return sp->item_number;
 }
 
@@ -108,14 +110,15 @@ Specialist_type_id specialist_number(const struct specialist *sp)
 struct specialist *specialist_by_number(const Specialist_type_id id)
 {
   if (id < 0 || id >= game.control.num_specialist_types) {
-    return NULL;
+    return nullptr;
   }
+
   return &specialists[id];
 }
 
 /**********************************************************************//**
   Return the specialist type with the given (untranslated!) rule name.
-  Returns NULL if none match.
+  Returns nullptr if none match.
 **************************************************************************/
 struct specialist *specialist_by_rule_name(const char *name)
 {
@@ -128,12 +131,12 @@ struct specialist *specialist_by_rule_name(const char *name)
     }
   } specialist_type_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
   Return the specialist type with the given (translated, plural) name.
-  Returns NULL if none match.
+  Returns nullptr if none match.
 **************************************************************************/
 struct specialist *specialist_by_translated_name(const char *name)
 {
@@ -144,7 +147,7 @@ struct specialist *specialist_by_translated_name(const char *name)
     }
   } specialist_type_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -265,11 +268,11 @@ const char *specialists_string(const citizens *specialist_list)
   Return the output for the specialist type with this output type.
 **************************************************************************/
 int get_specialist_output(const struct city *pcity,
-			  Specialist_type_id sp, Output_type_id otype)
+                          Specialist_type_id sp, Output_type_id otype)
 {
   struct specialist *pspecialist = &specialists[sp];
   struct output_type *poutput = get_output_type(otype);
 
   return get_city_specialist_output_bonus(pcity, pspecialist, poutput,
-					  EFT_SPECIALIST_OUTPUT);
+                                          EFT_SPECIALIST_OUTPUT);
 }
