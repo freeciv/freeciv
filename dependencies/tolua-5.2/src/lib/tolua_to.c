@@ -6,10 +6,10 @@
 ** $Id: tolua_to.c,v 1.5 2009/11/24 16:45:15 fabraham Exp $
 */
 
-/* This code is free software; you can redistribute it and/or modify it. 
-** The software provided hereunder is on an "as is" basis, and 
+/* This code is free software; you can redistribute it and/or modify it.
+** The software provided hereunder is on an "as is" basis, and
 ** the author has no obligation to provide maintenance, support, updates,
-** enhancements, or modifications. 
+** enhancements, or modifications.
 */
 
 #include "tolua.h"
@@ -73,7 +73,7 @@ TOLUA_API int tolua_tofieldboolean (lua_State* L, int lo, int index, int def)
   return v;
 }
 
-TOLUA_API const char* tolua_tofieldstring 
+TOLUA_API const char* tolua_tofieldstring
 (lua_State* L, int lo, int index, const char* def)
 {
  const char* v;

@@ -24,7 +24,7 @@
 int tolua_bnd_takeownership(lua_State *L);
 
 static char toluaname[128] = "tolua.";
-static const char* TOLUANAME (const char* n)  
+static const char* TOLUANAME (const char* n)
 {
   sprintf(&toluaname[6],"%.120s",n);
   return toluaname;
@@ -134,7 +134,7 @@ int tolua_bnd_takeownership (lua_State* L)
       void* u;
       lua_pushstring(L,".collector");
       lua_rawget(L,-2);
-      func = lua_iscfunction(L,-1) ? lua_tocfunction(L,-1) : NULL; 
+      func = lua_iscfunction(L,-1) ? lua_tocfunction(L,-1) : NULL;
       lua_pop(L,2);
       u = *((void**)lua_touserdata(L,1));
       tolua_clone(L,u,func);
@@ -239,16 +239,16 @@ TOLUA_API void tolua_open (lua_State* L)
   if (!lua_isboolean(L,-1))
   {
     lua_pushstring(L,"tolua_opened"); lua_pushboolean(L,1); lua_rawset(L,LUA_REGISTRYINDEX);
-    lua_pushstring(L,"tolua_ubox"); 
-    lua_newtable(L); 
+    lua_pushstring(L,"tolua_ubox");
+    lua_newtable(L);
     lua_pushvalue(L, -1); /* metatable: for weak table */
     lua_pushstring(L, "__mode");
     lua_pushstring(L, "v");
     lua_rawset(L, -3);
     lua_setmetatable(L, -2);
     lua_rawset(L,LUA_REGISTRYINDEX);
-    lua_pushstring(L,"tolua_peer"); 
-    lua_newtable(L); 
+    lua_pushstring(L,"tolua_peer");
+    lua_newtable(L);
     lua_pushvalue(L, -1); /* metatable: for weak table */
     lua_pushstring(L, "__mode");
     lua_pushstring(L, "k");
