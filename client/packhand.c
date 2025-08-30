@@ -863,6 +863,9 @@ void handle_city_info(const struct packet_city_info *packet)
   pcity->was_happy = packet->was_happy;
   pcity->had_famine = packet->had_famine;
 
+  pcity->anarchy = packet->anarchy;
+  pcity->rapture = packet->rapture;
+
   pcity->turn_founded = packet->turn_founded;
   pcity->turn_last_built = packet->turn_last_built;
 
@@ -1275,6 +1278,9 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
+
+  pcity->rapture = 0;
+  pcity->anarchy = 0;
 
   improvement_iterate(pimprove) {
     /* Don't update the non-visible improvements, they could hide the

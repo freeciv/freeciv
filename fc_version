@@ -78,7 +78,7 @@ DEFAULT_FOLLOW_TAG=S3_3
 # On FREECIV_DEBUG builds, optional capability "debug" gets automatically
 # appended to this.
 #
-NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Aug.24"
+NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Sep.14"
 
 # If you are distributing freeciv, and apply any patches at all,
 # patch also this field to contain your identification.
