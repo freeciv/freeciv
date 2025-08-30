@@ -2689,6 +2689,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->was_happy = pcity->was_happy;
   packet->had_famine = pcity->had_famine;
 
+  packet->anarchy = pcity->anarchy;
+  packet->rapture = pcity->rapture;
+
   packet->walls = city_citywalls_gfx(pcity);
   packet->style = pcity->style;
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);

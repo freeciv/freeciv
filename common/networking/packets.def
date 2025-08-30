@@ -766,6 +766,9 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BOOL did_buy, did_sell, was_happy;
   BOOL had_famine;
 
+  UINT16 anarchy; add-cap(hap2clnt)
+  UINT16 rapture; add-cap(hap2clnt)
+
   BOOL diplomat_investigate;
   UINT8 walls;
   SINT8 city_image;
