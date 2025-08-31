@@ -135,10 +135,6 @@ case "${GUI}" in
     GUINAME="GTK4"
     MPGUI="gtk4"
     FCMP="gtk4" ;;
-  gtk4x)
-    GUINAME="GTK4x"
-    MPGUI="gtk4x"
-    FCMP="gtk4x" ;;
   sdl2)
     GUINAME="SDL2"
     FCMP="gtk4" ;;
@@ -260,7 +256,7 @@ else
         exit 1
       fi
       ;;
-    gtk4|gtk4x)
+    gtk4)
       if ! add_gtk4_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying gtk4 environment failed!" >&2
         exit 1
@@ -301,7 +297,7 @@ else
   fi
 
   if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ||
-     test "$GUI" = "gtk4x" || test "$GUI" = "sdl2" ; then
+     test "$GUI" = "sdl2" ; then
     UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
   else
     UNINSTALLER=""

@@ -67,15 +67,6 @@ else
   GTK4="Success"
 fi
 
-if test "${CROSSER_GTK4}" != "yes" ; then
-  GTK4x="N/A"
-elif ! ./meson-installer_build.sh "${DLLSPATH}" gtk4x ; then
-  RET=1
-  GTK4x="Fail"
-else
-  GTK4x="Success"
-fi
-
 if test "${CROSSER_QT6}" != "yes" ; then
   QT6="N/A"
 elif ! ./meson-installer_build.sh "${DLLSPATH}" qt6 ; then
@@ -115,7 +106,6 @@ fi
 
 echo "Gtk3.22: ${GTK322}"
 echo "Gtk4:    ${GTK4}"
-echo "Gtk4x:   ${GTK4x}"
 echo "Qt6:     ${QT6}"
 echo "Qt6x:    ${QT7}"
 echo "Sdl2:    ${SDL2}"

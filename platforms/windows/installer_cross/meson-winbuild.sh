@@ -23,8 +23,8 @@ fi
 
 GUI="$2"
 
-if test "${GUI}" != "gtk3.22" && test "${GUI}" != "gtk4" &&
-   test "${GUI}" != "gtk4x" &&
+if test "${GUI}" != "gtk3.22" &&
+   test "${GUI}" != "gtk4" &&
    test "${GUI}" != "sdl2" &&
    test "${GUI}" != "qt6" &&
    test "${GUI}" != "qt6x" &&
@@ -84,7 +84,6 @@ TOOLS=manual,ruleup
 case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;
   gtk4) FCMP="gtk4" ;;
-  gtk4x) FCMP="gtk4x" ;;
   sdl2) FCMP="gtk4" ;;
   qt6) CLIENT="qt"
        FCMP="qt"
