@@ -24,9 +24,7 @@ FCVER=$(../../fc_version)
 
 if ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk4.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk322.yml ||
-   ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk4x.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk4.mp.yml ||
-   ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk4x.mp.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk3.mp.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.qt.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.sdl2.yml ||
@@ -35,9 +33,7 @@ if ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" 
    ! flatpak build-update-repo "${BROOT}/repo" ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk4-${FCVER}.flatpak" org.freeciv.gtk4 ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk3.22-${FCVER}.flatpak" org.freeciv.gtk322 ||
-   ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk4x-${FCVER}.flatpak" org.freeciv.gtk4x ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk4-mp-${FCVER}.flatpak" org.freeciv.gtk4.mp ||
-   ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk4x-mp-${FCVER}.flatpak" org.freeciv.gtk4x.mp ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk3-mp-${FCVER}.flatpak" org.freeciv.gtk3.mp ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-qt-${FCVER}.flatpak" org.freeciv.qt ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-sdl2-${FCVER}.flatpak" org.freeciv.sdl2 ||
