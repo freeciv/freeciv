@@ -539,8 +539,8 @@ bool check_for_game_over(void)
   /* Check for culture victory */
   if (victory_enabled(VC_CULTURE)) {
     struct player *best = NULL;
-    int best_value = -1;
-    int second_value = -1;
+    long best_value = -1;
+    long second_value = -1;
 
     players_iterate(pplayer) {
       if (is_barbarian(pplayer) || !pplayer->is_alive) {
