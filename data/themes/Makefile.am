@@ -9,10 +9,6 @@ endif
 
 if CLIENT_GUI_GTK_4
 SUBDIRS += gtk4
-else
-if CLIENT_GUI_GTK_5
-SUBDIRS += gtk4
-endif
 endif
 
 if CLIENT_GUI_SDL2

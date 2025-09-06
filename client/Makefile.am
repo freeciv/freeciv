@@ -17,10 +17,6 @@ if CLIENT_GUI_GTK_4
 GUI_SUBDIRS += gui-gtk-4.0
 endif
 
-if CLIENT_GUI_GTK_5
-GUI_SUBDIRS += gui-gtk-5.0
-endif
-
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 endif
@@ -211,21 +207,6 @@ freeciv_gtk4_LDADD = \
  $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_gtk4_libs)
-endif
-
-if CLIENT_GUI_GTK_5
-bin_PROGRAMS += freeciv-gtk4x
-noinst_LTLIBRARIES += libfcgui-gtk5.la
-libfcgui_gtk5_la_SOURCES = $(freeciv_client_src)
-libfcgui_gtk5_la_LIBADD = gui-gtk-5.0/libgui-gtk5.la $(clientlibs)
-freeciv_gtk4x_SOURCES = dummy.c
-freeciv_gtk4x_LDFLAGS = $(gui_gtk4_ldflags)
-freeciv_gtk4x_LDADD = \
- libfcgui-gtk5.la $(SOUND_LIBS) gui-gtk-5.0/gui_main.lo \
- $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
- $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_gtk5_libs)
 endif
 
 if CLIENT_GUI_SDL2

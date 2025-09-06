@@ -15,9 +15,6 @@ endif
 if MODINST_GTK4
 bin_PROGRAMS += freeciv-mp-gtk4
 endif
-if MODINST_GTK5
-bin_PROGRAMS += freeciv-mp-gtk4x
-endif
 if MODINST_QT
 bin_PROGRAMS += freeciv-mp-qt
 endif
@@ -102,22 +99,6 @@ freeciv_mp_gtk4_LDADD = \
 		$(MPICON)
 endif
 
-if MODINST_GTK5
-freeciv_mp_gtk4x_CPPFLAGS = $(common_cppflags) $(mp_gtk5_cflags)
-
-freeciv_mp_gtk4x_SOURCES = mpgui_gtk5.c
-
-freeciv_mp_gtk4x_LDFLAGS = $(mp_gtk5_ldflags)
-
-freeciv_mp_gtk4x_LDADD = \
-		libfcmp.la \
-		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
-		$(top_builddir)/common/libfreeciv.la \
-		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_gtk5_libs) -lsqlite3 \
-		$(MPICON)
-endif
-
 if MODINST_QT
 
 MOC_FILES = \
@@ -145,5 +126,3 @@ freeciv_mp_qt_LDADD = \
 		$(mp_qt_libs) -lsqlite3 \
 		$(MPICON)
 endif
-
-EXTRA_DIST = mpgui_gtk5.c

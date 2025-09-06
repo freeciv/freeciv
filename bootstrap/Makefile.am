@@ -23,26 +23,22 @@ EXTRA_DIST =	freeciv.project		\
 		langstat_ruledit.txt	\
 		org.freeciv.gtk322.desktop	\
 		org.freeciv.gtk4.desktop	\
-		org.freeciv.gtk4x.desktop	\
 		org.freeciv.sdl2.desktop	\
 		org.freeciv.sdl3.desktop	\
 		org.freeciv.qt.desktop \
 		org.freeciv.server.desktop	\
 		org.freeciv.gtk3.mp.desktop	\
 		org.freeciv.gtk4.mp.desktop	\
-		org.freeciv.gtk4x.mp.desktop	\
 		org.freeciv.qt.mp.desktop	\
 		org.freeciv.ruledit.desktop	\
 		org.freeciv.gtk322.metainfo.xml.in \
 		org.freeciv.gtk4.metainfo.xml.in \
-		org.freeciv.gtk4x.metainfo.xml.in \
 		org.freeciv.sdl2.metainfo.xml.in \
 		org.freeciv.sdl3.metainfo.xml.in \
 		org.freeciv.qt.metainfo.xml.in \
 		org.freeciv.server.metainfo.xml.in \
 		org.freeciv.gtk3.mp.metainfo.xml.in \
 		org.freeciv.gtk4.mp.metainfo.xml.in \
-		org.freeciv.gtk4x.mp.metainfo.xml.in \
 		org.freeciv.qt.mp.metainfo.xml.in \
 		org.freeciv.ruledit.metainfo.xml.in \
 		config.rpath		\
@@ -70,11 +66,6 @@ endif
 if CLIENT_GUI_GTK_4
 metainfofile_DATA += org.freeciv.gtk4.metainfo.xml
 desktopfile_DATA  += org.freeciv.gtk4.desktop
-endif
-
-if CLIENT_GUI_GTK_5
-metainfofile_DATA += org.freeciv.gtk4x.metainfo.xml
-desktopfile_DATA  += org.freeciv.gtk4x.desktop
 endif
 
 if CLIENT_GUI_QT
