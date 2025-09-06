@@ -729,7 +729,7 @@ void diplo_wdg::update_wdg()
     text_edit->setItem(0, 0, qitem);
   }
 
-  sprite = get_treaty_thumb_sprite(tileset, treaty->accept1);
+  sprite = get_treaty_thumb_sprite(tileset, treaty->accept0);
   if (sprite != nullptr) {
     pix = sprite->pm;
     plr1_accept->setPixmap(*pix);
@@ -737,7 +737,7 @@ void diplo_wdg::update_wdg()
     plr1_accept->setText("PIXMAP MISSING");
   }
 
-  sprite = get_treaty_thumb_sprite(tileset, treaty->accept0);
+  sprite = get_treaty_thumb_sprite(tileset, treaty->accept1);
   if (sprite != nullptr) {
     pix = sprite->pm;
     plr2_accept->setPixmap(*pix);
