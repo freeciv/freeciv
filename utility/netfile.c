@@ -118,7 +118,7 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp);
   }
   curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-  curl_easy_setopt(handle, CURLOPT_FAILONERROR, 1);
+  curl_easy_setopt(handle, CURLOPT_FAILONERROR, (long)1);
 
   curlret = curl_easy_perform(handle);
 
