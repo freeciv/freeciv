@@ -418,7 +418,6 @@ tools/fcmp/mpcmdline.c
 tools/fcmp/mpdb.c
 tools/fcmp/mpgui_gtk3.c
 tools/fcmp/mpgui_gtk4.c
-tools/fcmp/mpgui_gtk5.c
 tools/fcmp/mpgui_qt.cpp
 tools/fcmp/mpgui_qt_worker.cpp
 tools/manual/fc_manual.c
