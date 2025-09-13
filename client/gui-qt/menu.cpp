@@ -1690,9 +1690,9 @@ void mr_menu::setup_menus()
     slot_help(HELP_GOVERNMENT_ITEM);
   });
 
-  act = menu->addAction(Q_(HELP_ECONOMY_ITEM));
+  act = menu->addAction(Q_(HELP_MULTIPLIER_ITEM));
   QObject::connect(act, &QAction::triggered, [this]() {
-    slot_help(HELP_ECONOMY_ITEM);
+    slot_help(HELP_MULTIPLIER_ITEM);
   });
 
   act = menu->addAction(Q_(HELP_DIPLOMACY_ITEM));
@@ -1708,11 +1708,6 @@ void mr_menu::setup_menus()
   act = menu->addAction(Q_(HELP_SPACE_RACE_ITEM));
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_SPACE_RACE_ITEM);
-  });
-
-  act = menu->addAction(Q_(HELP_IMPROVEMENTS_ITEM));
-  QObject::connect(act, &QAction::triggered, [this]() {
-    slot_help(HELP_IMPROVEMENTS_ITEM);
   });
 
   act = menu->addAction(Q_(HELP_RULESET_ITEM));
