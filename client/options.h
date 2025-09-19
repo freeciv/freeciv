@@ -132,7 +132,6 @@ struct client_options
   char default_tileset_iso_name[512];      /* ...overhead and iso topologies. */
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_gtk3_22_migrated_from_gtk3;
-  bool gui_gtk5_migrated_from_gtk4;
   bool gui_gtk4_migrated_from_gtk3_22;
   bool gui_sdl2_migrated_from_sdl;
   bool gui_sdl3_migrated_from_sdl2;
@@ -376,46 +375,6 @@ struct client_options
   char gui_gtk4_font_city_names[FONT_NAME_SIZE];
   char gui_gtk4_font_city_productions[FONT_NAME_SIZE];
   char gui_gtk4_font_reqtree_text[FONT_NAME_SIZE];
-
-/* gui-gtk-5.0 client specific options. */
-#define FC_GTK5_DEFAULT_THEME_NAME "Freeciv"
-  char gui_gtk5_default_theme_name[512];
-  bool gui_gtk5_fullscreen;
-  bool gui_gtk5_map_scrollbars;
-  bool gui_gtk5_dialogs_on_top;
-  bool gui_gtk5_show_task_icons;
-  bool gui_gtk5_enable_tabs;
-  bool gui_gtk5_show_chat_message_time;
-  bool gui_gtk5_new_messages_go_to_top;
-  bool gui_gtk5_show_message_window_buttons;
-  bool gui_gtk5_metaserver_tab_first;
-  bool gui_gtk5_allied_chat_only;
-  int gui_gtk5_message_chat_location; /* enum GUI_GTK_MSGCHAT_* */
-  bool gui_gtk5_small_display_layout;
-  bool gui_gtk5_mouse_over_map_focus;
-  bool gui_gtk5_chatline_autocompletion;
-  int gui_gtk5_citydlg_xsize;
-  int gui_gtk5_citydlg_ysize;
-  int gui_gtk5_helpdlg_xsize;
-  int gui_gtk5_helpdlg_ysize;
-  int gui_gtk5_optionsdlg_xsize;
-  int gui_gtk5_optionsdlg_ysize;
-  int gui_gtk5_popup_tech_help;
-  int gui_gtk5_governor_range_min;
-  int gui_gtk5_governor_range_max;
-  char gui_gtk5_font_city_label[FONT_NAME_SIZE];
-  char gui_gtk5_font_notify_label[FONT_NAME_SIZE];
-  char gui_gtk5_font_spaceship_label[FONT_NAME_SIZE];
-  char gui_gtk5_font_help_label[FONT_NAME_SIZE];
-  char gui_gtk5_font_help_link[FONT_NAME_SIZE];
-  char gui_gtk5_font_help_text[FONT_NAME_SIZE];
-  char gui_gtk5_font_chatline[FONT_NAME_SIZE];
-  char gui_gtk5_font_beta_label[FONT_NAME_SIZE];
-  char gui_gtk5_font_small[FONT_NAME_SIZE];
-  char gui_gtk5_font_comment_label[FONT_NAME_SIZE];
-  char gui_gtk5_font_city_names[FONT_NAME_SIZE];
-  char gui_gtk5_font_city_productions[FONT_NAME_SIZE];
-  char gui_gtk5_font_reqtree_text[FONT_NAME_SIZE];
 
 /* gui-sdl client specific options.
  * These are still kept just so users can migrate them to sdl2-client */
@@ -735,41 +694,6 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK4_GOV_RANGE_MAX_DEFAULT  20
 #define GUI_GTK4_GOV_RANGE_MAX_MIN      0
 #define GUI_GTK4_GOV_RANGE_MAX_MAX      100
-
-/* gui-gtk-5.0: [xy]size of the city dialog */
-#define GUI_GTK5_CITYDLG_DEFAULT_XSIZE  770
-#define GUI_GTK5_CITYDLG_MIN_XSIZE      256
-#define GUI_GTK5_CITYDLG_MAX_XSIZE      4096
-
-#define GUI_GTK5_CITYDLG_DEFAULT_YSIZE  512
-#define GUI_GTK5_CITYDLG_MIN_YSIZE      128
-#define GUI_GTK5_CITYDLG_MAX_YSIZE      4096
-
-/* gui-gtk5.0: [xy]size of the help dialog */
-#define GUI_GTK5_HELPDLG_DEFAULT_XSIZE  770
-#define GUI_GTK5_HELPDLG_MIN_XSIZE      256
-#define GUI_GTK5_HELPDLG_MAX_XSIZE      4096
-
-#define GUI_GTK5_HELPDLG_DEFAULT_YSIZE  512
-#define GUI_GTK5_HELPDLG_MIN_YSIZE      128
-#define GUI_GTK5_HELPDLG_MAX_YSIZE      4096
-
-/* gui-gtk5.0: [xy]size of the options dialog */
-#define GUI_GTK5_OPTIONSDLG_DEFAULT_XSIZE  128
-#define GUI_GTK5_OPTIONSDLG_MIN_XSIZE      128
-#define GUI_GTK5_OPTIONSDLG_MAX_XSIZE      4096
-
-#define GUI_GTK5_OPTIONSDLG_DEFAULT_YSIZE  480
-#define GUI_GTK5_OPTIONSDLG_MIN_YSIZE      128
-#define GUI_GTK5_OPTIONSDLG_MAX_YSIZE      4096
-
-#define GUI_GTK5_GOV_RANGE_MIN_DEFAULT  -20
-#define GUI_GTK5_GOV_RANGE_MIN_MIN      -100
-#define GUI_GTK5_GOV_RANGE_MIN_MAX      0
-
-#define GUI_GTK5_GOV_RANGE_MAX_DEFAULT  20
-#define GUI_GTK5_GOV_RANGE_MAX_MIN      0
-#define GUI_GTK5_GOV_RANGE_MAX_MAX      100
 
 #define GUI_DEFAULT_MAPIMG_FILENAME     "freeciv"
 
