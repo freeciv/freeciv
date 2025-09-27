@@ -3,7 +3,7 @@
 # run time search path of shared libraries in a binary (executable or
 # shared library).
 #
-#   Copyright 1996-2024 Free Software Foundation, Inc.
+#   Copyright 1996-2025 Free Software Foundation, Inc.
 #   Taken from GNU libtool, 2001
 #   Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 #
@@ -49,7 +49,7 @@ Send patches and bug reports to <bug-gnulib@gnu.org>."
 func_version ()
 {
   echo "config.rpath (GNU gnulib, module havelib)"
-  echo "Copyright (C) 2024 Free Software Foundation, Inc.
+  echo "Copyright (C) 2025 Free Software Foundation, Inc.
 License: All-Permissive.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law."
@@ -129,7 +129,7 @@ else
     hpux9* | hpux10* | hpux11*)
       wl='-Wl,'
       ;;
-    irix5* | irix6* | nonstopux*)
+    nonstopux*)
       wl='-Wl,'
       ;;
     linux* | k*bsd*-gnu | kopensolaris*-gnu)
@@ -477,7 +477,7 @@ else
         esac
       fi
       ;;
-    irix5* | irix6* | nonstopux*)
+    nonstopux*)
       hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
       hardcode_libdir_separator=:
       ;;
@@ -640,21 +640,8 @@ case "$host_os" in
   interix[3-9]*)
     library_names_spec='$libname$shrext'
     ;;
-  irix5* | irix6* | nonstopux*)
+  nonstopux*)
     library_names_spec='$libname$shrext'
-    case "$host_os" in
-      irix5* | nonstopux*)
-        libsuff= shlibsuff=
-        ;;
-      *)
-        case $LD in
-          *-32|*"-32 "|*-melf32bsmip|*"-melf32bsmip ") libsuff= shlibsuff= ;;
-          *-n32|*"-n32 "|*-melf32bmipn32|*"-melf32bmipn32 ") libsuff=32 shlibsuff=N32 ;;
-          *-64|*"-64 "|*-melf64bmip|*"-melf64bmip ") libsuff=64 shlibsuff=64 ;;
-          *) libsuff= shlibsuff= ;;
-        esac
-        ;;
-    esac
     ;;
   linux*oldld* | linux*aout* | linux*coff*)
     ;;
