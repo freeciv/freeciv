@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-06-12 21:17+0300\n"
-"PO-Revision-Date: 2025-06-16 20:57+0200\n"
+"POT-Creation-Date: 2025-10-08 20:53+0300\n"
+"PO-Revision-Date: 2025-10-02 18:00+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -907,7 +907,7 @@ msgstr "Usuń wymaganie"
 msgid "%s prevents"
 msgstr "%s uniemożliwia"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:385
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:386
 msgid "Effect"
 msgstr "Efekt"
 
@@ -921,16 +921,16 @@ msgid "Music Style"
 msgstr "Styl muzyki"
 
 #. TRANS: e.g. "Advance clause"
-#: tools/ruledit/validity.c:167
+#: tools/ruledit/validity.c:168
 #, c-format
 msgid "%s clause"
 msgstr "klauzula %s"
 
-#: tools/ruledit/validity.c:316
+#: tools/ruledit/validity.c:317
 msgid "Conflicting extra"
 msgstr "Niezgodne usprawnienie"
 
-#: tools/ruledit/validity.c:319
+#: tools/ruledit/validity.c:320
 msgid "Hidden extra"
 msgstr "Ukryte usprawnienie"
 
