@@ -1,10 +1,111 @@
 ========================
-Welcome to Freeciv 3.2.0
+Welcome to Freeciv 3.2.1
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.0 to 3.2.1
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.1>, 2025-10-09)
+
+3.2.1 is a generic bugfix release in the freeciv-3.2 series.
+
+Server / General
+
+    * Fixed units carrying goods RM#1579
+    * Fixed assert failures with illegal lua scripts RM#1550
+    * Refresh city capital status information after a savegame
+      has been loaded. Previously no city was considered capital
+      for a turn after savegame loading RM#1524
+    * Corrected what situations make it impossible to airlift a unit
+      RM#1564
+    * Fixed crash with illegal action lists in savegame RM#1646
+    * Fixed culture victory with very high values of culture RM#1673
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#600 RM#1484 RM#1582 RM#1571 RM#1586 RM#1592 RM#1371 RM#1635
+
+AI
+
+    * Fixed air unit goto RM#1657
+
+Clients
+
+    * User is informed about the goods a unit is carrying RM#1554
+    * Options from the open options dialog are automatically applied
+      before they are saved, so what user sees is what gets saved RM#1587
+    * Show tech upkeep correctly for very high values of it RM#1654
+    * Client now know correctly city anarchy and rapture status.
+      In many rulesets this fixes an issue that client did not show
+      rapture cancelling output penalties of early governments
+      RM#1639
+
+    * gtk
+         + gtk4 only: Fixed goto dialog Show All Cities toggle RM#1578
+         + Don't show "Bonus" for non-road extras in help RM#1637
+
+    * qt
+         + Fixed "collect Ransom" action RM#1629
+         + Fixed crash on savegame preview RM#1641
+         + Fixed nation and leader selection RM#1652
+         + Fixed mixup with thumbs up/down in diplomacy dialog RM#1668
+         + Added Help menu entry "Policies", removed duplicate entries
+           RM#1671
+
+    * sdl
+        + Fixed handling of very high city and unit ids RM#1529 RM#1528
+        + Fixed drawing of very wide or tall surfaces RM#1467
+
+Tools
+
+    * Modpack installer
+         + Command line version of the fcmp tells how to install
+           any of the listed modpacks RM#1486
+
+
+Help / Documentation
+
+    * Doxygen documentation updates RM#1461 RM#1481
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1502 RM#1534 RM#1577 RM#1614 RM#1648
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1585 RM#1622
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1522 RM#1540 RM#1644 RM#1689 RM#1690 RM#1691 RM#1692
+    * Crosser based Windows installers improvements
+         + Made Qt-client svgflags features to work RM#1471 RM#1485
+         + Audio driver is now set explicitly RM#1513
+         + Version number of the meson-winbuild.sh helper script
+           bumped to 3.2 RM#1613
+         + Preparations for sdl3-client builds RM#1628 RM#1651
+    * Improvements to official msys2 Windows installers
+         + Modernized build system RM#1372
+         + Added explicit "make release" target RM#1511
+    * emscripten updated to version 4.0.13 RM#1538 RM#1624 RM#1656
+    * Meson build system improvements
+         + Use "warning_level" options instead of "-Wall" RM#1316
+         + Fixed sdl3-client configure checks on Windows RM#1599
+    * Applied official patches to included copy of Lua-5.4.8
+         + Patch 1 RM#1537
+         + Patch 3 RM#1664
+    * Server binary is no longer built to ruledit appimage RM#1594
+    * Fixed compiler warning about curl usage RM#1679
 
 
 CHANGES FROM 3.2.0-RC2 to 3.2.0
