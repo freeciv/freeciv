@@ -31,6 +31,7 @@ format_version = 40
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual buildings, one per section.
+; There can be up to 200.
 ; (Buildings = City Improvements and Wonders)
 ;
 ; The actual tag used (the * in [building_*]) does not matter, except

@@ -23,6 +23,7 @@ buildings = "\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
 ; Below: The individual buildings, one per section.\n\
+; There can be up to 200.\n\
 ; (Buildings = City Improvements and Wonders)\n\
 ;\n\
 ; The actual tag used (the * in [building_*]) does not matter, except\n\
@@ -79,7 +80,7 @@ tech_classes = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; Tech classes:\n\
+; Tech classes, there can be up to 16:\n\
 ;\n\
 ; First one is the default one.\n\
 ; If there is none, tech classes feature is disabled\n\
@@ -218,7 +219,7 @@ policies = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; Multipliers (aka policies)\n\
+; Multipliers (aka policies), there can be up to 50:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
 ; rule_name               = (optional) internal name for savegames, rulesets\n\
@@ -250,7 +251,7 @@ uclasses = "\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
 ; Unit classes\n\
-; The number can be variable, up to 32\n\
+; The number can be variable, up to 32.\n\
 ; When adding new classes, remember to check effects.ruleset also.\n\
 ; Eg. if you divide class \'Land\' to two separate classes, you may\n\
 ; want add effect giving City Walls defense bonus against new class\n\
@@ -393,9 +394,10 @@ utypes = "\
 ; flags         = special flag strings; list of built-in flags described below\n\
 ;                 and/or user flags defined above\n\
 ;\n\
-; veteran_names = Special veteran level for this unit. See the definitions in\n\
+; veteran_names = Special veteran levels for this unit. See the definitions in\n\
 ;                 game.ruleset. All of the veteran_* entries have to have the\n\
 ;                 same length!\n\
+;                 There can be up to 20 levels.\n\
 ; veteran_base_raise_chance =\n\
 ; veteran_work_raise_chance =\n\
 ; veteran_power_fact =\n\
@@ -735,7 +737,7 @@ extras = "\
 ; Bases, roads, and resources have additional sections for their specific features.\n\
 ;\n\
 ;\n\
-; Extra types:\n\
+; Extra types, there can be up to 250:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
 ; rule_name               = (optional) internal name for savegames, rulesets\n\
@@ -1033,7 +1035,7 @@ disasters = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; Disaster types:\n\
+; Disaster types, there can be up to 10:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
 ; reqs                    = requirements for disaster to happen (see effects.ruleset\n\
@@ -1060,7 +1062,7 @@ achievements = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; Achievement types:\n\
+; Achievement types, there can be up to 40:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
 ; rule_name               = (optional) internal name for savegames, rulesets\n\
@@ -1111,7 +1113,7 @@ goods = "\
 \n\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
-; Goods types:\n\
+; Goods types, there can be up to 25:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
 ; rule_name               = (optional) internal name for savegames, rulesets\n\
@@ -1285,7 +1287,7 @@ clauses = "\
 
 counters = "\n\
 ; /* <-- avoid gettext warnings\n\
-;Counter types\n\
+;Counter types, there can be up to 20:\n\
 ;\n\
 ;name                    = translatable name as seen by user\n\
 ;rule_name               = (optional) internal name for savegames, rulesets\n\
@@ -1379,6 +1381,9 @@ nations_ruledit = "\n\
 
 granary = "\n\
 ; Parameters used to generalize the calculation of city granary size:\n\
+;\n\
+; granary_food_ini is a list of up to 24 integers.\n\
+;\n\
 ;   if city_size <= num_inis:\n\
 ;     city_granary_size = (granary_food_ini[city_size] * foodbox / 100)\n\
 ;   if city_size > num_inis;\n\
