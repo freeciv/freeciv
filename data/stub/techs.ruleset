@@ -18,7 +18,7 @@ format_version = 30
 
 ; /* <-- avoid gettext warnings
 ;
-; Tech classes:
+; Tech classes, there can be up to 16:
 ;
 ; First one is the default one.
 ; If there is none, tech classes feature is disabled

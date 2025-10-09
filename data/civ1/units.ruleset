@@ -245,6 +245,7 @@ flags         = "Missile", "Unreachable", "HutNothing"
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
 ;                 same length!
+;                 There can be up to 20 levels.
 ; veteran_base_raise_chance =
 ; veteran_work_raise_chance =
 ; veteran_power_fact =
