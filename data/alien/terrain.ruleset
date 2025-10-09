@@ -684,7 +684,7 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ; Bases, roads, and resources have additional sections for their specific features.
 ;
 ;
-; Extra types:
+; Extra types, there can be up to 250:
 ;
 ; name                    = translatable name as seen by user
 ; rule_name               = (optional) internal name for savegames, rulesets

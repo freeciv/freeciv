@@ -76,6 +76,9 @@ global_init_buildings = "Palace"
 
 [civstyle]
 ; Parameters used to generalize the calculation of city granary size:
+;
+; granary_food_ini is a list of up to 24 integers.
+;
 ;   if city_size <= num_inis:
 ;     city_granary_size = (granary_food_ini[city_size] * foodbox / 100)
 ;   if city_size > num_inis;
@@ -387,7 +390,7 @@ negative_label = _("BC")
 
 ; /* <-- avoid gettext warnings
 ;
-; Disaster types:
+; Disaster types, there can be up to 10:
 ;
 ; name                    = translatable name as seen by user
 ; reqs                    = requirements for disaster to happen (see effects.ruleset
@@ -413,7 +416,7 @@ negative_label = _("BC")
 
 ; /* <-- avoid gettext warnings
 ;
-; Achievement types:
+; Achievement types, there can be up to 40:
 ;
 ; name                    = translatable name as seen by user
 ; rule_name               = (optional) internal name for savegames, rulesets
@@ -493,7 +496,7 @@ goods_selection = "Arrival"
 
 ; /* <-- avoid gettext warnings
 ;
-; Goods types:
+; Goods types, there can be up to 25:
 ;
 ; name                    = translatable name as seen by user
 ; rule_name               = (optional) internal name for savegames, rulesets
@@ -584,7 +587,7 @@ type = "Vision"
 type = "Embassy"
 
 ; /* <-- avoid gettext warnings
-;Counter types
+;Counter types, there can be up to 20:
 ;
 ;name                    = translatable name as seen by user
 ;rule_name               = (optional) internal name for savegames, rulesets
