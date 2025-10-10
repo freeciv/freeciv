@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-07-17 12:09+0300\n"
+"POT-Creation-Date: 2025-10-02 05:39+0300\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -540,7 +540,7 @@ msgstr "관습"
 #: client/gui-sdl2/cityrep.c:572 client/gui-sdl2/cityrep.c:1114
 #: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1474
 #: client/gui-sdl3/cityrep.c:568 client/gui-sdl3/cityrep.c:1110
-#: client/gui-sdl3/wldlg.c:1466 client/gui-sdl3/wldlg.c:1470 client/text.c:898
+#: client/gui-sdl3/wldlg.c:1466 client/gui-sdl3/wldlg.c:1470 client/text.c:904
 msgid "never"
 msgstr "없음"
 
@@ -551,8 +551,8 @@ msgstr "없음"
 #: client/gui-gtk-4.0/helpdlg.c:1395 client/gui-gtk-4.0/helpdlg.c:1405
 #: client/gui-gtk-4.0/helpdlg.c:1416 client/gui-qt/citydlg.cpp:3212
 #: client/gui-qt/helpdlg.cpp:1347 client/gui-qt/helpdlg.cpp:1369
-#: client/gui-qt/helpdlg.cpp:1392 client/helpdata.c:3829 client/text.c:896
-#: client/text.c:1387
+#: client/gui-qt/helpdlg.cpp:1392 client/helpdata.c:3829 client/text.c:902
+#: client/text.c:1393
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
@@ -1910,7 +1910,7 @@ msgstr "서버를 시작할수 없습니다"
 msgid "You'll have to start one manually. Sorry..."
 msgstr ""
 
-#: client/connectdlg_common.c:290 client/options.c:5300 client/options.c:5349
+#: client/connectdlg_common.c:290 client/options.c:5314 client/options.c:5363
 #, fuzzy
 #| msgid "Cannot create required directories"
 msgid "Cannot find freeciv storage directory"
@@ -2056,7 +2056,7 @@ msgstr ""
 
 #: client/editor.c:212 client/gui-gtk-3.22/citydlg.c:3095
 #: client/gui-gtk-4.0/citydlg.c:3191 client/gui-qt/citydlg.cpp:1423
-#: common/fc_types.h:176 common/unit.c:651 data/civ1/terrain.ruleset:1162
+#: common/fc_types.h:176 common/unit.c:659 data/civ1/terrain.ruleset:1162
 #: data/civ2/terrain.ruleset:1301 data/classic/terrain.ruleset:1605
 #: data/sandbox/terrain.ruleset:1874 data/civ2civ3/terrain.ruleset:1768
 #: data/alien/terrain.ruleset:1059 data/multiplayer/terrain.ruleset:1577
@@ -2213,12 +2213,12 @@ msgstr "(없음)"
 #: client/gui-gtk-3.22/repodlgs.c:1620 client/gui-gtk-4.0/action_dialog.c:483
 #: client/gui-gtk-4.0/action_dialog.c:970 client/gui-gtk-4.0/citydlg.c:3318
 #: client/gui-gtk-4.0/repodlgs.c:1649 client/gui-qt/citydlg.cpp:3483
-#: client/gui-qt/dialogs.cpp:3658 client/gui-qt/dialogs.cpp:3721
+#: client/gui-qt/dialogs.cpp:3669 client/gui-qt/dialogs.cpp:3732
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1640
 #: client/gui-sdl2/action_dialog.c:1903 client/gui-sdl2/citydlg.c:1192
 #: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1640
 #: client/gui-sdl3/action_dialog.c:1903 client/gui-sdl3/citydlg.c:1188
-#: client/gui-sdl3/repodlgs.c:211 client/text.c:1295 common/unit.c:2063
+#: client/gui-sdl3/repodlgs.c:211 client/text.c:1301 common/unit.c:2071
 #: server/unithand.c:2160 server/unithand.c:2870
 #, fuzzy, c-format
 msgid "Treasury contains %d gold."
@@ -2229,7 +2229,7 @@ msgstr[0] ""
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:492
-#: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3727
+#: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3738
 #: client/gui-sdl2/action_dialog.c:1928 client/gui-sdl3/action_dialog.c:1928
 #, fuzzy, c-format
 msgid ""
@@ -2243,14 +2243,14 @@ msgstr[0] ""
 "%d의 금을 자금으로 갖고 있습니다."
 
 #: client/gui-gtk-3.22/action_dialog.c:494
-#: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3730
+#: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3741
 #: client/gui-sdl2/action_dialog.c:1909 client/gui-sdl3/action_dialog.c:1909
 msgid "Bribe Enemy Unit"
 msgstr "적 부대를 매수하기"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:500
-#: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3742
+#: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3753
 #: client/gui-sdl2/action_dialog.c:1978 client/gui-sdl3/action_dialog.c:1978
 #, fuzzy, c-format
 msgid ""
@@ -2266,14 +2266,14 @@ msgstr[0] ""
 #: client/gui-gtk-3.22/action_dialog.c:502
 #: client/gui-gtk-3.22/action_dialog.c:999
 #: client/gui-gtk-4.0/action_dialog.c:502
-#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3744
+#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3755
 #: client/gui-sdl2/action_dialog.c:1762 client/gui-sdl2/action_dialog.c:1990
 #: client/gui-sdl3/action_dialog.c:1762 client/gui-sdl3/action_dialog.c:1990
 msgid "Traitors Demand Too Much!"
 msgstr ""
 
 #: client/gui-gtk-3.22/action_dialog.c:584
-#: client/gui-gtk-4.0/action_dialog.c:584 client/gui-qt/dialogs.cpp:3171
+#: client/gui-gtk-4.0/action_dialog.c:584 client/gui-qt/dialogs.cpp:3182
 msgid "Steal Technology"
 msgstr "기술 훔치기"
 
@@ -2324,8 +2324,8 @@ msgstr "기술:(_A)"
 #: client/gui-gtk-3.22/action_dialog.c:668
 #: client/gui-gtk-3.22/action_dialog.c:850
 #: client/gui-gtk-4.0/action_dialog.c:666
-#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3200
-#: client/gui-qt/dialogs.cpp:3851 client/gui-sdl2/action_dialog.c:493
+#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3211
+#: client/gui-qt/dialogs.cpp:3862 client/gui-sdl2/action_dialog.c:493
 #: client/gui-sdl2/action_dialog.c:1429 client/gui-sdl3/action_dialog.c:493
 #: client/gui-sdl3/action_dialog.c:1429
 #, c-format
@@ -2343,7 +2343,7 @@ msgid "_Sabotage"
 msgstr ""
 
 #: client/gui-gtk-3.22/action_dialog.c:783
-#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3814
+#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3825
 #: client/gui-sdl2/action_dialog.c:1336 client/gui-sdl3/action_dialog.c:1336
 msgid "Select Improvement to Sabotage"
 msgstr ""
@@ -2354,14 +2354,14 @@ msgid "_Improvements:"
 msgstr "건축물:(_I)"
 
 #: client/gui-gtk-3.22/action_dialog.c:830
-#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3834
+#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3845
 #: client/gui-qt/menu.cpp:1118 client/gui-sdl2/action_dialog.c:1369
 #: client/gui-sdl3/action_dialog.c:1369
 msgid "City Production"
 msgstr "도시 생산"
 
 #: client/gui-gtk-3.22/action_dialog.c:980
-#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3667
+#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3678
 #: client/gui-sdl2/action_dialog.c:1678 client/gui-sdl3/action_dialog.c:1678
 #, c-format
 msgid "You can't incite a revolt in %s."
@@ -2375,7 +2375,7 @@ msgstr ""
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:988
-#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3676
+#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3687
 #: client/gui-sdl2/action_dialog.c:1699 client/gui-sdl3/action_dialog.c:1699
 #, c-format
 msgid ""
@@ -2387,14 +2387,14 @@ msgid_plural ""
 msgstr[0] ""
 
 #: client/gui-gtk-3.22/action_dialog.c:990
-#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3680
+#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3691
 #: client/gui-sdl2/action_dialog.c:1646 client/gui-sdl3/action_dialog.c:1646
 msgid "Incite a Revolt!"
 msgstr ""
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:997
-#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3692
+#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3703
 #: client/gui-sdl2/action_dialog.c:1750 client/gui-sdl3/action_dialog.c:1750
 #, c-format
 msgid ""
@@ -2463,14 +2463,14 @@ msgstr "미래 목표치 보이기:"
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-3.22/action_dialog.c:1402
-#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2059
+#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2058
 #: client/gui-sdl2/action_dialog.c:972 client/gui-sdl3/action_dialog.c:972
 #, fuzzy, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "당신의 스파이의 전략을 선택하세요"
 
 #: client/gui-gtk-3.22/action_dialog.c:1407
-#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2064
+#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2063
 #, fuzzy, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
@@ -2480,7 +2480,7 @@ msgstr ""
 "무엇을 하시겠습니까?"
 
 #: client/gui-gtk-3.22/action_dialog.c:1413
-#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2070
+#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2069
 #, fuzzy, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -2489,7 +2489,7 @@ msgstr "당신의 캐러번이 %s에 도착하였음"
 
 #. TRANS: Your Spy is ready to act against Roman Freight.
 #: client/gui-gtk-3.22/action_dialog.c:1419
-#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2076
+#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2075
 #, fuzzy, c-format
 #| msgid "Your %s succeeded in sabotaging the %s %s."
 msgid "Your %s is ready to act against %s %s."
@@ -2497,7 +2497,7 @@ msgstr "당신의 %s (은)는 그 %s %s (을)를 사보타주하기 안에서 �
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
 #: client/gui-gtk-3.22/action_dialog.c:1428
-#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2086
+#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2085
 #, fuzzy, c-format
 msgid "Your %s is waiting for your command."
 msgstr "선생님, 스파이가 당신의 명령을 기다리고 있습니다"
@@ -3122,7 +3122,7 @@ msgstr "작업리스트 지우기(_W)"
 
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.22/citydlg.c:3071 client/gui-gtk-4.0/citydlg.c:3167
-#: client/gui-qt/citydlg.cpp:1405 common/fc_types.h:143 common/unit.c:626
+#: client/gui-qt/citydlg.cpp:1405 common/fc_types.h:143 common/unit.c:634
 #, fuzzy
 msgid "?act:Mine"
 msgstr "관갱"
@@ -3131,15 +3131,15 @@ msgstr "관갱"
 #: client/gui-gtk-3.22/citydlg.c:3078 client/gui-gtk-3.22/menu.c:582
 #: client/gui-gtk-4.0/citydlg.c:3174 client/gui-gtk-4.0/menu.c:799
 #: client/gui-qt/citydlg.cpp:1402 client/gui-qt/menu.cpp:1334
-#: client/gui-qt/menu.cpp:2316 client/gui-qt/menu.cpp:2319
-#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:182 common/unit.c:629
+#: client/gui-qt/menu.cpp:2311 client/gui-qt/menu.cpp:2314
+#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:182 common/unit.c:637
 #: tools/manual/manual_terrain.c:51
 #, fuzzy
 msgid "Plant"
 msgstr "제조 공장"
 
 #: client/gui-gtk-3.22/citydlg.c:3083 client/gui-gtk-4.0/citydlg.c:3179
-#: client/gui-qt/citydlg.cpp:1413 common/fc_types.h:146 common/unit.c:631
+#: client/gui-qt/citydlg.cpp:1413 common/fc_types.h:146 common/unit.c:639
 #, fuzzy
 msgid "Irrigate"
 msgstr "관개(_I)"
@@ -3147,8 +3147,8 @@ msgstr "관개(_I)"
 #: client/gui-gtk-3.22/citydlg.c:3090 client/gui-gtk-3.22/menu.c:578
 #: client/gui-gtk-4.0/citydlg.c:3186 client/gui-gtk-4.0/menu.c:796
 #: client/gui-qt/citydlg.cpp:1410 client/gui-qt/menu.cpp:1324
-#: client/gui-qt/menu.cpp:2293 client/gui-qt/menu.cpp:2296
-#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:140 common/unit.c:633
+#: client/gui-qt/menu.cpp:2288 client/gui-qt/menu.cpp:2291
+#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:140 common/unit.c:641
 #: tools/manual/manual_terrain.c:51
 #, fuzzy
 #| msgid "Cities layer"
@@ -3157,7 +3157,7 @@ msgstr "도시 층"
 
 #: client/gui-gtk-3.22/citydlg.c:3102 client/gui-gtk-4.0/citydlg.c:3198
 #: client/gui-qt/citydlg.cpp:1419 client/gui-qt/shortcuts.cpp:138
-#: common/fc_types.h:164 common/unit.c:647 data/civ2/units.ruleset:25
+#: common/fc_types.h:164 common/unit.c:655 data/civ2/units.ruleset:25
 #: data/classic/units.ruleset:31 data/sandbox/units.ruleset:31
 #: data/civ2civ3/units.ruleset:31 data/multiplayer/units.ruleset:31
 #: tools/manual/manual_terrain.c:51
@@ -3166,7 +3166,7 @@ msgstr "개조"
 
 #: client/gui-gtk-3.22/citydlg.c:3108 client/gui-gtk-4.0/citydlg.c:3204
 #: client/gui-qt/citydlg.cpp:1428 client/gui-qt/menu.cpp:1362
-#: client/gui-qt/shortcuts.cpp:152 common/fc_types.h:170 common/unit.c:623
+#: client/gui-qt/shortcuts.cpp:152 common/fc_types.h:170 common/unit.c:631
 #, fuzzy
 msgid "Clean"
 msgstr "기록 지우기"
@@ -3528,32 +3528,32 @@ msgid "I_nspect City"
 msgstr "도시 조사(_C)"
 
 #: client/gui-gtk-3.22/dialogs.c:294 client/gui-gtk-4.0/dialogs.c:294
-#: client/gui-qt/dialogs.cpp:1312
+#: client/gui-qt/dialogs.cpp:1311
 msgid "You say you wanna revolution?"
 msgstr "당신이 혁명을 원한다고 하셨습니까?"
 
 #: client/gui-gtk-3.22/dialogs.c:295 client/gui-gtk-4.0/dialogs.c:295
-#: client/gui-qt/dialogs.cpp:1313
+#: client/gui-qt/dialogs.cpp:1312
 msgid "Revolution!"
 msgstr "혁명!"
 
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-3.22/dialogs.c:363 client/gui-gtk-4.0/dialogs.c:363
-#: client/gui-qt/dialogs.cpp:3878 client/gui-sdl2/dialogs.c:2301
+#: client/gui-qt/dialogs.cpp:3889 client/gui-sdl2/dialogs.c:2301
 #: client/gui-sdl3/dialogs.c:2298
 msgid "What To Pillage"
 msgstr "약탈하기"
 
 #. TRANS: Pillage dialog target text.
 #: client/gui-gtk-3.22/dialogs.c:367 client/gui-gtk-4.0/dialogs.c:367
-#: client/gui-qt/dialogs.cpp:3878
+#: client/gui-qt/dialogs.cpp:3889
 msgid "Select what to pillage:"
 msgstr "약탈 할 것을 선택하세요:"
 
 #. TRANS: Pillage dialog do button text.
 #: client/gui-gtk-3.22/dialogs.c:369 client/gui-gtk-4.0/dialogs.c:369
 #: client/gui-qt/menu.cpp:1288 client/gui-sdl2/menu.c:705
-#: client/gui-sdl3/menu.c:701 common/fc_types.h:155 common/unit.c:641
+#: client/gui-sdl3/menu.c:701 common/fc_types.h:155 common/unit.c:649
 msgid "Pillage"
 msgstr "약탈"
 
@@ -3563,18 +3563,18 @@ msgid "All"
 msgstr "모두"
 
 #: client/gui-gtk-3.22/dialogs.c:859 client/gui-gtk-4.0/dialogs.c:865
-#: client/gui-qt/dialogs.cpp:590
+#: client/gui-qt/dialogs.cpp:589
 #, fuzzy
 msgid "Edit Nation"
 msgstr "민족을 선택"
 
 #: client/gui-gtk-3.22/dialogs.c:861 client/gui-gtk-4.0/dialogs.c:867
-#: client/gui-qt/dialogs.cpp:592
+#: client/gui-qt/dialogs.cpp:591
 msgid "What Nation Will You Be?"
 msgstr "어떤 민족으로 합니까?"
 
 #: client/gui-gtk-3.22/dialogs.c:863 client/gui-gtk-4.0/dialogs.c:869
-#: client/gui-qt/dialogs.cpp:594 client/gui-qt/pages.cpp:688
+#: client/gui-qt/dialogs.cpp:593 client/gui-qt/pages.cpp:688
 #: client/gui-sdl2/chatline.c:817 client/gui-sdl3/chatline.c:813
 msgid "Pick Nation"
 msgstr "민족을 선택"
@@ -3626,25 +3626,25 @@ msgid "You must select your sex."
 msgstr "성별을 선택하새요."
 
 #: client/gui-gtk-3.22/dialogs.c:1396 client/gui-gtk-4.0/dialogs.c:1414
-#: client/gui-qt/dialogs.cpp:848
+#: client/gui-qt/dialogs.cpp:847
 #, fuzzy
 msgid "You must select your style."
 msgstr "성별을 선택하새요."
 
 #: client/gui-gtk-3.22/dialogs.c:1405 client/gui-gtk-4.0/dialogs.c:1424
-#: client/gui-qt/dialogs.cpp:853 client/gui-sdl2/dialogs.c:2613
+#: client/gui-qt/dialogs.cpp:852 client/gui-sdl2/dialogs.c:2613
 #: client/gui-sdl3/dialogs.c:2610
 msgid "You must type a legal name."
 msgstr "합법적인 이름을 입력하새요."
 
 #: client/gui-gtk-3.22/dialogs.c:1448 client/gui-gtk-4.0/dialogs.c:1485
-#: client/gui-qt/dialogs.cpp:4387
+#: client/gui-qt/dialogs.cpp:4398
 msgid "Upgrade Unit!"
 msgstr "부대를 업그레이드 하기"
 
 #: client/gui-gtk-3.22/dialogs.c:1457 client/gui-gtk-3.22/repodlgs.c:1640
 #: client/gui-gtk-4.0/dialogs.c:1494 client/gui-gtk-4.0/repodlgs.c:1669
-#: client/gui-qt/dialogs.cpp:4390 client/gui-qt/repodlgs.cpp:226
+#: client/gui-qt/dialogs.cpp:4401 client/gui-qt/repodlgs.cpp:226
 #: client/gui-sdl2/dialogs.c:704 client/gui-sdl2/repodlgs.c:225
 #: client/gui-sdl3/dialogs.c:700 client/gui-sdl3/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
@@ -3660,7 +3660,7 @@ msgid "Disband Units"
 msgstr "부대해산"
 
 #: client/gui-gtk-3.22/dialogs.c:1548 client/gui-gtk-4.0/dialogs.c:1587
-#: client/gui-qt/dialogs.cpp:4344
+#: client/gui-qt/dialogs.cpp:4355
 #, c-format
 msgid ""
 "Tileset \"%s\" problem, it's probably incompatible with the ruleset:\n"
@@ -3668,7 +3668,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-3.22/dialogs.c:1555 client/gui-gtk-4.0/dialogs.c:1594
-#: client/gui-qt/dialogs.cpp:4348
+#: client/gui-qt/dialogs.cpp:4359
 #, c-format
 msgid ""
 "Tileset problem, it's probably incompatible with the ruleset:\n"
@@ -3688,7 +3688,7 @@ msgid "Are you sure you want to do %s?"
 msgstr "정말 끝내시겠습니까?"
 
 #: client/gui-gtk-3.22/dialogs.c:1651 client/gui-gtk-4.0/dialogs.c:1693
-#: client/gui-qt/dialogs.cpp:4986 client/gui-sdl2/dialogs.c:3808
+#: client/gui-qt/dialogs.cpp:4997 client/gui-sdl2/dialogs.c:3808
 #: client/gui-sdl3/dialogs.c:3806
 #, c-format
 msgid "No image for tag \"%s\", requested by the server."
@@ -3920,7 +3920,7 @@ msgstr "새로운 미리설정"
 
 #: client/gui-gtk-3.22/editprop.c:955 client/gui-gtk-3.22/editprop.c:3934
 #: client/gui-gtk-4.0/editprop.c:955 client/gui-gtk-4.0/editprop.c:3942
-#: client/gui-qt/dialogs.cpp:624 data/civ1/nations.ruleset:87
+#: client/gui-qt/dialogs.cpp:623 data/civ1/nations.ruleset:87
 #: data/civ2/nations.ruleset:89 data/alien/nations.ruleset:89
 #, fuzzy
 msgid "All nations"
@@ -4361,7 +4361,7 @@ msgstr ""
 #: client/gui-gtk-3.22/editprop.c:6602 client/gui-gtk-3.22/pages.c:747
 #: client/gui-gtk-4.0/editprop.c:6626 client/gui-gtk-4.0/pages.c:758
 #: client/gui-qt/pages.cpp:928 client/gui-sdl2/citydlg.c:2047
-#: client/gui-sdl3/citydlg.c:2043 client/text.c:179 common/unit.c:659
+#: client/gui-sdl3/citydlg.c:2043 client/text.c:179 common/unit.c:667
 msgid "Unknown"
 msgstr "알려지지 않은"
 
@@ -4463,7 +4463,7 @@ msgid "Show _All Cities"
 msgstr "모든 도시 보기"
 
 #: client/gui-gtk-3.22/gotodlg.c:346 client/gui-gtk-4.0/gotodlg.c:345
-#: client/text.c:1122
+#: client/text.c:1128
 msgid "No units selected."
 msgstr "선택된 부대 없음"
 
@@ -4939,8 +4939,7 @@ msgid "Other Resources"
 msgstr "자원"
 
 #. TRANS: No output bonus from a road
-#: client/gui-gtk-3.22/helpdlg.c:1466 client/gui-gtk-3.22/helpdlg.c:1470
-#: client/gui-gtk-4.0/helpdlg.c:1515 client/gui-gtk-4.0/helpdlg.c:1520
+#: client/gui-gtk-3.22/helpdlg.c:1466 client/gui-gtk-4.0/helpdlg.c:1515
 #, fuzzy
 #| msgid "Wonders: "
 msgid "?bonus:None"
@@ -5274,7 +5273,7 @@ msgstr "세계 불가사의(_W)"
 
 #: client/gui-gtk-3.22/menu.c:329 client/gui-gtk-3.22/menu.c:2443
 #: client/gui-gtk-4.0/menu.c:871 client/gui-qt/menu.cpp:1565
-#: client/gui-qt/menu.cpp:2131
+#: client/gui-qt/menu.cpp:2126
 #, fuzzy
 #| msgid "No Cities"
 msgid "Top Cities"
@@ -5892,7 +5891,7 @@ msgid "Game Settings"
 msgstr "게임 설정"
 
 #: client/gui-gtk-3.22/menu.c:735 client/gui-gtk-4.0/menu.c:1318
-#: client/gui-qt/menu.cpp:3877
+#: client/gui-qt/menu.cpp:3872
 msgid "Leaving a local game will end it!"
 msgstr "로컬 게임으로부터 나가면 종료됩니다!"
 
@@ -6141,7 +6140,7 @@ msgid "New Pass_word:"
 msgstr "암호:(_W)"
 
 #: client/gui-gtk-3.22/pages.c:1074 client/gui-gtk-4.0/pages.c:1090
-#: client/gui-qt/pages.cpp:1654 client/gui-sdl2/connectdlg.c:942
+#: client/gui-qt/pages.cpp:1655 client/gui-sdl2/connectdlg.c:942
 #: client/gui-sdl3/connectdlg.c:938
 msgid "Passwords don't match, enter password."
 msgstr ""
@@ -6252,7 +6251,7 @@ msgid "Toggle player ready"
 msgstr ""
 
 #: client/gui-gtk-3.22/pages.c:1837 client/gui-gtk-4.0/pages.c:1916
-#: client/gui-qt/pages.cpp:2037
+#: client/gui-qt/pages.cpp:2038
 msgid "Pick nation"
 msgstr "민족을 선택"
 
@@ -6261,7 +6260,7 @@ msgid "Observe this player"
 msgstr "이 플레이어를 관찰하기"
 
 #: client/gui-gtk-3.22/pages.c:1852 client/gui-gtk-4.0/pages.c:1929
-#: client/gui-qt/pages.cpp:2027
+#: client/gui-qt/pages.cpp:2028
 msgid "Take this player"
 msgstr "이 사용자 데려오기"
 
@@ -6270,12 +6269,12 @@ msgid "Cut connection"
 msgstr "연결 끊기"
 
 #: client/gui-gtk-3.22/pages.c:1875 client/gui-gtk-4.0/pages.c:1949
-#: client/gui-qt/pages.cpp:2094
+#: client/gui-qt/pages.cpp:2095
 msgid "Aitoggle player"
 msgstr ""
 
 #: client/gui-gtk-3.22/pages.c:1883 client/gui-gtk-4.0/pages.c:1957
-#: client/gui-qt/pages.cpp:2019
+#: client/gui-qt/pages.cpp:2020
 msgid "Remove player"
 msgstr "사용자 제거"
 
@@ -6341,19 +6340,19 @@ msgid "<%s AI>"
 msgstr "<AI>"
 
 #: client/gui-gtk-3.22/pages.c:2418 client/gui-gtk-4.0/pages.c:2527
-#: client/gui-qt/dialogs.cpp:567 client/gui-qt/fc_client.cpp:1279
-#: client/gui-qt/pages.cpp:1737
+#: client/gui-qt/dialogs.cpp:566 client/gui-qt/fc_client.cpp:1279
+#: client/gui-qt/pages.cpp:1738
 msgid "Random"
 msgstr "무작위"
 
 #: client/gui-gtk-3.22/pages.c:2467 client/gui-gtk-3.22/pages.c:2528
 #: client/gui-gtk-4.0/pages.c:2576 client/gui-gtk-4.0/pages.c:2637
-#: client/gui-qt/pages.cpp:1834 client/gui-qt/pages.cpp:1864
+#: client/gui-qt/pages.cpp:1835 client/gui-qt/pages.cpp:1865
 msgid "Observer"
 msgstr "관찰자"
 
 #: client/gui-gtk-3.22/pages.c:2553 client/gui-gtk-4.0/pages.c:2662
-#: client/gui-qt/pages.cpp:1882
+#: client/gui-qt/pages.cpp:1883
 msgid "Detached"
 msgstr "붙임"
 
@@ -6381,7 +6380,7 @@ msgstr "기타 게임 옵션...(_M)"
 
 #: client/gui-gtk-3.22/pages.c:2752 client/gui-gtk-3.22/unitselect.c:475
 #: client/gui-gtk-4.0/pages.c:2875 client/gui-gtk-4.0/unitselect.c:480
-#: client/gui-qt/pages.cpp:665 client/gui-qt/pages.cpp:1933
+#: client/gui-qt/pages.cpp:665 client/gui-qt/pages.cpp:1934
 #: tools/fcmp/mpgui_gtk3.c:262 tools/fcmp/mpgui_gtk4.c:274
 #: tools/fcmp/mpgui_qt_worker.cpp:54
 msgid "Ready"
@@ -6415,7 +6414,7 @@ msgstr "로드하기 위해 저장된 게임을 선택하세요:"
 #. TRANS: Old scenario format version
 #. TRANS: Unknown scenario format
 #: client/gui-gtk-3.22/pages.c:3023 client/gui-gtk-4.0/pages.c:3157
-#: client/gui-qt/pages.cpp:1519
+#: client/gui-qt/pages.cpp:1520
 msgid "pre-2.6"
 msgstr ""
 
@@ -6435,7 +6434,7 @@ msgstr "파일이름 저장 :"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-3.22/pages.c:3295 client/gui-gtk-4.0/pages.c:3437
-#: client/gui-qt/pages.cpp:1545
+#: client/gui-qt/pages.cpp:1546
 #, fuzzy
 #| msgid "Normal"
 msgid "Format:"
@@ -6481,7 +6480,7 @@ msgid "Save _Map Images:"
 msgstr "저장된 게임들 :"
 
 #: client/gui-gtk-3.22/pages.c:3576 client/gui-gtk-4.0/pages.c:3720
-#: client/gui-qt/menu.cpp:3828
+#: client/gui-qt/menu.cpp:3823
 #, fuzzy
 msgid "Error"
 msgstr ""
@@ -6621,7 +6620,7 @@ msgid "Research"
 msgstr "연구"
 
 #: client/gui-gtk-3.22/repodlgs.c:606 client/gui-gtk-4.0/repodlgs.c:638
-#: client/gui-qt/pages.cpp:1397
+#: client/gui-qt/pages.cpp:1398
 msgid "Researching"
 msgstr "연구중"
 
@@ -6660,7 +6659,7 @@ msgid "U Total"
 msgstr "당신의 총합"
 
 #: client/gui-gtk-3.22/repodlgs.c:945 client/gui-gtk-4.0/repodlgs.c:977
-#: client/gui-qt/pages.cpp:2171 client/gui-qt/repodlgs.cpp:1391
+#: client/gui-qt/pages.cpp:2172 client/gui-qt/repodlgs.cpp:1391
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "수입: %d       총 비용: %d"
@@ -6873,7 +6872,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-3.22/tileset_dlg.c:49 client/gui-gtk-4.0/tileset_dlg.c:48
-#: client/gui-qt/dialogs.cpp:3977
+#: client/gui-qt/dialogs.cpp:3988
 #, fuzzy
 #| msgid "Can't add %s to %s."
 msgid "Can't load requested tileset."
@@ -6964,7 +6963,7 @@ msgstr "작업 리스트(_W)"
 
 #: client/gui-gtk-3.22/unitselect.c:484 client/gui-gtk-4.0/unitselect.c:490
 #: client/gui-qt/menu.cpp:1216 client/gui-qt/shortcuts.cpp:130
-#: common/unit.c:639
+#: common/unit.c:647
 msgid "Sentry"
 msgstr "보초"
 
@@ -7323,7 +7322,7 @@ msgid "Show buildings"
 msgstr "건물: "
 
 #: client/gui-qt/citydlg.cpp:1678 client/gui-qt/citydlg.cpp:1680
-#: client/options.c:2483
+#: client/options.c:2487
 #, fuzzy
 msgid "Show units"
 msgstr "%s 부대"
@@ -7594,7 +7593,7 @@ msgstr "에 의해 쓸모가 없는"
 msgid "Obsoleted by %1."
 msgstr "에 의해 쓸모가 없는"
 
-#: client/gui-qt/citydlg.cpp:4212 client/gui-qt/dialogs.cpp:563
+#: client/gui-qt/citydlg.cpp:4212 client/gui-qt/dialogs.cpp:562
 #: client/gui-qt/hudwidget.cpp:1418 client/gui-qt/messagedlg.cpp:65
 #: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:416
 #: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:620
@@ -7676,74 +7675,74 @@ msgstr "매각"
 msgid "Column visibility"
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:455
+#: client/gui-qt/dialogs.cpp:457
 #, fuzzy
 msgid "Select Nation"
 msgstr "민족을 선택하세요"
 
-#: client/gui-qt/dialogs.cpp:474
+#: client/gui-qt/dialogs.cpp:476
 #, fuzzy
 msgid "Nation Set:"
 msgstr "국가 선택"
 
-#: client/gui-qt/dialogs.cpp:504
+#: client/gui-qt/dialogs.cpp:506
 #, fuzzy
 msgid "Choose nation"
 msgstr "시나리오 선택"
 
-#: client/gui-qt/dialogs.cpp:505
+#: client/gui-qt/dialogs.cpp:507
 #, fuzzy
 msgid "Your leader name"
 msgstr "당신의 새로운 정부"
 
-#: client/gui-qt/dialogs.cpp:571 client/gui-qt/messagedlg.cpp:69
+#: client/gui-qt/dialogs.cpp:570 client/gui-qt/messagedlg.cpp:69
 #: client/gui-qt/optiondlg.cpp:174 client/gui-qt/ratesdlg.cpp:79
 #: client/gui-qt/ratesdlg.cpp:169 client/gui-qt/shortcuts.cpp:653
 msgid "Ok"
 msgstr "Ok"
 
-#: client/gui-qt/dialogs.cpp:860
+#: client/gui-qt/dialogs.cpp:859
 msgid "Nation has been chosen by other player"
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:1117
+#: client/gui-qt/dialogs.cpp:1116
 #, fuzzy
 #| msgid "Goto _Location"
 msgid "Goto Location"
 msgstr "장소로 이동하기(_L)"
 
-#: client/gui-qt/dialogs.cpp:1119
+#: client/gui-qt/dialogs.cpp:1118
 #, fuzzy
 msgid "Inspect City"
 msgstr "도시 조사(_C)"
 
-#: client/gui-qt/dialogs.cpp:2249
+#: client/gui-qt/dialogs.cpp:2248
 #, fuzzy
 #| msgid "Wait"
 msgid "&Wait"
 msgstr "기다림"
 
-#: client/gui-qt/dialogs.cpp:2253
+#: client/gui-qt/dialogs.cpp:2252
 #, fuzzy
 msgid "Do nothing"
 msgstr "아무것도"
 
-#: client/gui-qt/dialogs.cpp:3171
+#: client/gui-qt/dialogs.cpp:3182
 msgid "Steal"
 msgstr "도둑질"
 
-#: client/gui-qt/dialogs.cpp:3813 client/gui-qt/menu.cpp:1430
+#: client/gui-qt/dialogs.cpp:3824 client/gui-qt/menu.cpp:1430
 #: common/events.c:125 common/events.c:135
 msgid "Sabotage"
 msgstr "방해"
 
-#: client/gui-qt/dialogs.cpp:3913
+#: client/gui-qt/dialogs.cpp:3924
 #, fuzzy
 msgid "Are you sure you want to disband that %1 unit?"
 msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "정말 끝내시겠습니까?"
 
-#: client/gui-qt/dialogs.cpp:3916 client/gui-qt/pages.cpp:1777
+#: client/gui-qt/dialogs.cpp:3927 client/gui-qt/pages.cpp:1778
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:1711
 #: client/gui-sdl2/action_dialog.c:1940 client/gui-sdl2/citydlg.c:1262
 #: client/gui-sdl2/cma_fe.c:361 client/gui-sdl2/diplodlg.c:1504
@@ -7751,11 +7750,11 @@ msgstr[0] "정말 끝내시겠습니까?"
 #: client/gui-sdl3/action_dialog.c:1711 client/gui-sdl3/action_dialog.c:1940
 #: client/gui-sdl3/citydlg.c:1258 client/gui-sdl3/cma_fe.c:357
 #: client/gui-sdl3/diplodlg.c:1500 client/gui-sdl3/plrdlg.c:247
-#: client/gui-sdl3/repodlgs.c:268 client/text.c:639
+#: client/gui-sdl3/repodlgs.c:268 client/text.c:645
 msgid "Yes"
 msgstr "예"
 
-#: client/gui-qt/dialogs.cpp:3917 client/gui-qt/pages.cpp:1779
+#: client/gui-qt/dialogs.cpp:3928 client/gui-qt/pages.cpp:1780
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:1722
 #: client/gui-sdl2/action_dialog.c:1950 client/gui-sdl2/citydlg.c:1249
 #: client/gui-sdl2/cma_fe.c:371 client/gui-sdl2/diplodlg.c:1492
@@ -7768,69 +7767,69 @@ msgstr "예"
 msgid "No"
 msgstr "아니오"
 
-#: client/gui-qt/dialogs.cpp:3918
+#: client/gui-qt/dialogs.cpp:3929
 #, fuzzy
 #| msgid "Disband unit"
 msgid "Disband units"
 msgstr "부대를 해산하기"
 
-#: client/gui-qt/dialogs.cpp:3962
+#: client/gui-qt/dialogs.cpp:3973
 msgid "Modpack suggests using %1 tileset."
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:3967
+#: client/gui-qt/dialogs.cpp:3978
 msgid "Keep current tileset"
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:3968
+#: client/gui-qt/dialogs.cpp:3979
 msgid "Load tileset"
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:3993
+#: client/gui-qt/dialogs.cpp:4004
 msgid "Modpack suggests using %1 soundset."
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:3998
+#: client/gui-qt/dialogs.cpp:4009
 #, fuzzy
 msgid "Keep current soundset"
 msgstr "현재 테마 유지"
 
-#: client/gui-qt/dialogs.cpp:3999
+#: client/gui-qt/dialogs.cpp:4010
 #, fuzzy
 msgid "Load soundset"
 msgstr "사운드세트"
 
-#: client/gui-qt/dialogs.cpp:4018
+#: client/gui-qt/dialogs.cpp:4029
 msgid "Modpack suggests using %1 musicset."
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:4023
+#: client/gui-qt/dialogs.cpp:4034
 #, fuzzy
 msgid "Keep current musicset"
 msgstr "현재 테마 유지"
 
-#: client/gui-qt/dialogs.cpp:4024
+#: client/gui-qt/dialogs.cpp:4035
 #, fuzzy
 msgid "Load musicset"
 msgstr "사운드세트"
 
-#: client/gui-qt/dialogs.cpp:4354
+#: client/gui-qt/dialogs.cpp:4365
 #, fuzzy
 #| msgid "Tileset"
 msgid "Tileset error"
 msgstr "타일세트"
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/dialogs.cpp:4576
+#: client/gui-qt/dialogs.cpp:4587
 msgid "MP:"
 msgstr ""
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:4681
+#: client/gui-qt/dialogs.cpp:4692
 msgid "%1 HP:%2/%3"
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:4686 client/gui-qt/hudwidget.cpp:1503
+#: client/gui-qt/dialogs.cpp:4697 client/gui-qt/hudwidget.cpp:1503
 #, fuzzy
 #| msgid "%d unit"
 #| msgid_plural "%d units"
@@ -7838,7 +7837,7 @@ msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%d 부대"
 
-#: client/gui-qt/dialogs.cpp:4952
+#: client/gui-qt/dialogs.cpp:4963
 #, fuzzy
 #| msgid "Are you sure you want to quit?"
 msgid "Are you sure you want to do %1?"
@@ -7892,13 +7891,13 @@ msgstr "Freeciv에 오신걸 환영합니다"
 msgid "This is Qt-client for Freeciv."
 msgstr "Freeciv에 오신걸 환영합니다"
 
-#: client/gui-qt/fc_client.cpp:557 client/gui-qt/pages.cpp:1913
+#: client/gui-qt/fc_client.cpp:557 client/gui-qt/pages.cpp:1914
 #, fuzzy
 msgid "Don't Observe"
 msgstr "관찰을 취소하기(_O)"
 
 #: client/gui-qt/fc_client.cpp:560 client/gui-qt/pages.cpp:695
-#: client/gui-qt/pages.cpp:1915 client/gui-qt/pages.cpp:2010
+#: client/gui-qt/pages.cpp:1916 client/gui-qt/pages.cpp:2011
 #, fuzzy
 msgid "Observe"
 msgstr "관찰하기(_O)"
@@ -8166,11 +8165,11 @@ msgstr "부대활동을 선택하세요:"
 msgid "Any activity"
 msgstr "부대활동을 선택하세요:"
 
-#: client/gui-qt/hudwidget.cpp:1356 common/fc_types.h:149 common/unit.c:637
+#: client/gui-qt/hudwidget.cpp:1356 common/fc_types.h:149 common/unit.c:645
 msgid "Fortified"
 msgstr "요새화됨"
 
-#: client/gui-qt/hudwidget.cpp:1357 common/fc_types.h:137 common/unit.c:621
+#: client/gui-qt/hudwidget.cpp:1357 common/fc_types.h:137 common/unit.c:629
 msgid "Idle"
 msgstr "한가함(idle)"
 
@@ -8377,7 +8376,7 @@ msgstr "옵션 저장(_V)"
 msgid "Save Options on Exit"
 msgstr "종료할때 옵션 저장(_E)"
 
-#: client/gui-qt/menu.cpp:1004 client/gui-qt/menu.cpp:3858
+#: client/gui-qt/menu.cpp:1004 client/gui-qt/menu.cpp:3853
 #, fuzzy
 #| msgid "Save Game _As..."
 msgid "Save Game As..."
@@ -8405,8 +8404,8 @@ msgid "Center View"
 msgstr "가운데 보기"
 
 #: client/gui-qt/menu.cpp:1025 client/gui-qt/shortcuts.cpp:63
-#: client/options.c:2693 client/options.c:2914 client/options.c:3146
-#: client/options.c:3189 client/options.c:3228
+#: client/options.c:2697 client/options.c:2918 client/options.c:3150
+#: client/options.c:3193 client/options.c:3232
 #, fuzzy
 msgid "Fullscreen"
 msgstr "전체 화면"
@@ -8456,8 +8455,8 @@ msgid "National Borders"
 msgstr "국경"
 
 #: client/gui-qt/menu.cpp:1107 client/gui-qt/shortcuts.cpp:101
-#: client/options.c:2895 client/options.c:3116 client/options.c:3167
-#: client/options.c:3206 client/options.c:3268
+#: client/options.c:2899 client/options.c:3120 client/options.c:3171
+#: client/options.c:3210 client/options.c:3272
 msgid "City Names"
 msgstr "도시 이름"
 
@@ -8546,7 +8545,7 @@ msgstr ""
 msgid "Upgrade"
 msgstr "업그레이드"
 
-#: client/gui-qt/menu.cpp:1255 common/fc_types.h:179 common/unit.c:653
+#: client/gui-qt/menu.cpp:1255 common/fc_types.h:179 common/unit.c:661
 #, fuzzy
 msgid "Convert"
 msgstr "연결(_O)"
@@ -8585,7 +8584,7 @@ msgstr ""
 msgid "Work"
 msgstr "작업 리스트(_W)"
 
-#: client/gui-qt/menu.cpp:1307 client/gui-qt/menu.cpp:2450
+#: client/gui-qt/menu.cpp:1307 client/gui-qt/menu.cpp:2445
 #: client/gui-sdl2/menu.c:627 client/gui-sdl3/menu.c:623
 msgid "Auto Settler"
 msgstr "이주민 자동"
@@ -8599,13 +8598,13 @@ msgstr "도로 건설"
 msgid "Build Path"
 msgstr "공군 기지 세우기"
 
-#: client/gui-qt/menu.cpp:1319 client/gui-qt/menu.cpp:2269
-#: client/gui-qt/menu.cpp:2272 client/gui-qt/shortcuts.cpp:122
+#: client/gui-qt/menu.cpp:1319 client/gui-qt/menu.cpp:2264
+#: client/gui-qt/menu.cpp:2267 client/gui-qt/shortcuts.cpp:122
 msgid "Build Irrigation"
 msgstr "관개 작업"
 
-#: client/gui-qt/menu.cpp:1329 client/gui-qt/menu.cpp:2236
-#: client/gui-qt/menu.cpp:2239 client/gui-qt/shortcuts.cpp:118
+#: client/gui-qt/menu.cpp:1329 client/gui-qt/menu.cpp:2231
+#: client/gui-qt/menu.cpp:2234 client/gui-qt/shortcuts.cpp:118
 msgid "Build Mine"
 msgstr "광산 건축"
 
@@ -8630,7 +8629,7 @@ msgstr "연결/철도"
 msgid "Connect With Irrigation"
 msgstr "관개 연결"
 
-#: client/gui-qt/menu.cpp:1357 client/gui-qt/menu.cpp:2342
+#: client/gui-qt/menu.cpp:1357 client/gui-qt/menu.cpp:2337
 msgid "Transform Terrain"
 msgstr "지형 개조"
 
@@ -8804,7 +8803,7 @@ msgstr "경제 보고"
 msgid "Battle Groups"
 msgstr "민족 그룹:(_G)"
 
-#: client/gui-qt/menu.cpp:2127
+#: client/gui-qt/menu.cpp:2122
 #, fuzzy
 msgid "Top %1 City"
 msgid_plural "Top %1 Cities"
@@ -8813,68 +8812,68 @@ msgstr[0] "도시로 이동"
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
 #. TRANS: Build road of specific type
-#: client/gui-qt/menu.cpp:2232 client/gui-qt/menu.cpp:2265
-#: client/gui-qt/menu.cpp:2382
+#: client/gui-qt/menu.cpp:2227 client/gui-qt/menu.cpp:2260
+#: client/gui-qt/menu.cpp:2377
 #, fuzzy
 msgid "Build %1"
 msgstr "드루이드 "
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:2289
+#: client/gui-qt/menu.cpp:2284
 msgid "Cultivate to %1"
 msgstr ""
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:2312
+#: client/gui-qt/menu.cpp:2307
 #, fuzzy
 msgid "Plant to %1"
 msgstr "제조 공장"
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:2338
+#: client/gui-qt/menu.cpp:2333
 #, fuzzy
 msgid "Transform to %1"
 msgstr "%s(으)로 개조"
 
-#: client/gui-qt/menu.cpp:2452
+#: client/gui-qt/menu.cpp:2447
 #, fuzzy
 #| msgid "Auto Explore"
 msgid "Auto Worker"
 msgstr "자동 탐험"
 
-#: client/gui-qt/menu.cpp:2959
+#: client/gui-qt/menu.cpp:2954
 msgid "Didn't find any trade route to establish"
 msgstr ""
 
-#: client/gui-qt/menu.cpp:3631
+#: client/gui-qt/menu.cpp:3626
 #, fuzzy
 #| msgid "Available targets"
 msgid "Available tilesets"
 msgstr "가능한 표적들"
 
-#: client/gui-qt/menu.cpp:3633
+#: client/gui-qt/menu.cpp:3628
 msgid "Some tilesets might not be compatible with current map topology!"
 msgstr ""
 
-#: client/gui-qt/menu.cpp:3826
+#: client/gui-qt/menu.cpp:3821
 msgid "Success"
 msgstr ""
 
-#: client/gui-qt/menu.cpp:3828
+#: client/gui-qt/menu.cpp:3823
 msgid "Failed to save image of the map"
 msgstr ""
 
-#: client/gui-qt/menu.cpp:3855
+#: client/gui-qt/menu.cpp:3850
 #, fuzzy
 #| msgid "Save Game"
 msgid "Save Games"
 msgstr "게임 저장"
 
-#: client/gui-qt/menu.cpp:3904
+#: client/gui-qt/menu.cpp:3899
 msgid "Selection will cancel current assignments!"
 msgstr ""
 
-#: client/gui-qt/menu.cpp:3905
+#: client/gui-qt/menu.cpp:3900
 #, fuzzy
 #| msgid "Unit Selection"
 msgid "Confirm Disruptive Selection"
@@ -9016,8 +9015,8 @@ msgstr "시나리오 게임 시작(_S)"
 msgid "Disconnect"
 msgstr "절단"
 
-#: client/gui-qt/pages.cpp:701 client/gui-qt/pages.cpp:1937
-#: client/gui-qt/pages.cpp:1941 client/gui-sdl2/chatline.c:806
+#: client/gui-qt/pages.cpp:701 client/gui-qt/pages.cpp:1938
+#: client/gui-qt/pages.cpp:1942 client/gui-sdl2/chatline.c:806
 #: client/gui-sdl3/chatline.c:802
 msgid "Start"
 msgstr "시작"
@@ -9048,11 +9047,11 @@ msgstr "시나리오 게임 시작(_S)"
 msgid "Turn"
 msgstr "턴"
 
-#: client/gui-qt/pages.cpp:1548
+#: client/gui-qt/pages.cpp:1549
 msgid "Authors: "
 msgstr ""
 
-#: client/gui-qt/pages.cpp:1706 client/gui-sdl2/connectdlg.c:327
+#: client/gui-qt/pages.cpp:1707 client/gui-sdl2/connectdlg.c:327
 #: client/gui-sdl2/plrdlg.c:365 client/gui-sdl3/connectdlg.c:323
 #: client/gui-sdl3/plrdlg.c:361
 #, fuzzy
@@ -9060,32 +9059,32 @@ msgstr ""
 msgid "?header:Players"
 msgstr "죽은 사용자"
 
-#: client/gui-qt/pages.cpp:1849
+#: client/gui-qt/pages.cpp:1850
 #, fuzzy
 msgid "Global observers"
 msgstr "관찰자"
 
-#: client/gui-qt/pages.cpp:1922
+#: client/gui-qt/pages.cpp:1923
 #, fuzzy
 #| msgid "Not _ready"
 msgid "Not ready"
 msgstr "준비 안 됐슴(_R)"
 
-#: client/gui-qt/pages.cpp:2049
+#: client/gui-qt/pages.cpp:2050
 msgid "Set difficulty"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:2070
+#: client/gui-qt/pages.cpp:2071
 #, fuzzy
 msgid "Put on team"
 msgstr "팀의 목록:"
 
-#: client/gui-qt/pages.cpp:2159
+#: client/gui-qt/pages.cpp:2160
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
 msgstr ""
 
 #. TRANS: Government - max rate (of taxes) x%
-#: client/gui-qt/pages.cpp:2164 client/gui-qt/ratesdlg.cpp:66
+#: client/gui-qt/pages.cpp:2165 client/gui-qt/ratesdlg.cpp:66
 #, fuzzy
 #| msgid "%s max rate: %d%%"
 msgid "%1 - max rate: %2%"
@@ -10206,16 +10205,16 @@ msgstr ""
 msgid "Invalid font size %s"
 msgstr "병약한 도시 크기 %d (은)는 도시 %s (을)를 위한."
 
-#: client/gui-sdl2/gui_main.c:771 client/gui-sdl3/gui_main.c:766
+#: client/gui-sdl2/gui_main.c:776 client/gui-sdl3/gui_main.c:769
 #, c-format
 msgid "Making screenshot %s"
 msgstr ""
 
-#: client/gui-sdl2/gui_main.c:1016
+#: client/gui-sdl2/gui_main.c:1021
 msgid "Migrating options from sdl to sdl2 client"
 msgstr ""
 
-#: client/gui-sdl2/gui_main.c:1058 client/gui-sdl3/gui_main.c:1060
+#: client/gui-sdl2/gui_main.c:1063 client/gui-sdl3/gui_main.c:1063
 #, c-format
 msgid "Using Video Output: %s"
 msgstr ""
@@ -11179,7 +11178,7 @@ msgstr ""
 msgid "SDL3 Client for Freeciv"
 msgstr "Freeciv에 오신걸 환영합니다"
 
-#: client/gui-sdl3/gui_main.c:1011
+#: client/gui-sdl3/gui_main.c:1014
 msgid "Migrating options from sdl2 to sdl3 client"
 msgstr ""
 
@@ -13336,54 +13335,54 @@ msgid "Musicset from %s has no name defined!"
 msgstr ""
 
 #. TRANS: enum value for 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:1844
+#: client/options.c:1848
 msgid "Split"
 msgstr ""
 
 #. TRANS: enum value for 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:1846
+#: client/options.c:1850
 msgid "Separate"
 msgstr ""
 
 #. TRANS: enum value for 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:1848
+#: client/options.c:1852
 msgid "Merged"
 msgstr ""
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1864 server/settings.c:407
+#: client/options.c:1868 server/settings.c:407
 #, fuzzy
 msgid "Enabled"
 msgstr "여"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1866 server/settings.c:342 server/settings.c:362
+#: client/options.c:1870 server/settings.c:342 server/settings.c:362
 #: server/settings.c:406
 #, fuzzy
 msgid "Disabled"
 msgstr "해제"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1868 tools/fcmp/modinst.h:39
+#: client/options.c:1872 tools/fcmp/modinst.h:39
 #, fuzzy
 msgid "Ruleset"
 msgstr "사막"
 
-#: client/options.c:1888
+#: client/options.c:1892
 msgid "Login name"
 msgstr "로그인 이름"
 
-#: client/options.c:1889
+#: client/options.c:1893
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:1893
+#: client/options.c:1897
 msgid "Default to previously used server"
 msgstr ""
 
-#: client/options.c:1894
+#: client/options.c:1898
 msgid ""
 "Automatically update \"Server\" and \"Server port\" options to match your "
 "latest connection, so by default you connect to the same server you used on "
@@ -13391,44 +13390,44 @@ msgid ""
 "automatic updates to the options get saved too."
 msgstr ""
 
-#: client/options.c:1902
+#: client/options.c:1906
 msgid "Server"
 msgstr "서버"
 
-#: client/options.c:1903
+#: client/options.c:1907
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:1908
+#: client/options.c:1912
 msgid "Server port"
 msgstr "서버 포트"
 
-#: client/options.c:1909
+#: client/options.c:1913
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:1914
+#: client/options.c:1918
 msgid "Metaserver"
 msgstr "메타 서버"
 
-#: client/options.c:1915
+#: client/options.c:1919
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
 
-#: client/options.c:1921
+#: client/options.c:1925
 #, fuzzy
 #| msgid "Save chat messages in the event cache"
 msgid "Send heartbeat messages to the server"
 msgstr "그 사건 은닉처 안으로 대화 메세지들을 저장하기"
 
-#: client/options.c:1922
+#: client/options.c:1926
 msgid ""
 "Periodically send an empty heartbeat message to the server to probe whether "
 "the connection is still up. This can help to make it obvious when the server "
@@ -13436,25 +13435,25 @@ msgid ""
 "otherwise sit idle for a long period."
 msgstr ""
 
-#: client/options.c:1929
+#: client/options.c:1933
 msgid "Followtag override"
 msgstr ""
 
 #. TRANS: Leave 'builtin' untranslated
-#: client/options.c:1931
+#: client/options.c:1935
 msgid ""
 "Followtag determines which kind of new freeciv versions' availability gets "
 "checked from the metaserver. Special value 'builtin' means that value "
 "builtin to the client gets used."
 msgstr ""
 
-#: client/options.c:1937
+#: client/options.c:1941
 #, fuzzy
 #| msgid "Save chat messages in the event cache"
 msgid "Send desired settings to the server"
 msgstr "그 사건 은닉처 안으로 대화 메세지들을 저장하기"
 
-#: client/options.c:1938
+#: client/options.c:1942
 msgid ""
 "In single-player mode client usually sends user's desired server settings to "
 "the server it has launched internally. By disabling this option one can "
@@ -13462,65 +13461,65 @@ msgid ""
 "settings balanced for a custom ruleset."
 msgstr ""
 
-#: client/options.c:1946 tools/fcmp/modinst.h:47
+#: client/options.c:1950 tools/fcmp/modinst.h:47
 msgid "Soundset"
 msgstr "사운드세트"
 
-#: client/options.c:1947
+#: client/options.c:1951
 msgid ""
 "This is the soundset that will be used. Changing this is the same as using "
 "the -S command-line parameter. Use modpack installer utility to install "
 "additional soundsets."
 msgstr ""
 
-#: client/options.c:1953 tools/fcmp/modinst.h:49
+#: client/options.c:1957 tools/fcmp/modinst.h:49
 msgid "Musicset"
 msgstr ""
 
-#: client/options.c:1954
+#: client/options.c:1958
 msgid ""
 "This is the musicset that will be used. Changing this is the same as using "
 "the -m command-line parameter. Use modpack installer utility to install "
 "additional musicsets."
 msgstr ""
 
-#: client/options.c:1961
+#: client/options.c:1965
 msgid "Sound plugin"
 msgstr "음성 플러그인"
 
-#: client/options.c:1962
+#: client/options.c:1966
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
 
-#: client/options.c:1968
+#: client/options.c:1972
 #, fuzzy
 msgid "The chat log file"
 msgstr "기술\n"
 
-#: client/options.c:1969
+#: client/options.c:1973
 msgid "The name of the chat log file."
 msgstr ""
 
-#: client/options.c:1974 client/options.c:1979 client/options.c:1984
-#: client/options.c:1989 client/options.c:1994
+#: client/options.c:1978 client/options.c:1983 client/options.c:1988
+#: client/options.c:1993 client/options.c:1998
 msgid "Theme"
 msgstr "테마"
 
-#: client/options.c:1975 client/options.c:1980 client/options.c:1985
-#: client/options.c:1990 client/options.c:1995
+#: client/options.c:1979 client/options.c:1984 client/options.c:1989
+#: client/options.c:1994 client/options.c:1999
 msgid "By changing this option you change the active theme."
 msgstr ""
 
-#: client/options.c:2005
+#: client/options.c:2009
 #, fuzzy
 #| msgid "Tileset"
 msgid "Tileset (Square)"
 msgstr "타일세트"
 
-#: client/options.c:2006
+#: client/options.c:2010
 msgid ""
 "Select the tileset used with Square based maps. This may change the "
 "currently active tileset, if you are playing on such a map, in which case "
@@ -13528,13 +13527,13 @@ msgid ""
 "installer utility to install additional tilesets."
 msgstr ""
 
-#: client/options.c:2015
+#: client/options.c:2019
 #, fuzzy
 #| msgid "Tileset"
 msgid "Tileset (Hex)"
 msgstr "타일세트"
 
-#: client/options.c:2016
+#: client/options.c:2020
 msgid ""
 "Select the tileset used with Hex maps. This may change the currently active "
 "tileset, if you are playing on such a map, in which case this is the same as "
@@ -13542,13 +13541,13 @@ msgid ""
 "install additional tilesets."
 msgstr ""
 
-#: client/options.c:2025
+#: client/options.c:2029
 #, fuzzy
 #| msgid "Tileset"
 msgid "Tileset (Iso-Hex)"
 msgstr "타일세트"
 
-#: client/options.c:2026
+#: client/options.c:2030
 msgid ""
 "Select the tileset used with Iso-Hex maps. This may change the currently "
 "active tileset, if you are playing on such a map, in which case this is the "
@@ -13556,495 +13555,495 @@ msgid ""
 "install additional tilesets."
 msgstr ""
 
-#: client/options.c:2036
+#: client/options.c:2040
 #, fuzzy
 msgid "Draw city outlines"
 msgstr "도시 옵션"
 
-#: client/options.c:2037
+#: client/options.c:2041
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr ""
 
-#: client/options.c:2041
+#: client/options.c:2045
 #, fuzzy
 msgid "Draw city output"
 msgstr "도시 옵션"
 
-#: client/options.c:2042
+#: client/options.c:2046
 msgid "Setting this option will draw city output for every citizen."
 msgstr ""
 
-#: client/options.c:2046
+#: client/options.c:2050
 msgid "Draw the map grid"
 msgstr ""
 
-#: client/options.c:2047
+#: client/options.c:2051
 msgid "Setting this option will draw a grid over the map."
 msgstr ""
 
-#: client/options.c:2050
+#: client/options.c:2054
 #, fuzzy
 msgid "Draw the city bar"
 msgstr "허용된 도시 이름"
 
-#: client/options.c:2051
+#: client/options.c:2055
 msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and, optionally, production."
 msgstr ""
 
-#: client/options.c:2057
+#: client/options.c:2061
 #, fuzzy
 msgid "Draw the city names"
 msgstr "허용된 도시 이름"
 
-#: client/options.c:2058
+#: client/options.c:2062
 msgid "Setting this option will draw the names of the cities on the map."
 msgstr ""
 
-#: client/options.c:2062
+#: client/options.c:2066
 msgid "Draw the city growth"
 msgstr ""
 
-#: client/options.c:2063
+#: client/options.c:2067
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
 msgstr ""
 
-#: client/options.c:2067
+#: client/options.c:2071
 #, fuzzy
 msgid "Draw the city productions"
 msgstr "도시 생산"
 
-#: client/options.c:2068
+#: client/options.c:2072
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
 msgstr ""
 
-#: client/options.c:2072
+#: client/options.c:2076
 msgid "Draw the city buy costs"
 msgstr ""
 
-#: client/options.c:2073
+#: client/options.c:2077
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
 msgstr ""
 
-#: client/options.c:2077
+#: client/options.c:2081
 #, fuzzy
 msgid "Draw the city trade routes"
 msgstr "도시 무역 경로"
 
-#: client/options.c:2078
+#: client/options.c:2082
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
 msgstr ""
 
-#: client/options.c:2082
+#: client/options.c:2086
 #, fuzzy
 msgid "Draw the terrain"
 msgstr "호주"
 
-#: client/options.c:2083
+#: client/options.c:2087
 msgid "Setting this option will draw the terrain."
 msgstr ""
 
-#: client/options.c:2086
+#: client/options.c:2090
 msgid "Draw the coast line"
 msgstr ""
 
-#: client/options.c:2087
+#: client/options.c:2091
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
-#: client/options.c:2091
+#: client/options.c:2095
 #, fuzzy
 msgid "Draw the paths"
 msgstr "부대업그레이드"
 
-#: client/options.c:2092
+#: client/options.c:2096
 msgid "Setting this option will draw all kind of paths on the map."
 msgstr ""
 
-#: client/options.c:2096
+#: client/options.c:2100
 #, fuzzy
 msgid "Draw the irrigation"
 msgstr "관개 연결"
 
-#: client/options.c:2097
+#: client/options.c:2101
 msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 
-#: client/options.c:2101
+#: client/options.c:2105
 msgid "Draw the mines"
 msgstr ""
 
-#: client/options.c:2102
+#: client/options.c:2106
 msgid "Setting this option will draw the mines on the map."
 msgstr ""
 
-#: client/options.c:2105
+#: client/options.c:2109
 msgid "Draw the bases"
 msgstr ""
 
-#: client/options.c:2106
+#: client/options.c:2110
 msgid "Setting this option will draw the bases on the map."
 msgstr ""
 
-#: client/options.c:2109
+#: client/options.c:2113
 #, fuzzy
 msgid "Draw the resources"
 msgstr "국경"
 
-#: client/options.c:2110
+#: client/options.c:2114
 msgid "Setting this option will draw the resources on the map."
 msgstr ""
 
-#: client/options.c:2114
+#: client/options.c:2118
 #, fuzzy
 msgid "Draw the huts"
 msgstr "부대업그레이드"
 
-#: client/options.c:2115
+#: client/options.c:2119
 msgid "Setting this option will draw the huts on the map."
 msgstr ""
 
-#: client/options.c:2119
+#: client/options.c:2123
 msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
-#: client/options.c:2120
+#: client/options.c:2124
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 
-#: client/options.c:2124
+#: client/options.c:2128
 msgid "Draw the cities"
 msgstr ""
 
-#: client/options.c:2125
+#: client/options.c:2129
 msgid "Setting this option will draw the cities on the map."
 msgstr ""
 
-#: client/options.c:2128
+#: client/options.c:2132
 #, fuzzy
 msgid "Draw the units"
 msgstr "부대업그레이드"
 
-#: client/options.c:2129
+#: client/options.c:2133
 msgid "Setting this option will draw the units on the map."
 msgstr ""
 
-#: client/options.c:2133
+#: client/options.c:2137
 msgid "Solid unit background color"
 msgstr ""
 
-#: client/options.c:2134
+#: client/options.c:2138
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
 
-#: client/options.c:2139
+#: client/options.c:2143
 msgid "Draw shield graphics for units"
 msgstr ""
 
-#: client/options.c:2140
+#: client/options.c:2144
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
 
-#: client/options.c:2144
+#: client/options.c:2148
 #, fuzzy
 msgid "Draw size of the unit stacks"
 msgstr "부대업그레이드"
 
-#: client/options.c:2145
+#: client/options.c:2149
 msgid ""
 "Setting this option will draw a numbers indicating size of the unit stacks. "
 "Not all clients support this."
 msgstr ""
 
-#: client/options.c:2149
+#: client/options.c:2153
 msgid "Draw the units in focus"
 msgstr ""
 
-#: client/options.c:2150
+#: client/options.c:2154
 msgid ""
 "Setting this option will cause the currently focused unit(s) to always be "
 "drawn, even if units are not otherwise being drawn (for instance if 'Draw "
 "the units' is unset)."
 msgstr ""
 
-#: client/options.c:2156
+#: client/options.c:2160
 msgid "Draw the fog of war"
 msgstr ""
 
-#: client/options.c:2157
-msgid "Setting this option will draw the fog of war."
-msgstr ""
-
-#: client/options.c:2160
-#, fuzzy
-msgid "Draw the borders"
-msgstr "국경"
-
 #: client/options.c:2161
-msgid "Setting this option will draw the national borders."
+msgid "Setting this option will draw the fog of war."
 msgstr ""
 
 #: client/options.c:2164
 #, fuzzy
+msgid "Draw the borders"
+msgstr "국경"
+
+#: client/options.c:2165
+msgid "Setting this option will draw the national borders."
+msgstr ""
+
+#: client/options.c:2168
+#, fuzzy
 msgid "Draw whether tiles are native to selected unit"
 msgstr "호주"
 
-#: client/options.c:2166
+#: client/options.c:2170
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
 "selected, only tiles that all of them can enter are indicated.)"
 msgstr ""
 
-#: client/options.c:2173
+#: client/options.c:2177
 msgid "Show dead players in Nations report"
 msgstr ""
 
-#: client/options.c:2174
+#: client/options.c:2178
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
 msgstr ""
 
-#: client/options.c:2178
+#: client/options.c:2182
 msgid "Sound bell at new turn"
 msgstr ""
 
-#: client/options.c:2179
+#: client/options.c:2183
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:2185
+#: client/options.c:2189
 msgid "Unit movement animation time (milliseconds)"
 msgstr ""
 
-#: client/options.c:2186
+#: client/options.c:2190
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:2191
+#: client/options.c:2195
 msgid "Mapview recentering time (milliseconds)"
 msgstr ""
 
-#: client/options.c:2192
+#: client/options.c:2196
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:2198
+#: client/options.c:2202
 msgid "Combat animation step time (milliseconds)"
 msgstr ""
 
-#: client/options.c:2199
+#: client/options.c:2203
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:2204
+#: client/options.c:2208
 msgid "Show icons in the technology tree"
 msgstr ""
 
-#: client/options.c:2205
+#: client/options.c:2209
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:2211
+#: client/options.c:2215
 msgid "Use curved lines in the technology tree"
 msgstr ""
 
-#: client/options.c:2212
+#: client/options.c:2216
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
 
-#: client/options.c:2219
+#: client/options.c:2223
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:2220
+#: client/options.c:2224
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:2225
+#: client/options.c:2229
 msgid "Manual Turn Done in AI mode"
 msgstr ""
 
-#: client/options.c:2226
+#: client/options.c:2230
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:2230
+#: client/options.c:2234
 msgid "Auto center on units"
 msgstr ""
 
-#: client/options.c:2231
+#: client/options.c:2235
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:2234
+#: client/options.c:2238
 #, fuzzy
 #| msgid "Supported units:"
 msgid "Show automated units"
 msgstr "원조하는 부대들:"
 
-#: client/options.c:2235
+#: client/options.c:2239
 msgid ""
 "Disable this option if you do not want to see automated units autocentered "
 "and animated."
 msgstr ""
 
-#: client/options.c:2238
+#: client/options.c:2242
 msgid "Auto center on combat"
 msgstr ""
 
-#: client/options.c:2239
+#: client/options.c:2243
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabling "
 "this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:2244
+#: client/options.c:2248
 msgid "Auto center on new turn"
 msgstr ""
 
-#: client/options.c:2245
+#: client/options.c:2249
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
 
-#: client/options.c:2249
+#: client/options.c:2253
 msgid "Focus on awakened units"
 msgstr ""
 
-#: client/options.c:2250
+#: client/options.c:2254
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:2253
+#: client/options.c:2257
 msgid "Keyboardless goto"
 msgstr ""
 
-#: client/options.c:2254
+#: client/options.c:2258
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/options.c:2259
+#: client/options.c:2263
 msgid "Allow goto into the unknown"
 msgstr ""
 
-#: client/options.c:2260
+#: client/options.c:2264
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:2264
+#: client/options.c:2268
 msgid "Center map when popup city"
 msgstr ""
 
-#: client/options.c:2265
+#: client/options.c:2269
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:2268
+#: client/options.c:2272
 msgid "Show messages from previous turn"
 msgstr ""
 
-#: client/options.c:2269
+#: client/options.c:2273
 msgid ""
 "Message Window shows messages also from previous turn. This makes sure you "
 "don't miss messages received in the end of the turn, just before the window "
 "gets cleared."
 msgstr ""
 
-#: client/options.c:2273
+#: client/options.c:2277
 #, fuzzy
 msgid "Concise city production"
 msgstr "도시 생산"
 
-#: client/options.c:2274
+#: client/options.c:2278
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:2277
+#: client/options.c:2281
 msgid "End turn when done moving"
 msgstr ""
 
-#: client/options.c:2278
+#: client/options.c:2282
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:2281
+#: client/options.c:2285
 msgid "Prompt for city names"
 msgstr ""
 
-#: client/options.c:2282
+#: client/options.c:2286
 msgid ""
 "Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:2285
+#: client/options.c:2289
 msgid "Pop up city dialog for new cities"
 msgstr ""
 
-#: client/options.c:2286
+#: client/options.c:2290
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:2289
+#: client/options.c:2293
 #, fuzzy
 #| msgid "Caravan actions"
 msgid "Pop up caravan and spy actions"
 msgstr "이주민 마차대의 행동"
 
-#: client/options.c:2290
+#: client/options.c:2294
 msgid ""
 "If this option is enabled, when a unit arrives at a city where it can "
 "perform an action like establishing a trade route, helping build a wonder, "
@@ -14054,13 +14053,13 @@ msgid ""
 "wonder) or 'd' (for a spy action) when the unit is in the city."
 msgstr ""
 
-#: client/options.c:2300
+#: client/options.c:2304
 #, fuzzy
 #| msgid "Caravan actions"
 msgid "Pop up attack questions"
 msgstr "이주민 마차대의 행동"
 
-#: client/options.c:2301
+#: client/options.c:2305
 msgid ""
 "If this option is enabled, when a unit arrives at a target it can attack, a "
 "window will pop up asking which action should be performed even if an attack "
@@ -14068,11 +14067,11 @@ msgid ""
 "change your mind or to select an uninteresting action."
 msgstr ""
 
-#: client/options.c:2313
+#: client/options.c:2317
 msgid "Pop up actions when final move to allied tile"
 msgstr ""
 
-#: client/options.c:2314
+#: client/options.c:2318
 msgid ""
 "If this option is enabled the final move in a unit's orders to a tile with "
 "allied units or cities it can perform an action to is interpreted as an "
@@ -14083,32 +14082,32 @@ msgid ""
 "or unit stack."
 msgstr ""
 
-#: client/options.c:2325
+#: client/options.c:2329
 msgid "Enable cursor changing"
 msgstr ""
 
-#: client/options.c:2326
+#: client/options.c:2330
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:2331
+#: client/options.c:2335
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:2332
+#: client/options.c:2336
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
 msgstr ""
 
-#: client/options.c:2337
+#: client/options.c:2341
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:2338
+#: client/options.c:2342
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -14117,334 +14116,334 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:2347
+#: client/options.c:2351
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:2348
+#: client/options.c:2352
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:2352
+#: client/options.c:2356
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:2353
+#: client/options.c:2357
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, even if "
 "there is no running vote."
 msgstr ""
 
-#: client/options.c:2357
+#: client/options.c:2361
 msgid "Do not show vote bar if not a player"
 msgstr ""
 
-#: client/options.c:2358
+#: client/options.c:2362
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
 msgstr ""
 
-#: client/options.c:2361
+#: client/options.c:2365
 msgid "Set new votes at front"
 msgstr ""
 
-#: client/options.c:2362
+#: client/options.c:2366
 msgid ""
 "If this option is enabled, then new votes will go to the front of the vote "
 "list."
 msgstr ""
 
-#: client/options.c:2366
+#: client/options.c:2370
 msgid "Autoaccept tileset suggestions"
 msgstr ""
 
-#: client/options.c:2367
+#: client/options.c:2371
 msgid ""
 "If this option is enabled, any tileset suggested by the ruleset is "
 "automatically used; otherwise you are prompted to change tileset."
 msgstr ""
 
-#: client/options.c:2373
+#: client/options.c:2377
 msgid "Enable sound effects"
 msgstr ""
 
-#: client/options.c:2374
+#: client/options.c:2378
 msgid ""
 "Play sound effects, assuming there's suitable sound plugin and soundset with "
 "the sounds."
 msgstr ""
 
-#: client/options.c:2378
+#: client/options.c:2382
 msgid "Enable in-game music"
 msgstr ""
 
-#: client/options.c:2379
+#: client/options.c:2383
 msgid ""
 "Play music during the game, assuming there's suitable sound plugin and "
 "musicset with in-game tracks."
 msgstr ""
 
-#: client/options.c:2383
+#: client/options.c:2387
 msgid "Enable menu music"
 msgstr ""
 
-#: client/options.c:2384
+#: client/options.c:2388
 msgid ""
 "Play music while not in actual game, assuming there's suitable sound plugin "
 "and musicset with menu music tracks."
 msgstr ""
 
-#: client/options.c:2389
+#: client/options.c:2393
 msgid "Silent when not in focus"
 msgstr ""
 
-#: client/options.c:2390
+#: client/options.c:2394
 msgid ""
 "Fade all sound out when the client is not in focus. Not all clients support "
 "this."
 msgstr ""
 
-#: client/options.c:2394
+#: client/options.c:2398
 #, fuzzy
 #| msgid "Sound plugin"
 msgid "Sound volume"
 msgstr "음성 플러그인"
 
-#: client/options.c:2395
+#: client/options.c:2399
 msgid "Volume scale from 0-100"
 msgstr ""
 
-#: client/options.c:2401
+#: client/options.c:2405
 msgid "Autoaccept soundset suggestions"
 msgstr ""
 
-#: client/options.c:2402
+#: client/options.c:2406
 msgid ""
 "If this option is enabled, any soundset suggested by the ruleset is "
 "automatically used."
 msgstr ""
 
-#: client/options.c:2406
+#: client/options.c:2410
 msgid "Autoaccept musicset suggestions"
 msgstr ""
 
-#: client/options.c:2407
+#: client/options.c:2411
 msgid ""
 "If this option is enabled, any musicset suggested by the ruleset is "
 "automatically used."
 msgstr ""
 
-#: client/options.c:2412
+#: client/options.c:2416
 msgid "Background layer"
 msgstr ""
 
-#: client/options.c:2413
+#: client/options.c:2417
 msgid "The background layer of the overview shows just ocean and land."
 msgstr ""
 
-#: client/options.c:2417
+#: client/options.c:2421
 msgid "Terrain relief map layer"
 msgstr ""
 
-#: client/options.c:2418
+#: client/options.c:2422
 msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
-#: client/options.c:2421
+#: client/options.c:2425
 msgid "Borders layer"
 msgstr "국경 층"
 
-#: client/options.c:2422
+#: client/options.c:2426
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
-#: client/options.c:2426
+#: client/options.c:2430
 #, fuzzy
 msgid "Borders layer on ocean tiles"
 msgstr "국경 층"
 
-#: client/options.c:2427
+#: client/options.c:2431
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
 "set the option \"Borders layer\" already."
 msgstr ""
 
-#: client/options.c:2433
+#: client/options.c:2437
 msgid "Units layer"
 msgstr "부대 층"
 
-#: client/options.c:2434
+#: client/options.c:2438
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
-#: client/options.c:2437
+#: client/options.c:2441
 msgid "Cities layer"
 msgstr "도시 층"
 
-#: client/options.c:2438
+#: client/options.c:2442
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
-#: client/options.c:2441
+#: client/options.c:2445
 msgid "Overview fog of war"
 msgstr ""
 
-#: client/options.c:2442
+#: client/options.c:2446
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
-#: client/options.c:2448
+#: client/options.c:2452
 msgid "Image format"
 msgstr ""
 
-#: client/options.c:2449
+#: client/options.c:2453
 msgid "The image toolkit and file format used for map images."
 msgstr ""
 
-#: client/options.c:2454
+#: client/options.c:2458
 msgid "Zoom factor for map images"
 msgstr ""
 
-#: client/options.c:2455
+#: client/options.c:2459
 msgid "The magnification used for map images."
 msgstr ""
 
-#: client/options.c:2458
+#: client/options.c:2462
 #, fuzzy
 msgid "Show area within borders"
 msgstr "국경"
 
-#: client/options.c:2459
+#: client/options.c:2463
 msgid "If set, the territory of each nation is shown on the saved image."
 msgstr ""
 
-#: client/options.c:2463
+#: client/options.c:2467
 #, fuzzy
 msgid "Show borders"
 msgstr "명령 없음"
 
-#: client/options.c:2464
+#: client/options.c:2468
 msgid "If set, the border of each nation is shown on the saved image."
 msgstr ""
 
-#: client/options.c:2468
+#: client/options.c:2472
 #, fuzzy
 msgid "Show cities"
 msgstr "모든 도시 보기"
 
-#: client/options.c:2469
+#: client/options.c:2473
 msgid "If set, cities are shown on the saved image."
 msgstr ""
 
-#: client/options.c:2472
+#: client/options.c:2476
 msgid "Show fog of war"
 msgstr ""
 
-#: client/options.c:2473
+#: client/options.c:2477
 msgid "If set, the extent of fog of war is shown on the saved image."
 msgstr ""
 
-#: client/options.c:2477
+#: client/options.c:2481
 #, fuzzy
 msgid "Show full terrain"
 msgstr "호주"
 
-#: client/options.c:2478
+#: client/options.c:2482
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
 msgstr ""
 
-#: client/options.c:2484
+#: client/options.c:2488
 msgid "If set, units are shown in the saved image."
 msgstr ""
 
-#: client/options.c:2487
+#: client/options.c:2491
 #, fuzzy
 msgid "Map image file name"
 msgstr "write <파일명>"
 
-#: client/options.c:2488
+#: client/options.c:2492
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
 msgstr ""
 
-#: client/options.c:2589 client/options.c:2697 client/options.c:2918
+#: client/options.c:2593 client/options.c:2701 client/options.c:2922
 #, fuzzy
 msgid "Show map scrollbars"
 msgstr "맵 스크롤 바 보이기"
 
-#: client/options.c:2590 client/options.c:2698 client/options.c:2919
+#: client/options.c:2594 client/options.c:2702 client/options.c:2923
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr ""
 
-#: client/options.c:2694 client/options.c:2915 client/options.c:3147
-#: client/options.c:3190 client/options.c:3229
+#: client/options.c:2698 client/options.c:2919 client/options.c:3151
+#: client/options.c:3194 client/options.c:3233
 msgid ""
 "If this option is set the client will use the whole screen area for drawing."
 msgstr ""
 
-#: client/options.c:2701 client/options.c:2922
+#: client/options.c:2705 client/options.c:2926
 msgid "Keep dialogs on top"
 msgstr "다이얼로그 항상 위에"
 
-#: client/options.c:2702 client/options.c:2923
+#: client/options.c:2706 client/options.c:2927
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
 
-#: client/options.c:2706 client/options.c:2927
+#: client/options.c:2710 client/options.c:2931
 msgid "Show worklist task icons"
 msgstr ""
 
-#: client/options.c:2707 client/options.c:2928
+#: client/options.c:2711 client/options.c:2932
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
 
-#: client/options.c:2711 client/options.c:2932
+#: client/options.c:2715 client/options.c:2936
 msgid "Enable status report tabs"
 msgstr ""
 
-#: client/options.c:2712 client/options.c:2933
+#: client/options.c:2716 client/options.c:2937
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
 
-#: client/options.c:2717 client/options.c:2938
+#: client/options.c:2721 client/options.c:2942
 msgid "Show time for each chat message"
 msgstr ""
 
-#: client/options.c:2718 client/options.c:2939
+#: client/options.c:2722 client/options.c:2943
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
 msgstr ""
 
-#: client/options.c:2723 client/options.c:2944
+#: client/options.c:2727 client/options.c:2948
 msgid "New message events go to top of list"
 msgstr ""
 
-#: client/options.c:2724 client/options.c:2945
+#: client/options.c:2728 client/options.c:2949
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
 msgstr ""
 
-#: client/options.c:2729 client/options.c:2950
+#: client/options.c:2733 client/options.c:2954
 msgid "Show extra message window buttons"
 msgstr ""
 
-#: client/options.c:2730 client/options.c:2951
+#: client/options.c:2734 client/options.c:2955
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -14454,21 +14453,21 @@ msgid ""
 "closed and reopened."
 msgstr ""
 
-#: client/options.c:2740 client/options.c:2961
+#: client/options.c:2744 client/options.c:2965
 msgid "Metaserver tab first in network page"
 msgstr ""
 
-#: client/options.c:2741 client/options.c:2962
+#: client/options.c:2745 client/options.c:2966
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:2746 client/options.c:2967
+#: client/options.c:2750 client/options.c:2971
 msgid "Plain chat messages are sent to allies only"
 msgstr ""
 
-#: client/options.c:2747 client/options.c:2968
+#: client/options.c:2751 client/options.c:2972
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -14478,13 +14477,13 @@ msgid ""
 "visible in multiplayer games)."
 msgstr ""
 
-#: client/options.c:2759 client/options.c:2980
+#: client/options.c:2763 client/options.c:2984
 msgid "Messages and Chat reports location"
 msgstr ""
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2/gtk3/gtk4_message_chat_location'
-#: client/options.c:2762 client/options.c:2983
+#: client/options.c:2766 client/options.c:2987
 msgid ""
 "Controls where the Messages and Chat reports appear relative to the main "
 "view containing the map.\n"
@@ -14497,11 +14496,11 @@ msgid ""
 "This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:2778 client/options.c:2999
+#: client/options.c:2782 client/options.c:3003
 msgid "Arrange widgets for small displays"
 msgstr ""
 
-#: client/options.c:2779 client/options.c:3000
+#: client/options.c:2783 client/options.c:3004
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -14510,296 +14509,296 @@ msgid ""
 "requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:2788 client/options.c:3009
+#: client/options.c:2792 client/options.c:3013
 msgid "Mouse over the map widget selects it automatically"
 msgstr ""
 
-#: client/options.c:2789 client/options.c:3010
+#: client/options.c:2793 client/options.c:3014
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
 msgstr ""
 
-#: client/options.c:2793 client/options.c:3014
+#: client/options.c:2797 client/options.c:3018
 msgid "Player or user name autocompletion"
 msgstr ""
 
-#: client/options.c:2794 client/options.c:3015
+#: client/options.c:2798 client/options.c:3019
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
 msgstr ""
 
-#: client/options.c:2799 client/options.c:3020
+#: client/options.c:2803 client/options.c:3024
 msgid "Width of the city dialog"
 msgstr ""
 
-#: client/options.c:2800 client/options.c:3021
+#: client/options.c:2804 client/options.c:3025
 msgid "This value is only used if the width of the city dialog is saved."
 msgstr ""
 
-#: client/options.c:2806 client/options.c:3027
+#: client/options.c:2810 client/options.c:3031
 msgid "Height of the city dialog"
 msgstr ""
 
-#: client/options.c:2807 client/options.c:3028
+#: client/options.c:2811 client/options.c:3032
 msgid "This value is only used if the height of the city dialog is saved."
 msgstr ""
 
-#: client/options.c:2813 client/options.c:3034
+#: client/options.c:2817 client/options.c:3038
 msgid "Popup tech help when gained"
 msgstr ""
 
-#: client/options.c:2814 client/options.c:3035
+#: client/options.c:2818 client/options.c:3039
 msgid ""
 "Controls if tech help should be opened when new tech has been gained.\n"
 "'Ruleset' means that behavior suggested by current ruleset is used."
 msgstr ""
 
-#: client/options.c:2821 client/options.c:3042
+#: client/options.c:2825 client/options.c:3046
 msgid "Minimum surplus for a governor"
 msgstr ""
 
-#: client/options.c:2822 client/options.c:3043
+#: client/options.c:2826 client/options.c:3047
 msgid ""
 "The lower limit of the range for requesting surpluses from the governor."
 msgstr ""
 
-#: client/options.c:2828 client/options.c:3049
+#: client/options.c:2832 client/options.c:3053
 msgid "Maximum surplus for a governor"
 msgstr ""
 
-#: client/options.c:2829 client/options.c:3050
+#: client/options.c:2833 client/options.c:3054
 msgid ""
 "The higher limit of the range for requesting surpluses from the governor."
 msgstr ""
 
-#: client/options.c:2835 client/options.c:3056
+#: client/options.c:2839 client/options.c:3060
 #, fuzzy
 msgid "City Label"
 msgstr "도시 이름"
 
-#: client/options.c:2836 client/options.c:3057
+#: client/options.c:2840 client/options.c:3061
 msgid "This font is used to display the city labels on city dialogs."
 msgstr ""
 
-#: client/options.c:2841 client/options.c:3062 client/options.c:3244
+#: client/options.c:2845 client/options.c:3066 client/options.c:3248
 msgid "Notify Label"
 msgstr ""
 
-#: client/options.c:2842 client/options.c:3063 client/options.c:3245
+#: client/options.c:2846 client/options.c:3067 client/options.c:3249
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
 msgstr ""
 
-#: client/options.c:2847 client/options.c:3068
+#: client/options.c:2851 client/options.c:3072
 #, fuzzy
 msgid "Spaceship Label"
 msgstr "우주선(_S)"
 
-#: client/options.c:2848 client/options.c:3069
+#: client/options.c:2852 client/options.c:3073
 msgid "This font is used to display the spaceship widgets."
 msgstr ""
 
-#: client/options.c:2852 client/options.c:3073 client/options.c:3250
+#: client/options.c:2856 client/options.c:3077 client/options.c:3254
 msgid "Help Label"
 msgstr ""
 
-#: client/options.c:2853 client/options.c:3074
+#: client/options.c:2857 client/options.c:3078
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 
-#: client/options.c:2858 client/options.c:3079
+#: client/options.c:2862 client/options.c:3083
 #, fuzzy
 msgid "Help Link"
 msgstr "도움말"
 
-#: client/options.c:2859 client/options.c:3080
+#: client/options.c:2863 client/options.c:3084
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 
-#: client/options.c:2864 client/options.c:3085 client/options.c:3256
+#: client/options.c:2868 client/options.c:3089 client/options.c:3260
 #, fuzzy
 msgid "Help Text"
 msgstr "도움말"
 
-#: client/options.c:2865 client/options.c:3086 client/options.c:3257
+#: client/options.c:2869 client/options.c:3090 client/options.c:3261
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
 
-#: client/options.c:2870 client/options.c:3091 client/options.c:3262
+#: client/options.c:2874 client/options.c:3095 client/options.c:3266
 #, fuzzy
 msgid "Chatline Area"
 msgstr "중국"
 
-#: client/options.c:2871 client/options.c:3092 client/options.c:3263
+#: client/options.c:2875 client/options.c:3096 client/options.c:3267
 msgid "This font is used to display the text in the chatline area."
 msgstr ""
 
-#: client/options.c:2876 client/options.c:3097
+#: client/options.c:2880 client/options.c:3101
 msgid "Beta Label"
 msgstr ""
 
-#: client/options.c:2877 client/options.c:3098
+#: client/options.c:2881 client/options.c:3102
 msgid "This font is used to display the beta label."
 msgstr ""
 
-#: client/options.c:2881 client/options.c:3102
+#: client/options.c:2885 client/options.c:3106
 msgid "Small Font"
 msgstr ""
 
-#: client/options.c:2882 client/options.c:3103
+#: client/options.c:2886 client/options.c:3107
 msgid ""
 "This font is used for any small font request. For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
 "Units report."
 msgstr ""
 
-#: client/options.c:2889 client/options.c:3110
+#: client/options.c:2893 client/options.c:3114
 #, fuzzy
 msgid "Comment Label"
 msgstr "비평"
 
-#: client/options.c:2890 client/options.c:3111
+#: client/options.c:2894 client/options.c:3115
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
 msgstr ""
 
-#: client/options.c:2896 client/options.c:3117 client/options.c:3269
+#: client/options.c:2900 client/options.c:3121 client/options.c:3273
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 
-#: client/options.c:2901 client/options.c:3122 client/options.c:3173
-#: client/options.c:3212 client/options.c:3274
+#: client/options.c:2905 client/options.c:3126 client/options.c:3177
+#: client/options.c:3216 client/options.c:3278
 msgid "City Productions"
 msgstr "도시 생산"
 
-#: client/options.c:2902 client/options.c:3123 client/options.c:3275
+#: client/options.c:2906 client/options.c:3127 client/options.c:3279
 msgid "This font is used to display the city production on the map."
 msgstr ""
 
-#: client/options.c:2907 client/options.c:3128 client/options.c:3280
+#: client/options.c:2911 client/options.c:3132 client/options.c:3284
 #, fuzzy
 msgid "Requirement Tree"
 msgstr "필요사항"
 
-#: client/options.c:2908 client/options.c:3129 client/options.c:3281
+#: client/options.c:2912 client/options.c:3133 client/options.c:3285
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
 msgstr ""
 
-#: client/options.c:3150 client/options.c:3193
+#: client/options.c:3154 client/options.c:3197
 #, fuzzy
 msgid "Screen resolution"
 msgstr "새로운 생산을 선택하세요"
 
-#: client/options.c:3151 client/options.c:3194
+#: client/options.c:3155 client/options.c:3198
 msgid "This option controls the resolution of the selected screen."
 msgstr ""
 
-#: client/options.c:3154
+#: client/options.c:3158
 msgid "Use software rendering"
 msgstr ""
 
-#: client/options.c:3155
+#: client/options.c:3159
 msgid ""
 "Usually hardware rendering is used when possible. With this option set, "
 "software rendering is always used."
 msgstr ""
 
-#: client/options.c:3158 client/options.c:3197
+#: client/options.c:3162 client/options.c:3201
 msgid "Do cursor animation"
 msgstr ""
 
-#: client/options.c:3159 client/options.c:3198
+#: client/options.c:3163 client/options.c:3202
 msgid ""
 "If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 
-#: client/options.c:3162 client/options.c:3201
+#: client/options.c:3166 client/options.c:3205
 msgid "Use color cursors"
 msgstr "컬러 커서 사용"
 
-#: client/options.c:3163 client/options.c:3202
+#: client/options.c:3167 client/options.c:3206
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 
-#: client/options.c:3168 client/options.c:3207
+#: client/options.c:3172 client/options.c:3211
 msgid "The size of font used to the display the city names on the map."
 msgstr ""
 
-#: client/options.c:3174 client/options.c:3213
+#: client/options.c:3178 client/options.c:3217
 msgid ""
 "The size of font used to the display the city production names on the map."
 msgstr ""
 
-#: client/options.c:3178 client/options.c:3217
+#: client/options.c:3182 client/options.c:3221
 msgid "Use theme defined font size"
 msgstr ""
 
-#: client/options.c:3179 client/options.c:3218
+#: client/options.c:3183 client/options.c:3222
 msgid ""
 "Disable this to override base font size set by theme by the setting below."
 msgstr ""
 
-#: client/options.c:3182 client/options.c:3221
+#: client/options.c:3186 client/options.c:3225
 msgid "Base Font Size"
 msgstr ""
 
-#: client/options.c:3183 client/options.c:3222
+#: client/options.c:3187 client/options.c:3226
 msgid ""
 "Base Font Size. All the fonts' sizes are defined relative to this. This "
 "option has effect only if theme font sizes option is disabled."
 msgstr ""
 
-#: client/options.c:3232
+#: client/options.c:3236
 #, fuzzy
 msgid "Show titlebar"
 msgstr "모든 도시 보기"
 
-#: client/options.c:3233
+#: client/options.c:3237
 msgid ""
 "If this option is set the client will show a titlebar. If disabled, then no "
 "titlebar will be shown, and minimize/maximize/etc buttons will be placed on "
 "the menu bar."
 msgstr ""
 
-#: client/options.c:3239
+#: client/options.c:3243
 #, fuzzy
 #| msgid "Default:"
 msgid "Default font"
 msgstr "기본:"
 
-#: client/options.c:3240
+#: client/options.c:3244
 msgid "This is default font"
 msgstr ""
 
-#: client/options.c:3251
+#: client/options.c:3255
 msgid "This font is used to display the help labels in the help window."
 msgstr ""
 
-#: client/options.c:3285
+#: client/options.c:3289
 #, fuzzy
 #| msgid "Show server options."
 msgid "Show savegame information"
 msgstr "서버 선택들을 보여 주기."
 
-#: client/options.c:3286
+#: client/options.c:3290
 msgid ""
 "If this option is set the client will show information and map preview of "
 "current savegame."
 msgstr ""
 
-#: client/options.c:3289
+#: client/options.c:3293
 #, fuzzy
 msgid "Sidebar position"
 msgstr "상황별 옵션"
 
-#: client/options.c:3290
+#: client/options.c:3294
 #, fuzzy
 #| msgid ""
 #| "If this option is turned on, the game will end with the arrival of a "
@@ -14811,114 +14810,114 @@ msgstr ""
 "만약 이 선택을 켜지면, 그 놀이는 알파 센타우리에 하나의 우주선의 그 도착과 함"
 "께 끝날 것입니다."
 
-#: client/options.c:3294
+#: client/options.c:3298
 #, fuzzy
 #| msgid "Wake up others"
 msgid "Wake up sequence"
 msgstr "다른 사람 깨우기"
 
-#: client/options.c:3295
+#: client/options.c:3299
 msgid ""
 "String which will trigger sound in pregame page; %1 stands for username."
 msgstr ""
 
-#: client/options.c:3298
+#: client/options.c:3302
 msgid "SVG flags features"
 msgstr ""
 
-#: client/options.c:3300
+#: client/options.c:3304
 msgid ""
 "Enable svgflags features, such as bigger flags on the diplomacy dialog. "
 "Change to this comes to an effect on next client start."
 msgstr ""
 
-#: client/options.c:3304
+#: client/options.c:3308
 msgid ""
 "Enable svgflags features, such as bigger flags on the diplomacy dialog. This "
 "has no effect on this freeciv build, as the svg support has not been built "
 "in."
 msgstr ""
 
-#: client/options.c:3381
+#: client/options.c:3385
 msgid "Graphics"
 msgstr "그래픽"
 
 #. TRANS: Options section for overview map (mini-map)
-#: client/options.c:3384
+#: client/options.c:3388
 #, fuzzy
 msgid "?map:Overview"
 msgstr "개관(_O)"
 
-#: client/options.c:3386
+#: client/options.c:3390
 msgid "Sound"
 msgstr "소리"
 
-#: client/options.c:3388
+#: client/options.c:3392
 msgid "Interface"
 msgstr "인터패이스"
 
-#: client/options.c:3390
+#: client/options.c:3394
 #, fuzzy
 msgid "Map Image"
 msgstr "지도 제작"
 
-#: client/options.c:3392
+#: client/options.c:3396
 msgid "Network"
 msgstr "통신망"
 
-#: client/options.c:3394
+#: client/options.c:3398
 #, fuzzy
 msgid "Font"
 msgstr "개월"
 
-#: client/options.c:5155
+#: client/options.c:5169
 msgid "Deprecated event type E_UNIT_WIN in client options."
 msgstr ""
 
-#: client/options.c:5254
+#: client/options.c:5268
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:5365 client/options.c:5395 client/options.c:5411
+#: client/options.c:5379 client/options.c:5409 client/options.c:5425
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
 
-#: client/options.c:5380
+#: client/options.c:5394
 msgid "Cannot find your home directory"
 msgstr ""
 
-#: client/options.c:5926
+#: client/options.c:5940
 msgid "Didn't find the option file. Creating a new one."
 msgstr ""
 
-#: client/options.c:5944
+#: client/options.c:5958
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr ""
 
-#: client/options.c:5946
+#: client/options.c:5960
 #, c-format
 msgid "Saved settings to file %s"
 msgstr ""
 
-#: client/options.c:6107
+#: client/options.c:6164
 msgid "Save failed, cannot find a filename."
 msgstr ""
 
-#: client/options.c:6195
+#: client/options.c:6252
 #, fuzzy, c-format
 #| msgid "Failed to create control directory \"%s\""
 msgid "Saving options failed, cannot create directory %s"
 msgstr "통제 디렉토리 \"%s\" (을)를 창조하기에 실패함"
 
-#: client/options.c:6204
+#: client/options.c:6261
 #, fuzzy, c-format
 #| msgid "Export failed, couldn't write to file."
 msgid "Saving options failed, cannot write to file %s"
 msgstr "내보내기 실패하다, 파일에 기록할 수가 없다."
 
-#: client/options.c:6206
+#: client/options.c:6263
 #, fuzzy, c-format
 #| msgid "Save Options on _Exit"
 msgid "Saved options to file %s"
@@ -14939,40 +14938,40 @@ msgstr ""
 msgid "Server capability string: %s"
 msgstr ""
 
-#: client/packhand.c:1390
+#: client/packhand.c:1398
 #, c-format
 msgid "Start of turn %d"
 msgstr ""
 
-#: client/packhand.c:1509
+#: client/packhand.c:1517
 #, c-format
 msgid "Beginning turn %d"
 msgstr ""
 
-#: client/packhand.c:1566
+#: client/packhand.c:1574
 #, fuzzy
 msgid "Welcome"
 msgstr "%s 환영합니다"
 
-#: client/packhand.c:2239 client/tilespec.c:1447
+#: client/packhand.c:2248 client/tilespec.c:1447
 #, fuzzy, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr "수정꾸러미 통제 파일은 호환성이 없습니다"
 
-#: client/packhand.c:2286
+#: client/packhand.c:2295
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 
-#: client/packhand.c:2289
+#: client/packhand.c:2298
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr ""
 
-#: client/packhand.c:2568
+#: client/packhand.c:2581
 msgid "AI mode is now ON."
 msgstr ""
 
-#: client/packhand.c:2574
+#: client/packhand.c:2587
 msgid "AI mode is now OFF."
 msgstr ""
 
@@ -15322,20 +15321,26 @@ msgstr "인구: %s"
 
 #. TRANS: Nationality of the people comprising a unit, if
 #. * different from owner.
-#: client/text.c:372 client/text.c:516 client/text.c:1156
+#: client/text.c:372 client/text.c:522 client/text.c:1162
 #, fuzzy, c-format
 msgid "%s people"
 msgstr "인구: %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:377 client/text.c:508
+#: client/text.c:377 client/text.c:514
 #, c-format
 msgid "from %s"
 msgstr "%s출신"
 
+#. TRANS: on own line immediately following \n, from ...
+#: client/text.c:382
+#, fuzzy, c-format
+msgid "carrying %s"
+msgstr "광산"
+
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
-#: client/text.c:387
+#: client/text.c:393
 #, c-format
 msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
@@ -15343,7 +15348,7 @@ msgstr[0] "부대: %s | %s (%s, 정전 %d턴)"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn armistice)"
-#: client/text.c:397
+#: client/text.c:403
 #, fuzzy, c-format
 #| msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 #| msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
@@ -15353,108 +15358,108 @@ msgstr[0] "부대: %s | %s (%s, 정전 %d턴)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>,
 #. * <diplomatic state>)"
-#: client/text.c:405
+#: client/text.c:411
 #, c-format
 msgid "Unit: %s | %s (%s, %s)"
 msgstr "부대: %s | %s (%s, %s)"
 
-#: client/text.c:416
+#: client/text.c:422
 #, c-format
 msgid "Probable bribe cost: %d"
 msgstr ""
 
-#: client/text.c:420
+#: client/text.c:426
 #, c-format
 msgid "Estimated bribe cost: > %d"
 msgstr ""
 
 #. TRANS: "5 more" units on this tile
-#: client/text.c:427
+#: client/text.c:433
 #, c-format
 msgid "  (%d more)"
 msgstr ""
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:454
+#: client/text.c:460
 #, c-format
 msgid "far from %s"
 msgstr " %s 로 부터 멀리 있습니다"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:457
+#: client/text.c:463
 #, c-format
 msgid "near %s"
 msgstr "%s 로 부터 가깝습니다"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:460
+#: client/text.c:466
 #, c-format
 msgid "in %s"
 msgstr "%s체재"
 
-#: client/text.c:758 client/text.c:762
+#: client/text.c:764 client/text.c:768
 msgid "Progress: no research"
 msgstr "진보: 연구 안 함"
 
-#: client/text.c:767
+#: client/text.c:773
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] "진보: 매진보당 %d턴"
 
-#: client/text.c:773
+#: client/text.c:779
 #, fuzzy, c-format
 msgid "Progress: %d turn/advance loss"
 msgid_plural "Progress: %d turns/advance loss"
 msgstr[0] "진보: 매진보당 %d턴"
 
-#: client/text.c:779
+#: client/text.c:785
 #, fuzzy
 msgid "Progress: decreasing!"
 msgstr "진보: 연구 안 함"
 
-#: client/text.c:781
+#: client/text.c:787
 #, fuzzy
 msgid "Progress: none"
 msgstr "진보: 연구 안 함"
 
 #. TRANS: <perturn> bulbs/turn
-#: client/text.c:785 client/text.c:1400
+#: client/text.c:791 client/text.c:1406
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
 msgstr[0] "매턴당 %d전구"
 
 #. TRANS: This is appended to "%d bulb/turn" text
-#: client/text.c:790
+#: client/text.c:796
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ", 팀에서 매턴당 %d전구"
 
-#: client/text.c:801
+#: client/text.c:807
 #, c-format
 msgid "Bulbs produced per turn: %d"
 msgstr ""
 
 #. TRANS: keep leading space; appended to "Bulbs produced per turn: %d"
-#: client/text.c:803
+#: client/text.c:809
 #, c-format
 msgid " (needed for technology upkeep: %d)"
 msgstr ""
 
-#: client/text.c:831
+#: client/text.c:837
 #, c-format
 msgid "%d/- (never)"
 msgstr "%d/- (진보 없음)"
 
-#: client/text.c:842
+#: client/text.c:848
 #, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] "%d/%d (%d 턴)"
 
-#: client/text.c:845
+#: client/text.c:851
 #, fuzzy, c-format
 #| msgid "%d/%d (%d turn)"
 #| msgid_plural "%d/%d (%d turns)"
@@ -15462,187 +15467,187 @@ msgid "%d/%d (%d turn to loss)"
 msgid_plural "%d/%d (%d turns to loss)"
 msgstr[0] "%d/%d (%d 턴)"
 
-#: client/text.c:850
+#: client/text.c:856
 #, c-format
 msgid "%d/%d (never)"
 msgstr "%d/%d (진보 없음)"
 
-#: client/text.c:890
+#: client/text.c:896
 #, c-format
 msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] "%d 단계"
 
-#: client/text.c:892
+#: client/text.c:898
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] "%d 전구"
 
-#: client/text.c:924
+#: client/text.c:930
 #, c-format
 msgid "Population: %s"
 msgstr "인구: %s"
 
-#: client/text.c:927
+#: client/text.c:933
 #, c-format
 msgid "Year: %s (T%d)"
 msgstr "서기: %s (%d 턴)"
 
-#: client/text.c:931
+#: client/text.c:937
 #, c-format
 msgid "Gold: %d (%+d)"
 msgstr "금화: %d (%+d)"
 
-#: client/text.c:934
+#: client/text.c:940
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "세금: %d 복지: %d 과학: %d"
 
-#: client/text.c:941 client/text.c:948
+#: client/text.c:947 client/text.c:954
 msgid "Moving: Nobody"
 msgstr "활동중: 없음"
 
-#: client/text.c:943 client/text.c:950
+#: client/text.c:949 client/text.c:956
 #, c-format
 msgid "Moving: %s"
 msgstr "활동중: %s"
 
-#: client/text.c:956
+#: client/text.c:962
 msgid "(Click for more info)"
 msgstr "(더 많은 정보는 여기 클릭)"
 
-#: client/text.c:976
+#: client/text.c:982
 #, c-format
 msgid "%s People"
 msgstr "인구: %s"
 
-#: client/text.c:979 server/gamehand.c:896
+#: client/text.c:985 server/gamehand.c:896
 #, c-format
 msgid "Year: %s"
 msgstr "서기: %s"
 
-#: client/text.c:980
+#: client/text.c:986
 #, c-format
 msgid "Turn: %d"
 msgstr "턴: %d"
 
-#: client/text.c:987
+#: client/text.c:993
 #, c-format
 msgid "Gold: %d"
 msgstr "금화: %d"
 
-#: client/text.c:989
+#: client/text.c:995
 #, c-format
 msgid "Net Income: %d"
 msgstr "수지: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
-#: client/text.c:992
+#: client/text.c:998
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "세율: 금:%d%% 사치:%d%% 과학:%d%%"
 
-#: client/text.c:996
+#: client/text.c:1002
 #, c-format
 msgid "Researching %s: %s"
 msgstr "연구중 %s: %s"
 
-#: client/text.c:1002
+#: client/text.c:1008
 #, c-format
 msgid "Bulbs per turn: %d - %d = %d"
 msgstr ""
 
-#: client/text.c:1006
+#: client/text.c:1012
 #, c-format
 msgid "Bulbs per turn: %d"
 msgstr ""
 
-#: client/text.c:1014
+#: client/text.c:1020
 #, fuzzy, c-format
 #| msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgid "Culture: %d (%+d/turn)"
 msgstr "핵 겨울 위험: %d%% (%+d%%/턴)"
 
-#: client/text.c:1024
+#: client/text.c:1030
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "지구 온난화 위험: %d%% (%+d%%/턴)"
 
-#: client/text.c:1027 client/text.c:1431
+#: client/text.c:1033 client/text.c:1437
 #, fuzzy
 msgid "Global warming deactivated."
 msgstr "온난화가 생겼습니다"
 
-#: client/text.c:1033
+#: client/text.c:1039
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "핵 겨울 위험: %d%% (%+d%%/턴)"
 
-#: client/text.c:1036 client/text.c:1458
+#: client/text.c:1042 client/text.c:1464
 #, fuzzy
 msgid "Nuclear winter deactivated."
 msgstr "핵 겨울이 일어났습니다!"
 
-#: client/text.c:1040
+#: client/text.c:1046
 #, c-format
 msgid "Government: %s"
 msgstr "정부 제도: %s"
 
-#: client/text.c:1066
+#: client/text.c:1072
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d 부대"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:1104
+#: client/text.c:1110
 msgid "?goto:Unreachable"
 msgstr ""
 
-#: client/text.c:1106
+#: client/text.c:1112
 #, c-format
 msgid "Turns to target: %d"
 msgstr ""
 
-#: client/text.c:1108
+#: client/text.c:1114
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr ""
 
-#: client/text.c:1117
+#: client/text.c:1123
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d부대 선택됨"
 
-#: client/text.c:1218
+#: client/text.c:1224
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr ""
 
-#: client/text.c:1220
+#: client/text.c:1226
 #, c-format
 msgid "Others: %d civilian"
 msgstr ""
 
-#: client/text.c:1222
+#: client/text.c:1228
 #, c-format
 msgid "Others: %d military"
 msgstr ""
 
-#: client/text.c:1261
+#: client/text.c:1267
 msgid "No units to upgrade!"
 msgstr "업그레이드 할수 있는 부대가 없습니다!"
 
-#: client/text.c:1285
+#: client/text.c:1291
 msgid "None of these units may be upgraded."
 msgstr "이 부대를 업그레이드 할수 없습니다!"
 
 #. TRANS: this whole string is a sentence fragment that is only ever
 #. * used by including it in another string (search comments for this
 #. * string to find it)
-#: client/text.c:1302
+#: client/text.c:1308
 #, fuzzy, c-format
 msgid "Upgrade %d unit"
 msgid_plural "Upgrade %d units"
@@ -15652,7 +15657,7 @@ msgstr[0] "부대업그레이드"
 #. * sentence fragment "Upgrade %d unit(s)"; the second is pre-pluralised
 #. * "Treasury contains %d gold." So the whole thing reads
 #. * "Upgrade 13 units for 1000 gold?\nTreasury contains 2000 gold."
-#: client/text.c:1310
+#: client/text.c:1316
 #, fuzzy, c-format
 msgid ""
 "%s for %d gold?\n"
@@ -15662,45 +15667,45 @@ msgid_plural ""
 "%s"
 msgstr[0] "%s(을)를 %d의 금으로 팔겠습니까?"
 
-#: client/text.c:1327
+#: client/text.c:1333
 #, fuzzy
 msgid "No units to disband!"
 msgstr "업그레이드 할수 있는 부대가 없습니다!"
 
-#: client/text.c:1332
+#: client/text.c:1338
 #, c-format
 msgid "%s refuses to disband!"
 msgstr ""
 
 #. TRANS: %s is a unit type
-#: client/text.c:1337
+#: client/text.c:1343
 #, fuzzy, c-format
 msgid "Disband %s?"
 msgstr "부대해산"
 
-#: client/text.c:1350
+#: client/text.c:1356
 #, fuzzy
 msgid "None of these units may be disbanded."
 msgstr "이 부대를 업그레이드 할수 없습니다!"
 
 #. TRANS: %d is never 0 or 1
-#: client/text.c:1354
+#: client/text.c:1360
 #, fuzzy, c-format
 msgid "Disband %d unit?"
 msgid_plural "Disband %d units?"
 msgstr[0] "부대를 해산하기"
 
-#: client/text.c:1373
+#: client/text.c:1379
 msgid "Shows your progress in researching the current technology."
 msgstr ""
 
-#: client/text.c:1380
+#: client/text.c:1386
 #, fuzzy
 #| msgid "no research target."
 msgid "No research target."
 msgstr "연구대상이 없음"
 
-#: client/text.c:1389
+#: client/text.c:1395
 #, fuzzy, c-format
 #| msgid "%d turn"
 #| msgid_plural "%d turns"
@@ -15708,176 +15713,176 @@ msgid "%d turn to loss"
 msgid_plural "%d turns to loss"
 msgstr[0] "%d 차례"
 
-#: client/text.c:1393
+#: client/text.c:1399
 msgid "Decreasing"
 msgstr ""
 
-#: client/text.c:1395
+#: client/text.c:1401
 #, fuzzy
 msgid "No progress"
 msgstr "건설"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:1403
+#: client/text.c:1409
 #, fuzzy, c-format
 msgid "%s: %d/%d (%s, %s)."
 msgstr "도시: %s | %s (%s, %s)"
 
-#: client/text.c:1436
+#: client/text.c:1442
 msgid "Shows the progress of global warming:"
 msgstr ""
 
-#: client/text.c:1437
+#: client/text.c:1443
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "오염도 : %d%%"
 
-#: client/text.c:1438
+#: client/text.c:1444
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr ""
 
-#: client/text.c:1463
+#: client/text.c:1469
 msgid "Shows the progress of nuclear winter:"
 msgstr ""
 
-#: client/text.c:1464
+#: client/text.c:1470
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr ""
 
-#: client/text.c:1465
+#: client/text.c:1471
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr ""
 
-#: client/text.c:1484
+#: client/text.c:1490
 msgid "Shows your current government:"
 msgstr "당신의 현재정부 보이기"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1513
+#: client/text.c:1519
 #, c-format
 msgid "Population:      %5d"
 msgstr "인구 :           %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1516
+#: client/text.c:1522
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "지원 :           %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1520
+#: client/text.c:1526
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "에너지 :         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1524
+#: client/text.c:1530
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "질량 :           %5d 톤"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1530
+#: client/text.c:1536
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "여행 시간 :      %5.1f 년"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1534
+#: client/text.c:1540
 msgid "Travel time:        N/A     "
 msgstr "여행 시간 :      N/A     "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1538
+#: client/text.c:1544
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "성공 율 :        %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1542
+#: client/text.c:1548
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "도착 할 때 :     %8s"
 
-#: client/text.c:1567
+#: client/text.c:1573
 #, fuzzy
 #| msgid "?timeout:off"
 msgid "?timeout:wait"
 msgstr "꺼짐"
 
-#: client/text.c:1569
+#: client/text.c:1575
 #, fuzzy
 #| msgid "?timeout:off"
 msgid "?timeout:eta"
 msgstr "꺼짐"
 
-#: client/text.c:1573
+#: client/text.c:1579
 msgid "?timeout:off"
 msgstr "꺼짐"
 
-#: client/text.c:1600
+#: client/text.c:1606
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "%02d초"
 
-#: client/text.c:1602
+#: client/text.c:1608
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "%02d분 %02d초"
 
-#: client/text.c:1604
+#: client/text.c:1610
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "%02d시간 %02d분"
 
-#: client/text.c:1606
+#: client/text.c:1612
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "%02d일 %02d시간"
 
-#: client/text.c:1609
+#: client/text.c:1615
 msgid "?duration:overflow"
 msgstr ""
 
-#: client/text.c:1634
+#: client/text.c:1640
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
-#: client/text.c:1686
+#: client/text.c:1692
 #, c-format
 msgid "?nationgovernment:%s %s"
 msgstr "%s의 %s 국가"
 
 #. TRANS: Just appending 2 strings, using the correct localized
 #. * syntax.
-#: client/text.c:1692
+#: client/text.c:1698
 #, fuzzy, c-format
 msgid "%s - %s"
 msgstr "%d %s"
 
 #. TRANS: "Observer - 1985 AD"
-#: client/text.c:1697
+#: client/text.c:1703
 #, fuzzy, c-format
 msgid "Observer - %s"
 msgstr "관찰자: %s"
 
 #. TRANS: Estimated one time bonus and recurring revenue for
 #. * the Establish Trade _Route action.
-#: client/text.c:1739
+#: client/text.c:1745
 #, c-format
 msgid "%d one time bonus + %d trade"
 msgstr ""
 
 #. TRANS: Estimated recurring revenue for
 #. * the Establish Trade _Route action.
-#: client/text.c:1746
+#: client/text.c:1752
 #, fuzzy, c-format
 #| msgid "+%d Trade / %d"
 msgid "%d trade"
@@ -15885,79 +15890,79 @@ msgstr "+%d 무역 / %d"
 
 #. TRANS: Estimated one time bonus for the Enter Marketplace
 #. * action.
-#: client/text.c:1760
+#: client/text.c:1766
 #, fuzzy, c-format
 #| msgid "% of Road bonus"
 msgid "%d one time bonus"
 msgstr "도로 상여금의 %"
 
-#: client/text.c:1772
+#: client/text.c:1778
 #, fuzzy, c-format
 #| msgid "Refining"
 msgid "%d remaining"
 msgstr "석유 정제"
 
-#: client/text.c:1810
+#: client/text.c:1816
 #, fuzzy, c-format
 #| msgid "Buildings: "
 msgid "Buildings: %s."
 msgstr "건물: "
 
-#: client/text.c:1813
+#: client/text.c:1819
 #, fuzzy
 #| msgid "Buildings: "
 msgid "Buildings: None."
 msgstr "건물: "
 
-#: client/text.c:1835
+#: client/text.c:1841
 #, fuzzy
 msgid "Nationality: "
 msgstr "민족"
 
-#: client/text.c:1848
+#: client/text.c:1854
 #, fuzzy, c-format
 msgid "%d enemy nationalist"
 msgid_plural "%d enemy nationalists"
 msgstr[0] "알려지지 않은"
 
 #. TRANS: No enemy nationalities, as there's no enemies present.
-#: client/text.c:1855
+#: client/text.c:1861
 #, fuzzy
 msgid "None."
 msgstr "없음."
 
 #. TRANS: No nationalities present.
-#: client/text.c:1859
+#: client/text.c:1865
 #, fuzzy
 msgid "Disabled."
 msgstr "해제"
 
-#: client/text.c:1882
+#: client/text.c:1888
 #, fuzzy, c-format
 msgid "Wonders: %s."
 msgstr "불가사의: "
 
-#: client/text.c:1885
+#: client/text.c:1891
 #, fuzzy
 #| msgid "Wonders: "
 msgid "Wonders: None."
 msgstr "불가사의: "
 
-#: client/text.c:1915
+#: client/text.c:1921
 #, c-format
 msgid "Cities: %d total, but no penalty for empire size."
 msgid_plural "Cities: %d total, but no penalty for empire size."
 msgstr[0] ""
 
 #. TRANS: %d is number of citizens
-#: client/text.c:1921 client/text.c:1995
+#: client/text.c:1927 client/text.c:2001
 #, c-format
 msgid "%d content per city."
 msgid_plural "%d content per city."
 msgstr[0] ""
 
 #. TRANS: sentence fragment, will have text appended
-#: client/text.c:1961
+#: client/text.c:1967
 #, c-format
 msgid "Cities: %d total:"
 msgid_plural "Cities: %d total:"
@@ -15965,26 +15970,26 @@ msgstr[0] ""
 
 #. TRANS: appended to "Cities: %d total:"; preserve leading
 #. * space. Pluralized in "nearest threshold of %d cities".
-#: client/text.c:1968
+#: client/text.c:1974
 #, c-format
 msgid " %d over nearest threshold of %d city."
 msgid_plural " %d over nearest threshold of %d cities."
 msgstr[0] ""
 
 #. TRANS: Number of content [citizen(s)] ...
-#: client/text.c:1973
+#: client/text.c:1979
 #, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] ""
 
-#: client/text.c:1977
+#: client/text.c:1983
 #, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] ""
 
-#: client/text.c:1982
+#: client/text.c:1988
 #, fuzzy, c-format
 msgid "%d angry citizen."
 msgid_plural "%d angry citizens."
@@ -15992,73 +15997,73 @@ msgstr[0] "시민"
 
 #. TRANS: appended to "Cities: %d total:"; preserve leading
 #. * space.
-#: client/text.c:1990
+#: client/text.c:1996
 #, c-format
 msgid " not more than %d, so no empire size penalty."
 msgid_plural " not more than %d, so no empire size penalty."
 msgstr[0] ""
 
-#: client/text.c:2001
+#: client/text.c:2007
 #, c-format
 msgid "With %d more city, another citizen will become unhappy."
 msgid_plural "With %d more cities, another citizen will become unhappy."
 msgstr[0] ""
 
-#: client/text.c:2012
+#: client/text.c:2018
 #, c-format
 msgid "With %d more city, another citizen will become angry."
 msgid_plural "With %d more cities, another citizen will become angry."
 msgstr[0] ""
 
-#: client/text.c:2022
+#: client/text.c:2028
 msgid "More cities will not cause more unhappy citizens."
 msgstr ""
 
-#: client/text.c:2045
+#: client/text.c:2051
 msgid "Unlimited martial law in effect."
 msgstr ""
 
-#: client/text.c:2047
+#: client/text.c:2053
 #, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] ""
 
-#: client/text.c:2051
+#: client/text.c:2057
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] ""
 
-#: client/text.c:2058
+#: client/text.c:2064
 msgid "Military units in the field may cause unhappiness. "
 msgstr "평지상에서 군 부대는 불행을 야기할수 있습니다."
 
-#: client/text.c:2061
+#: client/text.c:2067
 msgid "Military units have no happiness effect. "
 msgstr ""
 
-#: client/text.c:2079
+#: client/text.c:2085
 #, c-format
 msgid "Luxury: %d total."
 msgstr "사치: 총액 %d."
 
-#: client/text.c:2133
+#: client/text.c:2139
 msgid " (us)"
 msgstr ""
 
-#: client/text.c:2135
+#: client/text.c:2141
 #, fuzzy
 #| msgid "Set manually"
 msgid " (an ally)"
 msgstr "손으로 맞추기"
 
-#: client/text.c:2139
+#: client/text.c:2145
 msgid " (an enemy)"
 msgstr ""
 
 #. TRANS: %s is a Nation
-#: client/text.c:2149
+#: client/text.c:2155
 #, c-format
 msgid "%s%s: score %d"
 msgstr ""
@@ -18190,11 +18195,11 @@ msgstr ""
 msgid "CauseZoC"
 msgstr ""
 
-#: common/fc_types.h:167 common/unit.c:635
+#: common/fc_types.h:167 common/unit.c:643
 msgid "Fortifying"
 msgstr "요새화"
 
-#: common/fc_types.h:173 common/unit.c:649
+#: common/fc_types.h:173 common/unit.c:657
 #, fuzzy
 msgid "Base"
 msgstr "레이저"
@@ -21303,24 +21308,24 @@ msgstr ""
 msgid "?routedir:Bidirectional"
 msgstr ""
 
-#: common/unit.c:643
+#: common/unit.c:651
 msgid "Goto"
 msgstr "이동"
 
-#: common/unit.c:645
+#: common/unit.c:653
 msgid "Explore"
 msgstr "탐험"
 
-#: common/unit.c:1171 common/unit.c:1176
+#: common/unit.c:1179 common/unit.c:1184
 msgid "Moves"
 msgstr "이동"
 
-#: common/unit.c:1237
+#: common/unit.c:1245
 msgid "Food/Shield/Gold:"
 msgstr ""
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2073
+#: common/unit.c:2081
 #, fuzzy, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -21332,13 +21337,13 @@ msgstr[0] ""
 "%s에서 %s(으)로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
-#: common/unit.c:2082
+#: common/unit.c:2090
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "미안하지만 %s를(을) 업그레이드 할수 없습니다(아직)"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2088
+#: common/unit.c:2096
 #, fuzzy, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -21350,29 +21355,29 @@ msgstr[0] ""
 "%s에서 %s(으)로 %d의 금을 소비하여 업그레이드 합니다.\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
-#: common/unit.c:2098
+#: common/unit.c:2106
 msgid "You can only upgrade units in your cities."
 msgstr "당신은 오직 당신도시 안에서 부대를 업그레이드 시킬수 있습니다"
 
-#: common/unit.c:2102
+#: common/unit.c:2110
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "이 %s의 업그레이드는 해안가로 운반할 것입니다"
 
-#: common/unit.c:2107
+#: common/unit.c:2115
 #, fuzzy, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr "이 %s의 업그레이드는 해안가로 운반할 것입니다"
 
-#: common/unit.c:2114
+#: common/unit.c:2122
 #, fuzzy, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
 "could not transport."
 msgstr "이 %s의 업그레이드는 해안가로 운반할 것입니다"
 
-#: common/unit.c:2122
+#: common/unit.c:2130
 #, c-format
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr ""
@@ -39572,12 +39577,23 @@ msgstr "알려지지 않은 선택 '%s'."
 msgid "Freeciv modpack installer (command line version)"
 msgstr "Freeciv 수정꾸러미 설치하는 사람 (Qt)"
 
-#: tools/fcmp/mpcli.c:149
+#: tools/fcmp/mpcli.c:145
+#, fuzzy
+#| msgid "Install modpack"
+msgid "To install a modpack, run:"
+msgstr "수정꾸머리 설치하기"
+
+#: tools/fcmp/mpcli.c:146
+#, c-format
+msgid "%s -i <URL>"
+msgstr ""
+
+#: tools/fcmp/mpcli.c:153
 #, fuzzy
 msgid "Modpack installed successfully"
 msgstr "%s (은)는 성공적으로 수송되었습니다."
 
-#: tools/fcmp/mpcli.c:151
+#: tools/fcmp/mpcli.c:155
 #, c-format
 msgid "Modpack install failed: %s"
 msgstr ""
@@ -40716,24 +40732,24 @@ msgstr "당신은 %s (을)를 해방시켰습니다!"
 msgid "%s liberated %s."
 msgstr "%s (은)는 %s (을)를 해방시켰습니다."
 
-#: server/citytools.c:2894
+#: server/citytools.c:2897
 #, fuzzy, c-format
 #| msgid "Trade route between %s and %s canceled."
 msgid "Trade between %s and %s lost along with city."
 msgstr "%s (와)과 %s 사이의 무역 경로를 취소했습니다."
 
-#: server/citytools.c:2899
+#: server/citytools.c:2902
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "%s (와)과 %s 사이의 무역 경로를 취소했습니다."
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2907
+#: server/citytools.c:2910
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 
-#: server/citytools.c:2915
+#: server/citytools.c:2918
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr ""
@@ -40741,60 +40757,60 @@ msgstr ""
 "다."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2921
+#: server/citytools.c:2924
 #, fuzzy, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr ""
 "미안한, 그 %s (은)는 %s 에서 당신의 도시 %s 까지의 그 무역 경로를 취소했습니"
 "다."
 
-#: server/citytools.c:2975
+#: server/citytools.c:2978
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s (은)는 하나의 전염병에 의해 발생되었습니다! 인구 감소!"
 
-#: server/citytools.c:3039
+#: server/citytools.c:3042
 #, fuzzy, c-format
 #| msgid "Moving: %s"
 msgid "Moving %s"
 msgstr "활동중: %s"
 
-#: server/citytools.c:3042
+#: server/citytools.c:3045
 #, fuzzy, c-format
 msgid "Acquiring %s"
 msgstr "%s체재"
 
-#: server/citytools.c:3201
+#: server/citytools.c:3204
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s (은)는 %s 의 건설을 %s 에서 중단했습니다."
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3223
+#: server/citytools.c:3226
 msgid " from the worklist"
 msgstr " 작업목록으로부터"
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3228
+#: server/citytools.c:3231
 msgid " as suggested by the advisor"
 msgstr ""
 
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
 #. * " from the worklist".
-#: server/citytools.c:3245
+#: server/citytools.c:3248
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s (은)는 %s%s (을)를 짓고 있습니다."
 
-#: server/citytools.c:3254
+#: server/citytools.c:3257
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s (은)는 %s 의 건설을 %s 에서 시작했습니다."
 
-#: server/citytools.c:3423
+#: server/citytools.c:3426
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -40802,16 +40818,16 @@ msgstr[0] ""
 "당신은 %3$d 금을 위해 %2$s 안의 %1$s (이제 육지에 둘러싸인) (을)를 매각합니"
 "다."
 
-#: server/citytools.c:3563
+#: server/citytools.c:3566
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "%s 의 그 도시 지도의 그 크기는 %s 입니다."
 
-#: server/citytools.c:3565
+#: server/citytools.c:3568
 msgid "increased"
 msgstr "증가됨"
 
-#: server/citytools.c:3566
+#: server/citytools.c:3569
 msgid "reduced"
 msgstr "감소됨"
 
@@ -40845,50 +40861,50 @@ msgstr "%s (은)는 곧 크기 %i (으)로 성장할 수도 있습니다."
 msgid "Warning: Famine feared in %s."
 msgstr "경고: %s 안에 기근 두려움."
 
-#: server/cityturn.c:937
+#: server/cityturn.c:934
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr ""
 "%1$s (은)는 크기 %3$d (을)를 너머 자라기 위해 %2$s (지어지는) (이)가 필요합니"
 "다."
 
-#: server/cityturn.c:943
+#: server/cityturn.c:940
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
 msgstr "%s (은)는 크기 %d (을)를 너머 자라기 위해 하나의 향상이 필요합니다."
 
-#: server/cityturn.c:1021
+#: server/cityturn.c:1018
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s 이(가) 크기 %d (으)로 자랐습니다."
 
-#: server/cityturn.c:1093
+#: server/cityturn.c:1090
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
 msgstr ""
 
-#: server/cityturn.c:1125
+#: server/cityturn.c:1122
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "%s 안의 기근 두려움, %s (을)를 잃어버렸습니다!"
 
-#: server/cityturn.c:1139
+#: server/cityturn.c:1136
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "기근은 %s 안의 인구 손실을 야기했습니다."
 
-#: server/cityturn.c:1144
+#: server/cityturn.c:1141
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "기근은 %s (을)를 완전히 파괴합니다."
 
-#: server/cityturn.c:1205
+#: server/cityturn.c:1202
 #, fuzzy, c-format
 msgid "%s can't build %s from the worklist. Postponing..."
 msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다.  숙청하는 중..."
 
-#: server/cityturn.c:1220
+#: server/cityturn.c:1217
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; counter %s value's checkpoint do not "
@@ -40897,7 +40913,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 우선 %s (을)를 가지"
 "기를 필요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1235 server/cityturn.c:2241
+#: server/cityturn.c:1232 server/cityturn.c:2238
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -40905,7 +40921,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 기술 %s (은)는 아직"
 "도 이용할 수 없습니다.  미루는 중..."
 
-#: server/cityturn.c:1252
+#: server/cityturn.c:1249
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
@@ -40914,8 +40930,8 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 기술은 아직도 이용"
 "할 수 없습니다.  미루는 중..."
 
-#: server/cityturn.c:1274 server/cityturn.c:1304 server/cityturn.c:1334
-#: server/cityturn.c:1360
+#: server/cityturn.c:1271 server/cityturn.c:1301 server/cityturn.c:1331
+#: server/cityturn.c:1357
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first. Postponing..."
@@ -40923,15 +40939,15 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 우선 %s (을)를 가지"
 "기를 필요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1285 server/cityturn.c:1315 server/cityturn.c:1345
-#: server/cityturn.c:1371
+#: server/cityturn.c:1282 server/cityturn.c:1312 server/cityturn.c:1342
+#: server/cityturn.c:1368
 #, fuzzy, c-format
 msgid "%s can't build %s from the worklist; need to not have %s. Postponing..."
 msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 우선 %s (을)를 가지"
 "기를 필요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1388
+#: server/cityturn.c:1385
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government. Postponing..."
@@ -40939,7 +40955,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 이것은 %s 정부를 필"
 "요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1398
+#: server/cityturn.c:1395
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; it cannot have %s government. "
@@ -40948,7 +40964,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 이것은 %s 정부를 필"
 "요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1411
+#: server/cityturn.c:1408
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs \"%s\" achievement. "
@@ -40957,7 +40973,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 이것은 %s 정부를 필"
 "요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1427 server/cityturn.c:1450
+#: server/cityturn.c:1424 server/cityturn.c:1447
 #, fuzzy, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is required. Postponing..."
@@ -40965,7 +40981,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도로 %s (이)가 요구"
 "됩니다.  미루는 중..."
 
-#: server/cityturn.c:1437 server/cityturn.c:1460
+#: server/cityturn.c:1434 server/cityturn.c:1457
 #, fuzzy, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is prohibited. Postponing..."
@@ -40973,7 +40989,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도로 %s (이)가 요구"
 "됩니다.  미루는 중..."
 
-#: server/cityturn.c:1473
+#: server/cityturn.c:1470
 #, fuzzy, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is required. "
@@ -40982,7 +40998,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 %s (이)가 요구"
 "됩니다.  미루는 중..."
 
-#: server/cityturn.c:1483
+#: server/cityturn.c:1480
 #, fuzzy, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is prohibited. "
@@ -40992,7 +41008,7 @@ msgstr ""
 "됩니다.  미루는 중..."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1502
+#: server/cityturn.c:1499
 #, fuzzy, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is required. "
@@ -41001,7 +41017,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 %s (이)가 요구"
 "됩니다.  미루는 중..."
 
-#: server/cityturn.c:1512
+#: server/cityturn.c:1509
 #, fuzzy, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -41011,7 +41027,7 @@ msgstr ""
 "됩니다.  미루는 중..."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1532
+#: server/cityturn.c:1529
 #, fuzzy, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
@@ -41020,7 +41036,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도로 %s (이)가 요구"
 "됩니다.  미루는 중..."
 
-#: server/cityturn.c:1542
+#: server/cityturn.c:1539
 #, fuzzy, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -41029,7 +41045,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도로 %s (이)가 요구"
 "됩니다.  미루는 중..."
 
-#: server/cityturn.c:1559
+#: server/cityturn.c:1556
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s style cities may build this. "
@@ -41038,7 +41054,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 오직 %s (이)가 이것"
 "을 지을 수도 있습니다.  미루는 중..."
 
-#: server/cityturn.c:1569
+#: server/cityturn.c:1566
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; %s style cities may not build this. "
@@ -41048,7 +41064,7 @@ msgstr ""
 "을 지을 수도 있습니다.  미루는 중..."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1585
+#: server/cityturn.c:1582
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this. "
@@ -41058,7 +41074,7 @@ msgstr ""
 "께 도시가 이것을 지을 수도 있습니다.  미루는 중..."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1596
+#: server/cityturn.c:1593
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only city without %s may build this. "
@@ -41070,7 +41086,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1621
+#: server/cityturn.c:1618
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is required.  "
@@ -41079,7 +41095,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 등급 %s (이)"
 "가 요구됩니다.  미루는 중..."
 
-#: server/cityturn.c:1645
+#: server/cityturn.c:1642
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is prohibited.  "
@@ -41091,7 +41107,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1676
+#: server/cityturn.c:1673
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; unit with the relationship '%s' is "
@@ -41100,7 +41116,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 등급 %s (이)"
 "가 요구됩니다.  미루는 중..."
 
-#: server/cityturn.c:1698
+#: server/cityturn.c:1695
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; unit with the relationship '%s' is "
@@ -41109,7 +41125,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 등급 %s (이)"
 "가 요구됩니다.  미루는 중..."
 
-#: server/cityturn.c:1721
+#: server/cityturn.c:1718
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or larger. "
@@ -41118,7 +41134,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도시는 크기 %d 의 "
 "있어야 합니다.  미루는 중..."
 
-#: server/cityturn.c:1732
+#: server/cityturn.c:1729
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or "
@@ -41127,7 +41143,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도시는 크기 %d 의 "
 "있어야 합니다.  미루는 중..."
 
-#: server/cityturn.c:1746
+#: server/cityturn.c:1743
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
@@ -41136,7 +41152,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도시는 크기 %d 의 "
 "있어야 합니다.  미루는 중..."
 
-#: server/cityturn.c:1762
+#: server/cityturn.c:1759
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% foreign population. "
@@ -41145,7 +41161,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도시는 크기 %d 의 "
 "있어야 합니다.  미루는 중..."
 
-#: server/cityturn.c:1772
+#: server/cityturn.c:1769
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% native population. "
@@ -41154,7 +41170,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 도시는 크기 %d 의 "
 "있어야 합니다.  미루는 중..."
 
-#: server/cityturn.c:1785
+#: server/cityturn.c:1782
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
@@ -41162,7 +41178,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 알려지지 않은 이"
 "유!  미루는 중..."
 
-#: server/cityturn.c:1800
+#: server/cityturn.c:1797
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; more than %d unit on tile.  "
@@ -41174,7 +41190,7 @@ msgstr[0] ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 알려지지 않은 이"
 "유!  미루는 중..."
 
-#: server/cityturn.c:1815
+#: server/cityturn.c:1812
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; fewer than %d unit on tile.  "
@@ -41186,7 +41202,7 @@ msgstr[0] ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 우선 %s (을)를 가지"
 "기를 필요로 합니다.  미루는 중..."
 
-#: server/cityturn.c:1842
+#: server/cityturn.c:1839
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
@@ -41195,7 +41211,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1853
+#: server/cityturn.c:1850
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
@@ -41204,7 +41220,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1867
+#: server/cityturn.c:1864
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
@@ -41213,7 +41229,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1878
+#: server/cityturn.c:1875
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
@@ -41222,7 +41238,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1892
+#: server/cityturn.c:1889
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
@@ -41231,7 +41247,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1903
+#: server/cityturn.c:1900
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
@@ -41240,7 +41256,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1925
+#: server/cityturn.c:1922
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; different terrain class nearby is "
@@ -41249,7 +41265,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 지형 신호기 %s (이)"
 "가 요구됩니다. 미루는 중..."
 
-#: server/cityturn.c:1935
+#: server/cityturn.c:1932
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; different terrain class nearby is "
@@ -41259,7 +41275,7 @@ msgstr ""
 "가 요구됩니다. 미루는 중..."
 
 #. TRANS: last %s is a CityStatus ("OwnedByOriginal")
-#: server/cityturn.c:1977
+#: server/cityturn.c:1974
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when city in range %s "
@@ -41269,7 +41285,7 @@ msgstr ""
 "이용할 수 있습니다. 미루는 중..."
 
 #. TRANS: last %s is a CityStatus ("OwnedByOriginal")
-#: server/cityturn.c:1989
+#: server/cityturn.c:1986
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; not available when city in range %s is "
@@ -41281,7 +41297,7 @@ msgstr ""
 #. TRANS: last %s is a date
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:2009 server/cityturn.c:2029
+#: server/cityturn.c:2006 server/cityturn.c:2026
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -41291,7 +41307,7 @@ msgstr ""
 
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:2042
+#: server/cityturn.c:2039
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; not available after %s. Postponing..."
@@ -41303,7 +41319,7 @@ msgstr ""
 #. * ("Hex", "ISO"
 #. TRANS: third %s is wrap flag name
 #. * ("WrapX", "Wrapy")
-#: server/cityturn.c:2057 server/cityturn.c:2073
+#: server/cityturn.c:2054 server/cityturn.c:2070
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only available in worlds with %s map."
@@ -41316,7 +41332,7 @@ msgstr ""
 #. * The string's format is specified in
 #. * ssetv_human_readable().
 #. * Example: "killstack is enabled".
-#: server/cityturn.c:2091
+#: server/cityturn.c:2088
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when the server setting "
@@ -41325,7 +41341,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 오직 %s (으)로부터 "
 "이용할 수 있습니다. 미루는 중..."
 
-#: server/cityturn.c:2107
+#: server/cityturn.c:2104
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
@@ -41334,7 +41350,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 오직 %s (으)로부터 "
 "이용할 수 있습니다. 미루는 중..."
 
-#: server/cityturn.c:2123
+#: server/cityturn.c:2120
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old form. "
@@ -41343,7 +41359,7 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 오직 %s (으)로부터 "
 "이용할 수 있습니다. 미루는 중..."
 
-#: server/cityturn.c:2248
+#: server/cityturn.c:2245
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; multiple techs still needed. "
@@ -41352,64 +41368,64 @@ msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다; 알려지지 않은 이"
 "유!  미루는 중..."
 
-#: server/cityturn.c:2272 server/cityturn.c:2340
+#: server/cityturn.c:2269 server/cityturn.c:2337
 #, fuzzy, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr ""
 "%s (은)는 그 작업목록으로부터 %s (을)를 지을 수 없습니다.  숙청하는 중..."
 
-#: server/cityturn.c:2291 server/cityturn.c:2329 server/cityturn.c:2464
-#: server/cityturn.c:2512
+#: server/cityturn.c:2288 server/cityturn.c:2326 server/cityturn.c:2461
+#: server/cityturn.c:2509
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "%1$s 의 생산은 %3$s 안에 %2$s (으)로 개선되었습니다."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:2378
+#: server/cityturn.c:2375
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "그 %s 작업목록은 지금 비어있습니다."
 
-#: server/cityturn.c:2546
+#: server/cityturn.c:2543
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s (은)는 %s (을)를 유지할 수 없어서, 부대는 해산되었습니다."
 
-#: server/cityturn.c:2586
+#: server/cityturn.c:2583
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr ""
 "%s 안의 시민들은 %s (을)를 유지하기에 그들의 실패를 위해 끔찍하게 죽습니다!"
 
-#: server/cityturn.c:2592
+#: server/cityturn.c:2589
 #, fuzzy, c-format
 #| msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgid "Citizens in %s perish for their failure to upkeep units!"
 msgstr ""
 "%s 안의 시민들은 %s (을)를 유지하기에 그들의 실패를 위해 끔찍하게 죽습니다!"
 
-#: server/cityturn.c:2639 server/cityturn.c:2854
+#: server/cityturn.c:2636 server/cityturn.c:2851
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s (은)는 더 이상 이용할 수 없는, %s (을)를 짓고 있습니다."
 
-#: server/cityturn.c:2671
+#: server/cityturn.c:2668
 #, fuzzy, c-format
 #| msgid "Population: %s"
 msgid "Completion of %s"
 msgstr "인구: %s"
 
-#: server/cityturn.c:2680
+#: server/cityturn.c:2677
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "그 %1$s (은)는 %3$s 안에 건물 %2$s (을)를 끝냈습니다."
 
-#: server/cityturn.c:2687
+#: server/cityturn.c:2684
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s (은)는 건물 %s (을)를 끝냈습니다."
 
-#: server/cityturn.c:2708
+#: server/cityturn.c:2705
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -41417,7 +41433,7 @@ msgstr[0] ""
 "%s (은)는 연구를 신장시킵니다; 당신은 즉각전인 진보 %d (을)를 가집니다."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2722
+#: server/cityturn.c:2719
 #, fuzzy, c-format
 #| msgid "The %s have acquired %s from %s."
 msgid "?frombldg:Acquired %s from %s."
@@ -41425,95 +41441,102 @@ msgstr "그 %s (은)는 %s (을)를 %s (으)로부터 획득했습니다."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2728
+#: server/cityturn.c:2725
 #, fuzzy, c-format
 #| msgid "The %s have acquired %s from %s."
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "그 %s (은)는 %s (을)를 %s (으)로부터 획득했습니다."
 
-#: server/cityturn.c:2735
+#: server/cityturn.c:2732
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "그 %s (은)는 하나의 우주선을 건설하기 시작했습니다!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2879
+#: server/cityturn.c:2876
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
 
+#. TRANS: <city> is finished building <unit>, carrying <goods>.
+#: server/cityturn.c:2913
+#, fuzzy, c-format
+#| msgid "%s is finished building %s."
+msgid "%s is finished building %s, carrying %s."
+msgstr "%s (은)는 건물 %s (을)를 끝냈습니다."
+
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2914
+#: server/cityturn.c:2919
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s (은)는 건물 %s (을)를 끝냈습니다."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2951
+#: server/cityturn.c:2957
 #, fuzzy, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] ""
 "%s (은)는 인구 %d (을)를 희생시킵니다. %s (은)는 크기 %d (으)로 줄어듭니다."
 
-#: server/cityturn.c:3031
+#: server/cityturn.c:3037
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%2$s 안의 %1$s (을)를 유지할 형편이 될 수 없어, 건물은 팔렸습니다!"
 
-#: server/cityturn.c:3182
+#: server/cityturn.c:3188
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "충분하지 않은 금. %s (은)는 해산되었습니다."
 
-#: server/cityturn.c:3423 server/cityturn.c:4291
+#: server/cityturn.c:3429 server/cityturn.c:4297
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s 가까이 공해."
 
-#: server/cityturn.c:3605
+#: server/cityturn.c:3611
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s 안에 당신의 명예 안의 기념 행사들."
 
-#: server/cityturn.c:3611
+#: server/cityturn.c:3617
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s 안의 기념 행사들은 취소됨."
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3715
+#: server/cityturn.c:3721
 msgid " Unrest threatens to spread beyond the city."
 msgstr ""
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3722
+#: server/cityturn.c:3728
 #, fuzzy, c-format
 #| msgid "Civil disorder in %s."
 msgid "Civil disorder in %s.%s"
 msgstr "%s 안의 시민의 무질서."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3727
+#: server/cityturn.c:3733
 #, fuzzy, c-format
 #| msgid "CIVIL DISORDER CONTINUES in %s."
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "시.민.의. 무.질.서.는 %s 안에 계.속.됩.니.다."
 
-#: server/cityturn.c:3733
+#: server/cityturn.c:3739
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s 안의 질서가 회복되었습니다."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3751
+#: server/cityturn.c:3757
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "그 사람은 당신의 %s (을)를 타도했고, 당신의 국가는 혼란 안에 있습니다."
 
-#: server/cityturn.c:3795
+#: server/cityturn.c:3801
 #, fuzzy, c-format
 #| msgid "%s can't build %s yet, and we can't disband our only city."
 msgid "%s can't build %s yet, as we can't disband our only city."
@@ -41522,13 +41545,13 @@ msgstr ""
 "할 수 없습니다."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3824
+#: server/cityturn.c:3830
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s (은)는 %s 안으로 해산되었습니다."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:4034
+#: server/cityturn.c:4040
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -41537,7 +41560,7 @@ msgstr ""
 "%s (으)로 갈 수 없습니다!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4041
+#: server/cityturn.c:4047
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -41547,7 +41570,7 @@ msgstr ""
 "식량이 충분하지 않기 때문입니다!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:4046
+#: server/cityturn.c:4052
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -41557,7 +41580,7 @@ msgstr ""
 "식량이 충분하지 않기 때문입니다!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:4061
+#: server/cityturn.c:4067
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -41566,7 +41589,7 @@ msgstr ""
 "이 필요하기 때문입니다!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:4068
+#: server/cityturn.c:4074
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -41575,7 +41598,7 @@ msgstr ""
 "향상이 필요하기 때문입니다!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:4073
+#: server/cityturn.c:4079
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -41583,13 +41606,13 @@ msgstr ""
 "%s (%s) (으)로부터 이주민들은 %s (으)로 갈 수 없는데 이것은 자라는데 하나의 "
 "향상이 필요하기 때문입니다!"
 
-#: server/cityturn.c:4122
+#: server/cityturn.c:4128
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s (은)는 이것의 시민들에 의해 해산되었습니다."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:4160
+#: server/cityturn.c:4166
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
@@ -41597,7 +41620,7 @@ msgstr ""
 "다."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4166
+#: server/cityturn.c:4172
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
@@ -41605,7 +41628,7 @@ msgstr ""
 "했습니다."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:4171
+#: server/cityturn.c:4177
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
@@ -41613,53 +41636,53 @@ msgstr ""
 "했습니다."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:4263
+#: server/cityturn.c:4269
 #, fuzzy, c-format
 #| msgid "Your %s destroyed the %s in %s."
 msgid "All stored food destroyed in %s."
 msgstr "당신의 %s (은)는 그 %s (을)를 %s 안에서 파괴했습니다."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:4285
+#: server/cityturn.c:4291
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%s (은)는 %s 에 의해 타격을 받았습니다."
 
-#: server/cityturn.c:4299
+#: server/cityturn.c:4305
 #, fuzzy, c-format
 #| msgid "Pollution near %s."
 msgid "Fallout near %s."
 msgstr "%s 가까이 공해."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:4310
+#: server/cityturn.c:4316
 #, fuzzy, c-format
 #| msgid "Famine destroys %s entirely."
 msgid "%s destroys %s entirely."
 msgstr "기근은 %s (을)를 완전히 파괴합니다."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:4316
+#: server/cityturn.c:4322
 #, fuzzy, c-format
 #| msgid "Famine causes population loss in %s."
 msgid "%s causes population loss in %s."
 msgstr "기근은 %s 안의 인구 손실을 야기했습니다."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:4341
+#: server/cityturn.c:4347
 #, fuzzy, c-format
 #| msgid "The %s destroyed the %s in %s."
 msgid "%s destroys %s in %s."
 msgstr "그 %s (은)는 그 %s (을)를 %s 안에서 파괴했습니다."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:4366
+#: server/cityturn.c:4372
 #, fuzzy, c-format
 #| msgid "Production of %s is upgraded to %s in %s."
 msgid "Production of %s in %s destroyed."
 msgstr "%1$s 의 생산은 %3$s 안에 %2$s (으)로 개선되었습니다."
 
-#: server/cityturn.c:4536
+#: server/cityturn.c:4542
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
@@ -41667,7 +41690,7 @@ msgstr ""
 "생각하고 있습니다."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4558
+#: server/cityturn.c:4564
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -44668,104 +44691,104 @@ msgstr ""
 "당신의 팀 친구 %s (은)는 %s 위에 전쟁을 선언했습니다. 당신은 %s 와 동맹을 취"
 "소하기 위한 의무를 가졌습니다."
 
-#: server/plrhand.c:1720
+#: server/plrhand.c:1721
 msgid ""
 "Can only set player color prior to game start if 'plrcolormode' is PLR_SET."
 msgstr ""
 "만약 'plrcolormode' 가 PLR_SET 이라면 게임 시작에 앞서 참가자 색깔을 맞출 수 "
 "있습니다."
 
-#: server/plrhand.c:1859
+#: server/plrhand.c:1860
 msgid "no color"
 msgstr "아님 색깔"
 
-#: server/plrhand.c:1951
+#: server/plrhand.c:1952
 #, c-format
 msgid "Removing player %s."
 msgstr "참가자 %s (을)를 제거하는 중."
 
-#: server/plrhand.c:1954
+#: server/plrhand.c:1955
 msgid "You've been removed from the game!"
 msgstr "당신은 그 놀이로부터 제거되었습니다!"
 
-#: server/plrhand.c:1957
+#: server/plrhand.c:1958
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s (은)는 그 놀이로부터 제거되었습니다."
 
-#: server/plrhand.c:2113
+#: server/plrhand.c:2114
 msgid "Please choose a non-blank name."
 msgstr "제발 하나의 안-빈 이름을 선택하세요."
 
-#: server/plrhand.c:2126
+#: server/plrhand.c:2127
 msgid "That nation is already in use."
 msgstr "그 국가는 이미 사용되고 있습니다."
 
-#: server/plrhand.c:2131
+#: server/plrhand.c:2132
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr ""
 "다른 참가자가 이미 그 이름 '%s' (을)를 가집니다. 제발 다른 이름을 선택하세요."
 
-#: server/plrhand.c:2155
+#: server/plrhand.c:2156
 msgid "Please choose a name containing only ASCII characters."
 msgstr "제발 오직 ASCII 글자들이 들어있는 하나의 이름을 선택하세요."
 
-#: server/plrhand.c:2230 server/plrhand.c:2244
+#: server/plrhand.c:2231 server/plrhand.c:2245
 #, c-format
 msgid "Player no. %d"
 msgstr "참가자 번호. %d"
 
-#: server/plrhand.c:2259
+#: server/plrhand.c:2260
 msgid "A poorly-named player"
 msgstr "하나의 형편없이-이름 지어진 참가자"
 
-#: server/plrhand.c:2329 server/plrhand.c:2333
+#: server/plrhand.c:2330 server/plrhand.c:2334
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr ""
 "당신은 그 %s (은)는 %s 에 의해 통치되는데, 함께 접촉을 만들어 가졌습니다."
 
-#: server/plrhand.c:3022
+#: server/plrhand.c:3023
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%s (을)를 내전 안으로 던질 수 없습니다 - 너무 많은 참가자들"
 
-#: server/plrhand.c:3029
+#: server/plrhand.c:3030
 #, fuzzy, c-format
 #| msgid "Could not throw %s into civil war - too many players"
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
 msgstr "%s (을)를 내전 안으로 던질 수 없습니다 - 너무 많은 참가자들"
 
-#: server/plrhand.c:3036
+#: server/plrhand.c:3037
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "%s (을)를 내전 안으로 던질 수 없습니다 - 이용할 수 있는 국가들이 없음"
 
-#: server/plrhand.c:3071
+#: server/plrhand.c:3072
 #, fuzzy, c-format
 #| msgid "Could not throw %s into civil war - no available nations"
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "%s (을)를 내전 안으로 던질 수 없습니다 - 이용할 수 있는 국가들이 없음"
 
-#: server/plrhand.c:3093
+#: server/plrhand.c:3094
 msgid "Your nation is thrust into civil war."
 msgstr "당신의 국가는 내전 안으로 밀쳤습니다."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:3097
+#: server/plrhand.c:3098
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s (은)는 그 %s 의 그 반항적인 지도자입니다."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:3119
+#: server/plrhand.c:3120
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s (은)는 그 %s 에게 충성을 선언합니다."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:3144
+#: server/plrhand.c:3145
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -44774,7 +44797,7 @@ msgstr[0] ""
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3285
+#: server/plrhand.c:3286
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -44783,20 +44806,20 @@ msgstr ""
 "현재 사용자 '%s' (은)는 당신이 자리에 없는 동안 당신의 참가자의 통제를 가지기"
 "를 허용되었습니다. 이 접근을 페지하기 위해 'delegate cancel' 을 사용하세요."
 
-#: server/plrhand.c:3297
+#: server/plrhand.c:3298
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "참가자 '%s' 의 통제는 당신에게 위임되었습니다."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3306
+#: server/plrhand.c:3307
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "하나의 위임된 참가자의 통제를 가지기 위해 '/delegate take <참가자>' 을 사용하"
 "세요."
 
-#: server/plrhand.c:3511
+#: server/plrhand.c:3512
 #, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "경고, 우리는 자금 %s 위에 낮게 있습니다."
@@ -45805,25 +45828,25 @@ msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 �
 msgid "%s did not give shared vision to team member %s."
 msgstr "당신은 %s (에)게 공유된 시각을 줍니다."
 
-#: server/savegame/savegame2.c:5628 server/savegame/savegame3.c:8011
+#: server/savegame/savegame2.c:5632 server/savegame/savegame3.c:8017
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had invalid researching technology."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:5638 server/savegame/savegame3.c:8021
+#: server/savegame/savegame2.c:5642 server/savegame/savegame3.c:8027
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had invalid technology goal."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:5647 server/savegame/savegame3.c:8030
+#: server/savegame/savegame2.c:5651 server/savegame/savegame3.c:8036
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had finished researches count wrong."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:5687 server/savegame/savegame3.c:8048
+#: server/savegame/savegame2.c:5692 server/savegame/savegame3.c:8054
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -45878,52 +45901,52 @@ msgstr ""
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "%s (을)를 내려받기에 실패함"
 
-#: server/savegame/savemain.c:128
+#: server/savegame/savemain.c:138
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "놀이를 %s (으)로 저장하기를 실패했습니다"
 
-#: server/savegame/savemain.c:130
+#: server/savegame/savemain.c:140
 #, fuzzy
 #| msgid "Failed saving game as %s"
 msgid "Failed saving game."
 msgstr "놀이를 %s (으)로 저장하기를 실패했습니다"
 
-#: server/savegame/savemain.c:132
+#: server/savegame/savemain.c:142
 #, c-format
 msgid "Game saved as %s"
 msgstr "놀이가 %s (으)로 저장되었습니다"
 
-#: server/savegame/savemain.c:241 server/savegame/savemain.c:244
+#: server/savegame/savemain.c:251 server/savegame/savemain.c:254
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "지원되지 않는 압축 종류 %d."
 
-#: server/savegame/savemain.c:257
+#: server/savegame/savemain.c:267
 #, fuzzy, c-format
 #| msgid "Cannot create required directories"
 msgid "Can't create saves directory %s!"
 msgstr "요구되는 디렉토리들을 창조할 수 없음"
 
-#: server/savegame/savemain.c:261
+#: server/savegame/savemain.c:271
 #, fuzzy
 #| msgid "Cannot create required directories"
 msgid "Can't create saves directory!"
 msgstr "요구되는 디렉토리들을 창조할 수 없음"
 
-#: server/savegame/savemain.c:275
+#: server/savegame/savemain.c:285
 #, fuzzy, c-format
 #| msgid "Failed to create control directory \"%s\""
 msgid "Can't create scenario saves directory %s!"
 msgstr "통제 디렉토리 \"%s\" (을)를 창조하기에 실패함"
 
-#: server/savegame/savemain.c:279
+#: server/savegame/savemain.c:289
 #, fuzzy
 #| msgid "Cannot create required directories"
 msgid "Can't create scenario saves directory!"
 msgstr "요구되는 디렉토리들을 창조할 수 없음"
 
-#: server/scripting/api_server_edit.c:891
+#: server/scripting/api_server_edit.c:902
 #, fuzzy, c-format
 #| msgid "?or-list:%s or %s"
 msgid "?fromscript:You acquire %s."
@@ -45931,14 +45954,14 @@ msgstr "%s 또는 %s"
 
 #. TRANS: "The Greeks ..." or "The members of
 #. * team Red ..."
-#: server/scripting/api_server_edit.c:895
+#: server/scripting/api_server_edit.c:906
 #, c-format
 msgid "?fromscript:The %s acquire %s and share this advance with you."
 msgstr ""
 
 #. TRANS: "The Greeks ..." or "The members of
 #. * team Red ..."
-#: server/scripting/api_server_edit.c:901
+#: server/scripting/api_server_edit.c:912
 #, fuzzy, c-format
 #| msgid "?or-list:%s or %s"
 msgid "?fromscript:The %s acquire %s."
@@ -56921,10 +56944,6 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #, fuzzy
 #~ msgid "?female:Theod %s"
 #~ msgstr "대통령"
-
-#, fuzzy
-#~ msgid "Cyning %s"
-#~ msgstr "광산"
 
 #, fuzzy
 #~ msgid "Cwene %s"
