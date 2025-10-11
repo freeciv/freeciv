@@ -867,7 +867,7 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
   if host_system == 'windows'
     sdl2main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
                     c_compiler.find_library('SDL2main', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+                    dependency('SDL2')]
   else
     if emscripten
       emscripten_sdl2_args = [
@@ -890,7 +890,7 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
       add_global_link_arguments(emscripten_sdl2_args, language: ['c', 'cpp'])
       sdl2main_dep = []
     else
-      sdl2main_dep = [c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+      sdl2main_dep = [dependency('SDL2')]
     endif
   endif
 endif
@@ -898,7 +898,7 @@ endif
 if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
   if host_system == 'windows'
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL3', dirs: cross_lib_path)]
+                    dependency('SDL3')]
   else
     if emscripten
       emscripten_sdl3_args = [
@@ -921,7 +921,7 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
       add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
       sdl3main_dep = []
     else
-      sdl3main_dep = [c_compiler.find_library('SDL3', dirs: cross_lib_path)]
+      sdl3main_dep = [dependency('SDL3')]
     endif
   endif
 endif
@@ -947,13 +947,11 @@ if get_option('audio') != 'none'
   if emscripten
     audio_dep = []
   elif get_option('audio') == 'sdl3'
-    audio_sdl3_dep = c_compiler.find_library('SDL3_mixer',
-                                             dirs: cross_lib_path)
+    audio_sdl3_dep = dependency('SDL3_mixer')
     audio_dep = [sdl3main_dep, audio_sdl3_dep]
     priv_conf_data.set('AUDIO_SDL3', 1)
   else
-    audio_sdl2_dep = c_compiler.find_library('SDL2_mixer',
-                                             dirs: cross_lib_path)
+    audio_sdl2_dep = dependency('SDL2_mixer')
     audio_dep = [sdl2main_dep, audio_sdl2_dep]
   endif
 
@@ -3908,8 +3906,7 @@ sdl2_image_dep = []
 sdl2_ttf_dep = []
 
 if not emscripten
-  sdl2_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
-                                         required: false)
+  sdl2_gfx_dep = dependency('SDL2_gfx', required: false)
 
   if not sdl2_gfx_dep.found()
     sdl2_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
@@ -3917,10 +3914,8 @@ if not emscripten
     sdl2_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
   endif
 
-  sdl2_image_dep = c_compiler.find_library('SDL2_image', dirs: cross_lib_path,
-                                           required: false)
-  sdl2_ttf_dep = c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path,
-                                         required: false)
+  sdl2_image_dep = dependency('SDL2_image', required: false)
+  sdl2_ttf_dep = dependency('SDL2_ttf', required: false)
 endif
 
 executable('freeciv-sdl2',
@@ -4050,10 +4045,8 @@ sdl3_ttf_dep = []
 if not emscripten
   sdl3_gfx_inc = include_directories('dependencies')
 
-  sdl3_image_dep = c_compiler.find_library('SDL3_image', dirs: cross_lib_path,
-                                           required: false)
-  sdl3_ttf_dep = c_compiler.find_library('SDL3_ttf', dirs: cross_lib_path,
-                                         required: false)
+  sdl3_image_dep = dependency('SDL3_image', required: false)
+  sdl3_ttf_dep = dependency('SDL3_ttf', required: false)
 endif
 
 executable('freeciv-sdl3',
