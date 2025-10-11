@@ -121,7 +121,7 @@ Changes affecting players (supplied rulesets)
           + Treaties can now contain Shared Tiles clauses osdn#45730
           + After celebrating a while, city starts producing extra culture
             until the celebration ends osdn#45072
-          + If a city has been in disorder for three years, it's production
+          + If a city has been in disorder for three years, its production
             shrinks to zero osdn#45072
           + New Storm unit moving randomly on oceans, to appear as
             animal barbarian type osdn#42907
