@@ -395,15 +395,15 @@ extern struct action **_actions;
 /**********************************************************************//**
   Return the action with the given id.
 
-  Returns NULL if no action with the given id exists.
+  Returns nullptr if no action with the given id exists.
 **************************************************************************/
 static inline struct action *action_by_number(action_id act_id)
 {
   if (!gen_action_is_valid((enum gen_action)act_id)) {
-    return NULL;
+    return nullptr;
   }
 
-  /* We return NULL if there's NULL there, no need to special case it */
+  /* We return nullptr if there's nullptr there, no need to special case it */
   return _actions[act_id];
 }
 
