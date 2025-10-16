@@ -890,7 +890,7 @@ endif
 if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
   if host_system == 'windows'
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
-                    dependency('SDL3')]
+                    dependency('sdl3')]
   else
     if emscripten
       emscripten_sdl3_args = [
@@ -913,7 +913,7 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
       add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
       sdl3main_dep = []
     else
-      sdl3main_dep = [dependency('SDL3')]
+      sdl3main_dep = [dependency('sdl3')]
     endif
   endif
 endif
@@ -937,7 +937,7 @@ if get_option('audio') != 'none'
   if emscripten
     audio_dep = []
   elif get_option('audio') == 'sdl3'
-    audio_sdl3_dep = dependency('SDL3_mixer')
+    audio_sdl3_dep = dependency('sdl3-mixer')
     audio_dep = [sdl3main_dep, audio_sdl3_dep]
     priv_conf_data.set('AUDIO_SDL3', 1)
   else
@@ -3869,8 +3869,8 @@ sdl3_ttf_dep = []
 if not emscripten
   sdl3_gfx_inc = include_directories('dependencies')
 
-  sdl3_image_dep = dependency('SDL3_image', required: false)
-  sdl3_ttf_dep = dependency('SDL3_ttf', required: false)
+  sdl3_image_dep = dependency('sdl3-image', required: false)
+  sdl3_ttf_dep = dependency('sdl3-ttf', required: false)
 endif
 
 executable('freeciv-sdl3',
