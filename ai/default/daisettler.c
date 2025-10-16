@@ -1161,7 +1161,9 @@ BUILD_CITY:
       cityresult_destroy(result);
 
       /*** Go back to and found a city ***/
-      pf_path_destroy(path);
+      if (path != NULL) {
+        pf_path_destroy(path);
+      }
       path = NULL;
       goto BUILD_CITY;
     } else if (best_impr > 0) {
@@ -1185,7 +1187,7 @@ BUILD_CITY:
   }
 
   if (best_tile != NULL
-      && auto_worker_setup_work(nmap, pplayer, punit, state, 0, path,
+      && auto_worker_setup_work(nmap, pplayer, punit, state, 0, &path,
                                 best_tile, best_act, &best_target,
                                 completion_time)) {
     if (pcity != NULL) {

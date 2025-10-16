@@ -444,7 +444,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
                                       enum unit_activity *best_act,
                                       struct extra_type **best_target,
                                       struct tile **best_tile,
-                                      struct pf_path **path,
+                                      struct pf_path **ppath,
                                       struct workermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
@@ -822,8 +822,11 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
     *best_tile = NULL;
   }
 
-  if (path) {
-    *path = *best_tile ? pf_map_path(pfm, *best_tile) : NULL;
+  if (ppath) {
+    if (*ppath != nullptr) {
+      pf_path_destroy(*ppath);
+    }
+    *ppath = *best_tile ? pf_map_path(pfm, *best_tile) : NULL;
   }
 
   pf_map_destroy(pfm);
@@ -836,7 +839,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
 **************************************************************************/
 struct city *worker_evaluate_city_requests(struct unit *punit,
                                            struct worker_task **best_task,
-                                           struct pf_path **path,
+                                           struct pf_path **ppath,
                                            struct workermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
@@ -912,8 +915,11 @@ struct city *worker_evaluate_city_requests(struct unit *punit,
 
   *best_task = best;
 
-  if (path != NULL) {
-    *path = best ? pf_map_path(pfm, best->ptile) : NULL;
+  if (ppath != NULL) {
+    if (*ppath != NULL) {
+      pf_path_destroy(*ppath);
+    }
+    *ppath = best ? pf_map_path(pfm, best->ptile) : NULL;
   }
 
   pf_map_destroy(pfm);
@@ -975,7 +981,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
     best_target = best_task->tgt;
 
     if (auto_worker_setup_work(nmap, pplayer, punit, state, recursion,
-                               path, best_task->ptile, best_task->act,
+                               &path, best_task->ptile, best_task->act,
                                &best_target, completion_time)) {
       clear_worker_task(taskcity, best_task);
     }
@@ -1000,7 +1006,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
 
     adv_unit_new_task(punit, AUT_AUTO_WORKER, best_tile);
 
-    auto_worker_setup_work(nmap, pplayer, punit, state, recursion, path,
+    auto_worker_setup_work(nmap, pplayer, punit, state, recursion, &path,
                            best_tile, best_act, &best_target,
                            completion_time);
 
@@ -1017,7 +1023,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
 bool auto_worker_setup_work(const struct civ_map *nmap,
                             struct player *pplayer, struct unit *punit,
                             struct workermap *state, int recursion,
-                            struct pf_path *path,
+                            struct pf_path **ppath,
                             struct tile *best_tile,
                             enum unit_activity best_act,
                             struct extra_type **best_target,
@@ -1094,18 +1100,18 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
              best_target && *best_target ? extra_rule_name(*best_target) : "-",
              TILE_XY(best_tile));
 
-    if (!path) {
+    if (ppath != nullptr && *ppath == nullptr) {
       pft_fill_unit_parameter(&parameter, nmap, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
       parameter.get_TB = autoworker_tile_behavior;
       pfm = pf_map_new(&parameter);
-      path = pf_map_path(pfm, best_tile);
+      *ppath = pf_map_path(pfm, best_tile);
     }
 
-    if (path) {
+    if (ppath != nullptr && *ppath != nullptr) {
       bool alive;
 
-      alive = adv_follow_path(punit, path, best_tile);
+      alive = adv_follow_path(punit, *ppath, best_tile);
 
       if (alive && same_pos(unit_tile(punit), best_tile)
 	  && punit->moves_left > 0) {
@@ -1129,6 +1135,8 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
                  "%d move frags left", TILE_XY(unit_tile(punit)),
                  punit->moves_left);
       }
+      pf_path_destroy(*ppath);
+      *ppath = NULL;
     } else {
       UNIT_LOG(LOG_DEBUG, punit,
                "does not find path (%d, %d) -> (%d, %d)",
