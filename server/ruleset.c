@@ -204,6 +204,10 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  const char *path,
                                  struct veteran_system **vsystem, char *err,
                                  size_t err_len);
+static int secfile_lookup_int_default_min_max(struct section_file *file,
+                                              int def, int min, int max,
+                                              const char *path, ...)
+                                              fc__attribute((__format__ (__printf__, 5, 6)));
 
 char *script_buffer = NULL;
 char *parser_buffer = NULL;
@@ -2367,8 +2371,6 @@ static bool load_ruleset_units(struct section_file *file,
                                  "%s.vision_radius_sq", sec_name)
           || !secfile_lookup_int(file, &u->transport_capacity,
                                  "%s.transport_cap", sec_name)
-          || !secfile_lookup_int(file, &u->hp,
-                                 "%s.hitpoints", sec_name)
           || !secfile_lookup_int(file, &u->firepower,
                                  "%s.firepower", sec_name)
           || !secfile_lookup_int(file, &u->fuel,
@@ -2379,6 +2381,13 @@ static bool load_ruleset_units(struct section_file *file,
         ok = FALSE;
         break;
       }
+      u->hp
+        = secfile_lookup_int_default_min_max(file,
+                                             RS_DEFAULT_HP,
+                                             RS_MIN_HP,
+                                             RS_MAX_HP,
+                                             "%s.hitpoints", sec_name);
+
       u->move_rate *= SINGLE_MOVE;
 
       if (u->firepower <= 0) {
@@ -6380,10 +6389,6 @@ static bool load_ruleset_effects(struct section_file *file,
 /**********************************************************************//**
   Print an error message if the value is out of range.
 **************************************************************************/
-static int secfile_lookup_int_default_min_max(struct section_file *file,
-                                              int def, int min, int max,
-                                              const char *path, ...)
-                                              fc__attribute((__format__ (__printf__, 5, 6)));
 static int secfile_lookup_int_default_min_max(struct section_file *file,
                                               int def, int min, int max,
                                               const char *path, ...)

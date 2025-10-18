@@ -879,9 +879,13 @@ static inline bool is_ruleset_compat_mode(void)
 #define RS_MIN_UPGRADE_VETERAN_LOSS              0
 #define RS_MAX_UPGRADE_VETERAN_LOSS              MAX_VET_LEVELS
 
-#define RS_DEFAULT_TECH_UPKEEP_DIVIDER   100
-#define RS_MIN_TECH_UPKEEP_DIVIDER       1
-#define RS_MAX_TECH_UPKEEP_DIVIDER       100000
+#define RS_DEFAULT_TECH_UPKEEP_DIVIDER           100
+#define RS_MIN_TECH_UPKEEP_DIVIDER               1
+#define RS_MAX_TECH_UPKEEP_DIVIDER               100000
+
+#define RS_DEFAULT_HP                            10
+#define RS_MIN_HP                                1
+#define RS_MAX_HP                                10000
 
 #define RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK     FALSE
 #define RS_DEFAULT_STEAL_MAP_REVEALS_CITIES      TRUE
