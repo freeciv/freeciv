@@ -151,10 +151,14 @@ const char *government_name_translation(const struct government *pgovern)
 
 /**********************************************************************//**
   Return the (translated) name of the given government of a player.
-  You don't have to free the return pointer.
+  You don't need to free returned pointer.
 **************************************************************************/
 const char *government_name_for_player(const struct player *pplayer)
 {
+  if (!pplayer->is_alive) {
+    return "-";
+  }
+
   return government_name_translation(government_of_player(pplayer));
 }
 
