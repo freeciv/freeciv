@@ -61,8 +61,8 @@
   * Reading files and running processes
   * Loading lua files or libraries
 *****************************************************************************/
-#define LUASCRIPT_SECURE_LUA_VERSION1 503
-#define LUASCRIPT_SECURE_LUA_VERSION2 504
+#define LUASCRIPT_SECURE_LUA_VERSION1 504
+#define LUASCRIPT_SECURE_LUA_VERSION2 505
 
 static const char *luascript_unsafe_symbols_secure[] = {
   "debug",
@@ -87,7 +87,7 @@ static const char *luascript_unsafe_symbols_permissive[] = {
   Lua libraries to load (all default libraries, excluding operating system
   and library loading modules). See linit.c in Lua 5.1 for the default list.
 *****************************************************************************/
-#if LUA_VERSION_NUM == 503 || LUA_VERSION_NUM == 504
+#if LUA_VERSION_NUM == 504 || LUA_VERSION_NUM == 505
 static luaL_Reg luascript_lualibs_secure[] = {
   /* Using default libraries excluding: package, io, os, and bit32 */
   {"_G", luaopen_base},

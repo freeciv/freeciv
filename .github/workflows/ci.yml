@@ -10,13 +10,13 @@ jobs:
     runs-on: windows-2025
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         # A mapping from msys2/setup-msys2 version to msys2 version can be
         # found at
         # https://github.com/msys2/setup-msys2/blob/main/CHANGELOG.md
-        # 2.27.0 provides msys2 snapshot 20250221
-        uses: msys2/setup-msys2@v2.27.0
+        # 2.28.0 provides msys2 snapshot 20250622
+        uses: msys2/setup-msys2@v2.28.0
         with:
           msystem: UCRT64
           install: >
@@ -52,7 +52,7 @@ jobs:
     runs-on: macos-15
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           # Remove symlinks of the old python version
@@ -73,11 +73,11 @@ jobs:
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh mac-meson
-  normal:
+  autotools:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -104,12 +104,12 @@ jobs:
             unixodbc-dev
       - name: build
         shell: bash
-        run: ./scripts/ci-build.sh normal
+        run: ./scripts/ci-build.sh autotools
   dist:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -143,7 +143,7 @@ jobs:
         os: [ubuntu-24.04, ubuntu-24.04-arm]
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -176,7 +176,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -211,7 +211,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -240,7 +240,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: install dependencies
         run: |
           sudo apt-get update

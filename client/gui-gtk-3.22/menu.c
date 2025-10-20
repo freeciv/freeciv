@@ -29,6 +29,7 @@
 #include "game.h"
 #include "government.h"
 #include "road.h"
+#include "specialist.h"
 #include "unit.h"
 
 /* client */
@@ -1633,6 +1634,14 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
       sub_target = extra_number(pextra);
     }
     break;
+  case ASTK_SPECIALIST:
+    {
+      struct specialist *pspec = g_object_get_data(G_OBJECT(item),
+                                                   "end_specialist");
+      fc_assert_ret(nullptr != pspec);
+      sub_target = specialist_number(pspec);
+    }
+    break;
   case ASTK_NONE:
     sub_target = NO_TARGET;
     break;
@@ -3112,6 +3121,14 @@ void real_menus_init(void)
               CREATE_SUB_ITEM(pextra, "end_extra",
                               extra_name_translation(pextra));
             } extra_type_iterate_end;
+            break;
+          case ASTK_SPECIALIST:
+            specialist_type_iterate(spc) {
+              struct specialist *pspec = specialist_by_number(spc);
+
+              CREATE_SUB_ITEM(pspec, "end_specialist",
+                              specialist_plural_translation(pspec));
+            } specialist_type_iterate_end;
             break;
           case ASTK_NONE:
             /* Should not be here. */

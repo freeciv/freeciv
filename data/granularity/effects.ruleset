@@ -85,8 +85,8 @@ reqs    =
     }
 
 [effect_base_unit_upkeep]
-type	= "Upkeep_Factor"
-value	= 1
+type	= "Upkeep_Pct"
+value	= 100
 
 [effect_empire_size_base]
 type    = "Empire_Size_Base"
@@ -94,7 +94,7 @@ value   = 1
 
 [effect_empire_size_step_base]
 type    = "Empire_Size_Step"
-value   = 1
+value   = 2
 
 [effect_max_rates_base]
 type    = "Max_Rates"
@@ -126,6 +126,15 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Tech", "Fishing", "Player"
+    }
+
+[effect_early_research]
+type    = "Output_Bonus"
+value	= 30
+reqs	=
+    { "type",       "name",    "range",  "present"
+      "MinTechs",   "4",       "Player", FALSE
+      "OutputType", "Science", "Local",  TRUE
     }
 
 ; Each city has at least one slot to build units
@@ -235,6 +244,24 @@ reqs	=
       "OutputType", "Luxury",      "Local"
     }
 
+[effect_brewery_gold]
+type    = "Output_Bonus"
+value	= 15
+reqs	=
+    { "type",       "name",    "range"
+      "Building",   "Brewery", "City"
+      "OutputType", "Gold",    "Local"
+    }
+
+[effect_brewery_luxury]
+type    = "Output_Bonus"
+value	= 25
+reqs	=
+    { "type",       "name",    "range"
+      "Building",   "Brewery", "City"
+      "OutputType", "Luxury",  "Local"
+    }
+
 [effect_culture_tech]
 type    = "Culture_Pct"
 value   = 50
@@ -321,6 +348,16 @@ reqs	=
       "Extra",      "Iron",         "Tile"
       "Tech",       "Iron Working", "Player"
       "OutputType", "Shield",       "Local"
+    }
+
+[effect_brewery_wheat]
+type    = "Output_Add_Tile"
+value   = 50
+reqs	=
+    { "type",       "name",    "range"
+      "Extra",      "Wheat",   "Tile"
+      "Building",   "Brewery", "City"
+      "OutputType", "Food",    "Local"
     }
 
 [effect_rock_pile_capital]

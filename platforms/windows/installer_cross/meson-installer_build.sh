@@ -107,6 +107,11 @@ add_qt6_env() {
   cp "${SRC_DIR}/helpers/installer-helper-qt.cmd" $2/bin/installer-helper.cmd
 }
 
+add_qt6_client_env() {
+  cp $1/bin/Qt6Svg.dll $2/ &&
+  cp $1/plugins/imageformats/qsvg.dll $2/plugins/imageformats/
+}
+
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
   cp $1/bin/SDL2_ttf.dll $2/
@@ -253,7 +258,7 @@ else
     exit 1
   fi
 
-  case $GUI in
+  case "${GUI}" in
     gtk3.22)
       if ! add_gtk3_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying gtk3 environment failed!" >&2
@@ -287,6 +292,10 @@ else
         echo "Copying Qt6 environment failed!" >&2
         exit 1
       fi
+      if ! add_qt6_client_env "${DLLSPATH}" "${INSTDIR}" ; then
+        echo "Copying Qt6 client environment failed!" >&2
+        exit 1
+      fi
       ;;
   esac
 
@@ -306,8 +315,9 @@ else
   NSI_FILE="${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
 
   if test "${GUI}" = "sdl2" ; then
-    if ! "${SRC_DIR}/create-freeciv-sdl2-nsi.sh" \
-           "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "${SETUP}" "${UNINSTALLER}" \
+    if ! "${SRC_DIR}/create-freeciv-sdl-nsi.sh" \
+           "${INSTDIR}" "${BUILD_ROOT}/meson/output" "${VERREV}" "${SETUP}" \
+           "${GUI}" "${GUINAME}" "${UNINSTALLER}" \
              > "${NSI_FILE}"
     then
       exit 1

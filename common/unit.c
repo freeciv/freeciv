@@ -35,6 +35,7 @@
 #include "packets.h"
 #include "player.h"
 #include "road.h"
+#include "specialist.h"
 #include "tech.h"
 #include "traderoutes.h"
 #include "unitlist.h"
@@ -76,6 +77,10 @@ bool are_unit_orders_equal(const struct unit_order *order1,
   based on -- one player can't see whether another's cities are currently
   able to airlift. (Clients other than global observers should only call
   this with a non-NULL 'restriction'.)
+  Note that it does not take into account the possibility of conquest
+  of unseen cities by an ally. That is to facilitate airlifting dialog
+  usage most times. It is supposed that you don't ally ones who
+  won't share maps with you when needed.
 **************************************************************************/
 enum unit_airlift_result
     test_unit_can_airlift_to(const struct civ_map *nmap,
@@ -85,11 +90,13 @@ enum unit_airlift_result
 {
   const struct city *psrc_city = tile_city(unit_tile(punit));
   const struct player *punit_owner;
+  const struct tile *dst_tile = nullptr;
+  const struct unit_type *putype = unit_type_get(punit);
+  bool flagless = utype_has_flag(putype, UTYF_FLAGLESS);
   enum unit_airlift_result ok_result = AR_OK;
 
   if (0 == punit->moves_left
-      && !utype_may_act_move_frags(unit_type_get(punit),
-                                   ACTION_AIRLIFT, 0)) {
+      && !utype_may_act_move_frags(putype, ACTION_AIRLIFT, 0)) {
     /* No moves left. */
     return AR_NO_MOVES;
   }
@@ -103,7 +110,7 @@ enum unit_airlift_result
     return AR_OCCUPIED;
   }
 
-  if (NULL == psrc_city) {
+  if (nullptr == psrc_city) {
     /* No city there. */
     return AR_NOT_IN_CITY;
   }
@@ -113,13 +120,15 @@ enum unit_airlift_result
     return AR_BAD_DST_CITY;
   }
 
-  if (pdest_city
-      && (NULL == restriction
-          || (tile_get_known(city_tile(pdest_city), restriction)
-              == TILE_KNOWN_SEEN))
-      && !can_unit_exist_at_tile(nmap, punit, city_tile(pdest_city))) {
-    /* Can't exist at the destination tile. */
-    return AR_BAD_DST_CITY;
+  if (nullptr != pdest_city) {
+    dst_tile = city_tile(pdest_city);
+
+    if (nullptr != restriction
+        ? !could_exist_in_city(nmap, restriction, putype, pdest_city)
+        : !can_exist_at_tile(nmap, putype, dst_tile)) {
+      /* Can't exist at the destination tile. */
+      return AR_BAD_DST_CITY;
+    }
   }
 
   punit_owner = unit_owner(punit);
@@ -134,35 +143,45 @@ enum unit_airlift_result
     return AR_BAD_SRC_CITY;
   }
 
-  if (pdest_city
-      && punit_owner != city_owner(pdest_city)
-      && !(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
-           && pplayers_allied(punit_owner, city_owner(pdest_city)))) {
-    /* Not allowed to airlift to this destination. */
-    return AR_BAD_DST_CITY;
+  /* Check diplomatic possibility of the destination */
+  if (nullptr != pdest_city) {
+    if (punit_owner != city_owner(pdest_city)) {
+      if (!(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
+            && pplayers_allied(punit_owner, city_owner(pdest_city)))
+          || flagless
+          || is_non_allied_unit_tile(dst_tile, punit_owner, FALSE)) {
+        /* Not allowed to airlift to this destination. */
+        return AR_BAD_DST_CITY;
+      }
+    } else if (flagless
+               && is_non_allied_unit_tile(dst_tile, punit_owner, TRUE)) {
+      /* Foreign units block airlifting to this destination */
+      return AR_BAD_DST_CITY;
+    }
   }
 
-  if (NULL == restriction || city_owner(psrc_city) == restriction) {
-    /* We know for sure whether or not src can airlift this turn. */
-    if (0 >= psrc_city->airlift
-        && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-            || !game.info.airlift_from_always_enabled)) {
-      /* The source cannot airlift for this turn (maybe already airlifted
-       * or no airport).
-       * See also do_airline() in server/unittools.h. */
-      return AR_SRC_NO_FLIGHTS;
-    } /* else, there is capacity; continue to other checks */
-  } else {
-    /* We don't have access to the 'airlift' field. Assume it's OK; can
-     * only find out for sure by trying it. */
-    ok_result = AR_OK_SRC_UNKNOWN;
+  /* Check airlift capacities */
+  if (!game.info.airlift_from_always_enabled) {
+    if (nullptr == restriction || city_owner(psrc_city) == restriction) {
+      /* We know for sure whether or not src can airlift this turn. */
+      if (0 >= psrc_city->airlift
+          && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
+        /* The source cannot airlift for this turn (maybe already airlifted
+         * or no airport).
+         * See also do_airline() in server/unittools.h. */
+        return AR_SRC_NO_FLIGHTS;
+      } /* else, there is capacity; continue to other checks */
+    } else {
+      /* We don't have access to the 'airlift' field. Assume it's OK; can
+       * only find out for sure by trying it. */
+      ok_result = AR_OK_SRC_UNKNOWN;
+    }
   }
 
-  if (pdest_city) {
-    if (NULL == restriction || city_owner(pdest_city) == restriction) {
+  if (nullptr != pdest_city && !game.info.airlift_to_always_enabled) {
+    if (nullptr == restriction || city_owner(pdest_city) == restriction) {
       if (0 >= pdest_city->airlift
-          && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
-              || !game.info.airlift_to_always_enabled)) {
+          && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
         /* The destination cannot support airlifted units for this turn
          * (maybe already airlifted or no airport).
          * See also do_airline() in server/unittools.h. */
@@ -2859,6 +2878,13 @@ bool unit_order_list_is_sane(const struct civ_map *nmap,
                       extra_rule_name(pextra));
             return FALSE;
           }
+        }
+        break;
+      case ASTK_SPECIALIST:
+        if (!specialist_by_number(orders[i].sub_target)) {
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(orders[i].action));
+          return FALSE;
         }
         break;
       case ASTK_NONE:

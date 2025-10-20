@@ -80,19 +80,19 @@ food_cost        = 2
 ;   if city_size > num_inis;
 ;     city_granary_size = (granary_food_ini[num_inis] +
 ;        granary_food_inc * (city_size - num_inis)) * foodbox / 100
-granary_food_ini	= 20
-granary_food_inc	= 10
+granary_food_ini        = 20
+granary_food_inc        = 10
 
 ; City center minimum outputs
-min_city_center_food	= 1
-min_city_center_shield	= 1
-min_city_center_trade	= 0
+min_city_center_food    = 1
+min_city_center_shield  = 1
+min_city_center_trade   = 0
 
 ; Square of initial city radius
 init_city_radius_sq     = 5
 
 ; Square of initially visible radius (true distance).
-init_vis_radius_sq	= 5
+init_vis_radius_sq      = 5
 
 ; A base bribe cost, modified heavily by other factors
 base_bribe_cost  = 750

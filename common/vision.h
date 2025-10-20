@@ -108,9 +108,9 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
 
 struct vision_site {
   char *name;
-  struct tile *location; /* Cannot be NULL */
-  struct player *owner;  /* May be NULL, always check! */
-  struct player *original; /* Can be NULL, even in case of a city */
+  struct tile *location; /* Cannot be nullptr */
+  struct player *owner;  /* May be nullptr, always check! */
+  struct player *original; /* Can be nullptr, even in case of a city */
 
   int identity;          /* city > IDENTITY_NUMBER_ZERO */
   citizens size;         /* city size (0 <= size <= MAX_CITY_SIZE) */
@@ -144,4 +144,4 @@ void vision_site_size_set(struct vision_site *psite, citizens size);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__VISION_H */
+#endif /* FC__VISION_H */

@@ -344,6 +344,8 @@ utypes = "\
 ; build_cost    = production shields required to build\n\
 ; pop_cost      = population removed from city when built; for \'Join City\'\n\
 ;                 units this is also the population added to the destination\n\
+; specialist    = optional: add a superspecialist of this type when joining to\n\
+;                 or creating a city (if normal specialist: join as this type)\n\
 ; attack        = base attack strength (0 = cannot attack)\n\
 ; defense       = base defense strength (0 = cannot defend)\n\
 ; hitpoints     = how much damage unit can withstand\n\
@@ -1362,6 +1364,15 @@ building = "\
 ;                 as part of some sentences, so try to make it descriptive\n\
 ;                 and sensible.\n\
 ; helptxt       = displayed in the help for building types with this flag\n\
+;                 (optional)\n\
+"
+
+government = "\
+; Names for custom government flags. There can be up to 8 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for government types with this flag\n\
 ;                 (optional)\n\
 "
 

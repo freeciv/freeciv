@@ -378,12 +378,13 @@ struct impr_type *improvement_by_rule_name(const char *name)
 }
 
 /**********************************************************************//**
-  Return TRUE if the impr has this flag otherwise FALSE
+  Return TRUE if the impr has this flag, otherwise FALSE
 **************************************************************************/
 bool improvement_has_flag(const struct impr_type *pimprove,
 			  enum impr_flag_id flag)
 {
   fc_assert_ret_val(impr_flag_id_is_valid(flag), FALSE);
+
   return BV_ISSET(pimprove->flags, flag);
 }
 
@@ -560,6 +561,10 @@ static bool impr_allows_actions(const struct city *pcity,
           }
         } unit_type_iterate_end;
         break;
+      case AAK_CITY:
+      case AAK_PLAYER:
+        /* No traceable limitations */
+        return TRUE;
       case AAK_COUNT:
         fc_assert(action_id_get_actor_kind(act) != AAK_COUNT);
         break;
@@ -1190,7 +1195,7 @@ void impr_flags_free(void)
   Sets user defined name for building flag.
 ****************************************************************************/
 void set_user_impr_flag_name(enum impr_flag_id id, const char *name,
-                              const char *helptxt)
+                             const char *helptxt)
 {
   int bfid = id - IF_USER_FLAG_1;
 

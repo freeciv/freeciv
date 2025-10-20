@@ -433,7 +433,7 @@ void give_citymap_from_player_to_player(struct city *pcity,
 /**********************************************************************//**
   Send all tiles known to specified clients.
   If dest is NULL means game.est_connections.
-  
+
   Note for multiple connections this may change "sent" multiple times
   for single player.  This is ok, because "sent" data is just optimised
   calculations, so it will be correct before this, for each connection
@@ -1375,7 +1375,7 @@ struct vision_site *map_get_player_city(const struct tile *ptile,
   struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
   fc_assert_ret_val(psite == NULL || psite->location == ptile, NULL);
- 
+
   return psite;
 }
 
@@ -1721,7 +1721,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (!really_gives_vision(pplayer, pplayer2)
-          && BV_ISSET(save_vision[player_index(pplayer)], 
+          && BV_ISSET(save_vision[player_index(pplayer)],
                       player_index(pplayer2))) {
         log_debug("really removing shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
@@ -1945,7 +1945,7 @@ bool need_to_reassign_continents(const struct terrain *oldter,
                                  const struct terrain *newter)
 {
   bool old_is_ocean, new_is_ocean;
-  
+
   if (!oldter || !newter) {
     return FALSE;
   }

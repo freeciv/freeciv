@@ -37,10 +37,14 @@ extern "C" {
  */
 #define ASSERT_UNUSED_ACTION_CASES            \
 
-
+/* Used in the network protocol. */
 #define SPECENUM_NAME action_actor_kind
 #define SPECENUM_VALUE0 AAK_UNIT
 #define SPECENUM_VALUE0NAME N_("a unit")
+#define SPECENUM_VALUE1 AAK_CITY
+#define SPECENUM_VALUE1NAME N_("a city")
+#define SPECENUM_VALUE2 AAK_PLAYER
+#define SPECENUM_VALUE2NAME N_("a player")
 #define SPECENUM_COUNT AAK_COUNT
 #include "specenum_gen.h"
 
@@ -472,8 +476,6 @@ const char *action_get_ui_name_mnemonic(action_id act_id,
 const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
-
-const char *action_ui_name_ruleset_var_name(int act);
 const char *action_ui_name_default(int act);
 
 const char *action_min_range_ruleset_var_name(int act);
@@ -558,9 +560,37 @@ bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
                                     const action_id wanted_action,
                                     const struct unit *actor_unit);
 
-bool is_action_enabled_player(const struct civ_map *nmap,
-                              const action_id wanted_action,
-                              const struct player *actor_plr);
+bool is_action_enabled_player_on_self(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr);
+bool is_action_enabled_player_on_city(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct city *target_city);
+bool
+is_action_enabled_player_on_extras(const struct civ_map *nmap,
+                                   const action_id wanted_action,
+                                   const struct player *actor_plr,
+                                   const struct tile *target_tile,
+                                   const struct extra_type *target_extra);
+bool is_action_enabled_player_on_stack(const struct civ_map *nmap,
+                                       const action_id wanted_action,
+                                       const struct player *actor_plr,
+                                       const struct tile *target_tile,
+                                       const struct extra_type *target_extra);
+bool is_action_enabled_player_on_tile(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra);
+bool is_action_enabled_player_on_unit(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct unit *target_unit);
+
+bool is_action_enabled_city(const struct civ_map *nmap,
+                            const action_id wanted_action,
+                            const struct city *actor_city);
 
 struct act_prob action_prob_vs_city(const struct civ_map *nmap,
                                     const struct unit *actor,

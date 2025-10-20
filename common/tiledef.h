@@ -55,6 +55,9 @@ struct tiledef *tiledef_by_translated_name(const char *name);
   }                                               \
 }
 
+bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
+  fc__attribute((nonnull (1, 2)));
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

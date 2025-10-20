@@ -934,6 +934,11 @@ int action_sub_target_id_for_action(const struct action *paction,
       }
     } extra_type_re_active_iterate_end;
     break;
+  case ASTK_SPECIALIST:
+    /* Implement if a specialist sub targeted action becomes flexible */
+    fc_assert_ret_val(paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE,
+                      NO_TARGET);
+    break;
   case ASTK_COUNT:
     /* Should not exist. */
     fc_assert_ret_val(action_get_sub_target_kind(paction) != ASTK_COUNT,

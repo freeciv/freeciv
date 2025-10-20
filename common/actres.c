@@ -25,6 +25,7 @@
 #include "movement.h"
 #include "player.h"
 #include "requirements.h"
+#include "specialist.h"
 #include "tile.h"
 #include "traderoutes.h"
 
@@ -1009,6 +1010,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   case ACTRES_JOIN_CITY:
     {
       int new_pop;
+      Specialist_type_id sid;
 
       if (!omniscient
           && !player_can_see_city_externals(actor->player, target->city)) {
@@ -1030,6 +1032,21 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
          * Example: depends on a building (like Aqueduct) that isn't
          * VisibleByOthers. */
         return TRI_NO;
+      }
+
+      sid = specialist_index(unit_type_get(actor->unit)->spec_type);
+      if (DEFAULT_SPECIALIST != sid) {
+        if (!city_can_use_specialist(target->city, sid)) {
+          /* Respect specialist reqs */
+          /* Potential info leak about if they are fulfilled */
+          return TRI_NO;
+        }
+        if (is_super_specialist_id(sid)
+            && target->city->specialists[sid] >= MAX_CITY_SIZE) {
+          /* No place to add a superspecialist */
+          /* Info leak on city superspecialists but it happens too rarely */
+          return TRI_NO;
+        }
       }
     }
 

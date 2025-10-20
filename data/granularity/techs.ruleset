@@ -176,6 +176,17 @@ graphic     = "a.astronomy"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_brewing]
+name        = _("Brewing")
+req1        = "Medicine"
+req2        = "Currency"
+flags       = ""
+graphic     = "a.brewing"
+graphic_alt = "-"
+helptext    = _("\
+The art of industrial brewing.\
+")
+
 [advance_bronze_weapons]
 name        = _("Bronze Weapons")
 req1        = "Mining"
@@ -329,7 +340,7 @@ helptext    = _("Makes it possible to use Oceanic tiles.")
 
 [advance_flight]
 name        = _("Flight")
-req1        = "Strategies"
+req1        = "Naval Strategies"
 req2        = "Engineering"
 flags       = ""
 graphic     = "a.flight"
@@ -408,6 +419,15 @@ If other players know techs that the Tech Leakage receiving player does not, som
 leak per tech per player each turn.\
 ")
 
+[advance_magnetism]
+name        = _("Magnetism")
+req1        = "Iron Working"
+req2        = "Astronomy"
+flags       = ""
+graphic     = "a.magnetism"
+graphic_alt = "-"
+;helptext    =
+
 [advance_maps]
 name        = _("Maps")
 req1        = "Alphabet"
@@ -464,6 +484,15 @@ req1        = "Diplomacy"
 req2        = "Currency"
 flags       = ""
 graphic     = "a.monarchy"
+graphic_alt = "-"
+;helptext    =
+
+[advance_naval_strategies]
+name        = _("Naval Strategies")
+req1        = "Strategies"
+req2        = "Sailing"
+flags       = ""
+graphic     = "a.naval_strategies"
 graphic_alt = "-"
 ;helptext    =
 
@@ -589,6 +618,7 @@ flags       = ""
 graphic     = "a.strategies"
 graphic_alt = "-"
 helptext    = _("\
+Makes it possible to move 6 units to the same tile. \
 Makes it possible to adjust Offensive Strategies policy.\
 ")
 

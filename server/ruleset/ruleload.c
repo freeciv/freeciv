@@ -60,6 +60,7 @@
 #include "specialist.h"
 #include "style.h"
 #include "tech.h"
+#include "tiledef.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unittype.h"
@@ -102,6 +103,7 @@
 #define BASE_SECTION_PREFIX "base_"
 #define ROAD_SECTION_PREFIX "road_"
 #define RESOURCE_SECTION_PREFIX "resource_"
+#define TILEDEF_SECTION_PREFIX "tiledef_"
 #define GOODS_SECTION_PREFIX "goods_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
 #define SUPER_SPECIALIST_SECTION_PREFIX "super_specialist_"
@@ -118,7 +120,7 @@
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 #define check_cityname(name) (check_strlen(name, MAX_LEN_CITYNAME, NULL))
 
-/* avoid re-reading files */
+/* Avoid re-reading files */
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define MAX_SECTION_LABEL 64
 #define section_strlcpy(dst, src) \
@@ -128,6 +130,7 @@ static char *terrain_sections = NULL;
 static char *extra_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
+static char *tiledef_sections = nullptr;
 
 static struct requirement_vector reqs_list;
 
@@ -194,6 +197,7 @@ static void send_ruleset_resources(struct conn_list *dest);
 static void send_ruleset_extras(struct conn_list *dest);
 static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_roads(struct conn_list *dest);
+static void send_ruleset_tiledefs(struct conn_list *dest);
 static void send_ruleset_goods(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_styles(struct conn_list *dest);
@@ -2406,6 +2410,22 @@ static bool load_ruleset_units(struct section_file *file,
                                                  "%s.city_slots", sec_name);
       u->city_size = secfile_lookup_int_default(file, 1,
                                                 "%s.city_size", sec_name);
+      if ((sval
+           = secfile_lookup_str_default(file, nullptr, "%s.specialist", sec_name))) {
+        if (!(u->spec_type = specialist_by_rule_name(sval))) {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "\"%s\" unit_type \"%s\":"
+                        " bad specialist \"%s\".",
+                        filename, utype_rule_name(u), sval);
+          ok = FALSE;
+        }
+      } else {
+        /* Specialists must have been processed before */
+        fc_assert_action(DEFAULT_SPECIALIST >= 0
+                         && specialist_by_number(DEFAULT_SPECIALIST),
+                         ok = FALSE; break);
+        u->spec_type = specialist_by_number(DEFAULT_SPECIALIST);
+      }
 
       sval = secfile_lookup_str_default(file, transp_def_type_name(TDT_ALIGHT),
                                         "%s.tp_defense", sec_name);
@@ -2835,7 +2855,7 @@ static bool load_terrain_names(struct section_file *file,
   if (ok) {
     game.control.terrain_count = nval;
 
-    /* avoid re-reading files */
+    /* Avoid re-reading files */
     if (terrain_sections) {
       free(terrain_sections);
     }
@@ -2857,9 +2877,7 @@ static bool load_terrain_names(struct section_file *file,
   section_list_destroy(sec);
   sec = NULL;
 
-  game.control.num_tiledef_types = 0;
-
-  /* extra names */
+  /* Extra names */
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, EXTRA_SECTION_PREFIX);
@@ -3053,6 +3071,46 @@ static bool load_terrain_names(struct section_file *file,
                       "Resource section %s does not list extra this resource belongs to.",
                       sec_name);
         ok = FALSE;
+      }
+    }
+  }
+
+  section_list_destroy(sec);
+  sec = nullptr;
+
+  /* Tiledef names */
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, TILEDEF_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_TILEDEFS) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": Too many tiledefs (%d, max %d)",
+                    filename, nval, MAX_TILEDEFS);
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
+    int idx;
+
+    game.control.num_tiledef_types = nval;
+
+    if (tiledef_sections) {
+      free(tiledef_sections);
+    }
+    tiledef_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+    if (ok) {
+      for (idx = 0; idx < nval; idx++) {
+        const char *sec_name = section_name(section_list_get(sec, idx));
+        struct tiledef *td = tiledef_by_number(idx);
+
+        if (!ruleset_load_names(&td->name, NULL, file, sec_name)) {
+          ok = FALSE;
+          break;
+        }
+        section_strlcpy(&tiledef_sections[idx * MAX_SECTION_LABEL], sec_name);
       }
     }
   }
@@ -4202,6 +4260,47 @@ static bool load_ruleset_terrain(struct section_file *file,
   }
 
   if (ok) {
+    /* Tiledef details */
+    tiledef_iterate(td) {
+      int tdidx = tiledef_index(td);
+      const char *section = &tiledef_sections[tdidx * MAX_SECTION_LABEL];
+      const char **slist;
+      int ej;
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.extras", section);
+      for (ej = 0; ej < nval; ej++) {
+        const char *sval = slist[ej];
+        struct extra_type *pextra = extra_type_by_rule_name(sval);
+
+        if (pextra != nullptr) {
+          extra_type_list_iterate(td->extras, old_extra) {
+            if (pextra == old_extra) {
+              ruleset_error(nullptr, LOG_ERROR,
+                            "%s: Duplicate extra %s.",
+                            section, extra_rule_name(pextra));
+              ok = FALSE;
+              break;
+            }
+          } extra_type_list_iterate_end;
+
+          if (ok) {
+            extra_type_list_append(td->extras, pextra);
+          }
+        } else {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "%s: Unknown extra name \"%s\".",
+                        section, sval);
+          ok = FALSE;
+        }
+
+        if (!ok) {
+          break;
+        }
+      }
+    } tiledef_iterate_end;
+  }
+
+  if (ok) {
     secfile_check_unused(file);
   }
 
@@ -4219,6 +4318,8 @@ static bool load_government_names(struct section_file *file,
   struct section_list *sec;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+  const char *flag;
+  int i;
 
   if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
@@ -4286,6 +4387,34 @@ static bool load_government_names(struct section_file *file,
     }
   }
 
+  /* User government flag names */
+  for (i = 0;
+       (flag = secfile_lookup_str_default(file, nullptr,
+                                          "control.government_flags%d.name",
+                                          i));
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, nullptr,
+        "control.government_flags%d.helptxt", i);
+
+    if (gov_flag_id_by_name(flag, fc_strcasecmp)
+        != gov_flag_id_invalid()) {
+      ruleset_error(nullptr, LOG_ERROR,
+                    "\"%s\": Duplicate government flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
+    if (i > MAX_NUM_USER_GOVERNMENT_FLAGS) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": Too many user government flags!",
+                    filename);
+      ok = FALSE;
+      break;
+    }
+
+    set_user_gov_flag_name(GOVF_USER_FLAG_1 + i, flag, helptxt);
+  }
+
   section_list_destroy(sec);
 
   return ok;
@@ -4319,6 +4448,10 @@ static bool load_ruleset_governments(struct section_file *file,
       const char *sec_name = section_name(section_list_get(sec, i));
       struct requirement_vector *reqs
         = lookup_req_list(file, sec_name, "reqs", government_rule_name(g));
+      const char **slist;
+      int j;
+      const char *sval;
+      size_t nval;
 
       if (reqs == NULL) {
         ok = FALSE;
@@ -4349,6 +4482,24 @@ static bool load_ruleset_governments(struct section_file *file,
                  secfile_lookup_str_default(file, "-", "%s.sound_alt", sec_name));
       sz_strlcpy(g->sound_alt2,
                  secfile_lookup_str_default(file, "-", "%s.sound_alt2", sec_name));
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
+      BV_CLR_ALL(g->flags);
+      for (j = 0; j < nval; j++) {
+        enum gov_flag_id flag;
+
+        sval = slist[j];
+        flag = gov_flag_id_by_name(sval, fc_strcasecmp);
+        if (!gov_flag_id_is_valid(flag)) {
+          ruleset_error(NULL, LOG_ERROR, "\"%s\" government \"%s\": unknown flag \"%s\".",
+                        filename, government_rule_name(g), sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(g->flags, flag);
+        }
+      }
+      free(slist);
 
       g->helptext = lookup_strvec(file, sec_name, "helptext");
     } governments_iterate_end;
@@ -6196,6 +6347,10 @@ static bool load_ruleset_effects(struct section_file *file,
                     filename, sec_name);
       ok = FALSE;
       break;
+    }
+
+    if (compat->compat_mode && compat->version < RSFORMAT_3_4) {
+      type = rscompat_effect_name_3_4(type);
     }
 
     eff = effect_type_by_name(type, fc_strcasecmp);
@@ -8068,6 +8223,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.unit_class_id = uclass_number(utype_class(u));
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;
+    packet.spectype_id = specialist_index(u->spec_type);
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
@@ -8661,6 +8817,32 @@ static void send_ruleset_roads(struct conn_list *dest)
 }
 
 /**********************************************************************//**
+  Send the tiledefs ruleset information (all individual tiledef types)
+  to the specified connections.
+**************************************************************************/
+static void send_ruleset_tiledefs(struct conn_list *dest)
+{
+  struct packet_ruleset_tiledef packet;
+
+  tiledef_iterate(td) {
+    bv_extras extras;
+
+    packet.id = tiledef_number(td);
+    sz_strlcpy(packet.name, untranslated_name(&td->name));
+    sz_strlcpy(packet.rule_name, rule_name_get(&td->name));
+
+    BV_CLR_ALL(extras);
+    extra_type_list_iterate(td->extras, pextra) {
+      BV_SET(extras, extra_index(pextra));
+    } extra_type_list_iterate_end;
+
+    packet.extras = extras;
+
+    lsend_packet_ruleset_tiledef(dest, &packet);
+  } tiledef_iterate_end;
+}
+
+/**********************************************************************//**
   Send the goods ruleset information (all individual goods types) to the
   specified connections.
 **************************************************************************/
@@ -8846,6 +9028,31 @@ static void send_ruleset_governments(struct conn_list *dest)
 {
   struct packet_ruleset_government gov;
   struct packet_ruleset_government_ruler_title title;
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_GOVERNMENT_FLAGS; i++) {
+    struct packet_ruleset_gov_flag fpacket;
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + GOVF_USER_FLAG_1;
+
+    flagname = impr_flag_id_name(i + GOVF_USER_FLAG_1);
+    if (flagname == nullptr) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = gov_flag_helptxt(i + GOVF_USER_FLAG_1);
+    if (helptxt == nullptr) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_gov_flag(dest, &fpacket);
+  }
 
   governments_iterate(g) {
     /* Send one packet_government */
@@ -8853,6 +9060,8 @@ static void send_ruleset_governments(struct conn_list *dest)
 
     /* Shallow-copy (borrow) requirement vector */
     gov.reqs = g->reqs;
+
+    gov.flags = g->flags;
 
     sz_strlcpy(gov.name, untranslated_name(&g->name));
     sz_strlcpy(gov.rule_name, rule_name_get(&g->name));
@@ -9586,6 +9795,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_roads(dest);
   send_ruleset_resources(dest);
   send_ruleset_terrain(dest);
+  send_ruleset_tiledefs(dest);
   send_ruleset_goods(dest);
   send_ruleset_buildings(dest);
   send_ruleset_styles(dest);

@@ -933,13 +933,35 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = $(doxy_srcdir)utility \
-                         $(doxy_srcdir)common \
-                         $(doxy_srcdir)server \
-                         $(doxy_srcdir)client \
-                         $(doxy_srcdir)ai \
-                         $(doxy_srcdir)tools \
-                         $(doxy_srcdir)doc/doxygen.md
+INPUT                  = $(doxy_srcdir)/utility \
+                         $(doxy_srcdir)/common \
+                         $(doxy_srcdir)/server \
+                         $(doxy_srcdir)/client \
+                         $(doxy_srcdir)/ai \
+                         $(doxy_srcdir)/tools \
+                         $(doxy_builddir)/actions_enums_gen.h \
+                         $(doxy_builddir)/city_enums_gen.h \
+                         $(doxy_builddir)/effects_enums_gen.h \
+                         $(doxy_builddir)/fc_types_enums_gen.h \
+                         $(doxy_builddir)/hand_gen.c \
+                         $(doxy_builddir)/hand_gen.h \
+                         $(doxy_builddir)/manual_enums_gen.h \
+                         $(doxy_builddir)/packets_gen.c \
+                         $(doxy_builddir)/packets_gen.h \
+                         $(doxy_builddir)/packhand_gen.c \
+                         $(doxy_builddir)/packhand_gen.h \
+                         $(doxy_builddir)/specenum_gen.h \
+                         $(doxy_builddir)/terrain_enums_gen.h \
+                         $(doxy_builddir)/version_gen.h \
+                         $(doxy_builddir)/tolua_common_a_gen.c \
+                         $(doxy_builddir)/tolua_common_a_gen.h \
+                         $(doxy_builddir)/tolua_common_z_gen.c \
+                         $(doxy_builddir)/tolua_common_z_gen.h \
+                         $(doxy_builddir)/tolua_game_gen.c \
+                         $(doxy_builddir)/tolua_game_gen.h \
+                         $(doxy_builddir)/tolua_signal_gen.c \
+                         $(doxy_builddir)/tolua_signal_gen.h \
+                         $(doxy_srcdir)/doc/doxygen.md
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1105,7 +1127,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the doxygen output.
 
-USE_MDFILE_AS_MAINPAGE = $(doxy_srcdir)doc/doxygen.md
+USE_MDFILE_AS_MAINPAGE = $(doxy_srcdir)/doc/doxygen.md
 
 # The Fortran standard specifies that for fixed formatted Fortran code all
 # characters from position 72 are to be considered as comment. A common

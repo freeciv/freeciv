@@ -518,7 +518,7 @@ void unit_focus_set(struct unit *punit)
    * battlegroup twice in a row will store the focus erroneously. The only
    * solution would be a set_units_focus() */
   if (!(get_num_units_in_focus() == 1
-	&& punit == head_of_units_in_focus())) {
+        && punit == head_of_units_in_focus())) {
     store_previous_focus();
     focus_changed = TRUE;
   }
@@ -804,10 +804,10 @@ void unit_focus_update(void)
    * otherwise quit for any of the conditions. */
   unit_list_iterate(get_units_in_focus(), punit) {
     if ((punit->activity == ACTIVITY_IDLE
-	 || punit->activity == ACTIVITY_GOTO
-	 || unit_has_orders(punit))
-	&& punit->moves_left > 0
-	&& !punit->done_moving
+         || punit->activity == ACTIVITY_GOTO
+         || unit_has_orders(punit))
+        && punit->moves_left > 0
+        && !punit->done_moving
         && punit->ssa_controller == SSA_NONE) {
       return;
     }
@@ -868,16 +868,16 @@ struct unit *find_visible_unit(struct tile *ptile)
     if (unit_owner(punit) == client.conn.playing) {
       if (!unit_transported(punit)) {
         if (get_transporter_capacity(punit) > 0) {
-	  return punit;
+          return punit;
         } else if (!panyowned) {
-	  panyowned = punit;
+          panyowned = punit;
         }
       }
     } else if (!ptptother && !unit_transported(punit)) {
       if (get_transporter_capacity(punit) > 0) {
-	ptptother = punit;
+        ptptother = punit;
       } else if (!panyother) {
-	panyother = punit;
+        panyother = punit;
       }
     }
   unit_list_iterate_end;
@@ -908,7 +908,7 @@ double blink_active_unit(void)
         /* We used to unqueue here, but that's inherently risky
          * for a function run from a timer - the UI can be in any
          * inconsistent state. */
-	refresh_unit_mapcanvas(punit, unit_tile(punit), FALSE, FALSE);
+        refresh_unit_mapcanvas(punit, unit_tile(punit), FALSE, FALSE);
       } unit_list_iterate_end;
     }
 
@@ -955,7 +955,7 @@ double blink_turn_done_button(void)
       } players_iterate_alive_end;
 
       if (is_moving == 1 && is_waiting > 0) {
-	update_turn_done_button(FALSE);	/* stress the slow player! */
+        update_turn_done_button(FALSE); /* Stress the slow player! */
       }
       blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE,
                                 blink_timer != NULL ? NULL : "blink");
@@ -999,13 +999,13 @@ void update_unit_pix_label(struct unit_list *punitlist)
 
     set_unit_icon(-1, punit);
 
-    i = 0;			/* index into unit_below_canvas */
+    i = 0;                      /* Index into unit_below_canvas */
     unit_list_iterate(unit_tile(punit)->units, aunit) {
       if (aunit != punit) {
-	if (i < num_units_below) {
-	  set_unit_icon(i, aunit);
-	}
-	i++;
+        if (i < num_units_below) {
+          set_unit_icon(i, aunit);
+        }
+        i++;
       }
     }
     unit_list_iterate_end;
@@ -1015,7 +1015,7 @@ void update_unit_pix_label(struct unit_list *punitlist)
     } else {
       set_unit_icons_more_arrow(FALSE);
       for (; i < num_units_below; i++) {
-	set_unit_icon(i, NULL);
+        set_unit_icon(i, NULL);
       }
     }
   } else {
@@ -1256,7 +1256,7 @@ void control_mouse_cursor(struct tile *ptile)
       /* Set mouse cursor to select a unit.  */
       mouse_cursor_type = CURSOR_SELECT;
     } else if (NULL != pcity
-	       && can_player_see_city_internals(client.conn.playing, pcity)) {
+               && can_player_see_city_internals(client.conn.playing, pcity)) {
       /* Set mouse cursor to select a city. */
       mouse_cursor_type = CURSOR_SELECT;
     } else {
@@ -1272,12 +1272,12 @@ void control_mouse_cursor(struct tile *ptile)
         mouse_cursor_type = CURSOR_NUKE;
       } else if (can_units_attack_at(active_units, ptile)) {
         /* Goto results in military attack. */
-	mouse_cursor_type = CURSOR_ATTACK;
+        mouse_cursor_type = CURSOR_ATTACK;
       } else if (is_enemy_city_tile(ptile, client.conn.playing)) {
         /* Goto results in attack of enemy city. */
-	mouse_cursor_type = CURSOR_ATTACK;
+        mouse_cursor_type = CURSOR_ATTACK;
       } else {
-	mouse_cursor_type = CURSOR_GOTO;
+        mouse_cursor_type = CURSOR_GOTO;
       }
     } else {
       mouse_cursor_type = CURSOR_INVALID;
@@ -1529,7 +1529,7 @@ struct unit *request_unit_unload_all(struct unit *punit)
       }
 
       if (unit_owner(pcargo) == unit_owner(punit)) {
-	plast = pcargo;
+        plast = pcargo;
       }
     }
   } unit_list_iterate_end;
@@ -1560,7 +1560,7 @@ void request_unit_return(struct unit *punit)
     if (punit->hp + turns *
         (get_unit_bonus(punit, EFT_UNIT_RECOVER)
          - (max_hp * unit_class_get(punit)->hp_loss_pct / 100))
-	< max_hp) {
+        < max_hp) {
       struct unit_order order;
 
       order.order = ORDER_ACTIVITY;
@@ -1587,7 +1587,7 @@ void wakeup_sentried_units(struct tile *ptile)
   }
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_SENTRY
-	&& unit_owner(punit) == client.conn.playing) {
+        && unit_owner(punit) == client.conn.playing) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
@@ -2934,7 +2934,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       break;
     case HOVER_PATROL:
       do_unit_patrol_to(ptile);
-      break;	
+      break;
     case HOVER_ACT_SEL_TGT:
       do_unit_act_sel_vs(ptile);
       break;
@@ -3783,28 +3783,28 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
       && battlegroups >= 0 && battlegroup < MAX_NUM_BATTLEGROUPS) {
     if (!append) {
       unit_list_iterate_safe(battlegroups[battlegroup], punit) {
-	if (!unit_is_in_focus(punit)) {
-	  punit->battlegroup = BATTLEGROUP_NONE;
+        if (!unit_is_in_focus(punit)) {
+          punit->battlegroup = BATTLEGROUP_NONE;
           dsend_packet_unit_sscs_set(&client.conn, punit->id,
                                      USSDT_BATTLE_GROUP,
                                      BATTLEGROUP_NONE);
-	  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
-	  unit_list_remove(battlegroups[battlegroup], punit);
-	}
+          refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
+          unit_list_remove(battlegroups[battlegroup], punit);
+        }
       } unit_list_iterate_safe_end;
     }
     unit_list_iterate(get_units_in_focus(), punit) {
       if (punit->battlegroup != battlegroup) {
-	if (punit->battlegroup >= 0
-	    && punit->battlegroup < MAX_NUM_BATTLEGROUPS) {
-	  unit_list_remove(battlegroups[punit->battlegroup], punit);
-	}
-	punit->battlegroup = battlegroup;
+        if (punit->battlegroup >= 0
+            && punit->battlegroup < MAX_NUM_BATTLEGROUPS) {
+          unit_list_remove(battlegroups[punit->battlegroup], punit);
+        }
+        punit->battlegroup = battlegroup;
         dsend_packet_unit_sscs_set(&client.conn, punit->id,
                                    USSDT_BATTLE_GROUP,
                                    battlegroup);
-	unit_list_append(battlegroups[battlegroup], punit);
-	refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
+        unit_list_append(battlegroups[battlegroup], punit);
+        refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
       }
     } unit_list_iterate_end;
     unit_list_iterate(battlegroups[battlegroup], punit) {
@@ -3827,12 +3827,12 @@ void key_unit_select_battlegroup(int battlegroup, bool append)
       return;
     }
 
-    /* FIXME: this is very inefficient and can be improved. */
+    /* FIXME: This is very inefficient and can be improved. */
     unit_list_iterate(battlegroups[battlegroup], punit) {
       if (i == 0 && !append) {
-	unit_focus_set(punit);
+        unit_focus_set(punit);
       } else {
-	unit_focus_add(punit);
+        unit_focus_add(punit);
       }
       i++;
     } unit_list_iterate_end;

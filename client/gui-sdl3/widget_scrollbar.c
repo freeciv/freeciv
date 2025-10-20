@@ -950,8 +950,8 @@ static void inside_scroll_up_loop(void *data)
 /**********************************************************************//**
   Handle mouse motion events of the vertical scrollbar event loop.
 **************************************************************************/
-static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                          void *data)
+static widget_id scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
+                                             void *data)
 {
   struct up_down *motion = (struct up_down *)data;
   int yrel;
@@ -1038,10 +1038,10 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
 /**********************************************************************//**
   Callback for scrollbar event loops' mouse up events.
 **************************************************************************/
-static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
-                                     void *data)
+static widget_id scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
+                                        void *data)
 {
-  return (Uint16)ID_SCROLLBAR;
+  return (widget_id)ID_SCROLLBAR;
 }
 
 /**********************************************************************//**

@@ -20,10 +20,10 @@
 #include "world_object.h"
 
 /* ai/default */
-#include "aiferry.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
+#include "daiferry.h"
 #include "daihand.h"
 #include "dailog.h"
 #include "daimilitary.h"

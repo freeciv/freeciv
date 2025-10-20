@@ -118,6 +118,7 @@ static void caravan_help_build(QVariant data1, QVariant data2);
 static void unit_disband_recover(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
 static void nuke_units(QVariant data1, QVariant data2);
+static void collect_ransom(QVariant data1, QVariant data2);
 static void wipe_units(QVariant data1, QVariant data2);
 static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
@@ -277,6 +278,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_BOMBARD3] = bombard3;
   action_function[ACTION_BOMBARD_LETHAL] = bombard_lethal;
   action_function[ACTION_NUKE_UNITS] = nuke_units;
+  action_function[ACTION_COLLECT_RANSOM] = collect_ransom;
 
   // Unit acting against a tile.
   action_function[ACTION_FOUND_CITY] = found_city;
@@ -542,13 +544,11 @@ races_dialog::races_dialog(struct player *pplayer,
   connect(styles->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
-          SLOT(style_selected(const QItemSelection &,
-                              const QItemSelection &)));
+          SLOT(style_selected(const QItemSelection &)));
   connect(selected_nation_tabs->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
-          SLOT(nation_selected(const QItemSelection &,
-                              const QItemSelection &)));
+          SLOT(nation_selected(const QItemSelection &)));
   connect(leader_name, SIGNAL(currentIndexChanged(int)),
           SLOT(leader_selected(int)));
   connect(leader_name->lineEdit(), &QLineEdit::returnPressed,
@@ -558,8 +558,7 @@ races_dialog::races_dialog(struct player *pplayer,
   connect(nation_tabs->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
-          SLOT(group_selected(const QItemSelection &,
-                              const QItemSelection &)));
+          SLOT(group_selected(const QItemSelection &)));
 
   ok_button = new QPushButton;
   ok_button->setText(_("Cancel"));
@@ -677,15 +676,15 @@ void races_dialog::update_nationset_combo()
 /***********************************************************************//**
   Selected group of nation
 ***************************************************************************/
-void races_dialog::group_selected(const QItemSelection &sl,
-                                  const QItemSelection &ds)
+void races_dialog::group_selected(const QItemSelection &selected)
 {
-  QModelIndexList indexes = sl.indexes();
+  QModelIndexList indexes = selected.indexes();
   QModelIndex index ;
 
   if (indexes.isEmpty()) {
     return;
   }
+
   index = indexes.at(0);
   set_index(index.row());
 }
@@ -754,8 +753,7 @@ void races_dialog::set_index(int index)
 /***********************************************************************//**
   Sets selected nation and updates style and leaders selector
 ***************************************************************************/
-void races_dialog::nation_selected(const QItemSelection &selected,
-                                   const QItemSelection &deselcted)
+void races_dialog::nation_selected(const QItemSelection &selected)
 {
   char buf[4096];
   QModelIndex index ;
@@ -805,8 +803,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
 /***********************************************************************//**
   Sets selected style
 ***************************************************************************/
-void races_dialog::style_selected(const QItemSelection &selected,
-                                   const QItemSelection &deselcted)
+void races_dialog::style_selected(const QItemSelection &selected)
 {
   QModelIndex index ;
   QVariant qvar;
@@ -1419,6 +1416,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   sub_target_id[ASTK_TECH] = A_UNSET;
   sub_target_id[ASTK_EXTRA] = EXTRA_NONE;
   sub_target_id[ASTK_EXTRA_NOT_THERE] = EXTRA_NONE;
+  sub_target_id[ASTK_SPECIALIST] = -1;
 
   targeted_unit = nullptr;
   // No buttons are added yet.
@@ -2746,6 +2744,18 @@ static void nuke_units(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_NUKE_UNITS, actor_id,
+                    target_id, 0, "");
+}
+
+/**********************************************************************//**
+  Action "Collect Ransom" for choice dialog
+***************************************************************************/
+static void collect_ransom(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_COLLECT_RANSOM, actor_id,
                     target_id, 0, "");
 }
 

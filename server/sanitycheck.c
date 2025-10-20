@@ -103,7 +103,7 @@ static void check_specials(const char *file, const char *function, int line)
       }
     } extra_type_by_cause_iterate_end;
 
-    SANITY_TILE(ptile, terrain_index(pterrain) >= T_FIRST 
+    SANITY_TILE(ptile, terrain_index(pterrain) >= T_FIRST
                        && terrain_index(pterrain) < terrain_count());
   } whole_map_iterate_end;
 }
@@ -209,11 +209,11 @@ static void check_map(const char *file, const char *function, int line)
 
       /* Check diplomatic status of stacked units. */
       unit_list_iterate(ptile->units, punit2) {
-	SANITY_TILE(ptile, pplayers_allied(unit_owner(punit), 
+	SANITY_TILE(ptile, pplayers_allied(unit_owner(punit),
                                            unit_owner(punit2)));
       } unit_list_iterate_end;
       if (pcity) {
-	SANITY_TILE(ptile, pplayers_allied(unit_owner(punit), 
+	SANITY_TILE(ptile, pplayers_allied(unit_owner(punit),
                                            city_owner(pcity)));
       }
     } unit_list_iterate_end;

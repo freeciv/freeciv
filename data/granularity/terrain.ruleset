@@ -368,7 +368,7 @@ defense_bonus        = 0
 food                 = 100
 shield               = 50
 trade                = 0
-resources            = "Generic Resource"
+resources            = "Wheat"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 100
@@ -528,6 +528,11 @@ food        = 0
 shield      = 0
 trade       = 0
 identifier  = "/"
+
+[resource_wheat]
+extra       = "Wheat"
+identifier  = "j"
+food        = 50
 
 [resource_generic]
 extra       = "Generic Resource"
@@ -867,6 +872,20 @@ Adds +200 to the tile shield output. \
 Becomes visible and usable by the Iron Working tech.\
 ")
 
+[extra_wheat]
+name           = _("Wheat")
+category       = "Resource"
+causes         = "Resource"
+;rmcauses       = ""
+graphic        = "ts.wheat"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+rmact_gfx_alt2 = "-"
+
 [extra_gresource]
 name           = _("Generic Resource")
 category       = "Resource"
@@ -974,7 +993,7 @@ extra          = "Path"
 move_cost      = 60
 food_incr      = 0
 shield_incr    = 0
-trade_incr     = 0
+trade_incr     = 10
 food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
@@ -986,7 +1005,7 @@ extra          = "Road"
 move_cost      = 30
 food_incr      = 0
 shield_incr    = 0
-trade_incr     = 100
+trade_incr     = 90
 food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0

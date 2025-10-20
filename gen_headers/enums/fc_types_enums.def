@@ -61,11 +61,13 @@ values
   FUTURETECHS        "FutureTechs"
   GOOD               "Good"
   GOVERNMENT         "Gov"
+  GOVFLAG            "GovFlag"
   IMPROVEMENT        "Building"
   IMPR_FLAG          "BuildingFlag"
   IMPR_GENUS         "BuildingGenus"
   MAXLATITUDE        "MaxLatitude"
-  MAXTILEUNITS       "MaxUnitsOnTile"
+  MAXTILETOPUNITS    "MaxTopUnitsOnTile"
+  MAXTILETOTALUNITS  "MaxUnitsOnTile"
   MAX_DISTANCE_SQ    "MaxDistanceSq"
   MAX_REGION_TILES   "MaxRegionTiles"
   MINCALFRAG         "MinCalFrag"
@@ -213,4 +215,21 @@ values
   CELEBRATION       "Celebration"
   TRANSFERRED       "Transferred"
   CAPITALCONNECTED  "CapitalConnected"
+end
+
+/* Used in the network protocol. */
+enum gov_flag_id
+  prefix GOVF_
+  name-override
+  bitvector bv_gov_flags
+  count
+values
+  USER_FLAG_1
+  USER_FLAG_2
+  USER_FLAG_3
+  USER_FLAG_4
+  USER_FLAG_5
+  USER_FLAG_6
+  USER_FLAG_7
+  USER_FLAG_8
 end

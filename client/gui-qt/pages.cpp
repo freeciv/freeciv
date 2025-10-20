@@ -1347,10 +1347,11 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
         while (true) { // Until breaks out
           const char *line = secfile_lookup_str_default(sf, nullptr,
                                                         "player%d.map_t%04d",
-                                                        curr_player, nat_y++);
+                                                        curr_player, nat_y);
           if (line == nullptr) {
             break;
           }
+          nat_y++;
           nat_x = strlen(line);
           str_pixmap = str_pixmap + line;
         }

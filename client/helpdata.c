@@ -2904,20 +2904,43 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          "  %s initial population: %d.\n",
                          utype->city_size),
                      BULLET, utype->city_size);
+        if (is_super_specialist(utype->spec_type)) {
+          cat_snprintf(buf, bufsz,
+                       /* FIXME: Here we'd better have a singular specialist
+                        * but the translated name is plural by definition. */
+                       /* TRANS: * ... Great Artist(s) ... */
+                       _("  %s the city starts with a %s superspecialist.\n"),
+                       BULLET, specialist_plural_translation(utype->spec_type));
+        }
         break;
       case ACTRES_JOIN_CITY:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: the %d is population. */
-                     PL_("  %s max target size: %d.\n",
-                         "  %s max target size: %d.\n",
-                         game.info.add_to_size_limit - utype->pop_cost),
-                     BULLET, game.info.add_to_size_limit - utype->pop_cost);
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: the %d is the population added. */
-                     PL_("  %s adds %d population.\n",
-                         "  %s adds %d population.\n",
-                         utype->pop_cost),
-                     BULLET, utype->pop_cost);
+        if (utype->pop_cost > 0 ){
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the %d is population. */
+                       PL_("  %s max target size: %d.\n",
+                           "  %s max target size: %d.\n",
+                           game.info.add_to_size_limit - utype->pop_cost),
+                       BULLET, game.info.add_to_size_limit - utype->pop_cost);
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the %d is the population added. */
+                       PL_("  %s adds %d population.\n",
+                           "  %s adds %d population.\n",
+                           utype->pop_cost),
+                       BULLET, utype->pop_cost);
+        }
+        if (is_super_specialist(utype->spec_type)) {
+          cat_snprintf(buf, bufsz,
+                       /* FIXME: Here we'd better have a singular specialist
+                        * but the translated name is plural by definition. */
+                       /* TRANS: * ... Great Artist(s) ... */
+                       _("  %s adds a %s superspecialist to the city.\n"),
+                       BULLET, specialist_plural_translation(utype->spec_type));
+        } else if (DEFAULT_SPECIALIST != specialist_index(utype->spec_type)) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: * ... Scientists */
+                       _("  %s adds to cities as %s.\n"),
+                       BULLET, specialist_plural_translation(utype->spec_type));
+        }
         break;
       case ACTRES_BOMBARD:
         cat_snprintf(buf, bufsz,
@@ -4504,6 +4527,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
        * is sufficient reason to list it in that gov's help.
        * Guard accesses to these with 'playerwide' or 'world_value_valid'. */
       int world_value = -999, net_value = -999;
+
       if (world_value_valid) {
         /* Get government-independent world value of effect if the extra
          * requirements were simple enough. */
@@ -4526,7 +4550,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          * output types. Generate lists for that. */
         bool harvested_only = TRUE; /* Consider only output types from fields */
 
-        if (peffect->type == EFT_UPKEEP_FACTOR
+        if (peffect->type == EFT_UPKEEP_PCT
             || peffect->type == EFT_UNIT_UPKEEP_FREE_PER_CITY
             || peffect->type == EFT_OUTPUT_BONUS
             || peffect->type == EFT_OUTPUT_BONUS_2) {
@@ -4624,7 +4648,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                        BULLET, peffect->value);
         }
         break;
-      case EFT_UPKEEP_FACTOR:
+      case EFT_UPKEEP_PCT:
         if (world_value_valid && !unittype) {
           if (net_value == 0) {
             if (output_type != O_LAST) {
@@ -4640,6 +4664,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
             }
           } else if (net_value != world_value) {
             double ratio = (double)net_value / world_value;
+
             if (output_type != O_LAST) {
               cat_snprintf(buf, bufsz,
                            /* TRANS: %s is the output type, like 'shield'

@@ -3164,7 +3164,7 @@ static struct entry *entry_new(struct section *psection, const char *name)
   } else {
     pentry->name = fc_strdup(name);
   }
-  pentry->type = -1;    /* Invalid case. */
+  pentry->type = ENTRY_ILLEGAL;
   pentry->used = 0;
   pentry->comment = nullptr;
 

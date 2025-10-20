@@ -292,7 +292,7 @@ void notify_player(const struct player *pplayer,
                    const struct tile *ptile,
                    enum event_type event,
                    const struct ft_color color,
-                   const char *format, ...) 
+                   const char *format, ...)
 {
   struct conn_list *dest = pplayer ? pplayer->connections : NULL;
   struct packet_chat_msg genmsg;
@@ -316,7 +316,7 @@ void notify_embassies(const struct player *pplayer,
                       const struct tile *ptile,
                       enum event_type event,
                       const struct ft_color color,
-                      const char *format, ...) 
+                      const char *format, ...)
 {
   struct packet_chat_msg genmsg;
   struct event_cache_players *players = NULL;

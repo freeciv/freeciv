@@ -57,7 +57,7 @@
 #define TURNS_LEFT 16
 
 /**********************************************************************//**
-  Calls treaty_evaluate function if such is set for AI player.    
+  Calls treaty_evaluate function if such is set for AI player.
 **************************************************************************/
 static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
                                  struct treaty *ptreaty)
@@ -732,7 +732,7 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
   if (pgiver != pplayer && pgiver != pother) {
     return;
   }
-  
+
   ptreaty = find_treaty(pplayer, pother);
 
   if (ptreaty && remove_clause(ptreaty, pgiver, type, value)) {
@@ -811,14 +811,14 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
 					   player_number(pplayer),
 					   player_number(pplayer));
     notify_player(pother, NULL, E_DIPLOMACY, ftc_server,
-                  _("%s canceled the meeting!"), 
+                  _("%s canceled the meeting!"),
                   player_name(pplayer));
     /* Need to send to pplayer too, for multi-connects: */
     dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
 					   player_number(pother),
 					   player_number(pplayer));
     notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
-                  _("Meeting with %s canceled."), 
+                  _("Meeting with %s canceled."),
                   player_name(pother));
     treaty_remove(ptreaty);
   }
@@ -897,7 +897,7 @@ void send_diplomatic_meetings(struct connection *dest)
       dsend_packet_diplomacy_init_meeting(dest, player_number(other),
                                           player_number(pplayer));
       clause_list_iterate(ptreaty->clauses, pclause) {
-        dsend_packet_diplomacy_create_clause(dest, 
+        dsend_packet_diplomacy_create_clause(dest,
                                              player_number(other),
                                              player_number(pclause->from),
                                              pclause->type,

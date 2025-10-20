@@ -24,7 +24,7 @@
 #include "unitlist.h"
 
 /************************************************************************//**
-  Look for a unit with the given ID in the unit list.  Returns NULL if none
+  Look for a unit with the given ID in the unit list. Returns nullptr if none
   is found.
 ****************************************************************************/
 struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id)
@@ -35,7 +35,7 @@ struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id)
     }
   } unit_list_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**

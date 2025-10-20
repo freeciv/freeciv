@@ -57,7 +57,7 @@ format_version = 50
 ; The first set defined is the one that is used by default. It is mandatory
 ; to have at least one, but if there is only one, it will be kept out of
 ; the user`s way.
-; name 		= Translatable name of the set presented in the UI.
+; name          = Translatable name of the set presented in the UI.
 ; rule_name     = Unique persistent name; this is also visible to users as
 ;                 the value of the "nationset" server option, and presented
 ;                 in "/list nationsets". It should thus be short, in lower
@@ -78,11 +78,11 @@ rule_name = "all"
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
 ; random nation selection, and possibly ruleset behavior.
 ; It`s OK to not define any nation groups at all.
-; name 		= name of the group (used adjectivally)
+; name          = name of the group (used adjectivally)
 ; hidden        = TRUE to not include this group in the "pick nation" dialog
 ;                 (for instance if it's for use in a NationGroup requirement).
 ;                 Default FALSE.
-; match		= How much the AI will try to select a nation in the same
+; match         = How much the AI will try to select a nation in the same
 ;                 group
 
 [ngroup_generic]

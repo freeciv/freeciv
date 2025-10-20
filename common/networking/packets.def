@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 518
+Max id: 520
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -287,6 +287,7 @@ type BV_CAUSES          = bitvector(bv_causes)
 type BV_RMCAUSES        = bitvector(bv_rmcauses)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
+type BV_GOV_FLAGS       = bitvector(bv_gov_flags)
 type BV_IMPRS           = bitvector(bv_imprs)
 type BV_PLAYER          = bitvector(bv_player)
 type BV_STARTPOS_NATIONS= bitvector(bv_startpos_nations)
@@ -768,6 +769,9 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, reset(PACKET_CITY_SHORT_I
   BOOL did_buy, did_sell, was_happy;
   BOOL had_famine;
 
+  UINT16 anarchy;
+  UINT16 rapture;
+
   BOOL diplomat_investigate;
   UINT8 walls;
   SINT8 city_image;
@@ -952,7 +956,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   PERCENT tax, science,luxury;
   UINT32 infrapoints;
 
-  UINT16 tech_upkeep;
+  UINT32 tech_upkeep;
   UINT16 science_cost;
 
   BOOL is_connected;
@@ -1418,6 +1422,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 unit_class_id;
   UINT16 build_cost;
   UINT8 pop_cost;
+  UINT8 spectype_id;
   UINT8 attack_strength;
   UINT8 defense_strength;
   MOVEFRAGS move_rate;
@@ -1567,7 +1572,14 @@ PACKET_RULESET_GOVERNMENT = 145; sc, lsend
   STRING sound_str[MAX_LEN_NAME];
   STRING sound_alt[MAX_LEN_NAME];
   STRING sound_alt2[MAX_LEN_NAME];
+  BV_GOV_FLAGS flags;
   STRVEC helptext;
+end
+
+PACKET_RULESET_GOV_FLAG = 519; sc, lsend
+  UINT8       id;
+  STRING      name[MAX_LEN_NAME];
+  STRING      helptxt[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
@@ -1938,6 +1950,14 @@ PACKET_RULESET_CLAUSE = 512; sc, lsend
   CLAUSE type;
   BOOL   enabled;
   REQUIREMENT giver_reqs[*], receiver_reqs[*], either_reqs[*];
+end
+
+PACKET_RULESET_TILEDEF = 520; sc, lsend
+  UINT8 id;
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
+
+  BV_EXTRAS extras;
 end
 
 /**************************************************************************

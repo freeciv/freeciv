@@ -6,10 +6,10 @@
 ** $Id: tolua_event.c,v 1.7 2011/01/13 13:43:46 fabraham Exp $
 */
 
-/* This code is free software; you can redistribute it and/or modify it. 
-** The software provided hereunder is on an "as is" basis, and 
+/* This code is free software; you can redistribute it and/or modify it.
+** The software provided hereunder is on an "as is" basis, and
 ** the author has no obligation to provide maintenance, support, updates,
-** enhancements, or modifications. 
+** enhancements, or modifications.
 */
 
 #include <stdio.h>
@@ -122,7 +122,7 @@ static int module_newindex_event (lua_State* L)
 }
 
 /* Class index function
-	* If the object is a userdata (ie, an object), it searches the field in 
+	* If the object is a userdata (ie, an object), it searches the field in
 	* the alternative table stored in the corresponding "peer" table.
 */
 static int class_index_event (lua_State* L)
@@ -151,7 +151,7 @@ static int class_index_event (lua_State* L)
 			if (lua_isnumber(L,2))                 /* check if key is a numeric value */
 			{
 				/* try operator[] */
-				lua_pushstring(L,".geti");    
+				lua_pushstring(L,".geti");
 				lua_rawget(L,-2);                      /* stack: obj key mt func */
 				if (lua_isfunction(L,-1))
 				{
@@ -170,7 +170,7 @@ static int class_index_event (lua_State* L)
 				else
 					lua_pop(L,1);
 				/* try C/C++ variable */
-				lua_pushstring(L,".get");    
+				lua_pushstring(L,".get");
 				lua_rawget(L,-2);                      /* stack: obj key mt tget */
 				if (lua_istable(L,-1))
 				{
@@ -179,7 +179,7 @@ static int class_index_event (lua_State* L)
 					if (lua_iscfunction(L,-1))
 					{
 						lua_pushvalue(L,1);
-						lua_pushvalue(L,2); 
+						lua_pushvalue(L,2);
 						lua_call(L,2,1);
 						return 1;
 					}
@@ -231,7 +231,7 @@ static int class_newindex_event (lua_State* L)
       lua_pushvalue(L,1);                    /* stack: obj key v obj */
       while (lua_getmetatable(L,-1)) {       /* stack: obj key v obj mt */
         lua_remove(L,-2);                    /* stack: obj key v mt */
-        lua_pushstring(L,".seti");    
+        lua_pushstring(L,".seti");
         lua_rawget(L,-2);                    /* stack: obj key v mt func */
         if (lua_isfunction(L,-1))
         {
@@ -259,7 +259,7 @@ static int class_newindex_event (lua_State* L)
           if (lua_iscfunction(L,-1))
           {
             lua_pushvalue(L,1);
-            lua_pushvalue(L,3); 
+            lua_pushvalue(L,3);
             lua_call(L,2,0);
             return 0;
           }
@@ -292,7 +292,7 @@ static int do_operator (lua_State* L, const char* op)
 			if (lua_isfunction(L,-1))
 			{
 				lua_pushvalue(L,1);
-				lua_pushvalue(L,2); 
+				lua_pushvalue(L,2);
 				lua_call(L,2,1);
 				return 1;
 			}
@@ -444,7 +444,7 @@ TOLUA_API void tolua_classevents (lua_State* L)
 	lua_pushstring(L,"__newindex");
 	lua_pushcfunction(L,class_newindex_event);
 	lua_rawset(L,-3);
- 
+
 	lua_pushstring(L,"__add");
 	lua_pushcfunction(L,class_add_event);
 	lua_rawset(L,-3);

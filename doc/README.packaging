@@ -21,6 +21,9 @@ Updating from 3.3 to 3.4
 * Minimum Python requirement for code generation scripts is 3.7
 * Minimum Qt6 version for building Qt-client, Qt modpack installer,
   and Ruledit is 6.4.
+* New gtk4x-client that is linked against relatively new gtk4 versions
+* Build with meson supports building gtk4x modpack installer that is linked
+  against relatively new gtk4 versions
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

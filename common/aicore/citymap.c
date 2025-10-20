@@ -50,7 +50,7 @@
  * which has a negative value.
  */
 
-static int *citymap = NULL;
+static int *citymap = nullptr;
 
 #define log_citymap log_debug
 
@@ -78,10 +78,10 @@ void citymap_turn_init(struct player *pplayer)
                         pcenter, ptile) {
         struct city *pwork = tile_worked(ptile);
 
-        if (NULL != pwork) {
+        if (pwork != nullptr) {
           citymap[tile_index(ptile)] = -(pwork->id);
         } else {
-	  citymap[tile_index(ptile)]++;
+          citymap[tile_index(ptile)]++;
         }
       } city_tile_iterate_end;
     } city_list_iterate_end;
@@ -109,7 +109,7 @@ void citymap_turn_init(struct player *pplayer)
 **************************************************************************/
 void citymap_free(void)
 {
-  if (citymap != NULL) {
+  if (citymap != nullptr) {
     FC_FREE(citymap);
   }
 }
@@ -189,8 +189,9 @@ int citymap_read(struct tile *ptile)
 **************************************************************************/
 bool citymap_is_reserved(struct tile *ptile)
 {
-  if (NULL != tile_worked(ptile) /*|| tile_city(ptile)*/) {
+  if (tile_worked(ptile) != nullptr /*|| tile_city(ptile)*/ ) {
     return TRUE;
   }
+
   return (citymap[tile_index(ptile)] < 0);
 }

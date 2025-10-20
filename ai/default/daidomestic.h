@@ -20,7 +20,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
                                                  struct player *pplayer,
                                                  struct city *pcity);
 
-void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer, 
+void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
                               struct adv_data *adv);
 
 #endif /* FC__DAIDOMESTIC_H */

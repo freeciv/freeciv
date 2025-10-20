@@ -1574,6 +1574,10 @@ Internal actions
  * Unit's veterancy system must have veterancy levels for the unit
    to advance to.
 
+"Finish Unit" - city can finish building a unit
+
+"Finish Building" - city can finish building a building
+
 Ruleset defined actions
 =======================
 User actions are "blank". The ruleset does everything they do. The following

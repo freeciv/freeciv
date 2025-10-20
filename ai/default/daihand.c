@@ -182,16 +182,16 @@ enum celebration {
 /*************************************************************************//**
   Set tax/science/luxury rates.
 
-  TODO: Add general support for luxuries: select the luxury rate at which 
-  all cities are content and the trade output (minus what is consumed by 
-  luxuries) is maximal.  For this we need some more information from the 
-  city management code.
+  TODO: Add general support for luxuries: select the luxury rate at which
+  all cities are content and the trade output (minus what is consumed by
+  luxuries) is maximal. For this we need some more information from
+  the city management code.
 
   TODO: Audit the use of pplayer->ai.maxbuycost in the code elsewhere,
   then add support for it here.
 
-  This function first determins the minimum tax rate (rate_tax_min) and a tax
-  rate for a balanced treasury (rate_tax_balance). Similarily, the science
+  This function first determines the minimum tax rate (rate_tax_min) and a tax
+  rate for a balanced treasury (rate_tax_balance). Similarly, the science
   rates are determiend (rate_sci_min and rate_sci_balance). Considering the
   minimum rates for tax and science the chance for celebrations is checked. If
   celebration is possible for more than half of the cities, the needed luxury
@@ -454,8 +454,8 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   /* === Luxury === */
 
   /* Should (and can) we celebrate? */
-  /* TODO: In the future, we should check if we should 
-   * celebrate for other reasons than growth. Currently 
+  /* TODO: In the future, we should check if we should
+   * celebrate for other reasons than growth. Currently
    * this is ignored. Maybe we need ruleset AI hints. */
   /* TODO: Allow celebrate individual cities? No modpacks use this yet. */
   if (get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0
@@ -734,7 +734,7 @@ static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
       want += 25 * game.info.turn;
     }
     plr_data->tech_want[adv->goal.govt.req] += want;
-    TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(adv->goal.govt.req), 
+    TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(adv->goal.govt.req),
              "dai_manage_government() + %d for %s",
              want,
              government_rule_name(adv->goal.govt.gov));
@@ -785,7 +785,7 @@ void dai_do_last_activities(struct ai_type *ait, struct player *pplayer)
   dai_manage_cities(ait, pplayer);
   TIMING_LOG(AIT_CITIES, TIMER_STOP);
   TIMING_LOG(AIT_TECH, TIMER_START);
-  dai_manage_tech(ait, pplayer); 
+  dai_manage_tech(ait, pplayer);
   TIMING_LOG(AIT_TECH, TIMER_STOP);
   dai_manage_spaceship(pplayer);
 

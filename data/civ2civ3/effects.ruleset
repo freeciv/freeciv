@@ -46,8 +46,8 @@ format_version = 50
 
 ; "Away" "Novice" "Easy" "Normal" "Hard" "Cheating" "Experimental"
 [effect_ai_cheat_food]
-type    = "Upkeep_Factor"
-value   = -1
+type    = "Upkeep_Pct"
+value   = -100
 reqs    =
     { "type", "name", "range"
       "AI", "Cheating", "Player"
@@ -742,8 +742,8 @@ reqs    =
     }
 
 [effect_base_unit_upkeep_gold_1]
-type    = "Upkeep_Factor"
-value   = 1
+type    = "Upkeep_Pct"
+value   = 100
 reqs    =
     { "type",       "name",           "range",  "present"
       "OutputType", "Gold",           "Local",  TRUE
@@ -761,8 +761,8 @@ reqs    =
 
 ; Additive with previous => x2 for Fundamentalism, Federation, Democracy
 [effect_base_unit_upkeep_gold_2]
-type    = "Upkeep_Factor"
-value   = 1
+type    = "Upkeep_Pct"
+value   = 100
 reqs    =
     { "type",       "name",           "range",  "present"
       "OutputType", "Gold",           "Local",  TRUE
@@ -779,8 +779,8 @@ reqs    =
     }
 
 [effect_base_unit_upkeep_shield]
-type    = "Upkeep_Factor"
-value   = 1
+type    = "Upkeep_Pct"
+value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "OutputType", "Shield", "Local", TRUE
@@ -796,8 +796,8 @@ reqs    =
     }
 
 [effect_base_unit_upkeep_food]
-type    = "Upkeep_Factor"
-value   = 1
+type    = "Upkeep_Pct"
+value   = 100
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"

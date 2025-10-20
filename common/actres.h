@@ -66,6 +66,8 @@ struct req_context;
 #define SPECENUM_VALUE3NAME N_("extras on")
 #define SPECENUM_VALUE4 ASTK_EXTRA_NOT_THERE
 #define SPECENUM_VALUE4NAME N_("create extras on")
+#define SPECENUM_VALUE5 ASTK_SPECIALIST
+#define SPECENUM_VALUE5NAME N_("specialist")
 #define SPECENUM_COUNT ASTK_COUNT
 #include "specenum_gen.h"
 

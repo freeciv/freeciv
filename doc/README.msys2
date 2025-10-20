@@ -10,18 +10,18 @@ using MSYS2 from https://www.msys2.org/
 ==============
 
 Current official premade MSYS2 environment version info:
-[premade]:  msys2-freeciv-win64-250216.7z
-[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20241208.exe
+[premade]:  msys2-freeciv-win64-250707.7z
+[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20250622.exe
 
-See chapter "Premade environment" for what these mean. The info
-is located here for quick reference for the specific freeciv revision.
+See chapter "Premade environment" for what these mean. The info is
+located here on top for quick reference for the specific freeciv revision.
 
 
  Status
 ====================================
 
 - With premade environment, buildable clients are:
-  For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, Qt6, Qt6x
+  For "win64-10": gtk3.22, gtk4, gtk4x, sdl2, sdl3, Qt6, Qt6x
 
 
  Setup
@@ -105,6 +105,10 @@ is located here for quick reference for the specific freeciv revision.
  - mingw-w64-<arch>-SDL2_ttf
  - mingw-w64-<arch>-SDL2_gfx
 
+2.1.2.6) Arch-specific packages for building sdl3-client
+ - mingw-w64-<arch>-sdl3-image
+ - mingw-w64-<arch>-sdl3-ttf
+
 2.2) Packages needed for building installer package
  These are needed in addition to above ones used in the
  building step already.
@@ -137,7 +141,7 @@ For each package listed below with <arch> in the name, actually
 three packages are installed;
 one where <arch> is replaced by 'x86_64',
 one where <arch> is replaced by 'ucrt-x86_64', and
-one where <arch> is replaced bu 'clang-x86_64'
+one where <arch> is replaced by 'clang-x86_64'
 
 
 Following packages have been installed:
@@ -163,6 +167,8 @@ Following packages have been installed:
 - mingw-w64-<arch>-SDL2_image
 - mingw-w64-<arch>-SDL2_ttf
 - mingw-w64-<arch>-SDL2_gfx
+- mingw-w64-<arch>-sdl3-image
+- mingw-w64-<arch>-sdl3-ttf
 - mingw-w64-<arch>-imagemagick
 - mingw-w64-x86_64-qt5-base
 - mingw-w64-x86_64-qt5-svg
@@ -200,11 +206,13 @@ Get the freeciv sources there somehow. Some options are:
      - gtk4
      - gtk4x
      - sdl2
+     - sdl3
      - qt6
      - qt6x
   - "ruledit-installer"
   - "snapshot", if your freeciv sources are in git checkout directory,
                 builds all installers with commit id in version number
+  - "release", build all installers with high optimization etc
 
  You can also set minimum Windows version targeted. While setting this
  to an older version allows those Windows versions to run the created

@@ -74,9 +74,9 @@
 #define SPECENUM_VALUE25NAME "transport_lost"
 #include "specenum_gen.h"
 
-/* battle related */
+/* Battle related */
 struct unit_type *find_a_unit_type(enum unit_role_id role,
-				   enum unit_role_id role_tech);
+                                   enum unit_role_id role_tech);
 bool maybe_make_veteran(struct unit *punit, int base_chance);
 void notify_unit_experience(struct unit *punit);
 bool unit_versus_unit(struct unit *attacker, struct unit *defender,
@@ -106,7 +106,7 @@ void finalize_unit_phase_beginning(struct player *pplayer);
 void place_partisans(struct tile *pcenter, struct player *powner,
                      int count, int sq_radius);
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
-			  bool verbose);
+                           bool verbose);
 void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
                          bool verbose);
 struct unit_list *get_units_seen_via_ally(const struct player *pplayer,
@@ -160,13 +160,13 @@ void unit_unset_removal_callback(struct unit *punit);
 /* Sending to client */
 void package_unit(struct unit *punit, struct packet_unit_info *packet);
 void package_short_unit(struct unit *punit,
-			struct packet_unit_short_info *packet,
+                        struct packet_unit_short_info *packet,
                         enum unit_info_use packet_use, int info_city_id);
 void send_unit_info(struct conn_list *dest, struct unit *punit);
 void send_all_known_units(struct conn_list *dest);
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit);
 
-/* doing a unit activity */
+/* Doing a unit activity */
 void do_nuclear_explosion(const struct action *paction,
                           const struct unit_type *act_utype,
                           struct player *pplayer, struct tile *ptile);

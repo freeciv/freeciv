@@ -5174,6 +5174,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int want;
   int tmp_int;
   const struct civ_map *nmap = &(wld.map);
+  enum capital_type cap;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -5202,10 +5203,23 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &value, "%s.size",
                                      citystr), FALSE, "%s", secfile_error());
-  size = (citizens)value; /* set the correct type */
+  size = (citizens)value; /* Set the correct type */
   sg_warn_ret_val(value == (int)size, FALSE,
                   "Invalid city size: %d, set to %d", value, size);
   city_size_set(pcity, size);
+
+  cap = capital_type_by_name(secfile_lookup_str_default(loading->file, nullptr,
+                                                        "%s.capital", citystr),
+                             fc_strcasecmp);
+
+  if (capital_type_is_valid(cap)) {
+    pcity->capital = cap;
+    if (cap == CAPITAL_PRIMARY) {
+      plr->primary_capital_id = pcity->id;
+    }
+  } else {
+    pcity->capital = CAPITAL_NOT;
+  }
 
   for (i = 0; i < loading->specialist.size; i++) {
     Specialist_type_id si = specialist_index(loading->specialist.order[i]);
@@ -5741,6 +5755,9 @@ static void sg_save_player_cities(struct savedata *saving,
       secfile_insert_int(saving->file, -1, "%s.original", buf);
     }
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
+
+    secfile_insert_str(saving->file, capital_type_name(pcity->capital),
+                       "%s.capital", buf);
 
     j = 0;
     specialist_type_iterate(sp) {
@@ -6493,7 +6510,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
           /* An invalid order. Just drop the orders for this unit. */
           free(punit->orders.list);
           punit->orders.list = NULL;
+          punit->orders.length = 0;
           punit->has_orders = FALSE;
+          punit->goto_tile = NULL;
           break;
         }
 
@@ -6536,6 +6555,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ASTK_EXTRA_NOT_THERE:
             /* These take an extra. */
             action_wants_extra = TRUE;
+            break;
+          case ASTK_SPECIALIST:
+            /* A valid specialist must be supplied. */
+            if (order_sub_tgt < 0
+                || order_sub_tgt >= loading->specialist.size
+                || !loading->specialist.order[order_sub_tgt]) {
+              log_sg("Cannot find specialist %d for %s to become",
+                     order_sub_tgt, unit_rule_name(punit));
+              order->sub_target = NO_TARGET;
+            } else {
+              order->sub_target = specialist_index(loading->specialist.order[order_sub_tgt]);
+            }
             break;
           case ASTK_NONE:
             /* None of these can take a sub target. */
@@ -6580,7 +6611,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
             /* Missing required action extra target. */
             free(punit->orders.list);
             punit->orders.list = NULL;
+            punit->orders.length = 0;
             punit->has_orders = FALSE;
+            punit->goto_tile = NULL;
             break;
           }
         } else if (order->order != ORDER_PERFORM_ACTION) {
@@ -6604,7 +6637,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
       int j;
 
       punit->has_orders = FALSE;
+      punit->goto_tile = NULL;
       punit->orders.list = NULL;
+      punit->orders.length = 0;
 
       (void) secfile_entry_lookup(loading->file, "%s.orders_index", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.orders_repeat", unitstr);
@@ -8173,8 +8208,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      if (!unit_order_list_is_sane(&(wld.map), punit->orders.length,
-                                   punit->orders.list)) {
+      if (punit->has_orders
+          && !unit_order_list_is_sane(&(wld.map), punit->orders.length,
+                                      punit->orders.list)) {
         log_sg("Invalid unit orders for unit %d.", punit->id);
         free_unit_orders(punit);
       }

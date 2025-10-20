@@ -74,7 +74,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     if (!map_is_known(ptile, pplayer)) {
       continue;
     }
-  
+
     acity = tile_city(ptile);
     if (acity && city_owner(acity) == unit_owner(punit)
         && unit_list_size(ptile->units) == 0) {
@@ -85,10 +85,10 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
       }
     }
   } square_iterate_end;
-  
+
   if (best_tile != NULL) {
     acity = tile_city(best_tile);
-    UNIT_LOG(LOGLEVEL_PARATROOPER, punit, 
+    UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
              "Choose to jump in order to protect allied city %s (%d %d). "
              "Benefit: %d",
              city_name_get(acity), TILE_XY(best_tile), best);
@@ -113,10 +113,10 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
       }
     }
   } square_iterate_end;
-  
+
   if (best_tile != NULL) {
     acity = tile_city(best_tile);
-    UNIT_LOG(LOGLEVEL_PARATROOPER, punit, 
+    UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
              "Choose to jump into enemy city %s (%d %d). Benefit: %d",
              city_name_get(acity), TILE_XY(best_tile), best);
     return best_tile;
@@ -173,7 +173,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
                              NULL);
       val += pterrain->defense_bonus / 10;
       val -= punit->hp * 100;
-      
+
       if (val > best) {
         best = val;
 	best_tile = ptile;
@@ -218,7 +218,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
   if (punit->moves_left == 0) {
     return;
   }
-  
+
   if (pcity && unit_list_size(unit_tile(punit)->units) == 1) {
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Defending the city.");
     return;
@@ -317,7 +317,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
   struct civ_map *nmap = &(wld.map);
 
   profit += u_type->defense_strength
-          + u_type->move_rate 
+          + u_type->move_rate
 	  + u_type->attack_strength;
 
   square_iterate(nmap, ptile_city, range, ptile) {

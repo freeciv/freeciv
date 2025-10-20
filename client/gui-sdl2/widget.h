@@ -35,7 +35,7 @@
 #define WINDOW_TITLE_HEIGHT 20
 #endif
 
-#define MAX_ID              0xFFFF
+#define MAX_ID              0xFFFFFFFF
 
 /* Widget Types */
 enum widget_type {		/* allow 64 widgets type */
@@ -152,7 +152,7 @@ struct widget {
 
   SDL_Keycode key;              /* key aliased with this widget */
   Uint16 mod;			/* SHIFT, CTRL, ALT, etc */
-  Uint16 id;			/* id in widget list */
+  widget_id id;			/* id in widget list */
 
   int (*action) (struct widget *);	/* default callback action */
 
@@ -192,7 +192,7 @@ enum scan_direction {
   SCAN_BACKWARD
 };
 
-void add_to_gui_list(Uint16 id, struct widget *gui);
+void add_to_gui_list(widget_id id, struct widget *gui);
 void del_widget_pointer_from_gui_list(struct widget *gui);
 void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock);
 

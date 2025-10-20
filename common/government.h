@@ -25,6 +25,8 @@ extern "C" {
 #include "name_translation.h"
 #include "requirements.h"
 
+#define GOVF_LAST_USER_FLAG GOVF_USER_FLAG_8
+#define MAX_NUM_USER_GOVERNMENT_FLAGS (GOVF_LAST_USER_FLAG - GOVF_USER_FLAG_1 + 1)
 
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
@@ -47,7 +49,7 @@ struct ruler_title;     /* Opaque type. */
  * protocol, which generally uses government_count()). */
 #define G_LAST (127)
 
-/* This is struct government itself.  All information about a form of
+/* This is struct government itself. All information about a form of
  * government is contained inhere. -- SKi */
 struct government {
   Government_type_id item_number;
@@ -62,11 +64,12 @@ struct government {
   struct requirement_vector reqs;
   struct ruler_title_hash *ruler_titles;
   int changed_to_times;
+  bv_gov_flags flags;
   struct strvec *helptext;
 
   /* AI cached data for this government. */
   struct {
-    struct government *better; /* hint: a better government (or NULL) */
+    struct government *better; /* Hint: A better government (or nullptr) */
   } ai;
 };
 
@@ -135,6 +138,17 @@ struct iterator *government_iter_init(struct government_iter *it);
   } governments_iterate_end;
 
 bool untargeted_revolution_allowed(void);
+
+/* General government flag accessor routines */
+bool government_has_flag(const struct government *pgov,
+                         enum gov_flag_id flag);
+
+void user_gov_flags_init(void);
+void gov_flags_free(void);
+void set_user_gov_flag_name(enum gov_flag_id id,
+                            const char *name,
+                            const char *helptxt);
+const char *gov_flag_helptxt(enum gov_flag_id id);
 
 #ifdef __cplusplus
 }

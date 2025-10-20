@@ -51,6 +51,7 @@ static struct {
   char *uflags_extra;
   char *uflags_tech;
   char *uflags_building;
+  char *uflags_government;
   char *trade_settings;
   char *goods;
   char *actions;
@@ -174,6 +175,8 @@ bool comments_load(void)
                comment_file, "uflag_types.tech");
   comment_load(comments_storage.uflags_building,
                comment_file, "uflag_types.building");
+  comment_load(comments_storage.uflags_government,
+               comment_file, "uflag_types.government");
   comment_load(comments_storage.trade_settings,
                comment_file, "typedoc.trade_settings");
   comment_load(comments_storage.goods, comment_file, "typedoc.goods");
@@ -509,6 +512,14 @@ void comment_uflags_tech(struct section_file *sfile)
 void comment_uflags_building(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.uflags_building, "control");
+}
+
+/**********************************************************************//**
+  Write header for government user flags.
+**************************************************************************/
+void comment_uflags_government(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_government, "control");
 }
 
 /**********************************************************************//**

@@ -44,6 +44,7 @@ enum effect_type req_base_effects[] =
   {
     EFT_CITY_VISION_RADIUS_SQ,
     EFT_MAX_RATES,
+    EFT_UPKEEP_PCT,
     EFT_COUNT
   };
 
@@ -422,7 +423,8 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
       /* Can have multiple, since it's flag based (wrapx & wrapy) */
     case VUT_EXTRA:
       /* Note that there can be more than 1 extra / tile. */
-    case VUT_MAXTILEUNITS:
+    case VUT_MAXTILETOTALUNITS:
+    case VUT_MAXTILETOPUNITS:
       /* Can require different numbers on e.g. local/adjacent tiles. */
     case VUT_NATION:
       /* Can require multiple nations at Team/Alliance/World range. */
@@ -440,6 +442,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_UCLASS:
     case VUT_TILE_REL:
       /* Can check different properties. */
+    case VUT_GOVFLAG:
     case VUT_UTFLAG:
     case VUT_UCFLAG:
     case VUT_TERRFLAG:

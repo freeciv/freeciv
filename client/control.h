@@ -75,7 +75,7 @@ void do_unit_goto(struct tile *ptile);
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile);
 void do_unit_patrol_to(struct tile *ptile);
 void do_unit_connect(struct tile *ptile,
-		     enum unit_activity activity,
+                     enum unit_activity activity,
                      struct extra_type *tgt);
 void do_map_click(struct tile *ptile, enum quickselect_type qtype);
 void control_mouse_cursor(struct tile *ptile);
@@ -94,8 +94,8 @@ void request_unit_non_action_move(struct unit *punit,
 void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit,
-					enum unit_activity act,
-					struct extra_type *tgt);
+                                        enum unit_activity act,
+                                        struct extra_type *tgt);
 void request_unit_load(struct unit *pcargo, struct unit *ptransporter,
                        struct tile *ptile);
 void request_unit_unload(struct unit *pcargo);

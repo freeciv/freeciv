@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIGUARD_H
-#define FC__AIGUARD_H
+#ifndef FC__DAIGUARD_H
+#define FC__DAIGUARD_H
 
 #include "support.h"            /* bool type */
 
@@ -42,4 +42,4 @@ struct unit *aiguard_charge_unit(struct ai_type *ait, struct unit *guard);
 struct city *aiguard_charge_city(struct ai_type *ait, struct unit *guard);
 void aiguard_update_charge(struct ai_type *ait, struct unit *guard);
 
-#endif	/* FC__AIGUARD_H */
+#endif /* FC__DAIGUARD_H */

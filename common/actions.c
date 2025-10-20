@@ -32,6 +32,7 @@
 #include "oblig_reqs.h"
 #include "research.h"
 #include "server_settings.h"
+#include "specialist.h"
 #include "unit.h"
 
 
@@ -74,6 +75,9 @@ unit_action_new(action_id id,
 static struct action *
 player_action_new(action_id id,
                   enum action_result result);
+static struct action *
+city_action_new(action_id id,
+                enum action_result result);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
                               const struct req_context *actor,
@@ -822,6 +826,12 @@ static void hard_code_actions(void)
   actions[ACTION_CIVIL_WAR] =
       player_action_new(ACTION_CIVIL_WAR, ACTRES_ENABLER_CHECK);
 
+  actions[ACTION_FINISH_UNIT] =
+      city_action_new(ACTION_FINISH_UNIT, ACTRES_ENABLER_CHECK);
+
+  actions[ACTION_FINISH_BUILDING] =
+      city_action_new(ACTION_FINISH_BUILDING, ACTRES_ENABLER_CHECK);
+
   /* The structure even for these need to be created, for
    * the action_id_rule_name() to work on iterations. */
 
@@ -963,6 +973,7 @@ bool actions_are_ready(void)
   Create a new action.
 **************************************************************************/
 static struct action *action_new(action_id id,
+                                 enum action_actor_kind aak,
                                  enum action_result result,
                                  const int min_distance,
                                  const int max_distance,
@@ -990,7 +1001,7 @@ static struct action *action_new(action_id id,
   /* Not set here */
   BV_CLR_ALL(action->sub_results);
 
-  action->actor_kind = AAK_UNIT;
+  action->actor_kind = aak;
   action->target_kind = actres_target_kind_default(result);
   action->sub_target_kind = actres_sub_target_kind_default(result);
   action->target_complexity = actres_target_compl_calc(result);
@@ -1035,7 +1046,7 @@ unit_action_new(action_id id,
                 const int max_distance,
                 bool actor_consuming_always)
 {
-  struct action *act = action_new(id, result,
+  struct action *act = action_new(id, AAK_UNIT, result,
                                   min_distance, max_distance,
                                   actor_consuming_always);
 
@@ -1051,11 +1062,22 @@ unit_action_new(action_id id,
 /**********************************************************************//**
   Create a new action performed by a player actor.
 **************************************************************************/
-static struct action *
-player_action_new(action_id id,
-                  enum action_result result)
+static struct action *player_action_new(action_id id,
+                                        enum action_result result)
 {
-  struct action *act = action_new(id, result,
+  struct action *act = action_new(id, AAK_PLAYER, result,
+                                  0, 0, FALSE);
+
+  return act;
+}
+
+/**********************************************************************//**
+  Create a new action performed by a city actor.
+**************************************************************************/
+static struct action *city_action_new(action_id id,
+                                      enum action_result result)
+{
+  struct action *act = action_new(id, AAK_CITY, result,
                                   0, 0, FALSE);
 
   return act;
@@ -1742,31 +1764,6 @@ req_vec_first_local_diplrel(const struct requirement_vector *vec)
 }
 
 /**********************************************************************//**
-  Returns the first requirement in the specified requirement vector that
-  contradicts the specified requirement or NULL if no contradiction was
-  detected.
-  @param req the requirement that may contradict the vector
-  @param vec the requirement vector to look in
-  @return the first local DiplRel requirement.
-**************************************************************************/
-static struct requirement *
-req_vec_first_contradiction_in_vec(const struct requirement *req,
-                                   const struct requirement_vector *vec)
-{
-  /* If the requirement is contradicted by any requirement in the vector it
-   * contradicts the entire requirement vector. */
-  requirement_vector_iterate(vec, preq) {
-    if (are_requirements_contradictions(req, preq)) {
-      return preq;
-    }
-  } requirement_vector_iterate_end;
-
-  /* Not a singe requirement in the requirement vector is contradicted be
-   * the specified requirement. */
-  return NULL;
-}
-
-/**********************************************************************//**
   Detects a local DiplRel requirement in a tile targeted action without
   an explicit claimed requirement in the target reqs.
   @param enabler the enabler to look at
@@ -2299,8 +2296,10 @@ struct action *action_is_blocked_by(const struct civ_map *nmap,
   action_iterate(blocker_id) {
     struct action *blocker = action_by_number(blocker_id);
 
-    fc_assert_action(action_get_actor_kind(blocker) == AAK_UNIT,
-                     continue);
+    if (action_get_actor_kind(blocker) != AAK_UNIT) {
+      /* Currently, only unit's actions may block each other */
+      continue;
+    }
 
     if (!action_would_be_blocked_by(act, blocker)) {
       /* It doesn't matter if it is legal. It won't block the action. */
@@ -2401,8 +2400,8 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
 {
   switch (paction->result) {
   case ACTRES_JOIN_CITY:
-    if (actor_unittype->pop_cost <= 0) {
-      /* Reason: Must have population to add. */
+    if (actor_unittype->pop_cost <= 0 && !is_super_specialist(actor_unittype->spec_type)) {
+      /* Reason: Must have something to add. */
       return FALSE;
     }
     break;
@@ -2821,28 +2820,32 @@ is_action_possible(const struct civ_map *nmap,
   enum fc_tristate out;
   struct action *paction = action_by_number(wanted_action);
   enum action_target_kind tkind = action_get_target_kind(paction);
+  const struct tile *atile = nullptr, *ttile = nullptr;
 
-  if (actor == NULL) {
+  if (actor == nullptr) {
     actor = req_context_empty();
+  } else {
+    atile = actor->tile;
   }
-  if (target == NULL) {
+  if (target == nullptr) {
     target = req_context_empty();
+  } else {
+    ttile = target->tile;
   }
 
-  fc_assert_msg((tkind == ATK_CITY && target->city != NULL)
-                || (tkind == ATK_TILE && target->tile != NULL)
-                || (tkind == ATK_EXTRAS && target->tile != NULL)
-                || (tkind == ATK_UNIT && target->unit != NULL)
+  fc_assert_msg((tkind == ATK_CITY && target->city != nullptr)
+                || (tkind == ATK_TILE && ttile != nullptr)
+                || (tkind == ATK_EXTRAS && ttile != nullptr)
+                || (tkind == ATK_UNIT && target->unit != nullptr)
                 /* At this level each individual unit is tested. */
-                || (tkind == ATK_STACK && target->unit != NULL)
+                || (tkind == ATK_STACK && target->unit != nullptr)
                 || (tkind == ATK_SELF),
                 "Missing target!");
 
-  /* Info leak: The player knows where their unit is. */
-  if (tkind != ATK_SELF
+  /* Info leak: The player knows where their unit/city is. */
+  if (nullptr != atile && nullptr != ttile
       && !action_distance_accepted(paction,
-                                   real_map_distance(actor->tile,
-                                                     target->tile))) {
+                                   real_map_distance(atile, ttile))) {
     /* The distance between the actor and the target isn't inside the
      * action's accepted range. */
     return TRI_NO;
@@ -2884,7 +2887,7 @@ is_action_possible(const struct civ_map *nmap,
   }
 
   if (action_is_blocked_by(nmap, paction, actor->unit,
-                           target->tile, target->city, target->unit)) {
+                           ttile, target->city, target->unit)) {
     /* Allows an action to block an other action. If a blocking action is
      * legal the actions it blocks becomes illegal. */
     return TRI_NO;
@@ -2903,7 +2906,7 @@ is_action_possible(const struct civ_map *nmap,
       || paction->result == ACTRES_WIPE_UNITS
       || paction->result == ACTRES_COLLECT_RANSOM) {
     /* Reason: Keep the old rules. */
-    if (!can_unit_attack_tile(actor->unit, paction, target->tile)) {
+    if (!can_unit_attack_tile(actor->unit, paction, ttile)) {
       return TRI_NO;
     }
   }
@@ -2920,35 +2923,34 @@ is_action_possible(const struct civ_map *nmap,
   }
 
   if (paction->result == ACTRES_NUKE_UNITS) {
-    if (unit_attack_units_at_tile_result(actor->unit, paction,
-                                         target->tile)
+    if (unit_attack_units_at_tile_result(actor->unit, paction, ttile)
         != ATT_OK) {
       /* Unreachable. */
       return TRI_NO;
     }
   } else if (paction->result == ACTRES_PARADROP
              || paction->result == ACTRES_PARADROP_CONQUER) {
-    if (can_player_see_tile(actor->player, target->tile)) {
+    if (can_player_see_tile(actor->player, ttile)) {
       /* Check for seen stuff that may kill the actor unit. */
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (!can_unit_exist_at_tile(nmap, actor->unit, target->tile)
+      if (!can_unit_exist_at_tile(nmap, actor->unit, ttile)
           && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
-              || !unit_could_load_at(actor->unit, target->tile))) {
+              || !unit_could_load_at(actor->unit, ttile))) {
         return TRI_NO;
       }
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (is_non_attack_city_tile(target->tile, actor->player)) {
+      if (is_non_attack_city_tile(ttile, actor->player)) {
         return TRI_NO;
       }
 
       /* Reason: Be merciful. */
       /* Info leak: The player sees all units checked. Invisible units are
        * ignored. */
-      unit_list_iterate(target->tile->units, pother) {
+      unit_list_iterate(ttile->units, pother) {
         if (can_player_see_unit(actor->player, pother)
             && !pplayers_allied(actor->player, unit_owner(pother))) {
           return TRI_NO;
@@ -3486,17 +3488,231 @@ bool is_action_enabled_unit_on_self(const struct civ_map *nmap,
                                              unit_tile(actor_unit));
 }
 
+#define ASSERT_PLAYER_ACTION(_atk)                                              \
+    fc_assert_ret_val_msg(AAK_PLAYER == action_id_get_actor_kind(wanted_action),\
+                          FALSE, "Action %s is performed by %s not %s",         \
+                          action_id_rule_name(wanted_action),                   \
+                          action_actor_kind_name(                               \
+                            action_id_get_actor_kind(wanted_action)),           \
+                          action_actor_kind_name(AAK_PLAYER));                  \
+    fc_assert_ret_val_msg(_atk                                                  \
+                          == action_id_get_target_kind(wanted_action),          \
+                          FALSE, "Action %s is against %s not %s",              \
+                          action_id_rule_name(wanted_action),                   \
+                          action_target_kind_name(                              \
+                            action_id_get_target_kind(wanted_action)),          \
+                          action_target_kind_name(_atk));
+
 /**********************************************************************//**
-  Returns TRUE if actor_plr can do wanted_action as far as
+  Returns TRUE if actor_plr can do wanted_action to themself as far as
   action enablers are concerned.
 **************************************************************************/
-bool is_action_enabled_player(const struct civ_map *nmap,
-                              const action_id wanted_action,
-                              const struct player *actor_plr)
+bool is_action_enabled_player_on_self(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr)
 {
+  if (actor_plr == nullptr) {
+    /* Can't do an action when the actor is missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_SELF);
+
   return is_action_enabled(nmap, wanted_action,
                            &(const struct req_context) {
                              .player = actor_plr,
+                           },
+                           nullptr, nullptr, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to target_city as far as
+  action enablers are concerned.
+**************************************************************************/
+bool is_action_enabled_player_on_city(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct city *target_city)
+{
+  const struct impr_type *target_building;
+  const struct unit_type *target_utype;
+
+  if (actor_plr == nullptr || target_city == nullptr) {
+    /* Can't do an action when the actor or the target is missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_CITY);
+
+  target_building = tgt_city_local_building(target_city);
+  target_utype = tgt_city_local_utype(target_city);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = city_owner(target_city),
+                             .city = target_city,
+                             .building = target_building,
+                             .tile = city_tile(target_city),
+                             .unittype = target_utype,
+                           }, nullptr, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to the extras at
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool
+is_action_enabled_player_on_extras(const struct civ_map *nmap,
+                                   const action_id wanted_action,
+                                   const struct player *actor_plr,
+                                   const struct tile *target_tile,
+                                   const struct extra_type *target_extra)
+{
+  if (actor_plr == nullptr || target_tile == nullptr) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_EXTRAS);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = target_tile->extras_owner,
+                             .city = tile_city(target_tile),
+                             .tile = target_tile,
+                           },
+                           target_extra, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to all units at
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_player_on_stack(const struct civ_map *nmap,
+                                       const action_id wanted_action,
+                                       const struct player *actor_plr,
+                                       const struct tile *target_tile,
+                                       const struct extra_type *target_extra)
+{
+  const struct req_context actor_ctxt = {
+    .player = actor_plr,
+  };
+  const struct city *tcity;
+
+  if (actor_plr == nullptr  || target_tile == nullptr
+      || unit_list_size(target_tile->units) == 0) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_STACK);
+
+  tcity = tile_city(target_tile);
+  unit_list_iterate(target_tile->units, target_unit) {
+    if (!is_action_enabled(nmap, wanted_action, &actor_ctxt,
+                           &(const struct req_context) {
+                             .player = unit_owner(target_unit),
+                             .city = tcity,
+                             .tile = target_tile,
+                             .unit = target_unit,
+                             .unittype = unit_type_get(target_unit),
+                           },
+                           nullptr, nullptr)) {
+      /* One unit makes it impossible for all units. */
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  /* Not impossible for any of the units at the tile. */
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to target_tile as far
+  as action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_player_on_tile(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra)
+{
+  if (actor_plr == nullptr || target_tile == nullptr) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_TILE);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = tile_owner(target_tile),
+                             .city = tile_city(target_tile),
+                             .tile = target_tile,
+                           },
+                           target_extra, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_plr can do wanted_action to target_unit as far as
+  action enablers are concerned.
+
+  See note in is_action_enabled() for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_player_on_unit(const struct civ_map *nmap,
+                                      const action_id wanted_action,
+                                      const struct player *actor_plr,
+                                      const struct unit *target_unit)
+{
+  if (actor_plr == nullptr || target_unit == nullptr) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  ASSERT_PLAYER_ACTION(ATK_UNIT);
+
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = actor_plr,
+                           },
+                           &(const struct req_context) {
+                             .player = unit_owner(target_unit),
+                             .city = tile_city(unit_tile(target_unit)),
+                             .tile = unit_tile(target_unit),
+                             .unit = target_unit,
+                             .unittype = unit_type_get(target_unit),
+                           },
+                           nullptr, nullptr);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_city can do wanted_action as far as
+  action enablers are concerned.
+**************************************************************************/
+bool is_action_enabled_city(const struct civ_map *nmap,
+                            const action_id wanted_action,
+                            const struct city *actor_city)
+{
+  return is_action_enabled(nmap, wanted_action,
+                           &(const struct req_context) {
+                             .player = city_owner(actor_city),
+                             .city = actor_city,
+                             .tile = city_tile(actor_city)
                            },
                            nullptr, nullptr, nullptr);
 }
@@ -5630,6 +5846,10 @@ bool action_enabler_possible_actor(const struct action_enabler *ae)
 
     /* No actor detected. */
     return FALSE;
+  case AAK_CITY:
+  case AAK_PLAYER:
+    /* Currently can't detect */
+    return TRUE;
   case AAK_COUNT:
     fc_assert(action_get_actor_kind(paction) != AAK_COUNT);
     break;
@@ -5656,6 +5876,10 @@ static bool action_has_possible_actor_hard_reqs(struct action *paction)
       }
     } unit_type_iterate_end;
     break;
+  case AAK_CITY:
+  case AAK_PLAYER:
+    /* No ruleset hard reqs atm */
+    return TRUE;
   case AAK_COUNT:
     fc_assert(action_get_actor_kind(paction) != AAK_COUNT);
     break;
@@ -5796,306 +6020,6 @@ void action_array_add_all_by_result(action_id *act_array,
       act_array[(*position)++] = paction->id;
     }
   } action_iterate_end;
-}
-
-/**********************************************************************//**
-  Return ui_name ruleset variable name for the action.
-
-  TODO: make actions generic and put ui_name in a field of the action.
-**************************************************************************/
-const char *action_ui_name_ruleset_var_name(int act)
-{
-  switch ((enum gen_action)act) {
-  case ACTION_SPY_POISON:
-    return "ui_name_poison_city";
-  case ACTION_SPY_POISON_ESC:
-    return "ui_name_poison_city_escape";
-  case ACTION_SPY_SABOTAGE_UNIT:
-    return "ui_name_sabotage_unit";
-  case ACTION_SPY_SABOTAGE_UNIT_ESC:
-    return "ui_name_sabotage_unit_escape";
-  case ACTION_SPY_BRIBE_UNIT:
-    return "ui_name_bribe_unit";
-  case ACTION_SPY_BRIBE_STACK:
-    return "ui_name_bribe_stack";
-  case ACTION_SPY_SABOTAGE_CITY:
-    return "ui_name_sabotage_city";
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
-    return "ui_name_sabotage_city_escape";
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-    return "ui_name_targeted_sabotage_city";
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-    return "ui_name_sabotage_city_production";
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-    return "ui_name_targeted_sabotage_city_escape";
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-    return "ui_name_sabotage_city_production_escape";
-  case ACTION_SPY_INCITE_CITY:
-    return "ui_name_incite_city";
-  case ACTION_SPY_INCITE_CITY_ESC:
-    return "ui_name_incite_city_escape";
-  case ACTION_ESTABLISH_EMBASSY:
-    return "ui_name_establish_embassy";
-  case ACTION_ESTABLISH_EMBASSY_STAY:
-    return "ui_name_establish_embassy_stay";
-  case ACTION_SPY_STEAL_TECH:
-    return "ui_name_steal_tech";
-  case ACTION_SPY_STEAL_TECH_ESC:
-    return "ui_name_steal_tech_escape";
-  case ACTION_SPY_TARGETED_STEAL_TECH:
-    return "ui_name_targeted_steal_tech";
-  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-    return "ui_name_targeted_steal_tech_escape";
-  case ACTION_SPY_INVESTIGATE_CITY:
-    return "ui_name_investigate_city";
-  case ACTION_INV_CITY_SPEND:
-    return "ui_name_investigate_city_spend_unit";
-  case ACTION_SPY_STEAL_GOLD:
-    return "ui_name_steal_gold";
-  case ACTION_SPY_STEAL_GOLD_ESC:
-    return "ui_name_steal_gold_escape";
-  case ACTION_SPY_SPREAD_PLAGUE:
-    return "ui_name_spread_plague";
-  case ACTION_STEAL_MAPS:
-    return "ui_name_steal_maps";
-  case ACTION_STEAL_MAPS_ESC:
-    return "ui_name_steal_maps_escape";
-  case ACTION_TRADE_ROUTE:
-    return "ui_name_establish_trade_route";
-  case ACTION_MARKETPLACE:
-    return "ui_name_enter_marketplace";
-  case ACTION_HELP_WONDER:
-    return "ui_name_help_wonder";
-  case ACTION_CAPTURE_UNITS:
-    return "ui_name_capture_units";
-  case ACTION_EXPEL_UNIT:
-    return "ui_name_expel_unit";
-  case ACTION_FOUND_CITY:
-    return "ui_name_found_city";
-  case ACTION_JOIN_CITY:
-    return "ui_name_join_city";
-  case ACTION_BOMBARD:
-    return "ui_name_bombard";
-  case ACTION_BOMBARD2:
-    return "ui_name_bombard_2";
-  case ACTION_BOMBARD3:
-    return "ui_name_bombard_3";
-  case ACTION_BOMBARD4:
-    return "ui_name_bombard_4";
-  case ACTION_BOMBARD_LETHAL:
-    return "ui_name_bombard_lethal";
-  case ACTION_BOMBARD_LETHAL2:
-    return "ui_name_bombard_lethal_2";
-  case ACTION_SPY_NUKE:
-    return "ui_name_suitcase_nuke";
-  case ACTION_SPY_NUKE_ESC:
-    return "ui_name_suitcase_nuke_escape";
-  case ACTION_NUKE:
-    return "ui_name_explode_nuclear";
-  case ACTION_NUKE_CITY:
-    return "ui_name_nuke_city";
-  case ACTION_NUKE_UNITS:
-    return "ui_name_nuke_units";
-  case ACTION_DESTROY_CITY:
-    return "ui_name_destroy_city";
-  case ACTION_DISBAND_UNIT_RECOVER:
-    return "ui_name_disband_unit_recover";
-  case ACTION_DISBAND_UNIT:
-    return "ui_name_disband_unit";
-  case ACTION_HOME_CITY:
-    return "ui_name_home_city";
-  case ACTION_HOMELESS:
-    return "ui_name_homeless";
-  case ACTION_UPGRADE_UNIT:
-    return "ui_name_upgrade_unit";
-  case ACTION_PARADROP:
-    return "ui_name_paradrop_unit";
-  case ACTION_PARADROP_CONQUER:
-    return "ui_name_paradrop_unit_conquer";
-  case ACTION_PARADROP_FRIGHTEN:
-    return "ui_name_paradrop_unit_frighten";
-  case ACTION_PARADROP_FRIGHTEN_CONQUER:
-    return "ui_name_paradrop_unit_frighten_conquer";
-  case ACTION_PARADROP_ENTER:
-    return "ui_name_paradrop_unit_enter";
-  case ACTION_PARADROP_ENTER_CONQUER:
-    return "ui_name_paradrop_unit_enter_conquer";
-  case ACTION_AIRLIFT:
-    return "ui_name_airlift_unit";
-  case ACTION_ATTACK:
-    return "ui_name_attack";
-  case ACTION_ATTACK2:
-    return "ui_name_attack_2";
-  case ACTION_SUICIDE_ATTACK:
-    return "ui_name_suicide_attack";
-  case ACTION_SUICIDE_ATTACK2:
-    return "ui_name_suicide_attack_2";
-  case ACTION_WIPE_UNITS:
-    return "ui_name_wipe_units";
-  case ACTION_COLLECT_RANSOM:
-    return "ui_name_collect_ransom";
-  case ACTION_STRIKE_BUILDING:
-    return "ui_name_surgical_strike_building";
-  case ACTION_STRIKE_PRODUCTION:
-    return "ui_name_surgical_strike_production";
-  case ACTION_CONQUER_CITY_SHRINK:
-    return "ui_name_conquer_city_shrink";
-  case ACTION_CONQUER_CITY_SHRINK2:
-    return "ui_name_conquer_city_shrink2";
-  case ACTION_CONQUER_CITY_SHRINK3:
-    return "ui_name_conquer_city_shrink3";
-  case ACTION_CONQUER_CITY_SHRINK4:
-    return "ui_name_conquer_city_shrink4";
-  case ACTION_CONQUER_EXTRAS:
-    return "ui_name_conquer_extras";
-  case ACTION_CONQUER_EXTRAS2:
-    return "ui_name_conquer_extras_2";
-  case ACTION_CONQUER_EXTRAS3:
-    return "ui_name_conquer_extras_3";
-  case ACTION_CONQUER_EXTRAS4:
-    return "ui_name_conquer_extras_4";
-  case ACTION_HEAL_UNIT:
-    return "ui_name_heal_unit";
-  case ACTION_HEAL_UNIT2:
-    return "ui_name_heal_unit_2";
-  case ACTION_TRANSFORM_TERRAIN:
-    return "ui_name_transform_terrain";
-  case ACTION_TRANSFORM_TERRAIN2:
-    return "ui_name_transform_terrain_2";
-  case ACTION_CULTIVATE:
-    return "ui_name_cultivate";
-  case ACTION_CULTIVATE2:
-    return "ui_name_cultivate_2";
-  case ACTION_PLANT:
-    return "ui_name_plant";
-  case ACTION_PLANT2:
-    return "ui_name_plant_2";
-  case ACTION_PILLAGE:
-    return "ui_name_pillage";
-  case ACTION_PILLAGE2:
-    return "ui_name_pillage_2";
-  case ACTION_CLEAN:
-    return "ui_name_clean";
-  case ACTION_CLEAN2:
-    return "ui_name_clean_2";
-  case ACTION_FORTIFY:
-    return "ui_name_fortify";
-  case ACTION_FORTIFY2:
-    return "ui_name_fortify_2";
-  case ACTION_ROAD:
-    return "ui_name_build_road";
-  case ACTION_ROAD2:
-    return "ui_name_build_road_2";
-  case ACTION_CONVERT:
-    return "ui_name_convert_unit";
-  case ACTION_BASE:
-    return "ui_name_build_base";
-  case ACTION_BASE2:
-    return "ui_name_build_base_2";
-  case ACTION_MINE:
-    return "ui_name_build_mine";
-  case ACTION_MINE2:
-    return "ui_name_build_mine_2";
-  case ACTION_IRRIGATE:
-    return "ui_name_irrigate";
-  case ACTION_IRRIGATE2:
-    return "ui_name_irrigate_2";
-  case ACTION_TRANSPORT_DEBOARD:
-    return "ui_name_transport_deboard";
-  case ACTION_TRANSPORT_BOARD:
-    return "ui_name_transport_board";
-  case ACTION_TRANSPORT_BOARD2:
-    return "ui_name_transport_board_2";
-  case ACTION_TRANSPORT_BOARD3:
-    return "ui_name_transport_board_3";
-  case ACTION_TRANSPORT_EMBARK:
-    return "ui_name_transport_embark";
-  case ACTION_TRANSPORT_EMBARK2:
-    return "ui_name_transport_embark_2";
-  case ACTION_TRANSPORT_EMBARK3:
-    return "ui_name_transport_embark_3";
-  case ACTION_TRANSPORT_EMBARK4:
-    return "ui_name_transport_embark_4";
-  case ACTION_TRANSPORT_UNLOAD:
-    return "ui_name_transport_unload";
-  case ACTION_TRANSPORT_LOAD:
-    return "ui_name_transport_load";
-  case ACTION_TRANSPORT_LOAD2:
-    return "ui_name_transport_load_2";
-  case ACTION_TRANSPORT_LOAD3:
-    return "ui_name_transport_load_3";
-  case ACTION_TRANSPORT_DISEMBARK1:
-    return "ui_name_transport_disembark";
-  case ACTION_TRANSPORT_DISEMBARK2:
-    return "ui_name_transport_disembark_2";
-  case ACTION_TRANSPORT_DISEMBARK3:
-    return "ui_name_transport_disembark_3";
-  case ACTION_TRANSPORT_DISEMBARK4:
-    return "ui_name_transport_disembark_4";
-  case ACTION_HUT_ENTER:
-    return "ui_name_enter_hut";
-  case ACTION_HUT_ENTER2:
-    return "ui_name_enter_hut_2";
-  case ACTION_HUT_ENTER3:
-    return "ui_name_enter_hut_3";
-  case ACTION_HUT_ENTER4:
-    return "ui_name_enter_hut_4";
-  case ACTION_HUT_FRIGHTEN:
-    return "ui_name_frighten_hut";
-  case ACTION_HUT_FRIGHTEN2:
-    return "ui_name_frighten_hut_2";
-  case ACTION_HUT_FRIGHTEN3:
-    return "ui_name_frighten_hut_3";
-  case ACTION_HUT_FRIGHTEN4:
-    return "ui_name_frighten_hut_4";
-  case ACTION_SPY_ATTACK:
-    return "ui_name_spy_attack";
-  case ACTION_UNIT_MOVE:
-    return "ui_name_unit_move";
-  case ACTION_UNIT_MOVE2:
-    return "ui_name_unit_move_2";
-  case ACTION_UNIT_MOVE3:
-    return "ui_name_unit_move_3";
-  case ACTION_TELEPORT:
-    return "ui_name_teleport";
-  case ACTION_TELEPORT2:
-    return "ui_name_teleport_2";
-  case ACTION_TELEPORT3:
-    return "ui_name_teleport_3";
-  case ACTION_TELEPORT_CONQUER:
-    return "ui_name_teleport_conquer";
-  case ACTION_TELEPORT_FRIGHTEN:
-    return "ui_name_teleport_frighten";
-  case ACTION_TELEPORT_FRIGHTEN_CONQUER:
-    return "ui_name_teleport_frighten_conquer";
-  case ACTION_TELEPORT_ENTER:
-    return "ui_name_teleport_enter";
-  case ACTION_TELEPORT_ENTER_CONQUER:
-    return "ui_name_teleport_enter_conquer";
-  case ACTION_SPY_ESCAPE:
-    return "ui_name_escape";
-  case ACTION_USER_ACTION1:
-    return "ui_name_user_action_1";
-  case ACTION_USER_ACTION2:
-    return "ui_name_user_action_2";
-  case ACTION_USER_ACTION3:
-    return "ui_name_user_action_3";
-  case ACTION_USER_ACTION4:
-    return "ui_name_user_action_4";
-  case ACTION_GAIN_VETERANCY:
-  case ACTION_ESCAPE:
-  case ACTION_CIVIL_WAR:
-    fc_assert(!action_id_is_internal(act)); /* Fail always */
-    break;
-  case ACTION_COUNT:
-    break;
-
-  ASSERT_UNUSED_ACTION_CASES;
-  }
-
-  fc_assert(act >= 0 && act < ACTION_COUNT);
-
-  return NULL;
 }
 
 /**********************************************************************//**
@@ -6451,6 +6375,10 @@ const char *action_ui_name_default(int act)
     return N_("%sEscape%s");
   case ACTION_CIVIL_WAR:
     return N_("%sCivil War%s");
+  case ACTION_FINISH_UNIT:
+    return N_("Finish %sUnit%s");
+  case ACTION_FINISH_BUILDING:
+    return N_("Finish %sBuilding%s");
   case ACTION_COUNT:
     fc_assert(act != ACTION_COUNT);
     break;
@@ -6594,6 +6522,8 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
+  case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -6763,6 +6693,8 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
+  case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -6966,6 +6898,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
+  case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -7137,6 +7071,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
+  case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
     /* Actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_FOUND_CITY:
@@ -7347,6 +7283,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_HUT_FRIGHTEN4:
   case ACTION_GAIN_VETERANCY:
   case ACTION_CIVIL_WAR:
+  case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
   case ACTION_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
@@ -7526,6 +7464,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_GAIN_VETERANCY:
   case ACTION_ESCAPE:
   case ACTION_CIVIL_WAR:
+  case ACTION_FINISH_UNIT:
+  case ACTION_FINISH_BUILDING:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

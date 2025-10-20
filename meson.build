@@ -1,7 +1,7 @@
-
 project('freeciv', ['c'],
         meson_version: '>= 0.63.0',
-        version : run_command('fc_version', check : true).stdout())
+        version : run_command('fc_version', check : true).stdout(),
+        default_options: ['warning_level=1'])
 
 c_compiler = meson.get_compiler('c')
 
@@ -23,7 +23,6 @@ c_args = [
   ]
 
 c_cpp_args = [
-  '-Wall',
   '-Wmissing-declarations',
   '-Wpointer-arith',
   '-Wcast-align',
@@ -39,7 +38,8 @@ c_cpp_args = [
 
 cpp_args = [
   '-Wno-deprecated-declarations',
-  '-fPIC'
+  '-fPIC',
+  '-Wtrailing-whitespace'
   ]
 
 foreach arg : c_args
@@ -867,7 +867,7 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
   if host_system == 'windows'
     sdl2main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
                     c_compiler.find_library('SDL2main', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+                    dependency('SDL2')]
   else
     if emscripten
       emscripten_sdl2_args = [
@@ -890,7 +890,7 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
       add_global_link_arguments(emscripten_sdl2_args, language: ['c', 'cpp'])
       sdl2main_dep = []
     else
-      sdl2main_dep = [c_compiler.find_library('SDL2', dirs: cross_lib_path)]
+      sdl2main_dep = [dependency('SDL2')]
     endif
   endif
 endif
@@ -898,8 +898,7 @@ endif
 if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
   if host_system == 'windows'
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL3main', dirs: cross_lib_path),
-                    c_compiler.find_library('SDL3', dirs: cross_lib_path)]
+                    dependency('sdl3')]
   else
     if emscripten
       emscripten_sdl3_args = [
@@ -922,7 +921,7 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
       add_global_link_arguments(emscripten_sdl3_args, language: ['c', 'cpp'])
       sdl3main_dep = []
     else
-      sdl3main_dep = [c_compiler.find_library('SDL3', dirs: cross_lib_path)]
+      sdl3main_dep = [dependency('sdl3')]
     endif
   endif
 endif
@@ -948,13 +947,11 @@ if get_option('audio') != 'none'
   if emscripten
     audio_dep = []
   elif get_option('audio') == 'sdl3'
-    audio_sdl3_dep = c_compiler.find_library('SDL3_mixer',
-                                             dirs: cross_lib_path)
+    audio_sdl3_dep = dependency('sdl3-mixer')
     audio_dep = [sdl3main_dep, audio_sdl3_dep]
     priv_conf_data.set('AUDIO_SDL3', 1)
   else
-    audio_sdl2_dep = c_compiler.find_library('SDL2_mixer',
-                                             dirs: cross_lib_path)
+    audio_sdl2_dep = dependency('SDL2_mixer')
     audio_dep = [sdl2main_dep, audio_sdl2_dep]
   endif
 
@@ -1276,6 +1273,18 @@ rs_not_broken = custom_target('rs_not_broken', output: 'rulesets_not_broken.sh',
                                         '@OUTPUT@'],
                               depends: rsloads)
 
+rs_save = custom_target('rs_save', output: 'rulesets_save.sh',
+                         command: [sh_exe,
+                                   files('tests/generate_rs_save.sh'),
+                                   '@OUTPUT@'],
+                         depends: rsloads)
+
+rs_upgrade = custom_target('rs_upgrade', output: 'rulesets_upgrade.sh',
+                           command: [sh_exe,
+                                     files('tests/generate_rs_upgrade.sh'),
+                                     '@OUTPUT@'],
+                           depends: rs_save)
+
 if host_system == 'windows'
   tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')
 else
@@ -1517,8 +1526,6 @@ ais = static_library('fc_ai',
   'ai/tex/texaimsg.c',
   'ai/tex/texaiplayer.c',
   'ai/tex/texaiworld.c',
-  'ai/default/aiferry.c',
-  'ai/default/aiguard.c',
   'ai/default/daiair.c',
   'ai/default/daiactions.c',
   'ai/default/daicity.c',
@@ -1527,6 +1534,8 @@ ais = static_library('fc_ai',
   'ai/default/daidiplomat.c',
   'ai/default/daidomestic.c',
   'ai/default/daieffects.c',
+  'ai/default/daiferry.c',
+  'ai/default/daiguard.c',
   'ai/default/daihand.c',
   'ai/default/daihunter.c',
   'ai/default/dailog.c',
@@ -3897,8 +3906,7 @@ sdl2_image_dep = []
 sdl2_ttf_dep = []
 
 if not emscripten
-  sdl2_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
-                                         required: false)
+  sdl2_gfx_dep = dependency('SDL2_gfx', required: false)
 
   if not sdl2_gfx_dep.found()
     sdl2_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
@@ -3906,10 +3914,8 @@ if not emscripten
     sdl2_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
   endif
 
-  sdl2_image_dep = c_compiler.find_library('SDL2_image', dirs: cross_lib_path,
-                                           required: false)
-  sdl2_ttf_dep = c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path,
-                                         required: false)
+  sdl2_image_dep = dependency('SDL2_image', required: false)
+  sdl2_ttf_dep = dependency('SDL2_ttf', required: false)
 endif
 
 executable('freeciv-sdl2',
@@ -4039,10 +4045,8 @@ sdl3_ttf_dep = []
 if not emscripten
   sdl3_gfx_inc = include_directories('dependencies')
 
-  sdl3_image_dep = c_compiler.find_library('SDL3_image', dirs: cross_lib_path,
-                                           required: false)
-  sdl3_ttf_dep = c_compiler.find_library('SDL3_ttf', dirs: cross_lib_path,
-                                         required: false)
+  sdl3_image_dep = dependency('sdl3-image', required: false)
+  sdl3_ttf_dep = dependency('sdl3-ttf', required: false)
 endif
 
 executable('freeciv-sdl3',

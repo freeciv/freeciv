@@ -92,34 +92,34 @@ tiles = { "row", "column","tag"
 
 
 ; Maglevs
- 10, 1, "road.maglev_n"
- 10, 2, "road.maglev_ne"
- 10, 3, "road.maglev_e"
- 10, 4, "road.maglev_se"
- 10, 5, "road.maglev_s"
- 10, 6, "road.maglev_sw"
- 10, 7, "road.maglev_w"
- 10, 8, "road.maglev_nw"
+ 10, 1, "road.maglev_n:0"
+ 10, 2, "road.maglev_ne:0"
+ 10, 3, "road.maglev_e:0"
+ 10, 4, "road.maglev_se:0"
+ 10, 5, "road.maglev_s:0"
+ 10, 6, "road.maglev_sw:0"
+ 10, 7, "road.maglev_w:0"
+ 10, 8, "road.maglev_nw:0"
 
 ; Roads
- 11, 1, "road.road_n"
- 11, 2, "road.road_ne"
- 11, 3, "road.road_e"
- 11, 4, "road.road_se"
- 11, 5, "road.road_s"
- 11, 6, "road.road_sw"
- 11, 7, "road.road_w"
- 11, 8, "road.road_nw"
+ 11, 1, "road.road_n:0"
+ 11, 2, "road.road_ne:0"
+ 11, 3, "road.road_e:0"
+ 11, 4, "road.road_se:0"
+ 11, 5, "road.road_s:0"
+ 11, 6, "road.road_sw:0"
+ 11, 7, "road.road_w:0"
+ 11, 8, "road.road_nw:0"
 
 ; Rails
- 12, 1, "road.rail_n"
- 12, 2, "road.rail_ne"
- 12, 3, "road.rail_e"
- 12, 4, "road.rail_se"
- 12, 5, "road.rail_s"
- 12, 6, "road.rail_sw"
- 12, 7, "road.rail_w"
- 12, 8, "road.rail_nw"
+ 12, 1, "road.rail_n:0"
+ 12, 2, "road.rail_ne:0"
+ 12, 3, "road.rail_e:0"
+ 12, 4, "road.rail_se:0"
+ 12, 5, "road.rail_s:0"
+ 12, 6, "road.rail_sw:0"
+ 12, 7, "road.rail_w:0"
+ 12, 8, "road.rail_nw:0"
 
 ; Add-ons
  2, 7, "tx.oil_mine:0"
@@ -152,9 +152,9 @@ tiles = { "row", "column","tag"
   0, 4, "user.attention", "user.infratile"
   0, 5, "tx.fog"
 
-  1, 0, "path.step"            ; turn boundary within path
-  1, 1, "path.exhausted_mp"    ; tip of path, no MP left
-  1, 2, "path.normal"          ; tip of path with MP remaining
+  1, 0, "path.step"            ; Turn boundary within path
+  1, 1, "path.exhausted_mp"    ; Tip of path, no MP left
+  1, 2, "path.normal"          ; Tip of path with MP remaining
   1, 3, "path.waypoint"
 }
 
@@ -168,8 +168,7 @@ dy = 32
 pixel_border = 1
 
 tiles = { "row", "column","tag"
-  0, 0, "road.road_isolated"
-  1, 0, "road.rail_isolated"
-  2, 0, "road.maglev_isolated"
+  0, 0, "road.road_isolated:0"
+  1, 0, "road.rail_isolated:0"
+  2, 0, "road.maglev_isolated:0"
 }
-

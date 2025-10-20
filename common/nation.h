@@ -27,7 +27,7 @@ extern "C" {
 
 struct rgbcolor;
 
-#define NO_NATION_SELECTED (NULL)
+#define NO_NATION_SELECTED (nullptr)
 
 /* Changing this value will break network compatibility. */
 #define NATION_NONE -1
@@ -115,13 +115,15 @@ struct nation_type {
   /* Groups which this nation is assigned to */
   struct nation_group_list *groups;
 
-  struct player *player; /* Who's using the nation, or NULL. */
+  struct player *player; /* Who's using the nation, or nullptr. */
 
   /* Items given to this nation at game start. */
   /* (Only used in the client for documentation purposes.) */
   int init_techs[MAX_NUM_TECH_LIST];
   int init_buildings[MAX_NUM_BUILDING_LIST];
-  struct government *init_government; /* use game default_government if NULL */
+
+  /* Use game default_government if nullptr */
+  struct government *init_government;
   struct unit_type *init_units[MAX_NUM_UNIT_LIST];
 
   union {
@@ -139,7 +141,7 @@ struct nation_type {
        * British and English. */
       struct nation_list *conflicts_with;
 
-      /* Nation's associated player color (NULL if none). */
+      /* Nation's associated player color (nullptr if none). */
       struct rgbcolor *rgb;
 
       struct trait_limits *traits;
@@ -211,7 +213,7 @@ bool is_nation_pickable(const struct nation_type *nation);
 bool is_nation_playable(const struct nation_type *nation);
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
 bool can_conn_edit_players_nation(const struct connection *pconn,
-				  const struct player *pplayer);
+                                  const struct player *pplayer);
 
 /* General nation leader accessor functions. */
 const struct nation_leader_list *
@@ -326,7 +328,7 @@ struct nation_iter;
 size_t nation_iter_sizeof(void);
 struct iterator *nation_iter_init(struct nation_iter *it);
 
-/* Iterate over nations.  This iterates over _all_ nations, including
+/* Iterate over nations. This iterates over _all_ nations, including
  * unplayable ones (use is_nation_playable to filter if necessary).
  * This does not take account of the current nationset! -- on the
  * server, use allowed_nations_iterate() for that. */

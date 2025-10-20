@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 
 /* utility */
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -560,6 +561,8 @@ int main(int argc, char *argv[])
 {
   GtkWidget *toplevel;
   int ui_options;
+
+  executable_init();
 
   fcmp_init();
 

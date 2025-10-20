@@ -59,7 +59,7 @@ bool start_command(struct connection *caller, bool check, bool notify);
 void toggle_ai_player_direct(struct connection *caller,
                              struct player *pplayer);
 
-/* for sernet.c in initing a new connection */
+/* For sernet.c in initing a new connection */
 enum cmdlevel access_level_for_next_connection(void);
 
 void notify_if_first_access_level_is_available(void);

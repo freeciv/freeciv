@@ -1,14 +1,13 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl2-nsi.sh <freeciv files dir> <output dir> <version> <win64|win> [uninstall setup script]
+# ./create-freeciv-sdl-nsi.sh <freeciv files dir> <output dir> <version> <win32|win64|win> <gui id> <gui name>
 
-if test "$5" != "" && ! test -x "$5" ; then
-  echo "$5 not an executable script" >&2
-  exit 1
+ARCH_KEY_PART="$4"
+if test "$4" != "win32" && test "$4" != "win64" ; then
+  ARCH_INST_PART="-${ARCH_KEY_PART}"
+else
+  ARCH_INST_PART=""
 fi
-
-ARCH_KEY_PART="crs"
-ARCH_INST_PART="-crs"
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -19,8 +18,8 @@ SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv"
 !define VERSION $3
-!define GUI_ID sdl2
-!define GUI_NAME SDL2
+!define GUI_ID $5
+!define GUI_NAME $6
 !define WIN_ARCH $4
 !define ARCH_KEY_PART ${ARCH_KEY_PART}
 !define ARCH_INST_PART ${ARCH_INST_PART}
@@ -32,23 +31,22 @@ SetCompressor /SOLID lzma
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
-!define MULTIUSER_USE_PROGRAMFILES64
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${KEYROOT}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${APP_KEY_PART}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${APP_KEY_PART}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
 
-; General
+;General
 
 Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
-OutFile "$2/\${APPNAME}-\${VERSION}-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
+OutFile "$2/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
 
-; Variables
+;Variables
 
 Var STARTMENU_FOLDER
 Var DefaultLanguageCode
@@ -71,8 +69,6 @@ Page custom DefaultLanguage DefaultLanguageLeave
 
 !insertmacro MUI_PAGE_STARTMENU "Application" \$STARTMENU_FOLDER
 !insertmacro MUI_PAGE_INSTFILES
-
-Page custom HelperScriptFunction
 
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_FUNCTION RunFreeciv
@@ -132,14 +128,14 @@ Section "\${APPNAME} (required)"
   SetOutPath \$INSTDIR
 EOF
 
-  # Find files and directories to exclude from default installation
+  # find files and directories to exclude from default installation
 
   echo -n "  File /nonfatal /r "
 
-  # Languages
+  # languages
   echo -n "/x locale "
 
-  # Soundsets
+  # soundsets
   find $1/data -mindepth 1 -maxdepth 1 -name *.soundspec -printf %f\\n |
   sed 's|.soundspec||' |
   while read -r name
@@ -166,7 +162,7 @@ cat <<EOF
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-gtk4.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-gtk4.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-sdl2.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-sdl2.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Documentation.lnk" "\$INSTDIR\doc\freeciv"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Uninstall.lnk" "\$INSTDIR\uninstall.exe"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Website.lnk" "\$INSTDIR\Freeciv.url"
@@ -184,7 +180,7 @@ SectionEnd
 
 EOF
 
-### Soundsets ###
+### soundsets ###
 
 cat <<EOF
 SectionGroup "Soundsets"
@@ -222,28 +218,29 @@ EOF
 
 cat $1/doc/freeciv/installer/langstat_core.txt |
 sort -k 1 |
+iconv -f UTF-8 -t ISO-8859-1 |
 while read -r code prct name
 do
 if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
 echo "  Section \"$name ($code) $prct\""
-echo "  SetOutPath \$INSTDIR/share/locale/$code" | sed 's,/,\\,g'
-echo "  File /r $1/share/locale/$code/*.*"
+echo "  SetOutPath \$INSTDIR\\share\\locale\\$code"
+echo "  File /r $1\\share\\locale\\$code\*.*"
 
 # Install special fonts for CJK locales
 if [ "$name" = "zh_CN" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.fireflysung"
-echo "  File /r $1/data/themes/gui-sdl2/human/fireflysung.ttf"
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-\${GUI_ID}\\human"
+echo "  File /r $1\\data\\themes\\gui-\${GUI_ID}\\human\\COPYING.fireflysung"
+echo "  File /r $1\\data\\themes\\gui-\${GUI_ID}\\human\\fireflysung.ttf"
 fi
 if [ "$name" = "ja" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.sazanami"
-echo "  File /r $1/data/themes/gui-sdl2/human/sazanami-gothic.ttf"
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-\${GUI_ID}\\human"
+echo "  File /r $1\\data\\themes\\gui-\${GUI_ID}\\human\\COPYING.sazanami"
+echo "  File /r $1\\data\\themes\\gui-\${GUI_ID}\\human\\sazanami-gothic.ttf"
 fi
 if [ "$name" = "ko" ]; then
-echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-sdl2\\human"
-echo "  File /r $1/data/themes/gui-sdl2/human/COPYING.UnDotum"
-echo "  File /r $1/data/themes/gui-sdl2/human/UnDotum.ttf"
+echo "  SetOutPath \$INSTDIR\\data\\themes\\gui-\${GUI_ID}\\human"
+echo "  File /r $1\\data\\themes\\gui-\${GUI_ID}\\human\\COPYING.UnDotum"
+echo "  File /r $1\\data\\themes\\gui-\${GUI_ID}\\human\\UnDotum.ttf"
 fi
 
 echo "  SetOutPath \$INSTDIR"
@@ -263,7 +260,6 @@ cat <<EOF
 
 Function .onInit
 
-  SetRegView 64
   !insertmacro MULTIUSER_INIT
 
 FunctionEnd
@@ -301,6 +297,7 @@ EOF
 
   cat $1/doc/freeciv/installer/langstat_core.txt |
   sort -k 1 |
+  iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
   do
   if test -e $1/share/locale/$code/LC_MESSAGES/freeciv-core.mo; then
@@ -324,6 +321,7 @@ EOF
   echo "  \${EndIf}"
 
   cat $1/doc/freeciv/installer/langstat_core.txt |
+  iconv -f UTF-8 -t ISO-8859-1 |
   while read -r code prct name
   do
     echo "  \${If} \$LangName == \"$name ($code) $prct\""
@@ -334,12 +332,8 @@ EOF
 cat <<EOF
 FunctionEnd
 
-Function HelperScriptFunction
-  nsExec::Exec '"\$INSTDIR\bin\\installer-helper.cmd"'
-FunctionEnd
-
 Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-sdl2.cmd" \$DefaultLanguageCode'
+  nsExec::Exec '"\$INSTDIR\freeciv-\${GUI_ID}.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF
@@ -355,31 +349,23 @@ EOF
 
 find $1 -type f |
 grep -v '/$' |
-sed "s|$1||" |
-while read -r name
+sed 's|meson/install/||' |
+sed 's|autotools/install/||' |
+sed 's|[^/]*||' |
+tr '/' '\\' | while read -r name
 do
-echo "  Delete \"\$INSTDIR$name\"" | sed 's,/,\\,g'
-done
-
-find $1 -type l |
-grep -v '/$' |
-sed "s|$1||" |
-while read -r name
-do
-echo "  Delete \"\$INSTDIR$name\"" | sed 's,/,\\,g'
+echo "  Delete \"\$INSTDIR$name\""
 done
 
 find $1 -depth -type d |
 grep -v '/$' |
-sed "s|$1||" |
-while read -r name
+sed 's|meson/install/||' |
+sed 's|autotools/install/||' |
+sed 's|[^/]*||' |
+tr '/' '\\' | while read -r name
 do
-echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
+echo "  RMDir \"\$INSTDIR$name\""
 done
-
-if test "$5" != "" ; then
-  $5
-fi
 
 cat <<EOF
 
@@ -411,7 +397,6 @@ cat <<EOF
 
 Function un.onInit
 
-  SetRegView 64
   !insertmacro MULTIUSER_UNINIT
 
 FunctionEnd

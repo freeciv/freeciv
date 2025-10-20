@@ -1060,7 +1060,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
         handle_diplomacy_cancel_pact(other, player_number(pplayer),
                                      CLAUSE_ALLIANCE);
       } else {
-        /* We are in the same team as the agressor; we cannot break
+        /* We are in the same team as the aggressor; we cannot break
          * alliance with them. We trust our team mate and break alliance
          * with the attacked player */
         notify_player(other, nullptr, E_TREATY_BROKEN, ftc_server,
@@ -2918,7 +2918,7 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
   int n;
   const struct civ_map *nmap = &(wld.map);
 
-  if (!is_action_enabled_player(nmap, ACTION_CIVIL_WAR, pplayer)) {
+  if (!is_action_enabled_player_on_self(nmap, ACTION_CIVIL_WAR, pplayer)) {
     return FALSE;
   }
 

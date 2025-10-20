@@ -221,7 +221,7 @@ struct city_sprite {
 };
 
 struct river_sprites {
-  struct sprite
+  struct anim
     *spec[MAX_INDEX_CARDINAL],
     *outlet[MAX_INDEX_CARDINAL];
 };
@@ -269,8 +269,8 @@ struct named_sprites {
   struct sprite *government[G_LAST];
 
   struct {
-    struct sprite *icon[U_LAST][ACTIVITY_LAST];
-    struct sprite *facing[U_LAST][DIR8_MAGIC_MAX][ACTIVITY_LAST];
+    struct anim *icon[U_LAST][ACTIVITY_LAST];
+    struct anim *facing[U_LAST][DIR8_MAGIC_MAX][ACTIVITY_LAST];
   } units;
 
   struct sprite_vector nation_flag;
@@ -375,21 +375,21 @@ struct named_sprites {
           *background;
       } bmf;
       struct {
-        struct sprite
+        struct anim
         /* For extrastyles ESTYLE_ROAD_ALL_SEPARATE and ESTYLE_ROAD_PARITY_COMBINED */
           *isolated,
           *corner[8]; /* Indexed by direction; only non-cardinal dirs used. */
         union {
           /* For ESTYLE_ROAD_ALL_SEPARATE */
-          struct sprite *dir[8];     /* All entries used */
+          struct anim *dir[8];     /* All entries used */
           /* ESTYLE_ROAD_PARITY_COMBINED */
           struct {
-            struct sprite
+            struct anim
               *even[MAX_INDEX_HALF],    /* First unused */
               *odd[MAX_INDEX_HALF];     /* First unused */
           } combo;
           /* ESTYLE_ALL_SEPARATE */
-          struct sprite *total[MAX_INDEX_VALID];
+          struct anim *total[MAX_INDEX_VALID];
           struct river_sprites rivers;
         } ru;
       } road;
@@ -2981,7 +2981,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
     }                                                                       \
   } while (FALSE)
 
-/* Sets sprites.field to tag, or NULL if not available */
+/* Sets sprites.field to tag, or nullptr if not available */
 #define SET_SPRITE_OPT(field, tag) \
   t->sprites.field = load_sprite(t, tag, TRUE, TRUE, FALSE)
 
@@ -2995,11 +2995,15 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 #define SET_ANIM(field, tag)                                      \
   do {                                                            \
     t->sprites.field = anim_load(t, tag, 0);                      \
-    if (t->sprites.field == NULL) {                               \
+    if (t->sprites.field == nullptr) {                            \
       tileset_error(LOG_FATAL, tileset_name_get(t),               \
                     _("Animation for tag '%s' missing."), tag);   \
     }                                                             \
   } while (FALSE)
+
+/* Sets sprites.field to tag, or nullptr if not available */
+#define SET_ANIM_OPT(field, tag) \
+  t->sprites.field = anim_load(t, tag, 0)
 
 /************************************************************************//**
   Load an animation
@@ -3777,8 +3781,8 @@ static bool load_river_sprites(struct tileset *t,
   for (i = 0; i < t->num_index_cardinal; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_s_%s",
                 tag_pfx, cardinal_index_str(t, i));
-    store->spec[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
-    if (store->spec[i] == NULL) {
+    store->spec[i] = anim_load(t, buffer, 0);
+    if (store->spec[i] == nullptr) {
       return FALSE;
     }
   }
@@ -3786,8 +3790,8 @@ static bool load_river_sprites(struct tileset *t,
   for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%s",
                 tag_pfx, dir_get_tileset_name(t->cardinal_tileset_dirs[i]));
-    store->outlet[i] = load_sprite(t, buffer, TRUE, TRUE, FALSE);
-    if (store->outlet[i] == NULL) {
+    store->outlet[i] = anim_load(t, buffer, 0);
+    if (store->outlet[i] == nullptr) {
       log_error("Missing \"%s\" for \"%s\".", buffer, tag_pfx);
       return FALSE;
     }
@@ -3886,7 +3890,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   char buf[2048];
   const char *act_name = unit_activity_name(activity);
 
-  if (act_name == NULL) {
+  if (act_name == nullptr) {
     /* gcc-9 thinks this is possible. */
     return FALSE;
   }
@@ -3916,20 +3920,18 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
    * probably meant icon gfx to be used as fallback for all orientations */
-  t->sprites.units.facing[uidx][dir][activity] = load_sprite(t, buf,
-                                                             TRUE, TRUE, FALSE);
+  t->sprites.units.facing[uidx][dir][activity] = anim_load(t, buf, 0);
 
   if (activity == ACTIVITY_IDLE
-      && t->sprites.units.facing[uidx][dir][activity] == NULL) {
+      && t->sprites.units.facing[uidx][dir][activity] == nullptr) {
     /* Backward compatibility: Set Idle sprite from tag with no activity defined. */
     fc_snprintf(buf, sizeof(buf), "%s_%s", base_str,
                 dir_get_tileset_name(loaddir));
 
-    t->sprites.units.facing[uidx][dir][activity] = load_sprite(t, buf,
-                                                               TRUE, TRUE, FALSE);
+    t->sprites.units.facing[uidx][dir][activity] = anim_load(t, buf, 0);
   }
 
-  if (t->sprites.units.facing[uidx][dir][activity] != NULL) {
+  if (t->sprites.units.facing[uidx][dir][activity] != nullptr) {
     return TRUE;
   }
 
@@ -3950,18 +3952,16 @@ static bool tileset_setup_unit_type_from_tag(struct tileset *t,
 
     fc_snprintf(buffer, sizeof(buffer), "%s_%s",
                 tag, unit_activity_name(activity));
-    t->sprites.units.icon[uidx][activity] = load_sprite(t, buffer,
-                                                        TRUE, TRUE, FALSE);
+    t->sprites.units.icon[uidx][activity] = anim_load(t, buffer, 0);
 
     if (activity == ACTIVITY_IDLE
-        && t->sprites.units.icon[uidx][activity] == NULL) {
+        && t->sprites.units.icon[uidx][activity] == nullptr) {
       /* Backward compatibility: Set Idle sprite from tag with no activity defined. */
-      t->sprites.units.icon[uidx][activity] = load_sprite(t, tag,
-                                                          TRUE, TRUE, FALSE);
+      t->sprites.units.icon[uidx][activity] = anim_load(t, tag, 0);
     }
   } activity_type_iterate_end;
 
-  has_icon = t->sprites.units.icon[uidx][ACTIVITY_IDLE] != NULL;
+  has_icon = t->sprites.units.icon[uidx][ACTIVITY_IDLE] != nullptr;
 
 #define LOAD_FACING_SPRITE(dir)                                                 \
   if (!tileset_setup_unit_direction(t, uidx, tag, dir, activity, has_icon)) {   \
@@ -4004,7 +4004,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
       && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)
       && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt2)) {
     tileset_error(LOG_FATAL, tileset_name_get(t),
-                  _("Missing %s unit sprite for tags \"%s\" and alternatives "
+                  _("Missing %s unit sprites for tags \"%s\" and alternatives "
                     "\"%s\" and \"%s\"."),
                   utype_rule_name(ut), ut->graphic_str,
                   ut->graphic_alt, ut->graphic_alt2);
@@ -4013,7 +4013,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
   if (!t->sprites.units.icon[uidx][ACTIVITY_IDLE]) {
     if (!direction8_is_valid(t->unit_default_orientation)) {
       tileset_error(LOG_FATAL, tileset_name_get(t),
-                    _("Unit type %s has no unoriented sprite and "
+                    _("Unit type %s has no unoriented sprites and "
                       "tileset has no unit_default_orientation."),
                     utype_rule_name(ut));
     } else {
@@ -4021,7 +4021,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
        * unit_default_orientation, because tileset_setup_unit_type_from_tag()
        * checked for this. */
       fc_assert(t->sprites.units.facing[uidx][t->unit_default_orientation]
-                != NULL);
+                != nullptr);
     }
   }
 }
@@ -4211,7 +4211,7 @@ static void tileset_setup_road(struct tileset *t,
     fc_snprintf(full_tag_name, sizeof(full_tag_name),
                 "%s_isolated", tag);
 
-    SET_SPRITE(extras[id].u.road.isolated, full_tag_name);
+    SET_ANIM(extras[id].u.road.isolated, full_tag_name);
   }
 
   if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE) {
@@ -4224,7 +4224,7 @@ static void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
                   "%s_%s", tag, dir_name);
 
-      SET_SPRITE(extras[id].u.road.ru.dir[i], full_tag_name);
+      SET_ANIM(extras[id].u.road.ru.dir[i], full_tag_name);
     }
   } else if (extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
@@ -4252,12 +4252,12 @@ static void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
                   "%s_c_%s", tag, c);
 
-      SET_SPRITE(extras[id].u.road.ru.combo.even[i], full_tag_name);
+      SET_ANIM(extras[id].u.road.ru.combo.even[i], full_tag_name);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
                   "%s_d_%s", tag, d);
 
-      SET_SPRITE(extras[id].u.road.ru.combo.odd[i], full_tag_name);
+      SET_ANIM(extras[id].u.road.ru.combo.odd[i], full_tag_name);
     }
   } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
     /* ESTYLE_ROAD_ALL_COMBINED includes 256 sprites, one for every possibility.
@@ -4268,7 +4268,7 @@ static void tileset_setup_road(struct tileset *t,
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
                   "%s_%s", tag, idx_str);
 
-      SET_SPRITE(extras[id].u.road.ru.total[i], full_tag_name);
+      SET_ANIM(extras[id].u.road.ru.total[i], full_tag_name);
     }
   } else if (extrastyle == ESTYLE_RIVER) {
     if (!load_river_sprites(t, &t->sprites.extras[id].u.road.ru.rivers, tag)) {
@@ -4294,7 +4294,7 @@ static void tileset_setup_road(struct tileset *t,
         fc_snprintf(full_tag_name, sizeof(full_tag_name),
                     "%s_c_%s", pextra->graphic_str, dtn);
 
-        SET_SPRITE_OPT(extras[id].u.road.corner[dir], full_tag_name);
+        SET_ANIM_OPT(extras[id].u.road.corner[dir], full_tag_name);
       }
     }
   }
@@ -4990,7 +4990,7 @@ static int fill_road_corner_sprites(const struct tileset *t,
           && (road_near[cwdir] && road_near[ccwdir]
               && !(hider_near[cwdir] && hider_near[ccwdir]))
           && !(road && road_near[dir] && !(hider && hider_near[dir]))) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.corner[dir]);
+        ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.corner[dir]);
       }
     }
   }
@@ -5132,7 +5132,7 @@ static int fill_road_sprite_array(const struct tileset *t,
     if (road) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
         if (draw_road[t->valid_tileset_dirs[i]]) {
-          ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.dir[i]);
+          ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.dir[i]);
         }
       }
     }
@@ -5161,10 +5161,10 @@ static int fill_road_sprite_array(const struct tileset *t,
 
       /* Draw the cardinal/even roads first. */
       if (road_even_tileno != 0) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.even[road_even_tileno]);
+        ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.even[road_even_tileno]);
       }
       if (road_odd_tileno != 0) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.odd[road_odd_tileno]);
+        ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.combo.odd[road_odd_tileno]);
       }
     }
   } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
@@ -5185,7 +5185,7 @@ static int fill_road_sprite_array(const struct tileset *t,
       }
 
       if (road_tileno != 0 || draw_single_road) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.total[road_tileno]);
+        ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.ru.total[road_tileno]);
       }
     }
   } else {
@@ -5197,7 +5197,7 @@ static int fill_road_sprite_array(const struct tileset *t,
   if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE
       || extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
     if (draw_single_road) {
-      ADD_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.isolated);
+      ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[extra_idx].u.road.isolated);
     }
   }
 
@@ -6143,7 +6143,7 @@ int fill_sprite_array(struct tileset *t,
               int idx = extra_index(priver);
 
               if (BV_ISSET(textras_near[didx], idx)) {
-                ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
+                ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
               }
             }
           } extra_type_list_iterate_end;
@@ -6181,7 +6181,7 @@ int fill_sprite_array(struct tileset *t,
                 }
               }
 
-              ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
+              ADD_ANIM_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
             }
           }
         } extra_type_list_iterate_end;
@@ -7062,26 +7062,34 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
      * turn out to have an icon sprite */
   }
 
-  if (t->sprites.units.icon[uidx][activity] != NULL
-      && (icon || t->sprites.units.facing[uidx][facing][activity] == NULL)) {
+  if (t->sprites.units.icon[uidx][activity] != nullptr
+      && (icon || t->sprites.units.facing[uidx][facing][activity] == nullptr)) {
     /* Has icon sprite, and we prefer to (or must) use it */
-    return t->sprites.units.icon[uidx][activity];
-  } else if (t->sprites.units.icon[uidx][ACTIVITY_IDLE] != NULL
+    if (icon) {
+      return t->sprites.units.icon[uidx][activity]->sprites[0];
+    } else {
+      return anim_get_current_frame(t->sprites.units.icon[uidx][activity]);
+    }
+  } else if (t->sprites.units.icon[uidx][ACTIVITY_IDLE] != nullptr
              && (icon
-                 || t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE] == NULL)) {
+                 || t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE] == nullptr)) {
     /* Has icon sprite, and we prefer to (or must) use it */
-    return t->sprites.units.icon[uidx][ACTIVITY_IDLE];
+    if (icon) {
+      return t->sprites.units.icon[uidx][ACTIVITY_IDLE]->sprites[0];
+    } else {
+      return anim_get_current_frame(t->sprites.units.icon[uidx][ACTIVITY_IDLE]);
+    }
   } else {
     /* We should have a valid orientation by now. Failure to have either
      * an icon sprite or default orientation should have been caught at
      * tileset load. */
-    fc_assert_ret_val(direction8_is_valid(facing), NULL);
+    fc_assert_ret_val(direction8_is_valid(facing), nullptr);
 
-    if (t->sprites.units.facing[uidx][facing][activity] == NULL) {
-      return t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE];
+    if (t->sprites.units.facing[uidx][facing][activity] == nullptr) {
+      return anim_get_current_frame(t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE]);
     }
 
-    return t->sprites.units.facing[uidx][facing][activity];
+    return anim_get_current_frame(t->sprites.units.facing[uidx][facing][activity]);
   }
 }
 
@@ -7498,20 +7506,20 @@ int fill_basic_road_sprite_array(const struct tileset *t,
   extrastyle = t->sprites.extras[idx].extrastyle;
 
   if (extrastyle == ESTYLE_RIVER) {
-    ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[0]);
+    ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[0]);
   } else {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       if (!t->valid_tileset_dirs[i]) {
         continue;
       }
       if (extrastyle == ESTYLE_ROAD_ALL_SEPARATE) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.dir[i]);
+        ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.road.ru.dir[i]);
       } else if (extrastyle == ESTYLE_ROAD_PARITY_COMBINED) {
         if ((i % 2) == 0) {
-          ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.combo.even[1 << (i / 2)]);
+          ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.road.ru.combo.even[1 << (i / 2)]);
         }
       } else if (extrastyle == ESTYLE_ROAD_ALL_COMBINED) {
-        ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.total[1 << i]);
+        ADD_FRAME0_SIMPLE(t->sprites.extras[idx].u.road.ru.total[1 << i]);
       }
     }
   }

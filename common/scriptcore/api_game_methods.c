@@ -79,7 +79,7 @@ int api_methods_game_year_fragment(lua_State *L)
 **************************************************************************/
 const char *api_methods_game_year_text(lua_State *L)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
 
   return calendar_text();
 }
@@ -187,8 +187,8 @@ bool api_methods_building_type_is_improvement(lua_State *L,
 const char *api_methods_building_type_rule_name(lua_State *L,
                                                 Building_Type *pbuilding)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pbuilding, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, nullptr);
 
   return improvement_rule_name(pbuilding);
 }
@@ -200,8 +200,8 @@ const char
   *api_methods_building_type_name_translation(lua_State *L,
                                               Building_Type *pbuilding)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pbuilding, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, nullptr);
 
   return improvement_name_translation(pbuilding);
 }
@@ -246,8 +246,8 @@ int api_methods_city_size_get(lua_State *L, City *pcity)
 **************************************************************************/
 Tile *api_methods_city_tile_get(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pcity, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pcity, nullptr);
 
   return pcity->tile;
 }
@@ -283,13 +283,13 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self,
   if (inspired) {
     /* Cannot use get_city_bonus() as it would use city's current owner
      * instead of inspirer. */
-    return get_target_bonus_effects(NULL,
+    return get_target_bonus_effects(nullptr,
                                     &(const struct req_context) {
                                       .player = inspirer,
                                       .city = self,
                                       .tile = city_tile(self),
                                     },
-                                    NULL, EFT_INSPIRE_PARTISANS);
+                                    nullptr, EFT_INSPIRE_PARTISANS);
   }
 
   return 0;
@@ -311,7 +311,7 @@ Returns rule name of the counter.
 **************************************************************************/
 const char *api_methods_counter_rule_name(lua_State *L, Counter *c)
 {
-  LUASCRIPT_CHECK_ARG_NIL(L, c, 2, Counter, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, c, 2, Counter, nullptr);
 
   return counter_rule_name(c);
 }
@@ -321,7 +321,7 @@ Returns translation name of the counter.
 **************************************************************************/
 const char *api_methods_counter_name_translation(lua_State *L, Counter *c)
 {
-  LUASCRIPT_CHECK_ARG_NIL(L, c, 2, Counter, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, c, 2, Counter, nullptr);
 
   return counter_name_translation(c);
 }
@@ -451,8 +451,8 @@ bool api_methods_city_can_employ(lua_State *L, City *pcity, Specialist *s)
 const char *api_methods_government_rule_name(lua_State *L,
                                              Government *pgovernment)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pgovernment, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pgovernment, nullptr);
 
   return government_rule_name(pgovernment);
 }
@@ -463,8 +463,8 @@ const char *api_methods_government_rule_name(lua_State *L,
 const char *api_methods_government_name_translation(lua_State *L,
                                                     Government *pgovernment)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pgovernment, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pgovernment, nullptr);
 
   return government_name_translation(pgovernment);
 }
@@ -475,8 +475,8 @@ const char *api_methods_government_name_translation(lua_State *L,
 const char *api_methods_nation_type_rule_name(lua_State *L,
                                               Nation_Type *pnation)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pnation, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pnation, nullptr);
 
   return nation_rule_name(pnation);
 }
@@ -487,8 +487,8 @@ const char *api_methods_nation_type_rule_name(lua_State *L,
 const char *api_methods_nation_type_name_translation(lua_State *L,
                                                      Nation_Type *pnation)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pnation, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pnation, nullptr);
 
   return nation_adjective_translation(pnation);
 }
@@ -499,8 +499,8 @@ const char *api_methods_nation_type_name_translation(lua_State *L,
 const char *api_methods_nation_type_plural_translation(lua_State *L,
                                                        Nation_Type *pnation)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pnation, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pnation, nullptr);
 
   return nation_plural_translation(pnation);
 }
@@ -511,10 +511,10 @@ const char *api_methods_nation_type_plural_translation(lua_State *L,
 const char *api_methods_player_controlling_gui(lua_State *L,
                                                Player *pplayer)
 {
-  struct connection *conn = NULL;
+  struct connection *conn = nullptr;
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
 
   conn_list_iterate(pplayer->connections, pconn) {
     if (!pconn->observer) {
@@ -523,7 +523,7 @@ const char *api_methods_player_controlling_gui(lua_State *L,
     }
   } conn_list_iterate_end;
 
-  if (conn == NULL) {
+  if (conn == nullptr) {
     return "None";
   }
 
@@ -651,7 +651,8 @@ int api_methods_player_tech_cost(lua_State *L, Player *pplayer,
     return ptech->cost * (double) game.info.sciencebox / 100.0;
   }
   return
-    research_total_bulbs_required(pplayer ? research_get(pplayer) : NULL,
+    research_total_bulbs_required(pplayer
+                                  ? research_get(pplayer) : nullptr,
                                   advance_index(ptech), TRUE);
 }
 
@@ -784,9 +785,9 @@ bool api_methods_player_has_flag(lua_State *L, Player *pplayer,
 Unit_Type *api_methods_player_can_upgrade(lua_State *L, Player *pplayer,
                                           Unit_Type *utype)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, utype, 3, Unit_Type, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, utype, 3, Unit_Type, nullptr);
 
   return (Unit_Type *)can_upgrade_unittype(pplayer, utype);
 }
@@ -840,8 +841,8 @@ bool api_methods_player_can_employ(lua_State *L, Player *pplayer,
 **************************************************************************/
 City *api_methods_player_primary_capital(lua_State *L, Player *pplayer)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
 
   return player_primary_capital(pplayer);
 }
@@ -852,9 +853,9 @@ City *api_methods_player_primary_capital(lua_State *L, Player *pplayer)
 const char *api_methods_get_diplstate(lua_State *L, Player *pplayer1,
                                       Player *pplayer2)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer1, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, pplayer2, 3, Player, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer1, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer2, 3, Player, nullptr);
 
   if (pplayer1 == pplayer2) {
     return "Self";
@@ -908,14 +909,14 @@ const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
 {
   enum unit_upgrade_result uu;
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, ptype, 3, Unit_Type, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptype, 3, Unit_Type, nullptr);
 
   uu = unit_transform_result(&(wld.map), punit, ptype);
   switch (uu) {
   case UU_OK:
-    return NULL;
+    return nullptr;
   case UU_NOT_ENOUGH_ROOM:
     return "cargo";
   case UU_UNSUITABLE_TRANSPORT:
@@ -967,8 +968,8 @@ bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
 **************************************************************************/
 const char *api_methods_research_rule_name(lua_State *L, Player *pplayer)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
 
   return research_rule_name(research_get(pplayer));
 }
@@ -981,8 +982,8 @@ const char *api_methods_research_name_translation(lua_State *L,
 {
   static char buf[MAX_LEN_MSG];
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
 
   (void) research_pretty_name(research_get(pplayer), buf, ARRAY_SIZE(buf));
 
@@ -1013,8 +1014,8 @@ lua_Object api_methods_private_list_players(lua_State *L)
 Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
                                                           Player *pplayer)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
   return unit_list_head(pplayer->units);
 }
 
@@ -1024,8 +1025,8 @@ Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
 City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
                                                           Player *pplayer)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pplayer, nullptr);
 
   return city_list_head(pplayer->cities);
 }
@@ -1035,8 +1036,8 @@ City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
 **************************************************************************/
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, ptech, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, ptech, nullptr);
 
   return advance_rule_name(ptech);
 }
@@ -1047,8 +1048,8 @@ const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech)
 const char *api_methods_tech_type_name_translation(lua_State *L,
                                                    Tech_Type *ptech)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, ptech, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, ptech, nullptr);
 
   return advance_name_translation(ptech);
 }
@@ -1058,8 +1059,8 @@ const char *api_methods_tech_type_name_translation(lua_State *L,
 **************************************************************************/
 const char *api_methods_terrain_rule_name(lua_State *L, Terrain *pterrain)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pterrain, nullptr);
 
   return terrain_rule_name(pterrain);
 }
@@ -1070,8 +1071,8 @@ const char *api_methods_terrain_rule_name(lua_State *L, Terrain *pterrain)
 const char *api_methods_terrain_name_translation(lua_State *L,
                                                  Terrain *pterrain)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pterrain, nullptr);
 
   return terrain_name_translation(pterrain);
 }
@@ -1081,8 +1082,8 @@ const char *api_methods_terrain_name_translation(lua_State *L,
 **************************************************************************/
 const char *api_methods_terrain_class_name(lua_State *L, Terrain *pterrain)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pterrain, nullptr);
 
   return terrain_class_name(terrain_type_terrain_class(pterrain));
 }
@@ -1092,8 +1093,8 @@ const char *api_methods_terrain_class_name(lua_State *L, Terrain *pterrain)
 **************************************************************************/
 const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pdis, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pdis, nullptr);
 
   return disaster_rule_name(pdis);
 }
@@ -1104,8 +1105,8 @@ const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis)
 const char *api_methods_disaster_name_translation(lua_State *L,
                                                   Disaster *pdis)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pdis, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pdis, nullptr);
 
   return disaster_name_translation(pdis);
 }
@@ -1116,8 +1117,8 @@ const char *api_methods_disaster_name_translation(lua_State *L,
 const char *api_methods_achievement_rule_name(lua_State *L,
                                               Achievement *pach)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pach, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pach, nullptr);
 
   return achievement_rule_name(pach);
 }
@@ -1128,8 +1129,8 @@ const char *api_methods_achievement_rule_name(lua_State *L,
 const char *api_methods_achievement_name_translation(lua_State *L,
                                                      Achievement *pach)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pach, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pach, nullptr);
 
   return achievement_name_translation(pach);
 }
@@ -1139,8 +1140,8 @@ const char *api_methods_achievement_name_translation(lua_State *L,
 **************************************************************************/
 const char *api_methods_action_rule_name(lua_State *L, Action *pact)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pact, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pact, nullptr);
 
   return action_id_rule_name(pact->id);
 }
@@ -1150,8 +1151,8 @@ const char *api_methods_action_rule_name(lua_State *L, Action *pact)
 **************************************************************************/
 const char *api_methods_action_name_translation(lua_State *L, Action *pact)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pact, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pact, nullptr);
 
   return action_id_name_translation(pact->id);
 }
@@ -1163,8 +1164,8 @@ const char *api_methods_action_target_kind(lua_State *L, Action *pact)
 {
   struct action *paction;
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pact, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pact, nullptr);
 
   paction = action_by_number(pact->id);
   fc_assert_ret_val(paction, "error: no action");
@@ -1251,12 +1252,12 @@ int api_methods_tile_map_y(lua_State *L, Tile *ptile)
 }
 
 /**********************************************************************//**
-  Return City on ptile, else NULL
+  Return City on ptile, else nullptr
 **************************************************************************/
 City *api_methods_tile_city(lua_State *L, Tile *ptile)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, ptile, nullptr);
 
   return tile_city(ptile);
 }
@@ -1297,7 +1298,7 @@ bool api_methods_tile_has_extra(lua_State *L, Tile *ptile,
 
     pextra = extra_type_by_rule_name(name);
 
-    return (NULL != pextra && tile_has_extra(ptile, pextra));
+    return (pextra != nullptr && tile_has_extra(ptile, pextra));
   }
 }
 
@@ -1323,7 +1324,7 @@ bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
 
     pextra = extra_type_by_rule_name(name);
 
-    return (NULL != pextra && is_extra_caused_by(pextra, EC_BASE)
+    return (pextra != nullptr && is_extra_caused_by(pextra, EC_BASE)
             && tile_has_extra(ptile, pextra));
   }
 }
@@ -1350,35 +1351,36 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
 
     pextra = extra_type_by_rule_name(name);
 
-    return (NULL != pextra && is_extra_caused_by(pextra, EC_ROAD)
+    return (pextra != nullptr && is_extra_caused_by(pextra, EC_ROAD)
             && tile_has_extra(ptile, pextra));
   }
 }
 
 /**********************************************************************//**
-  Return the extra owner for the specified extra on ptile or NULL if the
-  extra isn't there.
+  Return the extra owner for the specified extra on ptile or nullptr if
+  the extra isn't there.
   If no name is specified the owner of the first owned extra at the tile
   is returned.
 **************************************************************************/
 Player *api_methods_tile_extra_owner(lua_State *L,
                                      Tile *ptile, const char *extra_name)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, ptile, nullptr);
 
   if (extra_name) {
     struct extra_type *pextra;
 
     pextra = extra_type_by_rule_name(extra_name);
-    LUASCRIPT_CHECK_ARG(L, pextra != NULL, 3, "unknown extra type", NULL);
+    LUASCRIPT_CHECK_ARG(L, pextra != nullptr, 3,
+                        "unknown extra type", nullptr);
 
     if (tile_has_extra(ptile, pextra)) {
       /* All extras have the same owner. */
       return extra_owner(ptile);
     } else {
       /* The extra isn't there. */
-      return NULL;
+      return nullptr;
     }
   } else {
     extra_type_iterate(pextra) {
@@ -1387,7 +1389,8 @@ Player *api_methods_tile_extra_owner(lua_State *L,
         return extra_owner(ptile);
       }
     } extra_type_iterate_end;
-    return NULL;
+
+    return nullptr;
   }
 }
 
@@ -1406,7 +1409,7 @@ bool api_methods_enemy_tile(lua_State *L, Tile *ptile, Player *against)
   }
 
   pcity = tile_city(ptile);
-  if (pcity != NULL && !pplayers_allied(against, city_owner(pcity))) {
+  if (pcity != nullptr && !pplayers_allied(against, city_owner(pcity))) {
     return TRUE;
   }
 
@@ -1430,8 +1433,8 @@ int api_methods_tile_num_units(lua_State *L, Tile *ptile)
 Unit_List_Link *api_methods_private_tile_unit_list_head(lua_State *L,
                                                         Tile *ptile)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, ptile, nullptr);
 
   return unit_list_head(ptile->units);
 }
@@ -1485,18 +1488,18 @@ Tile *api_methods_private_tile_for_outward_index(lua_State *L,
 {
   int newx, newy;
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pstart, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pstart, nullptr);
   LUASCRIPT_CHECK_ARG(L,
                       tindex >= 0 && tindex < MAP_NUM_ITERATE_OUTWARDS_INDICES,
-                      3, "index out of bounds", NULL);
+                      3, "index out of bounds", nullptr);
 
   index_to_map_pos(&newx, &newy, tile_index(pstart));
   newx += MAP_ITERATE_OUTWARDS_INDICES[tindex].dx;
   newy += MAP_ITERATE_OUTWARDS_INDICES[tindex].dy;
 
   if (!normalize_map_pos(&(wld.map), &newx, &newy)) {
-    return NULL;
+    return nullptr;
   }
 
   return map_pos_to_tile(&(wld.map), newx, newy);
@@ -1536,8 +1539,8 @@ bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit)
 **************************************************************************/
 Tile *api_methods_unit_tile_get(lua_State *L, Unit *punit)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit, nullptr);
 
   return unit_tile(punit);
 }
@@ -1572,8 +1575,8 @@ bool api_methods_tile_seen(lua_State *L, Tile *self, Player *watcher)
 const Direction *api_methods_unit_orientation_get(lua_State *L,
                                                   Unit *punit)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, nullptr);
 
   return luascript_dir(punit->facing);
 }
@@ -1583,8 +1586,8 @@ const Direction *api_methods_unit_orientation_get(lua_State *L,
 **************************************************************************/
 Unit *api_methods_unit_transporter(lua_State *L, Unit *punit)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit, nullptr);
 
   return punit->transporter;
 }
@@ -1595,8 +1598,8 @@ Unit *api_methods_unit_transporter(lua_State *L, Unit *punit)
 Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
                                                          Unit *punit)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit, nullptr);
 
   return unit_list_head(punit->transporting);
 }
@@ -1663,8 +1666,8 @@ bool api_methods_unit_type_can_exist_at_tile(lua_State *L,
 const char *api_methods_unit_type_rule_name(lua_State *L,
                                             Unit_Type *punit_type)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit_type, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit_type, nullptr);
 
   return utype_rule_name(punit_type);
 }
@@ -1675,8 +1678,8 @@ const char *api_methods_unit_type_rule_name(lua_State *L,
 const char *api_methods_unit_type_name_translation(lua_State *L,
                                                    Unit_Type *punit_type)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit_type, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit_type, nullptr);
 
   return utype_name_translation(punit_type);
 }
@@ -1688,18 +1691,18 @@ const char *api_methods_unit_type_name_translation(lua_State *L,
 Unit *api_methods_unit_list_link_data(lua_State *L,
                                       Unit_List_Link *ul_link)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
 
   return unit_list_link_data(ul_link);
 }
 
 /**********************************************************************//**
-  Return next list link or NULL when link is the last link
+  Return next list link or nullptr when link is the last link
 **************************************************************************/
 Unit_List_Link *api_methods_unit_list_next_link(lua_State *L,
                                                 Unit_List_Link *ul_link)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
 
   return unit_list_link_next(ul_link);
 }
@@ -1710,18 +1713,18 @@ Unit_List_Link *api_methods_unit_list_next_link(lua_State *L,
 City *api_methods_city_list_link_data(lua_State *L,
                                       City_List_Link *cl_link)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
 
   return city_list_link_data(cl_link);
 }
 
 /**********************************************************************//**
-  Return next list link or NULL when link is the last link
+  Return next list link or nullptr when link is the last link
 **************************************************************************/
 City_List_Link *api_methods_city_list_next_link(lua_State *L,
                                                 City_List_Link *cl_link)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
 
   return city_list_link_next(cl_link);
 }
@@ -1731,8 +1734,8 @@ City_List_Link *api_methods_city_list_next_link(lua_State *L,
 **************************************************************************/
 const char *api_methods_tile_link(lua_State *L, Tile *ptile)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, ptile, nullptr);
 
   return tile_link(ptile);
 }
@@ -1742,8 +1745,8 @@ const char *api_methods_tile_link(lua_State *L, Tile *ptile)
 **************************************************************************/
 const char *api_methods_unit_tile_link(lua_State *L, Unit *punit)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit, nullptr);
 
   return unit_tile_link(punit);
 }
@@ -1753,8 +1756,8 @@ const char *api_methods_unit_tile_link(lua_State *L, Unit *punit)
 **************************************************************************/
 const char *api_methods_city_tile_link(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pcity, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pcity, nullptr);
 
   return city_tile_link(pcity);
 }
@@ -1764,8 +1767,8 @@ const char *api_methods_city_tile_link(lua_State *L, City *pcity)
 **************************************************************************/
 const char *api_methods_unit_link(lua_State *L, Unit *punit)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, punit, nullptr);
 
   return unit_link(punit);
 }
@@ -1775,8 +1778,8 @@ const char *api_methods_unit_link(lua_State *L, Unit *punit)
 **************************************************************************/
 const char *api_methods_city_link(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pcity, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pcity, nullptr);
 
   return city_link(pcity);
 }

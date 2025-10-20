@@ -631,7 +631,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
 /************************************************************************//**
   Bribe an enemy unit.
-  
+
   - Can't bribe a unit if:
     - Player doesn't have enough gold.
   - Otherwise, the unit will be bribed.
@@ -2376,7 +2376,7 @@ void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
 /************************************************************************//**
   This determines if a diplomat/spy survives and escapes.
 
-  Spies have a game.server.diplchance specified chance of survival (better 
+  Spies have a game.server.diplchance specified chance of survival (better
   if veteran):
     - Diplomats always die.
     - Escapes to home city.

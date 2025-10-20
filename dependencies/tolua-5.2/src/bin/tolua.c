@@ -6,10 +6,10 @@
 ** $Id: tolua.c,v 1.4 2009/11/24 16:45:12 fabraham Exp $
 */
 
-/* This code is free software; you can redistribute it and/or modify it. 
-** The software provided hereunder is on an "as is" basis, and 
+/* This code is free software; you can redistribute it and/or modify it.
+** The software provided hereunder is on an "as is" basis, and
 ** the author has no obligation to provide maintenance, support, updates,
-** enhancements, or modifications. 
+** enhancements, or modifications.
 */
 
 #include "tolua.h"
@@ -40,7 +40,7 @@ static void help (void)
          "  -P       : parse and print structure information (for debug).\n"
          "  -h       : print this message.\n"
          "Should the input file be omitted, stdin is assumed;\n"
-         "in that case, the package name must be explicitly set.\n\n" 
+         "in that case, the package name must be explicitly set.\n\n"
         );
 }
 

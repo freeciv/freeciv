@@ -142,3 +142,17 @@ struct tiledef *tiledef_by_translated_name(const char *name)
 
   return nullptr;
 }
+
+/************************************************************************//**
+  Check if tile matches tiledef
+****************************************************************************/
+bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
+{
+  extra_type_list_iterate(td->extras, pextra) {
+    if (!tile_has_extra(ptile, pextra)) {
+      return FALSE;
+    }
+  } extra_type_list_iterate_end;
+
+  return TRUE;
+}

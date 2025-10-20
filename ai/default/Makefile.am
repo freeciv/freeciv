@@ -15,10 +15,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/gen_headers/enums
 
 libdefaultai_la_SOURCES = \
-		aiferry.c	\
-		aiferry.h	\
-		aiguard.c	\
-		aiguard.h	\
 		daiair.c	\
 		daiair.h	\
 		daiactions.c	\
@@ -35,6 +31,10 @@ libdefaultai_la_SOURCES = \
 		daidomestic.h	\
 		daieffects.c	\
 		daieffects.h	\
+		daiferry.c	\
+		daiferry.h	\
+		daiguard.c	\
+		daiguard.h	\
 		daihand.c	\
 		daihand.h	\
 		daihunter.c	\

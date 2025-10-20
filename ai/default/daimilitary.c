@@ -53,12 +53,12 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aiferry.h"
 #include "daiair.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomat.h"
 #include "daieffects.h"
+#include "daiferry.h"
 #include "daihunter.h"
 #include "dailog.h"
 #include "daiparadrop.h"
@@ -385,7 +385,8 @@ tactical_req_cb(const struct req_context *context,
   case VUT_UNITSTATE:
   case VUT_ACTIVITY:
   case VUT_MINSIZE:
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
+  case VUT_MAXTILETOPUNITS:
   case VUT_MINHP:
   case VUT_MINMOVES:
   case VUT_COUNTER:
@@ -430,7 +431,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_UTFLAG:
   case VUT_UCLASS:
   case VUT_UCFLAG:
-    /* FIXME: support converting siege machines (needs hard reqs checked) */
+    /* FIXME: Support converting siege machines (needs hard reqs checked) */
   case VUT_ACTION:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
@@ -448,6 +449,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
   case VUT_GOVERNMENT:
+  case VUT_GOVFLAG:
   case VUT_ACHIEVEMENT:
   case VUT_IMPR_GENUS:
   case VUT_IMPR_FLAG:
@@ -667,8 +669,8 @@ void dai_assess_danger_player(struct ai_type *ait,
   This algorithm is very strange. But I created it by nesting up
   Syela's convoluted if ... else logic, and it seems to work. -- Per
 **************************************************************************/
-static void dai_reevaluate_building(struct city *pcity, adv_want *value, 
-                                    unsigned int urgency, unsigned int danger, 
+static void dai_reevaluate_building(struct city *pcity, adv_want *value,
+                                    unsigned int urgency, unsigned int danger,
                                     int defense)
 {
   if (*value == 0 || danger <= 0) {
@@ -1393,8 +1395,8 @@ static void process_attacker_want(struct ai_type *ait,
       }
 
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
-       * (this is noted elsewhere as terrible bug making warships yoyoing) 
-       * as the warships will go to enemy cities hoping that the enemy builds 
+       * (this is noted elsewhere as terrible bug making warships yoyoing)
+       * as the warships will go to enemy cities hoping that the enemy builds
        * something for them to kill. */
       if (vuln == 0
           && (utype_class(punittype)->adv.land_move == MOVE_NONE
@@ -1528,7 +1530,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
   /* Benefit from fighting the target */
   adv_want benefit;
   /* Defender of the target city/tile */
-  struct unit *pdef; 
+  struct unit *pdef;
   const struct unit_type *def_type;
   struct player *def_owner;
   int def_vet; /* Is the defender veteran? */
@@ -1654,7 +1656,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
     process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
                           best_choice, NULL, NULL, NULL);
-  } else { 
+  } else {
     /* Attract a boat to our city or retain the one that's already here */
     fc_assert_ret_val(unit_class_get(myunit)->adv.sea_move != MOVE_FULL, choice);
     best_choice->need_boat = TRUE;
@@ -1748,11 +1750,11 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
   Before building a military unit, AI builds a barracks/port/airport
   NB: It is assumed this function isn't called in an emergency
   situation, when we need a defender _now_.
- 
+
   TODO: something more sophisticated, like estimating future demand
   for military units, considering Sun Tzu instead.
 **************************************************************************/
-static void adjust_ai_unit_choice(struct city *pcity, 
+static void adjust_ai_unit_choice(struct city *pcity,
                                   struct adv_choice *choice)
 {
   Impr_type_id id;
@@ -1800,10 +1802,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   bool allow_gold_upkeep;
 
   urgency = assess_danger(ait, nmap, pcity, ul_cb);
-  /* Changing to quadratic to stop AI from building piles 
+  /* Changing to quadratic to stop AI from building piles
    * of small units -- Syela */
   /* It has to be AFTER assess_danger() thanks to wallvalue. */
-  our_def = assess_defense_quadratic(ait, pcity); 
+  our_def = assess_defense_quadratic(ait, pcity);
 
   dai_choose_diplomat_defensive(ait, pplayer, pcity, choice, our_def);
 
@@ -1971,10 +1973,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     }
   } /* Ok, don't need to defend */
 
-  if (pcity->surplus[O_SHIELD] <= 0 
+  if (pcity->surplus[O_SHIELD] <= 0
       || pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] > pcity->feel[CITIZEN_UNHAPPY][FEELING_EFFECT]
       || pcity->id == ai->wonder_city) {
-    /* Things we consider below are not life-saving so we don't want to 
+    /* Things we consider below are not life-saving so we don't want to
      * build them if our populace doesn't feel like it */
     return choice;
   }

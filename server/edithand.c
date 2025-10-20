@@ -710,7 +710,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." at <tile-coordinates> because"... */
                 _("Cannot create a city at %s because the "
-                  "given owner's player id %d is invalid"), 
+                  "given owner's player id %d is invalid"),
                 tile_link(ptile), owner);
     return;
 
@@ -844,7 +844,7 @@ void handle_edit_city(struct connection *pc,
       changed = TRUE;
     }
   } improvement_iterate_end;
- 
+
   /* Handle food stock change. */
   if (packet->food_stock != pcity->food_stock) {
     int max = city_granary_size(city_size_get(pcity));
@@ -885,7 +885,7 @@ void handle_edit_city(struct connection *pc,
     city_refresh_queue_processing();
 
     /* FIXME: city_refresh_queue_processing only sends to city owner? */
-    send_city_info(NULL, pcity);  
+    send_city_info(NULL, pcity);
 
     conn_list_do_unbuffer(game.est_connections);
   }
@@ -1010,7 +1010,7 @@ void handle_edit_player_remove(struct connection *pc, int id)
 /************************************************************************//**
   Handle editing of any or all player properties.
 ****************************************************************************/
-void handle_edit_player(struct connection *pc, 
+void handle_edit_player(struct connection *pc,
                         const struct packet_edit_player *packet)
 {
   struct player *pplayer;

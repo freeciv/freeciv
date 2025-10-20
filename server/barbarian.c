@@ -361,7 +361,7 @@ bool unleash_barbarians(struct tile *ptile)
                                     TRUE, FALSE, FALSE)) {
             /* Move */
             (void) unit_move_pay(punit2, dir_tiles[rdir]);
-            log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)", 
+            log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)",
                       TILE_XY(ptile), TILE_XY(dir_tiles[rdir]));
             dest_found = TRUE;
           }

@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 
 /* utility */
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -611,6 +612,8 @@ static void activate_gui(GtkApplication *app, gpointer data)
 int main(int argc, char *argv[])
 {
   int ui_options;
+
+  executable_init();
 
   fcmp_init();
 

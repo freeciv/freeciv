@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 /* utility */
+#include "executable.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -98,6 +99,8 @@ int main(int argc, char *argv[])
 {
   int ui_options;
 
+  executable_init();
+
   fcmp_init();
 
   /* This modifies argv! */
@@ -140,6 +143,10 @@ int main(int argc, char *argv[])
 
     if (fcmp.autoinstall == NULL) {
       download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
+
+      log_normal("%s", "");
+      log_normal(_("To install a modpack, run:"));
+      log_normal(_("%s -i <URL>"), argv[0]);
     } else {
       const char *errmsg;
 

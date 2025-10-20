@@ -57,14 +57,22 @@ if test "$FC_MESON_VER" != "" ; then
   cd ..
 fi
 
+# Fetch S3_3 in the background for the ruleset upgrade test
+git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_3:S3_3 &
+
 mkdir build
 cd build
 meson setup .. \
   -Dprefix=${HOME}/freeciv/meson \
+  -Ddefault_library=static \
   -Ddebug=true \
   -Dclients='gtk3.22','qt','sdl2','gtk4','stub' \
   -Dfcmp='gtk3','qt','cli','gtk4' \
-  -Dqtver=qt6
+  -Dqtver=qt6 \
+  || (let meson_exit_status=$? \
+      && echo "meson.log:" \
+      && cat meson-logs/meson-log.txt \
+      && exit ${meson_exit_status})
 ninja
 ninja install
 echo "Freeciv build successful!"
@@ -73,6 +81,25 @@ echo "Freeciv build successful!"
 echo "Checking rulesets"
 ninja rulesets_not_broken.sh
 ./rulesets_not_broken.sh
+
+# Check ruleset saving
+echo "Checking ruleset saving"
+ninja rulesets_save.sh
+./rulesets_save.sh
+
+# Check ruleset upgrade
+echo "Ruleset upgrade"
+echo "Preparing test data"
+../tests/rs_test_res/upgrade_ruleset_sync.bash
+echo "Checking ruleset upgrade"
+ninja rulesets_upgrade.sh
+./rulesets_upgrade.sh
+
+echo "Running Freeciv server autogame"
+cd ${HOME}/freeciv/meson/bin/
+./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
+
+echo "Freeciv server autogame successful!"
 ;;
 
 "mac-meson")
@@ -103,7 +130,7 @@ meson setup .. \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
       && cat meson-logs/meson-log.txt \
-      && exit $meson_exit_status)
+      && exit ${meson_exit_status})
 ninja
 ninja install
 echo "Freeciv build successful!"
@@ -185,9 +212,7 @@ cd build
 echo "Freeciv build successful!"
 ;;
 
-*)
-# Fetch S3_3 in the background for the ruleset upgrade test
-git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_3:S3_3 &
+autotools)
 
 # Configure and build Freeciv
 mkdir build
@@ -212,25 +237,13 @@ make -s -j$(nproc)
 make install
 echo "Freeciv build successful!"
 
-# Check ruleset saving
-echo "Checking ruleset saving"
-./tests/rulesets_save.sh
-
-# Check ruleset upgrade
-echo "Ruleset upgrade"
-echo "Preparing test data"
-../tests/rs_test_res/upgrade_ruleset_sync.bash
-echo "Checking ruleset upgrade"
-./tests/rulesets_upgrade.sh
-
 # Check ruleset autohelp generation
 echo "Checking ruleset auto help generation"
 ./tests/rulesets_autohelp.sh
+;;
 
-echo "Running Freeciv server autogame"
-cd ${HOME}/freeciv/default/bin/
-./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
-
-echo "Freeciv server autogame successful!"
+*)
+echo "Unknown ci-job \"$1\"" >&2
+exit 1
 ;;
 esac

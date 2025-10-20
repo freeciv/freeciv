@@ -434,8 +434,12 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
   struct rscompat_info *info = (struct rscompat_info *)data;
 
   if (info->version < RSFORMAT_3_4) {
-    if (!game.server.deprecated.homeless_gold_upkeep) {
-      if (peffect->type == EFT_UPKEEP_FACTOR) {
+    if (peffect->type == EFT_UPKEEP_PCT) {
+
+      /* From old Upkeep_Factor to new Upkeep_Pct */
+      peffect->value *= 100;
+
+      if (!game.server.deprecated.homeless_gold_upkeep) {
         bool gold_included = TRUE;
         bool only_gold = FALSE;
 
@@ -454,7 +458,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 
         if (gold_included) {
           if (!only_gold) {
-            struct effect *copy = effect_copy(peffect, EFT_UPKEEP_FACTOR);
+            struct effect *copy = effect_copy(peffect, EFT_UPKEEP_PCT);
 
             /* Split to gold-only and not-gold effects.
              * Make sure the gold-only is the one we currently handle
@@ -488,11 +492,21 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
 {
+  struct action_enabler *enabler;
+
   if (!info->compat_mode || info->version >= RSFORMAT_CURRENT) {
     /* There isn't anything here that should be done outside of compat
      * mode. */
     return;
   }
+
+  enabler = action_enabler_new();
+  enabler->action = ACTION_FINISH_UNIT;
+  action_enabler_add(enabler);
+
+  enabler = action_enabler_new();
+  enabler->action = ACTION_FINISH_BUILDING;
+  action_enabler_add(enabler);
 
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */
@@ -547,4 +561,16 @@ static int first_free_tech_user_flag(void)
 
   /* All tech user flags are taken. */
   return MAX_NUM_USER_TECH_FLAGS;
+}
+
+/**********************************************************************//**
+  Convert 3.3 effect name to a 3.4 one.
+**************************************************************************/
+const char *rscompat_effect_name_3_4(const char *old_name)
+{
+  if (!fc_strcasecmp("Upkeep_Factor", old_name)) {
+    return "Upkeep_Pct";
+  }
+
+  return old_name;
 }

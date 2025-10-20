@@ -1,5 +1,5 @@
 # iconv.m4
-# serial 30
+# serial 32
 dnl Copyright (C) 2000-2002, 2007-2014, 2016-2025 Free Software Foundation,
 dnl Inc.
 dnl This file is free software; the Free Software Foundation
@@ -28,8 +28,8 @@ AC_DEFUN([AM_ICONV_LINKFLAGS_BODY],
 
 AC_DEFUN([AM_ICONV_LINK],
 [
-  dnl Some systems have iconv in libc, some have it in libiconv (OSF/1 and
-  dnl those with the standalone portable GNU libiconv installed).
+  dnl Some systems have iconv in libc, some have it in libiconv (those
+  dnl with the standalone portable GNU libiconv installed).
   AC_REQUIRE([AC_CANONICAL_HOST]) dnl for cross-compiles
 
   dnl Search for libiconv and define LIBICONV, LTLIBICONV and INCICONV
@@ -209,7 +209,7 @@ AC_DEFUN([AM_ICONV_LINK],
   {
     /* Try standardized names.  */
     iconv_t cd1 = iconv_open ("UTF-8", "EUC-JP");
-    /* Try IRIX, OSF/1 names.  */
+    /* Try possible *BSD names.  */
     iconv_t cd2 = iconv_open ("UTF-8", "eucJP");
     /* Try AIX names.  */
     iconv_t cd3 = iconv_open ("UTF-8", "IBM-eucJP");

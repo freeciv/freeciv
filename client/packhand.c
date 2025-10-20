@@ -51,6 +51,7 @@
 #include "spaceship.h"
 #include "specialist.h"
 #include "style.h"
+#include "tiledef.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -865,6 +866,9 @@ void handle_city_info(const struct packet_city_info *packet)
   pcity->was_happy = packet->was_happy;
   pcity->had_famine = packet->had_famine;
 
+  pcity->anarchy = packet->anarchy;
+  pcity->rapture = packet->rapture;
+
   pcity->turn_founded = packet->turn_founded;
   pcity->turn_last_built = packet->turn_last_built;
 
@@ -1277,6 +1281,9 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
+
+  pcity->rapture = 0;
+  pcity->anarchy = 0;
 
   improvement_iterate(pimprove) {
     /* Don't update the non-visible improvements, they could hide the
@@ -1985,6 +1992,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->done_moving = packet_unit->done_moving;
       check_focus = TRUE;
     }
+    punit->carrying = packet_unit->carrying;
 
     /* This won't change punit; it enqueues the call for later handling. */
     agents_unit_changed(punit);
@@ -3747,6 +3755,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->uclass             = uclass_by_number(p->unit_class_id);
   u->build_cost         = p->build_cost;
   u->pop_cost           = p->pop_cost;
+  u->spec_type          = specialist_by_number(p->spectype_id);
   u->attack_strength    = p->attack_strength;
   u->defense_strength   = p->defense_strength;
   u->move_rate          = p->move_rate;
@@ -4117,6 +4126,7 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   sz_strlcpy(gov->sound_str, p->sound_str);
   sz_strlcpy(gov->sound_alt, p->sound_alt);
   sz_strlcpy(gov->sound_alt2, p->sound_alt2);
+  gov->flags = p->flags;
 
   PACKET_STRVEC_EXTRACT(gov->helptext, p->helptext);
 
@@ -4136,6 +4146,32 @@ void handle_ruleset_government_ruler_title
   (void) government_ruler_title_new(gov, nation_by_number(packet->nation),
                                     packet->male_title,
                                     packet->female_title);
+}
+
+/************************************************************************//**
+  Packet ruleset_gov_flag handler.
+****************************************************************************/
+void handle_ruleset_gov_flag(const struct packet_ruleset_gov_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= GOVF_USER_FLAG_1 && p->id <= GOVF_LAST_USER_FLAG,
+                    "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = nullptr;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = nullptr;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_gov_flag_name(p->id, flagname, helptxt);
 }
 
 /************************************************************************//**
@@ -4462,6 +4498,24 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->compat = p->compat;
   proad->integrates = p->integrates;
   proad->flags = p->flags;
+}
+
+/************************************************************************//**
+  Handle a packet about a particular tiledef type.
+****************************************************************************/
+void handle_ruleset_tiledef(const struct packet_ruleset_tiledef *p)
+{
+  struct tiledef *td = tiledef_by_number(p->id);
+
+  fc_assert_ret_msg(td != nullptr, "Bad tiledef %d.", p->id);
+
+  names_set(&td->name, nullptr, p->name, p->rule_name);
+
+  extra_type_iterate(pextra) {
+    if (BV_ISSET(p->extras, extra_index(pextra))) {
+      extra_type_list_append(td->extras, pextra);
+    }
+  } extra_type_iterate_end;
 }
 
 /************************************************************************//**
@@ -5741,4 +5795,5 @@ void handle_city_update_counters(const struct packet_city_update_counters *packe
 **************************************************************************/
 void handle_sync_serial_reply(int serial)
 {
+  options_sync_reply(serial);
 }

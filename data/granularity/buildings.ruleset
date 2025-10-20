@@ -107,6 +107,31 @@ Units in a city with Barracks heal additional 20% of their \
 maximum hitpoints each turn.\
 ")
 
+[building_brewery]
+name		= _("Brewery")
+genus		= "Improvement"
+reqs	=
+    { "type", "name",    "range"
+      "Tech", "Brewing", "Player"
+    }
+graphic         = "b.brewery"
+graphic_alt     = "b.granary"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 2200
+upkeep		= 140
+sabotage	= 100
+sound		= "b_brewery"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases luxury output by 25%, and gold output by 15%. \
+Adds food output of the Wheat tiles by 50.\
+")
+
 [building_city_walls]
 name		= _("City Walls")
 genus		= "Improvement"

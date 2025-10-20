@@ -145,5 +145,3 @@ freeciv_mp_qt_LDADD = \
 		$(mp_qt_libs) -lsqlite3 \
 		$(MPICON)
 endif
-
-EXTRA_DIST = mpgui_gtk5.c

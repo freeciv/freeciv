@@ -439,9 +439,9 @@ static struct command commands[] = {
    NULL, NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 50
   },
-  {"timeoutincrease", ALLOW_CTRL, 
+  {"timeoutincrease", ALLOW_CTRL,
    /* TRANS: translate text between <> only */
-   N_("timeoutincrease <turn> <turninc> <value> <valuemult>"), 
+   N_("timeoutincrease <turn> <turninc> <value> <valuemult>"),
    N_("See \"/help timeoutincrease\"."),
    N_("Every <turn> turns, add <value> to timeout timer, then add <turninc> "
       "to <turn> and multiply <value> by <valuemult>. Use this command in "

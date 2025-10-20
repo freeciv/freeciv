@@ -56,7 +56,7 @@ void spaceship_calc_derived(struct player_spaceship *ship)
   fc_assert_ret(ship->structurals <= NUM_SS_STRUCTURALS);
   fc_assert_ret(ship->components <= NUM_SS_COMPONENTS);
   fc_assert_ret(ship->modules <= NUM_SS_MODULES);
-  
+
   ship->mass = 0;
   ship->support_rate = ship->energy_rate =
     ship->success_rate = ship->travel_time = 0.0;
@@ -136,7 +136,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
     if (!src || pplayer == src) {
       struct packet_spaceship_info info;
       struct player_spaceship *ship = &pplayer->spaceship;
-	  
+
       info.player_num = player_number(pplayer);
       info.sship_state = ship->state;
       info.structurals = ship->structurals;
@@ -155,7 +155,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
       info.success_rate = ship->success_rate;
       info.travel_time = ship->travel_time;
       info.structure = ship->structure;
-	  
+
       lsend_packet_spaceship_info(dest, &info);
     }
   } players_iterate_end;
@@ -216,7 +216,7 @@ bool do_spaceship_place(struct player *pplayer, enum action_requester from,
                         enum spaceship_place_type type, int num)
 {
   struct player_spaceship *ship = &pplayer->spaceship;
-  
+
   if (ship->state == SSHIP_NONE) {
     if (from == ACT_REQ_PLAYER) {
       notify_player(pplayer, NULL, E_SPACESHIP, ftc_server,
@@ -463,7 +463,7 @@ int rank_spaceship_arrival(struct player **result)
 
   shuffled_players_iterate(pplayer) {
     struct player_spaceship *ship = &pplayer->spaceship;
-    
+
     if (ship->state == SSHIP_LAUNCHED) {
       result[n++] = pplayer;
     }

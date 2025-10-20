@@ -34,6 +34,7 @@
 #include "sex.h"
 #include "specialist.h"
 #include "style.h"
+#include "tiledef.h"
 #include "unittype.h"
 #include "version.h"
 
@@ -1915,9 +1916,31 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "government");
   int sect_idx;
+  bool uflags_government = FALSE;
+  int i;
 
   if (sfile == nullptr) {
     return FALSE;
+  }
+
+  for (i = 0; i < MAX_NUM_USER_GOVERNMENT_FLAGS; i++) {
+    const char *flagname = gov_flag_id_name_cb(i + GOVF_USER_FLAG_1);
+    const char *helptxt = gov_flag_helptxt(i + GOVF_USER_FLAG_1);
+
+    if (flagname != nullptr) {
+      if (!uflags_government) {
+        comment_uflags_government(sfile);
+        uflags_government = TRUE;
+      }
+
+      secfile_insert_str(sfile, flagname, "control.government_flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formatting code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
+      secfile_insert_str(sfile, helptxt,
+                         "control.government_flags%d.helptxt", i);
+    }
   }
 
   save_gov_ref(sfile, game.government_during_revolution, "governments",
@@ -1929,6 +1952,9 @@ static bool save_governments_ruleset(const char *filename, const char *name)
   governments_re_active_iterate(pg) {
     char path[512];
     struct ruler_title *prtitle;
+    const char *flag_names[TF_COUNT];
+    int set_count;
+    int flagi;
 
     fc_snprintf(path, sizeof(path), "government_%d", sect_idx++);
 
@@ -1962,6 +1988,18 @@ static bool save_governments_ruleset(const char *filename, const char *name)
         secfile_insert_str(sfile, title,
                            "%s.ruler_female_title", path);
       }
+    }
+
+    set_count = 0;
+    for (flagi = 0; flagi < GOVF_USER_FLAG_1 + MAX_NUM_USER_GOVERNMENT_FLAGS; flagi++) {
+      if (BV_ISSET(pg->flags, flagi)) {
+        flag_names[set_count++] = gov_flag_id_name(flagi);
+      }
+    }
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, flag_names, set_count,
+                             "%s.flags", path);
     }
 
     save_strvec(sfile, pg->helptext, path, "helptext");
@@ -3049,6 +3087,29 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     }
   } extra_type_by_cause_iterate_end;
 
+  // comment_tiledefs(sfile);
+
+  sect_idx = 0;
+  tiledef_iterate(td) {
+    char path[512];
+    const char *extra_names[MAX_EXTRA_TYPES];
+    int set_count;
+
+    fc_snprintf(path, sizeof(path), "tiledef_%d", sect_idx++);
+
+    save_name_translation(sfile, &(td->name), path);
+
+    set_count = 0;
+    extra_type_list_iterate(td->extras, pextra) {
+      extra_names[set_count++] = extra_rule_name(pextra);
+    } extra_type_list_iterate_end;
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, extra_names, set_count,
+                             "%s.extras", path);
+    }
+  } tiledef_iterate_end;
+
   return save_ruleset_file(sfile, filename);
 }
 
@@ -3266,6 +3327,10 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
       secfile_insert_int(sfile, put->build_cost, "%s.build_cost", path);
       secfile_insert_int(sfile, put->pop_cost, "%s.pop_cost", path);
+      if (DEFAULT_SPECIALIST < 0 || DEFAULT_SPECIALIST != specialist_index(put->spec_type)) {
+        secfile_insert_str(sfile, specialist_rule_name(put->spec_type),
+                           "%s.specialist", path);
+      }
       secfile_insert_int(sfile, put->attack_strength, "%s.attack", path);
       secfile_insert_int(sfile, put->defense_strength, "%s.defense", path);
       secfile_insert_int(sfile, put->move_rate / SINGLE_MOVE, "%s.move_rate", path);

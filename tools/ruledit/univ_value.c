@@ -60,6 +60,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_GOVERNMENT:
     src->value.govern = game.government_during_revolution;
     return TRUE;
+  case VUT_GOVFLAG:
+    src->value.govflag = 0;
+    return TRUE;
   case VUT_IMPROVEMENT:
   case VUT_SITE:
     if (game.control.num_impr_types <= 0) {
@@ -173,8 +176,11 @@ bool universal_value_initial(struct universal *src)
   case VUT_DIPLREL_UNITANY_O:
     src->value.diplrel = DS_WAR;
     return TRUE;
-  case VUT_MAXTILEUNITS:
-    src->value.max_tile_units = 0;
+  case VUT_MAXTILETOTALUNITS:
+    src->value.max_tile_total_units = 0;
+    return TRUE;
+  case VUT_MAXTILETOPUNITS:
+    src->value.max_tile_top_units = 0;
     return TRUE;
   case VUT_STYLE:
     if (game.control.num_styles <= 0) {
@@ -298,6 +304,11 @@ void universal_kind_values(struct universal *univ,
     governments_re_active_iterate(pgov) {
       cb(government_rule_name(pgov), univ->value.govern == pgov, data);
     } governments_re_active_iterate_end;
+    break;
+  case VUT_GOVFLAG:
+    for (i = 0; i < GOVF_LAST_USER_FLAG; i++) {
+      cb(gov_flag_id_name(i), univ->value.govflag == i, data);
+    }
     break;
   case VUT_IMPROVEMENT:
   case VUT_SITE:
@@ -511,7 +522,8 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINSIZE:
   case VUT_MINYEAR:
   case VUT_MINCALFRAG:
-  case VUT_MAXTILEUNITS:
+  case VUT_MAXTILETOTALUNITS:
+  case VUT_MAXTILETOPUNITS:
   case VUT_MINCULTURE:
   case VUT_MINFOREIGNPCT:
   case VUT_MINMOVES:

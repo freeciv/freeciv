@@ -24,44 +24,44 @@
 struct conn_list;
 
 struct server_arguments {
-  /* metaserver information */
+  /* Metaserver information */
   bool metaserver_no_send;
   char metaserver_addr[256];
   bool metaconnection_persistent;
   char identity_name[256];
   unsigned short int metaserver_port;
-  /* address this server is to listen on (NULL => INADDR_ANY) */
+  /* Address this server is to listen on (NULL => INADDR_ANY) */
   char *bind_addr;
-  /* this server's listen port */
+  /* This server's listen port */
   int port;
-  /* address to bind when connecting to the metaserver (NULL => bind_addr) */
+  /* Address to bind when connecting to the metaserver (NULL => bind_addr) */
   char *bind_meta_addr;
-  /* the log level */
+  /* The log level */
   enum log_level loglevel;
-  /* filenames */
+  /* Filenames */
   char *log_filename;
   char *ranklog_filename;
-  char load_filename[512]; /* FIXME: may not be long enough? use MAX_PATH? */
+  char load_filename[512]; /* FIXME: May not be long enough? use MAX_PATH? */
   char *script_filename;
   char *saves_pathname;
   char *scenarios_pathname;
   char *ruleset;
   char serverid[256];
-  /* quit if there no players after a given time interval */
+  /* Quit if there no players after a given time interval */
   int quitidle;
-  /* exit the server on game ending */
+  /* Exit the server on game ending */
   bool exit_on_end;
-  /* authentication options */
-  bool fcdb_enabled;            /* defaults to FALSE */
-  char *fcdb_conf;              /* freeciv database configuration file */
-  bool auth_enabled;            /* defaults to FALSE */
-  bool auth_allow_guests;       /* defaults to FALSE */
-  bool auth_allow_newusers;     /* defaults to FALSE */
+  /* Authentication options */
+  bool fcdb_enabled;            /* Defaults to FALSE */
+  char *fcdb_conf;              /* Freeciv database configuration file */
+  bool auth_enabled;            /* Defaults to FALSE */
+  bool auth_allow_guests;       /* Defaults to FALSE */
+  bool auth_allow_newusers;     /* Defaults to FALSE */
   enum announce_type announce;
-  int fatal_assertions;         /* default to -1 (disabled). */
+  int fatal_assertions;         /* Default to -1 (disabled). */
 };
 
-/* used in savegame values */
+/* Used in savegame values */
 #define SPECENUM_NAME server_states
 #define SPECENUM_VALUE0 S_S_INITIAL
 #define SPECENUM_VALUE1 S_S_RUNNING
@@ -78,7 +78,7 @@ extern struct civserver {
   int playable_nations;
   int nbarbarians;
 
-  /* this counter creates all the city and unit numbers used.
+  /* This counter creates all the city and unit numbers used.
    * arbitrarily starts at 101, but wraps to 1.
    * use identity_number()
    */

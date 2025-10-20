@@ -623,7 +623,7 @@ void hard_code_oblig_hard_reqs(void)
    *    conquer a city belonging to someone they were at war with.
    * Conclusion: the conquered city had to be empty.
    */
-  oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_TILE,
+  oblig_hard_req_register(req_from_values(VUT_MAXTILETOTALUNITS, REQ_RANGE_TILE,
                                           FALSE, FALSE, TRUE, 0),
                           TRUE,
                           N_("All action enablers for %s must require"

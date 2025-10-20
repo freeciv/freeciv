@@ -48,7 +48,7 @@
 struct ai_tech_choice {
   Tech_type_id choice;        /* The id of the most needed tech */
   adv_want want;              /* Want of the most needed tech */
-  adv_want current_want;      /* Want of the tech which is currently researched 
+  adv_want current_want;      /* Want of the tech which is currently researched
                                * or is our current goal */
 };
 
@@ -68,7 +68,7 @@ struct ai_tech_choice {
   4. A tech isn't a requirement of itself.
 **************************************************************************/
 static void dai_select_tech(struct ai_type *ait,
-                            struct player *pplayer, 
+                            struct player *pplayer,
                             struct ai_tech_choice *choice,
                             struct ai_tech_choice *goal)
 {
@@ -359,8 +359,8 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
         && (penalty + research->bulbs_researched
             <= research_total_bulbs_required(research, research->researching,
                                              FALSE))) {
-      TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(choice.choice), 
-               "new research, was %s, penalty was %d", 
+      TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(choice.choice),
+               "new research, was %s, penalty was %d",
                research_advance_rule_name(research, research->researching),
                penalty);
       choose_tech(research, choice.choice);

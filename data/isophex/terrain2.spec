@@ -242,12 +242,12 @@ tiles = { "row", "column","tag"
 
 ; River outlets
 
- 6,  0, "road.river_outlet_n"
- 6,  1, "road.river_outlet_e"
- 6,  2, "road.river_outlet_s"
- 6,  3, "road.river_outlet_w"
- 6,  4, "road.river_outlet_se"
- 6,  5, "road.river_outlet_nw"
+ 6,  0, "road.river_outlet_n:0"
+ 6,  1, "road.river_outlet_e:0"
+ 6,  2, "road.river_outlet_s:0"
+ 6,  3, "road.river_outlet_w:0"
+ 6,  4, "road.river_outlet_se:0"
+ 6,  5, "road.river_outlet_nw:0"
 
 }
 

@@ -33,10 +33,10 @@
 #include "advdata.h"
 
 /* ai/default */
-#include "aiferry.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daieffects.h"
+#include "daiferry.h"
 #include "daiplayer.h"
 #include "daisettler.h"
 #include "daiunit.h"
@@ -253,7 +253,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 
   /* We are tracking a unit if punit->server.ai->cur_pos is not NULL. If we
    * are not tracking, start tracking by setting cur_pos. If we are,
-   * fill prev_pos with previous cur_pos. This way we get the 
+   * fill prev_pos with previous cur_pos. This way we get the
    * necessary coordinates to calculate a probable trajectory. */
   players_iterate_alive(aplayer) {
     if (aplayer == pplayer) {
@@ -441,7 +441,7 @@ static void dai_diplomacy_destroy(struct ai_type *ait,
 ****************************************************************************/
 void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
 {
-  bool needs_back_rearrange = FALSE; 
+  bool needs_back_rearrange = FALSE;
   struct adv_data *adv;
 
   adv = adv_data_get(pplayer, NULL);
