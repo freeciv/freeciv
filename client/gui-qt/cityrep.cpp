@@ -68,7 +68,7 @@ city_item_delegate::city_item_delegate(QObject *parent)
 }
 
 /***********************************************************************//**
-  City item delgate paint event
+  City item delegate paint event
 ***************************************************************************/
 void city_item_delegate::paint(QPainter *painter,
                                const QStyleOptionViewItem &option,
