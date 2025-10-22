@@ -110,7 +110,7 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : values_
   label->setParent(this);
 
   hitpoints = new QSpinBox(this);
-  hitpoints->setRange(0, 1000);
+  hitpoints->setRange(1, 1000);
   connect(hitpoints, SIGNAL(valueChanged(int)), this, SLOT(set_hitpoints(int)));
 
   unit_layout->addWidget(label, row, 0);
