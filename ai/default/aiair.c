@@ -488,6 +488,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
         && NULL != punit->goto_tile
         && !same_pos(unit_tile(punit), punit->goto_tile)
         && is_airunit_refuel_point(punit->goto_tile, pplayer, punit)) {
+      pft_fill_unit_parameter(&parameter, punit);
       pfm = pf_map_new(&parameter);
       path = pf_map_path(pfm, punit->goto_tile);
       if (path) {
