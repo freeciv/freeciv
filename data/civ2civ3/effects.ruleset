@@ -741,6 +741,23 @@ reqs    =
       "Gov", "Communism", "Player", TRUE
     }
 
+[effect_upkeep_shield2gold]
+type    = "Shield2Gold_Pct"
+value   = 100
+reqs    =
+    { "type",         "name",            "range", "present"
+      "UnitTypeFlag", "ShieldToGold",     "Local", TRUE
+      "Gov", "Anarchy", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
+      "Gov", "Communism", "Player", FALSE
+;      "Gov", "Despotism", "Player", FALSE
+;      "Gov", "Monarchy", "Player", FALSE
+;      "Gov", "Fundamentalism", "Player", FALSE
+;      "Gov", "Federation", "Player", FALSE
+      "Gov", "Republic", "Player", FALSE
+;      "Gov", "Democracy", "Player", FALSE
+    }
+
 [effect_base_unit_upkeep_gold_1]
 type    = "Upkeep_Pct"
 value   = 100
