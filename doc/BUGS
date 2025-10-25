@@ -49,8 +49,8 @@ Here's what to do:
 
        - The version number of Freeciv.
 
-       - If you are using the GTK+ client, the version numbers
-         (if you know them) of your GTK+ and GLib libraries.
+       - If you are using the GTK client, the version numbers
+         (if you know them) of your GTK and GLib libraries.
          Gtk-clients show those version numbers on 'About Freeciv'
          dialog found from under 'Help' menu.
 
