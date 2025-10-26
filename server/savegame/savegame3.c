@@ -2215,8 +2215,8 @@ static void sg_load_game(struct loaddata *loading)
                      "Undefined value '%c' within 'game.global_advances'.",
                      str[i]);
       if (str[i] == '1') {
-        struct advance *padvance =
-            advance_by_rule_name(loading->technology.order[i]);
+        struct advance *padvance
+          = advance_by_rule_name(loading->technology.order[i]);
 
         if (padvance != NULL) {
           game.info.global_advances[advance_number(padvance)] = TRUE;
@@ -3645,9 +3645,10 @@ static void sg_load_players_basic(struct loaddata *loading)
                    "'players.destroyed_wonders'.", str[k]);
 
     if (str[k] == '1') {
-      struct impr_type *pimprove =
-          improvement_by_rule_name(loading->improvement.order[k]);
-      if (pimprove) {
+      struct impr_type *pimprove
+        = improvement_by_rule_name(loading->improvement.order[k]);
+
+      if (pimprove != NULL) {
         game.info.great_wonder_owners[improvement_index(pimprove)]
           = WONDER_DESTROYED;
       }
@@ -6400,27 +6401,42 @@ static bool sg_load_player_unit(struct loaddata *loading,
           switch (action_id_get_sub_target_kind(order->action)) {
           case ASTK_BUILDING:
             /* Sub target is a building. */
-            if (!improvement_by_number(order_sub_tgt)) {
+            if (order_sub_tgt < 0
+                || order_sub_tgt >= loading->improvement.size
+                || !loading->improvement.order[order_sub_tgt]) {
               /* Sub target is invalid. */
               log_sg("Cannot find building %d for %s to %s",
                      order_sub_tgt, unit_rule_name(punit),
                      action_id_name_translation(order->action));
               order->sub_target = B_LAST;
             } else {
-              order->sub_target = order_sub_tgt;
+              struct impr_type *pimprove
+                = improvement_by_rule_name(loading->improvement.order[order_sub_tgt]);
+
+              if (pimprove != NULL) {
+                order->sub_target = improvement_index(pimprove);
+              }
             }
             break;
           case ASTK_TECH:
             /* Sub target is a technology. */
-            if (order_sub_tgt == A_NONE
-                || (!valid_advance_by_number(order_sub_tgt)
-                    && order_sub_tgt != A_FUTURE)) {
-              /* Target tech is invalid. */
-              log_sg("Cannot find tech %d for %s to steal",
-                     order_sub_tgt, unit_rule_name(punit));
-              order->sub_target = A_NONE;
-            } else {
-              order->sub_target = order_sub_tgt;
+            {
+              bool failure = order_sub_tgt < 0
+                || order_sub_tgt >= loading->technology.size
+                || !loading->technology.order[order_sub_tgt];
+              struct advance *padvance = NULL;
+
+              if (!failure) {
+                padvance = advance_by_rule_name(loading->technology.order[order_sub_tgt]);
+              }
+              if (padvance == NULL) {
+                /* Target tech is invalid. */
+                log_sg("Cannot find tech %d for %s to steal",
+                       order_sub_tgt, unit_rule_name(punit));
+                order->sub_target = A_NONE;
+              } else {
+                order->sub_target = advance_index(padvance);
+              }
             }
             break;
           case ASTK_EXTRA:
@@ -6447,7 +6463,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
         if (order->order == ORDER_ACTIVITY || action_wants_extra) {
           enum unit_activity act;
 
-          if (order_sub_tgt < 0 || order_sub_tgt >= loading->extra.size) {
+          if (order_sub_tgt < 0 || order_sub_tgt >= loading->extra.size
+              || !loading->extra.order[order_sub_tgt]) {
             if (order_sub_tgt != EXTRA_NONE) {
               log_sg("Cannot find extra %d for %s to build",
                      order_sub_tgt, unit_rule_name(punit));
@@ -6455,7 +6472,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
             order->sub_target = EXTRA_NONE;
           } else {
-            order->sub_target = order_sub_tgt;
+            order->sub_target = extra_index(loading->extra.order[order_sub_tgt]);
           }
 
           /* An action or an activity may require an extra target. */
@@ -7550,8 +7567,8 @@ static void sg_load_researches(struct loaddata *loading)
                      str[j], i);
 
       if (str[j] == '1') {
-        struct advance *padvance =
-            advance_by_rule_name(loading->technology.order[j]);
+        struct advance *padvance
+          = advance_by_rule_name(loading->technology.order[j]);
 
         if (padvance) {
           research_invention_set(presearch, advance_number(padvance),
