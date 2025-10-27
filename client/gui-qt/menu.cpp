@@ -602,6 +602,7 @@ void gov_menu::create() {
   gov_count = government_count();
   actions.reserve(gov_count + 1);
   action = addAction(_("Revolution..."));
+  action->setShortcut(QKeySequence(tr("ctrl+shift+g")));
   connect(action, &QAction::triggered, this, &gov_menu::revolution);
   actions.append(action);
 
@@ -1081,6 +1082,7 @@ void mr_menu::setup_menus()
   scale_fonts_status->setChecked(true);
   main_menu->addSeparator();
   act = main_menu->addAction(_("City Outlines"));
+  act->setShortcut(QKeySequence(tr("ctrl+y")));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_outlines);
   connect(act, &QAction::triggered, this, &mr_menu::slot_city_outlines);
@@ -1150,7 +1152,7 @@ void mr_menu::setup_menus()
   // Select Menu
   main_menu = this->addMenu(_("Select"));
   act = main_menu->addAction(_("Single Unit (Unselect Others)"));
-  act->setShortcut(QKeySequence(tr("shift+z")));
+  act->setShortcut(QKeySequence(tr("z")));
   menu_list.insert(STANDARD, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_select_one);
   act = main_menu->addAction(_("All On Tile"));
@@ -1412,7 +1414,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("shift+ctrl+r")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_rally);
   act = multiplayer_menu->addAction(_("Quick Airlift"));
-  act->setShortcut(QKeySequence(tr("ctrl+y")));
+  act->setShortcut(QKeySequence(tr("shift+ctrl+y")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_quickairlift);
   airlift_type = new QActionGroup(this);
   airlift_menu = multiplayer_menu->addMenu(_("Unit type for quickairlifting"));
@@ -1531,6 +1533,7 @@ void mr_menu::setup_menus()
   // Civilization menu
   main_menu = this->addMenu(_("Civilization"));
   act = main_menu->addAction(_("Tax Rates..."));
+  act->setShortcut(QKeySequence(tr("ctrl+t")));
   menu_list.insert(NOT_4_OBS, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_popup_tax_rates);
   main_menu->addSeparator();
