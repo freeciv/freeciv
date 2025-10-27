@@ -1711,16 +1711,28 @@ void mr_menu::setup_menus()
   });
 
   act = menu->addAction(Q_(HELP_RULESET_ITEM));
+#ifdef __APPLE__
+  // only needed on Mac, prevents qt from moving the menu item
+  act->setMenuRole(QAction::NoRole);
+#endif // __APPLE__
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_RULESET_ITEM);
   });
 
   act = menu->addAction(Q_(HELP_TILESET_ITEM));
+#ifdef __APPLE__
+  // only needed on Mac, prevents qt from moving the menu item
+  act->setMenuRole(QAction::NoRole);
+#endif // __APPLE__
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_TILESET_ITEM);
   });
 
   act = menu->addAction(Q_(HELP_NATIONS_ITEM));
+#ifdef __APPLE__
+  // only needed on Mac, prevents qt from moving the menu item
+  act->setMenuRole(QAction::NoRole);
+#endif // __APPLE__
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_NATIONS_ITEM);
   });
@@ -1765,6 +1777,10 @@ void mr_menu::setup_menus()
   });
 
   act = menu->addAction(Q_(HELP_ABOUT_ITEM));
+#ifdef __APPLE__
+  // only needed on Mac, prevents qt from moving the menu item
+  act->setMenuRole(QAction::NoRole);
+#endif // __APPLE__
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_ABOUT_ITEM);
   });
