@@ -4178,7 +4178,7 @@ city_production_delegate::city_production_delegate(QPoint sh,
 }
 
 /************************************************************************//**
-  City item delgate paint event
+  City item delegate paint event
 ****************************************************************************/
 void city_production_delegate::paint(QPainter *painter,
                                      const QStyleOptionViewItem &option,
