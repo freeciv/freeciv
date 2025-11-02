@@ -38,6 +38,8 @@ extern QString current_theme;
 static QString def_app_style;
 static QString stylestring;
 
+static QStyle *current_style = nullptr;
+
 /*************************************************************************//**
   Loads a qt theme directory/theme_name
 *****************************************************************************/
@@ -76,16 +78,17 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   stylestring.replace(lnb, fake_dir + "/" + theme_name + "/");
 
   if (QString(theme_name) == QString("System")) {
-    QApplication::setStyle(QStyleFactory::create(def_app_style));
+    current_style = QStyleFactory::create(def_app_style);
   } else {
     QStyle *fstyle = QStyleFactory::create("Fusion");
 
     if (fstyle != nullptr) {
-      QApplication::setStyle(fstyle);
+      current_style = fstyle;
     } else {
-      QApplication::setStyle(QStyleFactory::create(def_app_style));
+      current_style = QStyleFactory::create(def_app_style);
     }
   }
+  QApplication::setStyle(current_style);
 
   current_theme = theme_name;
   QPixmapCache::clear();
@@ -96,6 +99,14 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   pal.setBrush(QPalette::Link, QColor(92,170,229));
   pal.setBrush(QPalette::LinkVisited, QColor(54,150,229));
   QApplication::setPalette(pal);
+}
+
+/*************************************************************************//**
+  Set theme style again, to work around Qt theming bug.
+*****************************************************************************/
+void set_theme_style()
+{
+  QApplication::setStyle(current_style);
 }
 
 /*************************************************************************//**

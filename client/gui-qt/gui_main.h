@@ -31,4 +31,6 @@ QApplication *current_app();
 #define mevent_gpos(__ev__) (__ev__)->globalPos()
 #endif // FC_QT5_MODE
 
+void set_theme_style();
+
 #endif // FC__GUI_MAIN_H
