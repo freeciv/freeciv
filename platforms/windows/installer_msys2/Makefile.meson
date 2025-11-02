@@ -62,10 +62,8 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=77
-ACCESSKIT=
 else
 ICUVER=77
-ACCESSKIT=libaccesskit-c-0.15.dll
 endif
 
 #
@@ -261,13 +259,14 @@ COMMON_DLLS := \
 	liblcms2-2.dll \
 	liblqr-1-0.dll \
 	libltdl-7.dll \
-	libxml2-2.dll \
+	libxml2-16.dll \
 	libraqm-0.dll \
 	libunistring-5.dll \
 	exchndl.dll \
 	mgwhelp.dll \
 	libngtcp2-16.dll \
-	libngtcp2_crypto_ossl.dll
+	libngtcp2_crypto_ossl.dll \
+	libngtcp2_crypto_ossl-0.dll
 
 install-env-common:
 	# Add DLLs
@@ -323,8 +322,7 @@ FCMP_GTK4_DLLS := \
 	libdeflate.dll \
 	libLerc.dll \
 	libsharpyuv-0.dll \
-	libharfbuzz-subset-0.dll \
-	${ACCESSKIT}
+	libharfbuzz-subset-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/

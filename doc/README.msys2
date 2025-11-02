@@ -10,8 +10,8 @@ using MSYS2 from https://www.msys2.org/
 ==============
 
 Current official premade MSYS2 environment version info:
-[premade]:  msys2-freeciv-win64-250707.7z
-[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20250622.exe
+[premade]:  msys2-freeciv-win64-251025.7z
+[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20250830.exe
 
 See chapter "Premade environment" for what these mean. The info is
 located here on top for quick reference for the specific freeciv revision.
