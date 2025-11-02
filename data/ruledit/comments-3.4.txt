@@ -209,6 +209,7 @@ governments = "\
 ;                      own title.\n\
 ; ruler_female_title = The default female ruler title for the government type.\n\
 ;                      See above ruler_male_title.\n\
+; flags        = special flag strings; list of user flags defined above\n\
 ; helptext     = optional help text string; should escape all raw newlines\n\
 ;                so that xgettext parsing works\n\
 ;\n\
