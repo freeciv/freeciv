@@ -1358,7 +1358,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
   /* An image should be saved if:
    * - force is set to TRUE
    * - it is the first turn
-   * - turns is set to a value not zero and the current turn can be devided
+   * - turns is set to a value not zero and the current turn can be divided
    *   by this number */
   if (!force && game.info.turn != 1
       && !(pmapdef->turns != 0 && game.info.turn % pmapdef->turns == 0)) {
