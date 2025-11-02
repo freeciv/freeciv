@@ -986,8 +986,8 @@ freeciv-gtk4 -d verbose -P <plugin> -S stdsounds
 
    If you used one of the self installer versions then there's a program
    group with the name chosen at installation time (for example,
-   Freeciv 3.2.1 (GTK+3.22 client).) Just go to click on
-   Start→Programs→Freeciv 3.2.1 (GTK+3.22 client)→Freeciv
+   Freeciv 3.2.1 (GTK4 client).) Just go to click on
+   Start→Programs→Freeciv 3.2.1 (GTK4 client)→Freeciv
 
    That's it! You should be up and running.
 
