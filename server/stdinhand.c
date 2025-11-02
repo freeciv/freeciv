@@ -250,15 +250,6 @@ void stdinhand_init(void)
 }
 
 /**********************************************************************//**
-  Update stuff every turn that is related to this code module. Run this
-  on turn end.
-**************************************************************************/
-void stdinhand_turn(void)
-{
-  /* Nothing at the moment. */
-}
-
-/**********************************************************************//**
   Deinitialize stuff related to this code module.
 **************************************************************************/
 void stdinhand_free(void)

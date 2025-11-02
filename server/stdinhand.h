@@ -23,7 +23,6 @@
 #include "console.h"
 
 void stdinhand_init(void);
-void stdinhand_turn(void);
 void stdinhand_free(void);
 
 void cmd_reply(enum command_id cmd, struct connection *caller,
