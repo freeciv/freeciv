@@ -72,7 +72,7 @@ void team_remove_player(struct player *pplayer);
 #define team_slots_iterate(_tslot)                                          \
   if (team_slots_initialised()) {                                           \
     struct team_slot *_tslot = team_slot_first();                           \
-    for (; NULL != _tslot; _tslot = team_slot_next(_tslot)) {
+    for (; _tslot != nullptr; _tslot = team_slot_next(_tslot)) {
 
 #define team_slots_iterate_end                                              \
     }                                                                       \
@@ -82,7 +82,7 @@ void team_remove_player(struct player *pplayer);
 #define teams_iterate(_pteam)                                               \
   team_slots_iterate(_tslot) {                                              \
     struct team *_pteam = team_slot_get_team(_tslot);                       \
-    if (_pteam != NULL) {
+    if (_pteam != nullptr) {
 
 #define teams_iterate_end                                                   \
     }                                                                       \
