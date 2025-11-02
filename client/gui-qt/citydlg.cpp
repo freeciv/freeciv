@@ -2052,6 +2052,8 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   installEventFilter(this);
 
   ::city_dlg_created = true;
+
+  set_theme_style();
 }
 
 /************************************************************************//**
