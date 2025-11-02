@@ -31,4 +31,6 @@ QApplication *current_app();
 #define CAPTURE_DEFAULT_THIS [=]
 #endif // FREECIV_HAVE_CXX20_CAPTURE_THIS
 
+void set_theme_style();
+
 #endif // FC__GUI_MAIN_H
