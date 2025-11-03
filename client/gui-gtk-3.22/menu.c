@@ -117,6 +117,8 @@ static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data);
 static void find_city_callback(GtkMenuItem *item, gpointer data);
 static void worklists_callback(GtkMenuItem *item, gpointer data);
 static void client_lua_script_callback(GtkMenuItem *item, gpointer data);
+static void volume_up_callback(GtkMenuItem *item, gpointer data);
+static void volume_down_callback(GtkMenuItem *item, gpointer data);
 static void leave_callback(GtkMenuItem *item, gpointer data);
 static void quit_callback(GtkMenuItem *item, gpointer data);
 static void map_view_callback(GtkMenuItem *item, gpointer data);
@@ -300,6 +302,10 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(save_mapimg_callback), MGROUP_SAFE },
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
+  { "VOLUME_UP", N_("Volume Up"), GDK_KEY_greater, 0,
+    G_CALLBACK(volume_up_callback), MGROUP_SAFE },
+  { "VOLUME_DOWN", N_("Volume Down"), GDK_KEY_less, 0,
+    G_CALLBACK(volume_down_callback), MGROUP_SAFE },
   { "LEAVE", N_("_Leave"), 0, 0, G_CALLBACK(leave_callback), MGROUP_SAFE },
   { "QUIT", N_("_Quit"), GDK_KEY_q, ACCL_MOD_KEY,
     G_CALLBACK(quit_callback), MGROUP_SAFE },
@@ -741,6 +747,30 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
   } else {
     disconnect_from_server(TRUE);
   }
+}
+
+/************************************************************************//**
+  Item "VOLUME_UP" callback.
+****************************************************************************/
+static void volume_up_callback(GtkMenuItem *item, gpointer data)
+{
+  struct option *poption = optset_option_by_name(client_optset, "sound_effects_volume");
+
+  gui_options.sound_effects_volume += 10;
+  gui_options.sound_effects_volume = CLIP(0, gui_options.sound_effects_volume, 100);
+  option_changed(poption);
+}
+
+/************************************************************************//**
+  Item "VOLUME_DOWN" callback.
+****************************************************************************/
+static void volume_down_callback(GtkMenuItem *item, gpointer data)
+{
+  struct option *poption = optset_option_by_name(client_optset, "sound_effects_volume");
+
+  gui_options.sound_effects_volume -= 10;
+  gui_options.sound_effects_volume = CLIP(0, gui_options.sound_effects_volume, 100);
+  option_changed(poption);
 }
 
 /************************************************************************//**
