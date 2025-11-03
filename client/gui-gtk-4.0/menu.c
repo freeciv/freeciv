@@ -155,6 +155,12 @@ static void client_lua_script_callback(GSimpleAction *action,
 static void leave_callback(GSimpleAction *action,
                            GVariant *parameter,
                            gpointer data);
+static void volume_up_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void volume_down_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
 static void quit_callback(GSimpleAction *action,
                           GVariant *parameter,
                           gpointer data);
@@ -574,6 +580,12 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."),
     "save_mapimg_as", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "VOLUME_UP", N_("Volume Up"),
+    "volume_up", "greater", MGROUP_SAFE,
+    NULL, FALSE },
+  { "VOLUME_DOWN", N_("Volume Down"),
+    "volume_down", "less", MGROUP_SAFE,
     NULL, FALSE },
   { "LEAVE", N_("_Leave"),
     "leave", NULL, MGROUP_SAFE,
@@ -1055,6 +1067,8 @@ const GActionEntry acts[] = {
   { "game_save_as", save_game_as_callback },
   { "save_mapimg", save_mapimg_callback },
   { "save_mapimg_as", save_mapimg_as_callback },
+  { "volume_up", volume_up_callback },
+  { "volume_down", volume_down_callback },
   { "leave", leave_callback },
   { "quit", quit_callback },
 
@@ -1323,6 +1337,34 @@ static void leave_callback(GSimpleAction *action,
   } else {
     disconnect_from_server(TRUE);
   }
+}
+
+/************************************************************************//**
+  Item "VOLUME_UP" callback.
+****************************************************************************/
+static void volume_up_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
+{
+  struct option *poption = optset_option_by_name(client_optset, "sound_effects_volume");
+
+  gui_options.sound_effects_volume += 10;
+  gui_options.sound_effects_volume = CLIP(0, gui_options.sound_effects_volume, 100);
+  option_changed(poption);
+}
+
+/************************************************************************//**
+  Item "VOLUME_DOWN" callback.
+****************************************************************************/
+static void volume_down_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
+{
+  struct option *poption = optset_option_by_name(client_optset, "sound_effects_volume");
+
+  gui_options.sound_effects_volume -= 10;
+  gui_options.sound_effects_volume = CLIP(0, gui_options.sound_effects_volume, 100);
+  option_changed(poption);
 }
 
 /************************************************************************//**
@@ -3055,6 +3097,8 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "GAME_SAVE_AS");
   menu_entry_init(topmenu, "MAPIMG_SAVE");
   menu_entry_init(topmenu, "MAPIMG_SAVE_AS");
+  menu_entry_init(topmenu, "VOLUME_UP");
+  menu_entry_init(topmenu, "VOLUME_DOWN");
   menu_entry_init(topmenu, "LEAVE");
   menu_entry_init(topmenu, "QUIT");
 
