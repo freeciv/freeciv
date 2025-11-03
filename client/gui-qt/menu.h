@@ -305,6 +305,8 @@ private slots:
   void load_new_tileset();
   void back_to_menu();
   bool confirm_disruptive_selection();
+  void volume_up();
+  void volume_down();
   void quit_game();
 
   // Help menu
