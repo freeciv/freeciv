@@ -1011,6 +1011,13 @@ void mr_menu::setup_menus()
   act = main_menu->addAction(_("Save Map to Image"));
   connect(act, &QAction::triggered, this, &mr_menu::save_image);
   main_menu->addSeparator();
+  act = main_menu->addAction(_("Volume Up"));
+  act->setShortcut(QKeySequence(tr(">")));
+  connect(act, &QAction::triggered, this, &mr_menu::volume_up);
+  act = main_menu->addAction(_("Volume Down"));
+  act->setShortcut(QKeySequence(tr("<")));
+  connect(act, &QAction::triggered, this, &mr_menu::volume_down);
+  main_menu->addSeparator();
   act = main_menu->addAction(_("Leave game"));
   act->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
   connect(act, &QAction::triggered, this, &mr_menu::back_to_menu);
@@ -3914,6 +3921,30 @@ void mr_menu::back_to_menu()
   } else {
     disconnect_from_server(TRUE);
   }
+}
+
+/**********************************************************************//**
+  Menu item Volume Up
+**************************************************************************/
+void mr_menu::volume_up()
+{
+  struct option *poption = optset_option_by_name(client_optset, "sound_effects_volume");
+
+  gui_options.sound_effects_volume += 10;
+  gui_options.sound_effects_volume = CLIP(0, gui_options.sound_effects_volume, 100);
+  option_changed(poption);
+}
+
+/**********************************************************************//**
+  Menu item Volume Down
+**************************************************************************/
+void mr_menu::volume_down()
+{
+  struct option *poption = optset_option_by_name(client_optset, "sound_effects_volume");
+
+  gui_options.sound_effects_volume -= 10;
+  gui_options.sound_effects_volume = CLIP(0, gui_options.sound_effects_volume, 100);
+  option_changed(poption);
 }
 
 /**********************************************************************//**
