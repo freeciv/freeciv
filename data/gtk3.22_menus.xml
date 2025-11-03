@@ -55,6 +55,15 @@
               <object class="GtkSeparatorMenuItem" />
             </child>
             <child>
+              <object class="GtkMenuItem" id="VOLUME_UP" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="VOLUME_DOWN" />
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" />
+            </child>
+            <child>
               <object class="GtkMenuItem" id="LEAVE" />
             </child>
             <child>
