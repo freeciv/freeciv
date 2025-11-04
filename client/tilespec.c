@@ -4679,13 +4679,17 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 #define FULL_TILE_X_OFFSET ((t->normal_tile_width - t->full_tile_width) / 2)
 #define FULL_TILE_Y_OFFSET (t->normal_tile_height - t->full_tile_height)
 
-#define ADD_SPRITE(s, draw_fog, x_offset, y_offset)                         \
+#define ADD_SPRITE_SIZE(s, draw_fog, x_offset, y_offset, w_in, h_in)        \
   (fc_assert(s != NULL),                                                    \
    sprs->sprite = s,                                                        \
    sprs->foggable = (draw_fog && t->fogstyle == FOG_AUTO),                  \
    sprs->offset_x = x_offset,                                               \
    sprs->offset_y = y_offset,                                               \
+   sprs->w = w_in,                                                          \
+   sprs->h = h_in,                                                          \
    sprs++)
+#define ADD_SPRITE(s, draw_fog, x_offset, y_offset)                         \
+  ADD_SPRITE_SIZE(s, draw_fog, x_offset, y_offset, 0, 0)
 #define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, TRUE, 0, 0)
 #define ADD_SPRITE_FULL(s)                                                  \
   ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
@@ -6269,9 +6273,15 @@ int fill_sprite_array(struct tileset *t,
     /* City. Some city sprites are drawn later. */
     if (pcity && gui_options.draw_cities) {
       if (!gui_options.draw_full_citybar && !gui_options.solid_color_behind_units) {
-        ADD_SPRITE(get_city_flag_sprite(t, pcity), TRUE,
-                   FULL_TILE_X_OFFSET + t->city_flag_offset_x,
-                   FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
+        struct sprite *spr = get_city_flag_sprite(t, pcity);
+        struct area_rect flag_rect;
+
+        get_flag_dimensions(spr, &flag_rect, tileset_svg_flag_height(tileset));
+
+        ADD_SPRITE_SIZE(spr, TRUE,
+                        FULL_TILE_X_OFFSET + t->city_flag_offset_x,
+                        FULL_TILE_Y_OFFSET + t->city_flag_offset_y,
+                        flag_rect.w, flag_rect.h);
       }
       /* For iso-view the city.wall graphics include the full city, whereas
        * for non-iso view they are an overlay on top of the base city
