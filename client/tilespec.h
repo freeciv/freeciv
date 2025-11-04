@@ -111,6 +111,7 @@ struct drawn_sprite {
   bool foggable;        /* Set to FALSE for sprites that are never fogged. */
   struct sprite *sprite;
   int offset_x, offset_y;       /* Offset from tile origin */
+  int w, h;
 };
 
 /* Items on the mapview are drawn in layers. Each entry below represents
