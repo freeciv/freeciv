@@ -179,7 +179,7 @@ static int redraw_edit(struct widget *edit_widget)
     /* set position and blit text */
     if (text) {
       rdest.y += (pedit->h - text->h) / 2;
-      /* blit centred text to botton */
+      /* blit centred text to bottom */
       if (edit_widget->string_utf8->style & SF_CENTER) {
         rdest.x += (pedit->w - text->w) / 2;
       } else {

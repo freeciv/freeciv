@@ -904,12 +904,12 @@ static void real_resize_window_callback(void *data)
   struct widget *widget;
 
   if (C_S_RUNNING == client_state()) {
-    /* Move units window to botton-right corner. */
+    /* Move units window to bottom-right corner. */
     set_new_unitinfo_window_pos();
-    /* Move minimap window to botton-left corner. */
+    /* Move minimap window to bottom-left corner. */
     set_new_minimap_window_pos();
 
-    /* Move cooling/warming icons to botton-right corner. */
+    /* Move cooling/warming icons to bottom-right corner. */
     widget = get_widget_pointer_from_main_list(ID_WARMING_ICON);
     widget_set_position(widget, (main_window_width() - adj_size(10)
                                  - (widget->size.w * 2)), widget->size.y);
