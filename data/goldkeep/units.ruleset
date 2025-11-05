@@ -112,8 +112,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base
 ; non_native_def_pct  = Defense power percentage applying when defending on
 ;                       non-native terrain (such as ship in harbor)
-; flags               = List of unit class flags (from the following list; you
-;                       cannot add custom unit class flags)
+; flags               = List of unit class flags; list of built-in flags
+;                       described below and/or user flags defined above
 ; helptext            = optional help text string; should escape all raw newlines
 ;                       so that xgettext parsing works
 ;
