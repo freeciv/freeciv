@@ -59,7 +59,12 @@ static void player_diplstate_new(const struct player *plr1,
 static void player_diplstate_defaults(const struct player *plr1,
                                       const struct player *plr2);
 static void player_diplstate_destroy(const struct player *plr1,
-                                     const struct player *plr2);
+                                     const struct player *plr2)
+  fc__attribute((nonnull(1, 2)));
+
+static void player_diplstate_new(const struct player *plr1,
+                                 const struct player *plr2)
+  fc__attribute((nonnull(1, 2)));
 
 /*******************************************************************//**
   Return the diplomatic state that cancelling a pact will
@@ -286,10 +291,6 @@ static void player_diplstate_new(const struct player *plr1,
                                  const struct player *plr2)
 {
   struct player_diplstate *diplstate;
-
-  fc_assert_ret(plr1 != nullptr);
-  fc_assert_ret(plr2 != nullptr);
-
   const struct player_diplstate **diplstate_slot
     = plr1->diplstates + player_index(plr2);
 
@@ -324,9 +325,6 @@ static void player_diplstate_defaults(const struct player *plr1,
 struct player_diplstate *player_diplstate_get(const struct player *plr1,
                                               const struct player *plr2)
 {
-  fc_assert_ret_val(plr1 != nullptr, nullptr);
-  fc_assert_ret_val(plr2 != nullptr, nullptr);
-
   const struct player_diplstate **diplstate_slot
     = plr1->diplstates + player_index(plr2);
 
@@ -341,9 +339,6 @@ struct player_diplstate *player_diplstate_get(const struct player *plr1,
 static void player_diplstate_destroy(const struct player *plr1,
                                      const struct player *plr2)
 {
-  fc_assert_ret(plr1 != nullptr);
-  fc_assert_ret(plr2 != nullptr);
-
   const struct player_diplstate **diplstate_slot
     = plr1->diplstates + player_index(plr2);
 
@@ -427,8 +422,6 @@ int player_slot_count(void)
 ***********************************************************************/
 int player_slot_index(const struct player_slot *pslot)
 {
-  fc_assert_ret_val(pslot != nullptr, -1);
-
   return pslot - player_slots.slots;
 }
 
@@ -438,8 +431,6 @@ int player_slot_index(const struct player_slot *pslot)
 ***********************************************************************/
 struct player *player_slot_get_player(const struct player_slot *pslot)
 {
-  fc_assert_ret_val(pslot != nullptr, nullptr);
-
   return pslot->player;
 }
 
@@ -449,8 +440,6 @@ struct player *player_slot_get_player(const struct player_slot *pslot)
 ***********************************************************************/
 bool player_slot_is_used(const struct player_slot *pslot)
 {
-  fc_assert_ret_val(pslot != nullptr, FALSE);
-
   /* No player slot available, if the game is not initialised. */
   if (!player_slots_initialised()) {
     return FALSE;
@@ -759,8 +748,6 @@ void player_destroy(struct player *pplayer)
 {
   struct player_slot *pslot;
 
-  fc_assert_ret(pplayer != nullptr);
-
   pslot = pplayer->slot;
   fc_assert(pslot->player == pplayer);
 
@@ -838,8 +825,6 @@ int player_index(const struct player *pplayer)
 ***********************************************************************/
 int player_number(const struct player *pplayer)
 {
-  fc_assert_ret_val(pplayer != nullptr, -1);
-
   return player_slot_index(pplayer->slot);
 }
 
@@ -960,8 +945,6 @@ struct player *player_by_user(const char *name)
 ***********************************************************************/
 int player_age(const struct player *pplayer)
 {
-  fc_assert_ret_val(pplayer != nullptr, 0);
-
   return pplayer->turns_alive;
 }
 
@@ -1172,9 +1155,6 @@ bool can_player_see_city_internals(const struct player *pplayer,
 bool player_can_see_city_externals(const struct player *pow_player,
                                    const struct city *target_city)
 {
-  fc_assert_ret_val(target_city, FALSE);
-  fc_assert_ret_val(pow_player, FALSE);
-
   if (can_player_see_city_internals(pow_player, target_city)) {
     /* City internals includes city externals. */
     return TRUE;
@@ -1525,9 +1505,6 @@ bool is_diplrel_between(const struct player *player1,
                         const struct player *player2,
                         int diplrel)
 {
-  fc_assert(player1 != nullptr);
-  fc_assert(player2 != nullptr);
-
   /* No relationship to it self. */
   if (player1 == player2 && diplrel != DRO_FOREIGN) {
     return FALSE;
@@ -1573,8 +1550,6 @@ bool is_diplrel_between(const struct player *player1,
 ***********************************************************************/
 bool is_diplrel_to_other(const struct player *pplayer, int diplrel)
 {
-  fc_assert(pplayer != nullptr);
-
   players_iterate_alive(oplayer) {
     if (oplayer == pplayer) {
       continue;
