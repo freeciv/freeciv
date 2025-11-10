@@ -436,7 +436,7 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     default:
       break;
     }
-  } else if (!(ev->state & GDK_CONTROL_MASK)) {
+  } else if (!(ev->state & ACCL_MOD_KEY)) {
     switch (ev->keyval) {
     default:
       break;
@@ -447,13 +447,11 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     bool volchange = FALSE;
 
     switch (ev->keyval) {
-    case GDK_KEY_plus:
     case GDK_KEY_KP_Add:
       gui_options.sound_effects_volume += 10;
       volchange = TRUE;
       break;
 
-    case GDK_KEY_minus:
     case GDK_KEY_KP_Subtract:
       gui_options.sound_effects_volume -= 10;
       volchange = TRUE;
@@ -471,7 +469,8 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
 
       return TRUE;
     }
-  } else if (!(ev->state & GDK_CONTROL_MASK)) {
+  }
+  if (!(ev->state & ACCL_MOD_KEY)) {
     switch (ev->keyval) {
     case GDK_KEY_plus:
     case GDK_KEY_KP_Add:
