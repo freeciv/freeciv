@@ -1302,8 +1302,28 @@ static enum cb_error_level dai_do_build_city(struct ai_type *ait,
                 player_name(pplayer), TILE_XY(ptile));
     } else {
       /* The request was illegal to begin with. */
-      log_error("%s: Failed to build city at (%d, %d). Reason id: %d",
-                player_name(pplayer), TILE_XY(ptile), reason);
+
+      if (reason == ANEK_UNKNOWN
+          && !action_enablers_allow(ACTION_FOUND_CITY,
+                                    &(const struct req_context) {
+                                      .player = unit_owner(punit),
+                                      .city = tile_city(ptile),
+                                      .tile = ptile,
+                                      .unit = punit,
+                                      .unittype = unit_type_get(punit),
+                                    },
+                                    &(const struct req_context) {
+                                      .player = tile_owner(ptile),
+                                      .city = tile_city(ptile),
+                                      .tile = ptile,
+                                    } )) {
+        log_debug("%s: Failed to build city at (%d, %d). Enablers disallow.",
+                  player_name(pplayer), TILE_XY(ptile));
+      } else {
+        log_error("%s: Failed to build city at (%d, %d). Reason id: %d",
+                  player_name(pplayer), TILE_XY(ptile), reason);
+      }
+
       return CBE_FATAL;
     }
 

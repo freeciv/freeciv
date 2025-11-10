@@ -3007,6 +3007,17 @@ static bool is_action_enabled(const struct civ_map *nmap,
     return FALSE;
   }
 
+  return action_enablers_allow(wanted_action, actor, target);
+}
+
+/**********************************************************************//**
+  Returns whether action enablers would allow action,
+  assuming hard requirements do.
+**************************************************************************/
+bool action_enablers_allow(const action_id wanted_action,
+                           const struct req_context *actor,
+                           const struct req_context *target)
+{
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
     if (is_enabler_active(enabler, actor, target)) {
