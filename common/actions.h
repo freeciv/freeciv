@@ -716,6 +716,9 @@ bool action_univs_not_blocking(const struct action *paction,
 
 bool action_immune_government(struct government *gov, action_id act);
 
+bool action_enablers_allow(const action_id wanted_action,
+                           const struct req_context *actor,
+                           const struct req_context *target);
 bool is_action_possible_on_city(action_id act_id,
                                 const struct player *actor_player,
                                 const struct city *target_city);
