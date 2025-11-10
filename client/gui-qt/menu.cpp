@@ -3449,6 +3449,7 @@ void mr_menu::back_to_menu()
       break;
     case QMessageBox::Ok:
       if (client.conn.used) {
+        gui()->infotab->msgwdg->clr();
         disconnect_from_server();
       }
       break;
