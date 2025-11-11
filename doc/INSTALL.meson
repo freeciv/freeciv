@@ -263,6 +263,8 @@ META_URL             - URL of the default metaserver
 MODPACK_LIST_URL     - URL of the default modpack list
 FREECIV_STORAGE_DIR  - Directory where freeciv stores user files
 FREECIV_DEFAULT_PORT - Default port of the server
+FREECIV_TESTMATIC    - 'yes' or 'no' to have testmatic support built in
+FREECIV_HOMEPAGE     - Fork's homepage URL
 
 
 run.sh
