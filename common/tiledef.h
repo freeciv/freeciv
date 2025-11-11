@@ -58,6 +58,11 @@ struct tiledef *tiledef_by_translated_name(const char *name);
 bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
   fc__attribute((nonnull (1, 2)));
 
+bool is_tiledef_card_near(const struct civ_map *nmap, const struct tile *ptile,
+                          const struct tiledef *ptd);
+bool is_tiledef_near_tile(const struct civ_map *nmap, const struct tile *ptile,
+                          const struct tiledef *ptd);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

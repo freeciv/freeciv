@@ -17,6 +17,7 @@
 
 /* common */
 #include "game.h"
+#include "map.h"
 
 #include "tiledef.h"
 
@@ -155,4 +156,36 @@ bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
   } extra_type_list_iterate_end;
 
   return TRUE;
+}
+
+/************************************************************************//**
+  Is there tiledef of the given type cardinally near tile?
+  (Does not check ptile itself.)
+****************************************************************************/
+bool is_tiledef_card_near(const struct civ_map *nmap, const struct tile *ptile,
+                          const struct tiledef *ptd)
+{
+  cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
+    if (tile_matches_tiledef(ptd, adjc_tile)) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return FALSE;
+}
+
+/************************************************************************//**
+  Is there tiledef of the given type near tile?
+  (Does not check ptile itself.)
+****************************************************************************/
+bool is_tiledef_near_tile(const struct civ_map *nmap, const struct tile *ptile,
+                          const struct tiledef *ptd)
+{
+  adjc_iterate(nmap, ptile, adjc_tile) {
+    if (tile_matches_tiledef(ptd, adjc_tile)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
 }
