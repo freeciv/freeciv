@@ -68,7 +68,7 @@ static struct mfcb_data
 
 static int audio_play_tag(struct section_file *sfile,
                           const char *tag, bool repeat,
-                          int exclude, bool keep_old_style);
+                          int exclude, enum keep_style keep_old_style);
 
 static void audio_shutdown_atexit(void);
 
@@ -415,7 +415,7 @@ static void music_finished_callback(void)
 
   if (usage_enabled) {
     current_track = audio_play_tag(mfcb.sfile, mfcb.tag, TRUE, current_track,
-                                   FALSE);
+                                   KS_CHANGE);
   }
 }
 
@@ -425,7 +425,7 @@ static void music_finished_callback(void)
 **************************************************************************/
 static int audio_play_tag(struct section_file *sfile,
                           const char *tag, bool repeat, int exclude,
-                          bool keep_old_style)
+                          enum keep_style keep_old_style)
 {
   const char *soundfile;
   const char *fullpath = NULL;
@@ -477,7 +477,7 @@ static int audio_play_tag(struct section_file *sfile,
     }
 
     if (repeat) {
-      if (!keep_old_style) {
+      if (keep_old_style != KS_KEEP) {
         mfcb.sfile = sfile;
         mfcb.tag = tag;
       }
@@ -498,7 +498,8 @@ static int audio_play_tag(struct section_file *sfile,
     }
   }
 
-  if (!plugins[selected_plugin].play(tag, fullpath, repeat, cb)) {
+  if (!plugins[selected_plugin].play(tag, fullpath, repeat,
+                                     keep_old_style != KS_SND_EFFECT, cb)) {
     return -1;
   }
 
@@ -510,14 +511,14 @@ static int audio_play_tag(struct section_file *sfile,
 **************************************************************************/
 static bool audio_play_sound_tag(const char *tag, bool repeat)
 {
-  return (audio_play_tag(ss_tagfile, tag, repeat, -1, FALSE) >= 0);
+  return (audio_play_tag(ss_tagfile, tag, repeat, -1, KS_SND_EFFECT) >= 0);
 }
 
 /**********************************************************************//**
   Play tag from music set
 **************************************************************************/
 static int audio_play_music_tag(const char *tag, bool repeat,
-                                bool keep_old_style)
+                                enum keep_style keep_old_style)
 {
   return audio_play_tag(ms_tagfile, tag, repeat, -1, keep_old_style);
 }
@@ -552,7 +553,7 @@ void audio_play_sound(const char *const tag, const char *const alt_tag,
   music.
 **************************************************************************/
 static void real_audio_play_music(const char *const tag, char *const alt_tag,
-                                  bool keep_old_style)
+                                  enum keep_style keep_old_style)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
@@ -580,7 +581,7 @@ void audio_play_music(const char *const tag, char *const alt_tag,
 {
   current_usage = usage;
 
-  real_audio_play_music(tag, alt_tag, FALSE);
+  real_audio_play_music(tag, alt_tag, KS_CHANGE);
 }
 
 /**********************************************************************//**
@@ -597,7 +598,7 @@ void audio_play_track(const char *const tag, char *const alt_tag)
     audio_stop();
   }
 
-  real_audio_play_music(tag, alt_tag, TRUE);
+  real_audio_play_music(tag, alt_tag, KS_KEEP);
 }
 
 /**********************************************************************//**
