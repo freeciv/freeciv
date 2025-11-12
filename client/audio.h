@@ -38,12 +38,15 @@ struct audio_plugin {
   double (*get_volume) (void);
   void (*set_volume) (double volume);
   bool (*play) (const char *const tag, const char *const path, bool repeat,
-                audio_finished_callback cb);
+                bool music, audio_finished_callback cb);
   void (*pause)(void);
   void (*resume)(void);
 };
 
 enum music_usage { MU_MENU, MU_INGAME };
+
+/* Sound effects do not have style. */
+enum keep_style { KS_SND_EFFECT, KS_KEEP, KS_CHANGE };
 
 struct strvec;
 struct option;

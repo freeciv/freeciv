@@ -79,7 +79,7 @@ static double sdl_audio_get_volume(void)
   Play sound
 **************************************************************************/
 static bool sdl_audio_play(const char *const tag, const char *const fullpath,
-                           bool repeat, audio_finished_callback cb)
+                           bool repeat, bool music, audio_finished_callback cb)
 {
   int i, j;
   Mix_Chunk *wave = NULL;
