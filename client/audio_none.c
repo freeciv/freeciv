@@ -52,12 +52,14 @@ static void none_audio_wait(void)
   Play sound sample
 **************************************************************************/
 static bool none_audio_play(const char *const tag, const char *const fullpath,
-                            bool repeat, audio_finished_callback cb)
+                            bool repeat, bool music,
+                            audio_finished_callback cb)
 {
   if (strcmp(tag, "e_turn_bell") == 0) {
     sound_bell();
     return TRUE;
   }
+
   return FALSE;
 }
 
