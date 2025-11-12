@@ -41,7 +41,7 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
  */
 #define B_LAST MAX_NUM_BUILDINGS
 
-#define B_NEVER (NULL)
+#define B_NEVER (nullptr)
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_imprs, B_LAST);
@@ -171,9 +171,9 @@ bool small_wonder_is_built(const struct player *pplayer,
 struct city *city_from_small_wonder(const struct player *pplayer,
                                     const struct impr_type *pimprove);
 
-/* player related improvement functions */
+/* Player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer,
-			  const struct impr_type *pimprove,
+                          const struct impr_type *pimprove,
                           const struct city *pcity);
 bool is_improvement_productive(const struct city *pcity,
                                const struct impr_type *pimprove);
@@ -196,15 +196,15 @@ void improvement_feature_cache_init(void);
 struct impr_type *improvement_array_first(void);
 const struct impr_type *improvement_array_last(void);
 
-#define improvement_iterate(_p)						\
-{									\
-  struct impr_type *_p = improvement_array_first();			\
-  if (NULL != _p) {							\
+#define improvement_iterate(_p)                                         \
+{                                                                       \
+  struct impr_type *_p = improvement_array_first();                     \
+  if (_p != nullptr) {                                                  \
     for (; _p <= improvement_array_last(); _p++) {
 
-#define improvement_iterate_end						\
-    }									\
-  }									\
+#define improvement_iterate_end                                         \
+    }                                                                   \
+  }                                                                     \
 }
 
 #define improvement_re_active_iterate(_p)                               \
