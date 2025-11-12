@@ -203,7 +203,6 @@ bool settings_game_reset(void);
 
 void settings_init(bool act);
 void settings_reset(void);
-void settings_turn(void);
 void settings_free(void);
 int settings_number(void);
 

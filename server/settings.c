@@ -5240,15 +5240,6 @@ void settings_reset(void)
 }
 
 /************************************************************************//**
-  Update stuff every turn that is related to this code module. Run this
-  on turn end.
-****************************************************************************/
-void settings_turn(void)
-{
-  /* Nothing at the moment. */
-}
-
-/************************************************************************//**
   Deinitialize stuff related to this code module.
 ****************************************************************************/
 void settings_free(void)
