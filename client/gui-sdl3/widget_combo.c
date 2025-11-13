@@ -68,7 +68,7 @@ static int combo_redraw(struct widget *combo)
   text = create_text_surf_from_utf8(combo->string_utf8);
   if (NULL != text) {
     dest.y += (surface->h - surface->h) / 2;
-    /* Blit centred text to botton. */
+    /* Blit centred text to bottom. */
     if (combo->string_utf8->style & SF_CENTER) {
       dest.x += (surface->w - text->w) / 2;
     } else {

@@ -34,7 +34,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
 bool auto_worker_setup_work(const struct civ_map *nmap,
                             struct player *pplayer, struct unit *punit,
                             struct workermap *state, int recursion,
-                            struct pf_path *path,
+                            struct pf_path **ppath,
                             struct tile *best_tile,
                             enum unit_activity best_act,
                             struct extra_type **best_target,
@@ -45,12 +45,12 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
                                       enum unit_activity *best_act,
                                       struct extra_type **best_target,
                                       struct tile **best_tile,
-                                      struct pf_path **path,
+                                      struct pf_path **ppath,
                                       struct workermap *state);
 
 struct city *worker_evaluate_city_requests(struct unit *punit,
                                            struct worker_task **best_task,
-                                           struct pf_path **path,
+                                           struct pf_path **ppath,
                                            struct workermap *state);
 
 void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
