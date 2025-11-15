@@ -138,7 +138,6 @@ struct team_slot *team_slot_next(struct team_slot *tslot)
 int team_slot_index(const struct team_slot *tslot)
 {
   fc_assert_ret_val(team_slots_initialised(), -1);
-  fc_assert_ret_val(tslot != nullptr, -1);
 
   return tslot - team_slots.slots;
 }
@@ -150,7 +149,6 @@ int team_slot_index(const struct team_slot *tslot)
 struct team *team_slot_get_team(const struct team_slot *tslot)
 {
   fc_assert_ret_val(team_slots_initialised(), nullptr);
-  fc_assert_ret_val(tslot != nullptr, nullptr);
 
   return tslot->team;
 }
@@ -188,8 +186,6 @@ struct team_slot *team_slot_by_number(int team_id)
 ****************************************************************************/
 struct team_slot *team_slot_by_rule_name(const char *team_name)
 {
-  fc_assert_ret_val(team_name != nullptr, nullptr);
-
   team_slots_iterate(tslot) {
     const char *tname = team_slot_rule_name(tslot);
 
@@ -233,7 +229,6 @@ static inline void team_slot_create_default_name(struct team_slot *tslot)
 const char *team_slot_rule_name(const struct team_slot *tslot)
 {
   fc_assert_ret_val(team_slots_initialised(), nullptr);
-  fc_assert_ret_val(tslot != nullptr, nullptr);
 
   if (tslot->rule_name == nullptr) {
     /* Get the team slot as changeable (not _const_) struct. */
@@ -254,7 +249,6 @@ const char *team_slot_name_translation(const struct team_slot *tslot)
 {
 #ifdef FREECIV_ENABLE_NLS
   fc_assert_ret_val(team_slots_initialised(), nullptr);
-  fc_assert_ret_val(tslot != nullptr, nullptr);
 
   if (tslot->name_translation == nullptr) {
     /* Get the team slot as changeable (not _const_) struct. */
@@ -277,7 +271,6 @@ const char *team_slot_name_translation(const struct team_slot *tslot)
 const char *team_slot_defined_name(const struct team_slot *tslot)
 {
   fc_assert_ret_val(team_slots_initialised(), nullptr);
-  fc_assert_ret_val(tslot != nullptr, nullptr);
 
   return tslot->defined_name;
 }
@@ -289,8 +282,6 @@ void team_slot_set_defined_name(struct team_slot *tslot,
                                 const char *team_name)
 {
   fc_assert_ret(team_slots_initialised());
-  fc_assert_ret(tslot != nullptr);
-  fc_assert_ret(team_name != nullptr);
 
   if (tslot->defined_name != nullptr) {
     free(tslot->defined_name);
@@ -390,8 +381,6 @@ int team_index(const struct team *pteam)
 ****************************************************************************/
 int team_number(const struct team *pteam)
 {
-  fc_assert_ret_val(pteam != nullptr, -1);
-
   return team_slot_index(pteam->slot);
 }
 
@@ -410,8 +399,6 @@ struct team *team_by_number(const int team_id)
 ****************************************************************************/
 const char *team_rule_name(const struct team *pteam)
 {
-  fc_assert_ret_val(pteam != nullptr, nullptr);
-
   return team_slot_rule_name(pteam->slot);
 }
 
@@ -420,8 +407,6 @@ const char *team_rule_name(const struct team *pteam)
 ****************************************************************************/
 const char *team_name_translation(const struct team *pteam)
 {
-  fc_assert_ret_val(pteam != nullptr, nullptr);
-
   return team_slot_name_translation(pteam->slot);
 }
 
@@ -456,8 +441,6 @@ int team_pretty_name(const struct team *pteam, char *buf, size_t buf_len)
 ****************************************************************************/
 const struct player_list *team_members(const struct team *pteam)
 {
-  fc_assert_ret_val(pteam != nullptr, nullptr);
-
   return pteam->plrlist;
 }
 
@@ -467,8 +450,6 @@ const struct player_list *team_members(const struct team *pteam)
 ****************************************************************************/
 bool team_add_player(struct player *pplayer, struct team *pteam)
 {
-  fc_assert_ret_val(pplayer != nullptr, FALSE);
-
   if (pteam == nullptr) {
     pteam = team_new(nullptr);
   } else if (pteam == pplayer->team) {
