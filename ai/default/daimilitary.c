@@ -463,6 +463,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_ROADFLAG:
   case VUT_TERRAIN:
   case VUT_EXTRA:
+  case VUT_TILEDEF:
   case VUT_GOOD:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:

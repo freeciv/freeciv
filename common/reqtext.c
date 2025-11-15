@@ -34,6 +34,7 @@
 #include "server_settings.h"
 #include "specialist.h"
 #include "terrain.h"
+#include "tiledef.h"
 
 #include "reqtext.h"
 
@@ -979,6 +980,99 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      Q_("?extra:Prevented by %s on any tile within the city "
                         "radius or the city radius of a trade partner."),
                      extra_name_translation(preq->source.value.extra));
+      }
+      return TRUE;
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_TILEDEF:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Only applies to \"%s\" tiledef."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Does not apply to \"%s\" tiledef."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      }
+      return TRUE;
+    case REQ_RANGE_TILE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Requires %s on the tile."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Prevented by %s on the tile."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Requires %s on the tile or a cardinally "
+                        "adjacent tile."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+        } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Prevented by %s on the tile or any cardinally "
+                        "adjacent tile."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+        }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Requires %s on the tile or an adjacent "
+                        "tile."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Prevented by %s on the tile or any adjacent "
+                        "tile."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Requires %s on a tile within the city "
+                        "radius."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Prevented by %s on any tile within the city "
+                        "radius."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      }
+      return TRUE;
+    case REQ_RANGE_TRADE_ROUTE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Requires %s on a tile within the city "
+                        "radius, or the city radius of a trade partner."),
+                     tiledef_name_translation(preq->source.value.tiledef));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?tiledef:Prevented by %s on any tile within the city "
+                        "radius or the city radius of a trade partner."),
+                     tiledef_name_translation(preq->source.value.tiledef));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:

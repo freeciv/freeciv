@@ -537,6 +537,7 @@ typedef union {
   struct unit_class *uclass;
   const struct unit_type *utype;
   struct extra_type *extra;
+  struct tiledef *tiledef;
   struct achievement *achievement;
   struct nation_group *nationgroup;
   struct nation_style *style;

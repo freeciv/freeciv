@@ -422,6 +422,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
     case VUT_WRAP:
       /* Can have multiple, since it's flag based (wrapx & wrapy) */
     case VUT_EXTRA:
+    case VUT_TILEDEF:
       /* Note that there can be more than 1 extra / tile. */
     case VUT_MAXTILETOTALUNITS:
     case VUT_MAXTILETOPUNITS:

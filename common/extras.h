@@ -368,6 +368,7 @@ bool player_knows_extra_exist(const struct player *pplayer,
   } extra_type_list_iterate_rev_end                      \
 }
 
+/* TODO: Tiledef requirement types */
 #define extra_deps_iterate(_reqs, _dep)                 \
 {                                                       \
   requirement_vector_iterate(_reqs, preq) {             \

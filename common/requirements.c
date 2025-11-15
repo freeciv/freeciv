@@ -40,6 +40,7 @@
 #include "server_settings.h"
 #include "specialist.h"
 #include "style.h"
+#include "tiledef.h"
 #include "victory.h" /* victory_enabled() */
 
 #include "requirements.h"
@@ -350,6 +351,12 @@ void universal_value_from_str(struct universal *source, const char *value)
   case VUT_EXTRA:
     source->value.extra = extra_type_by_rule_name(value);
     if (source->value.extra != nullptr) {
+      return;
+    }
+    break;
+  case VUT_TILEDEF:
+    source->value.tiledef = tiledef_by_rule_name(value);
+    if (source->value.tiledef != nullptr) {
       return;
     }
     break;
@@ -725,6 +732,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_EXTRA:
     source.value.extra = extra_by_number(value);
     return source;
+  case VUT_TILEDEF:
+    source.value.tiledef = tiledef_by_number(value);
+    return source;
   case VUT_GOOD:
     source.value.good = goods_by_number(value);
     return source;
@@ -964,6 +974,8 @@ int universal_number(const struct universal *source)
     return source->value.plr_flag;
   case VUT_EXTRA:
     return extra_number(source->value.extra);
+  case VUT_TILEDEF:
+    return tiledef_number(source->value.tiledef);
   case VUT_GOOD:
     return goods_number(source->value.good);
   case VUT_TERRAIN:
@@ -1165,6 +1177,7 @@ struct requirement req_from_str(const char *type, const char *range,
         req.range = REQ_RANGE_LOCAL;
         break;
       case VUT_EXTRA:
+      case VUT_TILEDEF:
       case VUT_ROADFLAG:
       case VUT_EXTRAFLAG:
         /* Keep old behavior */
@@ -1253,6 +1266,10 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ROADFLAG:
     case VUT_EXTRAFLAG:
       invalid = (req.range > REQ_RANGE_TRADE_ROUTE);
+      break;
+    case VUT_TILEDEF:
+      invalid = (req.range > REQ_RANGE_TRADE_ROUTE
+                 || req.range == REQ_RANGE_LOCAL);
       break;
     case VUT_ACHIEVEMENT:
     case VUT_MINTECHS:
@@ -1487,6 +1504,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ROADFLAG:
     case VUT_EXTRAFLAG:
     case VUT_EXTRA:
+    case VUT_TILEDEF:
     case VUT_GOOD:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
@@ -3181,6 +3199,101 @@ is_extra_req_active(const struct civ_map *nmap,
 
     return ret;
 
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
+  Determine whether a tiledef requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a tiledef requirement
+**************************************************************************/
+static enum fc_tristate
+is_tiledef_req_active(const struct civ_map *nmap,
+                      const struct req_context *context,
+                      const struct req_context *other_context,
+                      const struct requirement *req)
+{
+  const struct tiledef *ptdef;
+  enum fc_tristate ret;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TILEDEF);
+
+  ptdef = req->source.value.tiledef;
+
+  switch (req->range) {
+  case REQ_RANGE_TILE:
+    /* The requirement is filled if the tile has tiledef of requested type. */
+    if (!context->tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile));
+  case REQ_RANGE_CADJACENT:
+    if (!context->tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile)
+                            || is_tiledef_card_near(nmap, context->tile, ptdef));
+  case REQ_RANGE_ADJACENT:
+    if (!context->tile) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile)
+                            || is_tiledef_near_tile(nmap, context->tile, ptdef));
+  case REQ_RANGE_CITY:
+    if (!context->city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
+      if (tile_matches_tiledef(ptdef, ptile)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    return TRI_NO;
+
+  case REQ_RANGE_TRADE_ROUTE:
+    if (!context->city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
+      if (tile_matches_tiledef(ptdef, ptile)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    ret = TRI_NO;
+    trade_partners_iterate(context->city, trade_partner) {
+      if (trade_partner == nullptr) {
+        ret = TRI_MAYBE;
+      } else {
+        city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          if (tile_matches_tiledef(ptdef, ptile)) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      }
+    } trade_partners_iterate_end;
+
+    return ret;
+
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -6467,6 +6580,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_DIPLREL_UNITANY] = {is_diplrel_unitany_req_active, REQUCH_NO},
   [VUT_DIPLREL_UNITANY_O] = {is_diplrel_unitany_o_req_active, REQUCH_NO},
   [VUT_EXTRA] = {is_extra_req_active, REQUCH_NO, REQUC_LOCAL},
+  [VUT_TILEDEF] = {is_tiledef_req_active, REQUCH_NO, REQUC_LOCAL},
   [VUT_EXTRAFLAG] = {is_extraflag_req_active, REQUCH_NO, REQUC_LOCAL},
   [VUT_FUTURETECHS] = {is_futuretechs_req_active, REQUCH_ACT, REQUC_WORLD},
   [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
@@ -7052,6 +7166,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_MINCALFRAG:
   case VUT_TERRAIN:
   case VUT_EXTRA:
+  case VUT_TILEDEF:
   case VUT_GOOD:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
@@ -7649,6 +7764,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.plrstate == psource2->value.plrstate;
   case VUT_EXTRA:
     return psource1->value.extra == psource2->value.extra;
+  case VUT_TILEDEF:
+    return psource1->value.tiledef == psource2->value.tiledef;
   case VUT_GOOD:
     return psource1->value.good == psource2->value.good;
   case VUT_TERRAIN:
@@ -7814,6 +7931,8 @@ const char *universal_rule_name(const struct universal *psource)
     return plrstate_type_name(psource->value.plrstate);
   case VUT_EXTRA:
     return extra_rule_name(psource->value.extra);
+  case VUT_TILEDEF:
+    return tiledef_rule_name(psource->value.tiledef);
   case VUT_GOOD:
     return goods_rule_name(psource->value.good);
   case VUT_TERRAIN:
@@ -8013,6 +8132,9 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_EXTRA:
     fc_strlcat(buf, extra_name_translation(psource->value.extra), bufsz);
+    return buf;
+  case VUT_TILEDEF:
+    fc_strlcat(buf, tiledef_name_translation(psource->value.tiledef), bufsz);
     return buf;
   case VUT_GOOD:
     fc_strlcat(buf, goods_name_translation(psource->value.good), bufsz);
@@ -8781,6 +8903,8 @@ static enum req_item_found city_tile_found(const struct requirement *preq,
 
 /**********************************************************************//**
   Find if an extra type fulfills a requirement
+
+  TODO: Handle simple VUT_TILEDEF cases.
 **************************************************************************/
 static enum req_item_found extra_type_found(const struct requirement *preq,
                                             const struct universal *source)

@@ -660,7 +660,8 @@ static bool is_req_knowable(const struct player *pov_player,
       || req->source.kind == VUT_TERRAINALTER
       || req->source.kind == VUT_EXTRA
       || req->source.kind == VUT_EXTRAFLAG
-      || req->source.kind == VUT_ROADFLAG) {
+      || req->source.kind == VUT_ROADFLAG
+      || req->source.kind == VUT_TILEDEF) {
     if (context->tile == nullptr) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */
