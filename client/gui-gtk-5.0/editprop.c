@@ -5403,7 +5403,7 @@ static bool property_page_set_store_value(struct property_page *pp,
 }
 
 /************************************************************************//**
-  Inserts any objbinds owned by this proprety page into the page's list
+  Inserts any objbinds owned by this property page into the page's list
   store if they are not there already and refreshes all property widgets.
 ****************************************************************************/
 static void property_page_fill_widgets(struct property_page *pp)
