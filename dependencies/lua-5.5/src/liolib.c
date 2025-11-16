@@ -114,7 +114,7 @@ static int l_checkmode (const char *mode) {
 
 #if !defined(l_fseek)		/* { */
 
-#if defined(LUA_USE_FSEEKO)	/* { */
+#if defined(LUA_USE_FSEEKO) || defined(LUA_USE_OFF_T)	/* { */
 
 #include <sys/types.h>
 
