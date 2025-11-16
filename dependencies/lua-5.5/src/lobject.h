@@ -418,6 +418,7 @@ typedef struct TString {
 
 
 #define strisshr(ts)	((ts)->shrlen >= 0)
+#define isextstr(ts)	(ttislngstring(ts) && tsvalue(ts)->shrlen != LSTRREG)
 
 
 /*
@@ -582,8 +583,10 @@ typedef struct AbsLineInfo {
 /*
 ** Flags in Prototypes
 */
-#define PF_ISVARARG	1
-#define PF_FIXED	2  /* prototype has parts in fixed memory */
+#define PF_ISVARARG	1  /* function is vararg */
+#define PF_VAVAR	2  /* function has vararg parameter */
+#define PF_VATAB	4  /* function has vararg table */
+#define PF_FIXED	8  /* prototype has parts in fixed memory */
 
 
 /*

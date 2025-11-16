@@ -272,8 +272,8 @@ OP_BANDK,/*	A B C	R[A] := R[B] & K[C]:integer			*/
 OP_BORK,/*	A B C	R[A] := R[B] | K[C]:integer			*/
 OP_BXORK,/*	A B C	R[A] := R[B] ~ K[C]:integer			*/
 
-OP_SHRI,/*	A B sC	R[A] := R[B] >> sC				*/
 OP_SHLI,/*	A B sC	R[A] := sC << R[B]				*/
+OP_SHRI,/*	A B sC	R[A] := R[B] >> sC				*/
 
 OP_ADD,/*	A B C	R[A] := R[B] + R[C]				*/
 OP_SUB,/*	A B C	R[A] := R[B] - R[C]				*/
@@ -338,7 +338,11 @@ OP_CLOSURE,/*	A Bx	R[A] := closure(KPROTO[Bx])			*/
 
 OP_VARARG,/*	A C	R[A], R[A+1], ..., R[A+C-2] = vararg		*/
 
-OP_VARARGPREP,/*A	(adjust vararg parameters)			*/
+OP_GETVARG, /* A B C	R[A] := R[B][R[C]], R[B] is vararg parameter    */
+
+OP_ERRNNIL,/*	A Bx	raise error if R[A] ~= nil (K[Bx] is global name)*/
+
+OP_VARARGPREP,/* 	(adjust vararg parameters)			*/
 
 OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
 } OpCode;
