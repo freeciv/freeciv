@@ -6340,6 +6340,13 @@ static bool sg_load_player_unit(struct loaddata *loading,
   } else {
     punit->goto_tile = NULL;
 
+    if (punit->activity == ACTIVITY_GOTO) {
+      /* goto_tile should never be NULL with ACTIVITY_GOTO */
+      log_sg("Unit %d on goto without goto_tile. Aborting goto.",
+             punit->id);
+      punit->activity = ACTIVITY_IDLE;
+    }
+
     /* These variables are not used but needed for saving the unit table.
      * Load them to prevent unused variables errors. */
     (void) secfile_entry_lookup(loading->file, "%s.goto_x", unitstr);
