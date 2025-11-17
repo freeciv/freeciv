@@ -17,4 +17,5 @@ EXTRA_DIST =						\
 		flatpak/org.freeciv.qt.yml		\
 		flatpak/org.freeciv.qt.mp.yml		\
 		flatpak/org.freeciv.sdl2.yml		\
+		flatpak/org.freeciv.sdl3.yml		\
 		flatpak/org.freeciv.ruledit.yml
