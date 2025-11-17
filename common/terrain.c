@@ -51,7 +51,6 @@ void terrains_init(void)
     civ_terrains[i].ruledit_disabled = FALSE;
     civ_terrains[i].ruledit_dlg = NULL;
     civ_terrains[i].rgb = NULL;
-    civ_terrains[i].animal = NULL;
 
     for (j = 0; j < MAX_EXTRA_TYPES; j++) {
       civ_terrains[i].extra_removal_times[j] = 0;

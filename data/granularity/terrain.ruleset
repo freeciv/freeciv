@@ -151,7 +151,7 @@ ocean_resources = FALSE
 ;   - "extra"            - Name of the extra
 ;   - "removal_time"     - Time for cleaning activities (0 = impossible)
 ;                          Nonzero values only affect extras with removal_time 0.
-; animal               = unit type that can appear as animal on the terrain
+; animals              = list of unit types that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; doesn''t count for warming
 ;                        "yes" -- no change; counts for warming
@@ -243,7 +243,6 @@ pillage_time         = 1
 extra_settings       =
     { "extra", "removal_time"
     }
-animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
@@ -292,7 +291,6 @@ pillage_time         = 1
 extra_settings       =
     { "extra", "removal_time"
     }
-animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
@@ -341,7 +339,6 @@ pillage_time         = 1
 extra_settings       =
     { "extra", "removal_time"
     }
-animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
@@ -389,7 +386,6 @@ pillage_time         = 1
 extra_settings       =
     { "extra", "removal_time"
     }
-animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
@@ -439,7 +435,6 @@ pillage_time         = 1
 extra_settings       =
     { "extra", "removal_time"
     }
-animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"
@@ -487,7 +482,6 @@ pillage_time         = 1
 extra_settings       =
     { "extra", "removal_time"
     }
-animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
 cooler_wetter_result = "no"

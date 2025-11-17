@@ -127,7 +127,8 @@ struct terrain {
   /* Currently only clean times, but named for future */
   int extra_removal_times[MAX_EXTRA_TYPES];
 
-  const struct unit_type *animal;
+  int num_animals;
+  const struct unit_type **animals;
 
   /* May be NULL if the transformation is impossible. */
   struct terrain *warmer_wetter_result, *warmer_drier_result;
@@ -292,6 +293,18 @@ const struct terrain *terrain_array_last(void);
       int _freq = pterrain->resource_freq[_res##_index];
 
 #define terrain_resources_iterate_end                                     \
+    }                                                                     \
+  }
+
+#define terrain_animals_iterate(pterrain, _animal)                  \
+  if (NULL != pterrain && pterrain->num_animals > 0) {                  \
+    int _animal##_index;                                                     \
+    for (_animal##_index = 0;                                                \
+         _animal##_index < pterrain->num_animals;                       \
+         _animal##_index++) {                                                \
+      const struct unit_type *_animal = pterrain->animals[_animal##_index];        \
+
+#define terrain_animals_iterate_end                                     \
     }                                                                     \
   }
 

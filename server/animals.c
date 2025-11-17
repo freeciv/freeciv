@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "rand.h" /* fc_rand() */
+
 /* common */
 #include "ai.h"
 #include "game.h"
@@ -41,11 +44,15 @@
 #include "animals.h"
 
 /************************************************************************//**
-  Return suitable animal type for the terrain
+  Return a randon suitable animal type for the terrain
 ****************************************************************************/
 static const struct unit_type *animal_for_terrain(struct terrain *pterr)
 {
-  return pterr->animal;
+  if (pterr->num_animals == 0) {
+    return nullptr;
+  } else {
+    return pterr->animals[fc_rand(pterr->num_animals)];
+  }
 }
 
 /************************************************************************//**

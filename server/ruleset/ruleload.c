@@ -3367,11 +3367,43 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      if (!lookup_unit_type(file, tsection, "animal",
-                            &pterrain->animal, filename,
-                            rule_name_get(&pterrain->name))) {
-        ok = FALSE;
-        break;
+      if (compat->compat_mode && compat->version < RSFORMAT_3_3) {
+        pterrain->num_animals = 1;
+        pterrain->animals = fc_calloc(pterrain->num_animals,
+                                      sizeof(*pterrain->animals));
+        if (!lookup_unit_type(file, tsection, "animal",
+                              &(pterrain->animals[0]), filename,
+                              rule_name_get(&pterrain->name))) {
+          ok = FALSE;
+          break;
+        }
+        /* if "None", pterrain->animals[0] will be nullptr, so adjust */
+        if (pterrain->animals[0] == nullptr) {
+          pterrain->num_animals = 0;
+          free(pterrain->animals);
+          pterrain->animals = nullptr;
+        }
+      } else {
+        res = secfile_lookup_str_vec(file, &nval, "%s.animals", tsection);
+        pterrain->num_animals = nval;
+        if (pterrain->num_animals == 0) {
+          pterrain->animals = nullptr;
+        } else {
+          pterrain->animals = fc_calloc(pterrain->num_animals,
+                                        sizeof(*pterrain->animals));
+          for (j = 0; j < pterrain->num_animals; j++) {
+            pterrain->animals[j] = unit_type_by_rule_name(res[j]);
+            if (pterrain->animals[j] == NULL) {
+              ok = FALSE;
+              break;
+            }
+          }
+        }
+        free(res);
+        res = NULL;
+        if (!ok) {
+          break;
+        }
       }
 
       if (!lookup_terrain(file, "transform_result", filename, pterrain,
@@ -8459,7 +8491,12 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.mining_shield_incr = pterrain->mining_shield_incr;
     packet.mining_time = pterrain->mining_time;
 
-    packet.animal = (pterrain->animal == NULL ? -1 : utype_number(pterrain->animal));
+    packet.num_animals = 0;
+    terrain_animals_iterate(pterrain, panimal) {
+      packet.animals[packet.num_animals] = utype_number(panimal);
+      packet.num_animals++;
+    } terrain_animals_iterate_end;
+
     packet.transform_result = (pterrain->transform_result
 			       ? terrain_number(pterrain->transform_result)
 			       : terrain_count());
