@@ -1,0 +1,26 @@
+app-id: org.freeciv.sdl3
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+command: freeciv-sdl3
+rename-icon: freeciv-client
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
+modules:
+  - name: freeciv-sdl3
+    buildsystem: meson
+    no-autogen: true
+    config-opts:
+      - -Dclients=sdl3
+      - -Daudio=none
+      - -Dfcmp=[]
+      - -Dtools=[]
+    sources:
+      - type: dir
+        path: ../..
