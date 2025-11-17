@@ -325,7 +325,8 @@ static int cur_close (lua_State *L) {
 	luaL_argcheck (L, cur != NULL, 1, LUASQL_PREFIX"cursor expected");
 	if (cur->closed) {
 		lua_pushboolean (L, 0);
-		return 1;
+		lua_pushstring (L, "Cursor is already closed");
+		return 2;
 	}
 	cur_nullify (L, cur);
 	lua_pushboolean (L, 1);
@@ -393,7 +394,7 @@ static int cur_seek (lua_State *L) {
 ** Create a new Cursor object and push it on top of the stack.
 */
 static int create_cursor (lua_State *L, MYSQL *my_conn, int conn, MYSQL_RES *result, int cols) {
-	cur_data *cur = (cur_data *)lua_newuserdata(L, sizeof(cur_data));
+	cur_data *cur = (cur_data *)LUASQL_NEWUD(L, sizeof(cur_data));
 	luasql_setmeta (L, LUASQL_CURSOR_MYSQL);
 
 	/* fill in structure */
@@ -431,9 +432,13 @@ static int conn_close (lua_State *L) {
 	luaL_argcheck (L, conn != NULL, 1, LUASQL_PREFIX"connection expected");
 	if (conn->closed) {
 		lua_pushboolean (L, 0);
-		return 1;
+		lua_pushstring (L, "Connection is already closed");
+		return 2;
 	}
-	conn_gc (L);
+	/* Nullify structure fields. */
+	conn->closed = 1;
+	luaL_unref (L, LUA_REGISTRYINDEX, conn->env);
+	mysql_close (conn->my_conn);
 	lua_pushboolean (L, 1);
 	return 1;
 }
@@ -559,7 +564,7 @@ static int conn_getlastautoid (lua_State *L) {
 ** Create a new Connection object and push it on top of the stack.
 */
 static int create_connection (lua_State *L, int env, MYSQL *const my_conn) {
-	conn_data *conn = (conn_data *)lua_newuserdata(L, sizeof(conn_data));
+	conn_data *conn = (conn_data *)LUASQL_NEWUD(L, sizeof(conn_data));
 	luasql_setmeta (L, LUASQL_CONNECTION_MYSQL);
 
 	/* fill in structure */
@@ -609,8 +614,11 @@ static int env_connect (lua_State *L) {
 **
 */
 static int env_gc (lua_State *L) {
-	env_data *env= (env_data *)luaL_checkudata (L, 1, LUASQL_ENVIRONMENT_MYSQL);	if (env != NULL && !(env->closed))
+	env_data *env= (env_data *)luaL_checkudata (L, 1, LUASQL_ENVIRONMENT_MYSQL);
+	if (env != NULL && !(env->closed)) {
 		env->closed = 1;
+		mysql_library_end();
+	}
 	return 0;
 }
 
@@ -623,10 +631,11 @@ static int env_close (lua_State *L) {
 	luaL_argcheck (L, env != NULL, 1, LUASQL_PREFIX"environment expected");
 	if (env->closed) {
 		lua_pushboolean (L, 0);
-		return 1;
+		lua_pushstring(L, "Environment is already closed");
+		return 2;
 	}
-	mysql_library_end();
 	env->closed = 1;
+	mysql_library_end();
 	lua_pushboolean (L, 1);
 	return 1;
 }
@@ -637,25 +646,28 @@ static int env_close (lua_State *L) {
 */
 static void create_metatables (lua_State *L) {
     struct luaL_Reg environment_methods[] = {
-        {"__gc", env_gc},
-        {"close", env_close},
-        {"connect", env_connect},
+		{"__gc", env_gc},
+		{"__close", env_gc},
+		{"close", env_close},
+		{"connect", env_connect},
 		{NULL, NULL},
 	};
     struct luaL_Reg connection_methods[] = {
-        {"__gc", conn_gc},
-        {"close", conn_close},
-        {"ping", conn_ping},
-        {"escape", escape_string},
-        {"execute", conn_execute},
-        {"commit", conn_commit},
-        {"rollback", conn_rollback},
-        {"setautocommit", conn_setautocommit},
+		{"__gc", conn_gc},
+		{"__close", conn_gc},
+		{"close", conn_close},
+		{"ping", conn_ping},
+		{"escape", escape_string},
+		{"execute", conn_execute},
+		{"commit", conn_commit},
+		{"rollback", conn_rollback},
+		{"setautocommit", conn_setautocommit},
 		{"getlastautoid", conn_getlastautoid},
 		{NULL, NULL},
     };
     struct luaL_Reg cursor_methods[] = {
         {"__gc", cur_gc},
+		{"__close", cur_gc},
         {"close", cur_close},
         {"getcolnames", cur_getcolnames},
         {"getcoltypes", cur_getcoltypes},
@@ -677,7 +689,7 @@ static void create_metatables (lua_State *L) {
 ** Creates an Environment and returns it.
 */
 static int create_environment (lua_State *L) {
-	env_data *env = (env_data *)lua_newuserdata(L, sizeof(env_data));
+	env_data *env = (env_data *)LUASQL_NEWUD(L, sizeof(env_data));
 	luasql_setmeta (L, LUASQL_ENVIRONMENT_MYSQL);
 
 	/* fill in structure */

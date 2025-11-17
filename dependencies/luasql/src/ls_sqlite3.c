@@ -104,7 +104,7 @@ static void cur_nullify(lua_State *L, cur_data *cur)
 
 /*
 ** Finalizes the vm
-** Return nil + errmsg or nil in case of sucess
+** Return nil + errmsg or nil in case of success
 */
 static int finalize(lua_State *L, cur_data *cur) {
   const char *errmsg;
@@ -235,9 +235,12 @@ static int cur_close(lua_State *L)
   cur_data *cur = (cur_data *)luaL_checkudata(L, 1, LUASQL_CURSOR_SQLITE);
   luaL_argcheck(L, cur != NULL, 1, LUASQL_PREFIX"cursor expected");
   if (cur->closed) {
-    lua_pushboolean(L, 0);
-    return 1;
+    lua_pushboolean (L, 0);
+    lua_pushstring(L, "cursor is already closed");
+    return 2;
   }
+
+  cur->closed = 1;
   sqlite3_finalize(cur->sql_vm);
   cur_nullify(L, cur);
   lua_pushboolean(L, 1);
@@ -276,7 +279,7 @@ static int create_cursor(lua_State *L, int o, conn_data *conn,
 			 sqlite3_stmt *sql_vm, int numcols)
 {
   int i;
-  cur_data *cur = (cur_data*)lua_newuserdata(L, sizeof(cur_data));
+  cur_data *cur = (cur_data*)LUASQL_NEWUD(L, sizeof(cur_data));
   luasql_setmeta (L, LUASQL_CURSOR_SQLITE);
 
   /* increment cursor count for the connection creating this cursor */
@@ -324,9 +327,6 @@ static int conn_gc(lua_State *L)
   conn_data *conn = (conn_data *)luaL_checkudata(L, 1, LUASQL_CONNECTION_SQLITE);
   if (conn != NULL && !(conn->closed))
     {
-      if (conn->cur_counter > 0)
-        return luaL_error (L, LUASQL_PREFIX"there are open cursors");
-
       /* Nullify structure fields. */
       conn->closed = 1;
       luaL_unref(L, LUA_REGISTRYINDEX, conn->env);
@@ -344,11 +344,21 @@ static int conn_close(lua_State *L)
   conn_data *conn = (conn_data *)luaL_checkudata(L, 1, LUASQL_CONNECTION_SQLITE);
   luaL_argcheck (L, conn != NULL, 1, LUASQL_PREFIX"connection expected");
   if (conn->closed)
-    {
-      lua_pushboolean(L, 0);
-      return 1;
-    }
-  conn_gc(L);
+  {
+    lua_pushboolean(L, 0);
+    lua_pushstring(L, "Connection is already closed");
+    return 2;
+  }
+  
+  if (conn->cur_counter > 0)
+  {
+    lua_pushboolean(L, 0);
+    lua_pushstring(L, "There are open cursors");
+    return 2;
+  }
+  
+  conn->closed = 1;
+  
   lua_pushboolean(L, 1);
   return 1;
 }
@@ -367,6 +377,112 @@ static int conn_escape(lua_State *L)
       sqlite3_free(escaped);
     }
   return 1;
+}
+
+
+/*
+** Bind one parameter.
+** Supported are the data types nil, string, boolean, number.
+*/
+static int set_param(lua_State *L, sqlite3_stmt *vm, int param_nr, int arg)
+{
+  int tt = lua_type(L, arg);
+  int rc = 0;
+
+  switch (tt) {
+    case LUA_TNIL:
+    rc = sqlite3_bind_null(vm, param_nr);
+    break;
+
+    case LUA_TSTRING: {
+      size_t s_len;
+      const char *s = lua_tolstring(L, arg, &s_len);
+      rc = sqlite3_bind_null(vm, param_nr);
+      rc = sqlite3_bind_text(vm, param_nr, s, s_len, SQLITE_TRANSIENT);
+      break;
+    }
+
+    case LUA_TBOOLEAN: {
+      int val = lua_tointeger(L, arg);
+      rc = sqlite3_bind_int(vm, param_nr, val);
+      break;
+    }
+
+    case LUA_TNUMBER: {
+#if defined(lua_isinteger)
+      if (lua_isinteger(L, arg)) {
+        lua_Integer val = lua_tointeger(L, arg);
+        rc = sqlite3_bind_int64(vm, param_nr, val);
+      } else {
+#endif
+        double val = lua_tonumber(L, arg);
+        rc = sqlite3_bind_double(vm, param_nr, val);
+#if defined(lua_isinteger)
+      }
+#endif
+      break;
+    }
+
+    default:
+    luaL_error(L, LUASQL_PREFIX"unhandled data type %s in parameter binding",
+      lua_typename(L, tt));
+  }
+
+  return rc;
+}
+
+static int raw_readparams_args(lua_State *L, sqlite3_stmt *vm, int arg, int ltop)
+{
+  int param_count, param_nr, rc = 0;
+
+  param_count = sqlite3_bind_parameter_count(vm);
+  if (ltop - arg + 1 != param_count)
+    luaL_error(L, LUASQL_PREFIX"wrong number of parameters: expected=%d, given=%d",
+      param_count, ltop - arg + 1);
+
+  for (param_nr=1; param_nr <= param_count; param_nr ++, arg ++) {
+    rc = set_param(L, vm, param_nr, arg);
+    if (rc)
+      break;
+  }
+
+  return rc;
+}
+
+/*
+** Bind all parameters from the given table.
+** The table indices can be integers or strings.
+** Unbound parameters, or duplicate bindings are not detected.
+*/
+static int raw_readparams_table(lua_State *L, sqlite3_stmt *vm, int arg)
+{
+  int param_nr, rc = 0;
+
+  lua_pushnil(L);
+
+  while (lua_next(L, arg)) {		// [arg]=table, [-2]=key, [-1]=val
+#if defined(lua_isinteger)
+    int tt =
+#endif
+      lua_type(L, -2);
+#if defined(lua_isinteger)
+    if (tt == LUA_TNUMBER && lua_isinteger(L, -2)) {
+      param_nr = lua_tointeger(L, -2);
+    } else {
+#endif
+      const char *param_name = lua_tostring(L, -2);
+      param_nr = sqlite3_bind_parameter_index(vm, param_name);
+      if (param_nr == 0)
+        luaL_error(L, LUASQL_PREFIX"binding to invalid parameter name %s\n",
+          param_name);
+#if defined(lua_isinteger)
+    }
+#endif
+    set_param(L, vm, param_nr, -1);
+    lua_pop(L, 1);
+  }
+
+  return rc;
 }
 
 /*
@@ -395,7 +511,21 @@ static int conn_execute(lua_State *L)
       return luasql_faildirect(L, errmsg);
     }
 
-  /* process first result to retrive query information and type */
+  /* Bind parameters (if any) */
+  int ltop = lua_gettop(L);
+  if (ltop > 2) {
+    if (ltop == 3 && lua_type(L, 3) == LUA_TTABLE) {
+      res = raw_readparams_table(L, vm, 3);
+    } else if (ltop >= 3) {
+      res = raw_readparams_args(L, vm, 3, ltop);
+    } else {
+      luaL_error(L, LUASQL_PREFIX"parameters are either one table or positional");
+    }
+    if (res)
+      return res;
+  }
+
+  /* process first result to retrieve query information and type */
   res = sqlite3_step(vm);
   numcols = sqlite3_column_count(vm);
 
@@ -522,7 +652,7 @@ static int conn_setautocommit(lua_State *L)
 */
 static int create_connection(lua_State *L, int env, sqlite3 *sql_conn)
 {
-  conn_data *conn = (conn_data*)lua_newuserdata(L, sizeof(conn_data));
+  conn_data *conn = (conn_data*)LUASQL_NEWUD(L, sizeof(conn_data));
   luasql_setmeta(L, LUASQL_CONNECTION_SQLITE);
 
   /* fill in structure */
@@ -616,9 +746,12 @@ static int env_close (lua_State *L)
   luaL_argcheck(L, env != NULL, 1, LUASQL_PREFIX"environment expected");
   if (env->closed) {
     lua_pushboolean(L, 0);
-    return 1;
+    lua_pushstring(L, "env is already closed");
+		return 2;
   }
-  env_gc(L);
+  
+  env->closed = 1;
+
   lua_pushboolean(L, 1);
   return 1;
 }
@@ -642,14 +775,17 @@ static void create_metatables (lua_State *L)
 {
   struct luaL_Reg environment_methods[] = {
     {"__gc", env_gc},
+    {"__close", env_gc},
     {"close", env_close},
     {"connect", env_connect},
     {NULL, NULL},
   };
   struct luaL_Reg connection_methods[] = {
     {"__gc", conn_gc},
+    {"__close", conn_gc},
     {"close", conn_close},
     {"escape", conn_escape},
+//    {"prepare", conn_prepare},
     {"execute", conn_execute},
     {"commit", conn_commit},
     {"rollback", conn_rollback},
@@ -659,6 +795,7 @@ static void create_metatables (lua_State *L)
   };
   struct luaL_Reg cursor_methods[] = {
     {"__gc", cur_gc},
+    {"__close", cur_gc},
     {"close", cur_close},
     {"getcolnames", cur_getcolnames},
     {"getcoltypes", cur_getcoltypes},
@@ -676,7 +813,7 @@ static void create_metatables (lua_State *L)
 */
 static int create_environment (lua_State *L)
 {
-  env_data *env = (env_data *)lua_newuserdata(L, sizeof(env_data));
+  env_data *env = (env_data *)LUASQL_NEWUD(L, sizeof(env_data));
   luasql_setmeta(L, LUASQL_ENVIRONMENT_SQLITE);
 
   /* fill in structure */
