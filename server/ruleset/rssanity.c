@@ -1521,14 +1521,15 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   } music_styles_re_active_iterate_end;
 
   terrain_re_active_iterate(pterr) {
-    if (pterr->animal != NULL) {
-      if (!is_native_to_class(utype_class(pterr->animal), pterr, NULL)) {
+    terrain_animals_iterate(pterr, panimal) {
+      if (!is_native_to_class(utype_class(panimal), pterr, nullptr)) {
         ruleset_error(logger, LOG_ERROR,
                       _("%s has %s as animal to appear, but it's not native to the terrain."),
-                      terrain_rule_name(pterr), utype_rule_name(pterr->animal));
+                      terrain_rule_name(pterr), utype_rule_name(panimal));
         ok = FALSE;
+        break;
       }
-    }
+    } terrain_animals_iterate_end
 
     terrain_resources_iterate(pterr, pres, freq) {
       (void) freq;

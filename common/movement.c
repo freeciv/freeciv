@@ -704,9 +704,18 @@ unit_move_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 6) */
-  if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN
-      && dst_tile->terrain->animal != punittype) {
-    return MR_ANIMAL_DISALLOWED;
+  if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN) {
+    bool ok = FALSE;
+
+    terrain_animals_iterate(dst_tile->terrain, panimal) {
+      if (panimal == punittype) {
+        ok = TRUE;
+        break;
+      }
+    } terrain_animals_iterate_end;
+    if (!ok) {
+      return MR_ANIMAL_DISALLOWED;
+    }
   }
 
   /* 7) */
@@ -824,9 +833,18 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 2) */
-  if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN
-      && dst_tile->terrain->animal != punittype) {
-    return MR_ANIMAL_DISALLOWED;
+  if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN) {
+    bool ok = FALSE;
+
+    terrain_animals_iterate(dst_tile->terrain, panimal) {
+      if (panimal == punittype) {
+        ok = TRUE;
+        break;
+      }
+    } terrain_animals_iterate_end;
+    if (!ok) {
+      return MR_ANIMAL_DISALLOWED;
+    }
   }
 
   /* 3) */

@@ -646,7 +646,7 @@ terrains = "\
 ;   - \"extra\"            - Name of the extra\n\
 ;   - \"removal_time\"     - Time for cleaning activities (0 = impossible)\n\
 ;                          Nonzero values only affect extras with removal_time 0.\n\
-; animal               = unit type that can appear as animal on the terrain\n\
+; animals              = list of unit types that can appear as animal on the terrain\n\
 ; warmer_wetter_result = result of global warming for wet terrains; one of:\n\
 ;                        \"no\"  -- no change; does not count for warming\n\
 ;                        \"yes\" -- no change; counts for warming\n\
