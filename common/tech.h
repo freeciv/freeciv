@@ -48,7 +48,7 @@ typedef int Tech_type_id;
 #define A_UNSET (A_LAST + 2)
 #define A_UNKNOWN (A_LAST + 3)
 
-#define A_NEVER (NULL)
+#define A_NEVER (nullptr)
 
 /*
    A_NONE is the root tech. All players always know this tech. It is
@@ -220,9 +220,9 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);
 
 /* Ancillary routines */
 Tech_type_id advance_required(const Tech_type_id tech,
-			      enum tech_req require);
+                              enum tech_req require);
 struct advance *advance_requires(const struct advance *padvance,
-				 enum tech_req require);
+                                 enum tech_req require);
 
 bool techs_have_fixed_costs(void);
 
@@ -262,7 +262,7 @@ const struct advance *advance_array_last(void);
 #define advance_iterate_base(_start, _p)                                \
 {                                                                       \
   struct advance *_p = advance_by_number(_start);                       \
-  if (NULL != _p) {                                                     \
+  if (_p != nullptr) {                                                  \
     for (; _p <= advance_array_last(); _p++) {
 
 #define advance_iterate_base_end                                        \
