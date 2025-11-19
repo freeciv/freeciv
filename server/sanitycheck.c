@@ -447,6 +447,11 @@ static void check_units(const char *file, const char *function, int line)
         SANITY_CHECK(punit->activity_target != NULL);
       }
 
+      if (punit->activity == ACTIVITY_GOTO) {
+        /* ACTIVITY_GOTO requires goto_tile always to be set. */
+        SANITY_CHECK(punit->goto_tile != NULL);
+      }
+
       pcity = tile_city(ptile);
       if (pcity) {
 	SANITY_CHECK(pplayers_allied(city_owner(pcity), pplayer));
