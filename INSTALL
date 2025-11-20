@@ -172,10 +172,11 @@ json-protocol (boolean):
   Build json-protocol support in. Json-protocol is an alternative to the default
   raw-protocol between freeciv server and client.
 
-syslua ('try'/'true'/'false')
+syslua ('auto'/'enabled'/'disabled')
   Whether to use lua from the system, or to build lua included in freeciv
-  source tree. The default is 'try' to use lua from the system if possible,
-  but fallback to using freeciv's included one if not found from system.
+  source tree. The default is to 'auto'matically use system lua if
+  found. If you want to disable it, set this to 'disabled'.
+  If you want to fail if it is not found set this to 'enabled'.
 
 sys-tolua-cmd (boolean):
   Whether to use tolua command from the system, or to build one
@@ -184,13 +185,17 @@ sys-tolua-cmd (boolean):
   When cross-compiling, this setting is ignored, and tolua is
   always used from the build system.
 
-mwand ('try'/'true'/'false')
+mwand ('auto'/'enabled'/'disabled')
   Whether to build against MagickWand to have support for additional
-  mapimg formats. The default is 'try' to enable the support if possible.
+  mapimg formats. The default is to 'auto'matically use the library if
+  found. If you want to disable it, set this to 'disabled'.
+  If you want to fail if it is not found set this to 'enabled'.
 
-readline ('try'/'true'/'false')
+readline ('auto'/'enabled'/'disabled')
   Whether to enable readline functionality on server.
-  The default is 'try' to enable it if suitable readline found.
+  The default is to 'auto'matically use the library if
+  found. If you want to disable it, set this to 'disabled'.
+  If you want to fail if it is not found set this to 'enabled'.
 
 audio ('none'/'sdl2'/'sdl3'):
   What kind of sound support should be built to the clients. Defaults to sdl2.

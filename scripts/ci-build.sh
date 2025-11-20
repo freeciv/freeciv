@@ -122,7 +122,7 @@ meson setup .. \
   -Dqtver=qt6x \
   -Ddebug=true \
   -Dtools=ruledit,manual,ruleup \
-  -Dsyslua=true \
+  -Dsyslua=enabled \
   -Dclients=gtk3.22,sdl2,gtk4,qt,stub,gtk4x \
   -Dfcmp=gtk3,gtk4,qt,cli \
   -Dfollowtag=macos \
