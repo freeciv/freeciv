@@ -2046,7 +2046,7 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
                   city_tile_link(pcity), player_name(pplayer));
     script_server_signal_emit("city_destroyed", pcity, cplayer, pplayer);
 
-    /* We cant't be sure of city existence after running some script */
+    /* We can't be sure of city existence after running some script */
     if (city_exist(saved_id)) {
       remove_city(pcity);
     }
