@@ -107,7 +107,7 @@ static gboolean il_lost_focus(GtkEventControllerFocus *controller,
 static gboolean il_gained_focus(GtkEventControllerFocus *controller,
                                 gpointer data)
 {
-  menus_disable_unit_commands();
+  menus_disable_char_commands();
 
   return TRUE;
 }
