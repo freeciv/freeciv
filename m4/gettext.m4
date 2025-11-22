@@ -1,5 +1,5 @@
 # gettext.m4
-# serial 81 (gettext-0.24)
+# serial 83 (gettext-0.26)
 dnl Copyright (C) 1995-2025 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -151,13 +151,37 @@ changequote([,])dnl
           gt_expression_test_code=
         fi
 
+        dnl In the test code below:
+        dnl * We test for the presence of _nl_msg_cat_cntr because GNU libc and
+        dnl   libintl define this variable, whereas Solaris 10 libc/libintl
+        dnl   (which we don't want to use, as it does not support GNU .mo files)
+        dnl   does not define it.
+        dnl * We don't test for _nl_msg_cat_cntr on MSVC, because the use of a
+        dnl   variable under MSVC depends on whether it is exported by a shared
+        dnl   library or a static library: If libintl is a shared library, we
+        dnl   would have to declare it with __declspec(dllimport), whereas if it
+        dnl   is a static library, we would have to declare it without such a
+        dnl   __declspec. But libintl comes with just one header file,
+        dnl   <libintl.h>, that does not declare _nl_msg_cat_cntr and that does
+        dnl   not tell us whether the library was built shared or static.
+        dnl * We test for the presence of _nl_domain_bindings because GNU libc
+        dnl   defines this variable, whereas NetBSD libc (which we don't want to
+        dnl   use, as it was broken at least in 2002) does not define it.
+        dnl * We test for the presence of _nl_expand_alias because GNU libintl
+        dnl   defines this function, whereas NetBSD libintl (which we don't want
+        dnl   to use, as it was broken at least in 2002) does not define it.
+
         AC_CACHE_CHECK([for GNU gettext in libc], [$gt_func_gnugettext_libc],
          [AC_LINK_IFELSE(
             [AC_LANG_PROGRAM(
                [[
 #include <libintl.h>
 #ifndef __GNU_GETTEXT_SUPPORTED_REVISION
+#if defined _MSC_VER
+#define _nl_msg_cat_cntr 0
+#else
 extern int _nl_msg_cat_cntr;
+#endif
 extern int *_nl_domain_bindings;
 #define __GNU_GETTEXT_SYMBOL_EXPRESSION (_nl_msg_cat_cntr + *_nl_domain_bindings)
 #else
@@ -169,7 +193,28 @@ $gt_revision_test_code
 bindtextdomain ("", "");
 return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                ]])],
-            [eval "$gt_func_gnugettext_libc=yes"],
+            [dnl Solaris 11.[0-3] doesn't strip the CODESET part from the locale name,
+             dnl when looking for a message catalog. E.g. when the locale is fr_FR.UTF-8,
+             dnl on Solaris 11.[0-3] it looks for
+             dnl   <LOCALEDIR>/fr_FR.UTF-8/LC_MESSAGES/<domain>.mo
+             dnl   <LOCALEDIR>/fr.UTF-8/LC_MESSAGES/<domain>.mo
+             dnl Similarly, on Solaris 11 OpenIndiana and Solaris 11 OmniOS it looks only for
+             dnl   <LOCALEDIR>/fr_FR.UTF-8/LC_MESSAGES/<domain>.mo
+             dnl Reported at <https://www.illumos.org/issues/13423>.
+             dnl On Solaris 11.4 this is fixed: it looks for
+             dnl   <LOCALEDIR>/fr_FR.UTF-8/LC_MESSAGES/<domain>.mo
+             dnl   <LOCALEDIR>/fr.UTF-8/LC_MESSAGES/<domain>.mo
+             dnl   <LOCALEDIR>/fr_FR/LC_MESSAGES/<domain>.mo
+             dnl   <LOCALEDIR>/fr/LC_MESSAGES/<domain>.mo
+             if test "`uname -sr`" = 'SunOS 5.11'; then
+               case `uname -v` in
+                 11.4 | 11.4.*) eval "$gt_func_gnugettext_libc=yes" ;;
+                 *)             eval "$gt_func_gnugettext_libc=no" ;;
+               esac
+             else
+               eval "$gt_func_gnugettext_libc=yes"
+             fi
+            ],
             [eval "$gt_func_gnugettext_libc=no"])])
 
         if { eval "gt_val=\$$gt_func_gnugettext_libc"; test "$gt_val" != "yes"; }; then
@@ -194,7 +239,11 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                  [[
 #include <libintl.h>
 #ifndef __GNU_GETTEXT_SUPPORTED_REVISION
+#if defined _MSC_VER
+#define _nl_msg_cat_cntr 0
+#else
 extern int _nl_msg_cat_cntr;
+#endif
 extern
 #ifdef __cplusplus
 "C"
@@ -227,7 +276,11 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                    [[
 #include <libintl.h>
 #ifndef __GNU_GETTEXT_SUPPORTED_REVISION
+#if defined _MSC_VER
+#define _nl_msg_cat_cntr 0
+#else
 extern int _nl_msg_cat_cntr;
+#endif
 extern
 #ifdef __cplusplus
 "C"

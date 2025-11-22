@@ -7,7 +7,7 @@
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
 #
-# Origin: gettext-0.25
+# Origin: gettext-0.26
 GETTEXT_MACRO_VERSION = 0.24
 
 # This Makefile makes use of the variable assignment operator != standardized
