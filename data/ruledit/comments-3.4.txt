@@ -732,6 +732,29 @@ resources = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+tiledefs = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Tiledef types, there can be up to 8:\n\
+;\n\
+; The actual tag used (the * in [tiledef_*]) must be unique for each tiledef,\n\
+; and may be used in debug output when reading this file.\n\
+;\n\
+;\n\
+; name                 = translatable name as seen by user\n\
+; rule_name            = (optional) internal name for savegames, rulesets\n\
+;                        etc; if not present, \"name\" is used for this\n\
+;                        purpose too. Since the name used in savegames must\n\
+;                        not change, if you want to rename an item after\n\
+;                        a ruleset has been released, you should set\n\
+;                        \"rule_name\" to the original value of \"name\".\n\
+; extras               = List of extras that the tile must have\n\
+;                        to satisfy tiledef requirements.\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
 extras = "\
 \n\
 ; /* <-- avoid gettext warnings\n\

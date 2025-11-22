@@ -40,6 +40,7 @@ void comment_resources(struct section_file *sfile);
 void comment_extras(struct section_file *sfile);
 void comment_bases(struct section_file *sfile);
 void comment_roads(struct section_file *sfile);
+void comment_tiledefs(struct section_file *sfile);
 void comment_styles(struct section_file *sfile);
 void comment_citystyles(struct section_file *sfile);
 void comment_musicstyles(struct section_file *sfile);

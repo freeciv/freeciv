@@ -3090,7 +3090,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     }
   } extra_type_by_cause_iterate_end;
 
-  // comment_tiledefs(sfile);
+  comment_tiledefs(sfile);
 
   sect_idx = 0;
   tiledef_iterate(td) {
