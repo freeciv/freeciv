@@ -58,9 +58,9 @@ void counters_free(void)
 
   for (i = 0; i < game.control.num_counters; i++) {
 
-    if (NULL != counters[i].helptext) {
+    if (counters[i].helptext != nullptr) {
       strvec_destroy(counters[i].helptext);
-      counters[i].helptext = NULL;
+      counters[i].helptext = nullptr;
     }
   }
 
@@ -81,7 +81,7 @@ int counters_get_city_counters_count(void)
 ****************************************************************************/
 struct counter *counter_by_id(int id)
 {
-  fc_assert_ret_val(id < game.control.num_counters, NULL);
+  fc_assert_ret_val(id < game.control.num_counters, nullptr);
 
   return &counters[id];
 }
@@ -104,19 +104,20 @@ void attach_city_counter(struct counter *counter)
 ****************************************************************************/
 int counter_id(struct counter *pcount)
 {
-  fc_assert_ret_val(NULL != pcount, -1);
+  fc_assert_ret_val(pcount != nullptr, -1);
+
   return pcount - counters;
 }
 
 /************************************************************************//**
     Search for counter by rule name
-    (return matched counter if found or NULL)
+    (return matched counter if found or nullptr)
 ****************************************************************************/
 struct counter *counter_by_rule_name(const char *name)
 {
   int i;
-  fc_assert_ret_val(NULL != name, NULL);
-  fc_assert_ret_val('\0' != name[0], NULL);
+  fc_assert_ret_val(name != nullptr, nullptr);
+  fc_assert_ret_val('\0' != name[0], nullptr);
 
   for (i = 0; i < game.control.num_counters; i++)
   {
@@ -126,18 +127,18 @@ struct counter *counter_by_rule_name(const char *name)
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
     Search for counter by translated name
-    (return matched counter if found or NULL)
+    (return matched counter if found or nullptr)
 ****************************************************************************/
 struct counter *counter_by_translated_name(const char *name)
 {
   int i;
-  fc_assert_ret_val(NULL != name, NULL);
-  fc_assert_ret_val('\0' != name[0], NULL);
+  fc_assert_ret_val(name != nullptr, nullptr);
+  fc_assert_ret_val('\0' != name[0], nullptr);
 
   for (i = 0; i < game.control.num_counters; i++)
   {
@@ -148,7 +149,7 @@ struct counter *counter_by_translated_name(const char *name)
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -164,7 +165,8 @@ const char *counter_name_translation(const struct counter *counter)
 ****************************************************************************/
 const char *counter_rule_name(struct counter *pcount)
 {
-  fc_assert_ret_val(NULL != pcount, NULL);
+  fc_assert_ret_val(pcount != nullptr, nullptr);
+
   return rule_name_get(&pcount->name);
 }
 
@@ -173,7 +175,8 @@ const char *counter_rule_name(struct counter *pcount)
 ***************************************************************************/
 int counter_index(const struct counter *pcount)
 {
-  fc_assert_ret_val(NULL != pcount, -1);
+  fc_assert_ret_val(pcount != nullptr, -1);
+
   return pcount->index;
 }
 
@@ -188,5 +191,5 @@ struct counter *counter_by_index(int index, enum counter_target target)
       return counters_city[index];
   }
 
-  return NULL;
+  return nullptr;
 }
