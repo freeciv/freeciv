@@ -136,6 +136,9 @@ typedef enum req_unchanging_status
 /* req_context-related functions */
 const struct req_context *req_context_empty(void);
 
+void requirements_init(void);
+void requirements_free(void);
+
 /* General requirement functions. */
 struct requirement req_from_str(const char *type, const char *range,
                                 bool survives, bool present, bool quiet,
