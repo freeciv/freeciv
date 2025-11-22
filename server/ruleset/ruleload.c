@@ -4413,11 +4413,11 @@ static bool load_government_names(struct section_file *file,
   /* User government flag names */
   for (i = 0;
        (flag = secfile_lookup_str_default(file, nullptr,
-                                          "control.government_flags%d.name",
+                                          "control.flags%d.name",
                                           i));
        i++) {
     const char *helptxt = secfile_lookup_str_default(file, nullptr,
-        "control.government_flags%d.helptxt", i);
+        "control.flags%d.helptxt", i);
 
     if (gov_flag_id_by_name(flag, fc_strcasecmp)
         != gov_flag_id_invalid()) {

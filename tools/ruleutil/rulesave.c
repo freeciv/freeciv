@@ -1933,13 +1933,13 @@ static bool save_governments_ruleset(const char *filename, const char *name)
         uflags_government = TRUE;
       }
 
-      secfile_insert_str(sfile, flagname, "control.government_flags%d.name", i);
+      secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
        * the formatting code happy. The resulting "" is ignored when the
        * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt,
-                         "control.government_flags%d.helptxt", i);
+                         "control.flags%d.helptxt", i);
     }
   }
 
