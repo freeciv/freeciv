@@ -4387,8 +4387,6 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     adv_unit_new_task(punit, AUT_NONE, nullptr);
   }
 
-  punit->goto_tile = nullptr;
-
   if (activity == ACTIVITY_GOTO) {
     /* Don't permit a client to set a unit's activity to ACTIVITY_GOTO.
      * Setting ACTIVITY_GOTO from the client results in a unit indicating
@@ -4404,6 +4402,8 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     /* Please use unit_server_side_agent_set(). */
     return;
   }
+
+  punit->goto_tile = nullptr;
 
   /* The activity can now be set. */
   unit_activity_handling_targeted(punit, activity, &activity_target,
