@@ -52,7 +52,6 @@ fi
 # 5) Final.
 # Update DEFAULT_FOLLOW_TAG to "stable", and also
 # platforms/windows/installer_msys2/Makefile.meson -Dfollowtag to "windows"
-# platforms/windows/installer_msys2/Makefile.autotools --with-followtag to "windows"
 
 IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
