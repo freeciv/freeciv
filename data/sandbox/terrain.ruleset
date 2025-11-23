@@ -2471,3 +2471,7 @@ flags          = "River", "JumpFrom", "JumpTo"
 ;                        to satisfy tiledef requirements.
 ;
 ; */ <-- avoid gettext warnings
+
+[tiledef_bridge]
+name   = _("Bridge")
+extras = "River", "Road"

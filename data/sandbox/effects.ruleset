@@ -378,7 +378,15 @@ reqs    =
 
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
-value   = 2
+value   = 1
+
+[effect_bridge]
+type    = "Max_Trade_Routes"
+value   = 1
+reqs    =
+    { "type",    "name",   "range"
+      "Tiledef", "Bridge", "City"
+    }
 
 [effect_conquest_tech_random]
 type    = "Conquest_Tech_Pct"

@@ -128,6 +128,11 @@ like that city with Mine can trade Ore to a city that then can trade
 Metal to third city which can then trade Goods or Equipment to fourth
 city. Goods later in chains trade for higher value.
 
+Bridges
+Base number of trade routes a city can have is just one.
+Another trade route becomes possible, if there's a tile with
+both River and Road within the city area.
+
 Corruption and World Size:
 Under Republic government, the speed corruption increases as one goes
 further from the capital is relative to the size of the world. At
