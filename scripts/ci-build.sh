@@ -120,9 +120,9 @@ cd build
 ../autogen.sh \
  CC="clang" \
  CXX="clang++" \
+ CFLAGS="-Wno-error" \
  --enable-ack-legacy \
  --enable-debug \
- --enable-sys-lua \
  --enable-sys-tolua-cmd \
  --disable-fcdb \
  --with-qtver=qt6 \
