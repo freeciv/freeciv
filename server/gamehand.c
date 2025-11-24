@@ -1040,12 +1040,12 @@ void increase_timeout_because_unit_moved(void)
 {
   if (current_turn_timeout() > 0 && game.server.timeoutaddenemymove > 0) {
     double maxsec = (timer_read_seconds(game.server.phase_timer)
-		     + (double) game.server.timeoutaddenemymove);
+                     + (double) game.server.timeoutaddenemymove);
 
     if (maxsec > game.tinfo.seconds_to_phasedone) {
       game.tinfo.seconds_to_phasedone = maxsec;
       send_game_info(NULL);
-    }	
+    }
   }
 }
 
