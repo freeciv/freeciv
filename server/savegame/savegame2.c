@@ -4790,7 +4790,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
         }
       }
     } else {
-      punit->goto_tile = NULL;
+      /* Never nullify goto_tile for a unit that is in active goto. */
+      if (punit->activity != ACTIVITY_GOTO) {
+        punit->goto_tile = NULL;
+      }
+
       punit->has_orders = FALSE;
       punit->orders.list = NULL;
       punit->orders.length = 0;
