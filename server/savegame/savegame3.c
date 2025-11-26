@@ -6345,8 +6345,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
     if (punit->activity == ACTIVITY_GOTO) {
       /* goto_tile should never be NULL with ACTIVITY_GOTO */
-      log_sg("Unit %d on goto without goto_tile. Aborting goto.",
-             punit->id);
+      sg_regr(3020200, "Unit %d on goto without goto_tile. Aborting goto.",
+              punit->id);
       punit->activity = ACTIVITY_IDLE;
     }
 
