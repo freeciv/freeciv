@@ -1964,7 +1964,7 @@ static struct client_option client_options[] = {
   GEN_STR_OPTION(default_metaserver,
                  N_("Metaserver"),
                  N_("The metaserver is a host that the client contacts to "
-                    "find out about games on the internet.  Don't change "
+                    "find out about games on the internet. Don't change "
                     "this from its default value unless you know what "
                     "you're doing."),
                  COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL, 0),
@@ -2011,8 +2011,8 @@ static struct client_option client_options[] = {
   GEN_STR_LIST_OPTION(default_sound_plugin_name,
                       N_("Sound plugin"),
                       N_("If you have a problem with sound, try changing "
-                         "the sound plugin.  The new plugin won't take "
-                         "effect until you restart Freeciv.  Changing this "
+                         "the sound plugin. The new plugin won't take "
+                         "effect until you restart Freeciv. Changing this "
                          "is the same as using the -P command-line option."),
                       COC_SOUND, GUI_STUB, NULL, get_soundplugin_list, NULL, 0),
   GEN_STR_OPTION(default_chat_logfile,
@@ -2194,7 +2194,7 @@ static struct client_option client_options[] = {
                   FALSE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_unit_shields, N_("Draw shield graphics for units"),
                   N_("Setting this option will draw a shield icon "
-                     "as the flags on units.  If unset, the full flag will "
+                     "as the flags on units. If unset, the full flag will "
                      "be drawn."),
                   COC_GRAPHICS, GUI_STUB, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_unit_stack_size, N_("Draw size of the unit stacks"),
@@ -2233,27 +2233,27 @@ static struct client_option client_options[] = {
                   view_option_changed_callback),
   GEN_BOOL_OPTION(sound_bell_at_new_turn, N_("Sound bell at new turn"),
                   N_("Set this option to have a \"bell\" event be generated "
-                     "at the start of a new turn.  You can control the "
+                     "at the start of a new turn. You can control the "
                      "behavior of the \"bell\" event by editing the message "
                      "options."),
                   COC_SOUND, GUI_STUB, FALSE, NULL),
   GEN_INT_OPTION(smooth_move_unit_msec,
                  N_("Unit movement animation time (milliseconds)"),
                  N_("This option controls how long unit \"animation\" takes "
-                    "when a unit moves on the map view.  Set it to 0 to "
+                    "when a unit moves on the map view. Set it to 0 to "
                     "disable animation entirely."),
                  COC_GRAPHICS, GUI_STUB, 30, 0, 2000, NULL),
   GEN_INT_OPTION(smooth_center_slide_msec,
                  N_("Mapview recentering time (milliseconds)"),
                  N_("When the map view is recentered, it will slide "
-                    "smoothly over the map to its new position.  This "
-                    "option controls how long this slide lasts.  Set it to "
+                    "smoothly over the map to its new position. This "
+                    "option controls how long this slide lasts. Set it to "
                     "0 to disable mapview sliding entirely."),
                  COC_GRAPHICS, GUI_STUB, 200, 0, 5000, NULL),
   GEN_INT_OPTION(smooth_combat_step_msec,
                  N_("Combat animation step time (milliseconds)"),
                  N_("This option controls the speed of combat animation "
-                    "between units on the mapview.  Set it to 0 to disable "
+                    "between units on the mapview. Set it to 0 to disable "
                     "animation entirely."),
                  COC_GRAPHICS, GUI_STUB, 10, 0, 100, NULL),
   GEN_BOOL_OPTION(reqtree_show_icons,
@@ -2275,7 +2275,7 @@ static struct client_option client_options[] = {
                     N_("Color to highlight your player/user name"),
                     N_("If set, your player and user name in the new chat "
                        "messages will be highlighted using this color as "
-                       "background.  If not set, it will just not highlight "
+                       "background. If not set, it will just not highlight "
                        "anything."),
                     COC_GRAPHICS, GUI_STUB, "#000000", "#FFFF00", NULL),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI mode"),
@@ -2293,7 +2293,7 @@ static struct client_option client_options[] = {
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto center on combat"),
                   N_("Set this option to have any combat be centered "
-                     "automatically.  Disabling this will speed up the time "
+                     "automatically. Disabling this will speed up the time "
                      "between turns but may cause you to miss combat "
                      "entirely."),
                   COC_INTERFACE, GUI_STUB, FALSE, NULL),
@@ -2314,7 +2314,7 @@ static struct client_option client_options[] = {
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(goto_into_unknown, N_("Allow goto into the unknown"),
                   N_("Setting this option will make the game consider "
-                     "moving into unknown tiles.  If not, then goto routes "
+                     "moving into unknown tiles. If not, then goto routes "
                      "will detour around or be blocked by unknown tiles."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when popup city"),
@@ -3827,7 +3827,7 @@ static bool client_option_bool_def(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_BOOLEAN.  Returns TRUE if
+  Set the value of this client option of type OT_BOOLEAN. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_bool_set(struct option *poption, bool val)
@@ -3875,7 +3875,7 @@ static int client_option_int_max(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_INTEGER.  Returns TRUE if
+  Set the value of this client option of type OT_INTEGER. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_int_set(struct option *poption, int val)
@@ -3920,7 +3920,7 @@ static const struct strvec *
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_STRING.  Returns TRUE if
+  Set the value of this client option of type OT_STRING. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_str_set(struct option *poption, const char *str)
@@ -3963,7 +3963,7 @@ static const struct strvec *
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_ENUM.  Returns TRUE if
+  Set the value of this client option of type OT_ENUM. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_enum_set(struct option *poption, int val)
@@ -4022,7 +4022,7 @@ static const struct strvec *
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_BITWISE.  Returns TRUE if
+  Set the value of this client option of type OT_BITWISE. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_bitwise_set(struct option *poption, unsigned val)
@@ -4077,7 +4077,7 @@ static const char *client_option_font_target(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_FONT.  Returns TRUE if
+  Set the value of this client option of type OT_FONT. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_font_set(struct option *poption, const char *font)
@@ -4110,7 +4110,7 @@ static struct ft_color client_option_color_def(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_COLOR.  Returns TRUE if
+  Set the value of this client option of type OT_COLOR. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool client_option_color_set(struct option *poption,
@@ -4164,7 +4164,7 @@ client_option_video_mode_def(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this client option of type OT_VIDEO_MODE.  Returns TRUE
+  Set the value of this client option of type OT_VIDEO_MODE. Returns TRUE
   if the value changed.
 ****************************************************************************/
 static bool client_option_video_mode_set(struct option *poption,
@@ -5183,7 +5183,7 @@ static int server_option_int_max(const struct option *poption)
 }
 
 /************************************************************************//**
-  Set the value of this server option of type OT_INTEGER.  Returns TRUE if
+  Set the value of this server option of type OT_INTEGER. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool server_option_int_set(struct option *poption, int val)
@@ -5229,7 +5229,7 @@ static const struct strvec *
 }
 
 /************************************************************************//**
-  Set the value of this server option of type OT_STRING.  Returns TRUE if
+  Set the value of this server option of type OT_STRING. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool server_option_str_set(struct option *poption, const char *str)
@@ -5273,7 +5273,7 @@ static const struct strvec *
 }
 
 /************************************************************************//**
-  Set the value of this server option of type OT_ENUM.  Returns TRUE if
+  Set the value of this server option of type OT_ENUM. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool server_option_enum_set(struct option *poption, int val)
@@ -5358,7 +5358,7 @@ static void server_option_bitwise_support_base(const struct strvec *values,
 }
 
 /************************************************************************//**
-  Set the value of this server option of type OT_BITWISE.  Returns TRUE if
+  Set the value of this server option of type OT_BITWISE. Returns TRUE if
   the value changed.
 ****************************************************************************/
 static bool server_option_bitwise_set(struct option *poption, unsigned val)
@@ -5638,7 +5638,7 @@ static void save_cma_presets(struct section_file *file)
 
 /************************************************************************//**
   Returns pointer to static memory containing name of the current
-  option file.  Usually used for saving.
+  option file. Usually used for saving.
   Ie, based on FREECIV_OPT env var, and freeciv storage root dir.
   (or an OPTION_FILE_NAME define defined in fc_config.h)
   Or NULL if problem.
@@ -6197,7 +6197,7 @@ static void options_dialogs_save(struct section_file *sf)
 
 /************************************************************************//**
   This set the city and player report dialog options to the
-  current ones.  It's called when the client goes to
+  current ones. It's called when the client goes to
   C_S_DISCONNECTED state.
 ****************************************************************************/
 void options_dialogs_update(void)
@@ -6225,7 +6225,7 @@ void options_dialogs_update(void)
 }
 
 /************************************************************************//**
-  This set the city and player report dialog options.  It's called
+  This set the city and player report dialog options. It's called
   when the client goes to C_S_RUNNING state.
 ****************************************************************************/
 void options_dialogs_set(void)
