@@ -172,7 +172,7 @@ jobs:
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh meson
-  clang_debug:
+  clang-debug:
     runs-on: ubuntu-24.04
     steps:
       - name: check out Freeciv
@@ -206,7 +206,7 @@ jobs:
             unixodbc-dev
       - name: build
         shell: bash
-        run: ./scripts/ci-build.sh clang_debug
+        run: ./scripts/ci-build.sh clang-debug
   tcc:
     runs-on: ubuntu-24.04
     steps:

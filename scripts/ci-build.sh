@@ -141,7 +141,7 @@ cd ${HOME}/freeciv/mac-meson/bin/
 echo "Freeciv server autogame successful!"
 ;;
 
-"clang_debug")
+"clang-debug")
 # Configure and build Freeciv
 mkdir build
 cd build
