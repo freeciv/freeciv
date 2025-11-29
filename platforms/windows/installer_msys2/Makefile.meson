@@ -95,7 +95,7 @@ gtk4-installer:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 installer-common
 
 sdl2-installer:
-	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl2 $(EXTRA_CONFIG)" GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
 qt5-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
