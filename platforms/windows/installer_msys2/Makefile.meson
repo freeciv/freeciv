@@ -88,7 +88,7 @@ gtk4x-installer:
 	make -f $(MAKEFILE_NAME) GUI=gtk4x CLIENT=gtk4x FCMP=gtk4x installer-common
 
 sdl2-installer:
-	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl2 $(EXTRA_CONFIG)" GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
 sdl3-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=none $(EXTRA_CONFIG)" GUI=sdl3 CLIENT=sdl3 FCMP=gtk4 installer-common
