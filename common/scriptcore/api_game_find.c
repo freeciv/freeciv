@@ -191,28 +191,6 @@ Nation_Type *api_find_nation_type_by_name(lua_State *L,
 }
 
 /**********************************************************************//**
-  Return the action type with the given action_id number.
-**************************************************************************/
-Action *api_find_action(lua_State *L, action_id act_id)
-{
-  LUASCRIPT_CHECK_STATE(L, nullptr);
-
-  return action_by_number(act_id);
-}
-
-/**********************************************************************//**
-  Return the action with the given name_orig.
-**************************************************************************/
-Action *api_find_action_by_name(lua_State *L, const char *name_orig)
-{
-
-  LUASCRIPT_CHECK_STATE(L, nullptr);
-  LUASCRIPT_CHECK_ARG_NIL(L, name_orig, 2, string, nullptr);
-
-  return action_by_rule_name(name_orig);
-}
-
-/**********************************************************************//**
   Return the improvement type with the given impr_type_id index.
 **************************************************************************/
 Building_Type *api_find_building_type(lua_State *L, int building_type_id)

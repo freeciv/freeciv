@@ -45,8 +45,6 @@ Government *api_find_government_by_name(lua_State *L, const char *name_orig);
 Nation_Type *api_find_nation_type(lua_State *L, int nation_type_id);
 Nation_Type *api_find_nation_type_by_name(lua_State *L,
                                           const char *name_orig);
-Action *api_find_action(lua_State *L, action_id act_id);
-Action *api_find_action_by_name(lua_State *L, const char *name_orig);
 Building_Type *api_find_building_type(lua_State *L, int building_type_id);
 Building_Type *api_find_building_type_by_name(lua_State *L,
                                               const char *name_orig);
