@@ -8,7 +8,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 03-May-25.
+Last minor update was 29-Nov-25.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -358,9 +358,10 @@ versions and one for generating makefiles from release versions.
 
 This step is only needed for git versions.
 
-To create the makefile just type
+To create the makefile just cd to the builddir,
+and run autogen.sh from the source directory.
 
- % ./autogen.sh
+ % ../src/autogen.sh
 
 This will create the configure script and will run it. All parameters
 of autogen.sh are passed to configure. Read the next section about the
