@@ -25,8 +25,9 @@ void citizens_convert(struct city *pcity);
 void citizens_convert_conquest(struct city *pcity);
 struct player
 *citizens_unit_nationality(const struct city *pcity,
-                           int pop_cost,
-                           struct citizens_reduction *pchange);
+                           unsigned pop_cost,
+                           struct citizens_reduction *pchange)
+  fc__attribute((nonnull(1)));
 void citizens_reduction_apply(struct city *pcity,
                               const struct citizens_reduction *pchange);
 
