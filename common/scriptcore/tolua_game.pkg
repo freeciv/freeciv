@@ -611,10 +611,6 @@ module find {
     @ nation_type (lua_State *L, const char *name_orig);
   Nation_Type *api_find_nation_type
     @ nation_type (lua_State *L, int nation_type_id);
-  Action *api_find_action_by_name
-    @ action (lua_State *L, const char *name_orig);
-  Action *api_find_action
-    @ action (lua_State *L, int action_type_id);
   Building_Type *api_find_building_type_by_name
     @ building_type (lua_State *L, const char *name_orig);
   Building_Type *api_find_building_type
