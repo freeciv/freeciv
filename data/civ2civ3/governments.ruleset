@@ -21,9 +21,10 @@ format_version = 50
 ;                 as part of some sentences, so try to make it descriptive
 ;                 and sensible.
 ; helptxt       = displayed in the help for unit types with this flag (optional)
-;flags =
-;  { "name", "helptxt"
-;  }
+flags =
+  { "name", "helptxt"
+    _("ShieldToGold"), _("Some units have gold upkeep instead of shield upkeep.")
+  }
 
 [governments]
 during_revolution = "Anarchy"
@@ -172,6 +173,8 @@ ai_better   = "Monarchy"
 ruler_male_title = _("Chief %s")
 ruler_female_title = _("?female:Chief %s")
 
+flags = "ShieldToGold"
+
 helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
  control over your citizens is maintained largely by martial law.\
@@ -212,6 +215,8 @@ sound_alt2  = "-"
 
 ruler_male_title = _("King %s")
 ruler_female_title = _("Queen %s")
+
+flags = "ShieldToGold"
 
 helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
@@ -294,6 +299,8 @@ sound_alt2  = "-"
 ruler_male_title = _("High Priest %s")
 ruler_female_title = _("High Priestess %s")
 
+flags = "ShieldToGold"
+
 helptext = _("\
 Fundamentalism is a form of government organized around a central\
  set of beliefs. The beliefs, usually religious in nature, form\
@@ -342,6 +349,8 @@ sound_alt2  = "-"
 
 ruler_male_title = _("Consul %s")
 ruler_female_title = _("?female:Consul %s")
+
+flags = "ShieldToGold"
 
 helptext = _("\
 Federalism is a system in which the power to govern is shared between\
@@ -422,6 +431,8 @@ sound_alt2  = "-"
 
 ruler_male_title = _("Prime Minister %s")
 ruler_female_title = _("?female:Prime Minister %s")
+
+flags = "ShieldToGold"
 
 helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\

@@ -844,17 +844,9 @@ reqs    =
 type    = "Shield2Gold_Pct"
 value   = 100
 reqs    =
-    { "type",         "name",            "range", "present"
-      "UnitTypeFlag", "ShieldToGold",     "Local", TRUE
-      "Gov", "Anarchy", "Player", FALSE
-      "Gov", "Tribal", "Player", FALSE
-      "Gov", "Communism", "Player", FALSE
-;      "Gov", "Despotism", "Player", FALSE
-;      "Gov", "Monarchy", "Player", FALSE
-;      "Gov", "Fundamentalism", "Player", FALSE
-;      "Gov", "Federation", "Player", FALSE
-      "Gov", "Republic", "Player", FALSE
-;      "Gov", "Democracy", "Player", FALSE
+    { "type",         "name",         "range"
+      "UnitTypeFlag", "ShieldToGold", "Local"
+      "GovFlag",      "ShieldToGold", "Player"
     }
 
 [effect_base_unit_upkeep_gold_1]
