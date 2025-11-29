@@ -31,6 +31,7 @@ struct audio_plugin {
   char name[MAX_AUDIO_NAME_LEN];
   char descr[MAX_AUDIO_DESCR_LEN];
   bool initialized;
+  bool dummy;
   bool (*init) (struct audio_plugin *self);
   void (*shutdown) (struct audio_plugin *self);
   void (*stop) (void);
@@ -78,6 +79,8 @@ void audio_set_volume(double volume);
 
 bool audio_select_plugin(const char *const name);
 const char *audio_get_all_plugin_names(void);
+
+bool audio_is_dummy_plugin(void);
 
 #ifdef __cplusplus
 }

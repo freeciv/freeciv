@@ -97,6 +97,7 @@ void audio_none_init(void)
   sz_strlcpy(self.name, "none");
   sz_strlcpy(self.descr, "/dev/null plugin");
   self.initialized = FALSE;
+  self.dummy = TRUE;
   self.init = none_audio_init;
   self.shutdown = none_audio_shutdown;
   self.stop = none_audio_stop;

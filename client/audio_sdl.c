@@ -479,6 +479,7 @@ void audio_sdl_init(void)
   sz_strlcpy(self.name, "sdl");
   sz_strlcpy(self.descr, "Simple DirectMedia Library (SDL) mixer plugin");
   self.initialized = FALSE;
+  self.dummy = FALSE;
   self.init = sdl_audio_init;
   self.shutdown = sdl_audio_shutdown;
   self.stop = sdl_audio_stop;

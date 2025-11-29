@@ -708,3 +708,11 @@ const char *audio_get_all_plugin_names(void)
   sz_strlcat(buffer, "]");
   return buffer;
 }
+
+/**********************************************************************//**
+  Is the currently active plugin dummy one?
+**************************************************************************/
+bool audio_is_dummy_plugin(void)
+{
+  return plugins[selected_plugin].dummy;
+}
