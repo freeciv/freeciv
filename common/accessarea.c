@@ -20,6 +20,7 @@
 
 /* common */
 #include "player.h"
+#include "tiledef.h"
 
 #include "accessarea.h"
 
@@ -114,6 +115,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
         struct access_area *aarea = fc_malloc(sizeof(struct access_area));
         struct pf_parameter parameter;
         struct pf_map *pfm;
+        int i;
 
         aarea->cities = city_list_new();
         aarea->capital = is_capital(pcity);
@@ -143,6 +145,16 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
             pf_path_destroy(path);
           }
         } city_list_iterate_end;
+
+        BV_CLR_ALL(aarea->tiledefs);
+        for (i = 0; i < MAX_TILEDEFS; i++) {
+          pf_map_tiles_iterate(pfm, ptile, TRUE) {
+            if (tile_matches_tiledef(tiledef_by_number(i), ptile)) {
+              BV_SET(aarea->tiledefs, i);
+              break;
+            }
+          } pf_map_tiles_iterate_end;
+        }
 
         pf_map_destroy(pfm);
       }

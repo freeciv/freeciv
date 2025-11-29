@@ -1100,10 +1100,13 @@ typedef float adv_want;
 #define SPECENUM_VALUE1NAME "Founded"
 #include "specenum_gen.h"
 
+BV_DEFINE(bv_tiledefs, MAX_TILEDEFS);
+
 struct access_area {
   const struct player *plr;
   struct city_list *cities;
   bool capital;
+  bv_tiledefs tiledefs;
 };
 
 #ifdef __cplusplus
