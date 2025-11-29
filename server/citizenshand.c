@@ -57,7 +57,7 @@
 *****************************************************************************/
 struct player
 *citizens_unit_nationality(const struct city *pcity,
-                           int pop_cost,
+                           unsigned pop_cost,
                            struct citizens_reduction *pchange)
 {
   struct {
@@ -70,7 +70,8 @@ struct player
   int max_nat = 0; /* Maximal number of a nationality gone into the unit */
   struct player_slot *dominant = NULL;
 
-  fc_assert_ret_val(pcity, NULL);
+  fc_assert(pop_cost > 0);
+
   if (!game.info.citizen_nationality) {
     /* Nothing to do */
     return pcity->owner;
@@ -153,6 +154,11 @@ struct player
   /* Delimiter */
   if (pchange) {
     pchange->change = 0;
+  }
+
+  fc_assert(dominant != NULL);
+  if (dominant == NULL) {
+    return pcity->owner;
   }
 
   return player_slot_get_player(dominant);
