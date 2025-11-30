@@ -373,7 +373,7 @@ static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data)
 
   fc_assert_ret_val(city_map_data != NULL, NULL);
 
-  /* print y coordinates (absolut) */
+  /* print y coordinates (absolute) */
   fc_snprintf(citylog, sizeof(citylog), "%2d ", y);
 
   /* print values */
@@ -395,7 +395,7 @@ static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data)
     }
   }
 
-  /* print y coordinates (relativ) */
+  /* print y coordinates (relative) */
   fc_snprintf(tmp, sizeof(tmp), " %+4d", CITY_ABS2REL(y));
   sz_strlcat(citylog, tmp);
 
@@ -419,7 +419,7 @@ void citylog_map_data(enum log_level level, int radius_sq, int *map_data)
 
   log_base(level, "(max squared city radius = %d)", CITY_MAP_MAX_RADIUS_SQ);
 
-  /* print x coordinates (absolut) */
+  /* print x coordinates (absolute) */
   fc_snprintf(line, sizeof(line), "   ");
   for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
     fc_snprintf(tmp, sizeof(tmp), "%+5d", x);
@@ -431,7 +431,7 @@ void citylog_map_data(enum log_level level, int radius_sq, int *map_data)
     log_base(level, "%s", citylog_map_line(y, radius_sq, map_data));
   }
 
-  /* print x coordinates (relativ) */
+  /* print x coordinates (relative) */
   fc_snprintf(line, sizeof(line), "   ");
   for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
     fc_snprintf(tmp, sizeof(tmp), "%+5d", CITY_ABS2REL(x));
