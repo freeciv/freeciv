@@ -28,6 +28,7 @@ Updating from 3.2 to 3.3
 * Building web version of the server with autotools is no longer supported.
   Make such builds with meson instead.
 * Minimum Python requirement for code generation scripts is 3.6.
+* Lua version to use is 5.5 now
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
