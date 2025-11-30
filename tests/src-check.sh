@@ -16,12 +16,20 @@
 srcdir="$(dirname "$0")"
 top_srcdir="$(cd "$srcdir/.." && pwd)"
 
+run_test() {
+  echo "Running $1"
+  ${srcdir}/$1 ${top_srcdir} >> check-output_
+}
+
 rm -f check-output check-output_
-${srcdir}/check_macros.sh ${top_srcdir} >> check-output_
-${srcdir}/copyright.sh ${top_srcdir} >> check-output_
-${srcdir}/fcintl.sh ${top_srcdir} >> check-output_
-${srcdir}/header_guard.sh ${top_srcdir} >> check-output_
-${srcdir}/va_list.sh ${top_srcdir} >> check-output_
-${srcdir}/trailing_spaces.sh ${top_srcdir} >> check-output_
+
+run_test check_macros.sh
+run_test copyright.sh
+run_test fcintl.sh
+run_test header_guard.sh
+run_test va_list.sh
+run_test trailing_spaces.sh
+
+echo "Preparing check-output"
 cat check-output_ | sed "s,${top_srcdir}/,," > check-output
 rm -f check-output_
