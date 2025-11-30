@@ -1540,6 +1540,7 @@ if server_type != 'disabled'
     'server/civserver.c',
     servericon,
     include_directories: server_inc,
+    sources: [verhdr],
     link_with: [server_lib, common_lib, ais],
     dependencies: [m_dep, net_dep, readline_dep, gettext_dep, mw_extra_dep],
     install: true,
