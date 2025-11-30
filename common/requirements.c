@@ -2158,7 +2158,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
 
 /**********************************************************************//**
   Returns the first requirement in the specified requirement vector that
-  contradicts the specified requirement or NULL if no contradiction was
+  contradicts the specified requirement or nullptr if no contradiction was
   detected.
   @param req the requirement that may contradict the vector
   @param vec the requirement vector to look in
@@ -6707,7 +6707,7 @@ bool is_req_active(const struct req_context *context,
   const struct civ_map *nmap = &(wld.map);
   enum fc_tristate eval;
   fc_thread_id self = fc_thread_self();
-  struct thr_req_data *trdata = NULL;
+  struct thr_req_data *trdata = nullptr;
 
   fc_mutex_allocate(&trmutex);
   thr_req_data_list_iterate(trdatas, data) {
@@ -6716,7 +6716,7 @@ bool is_req_active(const struct req_context *context,
     }
   } thr_req_data_list_iterate_end;
 
-  if (trdata == NULL) {
+  if (trdata == nullptr) {
     trdata = fc_malloc(sizeof(struct thr_req_data));
     trdata->thr_id = self;
     thr_req_data_list_append(trdatas, trdata);
