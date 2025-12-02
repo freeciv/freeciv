@@ -1732,38 +1732,64 @@ const char *get_act_sel_action_custom_text(struct action *paction,
                     NULL);
 
   if (action_has_result(paction, ACTRES_TRADE_ROUTE)) {
+    bool estimated = FALSE;
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
                                                      unit_type_get(actor_unit),
                                                      actor_unit->carrying,
                                                      TRUE);
 
+    if (game.info.caravan_bonus_style == CBS_CLASSIC
+        && target_city->owner != actor_homecity->owner) {
+      estimated = TRUE;
+    }
     if (revenue > 0) {
-      astr_set(&custom,
-               /* TRANS: Estimated one time bonus and recurring revenue for
-                * the Establish Trade _Route action. */
-               _("%d one time bonus + %d trade"),
-               revenue,
-               trade_base_between_cities(actor_homecity, target_city));
+      if (estimated) {
+        astr_set(&custom,
+                 /* TRANS: estimated one time bonus and recurring revenue for
+                  * the Establish Trade _Route action. */
+                 _("%d estimated one time bonus + %d trade"),
+                 revenue,
+                 trade_base_between_cities(actor_homecity, target_city));
+      } else {
+        astr_set(&custom,
+                 /* TRANS: one time bonus and recurring revenue for
+                  * the Establish Trade _Route action. */
+                 _("%d one time bonus + %d trade"),
+                 revenue,
+                 trade_base_between_cities(actor_homecity, target_city));
+      }
     } else {
       astr_set(&custom,
-               /* TRANS: Estimated recurring revenue for
+               /* TRANS: recurring revenue for
                 * the Establish Trade _Route action. */
                _("%d trade"),
                trade_base_between_cities(actor_homecity, target_city));
     }
   } else if (action_has_result(paction, ACTRES_MARKETPLACE)) {
+    bool estimated = FALSE;
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
                                                      unit_type_get(actor_unit),
                                                      actor_unit->carrying,
                                                      FALSE);
 
+    if (game.info.caravan_bonus_style == CBS_CLASSIC
+        && target_city->owner != actor_homecity->owner) {
+      estimated = TRUE;
+    }
     if (revenue > 0) {
-      astr_set(&custom,
-               /* TRANS: Estimated one time bonus for the Enter Marketplace
-                * action. */
-               _("%d one time bonus"), revenue);
+      if (estimated) {
+        astr_set(&custom,
+                 /* TRANS: estimated one time bonus for the Enter Marketplace
+                  * action. */
+                 _("%d estimated one time bonus"), revenue);
+      } else {
+        astr_set(&custom,
+                 /* TRANS: one time bonus for the Enter Marketplace
+                  * action. */
+                 _("%d one time bonus"), revenue);
+      }
     } else {
       /* No info to add. */
       return NULL;
