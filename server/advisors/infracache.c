@@ -245,7 +245,7 @@ static adv_want adv_calc_rmextra(const struct city *pcity,
 
   These values are used in settler_evaluate_improvements() so this function
   must be called before doing that. Currently this is only done when handling
-  auto-settlers or when the AI contemplates building worker units.
+  auto-workers or when the AI contemplates building worker units.
 **************************************************************************/
 void initialize_infrastructure_cache(struct player *pplayer)
 {
