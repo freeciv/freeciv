@@ -304,7 +304,7 @@ static void check_readonly (LexState *ls, expdesc *e) {
       break;
     }
     case VVARGIND: {
-      fs->f->flag |= PF_VATAB;  /* function will need a vararg table */
+      needvatab(fs->f);  /* function will need a vararg table */
       e->k = VINDEXED;
     }  /* FALLTHROUGH */
     case VINDEXUP: case VINDEXSTR: case VINDEXED: {  /* global variable */
@@ -1056,9 +1056,8 @@ static void constructor (LexState *ls, expdesc *t) {
 /* }====================================================================== */
 
 
-static void setvararg (FuncState *fs, int kind) {
-  lua_assert(kind & PF_ISVARARG);
-  fs->f->flag |= cast_byte(kind);
+static void setvararg (FuncState *fs) {
+  fs->f->flag |= PF_VAHID;  /* by default, use hidden vararg arguments */
   luaK_codeABC(fs, OP_VARARGPREP, 0, 0, 0);
 }
 
@@ -1078,12 +1077,12 @@ static void parlist (LexState *ls) {
           break;
         }
         case TK_DOTS: {
-          varargk |= PF_ISVARARG;
+          varargk = 1;
           luaX_next(ls);  /* skip '...' */
-          if (ls->t.token == TK_NAME) {
+          if (ls->t.token == TK_NAME)
             new_varkind(ls, str_checkname(ls), RDKVAVAR);
-            varargk |= PF_VAVAR;
-          }
+          else
+            new_localvarliteral(ls, "(vararg table)");
           break;
         }
         default: luaX_syntaxerror(ls, "<name> or '...' expected");
@@ -1092,10 +1091,9 @@ static void parlist (LexState *ls) {
   }
   adjustlocalvars(ls, nparams);
   f->numparams = cast_byte(fs->nactvar);
-  if (varargk != 0) {
-    setvararg(fs, varargk);  /* declared vararg */
-    if (varargk & PF_VAVAR)
-      adjustlocalvars(ls, 1);  /* vararg parameter */
+  if (varargk) {
+    setvararg(fs);  /* declared vararg */
+    adjustlocalvars(ls, 1);  /* vararg parameter */
   }
   /* reserve registers for parameters (plus vararg parameter, if present) */
   luaK_reserveregs(fs, fs->nactvar);
@@ -1285,9 +1283,9 @@ static void simpleexp (LexState *ls, expdesc *v) {
     }
     case TK_DOTS: {  /* vararg */
       FuncState *fs = ls->fs;
-      check_condition(ls, fs->f->flag & PF_ISVARARG,
+      check_condition(ls, isvararg(fs->f),
                       "cannot use '...' outside a vararg function");
-      init_exp(v, VVARARG, luaK_codeABC(fs, OP_VARARG, 0, 0, 1));
+      init_exp(v, VVARARG, luaK_codeABC(fs, OP_VARARG, 0, fs->f->numparams, 1));
       break;
     }
     case '{' /*}*/: {  /* constructor */
@@ -2153,7 +2151,7 @@ static void mainfunc (LexState *ls, FuncState *fs) {
   BlockCnt bl;
   Upvaldesc *env;
   open_func(ls, fs, &bl);
-  setvararg(fs, PF_ISVARARG);  /* main function is always vararg */
+  setvararg(fs);  /* main function is always vararg */
   env = allocupvalue(fs);  /* ...set environment upvalue */
   env->instack = 1;
   env->idx = 0;

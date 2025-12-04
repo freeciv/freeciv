@@ -242,6 +242,7 @@ static void createvarargtab (lua_State *L, StkId f, int n) {
   luaH_set(L, t, &key, &value);  /* t.n = n */
   for (i = 0; i < n; i++)
     luaH_setint(L, t, i + 1, s2v(f + i));
+  luaC_checkGC(L);
 }
 
 
@@ -249,31 +250,42 @@ static void createvarargtab (lua_State *L, StkId f, int n) {
 ** initial stack:  func arg1 ... argn extra1 ...
 **                 ^ ci->func                    ^ L->top
 ** final stack: func nil ... nil extra1 ... func arg1 ... argn
-**                                          ^ ci->func         ^ L->top
+**                                          ^ ci->func
 */
-void luaT_adjustvarargs (lua_State *L, CallInfo *ci, const Proto *p) {
+static void buildhiddenargs (lua_State *L, CallInfo *ci, const Proto *p,
+                             int totalargs, int nfixparams, int nextra) {
   int i;
-  int totalargs = cast_int(L->top.p - ci->func.p) - 1;
-  int nfixparams = p->numparams;
-  int nextra = totalargs - nfixparams;  /* number of extra arguments */
   ci->u.l.nextraargs = nextra;
   luaD_checkstack(L, p->maxstacksize + 1);
-  /* copy function to the top of the stack */
+  /* copy function to the top of the stack, after extra arguments */
   setobjs2s(L, L->top.p++, ci->func.p);
-  /* move fixed parameters to the top of the stack */
+  /* move fixed parameters to after the copied function */
   for (i = 1; i <= nfixparams; i++) {
     setobjs2s(L, L->top.p++, ci->func.p + i);
     setnilvalue(s2v(ci->func.p + i));  /* erase original parameter (for GC) */
   }
-  if (p->flag & PF_VAVAR) {  /* is there a vararg parameter? */
-    if (p->flag & PF_VATAB)  /* does it need a vararg table? */
-      createvarargtab(L, ci->func.p + nfixparams + 1, nextra);
-    else  /* no table; set parameter to nil */
-      setnilvalue(s2v(L->top.p));
-  }
-  ci->func.p += totalargs + 1;
+  ci->func.p += totalargs + 1;  /* 'func' now lives after hidden arguments */
   ci->top.p += totalargs + 1;
-  lua_assert(L->top.p <= ci->top.p && ci->top.p <= L->stack_last.p);
+}
+
+
+void luaT_adjustvarargs (lua_State *L, CallInfo *ci, const Proto *p) {
+  int totalargs = cast_int(L->top.p - ci->func.p) - 1;
+  int nfixparams = p->numparams;
+  int nextra = totalargs - nfixparams;  /* number of extra arguments */
+  if (p->flag & PF_VATAB) {  /* does it need a vararg table? */
+    lua_assert(!(p->flag & PF_VAHID));
+    createvarargtab(L, ci->func.p + nfixparams + 1, nextra);
+    /* move table to proper place (last parameter) */
+    setobjs2s(L, ci->func.p + nfixparams + 1, L->top.p - 1);
+  }
+  else {  /* no table */
+    lua_assert(p->flag & PF_VAHID);
+    buildhiddenargs(L, ci, p, totalargs, nfixparams, nextra);
+    /* set vararg parameter to nil */
+    setnilvalue(s2v(ci->func.p + nfixparams + 1));
+    lua_assert(L->top.p <= ci->top.p && ci->top.p <= L->stack_last.p);
+  }
 }
 
 
@@ -299,16 +311,53 @@ void luaT_getvararg (CallInfo *ci, StkId ra, TValue *rc) {
 }
 
 
-void luaT_getvarargs (lua_State *L, CallInfo *ci, StkId where, int wanted) {
-  int i;
-  int nextra = ci->u.l.nextraargs;
-  if (wanted < 0) {
-    wanted = nextra;  /* get all extra arguments available */
-    checkstackp(L, nextra, where);  /* ensure stack space */
-    L->top.p = where + nextra;  /* next instruction will need top */
+/*
+** Get the number of extra arguments in a vararg function. If vararg
+** table has been optimized away, that number is in the call info.
+** Otherwise, get the field 'n' from the vararg table and check that it
+** has a proper value (non-negative integer not larger than the stack
+** limit).
+*/
+static int getnumargs (lua_State *L, CallInfo *ci, Table *h) {
+  if (h == NULL)  /* no vararg table? */
+    return ci->u.l.nextraargs;
+  else {
+    TValue res;
+    if (luaH_getshortstr(h, luaS_new(L, "n"), &res) != LUA_VNUMINT ||
+        l_castS2U(ivalue(&res)) > cast_uint(INT_MAX/2))
+      luaG_runerror(L, "vararg table has no proper 'n'");
+    return cast_int(ivalue(&res));
   }
-  for (i = 0; i < wanted && i < nextra; i++)
-    setobjs2s(L, where + i, ci->func.p - nextra + i);
+}
+
+
+/*
+** Get 'wanted' vararg arguments and put them in 'where'. 'vatab' is
+** the register of the vararg table or -1 if there is no vararg table.
+*/
+void luaT_getvarargs (lua_State *L, CallInfo *ci, StkId where, int wanted,
+                                    int vatab) {
+  Table *h = (vatab < 0) ? NULL : hvalue(s2v(ci->func.p + vatab + 1));
+  int nargs = getnumargs(L, ci, h);  /* number of available vararg args. */
+  int i, touse;  /* 'touse' is minimum between 'wanted' and 'nargs' */
+  if (wanted < 0) {
+    touse = wanted = nargs;  /* get all extra arguments available */
+    checkstackp(L, nargs, where);  /* ensure stack space */
+    L->top.p = where + nargs;  /* next instruction will need top */
+  }
+  else
+    touse = (nargs > wanted) ? wanted : nargs;
+  if (h == NULL) {  /* no vararg table? */
+    for (i = 0; i < touse; i++)  /* get vararg values from the stack */
+      setobjs2s(L, where + i, ci->func.p - nargs + i);
+  }
+  else {  /* get vararg values from vararg table */
+    for (i = 0; i < touse; i++) {
+      lu_byte tag = luaH_getint(h, i + 1, s2v(where + i));
+      if (tagisempty(tag))
+       setnilvalue(s2v(where + i));
+    }
+  }
   for (; i < wanted; i++)   /* complete required results with nil */
     setnilvalue(s2v(where + i));
 }
