@@ -1933,13 +1933,13 @@ static bool save_governments_ruleset(const char *filename, const char *name)
         uflags_government = TRUE;
       }
 
-      secfile_insert_str(sfile, flagname, "control.government_flags%d.name", i);
+      secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
        * the formatting code happy. The resulting "" is ignored when the
        * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt,
-                         "control.government_flags%d.helptxt", i);
+                         "control.flags%d.helptxt", i);
     }
   }
 
@@ -2636,7 +2636,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     /* Check resource count */
     for (r = 0; pterr->resources[r] != nullptr; r++) {
-      /* Just increasing r as long as there is resources */
+      /* Just increasing r as long as there are resources */
     }
 
     {
@@ -2696,12 +2696,15 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, pterr->transform_time,
                        "%s.transform_time", path);
 
-    if (pterr->animal != nullptr) {
-      secfile_insert_str(sfile, utype_rule_name(pterr->animal),
-                         "%s.animal", path);
-    } else {
-      secfile_insert_str(sfile, "None",
-                         "%s.animal", path);
+    if (pterr->num_animals > 0) {
+      const char *animal_names[pterr->num_animals];
+      int count = 0;
+
+      terrain_animals_iterate(pterr, panimal) {
+        animal_names[count++] = utype_rule_name(panimal);
+      } terrain_animals_iterate_end
+      secfile_insert_str_vec(sfile, animal_names, count,
+                             "%s.animals", path);
     }
 
     secfile_insert_int(sfile, pterr->placing_time,

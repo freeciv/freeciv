@@ -275,8 +275,8 @@ uclasses = "\
 ; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base\n\
 ; non_native_def_pct  = Defense power percentage applying when defending on\n\
 ;                       non-native terrain (such as ship in harbor)\n\
-; flags               = List of unit class flags (from the following list; you\n\
-;                       cannot add custom unit class flags)\n\
+; flags               = List of unit class flags; list of built-in flags\n\
+;                       described below and/or user flags defined above\n\
 ; helptext            = optional help text string; should escape all raw newlines\n\
 ;                       so that xgettext parsing works\n\
 ;\n\
@@ -646,7 +646,7 @@ terrains = "\
 ;   - \"extra\"            - Name of the extra\n\
 ;   - \"removal_time\"     - Time for cleaning activities (0 = impossible)\n\
 ;                          Nonzero values only affect extras with removal_time 0.\n\
-; animal               = unit type that can appear as animal on the terrain\n\
+; animals              = list of unit types that can appear as animal on the terrain\n\
 ; warmer_wetter_result = result of global warming for wet terrains; one of:\n\
 ;                        \"no\"  -- no change; does not count for warming\n\
 ;                        \"yes\" -- no change; counts for warming\n\

@@ -51,6 +51,9 @@ flags =
     _("Cant_Fortify")
     _("OneAttack")
     _("NoVeteran")
+    _("ShieldToGold"), _("The 1 shield unit upkeep becomes 1 gold under \
+Despotism and Monarchy, and 2 gold under Fundamentalism, Federation and \
+Democracy.")
   }
 
 ; Names for custom unit class flags. There can be up to 25 of these.
@@ -123,8 +126,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base
 ; non_native_def_pct  = Defense power percentage applying when defending on
 ;                       non-native terrain (such as ship in harbor)
-; flags               = List of unit class flags (from the following list; you
-;                       cannot add custom unit class flags)
+; flags               = List of unit class flags; list of built-in flags
+;                       described below and/or user flags defined above
 ; helptext            = optional help text string; should escape all raw newlines
 ;                       so that xgettext parsing works
 ;
@@ -608,10 +611,10 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress",
-                "FleshBased"
+                "FleshBased", "ShieldToGold"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0
@@ -651,10 +654,10 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Workers", "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress",
-                "Transform", "IronBased"
+                "Transform", "IronBased", "ShieldToGold"
 veteran_names = _("beginner"), _("seasoned"), _("senior"), _("expert")
 veteran_base_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 3, 2, 1, 0
@@ -702,9 +705,10 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress", "FleshBased"
+flags         = "Cant_Fortify", "NonMil", "HasNoZOC", "Fortress", "FleshBased",
+                "ShieldToGold"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0
@@ -739,9 +743,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "Fortress", "FleshBased"
+flags         = "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendOk", "DefendOkStartUnit", "FirstBuild"
 helptext      = _("\
 This unit may be built from the start of the game.  It is the\
@@ -775,9 +779,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "Fortress", "FleshBased"
+flags         = "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 The Phalanx is armored infantry, suitable for defending your cities.\
@@ -810,9 +814,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "Fortress", "FleshBased"
+flags         = "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendOk", "Hut"
 helptext      = _("\
 Archers fight with bows and arrows and have a good offensive\
@@ -846,9 +850,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Marines", "Capturer", "Fortress", "FleshBased"
+flags         = "Marines", "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendOk", "BarbarianBuild", "BarbarianSea"
 helptext      = _("\
 Legions are heavily armed and well disciplined infantry\
@@ -882,9 +886,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "Fortress", "FleshBased"
+flags         = "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 Equipped with long pikes, Pikemen replaces Phalanx\
@@ -918,9 +922,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Marines", "Capturer", "Fortress", "FleshBased"
+flags         = "Marines", "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild", "HutTech",
                 "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
 helptext      = _("\
@@ -956,9 +960,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Marines", "Capturer", "Fortress", "FleshBased"
+flags         = "Marines", "Capturer", "Fortress", "FleshBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 Riflemen are World War-era infantry, very good\
@@ -992,11 +996,12 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "IgTer", "Capturer", "Fortress", "SupplyLines", "FleshBased"
+flags         = "IgTer", "Capturer", "Fortress", "SupplyLines", "FleshBased",
+                "ShieldToGold"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Alpine Troops are highly mobile units as well as\
@@ -1030,11 +1035,12 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "IgTer", "IgZOC", "Capturer", "Fortress", "SupplyLines", "FleshBased"
+flags         = "IgTer", "IgZOC", "Capturer", "Fortress", "SupplyLines",
+                "FleshBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit", "Partisan", "BarbarianTech"
 helptext      = _("\
 Partisans are guerilla fighters who are experts\
@@ -1119,11 +1125,12 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "Marines", "Capturer", "Fortress", "SupplyLines", "FleshBased"
+flags         = "Marines", "Capturer", "Fortress", "SupplyLines", "FleshBased",
+                "ShieldToGold"
 roles         = "DefendGood", "FirstBuild", "BarbarianSeaTech"
 helptext      = _("\
 Marines are infantry who are experts at marine warfare.\
@@ -1156,11 +1163,12 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "Paratroopers", "Capturer", "Fortress", "SupplyLines", "FleshBased"
+flags         = "Paratroopers", "Capturer", "Fortress", "SupplyLines",
+                "FleshBased", "ShieldToGold"
 roles         = "DefendOk"
 helptext      = _("\
 Paratroopers are experts at airborne attacks. From a friendly city, \
@@ -1199,9 +1207,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "IronBased"
+flags         = "IronBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 The Mechanized Infantry has the strongest inherent defensive strength \
@@ -1238,9 +1246,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "AttackFastStartUnit", "Hut", "Barbarian", "Hunter"
 helptext      = _("\
 Horsemen are mounted warriors and an early\
@@ -1275,9 +1283,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "AttackFastStartUnit"
 helptext      = _("\
 Chariots are horse-pulled war wagons. They have a stronger attack than \
@@ -1315,9 +1323,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "DefendOk", "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Elephants are towering animals trained for war that are often used as\
@@ -1351,9 +1359,9 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Crusaders are highly disciplined mounted\
@@ -1387,9 +1395,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "DefendOk", "AttackFastStartUnit",
                 "HutTech","BarbarianTech", "BarbarianBuildTech", "Hunter"
 helptext      = _("\
@@ -1423,9 +1431,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "AttackFastStartUnit", "BarbarianBuildTech", "Hunter"
 helptext      = _("\
 Dragoons are mounted warriors carrying early firearms.\
@@ -1458,9 +1466,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Capturer", "FleshBased"
+flags         = "Capturer", "FleshBased", "ShieldToGold"
 roles         = "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Cavalry are mounted and highly trained soldiers.\
@@ -1493,9 +1501,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "IronBased"
+flags         = "IronBased", "ShieldToGold"
 roles         = "DefendOk", "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Armors are motorized war wagons that are faster, stronger, and can take \
@@ -1532,9 +1540,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "IronBased"
+flags         = "IronBased", "ShieldToGold"
 roles         = "AttackStrongStartUnit"
 helptext      = _("\
 Catapults are large rock-throwing machines of war.\
@@ -1574,9 +1582,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "IronBased"
+flags         = "IronBased", "ShieldToGold"
 roles         = "AttackStrongStartUnit", "BarbarianTech", "BarbarianBuildTech"
 helptext      = _("\
 Cannons are large firearms that can fire heavy projectiles over long \
@@ -1612,9 +1620,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "CityBuster", "IronBased"
+flags         = "CityBuster", "IronBased", "ShieldToGold"
 roles         = "AttackStrongStartUnit"
 helptext      = _("\
 The artillery is an upgraded cannon. As with its predecessors, it is a \
@@ -1649,9 +1657,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "CityBuster", "IronBased"
+flags         = "CityBuster", "IronBased", "ShieldToGold"
 roles         = "AttackStrongStartUnit"
 helptext      = _("\
 Howitzers are upgraded artillery with improved defensive as well as \
@@ -1686,10 +1694,10 @@ fuel          = 2
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 targets       = "Air", "Missile", "Helicopter"
-flags         = "AirAttacker", "HasNoZOC", "IronBased"
+flags         = "AirAttacker", "HasNoZOC", "IronBased", "ShieldToGold"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1728,10 +1736,10 @@ fuel          = 3
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder",
-                "HasNoZOC", "IronBased"
+                "HasNoZOC", "IronBased", "ShieldToGold"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1775,11 +1783,11 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Land"
 flags         = "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC",
-                "Provoking", "IronBased"
+                "Provoking", "IronBased", "ShieldToGold"
 roles         = ""
 helptext      = _("\
 A Helicopter's attack against units on land is a bombard attack; against \
@@ -1824,11 +1832,11 @@ fuel          = 2
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 targets       = "Air", "Missile", "Helicopter"
 vision_layer  = "Stealth"
-flags         = "AirAttacker", "HasNoZOC", "IronBased"
+flags         = "AirAttacker", "HasNoZOC", "IronBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1862,11 +1870,11 @@ fuel          = 3
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 vision_layer  = "Stealth"
 flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder",
-                "HasNoZOC", "IronBased"
+                "HasNoZOC", "IronBased", "ShieldToGold"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
@@ -1901,11 +1909,11 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Merchant"
 flags         = "BadCityDefender", "HasNoZOC", "Provoking", "IronBased",
-                "NonMil"
+                "NonMil", "ShieldToGold"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
@@ -1942,11 +1950,11 @@ fuel          = 3
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Merchant"
 flags         = "BadCityDefender", "Only_Native_Attack", "HasNoZOC",
-                "Provoking", "Coast", "IronBased", "NonMil"
+                "Provoking", "Coast", "IronBased", "NonMil", "ShieldToGold"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Caravel is a sailing ship that can enter\
@@ -1981,11 +1989,11 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
 flags         = "BadCityDefender", "HasNoZOC", "Provoking", "IronBased",
-                "NonMil"
+                "NonMil", "ShieldToGold"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Galleon is a big transport ship, the first which can\
@@ -2019,9 +2027,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "BadCityDefender", "IronBased"
+flags         = "BadCityDefender", "IronBased", "ShieldToGold"
 roles         = "Hunter"
 helptext      = _("\
 The Frigate is a specialized ship with a strong offensive value,\
@@ -2055,9 +2063,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "BadCityDefender", "IronBased"
+flags         = "BadCityDefender", "IronBased", "ShieldToGold"
 roles         = "Hunter"
 helptext      = _("\
 The Ironclad is an armored ship,\
@@ -2091,13 +2099,13 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 bonuses       =
    { "flag", "type", "value"
      "Submarine", "DefenseMultiplier", 1
    }
-flags         = "BadCityDefender", "IronBased"
+flags         = "BadCityDefender", "IronBased", "ShieldToGold"
 roles         = "Hunter"
 helptext      = _("\
 An improved Ironclad, with better move rate and vision.\
@@ -2134,9 +2142,9 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "BadCityDefender", "IronBased"
+flags         = "BadCityDefender", "IronBased", "ShieldToGold"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 The Cruiser is a strong offensive boat unit.\
@@ -2169,13 +2177,13 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 bonuses       =
    { "flag", "type", "value"
      "AirAttacker", "DefenseMultiplier", 4
    }
-flags         = "BadCityDefender", "IronBased"
+flags         = "BadCityDefender", "IronBased", "ShieldToGold"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 The AEGIS Cruiser is equipped with an advanced\
@@ -2209,13 +2217,13 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 ; /* <-- avoid gettext warnings
 ; Consensus historical article: "Airplanes Sink a Battleship?
 ; No, Sir! Declares President" Chicago Daily Tribune, Feb. 26, 1938.
 ; */ <-- avoid gettext warnings
-flags         = "BadCityDefender", "Consensus", "IronBased"
+flags         = "BadCityDefender", "Consensus", "IronBased", "ShieldToGold"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 The Battleship is the supreme naval unit with\
@@ -2249,12 +2257,12 @@ fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Missile"
 vision_layer  = "Subsurface"
 flags         = "BadCityDefender", "Only_Native_Attack",
-                "Submarine", "Provoking", "IronBased"
+                "Submarine", "Provoking", "IronBased", "ShieldToGold"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
@@ -2289,12 +2297,12 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Missile"
 vision_layer  = "Subsurface"
-flags         = "BadCityDefender", "Only_Native_Attack",
-                "Submarine", "Provoking", "TacticalNuke", "IronBased"
+flags         = "BadCityDefender", "Only_Native_Attack", "Submarine",
+                "Provoking", "TacticalNuke", "IronBased", "ShieldToGold"
 roles         = "Hunter"
 helptext      = _("\
 A SSBN is a nuclear submarine.\
@@ -2329,13 +2337,13 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 cargo         = "Land", "Air", "Missile", "Helicopter"
 tp_defense    = "Alight"
 ; Consensus historical article: Julian Borger. "Wake-up call"
 ; The Guardian, Sep. 6, 2002.
 flags         = "BadCityDefender", "HasNoZOC", "Consensus", "Provoking",
-                "IronBased"
+                "IronBased", "ShieldToGold"
 roles         = "DefendGood"
 helptext      = _("\
 The Carrier is a mobile airport.\
@@ -2376,11 +2384,11 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
 flags         = "Workers", "BadCityDefender", "HasNoZOC",
-                "Provoking", "IronBased", "NonMil"
+                "Provoking", "IronBased", "NonMil", "ShieldToGold"
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
 veteran_base_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 0, 0, 0, 0
@@ -2425,11 +2433,11 @@ fuel          = 1
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 targets       = "Air", "Missile", "Helicopter"
 flags         = "OneAttack", "AirAttacker", "CityBuster", "HasNoZOC",
-                "IronBased"
+                "IronBased", "ShieldToGold"
 roles         = ""
 helptext      = _("\
 The Cruise Missile is a long-distance missile\
@@ -2466,9 +2474,10 @@ fuel          = 1
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "FieldUnit", "OneAttack", "Nuclear", "HasNoZOC", "IronBased"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "HasNoZOC", "IronBased",
+                "ShieldToGold"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0
@@ -2528,10 +2537,10 @@ fuel          = 1
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "FieldUnit", "OneAttack", "NuclearOP", "HasNoZOC",
-                "IronBased"
+                "IronBased", "ShieldToGold"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0
@@ -2593,11 +2602,11 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 vision_layer  = "Stealth"
 flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
-                "Provoking", "FleshBased"
+                "Provoking", "FleshBased", "ShieldToGold"
 veteran_names =
 ; /* TRANS: diplomatic rank. */
   _("?diplomatic_rank:attaché"),
@@ -2722,11 +2731,11 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 vision_layer  = "Stealth"
 flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
-                "Spy", "Provoking", "SupplyLines", "FleshBased"
+                "Spy", "Provoking", "SupplyLines", "FleshBased", "ShieldToGold"
 veteran_names =
 ; /* TRANS: Spy veteran level */
   _("?spy_level:informant"),
@@ -2800,10 +2809,10 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "TradeRoute", "HelpWonder", "NonMil", "HasNoZOC",
-                "Capturable", "FleshBased"
+                "Capturable", "FleshBased", "ShieldToGold"
 roles         = ""
 helptext      = _("\
 A Caravan carries goods or material for trading with other nations,\
@@ -2854,10 +2863,10 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "TradeRoute", "HelpWonder", "NonMil", "HasNoZOC",
-                "Capturable", "IronBased"
+                "Capturable", "IronBased", "ShieldToGold"
 roles         = ""
 helptext      = _("\
 The Freight unit replaces the Caravan, and moves at twice the speed.\
@@ -2891,9 +2900,10 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "IgTer", "IgZOC", "NonMil", "HasNoZOC", "FleshBased"
+flags         = "IgTer", "IgZOC", "NonMil", "HasNoZOC", "FleshBased",
+                "ShieldToGold"
 roles         = "Explorer", "ExplorerStartUnit"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
@@ -3028,9 +3038,9 @@ fuel          = 3
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
-uk_gold       = 1
+uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "HasNoZOC", "IronBased"
+flags         = "HasNoZOC", "IronBased", "ShieldToGold"
 roles         = ""
 helptext      = _("\
 The AWACS (Airborne Warning and Control System) is an airplane with an \

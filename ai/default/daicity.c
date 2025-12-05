@@ -2111,6 +2111,7 @@ static bool dai_cant_help_req(const struct req_context *context,
   /* Unskilled in channel digging and merchantry */
   case VUT_TERRAIN:
   case VUT_EXTRA:
+  case VUT_TILEDEF:
   case VUT_GOOD:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:

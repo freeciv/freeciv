@@ -73,6 +73,7 @@ BuildingGenus:     Local
 Site:              World, Alliance, Team, Player, Continent, Traderoute,
                    City, Tile, Local
 Extra:             Local, Tile, Adjacent, CAdjacent, Traderoute, City
+Tiledef:           Tile, Adjacent, CAdjacent, Traderoute, City
 RoadFlag:          Local, Tile, Adjacent, CAdjacent, Traderoute, City
 ExtraFlag:         Local, Tile, Adjacent, CAdjacent, Traderoute, City
 Terrain:           Tile, Adjacent, CAdjacent, Traderoute, City

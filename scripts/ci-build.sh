@@ -122,7 +122,6 @@ meson setup .. \
   -Dqtver=qt6x \
   -Ddebug=true \
   -Dtools=ruledit,manual,ruleup \
-  -Dsyslua=true \
   -Dclients=gtk3.22,sdl2,gtk4,qt,stub,gtk4x \
   -Dfcmp=gtk3,gtk4,qt,cli \
   -Dfollowtag=macos \
@@ -149,9 +148,9 @@ cd build
 ../autogen.sh \
  CC="clang" \
  CXX="clang++" \
+ CFLAGS="-Wno-error" \
  --enable-ack-legacy \
  --enable-debug \
- --enable-sys-lua \
  --enable-sys-tolua-cmd \
  --disable-fcdb \
  --with-qtver=qt6 \

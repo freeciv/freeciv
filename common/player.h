@@ -379,9 +379,12 @@ struct player_slot *player_slot_next(struct player_slot *pslot);
 
 /* A player slot contains a possibly uninitialized player. */
 int player_slot_count(void);
-int player_slot_index(const struct player_slot *pslot);
-struct player *player_slot_get_player(const struct player_slot *pslot);
-bool player_slot_is_used(const struct player_slot *pslot);
+int player_slot_index(const struct player_slot *pslot)
+  fc__attribute((nonnull(1)));
+struct player *player_slot_get_player(const struct player_slot *pslot)
+  fc__attribute((nonnull(1)));
+bool player_slot_is_used(const struct player_slot *pslot)
+  fc__attribute((nonnull(1)));
 struct player_slot *player_slot_by_number(int player_id);
 int player_slot_max_used_number(void);
 
@@ -391,11 +394,13 @@ void player_set_color(struct player *pplayer,
                       const struct rgbcolor *prgbcolor);
 void player_clear(struct player *pplayer, bool full);
 void player_ruleset_close(struct player *pplayer);
-void player_destroy(struct player *pplayer);
+void player_destroy(struct player *pplayer)
+  fc__attribute((nonnull(1)));
 
 int player_count(void);
 int player_index(const struct player *pplayer);
-int player_number(const struct player *pplayer);
+int player_number(const struct player *pplayer)
+  fc__attribute((nonnull(1)));
 struct player *player_by_number(const int player_id);
 
 const char *player_name(const struct player *pplayer);
@@ -415,7 +420,8 @@ bool player_has_embassy_from_effect(const struct player *pplayer,
                                     const struct player *pplayer2);
 bool team_has_embassy(const struct team *pteam, const struct player *tgt_player);
 
-int player_age(const struct player *pplayer);
+int player_age(const struct player *pplayer)
+  fc__attribute((nonnull(1)));
 
 bool player_can_trust_tile_has_no_units(const struct player *pplayer,
                                         const struct tile *ptile);
@@ -435,7 +441,8 @@ bool can_player_see_units_in_city(const struct player *pplayer,
 bool can_player_see_city_internals(const struct player *pplayer,
                                    const struct city *pcity);
 bool player_can_see_city_externals(const struct player *pow_player,
-                                   const struct city *target_city);
+                                   const struct city *target_city)
+  fc__attribute((nonnull(1, 2)));
 
 bool player_owns_city(const struct player *pplayer,
                       const struct city *pcity);
@@ -462,7 +469,8 @@ const char *love_text(const int love);
 enum diplstate_type cancel_pact_result(enum diplstate_type oldstate);
 
 struct player_diplstate *player_diplstate_get(const struct player *plr1,
-                                              const struct player *plr2);
+                                              const struct player *plr2)
+  fc__attribute((nonnull(1, 2)));
 bool are_diplstates_equal(const struct player_diplstate *pds1,
                           const struct player_diplstate *pds2);
 enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
@@ -499,8 +507,10 @@ bool gives_shared_tiles(const struct player *me, const struct player *them);
 void diplrel_mess_close(void);
 bool is_diplrel_between(const struct player *player1,
                         const struct player *player2,
-                        int diplrel);
-bool is_diplrel_to_other(const struct player *pplayer, int diplrel);
+                        int diplrel)
+  fc__attribute((nonnull(1, 2)));
+bool is_diplrel_to_other(const struct player *pplayer, int diplrel)
+  fc__attribute((nonnull(1)));
 int diplrel_by_rule_name(const char *value);
 const char *diplrel_rule_name(int value);
 const char *diplrel_name_translation(int value);

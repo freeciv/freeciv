@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Freeciv - Copyright (C) 2022-2023 - The Freeciv Team
+# Freeciv - Copyright (C) 2022-2025 - The Freeciv Team
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2, or (at your option)
@@ -30,6 +30,7 @@ if ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" 
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.gtk3.mp.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.qt.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.sdl2.yml ||
+   ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.sdl3.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.ruledit.yml ||
    ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" --force-clean "${BROOT}/build" org.freeciv.qt.mp.yml ||
    ! flatpak build-update-repo "${BROOT}/repo" ||
@@ -41,6 +42,7 @@ if ! flatpak-builder --user --repo="${BROOT}/repo" --state-dir="${BROOT}/state" 
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-gtk3-mp-${FCVER}.flatpak" org.freeciv.gtk3.mp ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-qt-${FCVER}.flatpak" org.freeciv.qt ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-sdl2-${FCVER}.flatpak" org.freeciv.sdl2 ||
+   ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-sdl3-${FCVER}.flatpak" org.freeciv.sdl3 ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-ruledit-${FCVER}.flatpak" org.freeciv.ruledit ||
    ! flatpak build-bundle "${BROOT}/repo" "${BROOT}/freeciv-qt-mp-${FCVER}.flatpak" org.freeciv.qt.mp
 then

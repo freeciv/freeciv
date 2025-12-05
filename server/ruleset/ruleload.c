@@ -3422,10 +3422,24 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      if (!lookup_unit_type(file, tsection, "animal",
-                            &pterrain->animal, filename,
-                            rule_name_get(&pterrain->name))) {
-        ok = FALSE;
+      res = secfile_lookup_str_vec(file, &nval, "%s.animals", tsection);
+      pterrain->num_animals = nval;
+      if (pterrain->num_animals == 0) {
+        pterrain->animals = nullptr;
+      } else {
+        pterrain->animals = fc_calloc(pterrain->num_animals,
+                                      sizeof(*pterrain->animals));
+        for (j = 0; j < pterrain->num_animals; j++) {
+          pterrain->animals[j] = unit_type_by_rule_name(res[j]);
+          if (pterrain->animals[j] == NULL) {
+            ok = FALSE;
+            break;
+          }
+        }
+      }
+      free(res);
+      res = NULL;
+      if (!ok) {
         break;
       }
 
@@ -4399,11 +4413,11 @@ static bool load_government_names(struct section_file *file,
   /* User government flag names */
   for (i = 0;
        (flag = secfile_lookup_str_default(file, nullptr,
-                                          "control.government_flags%d.name",
+                                          "control.flags%d.name",
                                           i));
        i++) {
     const char *helptxt = secfile_lookup_str_default(file, nullptr,
-        "control.government_flags%d.helptxt", i);
+        "control.flags%d.helptxt", i);
 
     if (gov_flag_id_by_name(flag, fc_strcasecmp)
         != gov_flag_id_invalid()) {
@@ -8618,7 +8632,12 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.mining_shield_incr = pterrain->mining_shield_incr;
     packet.mining_time = pterrain->mining_time;
 
-    packet.animal = (pterrain->animal == NULL ? -1 : utype_number(pterrain->animal));
+    packet.num_animals = 0;
+    terrain_animals_iterate(pterrain, panimal) {
+      packet.animals[packet.num_animals] = utype_number(panimal);
+      packet.num_animals++;
+    } terrain_animals_iterate_end;
+
     packet.transform_result = (pterrain->transform_result
 			       ? terrain_number(pterrain->transform_result)
 			       : terrain_count());

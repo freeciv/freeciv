@@ -3,7 +3,7 @@
 if SYS_LUA
 LUASUBDIR =
 else
-LUASUBDIR = lua-5.4
+LUASUBDIR = lua-5.5
 endif
 
 if TINYCTHREAD

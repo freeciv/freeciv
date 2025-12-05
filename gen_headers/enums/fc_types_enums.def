@@ -101,6 +101,7 @@ values
   /* More generic terrain type currently "Land" or "Ocean" */
   TERRAINCLASS       "TerrainClass"
   TERRFLAG           "TerrainFlag"
+  TILEDEF            "Tiledef"
   TILE_REL           "TileRel"
   TOPO               "Topology"
   UCFLAG             "UnitClassFlag"

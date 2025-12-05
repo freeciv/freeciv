@@ -40,7 +40,11 @@
 #include "audio_sdl.h"
 
 struct sample {
+#ifdef AUDIO_SDL3
+  MIX_Audio *wave;
+#else  /* AUDIO_SDL3 */
   Mix_Chunk *wave;
+#endif /* AUDIO_SDL3 */
   const char *tag;
 };
 
@@ -53,7 +57,16 @@ const size_t buf_size = 4096;
 const size_t buf_size = 1024;
 #endif
 
+#ifdef AUDIO_SDL3
+#define MIX_CHANNELS 8
+static MIX_Audio *mus = NULL;
+static MIX_Mixer *mixer = NULL;
+static MIX_Track *tracks[MIX_CHANNELS];
+static SDL_PropertiesID forever_loop;
+#else  /* AUDIO_SDL3 */
 static Mix_Music *mus = NULL;
+#endif /* AUDIO_SDL3 */
+
 static struct sample samples[MIX_CHANNELS];
 static double sdl_audio_volume;
 
@@ -62,8 +75,17 @@ static double sdl_audio_volume;
 **************************************************************************/
 static void sdl_audio_set_volume(double volume)
 {
+#ifdef AUDIO_SDL3
+  int i;
+
+  for (i = 0; i < MIX_CHANNELS; i++) {
+    MIX_SetTrackGain(tracks[i], volume);
+  }
+#else  /* AUDIO_SDL3 */
   Mix_VolumeMusic(volume * MIX_MAX_VOLUME);
   Mix_Volume(-1, volume * MIX_MAX_VOLUME);
+#endif /* AUDIO_SDL3 */
+
   sdl_audio_volume = volume;
 }
 
@@ -75,75 +97,159 @@ static double sdl_audio_get_volume(void)
   return sdl_audio_volume;
 }
 
+#ifdef AUDIO_SDL3
+/**********************************************************************//**
+  Wrap freeciv's callback within SDL3 compatible callback
+**************************************************************************/
+static void audio_callback_wrapper(void *cb, MIX_Track *track)
+{
+  ((audio_finished_callback)cb)();
+}
+#endif /* AUDIO_SDL3 */
+
 /**********************************************************************//**
   Play sound
 **************************************************************************/
 static bool sdl_audio_play(const char *const tag, const char *const fullpath,
-                           bool repeat, audio_finished_callback cb)
+                           bool repeat, bool music, audio_finished_callback cb)
 {
-  int i, j;
+  int j;
+#ifdef AUDIO_SDL3
+  MIX_Audio *wave = NULL;
+  int channel;
+  static int channel_turn = 1; /* Channel 0 is music */
+#else  /* AUDIO_SDL3 */
+  int i;
   Mix_Chunk *wave = NULL;
+#endif /* AUDIO_SDL3 */
 
   if (!fullpath) {
     return FALSE;
   }
 
+#ifdef AUDIO_SDL3
+  if (music) {
+    channel = 0;
+  } else {
+    channel = channel_turn++;
+    if (channel_turn >= MIX_CHANNELS) {
+      channel_turn = 1;
+    }
+  }
+#endif /* AUDIO_SDL3 */
+
   if (repeat) {
-    /* unload previous */
+    /* Unload previous */
+#ifdef AUDIO_SDL3
+    MIX_StopTrack(tracks[channel], 0);
+    MIX_DestroyAudio(mus);
+#else  /* AUDIO_SDL3 */
     Mix_HaltMusic();
     Mix_FreeMusic(mus);
+#endif /* AUDIO_SDL3 */
 
-    /* load music file */
+    /* Load music file */
+#ifdef AUDIO_SDL3
+    mus = MIX_LoadAudio(mixer, fullpath, FALSE);
+#else  /* AUDIO_SDL3 */
     mus = Mix_LoadMUS(fullpath);
+#endif /* AUDIO_SDL3 */
     if (mus == NULL) {
-      log_error("Can't open file \"%s\"", fullpath);
+      log_error("Can't open file \"%s\": %s",
+                fullpath, SDL_GetError());
     }
 
     if (cb == NULL) {
-      Mix_PlayMusic(mus, -1);	/* -1 means loop forever */
+#ifdef AUDIO_SDL3
+      MIX_SetTrackAudio(tracks[channel], mus);
+      MIX_PlayTrack(tracks[channel], forever_loop);
+#else  /* AUDIO_SDL3 */
+      Mix_PlayMusic(mus, -1);   /* -1 means loop forever */
+#endif /* AUDIO_SDL3 */
     } else {
+#ifdef AUDIO_SDL3
+      MIX_SetTrackAudio(tracks[channel], mus);
+      MIX_PlayTrack(tracks[channel], 0);
+      MIX_SetTrackStoppedCallback(tracks[channel],
+                                  audio_callback_wrapper, cb);
+#else  /* AUDIO_SDL3 */
       Mix_PlayMusic(mus, 0);
       Mix_HookMusicFinished(cb);
+#endif /* AUDIO_SDL3 */
     }
     log_verbose("Playing file \"%s\" on music channel", fullpath);
-    /* in case we did a sdl_audio_stop() recently; add volume controls later */
+    /* In case we did a sdl_audio_stop() recently; add volume controls later */
+#ifdef AUDIO_SDL3
+    MIX_SetTrackGain(tracks[0], sdl_audio_volume);
+#else  /* AUDIO_SDL3 */
     Mix_VolumeMusic(sdl_audio_volume * MIX_MAX_VOLUME);
+#endif /* AUDIO_SDL3 */
 
   } else {
 
-    /* see if we can cache on this one */
+    /* See if we can cache on this one */
     for (j = 0; j < MIX_CHANNELS; j++) {
       if (samples[j].tag && (strcmp(samples[j].tag, tag) == 0)) {
         log_debug("Playing file \"%s\" from cache (slot %d)", fullpath, j);
+
+#ifdef AUDIO_SDL3
+        MIX_SetTrackAudio(tracks[channel], samples[j].wave);
+        MIX_PlayTrack(tracks[channel], 0);
+#else  /* AUDIO_SDL3 */
         Mix_PlayChannel(-1, samples[j].wave, 0);
+#endif /* AUDIO_SDL3 */
+
         return TRUE;
       }
-    }                           /* guess not */
+    }                           /* Guess not */
 
-    /* load wave */
+    /* Load wave */
+#ifdef AUDIO_SDL3
+    wave = MIX_LoadAudio(mixer, fullpath, FALSE);
+#else  /* AUDIO_SDL3 */
     wave = Mix_LoadWAV(fullpath);
+#endif /* AUDIO_SDL3 */
     if (wave == NULL) {
       log_error("Can't open file \"%s\"", fullpath);
     }
 
-    /* play sound sample on first available channel, returns -1 if no
+    /* Play sound sample on first available channel, returns -1 if no
        channel found */
+#ifdef AUDIO_SDL3
+    MIX_SetTrackAudio(tracks[channel], wave);
+    MIX_PlayTrack(tracks[channel], 0);
+
+    log_verbose("Playing file \"%s\" on channel %d", fullpath, channel);
+    /* Free previous sample on this channel. it will by definition no
+       longer be playing by the time we get here */
+    if (samples[channel].wave) {
+      MIX_DestroyAudio(samples[channel].wave);
+      samples[channel].wave = NULL;
+    }
+
+    /* Remember for caching */
+    samples[channel].wave = wave;
+    samples[channel].tag = tag;
+#else  /* AUDIO_SDL3 */
     i = Mix_PlayChannel(-1, wave, 0);
+
     if (i < 0) {
       log_verbose("No available sound channel to play %s.", tag);
       Mix_FreeChunk(wave);
       return FALSE;
     }
     log_verbose("Playing file \"%s\" on channel %d", fullpath, i);
-    /* free previous sample on this channel. it will by definition no
+    /* Free previous sample on this channel. it will by definition no
        longer be playing by the time we get here */
     if (samples[i].wave) {
       Mix_FreeChunk(samples[i].wave);
       samples[i].wave = NULL;
     }
-    /* remember for caching */
+
+    /* Remember for caching */
     samples[i].wave = wave;
     samples[i].tag = tag;
+#endif /* AUDIO_SDL3 */
 
   }
   return TRUE;
@@ -154,7 +260,15 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
 **************************************************************************/
 static void sdl_audio_pause(void)
 {
+#ifdef AUDIO_SDL3
+  int i;
+
+  for (i = 0; i < MIX_CHANNELS; i++) {
+    MIX_PauseTrack(tracks[i]);
+  }
+#else  /* AUDIO_SDL3 */
   Mix_PauseMusic();
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -162,7 +276,15 @@ static void sdl_audio_pause(void)
 **************************************************************************/
 static void sdl_audio_resume(void)
 {
+#ifdef AUDIO_SDL3
+  int i;
+
+  for (i = 0; i < MIX_CHANNELS; i++) {
+    MIX_ResumeTrack(tracks[i]);
+  }
+#else  /* AUDIO_SDL3 */
   Mix_ResumeMusic();
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -171,7 +293,16 @@ static void sdl_audio_resume(void)
 static void sdl_audio_stop(void)
 {
   /* Fade out over 2 sec */
+#ifdef AUDIO_SDL3
+  int i;
+
+  for (i = 0; i < MIX_CHANNELS; i++) {
+    MIX_StopTrack(tracks[i],
+                  MIX_TrackMSToFrames(tracks[i], 2000));
+  }
+#else  /* AUDIO_SDL3 */
   Mix_FadeOutMusic(2000);
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -181,9 +312,27 @@ static void sdl_audio_stop(void)
 **************************************************************************/
 static void sdl_audio_wait(void)
 {
+#ifdef AUDIO_SDL3
+  bool wait = TRUE;
+  while (wait) {
+    int i;
+
+    wait = FALSE;
+    for (i = 0; i < MIX_CHANNELS && !wait; i++) {
+      if (MIX_TrackPlaying(tracks[i])) {
+        wait = TRUE;
+      }
+    }
+
+    if (wait) {
+      SDL_Delay(100);
+    }
+  }
+#else  /* AUDIO_SDL3 */
   while (Mix_Playing(-1) != 0) {
     SDL_Delay(100);
   }
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -194,11 +343,15 @@ static void sdl_audio_wait(void)
 **************************************************************************/
 static void quit_sdl_audio(void)
 {
+#ifdef AUDIO_SDL3
+  MIX_Quit();
+#else  /* AUDIO_SDL3 */
   if (SDL_WasInit(SDL_INIT_VIDEO)) {
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
   } else {
     SDL_Quit();
   }
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -210,7 +363,7 @@ static void quit_sdl_audio(void)
 static bool init_sdl_audio(void)
 {
 #ifdef AUDIO_SDL3
-  return SDL_Init(SDL_INIT_AUDIO);
+  return MIX_Init();
 #else  /* AUDIO_SDL3 */
   SDL_SetHint(SDL_HINT_AUDIO_RESAMPLING_MODE, "medium");
 
@@ -237,14 +390,30 @@ static void sdl_audio_shutdown(struct audio_plugin *self)
   /* Remove all buffers */
   for (i = 0; i < MIX_CHANNELS; i++) {
     if (samples[i].wave) {
+#ifdef AUDIO_SDL3
+      MIX_StopTrack(tracks[i], 0);
+      MIX_DestroyAudio(samples[i].wave);
+#else  /* AUDIO_SDL3 */
       Mix_FreeChunk(samples[i].wave);
+#endif /* AUDIO_SDL3 */
     }
   }
+
+#ifdef AUDIO_SDL3
+  MIX_DestroyAudio(mus);
+  MIX_DestroyMixer(mixer);
+#else  /* AUDIO_SDL3 */
   Mix_HaltMusic();
   Mix_FreeMusic(mus);
 
   Mix_CloseAudio();
+#endif /* AUDIO_SDL3 */
+
   quit_sdl_audio();
+
+#ifdef AUDIO_SDL3
+  SDL_DestroyProperties(forever_loop);
+#endif /* AUDIO_SDL3 */
 }
 
 /**********************************************************************//**
@@ -259,7 +428,9 @@ static bool sdl_audio_init(struct audio_plugin *self)
   }
 
 #ifdef AUDIO_SDL3
-  if (!Mix_OpenAudio(0, NULL)) {
+  mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+  if (mixer == NULL) {
+    log_error("Error calling MIX_CreateMixerDevice()");
 #else  /* AUDIO_SDL3 */
   /* Initialize variables */
   const int audio_rate = MIX_DEFAULT_FREQUENCY;
@@ -267,16 +438,25 @@ static bool sdl_audio_init(struct audio_plugin *self)
   const int audio_channels = 2;
 
   if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, buf_size) < 0) {
-#endif /* AUDIO_SDL3 */
     log_error("Error calling Mix_OpenAudio");
+#endif /* AUDIO_SDL3 */
 
     /* Try something else */
     quit_sdl_audio();
     return FALSE;
   }
 
+#ifdef AUDIO_SDL3
+  forever_loop = SDL_CreateProperties();
+  SDL_SetNumberProperty(forever_loop,
+                        "MIX_PROP_PLAY_LOOPS_NUMBER", -1);
+#else  /* AUDIO_SDL3 */
   Mix_AllocateChannels(MIX_CHANNELS);
+#endif /* AUDIO_SDL3 */
   for (i = 0; i < MIX_CHANNELS; i++) {
+#ifdef AUDIO_SDL3
+    tracks[i] = MIX_CreateTrack(mixer);
+#endif /* AUDIO_SDL3 */
     samples[i].wave = NULL;
   }
 

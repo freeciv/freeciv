@@ -309,8 +309,8 @@ enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act);
 struct player *extra_owner(const struct tile *ptile);
 
 bool player_knows_extra_exist(const struct player *pplayer,
-			      const struct extra_type *pextra,
-			      const struct tile *ptile);
+                              const struct extra_type *pextra,
+                              const struct tile *ptile);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \
@@ -333,7 +333,7 @@ bool player_knows_extra_exist(const struct player *pplayer,
 #define extra_type_by_cause_iterate(_cause, _extra)                 \
 {                                                                   \
   struct extra_type_list *_etl_##_extra = extra_type_list_by_cause(_cause); \
-  if (_etl_##_extra != NULL) {                                              \
+  if (_etl_##_extra != nullptr) {                                           \
     extra_type_list_iterate(_etl_##_extra, _extra) {
 
 #define extra_type_by_cause_iterate_end                    \
@@ -368,6 +368,7 @@ bool player_knows_extra_exist(const struct player *pplayer,
   } extra_type_list_iterate_rev_end                      \
 }
 
+/* TODO: Tiledef requirement types */
 #define extra_deps_iterate(_reqs, _dep)                 \
 {                                                       \
   requirement_vector_iterate(_reqs, preq) {             \

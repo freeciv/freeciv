@@ -8,7 +8,7 @@
 MAJOR_VERSION="3"
 MINOR_VERSION="3"
 PATCH_VERSION="90"
-EMERGENCY_VERSION="6"
+EMERGENCY_VERSION="7"
 VERSION_LABEL="-dev"
 
 # Type is either "development" or "stable"
@@ -53,7 +53,6 @@ fi
 # Update DEFAULT_FOLLOW_TAG to "stable", and also
 # platforms/windows/installer_msys2/Makefile.meson -Dfollowtag to "windows"
 # platforms/windows/installer_msys2/Makefile.autotools --with-followtag to "windows"
-# platforms/macos/homebrew-appbundle.sh -Dfollowtag to "macos"
 
 IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
@@ -78,7 +77,7 @@ DEFAULT_FOLLOW_TAG=S3_4
 # On FREECIV_DEBUG builds, optional capability "debug" gets automatically
 # appended to this.
 #
-NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Oct.24"
+NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2025.Nov.29"
 
 # If you are distributing freeciv, and apply any patches at all,
 # patch also this field to contain your identification.

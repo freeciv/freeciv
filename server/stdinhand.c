@@ -80,6 +80,9 @@
 #include "techtools.h"
 #include "voting.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* server/savegame */
 #include "savemain.h"
 
@@ -247,15 +250,6 @@ void stdinhand_init(void)
 
   fc_assert(kick_table_by_user == nullptr);
   kick_table_by_user = kick_hash_new();
-}
-
-/**********************************************************************//**
-  Update stuff every turn that is related to this code module. Run this
-  on turn end.
-**************************************************************************/
-void stdinhand_turn(void)
-{
-  /* Nothing at the moment. */
 }
 
 /**********************************************************************//**
@@ -929,8 +923,8 @@ enum rfc_status create_command_newcomer(const char *name,
   server_player_init(pplayer, TRUE, TRUE);
 
   player_nation_defaults(pplayer, pnation, FALSE);
-  pplayer->government = pplayer->target_government =
-    init_government_of_nation(pnation);
+  pplayer->government = pplayer->target_government
+    = init_government_of_nation(pnation);
   /* Find a color for the new player. */
   assign_player_colors();
 
@@ -963,6 +957,9 @@ enum rfc_status create_command_newcomer(const char *name,
   if (newplayer != nullptr) {
     *newplayer = pplayer;
   }
+
+  adv_data_phase_init(pplayer, TRUE);
+  CALL_PLR_AI_FUNC(phase_begin, pplayer, pplayer, TRUE);
 
   return C_OK;
 }

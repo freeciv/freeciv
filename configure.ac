@@ -1710,9 +1710,9 @@ esac], [sys_lua=test])
 dnl There's wide divergence on what the pkg-config file for Lua is called
 dnl See http://lua-users.org/lists/lua-l/2008-09/msg00184.html
 if test "x$sys_lua" = "xtrue" || test "x$sys_lua" = "xtest" ; then
-  PKG_CHECK_MODULES([LUA], [lua5.4], [sys_lua=true],
-    [PKG_CHECK_MODULES([LUA], [lua-5.4], [sys_lua=true],
-      [PKG_CHECK_MODULES([LUA], [lua >= 5.4 lua < 5.5], [sys_lua=true],
+  PKG_CHECK_MODULES([LUA], [lua5.5], [sys_lua=true],
+    [PKG_CHECK_MODULES([LUA], [lua-5.5], [sys_lua=true],
+      [PKG_CHECK_MODULES([LUA], [lua >= 5.5 lua < 5.6], [sys_lua=true],
 [if test "x$sys_lua" = "xtrue" ; then
   AC_MSG_ERROR([Use of included lua disabled, and no lua found from system])
 fi
@@ -1731,8 +1731,8 @@ if test "x$sys_lua" != "xtrue" ; then
   fi
   AC_CHECK_FUNCS([popen pclose _longjmp _setjmp gmtime_r])
 
-  LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.4/src"
-  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.4/src/liblua.la"
+  LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.5/src"
+  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.5/src/liblua.la"
 fi
 
 AC_SUBST([LUA_CFLAGS])
@@ -1930,8 +1930,8 @@ AC_CONFIG_FILES([Makefile
 	  data/icons/Makefile
 	  utility/Makefile
 	  dependencies/Makefile
-	  dependencies/lua-5.4/Makefile
-          dependencies/lua-5.4/src/Makefile
+	  dependencies/lua-5.5/Makefile
+          dependencies/lua-5.5/src/Makefile
 	  dependencies/tolua-5.2/Makefile
 	  dependencies/tolua-5.2/src/Makefile
 	  dependencies/tolua-5.2/src/lib/Makefile

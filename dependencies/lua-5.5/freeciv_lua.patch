@@ -1,16 +1,17 @@
-diff -Nurd lua-5.5/src/ldo.c lua-5.5/src/ldo.c
---- lua-5.5/src/ldo.c	2025-07-05 05:37:52.108553768 +0300
-+++ lua-5.5/src/ldo.c	2025-07-05 05:40:32.053318937 +0300
-@@ -73,7 +73,7 @@
-     try { (f)(L, ud); } catch(...) { if ((c)->status == 0) (c)->status = -1; }
- #define luai_jmpbuf		int  /* dummy field */
+diff --git a/dependencies/lua-5.5/src/ldo.c b/dependencies/lua-5.5/src/ldo.c
+index 44937068f8..eed4c99c96 100644
+--- a/dependencies/lua-5.5/src/ldo.c
++++ b/dependencies/lua-5.5/src/ldo.c
+@@ -92,7 +92,7 @@ static void LUAI_TRY (lua_State *L, lua_longjmp *c, Pfunc f, void *ud) {
+ }
+ 
  
 -#elif defined(LUA_USE_POSIX)				/* }{ */
 +#elif defined(LUA_USE_ULONGJMP)				/* }{ */
  
- /* in POSIX, try _longjmp/_setjmp (more efficient) */
+ /* in POSIX, use _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
-@@ -133,9 +133,9 @@
+@@ -141,9 +141,9 @@ l_noret luaD_throw (lua_State *L, TStatus errcode) {
          lua_unlock(L);
          g->panic(L);  /* call panic function (last chance to jump out) */
        }
@@ -21,10 +22,11 @@ diff -Nurd lua-5.5/src/ldo.c lua-5.5/src/ldo.c
  }
  
  
-diff -Nurd lua-5.5/src/liolib.c lua-5.5/src/liolib.c
---- lua-5.5/src/liolib.c	2025-07-05 05:37:52.108553768 +0300
-+++ lua-5.5/src/liolib.c	2025-07-05 05:40:32.053318937 +0300
-@@ -53,7 +53,7 @@
+diff --git a/dependencies/lua-5.5/src/liolib.c b/dependencies/lua-5.5/src/liolib.c
+index 57615e6f32..ef44f5e671 100644
+--- a/dependencies/lua-5.5/src/liolib.c
++++ b/dependencies/lua-5.5/src/liolib.c
+@@ -53,7 +53,7 @@ static int l_checkmode (const char *mode) {
  
  #if !defined(l_popen)		/* { */
  
@@ -33,18 +35,19 @@ diff -Nurd lua-5.5/src/liolib.c lua-5.5/src/liolib.c
  
  #define l_popen(L,c,m)		(fflush(NULL), popen(c,m))
  #define l_pclose(L,file)	(pclose(file))
-@@ -114,7 +114,7 @@
+@@ -114,7 +114,7 @@ static int l_checkmode (const char *mode) {
  
  #if !defined(l_fseek)		/* { */
  
--#if defined(LUA_USE_POSIX)	/* { */
-+#if defined(LUA_USE_FSEEKO)	/* { */
+-#if defined(LUA_USE_POSIX) || defined(LUA_USE_OFF_T)	/* { */
++#if defined(LUA_USE_FSEEKO) || defined(LUA_USE_OFF_T)	/* { */
  
  #include <sys/types.h>
  
-diff -Nurd lua-5.5/src/loslib.c lua-5.5/src/loslib.c
---- lua-5.5/src/loslib.c	2025-07-05 05:37:52.108553768 +0300
-+++ lua-5.5/src/loslib.c	2025-07-05 05:40:32.053318937 +0300
+diff --git a/dependencies/lua-5.5/src/loslib.c b/dependencies/lua-5.5/src/loslib.c
+index b7a2b0d15f..f60519e14f 100644
+--- a/dependencies/lua-5.5/src/loslib.c
++++ b/dependencies/lua-5.5/src/loslib.c
 @@ -75,7 +75,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -63,9 +66,10 @@ diff -Nurd lua-5.5/src/loslib.c lua-5.5/src/loslib.c
  
  #include <unistd.h>
  
-diff -Nurd lua-5.5/src/luaconf.h lua-5.5/src/luaconf.h
---- lua-5.5/src/luaconf.h	2025-07-05 05:37:52.108553768 +0300
-+++ lua-5.5/src/luaconf.h	2025-07-05 05:40:32.053318937 +0300
+diff --git a/dependencies/lua-5.5/src/luaconf.h b/dependencies/lua-5.5/src/luaconf.h
+index 96a77802b9..500776acc0 100644
+--- a/dependencies/lua-5.5/src/luaconf.h
++++ b/dependencies/lua-5.5/src/luaconf.h
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>

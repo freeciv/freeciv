@@ -4233,11 +4233,18 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   pterrain->irrigation_time = p->irrigation_time;
   pterrain->mining_shield_incr = p->mining_shield_incr;
   pterrain->mining_time = p->mining_time;
-  if (p->animal < 0) {
-    pterrain->animal = NULL;
+
+  pterrain->num_animals = p->num_animals;
+  if (p->num_animals == 0) {
+    pterrain->animals = nullptr;
   } else {
-    pterrain->animal = utype_by_number(p->animal);
+    pterrain->animals = fc_calloc(p->num_animals,
+                                  sizeof(*pterrain->animals));
+    for (j = 0; j < p->num_animals; j++) {
+      pterrain->animals[j] = utype_by_number(p->animals[j]);
+    }
   }
+
   pterrain->transform_result = terrain_by_number(p->transform_result);
   pterrain->transform_time = p->transform_time;
   pterrain->placing_time = p->placing_time;

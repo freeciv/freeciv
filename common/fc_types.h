@@ -64,6 +64,7 @@ extern "C" {
 #define MAX_NUM_STARTPOS_NATIONS 1024 /* Used in the network protocol. */
 #define MAX_CALENDAR_FRAGMENTS 52     /* Used in the network protocol. */
 #define MAX_NUM_TECH_CLASSES   16     /* Used in the network protocol. */
+#define MAX_NUM_ANIMALS        32     /* Used in the network protocol. */
 
 /* Changing these will probably break network compatibility. */
 #define MAX_LEN_NAME        48
@@ -536,6 +537,7 @@ typedef union {
   struct unit_class *uclass;
   const struct unit_type *utype;
   struct extra_type *extra;
+  struct tiledef *tiledef;
   struct achievement *achievement;
   struct nation_group *nationgroup;
   struct nation_style *style;

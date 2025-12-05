@@ -41,7 +41,7 @@ void citizens_init(struct city *pcity)
    * slots are allocated as once. Considering a size of citizens (= char)
    * this results in an allocation of 2 * 128 * 1 bytes for the citizens
    * per nation as well as the timer for a nationality change. */
-  if (pcity->nationality == NULL) {
+  if (pcity->nationality == nullptr) {
     /* Allocate the memory*/
     pcity->nationality = fc_calloc(MAX_NUM_PLAYER_SLOTS,
                                    sizeof(*pcity->nationality));
@@ -61,7 +61,7 @@ void citizens_free(struct city *pcity)
 
   if (pcity->nationality) {
     free(pcity->nationality);
-    pcity->nationality = NULL;
+    pcity->nationality = nullptr;
   }
 }
 
@@ -78,9 +78,9 @@ citizens citizens_nation_get(const struct city *pcity,
     return 0;
   }
 
-  fc_assert_ret_val(pslot != NULL, 0);
-  fc_assert_ret_val(pcity != NULL, 0);
-  fc_assert_ret_val(pcity->nationality != NULL, 0);
+  fc_assert_ret_val(pslot != nullptr, 0);
+  fc_assert_ret_val(pcity != nullptr, 0);
+  fc_assert_ret_val(pcity->nationality != nullptr, 0);
 
   return *(pcity->nationality + player_slot_index(pslot));
 }
@@ -110,9 +110,9 @@ void citizens_nation_add(struct city *pcity, const struct player_slot *pslot,
     return;
   }
 
-  fc_assert_ret(pslot != NULL);
-  fc_assert_ret(pcity != NULL);
-  fc_assert_ret(pcity->nationality != NULL);
+  fc_assert_ret(pslot != nullptr);
+  fc_assert_ret(pcity != nullptr);
+  fc_assert_ret(pcity->nationality != nullptr);
 
   fc_assert_ret(MAX_CITY_SIZE - nationality >= add);
   fc_assert_ret(nationality >= -add);
@@ -149,9 +149,9 @@ void citizens_nation_set(struct city *pcity, const struct player_slot *pslot,
     return;
   }
 
-  fc_assert_ret(pslot != NULL);
-  fc_assert_ret(pcity != NULL);
-  fc_assert_ret(pcity->nationality != NULL);
+  fc_assert_ret(pslot != nullptr);
+  fc_assert_ret(pcity != nullptr);
+  fc_assert_ret(pcity->nationality != nullptr);
 
   *(pcity->nationality + player_slot_index(pslot)) = count;
 }
@@ -172,7 +172,7 @@ citizens citizens_count(const struct city *pcity)
     /* If the citizens of a nation is greater than 0 there should be a player
      * for this nation. This test should only be done on the server as the
      * client does not has the knowledge about all players all the time. */
-    fc_assert_ret_val(!is_server() || player_slot_get_player(pslot) != NULL,
+    fc_assert_ret_val(!is_server() || player_slot_get_player(pslot) != nullptr,
                       city_size_get(pcity));
 
     count += nationality;
@@ -201,5 +201,5 @@ struct player_slot *citizens_random(const struct city *pcity)
 
   fc_assert(FALSE);
 
-  return NULL;
+  return nullptr;
 }
