@@ -1644,7 +1644,7 @@ name = _("Controls")
 text = _("\
 Unit Orders:\n\
 ============\n\
-  a:      (a)uto-settler  (settler/worker units)\n\
+  a:      (a)uto-worker  (settler/worker units)\n\
   b:      (b)uild city  (settler units)\n\
   b:      help (b)uild wonder  (caravan units)\n\
   B:      go to and (B)uild city on target tile  (settler units)\n\
