@@ -22,5 +22,6 @@ void enable_menus(bool enable);
 
 void menus_set_initial_toggle_values(void);
 void menus_disable_unit_commands(void);
+void menus_disable_char_commands(void);
 
 #endif /* FC__MENU_H */
