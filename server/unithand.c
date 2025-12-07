@@ -1301,8 +1301,9 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   /* No check if other, non war, diplomatic states also could make the
    * action legal. This is need_war_player() so war is always the answer.
    * If you disagree and decide to add support please check that
-   * webperimental's "can't found a city on a tile belonging to a non enemy"
-   * rule still is detected. */
+   * rules like former webperimental ruleset's
+   * "can't found a city on a tile belonging to a non enemy"
+   * are still detected. */
 
   return nullptr;
 }
