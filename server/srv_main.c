@@ -1751,14 +1751,31 @@ static void end_turn(void)
       if (tile_has_extra(ptile, pextra)
           && fc_rand(10000) < pextra->disappearance_chance
           && can_extra_disappear(pextra, ptile)) {
+        struct player *owner = tile_owner(ptile);
+
         tile_extra_rm_apply(ptile, pextra);
 
         update_tile_knowledge(ptile);
 
-        if (tile_owner(ptile) != nullptr) {
-          /* TODO: Should notify players nearby even when borders disabled,
-           *       like in case of barbarian uprising */
-          notify_player(tile_owner(ptile), ptile,
+        if (owner == nullptr) {
+          owner = extra_owner(ptile);
+
+          if (owner == nullptr && game.info.borders == BORDERS_DISABLED) {
+            /* In case of disabled borders, consider owner of the closest
+             * city, if within 7 tiles, owner of the tile. */
+            iterate_outward(&(wld.map), ptile, 7, ctile) {
+              struct city *pcity = tile_city(ctile);
+
+              if (pcity != nullptr) {
+                owner = city_owner(pcity);
+                break;
+              }
+            } iterate_outward_end;
+          }
+        }
+
+        if (owner != nullptr && tile_is_seen(ptile, owner)) {
+          notify_player(owner, ptile,
                         E_SPONTANEOUS_EXTRA, ftc_server,
                         /* TRANS: Small Fish disappears from (32, 72). */
                         _("%s disappears from %s."),
@@ -1778,15 +1795,31 @@ static void end_turn(void)
       if (!tile_has_extra(ptile, pextra)
           && fc_rand(10000) < pextra->appearance_chance
           && can_extra_appear(pextra, ptile)) {
+        struct player *owner = tile_owner(ptile);
 
         tile_extra_apply(ptile, pextra);
 
         update_tile_knowledge(ptile);
 
-        if (tile_owner(ptile) != nullptr) {
-          /* TODO: Should notify players nearby even when borders disabled,
-           *       like in case of barbarian uprising */
-          notify_player(tile_owner(ptile), ptile,
+        if (owner == nullptr) {
+          owner = extra_owner(ptile);
+
+          if (owner == nullptr && game.info.borders == BORDERS_DISABLED) {
+            /* In case of disabled borders, consider owner of the closest
+             * city, if within 7 tiles, owner of the tile. */
+            iterate_outward(&(wld.map), ptile, 7, ctile) {
+              struct city *pcity = tile_city(ctile);
+
+              if (pcity != nullptr) {
+                owner = city_owner(pcity);
+                break;
+              }
+            } iterate_outward_end;
+          }
+        }
+
+        if (owner != nullptr && tile_is_seen(ptile, owner)) {
+          notify_player(owner, ptile,
                         E_SPONTANEOUS_EXTRA, ftc_server,
                         /* TRANS: Small Fish appears to (32, 72). */
                         _("%s appears to %s."),
