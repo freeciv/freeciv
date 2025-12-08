@@ -7,7 +7,7 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-LINUXDEPLOY_VERSION="1-alpha-20250213-2"
+LINUXDEPLOY_VERSION="1-alpha-20251107-1"
 
 if test "$1" != "" ; then
   echo "Usage: $0"
