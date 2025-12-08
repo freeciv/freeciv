@@ -1,10 +1,120 @@
 ========================
-Welcome to Freeciv 3.1.5
+Welcome to Freeciv 3.1.6
 ========================
 
 The changes in the 3.1.x series are summarised below.
 For changes prior to 3.1, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.1.5 to 3.1.6
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.1.6>, 2025-12-08)
+
+3.1.6 is a generic bugfix release in the freeciv-3.1 series.
+
+Server / General
+
+    * Fixed a variable lookup problem when loading rulesets RM#114
+    * Fixed an error that unowned tiles were sent to client as owned
+      by player number 255 when there was such a player in the game RM#1474
+    * Fixed units carrying goods RM#1579
+    * Fixed assert failures with illegal lua scripts RM#1550
+    * Refresh city capital status information after a savegame
+      has been loaded. Previously no city was considered capital
+      for a turn after savegame loading RM#1524
+    * Corrected what situations make it impossible to airlift a unit RM#1564
+    * Fixed crash with illegal action lists in savegame RM#1646
+    * Fixed culture victory with very high values of culture RM#1673
+    * Fixed crashes after continuing game from a savegame
+      RM#1741 RM#1768 RM#1769
+
+Changes affecting other rulesets / modders
+
+    * "quiet" requirement property is now respected in building
+      "obsolete_by" definitions RM#1238
+    * Improved sanity checks at specialists loading RM#1400
+    * Lua handling of achievement and disaster names fixed RM#1458
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1359 RM#1468 RM#1443 RM#1484 RM#1582 RM#1503
+
+AI
+
+    * Tex AI fixes towards consulting its own copy of map where it should
+      RM#1409
+    * Fixed air unit goto RM#1657
+    * Fixed an error after player is added mid-game RM#87
+
+Clients
+
+    * Show tech upkeep correctly for very high values of it RM#1654
+
+    * gtk
+         + Fixed saving and restoring city dialog size RM#1289
+         + Use "meta" key as menu accelerator on MacOS RM#1292 RM#1489
+         + Client now remembers size of the help dialog RM#1287
+         + Client now remembers size of the options dialog RM#1288
+         + gtk4 only: Fixed goto dialog Show All Cities toggle RM#1578
+         + Don't show "Bonus" for non-road extras in help RM#1637
+
+    * qt
+         + Fixed crash on savegame preview RM#1641
+         + Added Help menu entry "Policies", removed duplicate entries
+           RM#1671
+         + Fixed disappearing "About..." menu items in MacOS RM#1672
+         + Worked around Qt-6.9 theming issue RM#1697
+         + Message window is now cleared between games RM#1239
+
+    * sdl2
+         + Fixed drawing of very wide or tall surfaces RM#1467
+         + Fixed text placement on combo widgets RM#1727
+
+Tools
+
+    * Modpack installer
+         + Command line version of the fcmp tells how to install
+           any of the listed modpacks RM#1486
+
+
+Help / Documentation
+
+    * Doxygen documentation updates RM#1401 RM#1466 RM#1234 RM#1461 RM#1481
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1335 {{rm|1354} RM#1277 RM#1386 RM#1476 RM#1496 RM#1534 RM#1577
+      RM#1614 RM#1648 RM#1764
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1446 RM#1585 RM#1622 RM#1722
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 92% nations, 100% ruledit),
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1342 RM#1368 RM#1398 RM#1540 RM#1644 RM#1689 RM#1690 RM#1692
+      RM#1748 RM#1795
+    * Meson based build improvements
+         + Asserts are now properly disabled in release builds RM#1455
+         + Fixes to build system internal dependency definitions,
+           fixing intermittent and rare build failures RM#1479 RM#1788
+    * Included copy of lua has been updated to 5.4.8,
+      and official patches applied
+         + 5.4.7 patch 6 RM#1330
+         + 5.4.7 patch 7 RM#1341
+         + 5.4.7 patch 8 RM#1407
+         + 5.4.8 RM#1431
+         + 5.4.8 patch 1 RM#1537
+         + 5.4.8 patch 3 RM#1664
+    * Server binary is no longer built to ruledit appimage RM#1594
+    * Fixed compiler warning about curl usage RM#1679
 
 
 CHANGES FROM 3.1.4 to 3.1.5
