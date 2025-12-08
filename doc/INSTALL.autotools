@@ -8,7 +8,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 29-Nov-25.
+Last minor update was 08-Dec-25.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -390,7 +390,7 @@ script, try the --help option, like this:
 
  % ../src/configure --help
 
-By default the configure script will choose the Gtk+ client if the
+By default the configure script will choose the Gtk client if the
 required libraries are found. If you prefer to override this default,
 you can give configure the "--enable-client=sdl2" option.
 
