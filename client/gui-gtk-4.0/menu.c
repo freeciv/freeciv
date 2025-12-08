@@ -77,8 +77,13 @@ static GMenu *setup_menus(GtkApplication *app);
 
 static void view_menu_update_sensitivity(GActionMap *map);
 
-enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
-                           MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
+enum menu_entry_grouping { MGROUP_SAFE =    0B00000001,
+                           MGROUP_EDIT =    0B00000010,
+                           MGROUP_PLAYING = 0B00000100,
+                           MGROUP_UNIT =    0B00001000,
+                           MGROUP_PLAYER =  0B00010000,
+                           MGROUP_CHAR =    0B00100000,
+                           MGROUP_ALL =     0B11111111 };
 
 static GMenu *options_menu = NULL;
 static GMenu *edit_menu = NULL;
@@ -582,10 +587,10 @@ static struct menu_entry_info menu_entries[] =
     "save_mapimg_as", NULL, MGROUP_SAFE,
     NULL, FALSE },
   { "VOLUME_UP", N_("Volume Up"),
-    "volume_up", "greater", MGROUP_SAFE,
+    "volume_up", "greater", MGROUP_SAFE | MGROUP_CHAR,
     NULL, FALSE },
   { "VOLUME_DOWN", N_("Volume Down"),
-    "volume_down", "less", MGROUP_SAFE,
+    "volume_down", "less", MGROUP_SAFE | MGROUP_CHAR,
     NULL, FALSE },
   { "LEAVE", N_("_Leave"),
     "leave", NULL, MGROUP_SAFE,
@@ -710,24 +715,24 @@ static struct menu_entry_info menu_entries[] =
     "full_screen", ACCL_MOD_KEY"F11", MGROUP_SAFE,
     full_screen_callback, FALSE },
   { "CENTER_VIEW", N_("_Center View"),
-    "center_view", "c", MGROUP_PLAYER,
+    "center_view", "c", MGROUP_PLAYER | MGROUP_CHAR,
     NULL, FALSE },
 
   /* Select menu */
   { "SELECT_SINGLE", N_("_Single Unit (Unselect Others)"),
-    "select_single", "z", MGROUP_UNIT,
+    "select_single", "z", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "SELECT_ALL_ON_TILE", N_("_All On Tile"),
-    "select_all_tile", "v", MGROUP_UNIT,
+    "select_all_tile", "v", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "SELECT_SAME_TYPE_TILE", N_("Same Type on _Tile"),
-    "select_same_type_tile", "<shift>v", MGROUP_UNIT,
+    "select_same_type_tile", "<shift>v", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "SELECT_SAME_TYPE_CONT", N_("Same Type on _Continent"),
-    "select_same_type_cont", "<shift>c", MGROUP_UNIT,
+    "select_same_type_cont", "<shift>c", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "SELECT_SAME_TYPE", N_("Same Type _Everywhere"),
-    "select_same_type", "<shift>x", MGROUP_UNIT,
+    "select_same_type", "<shift>x", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "SELECT_DLG", N_("Unit Selection Dialog"),
     "select_dlg", NULL, MGROUP_UNIT,
@@ -735,84 +740,84 @@ static struct menu_entry_info menu_entries[] =
 
   /* Unit menu */
   { "UNIT_GOTO", N_("_Go to"),
-    "goto", "g", MGROUP_UNIT,
+    "goto", "g", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_GOTO_CITY", N_("Go _to/Airlift to City..."),
-    "goto_city", "t", MGROUP_UNIT,
+    "goto_city", "t", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_RETURN", N_("_Return to Nearest City"),
-    "return", "<shift>g", MGROUP_UNIT,
+    "return", "<shift>g", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_EXPLORE", N_("Auto E_xplore"),
-    "explore", "x", MGROUP_UNIT,
+    "explore", "x", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_PATROL", N_("_Patrol"),
-    "patrol", "q", MGROUP_UNIT,
+    "patrol", "q", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_TELEPORT", N_("_Teleport"),
     "teleport", NULL, MGROUP_UNIT,
     NULL, FALSE },
   { "UNIT_SENTRY", N_("_Sentry"),
-    "sentry", "s", MGROUP_UNIT,
+    "sentry", "s", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNSENTRY_ALL", N_("Uns_entry All On Tile"),
-    "unsentry_all", "<shift>s", MGROUP_UNIT,
+    "unsentry_all", "<shift>s", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_BOARD", N_("_Load"),
-    "board", "l", MGROUP_UNIT,
+    "board", "l", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_DEBOARD", N_("_Unload"),
-    "deboard", "u", MGROUP_UNIT,
+    "deboard", "u", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
-    "unload_transporter", "<shift>t", MGROUP_UNIT,
+    "unload_transporter", "<shift>t", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_HOMECITY", N_("Set _Home City"),
-    "homecity", "h", MGROUP_UNIT,
+    "homecity", "h", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_UPGRADE", N_("Upgr_ade"),
-    "upgrade", "<shift>u", MGROUP_UNIT,
+    "upgrade", "<shift>u", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_CONVERT", N_("C_onvert"),
-    "convert", "<shift>o", MGROUP_UNIT,
+    "convert", "<shift>o", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_DISBAND", N_("_Disband"),
-    "disband", "<shift>d", MGROUP_UNIT,
+    "disband", "<shift>d", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "DO_ACTION", N_("_Do..."),
-    "do_action", "d", MGROUP_UNIT,
+    "do_action", "d", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_WAIT", N_("_Wait"),
-    "wait", "w", MGROUP_UNIT,
+    "wait", "w", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "UNIT_DONE", N_("_Done"),
-    "done", "space", MGROUP_UNIT,
+    "done", "space", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
 
   /* Work menu */
   { "BUILD_CITY", N_("_Build City"),
-    "build_city", "b", MGROUP_UNIT,
+    "build_city", "b", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "AUTO_WORKER", N_("_Auto Worker"),
-    "auto_work", "a", MGROUP_UNIT,
+    "auto_work", "a", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "BUILD_ROAD", N_("Build _Road"),
-    "build_road", "r", MGROUP_UNIT,
+    "build_road", "r", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "BUILD_IRRIGATION", N_("Build _Irrigation"),
-    "build_irrigation", "i", MGROUP_UNIT,
+    "build_irrigation", "i", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "BUILD_MINE", N_("Build _Mine"),
-    "build_mine", "m", MGROUP_UNIT,
+    "build_mine", "m", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "CULTIVATE", N_("Cultivate"),
-    "cultivate", "<shift>i", MGROUP_UNIT,
+    "cultivate", "<shift>i", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "PLANT", N_("Plant"),
-    "plant", "<shift>m", MGROUP_UNIT,
+    "plant", "<shift>m", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "TRANSFORM_TERRAIN", N_("Transf_orm Terrain"),
-    "transform_terrain", "o", MGROUP_UNIT,
+    "transform_terrain", "o", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "CONNECT_ROAD", N_("Connect With Roa_d"),
     "connect_road", ACCL_MOD_KEY"r", MGROUP_UNIT,
@@ -827,24 +832,24 @@ static struct menu_entry_info menu_entries[] =
     "connect_irrigation", ACCL_MOD_KEY"i", MGROUP_UNIT,
     NULL, FALSE },
   { "CLEAN", N_("_Clean"),
-    "clean", "p", MGROUP_UNIT,
+    "clean", "p", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
 
   /* Combat menu */
   { "FORTIFY", N_("Fortify"),
-    "fortify", "f", MGROUP_UNIT,
+    "fortify", "f", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "BUILD_FORTRESS", N_("Build Fortress"),
-    "build_base_fortress", "<shift>f", MGROUP_UNIT,
+    "build_base_fortress", "<shift>f", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "BUILD_AIRBASE", N_("Build Airbase"),
-    "build_base_airbase", "<shift>e", MGROUP_UNIT,
+    "build_base_airbase", "<shift>e", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "PARADROP", N_("P_aradrop"),
-    "paradrop", "j", MGROUP_UNIT,
+    "paradrop", "j", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
   { "PILLAGE", N_("_Pillage"),
-    "pillage", "<shift>p", MGROUP_UNIT,
+    "pillage", "<shift>p", MGROUP_UNIT | MGROUP_CHAR,
     NULL, FALSE },
 
   /* Civilization */
@@ -893,7 +898,7 @@ static struct menu_entry_info menu_entries[] =
     "report_spaceship", "F12", MGROUP_SAFE,
     NULL, FALSE },
   { "REPORT_ACHIEVEMENTS", N_("_Achievements"),
-    "report_achievements", "asterisk", MGROUP_SAFE,
+    "report_achievements", "asterisk", MGROUP_SAFE | MGROUP_CHAR,
     NULL, FALSE },
 
   /* Battle Groups menu */
@@ -3373,7 +3378,7 @@ static void menu_entry_group_set_sensitive(GActionMap *map,
   int i;
 
   for (i = 0; menu_entries[i].key != NULL; i++) {
-    if (menu_entries[i].grouping == group || group == MGROUP_ALL) {
+    if (menu_entries[i].grouping & group) {
       menu_entry_set_sensitive_info(map, &(menu_entries[i]), is_enabled);
     }
   }
@@ -3762,6 +3767,10 @@ void real_menus_update(void)
                                  num_units > 0
                                  && can_client_issue_orders()
                                  && !editor_is_active());
+
+  menu_entry_set_sensitive(map, "CENTER_VIEW", can_client_issue_orders());
+  menu_entry_set_sensitive(map, "VOLUME_UP", TRUE);
+  menu_entry_set_sensitive(map, "VOLUME_DOWN", TRUE);
 
   menu_entry_set_sensitive(map, "GAME_SAVE_AS",
                            can_client_access_hack() && C_S_RUNNING <= client_state());
@@ -4208,4 +4217,12 @@ void enable_menus(bool enable)
 void menus_disable_unit_commands(void)
 {
   menu_entry_group_set_sensitive(G_ACTION_MAP(gui_app()), MGROUP_UNIT, FALSE);
+}
+
+/**********************************************************************//**
+  Disable all char commands.
+**************************************************************************/
+void menus_disable_char_commands(void)
+{
+  menu_entry_group_set_sensitive(G_ACTION_MAP(gui_app()), MGROUP_CHAR, FALSE);
 }
