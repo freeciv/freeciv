@@ -4,6 +4,8 @@ Some modifications have been done to them:
 - Commit 10ed75b36bf909f57b3c1a070dd87669c323cff0 backported
 - Fixed compile error on ls_sqlite3.c raw_readparams_table()
   Fix has been submitted to upstream.
+- Cleared trailing spaces
+  Equivalent patch submitted to upstream.
 
 Only the files needed by freeciv are included here, not entire luasql
 source directory hierarchy.
