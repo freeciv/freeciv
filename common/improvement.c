@@ -176,8 +176,6 @@ Impr_type_id improvement_count(void)
 **************************************************************************/
 Impr_type_id improvement_index(const struct impr_type *pimprove)
 {
-  fc_assert_ret_val(pimprove != nullptr, -1);
-
   return pimprove - improvement_types;
 }
 
@@ -186,8 +184,6 @@ Impr_type_id improvement_index(const struct impr_type *pimprove)
 **************************************************************************/
 Impr_type_id improvement_number(const struct impr_type *pimprove)
 {
-  fc_assert_ret_val(pimprove != nullptr, -1);
-
   return pimprove->item_number;
 }
 
@@ -221,8 +217,8 @@ const struct impr_type *valid_improvement(const struct impr_type *pimprove)
 
   if (!victory_enabled(VC_SPACERACE)
       && (building_has_effect(pimprove, EFT_SS_STRUCTURAL)
-	  || building_has_effect(pimprove, EFT_SS_COMPONENT)
-	  || building_has_effect(pimprove, EFT_SS_MODULE))) {
+          || building_has_effect(pimprove, EFT_SS_COMPONENT)
+          || building_has_effect(pimprove, EFT_SS_MODULE))) {
     /* This assumes that space parts don't have any other effects. */
     return nullptr;
   }
@@ -386,7 +382,7 @@ struct impr_type *improvement_by_rule_name(const char *name)
   Return TRUE if the impr has this flag, otherwise FALSE
 **************************************************************************/
 bool improvement_has_flag(const struct impr_type *pimprove,
-			  enum impr_flag_id flag)
+                          enum impr_flag_id flag)
 {
   fc_assert_ret_val(impr_flag_id_is_valid(flag), FALSE);
 
@@ -415,7 +411,7 @@ bool can_improvement_go_obsolete(const struct impr_type *pimprove)
   Returns TRUE if the improvement or wonder is obsolete
 **************************************************************************/
 bool improvement_obsolete(const struct player *pplayer,
-			  const struct impr_type *pimprove,
+                          const struct impr_type *pimprove,
                           const struct city *pcity)
 {
   const struct req_context context = {
@@ -738,7 +734,7 @@ bool can_player_build_improvement_direct(const struct player *p,
   Returns FALSE if building is obsolete.
 **************************************************************************/
 bool can_player_build_improvement_now(const struct player *p,
-				      struct impr_type *pimprove)
+                                      struct impr_type *pimprove)
 {
   if (!can_player_build_improvement_direct(p, pimprove)) {
     return FALSE;
@@ -840,7 +836,6 @@ void wonder_built(const struct city *pcity, const struct impr_type *pimprove)
   struct player *pplayer;
   int windex = improvement_number(pimprove);
 
-  fc_assert_ret(pcity != nullptr);
   fc_assert_ret(is_wonder(pimprove));
 
   pplayer = city_owner(pcity);
@@ -861,7 +856,6 @@ void wonder_destroyed(const struct city *pcity,
   struct player *pplayer;
   int windex = improvement_number(pimprove);
 
-  fc_assert_ret(pcity != nullptr);
   fc_assert_ret(is_wonder(pimprove));
 
   pplayer = city_owner(pcity);
@@ -882,7 +876,6 @@ void wonder_destroyed(const struct city *pcity,
 bool wonder_is_lost(const struct player *pplayer,
                     const struct impr_type *pimprove)
 {
-  fc_assert_ret_val(pplayer != nullptr, FALSE);
   fc_assert_ret_val(is_wonder(pimprove), FALSE);
 
   return pplayer->wonders[improvement_index(pimprove)] == WONDER_LOST;
@@ -895,7 +888,6 @@ bool wonder_is_lost(const struct player *pplayer,
 bool wonder_is_built(const struct player *pplayer,
                      const struct impr_type *pimprove)
 {
-  fc_assert_ret_val(pplayer != nullptr, FALSE);
   fc_assert_ret_val(is_wonder(pimprove), FALSE);
 
   return WONDER_BUILT(pplayer->wonders[improvement_index(pimprove)]);
@@ -919,7 +911,6 @@ struct city *city_from_wonder(const struct player *pplayer,
 
   city_id = pplayer->wonders[idx];
 
-  fc_assert_ret_val(pplayer != nullptr, nullptr);
   fc_assert_ret_val(is_wonder(pimprove), nullptr);
 
   if (!WONDER_BUILT(city_id)) {

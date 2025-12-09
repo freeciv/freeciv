@@ -78,8 +78,10 @@ struct impr_type {
 
 /* General improvement accessor functions. */
 Impr_type_id improvement_count(void);
-Impr_type_id improvement_index(const struct impr_type *pimprove);
-Impr_type_id improvement_number(const struct impr_type *pimprove);
+Impr_type_id improvement_index(const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
+Impr_type_id improvement_number(const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
 
 struct impr_type *improvement_by_number(const Impr_type_id id);
 
@@ -145,16 +147,21 @@ const struct impr_type *improvement_replacement(const struct impr_type *pimprove
 #define WONDER_NOT_BUILT 0      /* Used as city id. */
 #define WONDER_BUILT(city_id) ((city_id) > 0)
 
-void wonder_built(const struct city *pcity, const struct impr_type *pimprove);
+void wonder_built(const struct city *pcity, const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
 void wonder_destroyed(const struct city *pcity,
-                      const struct impr_type *pimprove);
+                      const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
 
 bool wonder_is_lost(const struct player *pplayer,
-                    const struct impr_type *pimprove);
+                    const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
 bool wonder_is_built(const struct player *pplayer,
-                     const struct impr_type *pimprove);
+                     const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
 struct city *city_from_wonder(const struct player *pplayer,
-                              const struct impr_type *pimprove);
+                              const struct impr_type *pimprove)
+  fc__attribute((nonnull(1)));
 bool wonder_visible_to_player(const struct impr_type *wonder,
                               const struct player *pplayer,
                               const struct player *owner,
