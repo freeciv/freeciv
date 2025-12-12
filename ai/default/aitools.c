@@ -837,6 +837,11 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose capture. */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CAPTURE_UNITS);
+  } else if (is_action_enabled_unit_on_stack(nmap, ACTION_COLLECT_RANSOM,
+                                             punit, ptile)) {
+    /* Choose "Collect Ransom". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_COLLECT_RANSOM);
   } else if (is_action_enabled_unit_on_stack(nmap, ACTION_BOMBARD_LETHAL,
                                              punit, ptile)) {
     /* Choose "Bombard Lethal". */
