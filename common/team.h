@@ -40,15 +40,22 @@ struct team_slot *team_slot_first(void);
 struct team_slot *team_slot_next(struct team_slot *tslot);
 
 /* Team slot accessor functions. */
-int team_slot_index(const struct team_slot *tslot);
-struct team *team_slot_get_team(const struct team_slot *tslot);
+int team_slot_index(const struct team_slot *tslot)
+  fc__attribute((nonnull(1)));
+struct team *team_slot_get_team(const struct team_slot *tslot)
+  fc__attribute((nonnull(1)));
 bool team_slot_is_used(const struct team_slot *tslot);
 struct team_slot *team_slot_by_number(int team_id);
-struct team_slot *team_slot_by_rule_name(const char *team_name);
-const char *team_slot_rule_name(const struct team_slot *tslot);
-const char *team_slot_name_translation(const struct team_slot *tslot);
-const char *team_slot_defined_name(const struct team_slot *tslot);
-void team_slot_set_defined_name(struct team_slot *tslot, const char *team_name);
+struct team_slot *team_slot_by_rule_name(const char *team_name)
+  fc__attribute((nonnull(1)));
+const char *team_slot_rule_name(const struct team_slot *tslot)
+  fc__attribute((nonnull(1)));
+const char *team_slot_name_translation(const struct team_slot *tslot)
+  fc__attribute((nonnull(1)));
+const char *team_slot_defined_name(const struct team_slot *tslot)
+  fc__attribute((nonnull(1)));
+void team_slot_set_defined_name(struct team_slot *tslot, const char *team_name)
+  fc__attribute((nonnull(1, 2)));
 
 /* Team accessor functions. */
 struct team *team_new(struct team_slot *tslot);
@@ -56,16 +63,21 @@ void team_destroy(struct team *pteam)
   fc__attribute((nonnull(1)));
 int team_count(void);
 int team_index(const struct team *pteam);
-int team_number(const struct team *pteam);
+int team_number(const struct team *pteam)
+  fc__attribute((nonnull(1)));
 struct team *team_by_number(const int team_id);
-const char *team_rule_name(const struct team *pteam);
-const char *team_name_translation(const struct team *pteam);
+const char *team_rule_name(const struct team *pteam)
+  fc__attribute((nonnull(1)));
+const char *team_name_translation(const struct team *pteam)
+  fc__attribute((nonnull(1)));
 int team_pretty_name(const struct team *pteam, char *buf, size_t buf_len);
 
-const struct player_list *team_members(const struct team *pteam);
+const struct player_list *team_members(const struct team *pteam)
+  fc__attribute((nonnull(1)));
 
 /* Ancillary routines */
-bool team_add_player(struct player *pplayer, struct team *pteam);
+bool team_add_player(struct player *pplayer, struct team *pteam)
+  fc__attribute((nonnull(1)));
 void team_remove_player(struct player *pplayer);
 
 /* Iterate over all team slots */

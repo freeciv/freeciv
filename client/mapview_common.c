@@ -1338,7 +1338,15 @@ void put_drawn_sprites(struct canvas *pcanvas, float zoom,
       continue;
     }
 
-    if (fog && pdrawn[i].foggable) {
+    if (pdrawn[i].w > 0) {
+      /* TODO: Fog support */
+      canvas_put_flag_sprite(pcanvas,
+                             canvas_x / zoom + pdrawn[i].offset_x,
+                             canvas_y / zoom + pdrawn[i].offset_y,
+                             pdrawn[i].w / zoom,
+                             pdrawn[i].h / zoom,
+                             pdrawn[i].sprite);
+    } else if (fog && pdrawn[i].foggable) {
       canvas_put_sprite_fogged(pcanvas,
                                canvas_x / zoom + pdrawn[i].offset_x,
                                canvas_y / zoom + pdrawn[i].offset_y,

@@ -1500,3 +1500,24 @@ move_mode      = "Cardinal"
 compat_special = "River"
 gui_type       = "Other"
 flags          = "River", "UnrestrictedInfra"
+
+
+; /* <-- avoid gettext warnings
+;
+; Tiledef types, there can be up to 8:
+;
+; The actual tag used (the * in [tiledef_*]) must be unique for each tiledef,
+; and may be used in debug output when reading this file.
+;
+;
+; name                 = translatable name as seen by user
+; rule_name            = (optional) internal name for savegames, rulesets
+;                        etc; if not present, "name" is used for this
+;                        purpose too. Since the name used in savegames must
+;                        not change, if you want to rename an item after a
+;                        ruleset has been released, you should set
+;                        "rule_name" to the original value of "name".
+; extras               = List of extras that the tile must have
+;                        to satisfy tiledef requirements.
+;
+; */ <-- avoid gettext warnings

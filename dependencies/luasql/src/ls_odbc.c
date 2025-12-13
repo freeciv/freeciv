@@ -66,7 +66,7 @@ typedef struct {
 	SQLHSTMT      hstmt;              /* statement handle */
 	SQLSMALLINT   numparams;          /* number of input parameters */
 	int           paramtypes;         /* reference to param type table */
-	param_data    *params;            /* array of parater data */
+	param_data    *params;            /* array of parameter data */
 } stmt_data;
 
 typedef struct {
@@ -297,6 +297,9 @@ static const char *sqltypetolua (const SQLSMALLINT type) {
         case SQL_DATE: case SQL_INTERVAL: case SQL_TIMESTAMP: 
         case SQL_LONGVARCHAR:
         case SQL_WCHAR: case SQL_WVARCHAR: case SQL_WLONGVARCHAR:
+#if (ODBCVER >= 0x0350)
+		case SQL_GUID:
+#endif
             return "string";
         case SQL_BIGINT: case SQL_TINYINT: 
         case SQL_INTEGER: case SQL_SMALLINT: 
@@ -324,7 +327,7 @@ static const char *sqltypetolua (const SQLSMALLINT type) {
 **   hstmt: statement handle
 **   i: column number
 ** Returns:
-**   0 if successfull, non-zero otherwise;
+**   0 if successful, non-zero otherwise;
 */
 static int push_column(lua_State *L, int coltypes, const SQLHSTMT hstmt, 
         SQLUSMALLINT i) {
@@ -490,6 +493,16 @@ static int cur_fetch (lua_State *L)
 }
 
 /*
+** Cursor object collector function
+*/
+static int cur_gc (lua_State *L) {
+	cur_data *cur = (cur_data *) luaL_checkudata (L, 1, LUASQL_CURSOR_ODBC);
+	if (cur != NULL && !(cur->closed))
+		cur_shut(L, cur);
+	return 0;
+}
+
+/*
 ** Closes a cursor.
 */
 static int cur_close (lua_State *L)
@@ -500,7 +513,8 @@ static int cur_close (lua_State *L)
 
 	if (cur->closed) {
 		lua_pushboolean (L, 0);
-		return 1;
+		lua_pushstring (L, "Cursor is already closed");
+		return 2;
 	}
 
 	if((res = cur_shut(L, cur)) != 0) {
@@ -574,7 +588,7 @@ static int create_cursor (lua_State *L, int stmt_i, stmt_data *stmt,
 
 	lock_obj(L, stmt_i, stmt);
 
-	cur = (cur_data *) lua_newuserdata(L, sizeof(cur_data));
+	cur = (cur_data *) LUASQL_NEWUD(L, sizeof(cur_data));
 	luasql_setmeta (L, LUASQL_CURSOR_ODBC);
 
 	/* fill in structure */
@@ -635,10 +649,13 @@ static int conn_close (lua_State *L)
 	luaL_argcheck (L, conn != NULL, 1, LUASQL_PREFIX"connection expected");
 	if (conn->closed) {
 		lua_pushboolean (L, 0);
-		return 1;
+		lua_pushstring (L, "Connection is already closed");
+		return 2;
 	}
 	if (conn->lock > 0) {
-		return luaL_error (L, LUASQL_PREFIX"there are open statements/cursors");
+		lua_pushboolean (L, 0);
+		lua_pushstring (L, "There are open cursors");
+		return 2;
 	}
 
 	/* Decrement connection counter on environment object */
@@ -909,7 +926,7 @@ static int conn_prepare(lua_State *L)
 		return ret;
 	}
 
-	stmt = (stmt_data *)lua_newuserdata(L, sizeof(stmt_data));
+	stmt = (stmt_data *)LUASQL_NEWUD(L, sizeof(stmt_data));
 	memset(stmt, 0, sizeof(stmt_data));
 
 	stmt->closed = 0;
@@ -1034,7 +1051,7 @@ static int conn_setautocommit (lua_State *L) {
 */
 static int create_connection (lua_State *L, int o, env_data *env, SQLHDBC hdbc)
 {
-	conn_data *conn = (conn_data *)lua_newuserdata(L, sizeof(conn_data));
+	conn_data *conn = (conn_data *)LUASQL_NEWUD(L, sizeof(conn_data));
 
 	/* set auto commit mode */
 	SQLRETURN ret = SQLSetConnectAttr(hdbc, SQL_ATTR_AUTOCOMMIT,
@@ -1063,7 +1080,7 @@ static int create_connection (lua_State *L, int o, env_data *env, SQLHDBC hdbc)
 **   source: data source
 **   user, pass: data source authentication information
 ** Lua Returns:
-**   connection object if successfull
+**   connection object if successful
 **   nil and error message otherwise.
 */
 static int env_connect (lua_State *L) {
@@ -1093,6 +1110,26 @@ static int env_connect (lua_State *L) {
 }
 
 /*
+** Environment object collector function
+*/
+static int env_gc (lua_State *L)
+{
+	SQLRETURN ret;
+	env_data *env = (env_data *)luaL_checkudata(L, 1, LUASQL_ENVIRONMENT_ODBC);
+	if (env != NULL && !(env->closed)) {
+		env->closed = 1;
+		ret = SQLFreeHandle (hENV, env->henv);
+		if (error (ret)) {
+			int ret2 = fail (L, hENV, env->henv);
+			env->henv = NULL;
+			return ret2;
+		}
+	}
+	return 0;
+}
+
+
+/*
 ** Closes an environment object
 */
 static int env_close (lua_State *L)
@@ -1102,10 +1139,13 @@ static int env_close (lua_State *L)
 	luaL_argcheck (L, env != NULL, 1, LUASQL_PREFIX"environment expected");
 	if (env->closed) {
 		lua_pushboolean (L, 0);
-		return 1;
+		lua_pushstring (L, "Environment is already closed");
+		return 2;
 	}
 	if (env->lock > 0) {
-		return luaL_error (L, LUASQL_PREFIX"there are open connections");
+		lua_pushboolean (L, 0);
+		lua_pushstring (L, "There are open connections");
+		return 2;
 	}
 
 	env->closed = 1;
@@ -1124,13 +1164,15 @@ static int env_close (lua_State *L)
 */
 static void create_metatables (lua_State *L) {
 	struct luaL_Reg environment_methods[] = {
-		{"__gc", env_close}, /* Should this method be changed? */
+		{"__gc", env_gc},
+		{"__close", env_gc},
 		{"close", env_close},
 		{"connect", env_connect},
 		{NULL, NULL},
 	};
 	struct luaL_Reg connection_methods[] = {
 		{"__gc", conn_close}, /* Should this method be changed? */
+		{"__close", conn_close},
 		{"close", conn_close},
 		{"prepare", conn_prepare},
 		{"execute", conn_execute},
@@ -1141,13 +1183,15 @@ static void create_metatables (lua_State *L) {
 	};
 	struct luaL_Reg statement_methods[] = {
 		{"__gc", stmt_close}, /* Should this method be changed? */
+		{"__close", stmt_close},
 		{"close", stmt_close},
 		{"execute", stmt_execute},
 		{"getparamtypes", stmt_paramtypes},
 		{NULL, NULL},
 	};
 	struct luaL_Reg cursor_methods[] = {
-		{"__gc", cur_close}, /* Should this method be changed? */
+		{"__gc", cur_gc}, /* Should this method be changed? */
+		{"__close", cur_gc},
 		{"close", cur_close},
 		{"fetch", cur_fetch},
 		{"getcoltypes", cur_coltypes},
@@ -1181,7 +1225,7 @@ static int create_environment (lua_State *L)
 		return ret;
 	}
 
-	env = (env_data *)lua_newuserdata (L, sizeof (env_data));
+	env = (env_data *)LUASQL_NEWUD (L, sizeof (env_data));
 	luasql_setmeta (L, LUASQL_ENVIRONMENT_ODBC);
 	/* fill in structure */
 	env->closed = 0;

@@ -1,8 +1,18 @@
-diff --git a/dependencies/lua-5.5/src/ldo.c b/dependencies/lua-5.5/src/ldo.c
-index 44937068f8..eed4c99c96 100644
---- a/dependencies/lua-5.5/src/ldo.c
-+++ b/dependencies/lua-5.5/src/ldo.c
-@@ -92,7 +92,7 @@ static void LUAI_TRY (lua_State *L, lua_longjmp *c, Pfunc f, void *ud) {
+diff -Nurd lua-5.5/src/lcode.c lua-5.5/src/lcode.c
+--- lua-5.5/src/lcode.c	2025-11-27 17:03:35.688793387 +0200
++++ lua-5.5/src/lcode.c	2025-11-27 17:06:30.816221321 +0200
+@@ -14,6 +14,7 @@
+ #include <limits.h>
+ #include <math.h>
+ #include <stdlib.h>
++#include <stdarg.h>
+ 
+ #include "lua.h"
+ 
+diff -Nurd lua-5.5/src/ldo.c lua-5.5/src/ldo.c
+--- lua-5.5/src/ldo.c	2025-11-27 17:05:27.967558886 +0200
++++ lua-5.5/src/ldo.c	2025-11-21 06:41:40.432836170 +0200
+@@ -92,7 +92,7 @@
  }
  
  
@@ -11,7 +21,7 @@ index 44937068f8..eed4c99c96 100644
  
  /* in POSIX, use _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
-@@ -141,9 +141,9 @@ l_noret luaD_throw (lua_State *L, TStatus errcode) {
+@@ -141,9 +141,9 @@
          lua_unlock(L);
          g->panic(L);  /* call panic function (last chance to jump out) */
        }
@@ -22,11 +32,10 @@ index 44937068f8..eed4c99c96 100644
  }
  
  
-diff --git a/dependencies/lua-5.5/src/liolib.c b/dependencies/lua-5.5/src/liolib.c
-index 57615e6f32..ef44f5e671 100644
---- a/dependencies/lua-5.5/src/liolib.c
-+++ b/dependencies/lua-5.5/src/liolib.c
-@@ -53,7 +53,7 @@ static int l_checkmode (const char *mode) {
+diff -Nurd lua-5.5/src/liolib.c lua-5.5/src/liolib.c
+--- lua-5.5/src/liolib.c	2025-11-27 17:05:27.967660107 +0200
++++ lua-5.5/src/liolib.c	2025-11-21 06:41:40.432836170 +0200
+@@ -53,7 +53,7 @@
  
  #if !defined(l_popen)		/* { */
  
@@ -35,7 +44,7 @@ index 57615e6f32..ef44f5e671 100644
  
  #define l_popen(L,c,m)		(fflush(NULL), popen(c,m))
  #define l_pclose(L,file)	(pclose(file))
-@@ -114,7 +114,7 @@ static int l_checkmode (const char *mode) {
+@@ -114,7 +114,7 @@
  
  #if !defined(l_fseek)		/* { */
  
@@ -44,10 +53,9 @@ index 57615e6f32..ef44f5e671 100644
  
  #include <sys/types.h>
  
-diff --git a/dependencies/lua-5.5/src/loslib.c b/dependencies/lua-5.5/src/loslib.c
-index b7a2b0d15f..f60519e14f 100644
---- a/dependencies/lua-5.5/src/loslib.c
-+++ b/dependencies/lua-5.5/src/loslib.c
+diff -Nurd lua-5.5/src/loslib.c lua-5.5/src/loslib.c
+--- lua-5.5/src/loslib.c	2025-11-27 17:05:27.967720867 +0200
++++ lua-5.5/src/loslib.c	2025-11-21 06:41:40.432836170 +0200
 @@ -75,7 +75,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -66,10 +74,9 @@ index b7a2b0d15f..f60519e14f 100644
  
  #include <unistd.h>
  
-diff --git a/dependencies/lua-5.5/src/luaconf.h b/dependencies/lua-5.5/src/luaconf.h
-index 96a77802b9..500776acc0 100644
---- a/dependencies/lua-5.5/src/luaconf.h
-+++ b/dependencies/lua-5.5/src/luaconf.h
+diff -Nurd lua-5.5/src/luaconf.h lua-5.5/src/luaconf.h
+--- lua-5.5/src/luaconf.h	2025-11-27 17:05:27.967803967 +0200
++++ lua-5.5/src/luaconf.h	2025-11-21 06:41:40.436836194 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>

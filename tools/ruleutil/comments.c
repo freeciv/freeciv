@@ -38,6 +38,7 @@ static struct {
   char *extras;
   char *bases;
   char *roads;
+  char *tiledefs;
   char *styles;
   char *citystyles;
   char *musicstyles;
@@ -152,6 +153,7 @@ bool comments_load(void)
   comment_load(comments_storage.extras, comment_file, "typedoc.extras");
   comment_load(comments_storage.bases, comment_file, "typedoc.bases");
   comment_load(comments_storage.roads, comment_file, "typedoc.roads");
+  comment_load(comments_storage.tiledefs, comment_file, "typedoc.tiledefs");
   comment_load(comments_storage.styles, comment_file, "typedoc.styles");
   comment_load(comments_storage.citystyles,
                comment_file, "typedoc.citystyles");
@@ -408,6 +410,14 @@ void comment_bases(struct section_file *sfile)
 void comment_roads(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.roads, "Roads");
+}
+
+/**********************************************************************//**
+  Write tiledefs header.
+**************************************************************************/
+void comment_tiledefs(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.tiledefs, "Tiledefs");
 }
 
 /**********************************************************************//**
