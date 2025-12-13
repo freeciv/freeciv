@@ -34,21 +34,21 @@ struct multiplier;
 
 #define USER_EFFECT_NUMBER(eff) (eff - EFT_USER_EFFECT_1)
 
-/* An effect is provided by a source.  If the source is present, and the
+/* An effect is provided by a source. If the source is present, and the
  * other conditions (described below) are met, the effect will be active.
  * Note the difference between effect and effect_type. */
 struct effect {
   enum effect_type type;
 
-  /* Pointer to multipliers (NULL means that this effect has no multiplier */
+  /* Pointer to multipliers (nullptr means that this effect has no multiplier) */
   struct multiplier *multiplier;
 
-  /* The "value" of the effect.  The meaning of this varies between
-   * effects.  When get_xxx_bonus() is called the value of all applicable
+  /* The "value" of the effect. The meaning of this varies between
+   * effects. When get_xxx_bonus() is called the value of all applicable
    * effects will be summed up. */
   int value;
 
-  /* An effect can have multiple requirements.  The effect will only be
+  /* An effect can have multiple requirements. The effect will only be
    * active if all of these requirement are met. */
   struct requirement_vector reqs;
 
@@ -202,4 +202,4 @@ void user_effect_ai_valued_set(enum effect_type tgt, enum effect_type valued_as)
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__EFFECTS_H */
+#endif /* FC__EFFECTS_H */
