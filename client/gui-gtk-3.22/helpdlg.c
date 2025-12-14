@@ -297,13 +297,14 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   }
 
   if (original) {
-    /* only add children to orginals */
-    if (advance_required(tech, AR_ONE) != A_NONE)
+    /* Only add children to originals */
+    if (advance_required(tech, AR_ONE) != A_NONE) {
       create_tech_tree(advance_required(tech, AR_ONE), levels, &l);
-    if (advance_required(tech, AR_TWO) != A_NONE)
+    }
+    if (advance_required(tech, AR_TWO) != A_NONE) {
       create_tech_tree(advance_required(tech, AR_TWO), levels, &l);
+    }
   }
-  return;
 }
 
 /**********************************************************************//**
