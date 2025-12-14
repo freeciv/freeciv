@@ -1715,7 +1715,7 @@ Unit Movement:\n\
 Main Map (Keys):\n\
 ================\n\
   Some clients support zooming/scaling the map graphics with the + and - keys.\n\
-  Some clients support audio volume control with Shift-+ and Shift-- keys.\n\
+  Some clients support audio volume control with '<' and '>' keys.\n\
   c:            (c)enter view on active unit\n\
   Shift-home:   center view on capital\n\
   Shift-arrows: scroll map\n\
