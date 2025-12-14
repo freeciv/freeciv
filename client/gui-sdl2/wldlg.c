@@ -518,10 +518,10 @@ static void remove_item_from_worklist(struct widget *item)
 
 /**********************************************************************//**
   Swap worklist entries DOWN.
-  Fuction swap current element with next element of worklist.
+  Function swap current element with next element of worklist.
 
   If item is last widget or there is only one widget on widgets list
-  fuction remove this widget from widget list and target from worklist
+  function remove this widget from widget list and target from worklist
 
   In City mode, when item is first worklist element, function make
   change production (currently building is moved to first element of worklist
@@ -574,9 +574,9 @@ static void swap_item_down_from_worklist(struct widget *item)
 
 /**********************************************************************//**
   Swap worklist entries UP.
-  Fuction swap current element with prev. element of worklist.
+  Function swap current element with prev. element of worklist.
 
-  If item is first widget on widgets list fuction remove this widget
+  If item is first widget on widgets list function remove this widget
   from widget list and target from worklist (global mode)
   or from production (city mode)
 
