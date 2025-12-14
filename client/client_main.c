@@ -1297,7 +1297,11 @@ bool can_intel_with_player(const struct player *pplayer)
 const char *title_for_player(const struct player *pplayer,
                              char *buf, size_t buf_len)
 {
-  if (client_player() == pplayer || can_intel_with_player(pplayer)) {
+  /* Server < 3.2.2 may forget to send government information after
+   * re-establishing contact, so we need to check against that case
+   * also, and to fallback to using default title when it happens. */
+  if ((client_player() == pplayer || can_intel_with_player(pplayer))
+      && pplayer->government != NULL) {
     /* Knows the government to construct correct title */
     return ruler_title_for_player(pplayer, buf, buf_len);
   }
