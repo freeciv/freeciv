@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2025-03-30 20:04+0300\n"
+"POT-Creation-Date: 2025-12-14 03:45+0200\n"
 "PO-Revision-Date: 2025-03-28 14:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -277,72 +277,72 @@ msgstr "Necesitado por %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:106
 #, c-format
 msgid "Failed to load %s."
 msgstr "Produciuse un erro ao cargar %s."
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:142
 msgid "Print a summary of the options"
 msgstr "Imprime un resumo das opcións"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:146 tools/ruledit/ruledit.cpp:152
 msgid "debug LEVEL"
 msgstr "NIVEL de depuración"
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:147
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
 "Establecer o nivel de rexistro de depuración (un de f,e,w,n,v,d ou "
 "d:file1,min,max:...)"
 
-#: tools/ruledit/ruledit.cpp:167
+#: tools/ruledit/ruledit.cpp:153
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr "Establecer o nivel de rexistro de depuración (un de f,e,w,n,v)"
 
-#: tools/ruledit/ruledit.cpp:170
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print the version number"
 msgstr "Imprime o número de versión"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:159
 msgid "ruleset RULESET"
 msgstr "conxunto de regras CONxunto de regras"
 
-#: tools/ruledit/ruledit.cpp:174
+#: tools/ruledit/ruledit.cpp:160
 msgid "Ruleset to use as the starting point."
 msgstr "Conxunto de regras para usar como punto de partida."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:178
+#: tools/ruledit/ruledit.cpp:164
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SINAL]"
 
-#: tools/ruledit/ruledit.cpp:179
+#: tools/ruledit/ruledit.cpp:165
 msgid "Raise a signal on failed assertion"
 msgstr "Lanzar un sinal en caso de afirmación errada"
 
-#: tools/ruledit/ruledit.cpp:193
+#: tools/ruledit/ruledit.cpp:179
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Só se pode editar un conxunto de regras á vez.\n"
 
-#: tools/ruledit/ruledit.cpp:200
+#: tools/ruledit/ruledit.cpp:186
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 "O nivel de depuración \"%s\" especificado coa opción --debug non é válido.\n"
 
-#: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
+#: tools/ruledit/ruledit.cpp:188 tools/ruledit/ruledit.cpp:201
 msgid "Try using --help.\n"
 msgstr "Proba a usar --help.\n"
 
-#: tools/ruledit/ruledit.cpp:213
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "O número de sinal \"%s\" non é válido.\n"
 
-#: tools/ruledit/ruledit.cpp:222
+#: tools/ruledit/ruledit.cpp:208
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opción non recoñecida: \"%s\"\n"
@@ -468,7 +468,7 @@ msgstr "Nome da regra"
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:149 tools/ruledit/tab_building.cpp:150
 #: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
-#: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
+#: tools/ruledit/tab_counters.cpp:214 tools/ruledit/tab_counters.cpp:215
 #: tools/ruledit/tab_enablers.cpp:133 tools/ruledit/tab_enablers.cpp:253
 #: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
 #: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
@@ -504,7 +504,7 @@ msgid "Value"
 msgstr "Valor"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
-#: tools/ruledit/tab_counters.cpp:134 tools/ruledit/tab_extras.cpp:95
+#: tools/ruledit/tab_counters.cpp:135 tools/ruledit/tab_extras.cpp:95
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:91
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
@@ -553,15 +553,15 @@ msgstr "Punto de control"
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: tools/ruledit/tab_counters.cpp:138
+#: tools/ruledit/tab_counters.cpp:139
 msgid "Add Counter"
 msgstr "Engadir contador"
 
-#: tools/ruledit/tab_counters.cpp:141
+#: tools/ruledit/tab_counters.cpp:142
 msgid "Remove this Counter"
 msgstr "Elimina este contador"
 
-#: tools/ruledit/tab_counters.cpp:274
+#: tools/ruledit/tab_counters.cpp:275
 msgid "A counter with that rule name already exists!"
 msgstr "Xa existe un contador con ese nome de regra!"
 
@@ -907,7 +907,7 @@ msgstr "Eliminar requisito"
 msgid "%s prevents"
 msgstr "%s impide"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:385
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:388
 msgid "Effect"
 msgstr "Efectos"
 
@@ -921,16 +921,16 @@ msgid "Music Style"
 msgstr "Estilo Musical"
 
 #. TRANS: e.g. "Advance clause"
-#: tools/ruledit/validity.c:167
+#: tools/ruledit/validity.c:168
 #, c-format
 msgid "%s clause"
 msgstr "cláusula %s"
 
-#: tools/ruledit/validity.c:316
+#: tools/ruledit/validity.c:319
 msgid "Conflicting extra"
 msgstr "Extra conflitivo"
 
-#: tools/ruledit/validity.c:319
+#: tools/ruledit/validity.c:322
 msgid "Hidden extra"
 msgstr "Extra oculto"
 
