@@ -1755,6 +1755,10 @@ static void end_turn(void)
 
         tile_extra_rm_apply(ptile, pextra);
 
+        script_server_signal_emit("spontaneous_extra",
+                                  extra_rule_name(pextra),
+                                  ptile, FALSE);
+
         update_tile_knowledge(ptile);
 
         if (owner == nullptr) {
@@ -1798,6 +1802,10 @@ static void end_turn(void)
         struct player *owner = tile_owner(ptile);
 
         tile_extra_apply(ptile, pextra);
+
+        script_server_signal_emit("spontaneous_extra",
+                                  extra_rule_name(pextra),
+                                  ptile, TRUE);
 
         update_tile_knowledge(ptile);
 
