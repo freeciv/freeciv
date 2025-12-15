@@ -589,6 +589,9 @@ static void script_server_signals_create(void)
   luascript_signal_create(fcl_main, "action_finished_unit_self", 3,
                           API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT);
+
+  luascript_signal_create(fcl_main, "spontaneous_extra", 3,
+                          API_TYPE_STRING, API_TYPE_TILE, API_TYPE_BOOL);
 }
 
 /***********************************************************************//**
