@@ -28,32 +28,32 @@ fi
 # $3 - Client part of the AppImage name as produced by linuxdeploy
 # $4 - Extra configure options
 client_appimage() {
-  if ! mkdir "AppDir/$1" || ! mkdir "build/$1" ; then
+  if ! mkdir "AppDir/client-$1" || ! mkdir "build/client-$1" ; then
     echo "Failed to create $1 directories!" >&2
     return 1
   fi
 
-  cd "build/$1"
+  cd "build/client-$1"
   if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$2 -Dfcmp=[] -Dtools=[] $4 "${SRC_ROOT}"
   then
-    echo "$1 setup with meson failed!" >&2
+    echo "client-$1 setup with meson failed!" >&2
     return 1
   fi
 
-  if ! DESTDIR="${BUILD_ROOT}/AppDir/$1" ninja install ; then
-    echo "$1 build with ninja failed!" >&2
+  if ! DESTDIR="${BUILD_ROOT}/AppDir/client-$1" ninja install ; then
+    echo "client-$1 build with ninja failed!" >&2
     return 1
   fi
 
   cd "${BUILD_ROOT}"
-  rm -f "AppDir/$1/usr/share/applications/org.freeciv.server.desktop"
-  if ! tools/linuxdeploy-x86_64.AppImage --appdir "AppDir/$1" --output appimage
+  rm -f "AppDir/client-$1/usr/share/applications/org.freeciv.server.desktop"
+  if ! tools/linuxdeploy-x86_64.AppImage --appdir "AppDir/client-$1" --output appimage
   then
-    echo "$1 image build with linuxdeploy failed!" >&2
+    echo "client-$1 image build with linuxdeploy failed!" >&2
     return 1
   fi
   if ! mv "Freeciv$3-x86_64.AppImage" "Freeciv-$1-${FCVER}-x86_64.AppImage" ; then
-    echo "$1 appimage rename failed!" >&2
+    echo "client-$1 appimage rename failed!" >&2
     return 1
   fi
 }
