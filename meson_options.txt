@@ -73,6 +73,12 @@ option('server',
        value: 'enabled',
        description: 'What kind of server should be build, if any')
 
+option('aimodules',
+       type: 'array',
+       choices: ['classic', 'tex', 'stub'],
+       value: ['classic', 'tex'],
+       description: 'AI modules to include to the server')
+
 option('appimage',
        type: 'boolean',
        value: false,

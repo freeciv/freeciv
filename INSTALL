@@ -213,6 +213,14 @@ server ('disabled'/'enabled'/'freeciv-web'):
   means that freeciv-web version will be built instead of
   the regular server.
 
+aimodules (array):
+  AI modules to build in to the server. At least one needed.
+  Has no effect if the server is not built.
+   * classic
+   * tex
+   * stub
+  Default is to build classic and tex.
+
 appimage (boolean):
   Make build suitable for AppImage packaging. This affects paths from
   which various resources are looked from, and produces build that

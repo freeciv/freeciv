@@ -240,11 +240,43 @@ if server_type == 'disabled'
   pub_conf_data.set('FREECIV_AI_MOD_LAST', 1)
 
   priv_conf_data.set('AI_MOD_STATIC_STUB', 1)
+    priv_conf_data.set('AI_MOD_DEFAULT', '"stub"')
 else
-  pub_conf_data.set('FREECIV_AI_MOD_LAST', 2)
+  aimodcount = 0
+  aisrc = []
 
-  priv_conf_data.set('AI_MOD_STATIC_CLASSIC', 1)
-  priv_conf_data.set('AI_MOD_STATIC_TEX', 1)
+  if get_option('aimodules').contains('classic')
+    priv_conf_data.set('AI_MOD_STATIC_CLASSIC', 1)
+    priv_conf_data.set('AI_MOD_DEFAULT', '"classic"')
+    aimodcount = aimodcount + 1
+    aisrc = [ aisrc, 'ai/classic/classicai.c' ]
+  endif
+  if get_option('aimodules').contains('tex')
+    priv_conf_data.set('AI_MOD_STATIC_TEX', 1)
+    if aimodcount == 0
+      priv_conf_data.set('AI_MOD_DEFAULT', '"tex"')
+    endif
+    aimodcount = aimodcount + 1
+    aisrc = [ aisrc,
+              'ai/tex/texai.c',
+              'ai/tex/texaicity.c',
+              'ai/tex/texaimsg.c',
+              'ai/tex/texaiplayer.c',
+              'ai/tex/texaiworld.c' ]
+  endif
+  if get_option('aimodules').contains('stub')
+    priv_conf_data.set('AI_MOD_STATIC_STUB', 1)
+    if aimodcount == 0
+      priv_conf_data.set('AI_MOD_DEFAULT', '"stub"')
+    endif
+    aimodcount = aimodcount + 1
+    aisrc = [ aisrc, 'ai/stub/stubai.c' ]
+  endif
+
+  if aimodcount == 0
+    error('No AI modules enabled, but at least one needed')
+  endif
+  pub_conf_data.set('FREECIV_AI_MOD_LAST', aimodcount)
 endif
 
 if meson.is_cross_build()
@@ -1520,12 +1552,7 @@ ais = static_library('fc_ai',
 else
 
 ais = static_library('fc_ai',
-  'ai/classic/classicai.c',
-  'ai/tex/texai.c',
-  'ai/tex/texaicity.c',
-  'ai/tex/texaimsg.c',
-  'ai/tex/texaiplayer.c',
-  'ai/tex/texaiworld.c',
+  aisrc,
   'ai/default/daiair.c',
   'ai/default/daiactions.c',
   'ai/default/daicity.c',

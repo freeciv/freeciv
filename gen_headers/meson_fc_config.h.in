@@ -15,7 +15,7 @@
 
 #define DATASUBDIR "@DATASUBDIR@"
 
-#define AI_MOD_DEFAULT "classic"
+#mesondefine AI_MOD_DEFAULT
 
 #mesondefine AI_MOD_STATIC_CLASSIC
 #mesondefine AI_MOD_STATIC_TEX
