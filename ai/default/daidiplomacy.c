@@ -1448,11 +1448,14 @@ void dai_revolution_start(struct ai_type *ait, struct player *pplayer)
   struct ai_plr *data = def_ai_player_data(pplayer, ait);
 
   if (data->diplomacy.war_target != NULL) {
-    if (gives_shared_vision(pplayer, data->diplomacy.war_target)) {
-      remove_shared_vision(pplayer, data->diplomacy.war_target);
-    }
+    /* Target might have died since it was set. */
+    if (data->diplomacy.war_target->is_alive) {
+      if (gives_shared_vision(pplayer, data->diplomacy.war_target)) {
+        remove_shared_vision(pplayer, data->diplomacy.war_target);
+      }
 
-    dai_declare_war(ait, pplayer, data->diplomacy.war_target);
+      dai_declare_war(ait, pplayer, data->diplomacy.war_target);
+    }
 
     data->diplomacy.war_target = NULL;
   }
