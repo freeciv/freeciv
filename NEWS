@@ -2599,7 +2599,7 @@ Changes affecting other rulesets / modders
        clients. GNAPATCH#6564
      * Various elements now have configurable offsets, allowing more
        condensed graphics files.
-     * Can specify seperate pixel_border_x/y. GNAPATCH#5786
+     * Can specify separate pixel_border_x/y. GNAPATCH#5786
      * Tilesets can have a summary and description, which are displayed in
        the client in "About Current Tileset". GNAPATCH#6350
 

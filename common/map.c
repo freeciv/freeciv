@@ -1071,7 +1071,7 @@ bool is_tiles_adjacent(const struct tile *tile0, const struct tile *tile1)
 
 /*******************************************************************//**
   Are (x1, y1) and (x2, y2) really the same when adjusted?
-  This function might be necessary ALOT of places...
+  This function might be necessary in a lot of places...
 ***********************************************************************/
 bool same_pos(const struct tile *tile1, const struct tile *tile2)
 {
