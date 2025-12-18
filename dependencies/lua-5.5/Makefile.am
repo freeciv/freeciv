@@ -6,4 +6,4 @@ EXTRA_DIST = Version.txt \
 	freeciv_lua.patch \
 	doc/readme.html \
 	doc/logo.png \
-	doc/OSIApproved_100X125.png
+	doc/OSIApproved.png
