@@ -135,6 +135,10 @@ goto_dialog::goto_dialog(QWidget *parent): qfc_dialog(parent)
           SLOT(item_selected(const QItemSelection &,
                              const QItemSelection &)));
 
+  connect(goto_tab,
+          &QTableWidget::itemDoubleClicked,
+          this, &goto_dialog::dbl_click_p);
+
   setLayout(layout);
   original_tile = nullptr;
   setFocus();
@@ -468,6 +472,35 @@ void goto_dialog::go_to_city()
   if (pdest) {
     unit_list_iterate(get_units_in_focus(), punit) {
       send_goto_tile(punit, pdest->tile);
+    } unit_list_iterate_end;
+  }
+}
+
+/************************************************************************//**
+  Double clicked item in cities table:
+  no modifier - airlift, if possible, otherwise goto, if possible
+  Alt modifier - airlift only, if possible
+  Ctl modifier - goto only, if possible
+****************************************************************************/
+void goto_dialog::dbl_click_p(QTableWidgetItem *item)
+{
+  struct city *pdest;
+
+  if (item == nullptr) {
+    return;
+  }
+
+  pdest = game_city_by_number(item->data(Qt::UserRole).toInt());
+  if (pdest) {
+    unit_list_iterate(get_units_in_focus(), punit) {
+      if (unit_can_airlift_to(&(wld.map), punit, pdest)
+          && !QGuiApplication::keyboardModifiers().testFlag(
+                                                    Qt::ControlModifier)) {
+        request_unit_airlift(punit, pdest);
+      } else if (!QGuiApplication::keyboardModifiers().testFlag(
+                                                        Qt::AltModifier)) {
+        send_goto_tile(punit, pdest->tile);
+      }
     } unit_list_iterate_end;
   }
 }
