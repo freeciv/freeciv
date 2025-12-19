@@ -64,6 +64,7 @@ public slots:
 private slots:
   void go_to_city();
   void airlift_to();
+  void dbl_click_p(QTableWidgetItem *item);
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
   void checkbox_changed(Qt::CheckState state);
   void checkbox_changed_depr(int state);
