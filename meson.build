@@ -3,6 +3,18 @@ project('freeciv', ['c'],
         version : run_command('fc_version', check : true).stdout(),
         default_options: ['warning_level=1'])
 
+if get_option('audio') == 'sdl2' and get_option('clients').contains('sdl3')
+  error('''sdl3-client and sdl2 audio cannot be enabled simultaneously.
+To build both sdl2-client and sdl3-client with audio support,
+use separate build dirs.''')
+endif
+
+if get_option('audio') == 'sdl3' and get_option('clients').contains('sdl2')
+  error('''sdl2-client and sdl3 audio cannot be enabled simultaneously.
+To build both sdl2-client and sdl3-client with audio support,
+use separate build dirs.''')
+endif
+
 c_compiler = meson.get_compiler('c')
 
 b_root = meson.project_build_root()
