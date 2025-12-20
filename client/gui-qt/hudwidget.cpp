@@ -596,6 +596,11 @@ void hud_units::update_actions(unit_list *punits)
   struct player *owner;
   struct tileset *tmp;
   struct unit *punit;
+  QPoint move_pnt(qRound(gui()->mapview_wdg->width()
+                    * gui()->qt_settings.unit_info_pos_fx),
+                  qRound((gui()->mapview_wdg->height()
+                    * gui()->qt_settings.unit_info_pos_fy)));
+  QRect parent_frame = this->parentWidget()->geometry();
 
   punit = head_of_units_in_focus();
   if (punit == nullptr) {
@@ -608,10 +613,11 @@ void hud_units::update_actions(unit_list *punits)
   setFixedHeight(parentWidget()->height() / 12);
   text_label.setFixedHeight((height() * 2) / 10);
 
-  move(qRound(gui()->mapview_wdg->width()
-        * gui()->qt_settings.unit_info_pos_fx),
-       qRound((gui()->mapview_wdg->height()
-        * gui()->qt_settings.unit_info_pos_fy)));
+  move_pnt.rx() = qMax(0, qMin(move_pnt.x(),
+                      parent_frame.width() - mw->frameRect().width()));
+  move_pnt.ry() = qMax(0, qMin(move_pnt.y(),
+                      parent_frame.height() - mw->frameRect().height()));
+  move(move_pnt);
   unit_icons->setFixedHeight((height() * 8) / 10);
 
   setUpdatesEnabled(false);
