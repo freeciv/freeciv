@@ -26,9 +26,9 @@
 
 #include "style.h"
 
-static struct nation_style *styles = NULL;
+static struct nation_style *styles = nullptr;
 
-static struct music_style *music_styles = NULL;
+static struct music_style *music_styles = nullptr;
 
 /**********************************************************************//**
   Initialise styles structures.
@@ -50,8 +50,8 @@ void styles_alloc(int count)
 **************************************************************************/
 void styles_free(void)
 {
-  FC_FREE(styles);
-  styles = NULL;
+  free(styles);
+  styles = nullptr;
 }
 
 /**********************************************************************//**
@@ -67,7 +67,7 @@ int style_count(void)
 **************************************************************************/
 int style_number(const struct nation_style *pstyle)
 {
-  fc_assert_ret_val(NULL != pstyle, -1);
+  fc_assert_ret_val(pstyle != nullptr, -1);
 
   return pstyle->id;
 }
@@ -77,7 +77,7 @@ int style_number(const struct nation_style *pstyle)
 **************************************************************************/
 int style_index(const struct nation_style *pstyle)
 {
-  fc_assert_ret_val(NULL != pstyle, -1);
+  fc_assert_ret_val(pstyle != nullptr, -1);
 
   return pstyle - styles;
 }
@@ -87,7 +87,7 @@ int style_index(const struct nation_style *pstyle)
 **************************************************************************/
 struct nation_style *style_by_number(int id)
 {
-  fc_assert_ret_val(id >= 0 && id < game.control.num_styles, NULL);
+  fc_assert_ret_val(id >= 0 && id < game.control.num_styles, nullptr);
 
   return &styles[id];
 }
@@ -111,7 +111,7 @@ const char *style_rule_name(const struct nation_style *pstyle)
 }
 
 /**********************************************************************//**
-  Returns style matching rule name or NULL if there is no style
+  Returns style matching rule name or nullptr if there is no style
   with such name.
 **************************************************************************/
 struct nation_style *style_by_rule_name(const char *name)
@@ -124,7 +124,7 @@ struct nation_style *style_by_rule_name(const char *name)
     }
   } styles_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -151,8 +151,8 @@ void music_styles_free(void)
     requirement_vector_free(&(pmus->reqs));
   } music_styles_iterate_end;
 
-  FC_FREE(music_styles);
-  music_styles = NULL;
+  free(music_styles);
+  music_styles = nullptr;
 }
 
 /**********************************************************************//**
@@ -160,7 +160,7 @@ void music_styles_free(void)
 **************************************************************************/
 int music_style_number(const struct music_style *pms)
 {
-  fc_assert_ret_val(NULL != pms, -1);
+  fc_assert_ret_val(pms != nullptr, -1);
 
   return pms->id;
 }
@@ -170,10 +170,10 @@ int music_style_number(const struct music_style *pms)
 **************************************************************************/
 struct music_style *music_style_by_number(int id)
 {
-  fc_assert_ret_val(id >= 0 && id < game.control.num_music_styles, NULL);
+  fc_assert_ret_val(id >= 0 && id < game.control.num_music_styles, nullptr);
 
-  if (music_styles == NULL) {
-    return NULL;
+  if (music_styles == nullptr) {
+    return nullptr;
   }
 
   return &music_styles[id];
@@ -184,11 +184,11 @@ struct music_style *music_style_by_number(int id)
 **************************************************************************/
 struct music_style *player_music_style(struct player *plr)
 {
-  struct music_style *best = NULL;
+  struct music_style *best = nullptr;
   const struct req_context plr_context = { .player = plr };
 
   music_styles_iterate(pms) {
-    if (are_reqs_active(&plr_context, NULL, &pms->reqs, RPT_CERTAIN)) {
+    if (are_reqs_active(&plr_context, nullptr, &pms->reqs, RPT_CERTAIN)) {
       best = pms;
     }
   } music_styles_iterate_end;
@@ -248,7 +248,7 @@ int city_style(struct city *pcity)
   };
 
   for (i = game.control.num_city_styles - 1; i >= 0; i--) {
-    if (are_reqs_active(&context, NULL,
+    if (are_reqs_active(&context, nullptr,
                         &city_styles[i].reqs, RPT_CERTAIN)) {
       return i;
     }
