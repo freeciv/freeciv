@@ -182,6 +182,9 @@ void goto_dialog::item_selected(const QItemSelection &sl,
   item = goto_tab->item(i, 0);
   city_id = item->data(Qt::UserRole).toInt();
   dest = game_city_by_number(city_id);
+  if (dest == nullptr) {
+    return;
+  }
   center_tile_mapcanvas(city_tile(dest));
   can_airlift = false;
   unit_list_iterate(get_units_in_focus(), punit) {
