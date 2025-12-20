@@ -559,6 +559,7 @@ void set_city_production(struct city *pcity);
 /* Properties */
 
 const char *city_name_get(const struct city *pcity);
+const char *city_name_getx(const struct city *pcity);
 void city_name_set(struct city *pcity, const char *new_name);
 #define city_owner(_pcity_) (_pcity_)->owner
 #define city_tile(_pcity_) (_pcity_)->tile

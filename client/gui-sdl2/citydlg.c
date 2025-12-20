@@ -3525,7 +3525,7 @@ static void rebuild_citydlg_title_str(struct widget *pwindow,
 
   fc_snprintf(cbuf, sizeof(cbuf),
               _("City of %s (Population %s citizens)"),
-              city_name_get(pcity),
+              city_name_getx(pcity),
               population_to_text(city_population(pcity)));
 
   if (city_unhappy(pcity)) {

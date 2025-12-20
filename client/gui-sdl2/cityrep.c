@@ -295,7 +295,7 @@ static void real_info_city_report_dialog_update(void)
   last = pbuf;
   count = 0;
   city_list_iterate(client.conn.playing->cities, pcity) {
-    pstr = create_utf8_from_char_fonto(city_name_get(pcity), FONTO_ATTENTION);
+    pstr = create_utf8_from_char_fonto(city_name_getx(pcity), FONTO_ATTENTION);
     pstr->style |= TTF_STYLE_BOLD;
     pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));

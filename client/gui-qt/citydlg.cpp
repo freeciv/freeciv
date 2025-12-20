@@ -3801,24 +3801,24 @@ void city_dialog::update_title()
   QString buf;
 
   // Defeat keyboard shortcut mnemonics
-  lcity_name->setText(QString(city_name_get(dlgcity))
+  lcity_name->setText(QString(city_name_getx(dlgcity))
                       .replace("&", "&&"));
 
   if (city_unhappy(dlgcity)) {
     // TRANS: city dialog title
-    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name_get(dlgcity),
+    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name_getx(dlgcity),
           population_to_text(city_population(dlgcity)));
   } else if (city_celebrating(dlgcity)) {
     // TRANS: city dialog title
-    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name_get(dlgcity),
+    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name_getx(dlgcity),
           population_to_text(city_population(dlgcity)));
   } else if (city_happy(dlgcity)) {
     // TRANS: city dialog title
-    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name_get(dlgcity),
+    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name_getx(dlgcity),
           population_to_text(city_population(dlgcity)));
   } else {
     // TRANS: city dialog title
-    buf = QString(_("%1 - %2 citizens")).arg(city_name_get(dlgcity),
+    buf = QString(_("%1 - %2 citizens")).arg(city_name_getx(dlgcity),
           population_to_text(city_population(dlgcity)));
   }
 

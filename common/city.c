@@ -1140,6 +1140,42 @@ const char *city_name_get(const struct city *pcity)
 }
 
 /**********************************************************************//**
+  Return the name of the city, embellished for removeable, recyclable flags.
+**************************************************************************/
+#define POLLUTION_EFT_NEARMAX -95
+const char *city_name_getx(const struct city *pcity)
+{
+  bool spacer = FALSE;
+  static char em_city_name[MAX_LEN_CITYNAME + 7];
+
+  em_city_name[0] = '\0';
+
+  if (is_city_option_set(pcity, CITYO_DISBAND)) {
+    sz_strlcat(em_city_name, "ₓ"); /* ₓ🞪⁻⁰… (alternatives)*/
+  }
+
+  sz_strlcat(em_city_name, city_name_get(pcity));
+
+  if (get_city_bonus(pcity, EFT_AIRLIFT) > 0) {
+    if (!spacer) {
+      sz_strlcat(em_city_name, " ");
+      spacer = TRUE;
+    }
+    sz_strlcat(em_city_name, "🛧"); /* 🛧🛪 (alternatives)*/
+  }
+
+  if (get_city_bonus(pcity, EFT_POLLU_PROD_PCT) < POLLUTION_EFT_NEARMAX) {
+    if (!spacer) {
+      sz_strlcat(em_city_name, " ");
+      spacer = TRUE;
+    }
+    sz_strlcat(em_city_name, "♺"); /* ♺♻♳ (alternatives)*/
+  }
+
+  return em_city_name;
+}
+
+/**********************************************************************//**
   Set a new name for the city.
 **************************************************************************/
 void city_name_set(struct city *pcity, const char *new_name)

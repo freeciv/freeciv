@@ -3170,7 +3170,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
                                       enum color_std *growth_color,
                                       enum color_std *production_color)
 {
-  fc_strlcpy(name_buffer, city_name_get(pcity), name_buffer_len);
+  fc_strlcpy(name_buffer, city_name_getx(pcity), name_buffer_len);
 
   *production_color = COLOR_MAPVIEW_CITYTEXT;
   if (NULL == client.conn.playing

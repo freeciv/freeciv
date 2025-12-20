@@ -1587,7 +1587,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                                  canvas_width, canvas_height);
 
   pdialog->shell = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_get(pcity));
+  gtk_window_set_title(GTK_WINDOW(pdialog->shell),
+                      city_name_getx(pcity));
   setup_dialog(pdialog->shell, toplevel);
 
   g_signal_connect(pdialog->shell, "destroy",
@@ -1751,28 +1752,28 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   if (city_unhappy(pdialog->pcity)) {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens - DISORDER"),
-                          city_name_get(pdialog->pcity),
+                          city_name_getx(pdialog->pcity),
                           population_to_text(city_population(pdialog->pcity)));
   } else if (city_celebrating(pdialog->pcity)) {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens - celebrating"),
-                          city_name_get(pdialog->pcity),
+                          city_name_getx(pdialog->pcity),
                           population_to_text(city_population(pdialog->pcity)));
   } else if (city_happy(pdialog->pcity)) {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens - happy"),
-                          city_name_get(pdialog->pcity),
+                          city_name_getx(pdialog->pcity),
                           population_to_text(city_population(pdialog->pcity)));
   } else {
     /* TRANS: city dialog title */
     buf = g_strdup_printf(_("<b>%s</b> - %s citizens"),
-                          city_name_get(pdialog->pcity),
+                          city_name_getx(pdialog->pcity),
                           population_to_text(city_population(pdialog->pcity)));
   }
 
   now = gtk_label_get_text(GTK_LABEL(pdialog->name_label));
   if (strcmp(now, buf) != 0) {
-    gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_get(pdialog->pcity));
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_getx(pdialog->pcity));
     gtk_label_set_markup(GTK_LABEL(pdialog->name_label), buf);
   }
 
