@@ -688,7 +688,7 @@ static const char *huts_help(const struct setting *pset)
 ****************************************************************************/
 
 /************************************************************************//**
-  (De)initialze the score log.
+  (De)initialize the score log.
 ****************************************************************************/
 static void scorelog_action(const struct setting *pset)
 {
