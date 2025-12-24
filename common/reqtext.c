@@ -1091,7 +1091,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_CITY:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
-        cat_snprintf(buf, bufsz, Q_("?good:Requires import of %s ."),
+        cat_snprintf(buf, bufsz, Q_("?good:Requires import of %s."),
                      goods_name_translation(preq->source.value.good));
       } else {
         cat_snprintf(buf, bufsz, Q_("?goods:Prevented by import of %s."),
@@ -3367,11 +3367,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         fc_strlcat(buf, prefix, bufsz);
         if (preq->present) {
           /* TRANS: city property ("owned by original", etc) */
-          cat_snprintf(buf, bufsz, Q_("?cityprop:Applies only to %s cities"),
+          cat_snprintf(buf, bufsz, Q_("?cityprop:Applies only to %s cities."),
                        city_property);
         } else {
           /* TRANS: city property ("owned by original", etc) */
-          cat_snprintf(buf, bufsz, Q_("?cityprop:Does not apply to %s cities"),
+          cat_snprintf(buf, bufsz, Q_("?cityprop:Does not apply to %s cities."),
                        city_property);
         }
         return TRUE;
