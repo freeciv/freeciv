@@ -265,7 +265,16 @@ void base_map_distance_vector(int *dx, int *dy,
 void map_distance_vector(int *dx, int *dy, const struct tile *ptile0,
                          const struct tile *ptile1);
 int map_num_tiles(void);
-#define map_size_checked()  MAX(map_num_tiles() / 1000, 1)
+
+/************************************************************************//**
+  Return always-sane size of the map.
+****************************************************************************/
+static inline int map_size_checked(void)
+{
+  int real = map_num_tiles() / 1000;
+
+  return MAX(real, 1);
+}
 
 struct tile *rand_map_pos(const struct civ_map *nmap);
 struct tile *rand_map_pos_filtered(const struct civ_map *nmap, void *data,
