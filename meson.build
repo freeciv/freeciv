@@ -3361,7 +3361,6 @@ endforeach
 
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
 gtk4_dep = dependency('gtk4', version : '>= 4.0.0', required : false)
-gtk5_dep = dependency('gtk4', version : '>= 4.14.0', required : false)
 
 if get_option('clients').contains('gtk3.22')
 
