@@ -26,5 +26,6 @@ void save_game(const char *orig_filename, const char *save_reason,
                bool scenario);
 
 void save_system_close(void);
+void save_restore_sane_state(void);
 
 #endif /* FC__SAVEMAIN_H */

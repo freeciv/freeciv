@@ -29,6 +29,7 @@
 #include "console.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "ruleset.h"
 
 /* server/savegame */
 #include "savegame2.h"
@@ -56,6 +57,7 @@ void savegame_load(struct section_file *sfile)
 
   if (!savefile_options) {
     log_error("Missing savefile options. Can not load the savegame.");
+    save_restore_sane_state();
     return;
   }
 
@@ -68,7 +70,8 @@ void savegame_load(struct section_file *sfile)
     log_verbose("loading savefile in 2.3 - 2.6 format ...");
     savegame2_load(sfile);
   } else {
-    log_error("Too old savegame format not supported any more.");
+    log_error("Too old savegame. Format not supported any more.");
+    save_restore_sane_state();
     return;
   }
 
@@ -344,3 +347,13 @@ void save_system_close(void)
   }
 }
 
+/************************************************************************//**
+  Restore the server to sane state after savegame loading failure.
+****************************************************************************/
+void save_restore_sane_state(void)
+{
+  /* Try to get the server back to a vaguely sane state */
+  server_game_free();
+  server_game_init(FALSE);
+  load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE);
+}
