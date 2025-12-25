@@ -793,7 +793,8 @@ type = "Embassy"
 type = "SharedTiles"
 
 ; /* <-- avoid gettext warnings
-;Counter types, there can be up to 20:
+;
+; Counter types, there can be up to 20:
 ;
 ;name                    = translatable name as seen by user
 ;rule_name               = (optional) internal name for savegames, rulesets
@@ -816,6 +817,7 @@ type = "SharedTiles"
 ;                          vectors (effects, building, units, etc.)
 ;                          and when counter req of this counter
 ;                          will be fulfilled.
+;
 ; */ <-- avoid gettext warnings
 
 [counter_owned1]
