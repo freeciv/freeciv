@@ -1287,7 +1287,8 @@ clauses = "\
 
 counters = "\n\
 ; /* <-- avoid gettext warnings\n\
-;Counter types, there can be up to 20:\n\
+;\n\
+; Counter types, there can be up to 20:\n\
 ;\n\
 ;name                    = translatable name as seen by user\n\
 ;rule_name               = (optional) internal name for savegames, rulesets\n\
@@ -1310,6 +1311,7 @@ counters = "\n\
 ;                          vectors (effects, building, units, etc.)\n\
 ;                          and when counter req of this counter\n\
 ;                          will be fulfilled.
+;\n\
 ; */ <-- avoid gettext warnings\n\
 "
 
