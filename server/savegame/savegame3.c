@@ -119,7 +119,6 @@
 #include "report.h"
 #include "ruleload.h"
 #include "sanitycheck.h"
-#include "savecompat.h"
 #include "score.h"
 #include "settings.h"
 #include "spacerace.h"
@@ -139,6 +138,10 @@
 
 /* server/scripting */
 #include "script_server.h"
+
+/* server/savegame */
+#include "savecompat.h"
+#include "savemain.h"
 
 /* ai */
 #include "aitraits.h"
@@ -514,10 +517,7 @@ void savegame3_load(struct section_file *file)
 
   if (!sg_success) {
     log_error("Failure loading savegame!");
-    /* Try to get the server back to a vaguely sane state */
-    server_game_free();
-    server_game_init(FALSE);
-    load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE);
+    save_restore_sane_state();
   }
 }
 
