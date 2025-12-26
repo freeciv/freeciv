@@ -1084,11 +1084,11 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
         amount += ai->diplomacy.love_incr / 3;
       }
       /* Increase love by each enemy they are at war with */
-      players_iterate(eplayer) {
+      players_iterate_alive(eplayer) {
         if (WAR(eplayer, aplayer) && WAR(pplayer, eplayer)) {
           amount += ai->diplomacy.love_incr / 4;
         }
-      } players_iterate_end;
+      } players_iterate_alive_end;
       pplayer->ai_common.love[player_index(aplayer)] += amount;
       DIPLO_LOG(ait, LOG_DEBUG, pplayer, aplayer, "Increased love by %d", amount);
     } else if (WAR(pplayer, aplayer)) {
@@ -1631,7 +1631,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
 
   /*** If we are greviously insulted, go to war immediately. ***/
 
-  players_iterate(aplayer) {
+  players_iterate_alive(aplayer) {
     if (pplayer->ai_common.love[player_index(aplayer)] < 0
         && player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel >= 2
         && dai_diplomacy_get(ait, pplayer, aplayer)->countdown == -1) {
@@ -1639,7 +1639,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       war_countdown(ait, pplayer, aplayer, map_size_checked(),
                     DAI_WR_BEHAVIOR);
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 
   /*** Stop other players from winning by space race ***/
 
@@ -1854,13 +1854,13 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
           break;
         }
         target = nullptr;
-        players_iterate(eplayer) {
+        players_iterate_alive(eplayer) {
           if (WAR(pplayer, eplayer)
               && !pplayers_at_war(aplayer, eplayer)) {
             target = eplayer;
             break;
           }
-        } players_iterate_end;
+        } players_iterate_alive_end;
 
         if ((players_on_same_team(pplayer, aplayer)
              || pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE / 2)) {
@@ -1984,11 +1984,11 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
 **********************************************************************/
 bool dai_on_war_footing(struct ai_type *ait, struct player *pplayer)
 {
-  players_iterate(plr) {
+  players_iterate_alive(plr) {
     if (dai_diplomacy_get(ait, pplayer, plr)->countdown >= 0) {
       return TRUE;
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 
   return FALSE;
 }
