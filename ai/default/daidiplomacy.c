@@ -1654,7 +1654,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       struct player_spaceship *ship = &aplayer->spaceship;
 
       if (aplayer == pplayer
-          || adip->countdown >= 0  /* Already counting down to war */
+          || adip->countdown != -1  /* Already counting down to war */
           || ship->state == SSHIP_NONE
           || players_on_same_team(pplayer, aplayer)
           || pplayers_at_war(pplayer, aplayer)) {
