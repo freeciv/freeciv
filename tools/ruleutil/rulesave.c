@@ -1848,7 +1848,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
     if (pcounter->helptext != nullptr
         && strvec_size(pcounter->helptext) > 0) {
-      save_strvec(sfile, pcounter->helptext, "%s.helptext", path);
+      save_strvec(sfile, pcounter->helptext, path, "helptext");
     }
   } counters_re_iterate_end;
 
