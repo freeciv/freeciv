@@ -86,7 +86,7 @@ struct adv_data {
       int coast_strict;
 
       /* Unit can do action counts. */
-      int suicide_attackers, paratroopers, airliftable;
+      int suicide_attackers, teleporters, airliftable;
 
       int byclass[UCL_LAST];
 

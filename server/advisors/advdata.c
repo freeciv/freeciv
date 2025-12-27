@@ -223,9 +223,16 @@ static void count_my_units(struct player *pplayer)
         || unit_can_do_action(punit, ACTION_PARADROP_FRIGHTEN)
         || unit_can_do_action(punit, ACTION_PARADROP_FRIGHTEN_CONQUER)
         || unit_can_do_action(punit, ACTION_PARADROP_ENTER)
-        || unit_can_do_action(punit, ACTION_PARADROP_ENTER_CONQUER)) {
-      /* TODO: Cover also teleporting */
-      adv->stats.units.paratroopers++;
+        || unit_can_do_action(punit, ACTION_PARADROP_ENTER_CONQUER)
+        || unit_can_do_action(punit, ACTION_TELEPORT)
+        || unit_can_do_action(punit, ACTION_TELEPORT2)
+        || unit_can_do_action(punit, ACTION_TELEPORT3)
+        || unit_can_do_action(punit, ACTION_TELEPORT_CONQUER)
+        || unit_can_do_action(punit, ACTION_TELEPORT_FRIGHTEN)
+        || unit_can_do_action(punit, ACTION_TELEPORT_FRIGHTEN_CONQUER)
+        || unit_can_do_action(punit, ACTION_TELEPORT_ENTER)
+        || unit_can_do_action(punit, ACTION_TELEPORT_ENTER_CONQUER)) {
+      adv->stats.units.teleporters++;
     }
     if (utype_can_do_action(punit->utype, ACTION_AIRLIFT)) {
       adv->stats.units.airliftable++;
