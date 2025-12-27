@@ -57,7 +57,7 @@ void center_on_something(void);
 /*
  * A compound id (cid) can hold all objects a city can build:
  * improvements (with wonders) and units. This is achieved by
- * seperation the value set: a cid < B_LAST denotes a improvement
+ * separating the value set: a cid < B_LAST denotes an improvement
  * (including wonders). A cid >= B_LAST denotes a unit with the
  * unit_type_id of (cid - B_LAST).
  */

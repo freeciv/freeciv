@@ -100,7 +100,7 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
 /**********************************************************************//**
   Iterate over the pixel boundaries of the rectangle and pick the tiles
   whose center falls within. Axis pixel incrementation is half tile size to
-  accomodate tilesets with varying tile shapes and proportions of X / Y.
+  accommodate tilesets with varying tile shapes and proportions of X / Y.
 
   These operations are performed on the tiles:
   -  Make tiles that contain owned cities hilited
