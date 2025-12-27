@@ -794,7 +794,7 @@ bool actres_creates_extra(enum action_result result,
     return FALSE;
   }
 
-  if (pextra == NULL || !pextra->buildable) {
+  if (pextra == nullptr || !pextra->buildable) {
     return FALSE;
   }
 
@@ -911,7 +911,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   case ACTRES_MARKETPLACE:
     {
       /* Checked in action_hard_reqs_actor() */
-      fc_assert_ret_val(homecity != NULL, TRI_NO);
+      fc_assert_ret_val(homecity != nullptr, TRI_NO);
 
       /* Can't establish a trade route or enter the market place if the
        * cities can't trade at all. */
@@ -974,7 +974,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
       } else {
         square_iterate(nmap, target->tile,
                        game.info.citymindist - 1, otile) {
-          if (tile_city(otile) != NULL
+          if (tile_city(otile) != nullptr
               && can_player_see_tile(actor->player, otile)) {
             /* Known to be blocked by citymindist */
             return TRI_NO;
@@ -1059,7 +1059,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   case ACTRES_HOME_CITY:
     /* Reason: can't change to what is. */
     /* Info leak: The player knows their unit's current home city. */
-    if (homecity != NULL && homecity->id == target->city->id) {
+    if (homecity != nullptr && homecity->id == target->city->id) {
       /* This is already the unit's home city. */
       return TRI_NO;
     }
@@ -1115,7 +1115,8 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   case ACTRES_AIRLIFT:
     /* Reason: Keep the old rules. */
     /* Info leak: same as test_unit_can_airlift_to() */
-    switch (test_unit_can_airlift_to(nmap, omniscient ? NULL : actor->player,
+    switch (test_unit_can_airlift_to(nmap,
+                                     omniscient ? nullptr : actor->player,
                                      actor->unit, target->city)) {
     case AR_OK:
       return TRI_YES;
@@ -1209,7 +1210,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
 
   case ACTRES_CULTIVATE:
     pterrain = tile_terrain(target->tile);
-    if (pterrain->cultivate_result == NULL) {
+    if (pterrain->cultivate_result == nullptr) {
       return TRI_NO;
     }
     if (!terrain_surroundings_allow_change(nmap, target->tile,
@@ -1222,7 +1223,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
 
   case ACTRES_PLANT:
     pterrain = tile_terrain(target->tile);
-    if (pterrain->plant_result == NULL) {
+    if (pterrain->plant_result == nullptr) {
       return TRI_NO;
     }
     if (!terrain_surroundings_allow_change(nmap, target->tile,
@@ -1234,7 +1235,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
     break;
 
   case ACTRES_ROAD:
-    if (target_extra == NULL) {
+    if (target_extra == nullptr) {
       return TRI_NO;
     }
     if (!is_extra_caused_by(target_extra, EC_ROAD)) {
@@ -1248,7 +1249,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
     break;
 
   case ACTRES_BASE:
-    if (target_extra == NULL) {
+    if (target_extra == nullptr) {
       return TRI_NO;
     }
     if (!is_extra_caused_by(target_extra, EC_BASE)) {
@@ -1262,7 +1263,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
     break;
 
   case ACTRES_MINE:
-    if (target_extra == NULL) {
+    if (target_extra == nullptr) {
       return TRI_NO;
     }
     if (!is_extra_caused_by(target_extra, EC_MINE)) {
@@ -1276,7 +1277,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
     break;
 
   case ACTRES_IRRIGATE:
-    if (target_extra == NULL) {
+    if (target_extra == nullptr) {
       return TRI_NO;
     }
     if (!is_extra_caused_by(target_extra, EC_IRRIGATION)) {
@@ -1296,7 +1297,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
     }
 
     {
-      bv_extras pspresent = get_tile_infrastructure_set(target->tile, NULL);
+      bv_extras pspresent = get_tile_infrastructure_set(target->tile, nullptr);
       bv_extras psworking = get_unit_tile_pillage_set(target->tile);
       bv_extras pspossible;
 
@@ -1336,7 +1337,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
         return TRI_NO;
       }
 
-      if (target_extra != NULL) {
+      if (target_extra != nullptr) {
         if (!game.info.pillage_select) {
           /* Hobson's choice (this case mostly exists for old clients) */
           /* Needs to match what unit_activity_assign_target chooses */
@@ -1359,11 +1360,11 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
 
   case ACTRES_CLEAN:
     {
-      const struct extra_type *pextra = NULL;
+      const struct extra_type *pextra = nullptr;
 
       pterrain = tile_terrain(target->tile);
 
-      if (target_extra != NULL) {
+      if (target_extra != nullptr) {
         if (tile_has_extra(target->tile, target_extra)
             && (is_extra_removed_by(target_extra, ERM_CLEAN))) {
           pextra = target_extra;
@@ -1377,7 +1378,8 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
                                     actor->unit);
       }
 
-      if (pextra != NULL && pterrain->extra_removal_times[extra_index(pextra)] > 0
+      if (pextra != nullptr
+          && pterrain->extra_removal_times[extra_index(pextra)] > 0
           && can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
@@ -1599,7 +1601,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
        * what user really wants.
        * Allow bombing when player does not know if there's units in
        * target tile. */
-      if (tile_city(target->tile) == NULL
+      if (tile_city(target->tile) == nullptr
           && fc_funcs->player_tile_vision_get(target->tile, actor->player,
                                               V_MAIN)
           && fc_funcs->player_tile_vision_get(target->tile, actor->player,
