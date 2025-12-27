@@ -1,7 +1,7 @@
 #!/bin/sh
 
 files=$(find $1 -name "*.ruleset" \
-             -o -name "*.tileset" \
+             -o -name "*.tilespec" \
              -o -name "*.spec" \
              -o -name "*.lua" \
              -o -name "*.modpack" \
