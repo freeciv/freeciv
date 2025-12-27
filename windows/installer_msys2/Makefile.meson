@@ -72,13 +72,15 @@ CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=77
+ICUVER=78
 RAV1E=librav1e.dll
 SVTAV1ENV=libSvtAv1Enc-3.dll
+XML2=libxml2-16.dll
 else
 ICUVER=75
 RAV1E=rav1e.dll
 SVTAV1ENV=libSvtAv1Enc-2.dll
+XML2=libxml2-2.dll
 endif
 
 #
@@ -256,7 +258,7 @@ COMMON_DLLS := \
 	liblcms2-2.dll \
 	liblqr-1-0.dll \
 	libltdl-7.dll \
-	libxml2-2.dll \
+	$(XML2) \
 	libraqm-0.dll \
 	libunistring-5.dll \
 	exchndl.dll \
