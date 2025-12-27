@@ -847,6 +847,11 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Bombard Lethal". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD_LETHAL);
+  } else if (is_action_enabled_unit_on_stack(nmap, ACTION_BOMBARD_LETHAL2,
+                                             punit, ptile)) {
+    /* Choose "Bombard Lethal 2". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_BOMBARD_LETHAL2);
   } else if (is_action_enabled_unit_on_stack(nmap, ACTION_BOMBARD,
                                              punit, ptile)) {
     /* Choose "Bombard". */
@@ -862,6 +867,11 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Bombard 3". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD3);
+  } else if (is_action_enabled_unit_on_stack(nmap, ACTION_BOMBARD4,
+                                             punit, ptile)) {
+    /* Choose "Bombard 4". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_BOMBARD4);
   } else if (is_action_enabled_unit_on_stack(nmap, ACTION_NUKE_UNITS,
                                              punit, ptile)) {
     /* Choose "Nuke Units". */
@@ -898,11 +908,21 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose regular attack. */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_ATTACK);
+  } else if (is_action_enabled_unit_on_stack(nmap, ACTION_ATTACK2,
+                                             punit, ptile)) {
+    /* Choose regular attack 2. */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_ATTACK2);
   } else if (is_action_enabled_unit_on_stack(nmap, ACTION_SUICIDE_ATTACK,
                                              punit, ptile)) {
     /* Choose suicide attack (explode missile). */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_SUICIDE_ATTACK);
+  } else if (is_action_enabled_unit_on_stack(nmap, ACTION_SUICIDE_ATTACK2,
+                                             punit, ptile)) {
+    /* Choose suicide attack (explode missile) 2. */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_SUICIDE_ATTACK2);
   } else if ((tcity = tile_city(ptile))
              && is_action_enabled_unit_on_city(nmap, ACTION_CONQUER_CITY,
                                                punit, tcity)) {
