@@ -4178,23 +4178,6 @@ void real_menus_init(void)
   if (!menus_built) {
     return;
   }
-
-#ifdef MENUS_GTK3
-
-  if (!can_client_change_view()) {
-    menu_entry_group_set_sensitive(MGROUP_ALL, FALSE);
-
-    return;
-  }
-
-  menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
-  menu_entry_group_set_sensitive(MGROUP_PLAYER, client_has_player());
-
-  menu_entry_set_sensitive("SHOW_NATIONAL_BORDERS",
-                           BORDERS_DISABLED != game.info.borders);
-
-  view_menu_update_sensitivity();
-#endif /* MENUS_GTK3 */
 }
 
 /**********************************************************************//**

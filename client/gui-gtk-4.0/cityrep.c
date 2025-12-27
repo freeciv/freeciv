@@ -106,10 +106,6 @@ static GtkTreeSelection *city_selection;
 static GtkListStore *city_model;
 #define CRD_COL_CITY_ID (0 + NUM_CREPORT_COLS)
 
-#ifdef MENUS_GTK3
-static void popup_select_menu(GtkMenuShell *menu, gpointer data);
-#endif /* MENUS_GTK3 */
-
 static void recreate_production_menu(GActionGroup *group);
 static void recreate_select_menu(GActionGroup *group);
 static void recreate_sell_menu(GActionGroup *group);
@@ -117,9 +113,6 @@ static void recreate_sell_menu(GActionGroup *group);
 static GtkWidget *city_center_command;
 static GtkWidget *city_popup_command;
 static GtkWidget *city_buy_command;
-#ifdef MENUS_GTK3
-static GtkWidget *city_sell_command;
-#endif /* MENUS_GTK3 */
 static GtkWidget *city_total_buy_cost_label;
 
 static GMenu *prod_menu = NULL;
@@ -324,14 +317,6 @@ static void append_impr_or_unit_to_menu(GMenu *menu,
 
   GtkSizeGroup *size_group[3];
 
-#ifdef MENUS_GTK3
-  const char *markup[3] = {
-    "weight=\"bold\"",
-    "",
-    ""
-  };
-#endif
-
   if (city_operation != CO_NONE) {
     GPtrArray *selected;
     ITree it;
@@ -381,11 +366,6 @@ static void append_impr_or_unit_to_menu(GMenu *menu,
     GMenuItem *menu_item;
     char actbuf[256];
     GSimpleAction *act;
-#ifdef MENUS_GTK3
-    char txt[256];
-    GtkWidget *hgrid, *label;
-    int grid_col = 0;
-#endif /* MENUS_GTK3 */
 
     get_city_dialog_production_row(row, sizeof(buf[0]), &target, NULL);
 
@@ -402,57 +382,11 @@ static void append_impr_or_unit_to_menu(GMenu *menu,
     g_signal_connect(act, "activate", callback,
                      GINT_TO_POINTER(cid_encode(target)));
     menu_item_append_unref(menu, menu_item);
-
-#ifdef MENUS_GTK3
-    hgrid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 18);
-    gtk_container_add(GTK_CONTAINER(menu_item), hgrid);
-
-    for (i = 0; i < 3; i++) {
-      if (row[i][0] == '\0') {
-        continue;
-      }
-
-      if (city_operation == CO_SELL && i != 0) {
-        continue;
-      }
-
-      fc_snprintf(txt, ARRAY_SIZE(txt), "<span %s>%s</span>",
-                  markup[i], row[i]);
-
-      label = gtk_label_new(NULL);
-      gtk_label_set_markup(GTK_LABEL(label), txt);
-
-      switch (i) {
-        case 0:
-          gtk_widget_set_halign(label, GTK_ALIGN_START);
-          gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-        break;
-        case 2:
-          gtk_widget_set_halign(label, GTK_ALIGN_END);
-          gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-          break;
-        default:
-          break;
-      }
-
-      gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
-      gtk_size_group_add_widget(size_group[i], label);
-    }
-
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-    g_signal_connect(menu_item, "activate", callback,
-                     GINT_TO_POINTER(cid_encode(target)));
-#endif /* MENUS_GTK3 */
   }
 
   for (i = 0; i < 3; i++) {
     g_object_unref(size_group[i]);
   }
-
-#ifdef MENUS_GTK3
-  gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (targets_used > 0));
-#endif
 }
 
 /************************************************************************//**
@@ -1939,32 +1873,11 @@ static void update_total_buy_cost(void)
 ****************************************************************************/
 static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
-#ifdef MENUS_GTK3
-  int n;
-  bool obs_may, plr_may;
-
-  n = gtk_tree_selection_count_selected_rows(selection);
-  obs_may = n > 0;
-  plr_may = obs_may && can_client_issue_orders();
-#endif /* MENUS_GTK3 */
-
   update_governor_menu();
-
-#ifdef MENUS_GTK3
-  gtk_widget_set_sensitive(city_center_command, obs_may);
-  gtk_widget_set_sensitive(city_popup_command, obs_may);
-  gtk_widget_set_sensitive(city_buy_command, plr_may);
-#endif /* MENUS_GTK3 */
 
   recreate_production_menu(cityrep_group);
   recreate_select_menu(cityrep_group);
   recreate_sell_menu(cityrep_group);
-
-#ifdef MENUS_GTK3
-  if (!plr_may) {
-    gtk_widget_set_sensitive(city_sell_command, FALSE);
-  }
-#endif /* MENUS_GTK3 */
 
   update_total_buy_cost();
 }
