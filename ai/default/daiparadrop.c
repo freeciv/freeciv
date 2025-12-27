@@ -364,7 +364,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
     }
   } square_iterate_end;
 
-  total = adv_data_get(pplayer, NULL)->stats.units.paratroopers;
+  total = adv_data_get(pplayer, NULL)->stats.units.teleporters;
   total_cities = city_list_size(pplayer->cities);
 
   if (total > total_cities) {
