@@ -1812,7 +1812,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
     secfile_insert_str(sfile, counter_behavior_name(pcounter->type), "%s.type", path);
     if ((NULL != pcounter->helptext)
         && (0 < strvec_size(pcounter->helptext))) {
-      save_strvec(sfile, pcounter->helptext, "%s.helptext", path);
+      save_strvec(sfile, pcounter->helptext, path, "helptext");
     }
 
   } counters_re_iterate_end;
