@@ -128,8 +128,7 @@ struct fc_settings
   bool show_new_turn_text;
   bool show_battle_log;
   Qt::SortOrder player_report_sort;
-  int city_repo_sort_col;
-  Qt::SortOrder city_report_sort;
+  QByteArray city_repo_columns;
   QByteArray city_geometry;
   QByteArray city_splitter1;
   QByteArray city_splitter2;
