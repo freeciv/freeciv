@@ -1214,8 +1214,7 @@ city_widget::~city_widget()
   delete c_i_d;
   delete list_model;
   delete filter_model;
-  gui()->qt_settings.city_repo_sort_col = header()->sortIndicatorSection();
-  gui()->qt_settings.city_report_sort = header()->sortIndicatorOrder();
+  gui()->qt_settings.city_repo_columns = header()->saveState();
 }
 
 /***********************************************************************//**
@@ -1225,9 +1224,8 @@ city_report::city_report(): QWidget()
 {
   layout = new QVBoxLayout;
   city_wdg = new city_widget(this);
-  if (gui()->qt_settings.city_repo_sort_col != -1) {
-    city_wdg->sortByColumn(gui()->qt_settings.city_repo_sort_col,
-                           gui()->qt_settings.city_report_sort);
+  if (!gui()->qt_settings.city_repo_columns.isEmpty()) {
+    city_wdg->header()->restoreState(gui()->qt_settings.city_repo_columns);
   }
   layout->addWidget(city_wdg);
   setLayout(layout);
