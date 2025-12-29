@@ -266,14 +266,23 @@
 
 1.10 My irrigated grassland produces only 2 food. Is this a bug?
 
-   No, it isn't. It's a feature. Your government is probably despotism,
-   which has a -1 output whenever a tile produces more than 2 units of
-   food/production/trade. You should change your government (see
-   Government) to get rid of this penalty.
+   No, it isn't. It's a feature. Your government is probably Despotism
+   or Tribal, which have a -1 output whenever a tile produces more
+   than 2 units of food/production/trade. You should change your government
+   (see Government) or build a relevant Wonder to get rid of this penalty.
 
 -------
 
-1.11 How do I play against computer players?
+1.11 I'm playing with civ2civ3 ruleset and my Engineers are unable
+to do terrain transformations
+
+   Unlike in classic ruleset, in civ2civ3 ruleset Engineers can do most
+   terrain transformations only once Fusion Power is known.
+   See help for unit Engineers for details.
+
+-------
+
+1.12 How do I play against computer players?
 
    See also the How do I create teams of AI or human players? section
    below.
@@ -305,7 +314,7 @@
 
 -------
 
-1.12 Can I build up the palace or throne room as in the commercial Civilization
+1.13 Can I build up the palace or throne room as in the commercial Civilization
 games?
 
    No. This feature is not present in Freeciv, and will not be until
@@ -313,7 +322,7 @@ games?
 
 -------
 
-1.13 Can I build land over sea/transform ocean to land?
+1.14 Can I build land over sea/transform ocean to land?
 
    Yes. You can do that by placing engineer units on a transport and going
    to the ocean tile you want to build land on (this must be in a land
@@ -325,7 +334,7 @@ games?
 
 -------
 
-1.14 Can I change settings or rules to get different types of games?
+1.15 Can I change settings or rules to get different types of games?
 
    Of course.
 
@@ -367,7 +376,7 @@ games?
 
 -------
 
-1.15 How compatible is Freeciv with the commercial Civilization games?
+1.16 How compatible is Freeciv with the commercial Civilization games?
 
    Freeciv was created as a multiplayer version of Civilization™ with
    players moving simultaneously. Rules and elements of Civilization II,
@@ -397,7 +406,7 @@ games?
 
 -------
 
-1.16 My opponents seem to be able to play two moves at once!
+1.17 My opponents seem to be able to play two moves at once!
 
    Freeciv's multiplayer facilities are asynchronous: during a turn, moves
    from connected clients are processed in the order they are received.
@@ -415,7 +424,7 @@ games?
 
 -------
 
-1.17 I am far superior to my opponent but their last city is on a 1x1 island so
+1.18 I am far superior to my opponent but their last city is on a 1x1 island so
 I cannot conquer it, and they won't give up. What can I do?
 
    Research 'amphibious warfare', build a marine, and get them.
@@ -428,7 +437,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.18 Why are the AI players so hard on 'novice' or 'easy'?
+1.19 Why are the AI players so hard on 'novice' or 'easy'?
 
    You are not expanding fast enough. Read the How to Play article for
    some general tips how to get a head start in the game.
@@ -439,7 +448,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.19 Why are the AI players so easy on 'hard'?
+1.20 Why are the AI players so easy on 'hard'?
 
    Several reasons. For example, the AI is heavily playtested under and
    customized to the default ruleset and server settings. Although there
@@ -459,7 +468,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.20 What distinguishes AI players from humans? What do the skill levels mean?
+1.21 What distinguishes AI players from humans? What do the skill levels mean?
 
    AI players in Freeciv operate in the server, partly before all clients
    move, partly afterwards. Unlike the clients, they can in principle
@@ -479,7 +488,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.21 How do I play on a rectangular grid?
+1.22 How do I play on a rectangular grid?
 
    It is possible to play with rectangular instead of hexagonal tiles. To
    do this you need to set your topology before the game starts; set this
@@ -497,7 +506,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.22 How do I create teams of AI or human players?
+1.23 How do I create teams of AI or human players?
 
    The GTK and Qt clients have a GUI for setting up teams - just right
    click on any player and assign them to any team.
@@ -523,7 +532,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.23 I want more action.
+1.24 I want more action.
 
    In Freeciv, expansion is everything, even more so than in the
    single-player commercial Civilization games. Some players find it very
@@ -543,7 +552,7 @@ I cannot conquer it, and they won't give up. What can I do?
 
 -------
 
-1.24 I can't see trade routes in the city dialog (GTK)
+1.25 I can't see trade routes in the city dialog (GTK)
 
    In the GTK client, you can see the effect of trade routes by left
    clicking and holding on the trade value in the Info panel of the city
