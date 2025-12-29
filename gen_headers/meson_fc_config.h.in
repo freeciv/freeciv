@@ -21,6 +21,12 @@
 #mesondefine AI_MOD_STATIC_TEX
 #mesondefine AI_MOD_STATIC_STUB
 
+/* Enable AI modules */
+#mesondefine AI_MODULES
+
+/* Directory to search AI modules from */
+#mesondefine AI_MODULEDIR
+
 #mesondefine DEFAULT_SOCK_PORT
 
 #define INIT_BRACE_BEGIN {

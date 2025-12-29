@@ -221,6 +221,10 @@ aimodules (array):
    * stub
   Default is to build classic and tex.
 
+dynaimod (boolean):
+  Whether to build im support for dynamic loading of AI modules.
+  Default is not to build the support.
+
 appimage (boolean):
   Make build suitable for AppImage packaging. This affects paths from
   which various resources are looked from, and produces build that

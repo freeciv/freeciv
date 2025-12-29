@@ -238,6 +238,30 @@ else
   priv_conf_data.set('LOCALEDIR', join_paths(localeprefix, get_option('localedir')))
 endif
 
+if meson.is_cross_build()
+  cross_inc_str = meson.get_external_property('cross_inc_path', '')
+  cross_inc_path = [cross_inc_str]
+  cross_lib_path = [meson.get_external_property('cross_lib_path', '')]
+  crosser = meson.get_external_property('crosser', false)
+
+  # emscripten build is always cross-build, so check it only here
+  if c_compiler.compiles(
+'''#ifndef __EMSCRIPTEN__
+  error fail
+#endif''',
+  name: 'emscripten')
+    emscripten = true
+  else
+    emscripten = false
+  endif
+else
+  cross_inc_str = ''
+  cross_inc_path = []
+  cross_lib_path = []
+  crosser = false
+  emscripten = false
+endif
+
 server_type = get_option('server')
 
 if server_type == 'freeciv-web'
@@ -252,10 +276,23 @@ if server_type == 'disabled'
   pub_conf_data.set('FREECIV_AI_MOD_LAST', 1)
 
   priv_conf_data.set('AI_MOD_STATIC_STUB', 1)
-    priv_conf_data.set('AI_MOD_DEFAULT', '"stub"')
+  priv_conf_data.set('AI_MOD_DEFAULT', '"stub"')
+  dynai_dep = []
 else
   aimodcount = 0
   aisrc = []
+
+  if get_option('dynaimod')
+    priv_conf_data.set('AI_MODULES', 1)
+    priv_conf_data.set('AI_MODULEDIR',
+                       '"' + join_paths(get_option('libdir'), 'fcai') + '"')
+    dynai_dep = c_compiler.find_library('ltdl', dirs: cross_lib_path)
+
+    # Reserve slots for two dynamic modules
+    aimodcount = aimodcount + 2
+  else
+    dynai_dep = []
+  endif
 
   if get_option('aimodules').contains('classic')
     priv_conf_data.set('AI_MOD_STATIC_CLASSIC', 1)
@@ -289,30 +326,6 @@ else
     error('No AI modules enabled, but at least one needed')
   endif
   pub_conf_data.set('FREECIV_AI_MOD_LAST', aimodcount)
-endif
-
-if meson.is_cross_build()
-  cross_inc_str = meson.get_external_property('cross_inc_path', '')
-  cross_inc_path = [cross_inc_str]
-  cross_lib_path = [meson.get_external_property('cross_lib_path', '')]
-  crosser = meson.get_external_property('crosser', false)
-
-  # emscripten build is always cross-build, so check it only here
-  if c_compiler.compiles(
-'''#ifndef __EMSCRIPTEN__
-  error fail
-#endif''',
-  name: 'emscripten')
-    emscripten = true
-  else
-    emscripten = false
-  endif
-else
-  cross_inc_str = ''
-  cross_inc_path = []
-  cross_lib_path = []
-  crosser = false
-  emscripten = false
 endif
 
 if get_option('appimage')
@@ -1675,7 +1688,7 @@ server_lib = static_library('fc_server',
   sources: [ verhdr, pack_server,
              tolua.process('server/scripting/tolua_fcdb.pkg',
                            'server/scripting/tolua_server.pkg')],
-  dependencies: lua_dep
+  dependencies: [ lua_dep, dynai_dep ]
   )
 
 endif

@@ -79,6 +79,11 @@ option('aimodules',
        value: ['classic', 'tex'],
        description: 'AI modules to include to the server')
 
+option('dynaimod',
+       type: 'boolean',
+       value: false,
+       description: 'Support dynamically loadable AI modules')
+
 option('appimage',
        type: 'boolean',
        value: false,
