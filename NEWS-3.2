@@ -1,10 +1,105 @@
 ========================
-Welcome to Freeciv 3.2.1
+Welcome to Freeciv 3.2.2
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.1 to 3.2.2
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.2>, 2026-01-01)
+
+3.2.2 is a generic bugfix release in the freeciv-3.2 series.
+
+Server / General
+
+    * Fixed backward compatibility in loading unit actions
+      from a savegame RM#1611
+    * Fixed crashes after continuing game from a savegame
+      RM#1741 RM#1768 RM#1769
+    * Added sanitycheck for goto consistency RM#1750
+    * Fixed an goto consistency issue RM#1766
+
+Changes affecting players (supplied rulesets)
+
+    * civ2civ3 / sandbox
+         + Refactored unit gold upkeep implementation for improved
+           help in the help system RM#1267
+
+Changes affecting other rulesets / modders
+
+    * Sanity check ruleset against unit hitpoints being zero RM#1676
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1678 RM#1704 RM#1725 RM#1734 RM#1503 RM#1757 RM#1784 RM#1771
+
+AI
+
+    * Fixed an error after player is added mid-game RM#87
+
+Clients
+
+    * Fixed nations dialog crash for dead players in the list RM#1708
+    * Fixed nations dialog crash after contact with another player
+      is re-established RM#1793 RM#1811
+
+    * gtk
+         + Added Volume controls to Game menu RM#1718 RM#1717
+         + gtk3.22 only: Fixed Show Stack Size shortcut in MacOS RM#1483
+         + gtk4 only: Fixed some letters being unavailable in chat
+           RM#1435
+
+    * qt
+         + Fixed disappearing "About..." menu items in MacOS RM#1672
+         + Worked around Qt-6.9 theming issue RM#1697
+         + Message window is now cleared between games RM#1239
+         + Added Volume controls to Game menu RM#1630
+         + Fixed svg flag drawing with full citybar disabled RM#1666
+         + Fixed gotodlg crash after city destruction RM#1827
+
+    * sdl
+         + Fixed text placement on combo widgets RM#1727
+
+
+Help / Documentation
+
+    * Corrected Martian city name Apollinaris Patera RM#1777 RM#1775
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1764 RM#1812 RM#1792
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1715 RM#1698 RM#1722 RM#1151 RM#1785
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+           Galician (99% core, 99% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1748 RM#1795 RM#1753
+    * Meson based build improvements
+         + Improved finding of sdl libraries RM#1703 RM#1706
+         + Fixes to build system internal dependency definitions,
+           fixing intermittent and rare build failures RM#1788
+    * Flatpak updates
+         + Freedesktop Platform updated to 25.08 RM#1685
+         + Gnome Platform updated to 49 RM#1707
+         + Qt Platform updated to 6.10 RM#1728
+         + Added sdl3-client flatpak RM#1744
+    * emscripten updated to version 4.0.17 RM#1714
+    * Fixed an issue in sdl3-client build on Windows RM#1723
+    * Updated SDL3_mixer support to use stable SDL3_mixer API RM#1713
+    * Updates to AppImage building
+         + Updated linuxdeploy to version 1-alpha-20251107-1 RM#1802
 
 
 CHANGES FROM 3.2.0 to 3.2.1
