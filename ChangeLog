@@ -1,3 +1,754 @@
+commit 38d0220bc4fdbf67bd0502262d7f2abab5f39e41
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 2 00:08:44 2026 +0200
+
+    'make update-po' before 3.2.2 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit edf867aa93fd73f12d936696df125b8ee8ca5836
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 2 00:01:45 2026 +0200
+
+    FAQ: Update latest stable version number to 3.2.2
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 34047cfbb6e12669a997438bcf65dc99c1ff96b1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 1 16:11:02 2026 +0200
+
+    NEWS-3.2: Add 3.2.2 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d38d74a38ec55d60c0b39ff56650db0e4d4d324e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 1 13:32:44 2026 +0200
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2025-12-29)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 108020e001631b73ede68e1460812cf976ab8dee
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Dec 29 21:17:23 2025 +0200
+
+    FAQ: Refresh from wiki
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c7ac025f60a18bf7e0035f378819c6c564f6c1db
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 7 20:39:54 2025 +0200
+
+    martian.ruleset: Correct spelling of "Apollinaris Patera"
+
+    Reported by Gavroche Hugo
+
+    See RM #1775
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6520d120a1b7c14957657771ef6907b3f1bfc81e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Dec 8 03:32:38 2025 +0200
+
+    INSTALL: Drop '+' from the name of default gtk-client
+
+    Default client is gtk4-client, and gtk version 4 and later
+    don't have '+' in their name.
+
+    See RM #1785
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5c2ab0c40279c20f626b5e29c29fac25893aa009
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Sun Dec 28 07:55:26 2025 +0500
+
+    Update for Russian translation
+
+commit a581a62173431b13e908688c4642a7e6de6a2366
+Author: John Robertson <jro@advops.com>
+Date:   Sat Dec 20 00:12:02 2025 -0700
+
+    Qt: Fix gotodlg crash after city destruction
+
+    See RM #1827
+
+commit 6c25dab593bc6a3e9db9b7fe8adfb219ca417bc6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 29 14:57:47 2025 +0200
+
+    CI: Rename clang_debug as clang-debug
+
+    See RM #1771
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 03bd40839993aa7f448e4d7ba602dd42cf8235fb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Dec 8 02:06:21 2025 +0200
+
+    Update linuxdeploy to version 1-alpha-20251107-1
+
+    See RM #1802
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0e8cb3485436bb8da09c96fa7f347cdaa8bd35ce
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Dec 24 12:13:05 2025 +0200
+
+    Comment typofix: "initialze" -> "initialize"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7c758cf05acefa7182ea7d01b628a5350c6b6e78
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Dec 24 10:41:25 2025 +0200
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 34122a6466fb332df6c7986b4d4e5b8f0d9aa3b3
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Dec 1 22:06:49 2025 -0500
+
+    client: Make it clear that amount of one time bonus is an estimate
+
+    When the target city is foreign, client does not fully know
+    how much the "Enter Marketplace" trade value would be.
+
+    See RM #1792
+
+commit efd28539d6473fc0f41c4aa4fff8ccd820447871
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 14 06:09:06 2025 +0200
+
+    helpdata.txt: Document '<' and '>' volume control keys
+
+    Drop documentation of old deprecated volume control keys,
+    even though they still work, for now, on some clients.
+
+    See RM #1812
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0cf966f7098289b265b1e71c2e36743c48f9c8d8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 29 09:20:44 2025 +0200
+
+    Make citizens_unit_nationality() more robust
+
+    - Make 'pop_cost' an unsigned value
+    - Assert that 'pop_cost' is not zero
+    - Give 'pcity' parameter a nonnull attribute
+    - Assert that 'dominant' is not NULL in the end
+    - Be prepared for 'dominant' being NULL in the end
+
+    See RM #1784
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 22aa35fbd614136a61a888055554ba8e3d8ddeeb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 14 05:16:36 2025 +0200
+
+    Work around client crash with server < 3.2.2
+
+    Server < 3.2.2 may fail to send the other player government
+    when contact is re-established. That led to crash in client
+    diplomacy dialog. Work around the issue in the client side.
+
+    Reported by David Fernandez
+
+    See RM #1811
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 92fc9906a7dab9fcdbf280f968c705ec31308e21
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 23 22:03:34 2025 +0200
+
+    handle_unit_change_activity_real(): Clear goto_tile later
+
+    Only clear goto_tile when it's certain that the activity
+    will be changed, to make sure that previous ACTIVITY_GOTO
+    is not left in effect with the cleared goto_tile.
+
+    Reported by John Robertson
+
+    See RM #1766
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 148754719476ba16c76198041011b35817046f24
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Nov 22 17:32:14 2025 -0500
+
+    gtk4: Stop menu shortcut keys from blocking characters in chat
+
+    Reported by Alexandr Ignatiev
+
+    See RM #1435
+
+commit 49c67236603566ac76d9f0684230812770baceeb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 22 12:16:10 2025 +0200
+
+    Update gettext bootstrap files from gettext-0.26
+
+    See RM #1753
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4e25ce9829e6fa10d47c2afacfa30ed889222bee
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 14 07:10:37 2025 +0200
+
+    Comment typofix: "fuction" -> "function"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7eaa43095703c23228fa77021f4205b8bbfef051
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Dec 2 05:35:56 2025 +0200
+
+    Send info about the other player when re-establishing contact
+
+    Lack of updated government info led to crash in client
+    diplomacy dialog.
+
+    Reported by David Fernandez
+
+    See RM #1793
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b768965d4b86350fe57e8d9300fda71f247b6ac8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 14 04:08:03 2025 +0200
+
+    Msgmerge Galician translation from main branch
+
+    Main translation updates by ninjum
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ad03def529e9b251e63dc00fba55ebd0ec63e1e8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Nov 27 16:07:27 2025 +0200
+
+    martian.ruleset: Place city names one per line
+
+    See RM #1777
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3294459466615c7c4e794a87c5d3318809fabdb3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 19 03:00:35 2025 +0200
+
+    sanitycheck.c: Check that goto_tile is set for ACTIVITY_GOTO
+
+    Inconsistencies reported by John Robertson
+
+    See RM #1750
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8d22c78fe17c9edee8649aabae2429a5edfabbb6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Nov 4 23:13:37 2025 +0200
+
+    Fix svg flag drawing with full citybar disabled
+
+    Reported by Dean Brown
+
+    See RM #1666
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bca7f093ad6a8af2428b30454639ab78275c62f2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Dec 2 20:44:57 2025 +0200
+
+    gnulib-common.m4: Refresh from gnulib
+
+    Serial remains 114
+
+    See RM #1795
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b811258fe8c8775a154b68a3ebaa73bedae90ab9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 22 23:01:03 2025 +0200
+
+    CI: Update codeql-action to v4
+
+    See RM #1757
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 193d7e63aed1c081ee2466d204335f24f832acd6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 30 06:55:59 2025 +0200
+
+    Meson: Make server binary build to depend on verhdr
+
+    See RM #1788
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f150fd46fc4f5a1a345802e3b172354d51a02dc0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Nov 17 04:11:29 2025 +0200
+
+    Flatpak: Build sdl3-client
+
+    See RM #1744
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 17a014624de655cb67de238df6f1667bc0885478
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 26 05:06:37 2025 +0200
+
+    savegame3.c: version-gate goto_tile sanity logging
+
+    See RM #1769
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 297d270f44d60ccf7392974ee95cafbcff83eb0b
+Author: Dino <macwiz23@comcast.net>
+Date:   Sun Nov 9 23:23:36 2025 -0500
+
+    gtk3.22: Fix Show Stack Size shortcut in MacOS
+
+    See RM #1483
+
+commit 246eb406cb63f68145b12a9400cf3e742a7b6bff
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 23 23:57:47 2025 +0200
+
+    README.sandbox: Fix typo "moves" -> "move"
+
+    See RM #1764
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 14e527cff62543ae5aa8e9142b9d58d74fccc171
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Nov 11 23:10:49 2025 +0200
+
+    INSTALL.meson: Document all project definition file keys
+
+    See RM #1151
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2cc20c9d0c76114dd7b2c7123e0a294c7bf331bd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 30 11:01:49 2025 +0200
+
+    Comment typofix: "relativ" / "absolut" -> "relative" / "absolute"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ddedb23cb40c935c179f8c7b861fc67567d9f2a4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Nov 24 02:03:59 2025 +0200
+
+    savegame: Do not nullify goto_tile from ACTIVITY_GOTO unit
+
+    goto_tile was being nullified from units without orders
+    even when they have ACTIVITY_GOTO. This led to crash later.
+
+    Reported by David Fernandez
+
+    See RM #1768
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d2520bd988c871721d0581e20a02306f3759c757
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Nov 20 23:57:49 2025 +0200
+
+    audio: Update SDL3_mixer support to use stable API
+
+    See RM #1713
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d4363299a1f563dca7d51abb6f50c7e2a74fec58
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 5 19:06:48 2025 +0200
+
+    Correct ruleset comment about custom unit class flags
+
+    See RM #1722
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cf0495666b6c632fa3613375505ece60f0fa124a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 19 01:45:04 2025 +0200
+
+    gnulib-common.m4: Update to serial 114
+
+    See RM #1748
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9bc0b482cbe720314796b819c3bea7021012473
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Nov 3 17:36:57 2025 -0500
+
+    Qt: Add Game menu items Volume Up & Volume Down
+
+    See RM #1630
+
+commit 61b8bae38158f187b8954ab38239200632264d54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 16 23:43:34 2025 +0200
+
+    savegame: Sanity check ACTIVITY_GOTO against valid goto_tile
+
+    Running ACTIVITY_GOTO with NULL goto_tile caused crash later on.
+
+    Reported by David Fernandez
+
+    See RM #1741
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b140601617935417efbac85dc7a5d4bacc51b492
+Author: Dino <macwiz23@comcast.net>
+Date:   Fri Feb 14 23:53:11 2025 -0500
+
+    Qt: Clear message window between games
+
+    See RM #1239
+
+commit 9c2b5ae79e4fc20d94a6bd95ac984f1691029571
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Nov 3 19:31:22 2025 +0200
+
+    SDL3_rotozoom.c: Include fc_prehdrs.h before windows.h
+
+    See RM #1723
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e048c7df984ed0067bc1a9e3c38223d5b3795a52
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Nov 21 01:05:44 2025 +0200
+
+    Comment typofix: "cant't" -> "can't"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 788bf644da422940c1944dee1c946a36ac2f7db7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 9 12:23:53 2025 +0200
+
+    Flatpak: Update Qt Sdk & Platform to 6.10
+
+    See RM #1728
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cd7fb7e931658db2c552426a49e2ce2c22814ec3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Nov 10 05:14:54 2025 +0200
+
+    vision.h: Update module documentation comment
+
+    See RM #1503
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8253fe7bd601e37fc927873d5d0b158c0b9f1935
+Author: Dino <macwiz23@comcast.net>
+Date:   Sun Nov 2 23:28:19 2025 -0500
+
+    civ2civ3/sandbox: Refactor unit gold upkeep
+
+    For the automatic help to produce better results.
+
+    See RM #1267
+
+commit cb569ddfd8bdc82d952412766648e528fe54fcc0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 9 23:59:56 2025 +0200
+
+    Open data phase for a player created midgame
+
+    See RM #87
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8b81ab8b50117591100c631c331044e5727028ec
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 12 17:45:00 2025 +0200
+
+    Audio: Let plugin.play() to know if track is music or sfx
+
+    See RM #1734
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2c3ccfcce7f2c313cdc840e8b3a1bf915c7cf631
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Nov 3 17:08:23 2025 -0500
+
+    gtk3.22: Add Game menu items Volume Up & Volume Down
+
+    See RM #1717
+
+commit e92d7a118e709374fd2654f5b9b8e1170b3e5b0e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 15 13:56:18 2025 +0200
+
+    Comment typofix: "proprety" -> "property"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c468730f5a2c023d516f399f92d472d875efccad
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 9 22:24:03 2025 +0200
+
+    sdl: Fix combo widget text placement
+
+    See RM #1727
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0f9def72d55638b9142e2a681d272dc29fcf1e54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 26 10:09:06 2025 +0200
+
+    savegame: Respect savegame item order when loading action sub targets
+
+    See RM #1611
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 52447effbdcd9681dcc499c035fd2cca320fa0ef
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Nov 3 16:52:06 2025 -0500
+
+    gtk4: Add Game menu items Volume Up & Volume Down
+
+    See RM #1718
+
+commit 6708b595b08007d5cf8d532d58fc62444addfc92
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Nov 3 21:25:32 2025 +0200
+
+    CI: Update mac runner to macos-26
+
+    See RM #1725
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1140eed339c0093e03d573817ef2d19ab1f7e316
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 2 09:14:58 2025 +0200
+
+    Qt: Work around Qt-6.9 theming issue
+
+    See RM #1697
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6a102fe461cedfc3d711ad8d969c3a11a1f429b3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 25 09:30:24 2025 +0300
+
+    Update to emscripten 4.0.17
+
+    See RM #1714
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5a19926c0a5b3302be8a351185166e6eab9b3f75
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 5 22:56:58 2025 +0200
+
+    Comment typofix: "botton" -> "bottom"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3d224a9c16b85e2f146fbbeb28e8ed2f5e792db9
+Author: Dino <macwiz23@comcast.net>
+Date:   Wed Oct 8 22:51:57 2025 -0400
+
+    Rulesets: Document max numbers of all ruleset objects
+
+    See RM #1698
+
+commit 20e72a920a7e66d56d0ae667d54ba554c25e0261
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 25 05:40:40 2025 +0300
+
+    BUGS: Drop '+' from the name of gtk
+
+    See RM #1715
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 564a816610c4b54e2ec37b232a6eb0342e34bddf
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Oct 25 19:20:40 2025 -0400
+
+    Qt: Fix disappearing "About..." menu items in MacOS
+
+    See RM #1672
+
+commit 2d307302a95fb67ae3baf7f6248364799de74591
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 2 16:59:28 2025 +0200
+
+    FAQ: Refresh from wiki
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 70c1a24c274d0d26cffe1418a23b5ea130997998
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Nov 2 12:21:47 2025 +0200
+
+    Comment typofix: "devided" -> "divided"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 76c266d02d35c3f25993d03cc334be2c2fbe6d2b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 25 06:44:51 2025 +0300
+
+    CI: Update setup-msys2 to version 2.29.0
+
+    See RM #1704
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2c2ababd60775c1754e124d56f8550f641e949d7
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Oct 18 15:16:23 2025 -0400
+
+    Sanity check ruleset against unit hitpoints being zero
+
+    See RM #1676
+
+commit 8350575c5959e5d7576b18d53efa01b3833f7129
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 21 23:00:31 2025 +0300
+
+    Flatpak: Update gnome Sdk & Platform to 49
+
+    See RM #1707
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bd1e3ec6e9143d0d2eaceba162ab746eea43b5d4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 19 00:56:05 2025 +0300
+
+    Fix crash on nations dialog for dead player government
+
+    When the player had no embassy with the player that is now dead,
+    but had recent contact with them, server does not send
+    the government information but the client assumed that it has it.
+
+    Reported by Peter Sergeant
+
+    See RM #1708
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 55d32d1c9b4ef0d6fe5e29882f46752f94c7b2ae
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 21 23:46:38 2025 +0300
+
+    Comment typofix: "delgate" -> "delegate"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 523877d27a6a12e6c91d1fd6e61b8e2afaf03223
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 11 21:45:23 2025 +0300
+
+    Flatpak: Update freedesktop Sdk & Platform to 25.08
+
+    See RM #1685
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6c10ed4aeae5e88cde338b35a7142de2cd23cc86
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Oct 16 03:18:35 2025 +0300
+
+    Meson: Fix lookup of sdl3 dependencies
+
+    See RM #1706
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c62b48ed79cb397632047f785d5482b06d422501
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 11 21:33:48 2025 +0300
+
+    Meson: Use dependency() instead of find_library() to find sdl
+
+    See RM #1703
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 25dea6705f7118fd1f2da80e6d3d14a9f19f98cd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 11 18:20:51 2025 +0300
+
+    CI: Update actions/checkout to version 5.0.0
+
+    See RM #1678
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7a24892d787f382cefe12914f1e3da197310a4cd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 11 03:37:08 2025 +0300
+
+    NEWS: Fix a typo in freeciv-3.2 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3bae95aeb623a9380b149e566c9edbb9123427df
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 10 22:54:21 2025 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 38dcf9ab18d91876ebd4a43750e5b9d097d0fda2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 10 22:48:35 2025 +0300
+
+    Finalize 3.2.1 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit c8613a0bfdc7c15d4d6d8277f2f0a7c390d0223f
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Oct 10 22:07:36 2025 +0300
