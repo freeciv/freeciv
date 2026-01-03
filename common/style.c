@@ -67,8 +67,6 @@ int style_count(void)
 **************************************************************************/
 int style_number(const struct nation_style *pstyle)
 {
-  fc_assert_ret_val(pstyle != nullptr, -1);
-
   return pstyle->id;
 }
 
@@ -77,8 +75,6 @@ int style_number(const struct nation_style *pstyle)
 **************************************************************************/
 int style_index(const struct nation_style *pstyle)
 {
-  fc_assert_ret_val(pstyle != nullptr, -1);
-
   return pstyle - styles;
 }
 
@@ -160,8 +156,6 @@ void music_styles_free(void)
 **************************************************************************/
 int music_style_number(const struct music_style *pms)
 {
-  fc_assert_ret_val(pms != nullptr, -1);
-
   return pms->id;
 }
 
