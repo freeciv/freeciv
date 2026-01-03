@@ -29,11 +29,8 @@
     <url type="donation">https://www.freeciv.org/donate.html</url>
     <url type="translate">https://www.freeciv.org/wiki/Translations</url>
     <url type="contact">https://www.freeciv.org/maillists.html</url>
-
-    <!-- flatpak does not understand these
     <url type="vcs-browser">https://github.com/freeciv/freeciv/</url>
     <url type="contribute">https://www.freeciv.org/wiki/How_to_Contribute</url>
-    -->
 
     <releases>
       [release]
