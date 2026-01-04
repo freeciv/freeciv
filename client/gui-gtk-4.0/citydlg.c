@@ -896,6 +896,7 @@ static GtkWidget *create_citydlg_improvement_list(struct city_dialog *pdialog)
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   gtk_widget_set_name(view, "small_font");
@@ -1002,6 +1003,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     production_combo
       = gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
     gtk_widget_set_hexpand(production_combo, TRUE);
+    gtk_widget_add_css_class(GTK_WIDGET(production_combo), "large-pixbufs");
     pdialog->overview.production_combo = production_combo;
     gtk_box_append(GTK_BOX(hbox), production_combo);
     g_object_unref(production_store);

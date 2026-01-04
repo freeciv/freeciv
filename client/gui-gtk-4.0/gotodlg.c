@@ -183,6 +183,7 @@ static void create_goto_dialog(void)
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(goto_list_store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   g_object_unref(goto_list_store);
   goto_list_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
