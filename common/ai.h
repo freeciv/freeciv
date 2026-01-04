@@ -319,6 +319,9 @@ struct ai_type
     /* Called for player AI when revolution starts. */
     void (*revolution_start)(struct player *pplayer);
 
+    /* Called for player AI once a turn, in sanitychecking phase */
+    void (*check_sanity)(struct player *pplayer);
+
     /* These are here reserving space for future optional callbacks.
      * This way we don't need to change the mandatory capability of the AI module
      * interface when adding such callbacks, but existing modules just have these

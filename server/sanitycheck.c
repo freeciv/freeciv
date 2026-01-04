@@ -20,6 +20,7 @@
 #include "log.h"
 
 /* common */
+#include "ai.h"
 #include "city.h"
 #include "game.h"
 #include "government.h"
@@ -689,6 +690,10 @@ void real_sanity_check(const char *file, const char *function, int line)
   check_teams(file, function, line);
   check_researches(file, function, line);
   check_connections(file, function, line);
+
+  players_iterate(pplayer) {
+    CALL_PLR_AI_FUNC(check_sanity, pplayer, pplayer);
+  } players_iterate_end;
 }
 
 /**********************************************************************//**

@@ -119,6 +119,11 @@ it in for custom ai types to use by passing configure option --with-ai-lib
 6. Callback interface ChangeLog
 -------------------------------
 
+New in Freeciv 3.4:
+-------------------
+- Added 'check_sanity', called once a turn when sanity checking enabled
+
+
 New in Freeciv 3.2:
 -------------------
 - Added 'revolution_start', called when player's revolution gets activated

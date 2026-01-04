@@ -169,7 +169,7 @@ void dai_player_copy(struct ai_type *ait,
 }
 
 /**********************************************************************//**
-  Ai got control of the player.
+  AI got control of the player.
 **************************************************************************/
 void dai_gained_control(struct ai_type *ait, struct player *pplayer)
 {
@@ -185,4 +185,11 @@ void dai_gained_control(struct ai_type *ait, struct player *pplayer)
   }
 
   dai_assess_danger_player(ait, &(wld.map), pplayer);
+}
+
+/**********************************************************************//**
+  Run sanity checking for the AI player.
+**************************************************************************/
+void dai_sanity_check(struct ai_type *ait, struct player *pplayer)
+{
 }

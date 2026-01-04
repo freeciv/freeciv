@@ -590,6 +590,16 @@ static void cai_revolution_start(struct player *pplayer)
 }
 
 /**********************************************************************//**
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
+static void cai_sanity_check(struct player *pplayer)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_sanity_check(deftype, pplayer);
+}
+
+/**********************************************************************//**
   Setup player ai_funcs function pointers.
 **************************************************************************/
 bool fc_ai_classic_setup(struct ai_type *ai)
@@ -702,6 +712,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   /* ai->funcs.unit_info = NULL; */
 
   ai->funcs.revolution_start = cai_revolution_start;
+  ai->funcs.check_sanity = cai_sanity_check;
 
   return TRUE;
 }
