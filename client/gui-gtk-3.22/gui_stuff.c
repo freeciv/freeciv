@@ -481,7 +481,7 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
   dlg->v.window = window;
   g_signal_connect(window, "delete_event",
     G_CALLBACK(gui_dialog_delete_handler), dlg);
-	
+
   gtk_window_set_default_size(GTK_WINDOW(dlg->v.window),
                               dlg->default_width,
                               dlg->default_height);

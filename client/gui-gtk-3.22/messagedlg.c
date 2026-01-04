@@ -82,7 +82,7 @@ static void create_messageopt_dialog(void)
       "<b>Pop</b>up individual window"));
   gtk_widget_set_name(explanation, "comment_label");
   gtk_container_add(GTK_CONTAINER(shell->vbox), explanation);
-  gtk_widget_show(explanation);	
+  gtk_widget_show(explanation);
 
   form = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(shell->vbox), form);
