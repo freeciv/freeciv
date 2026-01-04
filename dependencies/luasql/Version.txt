@@ -6,6 +6,8 @@ Some modifications have been done to them:
   Fix has been submitted to upstream.
 - Cleared trailing spaces
   Equivalent patch submitted to upstream.
+- Fixed comment typos found by codespell
+  Fix has been submitted to upstream.
 
 Only the files needed by freeciv are included here, not entire luasql
 source directory hierarchy.

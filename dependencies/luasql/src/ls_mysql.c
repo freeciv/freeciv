@@ -180,7 +180,7 @@ static void create_colinfo (lua_State *L, cur_data *cur) {
 
 
 /*
-** Closes the cursos and nullify all structure fields.
+** Closes the cursor and nullify all structure fields.
 */
 static void cur_nullify (lua_State *L, cur_data *cur) {
 	/* Nullify structure fields. */
@@ -191,7 +191,7 @@ static void cur_nullify (lua_State *L, cur_data *cur) {
 	luaL_unref (L, LUA_REGISTRYINDEX, cur->coltypes);
 }
 
-	
+
 /*
 ** Get another row of the given cursor.
 */
@@ -591,7 +591,7 @@ static int env_connect (lua_State *L) {
 	const char *unix_socket = luaL_optstring(L, 7, NULL);
 	const long client_flag = (long)luaL_optinteger(L, 8, 0);
 	MYSQL *conn;
-	getenvironment(L); /* validade environment */
+	getenvironment(L); /* validate environment */
 
 	/* Try to init the connection object. */
 	conn = mysql_init(NULL);
