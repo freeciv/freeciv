@@ -1170,6 +1170,7 @@ static void economy_report_init(struct economy_report *preport)
   store = economy_report_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_vexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
@@ -1991,6 +1992,7 @@ static void endgame_report_init(struct endgame_report *preport)
 
   view = gtk_tree_view_new();
   gtk_widget_set_name(view, "small_font");
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   preport->tree_view = GTK_TREE_VIEW(view);
 

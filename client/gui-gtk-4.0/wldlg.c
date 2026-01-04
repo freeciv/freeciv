@@ -1172,6 +1172,7 @@ GtkWidget *create_worklist(void)
   src_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(src_store));
   gtk_widget_set_hexpand(src_view, TRUE);
   gtk_widget_set_vexpand(src_view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(src_view), "large-pixbufs");
   g_object_unref(src_store);
   gtk_size_group_add_widget(sgroup, src_view);
   gtk_widget_set_name(src_view, "small_font");
@@ -1271,6 +1272,7 @@ GtkWidget *create_worklist(void)
   dst_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(dst_store));
   gtk_widget_set_hexpand(dst_view, TRUE);
   gtk_widget_set_vexpand(dst_view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(dst_view), "large-pixbufs");
   g_object_unref(dst_store);
   gtk_size_group_add_widget(sgroup, dst_view);
   gtk_widget_set_name(dst_view, "small_font");

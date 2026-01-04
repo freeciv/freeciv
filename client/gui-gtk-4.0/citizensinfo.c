@@ -186,6 +186,7 @@ static struct citizens_dialog *citizens_dialog_create(const struct city *pcity)
   pdialog->list
     = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->sort));
   gtk_widget_set_halign(pdialog->list, GTK_ALIGN_CENTER);
+  gtk_widget_add_css_class(GTK_WIDGET(pdialog->list), "large-pixbufs");
   g_object_unref(pdialog->sort);
 
   for (i = 0; i < num_citizens_cols; i++) {

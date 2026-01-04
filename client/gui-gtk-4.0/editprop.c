@@ -3684,6 +3684,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     }
     gtk_widget_set_hexpand(view, TRUE);
     gtk_widget_set_vexpand(view, TRUE);
+    gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
 
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrollwin), view);
   }
@@ -4856,6 +4857,7 @@ property_page_new(enum editor_object_type objtype,
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pp->object_store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
 
   property_page_objprop_iterate(pp, op) {
     if (!objprop_show_in_listview(op)) {

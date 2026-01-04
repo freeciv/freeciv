@@ -572,6 +572,7 @@ static struct editbar *editbar_create(void)
   eb->player_pov_store = store;
 
   combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_add_css_class(GTK_WIDGET(combo), "large-pixbufs");
 
   cell = gtk_cell_renderer_pixbuf_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), cell, FALSE);
@@ -1022,6 +1023,7 @@ create_tool_value_selector(struct editbar *eb,
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(tvs->store));
   gtk_widget_set_size_request(view, -1, 10 * tileset_tile_height(tileset));
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(view), TVS_COL_NAME);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(tool_value_selector_treeview_row_activated), tvs);
 
@@ -1299,6 +1301,7 @@ static struct editinfobox *editinfobox_create(void)
                              G_TYPE_INT);
   ei->tool_applied_player_store = store;
   combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_add_css_class(GTK_WIDGET(combo), "large-pixbufs");
 
   cell = gtk_cell_renderer_pixbuf_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), cell, FALSE);
