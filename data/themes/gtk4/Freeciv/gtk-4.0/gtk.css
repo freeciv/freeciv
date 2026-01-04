@@ -17,6 +17,15 @@
 
 @import url("menubar.css");
 
+/*
+ * This is a workaround to allow bigger pixbufs for example in the unit
+ * selection dialog. These are rendered as icons by gtk and newer gtk4 versions
+ * starte to limit the size to the maximum size of an icon in the context.
+ */
+.large-pixbufs * > cellview, .large-pixbufs treeview {
+  -gtk-icon-size: 500px;
+}
+
 .button.toggle {
   min-width: 12px;
   min-height: 12px;

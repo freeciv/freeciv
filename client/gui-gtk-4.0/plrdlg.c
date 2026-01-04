@@ -605,6 +605,7 @@ void create_players_dialog(void)
                                    PLR_DLG_COL_TOOLTIP);
   gtk_widget_set_hexpand(players_list, TRUE);
   gtk_widget_set_vexpand(players_list, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(players_list), "large-pixbufs");
   g_object_unref(players_dialog_store);
   gtk_widget_set_name(players_list, "small_font");
 

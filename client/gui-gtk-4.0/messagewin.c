@@ -345,6 +345,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   g_object_unref(store);
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);

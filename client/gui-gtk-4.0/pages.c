@@ -2863,6 +2863,7 @@ GtkWidget *create_start_page(void)
   connection_list_store = connection_list_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(connection_list_store));
   gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   g_object_unref(G_OBJECT(connection_list_store));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
   connection_list_view = GTK_TREE_VIEW(view);

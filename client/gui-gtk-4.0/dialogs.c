@@ -647,6 +647,7 @@ static GtkWidget *create_list_of_nations_in_group(struct nation_group *group,
       list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
       gtk_widget_set_hexpand(list, TRUE);
       gtk_widget_set_vexpand(list, TRUE);
+      gtk_widget_add_css_class(GTK_WIDGET(list), "large-pixbufs");
       gtk_tree_view_set_search_column(GTK_TREE_VIEW(list), 3);
       gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
       g_object_unref(store);
@@ -1114,6 +1115,7 @@ static void create_races_dialog(struct player *pplayer)
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(list, TRUE);
   gtk_widget_set_vexpand(list, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(list), "large-pixbufs");
   races_style_list = list;
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
