@@ -4415,6 +4415,8 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                          const char *user_text, struct government *gov)
 {
+  int flagid;
+  bool has_flags = FALSE;
   bool reqs = FALSE;
   struct universal source = {
     .kind = VUT_GOVERNMENT,
@@ -4428,6 +4430,22 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     strvec_iterate(gov->helptext, text) {
       cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
+  }
+
+  for (flagid = GOVF_USER_FLAG_1; flagid <= GOVF_LAST_USER_FLAG; flagid++) {
+    if (government_has_flag(gov, flagid)) {
+      const char *helptxt = gov_flag_helptxt(flagid);
+
+      if (helptxt != nullptr) {
+        CATLSTR(buf, bufsz, "%s %s\n", BULLET, _(helptxt));
+
+        has_flags = TRUE;
+      }
+    }
+  }
+
+  if (has_flags) {
+    fc_strlcat(buf, "\n", bufsz);
   }
 
   /* Add requirement text for government itself */
