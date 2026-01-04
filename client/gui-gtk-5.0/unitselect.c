@@ -410,6 +410,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
+  gtk_widget_add_css_class(GTK_WIDGET(view), "large-pixbufs");
   pdialog->tabs[loc].view = view;
   g_object_unref(store);
 
