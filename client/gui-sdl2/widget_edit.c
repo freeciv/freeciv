@@ -211,7 +211,7 @@ static int redraw_edit(struct widget *edit_widget)
 
 /**********************************************************************//**
   Return length of utf8_char chain.
-  WARRNING: if struct utf8_char has 1 member and utf8_char->chr == 0 then
+  WARNING: if struct utf8_char has 1 member and utf8_char->chr == 0 then
   this function return 1 ( not 0 like in strlen )
 **************************************************************************/
 static size_t chainlen(const struct utf8_char *chain)
