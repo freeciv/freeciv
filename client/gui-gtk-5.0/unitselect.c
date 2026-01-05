@@ -1172,7 +1172,11 @@ static void usdlg_cmd_focus_real(GtkTreeView *view)
 
     punit = player_unit_by_number(client_player(), uid);
     if (punit && unit_owner(punit) == client_player()) {
-      unit_focus_set(punit);
+      /* FIXME: If unit is not idle to begin with, we can only request
+       *        idling, and as we have no server reply yet,
+       *        the unit_focus_try() below will fail. */
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+      unit_focus_try(punit);
       usdlg_destroy();
     }
   }

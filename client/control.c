@@ -496,6 +496,18 @@ void clear_unit_orders(struct unit *punit)
 }
 
 /**********************************************************************//**
+  Try to set unit to focus directly. Won't set unit to focus if
+  unit can't currently be at focus.
+**************************************************************************/
+void unit_focus_try(struct unit *punit)
+{
+  if (punit->activity == ACTIVITY_IDLE) {
+    /* Only idle units can be at focus. */
+    unit_focus_set(punit);
+  }
+}
+
+/**********************************************************************//**
   Sets the focus unit directly. The unit given will be given the
   focus; if NULL the focus will be cleared.
 
