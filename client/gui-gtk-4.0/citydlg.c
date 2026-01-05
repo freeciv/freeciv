@@ -2772,7 +2772,7 @@ static gboolean middle_present_unit_release(GtkGestureClick *gesture,
       && NULL != (pcity = tile_city(unit_tile(punit)))
       && NULL != (pdialog = get_city_dialog(pcity))
       && can_client_issue_orders()) {
-    unit_focus_set(punit);
+    unit_focus_try(punit);
     close_city_dialog(pdialog);
   }
 
@@ -2795,7 +2795,7 @@ static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_pr
       && NULL != (pcity = game_city_by_number(punit->homecity))
       && NULL != (pdialog = get_city_dialog(pcity))
       && can_client_issue_orders()) {
-    unit_focus_set(punit);
+    unit_focus_try(punit);
     close_city_dialog(pdialog);
   }
 
@@ -2813,7 +2813,7 @@ static gboolean right_unit_release(GtkGestureClick *gesture, int n_press,
 
   if (NULL != punit
       && can_client_issue_orders()) {
-    unit_focus_set(punit);
+    unit_focus_try(punit);
   }
 
   return TRUE;
@@ -2859,7 +2859,11 @@ static void unit_activate_callback(GSimpleAction *action, GVariant *parameter,
     player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
-    unit_focus_set(punit);
+    /* FIXME: If unit is not idle to begin with, we can only request
+     *        idling, and as we have no server reply yet,
+     *        the unit_focus_try() below will fail. */
+    request_new_unit_activity(punit, ACTIVITY_IDLE);
+    unit_focus_try(punit);
   }
 
   close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
@@ -2880,7 +2884,12 @@ static void supported_unit_activate_close_callback(GSimpleAction *action,
     struct city *pcity =
       player_city_by_number(client_player(), punit->homecity);
 
-    unit_focus_set(punit);
+    /* FIXME: If unit is not idle to begin with, we can only request
+     *        idling, and as we have no server reply yet,
+     *        the unit_focus_try() below will fail. */
+    request_new_unit_activity(punit, ACTIVITY_IDLE);
+    unit_focus_try(punit);
+
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -2907,7 +2916,12 @@ static void present_unit_activate_close_callback(GSimpleAction *action,
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
 
-    unit_focus_set(punit);
+    /* FIXME: If unit is not idle to begin with, we can only request
+     *        idling, and as we have no server reply yet,
+     *        the unit_focus_try() below will fail. */
+    request_new_unit_activity(punit, ACTIVITY_IDLE);
+    unit_focus_try(punit);
+
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
