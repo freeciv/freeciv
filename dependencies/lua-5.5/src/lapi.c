@@ -1205,6 +1205,8 @@ LUA_API int lua_gc (lua_State *L, int what, ...) {
       g->gcstp = 0;  /* allow GC to run (other bits must be zero here) */
       if (n <= 0)
         n = g->GCdebt;  /* force to run one basic step */
+      else if (g->GCdebt < n - MAX_LMEM)  /* overflow? */
+        n = MAX_LMEM + g->GCdebt;  /* trim 'n' (debt must be negative) */
       luaE_setdebt(g, g->GCdebt - n);
       luaC_condGC(L, (void)0, work = 1);
       if (work && g->gcstate == GCSpause)  /* end of cycle? */
