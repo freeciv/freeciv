@@ -116,16 +116,9 @@ enum usdlg_cmd {
 
 struct unit_select_dialog {
   struct tile *ptile;
-  int unit_id_focus;
 
   GtkWidget *shell;
   GtkWidget *notebook;
-
-  struct {
-    GtkTreeStore *store;
-    GtkWidget *view;
-    GtkTreePath *path;
-  } units;
 
   struct {
     GtkTreeStore *store;
