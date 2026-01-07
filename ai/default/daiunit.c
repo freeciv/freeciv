@@ -1019,7 +1019,7 @@ static void single_invader(struct ai_city *city_data,
 
   If dest is TRUE then a valid goto is presumed.
 **************************************************************************/
-static void invasion_funct(struct ai_type *ait, struct unit *punit,
+static bool invasion_funct(struct ai_type *ait, struct unit *punit,
                            bool dest, int radius, int which)
 {
   struct tile *ptile;
@@ -1028,6 +1028,8 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
   CHECK_UNIT(punit);
 
   if (dest) {
+    fc_assert_ret_val(punit->goto_tile != NULL, FALSE);
+
     ptile = punit->goto_tile;
   } else {
     ptile = unit_tile(punit);
@@ -1056,6 +1058,8 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
       } unit_cargo_iterate_end;
     }
   } square_iterate_end;
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1243,10 +1247,10 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
     /* Dealing with invasion stuff */
     if (IS_ATTACKER(atype)) {
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(ait, aunit, TRUE, 0,
-                       (unit_can_take_over(aunit)
-                        ? INVASION_OCCUPY : INVASION_ATTACK));
-        if ((pcity = tile_city(aunit->goto_tile))) {
+        if (invasion_funct(ait, aunit, TRUE, 0,
+                           (unit_can_take_over(aunit)
+                            ? INVASION_OCCUPY : INVASION_ATTACK))
+            && (pcity = tile_city(aunit->goto_tile))) {
           struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
           city_data->attack += adv_unit_att_rating(aunit);
