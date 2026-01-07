@@ -458,16 +458,14 @@ void popup_connection_dialog(bool lan_scan)
 **************************************************************************/
 static int convert_playername_callback(struct widget *pwidget)
 {
-  if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget->string_utf8->text != NULL) {
-      sz_strlcpy(user_name, pwidget->string_utf8->text);
-    } else {
-      /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pwidget->string_utf8, user_name);
-      widget_redraw(pwidget);
-      widget_mark_dirty(pwidget);
-      flush_dirty();
-    }
+  if (pwidget->string_utf8->text != NULL) {
+    sz_strlcpy(user_name, pwidget->string_utf8->text);
+  } else {
+    /* Empty input -> restore previous content */
+    copy_chars_to_utf8_str(pwidget->string_utf8, user_name);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
+    flush_dirty();
   }
 
   return -1;
@@ -478,16 +476,14 @@ static int convert_playername_callback(struct widget *pwidget)
 **************************************************************************/
 static int convert_servername_callback(struct widget *pwidget)
 {
-  if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget->string_utf8->text != NULL) {
-      sz_strlcpy(server_host, pwidget->string_utf8->text);
-    } else {
-      /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pwidget->string_utf8, server_host);
-      widget_redraw(pwidget);
-      widget_mark_dirty(pwidget);
-      flush_dirty();
-    }
+  if (pwidget->string_utf8->text != NULL) {
+    sz_strlcpy(server_host, pwidget->string_utf8->text);
+  } else {
+    /* Empty input -> restore previous content */
+    copy_chars_to_utf8_str(pwidget->string_utf8, server_host);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
+    flush_dirty();
   }
 
   return -1;
@@ -498,19 +494,17 @@ static int convert_servername_callback(struct widget *pwidget)
 **************************************************************************/
 static int convert_portnr_callback(struct widget *pwidget)
 {
-  if (PRESSED_EVENT(main_data.event)) {
-    char port_str[6];
+  char port_str[6];
 
-    if (pwidget->string_utf8->text != NULL) {
-      sscanf(pwidget->string_utf8->text, "%d", &server_port);
-    } else {
-      /* empty input -> restore previous content */
-      fc_snprintf(port_str, sizeof(port_str), "%d", server_port);
-      copy_chars_to_utf8_str(pwidget->string_utf8, port_str);
-      widget_redraw(pwidget);
-      widget_mark_dirty(pwidget);
-      flush_dirty();
-    }
+  if (pwidget->string_utf8->text != NULL) {
+    sscanf(pwidget->string_utf8->text, "%d", &server_port);
+  } else {
+    /* Empty input -> restore previous content */
+    fc_snprintf(port_str, sizeof(port_str), "%d", server_port);
+    copy_chars_to_utf8_str(pwidget->string_utf8, port_str);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
+    flush_dirty();
   }
 
   return -1;
