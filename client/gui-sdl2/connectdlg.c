@@ -473,16 +473,14 @@ void popup_connection_dialog(bool lan_scan)
 **************************************************************************/
 static int convert_playername_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
-    if (pWidget->string_utf8->text != NULL) {
-      sz_strlcpy(user_name, pWidget->string_utf8->text);
-    } else {
-      /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pWidget->string_utf8, user_name);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
-      flush_dirty();
-    }
+  if (pWidget->string_utf8->text != NULL) {
+    sz_strlcpy(user_name, pWidget->string_utf8->text);
+  } else {
+    /* Empty input -> restore previous content */
+    copy_chars_to_utf8_str(pWidget->string_utf8, user_name);
+    widget_redraw(pWidget);
+    widget_mark_dirty(pWidget);
+    flush_dirty();
   }
 
   return -1;
@@ -493,16 +491,14 @@ static int convert_playername_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_servername_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
-    if (pWidget->string_utf8->text != NULL) {
-      sz_strlcpy(server_host, pWidget->string_utf8->text);
-    } else {
-      /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pWidget->string_utf8, server_host);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
-      flush_dirty();
-    }
+  if (pWidget->string_utf8->text != NULL) {
+    sz_strlcpy(server_host, pWidget->string_utf8->text);
+  } else {
+    /* Empty input -> restore previous content */
+    copy_chars_to_utf8_str(pWidget->string_utf8, server_host);
+    widget_redraw(pWidget);
+    widget_mark_dirty(pWidget);
+    flush_dirty();
   }
 
   return -1;
@@ -513,19 +509,17 @@ static int convert_servername_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_portnr_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
-    char pCharPort[6];
+  char pCharPort[6];
 
-    if (pWidget->string_utf8->text != NULL) {
-      sscanf(pWidget->string_utf8->text, "%d", &server_port);
-    } else {
-      /* empty input -> restore previous content */
-      fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
-      copy_chars_to_utf8_str(pWidget->string_utf8, pCharPort);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
-      flush_dirty();
-    }
+  if (pWidget->string_utf8->text != NULL) {
+    sscanf(pWidget->string_utf8->text, "%d", &server_port);
+  } else {
+    /* Empty input -> restore previous content */
+    fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
+    copy_chars_to_utf8_str(pWidget->string_utf8, pCharPort);
+    widget_redraw(pWidget);
+    widget_mark_dirty(pWidget);
+    flush_dirty();
   }
 
   return -1;
