@@ -33,6 +33,7 @@
 #include "unit.h"
 
 /* client */
+#include "audio.h"
 #include "client_main.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
@@ -2428,6 +2429,9 @@ void real_menus_update(void)
       }
     } unit_list_iterate_end;
   }
+
+  menu_entry_set_sensitive("VOLUME_UP", !audio_is_dummy_plugin());
+  menu_entry_set_sensitive("VOLUME_DOWN", !audio_is_dummy_plugin());
 
   menu_entry_group_set_sensitive(MGROUP_EDIT, editor_is_active());
   menu_entry_group_set_sensitive(MGROUP_PLAYING, can_client_issue_orders()

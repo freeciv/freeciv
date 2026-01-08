@@ -33,6 +33,7 @@
 #include "unit.h"
 
 /* client */
+#include "audio.h"
 #include "client_main.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
@@ -3786,8 +3787,8 @@ void real_menus_update(void)
                                  && !editor_is_active());
 
   menu_entry_set_sensitive(map, "CENTER_VIEW", can_client_issue_orders());
-  menu_entry_set_sensitive(map, "VOLUME_UP", TRUE);
-  menu_entry_set_sensitive(map, "VOLUME_DOWN", TRUE);
+  menu_entry_set_sensitive(map, "VOLUME_UP", !audio_is_dummy_plugin());
+  menu_entry_set_sensitive(map, "VOLUME_DOWN", !audio_is_dummy_plugin());
 
   menu_entry_set_sensitive(map, "GAME_SAVE_AS",
                            can_client_access_hack() && C_S_RUNNING <= client_state());
