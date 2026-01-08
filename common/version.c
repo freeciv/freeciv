@@ -70,7 +70,7 @@ const char *word_version(void)
 
 /*******************************************************************//**
   Returns string with git revision information if it is possible to
-  determine. Can return also some fallback string or even NULL.
+  determine. Can return also some fallback string or even nullptr.
 ***********************************************************************/
 const char *fc_git_revision(void)
 {
@@ -83,7 +83,7 @@ const char *fc_git_revision(void)
 
   return buf; /* Either revision, or modified revision */
 #else  /* FC_GITREV_OFF */
-  return NULL;
+  return nullptr;
 #endif /* FC_GITREV_OFF */
 }
 
@@ -99,7 +99,7 @@ const char *fc_comparable_version(void)
 
 /*******************************************************************//**
   Return the BETA message.
-  If returns NULL, not a beta version.
+  If returns nullptr, not a beta version.
 ***********************************************************************/
 const char *beta_message(void)
 {
@@ -107,7 +107,7 @@ const char *beta_message(void)
   static char msgbuf[500];
   static const char *month[] =
   {
-    NULL,
+    nullptr,
     N_("January"),
     N_("February"),
     N_("March"),
@@ -136,26 +136,26 @@ const char *beta_message(void)
   }
   return msgbuf;
 #else  /* IS_BETA_VERSION */
-  return NULL;
+  return nullptr;
 #endif /* IS_BETA_VERSION */
 }
 
 /*******************************************************************//**
   Return the alpha message.
-  If returns NULL, not an alpha version.
+  If returns nullptr, not an alpha version.
 ***********************************************************************/
 const char *alpha_message(void)
 {
 #if IS_DEVEL_VERSION
   return _("THIS IS A DEVELOPMENT VERSION");
 #else  /* IS_DEVEL_VERSION */
-  return NULL;
+  return nullptr;
 #endif /* IS_DEVEL_VERSION */
 }
 
 /*******************************************************************//**
   Return the alpha or beta message.
-  If returns NULL, not such a version.
+  If returns nullptr, not such a version.
 ***********************************************************************/
 const char *unstable_message(void)
 {
@@ -164,7 +164,7 @@ const char *unstable_message(void)
 #elif IS_BETA_VERSION
   return beta_message();
 #else
-  return NULL;
+  return nullptr;
 #endif
 }
 
@@ -191,7 +191,7 @@ const char *freeciv_datafile_version(void)
     const char *ver_rev;
 
     ver_rev = fc_git_revision();
-    if (ver_rev != NULL) {
+    if (ver_rev != nullptr) {
       fc_snprintf(buf, sizeof(buf), "%s (%s)", VERSION_STRING, ver_rev);
     } else {
       fc_snprintf(buf, sizeof(buf), "%s", VERSION_STRING);

@@ -25,10 +25,10 @@ extern "C" {
  * The month[] array is defined in version.c (index: 1 == Jan, 2 == Feb, ...).
  */
 #ifndef NEXT_RELEASE_MONTH
-#define NEXT_RELEASE_MONTH	(month[FREECIV_RELEASE_MONTH])
+#define NEXT_RELEASE_MONTH      (month[FREECIV_RELEASE_MONTH])
 #endif
 
-/* version informational strings */
+/* Version informational strings */
 const char *freeciv_name_version(void);
 const char *word_version(void);
 const char *fc_git_revision(void);
@@ -37,7 +37,7 @@ const char *freeciv_datafile_version(void);
 
 const char *freeciv_motto(void);
 
-/* If returns NULL, not a beta version. */
+/* If returns nullptr, not a beta version. */
 const char *beta_message(void);
 const char *alpha_message(void);
 const char *unstable_message(void);
@@ -46,4 +46,4 @@ const char *unstable_message(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__VERSION_H */
+#endif /* FC__VERSION_H */
