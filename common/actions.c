@@ -7553,3 +7553,27 @@ struct action_list *action_list_by_activity(enum unit_activity activity)
 
   return actlist_by_activity[activity];
 }
+
+/************************************************************************//**
+  Can unit do any action with the given action result to stack?
+  Returns one of the possible actions, or ACTION_NONE.
+****************************************************************************/
+enum gen_action select_actres_action_unit_on_stack(struct civ_map *nmap,
+                                                   enum action_result actres,
+                                                   struct unit *punit,
+                                                   struct tile *ptile)
+{
+  if (actres >= ACTRES_LAST) {
+    return ACTION_NONE;
+  }
+
+  action_list_iterate(action_list_by_result(actres), paction) {
+    enum gen_action act = action_number(paction);
+
+    if (is_action_enabled_unit_on_stack(nmap, act, punit, ptile)) {
+      return act;
+    }
+  } action_list_iterate_end;
+
+  return ACTION_NONE;
+}
