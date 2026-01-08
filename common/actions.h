@@ -970,6 +970,11 @@ void action_array_add_all_by_result(action_id *act_array,
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
 struct action_auto_perf *action_auto_perf_slot_number(const int num);
 
+enum gen_action select_actres_action_unit_on_stack(struct civ_map *nmap,
+                                                   enum action_result actres,
+                                                   struct unit *punit,
+                                                   struct tile *ptile);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
