@@ -728,6 +728,8 @@ if emscripten
   zlib_dep = []
   syslua = 'false'
 
+  priv_conf_data.set('ALWAYS_ROOT', 1)
+
   emscripten_use_args = [
      '-s', 'USE_ICU=1',
      '-s', 'USE_ZLIB=1',
