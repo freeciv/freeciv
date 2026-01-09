@@ -490,5 +490,6 @@ void audio_sdl_init(void)
   self.set_volume = sdl_audio_set_volume;
   self.get_volume = sdl_audio_get_volume;
   audio_add_plugin(&self);
+
   sdl_audio_volume = 1.0;
 }
