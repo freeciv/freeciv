@@ -24,6 +24,7 @@
 #include "ai.h"
 #include "capability.h"
 #include "game.h"
+#include "research.h"
 
 /* server */
 #include "console.h"
@@ -356,4 +357,8 @@ void save_restore_sane_state(void)
   server_game_free();
   server_game_init(FALSE);
   load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE);
+
+  researches_iterate(presearch) {
+    presearch->techs_researched = recalculate_techs_researched(presearch);
+  } researches_iterate_end;
 }
