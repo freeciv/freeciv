@@ -634,6 +634,11 @@ bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
     return FALSE;
   }
 
+  if (!SDL_StartTextInput(main_data.screen)) {
+    log_fatal(_("Failed to start text input: %s"), SDL_GetError());
+    return FALSE;
+  }
+
   return TRUE;
 }
 
