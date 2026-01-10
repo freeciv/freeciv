@@ -326,8 +326,10 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr)
               TTF_GetFontHeight(pstr->font), text->h);
     log_debug("create_utf8_surf: String is %d length", text->w);
   } else {
+    /* Likely empty (zero character) string. */
     log_debug("create_utf8_surf: text NULL");
-    text = create_surf(0, 0);
+    /* Leave text to NULL. Callers can handle it, but not e.g.
+     * zero size surface. */
   }
 
   if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
