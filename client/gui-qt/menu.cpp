@@ -38,6 +38,7 @@
 #include "unit.h"
 
 // client
+#include "audio.h"
 #include "connectdlg_common.h"
 #include "control.h"
 #include "helpdata.h"
@@ -1019,9 +1020,11 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::save_image);
   main_menu->addSeparator();
   act = main_menu->addAction(_("Volume Up"));
+  menu_list.insert(AUDIO, act);
   act->setShortcut(QKeySequence(tr(">")));
   connect(act, &QAction::triggered, this, &mr_menu::volume_up);
   act = main_menu->addAction(_("Volume Down"));
+  menu_list.insert(AUDIO, act);
   act->setShortcut(QKeySequence(tr("<")));
   connect(act, &QAction::triggered, this, &mr_menu::volume_down);
   main_menu->addSeparator();
@@ -2167,6 +2170,9 @@ void mr_menu::menus_sensitive()
         } else {
           i.value()->setText(QString(_("Top Cities")));
         }
+        break;
+      case AUDIO:
+        i.value()->setEnabled(!audio_is_dummy_plugin());
         break;
       default:
         break;
