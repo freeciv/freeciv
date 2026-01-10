@@ -76,7 +76,8 @@ enum munit {
   MULTIPLIERS,
   ENDGAME,
   SAVE,
-  TOP_CITIES
+  TOP_CITIES,
+  AUDIO
 };
 
 enum delay_order{
