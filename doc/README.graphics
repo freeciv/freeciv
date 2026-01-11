@@ -373,6 +373,22 @@ tilespec file, but the individual tiles should be consistent with
 those sizes and/or the usage of those graphics.)
 
 ----------------------------------------------------------------------
+Animations
+----------
+
+Some 'sprites' listed in the following section are actually animations.
+Work to turn single sprite support to animation support is ongoing.
+You can't have animation where a single sprite is expected, nor can
+you have a single sprite tag where animation is expected.
+However, you can of course have a single frame animation that acts
+exactly as a single sprite.
+Animations consist of tags suffixed with ":<frame number>"
+The very first frame (":0") is needed for the animation to exist
+at all - if the animation is mandatory, the client will refuse
+to start without that tag. More frame tags (":1", ":2" ...) can be
+added at will, and the animation will be shown accordingly.
+
+----------------------------------------------------------------------
 Sprites
 -------
 
