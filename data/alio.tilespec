@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-3.3-Devel-2024-Nov-16"
+options = "+Freeciv-tilespec-3.4-Devel-2026-Jan-11"
 
 ; A simple name for the tileset specified by this file:
 name = "Alio"

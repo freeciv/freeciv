@@ -79,7 +79,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-3.3-Devel-2024-Nov-16 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-3.4-Devel-2026-Jan-11 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
