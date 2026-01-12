@@ -1131,7 +1131,7 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
     ai->diplomacy.strategy = WIN_SPACE; /* Yes! */
   } else {
     if (ai->diplomacy.strategy == WIN_SPACE) {
-       ai->diplomacy.strategy = WIN_OPEN;
+      ai->diplomacy.strategy = WIN_OPEN;
     }
   }
 
@@ -1682,8 +1682,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
         /* This means war!!! */
         pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 2;
         DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "plans war due to spaceship");
-        war_countdown(ait, pplayer, aplayer, 4 + map_size_checked(),
-                      DAI_WR_SPACE);
+        war_countdown(ait, pplayer, aplayer, 2, DAI_WR_SPACE);
       }
     } players_iterate_alive_end;
   }
