@@ -2,7 +2,7 @@
 
 # emsbuild.sh: Build freeciv using emsdk
 #
-# (c) 2023-2025 Freeciv team
+# (c) 2023-2026 Freeciv team
 #
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
@@ -53,7 +53,8 @@ if ! CC=emcc CXX=em++ AR=emar meson setup \
      -Daudio=none \
      -Dmwand=false \
      -Dtools=[] \
-     -Dclients=stub,sdl2 \
+     -Dclients=sdl2 \
+     -Dserver=disabled \
      -Dfcmp=[] \
      -Dfcdb=[] \
      "${PLATFORM_ROOT}/../../"
