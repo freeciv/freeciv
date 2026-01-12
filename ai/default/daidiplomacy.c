@@ -1573,7 +1573,7 @@ static void war_countdown(struct ai_type *ait, struct player *pplayer,
       } else if (adip->at_war_with_ally) {
         dai_diplo_notify(ally,
                          PL_("*%s (AI)* We will honor our alliance with %s and "
-                             "declare war on %s in %d turns.  We expect you to "
+                             "declare war on %s in %d turn.  We expect you to "
                              "do likewise.",
                              "*%s (AI)* We will honor our alliance with %s and "
                              "declare war on %s in %d turns.  We expect you to "
