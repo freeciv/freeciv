@@ -55,7 +55,7 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 ifeq ($(CI),yes)
 ICUVER=78
 else
-ICUVER=77
+ICUVER=78
 endif
 
 #
@@ -308,7 +308,20 @@ FCMP_GTK4_DLLS := \
 	libdeflate.dll \
 	libLerc.dll \
 	libsharpyuv-0.dll \
-	libharfbuzz-subset-0.dll
+	libharfbuzz-subset-0.dll \
+	libgstbase-1.0-0.dll \
+	libgstgl-1.0-0.dll \
+	libgstallocators-1.0-0.dll \
+	libgstd3d12-1.0-0.dll \
+	libgstplay-1.0-0.dll \
+	libgstreamer-1.0-0.dll \
+	libgstvideo-1.0-0.dll \
+	libgstaudio-1.0-0.dll \
+	libgstd3dshader-1.0-0.dll \
+	libgstpbutils-1.0-0.dll \
+	libgsttag-1.0-0.dll \
+	librsvg-2-2.dll \
+	liborc-0.4-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
