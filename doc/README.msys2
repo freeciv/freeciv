@@ -10,8 +10,8 @@ using MSYS2 from https://www.msys2.org/
 ==============
 
 Current official premade MSYS2 environment version info:
-[premade]:  msys2-freeciv-win64-251025.7z
-[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20250830.exe
+[premade]:  msys2-freeciv-win64-260111.7z
+[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20251213.exe
 
 See chapter "Premade environment" for what these mean. The info is
 located here on top for quick reference for the specific freeciv revision.
@@ -157,10 +157,6 @@ Following packages have been installed:
 - tar
 - git
 - patch
-- automake1.17
-- libtool
-- autoconf2.72
-- autoconf-wrapper
 - gdb
 - mingw-w64-<arch>-gcc
 - mingw-w64-<arch>-pkgconf
