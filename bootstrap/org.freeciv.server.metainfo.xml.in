@@ -41,6 +41,7 @@
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.0/server-3.0.7.png</image>
+        <caption>Freeciv-3.0.7 server</caption>
       </screenshot>
     </screenshots>
     <update_contact>freeciv-dev@freelists.org</update_contact>

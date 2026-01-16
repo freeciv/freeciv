@@ -43,6 +43,7 @@
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.0/client.qt-3.0.4.png</image>
+        <caption>Freeciv-3.0.4 Qt-client, hex map, alien ruleset and alio tileset</caption>
       </screenshot>
     </screenshots>
     <update_contact>freeciv-dev@freelists.org</update_contact>
