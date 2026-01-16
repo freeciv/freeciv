@@ -805,51 +805,6 @@ else
   mw_dep = []
 endif
 
-if syslua != 'false' and lua_dep_tmp.found()
-  lua_inc_path = []
-  lua_sources = []
-  lua_dep = lua_dep_tmp
-elif syslua == 'true'
-  error('Syslua requested but not found.')
-else
-  lua_inc_path = 'dependencies/lua-5.5/src'
-  lua_sources = [
-    'dependencies/lua-5.5/src/lapi.c',
-    'dependencies/lua-5.5/src/lauxlib.c',
-    'dependencies/lua-5.5/src/lbaselib.c',
-    'dependencies/lua-5.5/src/lcode.c',
-    'dependencies/lua-5.5/src/lcorolib.c',
-    'dependencies/lua-5.5/src/lctype.c',
-    'dependencies/lua-5.5/src/ldblib.c',
-    'dependencies/lua-5.5/src/ldebug.c',
-    'dependencies/lua-5.5/src/ldo.c',
-    'dependencies/lua-5.5/src/ldump.c',
-    'dependencies/lua-5.5/src/lfunc.c',
-    'dependencies/lua-5.5/src/lgc.c',
-    'dependencies/lua-5.5/src/linit.c',
-    'dependencies/lua-5.5/src/liolib.c',
-    'dependencies/lua-5.5/src/llex.c',
-    'dependencies/lua-5.5/src/lmathlib.c',
-    'dependencies/lua-5.5/src/lmem.c',
-    'dependencies/lua-5.5/src/loadlib.c',
-    'dependencies/lua-5.5/src/lobject.c',
-    'dependencies/lua-5.5/src/lopcodes.c',
-    'dependencies/lua-5.5/src/loslib.c',
-    'dependencies/lua-5.5/src/lparser.c',
-    'dependencies/lua-5.5/src/lstate.c',
-    'dependencies/lua-5.5/src/lstring.c',
-    'dependencies/lua-5.5/src/lstrlib.c',
-    'dependencies/lua-5.5/src/ltable.c',
-    'dependencies/lua-5.5/src/ltablib.c',
-    'dependencies/lua-5.5/src/ltm.c',
-    'dependencies/lua-5.5/src/lundump.c',
-    'dependencies/lua-5.5/src/lutf8lib.c',
-    'dependencies/lua-5.5/src/lvm.c',
-    'dependencies/lua-5.5/src/lzio.c',
-  ]
-  lua_dep = dependency('', required:false)
-endif
-
 if c_compiler.compiles('''#include <netinet/in.h>
 int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''',
   name: 'ip_mreqn',
@@ -1221,6 +1176,14 @@ python_exe = find_program(get_option('python'))
 sh_exe = find_program('sh')
 gzip_exe = find_program('gzip')
 
+if syslua != 'false' and lua_dep_tmp.found()
+  lua_inc_path = []
+elif syslua == 'true'
+  error('Syslua requested but not found.')
+else
+  lua_inc_path = 'dependencies/lua-5.5/src'
+endif
+
 common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
@@ -1350,9 +1313,58 @@ else
   tinycthr_files = files()
 endif
 
+if syslua != 'false' and lua_dep_tmp.found()
+  lua_dep = lua_dep_tmp
+  fc_lua = []
+else
+  lua_c_flags = []
+  foreach arg : ['-Wno-implicit-fallthrough', '-Wno-cast-align' ]
+    if c_compiler.has_argument(arg)
+      lua_c_flags = [ lua_c_flags, arg ]
+    endif
+  endforeach
+
+  fc_lua = static_library('fc_lua',
+    'dependencies/lua-5.5/src/lapi.c',
+    'dependencies/lua-5.5/src/lauxlib.c',
+    'dependencies/lua-5.5/src/lbaselib.c',
+    'dependencies/lua-5.5/src/lcode.c',
+    'dependencies/lua-5.5/src/lcorolib.c',
+    'dependencies/lua-5.5/src/lctype.c',
+    'dependencies/lua-5.5/src/ldblib.c',
+    'dependencies/lua-5.5/src/ldebug.c',
+    'dependencies/lua-5.5/src/ldo.c',
+    'dependencies/lua-5.5/src/ldump.c',
+    'dependencies/lua-5.5/src/lfunc.c',
+    'dependencies/lua-5.5/src/lgc.c',
+    'dependencies/lua-5.5/src/linit.c',
+    'dependencies/lua-5.5/src/liolib.c',
+    'dependencies/lua-5.5/src/llex.c',
+    'dependencies/lua-5.5/src/lmathlib.c',
+    'dependencies/lua-5.5/src/lmem.c',
+    'dependencies/lua-5.5/src/loadlib.c',
+    'dependencies/lua-5.5/src/lobject.c',
+    'dependencies/lua-5.5/src/lopcodes.c',
+    'dependencies/lua-5.5/src/loslib.c',
+    'dependencies/lua-5.5/src/lparser.c',
+    'dependencies/lua-5.5/src/lstate.c',
+    'dependencies/lua-5.5/src/lstring.c',
+    'dependencies/lua-5.5/src/lstrlib.c',
+    'dependencies/lua-5.5/src/ltable.c',
+    'dependencies/lua-5.5/src/ltablib.c',
+    'dependencies/lua-5.5/src/ltm.c',
+    'dependencies/lua-5.5/src/lundump.c',
+    'dependencies/lua-5.5/src/lutf8lib.c',
+    'dependencies/lua-5.5/src/lvm.c',
+    'dependencies/lua-5.5/src/lzio.c',
+    c_args: lua_c_flags
+  )
+
+  lua_dep = []
+endif
+
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
-  lua_sources,
   'dependencies/tolua-5.2/src/lib/tolua_event.c',
   'dependencies/tolua-5.2/src/lib/tolua_is.c',
   'dependencies/tolua-5.2/src/lib/tolua_map.c',
@@ -1361,6 +1373,7 @@ fc_deps = static_library('fc_dependencies',
   fcdb_src, tinycthr_files,
   sources: [verhdr],
   include_directories : common_inc,
+  link_with: fc_lua,
   dependencies: [ lua_dep, fcdb_dep ]
   )
 
