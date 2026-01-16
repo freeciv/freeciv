@@ -43,6 +43,7 @@
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.1/client.gtk4-3.1.0-beta2.png</image>
+        <caption>Freeciv-3.1.0-beta2 gtk4-client, hex map, amplio2 tileset</caption>
       </screenshot>
     </screenshots>
     <update_contact>freeciv-dev@freelists.org</update_contact>

@@ -43,6 +43,7 @@
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.2/client.sdl3-3.2.0-beta1.png</image>
+        <caption>Freeciv-3.2.0-beta1 sdl3-client, diplomacy meeting</caption>
       </screenshot>
     </screenshots>
     <update_contact>freeciv-dev@freelists.org</update_contact>
