@@ -43,9 +43,11 @@
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.1/client.gtk322-3.1.0.png</image>
+        <caption>Freeciv-3.1.0 gtk3.22-client, hex map, cimpletoon tileset</caption>
       </screenshot>
       <screenshot>
         <image>https://files.freeciv.org/screenshots/3.0/client.gtk322-3.0.4.png</image>
+        <caption>Freeciv-3.0.4 gtk3.22-client, hex map, cimpletoon tileset</caption>
       </screenshot>
     </screenshots>
     <update_contact>freeciv-dev@freelists.org</update_contact>
