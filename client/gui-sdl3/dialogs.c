@@ -1157,16 +1157,28 @@ void unit_select_dialog_popup(struct tile *ptile)
       astr_free(&addition);
     } else {
       int att_chance, def_chance;
+      struct player *owner = unit_owner(punit);
 
-      fc_snprintf(cbuf , sizeof(cbuf), _("%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
-                  nation_adjective_for_player(unit_owner(punit)),
-                  (vetname != NULL ? vetname : ""),
-                  utype_name_translation(punittype),
-                  punittype->attack_strength,
-                  punittype->defense_strength,
-                  move_points_text(punittype->move_rate, FALSE),
-                  punittype->firepower,
-                  (punit->hp * 100 / punittype->hp + 9) / 10);
+      if (owner != nullptr) {
+        fc_snprintf(cbuf , sizeof(cbuf), _("%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
+                    nation_adjective_for_player(owner),
+                    (vetname != NULL ? vetname : ""),
+                    utype_name_translation(punittype),
+                    punittype->attack_strength,
+                    punittype->defense_strength,
+                    move_points_text(punittype->move_rate, FALSE),
+                    punittype->firepower,
+                    (punit->hp * 100 / punittype->hp + 9) / 10);
+      } else {
+        fc_snprintf(cbuf , sizeof(cbuf), _("%s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
+                    (vetname != NULL ? vetname : ""),
+                    utype_name_translation(punittype),
+                    punittype->attack_strength,
+                    punittype->defense_strength,
+                    move_points_text(punittype->move_rate, FALSE),
+                    punittype->firepower,
+                    (punit->hp * 100 / punittype->hp + 9) / 10);
+      }
 
       /* Calculate chance to win */
       if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus)) {
