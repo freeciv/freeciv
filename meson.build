@@ -895,6 +895,7 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
       if get_option('clients').contains('sdl2')
         emscripten_sdl2_args += [
           '-s', 'USE_SDL_IMAGE=2',
+          '-s', 'SDL2_IMAGE_FORMATS=["png"]',
           '-s', 'USE_SDL_TTF=2',
           '-s', 'USE_SDL_GFX=2'
         ]
