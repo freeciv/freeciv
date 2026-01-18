@@ -45,6 +45,16 @@ format_version = 40
 ; */ <-- avoid gettext warnings
 
 ; Specialists
+
+[effect_entertainer]
+type    = "Specialist_Output"
+value   = 2
+reqs    =
+    { "type",       "name",        "range"
+      "Specialist", "Entertainer", "Local"
+      "OutputType", "Luxury",      "Local"
+    }
+
 [effect_philosopher]
 type    = "Specialist_Output"
 value   = 3

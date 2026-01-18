@@ -44,9 +44,9 @@ format_version = 40
 ;
 ; */ <-- avoid gettext warnings
 
-[specialist_generic]
-name            = _("Generic")
-short_name      = _("?gspecialist:G")
+[specialist_entertainer]
+name            = _("Entertainer")
+short_name      = _("?gspecialist:E")
 graphic         = "specialist.entertainer"
 reqs            =
     { "type", "name", "range"
