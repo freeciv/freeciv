@@ -4,6 +4,7 @@ files=$(find $1 -name "*.ruleset" \
              -o -name "*.tilespec" \
              -o -name "*.spec" \
              -o -name "*.lua" \
+             -o -name "*.py" \
              -o -name "*.modpack" \
              -o -name "*.serv" \
              -o -name "*.txt" \
