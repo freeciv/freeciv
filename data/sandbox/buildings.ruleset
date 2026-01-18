@@ -502,8 +502,9 @@ A city with a Courthouse cannot be incited to revolt.\
 name		= _("Factory")
 genus		= "Improvement"
 reqs	=
-    { "type", "name", "range"
-      "Tech", "Industrialization", "Player"
+    { "type",             "name",              "range"
+      "Tech",             "Industrialization", "Player"
+      "TiledefConnected", "Coal Mine",         "City"
     }
 graphic         = "b.factory"
 graphic_alt     = "-"

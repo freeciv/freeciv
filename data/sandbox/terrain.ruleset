@@ -2477,3 +2477,7 @@ flags          = "River", "JumpFrom", "JumpTo"
 [tiledef_bridge]
 name   = _("Bridge")
 extras = "River", "Road"
+
+[tiledef_coal_mine]
+name   = _("Coal Mine")
+extras = "Coal", "Mine"
