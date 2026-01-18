@@ -169,4 +169,8 @@ bool dai_unit_can_strike_my_unit(const struct unit *attacker,
 void dai_switch_to_explore(struct ai_type *ait, struct unit *punit,
                            struct tile *target, enum override_bool *allow);
 
+enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
+                                              struct unit *punit,
+                                              struct tile *ptile);
+
 #endif /* FC__DAIUNIT_H */
