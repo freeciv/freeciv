@@ -12,12 +12,12 @@ legend = _("The Batswana are a Bantu people in Southern Africa. With about\
 
 leaders = {
  "name",                "sex"
- "Sebele",              "Male" ; Chief circa 1885 of what became Bechuanaland
- "Bathoen",             "Male" ; Chief circa 1885 of what became Bechuanaland
- "Khama III",           "Male" ; Chief (1837?-1923)
- "Lucas Mangope",	"Male" ; President of Bophuthatswana 1997-1994
- "Frances Baard",	"Female" ; SA trade union activist
- "Seretse Khama",       "Male" ; First president of Botswana
+ "Sebele",              "Male"   ; Chief circa 1885 of what became Bechuanaland
+ "Bathoen",             "Male"   ; Chief circa 1885 of what became Bechuanaland
+ "Khama III",           "Male"   ; Chief (1837?-1923)
+ "Lucas Mangope",       "Male"   ; President of Bophuthatswana 1977-1994
+ "Frances Baard",       "Female" ; SA trade union activist
+ "Seretse Khama",       "Male"   ; First president of Botswana
 }
 
 flag = "bophuthatswana"
