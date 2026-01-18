@@ -20,7 +20,7 @@
     <launchable type="desktop-id">org.freeciv.ruledit.desktop</launchable>
 
     <url type="homepage">https://www.freeciv.org/</url>
-    <url type="bugtracker">https://osdn.net/projects/freeciv/ticket/</url>
+    <url type="bugtracker">https://redmine.freeciv.org/projects/freeciv</url>
     <url type="faq">https://www.freeciv.org/wiki/FAQ</url>
     <url type="donation">https://www.freeciv.org/donate.html</url>
     <url type="translate">https://www.freeciv.org/wiki/Translations</url>
