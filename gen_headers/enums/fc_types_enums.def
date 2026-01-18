@@ -102,6 +102,7 @@ values
   TERRAINCLASS       "TerrainClass"
   TERRFLAG           "TerrainFlag"
   TILEDEF            "Tiledef"
+  TILEDEF_CONNECTED  "TiledefConnected"
   TILE_REL           "TileRel"
   TOPO               "Topology"
   UCFLAG             "UnitClassFlag"

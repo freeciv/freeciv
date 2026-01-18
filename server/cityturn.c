@@ -1526,6 +1526,29 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_tiledef");
         }
         break;
+      case VUT_TILEDEF_CONNECTED:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        Q_("?tdconn:%s can't build %s from the worklist; "
+                           "access to %s is required. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        tiledef_name_translation(preq->source.value.tiledef));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_tiledef_conn");
+        } else {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        Q_("?tdconn:%s can't build %s from the worklist; "
+                           "access to %s is prohibited. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        tiledef_name_translation(preq->source.value.tiledef));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "have_tiledef_conn");
+        }
+        break;
       case VUT_GOOD:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

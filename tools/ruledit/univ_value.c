@@ -162,6 +162,7 @@ bool universal_value_initial(struct universal *src)
     src->value.extra = extra_by_number(0);
     return TRUE;
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     if (game.control.num_tiledef_types <= 0) {
       return FALSE;
     }
@@ -369,6 +370,7 @@ void universal_kind_values(struct universal *univ,
     } extra_type_re_active_iterate_end;
     break;
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     tiledef_iterate(ptd) {
       cb(tiledef_rule_name(ptd), univ->value.tiledef == ptd, data);
     } tiledef_iterate_end;

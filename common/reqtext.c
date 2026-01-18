@@ -1142,9 +1142,9 @@ static bool req_text_good(char *buf, size_t bufsz,
 }
 
 /*************************************************************//**
- Append text for a requirement type.
+  Append text for a requirement type.
 
- returns TRUE if success, FALSE if any problem or "Not supported".
+  Returns TRUE if success, FALSE if any problem or "Not supported".
 *****************************************************************/
 static bool req_text_tiledef(char *buf, size_t bufsz,
                              struct player *pplayer,
@@ -1241,7 +1241,36 @@ static bool req_text_tiledef(char *buf, size_t bufsz,
     /* Not supported. */
     return FALSE;
   }
+
   return TRUE;
+}
+
+/*************************************************************//**
+  Append text for a requirement type.
+
+  Returns TRUE if success, FALSE if any problem or "Not supported".
+*****************************************************************/
+static bool req_text_tiledef_conn(char *buf, size_t bufsz,
+                                  struct player *pplayer,
+                                  const struct requirement *preq,
+                                  const char *prefix)
+{
+  if (preq->range == REQ_RANGE_CITY) {
+    fc_strlcat(buf, prefix, bufsz);
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   Q_("?tdconn:Requires access to tiledef %s."),
+                   tiledef_name_translation(preq->source.value.tiledef));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   Q_("?tdconn:Prevented by access to tiledef %s."),
+                   tiledef_name_translation(preq->source.value.tiledef));
+    }
+    return TRUE;
+  }
+
+  /* Not supported. */
+  return FALSE;
 }
 
 /*************************************************************//**
@@ -4577,6 +4606,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_TILEDEF:
     return req_text_tiledef(buf, bufsz, pplayer, preq, prefix);
+
+  case VUT_TILEDEF_CONNECTED:
+    return req_text_tiledef_conn(buf, bufsz, pplayer, preq, prefix);
 
   case VUT_GOOD:
     return req_text_good(buf, bufsz, pplayer, preq, prefix);

@@ -905,6 +905,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_EXTRAFLAG:
   case VUT_EXTRA:
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     /* TODO: These could be determined by building a map of all
      *       possible futures (e.g. terrain transformations, etc.),
      *       and traversing it for all tiles in largest possible range

@@ -409,6 +409,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     }
     break;
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     source->value.tiledef = tiledef_by_rule_name(value);
     if (source->value.tiledef != nullptr) {
       return;
@@ -787,6 +788,7 @@ struct universal universal_by_number(const enum universals_n kind,
     source.value.extra = extra_by_number(value);
     return source;
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     source.value.tiledef = tiledef_by_number(value);
     return source;
   case VUT_GOOD:
@@ -1029,6 +1031,7 @@ int universal_number(const struct universal *source)
   case VUT_EXTRA:
     return extra_number(source->value.extra);
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     return tiledef_number(source->value.tiledef);
   case VUT_GOOD:
     return goods_number(source->value.good);
@@ -1257,6 +1260,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_ORIGINAL_OWNER:
       case VUT_CITYSTATUS:
       case VUT_GOOD:
+      case VUT_TILEDEF_CONNECTED:
         req.range = REQ_RANGE_CITY;
         break;
       case VUT_GOVERNMENT:
@@ -1351,6 +1355,7 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_GOOD:
     case VUT_ORIGINAL_OWNER:
+    case VUT_TILEDEF_CONNECTED:
       invalid = (req.range != REQ_RANGE_CITY);
       break;
     case VUT_MINCULTURE:
@@ -1559,6 +1564,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_EXTRAFLAG:
     case VUT_EXTRA:
     case VUT_TILEDEF:
+    case VUT_TILEDEF_CONNECTED:
     case VUT_GOOD:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
@@ -3355,6 +3361,46 @@ is_tiledef_req_active(const struct civ_map *nmap,
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
     break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
+  Determine whether a tiledef connected requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context, other_context and req must not be null,
+  and req must be a tiledef requirement
+**************************************************************************/
+static enum fc_tristate
+is_tiledef_conn_req_active(const struct civ_map *nmap,
+                           const struct req_context *context,
+                           const struct req_context *other_context,
+                           const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TILEDEF_CONNECTED);
+
+  if (!is_server()) {
+    /* Client does not know about access areas */
+    return TRI_MAYBE;
+  }
+
+  if (req->range == REQ_RANGE_CITY) {
+    if (context->city == nullptr
+        || context->city->server.aarea == nullptr) {
+      return TRI_MAYBE;
+    }
+
+    if (BV_ISSET(context->city->server.aarea->tiledefs,
+                 tiledef_index(req->source.value.tiledef))) {
+      return TRI_YES;
+    }
+
+    return TRI_NO;
   }
 
   fc_assert_msg(FALSE, "Invalid range %d.", req->range);
@@ -6635,6 +6681,7 @@ static struct req_def req_definitions[VUT_COUNT] = {
   [VUT_DIPLREL_UNITANY_O] = {is_diplrel_unitany_o_req_active, REQUCH_NO},
   [VUT_EXTRA] = {is_extra_req_active, REQUCH_NO, REQUC_LOCAL},
   [VUT_TILEDEF] = {is_tiledef_req_active, REQUCH_NO, REQUC_LOCAL},
+  [VUT_TILEDEF_CONNECTED] = {is_tiledef_conn_req_active, REQUCH_NO, REQUC_LOCAL},
   [VUT_EXTRAFLAG] = {is_extraflag_req_active, REQUCH_NO, REQUC_LOCAL},
   [VUT_FUTURETECHS] = {is_futuretechs_req_active, REQUCH_ACT, REQUC_WORLD},
   [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
@@ -7239,6 +7286,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_TERRAIN:
   case VUT_EXTRA:
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
   case VUT_GOOD:
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
@@ -7837,6 +7885,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_EXTRA:
     return psource1->value.extra == psource2->value.extra;
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     return psource1->value.tiledef == psource2->value.tiledef;
   case VUT_GOOD:
     return psource1->value.good == psource2->value.good;
@@ -8004,6 +8053,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_EXTRA:
     return extra_rule_name(psource->value.extra);
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     return tiledef_rule_name(psource->value.tiledef);
   case VUT_GOOD:
     return goods_rule_name(psource->value.good);
@@ -8206,6 +8256,7 @@ const char *universal_name_translation(const struct universal *psource,
     fc_strlcat(buf, extra_name_translation(psource->value.extra), bufsz);
     return buf;
   case VUT_TILEDEF:
+  case VUT_TILEDEF_CONNECTED:
     fc_strlcat(buf, tiledef_name_translation(psource->value.tiledef), bufsz);
     return buf;
   case VUT_GOOD:
