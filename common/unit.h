@@ -138,11 +138,11 @@ struct unit;
 struct unit_list;
 
 struct unit {
-  const struct unit_type *utype; /* Cannot be NULL. */
+  const struct unit_type *utype; /* Cannot be nullptr. */
   struct tile *tile;
   int refcount;
   enum direction8 facing;
-  struct player *owner; /* Cannot be NULL. */
+  struct player *owner; /* Cannot be nullptr. */
   struct player *nationality;
   int id;
   int homecity;
@@ -154,7 +154,7 @@ struct unit {
   int veteran;
   int fuel;
 
-  struct tile *goto_tile; /* May be NULL. */
+  struct tile *goto_tile; /* May be nullptr. */
 
   enum unit_activity activity;
   enum gen_action action;
@@ -263,12 +263,12 @@ struct unit {
 
 #ifdef FREECIV_DEBUG
 #define CHECK_UNIT(punit)                                                   \
-  (fc_assert(punit != NULL),                                                \
-   fc_assert(unit_type_get(punit) != NULL),                                 \
-   fc_assert(unit_owner(punit) != NULL),                                    \
+  (fc_assert(punit != nullptr),                                             \
+   fc_assert(unit_type_get(punit) != nullptr),                              \
+   fc_assert(unit_owner(punit) != nullptr),                                 \
    fc_assert(player_by_number(player_index(unit_owner(punit)))              \
              == unit_owner(punit)),                                         \
-   fc_assert(game_unit_by_number(punit->id) != NULL))
+   fc_assert(game_unit_by_number(punit->id) != nullptr))
 #else  /* FREECIV_DEBUG */
 #define CHECK_UNIT(punit) /* Do nothing */
 #endif /* FREECIV_DEBUG */
@@ -284,8 +284,8 @@ struct unit {
 }
 
 /* Iterates over the types of unit activity. */
-#define activity_type_iterate(_act_)					    \
-{									    \
+#define activity_type_iterate(_act_)                                        \
+{                                                                           \
   Activity_type_id _act_;                                                   \
   for (_act_ = 0; _act_ != ACTIVITY_LAST; _act_++) {                        \
 
@@ -418,7 +418,7 @@ struct unit *tile_allied_unit(const struct tile *ptile,
 static inline bool is_allied_unit_tile(const struct tile *ptile,
                                        const struct player *pplayer)
 {
-  return NULL != tile_allied_unit(ptile, pplayer);
+  return tile_allied_unit(ptile, pplayer) != nullptr;
 }
 
 struct unit *tile_enemy_unit(const struct tile *ptile,
@@ -430,7 +430,7 @@ struct unit *tile_enemy_unit(const struct tile *ptile,
 static inline bool is_enemy_unit_tile(const struct tile *ptile,
                                       const struct player *pplayer)
 {
-  return NULL != tile_enemy_unit(ptile, pplayer);
+  return tile_enemy_unit(ptile, pplayer) != nullptr;
 }
 
 struct unit *tile_non_allied_unit(const struct tile *ptile,
@@ -444,7 +444,7 @@ static inline bool is_non_allied_unit_tile(const struct tile *ptile,
                                            const struct player *pplayer,
                                            bool everyone_non_allied)
 {
-  return NULL != tile_non_allied_unit(ptile, pplayer, everyone_non_allied);
+  return tile_non_allied_unit(ptile, pplayer, everyone_non_allied) != nullptr;
 }
 
 struct unit *tile_other_players_unit(const struct tile *ptile,
@@ -456,7 +456,7 @@ struct unit *tile_other_players_unit(const struct tile *ptile,
 static inline bool is_other_players_unit_tile(const struct tile *ptile,
                                               const struct player *pplayer)
 {
-  return NULL != tile_other_players_unit(ptile, pplayer);
+  return tile_other_players_unit(ptile, pplayer) != nullptr;
 }
 
 struct unit *tile_non_attack_unit(const struct tile *ptile,
@@ -469,7 +469,7 @@ struct unit *tile_non_attack_unit(const struct tile *ptile,
 static inline bool is_non_attack_unit_tile(const struct tile *ptile,
                                            const struct player *pplayer)
 {
-  return NULL != tile_non_attack_unit(ptile, pplayer);
+  return tile_non_attack_unit(ptile, pplayer) != nullptr;
 }
 
 struct unit *unit_occupies_tile(const struct tile *ptile,
@@ -555,12 +555,12 @@ bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
 bool unit_transport_unload(struct unit *pcargo);
 struct unit *unit_transport_get(const struct unit *pcargo);
 
-#define unit_transported_server(_pcargo_) ((_pcargo_)->transporter != NULL)
+#define unit_transported_server(_pcargo_) ((_pcargo_)->transporter != nullptr)
 
 /* Evaluates parameter twice! */
 #define unit_transported_client(_pcargo_)  \
   ((_pcargo_)->client.transported_by != -1 \
-   || (_pcargo_)->transporter != NULL)
+   || (_pcargo_)->transporter != nullptr)
 
 bool unit_transported(const struct unit *pcargo);
 struct unit_list *unit_transport_cargo(const struct unit *ptrans);
@@ -575,7 +575,7 @@ bool unit_is_cityfounder(const struct unit *punit);
 /* Iterate all transporters carrying '_pcargo', directly or indirectly. */
 #define unit_transports_iterate(_pcargo, _ptrans) {                         \
   struct unit *_ptrans;                                                     \
-  for (_ptrans = unit_transport_get(_pcargo); NULL != _ptrans;              \
+  for (_ptrans = unit_transport_get(_pcargo); _ptrans != nullptr;           \
        _ptrans = unit_transport_get(_ptrans)) {
 #define unit_transports_iterate_end }}
 
