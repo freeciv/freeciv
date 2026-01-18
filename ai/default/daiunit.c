@@ -438,6 +438,28 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 }
 
 /**********************************************************************//**
+  Select attack kind of action to do against the tile.
+  Returns ACTION_NONE if no attack action possible.
+**************************************************************************/
+enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
+                                              struct unit *punit,
+                                              struct tile *ptile)
+{
+  enum gen_action selected;
+
+  if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK,
+                                                     punit, ptile))
+      == ACTION_NONE
+      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_COLLECT_RANSOM,
+                                                        punit, ptile))
+      == ACTION_NONE) {
+    return ACTION_NONE;
+  }
+
+  return selected;
+}
+
+/**********************************************************************//**
   This function appraises the location (x, y) for a quick hit-n-run
   operation. We do not take into account reinforcements: rampage is for
   loners.
@@ -464,10 +486,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
   if (can_unit_attack_tile(punit, nullptr, ptile)
       && (pdef = get_defender(nmap, punit, ptile, nullptr))
       /* Action enablers might prevent attacking */
-      && (is_action_enabled_unit_on_stack(nmap, ACTION_ATTACK,
-                                          punit, ptile)
-          || is_action_enabled_unit_on_stack(nmap, ACTION_COLLECT_RANSOM,
-                                             punit, ptile))) {
+      && dai_select_tile_attack_action(nmap, punit, ptile) != ACTION_NONE) {
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
     int benefit = stack_cost(punit, pdef);
