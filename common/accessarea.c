@@ -147,11 +147,13 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
 
         BV_CLR_ALL(aarea->tiledefs);
         pf_map_tiles_iterate(pfm, ptile, TRUE) {
-          tiledef_iterate(td) {
-            if (tile_matches_tiledef(td, ptile)) {
-              BV_SET(aarea->tiledefs, tiledef_number(td));
-            }
-          } tiledef_iterate_end;
+          if (ptile != nullptr) {
+            tiledef_iterate(td) {
+              if (tile_matches_tiledef(td, ptile)) {
+                BV_SET(aarea->tiledefs, tiledef_number(td));
+              }
+            } tiledef_iterate_end;
+          }
         } pf_map_tiles_iterate_end;
 
         pf_map_destroy(pfm);
