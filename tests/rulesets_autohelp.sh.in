@@ -19,7 +19,7 @@
 # generate help texts. Exits with 1 if autohelp fails for any ruleset.
 
 if test "$1" = "" ; then
-  # Try to load all rulesets that are developed with Freeciv
+  # Try to create manual for all rulesets that are developed with Freeciv
   rulesets="$(cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list_dist.txt)"
   optional="$(cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list_opt.txt)"
   for opt in $optional ; do
@@ -39,7 +39,7 @@ FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@@H
 export FREECIV_DATA_PATH
 
 for ruleset in $rulesets; do
-  echo "Loading $ruleset"
+  echo "Creating manual for $ruleset"
   @abs_top_builddir@/tools/manual/freeciv-manual -r $ruleset || exit 1
 done
 
