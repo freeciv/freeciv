@@ -1,6 +1,6 @@
 # po.m4
-# serial 34 (gettext-0.24)
-dnl Copyright (C) 1995-2024 Free Software Foundation, Inc.
+# serial 35 (gettext-1.0)
+dnl Copyright (C) 1995-2026 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -15,9 +15,7 @@ dnl by the GNU Lesser General Public License, and the rest of the GNU
 dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
-dnl Authors:
-dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <bruno@clisp.org>, 2000-2024.
+dnl From Ulrich Drepper, Bruno Haible.
 
 AC_PREREQ([2.60])
 
