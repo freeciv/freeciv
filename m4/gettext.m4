@@ -1,6 +1,6 @@
 # gettext.m4
-# serial 83 (gettext-0.26)
-dnl Copyright (C) 1995-2025 Free Software Foundation, Inc.
+# serial 86 (gettext-1.0)
+dnl Copyright (C) 1995-2026 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -15,9 +15,7 @@ dnl by the GNU Lesser General Public License, and the rest of the GNU
 dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
-dnl Authors:
-dnl   Ulrich Drepper <drepper@cygnus.com>, 1995-2000.
-dnl   Bruno Haible <bruno@clisp.org>, 2000-2024.
+dnl From Ulrich Drepper, Bruno Haible, Daiku Ueno.
 
 dnl Macro to add for using GNU gettext.
 
@@ -93,8 +91,17 @@ AC_DEFUN([AM_GNU_GETTEXT],
     AC_REQUIRE([AM_ICONV_LINKFLAGS_BODY])
   ])
 
-  dnl Sometimes, on Mac OS X, libintl requires linking with CoreFoundation.
+  dnl On Mac OS X, libintl requires linking with CoreFoundation.
   gt_INTL_MACOSX
+
+  dnl On native Windows, libintl requires linking with advapi32,
+  dnl because langprefs.c (_nl_language_preferences_win32_95) uses functions
+  dnl from advapi32.dll.
+  AC_REQUIRE([AC_CANONICAL_HOST])
+  INTL_WINDOWS_LIBS=
+  case "$host_os" in
+    mingw* | windows*) INTL_WINDOWS_LIBS='-ladvapi32' ;;
+  esac
 
   dnl Set USE_NLS.
   AC_REQUIRE([AM_NLS])
@@ -119,15 +126,15 @@ AC_DEFUN([AM_GNU_GETTEXT],
   if test "$USE_NLS" = "yes"; then
     gt_use_preinstalled_gnugettext=no
     m4_if(gt_building_libintl_in_same_build_tree, yes, [
-      AC_MSG_CHECKING([whether included gettext is requested])
-      AC_ARG_WITH([included-gettext],
-        [  --with-included-gettext use the GNU gettext library included here],
-        nls_cv_force_use_gnu_gettext=$withval,
-        nls_cv_force_use_gnu_gettext=no)
-      AC_MSG_RESULT([$nls_cv_force_use_gnu_gettext])
+      AC_MSG_CHECKING([whether included libintl is requested])
+      AC_ARG_WITH([included-libintl],
+        [  --with-included-libintl use the GNU libintl library included here],
+        gt_cv_force_use_gnu_libintl=$withval,
+        gt_cv_force_use_gnu_libintl=no)
+      AC_MSG_RESULT([$gt_cv_force_use_gnu_libintl])
 
-      nls_cv_use_gnu_gettext="$nls_cv_force_use_gnu_gettext"
-      if test "$nls_cv_force_use_gnu_gettext" != "yes"; then
+      gt_cv_use_gnu_libintl="$gt_cv_force_use_gnu_libintl"
+      if test "$gt_cv_force_use_gnu_libintl" != "yes"; then
     ])
         dnl User does not insist on using GNU NLS library.  Figure out what
         dnl to use.  If GNU gettext is available we use this.  Else we have
@@ -262,11 +269,13 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
               [eval "$gt_func_gnugettext_libintl=yes"],
               [eval "$gt_func_gnugettext_libintl=no"])
             dnl Now see whether libintl exists and depends on libiconv or other
-            dnl OS dependent libraries, specifically on macOS and AIX.
-            gt_LIBINTL_EXTRA="$INTL_MACOSX_LIBS"
-            AC_REQUIRE([AC_CANONICAL_HOST])
+            dnl OS dependent libraries, specifically on macOS, AIX, and native
+            dnl Windows.
+            gt_LIBINTL_EXTRA=
             case "$host_os" in
-              aix*) gt_LIBINTL_EXTRA="-lpthread" ;;
+              darwin*)           gt_LIBINTL_EXTRA="$INTL_MACOSX_LIBS" ;;
+              aix*)              gt_LIBINTL_EXTRA="-lpthread" ;;
+              mingw* | windows*) gt_LIBINTL_EXTRA="$INTL_WINDOWS_LIBS" ;;
             esac
             if { eval "gt_val=\$$gt_func_gnugettext_libintl"; test "$gt_val" != yes; } \
                && { test -n "$LIBICONV" || test -n "$gt_LIBINTL_EXTRA"; }; then
@@ -326,11 +335,15 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
         if test "$gt_use_preinstalled_gnugettext" != "yes"; then
           dnl GNU gettext is not found in the C library.
           dnl Fall back on included GNU gettext library.
-          nls_cv_use_gnu_gettext=yes
+          gt_cv_use_gnu_libintl=yes
         fi
       fi
 
-      if test "$nls_cv_use_gnu_gettext" = "yes"; then
+      AC_REQUIRE([AC_CANONICAL_HOST])
+      if test "$gt_cv_use_gnu_libintl" = "yes" \
+         || case "$host_os" in cygwin*) true;; *) false;; esac; then
+        dnl GNU gettext is not found in the C library or is,
+        dnl like on Cygwin, a component of the C library.
         dnl Mark actions used to generate GNU NLS library.
         USE_INCLUDED_LIBINTL=yes
         LIBINTL="m4_if([$3],[],\${top_builddir}/intl,[$3])/libintl.la $LIBICONV $LIBTHREAD"
@@ -340,7 +353,7 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
 
       CATOBJEXT=
       if test "$gt_use_preinstalled_gnugettext" = "yes" \
-         || test "$nls_cv_use_gnu_gettext" = "yes"; then
+         || test "$gt_cv_use_gnu_libintl" = "yes"; then
         dnl Mark actions to use GNU gettext tools.
         CATOBJEXT=.gmo
       fi
@@ -348,15 +361,24 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
 
     if test -n "$INTL_MACOSX_LIBS"; then
       if test "$gt_use_preinstalled_gnugettext" = "yes" \
-         || test "$nls_cv_use_gnu_gettext" = "yes"; then
-        dnl Some extra flags are needed during linking.
+         || test "$gt_cv_use_gnu_libintl" = "yes"; then
+        dnl Some extra options are needed during linking.
         LIBINTL="$LIBINTL $INTL_MACOSX_LIBS"
         LTLIBINTL="$LTLIBINTL $INTL_MACOSX_LIBS"
       fi
     fi
 
+    if test -n "$INTL_WINDOWS_LIBS"; then
+      if test "$gt_use_preinstalled_gnugettext" = "yes" \
+         || test "$gt_cv_use_gnu_libintl" = "yes"; then
+        dnl Some extra options are needed during linking.
+        LIBINTL="$LIBINTL $INTL_WINDOWS_LIBS"
+        LTLIBINTL="$LTLIBINTL $INTL_WINDOWS_LIBS"
+      fi
+    fi
+
     if test "$gt_use_preinstalled_gnugettext" = "yes" \
-       || test "$nls_cv_use_gnu_gettext" = "yes"; then
+       || test "$gt_cv_use_gnu_libintl" = "yes"; then
       AC_DEFINE([ENABLE_NLS], [1],
         [Define to 1 if translation of program messages to the user's native language
    is requested.])
