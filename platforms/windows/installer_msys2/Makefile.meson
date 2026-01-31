@@ -98,16 +98,16 @@ sdl2-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl2 $(EXTRA_CONFIG)" GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
 qt5-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 -Dtools=manual,ruleup,ruledit $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
 
 sdl3-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=none $(EXTRA_CONFIG)" GUI=sdl3 CLIENT=sdl3 FCMP=gtk4 installer-common
 
 qt6-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true -Dtools=manual,ruleup,ruledit $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
 
 qt6x-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6x -Dsvgflags=true $(EXTRA_CONFIG)" GUI=qt6x CLIENT=qt FCMP=qt installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6x -Dsvgflags=true -Dtools=manual,ruleup,ruledit $(EXTRA_CONFIG)" GUI=qt6x CLIENT=qt FCMP=qt installer-common
 
 ruledit-installer-qt5:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 installer-ruledit-common
@@ -353,12 +353,15 @@ install-freeciv-gtk4: install-freeciv-common
 install-freeciv-sdl2: install-freeciv-common
 
 install-freeciv-qt5: install-freeciv-common
+	cp freeciv-ruledit.cmd $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-freeciv-sdl3: install-freeciv-common
 
 install-freeciv-qt6: install-freeciv-common
+	cp freeciv-ruledit.cmd $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-freeciv-qt6x: install-freeciv-common
+	cp freeciv-ruledit.cmd $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-gtk3.22: install-env-gtk3-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
