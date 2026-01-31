@@ -361,7 +361,8 @@ void set_unit_activity_targeted(struct unit *punit,
                                 enum unit_activity new_activity,
                                 struct extra_type *new_target,
                                 enum gen_action trigger_action);
-int get_activity_rate(const struct unit *punit);
+int get_activity_rate(const struct unit *punit)
+  fc__attribute((nonnull(1)));
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
                               enum unit_activity activity,
@@ -405,8 +406,10 @@ int get_transporter_capacity(const struct unit *punit);
 #define is_unit_homeless(_pu_) (punit->homecity == IDENTITY_NUMBER_ZERO)
 #define unit_owner(_pu) ((_pu)->owner)
 #define unit_tile(_pu) ((_pu)->tile)
-struct player *unit_nationality(const struct unit *punit);
-void unit_tile_set(struct unit *punit, struct tile *ptile);
+struct player *unit_nationality(const struct unit *punit)
+  fc__attribute((nonnull(1)));
+void unit_tile_set(struct unit *punit, struct tile *ptile)
+  fc__attribute((nonnull(1)));
 
 
 struct unit *tile_allied_unit(const struct tile *ptile,
@@ -506,12 +509,14 @@ bool is_targeted_activity(enum unit_activity activity);
 
 struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
                                  const struct unit_type *punittype,
-                                 int veteran_level);
+                                 int veteran_level)
+  fc__attribute((nonnull(3)));
 void unit_virtual_destroy(struct unit *punit);
 bool unit_is_virtual(const struct unit *punit);
 void free_unit_orders(struct unit *punit);
 
-int get_transporter_occupancy(const struct unit *ptrans);
+int get_transporter_occupancy(const struct unit *ptrans)
+  fc__attribute((nonnull(1)));
 struct unit *transporter_for_unit(const struct unit *pcargo);
 struct unit *transporter_for_unit_at(const struct unit *pcargo,
                                      const struct tile *ptile);
@@ -519,7 +524,8 @@ struct unit *transporter_for_unit_at(const struct unit *pcargo,
 enum unit_upgrade_result
 unit_transform_result(const struct civ_map *nmap,
                       const struct unit *punit,
-                      const struct unit_type *to_unittype);
+                      const struct unit_type *to_unittype)
+  fc__attribute((nonnull(3)));
 enum unit_upgrade_result unit_upgrade_test(const struct civ_map *nmap,
                                            const struct unit *punit,
                                            bool is_free);
@@ -544,16 +550,20 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
                       void *data);
 
 int unit_bribe_cost(const struct unit *punit, const struct player *briber,
-                    const struct unit *briber_unit);
+                    const struct unit *briber_unit)
+  fc__attribute((nonnull(1)));
 int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
                      const struct unit *briber_unit);
 
 int unit_upkeep_cost(const struct unit *punit, Output_type_id otype);
 
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
-                         bool force);
-bool unit_transport_unload(struct unit *pcargo);
-struct unit *unit_transport_get(const struct unit *pcargo);
+                         bool force)
+  fc__attribute((nonnull(1, 2)));
+bool unit_transport_unload(struct unit *pcargo)
+  fc__attribute((nonnull(1)));
+struct unit *unit_transport_get(const struct unit *pcargo)
+  fc__attribute((nonnull(1)));
 
 #define unit_transported_server(_pcargo_) ((_pcargo_)->transporter != nullptr)
 
@@ -562,8 +572,10 @@ struct unit *unit_transport_get(const struct unit *pcargo);
   ((_pcargo_)->client.transported_by != -1 \
    || (_pcargo_)->transporter != nullptr)
 
-bool unit_transported(const struct unit *pcargo);
-struct unit_list *unit_transport_cargo(const struct unit *ptrans);
+bool unit_transported(const struct unit *pcargo)
+  fc__attribute((nonnull(1)));
+struct unit_list *unit_transport_cargo(const struct unit *ptrans)
+  fc__attribute((nonnull(1)));
 bool unit_transport_check(const struct unit *pcargo,
                           const struct unit *ptrans);
 bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans);

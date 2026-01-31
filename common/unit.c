@@ -541,8 +541,6 @@ int get_activity_rate(const struct unit *punit)
   const struct unit_type *ptype;
   int move_rate;
 
-  fc_assert_ret_val(punit != nullptr, 0);
-
   ptype = unit_type_get(punit);
   vlevel = utype_veteran_level(ptype, punit->veteran);
   fc_assert_ret_val(vlevel != nullptr, 0);
@@ -1300,8 +1298,6 @@ void unit_upkeep_astr(const struct unit *punit, struct astring *astr)
 **************************************************************************/
 struct player *unit_nationality(const struct unit *punit)
 {
-  fc_assert_ret_val(punit != nullptr, nullptr);
-
   return punit->nationality;
 }
 
@@ -1311,8 +1307,6 @@ struct player *unit_nationality(const struct unit *punit)
 **************************************************************************/
 void unit_tile_set(struct unit *punit, struct tile *ptile)
 {
-  fc_assert_ret(punit != nullptr);
-
   punit->tile = ptile;
 }
 
@@ -1697,7 +1691,6 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   /* It does not register the unit so the id is set to 0. */
   punit->id = IDENTITY_NUMBER_ZERO;
 
-  fc_assert_ret_val(punittype != nullptr, nullptr);               /* No untyped units! */
   punit->utype = punittype;
 
   fc_assert_ret_val(!is_server() || pplayer != nullptr, nullptr); /* No unowned units! */
@@ -1846,8 +1839,6 @@ void free_unit_orders(struct unit *punit)
 **************************************************************************/
 int get_transporter_occupancy(const struct unit *ptrans)
 {
-  fc_assert_ret_val(ptrans, -1);
-
   return unit_list_size(ptrans->transporting);
 }
 
@@ -2021,8 +2012,6 @@ unit_transform_result(const struct civ_map *nmap,
                       const struct unit *punit,
                       const struct unit_type *to_unittype)
 {
-  fc_assert_ret_val(to_unittype != nullptr, UU_NO_UNITTYPE);
-
   if (!can_type_transport_units_cargo(to_unittype, punit)) {
     return UU_NOT_ENOUGH_ROOM;
   }
@@ -2376,8 +2365,6 @@ int unit_bribe_cost(const struct unit *punit, const struct player *briber,
   struct player *owner = unit_owner(punit);
   const struct unit_type *ptype = unit_type_get(punit);
 
-  fc_assert_ret_val(punit != nullptr, 0);
-
   default_hp = ptype->hp;
 
   cost = game.info.base_bribe_cost;
@@ -2473,9 +2460,6 @@ int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
 **************************************************************************/
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)
 {
-  fc_assert_ret_val(ptrans != nullptr, FALSE);
-  fc_assert_ret_val(pcargo != nullptr, FALSE);
-
   fc_assert_ret_val(!unit_list_search(ptrans->transporting, pcargo), FALSE);
 
   if (force || can_unit_load(pcargo, ptrans)) {
@@ -2494,8 +2478,6 @@ bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)
 bool unit_transport_unload(struct unit *pcargo)
 {
   struct unit *ptrans;
-
-  fc_assert_ret_val(pcargo != nullptr, FALSE);
 
   if (!unit_transported(pcargo)) {
     /* 'pcargo' is not transported. */
@@ -2528,8 +2510,6 @@ bool unit_transport_unload(struct unit *pcargo)
 **************************************************************************/
 bool unit_transported(const struct unit *pcargo)
 {
-  fc_assert_ret_val(pcargo != nullptr, FALSE);
-
   /* The unit is transported if a transporter unit is set or, (for the client)
    * if the transported_by field is set. */
   if (is_server()) {
@@ -2544,8 +2524,6 @@ bool unit_transported(const struct unit *pcargo)
 **************************************************************************/
 struct unit *unit_transport_get(const struct unit *pcargo)
 {
-  fc_assert_ret_val(pcargo != nullptr, nullptr);
-
   return pcargo->transporter;
 }
 
@@ -2554,7 +2532,6 @@ struct unit *unit_transport_get(const struct unit *pcargo)
 **************************************************************************/
 struct unit_list *unit_transport_cargo(const struct unit *ptrans)
 {
-  fc_assert_ret_val(ptrans != nullptr, nullptr);
   fc_assert_ret_val(ptrans->transporting != nullptr, nullptr);
 
   return ptrans->transporting;
