@@ -8,7 +8,7 @@
 #
 
 MIN_WINVER=0x0A00 # Windows 10.
-CROSSER_FEATURE_LEVEL=2.10
+CROSSER_FEATURE_LEVEL=2.11
 
 SRC_DIR="$(cd "$(dirname "$0")" || exit 1 ; pwd)"
 SRC_ROOT="$(cd "${SRC_DIR}/../../.." || exit 1 ; pwd)"
