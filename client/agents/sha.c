@@ -74,7 +74,8 @@ static void sha_unit_change(int id)
 static void sha_unit_new(int id)
 {
   struct unit *punit = game_unit_by_number(id);
-  struct unit *pold_unit = unit_virtual_create(unit_owner(punit), NULL, 0, 0);
+  struct unit *pold_unit = unit_virtual_create(unit_owner(punit), NULL,
+                                               unit_type_get(punit), 0);
 
   log_debug("sha got unit: %d", id);
 
