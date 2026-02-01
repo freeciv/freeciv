@@ -205,18 +205,6 @@ static bool shared_vision_is_safe(struct player* pplayer,
 }
 
 /******************************************************************//**
-  Checks if player1 can agree on ceasefire with player2
-  This function should only be used for ai players
-**********************************************************************/
-static bool dai_players_can_agree_on_ceasefire(struct ai_type *ait,
-                                               struct player* player1,
-                                               struct player* player2)
-{
-  return (player1->ai_common.love[player_index(player2)] > - (MAX_AI_LOVE * 4 / 10)
-          && dai_diplomacy_get(ait, player1, player2)->countdown == -1);
-}
-
-/******************************************************************//**
   Calculate a price of a tech.
   Note that both AI players always evaluate the tech worth symmetrically
   This eases tech exchange.
@@ -447,30 +435,23 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       }
       DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "ally clause worth %d", worth);
     } else {
-      if (is_ai(pplayer) && is_ai(aplayer)
-          && dai_players_can_agree_on_ceasefire(ait, pplayer, aplayer)) {
-        worth = 0;
-      } else {
-        int turns = game.info.turn;
+      int turns = game.info.turn;
 
-        turns -= player_diplstate_get(pplayer, aplayer)->first_contact_turn;
-        if (turns < TURNS_BEFORE_TARGET) {
-          worth = 0; /* Show some good faith */
-          break;
-        } else {
-          worth = greed(pplayer->ai_common.love[player_index(aplayer)]);
-          DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "ceasefire worth=%d love=%d "
-                    "turns=%d", worth,
-                    pplayer->ai_common.love[player_index(aplayer)],
-                    turns);
-        }
+      turns -= player_diplstate_get(pplayer, aplayer)->first_contact_turn;
+      if (turns < TURNS_BEFORE_TARGET) {
+        worth = 0; /* Show some good faith */
+      } else {
+        worth = greed(pplayer->ai_common.love[player_index(aplayer)]);
+        DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "ceasefire worth=%d love=%d "
+                  "turns=%d", worth,
+                  pplayer->ai_common.love[player_index(aplayer)],
+                  turns);
       }
     }
 
     /* Let's all hold hands in one happy family! */
     if (adip->is_allied_with_ally) {
       worth /= 2;
-      break;
     }
 
     DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "treaty clause worth %d", worth);
