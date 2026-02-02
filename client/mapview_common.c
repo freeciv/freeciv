@@ -150,6 +150,7 @@ struct animation
       struct unit *virt_loser;
       struct tile *loser_tile;
       int loser_hp_start;
+      int loser_hp_end;
       struct unit *virt_winner;
       struct tile *winner_tile;
       int winner_hp_start;
@@ -307,7 +308,8 @@ static bool battle_animation(struct animation *anim, double time_gone)
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, map_zoom, anim->battle.loser_tile)) {
     anim->battle.virt_loser->hp
-      = anim->battle.loser_hp_start - (anim->battle.loser_hp_start
+      = anim->battle.loser_hp_start - ((anim->battle.loser_hp_start
+                                        - anim->battle.loser_hp_end)
                                        * step / anim->battle.steps);
 
     if (tileset_is_isometric(tileset) && tileset_hex_height(tileset) == 0) {
@@ -2544,15 +2546,18 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     struct animation *anim = fc_malloc(sizeof(struct animation));
     struct unit *winning_unit;
     int winner_end_hp;
+    int loser_end_hp;
     int aw = tileset_tile_width(tileset) * map_zoom;
     int ah = tileset_tile_height(tileset) * map_zoom;
 
     if (losing_unit == punit1) {
       winning_unit = punit0;
       winner_end_hp = hp0;
+      loser_end_hp = hp1;
     } else {
       winning_unit = punit1;
       winner_end_hp = hp1;
+      loser_end_hp = hp0;
     }
 
     anim->type = ANIM_BATTLE;
@@ -2563,6 +2568,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     anim->battle.loser_tile = unit_tile(losing_unit);
     anim->battle.virt_loser->facing = losing_unit->facing;
     anim->battle.loser_hp_start = losing_unit->hp;
+    anim->battle.loser_hp_end = loser_end_hp;
     anim->battle.virt_winner = unit_virtual_create(unit_owner(winning_unit),
                                                    NULL, unit_type_get(winning_unit),
                                                    winning_unit->veteran);
@@ -2576,15 +2582,17 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     anim->height = ah;
     animation_add(anim);
 
-    anim = fc_malloc(sizeof(struct animation));
-    anim->type = ANIM_EXPL;
-    anim->id = winning_unit->id;
-    anim->expl.tile = losing_unit->tile;
-    anim->expl.sprites = get_unit_explode_animation(tileset);
-    anim->expl.sprite_count = sprite_vector_size(anim->expl.sprites);
-    anim->width = aw;
-    anim->height = ah;
-    animation_add(anim);
+    if (loser_end_hp <= 0) {
+      anim = fc_malloc(sizeof(struct animation));
+      anim->type = ANIM_EXPL;
+      anim->id = winning_unit->id;
+      anim->expl.tile = losing_unit->tile;
+      anim->expl.sprites = get_unit_explode_animation(tileset);
+      anim->expl.sprite_count = sprite_vector_size(anim->expl.sprites);
+      anim->width = aw;
+      anim->height = ah;
+      animation_add(anim);
+    }
   } else {
     const struct sprite_vector *anim = get_unit_explode_animation(tileset);
     const int num_tiles_explode_unit = sprite_vector_size(anim);
