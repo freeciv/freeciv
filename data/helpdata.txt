@@ -2311,7 +2311,7 @@ _("\
 If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
 "), "\
-  https://osdn.net/projects/freeciv/ticket/\
+  https://redmine.freeciv.org/projects/freeciv\
 ", _("\
 Please quote the above version information. \
 For more information about submitting bug reports see the file BUGS \
