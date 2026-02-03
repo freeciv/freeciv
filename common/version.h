@@ -18,7 +18,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #if !defined(FC__FREECIV_CONFIG_H) && !defined(FC_CONFIG_H)
-#error Files including version.h should also include freeciv_config.h directly
+#warning Files including version.h should also include freeciv_config.h directly
 #endif
 
 /* This is only used in version.c, and only if IS_BETA_VERSION is true.
