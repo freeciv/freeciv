@@ -181,6 +181,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo DEBIAN_FRONTEND=noninteractive apt-get -y install \
+            meson \
             clang \
             libtolua-dev \
             liblua5.4-dev \
@@ -188,10 +189,6 @@ jobs:
             libgtk-3-dev \
             libgtk-4-dev \
             libcurl4-openssl-dev \
-            libtool \
-            automake \
-            autoconf \
-            autotools-dev \
             language-pack-en \
             python3.10 \
             liblzma-dev \
@@ -199,10 +196,9 @@ jobs:
             libsqlite3-dev \
             qt6-base-dev \
             libsdl2-mixer-dev \
-            libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev \
+            libmariadb-dev \
             unixodbc-dev
       - name: build
         shell: bash
