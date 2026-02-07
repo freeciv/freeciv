@@ -11,7 +11,7 @@
 
 WINBUILD_VERSION="2.4.3"
 MIN_WINVER=0x0603 # Windows 8.1, Qt6-client and Qt6-ruledit builds override this
-CROSSER_FEATURE_LEVEL=2.10
+CROSSER_FEATURE_LEVEL=2.11
 
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"

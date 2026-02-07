@@ -102,8 +102,8 @@ add_common_env() {
   cp $1/bin/libsqlite3-0.dll  $2/ &&
   cp $1/bin/libiconv-2.dll    $2/ &&
   cp $1/bin/libz.dll.1.3.1    $2/ &&
-  cp $1/bin/icuuc71.dll       $2/ &&
-  cp $1/bin/icudt71.dll       $2/ &&
+  cp $1/bin/icuuc76.dll       $2/ &&
+  cp $1/bin/icudt76.dll       $2/ &&
   cp $1/bin/libpng16-16.dll   $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
