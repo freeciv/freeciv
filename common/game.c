@@ -95,9 +95,8 @@ struct city *game_city_by_name(const char *name)
     }
   } players_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
-
 
 /**********************************************************************//**
   Often used function to get a city pointer from a city ID.
@@ -188,12 +187,12 @@ void game_remove_city(struct world *gworld, struct city *pcity)
   struct player *powner = city_owner(pcity);
   const struct civ_map *nmap = &(wld.map);
 
-  if (NULL != powner) {
+  if (powner != nullptr) {
     /* Always unlink before clearing data */
     city_list_remove(powner->cities, pcity);
   }
 
-  if (NULL == pcenter) {
+  if (pcenter == nullptr) {
     log_debug("game_remove_city() virtual city %d, %s",
               pcity->id,
               city_name_get(pcity));
@@ -206,7 +205,7 @@ void game_remove_city(struct world *gworld, struct city *pcity)
 
     city_tile_iterate(nmap, city_map_radius_sq_get(pcity), pcenter, ptile) {
       if (tile_worked(ptile) == pcity) {
-        tile_set_worked(ptile, NULL);
+        tile_set_worked(ptile, nullptr);
       }
     } city_tile_iterate_end;
   }
@@ -245,9 +244,9 @@ static void game_defaults(bool keep_ruleset_value)
   game.control.num_city_styles         = 0;
   game.control.terrain_count           = 0;
 
-  game.ruleset_summary       = NULL;
-  game.ruleset_description   = NULL;
-  game.ruleset_capabilities  = NULL;
+  game.ruleset_summary       = nullptr;
+  game.ruleset_description   = nullptr;
+  game.ruleset_capabilities  = nullptr;
 
   /* The info packet. */
   game.info.aifill           = GAME_DEFAULT_AIFILL;
@@ -330,10 +329,10 @@ static void game_defaults(bool keep_ruleset_value)
   game.scenario_desc.description[0] = '\0';
 
   /* Veteran system. */
-  game.veteran = NULL;
+  game.veteran = nullptr;
 
   /* Player colors */
-  game.plr_bg_color = NULL;
+  game.plr_bg_color = nullptr;
 
   game.lua_timeout = GAME_DEFAULT_LUA_TIMEOUT;
 
@@ -430,8 +429,8 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.timeoutintinc     = GAME_DEFAULT_TIMEOUTINTINC;
     game.server.turnblock         = GAME_DEFAULT_TURNBLOCK;
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
-    game.server.plr_colors        = NULL;
-    game.server.random_move_time  = NULL;
+    game.server.plr_colors        = nullptr;
+    game.server.random_move_time  = nullptr;
     game.server.world_peace_start = 0;
   } else {
     /* Client side takes care of itself in client_main() */
@@ -546,17 +545,17 @@ void game_ruleset_init(void)
   counters_init();
 
   if (is_server()) {
-    game.server.luadata = NULL;
+    game.server.luadata = nullptr;
     game.server.dbid = -1;
-    game.server.ruledit.nationlist = NULL;
-    game.server.ruledit.embedded_nations = NULL;
+    game.server.ruledit.nationlist = nullptr;
+    game.server.ruledit.embedded_nations = nullptr;
     game.server.ruledit.embedded_nations_count = 0;
-    game.server.ruledit.allowed_govs = NULL;
-    game.server.ruledit.allowed_terrains = NULL;
-    game.server.ruledit.allowed_styles = NULL;
-    game.server.ruledit.nc_agovs = NULL;
-    game.server.ruledit.nc_aterrs = NULL;
-    game.server.ruledit.nc_astyles = NULL;
+    game.server.ruledit.allowed_govs = nullptr;
+    game.server.ruledit.allowed_terrains = nullptr;
+    game.server.ruledit.allowed_styles = nullptr;
+    game.server.ruledit.nc_agovs = nullptr;
+    game.server.ruledit.nc_aterrs = nullptr;
+    game.server.ruledit.nc_astyles = nullptr;
     game.server.ruledit.ag_count = 0;
     game.server.ruledit.at_count = 0;
     game.server.ruledit.as_count = 0;
@@ -577,7 +576,7 @@ void game_ruleset_free(void)
   players_iterate(pplayer) {
     player_ruleset_close(pplayer);
   } players_iterate_end;
-  game.government_during_revolution = NULL;
+  game.government_during_revolution = nullptr;
 
   specialists_free();
   unit_classes_free();
@@ -613,56 +612,56 @@ void game_ruleset_free(void)
 
   /* Destroy the default veteran system. */
   veteran_system_destroy(game.veteran);
-  game.veteran = NULL;
+  game.veteran = nullptr;
 
   /* Player colors. */
-  if (game.plr_bg_color != NULL) {
+  if (game.plr_bg_color != nullptr) {
     rgbcolor_destroy(game.plr_bg_color);
-    game.plr_bg_color = NULL;
+    game.plr_bg_color = nullptr;
   }
 
   if (is_server()) {
-    if (game.server.luadata != NULL) {
+    if (game.server.luadata != nullptr) {
       secfile_destroy(game.server.luadata);
     }
-    if (game.server.ruledit.description_file != NULL) {
+    if (game.server.ruledit.description_file != nullptr) {
       free(game.server.ruledit.description_file);
-      game.server.ruledit.description_file = NULL;
+      game.server.ruledit.description_file = nullptr;
     }
-    if (game.server.ruledit.nationlist != NULL) {
+    if (game.server.ruledit.nationlist != nullptr) {
       free(game.server.ruledit.nationlist);
-      game.server.ruledit.nationlist = NULL;
+      game.server.ruledit.nationlist = nullptr;
     }
-    if (game.server.ruledit.embedded_nations != NULL) {
+    if (game.server.ruledit.embedded_nations != nullptr) {
       for (i = 0; i < game.server.ruledit.embedded_nations_count; i++) {
         free(game.server.ruledit.embedded_nations[i]);
       }
       free(game.server.ruledit.embedded_nations);
-      game.server.ruledit.embedded_nations = NULL;
+      game.server.ruledit.embedded_nations = nullptr;
       game.server.ruledit.embedded_nations_count = 0;
-      if (game.server.ruledit.allowed_govs != NULL) {
+      if (game.server.ruledit.allowed_govs != nullptr) {
         for (i = 0; i < game.server.ruledit.ag_count; i++) {
           free(game.server.ruledit.nc_agovs[i]);
         }
         free(game.server.ruledit.allowed_govs);
-        game.server.ruledit.allowed_govs = NULL;
-        game.server.ruledit.nc_agovs = NULL;
+        game.server.ruledit.allowed_govs = nullptr;
+        game.server.ruledit.nc_agovs = nullptr;
       }
-      if (game.server.ruledit.allowed_terrains != NULL) {
+      if (game.server.ruledit.allowed_terrains != nullptr) {
         for (i = 0; i < game.server.ruledit.at_count; i++) {
           free(game.server.ruledit.nc_aterrs[i]);
         }
         free(game.server.ruledit.allowed_terrains);
-        game.server.ruledit.allowed_terrains = NULL;
-        game.server.ruledit.nc_aterrs = NULL;
+        game.server.ruledit.allowed_terrains = nullptr;
+        game.server.ruledit.nc_aterrs = nullptr;
       }
-      if (game.server.ruledit.allowed_styles != NULL) {
+      if (game.server.ruledit.allowed_styles != nullptr) {
         for (i = 0; i < game.server.ruledit.as_count; i++) {
           free(game.server.ruledit.nc_astyles[i]);
         }
         free(game.server.ruledit.allowed_styles);
-        game.server.ruledit.allowed_styles = NULL;
-        game.server.ruledit.nc_astyles = NULL;
+        game.server.ruledit.allowed_styles = nullptr;
+        game.server.ruledit.nc_astyles = nullptr;
       }
     }
   }
@@ -671,19 +670,19 @@ void game_ruleset_free(void)
     game.calendar.calendar_fragment_name[i][0] = '\0';
   }
 
-  if (game.ruleset_summary != NULL) {
+  if (game.ruleset_summary != nullptr) {
     free(game.ruleset_summary);
-    game.ruleset_summary = NULL;
+    game.ruleset_summary = nullptr;
   }
 
-  if (game.ruleset_description != NULL) {
+  if (game.ruleset_description != nullptr) {
     free(game.ruleset_description);
-    game.ruleset_description = NULL;
+    game.ruleset_description = nullptr;
   }
 
-  if (game.ruleset_capabilities != NULL) {
+  if (game.ruleset_capabilities != nullptr) {
     free(game.ruleset_capabilities);
-    game.ruleset_capabilities = NULL;
+    game.ruleset_capabilities = nullptr;
   }
 }
 
@@ -712,7 +711,7 @@ void initialize_globals(void)
   NB: The meaning of the 'phase' argument must match its use in the
   function begin_turn() in server/srv_main.c.
   NB: The phase mode PMT_TEAMS_ALTERNATE assumes that every player is
-  on a team, i.e. that pplayer->team is never NULL.
+  on a team, i.e. that pplayer->team is never nullptr.
 **************************************************************************/
 bool is_player_phase(const struct player *pplayer, int phase)
 {
@@ -724,7 +723,7 @@ bool is_player_phase(const struct player *pplayer, int phase)
     return player_number(pplayer) == phase;
     break;
   case PMT_TEAMS_ALTERNATE:
-    fc_assert_ret_val(NULL != pplayer->team, FALSE);
+    fc_assert_ret_val(pplayer->team != nullptr, FALSE);
     return team_number(pplayer->team) == phase;
     break;
   default:
@@ -737,15 +736,16 @@ bool is_player_phase(const struct player *pplayer, int phase)
 }
 
 /**********************************************************************//**
-  Return a prettily formatted string containing the population text.  The
-  population is passed in as the number of citizens, in unit
+  Return a prettily formatted string containing the population text.
+  The population is passed in as the number of citizens, in unit
   (tens/hundreds/thousands...) defined in cities.ruleset.
 **************************************************************************/
 const char *population_to_text(int thousand_citizen)
 {
-  /* big_int_to_text can't handle negative values, and in any case we'd
+  /* big_int_to_text() can't handle negative values, and in any case we'd
    * better not have a negative population. */
-  fc_assert_ret_val(thousand_citizen >= 0, NULL);
+  fc_assert_ret_val(thousand_citizen >= 0, nullptr);
+
   return big_int_to_text(thousand_citizen, game.info.pop_report_zeroes - 1);
 }
 
@@ -802,7 +802,7 @@ int generate_save_name(const char *format, char *buf, int buflen,
                        const char *reason)
 {
   struct cf_sequence sequences[5] = {
-    cf_str_seq('R', (reason == NULL) ? "auto" : reason),
+    cf_str_seq('R', (reason == nullptr) ? "auto" : reason),
     cf_str_seq('S', year_suffix()),
     { 0 }, { 0 }, /* Works for both gcc and tcc */
     cf_end()
@@ -833,8 +833,8 @@ int generate_save_name(const char *format, char *buf, int buflen,
 **************************************************************************/
 void user_flag_init(struct user_flag *flag)
 {
-  flag->name = NULL;
-  flag->helptxt = NULL;
+  flag->name = nullptr;
+  flag->helptxt = nullptr;
 }
 
 /**********************************************************************//**
@@ -842,13 +842,13 @@ void user_flag_init(struct user_flag *flag)
 **************************************************************************/
 void user_flag_free(struct user_flag *flag)
 {
-  if (flag->name != NULL) {
+  if (flag->name != nullptr) {
     FC_FREE(flag->name);
-    flag->name = NULL;
+    flag->name = nullptr;
   }
-  if (flag->helptxt != NULL) {
+  if (flag->helptxt != nullptr) {
     FC_FREE(flag->helptxt);
-    flag->helptxt = NULL;
+    flag->helptxt = nullptr;
   }
 }
 
