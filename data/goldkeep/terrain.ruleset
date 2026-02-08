@@ -2142,6 +2142,8 @@ gui_type       = "Other"
 ;                        not change, if you want to rename an item after a
 ;                        ruleset has been released, you should set
 ;                        "rule_name" to the original value of "name".
+; terrain_flag         = Flag that terrain on the tile must have
+;                        to satisfy tiledef requirements.
 ; extras               = List of extras that the tile must have
 ;                        to satisfy tiledef requirements.
 ;

@@ -749,6 +749,8 @@ tiledefs = "\
 ;                        not change, if you want to rename an item after\n\
 ;                        a ruleset has been released, you should set\n\
 ;                        \"rule_name\" to the original value of \"name\".\n\
+; terrain_flag         = Flag that terrain on the tile must have\n\
+;                        to satisfy tiledef requirements.\n\
 ; extras               = List of extras that the tile must have\n\
 ;                        to satisfy tiledef requirements.\n\
 ;\n\

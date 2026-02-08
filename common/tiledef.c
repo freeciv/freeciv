@@ -149,6 +149,12 @@ struct tiledef *tiledef_by_translated_name(const char *name)
 ****************************************************************************/
 bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
 {
+  if (terrain_flag_id_is_valid(td->terr_flag)) {
+    if (!terrain_has_flag(tile_terrain(ptile), td->terr_flag)) {
+      return FALSE;
+    }
+  }
+
   extra_type_list_iterate(td->extras, pextra) {
     if (!tile_has_extra(ptile, pextra)) {
       return FALSE;

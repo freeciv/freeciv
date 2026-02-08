@@ -4289,6 +4289,24 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *section = &tiledef_sections[tdidx * MAX_SECTION_LABEL];
       const char **slist;
       int ej;
+      const char *flag_name;
+
+      flag_name = secfile_lookup_str_default(file, nullptr,
+                                             "%s.terrain_flag", section);
+
+      if (flag_name == nullptr) {
+        td->terr_flag = terrain_flag_id_invalid();
+      } else {
+        td->terr_flag = terrain_flag_id_by_name(flag_name, fc_strcasecmp);
+
+        if (!terrain_flag_id_is_valid(td->terr_flag)) {
+          ruleset_error(nullptr, LOG_ERROR,
+                        "%s: Invalid terrain flag %s.",
+                        section, flag_name);
+          ok = FALSE;
+          break;
+        }
+      }
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.extras", section);
       for (ej = 0; ej < nval; ej++) {

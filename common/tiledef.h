@@ -19,12 +19,14 @@ extern "C" {
 
 /* common */
 #include "extras.h"
+#include "terrain.h"
 
 struct tiledef
 {
   int id;
   struct name_translation name;
 
+  enum terrain_flag_id terr_flag;
   struct extra_type_list *extras;
 };
 
