@@ -121,7 +121,7 @@ static int _shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx,
 	* Scan destination
 	*/
 	sp = (tColorRGBA *) src->pixels;
-	
+
 	dp = (tColorRGBA *) dst->pixels;
 	dgap = dst->pitch - dst->w * 4;
 
@@ -402,12 +402,12 @@ static int _zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int
 				dp->b = (((t2 - t1) * ey) >> 16) + t1;
 				t1 = ((((c01->a - c00->a) * ex) >> 16) + c00->a) & 0xff;
 				t2 = ((((c11->a - c10->a) * ex) >> 16) + c10->a) & 0xff;
-				dp->a = (((t2 - t1) * ey) >> 16) + t1;				
+				dp->a = (((t2 - t1) * ey) >> 16) + t1;
 				/*
 				* Advance source pointer x
 				*/
 				salast = csax;
-				csax++;				
+				csax++;
 				sstep = (*csax >> 16) - (*salast >> 16);
 				if (flipx) {
 					sp -= sstep;
@@ -441,7 +441,7 @@ static int _zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int
 	} else {
 		/*
 		* Non-Interpolating Zoom
-		*/		
+		*/
 		csay = say;
 		for (y = 0; y < dst->h; y++) {
 			csp = sp;
@@ -456,7 +456,7 @@ static int _zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int
 				* Advance source pointer x
 				*/
 				salast = csax;
-				csax++;				
+				csax++;
 				sstep = (*csax >> 16) - (*salast >> 16);
 				if (flipx) sstep = -sstep;
 				sp += sstep;
@@ -473,7 +473,7 @@ static int _zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int
 			csay++;
 			sstep = (*csay >> 16) - (*salast >> 16);
 			sstep *= spixelgap;
-			if (flipy) sstep = -sstep;			
+			if (flipy) sstep = -sstep;
 			sp = csp + sstep;
 
 			/*
@@ -760,7 +760,7 @@ static void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int 
 	gap = dst->pitch - dst->w;
 	/*
 	* Clear surface to colorkey
-	*/ 	
+	*/
 	memset(pc, (int)(_colorkey(src) & 0xff), dst->pitch * dst->h);
 	/*
 	* Iterate through destination surface
@@ -1437,7 +1437,7 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 		*/
 		if (src_converted) {
 			SDL_FreeSurface(rz_src);
-		}		
+		}
 		return NULL;
 	}
 
@@ -1608,7 +1608,7 @@ SDL_Surface *shrinkSurface(SDL_Surface *src, int factorx, int factory)
 		/*
 		* Call the 32bit transformation routine to do the shrinking (using alpha)
 		*/
-		result = _shrinkSurfaceRGBA(rz_src, rz_dst, factorx, factory);		
+		result = _shrinkSurfaceRGBA(rz_src, rz_dst, factorx, factory);
 		if ((result!=0) || (rz_dst==NULL)) {
 			haveError = 1;
 			goto exitShrinkSurface;
