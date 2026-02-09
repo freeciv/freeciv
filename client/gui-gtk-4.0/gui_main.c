@@ -468,12 +468,10 @@ static gboolean key_press_map_canvas(guint keyval, GdkModifierType state)
     }
   } else if (!(state & GDK_CONTROL_MASK)) {
     switch (keyval) {
-    case GDK_KEY_plus:
     case GDK_KEY_KP_Add:
       zoom_step_up();
       return TRUE;
 
-    case GDK_KEY_minus:
     case GDK_KEY_KP_Subtract:
       zoom_step_down();
       return TRUE;
@@ -1279,7 +1277,7 @@ static void setup_widgets(void)
     gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(mc_gesture), 3);
     controller = GTK_EVENT_CONTROLLER(mc_gesture);
     g_signal_connect(controller, "pressed",
-		     G_CALLBACK(reverse_taxrates_callback), NULL);
+                     G_CALLBACK(reverse_taxrates_callback), NULL);
     gtk_widget_add_controller(econ_label[i], controller);
     gtk_grid_attach(GTK_GRID(table2), econ_label[i], i, 0, 1, 1);
   }

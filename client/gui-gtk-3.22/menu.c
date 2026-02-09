@@ -40,6 +40,7 @@
 #include "mapview_common.h"
 #include "options.h"
 #include "tilespec.h"
+#include "zoom.h"
 
 /* client/gui-gtk-3.22 */
 #include "chatline.h"
@@ -215,6 +216,8 @@ static void toggle_fog_callback(GtkCheckMenuItem *item, gpointer data);
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
 static void save_scenario_callback(GtkMenuItem *item, gpointer data);
 static void center_view_callback(GtkMenuItem *item, gpointer data);
+static void zoom_in_callback(GtkMenuItem *item, gpointer data);
+static void zoom_out_callback(GtkMenuItem *item, gpointer data);
 static void report_economy_callback(GtkMenuItem *item, gpointer data);
 static void report_research_callback(GtkMenuItem *item, gpointer data);
 static void multiplier_callback(GtkMenuItem *item, gpointer data);
@@ -507,6 +510,10 @@ static struct menu_entry_info menu_entries[] =
 
   { "CENTER_VIEW", N_("_Center View"), GDK_KEY_c, 0,
     G_CALLBACK(center_view_callback), MGROUP_PLAYER },
+  { "ZOOM_IN", N_("_Zoom in"), GDK_KEY_plus, 0,
+    G_CALLBACK(zoom_in_callback), MGROUP_PLAYER },
+  { "ZOOM_OUT", N_("_Zoom out"), GDK_KEY_minus, 0,
+    G_CALLBACK(zoom_out_callback), MGROUP_PLAYER },
   { "REPORT_ECONOMY", N_("_Economy"), GDK_KEY_F5, 0,
     G_CALLBACK(report_economy_callback), MGROUP_PLAYER },
   { "REPORT_RESEARCH", N_("_Research"), GDK_KEY_F6, 0,
@@ -742,7 +749,7 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
                                _("Leaving a local game will end it!"));
     setup_dialog(dialog, toplevel);
     gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
-    g_signal_connect(dialog, "response", 
+    g_signal_connect(dialog, "response",
                      G_CALLBACK(leave_local_game_response), NULL);
     gtk_window_present(GTK_WINDOW(dialog));
   } else {
@@ -2077,6 +2084,22 @@ static void center_view_callback(GtkMenuItem *action, gpointer data)
 }
 
 /************************************************************************//**
+  Action "ZOOM_IN" callback.
+****************************************************************************/
+static void zoom_in_callback(GtkMenuItem *action, gpointer data)
+{
+  zoom_step_up();
+}
+
+/************************************************************************//**
+  Action "ZOOM_OUT" callback.
+****************************************************************************/
+static void zoom_out_callback(GtkMenuItem *action, gpointer data)
+{
+  zoom_step_down();
+}
+
+/************************************************************************//**
   Action "REPORT_UNITS" callback.
 ****************************************************************************/
 static void report_units_callback(GtkMenuItem *action, gpointer data)
@@ -2652,7 +2675,7 @@ void real_menus_update(void)
                            units_can_load(punits));
   menu_entry_set_sensitive("UNIT_DEBOARD",
                            units_can_unload(&(wld.map), punits));
-  menu_entry_set_sensitive("UNIT_UNSENTRY", 
+  menu_entry_set_sensitive("UNIT_UNSENTRY",
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
   menu_entry_set_sensitive("AUTO_WORKER",
@@ -2698,7 +2721,7 @@ void real_menus_update(void)
 
   extras = extra_type_list_by_cause(EC_IRRIGATION);
 
-  if (extra_type_list_size(extras) > 0) { 
+  if (extra_type_list_size(extras) > 0) {
     struct extra_type *tgt;
 
     tgt = extra_type_list_get(extras, 0);
@@ -2725,7 +2748,7 @@ void real_menus_update(void)
         break;
       }
     } unit_list_iterate_end;
-    
+
     if (city_on_tile && units_can_do_action(punits, ACTION_JOIN_CITY,
                                             TRUE)) {
       menus_rename("BUILD_CITY",

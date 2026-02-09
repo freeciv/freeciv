@@ -40,6 +40,7 @@
 #include "mapview_common.h"
 #include "options.h"
 #include "tilespec.h"
+#include "zoom.h"
 
 /* client/gui-gtk-4.0 */
 #include "chatline.h"
@@ -374,6 +375,12 @@ static void full_screen_callback(GSimpleAction *action,
 static void center_view_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
+static void zoom_in_callback(GSimpleAction *action,
+                             GVariant *parameter,
+                             gpointer data);
+static void zoom_out_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data);
 static void report_economy_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data);
@@ -717,6 +724,12 @@ static struct menu_entry_info menu_entries[] =
     full_screen_callback, FALSE },
   { "CENTER_VIEW", N_("_Center View"),
     "center_view", "c", MGROUP_PLAYER | MGROUP_CHAR,
+    NULL, FALSE },
+  { "ZOOM_IN", N_("_Zoom in"),
+    "zoom_in", "plus", MGROUP_PLAYER,
+    NULL, FALSE },
+  { "ZOOM_OUT", N_("_Zoom out"),
+    "zoom_out", "minus", MGROUP_PLAYER,
     NULL, FALSE },
 
   /* Select menu */
@@ -1087,6 +1100,8 @@ const GActionEntry acts[] = {
   { "lua_script", client_lua_script_callback },
 
   { "center_view", center_view_callback },
+  { "zoom_in", zoom_in_callback },
+  { "zoom_out", zoom_out_callback },
 
   { "select_single", select_single_callback },
   { "select_all_tile", select_all_on_tile_callback },
@@ -2844,6 +2859,26 @@ static void center_view_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  Action "ZOOM_IN" callback.
+****************************************************************************/
+static void zoom_in_callback(GSimpleAction *action,
+                             GVariant *parameter,
+                             gpointer data)
+{
+  zoom_step_up();
+}
+
+/************************************************************************//**
+  Action "ZOOM_OUT" callback.
+****************************************************************************/
+static void zoom_out_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data)
+{
+  zoom_step_down();
+}
+
+/************************************************************************//**
   Action "REPORT_UNITS" callback.
 ****************************************************************************/
 static void report_units_callback(GSimpleAction *action,
@@ -3157,6 +3192,8 @@ static GMenu *setup_menus(GtkApplication *app)
 
   menu_entry_init(view_menu, "FULL_SCREEN");
   menu_entry_init(view_menu, "CENTER_VIEW");
+  menu_entry_init(view_menu, "ZOOM_IN");
+  menu_entry_init(view_menu, "ZOOM_OUT");
 
   submenu_append_unref(menubar, Q_("?verb:_View"), G_MENU_MODEL(view_menu));
 

@@ -173,7 +173,7 @@ static GtkWidget *more_arrow_pixmap_button;
 static GtkWidget *more_arrow_pixmap_container;
 
 static int unit_id_top;
-static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
+static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer = NULL;
@@ -261,7 +261,7 @@ static gboolean timer_callback(gpointer data)
 
 /**********************************************************************//**
   Print extra usage information, including one line help on each option,
-  to stderr. 
+  to stderr.
 **************************************************************************/
 static void print_usage(void)
 {
@@ -318,14 +318,14 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
   switch (arg) {
     case GTK_DIR_TAB_FORWARD:
     case GTK_DIR_TAB_BACKWARD:
-      
+
       if (!gtk_widget_get_can_focus(w)) {
-	return FALSE;
+        return FALSE;
       }
 
       if (!gtk_widget_is_focus(w)) {
-	gtk_widget_grab_focus(w);
-	return TRUE;
+        gtk_widget_grab_focus(w);
+        return TRUE;
       }
       break;
 
@@ -385,8 +385,8 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEvent *ev, gpointer data)
             && gtk_text_view_get_editable(GTK_TEXT_VIEW(focus)))) {
       /* Propagate event to currently focused entry widget. */
       if (gtk_widget_event(focus, ev)) {
-	/* Do not propagate event to our children. */
-	return TRUE;
+        /* Do not propagate event to our children. */
+        return TRUE;
       }
     }
   }
@@ -426,12 +426,12 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
 
     case GDK_KEY_Page_Up:
       g_signal_emit_by_name(main_message_area, "move_cursor",
-	                          GTK_MOVEMENT_PAGES, -1, FALSE);
+                            GTK_MOVEMENT_PAGES, -1, FALSE);
       return TRUE;
 
     case GDK_KEY_Page_Down:
       g_signal_emit_by_name(main_message_area, "move_cursor",
-	                          GTK_MOVEMENT_PAGES, 1, FALSE);
+                            GTK_MOVEMENT_PAGES, 1, FALSE);
       return TRUE;
 
     default:
@@ -473,12 +473,10 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
   }
   if (!(ev->state & ACCL_MOD_KEY)) {
     switch (ev->keyval) {
-    case GDK_KEY_plus:
     case GDK_KEY_KP_Add:
       zoom_step_up();
       return TRUE;
 
-    case GDK_KEY_minus:
     case GDK_KEY_KP_Subtract:
       zoom_step_down();
       return TRUE;
@@ -552,9 +550,9 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     return TRUE;
 
   case GDK_KEY_KP_Begin:
-  case GDK_KEY_KP_5: 
+  case GDK_KEY_KP_5:
   case GDK_KEY_5:
-    key_recall_previous_focus_unit(); 
+    key_recall_previous_focus_unit();
     return TRUE;
 
   case GDK_KEY_Escape:
@@ -803,7 +801,7 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
     g_signal_connect(w, "key_press_event",
-	G_CALLBACK(propagate_keypress), NULL);
+                     G_CALLBACK(propagate_keypress), NULL);
 
     g_object_set_data(G_OBJECT(w), "parent", gtk_widget_get_parent(box));
     g_object_set_data(G_OBJECT(w), "toggle", b);
@@ -924,7 +922,7 @@ static void populate_unit_image_table(void)
   gtk_container_add(GTK_CONTAINER(unit_image_button), unit_image);
   gtk_grid_attach(GTK_GRID(table), unit_image_button, 0, 0, 1, 1);
   g_signal_connect(unit_image_button, "button_press_event",
-                   G_CALLBACK(select_unit_image_callback), 
+                   G_CALLBACK(select_unit_image_callback),
                    GINT_TO_POINTER(-1));
 
   if (!GUI_GTK_OPTION(small_display_layout)) {
@@ -1241,28 +1239,28 @@ static void setup_widgets(void)
   gtk_widget_set_halign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_size_request(overview_canvas, overview_canvas_store_width,
-		              overview_canvas_store_height);
+                              overview_canvas_store_height);
   gtk_widget_set_size_request(overview_scrolled_window, overview_canvas_store_width,
-		              overview_canvas_store_height);
+                              overview_canvas_store_height);
   gtk_widget_set_hexpand(overview_canvas, TRUE);
   gtk_widget_set_vexpand(overview_canvas, TRUE);
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
-        			        |GDK_BUTTON_PRESS_MASK
-				        |GDK_POINTER_MOTION_MASK);
+                                         |GDK_BUTTON_PRESS_MASK
+                                         |GDK_POINTER_MOTION_MASK);
   gtk_container_add(GTK_CONTAINER(avbox), overview_scrolled_window);
 
-  gtk_container_add(GTK_CONTAINER(overview_scrolled_window), 
+  gtk_container_add(GTK_CONTAINER(overview_scrolled_window),
                     overview_canvas);
- 
+
   g_signal_connect(overview_canvas, "draw",
-        	   G_CALLBACK(overview_canvas_draw), NULL);
+                   G_CALLBACK(overview_canvas_draw), NULL);
 
   g_signal_connect(overview_canvas, "motion_notify_event",
-        	   G_CALLBACK(move_overviewcanvas), NULL);
+                   G_CALLBACK(move_overviewcanvas), NULL);
 
   g_signal_connect(overview_canvas, "button_press_event",
-        	   G_CALLBACK(butt_down_overviewcanvas), NULL);
+                   G_CALLBACK(butt_down_overviewcanvas), NULL);
 
   /* The rest */
 
@@ -1378,7 +1376,7 @@ static void setup_widgets(void)
       break;
     case 2:
       w = flake_label;
-      flake_ebox = ebox; 
+      flake_ebox = ebox;
       break;
     default:
     case 3:
@@ -1611,9 +1609,9 @@ static void setup_widgets(void)
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
-  				 GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(vgrid), sw);
 
   label = gtk_label_new(_("Chat"));
@@ -2266,7 +2264,7 @@ static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
   Set socket writability state
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
-					 bool socket_writable)
+                                         bool socket_writable)
 {
   static bool previous_state = FALSE;
 
@@ -2352,18 +2350,18 @@ void popup_quit_dialog(void)
 
   if (!dialog) {
     dialog = gtk_message_dialog_new(NULL,
-	0,
-	GTK_MESSAGE_WARNING,
-	GTK_BUTTONS_YES_NO,
-	_("Are you sure you want to quit?"));
+                                    0,
+                                    GTK_MESSAGE_WARNING,
+                                    GTK_BUTTONS_YES_NO,
+                                    _("Are you sure you want to quit?"));
     setup_dialog(dialog, toplevel);
 
     gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
-    g_signal_connect(dialog, "response", 
-	G_CALLBACK(quit_dialog_response), NULL);
+    g_signal_connect(dialog, "response",
+                     G_CALLBACK(quit_dialog_response), NULL);
     g_signal_connect(dialog, "destroy",
-	G_CALLBACK(gtk_widget_destroyed), &dialog);
+                     G_CALLBACK(gtk_widget_destroyed), &dialog);
   }
 
   gtk_window_present(GTK_WINDOW(dialog));
@@ -2626,7 +2624,7 @@ static void adjust_default_options(void)
 
   if (scr_height > 0) {
     /* Adjust these options only if we do know the screen height. */
-  
+
     if (scr_height <= 480) {
       /* Freeciv is practically unusable outside fullscreen mode in so
        * small display */
