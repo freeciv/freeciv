@@ -453,6 +453,9 @@ enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
       == ACTION_NONE
       && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_COLLECT_RANSOM,
                                                         punit, ptile))
+      == ACTION_NONE
+      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_BOMBARD,
+                                                        punit, ptile))
       == ACTION_NONE) {
     return ACTION_NONE;
   }
