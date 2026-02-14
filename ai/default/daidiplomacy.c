@@ -1510,11 +1510,11 @@ static void war_countdown(struct ai_type *ait, struct player *pplayer,
     case DAI_WR_EXCUSE:
       dai_diplo_notify(ally,
                        PL_("*%s (AI)* %s has grossly violated their treaties "
-                           "with us for own gain.  We will answer in force in "
+                           "with us for own gain. We will answer in force in "
                            "%d turn and expect you to honor your alliance "
                            "with us and do likewise!",
                            "*%s (AI)* %s has grossly violated their treaties "
-                           "with us for own gain.  We will answer in force in "
+                           "with us for own gain. We will answer in force in "
                            "%d turns and expect you to honor your alliance "
                            "with us and do likewise!", countdown),
                        player_name(pplayer),
@@ -1557,9 +1557,9 @@ static void war_countdown(struct ai_type *ait, struct player *pplayer,
       if (WAR(ally, target)) {
         dai_diplo_notify(ally,
                          PL_("*%s (AI)* We will honor our alliance and declare "
-                             "war on %s in %d turn.  Hold on - we are coming!",
+                             "war on %s in %d turn. Hold on - we are coming!",
                              "*%s (AI)* We will honor our alliance and declare "
-                             "war on %s in %d turns.  Hold on - we are coming!",
+                             "war on %s in %d turns. Hold on - we are coming!",
                              countdown),
                          player_name(pplayer),
                          player_name(target),
@@ -1567,10 +1567,10 @@ static void war_countdown(struct ai_type *ait, struct player *pplayer,
       } else if (adip->at_war_with_ally) {
         dai_diplo_notify(ally,
                          PL_("*%s (AI)* We will honor our alliance with %s and "
-                             "declare war on %s in %d turn.  We expect you to "
+                             "declare war on %s in %d turn. We expect you to "
                              "do likewise.",
                              "*%s (AI)* We will honor our alliance with %s and "
-                             "declare war on %s in %d turns.  We expect you to "
+                             "declare war on %s in %d turns. We expect you to "
                              "do likewise.",
                              countdown),
                          player_name(pplayer),
