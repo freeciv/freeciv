@@ -418,7 +418,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
 
     def_values[utype_index(deftype)] = def;
 
-    if (can_city_build_unit_now(nmap, pcity, deftype)) {
+    if (can_city_build_unit_now(nmap, pcity, deftype, RPT_CERTAIN)) {
       if (def > best_avl_def) {
         best_avl_def = def;
         best_avl = deftype;
@@ -428,7 +428,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
 
   unit_type_iterate(deftype) {
     if (def_values[utype_index(deftype)] > best_avl_def
-        && !can_city_build_unit_now(nmap, pcity, deftype)
+        && !can_city_build_unit_now(nmap, pcity, deftype, RPT_CERTAIN)
         && can_city_build_unit_later(nmap, pcity, deftype)) {
       /* It would be better than current best. Consider researching tech */
       const struct impr_type *building;
@@ -535,7 +535,7 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
   for (i = n - 1; i >= 0; i--) {
     struct unit_type *iunit = get_role_unit(role, i);
 
-    if (can_city_build_unit_now(nmap, pcity, iunit)) {
+    if (can_city_build_unit_now(nmap, pcity, iunit, RPT_CERTAIN)) {
       build_unit = iunit;
       break;
     } else if (can_city_build_unit_later(nmap, pcity, iunit)) {

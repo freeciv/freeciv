@@ -1740,7 +1740,8 @@ const struct unit_type *can_upgrade_unittype(const struct player *pplayer,
    * diplomatic treaties, or lua script. */
 
   while ((upgrade = upgrade->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(pplayer, upgrade, TRUE)) {
+    if (can_player_build_unit_direct(pplayer, upgrade,
+                                     RPT_CERTAIN, TRUE)) {
       best_upgrade = upgrade;
     }
   }
@@ -1993,6 +1994,7 @@ bool utype_player_already_has_this(const struct player *pplayer,
 **************************************************************************/
 bool can_player_build_unit_direct(const struct player *p,
                                   const struct unit_type *punittype,
+                                  const enum req_problem_type prob_type,
                                   bool consider_reg_impr_req)
 {
   const struct req_context context = { .player = p, .unittype = punittype };
@@ -2079,14 +2081,14 @@ bool can_player_build_unit_direct(const struct player *p,
           req_copy(&copy, preq);
           copy.range = REQ_RANGE_WORLD;
 
-          if (!is_req_active(&context, nullptr, &copy, RPT_CERTAIN)) {
+          if (!is_req_active(&context, nullptr, &copy, prob_type)) {
             return FALSE;
           }
-        } else if (!is_req_active(&context, nullptr, preq, RPT_CERTAIN)) {
+        } else if (!is_req_active(&context, nullptr, preq, prob_type)) {
           return FALSE;
         }
       }
-    } else if (!is_req_active(&context, nullptr, preq, RPT_CERTAIN)) {
+    } else if (!is_req_active(&context, nullptr, preq, prob_type)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -2104,14 +2106,15 @@ bool can_player_build_unit_direct(const struct player *p,
   returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit_now(const struct player *p,
-                               const struct unit_type *punittype)
+                               const struct unit_type *punittype,
+                               const enum req_problem_type prob_type)
 {
-  if (!can_player_build_unit_direct(p, punittype, FALSE)) {
+  if (!can_player_build_unit_direct(p, punittype, prob_type, FALSE)) {
     return FALSE;
   }
 
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(p, punittype, TRUE)) {
+    if (can_player_build_unit_direct(p, punittype, prob_type, TRUE)) {
       return FALSE;
     }
   }
@@ -2134,7 +2137,7 @@ bool can_player_build_unit_later(const struct player *p,
   }
 
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(p, punittype, TRUE)) {
+    if (can_player_build_unit_direct(p, punittype, RPT_CERTAIN, TRUE)) {
       return FALSE;
     }
   }
@@ -2310,7 +2313,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
 
   for (j = n_with_role[role] - 1; j >= 0; j--) {
     u = with_role[role][j];
-    if (can_city_build_unit_now(nmap, pcity, u)) {
+    if (can_city_build_unit_now(nmap, pcity, u, RPT_CERTAIN)) {
       return u;
     }
   }
@@ -2337,7 +2340,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
   for (j = n_with_role[role] - 1; j >= 0; j--) {
     struct unit_type *utype = with_role[role][j];
 
-    if (can_player_build_unit_now(pplayer, utype)) {
+    if (can_player_build_unit_now(pplayer, utype, RPT_CERTAIN)) {
       return utype;
     }
   }
@@ -2362,7 +2365,7 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
   for (j = 0; j < n_with_role[role]; j++) {
     struct unit_type *utype = with_role[role][j];
 
-    if (can_player_build_unit_now(pplayer, utype)) {
+    if (can_player_build_unit_now(pplayer, utype, RPT_CERTAIN)) {
       return utype;
     }
   }

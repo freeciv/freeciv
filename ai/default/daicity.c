@@ -214,7 +214,8 @@ static void dai_barbarian_choose_build(struct player *pplayer,
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD, i);
 
     if (iunit->attack_strength > bestattack
-        && can_city_build_unit_now(nmap, pcity, iunit)) {
+        && can_city_build_unit_now(nmap, pcity, iunit,
+                                   RPT_CERTAIN)) {
       bestunit = iunit;
       bestattack = iunit->attack_strength;
     }
@@ -225,7 +226,8 @@ static void dai_barbarian_choose_build(struct player *pplayer,
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
     if (iunit->attack_strength > bestattack
-        && can_city_build_unit_now(nmap, pcity, iunit)) {
+        && can_city_build_unit_now(nmap, pcity, iunit,
+                                   RPT_CERTAIN)) {
       bestunit = iunit;
       bestattack = iunit->attack_strength;
     }

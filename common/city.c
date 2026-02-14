@@ -910,9 +910,11 @@ bool can_city_build_improvement_later(const struct city *pcity,
 **************************************************************************/
 bool can_city_build_unit_direct(const struct civ_map *nmap,
                                 const struct city *pcity,
-                                const struct unit_type *punittype)
+                                const struct unit_type *punittype,
+                                const enum req_problem_type prob_type)
 {
-  if (!can_player_build_unit_direct(city_owner(pcity), punittype, FALSE)) {
+  if (!can_player_build_unit_direct(city_owner(pcity), punittype,
+                                    prob_type, FALSE)) {
     return FALSE;
   }
 
@@ -929,7 +931,7 @@ bool can_city_build_unit_direct(const struct civ_map *nmap,
                                 .unittype = punittype,
                               },
                               nullptr,
-                              &punittype->build_reqs, RPT_CERTAIN)) {
+                              &punittype->build_reqs, prob_type)) {
     return FALSE;
   }
 
@@ -954,16 +956,18 @@ bool can_city_build_unit_direct(const struct civ_map *nmap,
 **************************************************************************/
 bool can_city_build_unit_now(const struct civ_map *nmap,
                              const struct city *pcity,
-                             const struct unit_type *punittype)
+                             const struct unit_type *punittype,
+                             const enum req_problem_type prob_type)
 {
-  if (!can_city_build_unit_direct(nmap, pcity, punittype)) {
+  if (!can_city_build_unit_direct(nmap, pcity, punittype, prob_type)) {
     return FALSE;
   }
 
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
     /* TODO: Decide if fulfilled impr_req is needed to make unit obsolete,
      *       i.e., should the 'consider_reg_impr_req' be TRUE or FALSE. */
-    if (can_player_build_unit_direct(city_owner(pcity), punittype, TRUE)) {
+    if (can_player_build_unit_direct(city_owner(pcity), punittype,
+                                     prob_type, TRUE)) {
       return FALSE;
     }
   }
@@ -1005,7 +1009,8 @@ bool can_city_build_direct(const struct civ_map *nmap,
 {
   switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_direct(nmap, pcity, target->value.utype);
+    return can_city_build_unit_direct(nmap, pcity, target->value.utype,
+                                      RPT_CERTAIN);
   case VUT_IMPROVEMENT:
     return can_city_build_improvement_direct(pcity, target->value.building,
                                              RPT_CERTAIN);
@@ -1025,7 +1030,8 @@ bool can_city_build_now(const struct civ_map *nmap,
 {
   switch (target->kind) {
   case VUT_UTYPE:
-    return can_city_build_unit_now(nmap, pcity, target->value.utype);
+    return can_city_build_unit_now(nmap, pcity, target->value.utype,
+                                   RPT_CERTAIN);
   case VUT_IMPROVEMENT:
     return can_city_build_improvement_now(pcity, target->value.building,
                                           RPT_CERTAIN);
@@ -1099,7 +1105,7 @@ void city_choose_build_default(const struct civ_map *nmap, struct city *pcity)
   if (city_tile(pcity) == nullptr) {
     /* When a "dummy" city is created with no tile, then choosing a build
      * target could fail. This currently might happen during map editing.
-     * FIXME: assumes the first unit is always "valid", so check for
+     * FIXME: Assumes the first unit is always "valid", so check for
      * obsolete units elsewhere. */
     pcity->production.kind = VUT_UTYPE;
     pcity->production.value.utype = utype_by_number(0);
@@ -1125,7 +1131,8 @@ void city_choose_build_default(const struct civ_map *nmap, struct city *pcity)
 
       if (!found) {
         unit_type_iterate(punittype) {
-          if (can_city_build_unit_direct(nmap, pcity, punittype)) {
+          if (can_city_build_unit_direct(nmap, pcity, punittype,
+                                         RPT_CERTAIN)) {
 #ifndef FREECIV_NDEBUG
             /* Later than this, 'found' is only needed in an fc_assert() */
             found = TRUE;

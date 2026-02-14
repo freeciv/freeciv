@@ -838,11 +838,13 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
 
 bool can_player_build_unit_direct(const struct player *p,
                                   const struct unit_type *punittype,
+                                  const enum req_problem_type prob_type,
                                   bool consider_reg_impr_req);
 bool can_player_build_unit_later(const struct player *p,
                                  const struct unit_type *punittype);
 bool can_player_build_unit_now(const struct player *p,
-                               const struct unit_type *punittype);
+                               const struct unit_type *punittype,
+                               const enum req_problem_type prob_type);
 
 #define utype_fuel(ptype) (ptype)->fuel
 

@@ -399,6 +399,7 @@ bool clipboard_copy_production(struct tile *ptile)
 
     if (!can_player_build_unit_direct(client.conn.playing,
                                       unit_type_get(punit),
+                                      RPT_CERTAIN,
                                       FALSE))  {
       create_event(ptile, E_BAD_COMMAND, ftc_client,
                    _("You don't know how to build %s!"),

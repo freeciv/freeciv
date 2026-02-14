@@ -3479,7 +3479,8 @@ static bool role_unit_cb(struct unit_type *ptype, void *data)
   }
 
   if (cb_data->build_city == nullptr
-      || can_city_build_unit_now(nmap, cb_data->build_city, ptype)) {
+      || can_city_build_unit_now(nmap, cb_data->build_city, ptype,
+                                 RPT_CERTAIN)) {
     return TRUE;
   }
 

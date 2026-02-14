@@ -1979,11 +1979,11 @@ void mr_menu::update_airlift_menu()
   unit_type_iterate(utype) {
     utype_id = utype_index(utype);
 
-    if (!can_player_build_unit_now(pplayer, utype)
+    if (!can_player_build_unit_now(pplayer, utype, RPT_CERTAIN)
         || !utype_can_do_action(utype, ACTION_AIRLIFT)) {
       continue;
     }
-    if (!can_player_build_unit_now(pplayer, utype)
+    if (!can_player_build_unit_now(pplayer, utype, RPT_CERTAIN)
         && !has_player_unit_type(utype_id)) {
       continue;
     }

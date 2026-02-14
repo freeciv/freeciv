@@ -2579,7 +2579,8 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
   case VUT_UTYPE:
     /* We can build a unit again unless it's unique or we have lost the tech. */
     if (!utype_has_flag(pcity->production.value.utype, UTYF_UNIQUE)
-        && can_city_build_unit_now(nmap, pcity, pcity->production.value.utype)) {
+        && can_city_build_unit_now(nmap, pcity, pcity->production.value.utype,
+                                   RPT_CERTAIN)) {
       log_base(LOG_BUILD_TARGET, "%s repeats building %s", city_name_get(pcity),
                utype_rule_name(pcity->production.value.utype));
       return;
@@ -2664,11 +2665,11 @@ static const struct unit_type *unit_upgrades_to(struct city *pcity,
   const struct unit_type *best_upgrade = U_NOT_OBSOLETED;
   const struct civ_map *nmap = &(wld.map);
 
-  if (!can_city_build_unit_direct(nmap, pcity, punittype)) {
+  if (!can_city_build_unit_direct(nmap, pcity, punittype, RPT_CERTAIN)) {
     return U_NOT_OBSOLETED;
   }
   while ((check = check->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_city_build_unit_direct(nmap, pcity, check)) {
+    if (can_city_build_unit_direct(nmap, pcity, check, RPT_CERTAIN)) {
       best_upgrade = check;
     }
   }
@@ -2685,7 +2686,8 @@ static void upgrade_unit_prod(struct city *pcity)
   const struct unit_type *upgrading = unit_upgrades_to(pcity, producing);
   const struct civ_map *nmap = &(wld.map);
 
-  if (upgrading && can_city_build_unit_direct(nmap, pcity, upgrading)) {
+  if (upgrading && can_city_build_unit_direct(nmap, pcity, upgrading,
+                                              RPT_CERTAIN)) {
     notify_player(city_owner(pcity), city_tile(pcity),
                   E_UNIT_UPGRADED, ftc_server,
                   _("Production of %s is upgraded to %s in %s."),
@@ -3031,7 +3033,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
      they build!! - Per */
-  if (!can_city_build_unit_direct(nmap, pcity, utype)
+  if (!can_city_build_unit_direct(nmap, pcity, utype, RPT_CERTAIN)
       && !is_barbarian(pplayer)) {
     notify_player(pplayer, city_tile(pcity), E_CITY_CANTBUILD, ftc_server,
                   _("%s is building %s, which is no longer available."),

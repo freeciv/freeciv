@@ -611,13 +611,15 @@ bool can_city_build_improvement_now(const struct city *pcity,
 
 bool can_city_build_unit_direct(const struct civ_map *nmap,
                                 const struct city *pcity,
-                                const struct unit_type *punittype);
+                                const struct unit_type *punittype,
+                                const enum req_problem_type prob_type);
 bool can_city_build_unit_later(const struct civ_map *nmap,
                                const struct city *pcity,
                                const struct unit_type *punittype);
 bool can_city_build_unit_now(const struct civ_map *nmap,
                              const struct city *pcity,
-                             const struct unit_type *punittype);
+                             const struct unit_type *punittype,
+                             const enum req_problem_type prob_type);
 
 bool can_city_build_direct(const struct civ_map *nmap,
                            const struct city *pcity,

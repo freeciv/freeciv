@@ -624,7 +624,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, const struct civ_map *nmap,
       continue;
     }
 
-    if (can_city_build_unit_now(nmap, pcity, punittype)) {
+    if (can_city_build_unit_now(nmap, pcity, punittype, RPT_CERTAIN)) {
       struct unit *virtual_unit =
        unit_virtual_create(
           pplayer, pcity, punittype,

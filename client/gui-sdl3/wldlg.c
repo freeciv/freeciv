@@ -1585,13 +1585,14 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   /* ------------------------------ */
 
   unit_type_iterate(un) {
-    can_build = can_player_build_unit_now(client.conn.playing, un);
-    can_eventually_build =
-        can_player_build_unit_later(client.conn.playing, un);
+    can_build = can_player_build_unit_now(client.conn.playing, un, RPT_CERTAIN);
+    can_eventually_build
+      = can_player_build_unit_later(client.conn.playing, un);
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
-      can_build = can_build && can_city_build_unit_now(nmap, pcity, un);
+      can_build = can_build && can_city_build_unit_now(nmap, pcity, un,
+                                                       RPT_CERTAIN);
       can_eventually_build = can_eventually_build
         && can_city_build_unit_later(nmap, pcity, un);
     }

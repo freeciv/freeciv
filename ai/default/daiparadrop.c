@@ -435,7 +435,7 @@ void dai_choose_paratrooper(struct ai_type *ait, const struct civ_map *nmap,
     } unit_tech_reqs_iterate_end;
 
     /* we only update choice struct if we can build it! */
-    if (!can_city_build_unit_now(nmap, pcity, u_type)) {
+    if (!can_city_build_unit_now(nmap, pcity, u_type, RPT_CERTAIN)) {
       continue;
     }
 

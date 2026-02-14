@@ -96,7 +96,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   struct civ_map *nmap = &(wld.map);
 
   simple_ai_unit_type_iterate(punittype) {
-    if (can_city_build_unit_now(nmap, pcity, punittype)) {
+    if (can_city_build_unit_now(nmap, pcity, punittype, RPT_CERTAIN)) {
       int fpatt, fpdef, defense, attack;
       double want, loss, cost = utype_build_shield_cost(pcity, NULL, punittype);
       struct unit *defender;
@@ -161,7 +161,7 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait,
     if ((tc == TC_LAND && utype_class(putype)->adv.land_move != MOVE_NONE)
         || (tc == TC_OCEAN
             && utype_class(putype)->adv.sea_move != MOVE_NONE)) {
-      if (can_city_build_unit_now(nmap, pcity, putype)
+      if (can_city_build_unit_now(nmap, pcity, putype, RPT_CERTAIN)
           && (cur > best
               || (ADV_WANTS_EQ(cur, best)
                   && utype_build_shield_cost(pcity, NULL, putype)
@@ -215,7 +215,7 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
     }
 
     /* Now find best */
-    if (can_city_build_unit_now(nmap, pcity, putype)) {
+    if (can_city_build_unit_now(nmap, pcity, putype, RPT_CERTAIN)) {
       const adv_want desire = dai_unit_defense_desirability(ait, putype);
 
       if (desire > best
@@ -1118,7 +1118,7 @@ bool dai_process_defender_want(struct ai_type *ait, const struct civ_map *nmap,
       desire /= POWER_DIVIDER / 2; /* Good enough, no rounding errors. */
       desire *= desire;
 
-      if (can_city_build_unit_now(nmap, pcity, punittype)) {
+      if (can_city_build_unit_now(nmap, pcity, punittype, RPT_CERTAIN)) {
         /* We can build the unit now... */
 
         int build_cost = utype_build_shield_cost(pcity, NULL, punittype);
@@ -1293,7 +1293,8 @@ static void process_attacker_want(struct ai_type *ait,
     if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
         && is_native_near_tile(&(wld.map), utype_class(punittype), ptile)
         && (U_NOT_OBSOLETED == punittype->obsoleted_by
-            || !can_city_build_unit_direct(nmap, pcity, punittype->obsoleted_by))
+            || !can_city_build_unit_direct(nmap, pcity, punittype->obsoleted_by,
+                                           RPT_CERTAIN))
         && punittype->attack_strength > 0 /* Or we'll get SIGFPE */) {
       /* Values to be computed */
       adv_want desire;
@@ -1468,7 +1469,7 @@ static void process_attacker_want(struct ai_type *ait,
         } else if (want > best_choice->want) {
           const struct impr_type *impr_req;
 
-          if (can_city_build_unit_now(nmap, pcity, punittype)) {
+          if (can_city_build_unit_now(nmap, pcity, punittype, RPT_CERTAIN)) {
             /* This is a real unit and we really want it */
 
             CITY_LOG(LOG_DEBUG, pcity, "overriding %s(" ADV_WANT_PRINTF

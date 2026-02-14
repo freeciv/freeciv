@@ -129,7 +129,8 @@ int city_gold_worth(const struct civ_map *nmap, struct city *pcity)
     if (same_pos(unit_tile(punit), pcity->tile)) {
       const struct unit_type *punittype = unit_type_get(punit)->obsoleted_by;
 
-      if (punittype && can_city_build_unit_direct(nmap, pcity, punittype)) {
+      if (punittype
+          && can_city_build_unit_direct(nmap, pcity, punittype, RPT_CERTAIN)) {
         /* Obsolete, candidate for disbanding */
         worth += unit_shield_value(punit, unit_type_get(punit),
                                    action_by_number(ACTION_DISBAND_UNIT_RECOVER));

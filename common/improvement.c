@@ -445,7 +445,7 @@ static bool impr_provides_buildable_units(const struct city *pcity,
 
   unit_type_iterate(ut) {
     if (requirement_needs_improvement(pimprove, &ut->build_reqs)
-        && can_city_build_unit_now(nmap, pcity, ut)) {
+        && can_city_build_unit_now(nmap, pcity, ut, RPT_CERTAIN)) {
       return TRUE;
     }
   } unit_type_iterate_end;
@@ -556,7 +556,7 @@ static bool impr_allows_actions(const struct city *pcity,
             return TRUE;
           }
 
-          if (can_city_build_unit_now(nmap, pcity, ut)) {
+          if (can_city_build_unit_now(nmap, pcity, ut, RPT_CERTAIN)) {
             /* This city can build a unit that uses the building */
             return TRUE;
           }

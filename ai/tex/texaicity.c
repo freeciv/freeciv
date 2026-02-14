@@ -464,7 +464,7 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
   case TWTL_BUILDABLE_UNITS:
     units = unit_list_new();
     unit_type_iterate(ptype) {
-      if (can_city_build_unit_now(nmap, pcity, ptype)) {
+      if (can_city_build_unit_now(nmap, pcity, ptype, RPT_CERTAIN)) {
         unit_list_append(units, unit_virtual_create(pplayer, pcity, ptype, 0));
       }
     } unit_type_iterate_end;

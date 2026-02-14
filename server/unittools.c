@@ -188,7 +188,8 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
        * fail. */
       players_iterate(pplayer) {
         if (!is_barbarian(pplayer)
-            && can_player_build_unit_direct(pplayer, iunit, TRUE)) {
+            && can_player_build_unit_direct(pplayer, iunit,
+                                            RPT_CERTAIN, TRUE)) {
           players++;
         }
       } players_iterate_end;

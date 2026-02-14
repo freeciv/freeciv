@@ -900,7 +900,8 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
       bool update = FALSE;
 
       if (pcity->production.kind == VUT_UTYPE
-          && !can_city_build_unit_now(nmap, pcity, pcity->production.value.utype)) {
+          && !can_city_build_unit_now(nmap, pcity, pcity->production.value.utype,
+                                      RPT_CERTAIN)) {
         notify_player(pplayer, city_tile(pcity),
                       E_CITY_CANTBUILD, ftc_server,
                       _("%s can't build %s. The required technology was "

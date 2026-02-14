@@ -96,7 +96,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
       continue;
     }
 
-    if (!can_city_build_unit_now(nmap, pcity, ut)
+    if (!can_city_build_unit_now(nmap, pcity, ut, RPT_CERTAIN)
         || ut->attack_strength < ut->transport_capacity
         || (tc == TC_OCEAN && utype_class(ut)->adv.sea_move == MOVE_NONE)
         || (tc == TC_LAND && utype_class(ut)->adv.land_move == MOVE_NONE)) {
@@ -176,7 +176,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
     int desire;
 
     if (!utype_can_do_action(ut, ACTION_SUICIDE_ATTACK)
-        || !can_city_build_unit_now(nmap, pcity, ut)) {
+        || !can_city_build_unit_now(nmap, pcity, ut, RPT_CERTAIN)) {
       continue;
     }
 
