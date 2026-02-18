@@ -613,7 +613,8 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(&(wld.map), iter_city, &target)) {
+          if (can_city_build_now(&(wld.map), iter_city, &target,
+                                 RPT_CERTAIN)) {
             select_city(iter_city);
           }
           break;
@@ -622,7 +623,8 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(&(wld.map), iter_city, &target)) {
+          if (can_city_build_now(&(wld.map), iter_city, &target,
+                                 RPT_CERTAIN)) {
             select_city(iter_city);
           }
           break;
@@ -631,7 +633,8 @@ void city_widget::display_list_menu(const QPoint &)
             clearSelection();
           }
           need_clear = false;
-          if (can_city_build_now(&(wld.map), iter_city, &target)) {
+          if (can_city_build_now(&(wld.map), iter_city, &target,
+                                 RPT_CERTAIN)) {
             select_city(iter_city);
           }
           break;

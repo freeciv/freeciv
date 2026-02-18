@@ -463,7 +463,7 @@ void handle_city_change(struct player *pplayer, int city_id,
     return;
   }
 
-  if (!can_city_build_now(nmap, pcity, &prod)) {
+  if (!can_city_build_now(nmap, pcity, &prod, RPT_CERTAIN)) {
     return;
   }
   if (!city_can_change_build(pcity)) {

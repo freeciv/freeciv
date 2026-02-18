@@ -2069,7 +2069,8 @@ void city_dialog::change_production(bool next)
   name_and_sort_items(targets, targets_used, items, false, dlgcity);
 
   for (item = 0; item < targets_used; item++) {
-    if (can_city_build_now(&(wld.map), dlgcity, &items[item].item)) {
+    if (can_city_build_now(&(wld.map), dlgcity, &items[item].item,
+                           RPT_CERTAIN)) {
       prod_list << cid_encode(items[item].item);
     }
   }
@@ -4467,7 +4468,8 @@ void city_production_model::populate()
   name_and_sort_items(targets, targets_used, items, false, mcity);
 
   for (item = 0; item < targets_used; item++) {
-    if (future_t || can_city_build_now(&(wld.map), mcity, &items[item].item)) {
+    if (future_t || can_city_build_now(&(wld.map), mcity, &items[item].item,
+                                       RPT_CERTAIN)) {
       renegade = new universal(items[item].item);
 
       // Renegade deleted in production_item destructor

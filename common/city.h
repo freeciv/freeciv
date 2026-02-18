@@ -623,13 +623,15 @@ bool can_city_build_unit_now(const struct civ_map *nmap,
 
 bool can_city_build_direct(const struct civ_map *nmap,
                            const struct city *pcity,
-                           const struct universal *target);
+                           const struct universal *target,
+                           const enum req_problem_type prob_type);
 bool can_city_build_later(const struct civ_map *nmap,
                           const struct city *pcity,
                           const struct universal *target);
 bool can_city_build_now(const struct civ_map *nmap,
                         const struct city *pcity,
-                        const struct universal *target);
+                        const struct universal *target,
+                        const enum req_problem_type prob_type);
 
 int city_unit_slots_available(const struct city *pcity);
 bool city_can_use_specialist(const struct city *pcity,

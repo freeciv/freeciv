@@ -1372,7 +1372,7 @@ void city_worklist_commit(struct city *pcity, struct worklist *pwl)
     }
 
     /* If it can be built... */
-    if (can_city_build_now(&(wld.map), pcity, &target)) {
+    if (can_city_build_now(&(wld.map), pcity, &target, RPT_CERTAIN)) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
         /* Change the current target */
@@ -1407,7 +1407,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
     struct universal old = pcity->production;
 
     /* Insert as current production. */
-    if (!can_city_build_direct(nmap, pcity, item)) {
+    if (!can_city_build_direct(nmap, pcity, item, RPT_CERTAIN)) {
       return FALSE;
     }
 

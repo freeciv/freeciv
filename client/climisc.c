@@ -180,7 +180,7 @@ void client_change_all(struct universal *from, struct universal *to)
   connection_do_buffer(&client.conn);
   city_list_iterate (client.conn.playing->cities, pcity) {
     if (are_universals_equal(&pcity->production, from)
-        && can_city_build_now(&(wld.map), pcity, to)) {
+        && can_city_build_now(&(wld.map), pcity, to, RPT_CERTAIN)) {
       city_change_production(pcity, to);
     }
   } city_list_iterate_end;
@@ -593,7 +593,7 @@ bool city_building_present(const struct city *pcity,
 bool can_city_build_now_client(const struct city *pcity,
                                const struct universal *target)
 {
-  return can_city_build_now(&(wld.map), pcity, target);
+  return can_city_build_now(&(wld.map), pcity, target, RPT_CERTAIN);
 }
 
 /**********************************************************************//**

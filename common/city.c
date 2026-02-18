@@ -1005,15 +1005,16 @@ bool can_city_build_unit_later(const struct civ_map *nmap,
 **************************************************************************/
 bool can_city_build_direct(const struct civ_map *nmap,
                            const struct city *pcity,
-                           const struct universal *target)
+                           const struct universal *target,
+                           const enum req_problem_type prob_type)
 {
   switch (target->kind) {
   case VUT_UTYPE:
     return can_city_build_unit_direct(nmap, pcity, target->value.utype,
-                                      RPT_CERTAIN);
+                                      prob_type);
   case VUT_IMPROVEMENT:
     return can_city_build_improvement_direct(pcity, target->value.building,
-                                             RPT_CERTAIN);
+                                             prob_type);
   default:
     break;
   };
@@ -1026,15 +1027,16 @@ bool can_city_build_direct(const struct civ_map *nmap,
 **************************************************************************/
 bool can_city_build_now(const struct civ_map *nmap,
                         const struct city *pcity,
-                        const struct universal *target)
+                        const struct universal *target,
+                        const enum req_problem_type prob_type)
 {
   switch (target->kind) {
   case VUT_UTYPE:
     return can_city_build_unit_now(nmap, pcity, target->value.utype,
-                                   RPT_CERTAIN);
+                                   prob_type);
   case VUT_IMPROVEMENT:
     return can_city_build_improvement_now(pcity, target->value.building,
-                                          RPT_CERTAIN);
+                                          prob_type);
   default:
     break;
   };

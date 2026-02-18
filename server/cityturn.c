@@ -2375,7 +2375,7 @@ static bool worklist_change_build_target(struct player *pplayer,
     }
 
     if (worklist_peek_ith(pwl, &target, i)) {
-      success = can_city_build_now(nmap, pcity, &target);
+      success = can_city_build_now(nmap, pcity, &target, RPT_CERTAIN);
     } else {
       success = FALSE;
     }

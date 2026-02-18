@@ -1299,7 +1299,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
     /* Set production to something valid for pplayer, if not.
      * (previously allowed building obsolete units.) */
-    if (!can_city_build_now(nmap, pcity, &pcity->production)) {
+    if (!can_city_build_now(nmap, pcity, &pcity->production, RPT_CERTAIN)) {
       advisor_choose_build(ptaker, pcity);
     }
 
