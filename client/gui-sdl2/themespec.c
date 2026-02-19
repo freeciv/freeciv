@@ -544,10 +544,10 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
   }
 
   /* Currently unused */
-  (void) secfile_entry_by_path(file, "info.artists");
+  secfile_entry_ignore_by_path(file, "info.artists");
 
   /* This isn't used during the scan, only when the gfx is really loaded */
-  (void) secfile_entry_by_path(file, "file.gfx");
+  secfile_entry_ignore_by_path(file, "file.gfx");
 
   sections = secfile_sections_by_name_prefix(file, "grid_");
 
@@ -760,7 +760,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   file_capstr = secfile_lookup_str(file, "themespec.options");
   duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
 
-  (void) secfile_entry_by_path(file, "themespec.name"); /* Currently unused */
+  secfile_entry_ignore_by_path(file, "themespec.name"); /* Currently unused */
 
   sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int_default(file, 0, "themespec.priority");
@@ -775,14 +775,14 @@ struct theme *theme_read_toplevel(const char *theme_name)
       t_fontname = secfile_lookup_str(file, "themespec.fonts%d.font_file", i);
       /* Don't break the loop, but read all the entries to avoid "unused entry" warnings */
     } else {
-      (void) secfile_entry_lookup(file, "themespec.fonts%d.font_file", i);
+      secfile_entry_ignore(file, "themespec.fonts%d.font_file", i);
     }
   }
 
   if (t_fontname == NULL) {
     t_fontname = secfile_lookup_str(file, "themespec.default_font_file");
   } else {
-    (void) secfile_entry_lookup(file, "themespec.default_font_file");
+    secfile_entry_ignore(file, "themespec.default_font_file");
   }
 
   if ((filename = fileinfoname(get_data_dirs(), t_fontname))) {
