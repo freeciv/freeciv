@@ -44,12 +44,12 @@ void achievements_init(void)
   for (i = 0; i < ARRAY_SIZE(achievements); i++) {
     achievements[i].id = i;
     achievements[i].ruledit_disabled = FALSE;
-    achievements[i].first = NULL;
+    achievements[i].first = nullptr;
     achievements[i].value = 0;
     achievements[i].culture = 0;
     BV_CLR_ALL(achievements[i].achievers);
-    achievements[i].first_msg = NULL;
-    achievements[i].cons_msg = NULL;
+    achievements[i].first_msg = nullptr;
+    achievements[i].cons_msg = nullptr;
   }
 }
 
@@ -61,10 +61,10 @@ void achievements_free(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(achievements); i++) {
-    if (achievements[i].first_msg != NULL) {
+    if (achievements[i].first_msg != nullptr) {
       FC_FREE(achievements[i].first_msg);
     }
-    if (achievements[i].cons_msg != NULL) {
+    if (achievements[i].cons_msg != nullptr) {
       FC_FREE(achievements[i].cons_msg);
     }
   }
@@ -75,7 +75,7 @@ void achievements_free(void)
 **************************************************************************/
 int achievement_number(const struct achievement *pach)
 {
-  fc_assert_ret_val(NULL != pach, -1);
+  fc_assert_ret_val(pach != nullptr, -1);
 
   return pach->id;
 }
@@ -85,7 +85,7 @@ int achievement_number(const struct achievement *pach)
 **************************************************************************/
 int achievement_index(const struct achievement *pach)
 {
-  fc_assert_ret_val(NULL != pach, -1);
+  fc_assert_ret_val(pach != nullptr, -1);
 
   return pach - achievements;
 }
@@ -95,7 +95,8 @@ int achievement_index(const struct achievement *pach)
 **************************************************************************/
 struct achievement *achievement_by_number(int id)
 {
-  fc_assert_ret_val(id >= 0 && id < game.control.num_achievement_types, NULL);
+  fc_assert_ret_val(id >= 0 && id < game.control.num_achievement_types,
+                    nullptr);
 
   return &achievements[id];
 }
@@ -117,8 +118,8 @@ const char *achievement_rule_name(struct achievement *pach)
 }
 
 /**********************************************************************//**
-  Returns achievement matching rule name or NULL if there is no achievement
-  with such name.
+  Returns achievement matching rule name or nullptr if there is no
+  achievement with such name.
 **************************************************************************/
 struct achievement *achievement_by_rule_name(const char *name)
 {
@@ -130,7 +131,7 @@ struct achievement *achievement_by_rule_name(const char *name)
     }
   } achievements_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -140,7 +141,7 @@ struct achievement *achievement_by_rule_name(const char *name)
 struct player *achievement_plr(struct achievement *ach,
                                struct player_list *achievers)
 {
-  struct player *credited = NULL;
+  struct player *credited = nullptr;
 
   players_iterate(pplayer) {
     if (achievement_check(ach, pplayer)) {
@@ -152,9 +153,9 @@ struct player *achievement_plr(struct achievement *ach,
     }
   } players_iterate_end;
 
-  if (ach->first != NULL) {
+  if (ach->first != nullptr) {
     /* Already have first one credited. */
-    return NULL;
+    return nullptr;
   }
 
   if (player_list_size(achievers) > 0) {
@@ -181,7 +182,7 @@ struct player *achievement_plr(struct achievement *ach,
 **************************************************************************/
 bool achievement_check(struct achievement *ach, struct player *pplayer)
 {
-  if ((ach->unique && ach->first != NULL)
+  if ((ach->unique && ach->first != nullptr)
       || (BV_ISSET(ach->achievers, player_index(pplayer)))) {
     /* It was already achieved */
     return FALSE;
@@ -343,7 +344,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
 **************************************************************************/
 const char *achievement_first_msg(struct achievement *pach)
 {
-  fc_assert(pach->first_msg != NULL);
+  fc_assert(pach->first_msg != nullptr);
 
   return _(pach->first_msg);
 }
@@ -353,7 +354,7 @@ const char *achievement_first_msg(struct achievement *pach)
 **************************************************************************/
 const char *achievement_later_msg(struct achievement *pach)
 {
-  fc_assert(pach->cons_msg != NULL);
+  fc_assert(pach->cons_msg != nullptr);
 
   return _(pach->cons_msg);
 }
@@ -364,7 +365,7 @@ const char *achievement_later_msg(struct achievement *pach)
 bool achievement_player_has(const struct achievement *pach,
                             const struct player *pplayer)
 {
-  if (pplayer == NULL) {
+  if (pplayer == nullptr) {
     return FALSE;
   }
 
@@ -376,7 +377,7 @@ bool achievement_player_has(const struct achievement *pach,
 **************************************************************************/
 bool achievement_claimed(const struct achievement *pach)
 {
-  return pach->first != NULL;
+  return pach->first != nullptr;
 }
 
 /**********************************************************************//**
