@@ -25,6 +25,7 @@
 #include <QResizeEvent>
 #include <QScrollBar>
 #include <QSettings>
+#include <QShortcut>
 #include <QSocketNotifier>
 #include <QSpinBox>
 #include <QStackedLayout>
@@ -261,6 +262,8 @@ fc_client::~fc_client()
 ****************************************************************************/
 void fc_client::fc_main(QApplication *qapp)
 {
+  QShortcut *quit_shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q), this);
+
   qRegisterMetaType<QTextCursor>("QTextCursor");
   qRegisterMetaType<QTextBlock>("QTextBlock");
   fc_allocate_ow_mutex();
@@ -271,6 +274,7 @@ void fc_client::fc_main(QApplication *qapp)
   set_client_state(C_S_DISCONNECTED);
 
   startTimer(TIMER_INTERVAL);
+  connect(quit_shortcut, &QShortcut::activated, this, &fc_client::quit);
   connect(qapp, &QCoreApplication::aboutToQuit, this, &fc_client::closing);
   qapp->exec();
 
