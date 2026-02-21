@@ -356,7 +356,7 @@ bool rscompat_names(struct rscompat_info *info)
       const char *name;
       const char *helptxt;
     } new_flags_33[] = {
-      { N_("NoVeteran"), N_("May acquire veteran status.") },
+      { N_("NoVeteran"), N_("Cannot acquire veteran status.") },
       { N_("CanEscape"), N_("Can try to escape stack death.") },
       { N_("Shield2Gold"), N_("May switch from shield upkeep to gold upkeep") }
     };
