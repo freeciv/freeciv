@@ -202,6 +202,7 @@ sabotage	= 50
 sound		= "b_granary"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Granary reduces famine speed by making city food storage half full \
 after city shrinks, and speeds up city growth by making the food storage \
