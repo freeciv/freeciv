@@ -1574,6 +1574,16 @@ Internal actions
  * Unit's veterancy system must have veterancy levels for the unit
    to advance to.
 
+"Escape" - unit has 50% chance to escape rather than being killed
+           when killstack is enabled and the defender of its tile
+           is defeated. The conditions are that it has more move
+           points than required to move to an adjacent tile plus
+           the attackers move points and that the attacker doesn't
+           have the "CanKillEscaping" unit type flag.
+
+"Civil War" - if the requirements for this action are not fulfilled,
+              civil war cannot happen.
+
 Ruleset defined actions
 =======================
 User actions are "blank". The ruleset does everything they do. The following
