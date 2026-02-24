@@ -1,10 +1,120 @@
 ========================
-Welcome to Freeciv 3.2.2
+Welcome to Freeciv 3.2.3
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.2 to 3.2.3
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.3>, 2026-02-25)
+
+3.2.3 is a generic bugfix release in the freeciv-3.2 series.
+
+Server / General
+
+    * Restore server to sane state after savegame loading failures
+      RM#1826 RM#1897
+    * Assert unit goto tile validity rather than outright crashing
+      RM#1695
+
+Changes affecting other rulesets / modders
+
+    * Fixed rounding error with certain values
+      of ocean_reclaim_requirement RM#1278
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1754 RM#1756 RM#1813 RM#1818 RM#1843 RM#1825 RM#1871 RM#1873
+      RM#1892
+
+AI
+
+    * Made AI able to collect ransom from barbarian leaders RM#1803
+    * Stop dead players from affecting AI diplomacy towards other players
+      RM#1831
+    * Stop AI from trying to cancel treaties with dead players RM#1820
+    * Fixed a failing war countdown assert RM#1834
+    * Fixed handling of fake generalized attack actions
+      RM#1847 RM#1888 RM#1910
+    * Handle teleporting enemy units the same as paradropping ones RM#199
+    * Made AI quicker to declare war on the player launching
+      the spaceship RM#1904
+
+Clients
+
+    * Increased city report trade routes column width RM#1815
+    * Fixed crash when adjusting volume with dummy audio plugin RM#1890
+    * Fixed an assert failure with agents RM#1926
+
+    * gtk
+         + Make volume adjusting menu entries insensitive when there's
+           no audio plugin RM#1780 RM#1781
+         + Fixed bombardment animations RM#1851
+
+    * gtk4
+         + Worked around unit/building icon size issues with gtk-4.20
+           RM#1856
+         + Fixed crash on right-click on units on city dialog RM#1868
+         + Stopped supported/present units icons in city dialog
+           from shrinking RM#1875
+
+    * qt
+         + Added double-click handling to goto dialog RM#1808
+         + Prevented dragging unit info widget outside map view RM#1832
+         + Fixed clean activity icon RM#1850
+         + Make volume adjusting menu entries insensitive when there's
+           no audio plugin RM#1889
+
+    * sdl
+         + Fixed connect dialog fields to take effect RM#1883
+
+    * sdl3
+         + Made text edit widgets functional RM#1885
+         + Fixed error on drawing empty chatline RM#1884
+
+Tools
+Ruledit/Ruleup
+
+    * Fixed saving helptext for counters RM#1844
+    * Fixed saving roads' first_reqs and integrates RM#1925
+
+
+Help / Documentation
+
+    * Doxygen documentation updates RM#1828
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#1839 RM#1906
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#1824 RM#1801 RM#1782 RM#1920
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+           Galician (99% core, 100% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1806 RM#1855 RM#1857 RM#1886
+    * Work towards working emscripten client
+      RM#1800 RM#1877 RM#1878 RM#1902 RM#1882
+    * Meson build improvements
+         + Sanity check client/audio driver combinations RM#1822
+    * Metainfo improvements
+         + Added vcs-browser and contribute URLs RM#1860
+         + Added screenshot captions RM#1869
+         + Updated bug tracker URL RM#1908
+    * Update crosser to version 2.11 RM#1922 RM#1935
+    * Windows installers for Qt-client now contain ruledit for real
+      RM#1923
 
 
 CHANGES FROM 3.2.1 to 3.2.2
