@@ -208,9 +208,11 @@ static struct timer *between_turns = NULL;
 void init_game_seed(void)
 {
   if (game.server.seed_setting == 0) {
-    /* We strip the high bit for now because neither game file nor
-       server options can handle unsigned ints yet. - Cedric */
-    game.server.seed = generate_game_seed() & (MAX_UINT32 >> 1);
+    do {
+      /* We strip the high bit for now because neither game file nor
+         server options can handle unsigned ints yet. - Cedric */
+      game.server.seed = generate_game_seed() & (MAX_UINT32 >> 1);
+    } while (game.server.seed == 0);
 #ifdef FREECIV_TESTMATIC
      /* Log command to reproduce the gameseed */
     log_testmatic("set gameseed %u", game.server.seed);
