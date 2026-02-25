@@ -1,0 +1,39 @@
+[nation_coutense]
+
+name   = _("Coutense")
+plural = _("?plural:Coutenses")
+groups = "Medieval", "European"
+
+legend = _("Couto Misto was a microstate on the border between Portugal\
+ and Spain. It consisted of three villages ruled by a republic, where\
+ the heads of families voted for a 'juiz.' It was formed in the 10th\
+ century and annexed by Portugal and Spain in 1868 under the Treaty of\
+ Lisbon. In the 1990s, interest in recovering Couto Misto emerged.")
+
+leaders = {
+ "name",                   "sex"
+ "Delfim Modesto Brandão", "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Lord %s"),           _("Lady %s")
+ "Fundamentalism",  _("Bishop %s"),         _("Mother Superior %s")
+ "Democracy",       _("Juiz %s"),           _("Juiza %s")
+ "Republic",        _("Juiz %s"),           _("Juiza %s")
+}
+
+flag = "coutomisto"
+flag_alt = "-"
+style = "Celtic"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "portuguese", "galician", "spanish"
+
+cities =
+  "Rubiás",
+  "Santiago de Rubiás",
+  "Meaus"
