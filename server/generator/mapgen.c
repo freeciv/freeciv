@@ -1279,6 +1279,12 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   if (wld.map.server.seed_setting == 0) {
     /* Create a "random" map seed. */
     wld.map.server.seed = seed_rand & (MAX_UINT32 >> 1);
+    while (wld.map.server.seed == 0) {
+      /* This makes random state different, but we don't
+       * care as this is an extreme corner case anyway. */
+      seed_rand = fc_rand(MAX_UINT32);
+      wld.map.server.seed = seed_rand & (MAX_UINT32 >> 1);
+    }
 #ifdef FREECIV_TESTMATIC
     /* Log command to reproduce the mapseed */
     log_testmatic("set mapseed %d", wld.map.server.seed);
