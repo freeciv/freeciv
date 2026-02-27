@@ -7,15 +7,15 @@
 
 MAJOR_VERSION="3"
 MINOR_VERSION="2"
-PATCH_VERSION="2"
+PATCH_VERSION="3"
 EMERGENCY_VERSION=""
-VERSION_LABEL="+"
+VERSION_LABEL=""
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
 if test "${VERSION_LABEL}" = "" ; then
   RELEASE_TYPE="stable"
-  #RELEASE_DATE="2026-01-02"
+  RELEASE_DATE="2026-02-28"
   NEWS_URL="https://www.freeciv.org/wiki/NEWS-${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
 else
   RELEASE_TYPE="development"

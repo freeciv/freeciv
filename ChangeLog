@@ -1,3 +1,807 @@
+commit 3282c1ebb8040ee9f9d27d8c618f9ccfb51797d7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Feb 27 23:53:41 2026 +0200
+
+    'make update-po' before 3.2.3 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8892342f213b871e1e1e1012e75364dace33a4c4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Feb 27 23:15:34 2026 +0200
+
+    FAQ: Update latest stable version number to 3.2.3
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8cff7961657ef20a107c6c162420b36182171e91
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Feb 25 00:19:20 2026 +0200
+
+    NEWS-3.2: Add 3.2.3 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8a15de1e8dea3e4f6747f15336b5bc25e3b8858a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Feb 23 22:15:28 2026 +0200
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2026-02-20)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4e24755bea786b4a7c2426bd65609a8c053434fb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Feb 22 22:59:59 2026 +0200
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9552cf6dd59270358541194e16a5197990f42ea4
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Fri Feb 20 13:02:59 2026 +0500
+
+    Update for Russian translation
+
+commit f26ee903e4bb63c71e7b1d3c809c0e9fa8fd5b9d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jan 26 01:48:41 2026 +0200
+
+    rulesets_autohelp.sh.in: Log that we are creating manual
+
+    Old logging said that we are loading the ruleset.
+
+    See RM #1920
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d62564197ebf3d4b299a265e51caa149585b7899
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jan 18 22:30:48 2026 +0200
+
+    tswana.ruleset: Correct comment about Lucas Mangope
+
+    Time of his presidency was wrong.
+
+    See RM #1782
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a6908d681af1206fc14c2c640a9c2e4d0e783ddd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Feb 2 03:54:24 2026 +0200
+
+    Fix bombardment animations
+
+    - Animate target HP loss correctly, not all the way
+      to zero HP
+    - Do not show explosion animation when the target
+      does not die. This affects also regular attacks where
+      neither side dies due to battle running over
+      max rounds
+
+    Reported by David Fernandez
+
+    See RM #1851
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7031222d8ff0b844bbb6dcc5b224ef9a108da976
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Jan 31 14:28:21 2026 -0500
+
+    rulesave: save roads' first_reqs and integrates
+
+    See RM #1925
+
+commit 1f3a570253526228fdedd2aab0008f48b0e37a3f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Feb 7 11:34:42 2026 +0200
+
+    installer_cross: Update autotools side to crosser-2.11
+
+    See RM #1935
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4ef435baa26385dfe7d319adfcfa2404b96a6c82
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 31 02:37:57 2026 +0200
+
+    Msys2: Add ruledit to Qt-client installers
+
+    See RM #1923
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4e19eefc4d50eaf101a959c295dbce6a8df51f54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jan 13 00:30:57 2026 +0200
+
+    AI: Reduce war countdown to 2 turns in case of spaceship launch
+
+    AI used to reserve long time for war preparations after
+    an enemy launched their spaceship, before actually declaring the war.
+    But when trying to stop the spaceship, quick action is more
+    important than being well prepared. With larger maps, old countdown
+    didn't cause war declaration before spaceship had already reached
+    its destination, making the whole war preparation mood.
+
+    See RM #1904
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b5a7088f0cfdba0f1dc96a7791b7f0b205a9d990
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 31 23:28:11 2026 +0200
+
+    sha_unit_new(): Make unit_virtual_create() call legal
+
+    unit_virtual_create() was called with a nullptr unit type,
+    which is not considered legal value. Pass original unit's
+    type instead.
+
+    See RM #1926
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 53f335d2f4b0777ca2ae0083595ca41291b67532
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 17 15:39:53 2026 +0200
+
+    emscripten: Make client able to load .pngs
+
+    See RM #1882
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2173249e150aad613805389bdb37cc6754cf1b85
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Dec 27 23:28:57 2025 -0500
+
+    can_reclaim_ocean(): Fix rounding error
+
+    See RM #1278
+
+commit c470aed903b5bc4c090fc5f23de9b07875667923
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jan 18 08:23:40 2026 +0200
+
+    dai_rampage_want(): Consider fake generalized attack actions
+
+    See RM #1910
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 31927be818e56e366be2c6ba5f545463420a59e0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jan 18 20:09:59 2026 +0200
+
+    Metainfo: Update bugtracker URL
+
+    Correct bugtracker URL from a osdn one to redmine one.
+
+    See RM #1908
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3e8c686d8c1424faeab958344cd624b60986edea
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jan 13 01:04:56 2026 +0200
+
+    AI: Fix English singular form in a pluralized message
+
+    See RM #1906
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 16989866708a237522b7cecd792d9ebb4c552f96
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 31 04:51:07 2026 +0200
+
+    Update to crosser-2.11
+
+    See RM #1922
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fd3dfd6b0465b38e9748b8c61f0c8a9185154610
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 10 05:33:40 2026 +0200
+
+    Qt: Insensitivize volume control entries when no audio plugin
+
+    See RM #1889
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a07d53ea378b8bed10ec84606651adf0a68b32bb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jan 12 22:52:01 2026 +0200
+
+    emscripten: Build only sdl2-client
+
+    Disable server and stub-client build.
+
+    See RM #1902
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b4989b9d6e51fe99ad45d20c0f3280adcbff6281
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 10 04:19:39 2026 +0200
+
+    sdl3: Fix error on drawing empty chatline
+
+    See RM #1884
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 65d1075420ddadbf880d2996576f1ff035fee538
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 8 22:51:00 2026 +0200
+
+    CI: Update actions/checkout to version 6.0.1
+
+    See RM #1892
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f9def147c221e5b90936a777c1a2462e76756d07
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jan 18 12:24:13 2026 +0200
+
+    gtk4 citydlg: Stop supported/present units icons shrinking
+
+    Make scrollbar to appear as soon as units do not fit by
+    their natural size, instead of shrinking them to fit in
+    without the scrollbar.
+
+    Reported by Andrea Maria Marconi
+
+    See RM #1875
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bf986a4362759cf9f9ce6f70a38de2d2aaa53795
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 16 20:06:00 2026 +0200
+
+    Metainfo: Add screenshot captions
+
+    See RM #1869
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d690d1a4558885c08aacbab6ef32cdd20349443d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 8 03:42:19 2026 +0200
+
+    Add select_actres_action_unit_on_stack()
+
+    See RM #1888
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8d784b1a55569c109b61e2faa88508e680721b72
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 9 22:39:02 2026 +0200
+
+    Fix research->techs_researched after failed savegame load
+
+    See RM #1897
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b6b7b3b8d9af14c73edb6f2d3743c14ffa65e867
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 10 00:39:02 2026 +0200
+
+    emscripten: Allow running as root
+
+    See RM #1878
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 22cee41dcfa08c8547138ba917d051052e602e95
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jan 6 07:12:29 2026 +0200
+
+    gtk3.22/unitselect: Remove unused fields from struct
+
+    Original patch for gtk4-client by Christian Mauderer
+
+    See RM #1873
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e7f1f1d4e516d836d60575b6e41160e0be391ae0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 10 00:26:01 2026 +0200
+
+    sdl3: Enable text input
+
+    Makes text edit widgets functional.
+
+    See RM #1885
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e711f82cb2994e36462a31baca820fe6be55d8df
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 8 02:14:13 2026 +0200
+
+    gnulib-common.m4: Refresh from gnulib
+
+    Serial remains 115
+
+    See RM #1886
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 316f75e555a2854b9d6f0d682c3dc73003b39ddc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 8 06:28:18 2026 +0200
+
+    gtk: Insensitivize volume control entries when no audio plugin
+
+    See RM #1781
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 27f972ac9a9deef173fdb2be97457e36453ad203
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jan 4 06:33:46 2026 +0200
+
+    Qt: Fix "clean" activity icon
+
+    Rename pollution.png as clean.png for it to be used
+    as clean icon.
+
+    Reported by David Fernandez
+
+    See RM #1850
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ae3e00ef8f4f792a2d7871122001219e8ff54202
+Author: ninjum <138787523+ninjum@users.noreply.github.com>
+Date:   Tue Jan 20 18:38:22 2026 +0100
+
+    Update gl_ES.po
+
+commit e1f029158500fc9e26f53accf65f744179eceabb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jan 4 00:52:29 2026 +0200
+
+    Update stdlib_h.m4 to serial 86
+
+    See RM #1857
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ae8aaf6acecea0b3c1a995ab3825c7090528f8eb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 9 21:31:01 2026 +0200
+
+    Fix crash when adjusting volume with dummy audio plugin
+
+    See RM #1890
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 86d2e9c2f4d33a3e9e29da6584e0425d49c436d9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jan 3 14:26:49 2026 +0200
+
+    Metainfo: Enable vcs-browser and contribute URLs
+
+    See RM #1860
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a7aa7de6a31d8769df249a0c1dc844f492c2d191
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 8 01:03:45 2026 +0200
+
+    invasion_funct(): Assert goto tile validity
+
+    Reported by John Robertson
+
+    See RM #1695
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fdf3c313ee41fbb1cde236a8c0f5bcdd6c092643
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 2 21:03:58 2026 +0200
+
+    locale-en.m4: Refresh from gnulib upstream
+
+    Comment only update. Serial still 1
+
+    See RM #1855
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5946ec7dd718413fa9ed487a66710643178f8202
+Author: Christian Mauderer <oss@c-mauderer.de>
+Date:   Sat Jan 3 11:50:57 2026 +0100
+
+    gtk4/unitselect: Remove unused fields from struct
+
+    See RM #1871
+
+    Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+
+commit 5e315d34894b90b7c990592dff097109a0058b74
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jan 7 07:10:07 2026 +0200
+
+    sdl: Fix connectdlg fields to take effect
+
+    Previously connection attempt was always made with
+    the default value, no matter what user entered.
+
+    See RM #1883
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d480a663fcd2d4442ddb4e90e28854e61ca58430
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Dec 27 15:01:22 2025 +0200
+
+    advdata: Include regular teleporters to "paratrooper" count
+
+    Rename the counter from "paratroopers" to "teleporters"
+
+    See RM #199
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5683c70c888e0d18d47f525647cd0007f72bd2a4
+Author: John Robertson <jro@advops.com>
+Date:   Sat Dec 20 14:55:40 2025 -0700
+
+    Qt: Prevent dragging unit info widget outside map view area
+
+    Dragging the widget outside map view made it completely
+    unreachable.
+
+    See RM #1832
+
+commit 02650429ca5d639ae7606496db8827f956435b5c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Dec 27 13:52:07 2025 +0200
+
+    trailing_spaces.sh: Fix checking of .tilespec files
+
+    See RM #1825
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 41043bc25f2d5a0f00c49c385429e287e49dd7a9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Dec 27 11:46:13 2025 +0200
+
+    dai_unit_attack(): Handle fake-generalized versions of actions
+
+    Consider fake-generalized versions of attack actions just
+    the same as the base versions.
+
+    See RM #1847
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6b3df75f3bb2cba030eebc038045bff88566d84b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jan 7 02:58:31 2026 +0200
+
+    emscripten: Add host_machine section to cross-file
+
+    See RM #1877
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 26ee98ac2adcf4300977698118457cad7427e146
+Author: Dino <macwiz23@comcast.net>
+Date:   Fri Dec 26 19:43:41 2025 -0500
+
+    gtk4: clean out #ifdef MENUS_GTK3
+
+    See RM #1843
+
+commit eac9fdb2cfbfeb19f8b3121e802b42361baa95a9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Dec 27 18:51:15 2025 +0200
+
+    CI: Update setup-msys2 to version 2.30.0
+
+    See RM #1818
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3e99961f1f1a746eba09f36c034a04cd3123978c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jan 5 21:14:51 2026 +0200
+
+    gtk4: Fix sentried unit crash on right-click on city dialog
+
+    Fix similar case also on transport dialog.
+
+    They set unit on focus, and non-idle unit cannot be at focus.
+
+    Reported by Andrea Maria Marconi
+
+    See RM #1868
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b738889759c252835f619ba17235961b3e7599e6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Dec 26 08:41:45 2025 +0200
+
+    AI: Fix failing war_countdown() "adip->countdown == -1" assert
+
+    War declaration because of target's spaceship launch proceeded
+    when the countdown was already indicating war, but players were
+    not in war yet. This is possible situation when the senate
+    is blocking the war, and we are waiting for it to be dissolved
+    in the next turn change.
+
+    See RM #1834
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 47b8f745c9551baa659e7ab251ffc7d215a48d0e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Dec 25 15:04:07 2025 +0200
+
+    game.rulesets: Add empty lines around Counters documentation
+
+    See RM #1801
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 39419bb07a4d4766b75a12d6fb33364260981d96
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Dec 15 20:09:48 2025 -0500
+
+    Increase city report trade routes column width
+
+    See RM #1815
+
+commit df90dde5150729fcd8988265836770180149abbc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Dec 19 03:34:21 2025 +0200
+
+    Meson: Sanity check sdl2/sdl3 audio and sdl2/sdl3-client combinations
+
+    See RM #1822
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e16c4363db00626ae34c1d458f9c6ac78c6b6c37
+Author: Christian Mauderer <oss@c-mauderer.de>
+Date:   Sun Jan 4 16:58:21 2026 +0100
+
+    gtk4: Fix icon sizes with new gtk releases
+
+    GTK has set the maximum size of objects that use the iconhelper to the
+    size of icons in the context of the widget (see [1]). Unfortunately, the
+    gtk_cell_renderer_pixbuf_snapshot which is used to render pixbufs
+    internally uses that iconhelper.
+
+    This commit adds a hack that increases the maximum icon size for all
+    potentially affected dialogs to work around that problem.
+
+    Exclude pages.c: In that dialog there are tick boxes that would adapt to
+    the icon size too.
+
+    See RM #1856
+
+    [1] https://gitlab.gnome.org/GNOME/gtk/-/commit/38b0a153e2e25034eec7722d15c89211dad679d5
+
+    Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+
+commit 3e0eb8de0dbde0852142a03f37e805c101ec4c9f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Dec 18 04:26:04 2025 +0200
+
+    AI: Do not try to cancel treaty with a dead player
+
+    See RM #1820
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4938325ad27ab731fcffaab2cebe75e22905759d
+Author: Dino <macwiz23@comcast.net>
+Date:   Fri Dec 26 21:59:30 2025 -0500
+
+    rulesave: Fix saving helptext for Counters
+
+    See RM #1844
+
+commit e0420c9d1546a5e99cc1ccd8020553ae0965bb90
+Author: Michal Mazurek <akfaew@gmail.com>
+Date:   Sun Dec 21 10:34:11 2025 +0100
+
+    AI: Limit diplomacy target iterations to alive players only
+
+      - grievous insult retaliation loop switched to players_iterate_alive
+        so revenge plans ignore dead players, matching other target scans.
+      - shared-enemy love bonus now iterates only over alive players to
+        avoid dead enemies inflating love changes.
+      - ally nagging enemy selection now scans alive players so a dead enemy
+        can’t short‑circuit nagging when a live enemy exists.
+      - war‑footing check now iterates over alive players to avoid stale
+        countdowns on dead players keeping war footing on.
+
+    Reported by Marko Lindqvist
+
+    Backported by Marko Lindqvist
+
+    See RM #1831
+
+commit 8d3a4476121dcc51842626bccef0f97d8e650a06
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 14 06:42:01 2025 +0200
+
+    Fix "orginal" typos to "original"
+
+    See RM #1813
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 71e3aaa63f90b65455f6404f875f50092cc27076
+Author: Dino <macwiz23@comcast.net>
+Date:   Wed Dec 24 16:01:29 2025 -0500
+
+    Fix typos in reqtext.c
+
+    See RM #1839
+
+commit 1ad16ed67710f66d7c6617f79c9f499d3923ce26
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 29 18:13:56 2025 +0200
+
+    Add audio_is_dummy_plugin()
+
+    See RM #1780
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 488246c710e3c1f1d4bf9277b798292638988e80
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Dec 25 09:29:52 2025 +0200
+
+    savegame: Restore sane state after failures in savegame_load()
+
+    The server sane state was restored if there was error deeper
+    in the savegame loading, but errors in main savegame_load()
+    already left the server unusable.
+
+    Reported by John Robertson
+
+    See RM #1826
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5437840e1e9a19124e6cb8cc6e6a52a7b3a7f1dc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Dec 10 00:50:19 2025 +0200
+
+    gnulib-common.m4: Update to serial 115
+
+    See RM #1806
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 56a6dc20d472d9a84225dbdba6e31a520f4b118c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Dec 19 02:17:28 2025 +0200
+
+    CI: Update actions/checkout to version 6.0.0
+
+    See RM #1756
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 16608df1b32390c1ccce5b6d19e0e637ad5139cd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Dec 12 17:03:09 2025 +0200
+
+    AI: Try "Collect Ransom" as an attack action
+
+    Reported by David Fernandez
+
+    See RM #1803
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f2590d8fdbe520b451c096bf88cdf3804c77c963
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Dec 7 13:49:06 2025 +0200
+
+    Update to emscripten 4.0.21
+
+    See RM #1800
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2e1a2580d0ff6b4cee98623e4f96801e1b4be0c0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jan 6 00:58:44 2026 +0200
+
+    Comment typofix: "WARRNING" -> "WARNING"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6a9607040b7c66d9d847574029d97892132d010f
+Author: John Robertson <jro@advops.com>
+Date:   Fri Dec 19 15:58:07 2025 -0700
+
+    Qt: Add double-click handling to gotodlg
+
+    - Airlift (if possible), otherwise goto
+    - Alt for airlift only
+    - Ctrl for GoTo only
+
+    See RM #1808
+
+commit 69dde480066f887427fb8d4b967db406f5054cf1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Nov 22 14:27:45 2025 +0200
+
+    Maintain list of thread specific structures in requirements.c
+
+    See RM #1754
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 160c531af41b1b7d09ce9a23f829109b93588887
+Author: Michal Mazurek <akfaew@gmail.com>
+Date:   Thu Dec 18 16:38:31 2025 +0100
+
+    Fix some comment typos
+
+    See RM #1828
+
+commit 6c9ca955e55bfb5debf71822200b3459b78e8002
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Dec 19 04:03:34 2025 +0200
+
+    lua-5.4: Add lua.css
+
+    Required by readme.html
+
+    See RM #1824
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d7e8a1652846bd6e1db9793b53223e8212a2cfce
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 2 00:13:07 2026 +0200
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0b06c701d2714b0db816e08a41dfaf6bc6902519
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jan 2 00:10:29 2026 +0200
+
+    Finalize 3.2.2 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 38d0220bc4fdbf67bd0502262d7f2abab5f39e41
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Jan 2 00:08:44 2026 +0200
