@@ -449,12 +449,12 @@ struct packet_to_handle {
 };
 
 /*****************************************************************************
-  Simplify a loop by wrapping get_packet_from_connection.
+  Simplify a loop by wrapping get_packet_from_connection().
 *****************************************************************************/
 static bool get_packet(struct connection *pconn, 
                        struct packet_to_handle *ppacket)
 {
-  ppacket->data = get_packet_from_connection(pconn, &ppacket->type);
+  ppacket->data = get_packet_from_connection(pconn, &ppacket->type, FALSE);
 
   return NULL != ppacket->data;
 }
