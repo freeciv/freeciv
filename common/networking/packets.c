@@ -371,7 +371,8 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
   the function returns nullptr.
 **************************************************************************/
 void *get_packet_from_connection_raw(struct connection *pc,
-                                     enum packet_type *ptype)
+                                     enum packet_type *ptype,
+                                     bool recursed)
 {
   int len_read;
   int whole_packet_len;
@@ -407,6 +408,12 @@ void *get_packet_from_connection_raw(struct connection *pc,
    * changes, the protocol should probably be changed */
   fc_assert(data_type_size(pc->packet_header.length) == 2);
   if (len_read == JUMBO_SIZE) {
+    if (recursed) {
+      log_verbose("Got recursive jumbo packet. That's not acceptable. "
+                  "The connection will be closed now.");
+      connection_close(pc, _("recursive jumbo packet"));
+      return nullptr;
+    }
     compressed_packet = TRUE;
     header_size = 6;
     if (dio_input_remaining(&din) >= 4) {
@@ -500,7 +507,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
     log_compress("COMPRESS: decompressed %ld into %ld",
                  compressed_size, decompressed_size);
 
-    return get_packet_from_connection(pc, ptype);
+    return get_packet_from_connection(pc, ptype, TRUE);
   }
 #endif /* USE_COMPRESSION */
 
