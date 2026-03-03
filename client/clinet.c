@@ -414,7 +414,7 @@ void input_from_server(int fd)
     agents_freeze_hint();
     while (client.conn.used) {
       enum packet_type type;
-      void *packet = get_packet_from_connection(&client.conn, &type);
+      void *packet = get_packet_from_connection(&client.conn, &type, FALSE);
 
       if (NULL != packet) {
 	client_packet_input(packet, type);
@@ -455,7 +455,7 @@ void input_from_server_till_request_got_processed(int fd,
       enum packet_type type;
 
       while (TRUE) {
-	void *packet = get_packet_from_connection(&client.conn, &type);
+	void *packet = get_packet_from_connection(&client.conn, &type, FALSE);
 	if (NULL == packet) {
 	  break;
 	}
