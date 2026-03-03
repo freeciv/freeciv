@@ -20,11 +20,11 @@ extern "C" {
 struct connection;
 struct data_in;
 
-#include "connection.h"		/* struct connection, MAX_LEN_* */
+#include "connection.h"         /* struct connection, MAX_LEN_* */
 #include "diptreaty.h"
 #include "effects.h"
 #include "events.h"
-#include "improvement.h"	/* bv_imprs */
+#include "improvement.h"        /* bv_imprs */
 #include "player.h"
 #include "requirements.h"
 #include "shared.h"		/* MAX_LEN_ADDR */
@@ -87,7 +87,8 @@ struct packet_handlers {
 };
 
 void *get_packet_from_connection(struct connection *pc,
-                                 enum packet_type *ptype);
+                                 enum packet_type *ptype,
+                                 bool recursed);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
 void send_attribute_block(const struct player *pplayer,
@@ -111,8 +112,8 @@ void post_receive_packet_server_join_reply(struct connection *pconn,
                                            packet_server_join_reply *packet);
 
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
-					    struct packet_player_attribute_chunk
-					    *packet);
+                                            struct packet_player_attribute_chunk
+                                            *packet);
 
 const struct packet_handlers *packet_handlers_initial(void);
 const struct packet_handlers *packet_handlers_get(const char *capability);
