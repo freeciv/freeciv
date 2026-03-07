@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 115
+# serial 116
 dnl Copyright (C) 2007-2026 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -1425,6 +1425,7 @@ AC_DEFUN([gl_CC_GNULIB_WARNINGS],
     dnl -Wno-pedantic                         >= 4.8          >= 3.9
     dnl -Wno-sign-compare                     >= 3            >= 3.9
     dnl -Wno-sign-conversion                  >= 4.3          >= 3.9
+    dnl -Wno-string-plus-int                  -               >= 3.9
     dnl -Wno-tautological-out-of-range-compare  -             >= 3.9
     dnl -Wno-type-limits                      >= 4.3          >= 3.9
     dnl -Wno-undef                            >= 3            >= 3.9
@@ -1453,6 +1454,7 @@ AC_DEFUN([gl_CC_GNULIB_WARNINGS],
       -Wno-pedantic
       #endif
       #if 3 < __clang_major__ + (9 <= __clang_minor__)
+      -Wno-string-plus-int
       -Wno-tautological-constant-out-of-range-compare
       #endif
       #if (__GNUC__ + (__GNUC_MINOR__ >= 3) > 4 && !defined __clang__) || (__clang_major__ + (__clang_minor__ >= 9) > 3)
