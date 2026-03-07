@@ -27,10 +27,10 @@
 #                       I've used 'rinnalla' for cardinally adjacent and 'vieressä' for any way adjacent.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 3.2\n"
+"Project-Id-Version: freeciv 3.3\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-22 22:17+0200\n"
-"PO-Revision-Date: 2026-02-22 23:04+0200\n"
+"POT-Creation-Date: 2026-03-07 05:51+0200\n"
+"PO-Revision-Date: 2026-03-07 06:05+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -492,7 +492,7 @@ msgstr "Näkee kaiken alueella, jonka on joskus tutkinut."
 
 #: ai/handicaps.c:110
 msgid "Doesn't build air units."
-msgstr "Kaupungin perustaminen ei onnistu."
+msgstr "Ei rakenna ilmayksiköitä."
 
 #: ai/handicaps.c:113
 msgid "Has complete map knowledge, including unexplored territory."
@@ -22594,7 +22594,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:432 data/civ2/buildings.ruleset:512
 #: data/classic/buildings.ruleset:522 data/sandbox/buildings.ruleset:636
 #: data/civ2civ3/buildings.ruleset:633 data/multiplayer/buildings.ruleset:517
-#: data/granularity/buildings.ruleset:234
+#: data/granularity/buildings.ruleset:235
 msgid "Library"
 msgstr "Kirjasto"
 
@@ -22607,7 +22607,7 @@ msgstr "Kasvattaa kaupungin tutkimustulosta 50%."
 #: data/civ1/buildings.ruleset:456 data/civ2/buildings.ruleset:536
 #: data/classic/buildings.ruleset:546 data/sandbox/buildings.ruleset:660
 #: data/civ2civ3/buildings.ruleset:658 data/multiplayer/buildings.ruleset:541
-#: data/granularity/buildings.ruleset:259
+#: data/granularity/buildings.ruleset:260
 msgid "Marketplace"
 msgstr "Tori"
 
@@ -22675,7 +22675,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:567 data/civ2/buildings.ruleset:673
 #: data/classic/buildings.ruleset:694 data/sandbox/buildings.ruleset:820
 #: data/civ2civ3/buildings.ruleset:818 data/multiplayer/buildings.ruleset:678
-#: data/granularity/buildings.ruleset:383
+#: data/granularity/buildings.ruleset:384
 msgid "Palace"
 msgstr "Palatsi"
 
@@ -22897,7 +22897,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:785 data/civ2/buildings.ruleset:1136
 #: data/classic/buildings.ruleset:1181 data/sandbox/buildings.ruleset:1433
 #: data/civ2civ3/buildings.ruleset:1365 data/multiplayer/buildings.ruleset:1156
-#: data/granularity/buildings.ruleset:309
+#: data/granularity/buildings.ruleset:310
 msgid "Temple"
 msgstr "Temppeli"
 
@@ -40151,13 +40151,17 @@ msgstr "Panimo"
 msgid ""
 "Increases luxury output by 25%, and gold output by 15%. Adds food output of "
 "the Wheat tiles by 50."
-msgstr "Lisää luksuksen tuotantoa 25% ja kullan tuotantoa 15%. Lisää vehnäruutujen ruoantuotantoa 50 pistettä."
+msgstr ""
+"Lisää luksuksen tuotantoa 25% ja kullan tuotantoa 15%. Lisää vehnäruutujen "
+"ruoantuotantoa 50 pistettä."
 
 #: data/granularity/buildings.ruleset:156
 msgid ""
 "City Walls make it easier to defend a city. They triple the defense strength "
 "of units within the city against land units."
-msgstr "Kaupunginmuuri helpottaa kaupungin puolustusta. Se kolminkertaistaa kaupungissa olevien yksiköiden puolustuskyvyn maayksiköitä vastaan."
+msgstr ""
+"Kaupunginmuuri helpottaa kaupungin puolustusta. Se kolminkertaistaa "
+"kaupungissa olevien yksiköiden puolustuskyvyn maayksiköitä vastaan."
 
 #: data/granularity/buildings.ruleset:181
 #, no-c-format
@@ -40168,25 +40172,25 @@ msgstr ""
 "Vähentää korruptiota 30% - laskennallisesta kokonaiskorruptiosta, joka voi "
 "olla yli 100% kaikesta kaupasta."
 
-#: data/granularity/buildings.ruleset:205
-#, c-format
+#: data/granularity/buildings.ruleset:206
+#, no-c-format
 msgid ""
 "Granary reduces famine speed by making city food storage half full after "
 "city shrinks, and speeds up city growth by making the food storage 10% full "
 "after city grows."
-msgstr ""
+msgstr "Viljasiilo helpottaa nälänhätää täyättämällä ruokavaraston puolilleen kaupungin koon laskettua, ja nopeuttaa kaupungin kasvua täyttämällä ruokavaraston 10% täyteen kaupungin kasvettua."
 
-#: data/granularity/buildings.ruleset:212
+#: data/granularity/buildings.ruleset:213
 msgid "Housing"
 msgstr "Asuintaloja"
 
-#: data/granularity/buildings.ruleset:229
+#: data/granularity/buildings.ruleset:230
 msgid "Space for people to live allows settlements to grow one size bigger."
 msgstr ""
 "Asuintilat ihmisille mahdollistavat asutuskeskuksen kasvaa yhtä kokoa "
 "suuremmaksi."
 
-#: data/granularity/buildings.ruleset:252
+#: data/granularity/buildings.ruleset:253
 msgid ""
 "Increases science output by 50%, 75% if Science known. Produces two points "
 "of history each turn, three points if Literature known."
@@ -40194,16 +40198,16 @@ msgstr ""
 "Lisää tieteen tuotantoa 50%, 74% jos Tiede tunnetaan. Tuottaa kaksi pistettä "
 "historiaa kierroksessa, tai kolme mikäli Kirjallisuus tunnetaan."
 
-#: data/granularity/buildings.ruleset:277
+#: data/granularity/buildings.ruleset:278
 msgid "Increases gold output by 50%. Increases luxury output by 30%."
 msgstr "Lisää kullan tuottoa 50% ja luksuksen tuottoa 30%."
 
-#: data/granularity/buildings.ruleset:283
+#: data/granularity/buildings.ruleset:284
 msgid "Sacred Grove"
 msgstr "Pyhä lehto"
 
-#: data/granularity/buildings.ruleset:301
-#: data/granularity/buildings.ruleset:327
+#: data/granularity/buildings.ruleset:302
+#: data/granularity/buildings.ruleset:328
 msgid ""
 "Makes one unhappy citizen content. Does not affect citizens made unhappy by "
 "military activity."
@@ -40211,50 +40215,56 @@ msgstr ""
 "Tekee yhdestä tyytymättömästä asukkaasta rauhallisen. Vaikutus ei ulotu "
 "sotatoimista aiheutuvaan tyytymättömyyteen."
 
-#: data/granularity/buildings.ruleset:304
+#: data/granularity/buildings.ruleset:305
 msgid "Produces one point of history each turn."
 msgstr "Tuottaa pisteen historiaa joka kierroksella."
 
-#: data/granularity/buildings.ruleset:330
+#: data/granularity/buildings.ruleset:331
 msgid "Produces two points of history each turn."
 msgstr "Tuottaa kaksi pistettä historiaa joka kierroksella."
 
-#: data/granularity/buildings.ruleset:335
+#: data/granularity/buildings.ruleset:336
 msgid "Central Rock Pile"
 msgstr "Keskuskivikasa"
 
-#: data/granularity/buildings.ruleset:353
+#: data/granularity/buildings.ruleset:354
 msgid ""
 "This Rock Pile marks the spot where your people first settled, and found a "
 "city. Increases city center food production by 100. It marks your capital "
 "city until you have more fitting building to do so."
-msgstr "Tämä kivikasa merkitsee paikkaa, jossa kansasi ensi kerran asettui aloilleen ja perusti kaupungin. Lisää kaupungin keskusruudun ruoantuotantoa 100 pistettä. Tekee kaupungista pääkaupugin kunnes jokin kaupunkisi rakentaa merkittävämmän hallintorakennuksen sitä tekemään."
+msgstr ""
+"Tämä kivikasa merkitsee paikkaa, jossa kansasi ensi kerran asettui aloilleen "
+"ja perusti kaupungin. Lisää kaupungin keskusruudun ruoantuotantoa 100 "
+"pistettä. Tekee kaupungista pääkaupugin kunnes jokin kaupunkisi rakentaa "
+"merkittävämmän hallintorakennuksen sitä tekemään."
 
-#: data/granularity/buildings.ruleset:360
+#: data/granularity/buildings.ruleset:361
 msgid "Throne"
 msgstr "Valtaistuin"
 
-#: data/granularity/buildings.ruleset:378
+#: data/granularity/buildings.ruleset:379
 msgid "City with your throne is your capital city."
 msgstr "Kaupunki, jossa valtaistuimesi on, on pääkaupunkisi."
 
-#: data/granularity/buildings.ruleset:402
+#: data/granularity/buildings.ruleset:403
 msgid "Palace reduces corruption in the empire and gives +3 history each turn."
-msgstr "Palatsi vähentää korruptiota ja antaa +3 pistettä historiaa joka kierroksella."
+msgstr ""
+"Palatsi vähentää korruptiota ja antaa +3 pistettä historiaa joka "
+"kierroksella."
 
-#: data/granularity/buildings.ruleset:407
+#: data/granularity/buildings.ruleset:408
 msgid "Quarry"
 msgstr "Louhos"
 
-#: data/granularity/buildings.ruleset:425
+#: data/granularity/buildings.ruleset:426
 msgid "Quarry produces 300 infrapoints per turn."
 msgstr "Louhos tuottaa 300 infrapistettä vuorossa."
 
-#: data/granularity/buildings.ruleset:430
+#: data/granularity/buildings.ruleset:431
 msgid "Stone Circle"
 msgstr "Kiviympyrä"
 
-#: data/granularity/buildings.ruleset:448
+#: data/granularity/buildings.ruleset:449
 msgid ""
 "Stone Circle produces two points of history per turn for each city, five "
 "points for the city its located at."
@@ -40262,11 +40272,11 @@ msgstr ""
 "Kiviympyrä tuottaa kaksi pistettä historiaa kierroksessa jokaiseen "
 "kaupunkiin, viisi pistettä kaupunkiin, jossa se on."
 
-#: data/granularity/buildings.ruleset:454
+#: data/granularity/buildings.ruleset:455
 msgid "Gather Wood"
 msgstr "Puunkeruu"
 
-#: data/granularity/buildings.ruleset:469
+#: data/granularity/buildings.ruleset:470
 msgid ""
 "This is not a normal improvement. Instead, setting a city's production to "
 "this means its shield production is converted to infra points."
@@ -40327,7 +40337,9 @@ msgstr ""
 msgid ""
 "The initial form of government. Under tribalism the maximum nation size is "
 "five cities."
-msgstr "Pelin alun hallitusmuoto. Heimojärjestelmän vallitessa voit hankkia korkeintaan viisi kaupunkia."
+msgstr ""
+"Pelin alun hallitusmuoto. Heimojärjestelmän vallitessa voit hankkia "
+"korkeintaan viisi kaupunkia."
 
 #: data/granularity/governments.ruleset:124
 msgid ""
@@ -40355,7 +40367,7 @@ msgstr "Viljelyaika."
 msgid ""
 "People take time from the production work to the farming work. Each step "
 "increases food output by 10%, and reduces shields output by 10%."
-msgstr ""
+msgstr "Työläiset ottavat aikaa tuotantotyöstä viljelytyöhön. Jokainen askel lisää ruoan tuotantoa 10% ja vähentää tuotantoa 10%."
 
 #: data/granularity/governments.ruleset:191
 msgid "Offensive Strategies"
@@ -40389,7 +40401,7 @@ msgstr "Maanviljelys"
 
 #: data/granularity/techs.ruleset:120
 msgid "Agriculture allows placing irrigation."
-msgstr ""
+msgstr "Maanviljelystaito mahdollistaa kastelujärjestelmien sijoittamisen."
 
 #: data/granularity/techs.ruleset:129
 msgid ""
@@ -40419,7 +40431,7 @@ msgstr "Oluen paneminen"
 
 #: data/granularity/techs.ruleset:186
 msgid "The art of industrial brewing."
-msgstr ""
+msgstr "Teollisen oluen panemisen taito."
 
 #: data/granularity/techs.ruleset:191
 msgid "Bronze Weapons"
@@ -40639,7 +40651,9 @@ msgstr "Tekee meriruutujen käyttämisen mahdolliseksi."
 msgid ""
 "With carts it's possible to bring produce and resources longer distance "
 "away. Increases city radius."
-msgstr "Kärryillä on mahdollista kuljettaa maataloustuotteita ja raaka-aineita pidempien matkojen päästä. Laajentaa kaupungin aluetta."
+msgstr ""
+"Kärryillä on mahdollista kuljettaa maataloustuotteita ja raaka-aineita "
+"pidempien matkojen päästä. Laajentaa kaupungin aluetta."
 
 #: data/granularity/techs.ruleset:637
 msgid "Tools"
@@ -40763,7 +40777,10 @@ msgstr "Paimentolainen"
 msgid ""
 "Nomads can both fight and found new cities, but unlike specialized units "
 "they cost two population points to build."
-msgstr "Paimentolaiset voivat sekä taistella että perustaa kaupunkeja, mutta toisin kuin erikoistuneiden yksiköiden, niiden rakentaminen pienentää kaupunkia kahdella pisteellä."
+msgstr ""
+"Paimentolaiset voivat sekä taistella että perustaa kaupunkeja, mutta toisin "
+"kuin erikoistuneiden yksiköiden, niiden rakentaminen pienentää kaupunkia "
+"kahdella pisteellä."
 
 #: data/granularity/units.ruleset:456
 msgid "Warriors are the first unit specialized in war."
@@ -48564,7 +48581,9 @@ msgid "Loading rulesets."
 msgstr "Lataan sääntökokoelmaa."
 
 #: server/ruleset/rscompat.c:359
-msgid "May acquire veteran status."
+#, fuzzy
+#| msgid "May acquire veteran status."
+msgid "Cannot acquire veteran status."
 msgstr "Voi saada ylennyksiä."
 
 #: server/ruleset/rscompat.c:360
