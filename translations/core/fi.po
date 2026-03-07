@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-15 13:57+0200\n"
-"PO-Revision-Date: 2026-02-22 22:28+0200\n"
+"POT-Creation-Date: 2026-03-07 05:51+0200\n"
+"PO-Revision-Date: 2026-03-07 05:54+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -492,7 +492,7 @@ msgstr "Näkee kaiken alueella, jonka on joskus tutkinut."
 
 #: ai/handicaps.c:110
 msgid "Doesn't build air units."
-msgstr "Kaupungin perustaminen ei onnistu."
+msgstr "Ei rakenna ilmayksiköitä."
 
 #: ai/handicaps.c:113
 msgid "Has complete map knowledge, including unexplored territory."
