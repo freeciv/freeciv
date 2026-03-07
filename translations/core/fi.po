@@ -27,10 +27,10 @@
 #                       I've used 'rinnalla' for cardinally adjacent and 'vieressä' for any way adjacent.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 3.2\n"
+"Project-Id-Version: freeciv 3.4\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-22 22:20+0200\n"
-"PO-Revision-Date: 2026-02-22 23:04+0200\n"
+"POT-Creation-Date: 2026-03-07 05:56+0200\n"
+"PO-Revision-Date: 2026-03-07 06:05+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -47,7 +47,7 @@ msgstr[0] "%s realisoi omaisuuttaan: %s myyty hintaan %d."
 msgstr[1] "%s realisoi omaisuuttaan: %s myyty hintaan %d."
 
 # Away-moodissa pelaaja menee AI-hallinnoitavaksi.
-#: ai/default/daidiplomacy.c:377
+#: ai/default/daidiplomacy.c:365
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
 msgstr ""
@@ -55,12 +55,12 @@ msgstr ""
 "pelaajan puolesta."
 
 # AI teitittelee...
-#: ai/default/daidiplomacy.c:387
+#: ai/default/daidiplomacy.c:375
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (AI)* Purkakaa ensin liittonne pelaajan %s kanssa, %s."
 
-#: ai/default/daidiplomacy.c:397
+#: ai/default/daidiplomacy.c:385
 #, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
@@ -69,12 +69,12 @@ msgstr ""
 "*%s (AI)* Haluaisin ensin odottaa varmistuakseni ettette te ja %s enää ole "
 "yhteistyössä, %s."
 
-#: ai/default/daidiplomacy.c:413
+#: ai/default/daidiplomacy.c:401
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (AI)* Lopettakaamme ensin vihollisuutemme, %s."
 
-#: ai/default/daidiplomacy.c:419
+#: ai/default/daidiplomacy.c:407
 #, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
@@ -83,47 +83,47 @@ msgstr ""
 "*%s (AI)* Olisi suotavaa, jos ensin pitäisitte tulitauon hieman pidempään, "
 "%s."
 
-#: ai/default/daidiplomacy.c:442
+#: ai/default/daidiplomacy.c:430
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr "*%s (AI)* En luota teihin vielä riittävästi liittoutumista varten, %s."
 
-#: ai/default/daidiplomacy.c:537
+#: ai/default/daidiplomacy.c:518
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s (AI)* En tunne mainitsemaanne kaupunkia."
 
-#: ai/default/daidiplomacy.c:569
+#: ai/default/daidiplomacy.c:550
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr "*%s (AI)* Pahoittelen, näkymän jako kanssanne ei ole turvallista."
 
-#: ai/default/daidiplomacy.c:701
+#: ai/default/daidiplomacy.c:682
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s (AI)* Tämä sopimus ei ollut erityisen hyvä kannaltamme, %s!"
 
-#: ai/default/daidiplomacy.c:724
+#: ai/default/daidiplomacy.c:705
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (AI)* Tervetuloa liittolaiseksemme, %s!"
 
-#: ai/default/daidiplomacy.c:728
+#: ai/default/daidiplomacy.c:709
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr "*%s (AI)* Aivan, kestäköön liittomme ikuisesti, %s."
 
-#: ai/default/daidiplomacy.c:735
+#: ai/default/daidiplomacy.c:716
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (AI)* Aivan, rauha meidän aikanamme!"
 
-#: ai/default/daidiplomacy.c:740
+#: ai/default/daidiplomacy.c:721
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* Olen samaa mieltä. Lopettakaamme vihanpito, %s."
 
-#: ai/default/daidiplomacy.c:1008
+#: ai/default/daidiplomacy.c:989
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -132,7 +132,7 @@ msgstr ""
 "*%s (AI)* Tervehdys, %s! Voimmeko ehdottaa tulitaukoa jotta ehdimme paremmin "
 "tutustua?"
 
-#: ai/default/daidiplomacy.c:1016
+#: ai/default/daidiplomacy.c:997
 #, c-format
 msgid ""
 "*%s (AI)* I found you %s! Now make it worth my letting you live, or be "
@@ -141,22 +141,22 @@ msgstr ""
 "%s (AI)* Löysin sinut %s! Anna minulle hyvä syy jättää teidät murskaamatta "
 "tai valmistaudu tuhoosi."
 
-#: ai/default/daidiplomacy.c:1370
+#: ai/default/daidiplomacy.c:1351
 #, c-format
 msgid "*%s (AI)* Space will never be yours."
 msgstr "*%s (AI)* Avaruus ei tule koskaan kuulumaan teille."
 
-#: ai/default/daidiplomacy.c:1376
+#: ai/default/daidiplomacy.c:1357
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* Olen sietänyt äksyilyänne riittävän pitkään! Tulkoon sota!"
 
-#: ai/default/daidiplomacy.c:1382
+#: ai/default/daidiplomacy.c:1363
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* Rauhaa? Ehkä joskus toiste."
 
-#: ai/default/daidiplomacy.c:1388
+#: ai/default/daidiplomacy.c:1369
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -165,17 +165,17 @@ msgstr ""
 "*%s (AI)* Lopultakin yhytin teidät! Luulitteko tosiaan pääsevänne kuin koira "
 "veräjästä?"
 
-#: ai/default/daidiplomacy.c:1395
+#: ai/default/daidiplomacy.c:1376
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* Desanttienne sabotaašitoiminta sai ansaitsemansa lopun!"
 
-#: ai/default/daidiplomacy.c:1403
+#: ai/default/daidiplomacy.c:1384
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* Liittolaiseni (%s) ahdistelu oli vihonviimeinen erheenne!"
 
-#: ai/default/daidiplomacy.c:1513
+#: ai/default/daidiplomacy.c:1494
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -190,7 +190,7 @@ msgstr[1] ""
 "*%s (AI)* %s saa tuta sotavoimiemme täyden mahdin %d vuoron kuluttua, jotta "
 "avaruusaluksen laukaisu tulee estetyksi."
 
-#: ai/default/daidiplomacy.c:1524
+#: ai/default/daidiplomacy.c:1505
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -199,14 +199,22 @@ msgstr ""
 "*%s (AI)* Odotamme teidän auttavan tässä asiassa. Kauan eläköön mahtava "
 "liittomme!"
 
-#: ai/default/daidiplomacy.c:1531
-#, c-format
+#: ai/default/daidiplomacy.c:1512
+#, fuzzy, c-format
+#| msgid ""
+#| "*%s (AI)* %s has grossly violated their treaties with us for own gain.  "
+#| "We will answer in force in %d turn and expect you to honor your alliance "
+#| "with us and do likewise!"
+#| msgid_plural ""
+#| "*%s (AI)* %s has grossly violated their treaties with us for own gain.  "
+#| "We will answer in force in %d turns and expect you to honor your alliance "
+#| "with us and do likewise!"
 msgid ""
-"*%s (AI)* %s has grossly violated their treaties with us for own gain.  We "
+"*%s (AI)* %s has grossly violated their treaties with us for own gain. We "
 "will answer in force in %d turn and expect you to honor your alliance with "
 "us and do likewise!"
 msgid_plural ""
-"*%s (AI)* %s has grossly violated their treaties with us for own gain.  We "
+"*%s (AI)* %s has grossly violated their treaties with us for own gain. We "
 "will answer in force in %d turns and expect you to honor your alliance with "
 "us and do likewise!"
 msgstr[0] ""
@@ -218,7 +226,7 @@ msgstr[1] ""
 "edukseen. Vastaamme voimakeinoin %d vuoron kuluttua ja odotamme teidän "
 "kunnioittavan liittoumaamme toimimalla samoin!"
 
-#: ai/default/daidiplomacy.c:1545
+#: ai/default/daidiplomacy.c:1526
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -233,13 +241,13 @@ msgstr[1] ""
 "*%s (AI)* %s ui rahassa, joten aiomme ryöstää ja rosvota hänen "
 "kansakuntansa! Sota julistetaan %d vuoron kuluttua."
 
-#: ai/default/daidiplomacy.c:1554
+#: ai/default/daidiplomacy.c:1535
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Jos haluatte osille ryöstösaaliista, tulkaa mukaan vaan!"
 
-#: ai/default/daidiplomacy.c:1560
+#: ai/default/daidiplomacy.c:1541
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -254,20 +262,26 @@ msgstr[1] ""
 "*%s (AI)* %s käy hermoillemme! Julistamme sodan %d vuoron kuluttua ja "
 "revimme hänen naurettavan kansakuntansa silpuksi."
 
-#: ai/default/daidiplomacy.c:1571
+#: ai/default/daidiplomacy.c:1552
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (AI)* Odotamme apuanne tässä sodassa; olettehan mahtavia liittolaisiamme."
 
-#: ai/default/daidiplomacy.c:1578
-#, c-format
+#: ai/default/daidiplomacy.c:1559
+#, fuzzy, c-format
+#| msgid ""
+#| "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  "
+#| "Hold on - we are coming!"
+#| msgid_plural ""
+#| "*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
+#| "Hold on - we are coming!"
 msgid ""
-"*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
+"*%s (AI)* We will honor our alliance and declare war on %s in %d turn. Hold "
 "on - we are coming!"
 msgid_plural ""
-"*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
-"Hold on - we are coming!"
+"*%s (AI)* We will honor our alliance and declare war on %s in %d turns. Hold "
+"on - we are coming!"
 msgstr[0] ""
 "*%s (AI)* Kunnioitamme liittoamme, alas %s! Julistamme sodan %d vuoron "
 "kuluttua. Tulossa ollaan!"
@@ -275,14 +289,20 @@ msgstr[1] ""
 "*%s (AI)* Kunnioitamme liittoamme, alas %s! Julistamme sodan %d vuoron "
 "kuluttua. Tulossa ollaan!"
 
-#: ai/default/daidiplomacy.c:1588
-#, c-format
+#: ai/default/daidiplomacy.c:1569
+#, fuzzy, c-format
+#| msgid ""
+#| "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
+#| "turn.  We expect you to do likewise."
+#| msgid_plural ""
+#| "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
+#| "turns.  We expect you to do likewise."
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
-"turn.  We expect you to do likewise."
+"turn. We expect you to do likewise."
 msgid_plural ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
-"turns.  We expect you to do likewise."
+"turns. We expect you to do likewise."
 msgstr[0] ""
 "*%s (AI)* Koska liittolaisemme %s aikoo sotaan, on %s meidänkin "
 "vihollisemme. Julistamme sodan %d vuoron kuluttua! Odotamme teidän toimivan "
@@ -292,7 +312,7 @@ msgstr[1] ""
 "vihollisemme. Julistamme sodan %d vuoron kuluttua! Odotamme teidän toimivan "
 "samoin."
 
-#: ai/default/daidiplomacy.c:1669
+#: ai/default/daidiplomacy.c:1650
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -301,7 +321,7 @@ msgstr ""
 "*%s (AI)* Yrityksesi valloittaa avaruus yksin itsellesi toi julki todelliset "
 "aikomuksesi. Liittomme on tästä pitäen ohi!"
 
-#: ai/default/daidiplomacy.c:1685
+#: ai/default/daidiplomacy.c:1666
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -309,7 +329,7 @@ msgid ""
 msgstr ""
 "*%s (AI)* Pyrkimyksesi hallita ulkoavaruutta yksin loukkaa meitä syvästi."
 
-#: ai/default/daidiplomacy.c:1689
+#: ai/default/daidiplomacy.c:1670
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -318,14 +338,14 @@ msgstr ""
 "*%s (AI)* Jos et lopeta avaruusaluksesi rakentamista, minun pitää varmaankin "
 "tehdä asialle jotakin!"
 
-#: ai/default/daidiplomacy.c:1811
+#: ai/default/daidiplomacy.c:1792
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (AI)* Pahoittelen, mutta näkymän jakaminen kanssasi ei ole enää "
 "turvallista."
 
-#: ai/default/daidiplomacy.c:1882
+#: ai/default/daidiplomacy.c:1863
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -334,7 +354,7 @@ msgstr ""
 "*%s (AI)* Tervehdys, oi luotettu liittolaisemme. Pyydämme apuanne - "
 "vihollisemme %s pitää tuhota."
 
-#: ai/default/daidiplomacy.c:1890
+#: ai/default/daidiplomacy.c:1871
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -344,7 +364,7 @@ msgstr ""
 "vieläkään ole vastaanottanut sodanjulistustasi. Pitääkö minun muistuttaa "
 "teitä tekemistänne lupauksista?"
 
-#: ai/default/daidiplomacy.c:1900
+#: ai/default/daidiplomacy.c:1881
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -355,7 +375,7 @@ msgstr ""
 "vieläkin juonia rauhassa, ettekä nosta sormeannekaan! Tällaista on mahdoton "
 "hyväksyä, liittomme olkoon purettu!"
 
-#: ai/default/daidiplomacy.c:1934
+#: ai/default/daidiplomacy.c:1915
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -364,13 +384,13 @@ msgstr ""
 "*%s (AI)* Tervehdys, ystävä, haluaisimme ehdottaa yhteisen edun ajamista "
 "liittoutumalla."
 
-#: ai/default/daidiplomacy.c:1951
+#: ai/default/daidiplomacy.c:1932
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 "*%s (AI)* Tervehdys, naapuri, haluaisimme ehdottaa rauhanomaisempia suhteita."
 
-#: ai/default/daidiplomacy.c:1968
+#: ai/default/daidiplomacy.c:1949
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -379,7 +399,7 @@ msgstr ""
 "*%s (AI)* Tämä jatkuva verenvuodatus väsyttää meitä. Voisimmeko haudata "
 "sotakirveen?"
 
-#: ai/default/daidiplomacy.c:2257
+#: ai/default/daidiplomacy.c:2238
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -492,7 +512,7 @@ msgstr "Näkee kaiken alueella, jonka on joskus tutkinut."
 
 #: ai/handicaps.c:110
 msgid "Doesn't build air units."
-msgstr "Kaupungin perustaminen ei onnistu."
+msgstr "Ei rakenna ilmayksiköitä."
 
 #: ai/handicaps.c:113
 msgid "Has complete map knowledge, including unexplored territory."
@@ -2065,7 +2085,7 @@ msgstr ""
 
 #: client/editor.c:211 client/gui-gtk-3.22/citydlg.c:3111
 #: client/gui-gtk-4.0/citydlg.c:3231 client/gui-gtk-5.0/citydlg.c:3511
-#: client/gui-qt/citydlg.cpp:1391 common/fc_types.h:179 common/unit.c:694
+#: client/gui-qt/citydlg.cpp:1391 common/fc_types.h:179 common/unit.c:692
 #: data/civ1/terrain.ruleset:1151 data/civ2/terrain.ruleset:1290
 #: data/classic/terrain.ruleset:1591 data/sandbox/terrain.ruleset:1862
 #: data/civ2civ3/terrain.ruleset:1756 data/alien/terrain.ruleset:1051
@@ -2259,7 +2279,7 @@ msgstr "(nimetön)"
 #: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1668
 #: client/gui-sdl3/action_dialog.c:1947 client/gui-sdl3/action_dialog.c:2111
 #: client/gui-sdl3/citydlg.c:1188 client/gui-sdl3/repodlgs.c:211
-#: client/text.c:1348 common/unit.c:2127 server/unithand.c:2195
+#: client/text.c:1348 common/unit.c:2116 server/unithand.c:2195
 #: server/unithand.c:2905
 #, c-format
 msgid "Treasury contains %d gold."
@@ -3332,7 +3352,7 @@ msgstr "Poista pyyntö"
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.22/citydlg.c:3087 client/gui-gtk-4.0/citydlg.c:3207
 #: client/gui-gtk-5.0/citydlg.c:3487 client/gui-qt/citydlg.cpp:1373
-#: common/fc_types.h:146 common/unit.c:669
+#: common/fc_types.h:146 common/unit.c:667
 msgid "?act:Mine"
 msgstr "Rakenna kaivos"
 
@@ -3342,14 +3362,14 @@ msgstr "Rakenna kaivos"
 #: client/gui-gtk-5.0/citydlg.c:3494 client/gui-gtk-5.0/menu.c:818
 #: client/gui-qt/citydlg.cpp:1370 client/gui-qt/menu.cpp:1355
 #: client/gui-qt/menu.cpp:2359 client/gui-qt/menu.cpp:2362
-#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:185 common/unit.c:672
+#: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:185 common/unit.c:670
 #: tools/manual/manual_terrain.c:51
 msgid "Plant"
 msgstr "Istuta"
 
 #: client/gui-gtk-3.22/citydlg.c:3099 client/gui-gtk-4.0/citydlg.c:3219
 #: client/gui-gtk-5.0/citydlg.c:3499 client/gui-qt/citydlg.cpp:1381
-#: common/fc_types.h:149 common/unit.c:674
+#: common/fc_types.h:149 common/unit.c:672
 msgid "Irrigate"
 msgstr "Rakenna kasteluverkosto"
 
@@ -3358,14 +3378,14 @@ msgstr "Rakenna kasteluverkosto"
 #: client/gui-gtk-5.0/citydlg.c:3506 client/gui-gtk-5.0/menu.c:815
 #: client/gui-qt/citydlg.cpp:1378 client/gui-qt/menu.cpp:1345
 #: client/gui-qt/menu.cpp:2336 client/gui-qt/menu.cpp:2339
-#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:143 common/unit.c:676
+#: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:143 common/unit.c:674
 #: tools/manual/manual_terrain.c:51
 msgid "Cultivate"
 msgstr "Viljele"
 
 #: client/gui-gtk-3.22/citydlg.c:3118 client/gui-gtk-4.0/citydlg.c:3238
 #: client/gui-gtk-5.0/citydlg.c:3518 client/gui-qt/citydlg.cpp:1387
-#: client/gui-qt/shortcuts.cpp:138 common/fc_types.h:167 common/unit.c:690
+#: client/gui-qt/shortcuts.cpp:138 common/fc_types.h:167 common/unit.c:688
 #: data/civ2/units.ruleset:25 data/classic/units.ruleset:31
 #: data/sandbox/units.ruleset:31 data/civ2civ3/units.ruleset:31
 #: data/multiplayer/units.ruleset:31 tools/manual/manual_terrain.c:51
@@ -3375,7 +3395,7 @@ msgstr "Muokkaa"
 #: client/gui-gtk-3.22/citydlg.c:3124 client/gui-gtk-4.0/citydlg.c:3244
 #: client/gui-gtk-5.0/citydlg.c:3524 client/gui-qt/citydlg.cpp:1396
 #: client/gui-qt/menu.cpp:1383 client/gui-qt/shortcuts.cpp:152
-#: common/fc_types.h:173 common/unit.c:666
+#: common/fc_types.h:173 common/unit.c:664
 msgid "Clean"
 msgstr "Siivoa"
 
@@ -3808,7 +3828,7 @@ msgstr "Valitse mitä haluat turmella:"
 #: client/gui-gtk-3.22/dialogs.c:369 client/gui-gtk-4.0/dialogs.c:369
 #: client/gui-gtk-5.0/dialogs.c:369 client/gui-qt/menu.cpp:1309
 #: client/gui-sdl2/menu.c:705 client/gui-sdl3/menu.c:701 common/fc_types.h:158
-#: common/unit.c:684
+#: common/unit.c:682
 msgid "Pillage"
 msgstr "Turmele"
 
@@ -4735,7 +4755,7 @@ msgstr "Nähty (Pinnanalainen)"
 #: client/gui-gtk-5.0/editprop.c:6631 client/gui-gtk-5.0/inteldlg.c:502
 #: client/gui-gtk-5.0/pages.c:1017 client/gui-qt/pages.cpp:953
 #: client/gui-sdl2/citydlg.c:2047 client/gui-sdl3/citydlg.c:2043
-#: client/text.c:216 common/unit.c:702
+#: client/text.c:216 common/unit.c:700
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -7629,7 +7649,7 @@ msgstr "Maailma"
 # *** The three first ones are states, this and a few next are imperative. ***
 #: client/gui-gtk-3.22/unitselect.c:477 client/gui-gtk-4.0/unitselect.c:484
 #: client/gui-gtk-5.0/unitselect.c:484 client/gui-qt/menu.cpp:1237
-#: client/gui-qt/shortcuts.cpp:130 common/unit.c:682
+#: client/gui-qt/shortcuts.cpp:130 common/unit.c:680
 msgid "Sentry"
 msgstr "Vartioi"
 
@@ -8775,11 +8795,11 @@ msgstr "Yksikön toiminta"
 msgid "Any activity"
 msgstr "Mikä hyvänsä toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1358 common/fc_types.h:152 common/unit.c:680
+#: client/gui-qt/hudwidget.cpp:1358 common/fc_types.h:152 common/unit.c:678
 msgid "Fortified"
 msgstr "Linnoittautunut"
 
-#: client/gui-qt/hudwidget.cpp:1359 common/fc_types.h:140 common/unit.c:664
+#: client/gui-qt/hudwidget.cpp:1359 common/fc_types.h:140 common/unit.c:662
 msgid "Idle"
 msgstr "Toimeton"
 
@@ -9097,7 +9117,7 @@ msgstr "Herätä kaikki vartioivat yksiköt ruudusta"
 msgid "Upgrade"
 msgstr "Ajanmukaista"
 
-#: client/gui-qt/menu.cpp:1276 common/fc_types.h:182 common/unit.c:696
+#: client/gui-qt/menu.cpp:1276 common/fc_types.h:182 common/unit.c:694
 msgid "Convert"
 msgstr "Muunna yksikkö"
 
@@ -18899,11 +18919,11 @@ msgstr "EiPinonKuolemaa"
 msgid "CauseZoC"
 msgstr "AiheutaValvontaAlue"
 
-#: common/fc_types.h:170 common/unit.c:678
+#: common/fc_types.h:170 common/unit.c:676
 msgid "Fortifying"
 msgstr "Linnoittautumassa"
 
-#: common/fc_types.h:176 common/unit.c:692
+#: common/fc_types.h:176 common/unit.c:690
 msgid "Base"
 msgstr "Tukikohta"
 
@@ -22966,25 +22986,25 @@ msgstr "Ostaja"
 msgid "?routedir:Bidirectional"
 msgstr "Kaksisuuntainen"
 
-#: common/unit.c:686
+#: common/unit.c:684
 msgid "Goto"
 msgstr "Mene"
 
-#: common/unit.c:688
+#: common/unit.c:686
 msgid "Explore"
 msgstr "Tutki"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1227 common/unit.c:1232
+#: common/unit.c:1225 common/unit.c:1230
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1293
+#: common/unit.c:1291
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2137
+#: common/unit.c:2126
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -22999,13 +23019,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2146
+#: common/unit.c:2135
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2152
+#: common/unit.c:2141
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -23020,24 +23040,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2162
+#: common/unit.c:2151
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2166
+#: common/unit.c:2155
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2171
+#: common/unit.c:2160
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2178
+#: common/unit.c:2167
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -23046,7 +23066,7 @@ msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, "
 "kuljetettavissa."
 
-#: common/unit.c:2186
+#: common/unit.c:2175
 #, c-format
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "%s ei ole ajanmukaistettavissa kun sillä on toiminto '%s' kesken."
@@ -23804,7 +23824,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:432 data/civ2/buildings.ruleset:512
 #: data/classic/buildings.ruleset:522 data/sandbox/buildings.ruleset:636
 #: data/civ2civ3/buildings.ruleset:633 data/multiplayer/buildings.ruleset:517
-#: data/granularity/buildings.ruleset:234
+#: data/granularity/buildings.ruleset:235
 msgid "Library"
 msgstr "Kirjasto"
 
@@ -23817,7 +23837,7 @@ msgstr "Kasvattaa kaupungin tutkimustulosta 50%."
 #: data/civ1/buildings.ruleset:456 data/civ2/buildings.ruleset:536
 #: data/classic/buildings.ruleset:546 data/sandbox/buildings.ruleset:660
 #: data/civ2civ3/buildings.ruleset:658 data/multiplayer/buildings.ruleset:541
-#: data/granularity/buildings.ruleset:259
+#: data/granularity/buildings.ruleset:260
 msgid "Marketplace"
 msgstr "Tori"
 
@@ -23885,7 +23905,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:567 data/civ2/buildings.ruleset:673
 #: data/classic/buildings.ruleset:694 data/sandbox/buildings.ruleset:820
 #: data/civ2civ3/buildings.ruleset:818 data/multiplayer/buildings.ruleset:678
-#: data/granularity/buildings.ruleset:383
+#: data/granularity/buildings.ruleset:384
 msgid "Palace"
 msgstr "Palatsi"
 
@@ -24107,7 +24127,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:785 data/civ2/buildings.ruleset:1136
 #: data/classic/buildings.ruleset:1181 data/sandbox/buildings.ruleset:1433
 #: data/civ2civ3/buildings.ruleset:1365 data/multiplayer/buildings.ruleset:1156
-#: data/granularity/buildings.ruleset:309
+#: data/granularity/buildings.ruleset:310
 msgid "Temple"
 msgstr "Temppeli"
 
@@ -41365,13 +41385,17 @@ msgstr "Panimo"
 msgid ""
 "Increases luxury output by 25%, and gold output by 15%. Adds food output of "
 "the Wheat tiles by 50."
-msgstr "Lisää luksuksen tuotantoa 25% ja kullan tuotantoa 15%. Lisää vehnäruutujen ruoantuotantoa 50 pistettä."
+msgstr ""
+"Lisää luksuksen tuotantoa 25% ja kullan tuotantoa 15%. Lisää vehnäruutujen "
+"ruoantuotantoa 50 pistettä."
 
 #: data/granularity/buildings.ruleset:156
 msgid ""
 "City Walls make it easier to defend a city. They triple the defense strength "
 "of units within the city against land units."
-msgstr "Kaupunginmuuri helpottaa kaupungin puolustusta. Se kolminkertaistaa kaupungissa olevien yksiköiden puolustuskyvyn maayksiköitä vastaan."
+msgstr ""
+"Kaupunginmuuri helpottaa kaupungin puolustusta. Se kolminkertaistaa "
+"kaupungissa olevien yksiköiden puolustuskyvyn maayksiköitä vastaan."
 
 #: data/granularity/buildings.ruleset:181
 #, no-c-format
@@ -41382,25 +41406,25 @@ msgstr ""
 "Vähentää korruptiota 30% - laskennallisesta kokonaiskorruptiosta, joka voi "
 "olla yli 100% kaikesta kaupasta."
 
-#: data/granularity/buildings.ruleset:205
-#, c-format
+#: data/granularity/buildings.ruleset:206
+#, no-c-format
 msgid ""
 "Granary reduces famine speed by making city food storage half full after "
 "city shrinks, and speeds up city growth by making the food storage 10% full "
 "after city grows."
-msgstr ""
+msgstr "Viljasiilo helpottaa nälänhätää täyättämällä ruokavaraston puolilleen kaupungin koon laskettua, ja nopeuttaa kaupungin kasvua täyttämällä ruokavaraston 10% täyteen kaupungin kasvettua."
 
-#: data/granularity/buildings.ruleset:212
+#: data/granularity/buildings.ruleset:213
 msgid "Housing"
 msgstr "Asuintaloja"
 
-#: data/granularity/buildings.ruleset:229
+#: data/granularity/buildings.ruleset:230
 msgid "Space for people to live allows settlements to grow one size bigger."
 msgstr ""
 "Asuintilat ihmisille mahdollistavat asutuskeskuksen kasvaa yhtä kokoa "
 "suuremmaksi."
 
-#: data/granularity/buildings.ruleset:252
+#: data/granularity/buildings.ruleset:253
 msgid ""
 "Increases science output by 50%, 75% if Science known. Produces two points "
 "of history each turn, three points if Literature known."
@@ -41408,16 +41432,16 @@ msgstr ""
 "Lisää tieteen tuotantoa 50%, 74% jos Tiede tunnetaan. Tuottaa kaksi pistettä "
 "historiaa kierroksessa, tai kolme mikäli Kirjallisuus tunnetaan."
 
-#: data/granularity/buildings.ruleset:277
+#: data/granularity/buildings.ruleset:278
 msgid "Increases gold output by 50%. Increases luxury output by 30%."
 msgstr "Lisää kullan tuottoa 50% ja luksuksen tuottoa 30%."
 
-#: data/granularity/buildings.ruleset:283
+#: data/granularity/buildings.ruleset:284
 msgid "Sacred Grove"
 msgstr "Pyhä lehto"
 
-#: data/granularity/buildings.ruleset:301
-#: data/granularity/buildings.ruleset:327
+#: data/granularity/buildings.ruleset:302
+#: data/granularity/buildings.ruleset:328
 msgid ""
 "Makes one unhappy citizen content. Does not affect citizens made unhappy by "
 "military activity."
@@ -41425,50 +41449,56 @@ msgstr ""
 "Tekee yhdestä tyytymättömästä asukkaasta rauhallisen. Vaikutus ei ulotu "
 "sotatoimista aiheutuvaan tyytymättömyyteen."
 
-#: data/granularity/buildings.ruleset:304
+#: data/granularity/buildings.ruleset:305
 msgid "Produces one point of history each turn."
 msgstr "Tuottaa pisteen historiaa joka kierroksella."
 
-#: data/granularity/buildings.ruleset:330
+#: data/granularity/buildings.ruleset:331
 msgid "Produces two points of history each turn."
 msgstr "Tuottaa kaksi pistettä historiaa joka kierroksella."
 
-#: data/granularity/buildings.ruleset:335
+#: data/granularity/buildings.ruleset:336
 msgid "Central Rock Pile"
 msgstr "Keskuskivikasa"
 
-#: data/granularity/buildings.ruleset:353
+#: data/granularity/buildings.ruleset:354
 msgid ""
 "This Rock Pile marks the spot where your people first settled, and found a "
 "city. Increases city center food production by 100. It marks your capital "
 "city until you have more fitting building to do so."
-msgstr "Tämä kivikasa merkitsee paikkaa, jossa kansasi ensi kerran asettui aloilleen ja perusti kaupungin. Lisää kaupungin keskusruudun ruoantuotantoa 100 pistettä. Tekee kaupungista pääkaupugin kunnes jokin kaupunkisi rakentaa merkittävämmän hallintorakennuksen sitä tekemään."
+msgstr ""
+"Tämä kivikasa merkitsee paikkaa, jossa kansasi ensi kerran asettui aloilleen "
+"ja perusti kaupungin. Lisää kaupungin keskusruudun ruoantuotantoa 100 "
+"pistettä. Tekee kaupungista pääkaupugin kunnes jokin kaupunkisi rakentaa "
+"merkittävämmän hallintorakennuksen sitä tekemään."
 
-#: data/granularity/buildings.ruleset:360
+#: data/granularity/buildings.ruleset:361
 msgid "Throne"
 msgstr "Valtaistuin"
 
-#: data/granularity/buildings.ruleset:378
+#: data/granularity/buildings.ruleset:379
 msgid "City with your throne is your capital city."
 msgstr "Kaupunki, jossa valtaistuimesi on, on pääkaupunkisi."
 
-#: data/granularity/buildings.ruleset:402
+#: data/granularity/buildings.ruleset:403
 msgid "Palace reduces corruption in the empire and gives +3 history each turn."
-msgstr "Palatsi vähentää korruptiota ja antaa +3 pistettä historiaa joka kierroksella."
+msgstr ""
+"Palatsi vähentää korruptiota ja antaa +3 pistettä historiaa joka "
+"kierroksella."
 
-#: data/granularity/buildings.ruleset:407
+#: data/granularity/buildings.ruleset:408
 msgid "Quarry"
 msgstr "Louhos"
 
-#: data/granularity/buildings.ruleset:425
+#: data/granularity/buildings.ruleset:426
 msgid "Quarry produces 300 infrapoints per turn."
 msgstr "Louhos tuottaa 300 infrapistettä vuorossa."
 
-#: data/granularity/buildings.ruleset:430
+#: data/granularity/buildings.ruleset:431
 msgid "Stone Circle"
 msgstr "Kiviympyrä"
 
-#: data/granularity/buildings.ruleset:448
+#: data/granularity/buildings.ruleset:449
 msgid ""
 "Stone Circle produces two points of history per turn for each city, five "
 "points for the city its located at."
@@ -41476,11 +41506,11 @@ msgstr ""
 "Kiviympyrä tuottaa kaksi pistettä historiaa kierroksessa jokaiseen "
 "kaupunkiin, viisi pistettä kaupunkiin, jossa se on."
 
-#: data/granularity/buildings.ruleset:454
+#: data/granularity/buildings.ruleset:455
 msgid "Gather Wood"
 msgstr "Puunkeruu"
 
-#: data/granularity/buildings.ruleset:469
+#: data/granularity/buildings.ruleset:470
 msgid ""
 "This is not a normal improvement. Instead, setting a city's production to "
 "this means its shield production is converted to infra points."
@@ -41541,7 +41571,9 @@ msgstr ""
 msgid ""
 "The initial form of government. Under tribalism the maximum nation size is "
 "five cities."
-msgstr "Pelin alun hallitusmuoto. Heimojärjestelmän vallitessa voit hankkia korkeintaan viisi kaupunkia."
+msgstr ""
+"Pelin alun hallitusmuoto. Heimojärjestelmän vallitessa voit hankkia "
+"korkeintaan viisi kaupunkia."
 
 #: data/granularity/governments.ruleset:135
 msgid ""
@@ -41569,7 +41601,7 @@ msgstr "Viljelyaika."
 msgid ""
 "People take time from the production work to the farming work. Each step "
 "increases food output by 10%, and reduces shields output by 10%."
-msgstr ""
+msgstr "Työläiset ottavat aikaa tuotantotyöstä viljelytyöhön. Jokainen askel lisää ruoan tuotantoa 10% ja vähentää tuotantoa 10%."
 
 #: data/granularity/governments.ruleset:202
 msgid "Offensive Strategies"
@@ -41603,7 +41635,7 @@ msgstr "Maanviljelys"
 
 #: data/granularity/techs.ruleset:120
 msgid "Agriculture allows placing irrigation."
-msgstr ""
+msgstr "Maanviljelystaito mahdollistaa kastelujärjestelmien sijoittamisen."
 
 #: data/granularity/techs.ruleset:129
 msgid ""
@@ -41633,7 +41665,7 @@ msgstr "Oluen paneminen"
 
 #: data/granularity/techs.ruleset:186
 msgid "The art of industrial brewing."
-msgstr ""
+msgstr "Teollisen oluen panemisen taito."
 
 #: data/granularity/techs.ruleset:191
 msgid "Bronze Weapons"
@@ -41855,7 +41887,9 @@ msgstr "Tekee meriruutujen käyttämisen mahdolliseksi."
 msgid ""
 "With carts it's possible to bring produce and resources longer distance "
 "away. Increases city radius."
-msgstr "Kärryillä on mahdollista kuljettaa maataloustuotteita ja raaka-aineita pidempien matkojen päästä. Laajentaa kaupungin aluetta."
+msgstr ""
+"Kärryillä on mahdollista kuljettaa maataloustuotteita ja raaka-aineita "
+"pidempien matkojen päästä. Laajentaa kaupungin aluetta."
 
 #: data/granularity/techs.ruleset:638
 msgid "Tools"
@@ -41979,7 +42013,10 @@ msgstr "Paimentolainen"
 msgid ""
 "Nomads can both fight and found new cities, but unlike specialized units "
 "they cost two population points to build."
-msgstr "Paimentolaiset voivat sekä taistella että perustaa kaupunkeja, mutta toisin kuin erikoistuneiden yksiköiden, niiden rakentaminen pienentää kaupunkia kahdella pisteellä."
+msgstr ""
+"Paimentolaiset voivat sekä taistella että perustaa kaupunkeja, mutta toisin "
+"kuin erikoistuneiden yksiköiden, niiden rakentaminen pienentää kaupunkia "
+"kahdella pisteellä."
 
 #: data/granularity/units.ruleset:458
 msgid "Warriors are the first unit specialized in war."
