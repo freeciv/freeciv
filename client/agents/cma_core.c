@@ -60,10 +60,10 @@
 
 /*
  * The CMA is an agent. The CMA will subscribe itself to all city
- * events. So if a city changes the callback function city_changed is
- * called. handle_city will be called from city_changed to update the
- * given city. handle_city will call cma_query_result and
- * apply_result_on_server to update the server city state.
+ * events. So if a city changes the callback function city_changed() is
+ * called. handle_city() will be called from city_changed() to update the
+ * given city. handle_city() will call cma_query_result() and
+ * apply_result_on_server() to update the server city state.
  */
 
 /****************************************************************************
@@ -163,8 +163,8 @@ static struct city *check_city(int city_id, struct cm_parameter *parameter)
 }
 
 /************************************************************************//**
- Change the actual city setting to the given result. Returns TRUE iff
- the actual data matches the calculated one.
+  Change the actual city setting to the given result. Returns TRUE iff
+  the actual data matches the calculated one.
 ****************************************************************************/
 static bool apply_result_on_server(struct city *pcity,
                                    const struct cm_result *result)
@@ -365,7 +365,7 @@ static void release_city(int city_id)
 ****************************************************************************/
 
 /************************************************************************//**
-  The given city has changed. handle_city ensures that either the city
+  The given city has changed. handle_city() ensures that either the city
   follows the set CMA goal or that the CMA detaches itself from the
   city.
 ****************************************************************************/
@@ -410,7 +410,7 @@ static void handle_city(struct city *pcity)
         if (pcity == check_city(city_id, NULL) && i == 0) {
           create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
                        _("The citizen governor has gotten confused dealing "
-                         "with %s.  You may want to have a look."),
+                         "with %s. You may want to have a look."),
                        city_link(pcity));
         }
       } else {
@@ -430,7 +430,7 @@ static void handle_city(struct city *pcity)
 
     create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
                  _("The citizen governor has gotten confused dealing "
-                   "with %s.  You may want to have a look."),
+                   "with %s. You may want to have a look."),
                  city_link(pcity));
 
     cma_release_city(pcity);
