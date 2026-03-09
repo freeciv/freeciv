@@ -206,10 +206,10 @@ struct widget *find_next_widget_at_pos(struct widget *start_widget, int x, int y
 struct widget *find_next_widget_for_key(struct widget *start_widget, SDL_Keysym key);
 
 struct widget *get_widget_pointer_from_id(const struct widget *gui_list,
-                                          Uint16 id,
+                                          widget_id id,
                                           enum scan_direction direction);
 
-struct widget *get_widget_pointer_from_main_list(Uint16 id);
+struct widget *get_widget_pointer_from_main_list(widget_id id);
 
 #define set_action(id, action_callback)	\
 	get_widget_pointer_from_main_list(id)->action = action_callback
