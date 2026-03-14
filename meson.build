@@ -687,6 +687,7 @@ if emscripten
   add_global_link_arguments(
      emscripten_use_args,
      '-s', 'TOTAL_MEMORY=64MB',
+     '-sSTACK_SIZE=131072',
      language : [ 'c', 'cpp'])
 else
   priv_conf_data.set('HAVE_FCDB', 1)
