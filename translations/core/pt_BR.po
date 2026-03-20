@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.0-beta3\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-15 13:57+0200\n"
+"POT-Creation-Date: 2026-03-21 00:33+0200\n"
 "PO-Revision-Date: 2011-02-02 11:49-0200\n"
 "Last-Translator: Djavan Fagundes <djavan@comum.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
@@ -23110,23 +23110,27 @@ msgstr ""
 msgid "Missing pattern"
 msgstr ""
 
-#: common/networking/packets.c:437
+#: common/networking/packets.c:414
+msgid "recursive jumbo packet"
+msgstr ""
+
+#: common/networking/packets.c:444
 #, fuzzy
 msgid "illegal packet size"
 msgstr "Valor ilegal para porta de autenticação: \"%s\""
 
-#: common/networking/packets.c:466 common/networking/packets.c:515
+#: common/networking/packets.c:473 common/networking/packets.c:522
 #: common/networking/packets_json.c:112
 #, fuzzy
 msgid "decoding error"
 msgstr "Erro de configuração"
 
-#: common/networking/packets.c:527 common/networking/packets_json.c:171
+#: common/networking/packets.c:534 common/networking/packets_json.c:171
 #, fuzzy
 msgid "unsupported packet type"
 msgstr "Tipos de compressão não suportado %d"
 
-#: common/networking/packets.c:588 common/networking/packets_json.c:235
+#: common/networking/packets.c:595 common/networking/packets_json.c:235
 msgid "incompatible packet contents"
 msgstr ""
 

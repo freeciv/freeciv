@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-15 13:57+0200\n"
+"POT-Creation-Date: 2026-03-21 00:33+0200\n"
 "PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -23908,22 +23908,26 @@ msgstr "Seòrsa pàtrain a dhìth"
 msgid "Missing pattern"
 msgstr "Pàtran a dhìth"
 
-#: common/networking/packets.c:437
+#: common/networking/packets.c:414
+msgid "recursive jumbo packet"
+msgstr ""
+
+#: common/networking/packets.c:444
 msgid "illegal packet size"
 msgstr "pacaid de mheud mì-dhligheach"
 
-#: common/networking/packets.c:466 common/networking/packets.c:515
+#: common/networking/packets.c:473 common/networking/packets.c:522
 #: common/networking/packets_json.c:112
 msgid "decoding error"
 msgstr "mearachd 'ga dhì-chòdachadh"
 
-#: common/networking/packets.c:527 common/networking/packets_json.c:171
+#: common/networking/packets.c:534 common/networking/packets_json.c:171
 #, fuzzy
 #| msgid "Unsupported compression type %d."
 msgid "unsupported packet type"
 msgstr "Seòrsa de dhùmhlachadh (%d) nach eil taic ann ris."
 
-#: common/networking/packets.c:588 common/networking/packets_json.c:235
+#: common/networking/packets.c:595 common/networking/packets_json.c:235
 #, fuzzy
 msgid "incompatible packet contents"
 msgstr "Mòideal na h-Inntinne Fhuadain neo-chòrdail %s:"

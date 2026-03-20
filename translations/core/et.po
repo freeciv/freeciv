@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-15 13:57+0200\n"
+"POT-Creation-Date: 2026-03-21 00:33+0200\n"
 "PO-Revision-Date: 2013-09-09 09:58+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
@@ -22509,22 +22509,26 @@ msgstr ""
 msgid "Missing pattern"
 msgstr ""
 
-#: common/networking/packets.c:437
+#: common/networking/packets.c:414
+msgid "recursive jumbo packet"
+msgstr ""
+
+#: common/networking/packets.c:444
 #, fuzzy
 msgid "illegal packet size"
 msgstr "Vigane väärtus autentimise pordile: \"%s\""
 
-#: common/networking/packets.c:466 common/networking/packets.c:515
+#: common/networking/packets.c:473 common/networking/packets.c:522
 #: common/networking/packets_json.c:112
 msgid "decoding error"
 msgstr ""
 
-#: common/networking/packets.c:527 common/networking/packets_json.c:171
+#: common/networking/packets.c:534 common/networking/packets_json.c:171
 #, fuzzy
 msgid "unsupported packet type"
 msgstr "toetatud seaded: %s"
 
-#: common/networking/packets.c:588 common/networking/packets_json.c:235
+#: common/networking/packets.c:595 common/networking/packets_json.c:235
 msgid "incompatible packet contents"
 msgstr ""
 

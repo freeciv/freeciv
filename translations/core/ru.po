@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-15 13:57+0200\n"
+"POT-Creation-Date: 2026-03-21 00:33+0200\n"
 "PO-Revision-Date: 2026-02-20 12:55+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -22265,20 +22265,24 @@ msgstr "Пропущен тип шаблона"
 msgid "Missing pattern"
 msgstr "Пропущен шаблон"
 
-#: common/networking/packets.c:437
+#: common/networking/packets.c:414
+msgid "recursive jumbo packet"
+msgstr ""
+
+#: common/networking/packets.c:444
 msgid "illegal packet size"
 msgstr "неверный размер пакета"
 
-#: common/networking/packets.c:466 common/networking/packets.c:515
+#: common/networking/packets.c:473 common/networking/packets.c:522
 #: common/networking/packets_json.c:112
 msgid "decoding error"
 msgstr "ошибка декодирования"
 
-#: common/networking/packets.c:527 common/networking/packets_json.c:171
+#: common/networking/packets.c:534 common/networking/packets_json.c:171
 msgid "unsupported packet type"
 msgstr "неподдерживаемый тип пакета"
 
-#: common/networking/packets.c:588 common/networking/packets_json.c:235
+#: common/networking/packets.c:595 common/networking/packets_json.c:235
 msgid "incompatible packet contents"
 msgstr "несовместимое содержимое пакета"
 

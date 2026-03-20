@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-02-15 13:57+0200\n"
+"POT-Creation-Date: 2026-03-21 00:33+0200\n"
 "PO-Revision-Date: 2023-09-07 14:27+0300\n"
 "Last-Translator: Dadan Haryana <dadanhrn@gmail.com>\n"
 "Language-Team: Indonesian <>\n"
@@ -21775,22 +21775,26 @@ msgstr ""
 msgid "Missing pattern"
 msgstr ""
 
-#: common/networking/packets.c:437
+#: common/networking/packets.c:414
+msgid "recursive jumbo packet"
+msgstr ""
+
+#: common/networking/packets.c:444
 msgid "illegal packet size"
 msgstr ""
 
-#: common/networking/packets.c:466 common/networking/packets.c:515
+#: common/networking/packets.c:473 common/networking/packets.c:522
 #: common/networking/packets_json.c:112
 msgid "decoding error"
 msgstr ""
 
-#: common/networking/packets.c:527 common/networking/packets_json.c:171
+#: common/networking/packets.c:534 common/networking/packets_json.c:171
 #, fuzzy
 #| msgid "Unsupported compression type %d."
 msgid "unsupported packet type"
 msgstr "Jenis pemampatan %d tidak didukung."
 
-#: common/networking/packets.c:588 common/networking/packets_json.c:235
+#: common/networking/packets.c:595 common/networking/packets_json.c:235
 #, fuzzy
 msgid "incompatible packet contents"
 msgstr "Modul ai %s tidak kompatibel:"
