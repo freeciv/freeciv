@@ -1,10 +1,44 @@
 ========================
-Welcome to Freeciv 3.2.3
+Welcome to Freeciv 3.2.4
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.3 to 3.2.4
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.4>, 2026-03-21)
+
+3.2.4 fixes a vulnerability allowing remote crashing of the server.
+
+Server / General
+
+    * Fixed a vulnerability allowing remote crashing of the server
+      RM#1955
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1944 RM#1951
+
+Clients
+
+    * sdl
+         + Fixed crash on selecting nation style or nation RM#1961
+
+Translations
+
+    * Updated translations:
+         + Incomplete translations:
+           Finnish (99% core, 90% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams RM#1924
+    * emscripten updated to version 5.0.1 RM#1948
 
 
 CHANGES FROM 3.2.2 to 3.2.3
