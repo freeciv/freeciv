@@ -1,3 +1,130 @@
+commit 12118adf7c2b4bbc34b698e969a64bfa3732f540
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 21 00:34:49 2026 +0200
+
+    'make update-po' before 3.2.4 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1ba6e5884229c57363a2bb216deb9103517f072a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 21 00:29:55 2026 +0200
+
+    FAQ: Update latest stable version number to 3.2.4
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f3e6be5a78f843c7b7c0ea336d9b60e75faf63bf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 21 00:29:07 2026 +0200
+
+    NEWS-3.2: Add 3.2.4 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9aff295e34fc34a3f3bf1c7fbdf7b6c1d76e42f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Mar 3 06:54:31 2026 +0200
+
+    Protect against DOS attack with recursive jumbo packets
+
+    Receiving side of the old network code allowed jumbo
+    packets inside jumbo packets recursively, though such
+    recursion is never needed. Handling such recursion
+    could easily lead to a crash of the receiver.
+    Malicious sender could craft such recursive jumbo packets
+    to crash servers or clients.
+    The fix simply disallows recursive jumbo packets.
+
+    Reported by Louis Moureaux
+
+    See RM #1955
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 51a45b26e2ae90a5826c4774941f128ccaa75e71
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Feb 20 20:58:42 2026 +0200
+
+    Update to emscripten 5.0.1
+
+    See RM #1948
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6722c8632af5b21a5f847f66280cc5545914b818
+Author: Matt Jolly <kangie@gentoo.org>
+Date:   Mon Mar 9 15:07:52 2026 +1000
+
+    sdl: Fix widget_id truncation in widget lookup functions
+
+    get_widget_pointer_from_id() and get_widget_pointer_from_main_list()
+    still used Uint16 id parameters after MAX_ID and widget_id were
+    widened to 32 bits in 7a187ce264. This caused silent truncation of
+    IDs like (MAX_ID - 1000 - style), making lookups fail and return
+    NULL, leading to a segfault in nation_button_callback.
+
+    See RM #1961
+
+    Signed-off-by: Matt Jolly <kangie@gentoo.org>
+
+commit 3ed2f2bf89fd9b6673111cae84e202d561149214
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 7 06:08:42 2026 +0200
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fe109e693b1c4e7e3bbeddc0acf03b7635bcbde4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Feb 22 23:21:36 2026 +0200
+
+    Granularity: Mark Granary helptext no-c-format
+
+    See RM #1951
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1d3c4e35f9a4b15bc7d2799ea87cb5bcda046224
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Feb 18 22:47:40 2026 +0200
+
+    CI: Update actions/checkout to version 6.0.2
+
+    See RM #1944
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 66807489507d7e6b67c98d1ac77592a6ec147020
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jan 29 22:53:52 2026 +0200
+
+    autotools: Use gettext .m4 files from gettext-1.0
+
+    See RM #1924
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 826ad7f534b82a670db77ac6fab6fa85efba9ec5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Feb 28 00:29:15 2026 +0200
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b3539a4fe2ed642309ed421e59e192f4a8066530
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Feb 28 00:20:59 2026 +0200
+
+    Finalize 3.2.3 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 3282c1ebb8040ee9f9d27d8c618f9ccfb51797d7
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Feb 27 23:53:41 2026 +0200
