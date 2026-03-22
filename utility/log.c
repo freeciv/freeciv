@@ -183,16 +183,22 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   }
   do {
     struct log_fileinfo *pfile = log_files + i;
-    char *d = strchr(tok, ',');
+    const char *dtmp = strchr(tok, ',');
 
     pfile->min = 0;
     pfile->max = 0;
     pfile->level = level;
-    if (d) {
-      char *pc = d + 1;
+    if (dtmp) {
+      char *d, *dm;
+      char *pc;
 
-      d[0] = '\0';
-      d = strchr(d + 1, ',');
+      dm = fc_malloc(strlen(dtmp) + 1);
+      strcpy(dm, dtmp);
+
+      pc = dm + 1;
+
+      dm[0] = '\0';
+      d = strchr(dm + 1, ',');
       if (d && *pc != '\0' && d[1] != '\0') {
         d[0] = '\0';
         if (!str_to_uint(pc, &pfile->min)) {
@@ -206,6 +212,8 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
           goto out;
         }
       }
+
+      free(dm);
     }
     if (strlen(tok) == 0) {
       fc_fprintf(stderr, _("Empty filename in log level argument \"%s\".\n"),
