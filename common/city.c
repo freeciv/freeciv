@@ -2830,7 +2830,7 @@ int city_pollution_types(const struct city *pcity, int shield_total,
 {
   int prod, pop, mod;
 
-  /* Add one one pollution per shield, multipled by the bonus. */
+  /* Add one one pollution per shield, multiplied by the bonus. */
   prod = 100 + get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
   prod = shield_total * MAX(prod, 0) / 100;
 
