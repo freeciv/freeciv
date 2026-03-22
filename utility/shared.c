@@ -1922,7 +1922,8 @@ bool path_is_absolute(const char *filename)
 ****************************************************************************/
 char scanin(const char **buf, char *delimiters, char *dest, int size)
 {
-  char *ptr, found = '?';
+  char found = '?';
+  bool sf = FALSE;
 
   if (*buf == nullptr || strlen(*buf) == 0 || size == 0) {
     if (dest) {
@@ -1933,22 +1934,30 @@ char scanin(const char **buf, char *delimiters, char *dest, int size)
   }
 
   if (dest) {
+    char *ptr;
+
     strncpy(dest, *buf, size-1);
-    dest[size-1] = '\0';
+    dest[size - 1] = '\0';
     remove_leading_trailing_spaces(dest);
     ptr = strpbrk(dest, delimiters);
+    if (ptr != nullptr) {
+      found = *ptr;
+      *ptr = '\0';
+      remove_leading_trailing_spaces(dest);
+      sf = TRUE;
+    }
   } else {
+    const char *ptr;
+
     /* Just skip ahead. */
     ptr = strpbrk(*buf, delimiters);
+    if (ptr != nullptr) {
+      found = *ptr;
+      sf = TRUE;
+    }
   }
-  if (ptr != nullptr) {
-    found = *ptr;
-    if (dest) {
-      *ptr = '\0';
-    }
-    if (dest) {
-      remove_leading_trailing_spaces(dest);
-    }
+
+  if (sf) {
     *buf = strpbrk(*buf, delimiters);
     if (*buf != nullptr) {
       (*buf)++; /* Skip delimiter */
