@@ -2046,8 +2046,8 @@ static void compat_load_030200(struct loaddata *loading,
         if (!gamestart_valid) {
           /* Older savegames saved these values even when they were not valid.
            * Silence warnings caused by them. */
-          (void) secfile_entry_lookup(loading->file, "settings.set%d.gamestart", i);
-          (void) secfile_entry_lookup(loading->file, "settings.set%d.gamesetdef", i);
+          secfile_entry_ignore(loading->file, "settings.set%d.gamestart", i);
+          secfile_entry_ignore(loading->file, "settings.set%d.gamesetdef", i);
         }
 
         if (!fc_strcasecmp("compresstype", name)) {
@@ -2321,8 +2321,8 @@ static void compat_load_030200(struct loaddata *loading,
                                              "savefile.diplstate_type_size");
 
     for (i = 0; i < dscount; i++) {
-      (void) secfile_entry_lookup(loading->file,
-                                  "savefile.diplstate_type_vector,%d", i);
+      secfile_entry_ignore(loading->file,
+                           "savefile.diplstate_type_vector,%d", i);
     }
   }
 
@@ -2887,8 +2887,8 @@ static void compat_load_dev(struct loaddata *loading)
           /* Older savegames saved gamestart values even when they were not valid.
            * Silence warnings caused by them. */
           for (i = 0; i < set_count; i++) {
-            (void) secfile_entry_lookup(loading->file, "settings.set%d.gamestart", i);
-            (void) secfile_entry_lookup(loading->file, "settings.set%d.gamesetdef", i);
+            secfile_entry_ignore(loading->file, "settings.set%d.gamestart", i);
+            secfile_entry_ignore(loading->file, "settings.set%d.gamesetdef", i);
           }
         }
       }
