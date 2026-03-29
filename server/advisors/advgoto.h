@@ -49,4 +49,7 @@ int adv_unit_att_rating(const struct unit *punit);
 int adv_unit_def_rating_basic(const struct unit *punit);
 int adv_unit_def_rating_basic_squared(const struct unit *punit);
 
+bool adv_seek_shelter(const struct civ_map *nmap, struct unit *punit,
+                      enum adv_unit_task task);
+
 #endif /* FC__ADVGOTO_H */

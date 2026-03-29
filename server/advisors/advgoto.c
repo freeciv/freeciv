@@ -25,6 +25,7 @@
 
 /* aicore */
 #include "path_finding.h"
+#include "pf_tools.h"
 
 /* server */
 #include "maphand.h"
@@ -34,6 +35,7 @@
 
 /* server/advisors */
 #include "advtools.h"
+#include "autoworkers.h"
 
 #include "advgoto.h"
 
@@ -608,4 +610,53 @@ void adv_avoid_risks(struct pf_parameter *parameter,
   risk_cost->fearfulness = fearfulness * linger_fraction;
 
   risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;
+}
+
+/**********************************************************************//**
+  Try to find shelter from a friendly city.
+  Returns whether unit remains alive.
+**************************************************************************/
+bool adv_seek_shelter(const struct civ_map *nmap, struct unit *punit,
+                      enum adv_unit_task task)
+{
+  struct pf_parameter parameter;
+  struct pf_map *shelter_map;
+  struct tile *shelter_tile = nullptr;
+  bool alive = TRUE;
+  struct player *owner = unit_owner(punit);
+
+  pft_fill_unit_parameter(&parameter, nmap, punit);
+  shelter_map = pf_map_new(&parameter);
+
+  pf_map_tiles_iterate(shelter_map, ptile, TRUE) {
+    struct city *pcity = tile_city(ptile);
+
+    if (pcity != nullptr) {
+      if (pplayers_allied(owner, city_owner(pcity))) {
+        shelter_tile = ptile;
+        break;
+      }
+    }
+  } pf_map_tiles_iterate_end;
+
+  if (shelter_tile != nullptr && shelter_tile != unit_tile(punit)) {
+    struct pf_path *shelter_path;
+
+    adv_unit_new_task(punit, task, shelter_tile);
+
+    shelter_path = pf_map_path(shelter_map, shelter_tile);
+    alive = adv_follow_path(punit, shelter_path, shelter_tile);
+
+    if (alive && same_pos(unit_tile(punit), shelter_tile)) {
+      UNIT_LOG(LOG_DEBUG, punit,
+               "arrives to shelter city at (%d, %d)",
+               TILE_XY(shelter_tile));
+    }
+
+    pf_path_destroy(shelter_path);
+  }
+
+  pf_map_destroy(shelter_map);
+
+  return alive;
 }

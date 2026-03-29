@@ -1005,43 +1005,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
 
     if (best_tile == nullptr) {
-      struct pf_parameter parameter;
-      struct pf_map *shelter_map;
-      struct tile *shelter_tile = nullptr;
-
-      pft_fill_unit_parameter(&parameter, nmap, punit);
-      shelter_map = pf_map_new(&parameter);
-
-      pf_map_tiles_iterate(shelter_map, ptile, TRUE) {
-        struct city *pcity = tile_city(ptile);
-
-        if (pcity != nullptr) {
-          if (pplayers_allied(pplayer, city_owner(pcity))) {
-            shelter_tile = ptile;
-            break;
-          }
-        }
-      } pf_map_tiles_iterate_end;
-
-      if (shelter_tile != nullptr && shelter_tile != unit_tile(punit)) {
-        struct pf_path *shelter_path;
-        bool alive;
-
-        adv_unit_new_task(punit, AUT_AUTO_WORKER, shelter_tile);
-
-        shelter_path = pf_map_path(shelter_map, shelter_tile);
-        alive = adv_follow_path(punit, shelter_path, shelter_tile);
-
-        if (alive && same_pos(unit_tile(punit), shelter_tile)) {
-          UNIT_LOG(LOG_DEBUG, punit,
-                   "arrives to shelter city at (%d, %d)",
-                   TILE_XY(shelter_tile));
-        }
-
-        pf_path_destroy(shelter_path);
-      }
-
-      pf_map_destroy(shelter_map);
+      adv_seek_shelter(nmap, punit, AUT_AUTO_WORKER);
     } else {
       adv_unit_new_task(punit, AUT_AUTO_WORKER, best_tile);
 
