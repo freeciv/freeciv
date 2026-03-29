@@ -1006,6 +1006,7 @@ void mr_menu::setup_menus()
   act = sub_menu->addAction(_("Save Options on Exit"));
   act->setCheckable(true);
   act->setChecked(gui_options.save_options_on_exit);
+  connect(act, &QAction::triggered, this, &mr_menu::save_options_exit);
   main_menu->addSeparator();
   act = main_menu->addAction(_("Save Game"));
   act->setShortcut(QKeySequence(tr("Ctrl+s")));
@@ -3815,6 +3816,14 @@ void mr_menu::messages_options()
 void mr_menu::save_options_now()
 {
   options_save(nullptr);
+}
+
+/**********************************************************************//**
+  Menu Save Options On Exit
+**************************************************************************/
+void mr_menu::save_options_exit()
+{
+  gui_options.save_options_on_exit = !gui_options.save_options_on_exit;
 }
 
 /**********************************************************************//**
