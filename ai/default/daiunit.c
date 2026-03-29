@@ -447,13 +447,16 @@ enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
 {
   enum gen_action selected;
 
-  if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK,
+  if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_CAPTURE_UNITS,
                                                      punit, ptile))
       == ACTION_NONE
       && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_COLLECT_RANSOM,
                                                         punit, ptile))
       == ACTION_NONE
       && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_BOMBARD,
+                                                        punit, ptile))
+      == ACTION_NONE
+      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK,
                                                         punit, ptile))
       == ACTION_NONE) {
     return ACTION_NONE;
