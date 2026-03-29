@@ -852,6 +852,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Save Options on Exit"));
   act->setCheckable(true);
   act->setChecked(gui_options.save_options_on_exit);
+  connect(act, &QAction::triggered, this, &mr_menu::save_options_exit);
   menu = pr;
   menu->addSeparator();
   act = menu->addAction(_("Save Game"));
@@ -3457,6 +3458,14 @@ void mr_menu::back_to_menu()
   } else {
     disconnect_from_server();
   }
+}
+
+/**********************************************************************//**
+  Menu Save Options On Exit
+**************************************************************************/
+void mr_menu::save_options_exit()
+{
+  gui_options.save_options_on_exit = !gui_options.save_options_on_exit;
 }
 
 /**********************************************************************//**
