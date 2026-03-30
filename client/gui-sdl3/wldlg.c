@@ -659,7 +659,7 @@ static int worklist_editor_item_callback(struct widget *pwidget)
 
 /**********************************************************************//**
   Add global worklist to city worklist starting from last free entry.
-  Add only avilable targets in current game state.
+  Add only available targets in current game state.
   If global worklist have more targets that city worklist have free
   entries then we adding only first part of global worklist.
 **************************************************************************/
@@ -685,7 +685,7 @@ static void add_global_worklist(struct widget *pwidget)
   for (count = 0 ; count < worklist_length(pworklist); count++) {
     struct widget *buf;
 
-    /* Global worklist can have targets unavilable in current state of game
+    /* Global worklist can have targets unavailable in current state of game
        then we must remove those targets from new city worklist */
     if (!can_city_build_later(&(wld.map), editor->pcity, &pworklist->entries[count])) {
       continue;
@@ -740,7 +740,7 @@ static void add_global_worklist(struct widget *pwidget)
 /**********************************************************************//**
   Clear city worklist and copy here global worklist.
   Copy only available targets in current game state.
-  If all targets are unavilable then leave city worklist untouched.
+  If all targets are unavailable then leave city worklist untouched.
 **************************************************************************/
 static void set_global_worklist(struct widget *pwidget)
 {
@@ -763,7 +763,7 @@ static void set_global_worklist(struct widget *pwidget)
   wl_count = 0;
   /* copy global worklist to city worklist */
   for (count = 0; count < worklist_length(pworklist); count++) {
-    /* global worklist can have targets unavilable in current state of game
+    /* global worklist can have targets unavailable in current state of game
        then we must remove those targets from new city worklist */
     if (!can_city_build_later(&(wld.map), editor->pcity, &pworklist->entries[count])) {
       continue;
