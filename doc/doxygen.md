@@ -11,6 +11,6 @@ Links
 =====
 Freeciv website: [Freeciv.org](https://www.freeciv.org/)
 
-Submit patches: [redmine.freeciv.org](https://redmine.freeciv.org/projects/freeciv)
+Report bugs & Submit patches: [redmine.freeciv.org](https://redmine.freeciv.org/projects/freeciv)
 
 Community forum: [forum.freeciv.org](https://forum.freeciv.org/)
