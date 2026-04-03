@@ -1318,14 +1318,14 @@ static bool load_game_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  /* section: datafile */
+  /* Section: datafile */
   compat->version = rscompat_check_capabilities(file, filename, compat);
   if (compat->version <= 0) {
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   sec = secfile_sections_by_name_prefix(file, ACHIEVEMENT_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
@@ -1450,8 +1450,8 @@ static bool load_action_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* Unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   return ok;
 }
@@ -1475,8 +1475,8 @@ static bool load_tech_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   /* User tech flag names */
   for (i = 0; (flag = secfile_lookup_str_default(file, NULL, "control.flags%d.name", i)) ;
@@ -1803,8 +1803,8 @@ static bool load_unit_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   /* User unit flag names */
   for (i = 0; (flag = secfile_lookup_str_default(file, NULL, "control.flags%d.name", i)) ;
@@ -2553,8 +2553,8 @@ static bool load_building_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   /* The names: */
   sec = secfile_sections_by_name_prefix(file, BUILDING_SECTION_PREFIX);
@@ -2759,8 +2759,8 @@ static bool load_terrain_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   /* User terrain flag names */
   for (i = 0; (flag = secfile_lookup_str_default(file, NULL, "control.flags%d.name", i)) ;
@@ -4268,8 +4268,8 @@ static bool load_government_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
@@ -4606,8 +4606,8 @@ static bool load_nation_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
   if (NULL == sec) {
@@ -5644,8 +5644,8 @@ static bool load_style_names(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   sec = secfile_sections_by_name_prefix(file, STYLE_SECTION_PREFIX);
   if (NULL == sec) {
@@ -5885,8 +5885,8 @@ static bool load_ruleset_cities(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
@@ -6097,8 +6097,8 @@ static bool load_ruleset_effects(struct section_file *file,
     return FALSE;
   }
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
+  secfile_entry_ignore_by_path(file, "datafile.description");   /* Unused */
+  secfile_entry_ignore_by_path(file, "datafile.ruledit");       /* Unused */
 
   sec = secfile_sections_by_name_prefix(file, UEFF_SECTION_PREFIX);
 
