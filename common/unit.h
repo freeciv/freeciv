@@ -142,12 +142,12 @@ struct unit {
   struct tile *tile;
   int refcount;
   enum direction8 facing;
-  struct player *owner; /* Cannot be nullptr. */
+  struct player *owner; /* Can be nullptr on client side, for a flagless unit */
   struct player *nationality;
   int id;
   int homecity;
 
-  int upkeep[O_LAST]; /* unit upkeep with regards to the homecity */
+  int upkeep[O_LAST]; /* Unit upkeep with regards to the homecity */
 
   int moves_left;
   int hp;
