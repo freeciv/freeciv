@@ -255,23 +255,11 @@ if meson.is_cross_build()
   cross_inc_path = [cross_inc_str]
   cross_lib_path = [meson.get_external_property('cross_lib_path', '')]
   crosser = meson.get_external_property('crosser', false)
-
-  # emscripten build is always cross-build, so check it only here
-  if c_compiler.compiles(
-'''#ifndef __EMSCRIPTEN__
-  error fail
-#endif''',
-  name: 'emscripten')
-    emscripten = true
-  else
-    emscripten = false
-  endif
 else
   cross_inc_str = ''
   cross_inc_path = []
   cross_lib_path = []
   crosser = false
-  emscripten = false
 endif
 
 if get_option('appimage')
@@ -668,7 +656,7 @@ int main(void) { int *var = nullptr; return 0; }''',
   pub_conf_data.set('FREECIV_HAVE_CXX_NULLPTR', 1)
 endif
 
-if emscripten
+if host_system == 'emscripten'
   icu_dep = []
   zlib_dep = []
   syslua = 'false'
@@ -876,7 +864,7 @@ if get_option('audio') == 'sdl2' or get_option('clients').contains('sdl2')
                     c_compiler.find_library('SDL2main', dirs: cross_lib_path),
                     dependency('SDL2')]
   else
-    if emscripten
+    if host_system == 'emscripten'
       emscripten_sdl2_args = [
         '-s', 'USE_SDL=2'
       ]
@@ -908,7 +896,7 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
     sdl3main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
                     dependency('sdl3')]
   else
-    if emscripten
+    if host_system == 'emscripten'
       emscripten_sdl3_args = [
         '-s', 'USE_SDL=3'
       ]
@@ -950,7 +938,7 @@ endif
 if get_option('audio') != 'none'
   priv_conf_data.set('AUDIO_SDL', 1)
 
-  if emscripten
+  if host_system == 'emscripten'
     audio_dep = []
   elif get_option('audio') == 'sdl3'
     audio_sdl3_dep = dependency('sdl3-mixer')
@@ -995,7 +983,7 @@ else
   gettext_dep = []
 endif
 
-if emscripten
+if host_system == 'emscripten'
   sqlite3_dep = []
   sqlite3_src = []
   curl_dep = []
@@ -1010,7 +998,7 @@ else
   m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
 endif
 
-if not emscripten
+if host_system != 'emscripten'
   if c_compiler.compiles(net_incl + '''
 #include <stddef.h>
 #include <curl/curl.h>
@@ -3745,7 +3733,7 @@ sdl2_gfx_cargs = []
 sdl2_image_dep = []
 sdl2_ttf_dep = []
 
-if not emscripten
+if host_system != 'emscripten'
   sdl2_gfx_dep = dependency('SDL2_gfx', required: false)
 
   if not sdl2_gfx_dep.found()
@@ -3883,7 +3871,7 @@ sdl3_gfx_cargs = []
 sdl3_image_dep = []
 sdl3_ttf_dep = []
 
-if not emscripten
+if host_system != 'emscripten'
   sdl3_gfx_inc = include_directories('dependencies')
 
   sdl3_image_dep = dependency('sdl3-image', required: false)
