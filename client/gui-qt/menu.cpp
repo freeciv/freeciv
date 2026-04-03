@@ -1704,6 +1704,11 @@ void mr_menu::setup_menus()
     slot_help(HELP_COMBAT_ITEM);
   });
 
+  act = main_menu->addAction(Q_(HELP_COUNTER_ITEM));
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_COUNTER_ITEM);
+  });
+
   act = main_menu->addAction(Q_(HELP_ZOC_ITEM));
   QObject::connect(act, &QAction::triggered, [this]() {
     slot_help(HELP_ZOC_ITEM);
