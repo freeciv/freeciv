@@ -74,12 +74,12 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 ifeq ($(CI),yes)
 ICUVER=78
 RAV1E=librav1e.dll
-SVTAV1ENV=libSvtAv1Enc-3.dll
+SVTAV1ENC=libSvtAv1Enc-4.dll
 XML2=libxml2-16.dll
 else
 ICUVER=75
 RAV1E=rav1e.dll
-SVTAV1ENV=libSvtAv1Enc-2.dll
+SVTAV1ENC=libSvtAv1Enc-2.dll
 XML2=libxml2-2.dll
 endif
 
@@ -353,8 +353,8 @@ SDL2_DLLS := \
         libjxl_cms.dll \
         libaom.dll \
         libdav1d-7.dll \
-	$(RAV1E) \
-        ${SVTAV1ENV} \
+        $(RAV1E) \
+        ${SVTAV1ENC} \
         libyuv.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
