@@ -455,7 +455,7 @@ bool check_for_game_over(void)
                         _("Team victory to %s."),
                         team_name_translation(pteam));
             log_normal(_("Team victory to %s."), team_name_translation(pteam));
-            /* All players of the team win, even dead and surrended ones. */
+            /* All players of the team win, even dead and surrendered ones. */
             player_list_iterate(members, pplayer) {
               pplayer->is_winner = TRUE;
             } player_list_iterate_end;
