@@ -892,7 +892,7 @@ AC_DEFUN([gl_COMMON_BODY], [
 # endif
 #endif
 
-/* The following attributes enable detection of multithread-safety problems
+/* The following attributes enable detection of thread safety problems
    and resource leaks at compile-time, by clang ≥ 15, when the warning option
    -Wthread-safety is enabled.  For usage, see
    <https://clang.llvm.org/docs/ThreadSafetyAnalysis.html>.  */
