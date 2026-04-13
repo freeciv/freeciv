@@ -47,6 +47,8 @@ libdefaultai_la_SOURCES = \
 		daiparadrop.h	\
 		daiplayer.c	\
 		daiplayer.h	\
+		daisanity.c	\
+		daisanity.h	\
 		daisettler.c	\
 		daisettler.h	\
 		daitech.c	\

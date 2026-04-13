@@ -33,6 +33,7 @@
 #include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
+#include "daisanity.h"
 #include "daisettler.h"
 #include "daitools.h"
 #include "daiunit.h"
