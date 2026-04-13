@@ -47,12 +47,12 @@ static bool can_player_attack_tile(const struct player *pplayer,
   struct city *pcity = tile_city(ptile);
 
   /* 1. Is there anyone there at all? */
-  if (pcity == NULL && unit_list_size((ptile->units)) == 0) {
+  if (pcity == nullptr && unit_list_size((ptile->units)) == 0) {
     return FALSE;
   }
 
   /* 2. If there is a city there, can we attack it? */
-  if (pcity != NULL && !pplayers_at_war(city_owner(pcity), pplayer)) {
+  if (pcity != nullptr && !pplayers_at_war(city_owner(pcity), pplayer)) {
     return FALSE;
   }
 
@@ -87,7 +87,7 @@ bool is_unit_reachable_at(const struct unit *defender,
                           const struct unit *attacker,
                           const struct tile *location)
 {
-  if (NULL != tile_city(location)) {
+  if (tile_city(location) != nullptr) {
     return TRUE;
   }
 
@@ -126,7 +126,7 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
                                 const struct tile *dest_tile)
 {
   /* 1. Can we attack _anything_ ? */
-  if (paction == NULL) {
+  if (paction == nullptr) {
     if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
           || utype_can_do_action(unit_type_get(punit),
                                  ACTION_SUICIDE_ATTACK)
@@ -143,7 +143,7 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
   }
 
   /* 2. Can't attack with ground unit from ocean, except for marines */
-  if (paction == NULL) {
+  if (paction == nullptr) {
     if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
         && !utype_can_do_act_when_ustate(unit_type_get(punit),
                                          ACTION_ATTACK,
@@ -436,7 +436,7 @@ void get_modified_firepower(const struct civ_map *nmap,
    */
   if (unit_has_type_flag(attacker, UTYF_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), unit_tile(defender),
-                            att_type, NULL,
+                            att_type, nullptr,
                             EFT_DEFEND_BONUS) > 0) {
     *att_fp = MIN(*att_fp, game.info.low_firepower_badwallattacker);
   }
@@ -490,7 +490,7 @@ double unit_win_chance(const struct civ_map *nmap,
   get_modified_firepower(nmap, attacker, defender, &att_fp, &def_fp);
 
   chance = win_chance(att_power, attacker->hp, att_fp,
-		      def_power, defender->hp, def_fp);
+                      def_power, defender->hp, def_fp);
 
   return chance;
 }
@@ -498,7 +498,7 @@ double unit_win_chance(const struct civ_map *nmap,
 /*******************************************************************//**
   Try defending against nuclear attack; if successful, return a city which
   had enough luck and EFT_NUKE_PROOF.
-  If the attack was successful return NULL.
+  If the attack was successful return nullptr.
 ***********************************************************************/
 struct city *sdi_try_defend(const struct civ_map *nmap,
                             const struct player *owner,
@@ -509,7 +509,7 @@ struct city *sdi_try_defend(const struct civ_map *nmap,
 
     if (pcity
         && fc_rand(100)
-           < get_target_bonus_effects(NULL,
+           < get_target_bonus_effects(nullptr,
                                       &(const struct req_context) {
                                         .player = city_owner(pcity),
                                         .city = pcity,
@@ -523,7 +523,7 @@ struct city *sdi_try_defend(const struct civ_map *nmap,
     }
   } square_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /*******************************************************************//**
@@ -553,10 +553,10 @@ int base_get_attack_power(const struct unit_type *punittype,
   int power;
   const struct veteran_level *vlevel;
 
-  fc_assert_ret_val(punittype != NULL, 0);
+  fc_assert_ret_val(punittype != nullptr, 0);
 
   vlevel = utype_veteran_level(punittype, veteran);
-  fc_assert_ret_val(vlevel != NULL, 0);
+  fc_assert_ret_val(vlevel != nullptr, 0);
 
   power = punittype->attack_strength * POWER_FACTOR
           * vlevel->power_fact / 100;
@@ -576,11 +576,11 @@ int base_get_defense_power(const struct unit *punit)
   const struct veteran_level *vlevel;
   const struct unit_type *ptype;
 
-  fc_assert_ret_val(punit != NULL, 0);
+  fc_assert_ret_val(punit != nullptr, 0);
 
   ptype = unit_type_get(punit);
   vlevel = utype_veteran_level(ptype, punit->veteran);
-  fc_assert_ret_val(vlevel != NULL, 0);
+  fc_assert_ret_val(vlevel != nullptr, 0);
 
   return ptype->defense_strength * POWER_FACTOR
          * vlevel->power_fact / 100;
@@ -623,7 +623,7 @@ int get_total_attack_power(const struct unit *attacker,
 
   /* Note: get_unit_bonus() would use the tile unit is on,
    *       but we want defending tile. */
-  mod = 100 + get_target_bonus_effects(NULL,
+  mod = 100 + get_target_bonus_effects(nullptr,
                                        &(const struct req_context) {
                                          .player = unit_owner(attacker),
                                          .city = pcity,
@@ -632,7 +632,7 @@ int get_total_attack_power(const struct unit *attacker,
                                          .unittype = unit_type_get(attacker),
                                          .action = paction,
                                        },
-                                       NULL, EFT_ATTACK_BONUS);
+                                       nullptr, EFT_ATTACK_BONUS);
 
   return attackpower * mod / 100;
 }
@@ -656,9 +656,9 @@ static int defense_multiplication(const struct unit_type *att_type,
   const struct city *pcity = tile_city(ptile);
   const struct unit_type *def_type = unit_type_get(def);
 
-  fc_assert_ret_val(NULL != def_type, 0);
+  fc_assert_ret_val(def_type != nullptr, 0);
 
-  if (NULL != att_type) {
+  if (att_type != nullptr) {
     int scramble_bonus = 0;
     int defense_divider_pct;
 
@@ -676,9 +676,9 @@ static int defense_multiplication(const struct unit_type *att_type,
       int defense_multiplier_pct = 100
         + def_type->cache.defense_mp_bonuses_pct[utype_index(att_type)];
       int mod = 100 + get_unittype_bonus(def_player, ptile,
-                                         att_type, NULL, EFT_DEFEND_BONUS);
+                                         att_type, nullptr, EFT_DEFEND_BONUS);
 
-      /* This applies even if pcity is NULL. */
+      /* This applies even if pcity is nullptr. */
       defensepower = defensepower * defense_multiplier_pct / 100;
       defensepower = MAX(0, defensepower * mod / 100);
     }
@@ -696,7 +696,7 @@ static int defense_multiplication(const struct unit_type *att_type,
 
   defensepower = defensepower
     * (100
-       + get_target_bonus_effects(NULL,
+       + get_target_bonus_effects(nullptr,
                                   &(const struct req_context) {
                                     .player = unit_owner(def),
                                     .city = pcity,
@@ -704,7 +704,7 @@ static int defense_multiplication(const struct unit_type *att_type,
                                     .unit = def,
                                     .unittype = unit_type_get(def),
                                   },
-                                  NULL,
+                                  nullptr,
                                   EFT_FORTIFY_DEFENSE_BONUS)) / 100;
 
   return defensepower;
@@ -728,7 +728,7 @@ int get_virtual_defense_power(const struct civ_map *nmap,
   struct unit *vdef;
   int def;
 
-  fc_assert_ret_val(def_type != NULL, 0);
+  fc_assert_ret_val(def_type != nullptr, 0);
 
   if (!can_exist_at_tile(nmap, def_type, ptile)) {
     /* Ground units on ship doesn't defend. */
@@ -736,11 +736,11 @@ int get_virtual_defense_power(const struct civ_map *nmap,
   }
 
   vlevel = utype_veteran_level(def_type, veteran);
-  fc_assert_ret_val(vlevel != NULL, 0);
+  fc_assert_ret_val(vlevel != nullptr, 0);
 
   defclass = utype_class(def_type);
 
-  vdef = unit_virtual_create(def_player, NULL, def_type, veteran);
+  vdef = unit_virtual_create(def_player, nullptr, def_type, veteran);
   unit_tile_set(vdef, ptile);
   if (fortified) {
     vdef->activity = ACTIVITY_FORTIFIED;
@@ -770,7 +770,7 @@ int get_virtual_defense_power(const struct civ_map *nmap,
  being attacked by a missile gets defense 288.
 ***********************************************************************/
 int get_total_defense_power(const struct unit *attacker,
-			    const struct unit *defender)
+                            const struct unit *defender)
 {
   return defense_multiplication(unit_type_get(attacker),
                                 defender,
@@ -780,18 +780,18 @@ int get_total_defense_power(const struct unit *attacker,
 
 /*******************************************************************//**
   Return total defense power of the unit if it fortifies, if possible,
-  where it is. attacker might be NULL to skip calculating attacker specific
-  bonuses.
+  where it is. attacker might be nullptr to skip calculating attacker
+  specific bonuses.
 ***********************************************************************/
 int get_fortified_defense_power(const struct unit *attacker,
                                 struct unit *defender)
 {
-  const struct unit_type *att_type = NULL;
+  const struct unit_type *att_type = nullptr;
   enum unit_activity real_act;
   int def;
   const struct unit_type *utype;
 
-  if (attacker != NULL) {
+  if (attacker != nullptr) {
     att_type = unit_type_get(attacker);
   }
 
@@ -818,7 +818,7 @@ int get_fortified_defense_power(const struct unit *attacker,
 ***********************************************************************/
 static int get_defense_rating(const struct civ_map *nmap,
                               const struct unit *attacker,
-			      const struct unit *defender)
+                              const struct unit *defender)
 {
   int afp, dfp;
   int rating = get_total_defense_power(attacker, defender);
@@ -835,19 +835,19 @@ static int get_defense_rating(const struct civ_map *nmap,
 
 /*******************************************************************//**
   Finds the best defender on the tile, given an attacker. The diplomatic
-  relationship of attacker and defender is ignored; the caller should check
-  this.
+  relationship of attacker and defender is ignored; the caller should
+  check this.
 ***********************************************************************/
 struct unit *get_defender(const struct civ_map *nmap,
                           const struct unit *attacker,
                           const struct tile *ptile,
                           const struct action *paction)
 {
-  struct unit *bestdef = NULL;
+  struct unit *bestdef = nullptr;
   int bestvalue = -99, best_cost = 0, rating_of_best = 0;
 
-  /* Simply call unit_win_chance() with all the possible defenders in turn, and
-   * take the best one. It currently uses build cost as a tiebreaker in
+  /* Simply call unit_win_chance() with all the possible defenders in turn,
+   * and take the best one. It currently uses build cost as a tiebreaker in
    * case 2 units are identical, but this is crude as build cost does not
    * necessarily have anything to do with the value of a unit. This function
    * could be improved to take the value of the unit into account. It would
@@ -859,7 +859,7 @@ struct unit *get_defender(const struct civ_map *nmap,
     /* We used to skip over allied units, but the logic for that is
      * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(nmap, defender)
-        && (unit_attack_unit_at_tile_result(attacker, NULL, defender, ptile)
+        && (unit_attack_unit_at_tile_result(attacker, nullptr, defender, ptile)
             == ATT_OK)) {
       bool change = FALSE;
       int build_cost = unit_build_shield_cost_base(defender);
@@ -919,10 +919,10 @@ struct unit *get_attacker(const struct civ_map *nmap,
     int build_cost = unit_build_shield_cost_base(attacker);
 
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
-      return NULL;
+      return nullptr;
     }
     unit_a = (int) (100000 * (unit_win_chance(nmap, attacker,
-                                              defender, NULL)));
+                                              defender, nullptr)));
     if (unit_a > bestvalue
         || (unit_a == bestvalue && build_cost < best_cost)) {
       bestvalue = unit_a;
@@ -935,22 +935,22 @@ struct unit *get_attacker(const struct civ_map *nmap,
 }
 
 /**********************************************************************//**
-  Returns the defender of the tile in a diplomatic battle or NULL if no
+  Returns the defender of the tile in a diplomatic battle or nullptr if no
   diplomatic defender could be found.
 
   @param act_unit the diplomatic attacker, trying to perform an action.
   @param pvictim  unit that should be excluded as a defender.
   @param tgt_tile the tile to defend.
   @param paction  action that the attacker performs.
-  @return the defender or NULL if no diplomatic defender could be found.
+  @return the defender or nullptr if no diplomatic defender could be found.
 **************************************************************************/
 struct unit *get_diplomatic_defender(const struct unit *act_unit,
                                      const struct unit *pvictim,
                                      const struct tile *tgt_tile,
                                      const struct action *paction)
 {
-  fc_assert_ret_val(act_unit, NULL);
-  fc_assert_ret_val(tgt_tile, NULL);
+  fc_assert_ret_val(act_unit, nullptr);
+  fc_assert_ret_val(tgt_tile, nullptr);
 
   unit_list_iterate(tgt_tile->units, punit) {
     if (unit_owner(punit) == unit_owner(act_unit)) {
@@ -985,7 +985,7 @@ struct unit *get_diplomatic_defender(const struct unit *act_unit,
   } unit_list_iterate_end;
 
   /* No diplomatic defender found. */
-  return NULL;
+  return nullptr;
 }
 
 /*******************************************************************//**
@@ -995,7 +995,7 @@ bool is_stack_vulnerable(const struct tile *ptile)
 {
   return (game.info.killstack
           && !tile_has_extra_flag(ptile, EF_NO_STACK_DEATH)
-          && NULL == tile_city(ptile));
+          && tile_city(ptile) == nullptr);
 }
 
 /*******************************************************************//**
