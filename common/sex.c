@@ -48,10 +48,10 @@ const char *sex_rule_name(sex_t kind)
   case SEX_FEMALE:
     return N_("Female");
   case SEX_UNKNOWN:
-    return NULL;
+    return nullptr;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -61,8 +61,8 @@ const char *sex_name_translation(sex_t kind)
 {
   const char *rule_name = sex_rule_name(kind);
 
-  if (rule_name == NULL) {
-    return NULL;
+  if (rule_name == nullptr) {
+    return nullptr;
   }
 
   return _(rule_name);
@@ -86,5 +86,5 @@ const char *sex_name_mnemonic(sex_t kind, const char *mnemonic)
     break;
   }
 
-  return NULL;
+  return nullptr;
 }
