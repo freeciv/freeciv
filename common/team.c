@@ -252,14 +252,15 @@ const char *team_slot_rule_name(const struct team_slot *tslot)
 ****************************************************************************/
 const char *team_slot_name_translation(const struct team_slot *tslot)
 {
-#ifdef FREECIV_ENABLE_NLS
   fc_assert_ret_val(team_slots_initialised(), NULL);
   fc_assert_ret_val(NULL != tslot, NULL);
 
+#ifdef FREECIV_ENABLE_NLS
   if (NULL == tslot->name_translation) {
     /* Get the team slot as changeable (not _const_) struct. */
     struct team_slot *changeable
       = team_slot_by_number(team_slot_index(tslot));
+
     team_slot_create_default_name(changeable);
     return changeable->name_translation;
   }
