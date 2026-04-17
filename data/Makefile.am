@@ -41,8 +41,7 @@ SRV_RE_FILES = \
 	multiplayer.modpack \
 	alien.modpack \
 	civ2civ3.modpack \
-	sandbox.modpack \
-	granularity.modpack
+	sandbox.modpack
 
 if SERVER
 SERVER_FILES = $(SRV_RE_FILES)
@@ -86,7 +85,7 @@ CLIENTDATADIRS =
 endif
 
 SRV_RE_DATADIRS = default classic civ1 civ2 sandbox multiplayer \
-                  alien civ2civ3 granularity stub nation
+                  alien civ2civ3 stub nation
 if SERVER
 SERVERDATADIRS = $(SRV_RE_DATADIRS) scenarios
 else
