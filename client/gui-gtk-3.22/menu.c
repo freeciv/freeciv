@@ -147,6 +147,7 @@ static void bg_append3_callback(GtkMenuItem *item, gpointer data);
 static void help_overview_callback(GtkMenuItem *item, gpointer data);
 static void help_playing_callback(GtkMenuItem *item, gpointer data);
 static void help_policies_callback(GtkMenuItem *item, gpointer data);
+static void help_counters_callback(GtkMenuItem *item, gpointer data);
 static void help_terrain_callback(GtkMenuItem *item, gpointer data);
 static void help_economy_callback(GtkMenuItem *item, gpointer data);
 static void help_cities_callback(GtkMenuItem *item, gpointer data);
@@ -389,6 +390,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(help_playing_callback), MGROUP_SAFE },
   { "HELP_POLICIES", N_("Policies"), 0, 0,
     G_CALLBACK(help_policies_callback), MGROUP_SAFE },
+  { "HELP_COUNTERS", N_("Counters"), 0, 0,
+    G_CALLBACK(help_counters_callback), MGROUP_SAFE },
   { "HELP_TERRAIN", N_("Terrain"), 0, 0,
     G_CALLBACK(help_terrain_callback), MGROUP_SAFE },
   { "HELP_ECONOMY", N_("Economy"), 0, 0,
@@ -884,10 +887,19 @@ static void help_language_callback(GtkMenuItem *item, gpointer data)
 
 /************************************************************************//**
   Item "HELP_POLICIES" callback.
+  Multipliers (aka policies)
 ****************************************************************************/
 static void help_policies_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_MULTIPLIER_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_COUNTERS" callback.
+****************************************************************************/
+static void help_counters_callback(GtkMenuItem *item, gpointer data)
+{
+  popup_help_dialog_string(HELP_COUNTER_ITEM);
 }
 
 /************************************************************************//**
