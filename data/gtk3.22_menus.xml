@@ -591,6 +591,9 @@
               <object class="GtkMenuItem" id="HELP_COMBAT" />
             </child>
             <child>
+              <object class="GtkMenuItem" id="HELP_COUNTERS" />
+            </child>
+            <child>
               <object class="GtkMenuItem" id="HELP_ZOC" />
             </child>
             <child>
