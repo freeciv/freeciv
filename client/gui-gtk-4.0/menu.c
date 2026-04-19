@@ -205,6 +205,9 @@ static void help_playing_callback(GSimpleAction *action,
 static void help_policies_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
+static void help_counters_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 static void help_terrain_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
@@ -986,6 +989,9 @@ static struct menu_entry_info menu_entries[] =
   { "HELP_COMBAT", N_("Combat"),
     "help_combat", NULL, MGROUP_SAFE,
     NULL, FALSE },
+  { "HELP_COUNTERS", N_("Counters"),
+    "help_counters", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "HELP_ZOC", N_("Zones of Control"),
     "help_zoc", NULL, MGROUP_SAFE,
     NULL, FALSE },
@@ -1170,6 +1176,7 @@ const GActionEntry acts[] = {
   { "help_overview", help_overview_callback },
   { "help_playing", help_playing_callback },
   { "help_policies", help_policies_callback },
+  { "help_counters", help_counters_callback },
   { "help_terrains", help_terrain_callback },
   { "help_economy", help_economy_callback },
   { "help_cities", help_cities_callback },
@@ -1524,12 +1531,23 @@ static void help_playing_callback(GSimpleAction *action,
 
 /************************************************************************//**
   Item "HELP_POLICIES" callback.
+  Multipliers (aka policies)
 ****************************************************************************/
 static void help_policies_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data)
 {
   popup_help_dialog_string(HELP_MULTIPLIER_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_COUNTERS" callback.
+****************************************************************************/
+static void help_counters_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
+{
+  popup_help_dialog_string(HELP_COUNTER_ITEM);
 }
 
 /************************************************************************//**
@@ -3344,6 +3362,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "HELP_WONDERS");
   menu_entry_init(topmenu, "HELP_UNITS");
   menu_entry_init(topmenu, "HELP_COMBAT");
+  menu_entry_init(topmenu, "HELP_COUNTERS");
   menu_entry_init(topmenu, "HELP_ZOC");
   menu_entry_init(topmenu, "HELP_GOVERNMENT");
   menu_entry_init(topmenu, "HELP_DIPLOMACY");
