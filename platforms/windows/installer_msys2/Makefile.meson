@@ -56,17 +56,15 @@ endif
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
 CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
+SVTAV1ENCVER=4
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
 ICUVER=78
-SVTAV1ENC=libSvtAv1Enc-4.dll
 else
 ICUVER=78
-CRYPTO_OSSL=libngtcp2_crypto_ossl.dll
-SVTAV1ENC=libSvtAv1Enc-3.dll
 endif
 
 #
@@ -268,7 +266,6 @@ COMMON_DLLS := \
 	exchndl.dll \
 	mgwhelp.dll \
 	libngtcp2-16.dll \
-	$(CRYPTO_OSSL) \
 	libngtcp2_crypto_ossl-0.dll
 
 install-env-common:
@@ -385,7 +382,7 @@ SDL2_DLLS := \
 	libaom.dll \
 	libdav1d-7.dll \
 	librav1e.dll \
-	$(SVTAV1ENC) \
+	libSvtAv1Enc-${SVTAV1ENCVER}.dll \
 	libyuv.dll
 
 SDL3_DLLS := \
