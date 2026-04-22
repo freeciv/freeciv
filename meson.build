@@ -715,6 +715,7 @@ if host_system == 'emscripten'
   icu_dep = []
   zlib_dep = []
   syslua = 'false'
+  ems_suffix = 'html'
 
   priv_conf_data.set('ALWAYS_ROOT', 1)
 
@@ -742,6 +743,8 @@ else
   if syslua != 'false'
     lua_dep_tmp = dependency('lua-5.5', 'lua-55', 'lua55', 'lua5.5', required:false)
   endif
+
+  ems_suffix = []
 endif
 
 # Set unconditionally, as it was checked as hard requirement
@@ -4034,6 +4037,7 @@ executable('freeciv-sdl2',
                  sdl2_image_dep, sdl2_gfx_dep, sdl2_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
+  name_suffix: ems_suffix,
   install: true,
   win_subsystem: 'windows'
   )
@@ -4164,6 +4168,7 @@ executable('freeciv-sdl3',
                  sdl3_image_dep, sdl3_gfx_dep, sdl3_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
+  name_suffix: ems_suffix,
   install: true,
   win_subsystem: 'windows'
   )
