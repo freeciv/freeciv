@@ -83,8 +83,6 @@ Government_type_id government_count(void)
 **************************************************************************/
 Government_type_id government_index(const struct government *pgovern)
 {
-  fc_assert_ret_val(pgovern != nullptr, -1);
-
   return pgovern - governments;
 }
 
@@ -93,8 +91,6 @@ Government_type_id government_index(const struct government *pgovern)
 **************************************************************************/
 Government_type_id government_number(const struct government *pgovern)
 {
-  fc_assert_ret_val(pgovern != nullptr, -1);
-
   return pgovern->item_number;
 }
 
@@ -118,8 +114,6 @@ struct government *government_by_number(const Government_type_id gov)
 **************************************************************************/
 struct government *government_of_player(const struct player *pplayer)
 {
-  fc_assert_ret_val(pplayer != nullptr, nullptr);
-
   return pplayer->government;
 }
 
@@ -128,8 +122,6 @@ struct government *government_of_player(const struct player *pplayer)
 **************************************************************************/
 struct government *government_of_city(const struct city *pcity)
 {
-  fc_assert_ret_val(pcity != nullptr, nullptr);
-
   return government_of_player(city_owner(pcity));
 }
 
@@ -139,8 +131,6 @@ struct government *government_of_city(const struct city *pcity)
 **************************************************************************/
 const char *government_rule_name(const struct government *pgovern)
 {
-  fc_assert_ret_val(pgovern != nullptr, nullptr);
-
   return rule_name_get(&pgovern->name);
 }
 
@@ -150,8 +140,6 @@ const char *government_rule_name(const struct government *pgovern)
 **************************************************************************/
 const char *government_name_translation(const struct government *pgovern)
 {
-  fc_assert_ret_val(pgovern != nullptr, nullptr);
-
   return name_translation_get(&pgovern->name);
 }
 
@@ -178,9 +166,7 @@ const char *government_name_for_player(const struct player *pplayer)
 bool can_change_to_government(struct player *pplayer,
                               const struct government *gov)
 {
-  fc_assert_ret_val(gov != nullptr, FALSE);
-
-  if (!pplayer) {
+  if (pplayer == nullptr) {
     return FALSE;
   }
 
@@ -325,8 +311,6 @@ static bool ruler_title_check(const struct ruler_title *pruler_title)
 const struct ruler_title_hash *
 government_ruler_titles(const struct government *pgovern)
 {
-  fc_assert_ret_val(pgovern != nullptr, nullptr);
-
   return pgovern->ruler_titles;
 }
 
@@ -408,7 +392,6 @@ const char *ruler_title_for_player(const struct player *pplayer,
   const struct nation_type *pnation = nation_of_player(pplayer);
   struct ruler_title *pruler_title;
 
-  fc_assert_ret_val(buf != nullptr, nullptr);
   fc_assert_ret_val(0 < buf_len, nullptr);
 
   /* Try specific nation ruler title. */

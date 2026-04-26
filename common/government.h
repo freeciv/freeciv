@@ -76,23 +76,30 @@ struct government {
 
 /* General government accessor functions. */
 Government_type_id government_count(void);
-Government_type_id government_index(const struct government *pgovern);
-Government_type_id government_number(const struct government *pgovern);
+Government_type_id government_index(const struct government *pgovern)
+  fc__attribute((nonnull(1)));
+Government_type_id government_number(const struct government *pgovern)
+  fc__attribute((nonnull(1)));
 
 struct government *government_by_number(const Government_type_id gov);
-struct government *government_of_player(const struct player *pplayer);
-struct government *government_of_city(const struct city *pcity);
+struct government *government_of_player(const struct player *pplayer)
+  fc__attribute((nonnull(1)));
+struct government *government_of_city(const struct city *pcity)
+  fc__attribute((nonnull(1)));
 
 struct government *government_by_rule_name(const char *name);
 struct government *government_by_translated_name(const char *name);
 
-const char *government_rule_name(const struct government *pgovern);
-const char *government_name_translation(const struct government *pgovern);
+const char *government_rule_name(const struct government *pgovern)
+  fc__attribute((nonnull(1)));
+const char *government_name_translation(const struct government *pgovern)
+  fc__attribute((nonnull(1)));
 const char *government_name_for_player(const struct player *pplayer);
 
 /* Ruler titles. */
 const struct ruler_title_hash *
-government_ruler_titles(const struct government *pgovern);
+government_ruler_titles(const struct government *pgovern)
+  fc__attribute((nonnull(1)));
 struct ruler_title *
 government_ruler_title_new(struct government *pgovern,
                            const struct nation_type *pnation,
@@ -107,13 +114,15 @@ const char *
 ruler_title_female_untranslated_name(const struct ruler_title *pruler_title);
 
 const char *ruler_title_for_player(const struct player *pplayer,
-                                   char *buf, size_t buf_len);
+                                   char *buf, size_t buf_len)
+  fc__attribute((nonnull(2)));
 const char *default_title_for_player(const struct player *pplayer,
                                      char *buf, size_t buf_len);
 
 /* Ancillary routines */
 bool can_change_to_government(struct player *pplayer,
-                              const struct government *pgovern);
+                              const struct government *pgovern)
+  fc__attribute((nonnull(2)));
 
 /* Initialization and iteration */
 void governments_alloc(int num);
