@@ -45,6 +45,7 @@ enum effect_type req_base_effects[] =
     EFT_CITY_VISION_RADIUS_SQ,
     EFT_MAX_RATES,
     EFT_UPKEEP_PCT,
+    EFT_TECH_COST_FACTOR,
     EFT_COUNT
   };
 
