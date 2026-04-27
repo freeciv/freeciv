@@ -51,6 +51,7 @@ enum effect_type req_base_effects[] =
 enum effect_type req_base_effects_3_3[] =
   {
     EFT_UPKEEP_FACTOR,
+    EFT_TECH_COST_FACTOR,
     EFT_COUNT
   };
 
