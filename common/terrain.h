@@ -178,14 +178,14 @@ const char *terrain_name_translation(const struct terrain *pterrain);
 
 bool is_terrain_flag_card_near(const struct civ_map *nmap,
                                const struct tile *ptile,
-			       enum terrain_flag_id flag);
+                               enum terrain_flag_id flag);
 bool is_terrain_flag_near_tile(const struct civ_map *nmap,
                                const struct tile *ptile,
-			       enum terrain_flag_id flag);
+                               enum terrain_flag_id flag);
 int count_terrain_flag_near_tile(const struct civ_map *nmap,
                                  const struct tile *ptile,
-				 bool cardinal_only, bool percentage,
-				 enum terrain_flag_id flag);
+                                 bool cardinal_only, bool percentage,
+                                 enum terrain_flag_id flag);
 void user_terrain_flags_init(void);
 void user_terrain_flags_free(void);
 void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name, const char *helptxt);
@@ -203,11 +203,11 @@ bool terrain_has_resource(const struct terrain *pterrain,
 /* Functions to operate on a general terrain type. */
 bool is_terrain_card_near(const struct civ_map *nmap,
                           const struct tile *ptile,
-			  const struct terrain *pterrain,
+                          const struct terrain *pterrain,
                           bool check_self);
 bool is_terrain_near_tile(const struct civ_map *nmap,
                           const struct tile *ptile,
-			  const struct terrain *pterrain,
+                          const struct terrain *pterrain,
                           bool check_self);
 int count_terrain_property_near_tile(const struct civ_map *nmap,
                                      const struct tile *ptile,
@@ -296,16 +296,16 @@ const struct terrain *terrain_array_last(void);
     }                                                                     \
   }
 
-#define terrain_animals_iterate(pterrain, _animal)                  \
-  if (NULL != pterrain && pterrain->num_animals > 0) {                  \
-    int _animal##_index;                                                     \
-    for (_animal##_index = 0;                                                \
-         _animal##_index < pterrain->num_animals;                       \
-         _animal##_index++) {                                                \
-      const struct unit_type *_animal = pterrain->animals[_animal##_index];        \
+#define terrain_animals_iterate(pterrain, _animal)                          \
+  if (pterrain != nullptr && pterrain->num_animals > 0) {                   \
+    int _animal##_index;                                                    \
+    for (_animal##_index = 0;                                               \
+         _animal##_index < pterrain->num_animals;                           \
+         _animal##_index++) {                                               \
+      const struct unit_type *_animal = pterrain->animals[_animal##_index];
 
-#define terrain_animals_iterate_end                                     \
-    }                                                                     \
+#define terrain_animals_iterate_end                                         \
+    }                                                                       \
   }
 
 #ifdef __cplusplus
