@@ -34,7 +34,13 @@ void dai_sanity_check(struct ai_type *ait, struct player *pplayer)
 #define SANITY_CHECK(check) \
   fc_assert_full(__FILE__, __FUNCTION__, __FC_LINE__, check, , NOLOGMSG, NOLOGMSG)
 
-  struct player *wt = def_ai_player_data(pplayer, ait)->diplomacy.war_target;
+  struct player *wt;
+
+  if (!pplayer->is_alive) {
+    return;
+  }
+
+  wt = def_ai_player_data(pplayer, ait)->diplomacy.war_target;
 
   players_iterate_alive(opponent) {
     struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, opponent);
