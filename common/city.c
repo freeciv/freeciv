@@ -1392,7 +1392,7 @@ int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
   currently working the tile (and can continue).
 
   The parameter 'restriction', which is usually client_player(), allow a
-  player to handle with its real knownledge to guess it the work of this
+  player to handle with its real knowledge to guess it the work of this
   tile is possible.
 
   This function shouldn't be called directly, but with city_can_work_tile()
