@@ -34,7 +34,9 @@ void access_info_init(const struct unit_type *aunit);
 void access_info_close(void);
 const struct unit_type *access_info_access_unit(void);
 
-void access_areas_refresh(struct civ_map *nmap, struct player *plr);
+void area_list_clear(struct aarea_list *alist);
+void area_list_clear_plr(struct player *pplayer);
+void area_list_for_player_set(struct player *pplayer, struct aarea_list *alist);
 
 #ifdef __cplusplus
 }

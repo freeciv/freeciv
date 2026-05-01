@@ -66,7 +66,6 @@
 #include "citymap.h"
 
 /* common */
-#include "accessarea.h"
 #include "achievements.h"
 #include "calendar.h"
 #include "capstr.h"
@@ -91,6 +90,7 @@
 #include "victory.h"
 
 /* server */
+#include "aahand.h"
 #include "aiiface.h"
 #include "animals.h"
 #include "auth.h"

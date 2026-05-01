@@ -31,6 +31,8 @@ exe_sources = \
 		srv_entrypoint.c
 
 libfreeciv_srv_la_SOURCES = \
+		aahand.c	\
+		aahand.h	\
 		actiontools.c	\
 		actiontools.h	\
 		aiiface.c	\
