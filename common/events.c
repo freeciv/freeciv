@@ -62,10 +62,11 @@ static const char *event_sections[] = {
   /* TRANS: "Vote" as a process */
   N_("Vote: %s"),
   N_("Wonder: %s"),
-  NULL
+  nullptr
 };
 
-#define GEN_EV(event, section, descr) { #event, NULL, section, descr, NULL, event }
+#define GEN_EV(event, section, descr) \
+  { #event, nullptr, section, descr, nullptr, event }
 
 /*
  * Holds information about all event types. The entries don't have
@@ -246,7 +247,7 @@ enum event_type sorted_events[E_COUNT];
 **************************************************************************/
 const char *get_event_message_text(enum event_type event)
 {
-  fc_assert_ret_val(event_type_is_valid(event), NULL);
+  fc_assert_ret_val(event_type_is_valid(event), nullptr);
 
   if (events[event_to_index[event]].event == event) {
     return events[event_to_index[event]].full_descr;
@@ -275,14 +276,14 @@ static int compar_event_message_texts(const void *i1, const void *i2)
 **************************************************************************/
 const char *get_event_tag(enum event_type event)
 {
-  fc_assert_ret_val(event_type_is_valid(event), NULL);
+  fc_assert_ret_val(event_type_is_valid(event), nullptr);
 
   if (events[event_to_index[event]].event == event) {
     return events[event_to_index[event]].tag_name;
   }
-  log_error("unknown event %d", event);
+  log_error("Unknown event %d", event);
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -380,6 +381,6 @@ void events_free(void)
 
   for (i = 0; i <= event_type_max(); i++) {
     free(events[i].full_descr);
-    events[i].full_descr = NULL;
+    events[i].full_descr = nullptr;
   }
 }
