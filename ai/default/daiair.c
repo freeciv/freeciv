@@ -65,8 +65,10 @@ static inline int regen_turns(struct unit *punit, struct tile *ptile,
   recov = get_unit_bonus(punit, EFT_UNIT_RECOVER);
   if (lost_hp - recov <= 0) {
     res = 0;
-  } else {
+  } else if (recov + regen > 0) {
     res = 1 + (lost_hp - recov) / (recov + regen);
+  } else {
+    return MAX_UINT32;
   }
   punit->tile = real_tile;
 
