@@ -31,7 +31,7 @@
 ****************************************************************************/
 Road_type_id road_number(const struct road_type *proad)
 {
-  fc_assert_ret_val(NULL != proad, -1);
+  fc_assert_ret_val(proad != nullptr, -1);
 
   return proad->id;
 }
@@ -61,8 +61,8 @@ struct road_type *road_by_number(Road_type_id id)
 
   roads = extra_type_list_by_cause(EC_ROAD);
 
-  if (roads == NULL || id < 0 || id >= extra_type_list_size(roads)) {
-    return NULL;
+  if (roads == nullptr || id < 0 || id >= extra_type_list_size(roads)) {
+    return nullptr;
   }
 
   return extra_road_get(extra_type_list_get(roads, id));
@@ -101,7 +101,7 @@ void road_type_init(struct extra_type *pextra, int idx)
   requirement_vector_init(&proad->first_reqs);
 
   proad->id = idx;
-  proad->integrators = NULL;
+  proad->integrators = nullptr;
   proad->self = pextra;
 }
 
@@ -138,9 +138,9 @@ void road_types_free(void)
 
     requirement_vector_free(&proad->first_reqs);
 
-    if (proad->integrators != NULL) {
+    if (proad->integrators != nullptr) {
       extra_type_list_destroy(proad->integrators);
-      proad->integrators = NULL;
+      proad->integrators = nullptr;
     }
   } extra_type_by_cause_iterate_end;
 }
@@ -154,33 +154,34 @@ enum road_compat road_compat_special(const struct road_type *proad)
 }
 
 /************************************************************************//**
-  Return road type represented by given compatibility special, or NULL if
+  Return road type represented by given compatibility special, or nullptr if
   special does not represent road type at all.
 ****************************************************************************/
 struct road_type *road_by_compat_special(enum road_compat compat)
 {
   if (compat == ROCO_NONE) {
-    return NULL;
+    return nullptr;
   }
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     struct road_type *proad = extra_road_get(pextra);
+
     if (road_compat_special(proad) == compat) {
       return proad;
     }
   } extra_type_by_cause_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
-  Return road type represented by given gui_type, or NULL if
+  Return road type represented by given gui_type, or nullptr if
   it does not represent road type at all.
 ****************************************************************************/
 struct road_type *road_by_gui_type(enum road_gui_type gui_type)
 {
   if (gui_type == ROAD_GUI_OTHER) {
-    return NULL;
+    return nullptr;
   }
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
@@ -191,7 +192,7 @@ struct road_type *road_by_gui_type(enum road_gui_type gui_type)
     }
   } extra_type_by_cause_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -232,7 +233,7 @@ static bool are_road_reqs_fulfilled(const struct civ_map *nmap,
     .player = pplayer,
     .tile = ptile,
     .unit = punit,
-    .unittype = punit ? unit_type_get(punit) : NULL,
+    .unittype = punit ? unit_type_get(punit) : nullptr,
   };
 
   if (requirement_vector_size(&proad->first_reqs) > 0) {
@@ -292,7 +293,7 @@ bool player_can_build_road(const struct civ_map *nmap,
     return FALSE;
   }
 
-  return are_road_reqs_fulfilled(nmap, proad, pplayer, NULL, ptile);
+  return are_road_reqs_fulfilled(nmap, proad, pplayer, nullptr, ptile);
 }
 
 /************************************************************************//**
@@ -313,7 +314,7 @@ bool can_build_road(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Count tiles with specified road near the tile. Can be called with NULL
+  Count tiles with specified road near the tile. Can be called with nullptr
   road.
 ****************************************************************************/
 int count_road_near_tile(struct civ_map *nmap, const struct tile *ptile,
@@ -321,7 +322,7 @@ int count_road_near_tile(struct civ_map *nmap, const struct tile *ptile,
 {
   int count = 0;
 
-  if (proad == NULL) {
+  if (proad == nullptr) {
     return 0;
   }
 
@@ -344,10 +345,10 @@ int count_river_near_tile(struct civ_map *nmap,
   int count = 0;
 
   cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
-    if (priver == NULL && tile_has_river(adjc_tile)) {
+    if (priver == nullptr && tile_has_river(adjc_tile)) {
       /* Some river */
       count++;
-    } else if (priver != NULL && tile_has_extra(adjc_tile, priver)) {
+    } else if (priver != nullptr && tile_has_extra(adjc_tile, priver)) {
       /* Specific river */
       count++;
     }
@@ -367,7 +368,7 @@ int count_river_type_tile_card(struct civ_map *nmap,
   int count = 0;
   int total = 0;
 
-  fc_assert(priver != NULL);
+  fc_assert(priver != nullptr);
 
   cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, priver)) {
@@ -394,7 +395,7 @@ int count_river_type_near_tile(struct civ_map *nmap,
   int count = 0;
   int total = 0;
 
-  fc_assert(priver != NULL);
+  fc_assert(priver != nullptr);
 
   adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, priver)) {
@@ -479,7 +480,7 @@ bool is_native_tile_to_road(const struct road_type *proad,
   pextra = road_extra_get(proad);
 
   return are_reqs_active(&(const struct req_context) { .tile = ptile },
-                         NULL,
+                         nullptr,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
