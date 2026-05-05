@@ -5279,7 +5279,7 @@ static void property_page_add_objbinds_from_tile(struct property_page *pp,
 
 /************************************************************************//**
   Set the column value in the list store of the property page.
-  Returns TRUE if data was enetered into the store.
+  Returns TRUE if data was entered into the store.
 
   NB: This must match the conversion in objprop_get_gtype.
 ****************************************************************************/
