@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 116
+# serial 118
 dnl Copyright (C) 2007-2026 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -433,6 +433,23 @@ AC_DEFUN([gl_COMMON_BODY], [
 #  define _GL_ATTRIBUTE_CONST __attribute__ ((__const__))
 # else
 #  define _GL_ATTRIBUTE_CONST
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_COUNTED_BY (C) declares that the number of elements of
+   the field is given by C, which must be another field in the same struct.
+   The programmer is responsible for guaranteeing some invariants; see
+   <https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html> for details.  */
+/* Applies to struct fields of type array or pointer (to data).  */
+#ifndef _GL_ATTRIBUTE_COUNTED_BY
+/* This attributes is supported
+     - for fields of array type: by gcc >= 16, clang >= 18,
+     - for fields of pointer type: by gcc when <https://gcc.gnu.org/PR125072>
+       will be fixed, clang >= 19.  */
+# if defined __clang__ && __clang_major__ >= 19
+#  define _GL_ATTRIBUTE_COUNTED_BY(c) __attribute__ ((__counted_by__ (c)))
+# else
+#  define _GL_ATTRIBUTE_COUNTED_BY(c)
 # endif
 #endif
 
@@ -1234,9 +1251,9 @@ Amsterdam
 ])
 
 # AC_C_RESTRICT
-# This definition is copied from post-2.70 Autoconf and overrides the
-# AC_C_RESTRICT macro from autoconf 2.60..2.70.
-m4_version_prereq([2.70.1], [], [
+# This definition is copied from post-2.73 Autoconf and overrides the
+# AC_C_RESTRICT macro from autoconf 2.60..2.73.
+m4_version_prereq([2.73.1], [], [
 AC_DEFUN([AC_C_RESTRICT],
 [AC_CACHE_CHECK([for C/C++ restrict keyword], [ac_cv_c_restrict],
   [ac_cv_c_restrict=no
@@ -1263,8 +1280,10 @@ AC_DEFUN([AC_C_RESTRICT],
  AH_VERBATIM([restrict],
 [/* Define to the equivalent of the C99 'restrict' keyword, or to
    nothing if this is not supported.  Do not define if restrict is
-   supported only directly.  */
+   supported directly.  */
+#if ! (defined __STDC_VERSION__ && 199901L <= __STDC_VERSION__)
 #undef restrict
+#endif
 /* Work around a bug in older versions of Sun C++, which did not
    #define __restrict__ or support _Restrict or __restrict__
    even though the corresponding Sun C compiler ended up with
