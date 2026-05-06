@@ -7577,3 +7577,28 @@ enum gen_action select_actres_action_unit_on_stack(struct civ_map *nmap,
 
   return ACTION_NONE;
 }
+
+/************************************************************************//**
+  Can unit do any action with the given action result to tile?
+  Returns one of the possible actions, or ACTION_NONE.
+****************************************************************************/
+enum gen_action select_actres_action_unit_on_tile(struct civ_map *nmap,
+                                                  enum action_result actres,
+                                                  struct unit *punit,
+                                                  struct tile *ptile)
+{
+  if (actres >= ACTRES_LAST) {
+    return ACTION_NONE;
+  }
+
+  action_list_iterate(action_list_by_result(actres), paction) {
+    enum gen_action act = action_number(paction);
+
+    if (action_id_get_target_kind(act) == ATK_TILE
+        && is_action_enabled_unit_on_tile(nmap, act, punit, ptile, nullptr)) {
+      return act;
+    }
+  } action_list_iterate_end;
+
+  return ACTION_NONE;
+}
