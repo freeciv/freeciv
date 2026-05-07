@@ -5605,7 +5605,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     } unit_list_iterate_safe_end;
   } players_iterate_end;
 
-  /* Fix stacking issues.  We don't rely on the savegame preserving
+  /* Fix stacking issues. We don't rely on the savegame preserving
    * alliance invariants (old savegames often did not) so if there are any
    * unallied units on the same tile we just bounce them. */
   players_iterate(pplayer) {
@@ -5645,7 +5645,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   /* Check worked tiles map */
 #ifdef FREECIV_DEBUG
   if (loading->worked_tiles != NULL) {
-    /* check the entire map for unused worked tiles */
+    /* Check the entire map for unused worked tiles */
     whole_map_iterate(&(wld.map), ptile) {
       if (loading->worked_tiles[ptile->index] != -1) {
         log_error("[city id: %d] Unused worked tile at (%d, %d).",
@@ -5694,6 +5694,17 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   /* Check max rates (rules may have changed since saving) */
   players_iterate(pplayer) {
     player_limit_to_max_rates(pplayer);
+  } players_iterate_end;
+
+  /* Check initial city sanity */
+  players_iterate(pplayer) {
+    if (!player_has_flag(pplayer, PLRF_FIRST_CITY)
+        && city_list_size(pplayer->cities) > 0) {
+      log_sg(_("%s inconsistency: Has never had their first city, "
+               "but has cities this very moment. Fixing."),
+             player_name(pplayer));
+      BV_SET(pplayer->flags, PLRF_FIRST_CITY);
+    }
   } players_iterate_end;
 
   if (0 == strlen(server.game_identifier)
