@@ -55,7 +55,7 @@ void disaster_types_free(void)
 ****************************************************************************/
 Disaster_type_id disaster_number(const struct disaster_type *pdis)
 {
-  fc_assert_ret_val(NULL != pdis, -1);
+  fc_assert_ret_val(pdis != nullptr, -1);
 
   return pdis->id;
 }
@@ -68,7 +68,7 @@ Disaster_type_id disaster_number(const struct disaster_type *pdis)
 ****************************************************************************/
 Disaster_type_id disaster_index(const struct disaster_type *pdis)
 {
-  fc_assert_ret_val(NULL != pdis, -1);
+  fc_assert_ret_val(pdis != nullptr, -1);
 
   return pdis - disaster_types;
 }
@@ -86,7 +86,7 @@ Disaster_type_id disaster_count(void)
 ****************************************************************************/
 struct disaster_type *disaster_by_number(Disaster_type_id id)
 {
-  fc_assert_ret_val(id >= 0 && id < game.control.num_disaster_types, NULL);
+  fc_assert_ret_val(id >= 0 && id < game.control.num_disaster_types, nullptr);
 
   return &disaster_types[id];
 }
@@ -108,7 +108,7 @@ const char *disaster_rule_name(struct disaster_type *pdis)
 }
 
 /************************************************************************//**
-  Return disaster matching rule name or NULL if there is no disaster
+  Return disaster matching rule name or nullptr if there is no disaster
   with such a name.
 ****************************************************************************/
 struct disaster_type *disaster_by_rule_name(const char *name)
@@ -121,7 +121,7 @@ struct disaster_type *disaster_by_rule_name(const char *name)
     }
   } disaster_type_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -144,6 +144,6 @@ bool can_disaster_happen(const struct disaster_type *pdis,
                            .city = pcity,
                            .tile = city_tile(pcity),
                          },
-                         NULL,
+                         nullptr,
                          &pdis->reqs, RPT_POSSIBLE);
 }
