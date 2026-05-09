@@ -46,7 +46,7 @@ if ! embuilder build sdl2 sdl2_image sdl2_ttf sdl2_mixer ; then
   exit 1
 fi
 
-if ! CC=emcc CXX=em++ AR=emar meson setup \
+if ! meson setup \
      --cross-file=cross.txt \
      -Ddefault_library=static \
      -Ddebug=true \
