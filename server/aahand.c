@@ -37,6 +37,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
   if (access_utype != nullptr) {
     struct unit *access_unit;
     struct aarea_list *alist;
+    int index = 0;
 
     area_list_clear_plr(plr);
     alist = aarea_list_new();
@@ -56,6 +57,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
         struct pf_parameter parameter;
         struct pf_map *pfm;
 
+        aarea->index = index++;
         aarea->cities = city_list_new();
         aarea->capital = is_capital(pcity);
 

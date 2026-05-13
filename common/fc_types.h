@@ -1104,6 +1104,7 @@ BV_DEFINE(bv_tiledefs, MAX_TILEDEFS);
 
 struct access_area {
   const struct player *plr;
+  int index;
   struct city_list *cities;
   bool capital;
   bv_tiledefs tiledefs;
