@@ -50,8 +50,6 @@ struct rgbcolor *rgbcolor_new(int r, int g, int b)
 ****************************************************************************/
 struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
 {
-  fc_assert_ret_val(prgbcolor != nullptr, nullptr);
-
   return rgbcolor_new(prgbcolor->r, prgbcolor->g, prgbcolor->b);
 }
 
@@ -61,8 +59,6 @@ struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
 ****************************************************************************/
 bool rgbcolors_are_equal(const struct rgbcolor *c1, const struct rgbcolor *c2)
 {
-  fc_assert_ret_val(c1 != nullptr && c2 != nullptr, FALSE);
-
   /* No check of cached 'color' member -- if values are equal, it should be
    * equivalent */
   return (c1->r == c2->r && c1->g == c2->g && c1->b == c2->b);
@@ -94,7 +90,6 @@ bool rgbcolor_load(struct section_file *file, struct rgbcolor **prgbcolor,
   char colorpath[256];
   va_list args;
 
-  fc_assert_ret_val(file != nullptr, FALSE);
   fc_assert_ret_val(*prgbcolor == nullptr, FALSE);
 
   va_start(args, path);
@@ -124,9 +119,6 @@ void rgbcolor_save(struct section_file *file,
   char colorpath[256];
   va_list args;
 
-  fc_assert_ret(file != nullptr);
-  fc_assert_ret(prgbcolor != nullptr);
-
   va_start(args, path);
   fc_vsnprintf(colorpath, sizeof(colorpath), path, args);
   va_end(args);
@@ -142,7 +134,6 @@ void rgbcolor_save(struct section_file *file,
 bool rgbcolor_to_hex(const struct rgbcolor *prgbcolor, char *hex,
                      size_t hex_len)
 {
-  fc_assert_ret_val(prgbcolor != nullptr, FALSE);
   /* Needs a length greater than 7 ('#' + 6 hex digites and '\0'). */
   fc_assert_ret_val(hex_len > 7, FALSE);
 
@@ -165,7 +156,6 @@ bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
   char hex2[16];
 
   fc_assert_ret_val(*prgbcolor == nullptr, FALSE);
-  fc_assert_ret_val(hex != nullptr, FALSE);
 
   if (hex[0] == '#') {
     hex++;

@@ -64,20 +64,26 @@ struct rgbcolor {
   }
 
 struct rgbcolor *rgbcolor_new(int r, int g, int b);
-struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor);
-bool rgbcolors_are_equal(const struct rgbcolor *c1, const struct rgbcolor *c2);
+struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
+  fc__attribute((nonnull(1)));
+bool rgbcolors_are_equal(const struct rgbcolor *c1, const struct rgbcolor *c2)
+  fc__attribute((nonnull(1, 2)));
 void rgbcolor_destroy(struct rgbcolor *prgbcolor);
 
 bool rgbcolor_load(struct section_file *file, struct rgbcolor **prgbcolor,
                    char *path, ...)
-                   fc__attribute((__format__ (__printf__, 3, 4)));
+                   fc__attribute((__format__ (__printf__, 3, 4)))
+                   fc__attribute((nonnull(1)));
 void rgbcolor_save(struct section_file *file,
                    const struct rgbcolor *prgbcolor, char *path, ...)
-                   fc__attribute((__format__ (__printf__, 3, 4)));
+                   fc__attribute((__format__ (__printf__, 3, 4)))
+                   fc__attribute((nonnull(1, 2)));
 
 bool rgbcolor_to_hex(const struct rgbcolor *prgbcolor, char *hex,
-                     size_t hex_len);
-bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex);
+                     size_t hex_len)
+  fc__attribute((nonnull(1)));
+bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
+  fc__attribute((nonnull(1, 2)));
 
 int rgbcolor_brightness_score(struct rgbcolor *prgbcolor);
 
