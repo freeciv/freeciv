@@ -171,6 +171,7 @@ void dai_switch_to_explore(struct ai_type *ait, struct unit *punit,
 
 enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
                                               struct unit *punit,
-                                              struct tile *ptile);
+                                              struct tile *ptile,
+                                              enum action_target_kind *kind);
 
 #endif /* FC__DAIUNIT_H */
