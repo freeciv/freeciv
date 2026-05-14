@@ -444,29 +444,51 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 **************************************************************************/
 enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
                                               struct unit *punit,
-                                              struct tile *ptile)
+                                              struct tile *ptile,
+                                              enum action_target_kind *kind)
 {
   enum gen_action selected;
 
   if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_CAPTURE_UNITS,
                                                      punit, ptile))
-      == ACTION_NONE
-      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_COLLECT_RANSOM,
+      != ACTION_NONE
+      || (selected = select_actres_action_unit_on_stack(nmap, ACTRES_COLLECT_RANSOM,
                                                         punit, ptile))
-      == ACTION_NONE
-      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_BOMBARD,
+      != ACTION_NONE
+      || (selected = select_actres_action_unit_on_stack(nmap, ACTRES_BOMBARD,
                                                         punit, ptile))
-      == ACTION_NONE
-      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_NUKE_UNITS,
+      != ACTION_NONE
+      || (selected = select_actres_action_unit_on_stack(nmap, ACTRES_NUKE_UNITS,
                                                         punit, ptile))
-      == ACTION_NONE
-      && (selected = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK,
-                                                        punit, ptile))
-      == ACTION_NONE) {
-    return ACTION_NONE;
+      != ACTION_NONE) {
+    if (kind != nullptr) {
+      *kind = ATK_UNITS;
+    }
+
+    return selected;
   }
 
-  return selected;
+  if ((selected = select_actres_action_unit_on_tile(nmap, ACTRES_NUKE,
+                                                    punit, ptile))
+      != ACTION_NONE) {
+    if (kind != nullptr) {
+      *kind = ATK_TILE;
+    }
+
+    return selected;
+  }
+
+  if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK,
+                                                     punit, ptile))
+      != ACTION_NONE) {
+    if (kind != nullptr) {
+      *kind = ATK_UNITS;
+    }
+
+    return selected;
+  }
+
+  return ACTION_NONE;
 }
 
 /**********************************************************************//**
@@ -496,7 +518,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
   if (can_unit_attack_tile(punit, NULL, ptile)
       && (pdef = get_defender(nmap, punit, ptile, NULL))
       /* Action enablers might prevent attacking */
-      && dai_select_tile_attack_action(nmap, punit, ptile) != ACTION_NONE) {
+      && dai_select_tile_attack_action(nmap, punit, ptile, nullptr) != ACTION_NONE) {
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
     int benefit = stack_cost(punit, pdef);
