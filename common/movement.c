@@ -88,7 +88,7 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
 ****************************************************************************/
 int unit_move_rate(const struct unit *punit)
 {
-  fc_assert_ret_val(NULL != punit, 0);
+  fc_assert_ret_val(punit != nullptr, 0);
 
   return utype_move_rate(unit_type_get(punit), unit_tile(punit),
                          unit_owner(punit), punit->veteran, punit->hp);
@@ -117,7 +117,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
     /* Unit is subject to terrain movement costs. */
     move_cost = 1; /* Arbitrary minimum. */
     terrain_type_iterate(pterrain) {
-      if (is_native_to_class(uclass, pterrain, NULL)
+      if (is_native_to_class(uclass, pterrain, nullptr)
           && pterrain->movement_cost > move_cost) {
         /* Exact movement cost matters only if we can enter
          * the tile. */
@@ -155,7 +155,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
    * N.B.: We don't take in account terrain no unit can enter here. */
   terrain_type_iterate(pterrain) {
     if (BV_ISSET_ANY(pterrain->native_to)
-        && !is_native_to_class(uclass, pterrain, NULL)) {
+        && !is_native_to_class(uclass, pterrain, nullptr)) {
       /* Units that may encounter unsuitable terrain explore less. */
       move_cost *= 2;
       break;
@@ -174,8 +174,8 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 {
   struct unit *ptrans = unit_transport_get(punit);
 
-  if (ptrans == NULL) {
-    /* FIXME: Redundant check; if unit is in the tile without transport
+  if (ptrans == nullptr) {
+    /* FIXME: Redundant check; if unit is in the tile without transport,
      *        it's known to be able to exist there. */
     return can_unit_exist_at_tile(nmap, punit, unit_tile(punit));
   }
@@ -282,11 +282,11 @@ bool can_exist_at_tile(const struct civ_map *nmap,
   /* Cities are safe havens except for units in the middle of non-native
    * terrain. This can happen if adjacent terrain is changed after unit
    * arrived to city. */
-  if (NULL != tile_city(ptile)
+  if (tile_city(ptile) != nullptr
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
           || is_native_near_tile(nmap, utype_class(utype), ptile)
           || (1 == game.info.citymindist
-              && is_city_channel_tile(nmap, utype_class(utype), ptile, NULL)))) {
+              && is_city_channel_tile(nmap, utype_class(utype), ptile, nullptr)))) {
     return TRUE;
   }
 
@@ -383,7 +383,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  if (extras != NULL) {
+  if (extras != nullptr) {
     extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
       if (BV_ISSET(*extras, extra_index(pextra))) {
         return TRUE;
@@ -408,13 +408,13 @@ bool is_native_move(const struct civ_map *nmap,
 {
   const struct road_type *proad;
 
-  if (is_native_to_class(punitclass, tile_terrain(dst_tile), NULL)) {
+  if (is_native_to_class(punitclass, tile_terrain(dst_tile), nullptr)) {
     /* We aren't using extras to make the destination native. */
     return TRUE;
   } else if (!is_native_tile_to_class(punitclass, src_tile)) {
     /* Disembarking or leaving port, so ignore road connectivity. */
     return TRUE;
-  } else if (is_native_to_class(punitclass, tile_terrain(src_tile), NULL)) {
+  } else if (is_native_to_class(punitclass, tile_terrain(src_tile), nullptr)) {
     /* Native source terrain depends entirely on destination tile nativity. */
     return is_native_tile_to_class(punitclass, dst_tile);
   }
@@ -610,7 +610,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
   return (MR_OK == unit_move_to_tile_test(nmap, punit,
                                           punit->activity, unit_tile(punit),
                                           dst_tile, igzoc,
-                                          enter_transport, NULL,
+                                          enter_transport, nullptr,
                                           enter_enemy_city));
 }
 
@@ -628,7 +628,7 @@ bool unit_can_teleport_to_tile(const struct civ_map *nmap,
 {
   return (MR_OK == unit_teleport_to_tile_test(nmap, punit, punit->activity,
                                               unit_tile(punit), dst_tile,
-                                              enter_transport, NULL,
+                                              enter_transport, nullptr,
                                               enter_enemy_city));
 }
 
@@ -719,7 +719,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 7) */
-  if (embark_to != NULL) {
+  if (embark_to != nullptr) {
     if (!could_unit_load(punit, embark_to)) {
       return MR_NO_TRANSPORTER_CAPACITY;
     }
@@ -848,7 +848,7 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 3) */
-  if (embark_to != NULL) {
+  if (embark_to != nullptr) {
     if (!could_unit_load(punit, embark_to)) {
       return MR_NO_TRANSPORTER_CAPACITY;
     }
@@ -906,8 +906,8 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
 {
-  fc_assert_ret_val(transporter != NULL, FALSE);
-  fc_assert_ret_val(transported != NULL, FALSE);
+  fc_assert_ret_val(transporter != nullptr, FALSE);
+  fc_assert_ret_val(transported != nullptr, FALSE);
 
   return can_unit_type_transport(unit_type_get(transporter),
                                  unit_class_get(transported));
@@ -991,7 +991,7 @@ void init_move_fragments(void)
     lowest terms (this might be confusing in some cases).
   'prefix' is a string put in front of all numeric output.
   'none' is the string to display in place of the integer part if no
-    movement points (or NULL to just say 0).
+    movement points (or nullptr to just say 0).
   'align' controls whether this is for a fixed-width table, in which case
     padding spaces will be included to make all such strings line up when
     right-aligned.
@@ -1065,5 +1065,5 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
 ****************************************************************************/
 const char *move_points_text(int mp, bool reduce)
 {
-  return move_points_text_full(mp, reduce, NULL, NULL, FALSE);
+  return move_points_text_full(mp, reduce, nullptr, nullptr, FALSE);
 }
