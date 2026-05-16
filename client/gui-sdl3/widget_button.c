@@ -285,7 +285,7 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
 
   if (pstr) {
     button->string_utf8->style |= SF_CENTER;
-    /* if BOLD == true then longest wight */
+    /* if BOLD == true then longest width */
     if (!(pstr->style & TTF_STYLE_BOLD)) {
       pstr->style |= TTF_STYLE_BOLD;
       utf8_str_size(pstr, &buf);
