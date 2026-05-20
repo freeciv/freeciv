@@ -753,6 +753,10 @@ enum gen_action select_actres_action_unit_on_tile(struct civ_map *nmap,
                                                   enum action_result actres,
                                                   struct unit *punit,
                                                   struct tile *ptile);
+enum gen_action select_actres_action_unit_on_city(struct civ_map *nmap,
+                                                  enum action_result actres,
+                                                  struct unit *punit,
+                                                  struct city *pcity);
 
 #ifdef __cplusplus
 }
