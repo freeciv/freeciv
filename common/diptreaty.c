@@ -28,7 +28,7 @@
 
 static struct clause_info clause_infos[CLAUSE_COUNT];
 
-static struct treaty_list *treaties = NULL;
+static struct treaty_list *treaties = nullptr;
 
 /**********************************************************************//**
   Returns TRUE iff pplayer could do diplomacy in the game at all.
@@ -189,14 +189,14 @@ bool add_clause(struct treaty *ptreaty, struct player *pfrom,
 
   /* Leave it to the server to decide if the other party can meet
    * the requirements. */
-  if (client_player == NULL || client_player == pfrom) {
+  if (client_player == nullptr || client_player == pfrom) {
     if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
                          &(const struct req_context) { .player = pto },
                          &clause_infos[type].giver_reqs, RPT_POSSIBLE)) {
       return FALSE;
     }
   }
-  if (client_player == NULL || client_player == pto) {
+  if (client_player == nullptr || client_player == pto) {
     if (!are_reqs_active(&(const struct req_context) { .player = pto },
                          &(const struct req_context) { .player = pfrom },
                          &clause_infos[type].receiver_reqs,
@@ -204,7 +204,7 @@ bool add_clause(struct treaty *ptreaty, struct player *pfrom,
       return FALSE;
     }
   }
-  if (client_player == NULL) {
+  if (client_player == nullptr) {
     if (!are_reqs_active(&(const struct req_context) { .player = pfrom },
                          &(const struct req_context) { .player = pto },
                          &clause_infos[type].either_reqs,
@@ -339,7 +339,7 @@ void treaties_free(void)
   free_treaties();
 
   treaty_list_destroy(treaties);
-  treaties = NULL;
+  treaties = nullptr;
 }
 
 /**********************************************************************//**
@@ -368,7 +368,7 @@ struct treaty *find_treaty(struct player *plr0, struct player *plr1)
     }
   } treaty_list_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
