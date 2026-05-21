@@ -2822,9 +2822,8 @@ static void sg_load_map(struct loaddata *loading)
   wld.map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
 
-  sg_failure_ret(secfile_lookup_bool(loading->file, &wld.map.altitude_info,
-                                     "map.altitude"),
-                 "%s", secfile_error());
+  wld.map.altitude_info
+    = secfile_lookup_bool_default(loading->file, TRUE, "map.altitude");
 
   game.scenario.have_resources
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
