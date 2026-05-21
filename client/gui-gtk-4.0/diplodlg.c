@@ -437,7 +437,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
         for (j = 0; j < i; j++) {
           struct city_deal *deal = fc_malloc(sizeof(struct city_deal));
 
-          fc_snprintf(act_name, sizeof(act_name), "city%s%d", act_plr_part, i);
+          fc_snprintf(act_name, sizeof(act_name), "city%s%d", act_plr_part, j);
           act = g_simple_action_new(act_name, NULL);
 
           deal->giver = player_number(pgiver);
@@ -450,7 +450,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
                            (gpointer)deal);
 
           fc_snprintf(act_name, sizeof(act_name), "win.city%s%d",
-                      act_plr_part, i);
+                      act_plr_part, j);
           menu_item_append_unref(submenu,
                                  g_menu_item_new(city_name_get(city_list_ptrs[j]),
                                                  act_name));
