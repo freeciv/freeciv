@@ -54,10 +54,10 @@ void idex_init(struct world *iworld)
 void idex_free(struct world *iworld)
 {
   city_hash_destroy(iworld->cities);
-  iworld->cities = NULL;
+  iworld->cities = nullptr;
 
   unit_hash_destroy(iworld->units);
-  iworld->units = NULL;
+  iworld->units = nullptr;
 }
 
 /**********************************************************************//**
@@ -68,8 +68,8 @@ void idex_register_city(struct world *iworld, struct city *pcity)
 {
   struct city *old;
 
-  city_hash_replace_full(iworld->cities, pcity->id, pcity, NULL, &old);
-  fc_assert_ret_msg(NULL == old,
+  city_hash_replace_full(iworld->cities, pcity->id, pcity, nullptr, &old);
+  fc_assert_ret_msg(old == nullptr,
                     "IDEX: city collision: new %d %p %s, old %d %p %s",
                     pcity->id, (void *) pcity, city_name_get(pcity),
                     old->id, (void *) old, city_name_get(old));
@@ -83,8 +83,8 @@ void idex_register_unit(struct world *iworld, struct unit *punit)
 {
   struct unit *old;
 
-  unit_hash_replace_full(iworld->units, punit->id, punit, NULL, &old);
-  fc_assert_ret_msg(NULL == old,
+  unit_hash_replace_full(iworld->units, punit->id, punit, nullptr, &old);
+  fc_assert_ret_msg(old == nullptr,
                     "IDEX: unit collision: new %d %p %s, old %d %p %s",
                     punit->id, (void *) punit, unit_rule_name(punit),
                     old->id, (void *) old, unit_rule_name(old));
@@ -98,8 +98,8 @@ void idex_unregister_city(struct world *iworld, struct city *pcity)
 {
   struct city *old;
 
-  city_hash_remove_full(iworld->cities, pcity->id, NULL, &old);
-  fc_assert_ret_msg(NULL != old,
+  city_hash_remove_full(iworld->cities, pcity->id, nullptr, &old);
+  fc_assert_ret_msg(old != nullptr,
                     "IDEX: city unreg missing: %d %p %s",
                     pcity->id, (void *) pcity, city_name_get(pcity));
   fc_assert_ret_msg(old == pcity, "IDEX: city unreg mismatch: "
@@ -116,8 +116,8 @@ void idex_unregister_unit(struct world *iworld, struct unit *punit)
 {
   struct unit *old;
 
-  unit_hash_remove_full(iworld->units, punit->id, NULL, &old);
-  fc_assert_ret_msg(NULL != old,
+  unit_hash_remove_full(iworld->units, punit->id, nullptr, &old);
+  fc_assert_ret_msg(old != nullptr,
                     "IDEX: unit unreg missing: %d %p %s",
                     punit->id, (void *) punit, unit_rule_name(punit));
   fc_assert_ret_msg(old == punit, "IDEX: unit unreg mismatch: "
@@ -128,7 +128,7 @@ void idex_unregister_unit(struct world *iworld, struct unit *punit)
 
 /**********************************************************************//**
    Lookup city with given id.
-   Returns NULL if the city is not registered (which is not an error).
+   Returns nullptr if the city is not registered (which is not an error).
 **************************************************************************/
 struct city *idex_lookup_city(const struct world *iworld, int id)
 {
@@ -141,7 +141,7 @@ struct city *idex_lookup_city(const struct world *iworld, int id)
 
 /**********************************************************************//**
    Lookup unit with given id.
-   Returns NULL if the unit is not registered (which is not an error).
+   Returns nullptr if the unit is not registered (which is not an error).
 **************************************************************************/
 struct unit *idex_lookup_unit(const struct world *iworld, int id)
 {
