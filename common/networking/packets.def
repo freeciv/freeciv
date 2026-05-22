@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 520
+Max id: 521
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -301,6 +301,7 @@ type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
 type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 type BV_DISASTER_EFFECTS = bitvector(bv_disaster_effects)
 type BV_SPACESHIP_STRUCT = bitvector(bv_spaceship_structure)
+type BV_TILEDEFS         = bitvector(bv_tiledefs)
 
 # typedefs for IDs
 type EXTRA              = SINT8
@@ -2433,6 +2434,14 @@ end
 
 PACKET_SYNC_SERIAL_REPLY = 518; sc, handle-via-fields, dsend
   UINT32 serial;
+end
+
+/************** Access areas **********************/
+PACKET_ACCESS_AREA = 521; sc, lsend
+  PLAYER player;
+  UINT16 index;
+  BOOL capital;
+  BV_TILEDEFS tiledefs;
 end
 
 /*************** Webclient specific packets ****************/

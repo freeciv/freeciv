@@ -36,6 +36,7 @@ const struct unit_type *access_info_access_unit(void);
 
 void area_list_clear(struct aarea_list *alist);
 void area_list_clear_plr(struct player *pplayer);
+struct aarea_list *area_list_for_player(struct player *pplayer);
 void area_list_for_player_set(struct player *pplayer, struct aarea_list *alist);
 
 #ifdef __cplusplus

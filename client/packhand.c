@@ -28,6 +28,7 @@
 #include "support.h"
 
 /* common */
+#include "accessarea.h"
 #include "achievements.h"
 #include "actions.h"
 #include "capstr.h"
@@ -5803,4 +5804,38 @@ void handle_city_update_counters(const struct packet_city_update_counters *packe
 void handle_sync_serial_reply(int serial)
 {
   options_sync_reply(serial);
+}
+
+/**********************************************************************//**
+  Handle access area packet.
+**************************************************************************/
+void handle_access_area(const struct packet_access_area *packet)
+{
+  struct player *plr = player_by_number(packet->player);
+  struct aarea_list *alist;
+  struct access_area *aarea;
+
+  if (plr == nullptr) {
+    log_warn("handle_access_area() received illegal player");
+    return;
+  }
+
+  if (packet->index == 0) {
+    /* First access area packet. Clear old set. */
+    area_list_clear_plr(plr);
+
+    alist = aarea_list_new();
+    area_list_for_player_set(plr, alist);
+  } else {
+    alist = area_list_for_player(plr);
+  }
+
+  aarea = fc_malloc(sizeof(struct access_area));
+
+  aarea->cities = nullptr;
+  aarea->index = packet->index;
+  aarea->capital = packet->capital;
+  aarea->tiledefs = packet->tiledefs;
+
+  aarea_list_append(alist, aarea);
 }

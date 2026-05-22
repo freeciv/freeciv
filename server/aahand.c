@@ -38,6 +38,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
     struct unit *access_unit;
     struct aarea_list *alist;
     int index = 0;
+    struct packet_access_area packet;
 
     area_list_clear_plr(plr);
     alist = aarea_list_new();
@@ -50,6 +51,8 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
 
     access_unit = unit_virtual_create(plr, nullptr,
                                       access_utype, 0);
+
+    packet.player = player_number(plr);
 
     city_list_iterate(plr->cities, pcity) {
       if (pcity->server.aarea == nullptr) {
@@ -88,17 +91,26 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
         } city_list_iterate_end;
 
         BV_CLR_ALL(aarea->tiledefs);
+        BV_CLR_ALL(packet.tiledefs);
         pf_map_tiles_iterate(pfm, ptile, TRUE) {
           if (ptile != nullptr) {
             tiledef_iterate(td) {
               if (tile_matches_tiledef(td, ptile)) {
-                BV_SET(aarea->tiledefs, tiledef_number(td));
+                int tn = tiledef_number(td);
+
+                BV_SET(aarea->tiledefs, tn);
+                BV_SET(packet.tiledefs, tn);
               }
             } tiledef_iterate_end;
           }
         } pf_map_tiles_iterate_end;
 
         pf_map_destroy(pfm);
+
+        packet.index = aarea->index;
+        packet.capital = aarea->capital;
+
+        lsend_packet_access_area(plr->connections, &packet);
       }
     } city_list_iterate_end;
 

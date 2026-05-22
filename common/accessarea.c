@@ -97,6 +97,15 @@ void area_list_clear_plr(struct player *pplayer)
 }
 
 /*********************************************************************//**
+  Return current area list for player.
+  @param pplayer Whose list to return
+*************************************************************************/
+struct aarea_list *area_list_for_player(struct player *pplayer)
+{
+  return aalist[player_index(pplayer)];
+}
+
+/*********************************************************************//**
   Set access area list for player
   @param pplayer Whose list to set
 *************************************************************************/
