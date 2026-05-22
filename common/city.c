@@ -1995,15 +1995,29 @@ int city_turns_to_build(const struct city *pcity,
 **************************************************************************/
 int city_turns_to_grow(const struct city *pcity)
 {
-  if (pcity->surplus[O_FOOD] > 0) {
-    return (city_granary_size(city_size_get(pcity)) - pcity->food_stock +
-	    pcity->surplus[O_FOOD] - 1) / pcity->surplus[O_FOOD];
-  } else if (pcity->surplus[O_FOOD] < 0) {
-    /* Turns before famine loss */
-    return -1 + (pcity->food_stock / pcity->surplus[O_FOOD]);
-  } else {
-    return FC_INFINITY;
+  int food_stock = pcity->food_stock;
+  int surplus = pcity->surplus[O_FOOD];
+  int granary_size = city_granary_size(city_size_get(pcity));
+
+  if (food_stock + surplus >= granary_size) {
+    if (city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
+  if (surplus > 0) {
+    /* It was possible for the numerator in this calculation to be
+     * negative, e.g. the city just lost pop due to a disaster and now
+     * the granary_size is smaller than the food_stock. In that case, the
+     * returned value was wrong, so now we do that first test. */
+    return (granary_size - food_stock + surplus - 1) / surplus;
+  }
+  if (surplus < 0) {
+    /* Turns before famine loss */
+    return -1 + (food_stock / surplus);
+  }
+  return FC_INFINITY;
 }
 
 /**********************************************************************//**
