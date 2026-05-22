@@ -1260,12 +1260,12 @@ reqs    =
     }
 
 [effect_tech_cost_base]
-type    = "Tech_Cost_Factor"
-value   = 1
+type    = "Tech_Cost_Pct"
+value   = 100
 
 [effect_tech_cost_double]
-type    = "Tech_Cost_Factor"
-value   = 1
+type    = "Tech_Cost_Pct"
+value   = 100
 reqs    =
     { "type", "name", "range"
       "MinYear", "1", "World"

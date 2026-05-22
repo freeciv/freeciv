@@ -65,8 +65,8 @@ type    = "Size_Adj"
 value   = 1
 
 [effect_tech_cost_base]
-type    = "Tech_Cost_Factor"
-value   = 1
+type    = "Tech_Cost_Pct"
+value   = 100
 
 ; Cities can always work tiles
 [effect_tile_workable]

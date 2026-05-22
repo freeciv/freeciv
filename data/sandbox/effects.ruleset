@@ -4022,8 +4022,8 @@ type    = "Tech_Upkeep_Free"
 value   = 3
 
 [effect_tech_cost_base]
-type    = "Tech_Cost_Factor"
-value   = 3
+type    = "Tech_Cost_Pct"
+value   = 300
 
 [effect_tech_leakage]
 type    = "Tech_Leakage"

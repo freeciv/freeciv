@@ -100,7 +100,7 @@ values
   UPGRADE_PRICE_PCT                 "Upgrade_Price_Pct"
   /* City should use walls gfx */
   VISIBLE_WALLS                     "Visible_Walls"
-  TECH_COST_FACTOR                  "Tech_Cost_Factor"
+  TECH_COST_PCT                     "Tech_Cost_Pct"
   /* [x%] gold upkeep instead of [1] shield upkeep for units */
   SHIELD2GOLD_PCT                   "Shield2Gold_Pct"
   TILE_WORKABLE                     "Tile_Workable"

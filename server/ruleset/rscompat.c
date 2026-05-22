@@ -480,6 +480,9 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
                                                  "HasHomeCity"));
         }
       }
+    } else if (peffect->type == EFT_TECH_COST_PCT) {
+      /* From old Tech_Cost_Factor to new Tech_Cost_Pct */
+      peffect->value *= 100;
     }
   }
 
@@ -570,6 +573,9 @@ const char *rscompat_effect_name_3_4(const char *old_name)
 {
   if (!fc_strcasecmp("Upkeep_Factor", old_name)) {
     return "Upkeep_Pct";
+  }
+  if (!fc_strcasecmp("Tech_Cost_Factor", old_name)) {
+    return "Tech_Cost_Pct";
   }
 
   return old_name;

@@ -642,8 +642,8 @@ adv_want dai_effect_value(struct player *pplayer,
     /* Assume that this multiplies accumulation of 5 history points / turn */
     v += amount * 5 * 5 / 100;
     break;
-  case EFT_TECH_COST_FACTOR:
-    v -= amount * 50;
+  case EFT_TECH_COST_PCT:
+    v -= amount / 2;
     break;
   case EFT_TECH_LEAKAGE:
     {
