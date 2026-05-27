@@ -2477,7 +2477,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     }
 
     /* Remove the units - note the logic of which units actually die
-     * must be mimiced exactly in at least one place up above. */
+     * must be mimicked exactly in at least one place up above. */
     punit = NULL; /* Wiped during following iteration so unsafe to use */
 
     unit_list_iterate_safe(deftile->units, punit2) {
