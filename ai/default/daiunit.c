@@ -447,6 +447,7 @@ enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
                                               enum action_target_kind *kind)
 {
   enum gen_action selected;
+  struct city *pcity;
 
   if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_CAPTURE_UNITS,
                                                      punit, ptile))
@@ -475,6 +476,19 @@ enum gen_action dai_select_tile_attack_action(struct civ_map *nmap,
     }
 
     return selected;
+  }
+
+  pcity = tile_city(ptile);
+  if (pcity != nullptr) {
+    if ((selected = select_actres_action_unit_on_city(nmap, ACTRES_NUKE,
+                                                      punit, pcity))
+        != ACTION_NONE) {
+      if (kind != nullptr) {
+        *kind = ATK_CITY;
+      }
+
+      return selected;
+    }
   }
 
   if ((selected = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK,
