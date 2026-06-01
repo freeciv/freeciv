@@ -46,12 +46,11 @@ civilwar_nations = "Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani", "Sahrawi",
  "Mauritanian", "Kuwaiti", "Qatari", "Bahraini"
 
-; Arab Peninsula and Near East.  City names are mostly from the Ummayyad
-; and Abbasid periods.  These are Arab spellings rather than Anglicized ones;
+; Arab Peninsula and Near East. City names are mostly from the Ummayyad
+; and Abbasid periods. These are Arab spellings rather than Anglicized ones;
 ; thus, Dimashq = Damascus, Al Qahira = Cairo, etc.
 
 cities =
-
  "Makka",
  "Al-Madina",
  "Ar-Riyadh",
