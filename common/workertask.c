@@ -30,7 +30,7 @@
 ****************************************************************************/
 void worker_task_init(struct worker_task *ptask)
 {
-  ptask->ptile = NULL;
+  ptask->ptile = nullptr;
   ptask->want = 0;
 }
 
@@ -39,11 +39,11 @@ void worker_task_init(struct worker_task *ptask)
 ****************************************************************************/
 bool worker_task_is_sane(struct worker_task *ptask)
 {
-  if (ptask == NULL) {
+  if (ptask == nullptr) {
     return FALSE;
   }
 
-  if (ptask->ptile == NULL) {
+  if (ptask->ptile == nullptr) {
     return FALSE;
   }
 
@@ -52,7 +52,7 @@ bool worker_task_is_sane(struct worker_task *ptask)
   }
 
   if (activity_requires_target(ptask->act)) {
-    if (ptask->tgt == NULL) {
+    if (ptask->tgt == nullptr) {
       return FALSE;
     }
     if (!is_extra_caused_by(ptask->tgt,
