@@ -1,5 +1,5 @@
 # gnulib-common.m4
-# serial 118
+# serial 122
 dnl Copyright (C) 2007-2026 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -1279,9 +1279,12 @@ AC_DEFUN([AC_C_RESTRICT],
   ])
  AH_VERBATIM([restrict],
 [/* Define to the equivalent of the C99 'restrict' keyword, or to
-   nothing if this is not supported.  Do not define if restrict is
-   supported directly.  */
-#if ! (defined __STDC_VERSION__ && 199901L <= __STDC_VERSION__)
+   nothing if this is not supported.  In particular it is not supported
+   in MSVC 14.44 and in g++ 7 on Solaris 11, although these compilers
+   define __STDC_VERSION__ to 199901L.
+   Do not define if restrict is supported directly.  */
+#if ! (defined __STDC_VERSION__ && 199901L <= __STDC_VERSION__ \
+       && !defined _MSC_VER && !defined __cplusplus)
 #undef restrict
 #endif
 /* Work around a bug in older versions of Sun C++, which did not
