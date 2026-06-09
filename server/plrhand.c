@@ -2354,10 +2354,15 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
       || team_has_embassy(pplayer2->team, pplayer1)) {
     return; /* Avoid sending too much info over the network */
   }
-  send_player_all_c(pplayer1, pplayer1->connections);
-  send_player_all_c(pplayer2, pplayer2->connections);
+  /* Send correct info about players to each other
+   * before sending updated contact info to each player.
+   * This makes sure that the client does not assume that
+   * it already has contact provided info, when it actually
+   * is only going to get it in the next packet. */
   send_player_info_c(pplayer1, pplayer2->connections);
   send_player_info_c(pplayer2, pplayer1->connections);
+  send_player_all_c(pplayer1, pplayer1->connections);
+  send_player_all_c(pplayer2, pplayer2->connections);
 }
 
 /**********************************************************************//**
