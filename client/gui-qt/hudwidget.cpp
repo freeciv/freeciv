@@ -1510,7 +1510,7 @@ void unit_hud_selector::select_units(int x)
 }
 
 /************************************************************************//**
-  Convinient slot for ez connect
+  Convenient slot for ez connect
 ****************************************************************************/
 void unit_hud_selector::select_units(bool x)
 {
