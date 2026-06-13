@@ -536,7 +536,7 @@ req2        = "None"
 flags       = ""
 graphic     = "a.road_building"
 graphic_alt = "-"
-helptext    = _("Allows build actual roads.")
+helptext    = _("Allows building actual roads.")
 
 [advance_rituals]
 name        = _("Rituals")
