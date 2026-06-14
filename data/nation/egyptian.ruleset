@@ -5,7 +5,7 @@ translation_domain = "freeciv-core"
 name   = _("Egyptian")
 plural = _("?plural:Egyptians")
 groups = "Ancient", "African", "Core"
-legend = _("Egypt was the second-oldest of the world's civilizations.  Since\
+legend = _("Egypt was the second-oldest of the world's civilizations. Since\
  ancient times it has been unusually urbanized, supporting a large\
  population on silt deposited by the annual floodings of the Nile.")
 
