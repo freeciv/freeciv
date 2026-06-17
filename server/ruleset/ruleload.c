@@ -3146,7 +3146,7 @@ static bool load_ruleset_terrain(struct section_file *file,
   int *res_freq;
   bool ok = TRUE;
 
-  /* parameters */
+  /* Parameters */
 
   terrain_control.ocean_reclaim_requirement_pct
     = secfile_lookup_int_default(file, 101,
@@ -7646,6 +7646,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                    "aarea.access_unit");
     const struct unit_type *access_unit = nullptr;
 
+    terrain_control.access_unit = -1;
+
     if (uname != nullptr && uname[0] != '\0') {
       access_unit = unit_type_by_rule_name(uname);
 
@@ -7653,6 +7655,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         ruleset_error(nullptr, LOG_ERROR, "%s: access unit %s unknown.",
                       filename, uname);
         ok = FALSE;
+      } else {
+        terrain_control.access_unit = utype_number(access_unit);
       }
     }
 

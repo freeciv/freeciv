@@ -4682,11 +4682,18 @@ void handle_ruleset_trade(const struct packet_ruleset_trade *p)
 void handle_ruleset_terrain_control
     (const struct packet_ruleset_terrain_control *p)
 {
+  struct unit_type *access_unit = nullptr;
+
   /* Since terrain_control is the same as packet_ruleset_terrain_control
    * we can just copy the data directly. */
   terrain_control = *p;
   /* terrain_control.move_fragments likely changed */
   init_move_fragments();
+
+  if (p->access_unit >= 0) {
+    access_unit = utype_by_number(p->access_unit);
+  }
+  access_info_init(access_unit);
 }
 
 /************************************************************************//**
