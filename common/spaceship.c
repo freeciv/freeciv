@@ -21,7 +21,7 @@
 #include "spaceship.h"
 
 const struct sship_part_info structurals_info[NUM_SS_STRUCTURALS] = {
-  {19, 13, -1},		/* -1 means none required */
+  {19, 13, -1},         /* -1 means none required */
   {19, 15,  0},
   {19, 11,  0},
   {19, 17,  1},
@@ -131,10 +131,10 @@ bool next_spaceship_component(struct player *pplayer,
                               struct player_spaceship *ship,
                               struct spaceship_component *fill)
 {
-  fc_assert_ret_val(fill != NULL, FALSE);
+  fc_assert_ret_val(fill != nullptr, FALSE);
 
   if (ship->modules > (ship->habitation + ship->life_support
-		       + ship->solar_panels)) {
+                       + ship->solar_panels)) {
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */
@@ -202,33 +202,33 @@ bool next_spaceship_component(struct player *pplayer,
       req = modules_info[2].required;
     } else {
       for (i = 0; i < NUM_SS_COMPONENTS; i++) {
-	if ((i % 2 == 0 && ship->fuel > (i/2))
-	    || (i % 2 == 1 && ship->propulsion > (i/2))) {
-	  if (!BV_ISSET(ship->structure, components_info[i].required)) {
-	    req = components_info[i].required;
-	    break;
-	  }
-	}
+        if ((i % 2 == 0 && ship->fuel > (i/2))
+            || (i % 2 == 1 && ship->propulsion > (i/2))) {
+          if (!BV_ISSET(ship->structure, components_info[i].required)) {
+            req = components_info[i].required;
+            break;
+          }
+        }
       }
     }
     if (req == -1) {
       for (i = 0; i < NUM_SS_MODULES; i++) {
-	if ((i % 3 == 0 && ship->habitation > (i/3))
-	    || (i % 3 == 1 && ship->life_support > (i/3))
-	    || (i % 3 == 2 && ship->solar_panels > (i/3))) {
-	  if (!BV_ISSET(ship->structure, modules_info[i].required)) {
-	    req = modules_info[i].required;
-	    break;
-	  }
-	}
+        if ((i % 3 == 0 && ship->habitation > (i/3))
+            || (i % 3 == 1 && ship->life_support > (i/3))
+            || (i % 3 == 2 && ship->solar_panels > (i/3))) {
+          if (!BV_ISSET(ship->structure, modules_info[i].required)) {
+            req = modules_info[i].required;
+            break;
+          }
+        }
       }
     }
     if (req == -1) {
       for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
         if (!BV_ISSET(ship->structure, i)) {
-	  req = i;
-	  break;
-	}
+          req = i;
+          break;
+        }
       }
     }
     /* sanity: */

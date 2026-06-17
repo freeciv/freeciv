@@ -119,7 +119,7 @@ bool is_border_source(struct tile *ptile)
     return TRUE;
   }
 
-  if (extra_owner(ptile) != NULL) {
+  if (extra_owner(ptile) != nullptr) {
     struct extra_type_list *terr_claimers = extra_type_list_of_terr_claimers();
 
     extra_type_list_iterate(terr_claimers, pextra) {

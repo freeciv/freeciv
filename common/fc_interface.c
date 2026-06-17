@@ -35,7 +35,7 @@
 struct functions fc_functions;
 
 /* The functions are accessed via this pointer. */
-const struct functions *fc_funcs = NULL;
+const struct functions *fc_funcs = nullptr;
 /* After this is set to TRUE (in interface_init()), the functions are
    available via fc_funcs. */
 bool fc_funcs_defined = FALSE;
