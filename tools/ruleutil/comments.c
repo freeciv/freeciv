@@ -114,13 +114,13 @@ bool comments_load(void)
 
   fullpath = fileinfoname(get_data_dirs(), "ruledit/" COMMENTS_FILE_NAME);
 
-  if (fullpath == NULL) {
+  if (fullpath == nullptr) {
     log_error(_("Can't find the comments file"));
     return FALSE;
   }
 
   comment_file = secfile_load(fullpath, FALSE);
-  if (comment_file == NULL) {
+  if (comment_file == nullptr) {
     log_error(_("Can't parse the comments file"));
     return FALSE;
   }
@@ -286,7 +286,7 @@ void comments_free(void)
 static void comment_write(struct section_file *sfile, const char *comment,
                           const char *name)
 {
-  if (comment == NULL) {
+  if (comment == nullptr) {
     log_error(_("Comment for %s missing."), name);
     return;
   }
@@ -300,7 +300,7 @@ static void comment_write(struct section_file *sfile, const char *comment,
 static void comment_entry_write(struct section_file *sfile,
                                 const char *comment, const char *section)
 {
-  if (comment == NULL) {
+  if (comment == nullptr) {
     log_error(_("Comment to section %s missing."), section);
     return;
   }
