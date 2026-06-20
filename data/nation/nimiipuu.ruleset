@@ -76,9 +76,9 @@ civilwar_nations = "Salishan", "Sioux", "Nuu-chah-nulth"
 
 cities =
 ; Modern communities
- "Kamiah",    ; inhabited for centuries - means many rope litters
- "Lapwai",    ; seat of government of the Nez Percé reservation
- "Orofino",   ; largest city
+ "Kamiah",    ; Inhabited for centuries - means many rope litters
+ "Lapwai",    ; Seat of government of the Nez Percé reservation
+ "Orofino",   ; Largest city
  "Craigmont",
  "Culdesac",
  "Ferdinand",
@@ -107,5 +107,5 @@ cities =
  "Westlake"
 
 ; No cities were included from the Colville reservation although many of
-; Chief Joseph`s descendants live there.  Including this would create a
+; Chief Joseph`s descendants live there. Including this would create a
 ; potential conflict with a Colville nation.
