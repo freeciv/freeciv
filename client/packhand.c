@@ -4693,6 +4693,7 @@ void handle_ruleset_terrain_control
   if (p->access_unit >= 0) {
     access_unit = utype_by_number(p->access_unit);
   }
+  access_info_close();
   access_info_init(access_unit);
 }
 
