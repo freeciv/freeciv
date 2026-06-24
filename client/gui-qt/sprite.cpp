@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QChar> // Needed before QImageReader (Qt-6.11 & gcc-16)
 #include <QImageReader>
 #include <QPainter>
 
