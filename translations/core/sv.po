@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2025-01-16 22:17+0200\n"
-"PO-Revision-Date: 2010-06-20 19:43+0200\n"
+"PO-Revision-Date: 2026-06-27 00:25+0300\n"
 "Last-Translator: Jon Severinsson <jon@severinsson.net>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -65,17 +65,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-Country: SWEDEN\n"
-"X-Poedit-Language: Swedish\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Poedit 3.6\n"
 
 #: ai/default/daicity.c:1000
 #, fuzzy, c-format
 #| msgid "%s is selling %s (obsolete) for %d."
 msgid "%s is selling %s for %d."
 msgid_plural "%s is selling %s for %d."
-msgstr[0] "%s säljer %s (omodern) för %d."
-msgstr[1] "%s säljer %s (omodern) för %d."
+msgstr[0] "%s säljer %s för %d."
+msgstr[1] "%s säljer %s för %d."
 
 #: ai/default/daidiplomacy.c:371
 #, c-format
@@ -431,23 +429,23 @@ msgstr ""
 "hjälp! Hedra vårt förbund och er hjälpsamhet kommer inte gå förbi obemärkt!"
 
 #: ai/difficulty.c:252
-#, fuzzy
-#| msgid "The AI will govern your nation but do minimal changes."
 msgid ""
 "Toggles 'away' mode for your nation. In away mode, the AI will govern your "
 "nation but make only minimal changes."
-msgstr "Datorn kommer att styra ditt folk med mista möjliga ändringar."
+msgstr ""
+"Växlar \"borta\"-läge för din nation. I bortaläge styr AI:n din nation men "
+"gör endast minimala ändringar."
 
 #: ai/difficulty.c:258
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "With no arguments, sets all AI players to skill level '%s', and sets the "
 "default level for any new AI players to '%s'. With an argument, sets the "
 "skill level for the specified player only."
 msgstr ""
-"Utan argument sätter detta kommando alla datorstyrda spelares "
-"skicklighetsnivå till ”lätt” och sätter standardskicklighetsnivå för varje "
-"ny datorstyrd spelare till ”lätt”. Med ett argument sätter kommandot "
+"Utan argument sätter detta kommando alla datorstyrda spelares till "
+"skicklighetsnivån ”%s” och sätter standardskicklighetsnivå för varje ny "
+"datorstyrd spelare till ”%s”. Med ett argument sätter kommandot "
 "skicklighetsnivån för endast den spelaren."
 
 #: ai/difficulty.c:276
@@ -489,16 +487,13 @@ msgid "Doesn't build offensive diplomatic units."
 msgstr ""
 
 #: ai/handicaps.c:90
-#, fuzzy
-#| msgid "Get sound sets from <%s>."
 msgid "Gets reduced bonuses from huts."
-msgstr "Hämta ljuduppsättningar från <%s>."
+msgstr "Får reducerade bonusar från hyddor."
 
 #: ai/handicaps.c:92
-#, fuzzy
-#| msgid "* Defends cities against diplomatic actions.\n"
 msgid "Prefers defensive buildings and avoids close diplomatic relations."
-msgstr "* Försvarar städer mot diplomathandligar.\n"
+msgstr ""
+"Föredrar defensiva byggnader och undviker nära diplomatiska förbindelser."
 
 #: ai/handicaps.c:95
 msgid ""
@@ -519,16 +514,12 @@ msgid "Knows the location of huts in unexplored territory."
 msgstr ""
 
 #: ai/handicaps.c:108
-#, fuzzy
-#| msgid "Draw the fog of war"
 msgid "Can see through fog of war."
-msgstr "Visa krigsdimman"
+msgstr "Kan se genom krigets dimma."
 
 #: ai/handicaps.c:110
-#, fuzzy
-#| msgid "Can't build a city."
 msgid "Doesn't build air units."
-msgstr "Kan inte grundlägga en stad."
+msgstr "Bygger inte luftenheter."
 
 #: ai/handicaps.c:113
 msgid "Has complete map knowledge, including unexplored territory."
@@ -543,10 +534,8 @@ msgid "Can skip anarchy during revolution."
 msgstr ""
 
 #: ai/handicaps.c:120
-#, fuzzy
-#| msgid "%s is not attached to any player."
 msgid "Limits growth to match human players."
-msgstr "%s är inte ansluten till någon spelare."
+msgstr "Begränsar tillväxten för att matcha mänskliga spelare."
 
 #: ai/handicaps.c:122
 msgid "Believes its cities are always under threat."
@@ -718,9 +707,9 @@ msgid "Plugin '%s' isn't available. Available are %s"
 msgstr "Insticksprogrammet ”%s” är inte tillgängligt. %s är tillgängliga."
 
 #: client/audio.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't find audioset \"%s\", trying \"%s\"."
-msgstr "Vi mottog %d guld."
+msgstr "Kunde inte hitta ljuduppsättningen \"%s\", försöker med \"%s\"."
 
 #: client/audio.c:294
 msgid "No real audio plugin present."
@@ -728,7 +717,7 @@ msgstr "Ett riktigt insticksprogram för ljud saknas."
 
 #: client/audio.c:295 client/audio.c:322 client/audio.c:361 client/audio.c:370
 msgid "Proceeding with sound support disabled."
-msgstr "Fortsätter med ljuded avstängt."
+msgstr "Fortsätter med ljudet avstängt."
 
 #: client/audio.c:296
 #, fuzzy
@@ -746,18 +735,22 @@ msgid "Get sound sets from <%s>."
 msgstr "Hämta ljuduppsättningar från <%s>."
 
 #: client/audio.c:330
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load sound spec-file '%s':\n"
 "%s"
-msgstr "Kunde inte öppna ljudupplyslingsfil: %s"
+msgstr ""
+"Kunde inte öppna ljudspecifikationsfil: \"%s\"\n"
+"%s"
 
 #: client/audio.c:335
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load music spec-file '%s':\n"
 "%s"
-msgstr "Kunde inte öppna ljudupplyslingsfil: %s"
+msgstr ""
+"Kunde inte läsa in musikspecifikationsfilen \"%s\":\n"
+"%s"
 
 #: client/audio.c:368
 msgid "No real audio subsystem managed to initialize!"
@@ -813,12 +806,11 @@ msgstr[0] "%3d guld per omgång"
 msgstr[1] "%3d guld per omgång"
 
 #: client/citydlg_common.c:290
-#, fuzzy, c-format
-#| msgid "Hitpoints:"
+#, c-format
 msgid "%3d infrapoint per turn"
 msgid_plural "%3d infrapoints per turn"
-msgstr[0] "Träffpunkter:"
-msgstr[1] "Träffpunkter:"
+msgstr[0] "%3d infrapoäng per tur"
+msgstr[1] "%3d infrapoäng per tur"
 
 #: client/citydlg_common.c:307
 #, c-format
@@ -1479,20 +1471,16 @@ msgid "?Performance:Prf"
 msgstr ""
 
 #: client/cityrepdata.c:816
-#, fuzzy
-#| msgid "Cure For Cancer"
 msgid "Culture: Performance"
-msgstr "Bot mot cancer"
+msgstr "Kultur: prestation"
 
 #: client/cityrepdata.c:818
-#, fuzzy
 msgid "?Continent:C"
-msgstr "An_slut"
+msgstr "K"
 
 #: client/cityrepdata.c:818
-#, fuzzy
 msgid "Continent number"
-msgstr "An_slut"
+msgstr "Kontinentnummer"
 
 #: client/cityrepdata.c:820
 msgid "?number_trade_routes:n"
@@ -2632,10 +2620,8 @@ msgstr[1] ""
 #: client/gui-gtk-3.22/action_dialog.c:1126
 #: client/gui-gtk-4.0/action_dialog.c:1123
 #: client/gui-gtk-5.0/action_dialog.c:1213
-#, fuzzy
-#| msgid "Unit selection"
 msgid "Target unit selection"
-msgstr "Välj trupp"
+msgstr "Välj måltrupp"
 
 #: client/gui-gtk-3.22/action_dialog.c:1127
 #: client/gui-gtk-4.0/action_dialog.c:1124
@@ -2666,10 +2652,8 @@ msgstr "Välj"
 #: client/gui-gtk-3.22/action_dialog.c:1220
 #: client/gui-gtk-4.0/action_dialog.c:1217
 #: client/gui-gtk-5.0/action_dialog.c:1307
-#, fuzzy
-#| msgid "Unit selection"
 msgid "Target extra selection"
-msgstr "Välj trupp"
+msgstr "Välj måltillgång"
 
 #. TRANS: GTK action selection dialog extra target
 #. * selection dialog actor unit label.
@@ -3410,12 +3394,12 @@ msgstr "Upplös trupp (_D)"
 #: client/gui-gtk-3.22/citydlg.c:2633 client/gui-gtk-4.0/citydlg.c:2621
 #: client/gui-gtk-5.0/citydlg.c:2905
 msgid "_Load unit"
-msgstr "Lasta på"
+msgstr "_Lasta på"
 
 #: client/gui-gtk-3.22/citydlg.c:2643 client/gui-gtk-4.0/citydlg.c:2633
 #: client/gui-gtk-5.0/citydlg.c:2917
 msgid "_Unload unit"
-msgstr "Lasta av"
+msgstr "Lasta _av"
 
 #: client/gui-gtk-3.22/citydlg.c:2654 client/gui-gtk-4.0/citydlg.c:2645
 #: client/gui-gtk-5.0/citydlg.c:2929
@@ -3491,9 +3475,8 @@ msgstr "_Bevattning"
 #: client/gui-qt/menu.cpp:2298 client/gui-qt/menu.cpp:2301
 #: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:141 common/unit.c:657
 #: tools/manual/manual_terrain.c:51
-#, fuzzy
 msgid "Cultivate"
-msgstr "Standardregelverket"
+msgstr "Kultivera"
 
 #: client/gui-gtk-3.22/citydlg.c:3102 client/gui-gtk-4.0/citydlg.c:3199
 #: client/gui-gtk-5.0/citydlg.c:3483 client/gui-qt/citydlg.cpp:1395
@@ -3536,15 +3519,19 @@ msgstr "Köp det!"
 #: client/gui-gtk-3.22/citydlg.c:3223 client/gui-gtk-4.0/citydlg.c:3343
 #: client/gui-gtk-5.0/citydlg.c:3629 client/gui-sdl2/citydlg.c:1209
 #: client/gui-sdl3/citydlg.c:1205
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s costs %d gold.\n"
 "%s"
 msgid_plural ""
 "%s costs %d gold.\n"
 "%s"
-msgstr[0] "Vi mottog %d guld."
-msgstr[1] "Vi mottog %d guld."
+msgstr[0] ""
+"%s kostar %d guld.\n"
+"%s"
+msgstr[1] ""
+"%s kostar %d guld.\n"
+"%s"
 
 #: client/gui-gtk-3.22/citydlg.c:3277 client/gui-gtk-4.0/citydlg.c:3397
 #: client/gui-gtk-5.0/citydlg.c:3680 client/gui-qt/citydlg.cpp:629
@@ -3623,7 +3610,7 @@ msgstr "Lägg till som _nästa"
 #: client/gui-gtk-3.22/cityrep.c:1072 client/gui-gtk-4.0/cityrep.c:1658
 #: client/gui-gtk-5.0/cityrep.c:1851
 msgid "Add _2nd Last"
-msgstr "Lägg till näst sist"
+msgstr "Lägg till _näst sist"
 
 #: client/gui-gtk-3.22/cityrep.c:1076 client/gui-gtk-4.0/cityrep.c:1642
 #: client/gui-gtk-5.0/cityrep.c:1835
@@ -3868,12 +3855,12 @@ msgstr "Hjälp"
 #: client/gui-gtk-3.22/cma_fe.c:506 client/gui-gtk-4.0/cma_fe.c:523
 #: client/gui-gtk-5.0/cma_fe.c:573
 msgid "Governor Enabl_ed"
-msgstr "Förvaltning aktiverad"
+msgstr "Förvaltning aktiv_erad"
 
 #: client/gui-gtk-3.22/cma_fe.c:509 client/gui-gtk-4.0/cma_fe.c:526
 #: client/gui-gtk-5.0/cma_fe.c:576
 msgid "Governor Disabl_ed"
-msgstr "Förvaltning avaktiverad"
+msgstr "Förvaltning inaktiv_erad"
 
 #: client/gui-gtk-3.22/cma_fe.c:578 client/gui-gtk-4.0/cma_fe.c:595
 #: client/gui-gtk-5.0/cma_fe.c:647 client/gui-qt/citydlg.cpp:2431
@@ -4143,10 +4130,8 @@ msgstr "G_e ambassad"
 
 #: client/gui-gtk-3.22/diplodlg.c:456 client/gui-gtk-4.0/diplodlg.c:509
 #: client/gui-gtk-5.0/diplodlg.c:558
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "_Share tiles"
-msgstr "Filnamn:"
+msgstr "_Dela rutor"
 
 #: client/gui-gtk-3.22/diplodlg.c:475 client/gui-gtk-4.0/diplodlg.c:530
 #: client/gui-gtk-5.0/diplodlg.c:579 client/gui-qt/diplodlg.cpp:462
@@ -4691,10 +4676,8 @@ msgstr ""
 
 #: client/gui-gtk-3.22/editprop.c:4592 client/gui-gtk-4.0/editprop.c:4601
 #: client/gui-gtk-5.0/editprop.c:4601 common/events.c:226
-#, fuzzy
-#| msgid "Hitpoints:"
 msgid "Infrapoints"
-msgstr "Träffpunkter:"
+msgstr "Infrapoäng"
 
 #: client/gui-gtk-3.22/editprop.c:4598 client/gui-gtk-4.0/editprop.c:4607
 #: client/gui-gtk-5.0/editprop.c:4607 tools/fcmp/modinst.h:45
@@ -4885,9 +4868,8 @@ msgstr "S_täder:"
 #. TRANS: current value of policy in force
 #: client/gui-gtk-3.22/gamedlgs.c:281 client/gui-gtk-4.0/gamedlgs.c:272
 #: client/gui-gtk-5.0/gamedlgs.c:272
-#, fuzzy
 msgid "?multiplier:Now"
-msgstr "Standardregelverket"
+msgstr "Nu"
 
 #: client/gui-gtk-3.22/gamedlgs.c:314 client/gui-gtk-4.0/gamedlgs.c:305
 #: client/gui-gtk-5.0/gamedlgs.c:305 client/gui-qt/ratesdlg.cpp:143
@@ -5541,19 +5523,16 @@ msgstr ""
 
 #: client/gui-gtk-3.22/infradlg.c:114 client/gui-gtk-4.0/infradlg.c:115
 #: client/gui-gtk-5.0/infradlg.c:115
-#, fuzzy
-#| msgid "Hitpoints:"
 msgid "- infrapoints"
-msgstr "Träffpunkter:"
+msgstr "- infrapoäng"
 
 #: client/gui-gtk-3.22/infradlg.c:144 client/gui-gtk-4.0/infradlg.c:145
 #: client/gui-gtk-5.0/infradlg.c:145
-#, fuzzy, c-format
-#| msgid "Hitpoints:"
+#, c-format
 msgid "%d infrapoint"
 msgid_plural "%d infrapoints"
-msgstr[0] "Träffpunkter:"
-msgstr[1] "Träffpunkter:"
+msgstr[0] "%d infrapoäng"
+msgstr[1] "%d infrapoäng"
 
 #: client/gui-gtk-3.22/infradlg.c:191 client/gui-gtk-4.0/infradlg.c:199
 #: client/gui-gtk-5.0/infradlg.c:199
@@ -6042,10 +6021,8 @@ msgstr "Om regelverket"
 
 #: client/gui-gtk-3.22/menu.c:407 client/gui-gtk-4.0/menu.c:975
 #: client/gui-gtk-5.0/menu.c:975 client/include/helpdlg_g.h:42
-#, fuzzy
-#| msgid "About Ruleset"
 msgid "About Current Tileset"
-msgstr "Om regelverket"
+msgstr "Om aktuell rutuppsättning"
 
 #: client/gui-gtk-3.22/menu.c:409 client/gui-gtk-4.0/menu.c:978
 #: client/gui-gtk-5.0/menu.c:978 client/include/helpdlg_g.h:43
@@ -6179,7 +6156,7 @@ msgstr "L_andskap"
 #: client/gui-gtk-3.22/menu.c:457 client/gui-gtk-4.0/menu.c:651
 #: client/gui-gtk-5.0/menu.c:651
 msgid "C_oastline"
-msgstr "Kustlinje"
+msgstr "K_ustlinje"
 
 #: client/gui-gtk-3.22/menu.c:459 client/gui-gtk-4.0/menu.c:654
 #: client/gui-gtk-5.0/menu.c:654
@@ -6218,7 +6195,7 @@ msgstr ""
 #: client/gui-gtk-3.22/menu.c:471 client/gui-gtk-4.0/menu.c:672
 #: client/gui-gtk-5.0/menu.c:672
 msgid "Po_llution & Fallout"
-msgstr "Utsläpp & nedfall"
+msgstr "U_tsläpp och nedfall"
 
 #: client/gui-gtk-3.22/menu.c:473 client/gui-gtk-4.0/menu.c:675
 #: client/gui-gtk-5.0/menu.c:675
@@ -6344,10 +6321,8 @@ msgstr "Bygg _bas"
 #: client/gui-gtk-3.22/menu.c:521 client/gui-gtk-4.0/menu.c:3164
 #: client/gui-gtk-4.0/menu.c:3654 client/gui-gtk-5.0/menu.c:3168
 #: client/gui-gtk-5.0/menu.c:3658
-#, fuzzy
-#| msgid "Clean Pollution"
 msgid "_Clean Nuisance"
-msgstr "Sanera utsläpp"
+msgstr "_Sanera olägenhet"
 
 #: client/gui-gtk-3.22/menu.c:522 client/gui-gtk-4.0/menu.c:705
 #: client/gui-gtk-5.0/menu.c:705
@@ -6376,9 +6351,8 @@ msgstr ""
 
 #: client/gui-gtk-3.22/menu.c:534 client/gui-gtk-4.0/menu.c:720
 #: client/gui-gtk-5.0/menu.c:720
-#, fuzzy
 msgid "Unit Selection Dialog"
-msgstr "Välj trupp"
+msgstr "Dialog för truppval"
 
 #: client/gui-gtk-3.22/menu.c:538 client/gui-gtk-4.0/menu.c:776
 #: client/gui-gtk-5.0/menu.c:776
@@ -6457,15 +6431,14 @@ msgstr "_Ersätt trupp"
 #: client/gui-gtk-3.22/menu.c:566 client/gui-gtk-3.22/menu.c:2771
 #: client/gui-gtk-4.0/menu.c:764 client/gui-gtk-4.0/menu.c:4000
 #: client/gui-gtk-5.0/menu.c:764 client/gui-gtk-5.0/menu.c:4004
-#, fuzzy
 msgid "C_onvert"
-msgstr "An_slut"
+msgstr "_Omvandla"
 
 #: client/gui-gtk-3.22/menu.c:568 client/gui-gtk-3.22/repodlgs.c:1203
 #: client/gui-gtk-4.0/menu.c:767 client/gui-gtk-4.0/repodlgs.c:1236
 #: client/gui-gtk-5.0/menu.c:767 client/gui-gtk-5.0/repodlgs.c:1236
 msgid "_Disband"
-msgstr "Upplös trupp"
+msgstr "_Upplös trupp"
 
 #: client/gui-gtk-3.22/menu.c:570 client/gui-gtk-4.0/menu.c:781
 #: client/gui-gtk-5.0/menu.c:781
@@ -6510,12 +6483,12 @@ msgstr "Gräv gruva (_M)"
 #: client/gui-gtk-3.22/menu.c:584 client/gui-gtk-4.0/menu.c:805
 #: client/gui-gtk-5.0/menu.c:805
 msgid "Connect With Roa_d"
-msgstr "Anslut med väg"
+msgstr "_Anslut med väg"
 
 #: client/gui-gtk-3.22/menu.c:586 client/gui-gtk-4.0/menu.c:808
 #: client/gui-gtk-5.0/menu.c:808
 msgid "Connect With Rai_l"
-msgstr "Anslut med järnväg"
+msgstr "Anslut med _järnväg"
 
 #: client/gui-gtk-3.22/menu.c:588 client/gui-gtk-4.0/menu.c:811
 #: client/gui-gtk-5.0/menu.c:811
@@ -6527,7 +6500,7 @@ msgstr "Anslut järnväg"
 #: client/gui-gtk-3.22/menu.c:590 client/gui-gtk-4.0/menu.c:814
 #: client/gui-gtk-5.0/menu.c:814
 msgid "Connect With Irri_gation"
-msgstr "Anslut med bevattning"
+msgstr "Anslut med _bevattning"
 
 #: client/gui-gtk-3.22/menu.c:593 client/gui-gtk-3.22/menu.c:2848
 #: client/gui-gtk-3.22/menu.c:2855 client/gui-gtk-4.0/menu.c:802
@@ -7250,12 +7223,12 @@ msgstr "Spara spel"
 #: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3641
 #: client/gui-gtk-5.0/pages.c:4034
 msgid "Saved _Games:"
-msgstr "Sparade spel:"
+msgstr "Sparade _spel:"
 
 #: client/gui-gtk-3.22/pages.c:3496 client/gui-gtk-4.0/pages.c:3642
 #: client/gui-gtk-5.0/pages.c:4035
 msgid "Save _Filename:"
-msgstr "Filnamn:"
+msgstr "Spara _filnamn:"
 
 #: client/gui-gtk-3.22/pages.c:3530 client/gui-gtk-4.0/pages.c:3676
 #: client/gui-gtk-5.0/pages.c:4069
@@ -7350,7 +7323,7 @@ msgstr "_Datorstyrning"
 #: client/gui-gtk-3.22/plrdlg.c:565 client/gui-gtk-4.0/plrdlg.c:551
 #: client/gui-gtk-5.0/plrdlg.c:551
 msgid "_Toggle AI Mode"
-msgstr "Växla datorstyrning"
+msgstr "_Växla AI-läge"
 
 #. TRANS: %s is a diplomatic state: "Cancel Cease-fire"
 #: client/gui-gtk-3.22/plrdlg.c:827 client/gui-gtk-4.0/plrdlg.c:964
@@ -7842,9 +7815,8 @@ msgstr "Ruta"
 
 #: client/gui-gtk-3.22/unitselect.c:273 client/gui-gtk-4.0/unitselect.c:272
 #: client/gui-gtk-5.0/unitselect.c:272
-#, fuzzy
 msgid "C_ontinent"
-msgstr "An_slut"
+msgstr "K_ontinent"
 
 #: client/gui-gtk-3.22/unitselect.c:274 client/gui-gtk-4.0/unitselect.c:273
 #: client/gui-gtk-5.0/unitselect.c:273
@@ -8123,10 +8095,9 @@ msgstr "president"
 #: client/gui-gtk-4.0/cityrep.c:1840 client/gui-gtk-4.0/cityrep.c:1848
 #: client/gui-gtk-4.0/cityrep.c:1856 client/gui-gtk-5.0/cityrep.c:2033
 #: client/gui-gtk-5.0/cityrep.c:2041 client/gui-gtk-5.0/cityrep.c:2049
-#, fuzzy, c-format
-#| msgid "Available Units"
+#, c-format
 msgid "Available %s"
-msgstr "Tillgängliga trupper"
+msgstr "Tillgängliga %s"
 
 #: client/gui-gtk-4.0/gui_main.c:274
 msgid "gtk4-client gui-specific options are:\n"
@@ -9058,14 +9029,12 @@ msgstr "Standardunderhåll"
 
 #. TRANS: this and similar literal strings interpreted as (Qt) HTML
 #: client/gui-qt/helpdlg.cpp:945
-#, fuzzy
 msgid "Requires"
-msgstr "Kräver statsskicket %s.\n"
+msgstr "Kräver"
 
 #: client/gui-qt/helpdlg.cpp:957
-#, fuzzy
 msgid "No technology required."
-msgstr "%d guld per omgång"
+msgstr "Ingen teknologi krävs."
 
 #: client/gui-qt/helpdlg.cpp:968
 #, fuzzy
@@ -9231,20 +9200,16 @@ msgid "Anywhere"
 msgstr ""
 
 #: client/gui-qt/hudwidget.cpp:1395
-#, fuzzy
-#| msgid "Keep current tileset"
 msgid "Current tile"
-msgstr "Behåll nuvarande rutbildsuppsättning"
+msgstr "Aktuell ruta"
 
 #: client/gui-qt/hudwidget.cpp:1396
-#, fuzzy
 msgid "Current continent"
-msgstr "An_slut"
+msgstr "Current continent"
 
 #: client/gui-qt/hudwidget.cpp:1397
-#, fuzzy
 msgid "Main continent"
-msgstr "An_slut"
+msgstr "Huvudkontinent"
 
 #: client/gui-qt/hudwidget.cpp:1627
 #, fuzzy
@@ -9532,10 +9497,8 @@ msgid "Done"
 msgstr "Klar"
 
 #: client/gui-qt/menu.cpp:1180
-#, fuzzy
-#| msgid "Unit selection"
 msgid "Advanced unit selection"
-msgstr "Välj trupp"
+msgstr "Avancerat truppval"
 
 #: client/gui-qt/menu.cpp:1187 client/gui-qt/shortcuts.cpp:134
 #: client/gui-sdl2/menu.c:538 client/gui-sdl3/menu.c:534
@@ -9572,9 +9535,8 @@ msgid "Upgrade"
 msgstr "Ersätt"
 
 #: client/gui-qt/menu.cpp:1257 common/fc_types.h:180 common/unit.c:677
-#, fuzzy
 msgid "Convert"
-msgstr "An_slut"
+msgstr "Omvandla"
 
 #: client/gui-qt/menu.cpp:1261 client/gui-qt/repodlgs.cpp:1235
 #: client/gui-sdl2/dialogs.c:947 client/gui-sdl3/dialogs.c:943
@@ -9662,9 +9624,8 @@ msgid "Transform Terrain"
 msgstr "Omvandla landskap"
 
 #: client/gui-qt/menu.cpp:1381
-#, fuzzy
 msgid "Multiplayer"
-msgstr "Standardregelverket"
+msgstr "Flerspelar"
 
 #: client/gui-qt/menu.cpp:1382
 msgid "Delayed Goto"
@@ -10067,16 +10028,12 @@ msgid "Start"
 msgstr "Sätt igång"
 
 #: client/gui-qt/pages.cpp:844
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "Save Files"
-msgstr "Filnamn:"
+msgstr "Sparfiler"
 
 #: client/gui-qt/pages.cpp:847
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "Open Save File"
-msgstr "Filnamn:"
+msgstr "Öppna sparfil"
 
 #: client/gui-qt/pages.cpp:898
 #, fuzzy
@@ -11129,15 +11086,13 @@ msgid "Sea map"
 msgstr "Sjökort"
 
 #: client/gui-sdl2/diplodlg.c:678 client/gui-sdl3/diplodlg.c:674
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "Share tiles"
-msgstr "Filnamn:"
+msgstr "Dela rutor"
 
 #: client/gui-sdl2/diplodlg.c:696 client/gui-sdl3/diplodlg.c:692
 #, c-format
 msgid "Gold(max %d)"
-msgstr "Guld(högst %d)"
+msgstr "Guld (högst %d)"
 
 #: client/gui-sdl2/diplodlg.c:965 client/gui-sdl3/diplodlg.c:961
 msgid "Diplomacy meeting"
@@ -11148,7 +11103,7 @@ msgstr "Diplomatiskt möte"
 #: client/gui-sdl2/diplodlg.c:1462 client/gui-sdl3/diplodlg.c:1458
 #, c-format
 msgid "%s incident !"
-msgstr "%s-incident !"
+msgstr "%s-incident!"
 
 #: client/gui-sdl2/diplodlg.c:1480 client/gui-sdl3/diplodlg.c:1476
 msgid "Shall we declare WAR on them?"
@@ -12095,7 +12050,7 @@ msgstr[1] ""
 
 #: client/gui-sdl2/wldlg.c:959 client/gui-sdl2/wldlg.c:1174
 #: client/gui-sdl3/wldlg.c:955 client/gui-sdl3/wldlg.c:1170
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d infrapoint per turn"
@@ -12104,10 +12059,10 @@ msgid_plural ""
 "%d infrapoints per turn"
 msgstr[0] ""
 "%s\n"
-"%d guld per omgång"
+"%d infrapoäng per tur"
 msgstr[1] ""
 "%s\n"
-"%d guld per omgång"
+"%d infrapoäng per tur"
 
 #: client/gui-sdl2/wldlg.c:970 client/gui-sdl2/wldlg.c:1184
 #: client/gui-sdl3/wldlg.c:966 client/gui-sdl3/wldlg.c:1180
@@ -12210,12 +12165,11 @@ msgstr[0] "%d guld per omgång"
 msgstr[1] "%d guld per omgång"
 
 #: client/gui-sdl2/wldlg.c:1509 client/gui-sdl3/wldlg.c:1505
-#, fuzzy, c-format
-#| msgid "Hitpoints:"
+#, c-format
 msgid "%d infrapoint per turn"
 msgid_plural "%d infrapoints per turn"
-msgstr[0] "Träffpunkter:"
-msgstr[1] "Träffpunkter:"
+msgstr[0] "%d infrapoäng per tur"
+msgstr[1] "%d infrapoäng per tur"
 
 #: client/gui-sdl2/wldlg.c:1522 client/gui-sdl3/wldlg.c:1518
 #, c-format
@@ -13328,11 +13282,11 @@ msgstr[1] ""
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
 #: client/helpdata.c:2711
-#, fuzzy, c-format
+#, c-format
 msgid "  %s target can be max %d tile away.\n"
 msgid_plural "  %s target can be max %d tiles away.\n"
-msgstr[0] "Vi mottog %d guld."
-msgstr[1] "Vi mottog %d guld."
+msgstr[0] "%s-målet får vara högst %d ruta bort.\n"
+msgstr[1] "%s-målet får vara högst %d rutor bort.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -13774,9 +13728,9 @@ msgstr "* Denna kustlinje är riskabel."
 
 #. TRANS: %s is a list of unit classes separated by "and".
 #: client/helpdata.c:3573 client/helpdata.c:4045
-#, fuzzy, c-format
+#, c-format
 msgid "%s Can be traveled by %s units.\n"
-msgstr "  * Kan inta tomma fiendestäder.\n"
+msgstr "%s Kan färdas av %s-trupper.\n"
 
 #: client/helpdata.c:3580
 #, c-format
@@ -13851,9 +13805,8 @@ msgid "Placed by map generator.\n"
 msgstr ""
 
 #: client/helpdata.c:3884
-#, fuzzy
 msgid "Can be explored by certain units.\n"
-msgstr "  * Kan inta tomma fiendestäder.\n"
+msgstr "Kan utforskas av vissa trupper.\n"
 
 #: client/helpdata.c:3889
 msgid "May appear spontaneously.\n"
@@ -13871,28 +13824,35 @@ msgid "Cost: %d\n"
 msgstr "Kostnad:"
 
 #: client/helpdata.c:3943
-#, fuzzy
 msgid "Can be pillaged by units (time is terrain-dependent).\n"
-msgstr "  * Kan inta tomma fiendestäder.\n"
+msgstr "Kan plundras av trupper (tiden är terrängberoende).\n"
 
 #: client/helpdata.c:3946
-#, fuzzy, c-format
+#, c-format
 msgid "Can be pillaged by units (takes %d turn).\n"
 msgid_plural "Can be pillaged by units (takes %d turns).\n"
-msgstr[0] "  * Kan inta tomma fiendestäder.\n"
-msgstr[1] "  * Kan inta tomma fiendestäder.\n"
+msgstr[0] ""
+"Kan plundras av trupper (tar %d tur).\n"
+"\n"
+msgstr[1] ""
+"Kan plundras av trupper (tar %d turer).\n"
+"\n"
 
 #: client/helpdata.c:3977
-#, fuzzy
 msgid "Can be cleaned by units (time is terrain-dependent).\n"
-msgstr "  * Kan inta tomma fiendestäder.\n"
+msgstr "Kan saneras av trupper (tiden beror på terrängen).\n"
 
 #: client/helpdata.c:3980
-#, fuzzy, c-format
+#, c-format
 msgid "Can be cleaned by units (takes %d turn).\n"
 msgid_plural "Can be cleaned by units (takes %d turns).\n"
-msgstr[0] "  * Kan inta tomma fiendestäder.\n"
-msgstr[1] "  * Kan inta tomma fiendestäder.\n"
+msgstr[0] ""
+"Kan saneras av trupper (tar %d tur).\n"
+"\n"
+"\n"
+msgstr[1] ""
+"Kan saneras av trupper (tar %d turer).\r\n"
+"\n"
 
 #: client/helpdata.c:3994
 #, fuzzy
@@ -16624,15 +16584,14 @@ msgid "Maybe surrounded by ocean %d"
 msgstr ""
 
 #: client/text.c:200
-#, fuzzy, c-format
-#| msgid "Defense:"
+#, c-format
 msgid "Ocean size: %d"
-msgstr "Försvar:"
+msgstr "Havsstorlek: %d"
 
 #: client/text.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Surrounded by continent %d"
-msgstr "An_slut"
+msgstr "Omgiven av kontinent %d"
 
 #: client/text.c:205
 #, c-format
@@ -17593,9 +17552,9 @@ msgid "Specfile %s has incompatible capabilities"
 msgstr ""
 
 #: client/tilespec.c:1669
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load gfx file for the spec file \"%s\"."
-msgstr "Kunde inte öppna ljudupplyslingsfil: %s"
+msgstr "Kunde inte läsa in musikspecifikationsfilen \"%s\"."
 
 #: client/tilespec.c:1867
 #, c-format
@@ -19241,16 +19200,12 @@ msgid "Extra Appears or Disappears"
 msgstr ""
 
 #: common/events.c:216
-#, fuzzy
-#| msgid "Unit selection"
 msgid "Unit Illegal Action"
-msgstr "Välj trupp"
+msgstr "Otillåten truppåtgärd"
 
 #: common/events.c:217
-#, fuzzy
-#| msgid "Unit Type"
 msgid "Unit escaped"
-msgstr "Truppslag"
+msgstr "Trupp undkom"
 
 #: common/events.c:218
 #, fuzzy
@@ -19263,46 +19218,36 @@ msgid "Unit did heal"
 msgstr ""
 
 #: common/events.c:220
-#, fuzzy
-#| msgid "Unit Type"
 msgid "Unit was healed"
-msgstr "Truppslag"
+msgstr "Trupp läktes"
 
 #: common/events.c:221
-#, fuzzy
 msgid "Multiplier changed"
-msgstr "Standardregelverket"
+msgstr "Multiplikator ändrad"
 
 #: common/events.c:222
-#, fuzzy
 msgid "Your unit did"
-msgstr "Vår karavan har anlänt"
+msgstr "Din trupp utförde åtgärd"
 
 #: common/events.c:223
-#, fuzzy
 msgid "Your unit failed"
-msgstr "Vår karavan har anlänt"
+msgstr "Din trupp misslyckades"
 
 #: common/events.c:224
 msgid "Unit did to you"
 msgstr ""
 
 #: common/events.c:225
-#, fuzzy
-#| msgid "Unit List"
 msgid "Unit did"
-msgstr "Trupplista"
+msgstr "Enheten gjorde"
 
 #: common/events.c:227
-#, fuzzy
-#| msgid "City Founded from Hut"
 msgid "Map found from a hut"
-msgstr "Ny stad grundad från hydda"
+msgstr "Karta funnen från en hydda"
 
 #: common/events.c:228
-#, fuzzy
 msgid "Tiles shared"
-msgstr "Sanera utsläpp"
+msgstr "Rutor delade"
 
 #: common/events.c:229
 #, fuzzy
@@ -20289,9 +20234,9 @@ msgid "Requires the %s government."
 msgstr "Kräver statsskicket %s.\n"
 
 #: common/reqtext.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "Not available under the %s government."
-msgstr "Kräver statsskicket %s.\n"
+msgstr "Inte tillgängligt under statsskicket %s."
 
 #: common/reqtext.c:258
 #, fuzzy, c-format
@@ -21184,9 +21129,9 @@ msgstr "Kräver att du spelar folkslaget %s.\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: common/reqtext.c:1666
-#, fuzzy, c-format
+#, c-format
 msgid "?unit:Requires %s."
-msgstr "Kräver statsskicket %s.\n"
+msgstr "Kräver %s."
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: common/reqtext.c:1670
@@ -22690,9 +22635,8 @@ msgid "City center"
 msgstr "Stadens mittenruta"
 
 #: common/requirements.c:7948
-#, fuzzy
 msgid "Tile claimed"
-msgstr "Sanera utsläpp"
+msgstr "Ruta hävdad"
 
 #: common/requirements.c:7951
 msgid "Extras owned"
@@ -23634,10 +23578,9 @@ msgid "%sKeep moving%s"
 msgstr "Fortsätt göra drag"
 
 #: data/civ1/actions.ruleset:282 data/civ2/actions.ruleset:322
-#, fuzzy, c-format
-#| msgid "Clean Pollution"
+#, c-format
 msgid "Clean %sPollution%s"
-msgstr "Sanera utsläpp"
+msgstr "Sanera %sutsläpp%s"
 
 #: data/civ1/buildings.ruleset:84 data/civ2/buildings.ruleset:117
 #: data/classic/buildings.ruleset:117 data/sandbox/buildings.ruleset:121
@@ -26074,10 +26017,8 @@ msgid "?tech:Railroad"
 msgstr "järnväg"
 
 #: data/civ1/techs.ruleset:526
-#, fuzzy
-#| msgid "* Allows %s to upgrade roads to railroads.\n"
 msgid "Allows Settlers to upgrade roads to railroads."
-msgstr "* Möjliggör %s att ersätta vägar med järnvägar.\n"
+msgstr "Tillåter nybyggare att uppgradera vägar till järnvägar."
 
 #: data/civ1/techs.ruleset:533 data/civ2/techs.ruleset:657
 #: data/classic/techs.ruleset:654 data/sandbox/techs.ruleset:686
@@ -28508,7 +28449,7 @@ msgstr "Minskar katedralers verkan."
 
 #: data/civ2/techs.ruleset:266
 msgid "Allows Settlers and Engineers to build fortresses."
-msgstr "Möjliggör för nybyggare och ingengörer att bygga fästningar."
+msgstr "Möjliggör för nybyggare och ingenjörer att bygga fästningar."
 
 #: data/civ2/techs.ruleset:285 data/classic/techs.ruleset:288
 #: data/sandbox/techs.ruleset:290 data/civ2civ3/techs.ruleset:289
@@ -28607,13 +28548,11 @@ msgstr "radio"
 
 #: data/civ2/techs.ruleset:641
 msgid "Allows Settlers and Engineers to build airbases."
-msgstr "Möjliggör för nybyggare och ingengörer att bygga flygbaser."
+msgstr "Möjliggör för nybyggare och ingenjörer att bygga flygbaser."
 
 #: data/civ2/techs.ruleset:650
-#, fuzzy
-#| msgid "Allows Settlers and Engineers to build airbases."
 msgid "Allows Settlers and Engineers to upgrade roads to railroads."
-msgstr "Möjliggör för nybyggare och ingengörer att bygga flygbaser."
+msgstr "Tillåter nybyggare och ingenjörer att uppgradera vägar till järnvägar."
 
 #: data/civ2/techs.ruleset:673 data/classic/techs.ruleset:674
 #: data/sandbox/techs.ruleset:707 data/civ2civ3/techs.ruleset:692
@@ -30055,11 +29994,10 @@ msgid "Allows Workers and Engineers to build airbases and buoys."
 msgstr ""
 
 #: data/classic/techs.ruleset:647 data/multiplayer/techs.ruleset:655
-#, fuzzy
 msgid "Allows Settlers, Workers and Engineers to upgrade roads to railroads."
 msgstr ""
-"Nybyggare och ingenjörer har förmågan att förändra landskapet i rutor på "
-"flera sätt."
+"Tillåter nybyggare, arbetare och ingenjörer att uppgradera vägar till "
+"järnvägar."
 
 #: data/classic/techs.ruleset:668 data/multiplayer/techs.ruleset:674
 #, fuzzy
@@ -32360,23 +32298,22 @@ msgstr ""
 
 #. TRANS: Your Marines does Disrupt Supply Lines to American Armor.
 #: data/sandbox/script.lua:456
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s does %s to %s %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s utför %s mot %s %s."
 
 #. TRANS: German Paratroopers does Disrupt Supply Lines to your Armor.
 #: data/sandbox/script.lua:466
-#, fuzzy, c-format
-#| msgid "You must select your city style."
+#, c-format
 msgid "%s %s does %s to your %s."
-msgstr "Du måste välja en stadstyp."
+msgstr "%s %s utför %s mot din %s."
 
 #. TRANS: Your Marines didn't survive doing
 #. --  * Use Ancient Transportation Network.
 #: data/sandbox/script.lua:507
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s didn't survive doing %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s överlevde inte att utföra %s."
 
 #: data/sandbox/script.lua:512
 msgid "Be more careful the next time you select a target."
@@ -32458,13 +32395,12 @@ msgstr ""
 "flera sätt."
 
 #: data/sandbox/techs.ruleset:674 data/civ2civ3/techs.ruleset:661
-#, fuzzy
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade roads to "
 "railroads."
 msgstr ""
-"Nybyggare och ingenjörer har förmågan att förändra landskapet i rutor på "
-"flera sätt."
+"Tillåter nybyggare, migranter, arbetare och ingenjörer att uppgradera vägar "
+"till järnvägar."
 
 #: data/sandbox/techs.ruleset:677
 #, fuzzy
@@ -34392,9 +34328,8 @@ msgid "Brain Development"
 msgstr ""
 
 #: data/alien/techs.ruleset:188
-#, fuzzy
 msgid "Brute Force"
-msgstr "Bot mot cancer"
+msgstr "Råstyrka"
 
 #: data/alien/techs.ruleset:194
 msgid "It's time to make more powerful weapons than ever before."
@@ -39145,9 +39080,8 @@ msgstr ""
 "andra statsskick.)"
 
 #: data/multiplayer/game.ruleset:32
-#, fuzzy
 msgid "Multiplayer ruleset"
-msgstr "Standardregelverket"
+msgstr "Flerspelarregelverk"
 
 #. TRANS: In the client, this is displayed alongside the contents of
 #. ;    README.multiplayer, which are not localized.
@@ -40144,15 +40078,12 @@ msgid "Generic Resource"
 msgstr "Tillgångar"
 
 #: data/granularity/units.ruleset:32
-#, fuzzy
-#| msgid "Defense:"
 msgid "Defenseless"
-msgstr "Försvar:"
+msgstr "Försvarslös"
 
 #: data/granularity/units.ruleset:32
-#, fuzzy
 msgid "Can be captured by any military unit."
-msgstr "  * Kan inta tomma fiendestäder.\n"
+msgstr "Kan erövras av valfri militär trupp."
 
 #: data/granularity/units.ruleset:34
 msgid "Gets explorer unit bonuses."
@@ -41324,20 +41255,16 @@ msgid ""
 msgstr ""
 
 #: data/hex2t.tilespec:15
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "Small hex tileset."
-msgstr "Filnamn:"
+msgstr "Litet hex-rutpaket."
 
 #: data/hexemplio.tilespec:17
 msgid "Large iso-hex tileset, similar to Amplio."
 msgstr ""
 
 #: data/isophex.tilespec:15
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "Small iso-hex tileset."
-msgstr "Filnamn:"
+msgstr "Litet iso-hex-rutpaket."
 
 #: data/isotrident.tilespec:15
 msgid "Isometric tileset based on Trident tileset."
@@ -41350,10 +41277,8 @@ msgid ""
 msgstr ""
 
 #: data/trident.tilespec:14
-#, fuzzy
-#| msgid "Save _Filename:"
 msgid "Small overhead tileset."
-msgstr "Filnamn:"
+msgstr "Litet rutpaket ovanifrån."
 
 #: data/scenarios/british-isles.sav:5
 msgid "British Isles (classic/medium)"
@@ -42208,9 +42133,8 @@ msgid "Governments"
 msgstr "Statsskick"
 
 #: gen_headers/enums/manual_enums.def:15
-#, fuzzy
 msgid "Unit Classes"
-msgstr "Trupplista"
+msgstr "Truppklasser"
 
 #: gen_headers/enums/manual_enums.def:16
 #, fuzzy
@@ -43099,22 +43023,19 @@ msgid "Attack: %d"
 msgstr "Angrepp:"
 
 #: tools/manual/manual_units.c:84
-#, fuzzy, c-format
-#| msgid "Defense:"
+#, c-format
 msgid "Defense: %d"
-msgstr "Försvar:"
+msgstr "Försvar: %d"
 
 #: tools/manual/manual_units.c:88
-#, fuzzy, c-format
-#| msgid "Firepower:"
+#, c-format
 msgid "Firepower: %d"
-msgstr "Eldkraft:"
+msgstr "Eldkraft: %d"
 
 #: tools/manual/manual_units.c:92
-#, fuzzy, c-format
-#| msgid "Hitpoints:"
+#, c-format
 msgid "Hitpoints: %d"
-msgstr "Träffpunkter:"
+msgstr "Träffpunkter: %d"
 
 #: tools/manual/manual_units.c:96
 #, fuzzy, c-format
@@ -43495,11 +43416,11 @@ msgstr "Kan inte köpa trupper när en stad är i upplopp."
 #. TRANS: This whole string is only ever used when included in one
 #. * other string (search for this string to find it).
 #: server/cityhand.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold required."
 msgid_plural "%d gold required."
-msgstr[0] "%d guld per omgång"
-msgstr[1] "%d guld per omgång"
+msgstr[0] "%d guld krävs."
+msgstr[1] "%d guld krävs."
 
 #. TRANS: %s is a pre-pluralised string:
 #. * "%d gold required."
@@ -46077,11 +45998,11 @@ msgid "?fromplr:The %s have acquired %s from the %s."
 msgstr "%s erhöll %s från %s."
 
 #: server/diplhand.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "You get %d gold."
 msgid_plural "You get %d gold."
-msgstr[0] "Vi mottog %d guld."
-msgstr[1] "Vi mottog %d guld."
+msgstr[0] "Du får %d guld."
+msgstr[1] "Du får %d guld."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:525
@@ -46211,9 +46132,9 @@ msgstr "%s misstänks ha förgiftat vattenförsörjningen för %s."
 
 #. TRANS: unit, action, city
 #: server/diplomats.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s did %s to %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s utförde %s mot %s."
 
 #. TRANS: action, city, nation
 #: server/diplomats.c:298
@@ -46240,10 +46161,9 @@ msgstr "Vår %s lyckades sabotera %s %s."
 
 #. TRANS: ... the Poles!
 #: server/diplomats.c:599
-#, fuzzy, c-format
-#| msgid "Your %s was nuked by %s."
+#, c-format
 msgid "Your %s was killed by %s sabotage!"
-msgstr "Vår %s atombombades av %s."
+msgstr "Din %s dödades av %s sabotage!"
 
 #: server/diplomats.c:610
 #, c-format
@@ -46425,25 +46345,23 @@ msgid "The %s destroyed the %s in %s."
 msgstr "%s förstörde %s i %s."
 
 #: server/diplomats.c:1733
-#, fuzzy, c-format
-#| msgid "Your %s was caught in the attempt of sabotage!"
+#, c-format
 msgid "Your %s was caught attempting to steal gold!"
-msgstr "Vår %s tillfångatogs vid ett sabotageförsök!"
+msgstr "Din %s tillfångatogs vid försök att stjäla guld!"
 
 #. TRANS: nation, unit, city
 #: server/diplomats.c:1738
-#, fuzzy, c-format
-#| msgid "You caught %s %s attempting to incite a revolt in %s!"
+#, c-format
 msgid "You caught %s %s attempting to steal your gold in %s!"
-msgstr "Vi tillfångatog en %s %s som försökte anstifta ett uppror i %s!"
+msgstr "Du tillfångatog %s %s som försökte stjäla ditt guld i %s!"
 
 #. TRANS: unit, gold, city
 #: server/diplomats.c:1784
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s stole %d gold from %s."
 msgid_plural "Your %s stole %d gold from %s."
-msgstr[0] "Vi mottog %d guld."
-msgstr[1] "Vi mottog %d guld."
+msgstr[0] "Din %s stal %d guld från %s."
+msgstr[1] "Din %s stal %d guld från %s."
 
 #. TRANS: gold, city, nation
 #: server/diplomats.c:1789
@@ -46454,52 +46372,45 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: server/diplomats.c:1870
-#, fuzzy, c-format
-#| msgid "Your %s was caught in the attempt of sabotage!"
+#, c-format
 msgid "Your %s was caught in an attempt of stealing parts of the %s world map!"
-msgstr "Vår %s tillfångatogs vid ett sabotageförsök!"
+msgstr "Din %s tillfångatogs vid försök att stjäla delar av %s världskarta!"
 
 #: server/diplomats.c:1876
-#, fuzzy, c-format
-#| msgid "You caught %s %s attempting to incite a revolt in %s!"
+#, c-format
 msgid "You caught %s %s attempting to steal parts of your world map in %s!"
-msgstr "Vi tillfångatog en %s %s som försökte anstifta ett uppror i %s!"
+msgstr ""
+"Du tillfångatog %s %s som försökte stjäla delar av din världskarta i %s!"
 
 #: server/diplomats.c:1926
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "Your %s stole parts of the %s world map in %s."
-msgstr "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr "Din %s stal delar av %s världskarta i %s."
 
 #: server/diplomats.c:1931
-#, fuzzy, c-format
-#| msgid "The %s %s failed to steal technology from %s."
+#, c-format
 msgid "The %s are suspected of stealing parts of your world map in %s."
-msgstr "Den %s %sen misslyckades med att stjäla teknologi från %s."
+msgstr "%s misstänks ha stulit delar av din världskarta i %s."
 
 #: server/diplomats.c:1999
-#, fuzzy, c-format
-#| msgid "Your %s was caught in the attempt of inciting a revolt!"
+#, c-format
 msgid "Your %s was caught in an attempt of hiding a nuke in %s!"
-msgstr "Vår %s tillfångatogs vid sitt försök att anstifta ett uppror!"
+msgstr "Din %s tillfångatogs vid försök att gömma ett kärnvapen i %s!"
 
 #: server/diplomats.c:2005
-#, fuzzy, c-format
-#| msgid "You caught %s %s attempting to incite a revolt in %s!"
+#, c-format
 msgid "You caught %s %s attempting to hide a nuke in %s!"
-msgstr "Vi tillfångatog en %s %s som försökte anstifta ett uppror i %s!"
+msgstr "Du tillfångatog %s %s som försökte gömma ett kärnvapen i %s!"
 
 #: server/diplomats.c:2024
-#, fuzzy, c-format
-#| msgid "Your %s was nuked by %s."
+#, c-format
 msgid "Your %s hid a nuke in %s."
-msgstr "Vår %s atombombades av %s."
+msgstr "Din %s gömde ett kärnvapen i %s."
 
 #: server/diplomats.c:2028
-#, fuzzy, c-format
-#| msgid "The %s have started building The %s in %s."
+#, c-format
 msgid "The %s are suspected of hiding a nuke in %s."
-msgstr "%s har börjat bygga %s i %s."
+msgstr "%s misstänks ha gömt ett kärnvapen i %s."
 
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:2197
@@ -47060,9 +46971,9 @@ msgid "There is no player nor connection by the name %s."
 msgstr "Det finns ingen spelare eller anslutning med namnet %s."
 
 #: server/infrapts.c:47
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot place %s to unseen tile."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "Kan inte placera %s på en osedd ruta."
 
 #: server/infrapts.c:54
 #, c-format
@@ -47173,17 +47084,16 @@ msgstr ""
 "forskning) till %3d%%/%3d%%/%3d%%."
 
 #: server/plrhand.c:419
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "You looted parts of %s map!"
-msgstr "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr "Du kom över delar av %s karta!"
 
 #: server/plrhand.c:428
-#, fuzzy, c-format
+#, c-format
 msgid "You loot %d gold!"
 msgid_plural "You loot %d gold!"
-msgstr[0] "Vi mottog %d guld."
-msgstr[1] "Vi mottog %d guld."
+msgstr[0] "Du plundrar %d guld!"
+msgstr[1] "Du plundrar %d guld!"
 
 #. TRANS: Getting a city as loot
 #: server/plrhand.c:492
@@ -47746,12 +47656,10 @@ msgstr[1] " ton"
 
 #. TRANS: Unit(s) of culture
 #: server/report.c:1088
-#, fuzzy
-#| msgid "Hitpoints:"
 msgid " point"
 msgid_plural " points"
-msgstr[0] "Träffpunkter:"
-msgstr[1] "Träffpunkter:"
+msgstr[0] "poäng"
+msgstr[1] "poäng"
 
 #: server/report.c:1120
 #, c-format
@@ -47870,20 +47778,16 @@ msgid "Built Units\n"
 msgstr "Bygger trupper"
 
 #: server/report.c:1748
-#, fuzzy
 msgid "Killed Units\n"
-msgstr "Tillgängliga trupper"
+msgstr "Dödade trupper\n"
 
 #: server/report.c:1749
-#, fuzzy
 msgid "Unit Losses\n"
-msgstr "Trupplista"
+msgstr "Förlorade trupper\n"
 
 #: server/report.c:1750
-#, fuzzy
-#| msgid "Unit Type"
 msgid "Units Used\n"
-msgstr "Truppslag"
+msgstr "Använda trupper\n"
 
 #. TRANS: message about an installation error.
 #: server/ruleset/ruleload.c:546
@@ -48103,10 +48007,8 @@ msgid "No role Ferryboat units"
 msgstr ""
 
 #: server/ruleset/rssanity.c:721
-#, fuzzy
-#| msgid "Can't build a city."
 msgid "No role Firstbuild units"
-msgstr "Kan inte grundlägga en stad."
+msgstr "Inga trupper med rollen Firstbuild"
 
 #: server/ruleset/rssanity.c:739
 #, c-format
@@ -54455,9 +54357,9 @@ msgstr "oss själva"
 #. TRANS: If foreign: Your Leader heals Finnish Warrior.
 #. * If domestic: Your Leader heals your Warrior.
 #: server/unithand.c:813
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s heals %s %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s läker %s %s."
 
 #. TRANS: Norwegian ... Leader ... Warrior
 #: server/unithand.c:819
@@ -54652,20 +54554,18 @@ msgstr ""
 
 #. TRANS: Paratroopers ...
 #: server/unithand.c:2174
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "%s can't do anything to an unknown target tile."
-msgstr "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr "%s kan inte göra något mot en okänd målruta."
 
 #. TRANS: "Spy can't do anything. 154 gold may help.
 #. * Treasury contains 100 gold."
 #: server/unithand.c:2191
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "%s can't do anything. %d gold may help. %s"
 msgid_plural "%s can't do anything. %d gold may help. %s"
-msgstr[0] "Vår %s kunde inte finna %s att sabotera i %s."
-msgstr[1] "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr[0] "%s kan inte göra något. %d guld kan hjälpa. %s"
+msgstr[1] "%s kan inte göra något. %d guld kan hjälpa. %s"
 
 #. TRANS: "Trireme cannot move ..."
 #: server/unithand.c:2200 server/unithand.c:2913 server/unithand.c:5635
@@ -54686,16 +54586,16 @@ msgid "%s can't do anything since there is an unreachable unit."
 msgstr ""
 
 #: server/unithand.c:2219
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "%s can't do anything since there is unit with a positive defense value."
-msgstr "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr ""
+"%s kan inte göra något eftersom det finns en trupp med positivt "
+"försvarsvärde."
 
 #: server/unithand.c:2225
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "%s can't do anything since you already have a %s."
-msgstr "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr "%s kan inte göra något eftersom du redan har en %s."
 
 #: server/unithand.c:2236
 #, fuzzy
@@ -54728,23 +54628,25 @@ msgstr ""
 #. * "Your Spy can't do Steal Gold from Ocean.
 #. * Only Explorer or Partisan can do Steal Gold ..."
 #: server/unithand.c:2595
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s from %s. Only %s can do %s from a non livable tile."
-msgstr "Vår karavan har anlänt till %s"
+msgstr ""
+"Din %s kan inte göra %s från %s. Endast %s kan göra %s från en icke-beboelig "
+"ruta."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Steal Gold from Ocean."
 #: server/unithand.c:2609
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s from %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s kan inte utföra %s från %s."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage to Mountains."
 #: server/unithand.c:2621
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s kan inte utföra %s mot %s."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
@@ -54785,9 +54687,9 @@ msgstr ""
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage because ..."
 #: server/unithand.c:2676
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s because it is homeless."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "Din %s kan inte utföra %s eftersom den saknar hemstad."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while you
@@ -54816,38 +54718,37 @@ msgstr "Vi måste förklara krig mot %s först. Prova med spelardialogen (F3)."
 #. * "Your Riflemen can't do Expel Unit to domestic
 #. * unit stacks."
 #: server/unithand.c:2716
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to domestic %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s kan inte utföra %s mot inhemska %s."
 
 #. TRANS: action name.
 #. * "Your Leader can't do Use Court Physician to foreign
 #. * unit stacks."
 #: server/unithand.c:2728
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "Your %s can't do %s to foreign %s."
-msgstr "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr "Din %s kan inte utföra %s mot utländska %s."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
 #: server/unithand.c:2738
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to tiles with non allied units."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "Din %s kan inte utföra %s på rutor med icke-allierade trupper."
 
 #. TRANS: action name.
 #. * "Swedish Riflemen can't do Expel Unit."
 #: server/unithand.c:2747
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s can't do %s."
-msgstr "Endast %s kan angripa från sjön."
+msgstr "%s %s kan inte utföra %s."
 
 #. TRANS: action name.
 #. * "Riflemen... Expel Unit... Pirate Migrants."
 #: server/unithand.c:2757
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to %s %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s kan inte utföra %s mot %s %s."
 
 #. TRANS: action name.
 #. * "Your Spy has ... to do Bribe Enemy Unit."
@@ -54875,17 +54776,17 @@ msgstr "* Saknar missnöjda medborgare.\n"
 #. TRANS: action name.
 #. * "Your Settlers can't do Build City to claimed tiles."
 #: server/unithand.c:2797
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to claimed tiles."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "Din %s kan inte utföra %s på hävdade rutor."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Bribe Enemy Unit to
 #. * unclaimed tiles."
 #: server/unithand.c:2807
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to unclaimed tiles."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "Din %s kan inte utföra %s på ohävdade rutor."
 
 #. TRANS: action name.
 #. * "Your Spy must be at least 2 tiles away to do
@@ -54901,11 +54802,11 @@ msgstr[1] ""
 #. * "Your Diplomat can't be more than 1 tile away to do
 #. * Establish Embassy."
 #: server/unithand.c:2830
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't be more than %d tile away to do %s."
 msgid_plural "Your %s can't be more than %d tiles away to do %s."
-msgstr[0] "Vi mottog %d guld."
-msgstr[1] "Vi mottog %d guld."
+msgstr[0] "Din %s får inte vara mer än %d ruta bort för att utföra %s."
+msgstr[1] "Din %s får inte vara mer än %d rutor bort för att utföra %s."
 
 #. TRANS: Can't do Build City in this scenario.
 #: server/unithand.c:2841
@@ -54944,9 +54845,9 @@ msgstr "Vi förlorade %s under angrepp från den/det %s %s/n/t."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
 #: server/unithand.c:2883
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do %s to an unknown tile."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "%s kan inte utföra %s på en okänd ruta."
 
 #. TRANS: "Spy can't do Bribe Unit for 154 gold.
 #. * Treasury contains 100 gold."
@@ -54979,16 +54880,16 @@ msgstr "Vi har redan en stad med namnet %s."
 
 #. TRANS: Freight ... Disband Unit Recover ... Help Wonder ...
 #: server/unithand.c:2957
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s when %s is legal."
-msgstr "Vi köper inte %s i %s!"
+msgstr "Din %s kan inte utföra %s när %s är lagligt."
 
 #. TRANS: action name.
 #. * "Your Spy was unable to do Bribe Enemy Unit."
 #: server/unithand.c:2969
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was unable to do %s."
-msgstr "Vår %s atombombades av %s."
+msgstr "Din %s kunde inte utföra %s."
 
 #. TRANS: Spy ... 5 ... Drop Paratrooper
 #: server/unithand.c:3056
@@ -55054,9 +54955,9 @@ msgstr "%s förstörde %s i %s."
 #. TRANS: Your Bomber killed the English Rifleman by
 #. * doing Bombard.
 #: server/unithand.c:4631
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s killed the %s %s by doing %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s dödade %s %s genom att utföra %s."
 
 #. TRANS: Your Rifleman was killed by the French
 #. * Bomber doing Bombard.
@@ -55194,19 +55095,19 @@ msgstr ""
 
 #. TRANS: unit, action, city
 #: server/unithand.c:5394 server/unithand.c:5482
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s failed to do %s in %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s misslyckades med att utföra %s i %s."
 
 #: server/unithand.c:5500
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s didn't find a %s to %s in %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s hittade ingen %s att %s i %s."
 
 #: server/unithand.c:5516
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s cannot do %s to %s in %s."
-msgstr "Vi mottog %d guld."
+msgstr "Din %s kan inte utföra %s mot %s i %s."
 
 #: server/unithand.c:5624 server/unittools.c:3188
 msgid "Cannot attack unless you declare war first."
@@ -55304,9 +55205,9 @@ msgstr[1] "      Staden %s har redan %d bättre handelsleder!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
 #: server/unithand.c:6179
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s from %s has arrived in %s carrying %s."
-msgstr "Vår karavan har anlänt till %s"
+msgstr "Din %s från %s har anlänt till %s med %s."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:6189
@@ -55647,25 +55548,23 @@ msgstr[0] "Barbarledare tillfångatagen, %d guld erhållet som lösen."
 msgstr[1] "Barbarledare tillfångatagen, %d guld erhållet som lösen."
 
 #: server/unittools.c:2667
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
-msgstr[0] "%d guld per omgång"
-msgstr[1] "%d guld per omgång"
+msgstr[0] "%d guld betalades i lösensumma."
+msgstr[1] "%d guld betalades i lösensumma."
 
 #: server/unittools.c:2707
-#, fuzzy, c-format
-#| msgid "%s has connected from %s."
+#, c-format
 msgid "%s %s collected ransom of %s."
-msgstr "%s har anslutit sig från %s."
+msgstr "%s %s tog emot lösensumma för %s."
 
 #: server/unittools.c:2713
-#, fuzzy, c-format
-#| msgid "Your %s could not find the %s to sabotage in %s."
+#, c-format
 msgid "%s %s collected ransom of %s and %d other unit."
 msgid_plural "%s %s collected ransom of %s and %d other units."
-msgstr[0] "Vår %s kunde inte finna %s att sabotera i %s."
-msgstr[1] "Vår %s kunde inte finna %s att sabotera i %s."
+msgstr[0] "%s %s tog emot lösensumma för %s och %d annan trupp."
+msgstr[1] "%s %s tog emot lösensumma för %s och %d andra trupper."
 
 #: server/unittools.c:2964
 #, c-format
@@ -55720,9 +55619,9 @@ msgstr "Denna trupp kan inte hoppa fallskärm i %s."
 
 #. TRANS: Paratroopers ... Paradrop Unit
 #: server/unittools.c:3173
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot conquer a city with \"%s\"."
-msgstr "Kan inte grundlägga en stad."
+msgstr "%s kan inte erövra en stad med \"%s\"."
 
 #: server/unittools.c:3202
 #, c-format
