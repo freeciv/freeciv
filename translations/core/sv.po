@@ -7,6 +7,7 @@
 # Erik Kaldo <erik@kaldo.se>, 2009.
 # Jon Severinsson <jon@severinsson.net>, 2010.
 # Jonatan Nyberg, 2026.
+#
 # (Inkomplett) lista med konventioner
 #  • empire -> rike
 #  • nation -> folk/folkslag
@@ -57,7 +58,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2025-01-16 22:17+0200\n"
-"PO-Revision-Date: 2026-06-27 13:04+0300\n"
+"PO-Revision-Date: 2026-06-27 22:08+0300\n"
 "Last-Translator: Karl Jonatan Nyberg\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -3222,10 +3223,8 @@ msgstr "Senast visade sida"
 #: client/gui-gtk-3.22/citydlg.c:1544 client/gui-gtk-4.0/citydlg.c:1453
 #: client/gui-gtk-5.0/citydlg.c:1742 client/gui-sdl2/citydlg.c:1007
 #: client/gui-sdl3/citydlg.c:1003
-#, fuzzy
-#| msgid "New citizens are"
 msgid "New citizens produce"
-msgstr "Nya medborgare är"
+msgstr "Nya medborgare producerar"
 
 #: client/gui-gtk-3.22/citydlg.c:1567 client/gui-gtk-4.0/citydlg.c:1478
 #: client/gui-gtk-5.0/citydlg.c:1767
@@ -3579,9 +3578,8 @@ msgstr "Inga %s kunde säljas."
 #: client/gui-gtk-3.22/cityrep.c:976 client/gui-gtk-4.0/cityrep.c:1018
 #: client/gui-gtk-5.0/cityrep.c:1188 client/gui-qt/citydlg.cpp:2811
 #: client/gui-qt/cityrep.cpp:477
-#, fuzzy
 msgid "(no worklists defined)"
-msgstr "(arbetslista)"
+msgstr "(inga arbetslistor definierade)"
 
 #: client/gui-gtk-3.22/cityrep.c:1053 client/gui-gtk-4.0/cityrep.c:1128
 #: client/gui-gtk-4.0/cityrep.c:1695 client/gui-gtk-5.0/cityrep.c:1298
@@ -7868,9 +7866,8 @@ msgstr "Trupp i fokus"
 #. TRANS: used in place of unit home city name
 #: client/gui-gtk-3.22/unitselect.c:798 client/gui-gtk-4.0/unitselect.c:809
 #: client/gui-gtk-5.0/unitselect.c:809
-#, fuzzy
 msgid "no home city"
-msgstr "Hitta hemstad"
+msgstr "ingen hemstad"
 
 #. TRANS: used in place of unit home city name
 #: client/gui-gtk-3.22/unitselect.c:801 client/gui-gtk-4.0/unitselect.c:812
@@ -8429,10 +8426,8 @@ msgid "Show city production"
 msgstr "Kortfattad visning av vad städer bygger"
 
 #: client/gui-qt/citydlg.cpp:2107 client/gui-qt/citydlg.cpp:2116
-#, fuzzy
-#| msgid "Show cursors animation"
 msgid "Show counters information"
-msgstr "Aktivera marköranimering"
+msgstr "Visa räknarinformation"
 
 #: client/gui-qt/citydlg.cpp:2110
 #, fuzzy
@@ -8475,19 +8470,16 @@ msgid "Remove Governor"
 msgstr "_Förvaltare"
 
 #: client/gui-qt/citydlg.cpp:2800
-#, fuzzy
 msgid "Change worklist"
-msgstr "Byt namn på arbetslista"
+msgstr "Ändra arbetslista"
 
 #: client/gui-qt/citydlg.cpp:2801
-#, fuzzy
 msgid "Insert worklist"
-msgstr "tom arbetslista"
+msgstr "Infoga arbetslista"
 
 #: client/gui-qt/citydlg.cpp:2827
-#, fuzzy
 msgid "Save worklist"
-msgstr "Ställ in arbetslista"
+msgstr "Spara arbetslista"
 
 #: client/gui-qt/citydlg.cpp:2829 client/gui-qt/menu.cpp:979
 #: client/gui-qt/menu.cpp:981 client/gui-qt/pages.cpp:212
@@ -8539,19 +8531,16 @@ msgid "Improvements - upkeep %1"
 msgstr "Förbättringar"
 
 #: client/gui-qt/citydlg.cpp:3765
-#, fuzzy
 msgid "What should we name new worklist?"
-msgstr "Vad ska vi kalla det nya förvalda värdet?"
+msgstr "Vad ska den nya arbetslistan heta?"
 
 #: client/gui-qt/citydlg.cpp:3766
-#, fuzzy
 msgid "Save current worklist"
-msgstr "Nuvarande arbetslista"
+msgstr "Spara aktuell arbetslista"
 
 #: client/gui-qt/citydlg.cpp:3767
-#, fuzzy
 msgid "New worklist"
-msgstr "arbetslista"
+msgstr "Ny arbetslista"
 
 #. TRANS: city dialog title
 #: client/gui-qt/citydlg.cpp:3801
@@ -8673,9 +8662,8 @@ msgid "Nation Set:"
 msgstr "Folkslag valt"
 
 #: client/gui-qt/dialogs.cpp:506
-#, fuzzy
 msgid "Choose nation"
-msgstr "Öppna scenario"
+msgstr "Välj folkslag"
 
 #: client/gui-qt/dialogs.cpp:507
 #, fuzzy
@@ -9043,10 +9031,8 @@ msgid "Obsoleted by"
 msgstr "Omodern i.o.m."
 
 #: client/gui-qt/helpdlg.cpp:988
-#, fuzzy
-#| msgid "Made Obsolete"
 msgid "Never obsolete."
-msgstr "Blivit omodern"
+msgstr "Blir aldrig omodern."
 
 #: client/gui-qt/helpdlg.cpp:1330
 #, fuzzy
@@ -15106,11 +15092,12 @@ msgid "Show dead players in Nations report"
 msgstr ""
 
 #: client/options.c:2215
-#, fuzzy
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
-msgstr "Sparar höjden på den valda skärmupplösningen"
+msgstr ""
+"Detta alternativ styr om besegrade folkslag visas på folkslagsrapportens "
+"sida."
 
 #: client/options.c:2219
 msgid "Sound bell at new turn"
@@ -17609,14 +17596,14 @@ msgid "Animation sprite for tag '%s' missing."
 msgstr "Animationsbild för taggen ”%s” saknas."
 
 #: client/tilespec.c:3169
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics for specialist \"%s\" in %s."
-msgstr "Du röstade för ”%s”."
+msgstr "Ingen grafik för specialisten ”%s” i %s."
 
 #: client/tilespec.c:3215
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics for citizen \"%s\" in %s."
-msgstr "Du röstade för ”%s”."
+msgstr "Ingen grafik för medborgaren ”%s” i %s."
 
 #: client/tilespec.c:3516
 msgid "Missing necessary citybar.occupancy_N sprites."
@@ -20095,14 +20082,14 @@ msgid "Hosts team embassy"
 msgstr "Inrätta ambassad"
 
 #: common/reqtext.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "Requires counter %s to achieve at minimum %d value."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att räknaren %s uppnår värdet minst %d."
 
 #: common/reqtext.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Requires counter %s to be less than %d value."
-msgstr "Kräver minst storlek %d.\n"
+msgstr "Kräver att räknaren %s har ett värde under %d."
 
 #: common/reqtext.c:83
 #, c-format
@@ -20186,30 +20173,34 @@ msgstr ""
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:199
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that a player allied to you knows a technology with the \"%s\" flag."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr ""
+"Kräver att en spelare som är allierad med dig känner till en teknologi med "
+"flaggan ”%s”."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:205
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if any player allied to you knows any technology with the \"%s\" "
 "flag."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr ""
+"Förhindras om någon spelare som är allierad med dig känner till någon "
+"teknologi med flaggan ”%s”."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that some player knows a technology with the \"%s\" flag."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr "Kräver att någon spelare känner till en teknologi med flaggan ”%s”."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr "Kräver att ingen spelare känner till någon teknologi med flaggan ”%s”."
 
 #: common/reqtext.c:245
 #, c-format
@@ -20222,19 +20213,19 @@ msgid "Not available under the %s government."
 msgstr "Inte tillgängligt under statsskicket %s."
 
 #: common/reqtext.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to have achieved \"%s\"."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr "Kräver att du har uppnått ”%s”."
 
 #: common/reqtext.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Not available once you have achieved \"%s\"."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr "Inte tillgängligt när du har uppnått ”%s”."
 
 #: common/reqtext.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one of your team-mates has achieved \"%s\"."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr "Kräver att minst en av dina lagkamrater har uppnått ”%s”."
 
 #: common/reqtext.c:273
 #, c-format
@@ -20242,9 +20233,9 @@ msgid "Not available if any of your team-mates has achieved \"%s\"."
 msgstr ""
 
 #: common/reqtext.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one of your allies has achieved \"%s\"."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr "Kräver att minst en av dina allierade har uppnått ”%s”."
 
 #: common/reqtext.c:285
 #, c-format
@@ -20252,14 +20243,14 @@ msgid "Not available if any of your allies has achieved \"%s\"."
 msgstr ""
 
 #: common/reqtext.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one player has achieved \"%s\"."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr "Kräver att minst en spelare har uppnått ”%s”."
 
 #: common/reqtext.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Not available if any player has achieved \"%s\"."
-msgstr "Kräver att någon spelare har forskat fram teknologin %s.\n"
+msgstr "Inte tillgängligt om någon spelare har uppnått ”%s”."
 
 #: common/reqtext.c:320
 #, fuzzy, c-format
@@ -20305,23 +20296,24 @@ msgstr "Kräver datorspelare med skicklighetsnivå %s.\n"
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:424
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that %s was built at some point, and that it has not yet been "
 "rendered obsolete."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver att %s har byggts någon gång och ännu inte har blivit omodern."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that %s was built at some point."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver att %s har byggts någon gång."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s has ever been built, unless it would be obsolete."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Förhindras om %s någonsin har byggts, om det inte skulle vara omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:448
@@ -20331,15 +20323,15 @@ msgstr "Förhindras om %s någonsin har byggts."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:460
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver att %s ägs av någon spelare och ännu inte är omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s to be owned by any player."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver att %s ägs av någon spelare."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:476
@@ -20350,9 +20342,9 @@ msgstr "Förhindras om %s ägs av någon spelare, om det inte är föråldrat."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s is currently owned by any player."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Förhindras om %s för närvarande ägs av någon spelare."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:503
@@ -20364,25 +20356,31 @@ msgstr ""
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:511
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Kräver att någon som för närvarande är allierad med dig har byggt %s någon "
+"gång."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:521
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if someone currently allied to you has ever built %s, unless it "
 "would be obsolete."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Förhindras om någon som för närvarande är allierad med dig någonsin har "
+"byggt %s, såvida det inte skulle vara omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:529
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone currently allied to you has ever built %s."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Förhindras om någon som för närvarande är allierad med dig någonsin har "
+"byggt %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:542
@@ -20394,9 +20392,9 @@ msgstr ""
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:550
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone allied to you to own %s."
-msgstr "Kräver datorspelare med skicklighetsnivå %s.\n"
+msgstr "Kräver att någon som är allierad med dig äger %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:559
@@ -20412,45 +20410,50 @@ msgstr "Förhindras om någon allierad äger %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:585
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone on your team to have built %s at some point, and for it not "
 "to have been rendered obsolete."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr ""
+"Kräver att någon i ditt lag har byggt %s någon gång och att det inte har "
+"blivit omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone on your team to have built %s at some point."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr "Kräver att någon i ditt lag har byggt %s någon gång."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:603
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if someone on your team has ever built %s, unless it would be "
 "obsolete."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Förhindras om någon i ditt lag någonsin har byggt %s, såvida det inte skulle "
+"vara omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone on your team has ever built %s."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr "Förhindras om någon i ditt lag någonsin har byggt %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:623
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone on your team to own %s, and for it not to have been "
 "rendered obsolete."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr ""
+"Kräver att någon i ditt lag äger %s och att det inte har blivit omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:631
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone on your team to own %s."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr "Kräver att någon i ditt lag äger %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:640
@@ -20466,29 +20469,31 @@ msgstr "Förhindras om någon i ditt lag äger %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:666
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires you to have built %s at some point, and for it not to have been "
 "rendered obsolete."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Kräver att du har byggt %s någon gång och att det inte har blivit omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:674
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to have built %s at some point."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr "Kräver att du har byggt %s någon gång."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:683
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr ""
+"Förhindras om du någonsin har byggt %s, såvida det inte skulle vara omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:690
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you have ever built %s."
-msgstr "Kräver att du har forskat fram teknologin %s.\n"
+msgstr "Förhindras om du någonsin har byggt %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:702
@@ -20498,9 +20503,9 @@ msgstr "Kräver att du äger %s, som inte får vara föråldrat."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:709
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to own %s."
-msgstr "Kräver datorspelare med skicklighetsnivå %s.\n"
+msgstr "Kräver att du äger %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:718
@@ -20516,31 +20521,35 @@ msgstr "Förhindras om du äger %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:743
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
 "obsolete."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr ""
+"Kräver %s i en av dina städer på samma kontinent och att det ännu inte är "
+"omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:750
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in one of your cities on the same continent."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr "Kräver %s i en av dina städer på samma kontinent."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:760
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if %s is in one of your cities on the same continent, unless it is "
 "obsolete."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr ""
+"Förhindras om %s finns i en av dina städer på samma kontinent, om det inte "
+"är omodernt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:767
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s is in one of your cities on the same continent."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr "Förhindras om %s finns i en av dina städer på samma kontinent."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:785
@@ -20606,15 +20615,14 @@ msgid "Does not apply to \"%s\" buildings."
 msgstr "Gäller inte ”%s”-byggnader."
 
 #: common/reqtext.c:870
-#, fuzzy, c-format
-#| msgid "Requires the %s terrain special on the tile.\n"
+#, c-format
 msgid "Requires \"%s\" building in a city on the tile."
-msgstr "Kräver den speciella tillgången %s i rutan.\n"
+msgstr "Kräver byggnaden ”%s” i en stad på rutan."
 
 #: common/reqtext.c:875
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by \"%s\" building in a city on the tile."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Förhindras av byggnaden ”%s” i en stad på rutan."
 
 #: common/reqtext.c:894
 #, fuzzy, c-format
@@ -20658,33 +20666,37 @@ msgid "?extra:Prevented by %s on the tile or any adjacent tile."
 msgstr "Förhindras av %s på rutan eller någon intilliggande ruta."
 
 #: common/reqtext.c:946
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on a tile within the city radius."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver %s på en ruta inom stadens radie."
 
 #: common/reqtext.c:951
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on any tile within the city radius."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Förhindras av %s på någon ruta inom stadens radie."
 
 #: common/reqtext.c:960
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?extra:Requires %s on a tile within the city radius, or the city radius of a "
 "trade partner."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr ""
+"Kräver %s på en ruta inom stadens radie eller inom en handelspartners "
+"stadsradie."
 
 #: common/reqtext.c:965
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?extra:Prevented by %s on any tile within the city radius or the city radius "
 "of a trade partner."
-msgstr "Kräver den speciella tillgången %s i rutan.\n"
+msgstr ""
+"Förhindras av %s på någon ruta inom stadens radie eller inom en "
+"handelspartners stadsradie."
 
 #: common/reqtext.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "?good:Requires import of %s ."
-msgstr "Kräver datorspelare med skicklighetsnivå %s.\n"
+msgstr "Kräver import av %s."
 
 #: common/reqtext.c:989
 #, c-format
@@ -20722,107 +20734,110 @@ msgid "?terrain:Prevented by %s on the tile or any adjacent tile."
 msgstr "Förhindras av %s på rutan eller någon intilliggande ruta."
 
 #: common/reqtext.c:1053
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Requires %s on a tile within the city radius."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver %s på en ruta inom stadens radie."
 
 #: common/reqtext.c:1058
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Prevented by %s on any tile within the city radius."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Förhindras av %s på någon ruta inom stadens radie."
 
 #: common/reqtext.c:1067
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:Requires %s on a tile within the city radius, or the city radius of "
 "a trade partner."
 msgstr ""
-"Kräver den speciella tillgången %s i rutan eller en intilliggande ruta.\n"
+"Kräver %s på en ruta inom stadens radie eller inom en handelspartners "
+"stadsradie."
 
 #: common/reqtext.c:1072
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:Prevented by %s on any tile within the city radius or the city "
 "radius of a trade partner."
-msgstr "Kräver den speciella tillgången %s i rutan.\n"
+msgstr ""
+"Förhindras av %s på någon ruta inom stadens radie eller inom en "
+"handelspartners stadsradie."
 
 #. TRANS: "... playing as the Swedes."
 #: common/reqtext.c:1096
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing as the %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du spelar som %s."
 
 #. TRANS: "... playing as the Turks."
 #: common/reqtext.c:1101
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not playing as the %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du inte spelar som %s."
 
 #. TRANS: "... same team as the Indonesians."
 #: common/reqtext.c:1110
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are on the same team as the %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du är i samma lag som %s."
 
 #. TRANS: "... same team as the Greeks."
 #: common/reqtext.c:1116
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not on the same team as the %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du inte är i samma lag som %s."
 
 #. TRANS: "... allied with the Koreans."
 #: common/reqtext.c:1126
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are allied with the %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du är allierad med %s."
 
 #. TRANS: "... allied with the Danes."
 #: common/reqtext.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not allied with the %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du inte är allierad med %s."
 
 #. TRANS: "Requires the Apaches to have ..."
 #: common/reqtext.c:1141
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s to have been in the game."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att %s har varit med i spelet."
 
 #. TRANS: "Requires the Celts never to have ..."
 #: common/reqtext.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s never to have been in the game."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att %s aldrig har varit med i spelet."
 
 #. TRANS: "Requires the Belgians in the game."
 #: common/reqtext.c:1154
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s in the game."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att %s är med i spelet."
 
 #. TRANS: "Requires that the Russians are not ...
 #: common/reqtext.c:1159
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that the %s are not in the game."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att %s inte är med i spelet."
 
 #. TRANS: nation group: "... playing African nation."
 #: common/reqtext.c:1184
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing %s nation."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du spelar folkslaget %s."
 
 #. TRANS: nation group: "... playing Imaginary nation."
 #: common/reqtext.c:1189
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you are playing %s nation."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Förhindras om du spelar folkslaget %s."
 
 #. TRANS: nation group: "Requires Medieval nation ..."
 #: common/reqtext.c:1198
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation on your team."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver folkslaget %s i ditt lag."
 
 #. TRANS: nation group: "Prevented by Medieval nation ..."
 #: common/reqtext.c:1203
@@ -20832,9 +20847,9 @@ msgstr "Förhindras av att folkslaget %s finns i ditt lag."
 
 #. TRANS: nation group: "Requires Modern nation ..."
 #: common/reqtext.c:1212
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation in alliance with you."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver att folkslaget %s är allierat med dig."
 
 #. TRANS: nation group: "Prevented by Modern nation ..."
 #: common/reqtext.c:1217
@@ -20844,9 +20859,9 @@ msgstr "Förhindras om folkslaget %s är allierat med dig."
 
 #. TRANS: nation group: "Requires Asian nation ..."
 #: common/reqtext.c:1226
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation in the game."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att folkslaget %s är med i spelet."
 
 #. TRANS: nation group: "Prevented by Asian nation ..."
 #: common/reqtext.c:1231
@@ -20857,51 +20872,53 @@ msgstr "Förhindras av att folkslaget %s finns i spelet."
 #. TRANS: "Requires that you are playing Asian style
 #. * nation."
 #: common/reqtext.c:1257
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing %s style nation."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du spelar ett folkslag i stilen %s."
 
 #. TRANS: "Requires that you are not playing Classical
 #. * style nation."
 #: common/reqtext.c:1263
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not playing %s style nation."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att du inte spelar ett folkslag i stilen %s."
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: common/reqtext.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Requires at least one %s citizen in the city or a trade partner."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver minst en %s-medborgare i staden eller hos en handelspartner."
 
 #. TRANS: "... no Pirate citizens ..."
 #: common/reqtext.c:1281
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that there are no %s citizens in the city or any trade partners."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr ""
+"Kräver att det inte finns några %s-medborgare i staden eller hos någon "
+"handelspartner."
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: common/reqtext.c:1291
-#, fuzzy, c-format
+#, c-format
 msgid "Requires at least one %s citizen in the city."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver minst en %s-medborgare i staden."
 
 #. TRANS: "... no Pirate citizens ..."
 #: common/reqtext.c:1296
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that there are no %s citizens in the city."
-msgstr "Kräver byggnaden %s i staden.\n"
+msgstr "Kräver att det inte finns några %s-medborgare i staden."
 
 #: common/reqtext.c:1322
-#, fuzzy, c-format
+#, c-format
 msgid "Requires city to be founded by %s."
-msgstr "Kräver datorspelare med skicklighetsnivå %s.\n"
+msgstr "Kräver att staden grundades av %s."
 
 #: common/reqtext.c:1326
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that city was not originally owned by %s."
-msgstr "Kräver att du spelar folkslaget %s.\n"
+msgstr "Kräver att staden inte ursprungligen ägdes av %s."
 
 #. TRANS: in this and following strings, '%s' can be one
 #. * of a wide range of relationships; e.g., 'Peace',
@@ -21163,9 +21180,8 @@ msgid "?uclasslist:Does not apply to %s units."
 msgstr "Gäller inte %s-trupper."
 
 #: common/reqtext.c:1820
-#, fuzzy
 msgid "Requires that the unit is transported."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att truppen transporteras."
 
 #: common/reqtext.c:1823
 #, fuzzy
@@ -21173,29 +21189,24 @@ msgid "Requires that the unit isn't transported."
 msgstr "Kräver folkslaget %s.\n"
 
 #: common/reqtext.c:1830
-#, fuzzy
 msgid "Requires that the unit is on livable tile."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att truppen är på en beboelig ruta."
 
 #: common/reqtext.c:1833
-#, fuzzy
 msgid "Requires that the unit isn't on livable tile."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att truppen inte är på en beboelig ruta."
 
 #: common/reqtext.c:1840
-#, fuzzy
 msgid "Requires that the unit does transport one or more cargo units."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att truppen transporterar en eller flera lastenheter."
 
 #: common/reqtext.c:1844
-#, fuzzy
 msgid "Requires that the unit doesn't transport any cargo units."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att truppen inte transporterar några lastenheter."
 
 #: common/reqtext.c:1852
-#, fuzzy
 msgid "Requires that the unit has a home city."
-msgstr "Kräver folkslaget %s.\n"
+msgstr "Kräver att truppen har en hemstad."
 
 #: common/reqtext.c:1855
 #, fuzzy
@@ -42871,9 +42882,9 @@ msgid "Is locked by the ruleset."
 msgstr ""
 
 #: tools/manual/manual_settings.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "Can only be used in server console."
-msgstr "Kan endast användas i serverkonsollen. "
+msgstr "Kan endast användas i serverkonsolen."
 
 #: tools/manual/manual_settings.c:89 server/stdinhand.c:1810
 msgid "Minimum:"
@@ -43787,9 +43798,9 @@ msgid "Famine destroys %s entirely."
 msgstr "Hungersnöd utplånade %s från kartan."
 
 #: server/cityturn.c:1204
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist. Postponing..."
-msgstr "%s kan inte bygga %s från arbetslistan. Avlägsnas..."
+msgstr "%s kan inte bygga %s från arbetslistan. Produktionen skjuts upp..."
 
 #: server/cityturn.c:1219
 #, fuzzy, c-format
@@ -46831,10 +46842,9 @@ msgid ""
 msgstr "Kan inte läsa in konfigfilen för rättigheter: ”%s”!"
 
 #: server/gamehand.c:441
-#, fuzzy, c-format
-#| msgid "Didn't find a route to the destination!"
+#, c-format
 msgid "Didn't find optimal solution for team placement in %d iterations."
-msgstr "Hittade ingen väg till målet!"
+msgstr "Hittade ingen optimal lösning för lagplacering på %d iterationer."
 
 #: server/gamehand.c:876
 #, c-format
@@ -48397,16 +48407,14 @@ msgid "%s did not give shared vision to team member %s."
 msgstr "Vi ger delad anblick till %s."
 
 #: server/savegame/savegame2.c:5650 server/savegame/savegame3.c:8123
-#, fuzzy, c-format
-#| msgid "You cannot research this technology."
+#, c-format
 msgid "%s had invalid researching technology."
-msgstr "Vi kan inte forska fram denna teknologi."
+msgstr "%s hade ogiltig teknologi under forskning."
 
 #: server/savegame/savegame2.c:5660 server/savegame/savegame3.c:8133
-#, fuzzy, c-format
-#| msgid "%s had invalid nation; changing to %s."
+#, c-format
 msgid "%s had invalid technology goal."
-msgstr "%s har ogiltigt folkslag; byter till %s."
+msgstr "%s hade ogiltigt teknologimål."
 
 #: server/savegame/savegame2.c:5702 server/savegame/savegame3.c:8153
 #, c-format
@@ -48434,12 +48442,13 @@ msgstr "Klientförmåga-sträng: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
 #: server/savegame/savegame3.c:1388
-#, fuzzy, c-format
-#| msgid "Current ruleset directory is \"%s\""
+#, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
 "the ruleset specified by the scenario."
-msgstr "Den nuvarande katalogen för regler är ”%s”."
+msgstr ""
+"Den aktuella regeluppsättningen %s är inte kompatibel med scenariot %s. "
+"Försöker byta till regeluppsättningen som anges av scenariot."
 
 #: server/savegame/savegame3.c:1422
 #, c-format
@@ -48722,9 +48731,8 @@ msgid "Spacerace"
 msgstr "Rymdkapplöpning"
 
 #: server/settings.c:377
-#, fuzzy
 msgid "Allied victory"
-msgstr "Lagseger för %s"
+msgstr "Allierad seger"
 
 #: server/settings.c:378
 msgid "Culture victory"
@@ -51860,9 +51868,9 @@ msgstr "Lagseger för %s"
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:519 server/srv_main.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "Allied victory to %s."
-msgstr "Lagseger för %s"
+msgstr "Allierad seger till %s."
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:552 server/srv_main.c:553
