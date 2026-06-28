@@ -658,7 +658,7 @@ void audio_set_volume(double volume)
 void audio_shutdown(bool play_quit_tag)
 {
   /* Avoid infinite loop at end of game */
-  audio_stop();
+  audio_stop_usage();
 
   if (play_quit_tag) {
     audio_play_sound("e_client_quit", NULL, NULL);
