@@ -58,7 +58,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2025-01-16 22:17+0200\n"
-"PO-Revision-Date: 2026-06-28 06:37+0300\n"
+"PO-Revision-Date: 2026-06-28 06:42+0300\n"
 "Last-Translator: Karl Jonatan Nyberg\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -8520,10 +8520,8 @@ msgstr[0] "Sälj %s för %d guld?"
 msgstr[1] "Sälj %s för %d guld?"
 
 #: client/gui-qt/citydlg.cpp:3624
-#, fuzzy
-#| msgid "Improvements"
 msgid "Improvements - upkeep %1"
-msgstr "Förbättringar"
+msgstr "Förbättringar - underhåll %1"
 
 #: client/gui-qt/citydlg.cpp:3765
 msgid "What should we name new worklist?"
@@ -10185,9 +10183,8 @@ msgid "Sell Redundant"
 msgstr "*"
 
 #: client/gui-qt/repodlgs.cpp:1476
-#, fuzzy
 msgid "Disband Results"
-msgstr "Upplös trupp"
+msgstr "Resultat av upplösning"
 
 #: client/gui-qt/shortcuts.cpp:65
 #, fuzzy
@@ -16359,7 +16356,7 @@ msgstr "Du kan inte upplösa trupper."
 #: client/repodlgs_common.c:212
 #, c-format
 msgid "%s cannot be disbanded."
-msgstr "%s kunde inte upplösas"
+msgstr "%s kunde inte upplösas."
 
 #: client/repodlgs_common.c:233
 #, c-format
@@ -39401,8 +39398,8 @@ msgid ""
 "maximum hitpoints each turn."
 msgstr ""
 "Med kaserner får varje ny marktrupp som byggs i en stad automatiskt "
-"veteranstatus. Trupper i en stad med kaserner läker ytterligare 20 % av sina "
-"maximala träffpoäng varje tur."
+"veteranstatus. Trupper i en stad med kaserner läker ytterligare 20 %% av "
+"sina maximala träffpoäng varje tur."
 
 #: data/granularity/buildings.ruleset:130
 #, fuzzy
