@@ -18,7 +18,7 @@
 #include <limits.h> /* USHRT_MAX */
 
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 
 /* utility */
 #include "bitvector.h"

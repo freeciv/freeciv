@@ -20,7 +20,7 @@
 #include <string.h>
 #include <time.h>
 
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 
 /* utility */
 #include "fcintl.h"
