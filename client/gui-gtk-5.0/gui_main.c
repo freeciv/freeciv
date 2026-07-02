@@ -41,7 +41,7 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 
 /* utility */
 #include "fc_cmdline.h"

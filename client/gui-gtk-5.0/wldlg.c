@@ -19,7 +19,7 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 
 /* utility */
 #include "fcintl.h"

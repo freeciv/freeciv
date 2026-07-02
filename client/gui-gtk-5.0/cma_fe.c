@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 
 /* utility */
 #include "fcintl.h"
