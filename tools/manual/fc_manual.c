@@ -157,7 +157,7 @@ void insert_client_build_info(char *outbuf, size_t outlen);
 /* Needed for "About Freeciv" help */
 const char *client_string = "freeciv-manual";
 
-static char *ruleset = NULL;
+static char *ruleset = nullptr;
 
 /**********************************************************************//**
   Replace html special characters ('&', '<' and '>').
@@ -201,7 +201,7 @@ struct tileset *tileset;
 **************************************************************************/
 const char *tileset_name_get(struct tileset *t)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -209,7 +209,7 @@ const char *tileset_name_get(struct tileset *t)
 **************************************************************************/
 const char *tileset_version(struct tileset *t)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -217,7 +217,7 @@ const char *tileset_version(struct tileset *t)
 **************************************************************************/
 const char *tileset_summary(struct tileset *t)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -225,7 +225,7 @@ const char *tileset_summary(struct tileset *t)
 **************************************************************************/
 const char *tileset_description(struct tileset *t)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -233,7 +233,7 @@ const char *tileset_description(struct tileset *t)
 **************************************************************************/
 const char *current_musicset_name(void)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -241,7 +241,7 @@ const char *current_musicset_name(void)
 **************************************************************************/
 const char *current_musicset_version(void)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -249,7 +249,7 @@ const char *current_musicset_version(void)
 **************************************************************************/
 const char *current_musicset_summary(void)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -257,7 +257,7 @@ const char *current_musicset_summary(void)
 **************************************************************************/
 const char *current_musicset_description(void)
 {
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -297,7 +297,7 @@ FILE *manual_start(struct tag_types *tag_info, int manual_number)
       || !(doc = fc_fopen(filename, "w"))) {
     log_error(_("Could not write manual file %s."), filename);
 
-    return NULL;
+    return nullptr;
   }
 
   fprintf(doc, "%s", tag_info->header);
@@ -331,7 +331,8 @@ static bool manual_command(struct tag_types *tag_info)
   /* Reset aifill to zero */
   game.info.aifill = 0;
 
-  if (!load_rulesets(NULL, NULL, FALSE, NULL, FALSE, FALSE, FALSE)) {
+  if (!load_rulesets(nullptr, nullptr, FALSE, nullptr,
+                     FALSE, FALSE, FALSE)) {
     /* Failed to load correct ruleset */
     return FALSE;
   }
@@ -359,7 +360,7 @@ int main(int argc, char **argv)
   int inx;
   bool showhelp = FALSE;
   bool showvers = FALSE;
-  char *option = NULL;
+  char *option = nullptr;
   int retval = EXIT_SUCCESS;
   struct tag_types *tag_info = &html_tags;
 
@@ -382,7 +383,7 @@ int main(int argc, char **argv)
   inx = 1;
   while (inx < argc) {
     if ((option = get_option_malloc("--ruleset", argv, &inx, argc, TRUE))) {
-      if (ruleset != NULL) {
+      if (ruleset != nullptr) {
         fc_fprintf(stderr, _("Multiple rulesets requested. Only one "
                              "ruleset at a time is supported.\n"));
       } else {
@@ -438,7 +439,7 @@ int main(int argc, char **argv)
   game_init(FALSE);
 
   /* Set ruleset user requested in to use */
-  if (ruleset != NULL) {
+  if (ruleset != nullptr) {
     sz_strlcpy(game.server.rulesetdir, ruleset);
   }
 

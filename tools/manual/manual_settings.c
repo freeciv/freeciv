@@ -38,7 +38,7 @@ bool manual_settings(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_SETTINGS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
@@ -77,7 +77,7 @@ bool manual_settings(struct tag_types *tag_info)
      * the function setting_is_changeable() */
     if (setting_ruleset_locked(pset)) {
       fprintf(doc, _("Is locked by the ruleset."));
-    } else if (!setting_is_changeable(pset, &dummy_conn, NULL, 0)) {
+    } else if (!setting_is_changeable(pset, &dummy_conn, nullptr, 0)) {
       fprintf(doc, _("Can only be used in server console."));
     }
 

@@ -37,7 +37,7 @@ bool manual_commands(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_COMMANDS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 

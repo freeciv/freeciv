@@ -41,7 +41,7 @@ static bool manual_improvements(struct tag_types *tag_info,
 
   doc = manual_start(tag_info, manual);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
@@ -68,7 +68,7 @@ static bool manual_improvements(struct tag_types *tag_info,
       continue;
     }
 
-    helptext_building(buf, sizeof(buf), NULL, NULL, pimprove);
+    helptext_building(buf, sizeof(buf), nullptr, nullptr, pimprove);
 
     fprintf(doc, "<tr><td>%s%s%s</td><td>%s</td>\n"
             "<td align=\"center\"><b>%d</b><br/>%d</td>\n<td>",

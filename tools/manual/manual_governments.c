@@ -40,7 +40,7 @@ bool manual_governments(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_GOVS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
@@ -57,7 +57,7 @@ bool manual_governments(struct tag_types *tag_info)
     fprintf(doc, "%s%s%s\n\n", tag_info->sect_title_begin,
             government_name_translation(pgov), tag_info->sect_title_end);
     fprintf(doc, tag_info->subitem_begin, "helptext");
-    helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
+    helptext_government(buf, sizeof(buf), nullptr, nullptr, pgov);
     fprintf(doc, "%s\n\n", buf);
     fprintf(doc, "%s", tag_info->subitem_end);
     fprintf(doc, "%s", tag_info->item_end);

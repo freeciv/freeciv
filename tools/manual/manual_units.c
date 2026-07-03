@@ -40,7 +40,7 @@ bool manual_units(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_UNITS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
@@ -99,7 +99,7 @@ bool manual_units(struct tag_types *tag_info)
             utype_name_translation(putype->obsoleted_by));
     fprintf(doc, "%s", tag_info->subitem_end);
     fprintf(doc, tag_info->subitem_begin, "helptext");
-    helptext_unit(buf, sizeof(buf), NULL, "", putype, FALSE);
+    helptext_unit(buf, sizeof(buf), nullptr, "", putype, FALSE);
     fprintf(doc, "%s", buf);
     fprintf(doc, "%s", tag_info->subitem_end);
     fprintf(doc, "%s", tag_info->item_end);

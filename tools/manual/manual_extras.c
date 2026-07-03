@@ -40,7 +40,7 @@ bool manual_extras(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_EXTRAS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
@@ -56,7 +56,7 @@ bool manual_extras(struct tag_types *tag_info)
             extra_name_translation(pextra), tag_info->sect_title_end);
 
     fprintf(doc, tag_info->subitem_begin, "helptext");
-    helptext_extra(buf, sizeof(buf), NULL, "", pextra);
+    helptext_extra(buf, sizeof(buf), nullptr, "", pextra);
     fprintf(doc, "%s", buf);
     fprintf(doc, "%s", tag_info->subitem_end);
 

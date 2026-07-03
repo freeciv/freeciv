@@ -40,7 +40,7 @@ bool manual_techs(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_TECHS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
@@ -58,7 +58,7 @@ bool manual_techs(struct tag_types *tag_info)
               advance_name_translation(ptech), tag_info->sect_title_end);
 
       fprintf(doc, tag_info->subitem_begin, "helptext");
-      helptext_advance(buf, sizeof(buf), NULL, "", ptech->item_number);
+      helptext_advance(buf, sizeof(buf), nullptr, "", ptech->item_number);
       fprintf(doc, "%s", buf);
       fprintf(doc, "%s", tag_info->subitem_end);
 

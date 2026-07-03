@@ -40,7 +40,7 @@ bool manual_uclasses(struct tag_types *tag_info)
 
   doc = manual_start(tag_info, MANUAL_UCLASS);
 
-  if (doc == NULL) {
+  if (doc == nullptr) {
     return FALSE;
   }
 
