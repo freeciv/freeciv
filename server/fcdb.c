@@ -154,7 +154,7 @@ static bool fcdb_load_config(const char *filename)
     }
   } entry_list_iterate_end;
 
-  /* FIXME: we could arrange to call secfile_check_unused() and have it
+  /* FIXME: We could arrange to call secfile_check_unused() and have it
    * complain about unused entries (e.g. those not in [fcdb]). */
   secfile_destroy(secfile);
 
@@ -167,6 +167,7 @@ static bool fcdb_load_config(const char *filename)
 bool fcdb_init(const char *conf_file)
 {
   fc_assert(fcdb_config == NULL);
+
   fcdb_config = fcdb_option_hash_new();
 
   if (conf_file && strcmp(conf_file, "-")) {
@@ -233,6 +234,6 @@ const char *fcdb_option_get(const char *type)
 ****************************************************************************/
 void fcdb_free(void)
 {
-  return;
 }
+
 #endif /* HAVE_FCDB */
