@@ -422,6 +422,8 @@ struct city {
 
   struct cm_parameter *cm_parameter;
 
+  struct access_area *aarea;
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */
@@ -451,8 +453,6 @@ struct city {
       void *ais[FREECIV_AI_MOD_LAST];
 
       struct vision *vision;
-
-      struct access_area *aarea;
     } server;
 
     struct {

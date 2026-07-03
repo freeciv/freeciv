@@ -46,7 +46,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
     area_list_for_player_set(plr, alist);
 
     city_list_iterate(plr->cities, pcity) {
-      pcity->server.aarea = nullptr;
+      pcity->aarea = nullptr;
     } city_list_iterate_end;
 
     access_unit = unit_virtual_create(plr, nullptr,
@@ -55,7 +55,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
     packet.player = player_number(plr);
 
     city_list_iterate(plr->cities, pcity) {
-      if (pcity->server.aarea == nullptr) {
+      if (pcity->aarea == nullptr) {
         struct access_area *aarea = fc_malloc(sizeof(struct access_area));
         struct pf_parameter parameter;
         struct pf_map *pfm;
@@ -64,7 +64,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
         aarea->cities = city_list_new();
         aarea->capital = is_capital(pcity);
 
-        pcity->server.aarea = aarea;
+        pcity->aarea = aarea;
         city_list_append(aarea->cities, pcity);
         aarea_list_append(alist, aarea);
 
@@ -73,12 +73,12 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
         pfm = pf_map_new(&parameter);
 
         city_list_iterate(plr->cities, pcity2) {
-          if (pcity2->server.aarea == nullptr) {
+          if (pcity2->aarea == nullptr) {
             struct pf_path *path;
 
             path = pf_map_path(pfm, city_tile(pcity2));
             if (path != nullptr) {
-              pcity2->server.aarea = aarea;
+              pcity2->aarea = aarea;
               city_list_append(aarea->cities, pcity2);
 
               if (!aarea->capital && is_capital(pcity2)) {

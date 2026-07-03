@@ -3586,6 +3586,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->routes = trade_route_list_new();
   pcity->task_reqs = worker_task_list_new();
 
+  pcity->aarea = nullptr;
+
   if (is_server()) {
     pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
 
