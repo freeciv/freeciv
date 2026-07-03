@@ -48,14 +48,14 @@
 
 #define GUEST_NAME "guest"
 
-#define MIN_PASSWORD_LEN  6  /* minimum length of password */
-#define MIN_PASSWORD_CAPS 0  /* minimum number of capital letters required */
-#define MIN_PASSWORD_NUMS 0  /* minimum number of numbers required */
+#define MIN_PASSWORD_LEN  6  /* Minimum length of password */
+#define MIN_PASSWORD_CAPS 0  /* Minimum number of capital letters required */
+#define MIN_PASSWORD_NUMS 0  /* Minimum number of numbers required */
 
 #define MAX_AUTH_TRIES 3
 #define MAX_WAIT_TIME 300   /* max time we'll wait on a password */
 
-/* after each wrong guess for a password, the server waits this
+/* After each wrong guess for a password, the server waits this
  * many seconds to reply to the client */
 static const int auth_fail_wait[] = { 1, 1, 2, 3 };
 
@@ -105,7 +105,7 @@ bool auth_user(struct connection *pconn, char *username)
     if (!script_fcdb_call("user_exists", pconn, &exists)) {
       if (srvarg.auth_allow_guests) {
         sz_strlcpy(tmpname, pconn->username);
-        get_unique_guest_name(tmpname); /* don't pass pconn->username here */
+        get_unique_guest_name(tmpname); /* Don't pass pconn->username here */
         sz_strlcpy(pconn->username, tmpname);
 
         log_error("Error reading database; connection -> guest");
@@ -123,20 +123,22 @@ bool auth_user(struct connection *pconn, char *username)
         return FALSE;
       }
     } else if (exists) {
-      /* we found a user */
+      /* We found a user */
       fc_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
                   pconn->username);
       dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
       pconn->server.auth_settime = time(NULL);
       pconn->server.status = AS_REQUESTING_OLD_PASS;
+      log_debug("Password for %s requested.", pconn->username);
     } else {
-      /* we couldn't find the user, they are new */
+      /* We couldn't find the user, they are new */
       if (srvarg.auth_allow_newusers) {
         /* TRANS: Try not to make the translation much longer than the original. */
         sz_strlcpy(buffer, _("First time login. Set a new password and confirm it."));
         dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
         pconn->server.auth_settime = time(NULL);
         pconn->server.status = AS_REQUESTING_NEW_PASS;
+        log_verbose(_("Registration for %s requested."), pconn->username);
       } else {
         reject_new_connection(_("This server allows only preregistered "
                                 "users. Sorry."), pconn);
@@ -147,6 +149,7 @@ bool auth_user(struct connection *pconn, char *username)
       }
     }
   }
+
   return TRUE;
 }
 
@@ -159,7 +162,7 @@ bool auth_handle_reply(struct connection *pconn, char *password)
 
   if (pconn->server.status == AS_REQUESTING_NEW_PASS) {
 
-    /* check if the new password is acceptable */
+    /* Check if the new password is acceptable */
     if (!is_good_password(password, msg)) {
       if (pconn->server.auth_tries++ >= MAX_AUTH_TRIES) {
         reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
@@ -177,7 +180,9 @@ bool auth_handle_reply(struct connection *pconn, char *password)
       notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
                   _("Warning: There was an error in saving to the database. "
                     "Continuing, but your stats will not be saved."));
-      log_error("Error writing to database for: %s", pconn->username);
+      log_error(_("Error writing to database for: %s"), pconn->username);
+    } else {
+      log_normal(_("%s registered."), pconn->username);
     }
 
     establish_new_connection(pconn);
@@ -208,10 +213,10 @@ void auth_process_status(struct connection *pconn)
 {
   switch (pconn->server.status) {
   case AS_NOT_ESTABLISHED:
-    /* nothing, we're not ready to do anything here yet. */
+    /* Nothing, we're not ready to do anything here yet. */
     break;
   case AS_FAILED:
-    /* the connection gave the wrong password, we kick 'em off or
+    /* The connection gave the wrong password, we kick 'em off or
      * we're throttling the connection to avoid password guessing */
     if (pconn->server.auth_settime > 0
         && time(NULL) >= pconn->server.auth_settime) {
@@ -235,7 +240,7 @@ void auth_process_status(struct connection *pconn)
     break;
   case AS_REQUESTING_OLD_PASS:
   case AS_REQUESTING_NEW_PASS:
-    /* waiting on the client to send us a password... don't wait too long */
+    /* Waiting on the client to send us a password... don't wait too long */
     if (time(NULL) >= pconn->server.auth_settime + MAX_WAIT_TIME) {
       pconn->server.status = AS_NOT_ESTABLISHED;
       reject_new_connection(_("Sorry, your connection timed out..."), pconn);
@@ -245,7 +250,7 @@ void auth_process_status(struct connection *pconn)
     }
     break;
   case AS_ESTABLISHED:
-    /* this better fail bigtime */
+    /* This better fail bigtime */
     fc_assert(pconn->server.status != AS_ESTABLISHED);
     break;
   }
@@ -261,28 +266,28 @@ static bool is_guest_name(const char *name)
 
 /************************************************************************//**
   Return a unique guest name
-  WARNING: do not pass pconn->username to this function: it won't return!
+  WARNING: Do not pass pconn->username to this function: it won't return!
 ****************************************************************************/
 static void get_unique_guest_name(char *name)
 {
   unsigned int i;
 
-  /* first see if the given name is suitable */
+  /* First see if the given name is suitable */
   if (is_guest_name(name) && !conn_by_user(name)) {
     return;
   }
 
-  /* next try bare guest name */
+  /* Next try bare guest name */
   fc_strlcpy(name, GUEST_NAME, MAX_LEN_NAME);
   if (!conn_by_user(name)) {
     return;
   }
 
-  /* bare name is taken, append numbers */
+  /* Bare name is taken, append numbers */
   for (i = 1; ; i++) {
     fc_snprintf(name, MAX_LEN_NAME, "%s%u", GUEST_NAME, i);
 
-    /* attempt to find this name; if we can't we're good to go */
+    /* Attempt to find this name; if we can't we're good to go */
     if (!conn_by_user(name)) {
       break;
     }
@@ -294,7 +299,7 @@ static void get_unique_guest_name(char *name)
 
 /************************************************************************//**
   Verifies that a password is valid. Does some [very] rudimentary safety
-  checks. TODO: do we want to frown on non-printing characters?
+  checks. TODO: Do we want to frown on non-printing characters?
   Fill the msg (length MAX_LEN_MSG) with any worthwhile information that
   the client ought to know.
 ****************************************************************************/
@@ -302,7 +307,7 @@ static bool is_good_password(const char *password, char *msg)
 {
   int i, num_caps = 0, num_nums = 0;
 
-  /* check password length */
+  /* Check password length */
   if (strlen(password) < MIN_PASSWORD_LEN) {
     fc_snprintf(msg, MAX_LEN_MSG,
                 _("Your password is too short, the minimum length is %d. "
@@ -325,12 +330,12 @@ static bool is_good_password(const char *password, char *msg)
     }
   }
 
-  /* check number of capital letters */
+  /* Check number of capital letters */
   if (num_caps < MIN_PASSWORD_CAPS) {
     return FALSE;
   }
 
-  /* check number of numbers */
+  /* Check number of numbers */
   if (num_nums < MIN_PASSWORD_NUMS) {
     return FALSE;
   }
