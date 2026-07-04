@@ -1695,7 +1695,7 @@ enum casus_belli_range casus_belli_range_for(const struct player *offender,
 ***********************************************************************/
 static bv_diplrel_all_reqs *diplrel_mess_gen(void)
 {
-  /* The ranges supported by the DiplRel requiremnt type. */
+  /* The ranges supported by the DiplRel requirement type. */
   const enum req_range legal_ranges[] = {
     REQ_RANGE_LOCAL,
     REQ_RANGE_PLAYER,
