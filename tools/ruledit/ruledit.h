@@ -13,8 +13,6 @@
 #ifndef FC__RULEDIT_H
 #define FC__RULEDIT_H
 
-void show_experimental(QWidget *wdg);
-
 struct ruledit_arguments {
   // Ruleset name. Is nullptr if not specified.
   char *ruleset;

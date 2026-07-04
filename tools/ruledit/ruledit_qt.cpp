@@ -515,3 +515,15 @@ void ruledit_main::closeEvent(QCloseEvent *cevent)
   // Do not handle quit here, but let user to answer to confirmation dialog.
   cevent->ignore();
 }
+
+/**********************************************************************//**
+  Show widget if experimental features enabled, hide otherwise
+**************************************************************************/
+void show_experimental(QWidget *wdg)
+{
+#ifdef RULEDIT_EXPERIMENTAL
+  wdg->show();
+#else
+  wdg->hide();
+#endif
+}
