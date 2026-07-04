@@ -262,7 +262,7 @@ fc_client::~fc_client()
 ****************************************************************************/
 void fc_client::fc_main(QApplication *qapp)
 {
-  QShortcut *quit_shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q), this);
+  QShortcut *quit_shortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
 
   qRegisterMetaType<QTextCursor>("QTextCursor");
   qRegisterMetaType<QTextBlock>("QTextBlock");
