@@ -139,7 +139,7 @@ static bool conn_compression_flush(struct connection *pconn)
 
   compressed_packet_len = compressed_size + (jumbo ? 6 : 2);
   if (compressed_packet_len < pconn->compression.queue.size) {
-    struct raw_data_out dout;
+    struct raw_data_out d_out;
 
     log_compress("COMPRESS: compressed %lu bytes to %ld (level %d)",
                  (unsigned long) pconn->compression.queue.size,
@@ -155,8 +155,8 @@ static bool conn_compression_flush(struct connection *pconn)
 
       log_compress("COMPRESS: sending %ld as normal", compressed_size);
 
-      dio_output_init(&dout, header, sizeof(header));
-      dio_put_uint16_raw(&dout, 2 + compressed_size + COMPRESSION_BORDER);
+      dio_output_init(&d_out, header, sizeof(header));
+      dio_put_uint16_raw(&d_out, 2 + compressed_size + COMPRESSION_BORDER);
       connection_send_data(pconn, header, sizeof(header));
       connection_send_data(pconn, compressed, compressed_size);
     } else {
@@ -166,9 +166,9 @@ static bool conn_compression_flush(struct connection *pconn)
                        compressed_normal_jumbo_packet_len_overlap);
 
       log_compress("COMPRESS: sending %ld as jumbo", compressed_size);
-      dio_output_init(&dout, header, sizeof(header));
-      dio_put_uint16_raw(&dout, JUMBO_SIZE);
-      dio_put_uint32_raw(&dout, 6 + compressed_size);
+      dio_output_init(&d_out, header, sizeof(header));
+      dio_put_uint16_raw(&d_out, JUMBO_SIZE);
+      dio_put_uint32_raw(&d_out, 6 + compressed_size);
       connection_send_data(pconn, header, sizeof(header));
       connection_send_data(pconn, compressed, compressed_size);
     }

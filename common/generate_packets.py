@@ -586,17 +586,17 @@ fc_assert({self.actual @ packet} <= MAX_UINT16);
         if self.constant:
             return f"""\
 #if {self.declared} <= MAX_UINT8
-e |= DIO_PUT(uint8, &dout, &field_addr, {index});
+e |= DIO_PUT(uint8, &d_out, &field_addr, {index});
 #else
-e |= DIO_PUT(uint16, &dout, &field_addr, {index});
+e |= DIO_PUT(uint16, &d_out, &field_addr, {index});
 #endif
 """
         else:
             return f"""\
 if ({self.actual @ packet} <= MAX_UINT8) {{
-  e |= DIO_PUT(uint8, &dout, &field_addr, {index});
+  e |= DIO_PUT(uint8, &d_out, &field_addr, {index});
 }} else {{
-  e |= DIO_PUT(uint16, &dout, &field_addr, {index});
+  e |= DIO_PUT(uint16, &d_out, &field_addr, {index});
 }}
 """
 
@@ -939,7 +939,7 @@ differ = ({location @ old} != {location @ new});
 
     def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
         return f"""\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, {location @ packet});
+e |= DIO_PUT({self.dataio_type}, &d_out, &field_addr, {location @ packet});
 """
 
     def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
@@ -1074,7 +1074,7 @@ differ = ((int) ({location @ old} * {self.float_factor}) != (int) ({location @ n
 
     def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
         return f"""\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, {location @ packet}, {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &d_out, &field_addr, {location @ packet}, {self.float_factor:d});
 """
 
     def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
@@ -1106,7 +1106,7 @@ differ = !BV_ARE_EQUAL({location @ old}, {location @ new});
 
     def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
         return f"""\
-e |= DIO_BV_PUT(&dout, &field_addr, {location @ packet});
+e |= DIO_BV_PUT(&d_out, &field_addr, {location @ packet});
 """
 
     def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
@@ -1172,7 +1172,7 @@ differ = !are_{self.dataio_type}s_equal(&{location @ old}, &{location @ new});
 
     def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
         return f"""\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &{location @ packet});
+e |= DIO_PUT({self.dataio_type}, &d_out, &field_addr, &{location @ packet});
 """
 
 DEFAULT_REGISTRY.public_patterns[StructType.TYPE_PATTERN] = StructType
@@ -1321,7 +1321,7 @@ differ = (({self.size.actual @ old} != {self.size.actual @ new})
 
     def get_code_put(self, location: Location, packet: str, diff_packet: "str | None" = None) -> str:
         return f"""\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &{location @ packet}, {self.size.actual @ packet});
+e |= DIO_PUT({self.dataio_type}, &d_out, &field_addr, &{location @ packet}, {self.size.actual @ packet});
 """
 
     def get_code_get(self, location: Location, packet: str, deep_diff: bool = False) -> str:
@@ -1416,7 +1416,7 @@ differ = FALSE;
             # which we're a long way from
             size_part = f"""\
   fc_assert({size.actual @ packet} < MAX_UINT16);
-  e |= DIO_PUT(arraylen, &dout, &field_addr, {size.actual @ packet});
+  e |= DIO_PUT(arraylen, &d_out, &field_addr, {size.actual @ packet});
 
 #ifdef FREECIV_JSON_CONNECTION
 """
@@ -1424,7 +1424,7 @@ differ = FALSE;
             size_part = f"""\
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {size.actual @ packet});
+  e |= DIO_PUT(farray, &d_out, &field_addr, {size.actual @ packet});
 
 """
 
@@ -1436,7 +1436,7 @@ differ = FALSE;
             head = f"""\
 if ({null_condition @ packet}) {{
   /* Transmit null as empty */
-  e |= DIO_PUT(arraylen, &dout, &field_addr, 0);
+  e |= DIO_PUT(arraylen, &d_out, &field_addr, 0);
 }} else """
         else:
             # ends mid-line
@@ -1445,7 +1445,7 @@ if ({null_condition @ packet}) {{
   /* Transmit null as empty */
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 0);
+  e |= DIO_PUT(farray, &d_out, &field_addr, 0);
 #endif /* FREECIV_JSON_CONNECTION */
 }} else """
 
@@ -1489,14 +1489,14 @@ if ({null_condition @ packet}) {{
             size_head = f"""\
 
   /* Create the object to hold new size and delta. */
-  e |= DIO_PUT(object, &dout, &field_addr);
+  e |= DIO_PUT(object, &d_out, &field_addr);
 
   /* Enter object (start at size address). */
   {location.json_subloc} = plocation_field_new("size");
 #endif /* FREECIV_JSON_CONNECTION */
 
   /* Write the new size */
-  e |= DIO_PUT(uint16, &dout, &field_addr, {safe_size.actual @ packet});
+  e |= DIO_PUT(uint16, &d_out, &field_addr, {safe_size.actual @ packet});
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Delta address. */
@@ -1541,7 +1541,7 @@ if ({null_condition @ packet}) {{
 {size_head}\
 
   /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 0);
+  e |= DIO_PUT(farray, &d_out, &field_addr, 0);
 
   /* Enter array. */
   {location.json_subloc} = plocation_elem_new(0);
@@ -1559,7 +1559,7 @@ if ({null_condition @ packet}) {{
     {location.json_subloc}->number = -1;
 
     /* Create the diff array element. */
-    e |= DIO_PUT(object, &dout, &field_addr);
+    e |= DIO_PUT(object, &d_out, &field_addr);
 
     /* Enter diff array element (start at the index address). */
     {location.json_subloc}->number = count_{location.index}++;
@@ -1587,7 +1587,7 @@ if ({null_condition @ packet}) {{
   {location.json_subloc}->number = -1;
 
   /* Create the terminating diff array element. */
-  e |= DIO_PUT(object, &dout, &field_addr);
+  e |= DIO_PUT(object, &d_out, &field_addr);
 
   /* Enter diff array element (start at the index address). */
   {location.json_subloc}->number = count_{location.index};
@@ -2051,7 +2051,7 @@ differ = (strcmp(pstr_old ? pstr_old : "", pstr ? pstr : "") != 0);
 {{
   const char *pstr = strvec_get({location @ packet}, {location.index});
 
-  e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, pstr ? pstr : "");
+  e |= DIO_PUT({self.dataio_type}, &d_out, &field_addr, pstr ? pstr : "");
 }}
 """
 
@@ -3024,7 +3024,7 @@ if (nullptr != *hash) {{
 field_addr.name = "fields";
 #endif /* FREECIV_JSON_CONNECTION */
 e = 0;
-e |= DIO_BV_PUT(&dout, &field_addr, fields);
+e |= DIO_BV_PUT(&d_out, &field_addr, fields);
 if (e) {{
   log_packet_detailed("fields bitvector error detected");
 }}

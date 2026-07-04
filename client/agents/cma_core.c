@@ -625,26 +625,26 @@ void cma_set_parameter(enum attr_city attr, int city_id,
                        const struct cm_parameter *parameter)
 {
   char buffer[SAVED_PARAMETER_SIZE];
-  struct raw_data_out dout;
+  struct raw_data_out d_out;
 
   /* Changing this function is likely to break compatibility with old
    * savegames that store these values. */
 
-  dio_output_init(&dout, buffer, sizeof(buffer));
+  dio_output_init(&d_out, buffer, sizeof(buffer));
 
-  dio_put_uint8_raw(&dout, CMA_ATTR_VERSION);
+  dio_put_uint8_raw(&d_out, CMA_ATTR_VERSION);
 
   output_type_iterate(i) {
-    dio_put_sint16_raw(&dout, parameter->minimal_surplus[i]);
-    dio_put_sint16_raw(&dout, parameter->factor[i]);
+    dio_put_sint16_raw(&d_out, parameter->minimal_surplus[i]);
+    dio_put_sint16_raw(&d_out, parameter->factor[i]);
   } output_type_iterate_end;
 
-  dio_put_sint16_raw(&dout, parameter->happy_factor);
-  dio_put_uint8_raw(&dout, 0); /* Dummy value; used to be factor_target. */
-  dio_put_bool8_raw(&dout, parameter->require_happy);
-  dio_put_bool8_raw(&dout, parameter->max_growth);
+  dio_put_sint16_raw(&d_out, parameter->happy_factor);
+  dio_put_uint8_raw(&d_out, 0); /* Dummy value; used to be factor_target. */
+  dio_put_bool8_raw(&d_out, parameter->require_happy);
+  dio_put_bool8_raw(&d_out, parameter->max_growth);
 
-  fc_assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
+  fc_assert(dio_output_used(&d_out) == SAVED_PARAMETER_SIZE);
 
   attr_city_set(attr, city_id, SAVED_PARAMETER_SIZE, buffer);
 }

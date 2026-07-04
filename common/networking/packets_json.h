@@ -28,51 +28,51 @@ void *get_packet_from_connection_json(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET * 5];                             \
   struct plocation *pid_addr;                                           \
   char *json_buffer = nullptr;                                          \
-  struct json_data_out dout;                                            \
-  dio_output_init(&(dout.raw), buffer, sizeof(buffer));                 \
+  struct json_data_out d_out;                                           \
+  dio_output_init(&(d_out.raw), buffer, sizeof(buffer));                \
   if (pc->json_mode) {                                                  \
-    dout.json = json_object();                                          \
-    dio_put_uint16_raw(&(dout.raw), 0);                                 \
+    d_out.json = json_object();                                         \
+    dio_put_uint16_raw(&(d_out.raw), 0);                                \
     pid_addr = plocation_field_new("pid");                              \
-    dio_put_uint8_json(&dout, pid_addr, packet_type);                   \
+    dio_put_uint8_json(&d_out, pid_addr, packet_type);                  \
     FC_FREE(pid_addr);                                                  \
   } else {                                                              \
-    dout.json = nullptr;                                                \
-    dio_put_type_raw(&dout.raw, pc->packet_header.length, 0);           \
-    dio_put_type_raw(&dout.raw, pc->packet_header.type, packet_type);   \
+    d_out.json = nullptr;                                               \
+    dio_put_type_raw(&d_out.raw, pc->packet_header.length, 0);          \
+    dio_put_type_raw(&d_out.raw, pc->packet_header.type, packet_type);  \
   }
 
 #define SEND_PACKET_END(packet_type) \
   {                                                                     \
     size_t size;                                                        \
     if (pc->json_mode) {                                                \
-      json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
+      json_buffer = json_dumps(d_out.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
       if (json_buffer) {                                                \
-        dio_put_string_raw(&(dout.raw), json_buffer);                   \
+        dio_put_string_raw(&(d_out.raw), json_buffer);                  \
         log_packet_json("Json out: %s", json_buffer);                   \
       }                                                                 \
-      size = dio_output_used(&dout.raw);                                \
+      size = dio_output_used(&d_out.raw);                               \
                                                                         \
-      dio_output_rewind(&(dout.raw));                                   \
-      dio_put_uint16_raw(&(dout.raw), size);                            \
+      dio_output_rewind(&(d_out.raw));                                  \
+      dio_put_uint16_raw(&(d_out.raw), size);                           \
       free(json_buffer);                                                \
-      json_decref(dout.json);                                           \
+      json_decref(d_out.json);                                          \
     } else {                                                            \
-      size = dio_output_used(&dout.raw);                                \
+      size = dio_output_used(&d_out.raw);                               \
                                                                         \
-      dio_output_rewind(&dout.raw);                                     \
-      dio_put_type_raw(&dout.raw, pc->packet_header.length, size);      \
+      dio_output_rewind(&d_out.raw);                                    \
+      dio_put_type_raw(&d_out.raw, pc->packet_header.length, size);     \
     }                                                                   \
-    fc_assert(!dout.raw.too_short);                                     \
+    fc_assert(!d_out.raw.too_short);                                    \
     return send_packet_data(pc, buffer, size, packet_type);             \
   }
 
-#define SEND_PACKET_DISCARD() \
-  {                           \
-    if (pc->json_mode) {      \
-      json_decref(dout.json); \
-    }                         \
-    return 0;                 \
+#define SEND_PACKET_DISCARD()  \
+  {                            \
+    if (pc->json_mode) {       \
+      json_decref(d_out.json); \
+    }                          \
+    return 0;                  \
   }
 
 #define RECEIVE_PACKET_START(packet_type, result)                           \

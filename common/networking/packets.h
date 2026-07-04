@@ -131,19 +131,19 @@ void packets_deinit(void);
 
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \
-  struct raw_data_out dout; \
+  struct raw_data_out d_out; \
   \
-  dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_type_raw(&dout, pc->packet_header.length, 0); \
-  dio_put_type_raw(&dout, pc->packet_header.type, packet_type);
+  dio_output_init(&d_out, buffer, sizeof(buffer)); \
+  dio_put_type_raw(&d_out, pc->packet_header.length, 0); \
+  dio_put_type_raw(&d_out, pc->packet_header.type, packet_type);
 
 #define SEND_PACKET_END(packet_type) \
   { \
-    size_t size = dio_output_used(&dout); \
+    size_t size = dio_output_used(&d_out); \
     \
-    dio_output_rewind(&dout); \
-    dio_put_type_raw(&dout, pc->packet_header.length, size); \
-    fc_assert(!dout.too_short); \
+    dio_output_rewind(&d_out); \
+    dio_put_type_raw(&d_out, pc->packet_header.length, size); \
+    fc_assert(!d_out.too_short); \
     return send_packet_data(pc, buffer, size, packet_type); \
   }
 

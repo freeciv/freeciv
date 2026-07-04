@@ -1553,7 +1553,7 @@ static void send_lanserver_response(void)
   int nhumans;
   char humans[256];
   char status[256];
-  struct raw_data_out dout;
+  struct raw_data_out d_out;
   union fc_sockaddr addr;
   int socksend, setting = 1;
   const char *group;
@@ -1655,16 +1655,16 @@ static void send_lanserver_response(void)
   fc_snprintf(port, sizeof(port), "%d",
               srvarg.port);
 
-  dio_output_init(&dout, buffer, sizeof(buffer));
-  dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
-  dio_put_string_raw(&dout, hostname);
-  dio_put_string_raw(&dout, port);
-  dio_put_string_raw(&dout, version);
-  dio_put_string_raw(&dout, status);
-  dio_put_string_raw(&dout, players);
-  dio_put_string_raw(&dout, humans);
-  dio_put_string_raw(&dout, get_meta_message_string());
-  size = dio_output_used(&dout);
+  dio_output_init(&d_out, buffer, sizeof(buffer));
+  dio_put_uint8_raw(&d_out, SERVER_LAN_VERSION);
+  dio_put_string_raw(&d_out, hostname);
+  dio_put_string_raw(&d_out, port);
+  dio_put_string_raw(&d_out, version);
+  dio_put_string_raw(&d_out, status);
+  dio_put_string_raw(&d_out, players);
+  dio_put_string_raw(&d_out, humans);
+  dio_put_string_raw(&d_out, get_meta_message_string());
+  size = dio_output_used(&d_out);
 
   /* Sending packet to client with the information gathered above. */
   if (sendto(socksend, buffer,  size, 0, &addr.saddr,

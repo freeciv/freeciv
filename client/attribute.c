@@ -152,7 +152,7 @@ serialize_hash(const struct attribute_hash *hash,
   const size_t entries = attribute_hash_size(hash);
   int total_length, value_lengths[entries];
   void *result;
-  struct raw_data_out dout;
+  struct raw_data_out d_out;
   int i;
 
   /*
@@ -181,39 +181,39 @@ serialize_hash(const struct attribute_hash *hash,
    * Step 2: Allocate memory.
    */
   result = fc_malloc(total_length);
-  dio_output_init(&dout, result, total_length);
+  dio_output_init(&d_out, result, total_length);
 
   /*
    * Step 3: Fill out the preamble.
    */
-  dio_put_uint32_raw(&dout, 0);
-  dio_put_uint8_raw(&dout, 2);
-  dio_put_uint32_raw(&dout, attribute_hash_size(hash));
-  dio_put_uint32_raw(&dout, total_length);
+  dio_put_uint32_raw(&d_out, 0);
+  dio_put_uint8_raw(&d_out, 2);
+  dio_put_uint32_raw(&d_out, attribute_hash_size(hash));
+  dio_put_uint32_raw(&d_out, total_length);
 
   /*
    * Step 4: Fill out the body.
    */
   i = 0;
   attribute_hash_iterate(hash, pkey, pvalue) {
-    dio_put_uint32_raw(&dout, value_lengths[i]);
+    dio_put_uint32_raw(&d_out, value_lengths[i]);
 
-    dio_put_uint32_raw(&dout, pkey->key);
-    dio_put_uint32_raw(&dout, pkey->id);
-    dio_put_sint16_raw(&dout, pkey->x);
-    dio_put_sint16_raw(&dout, pkey->y);
+    dio_put_uint32_raw(&d_out, pkey->key);
+    dio_put_uint32_raw(&d_out, pkey->id);
+    dio_put_sint16_raw(&d_out, pkey->x);
+    dio_put_sint16_raw(&d_out, pkey->y);
 
-    dio_put_memory_raw(&dout, ADD_TO_POINTER(pvalue, 4), value_lengths[i]);
+    dio_put_memory_raw(&d_out, ADD_TO_POINTER(pvalue, 4), value_lengths[i]);
     i++;
   } attribute_hash_iterate_end;
 
   fc_assert(i == entries);
 
-  fc_assert(!dout.too_short);
-  fc_assert_msg(dio_output_used(&dout) == total_length,
+  fc_assert(!d_out.too_short);
+  fc_assert_msg(dio_output_used(&d_out) == total_length,
                 "serialize_hash() total_length = %lu, actual = %lu",
                 (long unsigned)total_length,
-                (long unsigned)dio_output_used(&dout));
+                (long unsigned)dio_output_used(&d_out));
 
   /*
    * Step 5: Return.
@@ -273,7 +273,7 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
     struct attr_key key;
     void *pvalue;
     int value_length;
-    struct raw_data_out dout;
+    struct raw_data_out d_out;
 
     if (!dio_get_uint32_raw(&din, &value_length)) {
       log_verbose("attribute.c unserialize_hash() "
@@ -294,8 +294,8 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
     }
     pvalue = fc_malloc(value_length + 4);
 
-    dio_output_init(&dout, pvalue, value_length + 4);
-    dio_put_uint32_raw(&dout, value_length);
+    dio_output_init(&d_out, pvalue, value_length + 4);
+    dio_put_uint32_raw(&d_out, value_length);
     if (!dio_get_memory_raw(&din, ADD_TO_POINTER(pvalue, 4), value_length)) {
       log_verbose("attribute.c unserialize_hash() "
                   "memory dio_input_too_short");
@@ -400,11 +400,11 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
 
   if (0 != data_length) {
     void *pvalue = fc_malloc(data_length + 4);
-    struct raw_data_out dout;
+    struct raw_data_out d_out;
 
-    dio_output_init(&dout, pvalue, data_length + 4);
-    dio_put_uint32_raw(&dout, data_length);
-    dio_put_memory_raw(&dout, data, data_length);
+    dio_output_init(&d_out, pvalue, data_length + 4);
+    dio_put_uint32_raw(&d_out, data_length);
+    dio_put_memory_raw(&d_out, data, data_length);
 
     attribute_hash_replace(attribute_hash, &akey, pvalue);
   } else {

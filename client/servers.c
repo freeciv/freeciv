@@ -385,7 +385,7 @@ static void delete_server_list(struct server_list *server_list)
 static bool begin_lanserver_scan(struct server_scan *scan)
 {
   union fc_sockaddr addr;
-  struct raw_data_out dout;
+  struct raw_data_out d_out;
   int send_sock, opt = 1;
 #ifndef FREECIV_HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];
@@ -581,10 +581,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-  dio_output_init(&dout, buffer, sizeof(buffer));
-  dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
-  size = dio_output_used(&dout);
-
+  dio_output_init(&d_out, buffer, sizeof(buffer));
+  dio_put_uint8_raw(&d_out, SERVER_LAN_VERSION);
+  size = dio_output_used(&d_out);
 
   if (sendto(send_sock, buffer, size, 0, &addr.saddr,
              sockaddr_size(&addr)) < 0) {
