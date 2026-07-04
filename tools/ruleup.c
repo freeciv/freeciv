@@ -40,8 +40,8 @@
 #include "comments.h"
 #include "rulesave.h"
 
-static char *rs_selected = NULL;
-static char *od_selected = NULL;
+static char *rs_selected = nullptr;
+static char *od_selected = nullptr;
 static int fatal_assertions = -1;
 static bool dirty = TRUE;
 
@@ -53,7 +53,7 @@ static void rup_parse_cmdline(int argc, char *argv[])
   int i = 1;
 
   while (i < argc) {
-    char *option = NULL;
+    char *option = nullptr;
 
     if (is_option("--help", argv[i])) {
       struct cmdhelp *help = cmdhelp_new(argv[0]);
@@ -71,9 +71,9 @@ static void rup_parse_cmdline(int argc, char *argv[])
                   _("ruleset RULESET"),
                   _("Update RULESET"));
       cmdhelp_add(help, "o",
-		  /* TRANS: "output" is exactly what user must type, do not translate. */
-		  _("output DIRECTORY"),
-		  _("Create directory DIRECTORY for output"));
+                  /* TRANS: "output" is exactly what user must type, do not translate. */
+                  _("output DIRECTORY"),
+                  _("Create directory DIRECTORY for output"));
       cmdhelp_add(help, "c", "clean",
                   _("Clean up the ruleset before saving it."));
 
@@ -86,18 +86,18 @@ static void rup_parse_cmdline(int argc, char *argv[])
 
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--ruleset", argv, &i, argc, TRUE))) {
-      if (rs_selected != NULL) {
+      if (rs_selected != nullptr) {
         fc_fprintf(stderr,
                    _("Multiple rulesets requested. Only one ruleset at time supported.\n"));
       } else {
         rs_selected = option;
       }
     } else if ((option = get_option_malloc("--output", argv, &i, argc, TRUE))) {
-      if (od_selected != NULL) {
-	fc_fprintf(stderr,
-		   _("Multiple output directories given.\n"));
+      if (od_selected != nullptr) {
+        fc_fprintf(stderr,
+                   _("Multiple output directories given.\n"));
       } else {
-	od_selected = option;
+        od_selected = option;
       }
 #ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[i])) {
@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 
   rup_parse_cmdline(argc, argv);
 
-  log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
+  log_init(nullptr, loglevel, nullptr, nullptr, fatal_assertions);
 
   init_connections();
 
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
   i_am_tool();
 
   /* Set ruleset user requested to use */
-  if (rs_selected == NULL) {
+  if (rs_selected == nullptr) {
     rs_selected = GAME_DEFAULT_RULESETDIR;
   }
   sz_strlcpy(game.server.rulesetdir, rs_selected);
@@ -171,13 +171,14 @@ int main(int argc, char **argv)
   /* Reset aifill to zero */
   game.info.aifill = 0;
 
-  if (load_rulesets(NULL, NULL, TRUE, conv_log, FALSE, TRUE, TRUE)) {
+  if (load_rulesets(nullptr, nullptr, TRUE, conv_log,
+                    FALSE, TRUE, TRUE)) {
     struct rule_data data;
     char tgt_dir[2048];
 
     data.nationlist = game.server.ruledit.nationlist;
 
-    if (od_selected != NULL) {
+    if (od_selected != nullptr) {
       fc_strlcpy(tgt_dir, od_selected, sizeof(tgt_dir));
     } else {
       fc_snprintf(tgt_dir, sizeof(tgt_dir), "%s.ruleup", rs_selected);
