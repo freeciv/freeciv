@@ -158,5 +158,6 @@ signals:
 
 int ruledit_qt_run(int argc, char **argv);
 void ruledit_qt_display_requirers(const char *msg, void *data);
+void show_experimental(QWidget *wdg);
 
 #endif // FC__RULEDIT_QT_H
