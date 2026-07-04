@@ -5830,6 +5830,12 @@ void handle_access_area(const struct packet_access_area *packet)
 
   if (packet->index == 0) {
     /* First access area packet. Clear old set. */
+
+    /* Make sure no city refers to the old set. */
+    city_list_iterate(plr->cities, pcity) {
+      pcity->aarea = nullptr;
+    } city_list_iterate_end;
+
     area_list_clear_plr(plr);
 
     alist = aarea_list_new();
