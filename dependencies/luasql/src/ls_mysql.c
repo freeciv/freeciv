@@ -223,7 +223,7 @@ static int cur_fetch (lua_State *L) {
 			if (cur->colnames == LUA_NOREF)
 		        create_colinfo(L, cur);
 			lua_rawgeti (L, LUA_REGISTRYINDEX, cur->colnames);/* Push colnames*/
-	
+
 			/* Copy values to alphanumerical indices */
 			for (i = 0; i < cur->numcols; i++) {
 				lua_rawgeti(L, -1, i+1); /* push the field name */
@@ -345,7 +345,7 @@ static void _pushtable (lua_State *L, cur_data *cur, size_t off) {
 	/* If colnames or coltypes do not exist, create both. */
 	if (*ref == LUA_NOREF)
 		create_colinfo(L, cur);
-	
+
 	/* Pushes the right table (colnames or coltypes) */
 	lua_rawgeti (L, LUA_REGISTRYINDEX, *ref);
 }
