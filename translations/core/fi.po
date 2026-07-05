@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.3\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-13 19:45+0300\n"
-"PO-Revision-Date: 2026-06-13 20:10+0300\n"
+"POT-Creation-Date: 2026-07-04 03:45+0300\n"
+"PO-Revision-Date: 2026-07-05 21:07+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -16367,14 +16367,18 @@ msgstr ""
 #, c-format
 msgid ""
 "Missing %s unit sprites for tags \"%s\" and alternatives \"%s\" and \"%s\"."
-msgstr "Ei löydy tunnisteen \"%2$s\" tai kummankaan vaihtoehtoisen tunnisteen \"%3$s\" tai \"%4$s\" viittaamaa yksikön %1$s kuvia."
+msgstr ""
+"Ei löydy tunnisteen \"%2$s\" tai kummankaan vaihtoehtoisen tunnisteen "
+"\"%3$s\" tai \"%4$s\" viittaamaa yksikön %1$s kuvia."
 
 #: client/tilespec.c:4013
 #, c-format
 msgid ""
 "Unit type %s has no unoriented sprites and tileset has no "
 "unit_default_orientation."
-msgstr "Yksikkötyypillä %s ei ole suuntaamattomia grafiikoita, eikä kuvituksessa ole määritelty yksiköiden oletussuuntaa."
+msgstr ""
+"Yksikkötyypillä %s ei ole suuntaamattomia grafiikoita, eikä kuvituksessa ole "
+"määritelty yksiköiden oletussuuntaa."
 
 #: client/tilespec.c:4082
 #, c-format
@@ -21139,18 +21143,14 @@ msgstr[0] "Edellyttää sinulla olevan samalla mantereella ihmeen %s."
 msgstr[1] "Edellyttää sinulla olevan samalla mantereella ihmeen %s."
 
 #: common/reqtext.c:3447
-#, fuzzy, c-format
-#| msgid "Requires your nation to have culture of at least %d."
-#| msgid_plural "Requires your nation to have culture of at least %d."
+#, c-format
 msgid "Requires a continent or ocean size of at most %d."
-msgstr "Edellyttää kansalla olevan vähintään %d piste kulttuuria."
+msgstr "Edellyttää mantereen tai meren koon olevan korkeintaan %d."
 
 #: common/reqtext.c:3451
-#, fuzzy, c-format
-#| msgid "Requires your nation to have culture of at least %d."
-#| msgid_plural "Requires your nation to have culture of at least %d."
+#, c-format
 msgid "Requires a continent or ocean size of at least %d."
-msgstr "Edellyttää kansalla olevan vähintään %d piste kulttuuria."
+msgstr "Edellyttää mantereen tai meren koon olevan vähintään %d."
 
 #: common/reqtext.c:3477
 msgid "Must be on the same terrain class."
@@ -21173,7 +21173,6 @@ msgid "Must be adjacent to the same terrain class."
 msgstr "Täytyy olla saman maastoluokan ruudun vieressä."
 
 #: common/reqtext.c:3502
-#, fuzzy
 msgid "Must not be adjacent to the same terrain class."
 msgstr "Ei saa olla saman maastoluokan ruudun vieressä."
 
@@ -41413,7 +41412,7 @@ msgstr ""
 "tarkoitettu pelattavaksi yksinpelinä. Se käyttää oletussääntösettiä "
 "(civ2civ3)."
 
-#: data/scenarios/tutorial.sav:108
+#: data/scenarios/tutorial.sav:109
 msgid ""
 "Welcome to Freeciv. You lead a civilization. Your\n"
 "task is to conquer the world! You should start by\n"
@@ -41426,7 +41425,7 @@ msgstr ""
 "seikkailijallasi, ja etsi hyvä paikka rakentaa kaupunki\n"
 "uudisraivaajillasi. Käytä numeronäppäimistöä yksiköiden liikuttamiseen."
 
-#: data/scenarios/tutorial.sav:129
+#: data/scenarios/tutorial.sav:130
 msgid ""
 "Outside of a city, if a 'stack' of units on a single tile is\n"
 "attacked, the strongest unit defends; and if that unit is defeated,\n"
@@ -41440,7 +41439,7 @@ msgstr ""
 "hyvä idea välttää liian suurten yksikkönippujen muodostumista samaan ruutuun "
 "suuria armeijoita liikutellessaan levittäytymällä laajemmalle alueelle."
 
-#: data/scenarios/tutorial.sav:144
+#: data/scenarios/tutorial.sav:145
 #, c-format
 msgid ""
 "This looks like a good place to build a city. The next time this\n"
@@ -41458,7 +41457,7 @@ msgstr ""
 "Ruoka on minkä tahansa kaupungin tärkein resurssi. Ruohomaa ja\n"
 "tasanko tuottavat rutkasti ruokaa."
 
-#: data/scenarios/tutorial.sav:157
+#: data/scenarios/tutorial.sav:158
 msgid ""
 "Now you have built your first city. The city window should have\n"
 "opened automatically; if not click on the city to open it. Cities are\n"
@@ -41484,7 +41483,7 @@ msgstr ""
 "nappiin, kaupungin pitäisi kertoa rakentavansa uudisraivaajaa\n"
 "karttanäkymässä."
 
-#: data/scenarios/tutorial.sav:167
+#: data/scenarios/tutorial.sav:168
 msgid ""
 "Congratulations, you have founded your second city. This city will\n"
 "behave almost exactly like the first one - it will be slightly different\n"
@@ -41496,7 +41495,7 @@ msgstr ""
 "erilaisesta maastosta kaupunkien ympärillä. Halunnet rakentaa\n"
 "täälläkin uudisraivaajia."
 
-#: data/scenarios/tutorial.sav:177
+#: data/scenarios/tutorial.sav:178
 msgid ""
 "You have built your third city! Your civilization seems to be\n"
 "thriving. It might be time to think about a military. Pick one of\n"
@@ -41525,7 +41524,7 @@ msgstr ""
 "lisätäksesi sen työlistan loppuun. Jahka Kasarmi valmistuu, kaupunki\n"
 "siirtyy automaattisesti kokoamaan sotilasyksikköä."
 
-#: data/scenarios/tutorial.sav:187
+#: data/scenarios/tutorial.sav:188
 msgid ""
 "Another city! You are really getting the hang of this. You\n"
 "probably have a pretty good idea what to do with new cities by\n"
@@ -41549,7 +41548,7 @@ msgstr ""
 "kertoo, mitä kaupunki rakentaa ja miten kauan tämä kestää; se kertoo\n"
 "myös, miten kauan kestää kunnes kaupunki kasvaa astetta suuremmaksi."
 
-#: data/scenarios/tutorial.sav:197
+#: data/scenarios/tutorial.sav:198
 msgid ""
 "As the number of cities in your empire grows, it becomes harder to\n"
 "manage individual cities. This is where the Cities report becomes\n"
@@ -41569,7 +41568,7 @@ msgstr ""
 "mitä tahansa kaupunkeihin liittyvää tämän raportin kautta, mutta tämä\n"
 "opetusohjelma ei ulotu työkalun syvällisempien hienouksien esittelyyn."
 
-#: data/scenarios/tutorial.sav:228
+#: data/scenarios/tutorial.sav:229
 #, c-format
 msgid ""
 "%s has grown!  As a city grows, more citizens become\n"
@@ -41604,7 +41603,7 @@ msgstr ""
 "viihdyttäjiksi, jotka tuottavat vain luksusta (josta ei ole vielä tässä\n"
 "vaiheessa hyötyä)."
 
-#: data/scenarios/tutorial.sav:232
+#: data/scenarios/tutorial.sav:233
 #, c-format
 msgid ""
 "%s has grown again! Now with three citizens you have\n"
@@ -41627,7 +41626,7 @@ msgstr ""
 "sinulla on sitä riittävästi) saat käynnissä olevan tuotannon\n"
 "valmiiksi välittömästi."
 
-#: data/scenarios/tutorial.sav:236
+#: data/scenarios/tutorial.sav:237
 #, c-format
 msgid ""
 "Now %s has grown to size five. As cities get larger unrest\n"
@@ -41660,7 +41659,7 @@ msgstr ""
 "rauhoittaa yhden kansalaisen). Torin rakentaminen lisää tästä saatavaa\n"
 "etua tuottamalla kaupungille +50%% luksusta."
 
-#: data/scenarios/tutorial.sav:240
+#: data/scenarios/tutorial.sav:241
 #, c-format
 msgid ""
 "Finally you have grown %s to size eight. A size eight city can\n"
@@ -41681,7 +41680,7 @@ msgstr ""
 "Vesijohdon rakentaminen. Tätä varten tarvitset edistysaskeleen\n"
 "Rakennustaito, paitsi jos kaupungit vieressä on järvi tai joki."
 
-#: data/scenarios/tutorial.sav:244
+#: data/scenarios/tutorial.sav:245
 #, c-format
 msgid ""
 "You have grown %s to size 16. To grow\n"
@@ -41692,7 +41691,7 @@ msgstr ""
 "suuremmaksi, sinun on rakennettava Viemäriverkosto, mikä puolestaan\n"
 "vaatii edistysaskeleen Puhtaanapito."
 
-#: data/scenarios/tutorial.sav:248
+#: data/scenarios/tutorial.sav:249
 #, c-format
 msgid ""
 "Congratulations, you have grown %s to size 17. A city this\n"
@@ -41718,7 +41717,7 @@ msgstr ""
 "Suuret kaupungit tuottavat myös riittävästi verotuloja (kultaa) voidaksesi\n"
 "ostaa osan rakennuksista nopeuttaen niiden pystytystä."
 
-#: data/scenarios/tutorial.sav:268
+#: data/scenarios/tutorial.sav:269
 msgid ""
 "You have built a settlers unit. Settlers are best used to build \n"
 "new cities, so as to expand your civilization. Move your settler\n"
@@ -41747,7 +41746,7 @@ msgstr ""
 "pienille kaupungeille. Lisätietoa löydät maastotyyppejä ja niiden\n"
 "erityispiirteitä käsittelevistä kohdista."
 
-#: data/scenarios/tutorial.sav:271
+#: data/scenarios/tutorial.sav:272
 msgid ""
 "Your second Settlers should also be used to build a new city.\n"
 "Notice how when you move the Settlers away from your existing cities\n"
@@ -41772,7 +41771,7 @@ msgstr ""
 "kungin kaupungin käyttöön enemmän resursseja, jolloin ne voivat kasvaa\n"
 "suuremmiksi."
 
-#: data/scenarios/tutorial.sav:276
+#: data/scenarios/tutorial.sav:277
 msgid ""
 "You have built your first military unit! Military units have two\n"
 "basic purposes: attack and defense. Each unit has an attack strength\n"
@@ -41801,7 +41800,7 @@ msgstr ""
 "olet sodassa, voit haluta siirtää yksikkösi kohti viholliskaupunkia\n"
 "hyökätäksesi sen kimppuun. Varo kuitenkin, ettet menetä sitä!"
 
-#: data/scenarios/tutorial.sav:289
+#: data/scenarios/tutorial.sav:290
 msgid ""
 "You have built your first waterborne unit. These can transport\n"
 "other units across water, allowing you to explore and settle new\n"
@@ -41822,7 +41821,7 @@ msgstr ""
 "Poistaaksesi yksikön laivasta, valitse se ja paina U-näppäintä tai "
 "yksinkertaisesti käske yksikön liikkua johonkin ympäröivistä maaruuduista."
 
-#: data/scenarios/tutorial.sav:305
+#: data/scenarios/tutorial.sav:306
 msgid ""
 "You have built a Barracks. This building will make any military\n"
 "units you build start out as veterans. Veteran units are stronger\n"
@@ -41845,7 +41844,7 @@ msgstr ""
 "rakentaneessa kaupungissa. Koska kasarmi on huomattava sijoitus ja sen\n"
 "ylläpitokin maksaa hieman, sitä ei kannata haaskata."
 
-#: data/scenarios/tutorial.sav:318
+#: data/scenarios/tutorial.sav:319
 msgid ""
 "Your city cannot build a settler. Settlers take two units of\n"
 "population to build, so a city of size one or two cannot build one without\n"
@@ -41869,7 +41868,7 @@ msgstr ""
 "rakennat sen maastoon joka tuottaa riittävästi ruokaa - ruohomaa on\n"
 "tältä osin paras vaihtoehto, tasanko tai kukkulat ovat lähes yhtä hyviä."
 
-#: data/scenarios/tutorial.sav:331
+#: data/scenarios/tutorial.sav:332
 msgid ""
 "You have gained your first technology! Technological advances\n"
 "are an integral concept in Freeciv. As you increase your technology\n"
@@ -41908,7 +41907,7 @@ msgstr ""
 "teknologiasta. Kun olet puuhannut kylliksesi, napsauta Kartta-välilehteä\n"
 "(F1) palataksesi karttanäkymään."
 
-#: data/scenarios/tutorial.sav:334
+#: data/scenarios/tutorial.sav:335
 msgid ""
 "Now you have gained your second technology. Go back into the\n"
 "Research report (F6) and take a quick look at your progress. If you\n"
@@ -41937,7 +41936,7 @@ msgstr ""
 "tutkimuksen. Asettamalla tutkimustavoitteesi viisaasti vältyt uusien\n"
 "kohteiden valinnan vaivalta joka kerran edistysaskeleen valmistuessa."
 
-#: data/scenarios/tutorial.sav:337
+#: data/scenarios/tutorial.sav:338
 msgid ""
 "You have successfully completed research into The Republic. This\n"
 "technology is particularly useful because it allows a new form of\n"
@@ -41971,7 +41970,7 @@ msgstr ""
 "kuitenkin huomattavasti yksinvaltaa parempi valtiomuoto, joten\n"
 "siihen sijoittaminen maksaa itsensä pian takaisin."
 
-#: data/scenarios/tutorial.sav:350
+#: data/scenarios/tutorial.sav:351
 #, c-format
 msgid ""
 "%s has found a Hut. These are small villages scattered across\n"
@@ -41995,7 +41994,7 @@ msgstr ""
 "Keskimäärin on hyödyllistä tutkia kaikki vastaan tulevat majat\n"
 "mahdollisimman pian."
 
-#: data/scenarios/tutorial.sav:357
+#: data/scenarios/tutorial.sav:358
 msgid "Loading tutorial events."
 msgstr "Ladataan perehdytysskenaarion tapahtumia."
 
@@ -48435,7 +48434,14 @@ msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/savegame/savegame2.c:5718 server/savegame/savegame3.c:8216
+#: server/savegame/savegame2.c:5703 server/savegame/savegame3.c:8243
+#, c-format
+msgid ""
+"%s inconsistency: Has never had their first city, but has cities this very "
+"moment. Fixing."
+msgstr "%s epäjohdonmukaisuus: heillä ei ole koskaan ollut ensimmäistä kaupunkia, mutta omistavat kaupunkeja tälläkin hetkellä. Korjaan."
+
+#: server/savegame/savegame2.c:5729 server/savegame/savegame3.c:8216
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
