@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-13 19:45+0300\n"
-"PO-Revision-Date: 2026-06-13 19:54+0300\n"
+"POT-Creation-Date: 2026-06-25 04:25+0300\n"
+"PO-Revision-Date: 2026-07-05 21:03+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -48096,7 +48096,14 @@ msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 msgid "%s had finished researches count wrong."
 msgstr "Pelaajan %s valmistuneiden tutkimusten laskuri oli virheellinen."
 
-#: server/savegame/savegame2.c:5703 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#, c-format
+msgid ""
+"%s inconsistency: Has never had their first city, but has cities this very "
+"moment. Fixing."
+msgstr "%s epäjohdonmukaisuus: heillä ei ole koskaan ollut ensimmäistä kaupunkia, mutta omistavat kaupunkeja tälläkin hetkellä. Korjaan."
+
+#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
