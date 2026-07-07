@@ -1,10 +1,76 @@
 ========================
-Welcome to Freeciv 3.2.4
+Welcome to Freeciv 3.2.5
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.4 to 3.2.5
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.5>, 2026-07-07)
+
+3.2.5 is a generic bugfix release in the freeciv-3.2 series.
+
+Server / General
+
+    * Fix No First City vs Currently has cities inconsistency
+      on savegame loading RM#2018
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#1982 RM#1739 RM#2024 RM#2048
+
+AI
+
+    * Enable rampage with more attack types
+         - Bombard RM#1940
+         - Capture Unit RM#1970
+         - Nuke Units RM#1991
+         - Nuke Tile RM#2016 RM#2026
+         - Nuke City RM#2032 RM#2041
+    * Fixed floating point exception at air unit handling RM#2012
+
+Clients
+
+    * Display NeverProtects unit help in correct place RM#1976
+
+    * gtk4
+         - Fixed city trading RM#2034
+
+    * qt
+         - Fixed "Save Options pn Exit" toggle RM#1969
+
+Help / Documentation
+
+    * Miscellaneous changes to developer/install/ruleset docs RM#1864
+
+Translations
+
+    * Corrected encoding of the Hungarian translation
+    * Updated translations:
+         - Complete translations: Polish
+         - Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+           Korean (33% core, 100% nations, 99% ruledit)
+           Swedish (41% core, 16% nations, 1% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#1957 RM#1988 RM#2014 RM#2044
+    * Work towards working emscripten client
+      RM#1880 RM#1881 RM#1986 RM#1992 RM#1879 RM#1896 RM#2021
+    * Fixed compilation against glibc-2.43 RM#1964
+    * Flatpak updates
+         - Gnome Platform updated to 50 RM#1968
+    * AppImage updates
+         - Build gtk4 modpack installer RM#1870
+    * Fixed Qt-client compilation with g++16 and Qt-6.11 RM#2062
+    * Fixed gtk4-client compilation with gtk-4.23 RM#2064
 
 
 CHANGES FROM 3.2.3 to 3.2.4
