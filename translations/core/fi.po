@@ -48101,7 +48101,9 @@ msgstr "Pelaajan %s valmistuneiden tutkimusten laskuri oli virheellinen."
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
-msgstr "%s epäjohdonmukaisuus: heillä ei ole koskaan ollut ensimmäistä kaupunkia, mutta omistavat kaupunkeja tälläkin hetkellä. Korjaan."
+msgstr ""
+"%s epäjohdonmukaisuus: heillä ei ole koskaan ollut ensimmäistä kaupunkia, "
+"mutta omistavat kaupunkeja tälläkin hetkellä. Korjaan."
 
 #: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
 #, c-format

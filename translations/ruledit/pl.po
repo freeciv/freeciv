@@ -293,8 +293,8 @@ msgstr "debug POZIOM"
 #: tools/ruledit/ruledit.cpp:161
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub d:plik1,min,"
-"max:...)"
+"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
+"d:plik1,min,max:...)"
 
 #: tools/ruledit/ruledit.cpp:167
 msgid "Set debug log level (one of f,e,w,n,v)"
