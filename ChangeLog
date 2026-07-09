@@ -1,3 +1,554 @@
+commit b8440a3c5a085f57dfe9bccb761912594391c66b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 10 00:04:28 2026 +0300
+
+    'make update-po' before 3.2.5 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f4786662c22f65c8b5b4ebc03e59e1ef95c5b602
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 10 00:01:08 2026 +0300
+
+    FAQ: Update latest stable version number to 3.2.5
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 39eb98009ba5ef13d55e95912beedf8ae72cc934
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 9 22:20:51 2026 +0300
+
+    NEWS-3.2: Refresh 3.2.5 translation stats
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d1a2729d93745ff64487098b3f1ea4238a7bdd86
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 9 21:50:02 2026 +0300
+
+    Msgmerge Galician translation from main branch
+
+    Main translation updates by ninjum
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f5b0074e5aa1a6f6d453e745d3612e300143435a
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Thu Jul 9 11:16:32 2026 +0500
+
+    Update for Russian translation
+
+commit 37a8971919fd56253c73717dd3edd3c572ec99c0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 7 22:36:50 2026 +0300
+
+    NEWS-3.2: Add 3.2.5 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7be3f7c50a61510f2a9df3c391d8f54ac34feba9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jul 2 15:25:34 2026 +0300
+
+    gtk4: Do not include gdkkeysyms.h directly
+
+    Include gdk/gdk.h instead.
+    Including gdkkeysyms.h directly gives
+    a compilation error under gtk-4.23.
+
+    See RM #2064
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8410df100a633eea8952fdfa6308d180ff029dff
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 6 00:46:11 2026 +0300
+
+    Comment typofix: "Standart" -> "Standard"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 103c3e47150889dbb840c0f59308f8525921240a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 5 22:20:25 2026 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2026-06-26)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 95d57f61e5ec370cee85aa5178c07b7bfc44d7a2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 5 21:09:42 2026 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7544274355c095624442f9b50f5a05240d1c32b6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 4 06:41:33 2026 +0300
+
+    Comment typofix: "requiremnt" -> "requirement"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6a4317b0745abe9330713e6fa5058f83d9cfcc68
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Jun 25 02:33:40 2026 +0300
+
+    Qt: Fix sfinae-incomplete compiler warning with Qt-6.11
+
+    gcc-16 adds sfinae-incomplete warnings. Qt-6.10 is too
+    broken for us to fix all the warnings with it, but we can fix
+    the one warning that remains with Qt-6.11.
+
+    See RM #2062
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9d621eb84c35b346ac90c2f80470793560837b99
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 4 03:50:33 2026 +0300
+
+    Update Swedish translation by NickWick13
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 57396f2b89dfd8e304dc67cb9fd2c69c8463c61a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jun 2 00:01:34 2026 +0300
+
+    AI: Enable rampage when unit can do Nuke city target attack
+
+    See RM #2041
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit de0aad787a123c61f96951ac59901e2a851a4a45
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 5 21:57:33 2026 +0300
+
+    gnulib-common.m4: Update to serial 122
+
+    See RM #2044
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 08165fe4dd97f62dafb98faa70baf3df194a4de5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 9 17:34:14 2026 +0300
+
+    emsbuild.sh: Don't override compilers by environment variables
+
+    See RM #2021
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9bc99f56bdce1af2dbcace52d52e7f544c15c8a5
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 21 04:30:38 2026 +0300
+
+    gtk4: Fix trading cities
+
+    Reported by Erik None
+
+    See RM #2034
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 42039102604b853ded1683332e81dab4221eade6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 14 01:37:36 2026 +0300
+
+    granularity: Fix "Road Building" help text typo
+
+    See RM #2048
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7363ab49dbee44958031782c8e8119329e487003
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 20 06:24:08 2026 +0300
+
+    Add select_actres_action_unit_on_city()
+
+    See RM #2032
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3a225f2448bcfc067e979813c3a935a5e3b8c6e0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 7 04:31:05 2026 +0300
+
+    Savegame: Fix PLRF_FIRST_CITY / cities currently > 0 inconsistency
+
+    See RM #2018
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 75340d36b2584055b8a6234e745207663dea9504
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 14 16:30:53 2026 +0300
+
+    AI: Enable rampage when unit can do Nuke tile target attack
+
+    See RM #2026
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 682a68d739d7156fcaf3a8f029e6f36cbb893bfb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 16 08:22:11 2026 +0300
+
+    AppImage: Build gtk4 modpack installer
+
+    See RM #1870
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9d9540bddc6db0b7d3e230972670e0a923a37572
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 13 20:18:12 2026 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e9c0c1c67afd2db64cb8cb1c159230eb0d6107e2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 13 19:41:03 2026 +0300
+
+    Comment typofix: "Convinient" -> "Convenient"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 96eab7058b7c9a69b2c89fb8ba5e95ff650c8e31
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 14 04:08:39 2026 +0300
+
+    CI: Update setup-msys2 to version 2.31.1
+
+    See RM #2024
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5c5d38f4f3494d4d172a11b4bf887a58def863e8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 7 00:08:38 2026 +0300
+
+    gnulib-common.m4: Update to serial 118
+
+    See RM #2014
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b9a93d370475d8bf4fe22b46f36b72418f606684
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jun 6 23:42:13 2026 +0300
+
+    Update Korean translation nation and ruledit domains
+
+    Just msgmerged translations from S3_3 against S3_2
+    English originals.
+    S3_3 translations by JungHee Lee
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b76a59124eb77f32d40556e706616063b0c3b2ca
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu May 7 01:51:39 2026 +0300
+
+    Add select_actres_action_unit_on_tile()
+
+    See RM #2016
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 82850b21e6f901b0a9b9f7083526ad8941ffbcf9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 3 20:31:43 2026 +0300
+
+    emscripten: Add asynchronous support
+
+    See RM #1896
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5b7e7970bcdb48970776e9dbea96cdd459379ebd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed May 27 22:39:13 2026 +0300
+
+    Comment typofix: "mimiced" -> "mimicked"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cb81289b2daff9db88d091926065fdbcd230a70d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun May 3 19:57:50 2026 +0300
+
+    AI: Fix floating point exception at air unit handling
+
+    Reported by gusrestrepo
+
+    See RM #2012
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 50647b84ea5e43740e81ac3a196ce823acef7939
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Apr 14 01:35:50 2026 +0300
+
+    AI: Enable rampage when unit can do Nuke Units attack
+
+    See RM #1991
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 74fb925915b69e8a07109d01e092addd94b3f30b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 22 03:30:31 2026 +0300
+
+    Meson: Build emscripten binaries with 'html' -suffix
+
+    See RM #1879
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2c66bbf8575709ede0bf89e9b92aa73ed643292b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 16 08:55:20 2026 +0300
+
+    Comment typofix: "wight" -> "width"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5e164ec6e55145fb67c007a9015d32a6fbc38375
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat May 16 07:04:08 2026 +0300
+
+    ruledit/hu.po: Convert to UTF-8
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit be669e47d99d39dd80dd7b7e7b7df9c9700eaea6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Apr 15 23:58:52 2026 +0300
+
+    team_slot_name_translation(): Assert correctly on nonls build
+
+    See RM #1739
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ce4ed2beb9a69b4c34a473563dbf438ab73d18cc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 3 20:25:25 2026 +0300
+
+    README.md: Instruct bug reporting
+
+    Refer to the tracker also as place to report bugs,
+    in addition to as place to submit patches.
+
+    Make similar update to doxygen.md
+
+    See RM #1864
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e8a03f00221755fb882d3feb642a564faf9972e0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Apr 14 03:59:16 2026 +0300
+
+    emscripten: Set 'c' instead of 'cc' in cross-ems.tmpl
+
+    See RM #1992
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6e3a628f537a47004a9c85d3947c46caf209fe36
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue May 5 23:49:13 2026 +0300
+
+    Comment typofix: "enetered" -> "entered"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8375c84b0a763ce7314619ae40c196043bcac38a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Apr 13 22:13:33 2026 +0300
+
+    gnulib-common.m4: Refresh from gnulib
+
+    Serial remains 116
+
+    See RM #1988
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 30fa1a1a4b34ebd2800498c9ca43aa4be64022c8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri May 1 16:15:42 2026 +0300
+
+    Comment typofix: "knownledge" -> "knowledge"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 76af87d70336186a59e05c128c50df4ea4b3bc7b
+Author: Dino <macwiz23@comcast.net>
+Date:   Thu Apr 2 21:33:15 2026 -0400
+
+    client help: move NeverProtects help text to correct place
+
+    See RM #1976
+
+commit ee738c538f06d41d0c46322f18b65faa550ef50f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 5 10:18:45 2026 +0300
+
+    Update to emscripten 5.0.4
+
+    See RM #1986
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 436d4a7da30c8f54727a96d681cae2853e007c53
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 29 09:26:26 2026 +0300
+
+    AI: Enable rampage when unit can do Capture Unit attack
+
+    See RM #1970
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f7386bfd7a22a87e21828382d3b683e50d761cef
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 29 06:52:51 2026 +0300
+
+    Qt: Fix "Save Options on Exit" toggle
+
+    See RM #1969
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f93411bb74909400d4a5f0fd4226d9d417cab843
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Apr 3 13:07:48 2026 +0300
+
+    Meson: Use host_machine.system() to detect emscripten build
+
+    That replaces a compile test we had for the same purpose.
+
+    See RM #1881
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e10d57866ef85b3944bb46ca0b074810fc76415a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Apr 4 00:27:55 2026 +0300
+
+    CI: Update setup-msys2 to version 2.31.0
+
+    See RM #1982
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3d347ca65de5759d186de7b2ae76d3d70f156486
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Apr 5 11:01:45 2026 +0300
+
+    Comment typofix: "surrended" -> "surrendered"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6706079bd3a7226174ccf1a6f337b8e0bc6495cf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 29 02:04:44 2026 +0200
+
+    Flatpak: Update gnome Sdk & Platform to 50
+
+    See RM #1968
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e537279978b3701a1b9e7639e2cf24402190d372
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Mar 22 02:19:45 2026 +0200
+
+    Fix compilation against glibc-2.43
+
+    See RM #1964
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8f82797e4ead05ca4a8e7a7c91d08093660f1b77
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Mar 31 00:40:33 2026 +0300
+
+    Comment typofix: "avilable" -> "available"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5535db410ae19928433dfcbcccc51a1f4377e66f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Feb 11 03:40:40 2026 +0200
+
+    AI: Enable rampage when unit can do bombard attack
+
+    See RM #1940
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e1360ef7e7edab348d3d55e27808d8bc069ae076
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 14 21:44:31 2026 +0200
+
+    emscripten: Double stack size
+
+    See RM #1880
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a5c494b769c1489b5f78186730a3276e43238209
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Mar 23 01:26:12 2026 +0200
+
+    Comment typofix: "multipled" -> "multiplied"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 502894635e6762a50b9b447a2483b2d999e10d22
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 7 06:48:55 2026 +0200
+
+    gnulib-common.m4: Update to serial 116
+
+    See RM #1957
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d90e26f496bab45386cb5a2a0680a1b664f90c3f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 21 00:40:33 2026 +0200
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ffa2c93487fa9d387b87edf2c243a7fa55cfb2a6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Mar 21 00:35:48 2026 +0200
+
+    Finalize 3.2.4 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 12118adf7c2b4bbc34b698e969a64bfa3732f540
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Sat Mar 21 00:34:49 2026 +0200
