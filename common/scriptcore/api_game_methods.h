@@ -176,6 +176,7 @@ int api_methods_tile_nat_x(lua_State *L, Tile *ptile);
 int api_methods_tile_nat_y(lua_State *L, Tile *ptile);
 int api_methods_tile_map_x(lua_State *L, Tile *ptile);
 int api_methods_tile_map_y(lua_State *L, Tile *ptile);
+int api_methods_tile_latitude(lua_State *L, Tile *ptile);
 City *api_methods_tile_city(lua_State *L, Tile *ptile);
 bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
                                                       Tile *ptile,
