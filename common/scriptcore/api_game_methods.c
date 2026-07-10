@@ -1240,6 +1240,17 @@ int api_methods_tile_map_y(lua_State *L, Tile *ptile)
 }
 
 /**********************************************************************//**
+  Return the latitude of the tile.
+**************************************************************************/
+int api_methods_tile_latitude(lua_State *L, Tile *ptile)
+{
+  LUASCRIPT_CHECK_STATE(L, MAP_MAX_LATITUDE + 1);
+  LUASCRIPT_CHECK_SELF(L, ptile, MAP_MAX_LATITUDE + 1);
+
+  return map_signed_latitude(ptile);
+}
+
+/**********************************************************************//**
   Return City on ptile, else NULL
 **************************************************************************/
 City *api_methods_tile_city(lua_State *L, Tile *ptile)

@@ -385,6 +385,8 @@ module Tile {
       @ y (lua_State *L, Tile *self);
   }
 
+  int api_methods_tile_latitude
+    @ latitude (lua_State *L, Tile *self);
   City *api_methods_tile_city
     @ city (lua_State *L, Tile *self);
   bool api_methods_tile_city_exists_within_max_city_map
