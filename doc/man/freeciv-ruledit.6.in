@@ -33,7 +33,7 @@ Acceptable values for the \fIlevel\fP are:
 
 .TP
 .BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"
-Raise a custom signal on failed assertion.  If \fIsignal_number\fP is not
+Raise a custom signal on failed assertion. If \fIsignal_number\fP is not
 specified, then the ABRT signal will be used.
 
 .TP

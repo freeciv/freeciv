@@ -126,7 +126,7 @@ distribution for details of its format.
 When a game ends, exit instead of restarting.
 .TP
 .BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"
-Raise a custom signal on failed assertion.  If \fIsignal_number\fP is not
+Raise a custom signal on failed assertion. If \fIsignal_number\fP is not
 specified, then the ABRT signal will be used.
 .TP
 .BI "\-f \fIfilename\fP, \-\-file \fIfilename\fP"
@@ -165,7 +165,7 @@ Allow guests to login as 'guest' when authentication is enabled.
 Prints out a description of the command line options and exits.
 .TP
 .BI "\-i \fIaddress\fP, \-\-identity \fIaddress\fP"
-Reports the \fIaddress\fP to the metaserver.  Then, the metaserver will use
+Reports the \fIaddress\fP to the metaserver. Then, the metaserver will use
 this address to redirect the users.
 .TP
 .BI "\-L \fImodule\fP, \-\-LoadAI \fImodule\fP"
@@ -175,9 +175,9 @@ modules.
 .BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
 Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
-option to set how much is logged.  By default, fatal, error, warning, and normal
-messages are printed to standard output.  With a log file, such messages go
-to the log instead.  If \fIfilename\fP already exists, it is appended to.
+option to set how much is logged. By default, fatal, error, warning, and normal
+messages are printed to standard output. With a log file, such messages go
+to the log instead. If \fIfilename\fP already exists, it is appended to.
 .TP
 .BI "\-M \fIaddress\fP, \-\-Metaserver \fIaddress\fP"
 Specifies the \fIaddress\fP of the metaserver to send your server's information
@@ -353,7 +353,7 @@ data directories. By default Freeciv looks in the following directories,
 in order, for any data files: the current directory; the "data" subdirectory
 of the current directory; the subdirectory ".freeciv/@DATASUBDIR@" in the user's
 home directory; and the directory where the files are placed by running
-"make install".  If not set,
+"make install". If not set,
 .BI FREECIV_SAVE_PATH
 A colon separated list of directories pointing to the
 .B freeciv
