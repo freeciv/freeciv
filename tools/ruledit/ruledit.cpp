@@ -42,7 +42,6 @@
 
 // ruledit
 #include "comments.h"
-#include "ruledit_qt.h"
 
 #include "ruledit.h"
 
