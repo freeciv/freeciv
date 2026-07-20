@@ -156,7 +156,6 @@ signals:
     void incoming_req_vec_change(const requirement_vector *vec);
 };
 
-int ruledit_qt_run(int argc, char **argv);
 void ruledit_qt_display_requirers(const char *msg, void *data);
 void show_experimental(QWidget *wdg);
 
