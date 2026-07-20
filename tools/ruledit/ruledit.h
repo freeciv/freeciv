@@ -20,4 +20,8 @@ struct ruledit_arguments {
 
 extern struct ruledit_arguments reargs;
 
+// Declared here so ruledit.cpp compilation sees it, without
+// including anything Qt-specific.
+int ruledit_qt_run(int argc, char **argv);
+
 #endif // FC__RULEDIT_H
