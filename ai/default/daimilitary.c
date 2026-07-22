@@ -1301,6 +1301,8 @@ static void process_attacker_want(struct ai_type *ait,
                                    },
                                    NULL,
                                    EFT_VETERAN_BUILD);
+      /* Levels start from zero, so max level is 'number of levels - 1' */
+      int max_level = utype_veteran_levels(punittype) - 1;
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
@@ -1308,10 +1310,12 @@ static void process_attacker_want(struct ai_type *ait,
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
       int bcost = utype_build_shield_cost(pcity, NULL, punittype);
-      int attack = adv_unittype_att_rating(punittype, veteran_level,
-                                           SINGLE_MOVE,
-                                           punittype->hp);
+      int attack;
       int tech_dist = 0;
+
+      veteran_level = CLIP(0, veteran_level, max_level);
+      attack = adv_unittype_att_rating(punittype, veteran_level,
+                                       SINGLE_MOVE, punittype->hp);
 
       unit_tech_reqs_iterate(punittype, padv) {
         Tech_type_id tech_req = advance_number(padv);
