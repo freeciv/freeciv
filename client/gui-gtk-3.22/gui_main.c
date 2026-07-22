@@ -1900,6 +1900,8 @@ int ui_main(int argc, char **argv)
       return EXIT_FAILURE;
     }
 
+    g_set_prgname("org.freeciv.gtk322");
+
     help_system_init();
 
     dlg_tab_provider_prepare();
