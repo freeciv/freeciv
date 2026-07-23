@@ -592,6 +592,8 @@ int main(int argc, char *argv[])
 
     /* Process GTK arguments */
     if (gtk_init_check(&ui_options, &argv)) {
+      g_set_prgname("org.freeciv.gtk3.mp");
+
       toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
       gtk_widget_realize(toplevel);
