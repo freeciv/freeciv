@@ -666,7 +666,7 @@ static void modinst_setup_widgets(void)
   gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(URL_input)),
                             DEFAULT_URL_START, -1);
   g_signal_connect(URL_input, "activate",
-		   G_CALLBACK(URL_return), nullptr);
+                   G_CALLBACK(URL_return), nullptr);
 
   g_signal_connect(install_button, "clicked",
                    G_CALLBACK(install_clicked), URL_input);

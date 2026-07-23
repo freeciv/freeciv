@@ -46,8 +46,8 @@ static gboolean downloading = FALSE;
 
 struct fcmp_params fcmp = {
   .list_url = MODPACK_LIST_URL,
-  .inst_prefix = NULL,
-  .autoinstall = NULL
+  .inst_prefix = nullptr,
+  .autoinstall = nullptr
 };
 
 static gboolean quit_dialog_callback(void);
@@ -96,7 +96,7 @@ static gboolean quit_dialog_callback(void)
     static GtkWidget *dialog;
 
     if (!dialog) {
-      dialog = gtk_message_dialog_new(NULL,
+      dialog = gtk_message_dialog_new(nullptr,
                                       0,
                                       GTK_MESSAGE_WARNING,
                                       GTK_BUTTONS_YES_NO,
@@ -105,7 +105,7 @@ static gboolean quit_dialog_callback(void)
       gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
       g_signal_connect(dialog, "response",
-                       G_CALLBACK(quit_dialog_response), NULL);
+                       G_CALLBACK(quit_dialog_response), nullptr);
       g_signal_connect(dialog, "destroy",
                        G_CALLBACK(gtk_widget_destroyed), &dialog);
     }
@@ -228,7 +228,7 @@ static gboolean versionlist_update_main_thread(gpointer user_data)
 
      new_inst = mpdb_installed_version(name_str, type);
 
-     if (new_inst == NULL) {
+     if (new_inst == nullptr) {
        new_inst = _("Not installed");
      }
 
@@ -247,7 +247,7 @@ static gboolean versionlist_update_main_thread(gpointer user_data)
 **************************************************************************/
 static void versionlist_update_dl_thread(void)
 {
-  gdk_threads_add_idle(versionlist_update_main_thread, NULL);
+  gdk_threads_add_idle(versionlist_update_main_thread, nullptr);
 }
 
 /**********************************************************************//**
@@ -259,7 +259,7 @@ static gpointer download_thread(gpointer data)
 
   errmsg = download_modpack(data, &fcmp, msg_dl_thread, pbar_dl_thread);
 
-  if (errmsg == NULL) {
+  if (errmsg == nullptr) {
     msg_dl_thread(_("Ready"));
   } else {
     msg_dl_thread(errmsg);
@@ -271,7 +271,7 @@ static gpointer download_thread(gpointer data)
 
   downloading = FALSE;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -295,7 +295,7 @@ static void gui_download_modpack(const char *URL)
   strcpy(URLbuf, URL);
 
   downloader = g_thread_new("Downloader", download_thread, URLbuf);
-  if (downloader == NULL) {
+  if (downloader == nullptr) {
     gtk_label_set_text(GTK_LABEL(statusbar),
                        _("Failed to start downloader"));
     free(URLbuf);
@@ -342,7 +342,7 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
 
   if (!gtk_tree_view_get_tooltip_context(tree_view, &x, &y,
                                          keyboard_tip,
-                                         &model, NULL, &iter)) {
+                                         &model, nullptr, &iter)) {
     return FALSE;
   }
 
@@ -350,7 +350,7 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
                      ML_NOTES, &notes,
                      -1);
 
-  if (notes != NULL) {
+  if (notes != nullptr) {
     gtk_tooltip_set_markup(tooltip, notes);
 
     return TRUE;
@@ -379,7 +379,7 @@ static void setup_modpack_list(const char *name, const char *URL,
     type_str = _("?");
   }
 
-  if (license != NULL) {
+  if (license != nullptr) {
     lic_str = license;
   } else {
     /* TRANS: License of modpack is not known */
@@ -387,7 +387,7 @@ static void setup_modpack_list(const char *name, const char *URL,
   }
 
   inst_str = mpdb_installed_version(name, type);
-  if (inst_str == NULL) {
+  if (inst_str == nullptr) {
     inst_str = _("Not installed");
   }
 
@@ -445,7 +445,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   rev_ver = fc_git_revision();
 
-  if (rev_ver == NULL) {
+  if (rev_ver == nullptr) {
     fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
   } else {
     fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
@@ -459,42 +459,42 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_NAME,
                                               _("Name"), renderer, "text", 0,
-                                              NULL);
+                                              nullptr);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_VER,
                                               _("Version"), renderer, "text", 1,
-                                              NULL);
+                                              nullptr);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_INST,
                                               _("Installed"), renderer, "text", 2,
-                                              NULL);
+                                              nullptr);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_TYPE,
                                               Q_("?modpack:Type"),
                                               renderer, "text", 3,
-                                              NULL);
+                                              nullptr);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_SUBTYPE,
                                               _("Subtype"),
                                               renderer, "text", 4,
-                                              NULL);
+                                              nullptr);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_LIC,
                                               /* TRANS: noun */
                                               _("License"), renderer, "text", 5,
-                                              NULL);
+                                              nullptr);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_URL,
                                               _("URL"), renderer, "text", 6,
-                                              NULL);
+                                              nullptr);
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(main_list));
-  g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), NULL);
+  g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), nullptr);
 
   install_button = gtk_button_new();
   install_label = gtk_label_new(_("Install modpack"));
@@ -512,7 +512,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
                             strlen(EXAMPLE_URL));
   gtk_entry_set_text(GTK_ENTRY(URL_input), DEFAULT_URL_START);
   g_signal_connect(URL_input, "activate",
-		   G_CALLBACK(URL_return), NULL);
+                   G_CALLBACK(URL_return), nullptr);
 
   g_signal_connect(install_button, "clicked",
                    G_CALLBACK(install_clicked), URL_input);
@@ -543,13 +543,13 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   errmsg = download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 
-  g_object_set(main_list, "has-tooltip", TRUE, NULL);
+  g_object_set(main_list, "has-tooltip", TRUE, nullptr);
   g_signal_connect(main_list, "query-tooltip",
-                   G_CALLBACK(query_main_list_tooltip_cb), NULL);
+                   G_CALLBACK(query_main_list_tooltip_cb), nullptr);
 
   g_object_unref(main_store);
 
-  if (errmsg != NULL) {
+  if (errmsg != nullptr) {
     gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
   }
 }
@@ -612,13 +612,13 @@ int main(int argc, char *argv[])
 #endif /* FREECIV_MSWINDOWS */
 
       g_signal_connect(toplevel, "delete_event",
-                       G_CALLBACK(quit_dialog_callback), NULL);
+                       G_CALLBACK(quit_dialog_callback), nullptr);
 
       modinst_setup_widgets(toplevel);
 
       gtk_widget_show_all(toplevel);
 
-      if (fcmp.autoinstall != NULL) {
+      if (fcmp.autoinstall != nullptr) {
         gui_download_modpack(fcmp.autoinstall);
       }
 
