@@ -4,12 +4,12 @@
 # This translation is covered by the GNU General Public License Version 2.
 # Copyright (C) 1999-2004
 #
-# Past translators:    Andreas Røsdal <andrearo@stud.ntnu.no>, 2002-2004
-#                      Stig E Sandø <stig@ii.uib.no>, 1999-2001
+# Past translators:    Andreas RÃ¸sdal <andrearo@stud.ntnu.no>, 2002-2004
+#                      Stig E SandÃ¸ <stig@ii.uib.no>, 1999-2001
 #
 # Feedback and patches provided by:
 #  - Per I. Mathisen <per@freeciv.org>
-#  - Jørgen Skjaanes <jorgen@gulesider.no>
+#  - JÃ¸rgen Skjaanes <jorgen@gulesider.no>
 #  - Gaute (B) Strokkenes <gs234@cam.ac.uk>
 #  - Petter Reinholdtsen <pere@hungry.com>
 #  - Knut Omang <komang@broadpark.no>
@@ -447,7 +447,7 @@ msgstr ""
 #: tools/ruledit/ruledit_qt.cpp:255
 #, fuzzy
 msgid "Ruleset loaded"
-msgstr "Ørken"
+msgstr "Ã˜rken"
 
 #: tools/ruledit/ruledit_qt.cpp:279
 msgid "Ruleset loading failed!"
@@ -668,7 +668,7 @@ msgstr ""
 #: tools/ruledit/tab_misc.cpp:74
 #, fuzzy
 msgid "Ruleset name"
-msgstr "Ørken"
+msgstr "Ã˜rken"
 
 #: tools/ruledit/tab_misc.cpp:79
 #, fuzzy
@@ -814,7 +814,7 @@ msgstr ""
 #: tools/ruledit/tab_misc.cpp:317
 #, fuzzy
 msgid "Ruleset saved"
-msgstr "Ørken"
+msgstr "Ã˜rken"
 
 #: tools/ruledit/tab_misc.cpp:468
 msgid "Always active"
