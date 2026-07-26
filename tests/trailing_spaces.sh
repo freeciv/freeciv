@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #/***********************************************************************
-# Freeciv - Copyright (C) 2022-2025
+# Freeciv - Copyright (C) 2022-2026
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2, or (at your option)
@@ -24,6 +24,7 @@ files=$(find $1 -name "*.ruleset" \
              -o -name "*.txt" \
              -o -name "README*" \
              -o -name "*.xml" \
+             -o -name "*.c" \
              -o -name "*.cpp" \
              -o -name "*.h" \
              -o -name "*.pkg" \
