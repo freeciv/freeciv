@@ -197,6 +197,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
         if (valid_improvement(pimprove)) {
           requirement_vector_iterate(&(pimprove->reqs), preq) {
             if (VUT_ADVANCE == preq->source.kind
+                && preq->present
                 && advance_number(preq->source.value.advance) == node->tech) {
               sprite = get_building_sprite(tileset, pimprove);
               /* Improvement icons are not guaranteed to exist */
@@ -214,12 +215,13 @@ static void node_rectangle_minimum_size(struct tree_node *node,
       governments_iterate(gov) {
         requirement_vector_iterate(&(gov->reqs), preq) {
           if (VUT_ADVANCE == preq->source.kind
-	   && advance_number(preq->source.value.advance) == node->tech) {
+              && preq->present
+              && advance_number(preq->source.value.advance) == node->tech) {
             sprite = get_government_sprite(tileset, gov);
-	    get_sprite_dimensions(sprite, &swidth, &sheight);
+            get_sprite_dimensions(sprite, &swidth, &sheight);
             max_icon_height = MAX(max_icon_height, sheight);
             icons_width_sum += swidth + 2;	    
-	  }
+          }
         } requirement_vector_iterate_end;
       } governments_iterate_end;
     }
@@ -1110,6 +1112,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
             if (valid_improvement(pimprove)) {
               requirement_vector_iterate(&(pimprove->reqs), preq) {
                 if (VUT_ADVANCE == preq->source.kind
+                    && preq->present
                     && advance_number(preq->source.value.advance) == node->tech) {
                   sprite = get_building_sprite(tileset, pimprove);
                   /* Improvement icons are not guaranteed to exist */
@@ -1130,15 +1133,16 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
           governments_iterate(gov) {
             requirement_vector_iterate(&(gov->reqs), preq) {
               if (VUT_ADVANCE == preq->source.kind
-               && advance_number(preq->source.value.advance) == node->tech) {
+                  && preq->present
+                  && advance_number(preq->source.value.advance) == node->tech) {
                 sprite = get_government_sprite(tileset, gov);
                 get_sprite_dimensions(sprite, &swidth, &sheight);
- 	        canvas_put_sprite_full(pcanvas,
- 	                               icon_startx,
- 				       starty + text_h + 4
- 				       + (height - text_h - 4 - sheight) / 2,
- 	                               sprite);
- 	        icon_startx += swidth + 2;
+                canvas_put_sprite_full(pcanvas,
+                                       icon_startx,
+                                       starty + text_h + 4
+                                       + (height - text_h - 4 - sheight) / 2,
+                                       sprite);
+                icon_startx += swidth + 2;
               }
             } requirement_vector_iterate_end;
           } governments_iterate_end;
