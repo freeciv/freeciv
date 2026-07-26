@@ -121,7 +121,6 @@ cd build
  CXX="clang++" \
  --enable-debug \
  --enable-sys-lua \
- --enable-sys-tolua-cmd \
  --disable-fcdb \
  --with-qtver=qt6 \
  --enable-client=gtk3.22,qt,sdl2,gtk4,stub \
