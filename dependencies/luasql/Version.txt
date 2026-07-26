@@ -1,13 +1,12 @@
-Sources here are from luasql git tag 2.7.0
-(https://github.com/lunarmodules/luasql/tree/2.7.0)
+Sources here are from luasql git tag 2.8.1
+(https://github.com/lunarmodules/luasql/tree/2.8.1)
 Some modifications have been done to them:
-- Commit 10ed75b36bf909f57b3c1a070dd87669c323cff0 backported
-- Fixed compile error on ls_sqlite3.c raw_readparams_table()
-  Fix has been submitted to upstream.
-- Cleared trailing spaces
+- LUASQL_VERSION_NUMBER defined in luasql.h
+- Cleared trailing tabs from ls_mysql.c
   Equivalent patch submitted to upstream.
-- Fixed comment typos found by codespell
-  Fix has been submitted to upstream.
+- Fixed misleading indentation in ls_sqlite3.c
+- Removed unused variables from ls_odbc.c
+- Cleared trailing tabs from ls_odbc.c
 
 Only the files needed by freeciv are included here, not entire luasql
 source directory hierarchy.
