@@ -32,8 +32,8 @@
 
 #define MPDB_FORMAT_VERSION "1"
 
-static sqlite3 *main_handle = NULL;
-static sqlite3 *scenario_handle = NULL;
+static sqlite3 *main_handle = nullptr;
+static sqlite3 *scenario_handle = nullptr;
 
 static int mpdb_query(sqlite3 *handle, const char *query);
 
@@ -47,7 +47,7 @@ void load_install_info_list(const char *filename)
 
   file = secfile_load(filename, FALSE);
 
-  if (file == NULL) {
+  if (file == nullptr) {
     /* This happens in first run - or actually all runs until something is
      * installed. Previous run has not saved database. */
     log_debug("No install info file");
@@ -57,7 +57,7 @@ void load_install_info_list(const char *filename)
 
   caps = secfile_lookup_str(file, "info.options");
 
-  if (caps == NULL) {
+  if (caps == nullptr) {
     log_error("MPDB %s missing capability information", filename);
     secfile_destroy(file);
     return;
@@ -73,7 +73,7 @@ void load_install_info_list(const char *filename)
     return;
   }
 
-  if (file != NULL) {
+  if (file != nullptr) {
     bool all_read = FALSE;
     int i;
 
@@ -83,9 +83,9 @@ void load_install_info_list(const char *filename)
 
       fc_snprintf(buf, sizeof(buf), "modpacks.mp%d", i);
 
-      str = secfile_lookup_str_default(file, NULL, "%s.name", buf);
+      str = secfile_lookup_str_default(file, nullptr, "%s.name", buf);
 
-      if (str != NULL) {
+      if (str != nullptr) {
         const char *type;
         const char *ver;
 
@@ -111,7 +111,7 @@ static int mpdb_query(sqlite3 *handle, const char *query)
   int ret;
   sqlite3_stmt *stmt;
 
-  ret = sqlite3_prepare_v2(handle, query, -1, &stmt, NULL);
+  ret = sqlite3_prepare_v2(handle, query, -1, &stmt, nullptr);
 
   if (ret == SQLITE_OK) {
     ret = sqlite3_step(stmt);
@@ -156,7 +156,7 @@ void create_mpdb(const char *filename, bool scenario_db)
   }
 
   ret = sqlite3_open_v2(filename, handle, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
-                        NULL);
+                        nullptr);
 
   if (ret == SQLITE_OK) {
     ret = mpdb_query(*handle,
@@ -189,7 +189,7 @@ void open_mpdb(const char *filename, bool scenario_db)
     handle = &main_handle;
   }
 
-  ret = sqlite3_open_v2(filename, handle, SQLITE_OPEN_READWRITE, NULL);
+  ret = sqlite3_open_v2(filename, handle, SQLITE_OPEN_READWRITE, nullptr);
 
   if (ret != SQLITE_OK) {
     log_error(_("Opening \"%s\" failed: %s"), filename, sqlite3_errstr(ret));
@@ -202,9 +202,9 @@ void open_mpdb(const char *filename, bool scenario_db)
 void close_mpdbs(void)
 {
   sqlite3_close(main_handle);
-  main_handle = NULL;
+  main_handle = nullptr;
   sqlite3_close(scenario_handle);
-  scenario_handle = NULL;
+  scenario_handle = nullptr;
 }
 
 /**********************************************************************//**
@@ -267,7 +267,7 @@ const char *mpdb_installed_version(const char *name,
   sqlite3_snprintf(sizeof(qbuf), qbuf,
                    "select * from modpacks where name is '%q';",
                    name);
-  ret = sqlite3_prepare_v2(*handle, qbuf, -1, &stmt, NULL);
+  ret = sqlite3_prepare_v2(*handle, qbuf, -1, &stmt, nullptr);
 
   if (ret == SQLITE_OK) {
     ret = sqlite3_step(stmt);
@@ -281,5 +281,5 @@ const char *mpdb_installed_version(const char *name,
     return (const char *)sqlite3_column_text(stmt, 2);
   }
 
-  return NULL;
+  return nullptr;
 }
