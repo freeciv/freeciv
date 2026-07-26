@@ -11,6 +11,7 @@
 #include <string.h>
 #include <time.h>
 
+#define SQL_NOUNICODEMAP
 #if defined(_WIN32)
 #include <windows.h>
 #include <sqlext.h>
@@ -292,15 +293,6 @@ static int cur_shut(lua_State *L, cur_data *cur)
 */
 static const char *sqltypetolua (const SQLSMALLINT type) {
     switch (type) {
-        case SQL_UNKNOWN_TYPE: case SQL_CHAR: case SQL_VARCHAR:
-        case SQL_TYPE_DATE: case SQL_TYPE_TIME: case SQL_TYPE_TIMESTAMP:
-        case SQL_DATE: case SQL_INTERVAL: case SQL_TIMESTAMP:
-        case SQL_LONGVARCHAR:
-        case SQL_WCHAR: case SQL_WVARCHAR: case SQL_WLONGVARCHAR:
-#if (ODBCVER >= 0x0350)
-		case SQL_GUID:
-#endif
-            return "string";
         case SQL_BIGINT: case SQL_TINYINT:
         case SQL_INTEGER: case SQL_SMALLINT:
 #if LUA_VERSION_NUM>=503
@@ -314,8 +306,7 @@ static const char *sqltypetolua (const SQLSMALLINT type) {
         case SQL_BIT:
             return "boolean";
         default:
-            assert(0);
-            return NULL;
+            return "string";
     }
 }
 
@@ -360,7 +351,7 @@ static int push_column(lua_State *L, int coltypes, const SQLHSTMT hstmt,
 #if LUA_VERSION_NUM>=503
 		/* iNteger */
 		case 'n': {
-			SQLINTEGER num;
+			SQLLEN num;
 			SQLLEN got;
 			SQLRETURN rc = SQLGetData(hstmt, i, SQL_C_SLONG, &num, 0, &got);
 			if (error(rc))
@@ -707,7 +698,11 @@ static int raw_execute(lua_State *L, int istmt)
 			return fail(L, hSTMT, stmt->hstmt);
 		}
 
-		lua_pushnumber(L, numrows);
+#if LUA_VERSION_NUM >= 503
+		lua_pushinteger(L, (lua_Integer)numrows);
+#else
+		lua_pushnumber(L, (lua_Number)numrows);
+#endif
 		return 1;
 	}
 }
@@ -1096,9 +1091,30 @@ static int env_connect (lua_State *L) {
 	if (error(ret))
 		return luasql_faildirect (L, "connection allocation error.");
 
+	/* detect if sourcename is DSN / connection string by checking for '=' char */
+	int is_connection_string = 0;
+	const char *src = (const char*)sourcename;
+	if (strstr(src, "=") != NULL) {
+		is_connection_string = 1;
+	}
+
 	/* tries to connect handle */
-	ret = SQLConnect (hdbc, sourcename, SQL_NTS,
-		username, SQL_NTS, password, SQL_NTS);
+	if (is_connection_string) {
+		ret = SQLDriverConnect(
+			hdbc,
+			NULL, /* window handle */
+			sourcename,
+			SQL_NTS,
+			NULL, /* output connection string buffer */
+			0, /* sizeof output buffer */
+			NULL, /* actual length of output string buffer */
+			SQL_DRIVER_NOPROMPT
+		);
+	} else {
+		ret = SQLConnect (hdbc, sourcename, SQL_NTS,
+			username, SQL_NTS, password, SQL_NTS);
+	}
+
 	if (error(ret)) {
 		ret = fail(L, hDBC, hdbc);
 		SQLFreeHandle(hDBC, hdbc);

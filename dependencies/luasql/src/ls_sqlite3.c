@@ -41,6 +41,7 @@ typedef struct
 typedef struct
 {
   short       closed;
+  short       first_fetch;
   int         conn;               /* reference to connection */
   int         numcols;            /* number of columns */
   int         colnames, coltypes; /* reference to column information tables */
@@ -162,14 +163,14 @@ static int cur_fetch (lua_State *L) {
   if (vm == NULL)
     return 0;
 
-  res = sqlite3_step(vm);
+  if (!cur->first_fetch) {
+    res = sqlite3_step(vm);
 
-  /* no more results? */
-  if (res == SQLITE_DONE)
-    return finalize(L, cur);
-
-  if (res != SQLITE_ROW)
-    return finalize(L, cur);
+    if (res == SQLITE_DONE || res != SQLITE_ROW)
+        return finalize(L, cur);
+  } else {
+    cur->first_fetch = 0;
+  }
 
   if (lua_istable (L, 2))
     {
@@ -287,6 +288,7 @@ static int create_cursor(lua_State *L, int o, conn_data *conn,
 
   /* fill in structure */
   cur->closed = 0;
+  cur->first_fetch = 1;
   cur->conn = LUA_NOREF;
   cur->numcols = numcols;
   cur->colnames = LUA_NOREF;
@@ -358,6 +360,8 @@ static int conn_close(lua_State *L)
   }
 
   conn->closed = 1;
+  luaL_unref(L, LUA_REGISTRYINDEX, conn->env);
+  sqlite3_close(conn->sql_conn);
 
   lua_pushboolean(L, 1);
   return 1;
@@ -462,11 +466,7 @@ static int raw_readparams_table(lua_State *L, sqlite3_stmt *vm, int arg)
 
   while (lua_next(L, arg)) {		// [arg]=table, [-2]=key, [-1]=val
 #if defined(lua_isinteger)
-    int tt =
-#endif
-      lua_type(L, -2);
-#if defined(lua_isinteger)
-    if (tt == LUA_TNUMBER && lua_isinteger(L, -2)) {
+    if (lua_type(L, -2) == LUA_TNUMBER && lua_isinteger(L, -2)) {
       param_nr = lua_tointeger(L, -2);
     } else {
 #endif
@@ -532,7 +532,6 @@ static int conn_execute(lua_State *L)
   /* real query? if empty, must have numcols!=0 */
   if ((res == SQLITE_ROW) || ((res == SQLITE_DONE) && numcols))
     {
-      sqlite3_reset(vm);
       return create_cursor(L, 1, conn, vm, numcols);
     }
 

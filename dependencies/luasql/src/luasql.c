@@ -1,5 +1,4 @@
 /*
-** $Id: luasql.c,v 1.28 2009/02/11 12:08:50 tomas Exp $
 ** See Copyright Notice in license.html
 */
 
@@ -122,12 +121,12 @@ LUASQL_API void luasql_setmeta (lua_State *L, const char *name) {
 */
 LUASQL_API void luasql_set_info (lua_State *L) {
 	lua_pushliteral (L, "_COPYRIGHT");
-	lua_pushliteral (L, "Copyright (C) 2003-2025 Kepler Project");
+	lua_pushliteral (L, "Copyright (C) 2003-2026 Lunar Modules Project");
 	lua_settable (L, -3);
 	lua_pushliteral (L, "_DESCRIPTION");
 	lua_pushliteral (L, "LuaSQL is a simple interface from Lua to a DBMS");
 	lua_settable (L, -3);
 	lua_pushliteral (L, "_VERSION");
-	lua_pushliteral (L, "LuaSQL 2.7.0 (for "LUA_VERSION")");
+	lua_pushliteral (L, "LuaSQL "LUASQL_VERSION_NUMBER" (for "LUA_VERSION")");
 	lua_settable (L, -3);
 }
