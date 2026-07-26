@@ -197,6 +197,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
         if (valid_improvement(pimprove)) {
           requirement_vector_iterate(&(pimprove->reqs), preq) {
             if (VUT_ADVANCE == preq->source.kind
+                && preq->present
                 && advance_number(preq->source.value.advance) == node->tech) {
               sprite = get_building_sprite(tileset, pimprove);
               /* Improvement icons are not guaranteed to exist */
@@ -214,6 +215,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
       governments_iterate(gov) {
         requirement_vector_iterate(&(gov->reqs), preq) {
           if (VUT_ADVANCE == preq->source.kind
+              && preq->present
               && advance_number(preq->source.value.advance) == node->tech) {
             sprite = get_government_sprite(tileset, gov);
             get_sprite_dimensions(sprite, &swidth, &sheight);
@@ -1119,6 +1121,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
             if (valid_improvement(pimprove)) {
               requirement_vector_iterate(&(pimprove->reqs), preq) {
                 if (VUT_ADVANCE == preq->source.kind
+                    && preq->present
                     && advance_number(preq->source.value.advance) == node->tech) {
                   sprite = get_building_sprite(tileset, pimprove);
                   /* Improvement icons are not guaranteed to exist */
@@ -1139,6 +1142,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
           governments_iterate(gov) {
             requirement_vector_iterate(&(gov->reqs), preq) {
               if (VUT_ADVANCE == preq->source.kind
+                  && preq->present
                   && advance_number(preq->source.value.advance) == node->tech) {
                 sprite = get_government_sprite(tileset, gov);
                 get_sprite_dimensions(sprite, &swidth, &sheight);
