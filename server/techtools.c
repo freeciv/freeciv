@@ -443,9 +443,6 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
     if (shares_research) {
       char buf[250];
 
-      /* Only for players sharing the research. */
-      remove_obsolete_buildings(aplayer);
-
       /* Give free infrastructure in every city */
       if (tech_found != A_FUTURE) {
         upgrade_all_city_extras(aplayer, was_discovery);
