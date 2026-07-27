@@ -1855,6 +1855,10 @@ static void end_turn(void)
   game_advance_year();
   players_iterate_alive(pplayer) {
     pplayer->turns_alive++;
+
+    /* sell off obsolete buildings after everything has
+     * happened that could affect obsolete_by requirements */
+    remove_obsolete_buildings(pplayer);
   } players_iterate_alive_end;
 
   log_debug("Updatetimeout");
