@@ -990,12 +990,12 @@ result += {location @ packet};
         # types happen correctly
         return f"""\
 {{
-  int readin;
+  int read_in;
 
-  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
+  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &read_in)) {{
     RECEIVE_PACKET_FIELD_ERROR({location.name});
   }}
-  {location @ packet} = readin;
+  {location @ packet} = read_in;
 }}
 """
 
@@ -1676,9 +1676,9 @@ if ({null_condition @ packet}) {{
 #endif /* FREECIV_JSON_CONNECTION */
 
 {{
-  int readin;
+  int read_in;
 
-  if (!DIO_GET(uint16, &din, &field_addr, &readin)) {{
+  if (!DIO_GET(uint16, &din, &field_addr, &read_in)) {{
     RECEIVE_PACKET_FIELD_ERROR({location.name});
   }}
 {prefix("  ", resize)}\
@@ -2059,10 +2059,10 @@ differ = (strcmp(pstr_old ? pstr_old : "", pstr ? pstr : "") != 0);
                          deep_diff: bool = False, json_step: int = 1) -> str:
         return f"""\
 {{
-  char readin[MAX_LEN_PACKET];
+  char read_in[MAX_LEN_PACKET];
 
-  if (!DIO_GET({self.dataio_type}, &din, &field_addr, readin, sizeof(readin))
-      || !strvec_set({location @ packet}, {location.index}, readin)) {{
+  if (!DIO_GET({self.dataio_type}, &din, &field_addr, read_in, sizeof(read_in))
+      || !strvec_set({location @ packet}, {location.index}, read_in)) {{
     RECEIVE_PACKET_FIELD_ERROR({location.name});
   }}
 }}
