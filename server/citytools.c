@@ -1132,6 +1132,9 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   /* Forget old rally point */
   city_rally_point_clear(pcity);
 
+  /* Clear pointer to old owner's access areas */
+  pcity->aarea = nullptr;
+
   /* Activate AI control of the new owner. */
   CALL_PLR_AI_FUNC(city_got, ptaker, ptaker, pcity);
 
