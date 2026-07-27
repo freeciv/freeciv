@@ -37,8 +37,8 @@
 
 struct fcmp_params fcmp = {
   .list_url = MODPACK_LIST_URL,
-  .inst_prefix = NULL,
-  .autoinstall = NULL
+  .inst_prefix = nullptr,
+  .autoinstall = nullptr
 };
 
 /**********************************************************************//**
@@ -68,7 +68,7 @@ static void setup_modpack_list(const char *name, const char *URL,
     type_str = _("?");
   }
 
-  if (license != NULL) {
+  if (license != nullptr) {
     lic_str = license;
   } else {
     /* TRANS: License of modpack is not known */
@@ -76,7 +76,7 @@ static void setup_modpack_list(const char *name, const char *URL,
   }
 
   inst_str = mpdb_installed_version(name, type);
-  if (inst_str == NULL) {
+  if (inst_str == nullptr) {
     inst_str = _("Not installed");
   }
 
@@ -87,7 +87,7 @@ static void setup_modpack_list(const char *name, const char *URL,
   log_normal(_("Type=\"%s\" / \"%s\""), type_str, subtype);
   log_normal(_("License=\"%s\""), lic_str);
   log_normal(_("URL=\"%s\""), URL);
-  if (notes != NULL) {
+  if (notes != nullptr) {
     log_normal(_("Comment=\"%s\""), notes);
   }
 }
@@ -135,13 +135,13 @@ int main(int argc, char *argv[])
     log_normal("%s%s", word_version(), VERSION_STRING);
 
     rev_ver = fc_git_revision();
-    if (rev_ver != NULL) {
+    if (rev_ver != nullptr) {
       log_normal(_("commit: %s"), rev_ver);
     }
 
     log_normal("%s", "");
 
-    if (fcmp.autoinstall == NULL) {
+    if (fcmp.autoinstall == nullptr) {
       download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
 
       log_normal("%s", "");
@@ -150,9 +150,9 @@ int main(int argc, char *argv[])
     } else {
       const char *errmsg;
 
-      errmsg = download_modpack(fcmp.autoinstall, &fcmp, msg_callback, NULL);
+      errmsg = download_modpack(fcmp.autoinstall, &fcmp, msg_callback, nullptr);
 
-      if (errmsg == NULL) {
+      if (errmsg == nullptr) {
         log_normal(_("Modpack installed successfully"));
       } else {
         log_error(_("Modpack install failed: %s"), errmsg);
