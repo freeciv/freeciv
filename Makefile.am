@@ -100,6 +100,7 @@ EXTRA_DIST =	autogen.sh 			\
 		platforms/flatpak/org.freeciv.sdl3.yml	\
 		platforms/flatpak/org.freeciv.ruledit.yml	\
 		platforms/macos/homebrew-appbundle.sh \
+		scripts/build_tolua.sh		\
 		scripts/generate_doc.sh		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
