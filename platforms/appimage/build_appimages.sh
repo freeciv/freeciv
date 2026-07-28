@@ -171,10 +171,10 @@ if ! mv "Freeciv_server-x86_64.AppImage" "Freeciv-server-${FCVER}-x86_64.AppImag
   exit 1
 fi
 
-if ! client_appimage gtk4    gtk4    ""        ||
-   ! client_appimage sdl2    sdl2    "_(SDL2)" ||
-   ! client_appimage qt6     qt      "_(Qt)"   ||
-   ! client_appimage gtk3.22 gtk3.22 ""        ||
+if ! client_appimage gtk4    gtk4    ""                       ||
+   ! client_appimage sdl2    sdl2    "_(SDL2)" "-Daudio=sdl2" ||
+   ! client_appimage qt6     qt      "_(Qt)"                  ||
+   ! client_appimage gtk3.22 gtk3.22 ""                       ||
    ! client_appimage sdl3    sdl3    "_(SDL3)" "-Daudio=none"
 then
   exit 1
