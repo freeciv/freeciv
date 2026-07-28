@@ -37,6 +37,7 @@ modules:
     no-autogen: true
     config-opts:
       - -Dclients=sdl2
+      - -Daudio=sdl2
       - -Dfcmp=[]
       - -Dtools=[]
     sources:
