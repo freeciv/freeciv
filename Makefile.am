@@ -100,6 +100,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
+		scripts/build_tolua.sh		\
 		scripts/generate_doc.sh		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
