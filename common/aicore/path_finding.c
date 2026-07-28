@@ -3830,10 +3830,9 @@ pf_reverse_map_utype_pos(struct pf_reverse_map *pfrm,
   const struct player *pplayer = param->owner;
   int veteran_level = get_unittype_bonus(pplayer, ptile, punittype,
                                          NULL, EFT_VETERAN_BUILD);
+  int max_level = utype_veteran_levels(punittype) - 1;
 
-  if (veteran_level >= utype_veteran_levels(punittype)) {
-    veteran_level = utype_veteran_levels(punittype) - 1;
-  }
+  veteran_level = CLIP(0, veteran_level, max_level);
 
   /* Fill parameter. */
   param->start_tile = ptile;
