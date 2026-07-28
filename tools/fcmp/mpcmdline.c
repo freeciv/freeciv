@@ -47,7 +47,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
   int i = 1;
   bool ui_separator = FALSE;
   int ui_options = 0;
-  char *option = NULL;
+  char *option = nullptr;
   enum log_level loglevel = LOG_NORMAL;
 
   while (i < argc) {
@@ -120,12 +120,12 @@ int fcmp_parse_cmdline(int argc, char *argv[])
     i++;
   }
 
-  log_init(NULL, loglevel, NULL, NULL, -1);
+  log_init(nullptr, loglevel, nullptr, nullptr, -1);
 
-  if (fcmp.inst_prefix == NULL) {
+  if (fcmp.inst_prefix == nullptr) {
     fcmp.inst_prefix = freeciv_storage_dir();
 
-    if (fcmp.inst_prefix == NULL) {
+    if (fcmp.inst_prefix == nullptr) {
       log_error("Cannot determine freeciv storage directory");
     }
   }
