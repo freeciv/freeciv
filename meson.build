@@ -1020,10 +1020,12 @@ int main(void) { curl_mime *mime = curl_mime_init(NULL); }''',
   endif
 endif
 
-if host_system != 'emscripten'
-  sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
-else
+if host_system == 'emscripten'
   sqlite3_dep = []
+elif not get_option('fcdb').contains('sqlite3') and get_option('fcmp') == []
+  sqlite3_dep = []
+else
+  sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
 endif
 
 fcdb = false
