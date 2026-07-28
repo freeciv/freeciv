@@ -740,10 +740,9 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
 {
   int veteran_level = get_unittype_bonus(powner, pstart_tile, punittype,
                                          nullptr, EFT_VETERAN_BUILD);
+  int max_level = utype_veteran_levels(punittype) - 1;
 
-  if (veteran_level >= utype_veteran_levels(punittype)) {
-    veteran_level = utype_veteran_levels(punittype) - 1;
-  }
+  veteran_level = CLIP(0, veteran_level, max_level);
 
   pft_fill_default_parameter(parameter, nmap, punittype);
 
