@@ -653,7 +653,7 @@ receiver_reqs =
 ;                          and when counter req of this counter
 ;                          will be fulfilled.
 ;
-; /* <-- avoid gettext warnings
+; */ <-- avoid gettext warnings
 
 [playercolors]
 background.r = 86
