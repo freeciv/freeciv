@@ -89,7 +89,7 @@ void fcmp_init(void)
   fc_init_network();
 
   /* Needed at least for Windows version of netfile_get_section_file() */
-  fc_srand(time(NULL));
+  fc_srand(time(nullptr));
 }
 
 /**********************************************************************//**
