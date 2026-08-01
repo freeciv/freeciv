@@ -5136,8 +5136,7 @@ void random_movements(struct player *pplayer)
           struct tile *dest = mapstep(&(wld.map), curtile, dirs[choice]);
 
           if (dest != nullptr) {
-            if (action_prob_possible(action_prob_vs_stack(nmap, punit, ACTION_ATTACK,
-                                                          dest))) {
+            if (is_action_enabled_unit_on_stack(nmap, ACTION_ATTACK, punit, dest)) {
               if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
                                       "", ACTION_ATTACK, ACT_REQ_RULES)) {
                 moved = TRUE;
