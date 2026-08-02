@@ -13,3 +13,5 @@
 /Makefile.in
 /configure
 /freeciv-CI.log
+/.agent-eval/
+/session-runs/
