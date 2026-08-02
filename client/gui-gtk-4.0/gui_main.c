@@ -2260,6 +2260,10 @@ static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
 **************************************************************************/
 static void end_turn_callback(GtkWidget *w, gpointer data)
 {
+  /* Button going insensitive is going to lose focus. Keep focus at least
+   * within the window */
+  gtk_widget_grab_focus(map_canvas);
+
   gtk_widget_set_sensitive(turn_done_button, FALSE);
   user_ended_turn();
 }
