@@ -1,0 +1,73 @@
+set shell := ["bash", "-uc"]
+set quiet
+
+export AGENT_EVAL_SERVICE_URL := env_var_or_default("AGENT_EVAL_SERVICE_URL", "https://freeciv-api.localhost")
+export PLAY_STATE_DIR := env_var_or_default("PLAY_STATE_DIR", ".sessions")
+
+# Show the player-only workflow.
+default:
+    @echo "Freeciv player workspace"
+    @echo
+    @echo "  just prompt --game_id GAME_ID"
+    @echo "  just join --game_id GAME_ID --name HARNESS-MODEL"
+    @echo "  just next --session SESSION_FILE --after_turn 0"
+    @echo "  just act --session SESSION_FILE --turn TURN --observation_id ID --action JSON"
+    @echo
+    @echo "Read docs/gameplay.md before playing."
+
+# Print the bootstrap prompt for a harness. This does not join a game.
+[arg("game_id", long)]
+[arg("name", long)]
+[arg("place", long)]
+prompt game_id="GAME_ID" name="HARNESS-MODEL" place="":
+    python3 -B client.py prompt \
+      --game-id "{{ game_id }}" \
+      --name "{{ name }}" \
+      --place "{{ place }}"
+
+# Join one assigned seat and save a private local session.
+[arg("game_id", long)]
+[arg("name", long)]
+[arg("place", long)]
+[arg("invite", long)]
+join game_id="" name="" place="" invite="":
+    python3 -B client.py join \
+      --game-id "{{ game_id }}" \
+      --name "{{ name }}" \
+      --place "{{ place }}" \
+      --invite "{{ invite }}"
+
+# Long-poll using the exact session file printed by join.
+[arg("session", long)]
+[arg("after_turn", long)]
+[arg("wait_s", long)]
+next session="" after_turn="0" wait_s="120":
+    python3 -B client.py next \
+      --session "{{ session }}" \
+      --after-turn "{{ after_turn }}" \
+      --wait-s "{{ wait_s }}"
+
+# Submit using the same exact session file; advance only after accepted=true.
+[arg("session", long)]
+[arg("turn", long)]
+[arg("observation_id", long)]
+[arg("action", long)]
+act session="" turn="" observation_id="" action="":
+    python3 -B client.py act \
+      --session "{{ session }}" \
+      --turn "{{ turn }}" \
+      --observation-id "{{ observation_id }}" \
+      --action '{{ action }}'
+
+# Read the terminal public result after play has stopped.
+[arg("game_id", long)]
+result game_id:
+    python3 -B client.py result --game-id "{{ game_id }}"
+
+# Print the player-facing command reference.
+help:
+    @sed -n '1,260p' docs/commands.md
+
+# Print the static strategic-v1 gameplay rules.
+rules:
+    @sed -n '1,300p' docs/gameplay.md
