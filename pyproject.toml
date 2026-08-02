@@ -1,0 +1,72 @@
+[project]
+name = "freeciv-agent-eval"
+version = "0.1.0"
+description = "Agent evaluation harness and player workspace for Freeciv."
+requires-python = ">=3.11"
+# The harness and the player client are deliberately standard library only:
+# play/ ships as a self-contained workspace with no install step.
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.10",
+    "ty>=0.0.1a26",
+]
+
+[tool.uv]
+# An application, not a distributable library: no build backend needed.
+package = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+# Only our code. The three generator scripts vendored from upstream Freeciv
+# (common/generate_packets.py, gen_headers/, utility/) are not ours to restyle.
+extend-exclude = [
+    "common/generate_packets.py",
+    "gen_headers/generate_enums.py",
+    "utility/generate_specenum.py",
+    "build*",
+    "**/node_modules",
+]
+
+[tool.ruff.lint]
+# Ruff's default (E4/E7/E9/F) plus import hygiene, modernization, and the
+# bugbear/comprehension/simplify families. E1 and E5 are deliberately absent:
+# indentation and line length belong to the formatter, not the linter.
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = [
+    # try/except/pass is used deliberately for best-effort cleanup paths.
+    "SIM105",
+    # Nested `with` blocks read better than long combined context lines here.
+    "SIM117",
+    # Loop-variable closures are intentional in the supervisor's callbacks.
+    "B023",
+    # Ruff's ambiguous-unicode rules fire on legitimate prose punctuation.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests intentionally rebind helpers and assert on broad exception types.
+"agent_eval/tests/*" = ["B017", "F811"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["agent_eval"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ty.environment]
+python-version = "3.11"
+
+[tool.ty.src]
+include = ["agent_eval", "play"]
+exclude = [
+    "common/generate_packets.py",
+    "gen_headers/generate_enums.py",
+    "utility/generate_specenum.py",
+    "build*",
+    "**/node_modules",
+]
