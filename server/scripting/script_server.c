@@ -342,6 +342,7 @@ bool script_server_init(void)
   tolua_common_a_open(fcl_unsafe->state);
   api_game_specenum_open(fcl_unsafe->state);
   tolua_game_open(fcl_unsafe->state);
+  tolua_signal_open(fcl_unsafe->state);
 
 #ifdef MESON_BUILD
   /* Tolua adds 'tolua_' prefix to _open() function names,
@@ -355,6 +356,12 @@ bool script_server_init(void)
   tolua_common_z_open(fcl_unsafe->state);
 
   luascript_signal_init(fcl_unsafe);
+  luascript_signal_create(fcl_unsafe, "agent_turn_begin", 2,
+                          API_TYPE_INT, API_TYPE_INT);
+  /* victory condition code, comma-separated winner names, turn, year */
+  luascript_signal_create(fcl_unsafe, "agent_game_over", 4,
+                          API_TYPE_STRING, API_TYPE_STRING,
+                          API_TYPE_INT, API_TYPE_INT);
   luascript_func_init(fcl_unsafe);
 
   return TRUE;
@@ -411,6 +418,18 @@ void script_server_signal_emit(const char *signal_name, ...)
 
   va_start(args, signal_name);
   luascript_signal_emit_valist(fcl_main, signal_name, args);
+  va_end(args);
+}
+
+/***********************************************************************//**
+  Invoke callbacks attached to an unsafe-script-only signal.
+***************************************************************************/
+void script_server_unsafe_signal_emit(const char *signal_name, ...)
+{
+  va_list args;
+
+  va_start(args, signal_name);
+  luascript_signal_emit_valist(fcl_unsafe, signal_name, args);
   va_end(args);
 }
 
