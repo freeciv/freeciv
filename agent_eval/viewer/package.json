@@ -1,0 +1,29 @@
+{
+  "name": "freeciv-agent-replay-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/three": "0.185.3",
+    "@vitejs/plugin-react": "6.0.5",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vite": "8.2.0",
+    "vitest": "4.1.10"
+  }
+}

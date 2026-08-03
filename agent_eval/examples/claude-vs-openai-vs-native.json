@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "name": "claude-vs-openai-vs-native",
+  "ruleset": "classic",
+  "turns": 100,
+  "seeds": [101, 202, 303],
+  "seats": [
+    {
+      "id": "claude",
+      "name": "SeatOne",
+      "type": "anthropic_messages",
+      "model": "claude-sonnet-4-20250514",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "instructions": "Balance expansion and economic resilience.",
+      "timeout_s": 45
+    },
+    {
+      "id": "openai",
+      "name": "SeatTwo",
+      "type": "openai_responses",
+      "model": "gpt-5",
+      "api_key_env": "OPENAI_API_KEY",
+      "instructions": "Prefer durable growth over short-term score spikes.",
+      "timeout_s": 45
+    },
+    {
+      "id": "native",
+      "name": "SeatThree",
+      "type": "native"
+    }
+  ],
+  "server": {
+    "binary": "build-agent/freeciv-server",
+    "agentd_port": 0,
+    "allow_fallbacks": false,
+    "frame_interval": 5,
+    "frame_zoom": 1,
+    "wall_timeout_s": 1800
+  }
+}
