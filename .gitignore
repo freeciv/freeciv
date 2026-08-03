@@ -16,3 +16,4 @@
 /.agent-eval/
 /session-runs/
 /pi-session-*.html
+/agent_eval/viewer/dist/

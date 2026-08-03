@@ -113,7 +113,7 @@ replay-check: replay-install
     npm --prefix agent_eval/viewer run check
 
 # Start the complete local stack. Ctrl-C stops only children from this invocation.
-start: build replay-install
+start: build replay-build
     #!/usr/bin/env bash
     set -euo pipefail
     mkdir -p "$AGENT_EVAL_STATE_DIR"
