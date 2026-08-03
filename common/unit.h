@@ -26,7 +26,6 @@ extern "C" {
 #include "fc_interface.h"
 #include "fc_types.h"
 #include "map_types.h"
-#include "terrain.h"            /* enum tile_special_type */
 #include "unittype.h"
 #include "vision.h"
 
