@@ -21,7 +21,6 @@
 #include "fc_types.h"
 #include "featured_text.h"      /* struct text_tag_list */
 #include "nation.h"             /* Nation_type_id */
-#include "terrain.h"            /* enum tile_special_type */
 #include "unitlist.h"
 
 /* client */
