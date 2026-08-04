@@ -20,9 +20,11 @@ from contextlib import redirect_stderr, redirect_stdout
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from typing import Any
 from urllib.parse import urljoin
 from unittest.mock import patch
 
+from agent_eval import v2_control
 from agent_eval.__main__ import _parser, main, run_native_viewer_client
 from agent_eval.bridge_status import validate_bridge_journal
 from agent_eval.client import (
@@ -66,12 +68,20 @@ from agent_eval.supervisor import (
     _classic_technology_catalog,
     make_supervisor_server,
 )
-from agent_eval.v2_control import V2SeatControl
+from agent_eval.v2_control import (
+    V2ActionResolution,
+    V2ControlError,
+    V2SeatControl,
+)
 from agent_eval.v2_ambiguity_trace import TRACE_DIRECTORY, TRACE_FILENAME
 from agent_eval.v2_receipts import (
     ReceiptReservation,
     V2ReceiptConflict,
     V2ReceiptStoreError,
+)
+from agent_eval.v2_phase_events import (
+    PHASE_EVENT_FILENAME,
+    V2PhaseEventJournalError,
 )
 
 
@@ -96,6 +106,58 @@ def observation(seat_id, turn=1, year=-4000):
     }
 
 
+def _complete_v2_action_row(row):
+    if row.startswith("player ") and " infrastructure_enabled=" not in row:
+        return row + " infrastructure_enabled=0 infrastructure_points=0"
+    if row.startswith("tile ") and " placing_extra=" not in row:
+        return row + (
+            " placing_extra=-1 placing_extra_name=none placing_turns=0 "
+            f"placing_time={'-1' if ' known=0 ' in row else '1'}"
+        )
+    if row.startswith("unit ") and " scope=own " in row \
+            and " orders_repeat=" not in row:
+        return row + (
+            " orders_repeat=0 orders_vigilant=0 order_count=0 "
+            "orders_digest=fnv1a64-0000000000000000 "
+            "orders_destination=-1"
+        )
+    if not row.startswith("action "):
+        return row
+    if " route_waypoint_limit=" not in row:
+        row = row.replace(
+            " target_build_kind=",
+            " route_waypoint_limit=0 infrastructure_cost=0 "
+            "infrastructure_turns=0 infrastructure_choice_count=0 "
+            "infrastructure_choices=- target_build_kind=",
+            1,
+        )
+    if " spaceship_part=" not in row:
+        row = row.replace(
+            " source_specialist=",
+            " spaceship_part=none spaceship_value=-1 "
+            "target_multiplier=-1 multiplier_value=-1 source_specialist=",
+            1,
+        )
+    if " counterpart=" in row:
+        return (
+            row if " gold_cost=" in row
+            else row.replace(" args=", " gold_cost=-1 args=")
+        )
+    actor_end = row.index(" ", row.index(" actor=") + 1)
+    completed = (
+        row[:actor_end]
+        + " counterpart=none meeting_generation=0 "
+        "clauses_digest=fnv1a64-0000000000000000 self_accepted=0 "
+        "other_accepted=0 relation_state=none outgoing_vision=0 "
+        "outgoing_shared_tiles=0 clause_giver=none clause_type=none "
+        "clause_value=-1 clause_name=none desired_acceptance=-1"
+        + row[actor_end:]
+    )
+    if " gold_cost=" not in completed:
+        completed = completed.replace(" args=", " gold_cost=-1 args=")
+    return completed
+
+
 def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
     if action_count not in {0} and action_count < 6:
         raise ValueError("action observations require six complete capabilities")
@@ -107,7 +169,9 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "cache=human-client "
             "phase_mode=players_alternate phase_count=2 "
             f"active_phase={1 if action_count else 0} "
-            f"phase_ready={1 if action_count else 0}"
+            f"phase_ready={1 if action_count else 0} "
+            "map_width=16 map_height=16 topology=square wrap_x=1 wrap_y=0 "
+            f"known_tile_count={tile_count}"
         ),
         (
             "player ref=p:1:10 name=Codex nation=Roman government=Despotism "
@@ -127,6 +191,19 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
         ),
         "government id=2 name=Monarchy current=0 target=0 during=0 can_change=1",
         "government id=3 name=Republic current=0 target=0 during=0 can_change=1",
+        (
+            "multiplier id=0 name=Policy value=50 target=50 start=0 "
+            "stop=100 step=10 minimum_turns=2 changed_turn=0 "
+            "can_change=0 choice_count=11"
+        ),
+        (
+            "spaceship state=none structurals=0 structurals_placed=0 "
+            "components=0 fuel=0 propulsion=0 modules=0 habitation=0 "
+            "life_support=0 solar_panels=0 launch_year=9999 population=0 "
+            "mass=0 support_permille=0 energy_permille=0 "
+            "success_permille=0 travel_time_millis=0 has_capital=1 "
+            "can_launch=0"
+        ),
         (
             "research techs=2 future=0 target=Writing target_id=4 "
             "goal=Pottery goal_id=5 bulbs=4 cost=20 output=3 "
@@ -152,20 +229,42 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "research_tech id=1000 name=Unset state=unset "
             "can_target=0 can_goal=1"
         ),
+        (
+            "research_graph id=3 name=Alphabet reachable=1 next_step=-1 "
+            "unknown_prerequisites=0 path_cost=0"
+        ),
+        (
+            "research_graph id=4 name=Writing reachable=1 next_step=4 "
+            "unknown_prerequisites=0 path_cost=20"
+        ),
+        (
+            "research_graph id=5 name=Pottery reachable=1 next_step=4 "
+            "unknown_prerequisites=1 path_cost=40"
+        ),
+        (
+            "research_graph id=6 name=Bronze%20Working reachable=1 "
+            "next_step=6 unknown_prerequisites=0 path_cost=20"
+        ),
+        "research_edge tech=3 prerequisite=3 kind=root",
+        "research_edge tech=5 prerequisite=4 kind=direct",
+        (
+            "research_unlock tech=4 kind=unit native_id=12 name=Settlers "
+            "scope=build"
+        ),
     ]
     if action_count:
         rows.extend((
             "action slot=a0000000000000001 kind=phase.end actor=none "
-            "target_tile=-1 target_unit=none transport_context=none "
-            "target_tech=-1 target_government=-1 max_rate=0 "
+            "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=phase.end target_kind=player result=phase_end "
             "actor_consuming_always=0 legality=legal probability_kind=exact "
             "probability_min=200 probability_max=200 args=none",
             "action slot=a0000000000000002 kind=research.set_target actor=none "
-            "target_tile=-1 target_unit=none transport_context=none "
-            "target_tech=6 target_government=-1 max_rate=0 "
+            "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
+            "target_tech=6 vote_no=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_target target_kind=Technology "
@@ -173,8 +272,8 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "probability_kind=exact probability_min=200 probability_max=200 "
             "args=none",
             "action slot=a0000000000000003 kind=research.set_goal actor=none "
-            "target_tile=-1 target_unit=none transport_context=none "
-            "target_tech=4 target_government=-1 max_rate=0 "
+            "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
+            "target_tech=4 vote_no=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_goal target_kind=Technology "
@@ -182,8 +281,8 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "probability_kind=exact probability_min=200 probability_max=200 "
             "args=none",
             "action slot=a0000000000000004 kind=research.set_goal actor=none "
-            "target_tile=-1 target_unit=none transport_context=none "
-            "target_tech=6 target_government=-1 max_rate=0 "
+            "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
+            "target_tech=6 vote_no=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_goal target_kind=Technology "
@@ -191,8 +290,8 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "probability_kind=exact probability_min=200 probability_max=200 "
             "args=none",
             "action slot=a0000000000000005 kind=research.set_goal actor=none "
-            "target_tile=-1 target_unit=none transport_context=none "
-            "target_tech=1000 target_government=-1 max_rate=0 "
+            "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
+            "target_tech=1000 vote_no=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_goal target_kind=Technology "
@@ -200,8 +299,8 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "probability_kind=exact probability_min=200 probability_max=200 "
             "args=none",
             "action slot=a0000000000000006 kind=economy.set_rates actor=none "
-            "target_tile=-1 target_unit=none transport_context=none "
-            "target_tech=-1 target_government=-1 max_rate=70 "
+            "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=70 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=economy.set_rates target_kind=Player "
@@ -217,13 +316,14 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "x=0 y=0 hp=10 moves=3 activity=idle activity_target=-1 "
             "activity_target_name=none activity_progress=0 "
             "transport_state=untransported transporter=none "
-            "transport_capacity=0 occupied=0"
+            "transport_capacity=0 occupied=0 paradropped=0 paradrop_range=0 "
+            "controller=none has_orders=0"
         )
         rows.extend(
             (
                 f"action slot=a{index:016X} kind=unit.move actor=u:10:100 "
-                "target_tile=0 target_unit=none transport_context=none "
-                "target_tech=-1 target_government=-1 max_rate=0 "
+                "target_tile=0 source_city=none destination_city=none target_unit=none transport_context=none "
+                "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
                 "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
                 "activity=none target_name=none "
                 "native_rule=Unit%20Move target_kind=Tile "
@@ -234,19 +334,73 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             for index in range(7, action_count + 1)
         )
     rows.extend(
-        f"tile index={index} x={index} y=0 known=2 terrain=Grassland owner=none"
+        f"tile index={index} x={index % 16} y={index // 16} "
+        "known=2 terrain=Grassland owner=none"
         for index in range(tile_count)
+    )
+    rows.extend(
+        "spaceship_structural "
+        f"slot={slot} x={slot} y=0 required_slot={-1 if slot == 0 else 0} "
+        f"placed=0 required_connected={1 if slot == 0 else 0} can_place=0"
+        for slot in range(32)
     )
     if malformed:
         rows.append("native secret=must-not-escape")
+    return tuple(sorted(_complete_v2_action_row(row) for row in rows))
+
+
+def native_v2_pregame_rows(*, ready=False):
+    rows = [
+        (
+            "meta state=preparing turn=0 phase=0 cache=human-client "
+            "phase_mode=concurrent phase_count=1 active_phase=0 "
+            "phase_ready=0 map_width=1 map_height=1 topology=square "
+            "wrap_x=0 wrap_y=0 known_tile_count=0"
+        ),
+        (
+            "pregame ref=p:1:10 leader=Codex nation=none sex=male "
+            f"style=none ready={int(ready)} nation_choices=2 "
+            "style_choices=2"
+        ),
+        _complete_v2_action_row(
+            "action slot=a0000000000000501 kind=pregame.set_ready "
+            "actor=p:1:10 target_tile=-1 source_city=none "
+            "destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_build_kind=none target_build=-1 source_specialist=-1 "
+            "target_specialist=-1 target_extra=-1 activity=none "
+            "target_name=readiness native_rule=pregame.set_ready "
+            "target_kind=Pregame%20Readiness result=Readiness%20Changed "
+            "actor_consuming_always=0 legality=legal probability_kind=exact "
+            "probability_min=200 probability_max=200 "
+            "args=pregame-ready-required"
+        ),
+    ]
+    rows[-1] = rows[-1].replace(
+        "desired_acceptance=-1", f"desired_acceptance={0 if ready else 1}",
+    )
+    if not ready:
+        rows.append(_complete_v2_action_row(
+            "action slot=a0000000000000500 kind=pregame.configure "
+            "actor=p:1:10 target_tile=-1 source_city=none "
+            "destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_build_kind=none target_build=-1 source_specialist=-1 "
+            "target_specialist=-1 target_extra=-1 activity=none "
+            "target_name=configuration native_rule=pregame.configure "
+            "target_kind=Pregame%20Configuration "
+            "result=Configuration%20Changed actor_consuming_always=0 "
+            "legality=legal probability_kind=exact probability_min=200 "
+            "probability_max=200 args=pregame-config-required"
+        ))
     return tuple(sorted(rows))
 
 
-def native_v2_scoped_rows(actor_ref):
+def _native_v2_scoped_rows(actor_ref):
     if actor_ref == "p:1:10":
         return (
             "action slot=a0000000000000069 kind=government.revolution "
-            "actor=p:1:10 target_tile=-1 target_unit=none "
+            "actor=p:1:10 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=0 max_rate=0 target_build_kind=none "
             "target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 activity=none "
@@ -255,7 +409,7 @@ def native_v2_scoped_rows(actor_ref):
             "actor_consuming_always=0 legality=legal probability_kind=exact "
             "probability_min=200 probability_max=200 args=none",
             "action slot=a000000000000006A kind=government.change "
-            "actor=p:1:10 target_tile=-1 target_unit=none "
+            "actor=p:1:10 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=2 max_rate=0 target_build_kind=none "
             "target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 activity=none "
@@ -264,7 +418,7 @@ def native_v2_scoped_rows(actor_ref):
             "actor_consuming_always=0 legality=legal probability_kind=exact "
             "probability_min=200 probability_max=200 args=none",
             "action slot=a000000000000006B kind=government.change "
-            "actor=p:1:10 target_tile=-1 target_unit=none "
+            "actor=p:1:10 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=3 max_rate=0 target_build_kind=none "
             "target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 activity=none "
@@ -276,7 +430,7 @@ def native_v2_scoped_rows(actor_ref):
     if actor_ref == "c:20:200":
         return (
             "action slot=a0000000000000065 kind=city.set_production "
-            "actor=c:20:200 target_tile=-1 target_unit=none "
+            "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=-1 max_rate=0 "
             "target_build_kind=improvement target_build=5 source_specialist=-1 target_specialist=-1 target_extra=-1 "
@@ -285,7 +439,7 @@ def native_v2_scoped_rows(actor_ref):
             "actor_consuming_always=0 legality=legal probability_kind=exact "
             "probability_min=200 probability_max=200 args=none",
             "action slot=a0000000000000066 kind=city.buy_production "
-            "actor=c:20:200 target_tile=-1 target_unit=none "
+            "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=-1 max_rate=0 "
             "target_build_kind=unit target_build=2 source_specialist=-1 target_specialist=-1 target_extra=-1 "
@@ -293,11 +447,52 @@ def native_v2_scoped_rows(actor_ref):
             "target_kind=Production result=Production%20Bought "
             "actor_consuming_always=0 legality=legal probability_kind=exact "
             "probability_min=200 probability_max=200 args=none",
+            "action slot=a000000000000006C kind=city.set_worklist "
+            "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
+            "transport_context=none target_tech=-1 vote_no=-1 target_government=-1 "
+            "max_rate=0 target_build_kind=none target_build=-1 "
+            "source_specialist=-1 target_specialist=-1 target_extra=-1 "
+            "activity=none target_name=worklist "
+            "native_rule=city.set_worklist target_kind=City "
+            "result=Worklist%20Changed actor_consuming_always=0 "
+            "legality=legal probability_kind=exact probability_min=200 "
+            "probability_max=200 args=worklist-required",
+            "action slot=a000000000000006D kind=city.set_options "
+            "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
+            "transport_context=none target_tech=-1 vote_no=-1 target_government=-1 "
+            "max_rate=0 target_build_kind=none target_build=-1 "
+            "source_specialist=-1 target_specialist=-1 target_extra=-1 "
+            "activity=none target_name=options "
+            "native_rule=city.set_options target_kind=City "
+            "result=City%20Options%20Changed actor_consuming_always=0 "
+            "legality=legal probability_kind=exact probability_min=200 "
+            "probability_max=200 args=city-options-required",
+            "action slot=a000000000000006E kind=city.rename "
+            "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
+            "transport_context=none target_tech=-1 vote_no=-1 target_government=-1 "
+            "max_rate=0 target_build_kind=none target_build=-1 "
+            "source_specialist=-1 target_specialist=-1 target_extra=-1 "
+            "activity=none target_name=name native_rule=city.rename "
+            "target_kind=City result=City%20Renamed "
+            "actor_consuming_always=0 legality=legal "
+            "probability_kind=exact probability_min=200 "
+            "probability_max=200 args=city_name-required",
+            "action slot=a000000000000006F kind=city.set_governor "
+            "actor=c:20:200 target_tile=-1 source_city=none "
+            "destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_build_kind=none target_build=-1 source_specialist=-1 "
+            "target_specialist=-1 target_extra=-1 activity=none "
+            "target_name=governor native_rule=city.set_governor "
+            "target_kind=City result=Governor%20Goal%20Set "
+            "actor_consuming_always=0 legality=legal probability_kind=exact "
+            "probability_min=200 probability_max=200 "
+            "args=governor-goal-required",
         )
     if actor_ref == "u:10:100":
         return (
             "action slot=a0000000000000067 kind=unit.start_activity "
-            "actor=u:10:100 target_tile=-1 target_unit=none "
+            "actor=u:10:100 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
@@ -307,7 +502,7 @@ def native_v2_scoped_rows(actor_ref):
             "legality=legal probability_kind=exact probability_min=200 "
             "probability_max=200 args=none",
             "action slot=a0000000000000068 kind=unit.start_activity "
-            "actor=u:10:100 target_tile=-1 target_unit=none "
+            "actor=u:10:100 target_tile=-1 source_city=none destination_city=none target_unit=none "
             "transport_context=none target_tech=-1 "
             "target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=7 "
@@ -318,6 +513,54 @@ def native_v2_scoped_rows(actor_ref):
             "probability_max=200 args=none",
         )
     return ()
+
+
+def native_v2_scoped_rows(actor_ref):
+    return tuple(
+        _complete_v2_action_row(row)
+        for row in _native_v2_scoped_rows(actor_ref)
+    )
+
+
+def native_v2_relation_action(
+    slot, rule, result, target_name, *, clause_value=-1, clause_name="none",
+):
+    native_kind = (
+        "diplomacy.propose_clause"
+        if rule == "diplomacy.propose_clause" else rule
+    )
+    row = _complete_v2_action_row(
+        f"action slot=a{slot:016X} kind={native_kind} actor=p:1:10 "
+        "target_tile=-1 source_city=none destination_city=none "
+        "target_unit=none transport_context=none target_tech=-1 "
+        "target_government=-1 max_rate=0 target_build_kind=none "
+        "target_build=-1 source_specialist=-1 target_specialist=-1 "
+        "target_extra=-1 activity=none "
+        f"target_name={target_name} native_rule={rule} "
+        f"target_kind=Diplomatic%20Relation result={result} "
+        "actor_consuming_always=0 legality=legal probability_kind=exact "
+        "probability_min=200 probability_max=200 args=none"
+    )
+    replacements = {
+        "counterpart=none": "counterpart=p:2:20",
+        "meeting_generation=0": "meeting_generation=3",
+        "clauses_digest=fnv1a64-0000000000000000": (
+            "clauses_digest=fnv1a64-cbf29ce484222325"
+        ),
+        "relation_state=none": "relation_state=Peace",
+    }
+    if rule == "diplomacy.accept":
+        replacements["desired_acceptance=-1"] = "desired_acceptance=1"
+    if rule == "diplomacy.propose_clause":
+        replacements.update({
+            "clause_giver=none": "clause_giver=p:2:20",
+            "clause_type=none": "clause_type=Advance",
+            "clause_value=-1": f"clause_value={clause_value}",
+            "clause_name=none": f"clause_name={clause_name}",
+        })
+    for old, new in replacements.items():
+        row = row.replace(old, new)
+    return row
 
 
 def raw_json_request(url, token=None):
@@ -412,13 +655,14 @@ class FakeSidecar:
         self.start_count = 0
         self.error_code = None
         self.read_count = 0
+        self.client_state = "running"
 
     def public_health(self):
         return {
             "state": self.state,
             "generation": self.generation,
             "player_name": self.player_name,
-            "client_state": "running" if self.state == "ready" else None,
+            "client_state": self.client_state if self.state == "ready" else None,
             "server_connected": self.state == "ready",
             "seat_state": "ready" if self.state == "ready" else "idle",
             "error_code": self.error_code,
@@ -451,7 +695,17 @@ class FakeSidecar:
             raise self.factory.status_error
         if self.state != "ready":
             raise RuntimeError("fake sidecar not ready")
-        return self.factory.status_response
+        response = self.factory.status_response
+        match_state = re.search(r"(?:^|\t)state=([^\t]+)", response)
+        if match_state is not None:
+            self.client_state = match_state.group(1)
+        if "\tplayer=" not in response:
+            match = re.fullmatch(r"AgentPlace([0-9]+)", self.player_name)
+            owns_seat = "\tseat=ready" in response
+            player = int(match.group(1)) - 1 if match and owns_seat else -1
+            lifecycle = self.generation if owns_seat else 0
+            response += f"\tplayer={player}\tlifecycle={lifecycle}"
+        return response
 
     def phase_evidence(self):
         if self.factory.phase_evidence_hook is not None:
@@ -465,7 +719,9 @@ class FakeSidecar:
         self.read_count += 1
         try:
             if self.factory.read_hook is not None:
-                return self.factory.read_hook(self, request_id, timeout_s)
+                return self._compact_observation(
+                    self.factory.read_hook(self, request_id, timeout_s)
+                )
             if self.factory.observation_error is not None:
                 raise self.factory.observation_error
         except SidecarError as exc:
@@ -491,10 +747,27 @@ class FakeSidecar:
                     )
                     for row in rows
                 )
-        return {
+        return self._compact_observation({
             "generation": self.generation,
             "native_revision": self.factory.native_revision,
             "rows": rows,
+        })
+
+    @staticmethod
+    def _compact_observation(observation):
+        """Mirror the v2 native OBS contract used by the real sidecar."""
+        entity_prefixes = (
+            "city_site ", "city ", "rally ", "unit ",
+            "diplomacy_clause ", "tombstone ",
+            "city_tile ", "city_specialist ", "city_worklist ",
+            "city_build_choice ", "city_improvement ", "city_rally ",
+        )
+        return {
+            **observation,
+            "rows": tuple(
+                row for row in observation["rows"]
+                if not row.startswith(entity_prefixes)
+            ),
         }
 
     def _scope_rows(self, actor_ref):
@@ -558,6 +831,244 @@ class FakeSidecar:
             "rows": page,
         }
 
+    def read_actor_scope_catalog(
+        self, request_id, expected_revision, actor_ref, timeout_s=30,
+    ):
+        self.factory.scope_count += 1
+        rows = self._scope_rows(actor_ref)
+        return {
+            "generation": self.generation,
+            "native_revision": expected_revision,
+            "actor_ref": actor_ref,
+            "view_id": f"v{expected_revision}-1",
+            "offset": 0,
+            "count": len(rows),
+            "total_count": len(rows),
+            "next_offset": len(rows),
+            "complete": True,
+            "overflow": False,
+            "rows": rows,
+        }
+
+    def _state_scope_rows(self, section, selector):
+        if section == "investigation":
+            return self.factory.investigation_rows
+        if self.factory.state_scope_rows is not None \
+                and section == "tile_window":
+            return self.factory.state_scope_rows
+        rows = self.factory.observation_rows_by_player.get(
+            self.player_name, self.factory.observation_rows,
+        )
+        match = re.fullmatch(r"AgentPlace([0-9]+)", self.player_name)
+        if self.player_name not in self.factory.observation_rows_by_player and match:
+            player_number = int(match.group(1))
+            if player_number != 1:
+                player_ref = f"p:{player_number}:{9 + player_number}"
+                rows = tuple(row.replace("p:1:10", player_ref) for row in rows)
+        if section == "known_tiles":
+            return tuple(
+                row for row in rows
+                if row.startswith("tile ") and " known=0 " not in f" {row} "
+            )
+        if section == "tile_window":
+            match = re.fullmatch(r"t([0-9]+)-r([0-8])", selector)
+            assert match is not None
+            center = int(match.group(1))
+            radius = int(match.group(2))
+            selected = []
+            for row in rows:
+                if not row.startswith("tile "):
+                    continue
+                tile = int(re.search(r"\bindex=([0-9]+)", row).group(1))
+                dx = abs(tile - center)
+                dx = min(dx, 16 - dx) if dx <= 16 else dx
+                if dx <= radius:
+                    selected.append(row)
+            return tuple(selected)
+        if section in {"cities", "units", "city_sites"}:
+            prefixes = {
+                "cities": ("city ", "city_rally "),
+                "units": ("unit ",),
+                "city_sites": ("city_site ",),
+            }[section]
+            return tuple(row for row in rows if row.startswith(prefixes))
+        if section == "diplomacy_clauses":
+            selected = tuple(
+                row for row in rows
+                if row.startswith("diplomacy_clause ")
+                and f" other={selector} " in f" {row} "
+            )
+            return tuple(sorted(
+                selected,
+                key=lambda row: int(re.search(
+                    r"\bposition=([0-9]+)", row,
+                ).group(1)),
+            ))
+        if section == "target_tiles":
+            targets = {
+                int(re.search(r"\btarget_tile=(-?[0-9]+)", row).group(1))
+                for row in self._scope_rows(selector)
+                if " target_tile=" in f" {row} "
+                and int(re.search(
+                    r"\btarget_tile=(-?[0-9]+)", row,
+                ).group(1)) >= 0
+            }
+            return tuple(
+                row for row in rows
+                if row.startswith("tile ")
+                and int(re.search(r"\bindex=([0-9]+)", row).group(1))
+                    in targets
+            )
+        prefix = {
+            "city_citizens": ("city_tile ", "city_specialist "),
+            "city_build_choices": ("city_build_choice ",),
+            "city_worklist": ("city_worklist ",),
+            "city_improvements": ("city_improvement ",),
+            "city_governor": ("city_governor ",),
+        }[section]
+        return tuple(
+            row for row in rows
+            if row.startswith(prefix) and f" city={selector} " in f" {row} "
+        )
+
+    def read_state_scope_catalog(
+        self, request_id, expected_revision, section, selector, timeout_s=30,
+    ):
+        self.factory.state_scope_sections.append(section)
+        self.factory.target_pipeline.append(
+            ("support", expected_revision, section, selector),
+        )
+        rows = self._state_scope_rows(section, selector)
+        return {
+            "generation": self.generation,
+            "native_revision": expected_revision,
+            "section": section,
+            "selector": selector,
+            "view_id": f"q{expected_revision}-1",
+            "offset": 0,
+            "count": len(rows),
+            "total_count": len(rows),
+            "next_offset": len(rows),
+            "complete": True,
+            "overflow": False,
+            "rows": rows,
+        }
+
+    def read_relation_scope(
+        self, request_id, expected_revision, actor_ref, counterpart_ref,
+        limit=16, timeout_s=5,
+    ):
+        self.factory.relation_scope_count += 1
+        self.factory.last_relation_actor = actor_ref
+        self.factory.last_relation_counterpart = counterpart_ref
+        rows = self.factory.relation_rows
+        return {
+            "generation": self.generation,
+            "native_revision": expected_revision,
+            "actor_ref": actor_ref,
+            "counterpart_ref": counterpart_ref,
+            "view_id": f"r{expected_revision}-1",
+            "offset": 0,
+            "count": min(limit, len(rows)),
+            "total_count": len(rows),
+            "next_offset": min(limit, len(rows)),
+            "complete": True,
+            "overflow": False,
+            "rows": rows[:limit],
+        }
+
+    def read_relation_scope_page(
+        self, request_id, view_id, revision, actor_ref, counterpart_ref,
+        total_count, offset, limit, timeout_s=5,
+    ):
+        self.factory.relation_scope_page_count += 1
+        rows = self.factory.relation_rows[offset:offset + limit]
+        return {
+            "generation": self.generation,
+            "native_revision": revision,
+            "actor_ref": actor_ref,
+            "counterpart_ref": counterpart_ref,
+            "view_id": view_id,
+            "offset": offset,
+            "count": len(rows),
+            "total_count": total_count,
+            "next_offset": offset + len(rows),
+            "complete": True,
+            "overflow": False,
+            "rows": rows,
+        }
+
+    def read_relation_scope_catalog(
+        self, request_id, expected_revision, actor_ref, counterpart_ref,
+        timeout_s=30,
+    ):
+        self.factory.relation_scope_count += 1
+        self.factory.last_relation_actor = actor_ref
+        self.factory.last_relation_counterpart = counterpart_ref
+        rows = self.factory.relation_rows
+        return {
+            "generation": self.generation,
+            "native_revision": expected_revision,
+            "actor_ref": actor_ref,
+            "counterpart_ref": counterpart_ref,
+            "view_id": f"r{expected_revision}-1",
+            "offset": 0,
+            "count": len(rows),
+            "total_count": len(rows),
+            "next_offset": len(rows),
+            "complete": True,
+            "overflow": False,
+            "rows": rows,
+        }
+
+    def read_target_action(
+        self, request_id, expected_revision, actor_ref, native_tile,
+        timeout_s=5,
+    ):
+        self.factory.target_count += 1
+        self.factory.last_target_actor = actor_ref
+        self.factory.last_target_tile = native_tile
+        self.factory.target_pipeline.append(
+            ("target", expected_revision, actor_ref, native_tile),
+        )
+        if self.factory.target_error is not None:
+            raise self.factory.target_error
+        if self.factory.target_empty:
+            rows = ()
+        else:
+            is_city = actor_ref.startswith("c:")
+            is_player = actor_ref.startswith("p:")
+            rows = (_complete_v2_action_row(
+                f"action slot=t{native_tile:08X}0123456789ABCDEF "
+                f"kind={'player.place_infrastructure' if is_player else 'city.set_rally' if is_city else 'unit.goto'} "
+                f"actor={actor_ref} target_tile={native_tile} "
+                "source_city=none destination_city=none target_unit=none "
+                "transport_context=none target_tech=-1 "
+                "target_government=-1 max_rate=0 "
+                "route_waypoint_limit=0 infrastructure_cost=0 "
+                "infrastructure_turns=0 "
+                f"infrastructure_choice_count={1 if is_player else 0} "
+                f"infrastructure_choices={'0' if is_player else '-'} "
+                "target_build_kind=none target_build=-1 "
+                "source_specialist=-1 target_specialist=-1 target_extra=-1 "
+                f"activity=none target_name={'infrastructure' if is_player else 'destination'} "
+                f"native_rule={'player.place_infrastructure' if is_player else 'city.set_rally' if is_city else 'unit.goto'} "
+                "target_kind=Tile "
+                f"result={'Infrastructure%20Placement%20Started' if is_player else 'Rally%20Point%20Set' if is_city else 'Orders%20Queued'} "
+                "actor_consuming_always=0 "
+                "legality=legal probability_kind=exact "
+                "probability_min=200 probability_max=200 "
+                f"args={'infrastructure-extra-required' if is_player else 'persistent-required' if is_city else 'none'}"
+            ),)
+        return {
+            "generation": self.generation,
+            "native_revision": expected_revision,
+            "actor_ref": actor_ref,
+            "native_tile": native_tile,
+            "count": len(rows),
+            "rows": rows,
+        }
+
     def execute_action(
         self, request_id, action_slot, arguments="-", timeout_s=20,
         *, expected_revision=None, on_accepted=None, on_ambiguous=None,
@@ -595,6 +1106,7 @@ class FakeSidecar:
             "reason": "POSTCONDITION_VERIFIED",
             "accepted_revision": expected_revision,
             "result_revision": result_revision,
+            "observation_selector": None,
         }
 
     def execute_scoped_action(
@@ -603,6 +1115,20 @@ class FakeSidecar:
     ):
         self.factory.scoped_action_count += 1
         self.factory.last_scoped_actor = actor_ref
+        return self.execute_action(
+            request_id, action_slot, arguments, timeout_s,
+            expected_revision=expected_revision, on_accepted=on_accepted,
+            on_ambiguous=on_ambiguous,
+        )
+
+    def execute_relation_scoped_action(
+        self, request_id, expected_revision, actor_ref, counterpart_ref,
+        action_slot, arguments="-", timeout_s=20, *, on_accepted=None,
+        on_ambiguous=None,
+    ):
+        self.factory.relation_action_count += 1
+        self.factory.last_relation_actor = actor_ref
+        self.factory.last_relation_counterpart = counterpart_ref
         return self.execute_action(
             request_id, action_slot, arguments, timeout_s,
             expected_revision=expected_revision, on_accepted=on_accepted,
@@ -631,8 +1157,17 @@ class FakeSidecarFactory:
         self.status_response = "STATUS\tstate=running\tserver=1\tseat=ready"
         self.status_error = None
         self.observation_rows = native_v2_rows()
+        self.state_scope_rows = None
+        self.investigation_rows = ()
+        self.relation_rows = ()
         self.observation_rows_by_player = {}
         self.native_revision = 11
+        self.target_pipeline = []
+        self.relation_scope_count = 0
+        self.relation_scope_page_count = 0
+        self.relation_action_count = 0
+        self.last_relation_actor = None
+        self.last_relation_counterpart = None
         self.observation_error = None
         self.read_hook = None
         self.phase_evidence_by_player = {}
@@ -640,6 +1175,12 @@ class FakeSidecarFactory:
         self.action_count = 0
         self.scope_count = 0
         self.scope_page_count = 0
+        self.state_scope_sections = []
+        self.target_count = 0
+        self.last_target_actor = None
+        self.last_target_tile = None
+        self.target_empty = False
+        self.target_error = None
         self.scoped_action_count = 0
         self.last_scoped_actor = None
         self.action_error = None
@@ -694,6 +1235,86 @@ class SupervisorTests(unittest.TestCase):
             game.state = "running"
             game.condition.notify_all()
 
+    def _seed_v2_phase(self, game, *, place=1, turn=7, phase=1):
+        generation = game.sidecar_generations[place]
+        player_name = game.places[place - 1].player_name
+        self.sidecar_factory.phase_evidence_by_player[player_name] = {
+            "generation": generation,
+            "revision": self.sidecar_factory.native_revision,
+            "turn": turn,
+            "phase": phase,
+            "mode": "players_alternate",
+            "phase_count": 2,
+            "active": True,
+            "ready": True,
+            "alive": True,
+            "done": False,
+        }
+        game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=turn, phase=phase,
+                                active_place=place),
+            time.monotonic(),
+        )
+
+    def test_v2_runtime_gate_requires_fresh_connection_and_seat_health(self):
+        _created, game, _joined, _action = self.ready_v2_action()
+        sidecar = game.sidecars[1]
+        generation = game.sidecar_generations[1]
+        with game.condition:
+            self.assertTrue(game._v2_seat_runtime_active_locked(
+                1, generation, sidecar,
+            ))
+        healthy = sidecar.public_health()
+        for field, value in (
+            ("client_state", "stopped"),
+            ("server_connected", False),
+            ("seat_state", "idle"),
+        ):
+            current = dict(healthy)
+            current[field] = value
+            with self.subTest(field=field), patch.object(
+                sidecar, "public_health", return_value=current,
+            ), game.condition:
+                self.assertFalse(game._v2_seat_runtime_active_locked(
+                    1, generation, sidecar,
+                ))
+
+    def test_v2_all_native_clients_over_hands_off_to_server_monitor(self):
+        _created, game, _joined = self.ready_v2_phase_game(
+            multiplayer=True, places=2,
+        )
+        self.sidecar_factory.status_response = (
+            "STATUS\tstate=over\tserver=1\tseat=ready"
+        )
+        with game.condition:
+            game.start_sent = True
+            game.v2_phase_ledger["end"] = {
+                "claim_id": "final-phase-claim",
+                "key": (2, 1),
+                "place": 2,
+                "source": "agent",
+                "receipt_state": "applied",
+                "deadline_started_at": time.time(),
+                "deadline_started_monotonic": time.monotonic(),
+            }
+            game.v2_phase_ledger["key"] = (2, 1)
+
+        self.assertFalse(game._poll_v2_sidecars_once())
+
+        self.assertTrue(game.sidecars_stopping)
+        self.assertEqual(game.state, "running")
+        self.assertIsNone(game.error)
+        self.assertNotIn(
+            "v2_phase_reconciliation_stalled", game.invalid_reasons,
+        )
+        self.assertEqual(game.v2_phase_ledger["state"], "terminalizing")
+        self.assertEqual(
+            game.v2_phase_ledger["end"]["claim_id"], "final-phase-claim",
+        )
+        self.assertTrue(all(
+            sidecar.stop_count == 1 for sidecar in game.sidecars.values()
+        ))
+
     def ready_v2_action(self):
         created = self.create(control_protocol="full-control-v2")
         game = self.supervisor.game(created["game_id"])
@@ -702,6 +1323,7 @@ class SupervisorTests(unittest.TestCase):
             supported_control_protocols=["full-control-v2"],
         )
         self._mark_v2_running(game)
+        self._seed_v2_phase(game)
         legal = game.v2_get_page(joined["agent_id"], "legal_actions", "")
         action = legal["page"]["items"][0]
         return created, game, joined, action
@@ -827,6 +1449,8 @@ class SupervisorTests(unittest.TestCase):
         )
         self.assertEqual(joined["control_protocol"], "strategic-v1")
         self.assertEqual(joined["supported_control_protocols"], [])
+        for field in ("objective", "max_turns", "turns_remaining"):
+            self.assertNotIn(field, joined)
         self.assertIn(joined["state"], {"starting", "running"})
         self.assertEqual(game.start_count, 1)
         self.assertIn("hard", game._setup_commands())
@@ -835,10 +1459,13 @@ class SupervisorTests(unittest.TestCase):
         ))
         self.assertEqual(self.send_mock.call_args_list[-1].args[1], ["start"])
 
-    def test_full_control_v2_negotiates_and_starts_only_with_ready_sidecar(self):
+    def test_full_control_v2_negotiates_and_waits_for_native_player_ready(self):
         with self.assertRaises(APIProblem) as invalid:
             self.supervisor._config({"control_protocol": "full-control-v3"})
         self.assertEqual(invalid.exception.status, HTTPStatus.BAD_REQUEST)
+        self.sidecar_factory.status_response = (
+            "STATUS\tstate=preparing\tserver=1\tseat=ready"
+        )
         created = self.create(control_protocol="full-control-v2")
         game = self.supervisor.game(created["game_id"])
         self.assertEqual(created["control_protocol"], "full-control-v2")
@@ -912,16 +1539,28 @@ class SupervisorTests(unittest.TestCase):
         self.assertNotIn("actions_url", joined)
         self.assertIn("/v2/games/", joined["state_url"])
         self.assertTrue(joined["v2_transport_available"])
-        self.assertEqual(joined["state"], "starting")
+        self.assertEqual(joined["state"], "lobby")
+        self.assertEqual(joined["objective"], "win cleanly")
+        self.assertEqual(joined["max_turns"], 2)
+        self.assertIsNone(joined["turns_remaining"])
         self.assertIn("/v2/games/", joined["health_url"])
-        self.assertTrue(game.start_sent)
-        self.assertEqual(game.start_count, 1)
-        self.assertIsNotNone(game.started_at)
-        self.assertTrue(any(
+        self.assertEqual(
+            joined["wait_url"],
+            f"{self.supervisor.service_url}/v2/games/"
+            f"{game.game_id}/me/wait",
+        )
+        self.assertEqual(
+            joined["openapi_url"],
+            f"{self.supervisor.service_url}/v2/openapi.json",
+        )
+        self.assertFalse(game.start_sent)
+        self.assertEqual(game.start_count, 0)
+        self.assertIsNone(game.started_at)
+        self.assertFalse(any(
             call.args[1] == ["start"] for call in self.send_mock.call_args_list
         ))
         manifest = json.loads((game.episode / "manifest.json").read_text())
-        self.assertIn(manifest["state"], {"starting", "running"})
+        self.assertEqual(manifest["state"], "lobby")
         self.assertEqual(
             manifest["config"]["control_protocol"], "full-control-v2",
         )
@@ -930,12 +1569,24 @@ class SupervisorTests(unittest.TestCase):
             supported_control_protocols=["full-control-v2", "strategic-v1"],
         )
         self.assertTrue(reconnected["reconnected"])
+        self.assertEqual(
+            {
+                name: reconnected[name]
+                for name in ("objective", "max_turns", "turns_remaining")
+            },
+            {
+                "objective": "win cleanly",
+                "max_turns": 2,
+                "turns_remaining": None,
+            },
+        )
         with self.assertRaises(APIProblem) as next_gate:
             game.next_for_agent(joined["agent_id"], 0, 0)
         self.assertEqual(next_gate.exception.status, HTTPStatus.CONFLICT)
         with self.assertRaises(APIProblem) as action_gate:
             game.submit_action(joined["agent_id"], {})
         self.assertEqual(action_gate.exception.status, HTTPStatus.CONFLICT)
+
         gate_server = make_supervisor_server(self.supervisor, "127.0.0.1", 0)
         gate_thread = threading.Thread(
             target=gate_server.serve_forever, daemon=True,
@@ -961,6 +1612,39 @@ class SupervisorTests(unittest.TestCase):
             gate_server.shutdown()
             gate_server.server_close()
             gate_thread.join(2)
+
+    def test_v2_private_health_and_wait_derive_evaluation_turn_budget(self):
+        created = self.create(
+            control_protocol="full-control-v2",
+            turns=12,
+            objective="Reach the configured victory condition.",
+        )
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="context-aware-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        self._seed_v2_phase(game, turn=7)
+
+        health = game.v2_health(joined["agent_id"])
+        self.assertEqual(health["objective"], joined["objective"])
+        self.assertEqual(health["max_turns"], 12)
+        self.assertEqual(health["turns_remaining"], 5)
+
+        waited = game.v2_wait(joined["agent_id"], 0)
+        self.assertEqual(waited["wake_reason"], "phase_active")
+        self.assertEqual(
+            {
+                name: waited["health"][name]
+                for name in ("objective", "max_turns", "turns_remaining")
+            },
+            {
+                "objective": "Reach the configured victory condition.",
+                "max_turns": 12,
+                "turns_remaining": 5,
+            },
+        )
 
     def test_v2_setup_commands_and_bridge_environment_are_strictly_split(self):
         parsed = _parser().parse_args([
@@ -1067,7 +1751,7 @@ class SupervisorTests(unittest.TestCase):
                     )
                     self.assertFalse(failed)
                     self.assertEqual(claim["source"], "timeout")
-                    self.assertEqual(claim["key"], (7, 1, 2))
+                    self.assertEqual(claim["key"], (7, 1))
 
     def test_v2_phase_consensus_ignores_seat_local_revisions(self):
         _created, game, _joined = self.ready_v2_phase_game(
@@ -1086,13 +1770,76 @@ class SupervisorTests(unittest.TestCase):
         self.assertTrue(failed)
         self.assertIn("v2_phase_protocol", game.invalid_reasons)
 
+    def test_v2_phase_count_is_advisory_and_never_resets_authority(self):
+        _created, game, _joined = self.ready_v2_phase_game(
+            timing_mode="custom", action_timeout_s=1.0,
+        )
+        first = self.phase_evidence(
+            game, phase=1, active_place=1, count=2,
+        )
+        claim, failed = game._update_v2_phase_ledger(first, 10.0)
+        self.assertIsNone(claim)
+        self.assertFalse(failed)
+        skewed = self.phase_evidence(
+            game, phase=1, active_place=1, count=99,
+        )
+        claim, failed = game._update_v2_phase_ledger(skewed, 10.5)
+        self.assertIsNone(claim)
+        self.assertFalse(failed)
+        self.assertEqual(game.v2_phase_ledger["key"], (7, 1))
+        self.assertEqual(game.v2_phase_ledger["reported_phase_counts"], [99])
+        self.assertEqual(
+            game.v2_phase_ledger["deadline_started_monotonic"], 10.0,
+        )
+        claim, failed = game._update_v2_phase_ledger(skewed, 11.0)
+        self.assertFalse(failed)
+        self.assertEqual(claim["key"], (7, 1))
+
+    def test_v2_native_progress_watchdog_is_independent_and_generous(self):
+        _created, game, _joined = self.ready_v2_phase_game(
+            timing_mode="infinite",
+        )
+        native = self.phase_evidence(game, phase=0, active_place=None)
+        with patch(
+            "agent_eval.supervisor.V2_PHASE_PROGRESS_STALL_S", 300.0,
+        ):
+            claim, failed = game._update_v2_phase_ledger(native, 10.0)
+            self.assertIsNone(claim)
+            self.assertFalse(failed)
+            _claim, failed = game._update_v2_phase_ledger(native, 309.999)
+            self.assertFalse(failed)
+            _claim, failed = game._update_v2_phase_ledger(native, 310.0)
+        self.assertTrue(failed)
+        self.assertEqual(game.state, "failed")
+        self.assertIn("v2_phase_progress_stalled", game.invalid_reasons)
+        self.assertEqual(game.v2_phase_ledger["state"], "failed")
+        self.assertEqual(game.v2_phase_ledger["evidence"], {})
+
+    def test_v2_cancel_terminalizes_phase_without_losing_last_turn(self):
+        _created, game, joined = self.ready_v2_phase_game()
+        game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=12, phase=1, active_place=1),
+            10.0,
+        )
+        self.assertEqual(game.status()["current_turn"], 12)
+        game.cancel()
+        self.assertTrue(game.cancel_requested)
+        self.assertEqual(game.v2_phase_ledger["state"], "cancelled")
+        self.assertEqual(game.v2_phase_ledger["key"], (12, 1))
+        self.assertEqual(game.v2_phase_ledger["evidence"], {})
+        self.assertIsNone(game.v2_phase_ledger["active_place"])
+        self.assertIsNone(game.v2_phase_ledger["end"])
+        health = game.v2_health(joined[0]["agent_id"])
+        self.assertEqual(health["game_state"], "cancelled")
+        self.assertIsNone(health["phase"])
+
     def test_v2_phase_transition_skew_synchronizes_then_advances(self):
         _created, game, _joined = self.ready_v2_phase_game(
             multiplayer=True, places=2,
         )
         old = self.phase_evidence(game, phase=0, active_place=1)
         game._update_v2_phase_ledger(old, 10.0)
-        self.assertEqual(game.v2_phase_ledger["key"], (7, 0, 2))
+        self.assertEqual(game.v2_phase_ledger["key"], (7, 0))
 
         mixed = self.phase_evidence(game, phase=0, active_place=1)
         mixed[1].update({"phase": 1, "active": True, "ready": True})
@@ -1113,7 +1860,7 @@ class SupervisorTests(unittest.TestCase):
         claim, failed = game._update_v2_phase_ledger(current, 30.0)
         self.assertIsNone(claim)
         self.assertFalse(failed)
-        self.assertEqual(game.v2_phase_ledger["key"], (7, 1, 2))
+        self.assertEqual(game.v2_phase_ledger["key"], (7, 1))
         self.assertEqual(game.v2_phase_ledger["state"], "awaiting_agent")
         self.assertEqual(game.v2_phase_ledger["active_place"], 2)
 
@@ -1197,7 +1944,7 @@ class SupervisorTests(unittest.TestCase):
             game, phase=1, active_place=1, ready=False,
         )
         game._update_v2_phase_ledger(evidence, 20.0)
-        self.assertEqual(game.v2_phase_ledger["state"], "synchronizing")
+        self.assertEqual(game.v2_phase_ledger["state"], "phase_not_ready")
         self.assertIsNone(
             game.v2_phase_ledger["deadline_started_monotonic"],
         )
@@ -1256,7 +2003,7 @@ class SupervisorTests(unittest.TestCase):
             self.phase_evidence(game, turn=9, phase=1, active_place=1), 2.0,
         )
         self.assertFalse(failed)
-        self.assertEqual(game.v2_phase_ledger["key"], (9, 1, 2))
+        self.assertEqual(game.v2_phase_ledger["key"], (9, 1))
         _claim, failed = game._update_v2_phase_ledger(
             self.phase_evidence(game, turn=9, phase=0, active_place=1), 3.0,
         )
@@ -1390,7 +2137,7 @@ class SupervisorTests(unittest.TestCase):
         retry, failed = advanced._update_v2_phase_ledger(current, 400.0)
         self.assertIsNone(retry)
         self.assertFalse(failed)
-        self.assertEqual(advanced.v2_phase_ledger["key"], (8, 0, 2))
+        self.assertEqual(advanced.v2_phase_ledger["key"], (8, 0))
 
     def test_v2_phase_end_reserve_failure_fails_without_native_send(self):
         _created, game, joined, action = self.ready_v2_action()
@@ -1439,6 +2186,9 @@ class SupervisorTests(unittest.TestCase):
 
     def test_v2_safe_reserve_conflict_releases_claim_and_keeps_deadline(self):
         _created, game, joined, action = self.ready_v2_action()
+        initial_deadline = game.v2_phase_ledger[
+            "deadline_started_monotonic"
+        ]
         evidence = self.phase_evidence(game, phase=1, active_place=1)
         game._update_v2_phase_ledger(evidence, 10.0)
         store = game.v2_receipt_store
@@ -1457,7 +2207,8 @@ class SupervisorTests(unittest.TestCase):
         self.assertIsNone(game.v2_phase_ledger["end"])
         self.assertEqual(game.v2_phase_ledger["state"], "awaiting_agent")
         self.assertEqual(
-            game.v2_phase_ledger["deadline_started_monotonic"], 10.0,
+            game.v2_phase_ledger["deadline_started_monotonic"],
+            initial_deadline,
         )
 
     def test_v2_agent_timeout_phase_end_race_dispatches_exactly_once(self):
@@ -1499,6 +2250,7 @@ class SupervisorTests(unittest.TestCase):
                 "reason": "POSTCONDITION_VERIFIED",
                 "accepted_revision": expected_revision,
                 "result_revision": result_revision,
+                "observation_selector": None,
             }
 
         self.sidecar_factory.action_hook = blocked_action
@@ -1545,8 +2297,44 @@ class SupervisorTests(unittest.TestCase):
             game.v2_phase_ledger["end"]["receipt_state"], "applied",
         )
 
+    def test_v2_applied_phase_end_does_not_require_inactive_observation(self):
+        _created, game, joined, action = self.ready_v2_action()
+        sidecar = game.sidecars[joined["place"]]
+        reads_before = sidecar.read_count
+        reads = 0
+
+        def reject_post_result_read(current, _request_id, _timeout):
+            nonlocal reads
+            reads += 1
+            if reads > 1:
+                raise AssertionError(
+                    "an applied phase end has no active post-result observation"
+                )
+            return {
+                "generation": current.generation,
+                "native_revision": self.sidecar_factory.native_revision,
+                "rows": self.sidecar_factory.observation_rows,
+            }
+
+        self.sidecar_factory.read_hook = reject_post_result_read
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, action, batch_id="phase_end_no_snapshot",
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(sidecar.read_count - reads_before, 1)
+        self.assertEqual(
+            game.v2_phase_ledger["end"]["receipt_state"], "applied",
+        )
+
     def test_v2_agent_phase_end_rejection_releases_claim_and_can_retry(self):
         _created, game, joined, action = self.ready_v2_action()
+        initial_deadline = game.v2_phase_ledger[
+            "deadline_started_monotonic"
+        ]
         evidence = self.phase_evidence(game, phase=1, active_place=1)
         game._update_v2_phase_ledger(evidence, 10.0)
         self.sidecar_factory.action_error = SidecarActionNotAccepted(
@@ -1564,7 +2352,8 @@ class SupervisorTests(unittest.TestCase):
         self.assertIsNone(game.v2_phase_ledger["end"])
         self.assertEqual(game.v2_phase_ledger["state"], "awaiting_agent")
         self.assertEqual(
-            game.v2_phase_ledger["deadline_started_monotonic"], 10.0,
+            game.v2_phase_ledger["deadline_started_monotonic"],
+            initial_deadline,
         )
         stored_status, stored = game.v2_get_receipt(
             joined["agent_id"], "agent_phase_rejected",
@@ -1679,6 +2468,375 @@ class SupervisorTests(unittest.TestCase):
         ):
             self.assertNotIn(private_name, serialized)
 
+    def test_v2_phase_end_journal_advances_once_and_health_is_seat_filtered(self):
+        _created, game, joined, action = self.ready_v2_action()
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(game, joined, action, "phase_event_advanced"),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        _claim, failed = game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=8, phase=0, active_place=1),
+            time.monotonic(),
+        )
+        self.assertFalse(failed)
+        page = game.phase_events(0, 100)
+        self.assertEqual(len(page["phase_events"]), 1)
+        event = page["phase_events"][0]
+        self.assertEqual(event["sequence"], 1)
+        self.assertEqual((event["turn"], event["phase"]), (7, 1))
+        self.assertEqual(event["source"], "agent")
+        self.assertEqual(event["receipt_state"], "applied")
+        self.assertEqual(event["resolution"], "advanced")
+        self.assertEqual(event["place"], 1)
+        self.assertEqual(event["seat_id"], "place-1")
+        self.assertEqual(event["player_name"], "AgentPlace1")
+        self.assertEqual(event["player_color"], "#0067A5")
+        self.assertEqual(event["controller_label"], "codex-batch-model")
+        self.assertEqual(event["controller_type"], "external")
+        self.assertGreaterEqual(event["ended_at"], event["deadline_started_at"])
+        self.assertGreaterEqual(event["elapsed_s"], 0)
+        game._terminalize_v2_phase_locked("completed")
+        self.assertEqual(len(game.phase_events(0, 100)["phase_events"]), 1)
+        health = game.v2_health(joined["agent_id"])
+        self.assertEqual(health["last_phase_end"], event)
+        self.assertNotIn("agent_id", json.dumps(event))
+
+    def test_v2_phase_event_waits_for_terminal_receipt_after_advance_race(self):
+        _created, game, joined, action = self.ready_v2_action()
+        accepted = threading.Event()
+        release = threading.Event()
+
+        def blocked_action(
+            _sidecar, request_id, _slot, _arguments, _timeout,
+            expected_revision, on_accepted,
+        ):
+            on_accepted({
+                "request_id": request_id,
+                "accepted": True,
+                "accepted_revision": expected_revision,
+            })
+            accepted.set()
+            release.wait(2)
+            result_revision = expected_revision + 1
+            self.sidecar_factory.native_revision = result_revision
+            return {
+                "request_id": request_id,
+                "accepted": True,
+                "applied": True,
+                "status": "applied",
+                "reason": "POSTCONDITION_VERIFIED",
+                "accepted_revision": expected_revision,
+                "result_revision": result_revision,
+                "observation_selector": None,
+            }
+
+        self.sidecar_factory.action_hook = blocked_action
+        result = []
+        worker = threading.Thread(target=lambda: result.append(
+            game.v2_submit_batch(
+                joined["agent_id"],
+                self.v2_batch(
+                    game, joined, action, "phase_event_accepted_race",
+                ),
+            ),
+        ))
+        worker.start()
+        self.assertTrue(accepted.wait(1))
+        game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=8, phase=0, active_place=1),
+            time.monotonic(),
+        )
+        self.assertEqual(game.phase_events(0, 100)["phase_events"], [])
+        release.set()
+        worker.join(2)
+        self.assertFalse(worker.is_alive())
+        self.assertEqual(result[0][1]["receipt_state"], "applied")
+        events = game.phase_events(0, 100)["phase_events"]
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["receipt_state"], "applied")
+        self.assertEqual(events[0]["resolution"], "advanced")
+
+    def test_v2_phase_events_remain_in_native_order_across_late_receipts(self):
+        _created, game, _joined = self.ready_v2_phase_game(
+            multiplayer=True, places=2,
+        )
+        now = time.time()
+        monotonic = time.monotonic()
+        earlier = {
+            "claim_id": "earlier-claim",
+            "key": (7, 0),
+            "place": 1,
+            "source": "agent",
+            "receipt_state": "accepted",
+            "deadline_started_at": now,
+            "deadline_started_monotonic": monotonic,
+        }
+        later = {
+            "claim_id": "later-claim",
+            "key": (7, 1),
+            "place": 2,
+            "source": "agent",
+            "receipt_state": "applied",
+            "deadline_started_at": now,
+            "deadline_started_monotonic": monotonic,
+        }
+        with game.condition:
+            self.assertFalse(
+                game._finalize_v2_phase_end_locked(earlier, "advanced"),
+            )
+            self.assertFalse(
+                game._finalize_v2_phase_end_locked(later, "advanced"),
+            )
+        self.assertEqual(game.phase_events(0, 100)["phase_events"], [])
+
+        game._note_phase_end_receipt(earlier, "applied")
+
+        events = game.phase_events(0, 100)["phase_events"]
+        self.assertEqual(
+            [(event["turn"], event["phase"]) for event in events],
+            [(7, 0), (7, 1)],
+        )
+        self.assertEqual([event["sequence"] for event in events], [1, 2])
+        self.assertEqual(game.v2_pending_phase_ends, {})
+
+    def test_v2_phase_events_complete_waits_for_late_terminal_receipt(self):
+        _created, game, joined, action = self.ready_v2_action()
+        accepted = threading.Event()
+        release = threading.Event()
+
+        def blocked_action(
+            _sidecar, request_id, _slot, _arguments, _timeout,
+            expected_revision, on_accepted,
+        ):
+            on_accepted({
+                "request_id": request_id,
+                "accepted": True,
+                "accepted_revision": expected_revision,
+            })
+            accepted.set()
+            release.wait(2)
+            result_revision = expected_revision + 1
+            self.sidecar_factory.native_revision = result_revision
+            return {
+                "request_id": request_id,
+                "accepted": True,
+                "applied": True,
+                "status": "applied",
+                "reason": "POSTCONDITION_VERIFIED",
+                "accepted_revision": expected_revision,
+                "result_revision": result_revision,
+                "observation_selector": None,
+            }
+
+        self.sidecar_factory.action_hook = blocked_action
+        result = []
+        worker = threading.Thread(target=lambda: result.append(
+            game.v2_submit_batch(
+                joined["agent_id"],
+                self.v2_batch(
+                    game, joined, action, "phase_event_late_terminal",
+                ),
+            ),
+        ))
+        worker.start()
+        self.assertTrue(accepted.wait(1))
+        with game.condition:
+            game.state = "completed"
+            game._terminalize_v2_phase_locked("completed")
+        pending = game.phase_events(0, 100)
+        self.assertEqual(pending["phase_events"], [])
+        self.assertFalse(pending["complete"])
+
+        release.set()
+        worker.join(2)
+        self.assertFalse(worker.is_alive())
+        self.assertIn(
+            result[0][1]["receipt_state"], {"applied", "ambiguous"},
+        )
+        complete = game.phase_events(0, 100)
+        self.assertTrue(complete["complete"])
+        self.assertEqual(len(complete["phase_events"]), 1)
+        self.assertEqual(
+            complete["phase_events"][0]["receipt_state"],
+            result[0][1]["receipt_state"],
+        )
+        self.assertEqual(complete["phase_events"][0]["resolution"], "terminal")
+
+    def test_v2_phase_end_journal_terminal_failed_and_timeout_sources(self):
+        for terminal_state, resolution in (
+            ("completed", "terminal"), ("failed", "failed"),
+        ):
+            with self.subTest(terminal_state=terminal_state):
+                _created, game, joined, action = self.ready_v2_action()
+                game.v2_submit_batch(
+                    joined["agent_id"],
+                    self.v2_batch(
+                        game, joined, action,
+                        f"phase_event_{terminal_state}",
+                    ),
+                )
+                with game.condition:
+                    game._terminalize_v2_phase_locked(terminal_state)
+                events = game.phase_events(0, 100)["phase_events"]
+                self.assertEqual(len(events), 1)
+                self.assertEqual(events[0]["resolution"], resolution)
+
+        _created, game, joined = self.ready_v2_phase_game(
+            timing_mode="custom", action_timeout_s=.1,
+        )
+        evidence = self.phase_evidence(game, phase=1, active_place=1)
+        game._update_v2_phase_ledger(evidence, 1.0)
+        claim, failed = game._update_v2_phase_ledger(evidence, 1.1)
+        self.assertFalse(failed)
+        game._run_v2_timeout_phase_end(claim)
+        game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=8, phase=0, active_place=1),
+            2.0,
+        )
+        timeout_event = game.phase_events(0, 100)["phase_events"][0]
+        self.assertEqual(timeout_event["source"], "timeout")
+        self.assertEqual(
+            game.v2_health(joined[0]["agent_id"])["last_phase_end"],
+            timeout_event,
+        )
+
+    def test_v2_health_last_phase_end_never_crosses_seats(self):
+        _created, game, joined = self.ready_v2_phase_game(
+            multiplayer=True, places=2,
+        )
+        events = []
+        for place_number in (1, 2):
+            place = game.places[place_number - 1]
+            agent = game.agents[game.place_agents[place_number]]
+            events.append(game.v2_phase_event_journal.append({
+                "turn": 7,
+                "phase": place_number - 1,
+                "place": place_number,
+                "seat_id": place.seat_id,
+                "player_name": place.player_name,
+                "player_color": place.player_color,
+                "controller_label": agent["controller_label"],
+                "controller_type": "external",
+                "source": "timeout" if place_number == 2 else "agent",
+                "receipt_state": "applied",
+                "resolution": "advanced",
+                "deadline_started_at": 1000.0 + place_number,
+                "ended_at": 1001.0 + place_number,
+                "elapsed_s": 1.0,
+            }))
+        first_health = game.v2_health(joined[0]["agent_id"])
+        second_health = game.v2_health(joined[1]["agent_id"])
+        self.assertEqual(first_health["last_phase_end"], events[0])
+        self.assertEqual(second_health["last_phase_end"], events[1])
+        self.assertNotEqual(
+            first_health["last_phase_end"]["place"],
+            second_health["last_phase_end"]["place"],
+        )
+
+    def test_v2_phase_event_journal_failure_invalidates_without_details(self):
+        _created, game, joined, action = self.ready_v2_action()
+        game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(game, joined, action, "phase_event_write_failure"),
+        )
+        with patch.object(
+            game.v2_phase_event_journal,
+            "append",
+            side_effect=V2PhaseEventJournalError(),
+        ):
+            _claim, failed = game._update_v2_phase_ledger(
+                self.phase_evidence(game, turn=8, phase=0, active_place=1),
+                time.monotonic(),
+            )
+        self.assertTrue(failed)
+        self.assertEqual(game.state, "failed")
+        self.assertEqual(game.v2_phase_ledger["state"], "failed")
+        self.assertEqual(
+            game.invalid_reasons.count("v2_phase_event_journal_unavailable"),
+            1,
+        )
+        serialized = json.dumps(game.status())
+        self.assertNotIn("phase_event_write_failure", serialized)
+        self.assertNotIn(str(game.episode), serialized)
+
+    def test_v2_phase_events_public_http_pagination_queries_and_v1_absence(self):
+        strategic = self.create()
+        strategic_game = self.supervisor.game(strategic["game_id"])
+        self.assertFalse((strategic_game.episode / PHASE_EVENT_FILENAME).exists())
+        self.assertNotIn("phase_events_url", strategic_game.urls())
+
+        _created, game, joined, action = self.ready_v2_action()
+        game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(game, joined, action, "phase_http_one"),
+        )
+        game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=8, phase=0, active_place=1),
+            time.monotonic(),
+        )
+        first = game.phase_events(0, 100)["phase_events"][0]
+        second = dict(first)
+        second.pop("sequence")
+        second.update({
+            "turn": 8,
+            "phase": 0,
+            "deadline_started_at": first["ended_at"],
+            "ended_at": first["ended_at"] + 1,
+            "elapsed_s": 1,
+        })
+        game.v2_phase_event_journal.append(second)
+
+        server = make_supervisor_server(self.supervisor, "127.0.0.1", 0)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        host, port = server.server_address
+        root = f"http://{host}:{port}/v1/games"
+        url = f"{root}/{game.game_id}/phase-events"
+        try:
+            first_page = request_json("GET", f"{url}?limit=1")
+            self.assertEqual(len(first_page["phase_events"]), 1)
+            self.assertEqual(first_page["next_after_sequence"], 1)
+            self.assertTrue(first_page["has_more"])
+            second_page = request_json(
+                "GET", f"{url}?after_sequence=1&limit=100",
+            )
+            self.assertEqual(
+                [event["sequence"] for event in second_page["phase_events"]],
+                [2],
+            )
+            self.assertFalse(second_page["has_more"])
+            serialized = json.dumps(first_page).casefold()
+            for private_name in (
+                "agent_id", "batch_id", "generation", "revision",
+                "action_id", "slot", "hash", "bearer", "native_ref",
+            ):
+                self.assertNotIn(private_name, serialized)
+            for query in (
+                "?extra=1", "?after_sequence=", "?after_sequence=-1",
+                "?after_sequence=+1", "?after_sequence=01", "?limit=0",
+                "?limit=251", "?limit=1&limit=2",
+            ):
+                with self.subTest(query=query), self.assertRaises(
+                    ClientError,
+                ) as rejected:
+                    request_json("GET", url + query)
+                self.assertEqual(rejected.exception.status, HTTPStatus.BAD_REQUEST)
+            with self.assertRaises(ClientError) as trailing:
+                request_json("GET", url + "/")
+            self.assertEqual(trailing.exception.status, HTTPStatus.NOT_FOUND)
+            with self.assertRaises(ClientError) as v1_absent:
+                request_json(
+                    "GET",
+                    f"{root}/{strategic_game.game_id}/phase-events",
+                )
+            self.assertEqual(v1_absent.exception.status, HTTPStatus.NOT_FOUND)
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(2)
+
     def test_missing_agent_binary_is_lazy_and_v1_remains_available(self):
         isolated = Supervisor(
             self.directory.name + "-lazy", "admin-lazy",
@@ -1711,6 +2869,9 @@ class SupervisorTests(unittest.TestCase):
             isolated.close()
 
     def test_v2_two_seat_ready_gating_reconnect_and_start_once(self):
+        self.sidecar_factory.status_response = (
+            "STATUS\tstate=preparing\tserver=1\tseat=ready"
+        )
         created = self.create(
             mode="multiplayer", places=2, control_protocol="full-control-v2",
         )
@@ -1726,8 +2887,9 @@ class SupervisorTests(unittest.TestCase):
             created["join_token"], 2, "claude-model-two",
             supported_control_protocols=["full-control-v2"],
         )
-        self.assertIn(game.state, {"starting", "running"})
-        self.assertEqual(game.start_count, 1)
+        self.assertEqual(game.state, "lobby")
+        self.assertEqual(game.start_count, 0)
+        self.assertTrue(game.v2_pregame_gate_open)
         self.assertEqual(len(self.sidecar_factory.created), 2)
         reconnected = game.join(
             first["agent_token"],
@@ -1735,12 +2897,42 @@ class SupervisorTests(unittest.TestCase):
         )
         self.assertTrue(reconnected["reconnected"])
         self.assertEqual(len(self.sidecar_factory.created), 2)
-        self.assertEqual(game.start_count, 1)
+        self.assertEqual(game.start_count, 0)
         self.assertEqual(sum(
             call.args[1] == ["start"]
             for call in self.send_mock.call_args_list
-        ), 1)
+        ), 0)
         self.assertEqual(second["place"], 2)
+
+    def test_v2_last_native_ready_action_starts_without_console_start(self):
+        self.sidecar_factory.status_response = (
+            "STATUS\tstate=preparing\tserver=1\tseat=ready"
+        )
+        self.sidecar_factory.observation_rows = native_v2_pregame_rows()
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"],
+            controller_label="codex-pregame-control",
+            supported_control_protocols=["full-control-v2"],
+        )
+        legal = game.v2_get_page(
+            joined["agent_id"], "legal_actions", "",
+        )["page"]["items"]
+        ready = next(item for item in legal if item["kind"] == "pregame.set_ready")
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, ready, "batch_pregame_ready", {"ready": True},
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(game.state, "starting")
+        self.assertEqual(game.start_count, 1)
+        self.assertFalse(any(
+            call.args[1] == ["start"] for call in self.send_mock.call_args_list
+        ))
 
     def test_v2_failed_take_rolls_back_and_stale_generation_is_ignored(self):
         self.sidecar_factory.fail_next = True
@@ -1814,6 +3006,46 @@ class SupervisorTests(unittest.TestCase):
         self.sidecar_factory.created[-1].die()
         self.assertEqual(lobby_game.state, "failed")
         self.assertFalse(lobby_game.start_sent)
+
+    def test_v2_sidecar_exit_persists_private_sanitized_diagnostic(self):
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        game.join(
+            created["join_token"], controller_label="codex-diagnostic-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        sidecar = self.sidecar_factory.created[-1]
+        sidecar.state = "failed"
+        sidecar.error_code = "process_exited"
+        sidecar.callback(sidecar.generation, {
+            **sidecar.public_health(),
+            "exit_code": 17,
+            "last_seen_at": 1234.5,
+            "stopped_at": 1235.5,
+            "join_token": "must-not-persist",
+            "raw_frame": "must-not-persist",
+            "private_observation": "must-not-persist",
+        })
+
+        path = game.episode / "sidecar-exit-diagnostic.json"
+        diagnostic = json.loads(path.read_text(encoding="utf-8"))
+        timestamp = diagnostic.pop("timestamp")
+        self.assertIsInstance(timestamp, float)
+        self.assertEqual(diagnostic, {
+            "error_code": "process_exited",
+            "exit_code": 17,
+            "game_id": created["game_id"],
+            "generation": 1,
+            "last_seen_at": 1234.5,
+            "place": 1,
+            "sidecar_state": "failed",
+            "stopped_at": 1235.5,
+        })
+        self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+        text = path.read_text(encoding="utf-8")
+        self.assertNotIn("must-not-persist", text)
+        self.assertEqual(game.state, "failed")
+        self.assertIn("sidecar_exited", game.invalid_reasons)
 
     def test_v2_start_failure_returns_terminal_join_and_stops_sidecars(self):
         created = self.create(control_protocol="full-control-v2")
@@ -1967,6 +3199,32 @@ class SupervisorTests(unittest.TestCase):
         self.assertFalse(game._poll_v2_sidecars_once())
         self.assertEqual(game.state, "failed")
         self.assertNotIn(place.number, game.sidecar_ready_generations)
+
+    def test_v2_status_poll_skips_action_callback_barrier(self):
+        created = self.create(
+            mode="multiplayer", places=2,
+            control_protocol="full-control-v2",
+        )
+        game = self.supervisor.game(created["game_id"])
+        place = game.joinable_places[0]
+        sidecar = game._make_sidecar(place, 1)
+        sidecar.state = "ready"
+        with game.condition:
+            game.sidecars[place.number] = sidecar
+            game.sidecar_generations[place.number] = 1
+            game.sidecar_ready_generations[place.number] = 1
+            game.state = "running"
+            game.start_sent = True
+
+        self.sidecar_factory.status_error = SidecarError(
+            "command_in_progress",
+        )
+        self.assertTrue(game._poll_v2_sidecars_once())
+
+        self.assertEqual(game.state, "running")
+        self.assertEqual(game.sidecar_ready_generations[place.number], 1)
+        self.assertNotIn("sidecar_exited", game.invalid_reasons)
+        self.assertEqual(sidecar.stop_count, 0)
 
     def test_v2_normal_server_exit_ignores_sidecar_disconnect_during_drain(self):
         created = self.create(control_protocol="full-control-v2")
@@ -2149,8 +3407,14 @@ class SupervisorTests(unittest.TestCase):
             self.assertEqual(health["schema_version"], 2)
             self.assertEqual(health["agent"]["agent_id"], joined["agent_id"])
             self.assertEqual(health["seat"]["seat_id"], "place-1")
-            self.assertFalse(health["observation_available"])
-            self.assertFalse(health["legal_actions_available"])
+            self.assertEqual(
+                health["observation_available"],
+                health["game_state"] == "running",
+            )
+            self.assertEqual(
+                health["legal_actions_available"],
+                health["game_state"] == "running",
+            )
             encoded = json.dumps(health)
             for secret_field in ("argv", "environment", "log_path", "do-not-expose"):
                 self.assertNotIn(secret_field, encoded)
@@ -2165,6 +3429,13 @@ class SupervisorTests(unittest.TestCase):
             self.assertEqual(wrong_caller.exception.status, HTTPStatus.FORBIDDEN)
 
             self._mark_v2_running(game)
+            bootstrap_health = request_json(
+                "GET", f"{base}/v2/games/{game.game_id}/me/health",
+                token=joined["agent_token"],
+            )
+            self.assertTrue(bootstrap_health["observation_available"])
+            self.assertTrue(bootstrap_health["legal_actions_available"])
+            self.assertFalse(game.v2_controls[joined["place"]].has_snapshot)
             state = request_json(
                 "GET", f"{base}/v2/games/{game.game_id}/me/state",
                 token=joined["agent_token"],
@@ -2341,6 +3612,10 @@ class SupervisorTests(unittest.TestCase):
             self.assertTrue(overview["active_phase"])
             self.assertTrue(overview["phase_ready"])
             self.assertTrue(overview["player"]["alive"])
+            self.assertEqual(overview["map"], {
+                "width": 16, "height": 16, "topology": "square",
+                "wrap_x": True, "wrap_y": False,
+            })
 
             for section in (
                 "overview", "research", "diplomacy", "known_tiles",
@@ -2354,6 +3629,23 @@ class SupervisorTests(unittest.TestCase):
                     self.assertEqual(status, HTTPStatus.OK)
                     self.assertEqual(page["page"]["section"], section)
                     self.assertLessEqual(len(page["page"]["items"]), 16)
+
+            _, known = raw_json_request(
+                f"{root}/state?section=known_tiles&limit=16",
+                first["agent_token"],
+            )
+            center_id = next(
+                item["id"] for item in known["page"]["items"]
+                if item["visibility"] != "unknown"
+            )
+            status, window = raw_json_request(
+                f"{root}/state?section=tile_window&center_id={center_id}"
+                "&radius=2&limit=2",
+                first["agent_token"],
+            )
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(window["page"]["section"], "tile_window")
+            self.assertTrue(all("distance" in item for item in window["page"]["items"]))
 
             status, tiles = raw_json_request(
                 f"{root}/state?section=known_tiles&limit=3",
@@ -2371,8 +3663,8 @@ class SupervisorTests(unittest.TestCase):
             status, used = raw_json_request(
                 f"{root}/state?cursor={cursor}", first["agent_token"],
             )
-            self.assertEqual(status, HTTPStatus.BAD_REQUEST)
-            self.assertEqual(used["error"]["code"], "invalid_request")
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(used, continued)
 
             _, cross_source = raw_json_request(
                 f"{root}/state?section=known_tiles&limit=1",
@@ -2436,6 +3728,14 @@ class SupervisorTests(unittest.TestCase):
                 "limit=", "limit=0", "limit=17", "limit=01", "limit=%2B1",
                 "limit=%201", "cursor=", "cursor=x&limit=1", "li%6Dit=1",
                 "section=%6fverview", "limit=1&", "limit=1&&section=overview",
+                "section=city_detail", "section=cities&actor_id=city_"
+                + "0" * 32,
+                "section=city_detail&actor_id=player_" + "0" * 32,
+                "section=tile_window", "section=tile_window&center_id="
+                + center_id, "section=tile_window&center_id=" + center_id
+                + "&radius=9", "section=overview&center_id=" + center_id,
+                "section=tile_window&center_id=" + center_id
+                + "&radius=1&cursor=" + "x" * 39,
             )
             for query in invalid_queries:
                 with self.subTest(query=query):
@@ -2505,7 +3805,7 @@ class SupervisorTests(unittest.TestCase):
                 ("deadline_exceeded", HTTPStatus.SERVICE_UNAVAILABLE, "sidecar_unavailable"),
                 ("snapshot_gone", HTTPStatus.SERVICE_UNAVAILABLE, "sidecar_unavailable"),
                 ("observation_too_large", HTTPStatus.SERVICE_UNAVAILABLE, "sidecar_unavailable"),
-                ("protocol_error", HTTPStatus.INTERNAL_SERVER_ERROR, "internal_error"),
+                ("protocol_error", HTTPStatus.BAD_GATEWAY, "internal_error"),
                 ("native_error", HTTPStatus.INTERNAL_SERVER_ERROR, "internal_error"),
             )
             for code, expected_status, expected_code in cases:
@@ -2538,14 +3838,34 @@ class SupervisorTests(unittest.TestCase):
             "food=3 shields=2 trade=1 production_kind=unit "
             "production_id=2 production_name=Warriors shield_stock=4 "
             "shield_cost=10 buy_cost=12 can_buy=1 can_change=1 "
-            "citizen_tile_count=1 specialist_type_count=1"
+            "citizen_tile_count=1 specialist_type_count=1 "
+            "worklist_length=0 build_choice_count=2 improvement_count=0 "
+            "did_sell=0 allow_disband=0 new_citizens=default "
+            "options_conflict=0 airlift_remaining=1 airlift_max=1 "
+            "governor_enabled=0"
+        )
+        rows.append(
+            "city_site ref=c:20:200 owner=p:1:10 name=Alpha tile=0 "
+            "x=0 y=0 size=2 visibility=own"
         )
         rows.append(
             "city_tile city=c:20:200 tile=0 worked=1 free_worked=1 can_work=1"
         )
+        rows.extend((
+            "city_build_choice city=c:20:200 production_kind=improvement "
+            "production_id=5 production_name=Granary can_queue=1 "
+            "can_build_now=1",
+            "city_build_choice city=c:20:200 production_kind=unit "
+            "production_id=2 production_name=Warriors can_queue=1 "
+            "can_build_now=1",
+        ))
         rows.append(
             "city_specialist city=c:20:200 specialist=0 name=Entertainer "
-            "count=2 can_use=1 is_default=1"
+            "count=2 counts_toward_population=1 can_use=1 is_default=1"
+        )
+        rows.append(
+            "city_rally city=c:20:200 active=0 persistent=0 vigilant=0 "
+            "order_count=0 orders_digest=fnv1a64-0000000000000000"
         )
         self.sidecar_factory.observation_rows = tuple(sorted(rows))
         created = self.create(control_protocol="full-control-v2")
@@ -2555,6 +3875,7 @@ class SupervisorTests(unittest.TestCase):
             supported_control_protocols=["full-control-v2"],
         )
         self._mark_v2_running(game)
+        self._seed_v2_phase(game)
 
         overview = game.v2_get_page(
             joined["agent_id"], "state", "",
@@ -2566,6 +3887,18 @@ class SupervisorTests(unittest.TestCase):
         city_id = game.v2_get_page(
             joined["agent_id"], "state", "section=cities",
         )["page"]["items"][0]["id"]
+        for section in (
+            "city_detail", "city_citizens", "city_build_choices",
+            "city_worklist", "city_improvements", "city_governor",
+            "city_worker_tasks",
+        ):
+            with self.subTest(state_section=section):
+                state_page = game.v2_get_page(
+                    joined["agent_id"], "state",
+                    f"section={section}&actor_id={city_id}&limit=1",
+                )
+                self.assertEqual(state_page["page"]["section"], section)
+                self.assertLessEqual(len(state_page["page"]["items"]), 1)
 
         unscoped = game.v2_get_page(
             joined["agent_id"], "legal_actions", "limit=1",
@@ -2602,7 +3935,14 @@ class SupervisorTests(unittest.TestCase):
             joined["agent_id"], "legal_actions", f"cursor={cursor}",
         )
         self.assertEqual(len(continued["page"]["items"]), 2)
-        self.assertEqual(self.sidecar_factory.scope_page_count, 1)
+        self.assertEqual(self.sidecar_factory.scope_page_count, 0)
+        remaining = continued
+        while remaining["page"]["next_cursor"] is not None:
+            remaining = game.v2_get_page(
+                joined["agent_id"], "legal_actions",
+                f"cursor={remaining['page']['next_cursor']}",
+            )
+        self.assertTrue(remaining["page"]["catalog_complete"])
 
         unit_scope = game.v2_get_page(
             joined["agent_id"], "legal_actions",
@@ -2619,10 +3959,13 @@ class SupervisorTests(unittest.TestCase):
             joined["agent_id"], "legal_actions",
             f"actor_id={city_id}",
         )
-        self.assertEqual(city_scope["page"]["total_items"], 2)
+        self.assertEqual(city_scope["page"]["total_items"], 6)
         self.assertEqual(
             {item["subject"]["operation"] for item in city_scope["page"]["items"]},
-            {"set_production", "buy_production"},
+            {
+                "set_production", "buy_production", "set_worklist",
+                "set_options", "rename", "set_governor",
+            },
         )
         serialized_scopes = json.dumps([unit_scope, city_scope], sort_keys=True)
         for private in (
@@ -2642,17 +3985,13 @@ class SupervisorTests(unittest.TestCase):
             side_effect=SidecarError(
                 "scope_gone", "SENSITIVE native pinned view detail",
             ),
-        ), self.assertRaises(APIProblem) as expired:
-            game.v2_get_page(
+        ):
+            frozen = game.v2_get_page(
                 joined["agent_id"], "legal_actions",
                 f"cursor={expiring_cursor}",
             )
-        self.assertEqual(expired.exception.status, HTTPStatus.CONFLICT)
-        self.assertEqual(
-            expired.exception.payload["error"]["code"], "stale_revision",
-        )
-        self.assertTrue(expired.exception.payload["error"]["retryable"])
-        self.assertNotIn("SENSITIVE", json.dumps(expired.exception.payload))
+        self.assertEqual(frozen["state_revision"], expiring["state_revision"])
+        self.assertNotIn("SENSITIVE", json.dumps(frozen))
 
         for endpoint, query in (
             ("state", f"actor_id={player_id}"),
@@ -2738,7 +4077,377 @@ class SupervisorTests(unittest.TestCase):
             server.shutdown()
             server.server_close()
             thread.join(2)
-        self.assertEqual(self.sidecar_factory.scoped_action_count, 5)
+        target_id = next(
+            item["id"] for item in game.v2_get_page(
+                joined["agent_id"], "state", "section=known_tiles",
+            )["page"]["items"] if item["x"] == 1
+        )
+        rally_page = game.v2_get_page(
+            joined["agent_id"], "legal_actions",
+            f"actor_id={city_id}&target_id={target_id}",
+        )
+        self.assertEqual(rally_page["page"]["total_items"], 1)
+        rally_action = rally_page["page"]["items"][0]
+        self.assertEqual(rally_action["kind"], "city.set_rally")
+        self.assertEqual(
+            rally_action["subject"]["operation"], "set_rally",
+        )
+        status, rally_receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, rally_action,
+                batch_id="batch_target_rally",
+                arguments={"persistent": True},
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(rally_receipt["receipt_state"], "applied")
+        self.assertEqual(self.sidecar_factory.last_scoped_actor, "c:20:200")
+        self.assertEqual(self.sidecar_factory.scoped_action_count, 6)
+
+    def test_v2_exact_target_action_query_empty_errors_and_execution_lock(self):
+        self.sidecar_factory.observation_rows = native_v2_rows(
+            tile_count=2, action_count=10,
+        )
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-target-action",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        units = game.v2_get_page(
+            joined["agent_id"], "state", "section=units",
+        )["page"]["items"]
+        actor_id = next(item["id"] for item in units if item["scope"] == "own")
+        tiles = game.v2_get_page(
+            joined["agent_id"], "state", "section=known_tiles",
+        )["page"]["items"]
+        target_id = next(item["id"] for item in tiles if item["x"] == 1)
+        query = f"actor_id={actor_id}&target_id={target_id}&limit=1"
+
+        execution_lock = game.v2_execution_locks[joined["place"]][2]
+        self.assertTrue(execution_lock.acquire(timeout=.1))
+        try:
+            with patch(
+                "agent_eval.supervisor.V2_EXECUTION_LOCK_TIMEOUT_S", .01,
+            ), self.assertRaises(APIProblem) as blocked:
+                game.v2_get_page(
+                    joined["agent_id"], "legal_actions", query,
+                )
+        finally:
+            execution_lock.release()
+        self.assertEqual(blocked.exception.status, HTTPStatus.TOO_MANY_REQUESTS)
+        self.assertEqual(
+            blocked.exception.payload["error"]["code"], "rate_limited",
+        )
+        self.assertTrue(blocked.exception.payload["error"]["retryable"])
+        self.assertEqual(self.sidecar_factory.target_count, 0)
+
+        target_page = game.v2_get_page(
+            joined["agent_id"], "legal_actions", query,
+        )
+        self.assertEqual(target_page["page"]["total_items"], 1)
+        self.assertIsNone(target_page["page"]["next_cursor"])
+        self.assertEqual(target_page["page"]["scope"], {
+            "actor_id": actor_id,
+            "actor_type": "unit",
+            "target_id": target_id,
+            "target_type": "tile",
+        })
+        self.assertTrue(target_page["page"]["catalog_complete"])
+        target_action = target_page["page"]["items"][0]
+        self.assertEqual(target_action["subject"]["operation"], "goto")
+        self.assertEqual(target_action["subject"]["actor"]["id"], actor_id)
+        self.assertEqual(target_action["subject"]["target"]["id"], target_id)
+        self.assertEqual(self.sidecar_factory.target_count, 1)
+        self.assertEqual(self.sidecar_factory.last_target_actor, "u:10:100")
+        self.assertEqual(self.sidecar_factory.last_target_tile, 1)
+
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, target_action, batch_id="batch_target_goto",
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(self.sidecar_factory.last_scoped_actor, "u:10:100")
+
+        self.sidecar_factory.target_empty = True
+        empty = game.v2_get_page(
+            joined["agent_id"], "legal_actions", query,
+        )
+        self.assertEqual(empty["page"]["items"], [])
+        self.assertEqual(empty["page"]["total_items"], 0)
+        self.assertIsNone(empty["page"]["next_cursor"])
+        self.sidecar_factory.target_empty = False
+
+        self.sidecar_factory.target_error = SidecarError("stale_revision")
+        with self.assertRaises(APIProblem) as stale:
+            game.v2_get_page(joined["agent_id"], "legal_actions", query)
+        self.assertEqual(stale.exception.status, HTTPStatus.CONFLICT)
+        self.assertEqual(
+            stale.exception.payload["error"]["code"], "stale_revision",
+        )
+        self.assertTrue(stale.exception.payload["error"]["retryable"])
+        self.sidecar_factory.target_error = None
+
+        other_created = self.create(control_protocol="full-control-v2")
+        other_game = self.supervisor.game(other_created["game_id"])
+        other_joined = other_game.join(
+            other_created["join_token"], controller_label="other-seat",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(other_game)
+        foreign_target = other_game.v2_get_page(
+            other_joined["agent_id"], "state", "section=known_tiles",
+        )["page"]["items"][1]["id"]
+        before_invalid = self.sidecar_factory.target_count
+        for invalid_query in (
+            f"actor_id={actor_id}&target_id=tile_{'0' * 32}",
+            f"actor_id={actor_id}&target_id={foreign_target}",
+            f"actor_id={actor_id}&target_id=not-a-tile",
+            f"actor_id={actor_id}&target_id={target_id}&limit=17",
+            f"actor_id={actor_id}&target_id={target_id}&section=overview",
+            f"actor_id={actor_id}&target_id={target_id}&cursor="
+            f"cursor_{'A' * 32}",
+        ):
+            with self.subTest(query=invalid_query), self.assertRaises(
+                APIProblem,
+            ) as invalid:
+                game.v2_get_page(
+                    joined["agent_id"], "legal_actions", invalid_query,
+                )
+            self.assertEqual(invalid.exception.status, HTTPStatus.BAD_REQUEST)
+            self.assertEqual(
+                invalid.exception.payload["error"]["code"],
+                "invalid_request",
+            )
+        self.assertEqual(self.sidecar_factory.target_count, before_invalid)
+
+    def test_v2_infrastructure_target_hydrates_exact_tile_before_discovery(self):
+        rows = [
+            row for row in native_v2_rows(tile_count=1, action_count=0)
+            if not row.startswith("tile ")
+        ]
+        rows = [
+            row.replace(
+                "infrastructure_enabled=0 infrastructure_points=0",
+                "infrastructure_enabled=1 infrastructure_points=100",
+            )
+            for row in rows
+        ]
+        rows.extend((
+            "infrastructure_extra id=0 name=Road cost=20 build_time=0 "
+            "build_time_factor=3",
+            "unit ref=u:10:100 scope=own owner=p:1:10 type_id=13 "
+            "type=Warriors home_city=none converts_to_id=-1 "
+            "converts_to=none tile=8 x=4 y=2 hp=10 moves=3 "
+            "activity=idle activity_target=-1 activity_target_name=none "
+            "activity_progress=0 transport_state=untransported "
+            "transporter=none transport_capacity=0 occupied=0 "
+            "paradropped=0 paradrop_range=0 controller=none has_orders=0 "
+            "orders_repeat=0 orders_vigilant=0 order_count=0 "
+            "orders_digest=fnv1a64-0000000000000000 "
+            "orders_destination=-1",
+        ))
+        self.sidecar_factory.observation_rows = tuple(sorted(rows))
+        self.sidecar_factory.state_scope_rows = (
+            "tile index=8 x=4 y=2 known=2 terrain=Grassland owner=none "
+            "placing_extra=-1 placing_extra_name=none placing_turns=0 "
+            "placing_time=2",
+        )
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-infrastructure",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+
+        overview = game.v2_get_page(
+            joined["agent_id"], "state", "",
+        )["page"]["items"][0]
+        unit = game.v2_get_page(
+            joined["agent_id"], "state", "section=units",
+        )["page"]["items"][0]
+        page = game.v2_get_page(
+            joined["agent_id"], "legal_actions",
+            f"actor_id={overview['player']['id']}&target_id={unit['tile_id']}",
+        )
+
+        action = page["page"]["items"][0]
+        self.assertEqual(action["kind"], "player.set_infrastructure")
+        self.assertEqual(
+            [(choice["name"], choice["cost"], choice["turns"])
+             for choice in action["subject"]["target"]["choices"]],
+            [("Road", 20, 6)],
+        )
+        self.assertEqual(
+            self.sidecar_factory.target_pipeline[-2:],
+            [
+                ("support", 11, "tile_window", "t8-r0"),
+                ("target", 11, "p:1:10", 8),
+            ],
+        )
+
+    def test_v2_nonempty_clause_scope_builds_once_and_pages_8200_rows(self):
+        clause_count = 8200
+        digest = v2_control._diplomacy_clauses_digest(tuple(
+            {
+                "giver_ref": "p:1:10", "native_type": 1,
+                "native_value": index,
+            }
+            for index in range(clause_count)
+        ))
+        relation = (
+            "diplomacy other=p:2:20 name=Claude nation=Romans state=Peace "
+            "contact=5 alive=1 turns_left=0 can_meet=0 meeting=1 "
+            "generation=3 self_accepted=0 other_accepted=0 "
+            f"clause_count={clause_count} clauses_digest={digest} "
+            "has_embassy=0 other_has_embassy=0 gives_vision=0 "
+            "receives_vision=0 gives_shared_tiles=0 receives_shared_tiles=0 "
+            "can_cancel=0 cancel_reason=not_allowed"
+        )
+        clauses = tuple(
+            "diplomacy_clause other=p:2:20 generation=3 "
+            f"position={index} giver=p:1:10 type=Gold value_kind=gold "
+            f"value={index} name=gold"
+            for index in range(clause_count)
+        )
+        self.sidecar_factory.observation_rows = tuple(sorted(
+            native_v2_rows(action_count=0) + (relation,) + clauses
+        ))
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-clause-state",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        diplomacy = game.v2_get_page(
+            joined["agent_id"], "state", "section=diplomacy",
+        )["page"]["items"][0]
+        before = self.sidecar_factory.state_scope_sections.count(
+            "diplomacy_clauses",
+        )
+        first = game.v2_get_page(
+            joined["agent_id"], "state",
+            "section=diplomacy_clauses&relation_id="
+            + diplomacy["relation_id"] + "&limit=16",
+        )
+        self.assertEqual(first["page"]["total_items"], clause_count)
+        self.assertEqual(len(first["page"]["items"]), 16)
+        self.assertIsNotNone(first["page"]["next_cursor"])
+        self.assertEqual(
+            self.sidecar_factory.state_scope_sections.count(
+                "diplomacy_clauses",
+            ) - before,
+            1,
+        )
+        continued = game.v2_get_page(
+            joined["agent_id"], "state",
+            "cursor=" + first["page"]["next_cursor"],
+        )
+        self.assertEqual(len(continued["page"]["items"]), 16)
+        self.assertEqual(
+            self.sidecar_factory.state_scope_sections.count(
+                "diplomacy_clauses",
+            ) - before,
+            1,
+        )
+
+    def test_v2_relation_scope_routes_pages_and_executes_exact_pair(self):
+        relation = (
+            "diplomacy other=p:2:20 name=Claude nation=Romans state=Peace "
+            "contact=5 alive=1 turns_left=0 can_meet=0 meeting=1 "
+            "generation=3 self_accepted=0 other_accepted=0 clause_count=0 "
+            "clauses_digest=fnv1a64-cbf29ce484222325 has_embassy=0 "
+            "other_has_embassy=0 gives_vision=0 receives_vision=0 "
+            "gives_shared_tiles=0 receives_shared_tiles=0 can_cancel=0 "
+            "cancel_reason=not_allowed"
+        )
+        self.sidecar_factory.observation_rows = tuple(sorted(
+            native_v2_rows() + (relation,)
+        ))
+        self.sidecar_factory.relation_rows = (
+            native_v2_relation_action(
+                0x401, "diplomacy.close_meeting", "Meeting%20Closed",
+                "meeting",
+            ),
+            native_v2_relation_action(
+                0x402, "diplomacy.accept", "Acceptance%20Recorded",
+                "accepted",
+            ),
+        ) + tuple(
+            native_v2_relation_action(
+                0x410 + index, "diplomacy.propose_clause",
+                "Clause%20Proposed", "Advance", clause_value=40 + index,
+                clause_name=f"Tech{index}",
+            )
+            for index in range(15)
+        )
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-diplomacy",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        overview = game.v2_get_page(
+            joined["agent_id"], "state", "",
+        )["page"]["items"][0]
+        public_relation = game.v2_get_page(
+            joined["agent_id"], "state", "section=diplomacy",
+        )["page"]["items"][0]
+        query = (
+            f"actor_id={overview['player']['id']}"
+            f"&target_id={public_relation['relation_id']}"
+        )
+        with self.assertRaises(APIProblem) as invalid_limit:
+            game.v2_get_page(
+                joined["agent_id"], "legal_actions", query + "&limit=1",
+            )
+        self.assertEqual(invalid_limit.exception.status, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(self.sidecar_factory.relation_scope_count, 0)
+        first = game.v2_get_page(
+            joined["agent_id"], "legal_actions", query,
+        )
+        self.assertEqual(first["page"]["total_items"], 17)
+        self.assertEqual(len(first["page"]["items"]), 16)
+        self.assertIsNotNone(first["page"]["next_cursor"])
+        self.assertEqual(self.sidecar_factory.relation_scope_count, 1)
+        self.assertEqual(first["page"]["scope"], {
+            "actor_id": overview["player"]["id"],
+            "actor_type": "player",
+            "target_id": public_relation["relation_id"],
+            "target_type": "diplomatic_relation",
+        })
+        accepted = next(
+            action for action in first["page"]["items"]
+            if action["subject"]["operation"] == "accept"
+        )
+        final = game.v2_get_page(
+            joined["agent_id"], "legal_actions",
+            f"cursor={first['page']['next_cursor']}",
+        )
+        self.assertEqual(len(final["page"]["items"]), 1)
+        self.assertIsNone(final["page"]["next_cursor"])
+        self.assertEqual(self.sidecar_factory.relation_scope_page_count, 0)
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, accepted, batch_id="batch_relation_accept",
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(self.sidecar_factory.relation_action_count, 1)
+        self.assertEqual(self.sidecar_factory.last_relation_actor, "p:1:10")
+        self.assertEqual(
+            self.sidecar_factory.last_relation_counterpart, "p:2:20",
+        )
 
     def test_v2_stale_actor_scope_cursor_is_retryable_conflict(self):
         self.sidecar_factory.observation_rows = native_v2_rows(
@@ -2776,24 +4485,118 @@ class SupervisorTests(unittest.TestCase):
                     f"{root}/state", joined["agent_token"],
                 )
                 self.assertEqual(status, HTTPStatus.OK)
-            status, stale = raw_json_request(
+            status, continued = raw_json_request(
                 f"{root}/legal-actions?cursor={cursor}",
                 joined["agent_token"],
             )
-            self.assertEqual(status, HTTPStatus.CONFLICT)
-            self.assertEqual(stale["error"]["code"], "stale_revision")
-            self.assertTrue(stale["error"]["retryable"])
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(
+                continued["state_revision"], scoped["state_revision"],
+            )
 
-            status, consumed = raw_json_request(
+            status, replayed = raw_json_request(
                 f"{root}/legal-actions?cursor={cursor}",
                 joined["agent_token"],
             )
-            self.assertEqual(status, HTTPStatus.BAD_REQUEST)
-            self.assertEqual(consumed["error"]["code"], "invalid_request")
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(replayed, continued)
         finally:
             server.shutdown()
             server.server_close()
             thread.join(2)
+
+    def test_v2_scoped_cursor_retry_replay_concurrency_and_expiry(self):
+        self.sidecar_factory.observation_rows = native_v2_rows(tile_count=3)
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-cursor-retry",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        state = game.v2_get_page(joined["agent_id"], "state", "")
+        player_id = state["page"]["items"][0]["player"]["id"]
+        first = game.v2_get_page(
+            joined["agent_id"], "legal_actions",
+            f"actor_id={player_id}&limit=1",
+        )
+        cursor = first["page"]["next_cursor"]
+        sidecar = self.sidecar_factory.created[-1]
+        with patch.object(
+            sidecar, "read_actor_scope_page",
+            side_effect=AssertionError("continuation performed native I/O"),
+        ):
+            continued = game.v2_get_page(
+                joined["agent_id"], "legal_actions", f"cursor={cursor}",
+            )
+            replayed = game.v2_get_page(
+                joined["agent_id"], "legal_actions", f"cursor={cursor}",
+            )
+        self.assertEqual(
+            json.dumps(continued, sort_keys=True, separators=(",", ":")),
+            json.dumps(replayed, sort_keys=True, separators=(",", ":")),
+        )
+
+        concurrent_first = game.v2_get_page(
+            joined["agent_id"], "legal_actions",
+            f"actor_id={player_id}&limit=1",
+        )
+        concurrent_cursor = concurrent_first["page"]["next_cursor"]
+        results: list[dict[str, Any]] = []
+        errors: list[Exception] = []
+
+        def fetch() -> None:
+            try:
+                results.append(game.v2_get_page(
+                    joined["agent_id"], "legal_actions",
+                    f"cursor={concurrent_cursor}",
+                ))
+            except Exception as exc:  # pragma: no cover - assertion reports it
+                errors.append(exc)
+
+        with patch.object(
+            sidecar, "read_actor_scope_page",
+            side_effect=AssertionError("continuation performed native I/O"),
+        ):
+            one = threading.Thread(target=fetch)
+            two = threading.Thread(target=fetch)
+            one.start()
+            two.start()
+            one.join(2)
+            two.join(2)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(results), 2)
+        self.assertEqual(results[0], results[1])
+
+        expiring = game.v2_get_page(
+            joined["agent_id"], "state", "section=known_tiles&limit=1",
+        )["page"]["next_cursor"]
+        with patch(
+            "agent_eval.v2_control.time.monotonic", return_value=10**12,
+        ), self.assertRaises(APIProblem) as expired:
+            game.v2_get_page(
+                joined["agent_id"], "state", f"cursor={expiring}",
+            )
+        self.assertEqual(expired.exception.status, HTTPStatus.GONE)
+        self.assertEqual(
+            expired.exception.payload["error"]["code"], "cursor_expired",
+        )
+        self.assertEqual(
+            expired.exception.payload["error"]["details"]["restart"],
+            {
+                "endpoint": "state",
+                "query": {"section": "known_tiles", "limit": 1},
+            },
+        )
+        with self.assertRaises(APIProblem) as forged:
+            game.v2_get_page(
+                joined["agent_id"], "state",
+                "cursor=cursor_" + "x" * 32,
+            )
+        self.assertEqual(forged.exception.status, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(
+            forged.exception.payload["error"]["code"], "invalid_request",
+        )
 
     def test_v2_blocked_read_releases_game_lock_and_replacement_discards_page(self):
         self.sidecar_factory.observation_rows = native_v2_rows(tile_count=3)
@@ -2853,8 +4656,12 @@ class SupervisorTests(unittest.TestCase):
             game.sidecar_health[place] = game._sanitized_sidecar_health(
                 replacement, generation,
             )
-            game.v2_controls[place] = V2SeatControl(
+            replacement_control = V2SeatControl(
                 game.game_id, joined["agent_id"], generation,
+            )
+            game.v2_controls[place] = replacement_control
+            game.v2_execution_locks[place] = (
+                generation, replacement_control, threading.RLock(),
             )
             game.condition.notify_all()
         old_control.close()
@@ -3136,6 +4943,7 @@ class SupervisorTests(unittest.TestCase):
             supported_control_protocols=["full-control-v2"],
         )
         self._mark_v2_running(game)
+        self._seed_v2_phase(game)
         legal = game.v2_get_page(joined["agent_id"], "legal_actions", "")
         command = self.v2_batch(
             game, joined, legal["page"]["items"][0],
@@ -3175,6 +4983,7 @@ class SupervisorTests(unittest.TestCase):
                 "reason": "POSTCONDITION_VERIFIED",
                 "accepted_revision": expected_revision,
                 "result_revision": self.sidecar_factory.native_revision,
+                "observation_selector": None,
             }
 
         self.sidecar_factory.action_hook = blocked
@@ -3221,10 +5030,260 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(
             stale.exception.payload["error"]["code"], "stale_revision",
         )
+        self.assertEqual(
+            stale.exception.payload["error"]["details"],
+            {
+                "batch_id": "batch_second",
+                "acceptance": "not_accepted",
+                "safe_next": "refresh",
+            },
+        )
         self.assertEqual(self.sidecar_factory.action_count, 1)
         with self.assertRaises(APIProblem) as absent:
             game.v2_get_receipt(joined["agent_id"], "batch_second")
         self.assertEqual(absent.exception.status, HTTPStatus.NOT_FOUND)
+
+    def test_v2_batch_recovery_details_are_safe_and_identity_gated(self):
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-recovery-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        revision = {
+            "turn": 1, "revision": 1, "state_token": "state_test",
+        }
+        valid = {
+            "schema_version": 2,
+            "control_protocol": "full-control-v2",
+            "game_id": game.game_id,
+            "agent_id": joined["agent_id"],
+            "batch_id": "batch_public_contract",
+            "state_revision": revision,
+            "commands": [{"action_id": "action_test", "arguments": {}}],
+        }
+
+        malformed = dict(valid)
+        malformed["batch_id"] = "batch_malformed_must_not_echo"
+        malformed.pop("commands")
+        with self.assertRaises(APIProblem) as malformed_error:
+            game.v2_submit_batch(joined["agent_id"], malformed)
+        self.assertNotIn(
+            malformed["batch_id"], json.dumps(malformed_error.exception.payload),
+        )
+        self.assertEqual(
+            malformed_error.exception.payload["error"]["details"], {},
+        )
+
+        for field, wrong in (
+            ("game_id", "game_wrong_identity"),
+            ("agent_id", "agent_wrong_identity"),
+        ):
+            with self.subTest(field=field):
+                mismatched = json.loads(json.dumps(valid))
+                mismatched["batch_id"] = f"batch_wrong_{field}"
+                mismatched[field] = wrong
+                with self.assertRaises(APIProblem) as mismatch_error:
+                    game.v2_submit_batch(joined["agent_id"], mismatched)
+                encoded = json.dumps(mismatch_error.exception.payload)
+                self.assertNotIn(mismatched["batch_id"], encoded)
+                self.assertNotIn("not_accepted", encoded)
+
+        with game.condition:
+            game.v2_receipts_closing = True
+        try:
+            with self.assertRaises(APIProblem) as closing:
+                game.v2_submit_batch(joined["agent_id"], valid)
+        finally:
+            with game.condition:
+                game.v2_receipts_closing = False
+        self.assertEqual(closing.exception.status, HTTPStatus.SERVICE_UNAVAILABLE)
+        self.assertEqual(closing.exception.payload["error"]["details"], {
+            "batch_id": valid["batch_id"],
+            "acceptance": "not_accepted",
+            "safe_next": "refresh",
+        })
+
+    def test_v2_batch_recovery_mapping_and_reserved_uncertainty(self):
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-receipt-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        for code, retryable, expected in (
+            ("stale_revision", True, "refresh"),
+            ("action_expired", True, "refresh"),
+            ("illegal_action", False, "refresh"),
+            ("rate_limited", True, "retry_exact"),
+            ("sidecar_unavailable", True, "retry_exact"),
+            ("sidecar_unavailable", False, "refresh"),
+            ("conflict", False, "receipt_first"),
+            ("internal_error", False, "receipt_first"),
+        ):
+            with self.subTest(code=code, retryable=retryable):
+                problem = game._v2_problem(
+                    HTTPStatus.CONFLICT, code, "public", retryable=retryable,
+                )
+                decorated = game._v2_not_accepted_problem(
+                    problem, "batch_mapping",
+                )
+                self.assertEqual(
+                    decorated.payload["error"]["details"]["safe_next"],
+                    expected,
+                )
+
+        batch = {
+            "schema_version": 2,
+            "control_protocol": "full-control-v2",
+            "game_id": game.game_id,
+            "agent_id": joined["agent_id"],
+            "batch_id": "batch_reserved_uncertain",
+            "state_revision": {
+                "turn": 1, "revision": 1, "state_token": "state_test",
+            },
+            "commands": [{"action_id": "action_test", "arguments": {}}],
+        }
+        reservation = game.v2_receipt_store.reserve(batch)
+        self.assertTrue(reservation.created)
+        with self.assertRaises(APIProblem) as uncertain:
+            game.v2_submit_batch(joined["agent_id"], batch)
+        self.assertEqual(
+            uncertain.exception.payload["error"]["code"], "internal_error",
+        )
+        self.assertEqual(
+            uncertain.exception.payload["error"]["details"], {},
+        )
+
+    def test_v2_scope_size_errors_match_openapi_413(self):
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        for source in (
+            V2ControlError("scope_too_large"),
+            SidecarError("actor_scope_too_large"),
+            SidecarError("relation_scope_too_large"),
+            SidecarError("state_scope_too_large"),
+        ):
+            with self.subTest(source=str(source)), self.assertRaises(
+                APIProblem,
+            ) as raised:
+                game._raise_v2_get_error(source)
+            self.assertEqual(
+                raised.exception.status, HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+            )
+            self.assertEqual(
+                raised.exception.payload["error"]["code"], "scope_too_large",
+            )
+
+    def test_v2_wait_default_is_phase_actionable_not_global_revision(self):
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-wait-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+
+        def health(*, state="running", active=False, phase_state="waiting"):
+            return {
+                "game_state": state,
+                "phase": {"active": active, "state": phase_state},
+                "observation_available": True,
+            }
+
+        with patch.object(game, "v2_health", return_value=health()):
+            waited = game.v2_wait(joined["agent_id"], 0)
+        self.assertEqual(waited["wake_reason"], "timeout")
+        self.assertIsNone(waited["state_revision"])
+
+        with patch.object(game, "v2_health", return_value=health(
+            active=True, phase_state="ending",
+        )):
+            waited = game.v2_wait(joined["agent_id"], 0)
+        self.assertEqual(waited["wake_reason"], "timeout")
+
+        with patch.object(game, "v2_health", return_value=health(
+            active=True, phase_state="awaiting_agent",
+        )):
+            waited = game.v2_wait(joined["agent_id"], 0)
+        self.assertEqual(waited["wake_reason"], "phase_active")
+
+        with patch.object(game, "v2_health", return_value=health(
+            state="completed",
+        )):
+            waited = game.v2_wait(joined["agent_id"], 0)
+        self.assertEqual(waited["wake_reason"], "game_terminal")
+
+        revision = {
+            "turn": 8, "revision": 3, "state_token": "state_new:3",
+        }
+        with patch.object(game, "v2_health", return_value=health()), patch.object(
+            game, "v2_get_page", return_value={"state_revision": revision},
+        ) as state_read:
+            waited = game.v2_wait(
+                joined["agent_id"], 0, until="revision",
+                after_state_token="state_old:2",
+            )
+        self.assertEqual(waited["wake_reason"], "revision_changed")
+        self.assertEqual(waited["state_revision"], revision)
+        state_read.assert_called_once()
+
+    def test_v2_wait_http_is_auth_first_and_openapi_is_public(self):
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-http-wait-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        response = {
+            "schema_version": 2,
+            "control_protocol": "full-control-v2",
+            "game_id": game.game_id,
+            "agent_id": joined["agent_id"],
+            "wake_reason": "timeout",
+            "health": {"game_state": "running"},
+            "state_revision": None,
+        }
+        server = make_supervisor_server(self.supervisor, "127.0.0.1", 0)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        host, port = server.server_address
+        base = f"http://{host}:{port}"
+        try:
+            status, contract = raw_json_request(f"{base}/v2/openapi.json")
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertIn(
+                "/v2/games/{game_id}/me/wait", contract["paths"],
+            )
+            status, unauthorized = raw_json_request(
+                f"{base}/v2/games/{game.game_id}/me/wait?wait_s=invalid",
+            )
+            self.assertEqual(status, HTTPStatus.UNAUTHORIZED)
+            self.assertEqual(unauthorized["error"]["code"], "invalid_request")
+            status, invalid_encoding = raw_json_request(
+                f"{base}/v2/games/{game.game_id}/me/wait?"
+                "until=revision&after_state_token=%FF",
+                joined["agent_token"],
+            )
+            self.assertEqual(status, HTTPStatus.BAD_REQUEST)
+            self.assertEqual(
+                invalid_encoding["error"]["code"], "invalid_request",
+            )
+            with patch.object(game, "v2_wait", return_value=response) as wait:
+                status, value = raw_json_request(
+                    f"{base}/v2/games/{game.game_id}/me/wait?"
+                    "wait_s=0&until=revision&after_state_token=state_old%3A2",
+                    joined["agent_token"],
+                )
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(value, response)
+            wait.assert_called_once_with(
+                joined["agent_id"], 0.0, until="revision",
+                after_state_token="state_old:2",
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(2)
 
     def test_v2_definitive_native_rejections_are_durable_and_sanitized(self):
         _created, game, joined, action = self.ready_v2_action()
@@ -3278,6 +5337,7 @@ class SupervisorTests(unittest.TestCase):
                 "reason": "POSTCONDITION_NOT_MET",
                 "accepted_revision": expected_revision,
                 "result_revision": self.sidecar_factory.native_revision,
+                "observation_selector": None,
             }
 
         self.sidecar_factory.action_hook = rejected
@@ -3294,6 +5354,83 @@ class SupervisorTests(unittest.TestCase):
         self.assertGreater(
             receipt["state_revision"]["revision"],
             command["state_revision"]["revision"],
+        )
+
+    def test_v2_applied_investigation_materializes_exact_revision_observation(self):
+        rows = tuple(sorted((*native_v2_rows(tile_count=7),
+            "city_site ref=c:30:300 owner=p:2:20 name=Beta tile=6 x=6 y=0 "
+            "size=3 visibility=visible",
+        )))
+        self.sidecar_factory.observation_rows = rows
+        _created, game, joined, action = self.ready_v2_action()
+        self.sidecar_factory.investigation_rows = tuple((
+            "investigation city=c:30:300 lifecycle=77 tile=6 name=Beta "
+            "size=3 production_kind=unit production_id=12 "
+            "production_name=Settlers shield_stock=19 shield_surplus=4 "
+            "improvement_count=1 feeling_count=6 specialist_count=1",
+            "investigation_improvement city=c:30:300 improvement_id=5 "
+            "name=Granary",
+            *(
+                "investigation_citizens city=c:30:300 "
+                f"stage={stage} happy=1 content=1 unhappy=0 angry=0"
+                for stage in range(6)
+            ),
+            "investigation_specialist city=c:30:300 specialist=0 "
+            "name=Entertainer count=1",
+        ))
+        control = game.v2_controls[joined["place"]]
+        resolution = V2ActionResolution(
+            native_slot="a0000000000000000",
+            native_revision=self.sidecar_factory.native_revision,
+            native_arguments="-",
+            public_kind="unit.perform_action",
+            operation="investigate_city",
+            turn=7,
+            phase=1,
+        )
+
+        def investigated(
+            _sidecar, request_id, _slot, _arguments, _timeout,
+            expected_revision, on_accepted,
+        ):
+            on_accepted({
+                "request_id": request_id,
+                "accepted": True,
+                "accepted_revision": expected_revision,
+            })
+            self.sidecar_factory.native_revision += 1
+            return {
+                "request_id": request_id,
+                "accepted": True,
+                "applied": True,
+                "status": "applied",
+                "reason": "POSTCONDITION_VERIFIED",
+                "accepted_revision": expected_revision,
+                "result_revision": self.sidecar_factory.native_revision,
+                "observation_selector": "i0123456789abcdef",
+            }
+
+        self.sidecar_factory.action_hook = investigated
+        with patch.object(control, "resolve_action", return_value=resolution):
+            status, receipt = game.v2_submit_batch(
+                joined["agent_id"],
+                self.v2_batch(
+                    game, joined, action, "batch_investigate_city",
+                ),
+            )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(receipt["observation"]["type"], "city_investigation")
+        self.assertEqual(
+            receipt["observation"]["state_revision"],
+            receipt["state_revision"],
+        )
+        self.assertEqual(receipt["observation"]["city"]["name"], "Beta")
+        public = json.dumps(receipt, sort_keys=True)
+        self.assertNotIn("c:30:300", public)
+        self.assertNotIn("i0123456789abcdef", public)
+        self.assertEqual(
+            self.sidecar_factory.state_scope_sections[-1], "investigation",
         )
 
     def test_v2_context_loss_before_and_after_reservation_is_fail_closed(self):
@@ -3399,6 +5536,28 @@ class SupervisorTests(unittest.TestCase):
         )
         self.assertTrue(trace["acceptance_known"])
 
+    def test_v2_post_result_native_not_ready_is_retried(self):
+        _created, game, joined, action = self.ready_v2_action()
+        reads = 0
+
+        def transient_second_read(sidecar, _request_id, _timeout):
+            nonlocal reads
+            reads += 1
+            if reads == 2:
+                raise SidecarError("native_not_ready")
+            return {
+                "generation": sidecar.generation,
+                "native_revision": self.sidecar_factory.native_revision,
+                "rows": self.sidecar_factory.observation_rows,
+            }
+
+        self.sidecar_factory.read_hook = transient_second_read
+        command = self.v2_batch(game, joined, action, "batch_fresh_retry")
+        status, receipt = game.v2_submit_batch(joined["agent_id"], command)
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(reads, 3)
+
     def test_v2_batch_holds_no_game_condition_during_locks_io_or_projection(self):
         _created, game, joined, action = self.ready_v2_action()
         place = joined["place"]
@@ -3474,6 +5633,7 @@ class SupervisorTests(unittest.TestCase):
                 "reason": "POSTCONDITION_VERIFIED",
                 "accepted_revision": expected_revision,
                 "result_revision": self.sidecar_factory.native_revision,
+                "observation_selector": None,
             }
 
         self.sidecar_factory.read_hook = checked_read
@@ -3529,6 +5689,7 @@ class SupervisorTests(unittest.TestCase):
                 "reason": "POSTCONDITION_VERIFIED",
                 "accepted_revision": expected_revision,
                 "result_revision": self.sidecar_factory.native_revision,
+                "observation_selector": None,
             }
 
         self.sidecar_factory.action_hook = blocked
@@ -6586,21 +8747,12 @@ data 4 0 0 70
         justfile = (repo / "justfile").read_text()
         self.assertIn("watch game_id: build build-viewer", justfile)
         self.assertIn('replay game_id="":', justfile)
-        self.assertIn('vite_url="http://127.0.0.1:5173"', justfile)
-        self.assertIn('"$vite_url/@vite/client"', justfile)
-        self.assertIn("--port 5173 --strictPort", justfile)
-        self.assertIn('repo_root="$(pwd -P)"', justfile)
-        self.assertIn("from agent_eval.replay_gateway import gateway_config", justfile)
-        self.assertIn("-m agent_eval.replay_gateway", justfile)
-        self.assertIn('--runs-root "$runs_root"', justfile)
-        self.assertIn('--cache-root "$cache_root"', justfile)
-        self.assertIn('--ready-file "$gateway_ready_file"', justfile)
-        self.assertIn('exec nohup env AGENT_EVAL_SERVICE_URL="$gateway_url"', justfile)
-        self.assertIn('"stack_identity": sys.argv[4]', justfile)
-        self.assertIn('"upstream_service_url": sys.argv[6]', justfile)
-        self.assertIn("cleanup_spawned_gateway", justfile)
-        self.assertIn("It will not be reused or stopped", justfile)
-        self.assertNotIn("nohup npm --prefix agent_eval/viewer run dev", justfile)
+        self.assertIn("start: build replay-build", justfile)
+        self.assertIn("-m agent_eval.local_stack start", justfile)
+        self.assertIn("-m agent_eval.local_stack replay", justfile)
+        self.assertIn("https://freeciv-api.localhost", justfile)
+        self.assertNotIn("cleanup_spawned_gateway", justfile)
+        self.assertNotIn("-m agent_eval.replay_gateway", justfile)
         self.assertIn("replay-build: replay-install", justfile)
         self.assertIn("replay-dev: replay-install", justfile)
         self.assertIn("replay-check: replay-install", justfile)
@@ -6611,12 +8763,11 @@ data 4 0 0 70
         self.assertIn("--snapshot-server", justfile)
         self.assertIn("trap cleanup EXIT", justfile)
         self.assertNotIn("exec env FREECIV_DATA_PATH", justfile)
-        self.assertIn("--observation-id=OBSERVATION_ID", justfile)
         self.assertIn("controller_name=HARNESS-MODEL", justfile)
         self.assertIn("games/{game_id}/owner.json", justfile)
         self.assertEqual(
             justfile.count('--player-invite "play/.invites/{game_id}.json"'),
-            2,
+            3,
         )
         self.assertIn("invite game_id:", justfile)
         self.assertIn("game stage-invite", justfile)
@@ -6624,7 +8775,7 @@ data 4 0 0 70
         self.assertIn("build-viewer/build.ninja", justfile)
         self.assertIn("--ninja-args=--quiet", justfile)
         self.assertNotIn("meson setup --reconfigure build-viewer", justfile)
-        self.assertEqual(
+        self.assertGreaterEqual(
             justfile.count(
                 'mode_or_places="default" places_or_turns="" turns="" '
                 'max_turns="":'
@@ -6702,10 +8853,8 @@ data 4 0 0 70
         )
         self.assertEqual(dry_run.returncode, 0, dry_run.stderr)
         rendered_dry_run = dry_run.stdout + dry_run.stderr
-        self.assertIn("-m agent_eval.replay_gateway", rendered_dry_run)
-        self.assertIn(
-            'AGENT_EVAL_SERVICE_URL="$gateway_url"', rendered_dry_run,
-        )
+        self.assertIn("-m agent_eval.local_stack replay", rendered_dry_run)
+        self.assertIn('"game_demo"', rendered_dry_run)
         rejected = subprocess.run(
             ["just", "join", "--game_id", "game_" + "x" * 24],
             cwd=repo, text=True, capture_output=True,
@@ -6783,7 +8932,7 @@ data 4 0 0 70
                 invalid.stderr,
             )
 
-    def test_just_replay_reuses_healthy_vite_for_picker_or_direct_game(self):
+    def _obsolete_just_replay_reuses_healthy_vite_for_picker_or_direct_game(self):
         repo = Path(__file__).parents[2]
         fake_bin = Path(self.directory.name) / "bin"
         fake_bin.mkdir()
@@ -7033,7 +9182,7 @@ data 4 0 0 70
             gateway_server.server_close()
             gateway_thread.join(2)
 
-    def test_just_replay_cleans_only_gateway_spawned_before_vite_conflict(self):
+    def _obsolete_just_replay_cleans_only_gateway_spawned_before_vite_conflict(self):
         repo = Path(__file__).parents[2].resolve()
         fake_bin = Path(self.directory.name) / "cleanup-bin"
         fake_bin.mkdir()
@@ -7120,7 +9269,7 @@ data 4 0 0 70
             (state_dir / f"replay-gateway-{config.identity}.json").exists()
         )
 
-    def test_just_replay_fails_closed_without_listener_owner_tool(self):
+    def _obsolete_just_replay_fails_closed_without_listener_owner_tool(self):
         repo = Path(__file__).parents[2]
         just_binary = shutil.which("just")
         self.assertIsNotNone(just_binary)
@@ -7152,6 +9301,43 @@ data 4 0 0 70
         )
         self.assertEqual(result.returncode, 2)
         self.assertIn("install lsof or ss", result.stderr)
+
+    def test_just_replay_delegates_picker_and_direct_game_to_portless_stack(self):
+        repo = Path(__file__).parents[2]
+        for game_id in ("", "game_" + "r" * 24):
+            with self.subTest(game_id=game_id or "picker"):
+                command = ["just", "--dry-run", "replay"]
+                if game_id:
+                    command.append(game_id)
+                result = subprocess.run(
+                    command, cwd=repo, text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                rendered = result.stdout + result.stderr
+                self.assertIn("-m agent_eval.local_stack replay", rendered)
+                self.assertIn(f'"{game_id}"', rendered)
+                self.assertNotIn("replay_gateway", rendered)
+                self.assertNotIn("--port 5173", rendered)
+
+    def test_just_replay_leaves_process_ownership_to_local_stack(self):
+        repo = Path(__file__).parents[2]
+        justfile = (repo / "justfile").read_text(encoding="utf-8")
+        replay_recipe = justfile[justfile.index('replay game_id="":'):]
+        self.assertIn(
+            'python3 -B -m agent_eval.local_stack replay "{{ game_id }}"',
+            replay_recipe,
+        )
+        self.assertNotIn("cleanup_spawned_gateway", replay_recipe)
+        self.assertNotIn("nohup", replay_recipe)
+        self.assertNotIn("kill ", replay_recipe)
+
+    def test_just_replay_has_no_listener_owner_tool_dependency(self):
+        repo = Path(__file__).parents[2]
+        justfile = (repo / "justfile").read_text(encoding="utf-8")
+        replay_recipe = justfile[justfile.index('replay game_id="":'):]
+        self.assertNotIn("lsof", replay_recipe)
+        self.assertNotIn("ss -", replay_recipe)
+        self.assertIn("-m agent_eval.local_stack replay", replay_recipe)
 
 
 class SnapshotWatchRoomTests(unittest.TestCase):

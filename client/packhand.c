@@ -125,6 +125,115 @@ static struct {
   .placeholder = NULL
 };
 
+static packhand_full_unit_info_observer_fn full_unit_info_observer;
+static void *full_unit_info_observer_data;
+static packhand_unit_actions_observer_fn unit_actions_observer;
+static void *unit_action_observer_data;
+static packhand_unit_action_answer_observer_fn unit_action_answer_observer;
+static void *unit_action_answer_observer_data;
+static packhand_city_sabotage_list_observer_fn city_sabotage_list_observer;
+static void *city_sabotage_list_observer_data;
+static packhand_chat_msg_observer_fn chat_msg_observer;
+static void *chat_msg_observer_data;
+static packhand_nuke_tile_info_observer_fn nuke_tile_info_observer;
+static void *nuke_tile_info_observer_data;
+static packhand_unit_combat_info_observer_fn unit_combat_info_observer;
+static void *unit_combat_info_observer_data;
+static packhand_worker_task_observer_fn worker_task_observer;
+static void *worker_task_observer_data;
+static packhand_investigation_observer_fn investigation_observer;
+static void *investigation_observer_data;
+
+/**********************************************************************//**
+  Install or clear the read-only observer for merged full unit packets.
+**************************************************************************/
+void packhand_set_full_unit_info_observer(
+  packhand_full_unit_info_observer_fn observer, void *data)
+{
+  full_unit_info_observer = observer;
+  full_unit_info_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the observer for explicitly tagged action-catalog packets.
+**************************************************************************/
+void packhand_set_unit_actions_observer(
+  packhand_unit_actions_observer_fn actions_observer, void *data)
+{
+  unit_actions_observer = actions_observer;
+  unit_action_observer_data = actions_observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for action-query answers.
+**************************************************************************/
+void packhand_set_unit_action_answer_observer(
+  packhand_unit_action_answer_observer_fn observer, void *data)
+{
+  unit_action_answer_observer = observer;
+  unit_action_answer_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for sabotage-choice lists.
+**************************************************************************/
+void packhand_set_city_sabotage_list_observer(
+  packhand_city_sabotage_list_observer_fn observer, void *data)
+{
+  city_sabotage_list_observer = observer;
+  city_sabotage_list_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for structured chat/events.
+**************************************************************************/
+void packhand_set_chat_msg_observer(
+  packhand_chat_msg_observer_fn observer, void *data)
+{
+  chat_msg_observer = observer;
+  chat_msg_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for nuclear tile notifications.
+**************************************************************************/
+void packhand_set_nuke_tile_info_observer(
+  packhand_nuke_tile_info_observer_fn observer, void *data)
+{
+  nuke_tile_info_observer = observer;
+  nuke_tile_info_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for combat results.
+**************************************************************************/
+void packhand_set_unit_combat_info_observer(
+  packhand_unit_combat_info_observer_fn observer, void *data)
+{
+  unit_combat_info_observer = observer;
+  unit_combat_info_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for city investigation packets.
+**************************************************************************/
+void packhand_set_investigation_observer(
+  packhand_investigation_observer_fn observer, void *data)
+{
+  investigation_observer = observer;
+  investigation_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for merged city worker tasks.
+**************************************************************************/
+void packhand_set_worker_task_observer(
+  packhand_worker_task_observer_fn observer, void *data)
+{
+  worker_task_observer = observer;
+  worker_task_observer_data = observer != NULL ? data : NULL;
+}
+
 static struct {
   int len;
   enum event_type event;
@@ -137,6 +246,42 @@ static struct {
 extern const char forced_tileset_name[];
 
 static int last_turn = 0;
+static uint64_t next_client_player_lifecycle_id = 1;
+static uint64_t next_client_unit_lifecycle_id = 1;
+static uint64_t next_client_city_lifecycle_id = 1;
+
+static uint64_t client_player_lifecycle_take(void)
+{
+  if (next_client_player_lifecycle_id == UINT64_MAX) {
+    log_fatal("Client player lifecycle identity space exhausted.");
+    exit(EXIT_FAILURE);
+  }
+
+  return next_client_player_lifecycle_id++;
+}
+
+static uint64_t client_city_lifecycle_take(void)
+{
+  if (next_client_city_lifecycle_id == UINT64_MAX) {
+    log_fatal("Client city lifecycle identity space exhausted.");
+    exit(EXIT_FAILURE);
+  }
+
+  return next_client_city_lifecycle_id++;
+}
+
+static uint64_t client_unit_lifecycle_take(void)
+{
+  /* Zero is reserved as "no exact lifetime" by the agent protocol.  It is
+   * better to stop after the practically unreachable final value than to
+   * wrap and let a later unit alias an earlier lifetime. */
+  if (next_client_unit_lifecycle_id == UINT64_MAX) {
+    log_fatal("Client unit lifecycle identity space exhausted.");
+    exit(EXIT_FAILURE);
+  }
+
+  return next_client_unit_lifecycle_id++;
+}
 
 /* Refresh the action selection dialog */
 #define REQEST_BACKGROUND_REFRESH (1)
@@ -441,11 +586,9 @@ void handle_server_join_reply(bool you_can_join, const char *message,
             sizeof(client_info.distribution));
     send_packet_client_info(&client.conn, &client_info);
 
-    /* We could always use hack, verify we're local */
-#ifdef FREECIV_DEBUG
-    if (!hackless)
-#endif /* FREECIV_DEBUG */
-    {
+    /* We could always use hack, verify we're local. Headless sidecars set
+     * hackless even in release builds and must never request this access. */
+    if (!hackless) {
       send_client_wants_hack(challenge_file);
     }
 
@@ -554,6 +697,15 @@ void handle_unit_remove(int unit_id)
 ****************************************************************************/
 void handle_nuke_tile_info(int tile)
 {
+  if (nuke_tile_info_observer != NULL) {
+    const struct packet_nuke_tile_info packet = { .tile = tile };
+
+    nuke_tile_info_observer(
+      &packet,
+      client.conn.client.request_id_of_currently_handled_packet,
+      nuke_tile_info_observer_data);
+  }
+
   put_nuke_mushroom_pixmaps(index_to_tile(&(wld.map), tile));
 }
 
@@ -580,6 +732,13 @@ void handle_unit_combat_info(const struct packet_unit_combat_info *packet)
   bool show_combat = FALSE;
   struct unit *punit0 = game_unit_by_number(packet->attacker_unit_id);
   struct unit *punit1 = game_unit_by_number(packet->defender_unit_id);
+
+  if (unit_combat_info_observer != NULL) {
+    unit_combat_info_observer(
+      packet,
+      client.conn.client.request_id_of_currently_handled_packet,
+      unit_combat_info_observer_data);
+  }
 
   if (punit0 && punit1) {
     popup_combat_info(packet->attacker_unit_id, packet->defender_unit_id,
@@ -702,6 +861,9 @@ void handle_city_info(const struct packet_city_info *packet)
 
     if (NULL == ptile) {
       /* Invisible worked city */
+      if (pcity->client.lifecycle_id == 0) {
+        pcity->client.lifecycle_id = client_city_lifecycle_take();
+      }
       city_list_remove(invisible.cities, pcity);
       city_is_new = TRUE;
 
@@ -729,6 +891,7 @@ void handle_city_info(const struct packet_city_info *packet)
   if (NULL == pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
+    pcity->client.lifecycle_id = client_city_lifecycle_take();
     pcity->id = packet->id;
     idex_register_city(&wld, pcity);
     update_descriptions = TRUE;
@@ -943,6 +1106,13 @@ void handle_city_info(const struct packet_city_info *packet)
     agents_city_new(pcity);
   } else {
     agents_city_changed(pcity);
+  }
+
+  if (packet->diplomat_investigate && investigation_observer != NULL) {
+    investigation_observer(
+      PACKHAND_INVESTIGATION_CITY_INFO, packet->id, packet, pcity,
+      client.conn.client.request_id_of_currently_handled_packet,
+      investigation_observer_data);
   }
 
   /* Update the description if necessary. */
@@ -1192,6 +1362,9 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 
     if (NULL == ptile) {
       /* Invisible worked city */
+      if (pcity->client.lifecycle_id == 0) {
+        pcity->client.lifecycle_id = client_city_lifecycle_take();
+      }
       city_list_remove(invisible.cities, pcity);
       city_is_new = TRUE;
 
@@ -1230,6 +1403,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   if (NULL == pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
+    pcity->client.lifecycle_id = client_city_lifecycle_take();
     pcity->id = packet->id;
     pcity->original = original;
     city_map_radius_sq_set(pcity, radius_sq);
@@ -1364,6 +1538,13 @@ void handle_worker_task(const struct packet_worker_task *packet)
     free(ptask);
     ptask = NULL;
     return;
+  }
+
+  if (worker_task_observer != NULL) {
+    worker_task_observer(
+      packet, pcity,
+      client.conn.client.request_id_of_currently_handled_packet,
+      worker_task_observer_data);
   }
 
   refresh_city_dialog(pcity);
@@ -1547,6 +1728,13 @@ void play_sound_for_event(enum event_type type)
 ****************************************************************************/
 void handle_chat_msg(const struct packet_chat_msg *packet)
 {
+  if (chat_msg_observer != NULL) {
+    chat_msg_observer(
+      packet,
+      client.conn.client.request_id_of_currently_handled_packet,
+      chat_msg_observer_data);
+  }
+
   handle_event(packet->message,
                index_to_tile(&(wld.map), packet->tile),
                packet->event,
@@ -1664,9 +1852,21 @@ void handle_page_msg_part(const char *lines)
 void handle_unit_info(const struct packet_unit_info *packet)
 {
   struct unit *punit;
+  bool temporary;
 
   punit = unpackage_unit(packet);
-  if (handle_unit_packet_common(punit)) {
+  temporary = handle_unit_packet_common(punit);
+  if (full_unit_info_observer != NULL) {
+    const struct unit *merged = game_unit_by_number(packet->id);
+
+    if (merged != NULL) {
+      full_unit_info_observer(
+        merged,
+        client.conn.client.request_id_of_currently_handled_packet,
+        full_unit_info_observer_data);
+    }
+  }
+  if (temporary) {
     punit->client.transported_by = -1;
     unit_virtual_destroy(punit);
   }
@@ -2026,6 +2226,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   } else {
     /*** Create new unit ***/
     punit = packet_unit;
+    punit->client.lifecycle_id = client_unit_lifecycle_take();
     idex_register_unit(&wld, punit);
 
     if (owner != nullptr) {
@@ -2165,6 +2366,12 @@ void handle_investigate_started(const struct packet_investigate_started *packet)
     unit_list_new_full(unit_virtual_destroy);
   pcity->client.collecting_info_units_present =
     unit_list_new_full(unit_virtual_destroy);
+  if (investigation_observer != NULL) {
+    investigation_observer(
+      PACKHAND_INVESTIGATION_STARTED, packet->city_id, NULL, pcity,
+      client.conn.client.request_id_of_currently_handled_packet,
+      investigation_observer_data);
+  }
 }
 
 /************************************************************************//**
@@ -2172,6 +2379,13 @@ void handle_investigate_started(const struct packet_investigate_started *packet)
 ****************************************************************************/
 void handle_investigate_finished(const struct packet_investigate_finished *packet)
 {
+  if (investigation_observer != NULL) {
+    investigation_observer(
+      PACKHAND_INVESTIGATION_FINISHED, packet->city_id, NULL,
+      game_city_by_number(packet->city_id),
+      client.conn.client.request_id_of_currently_handled_packet,
+      investigation_observer_data);
+  }
 }
 
 /************************************************************************//**
@@ -2511,6 +2725,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     /* Initialise client side player data (tile vision). At the moment
      * redundant as the values are initialised with 0 due to fc_calloc(). */
     client_player_init(pplayer);
+    pplayer->client.lifecycle_id = client_player_lifecycle_take();
   }
 
   /* Team. */
@@ -3079,7 +3294,8 @@ void handle_achievement_info(int id, bool gained, bool first)
 static bool spaceship_autoplace(struct player *pplayer,
                                 struct player_spaceship *ship)
 {
-  if (can_client_issue_orders()) {
+  /* gui-agent exposes each legal placement to its controlling model. */
+  if (get_gui_type() != GUI_AGENT && can_client_issue_orders()) {
     struct spaceship_component place;
 
     if (next_spaceship_component(pplayer, ship, &place)) {
@@ -5025,11 +5241,36 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
                                action_id action_type,
                                int request_kind)
 {
-  struct city *pcity = game_city_by_number(target_id);
-  struct unit *punit = game_unit_by_number(target_id);
-  struct tile *ptile = index_to_tile(&(wld.map), target_id);
-  struct unit *pactor = player_unit_by_number(client_player(), actor_id);
-  struct action *paction = action_by_number(action_type);
+  struct city *pcity;
+  struct unit *punit;
+  struct tile *ptile;
+  struct unit *pactor;
+  struct action *paction;
+
+  if (unit_action_answer_observer != NULL) {
+    const struct packet_unit_action_answer packet = {
+      .actor_id = actor_id,
+      .target_id = target_id,
+      .cost = cost,
+      .action_type = action_type,
+      .request_kind = request_kind
+    };
+
+    unit_action_answer_observer(
+      &packet,
+      client.conn.client.request_id_of_currently_handled_packet,
+      unit_action_answer_observer_data);
+  }
+
+  if (request_kind == AGENT_V2_ACTION_RECEIPT_KIND) {
+    return;
+  }
+
+  pcity = game_city_by_number(target_id);
+  punit = game_unit_by_number(target_id);
+  ptile = index_to_tile(&(wld.map), target_id);
+  pactor = player_unit_by_number(client_player(), actor_id);
+  paction = action_by_number(action_type);
 
   if (ACTION_NONE != action_type
       && !action_id_exists(action_type)) {
@@ -5272,6 +5513,11 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   int request_kind = packet->request_kind;
   bool valid = FALSE;
 
+  if (unit_actions_observer != NULL
+      && unit_actions_observer(packet, unit_action_observer_data)) {
+    return;
+  }
+
   /* The dead can't act */
   if (actor_unit && (target_tile || target_city || target_unit)) {
     /* At least one action must be possible */
@@ -5335,6 +5581,23 @@ void handle_city_sabotage_list(int actor_id, int city_id,
   struct city *pcity = game_city_by_number(city_id);
   struct unit *pactor = player_unit_by_number(client_player(), actor_id);
   struct action *paction = action_by_number(act_id);
+
+  if (city_sabotage_list_observer != NULL) {
+    const struct packet_city_sabotage_list packet = {
+      .actor_id = actor_id,
+      .city_id = city_id,
+      .improvements = improvements,
+      .act_id = act_id,
+      .request_kind = request_kind
+    };
+
+    if (city_sabotage_list_observer(
+          &packet,
+          client.conn.client.request_id_of_currently_handled_packet,
+          city_sabotage_list_observer_data)) {
+      return;
+    }
+  }
 
   if (!pactor) {
     log_debug("Bad diplomat %d.", actor_id);

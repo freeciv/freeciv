@@ -12,6 +12,15 @@ default:
     @echo "  just join --game_id GAME_ID --name HARNESS-MODEL"
     @echo "  just next --session SESSION_FILE --after_turn 0"
     @echo "  just act --session SESSION_FILE --turn TURN --observation_id ID --action JSON"
+    @echo "  just health --session SESSION_FILE"
+    @echo "  just turn --session SESSION_FILE"
+    @echo "  just state --session SESSION_FILE --section overview"
+    @echo "  just legal --session SESSION_FILE --kind phase.end --all"
+    @echo "  just legal --session SESSION_FILE [--actor_id ID]"
+    @echo "  just batch --session SESSION_FILE --action_id ID --arguments JSON"
+    @echo "  just receipt --session SESSION_FILE --batch_id ID"
+    @echo "  just retry --session SESSION_FILE --batch_id ID"
+    @echo "  just wait --session SESSION_FILE"
     @echo
     @echo "Read docs/gameplay.md before playing."
 
@@ -59,15 +68,130 @@ act session="" turn="" observation_id="" action="":
       --observation-id "{{ observation_id }}" \
       --action '{{ action }}'
 
-# Read the terminal public result after play has stopped.
+# Read this v2 seat's authenticated health and phase state.
+[arg("session", long)]
+health session="":
+    python3 -B client.py health --session "{{ session }}"
+
+# Read one revision-consistent, bounded running-game briefing.
+[arg("session", long)]
+turn session="":
+    python3 -B client.py turn --session "{{ session }}"
+
+# Read one full-control-v2 state page or continue one cursor.
+[arg("session", long)]
+[arg("section", long)]
+[arg("actor_id", long="actor_id")]
+[arg("relation_id", long="relation_id")]
+[arg("center_id", long="center_id")]
+[arg("radius", long)]
+[arg("limit", long)]
+[arg("cursor", long)]
+state session="" section="" actor_id="" relation_id="" center_id="" radius="" limit="" cursor="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py state --session "{{ session }}")
+    [[ -z "{{ section }}" ]] || args+=(--section "{{ section }}")
+    [[ -z "{{ actor_id }}" ]] || args+=(--actor-id "{{ actor_id }}")
+    [[ -z "{{ relation_id }}" ]] || args+=(--relation-id "{{ relation_id }}")
+    [[ -z "{{ center_id }}" ]] || args+=(--center-id "{{ center_id }}")
+    [[ -z "{{ radius }}" ]] || args+=(--radius "{{ radius }}")
+    [[ -z "{{ limit }}" ]] || args+=(--limit "{{ limit }}")
+    [[ -z "{{ cursor }}" ]] || args+=(--cursor "{{ cursor }}")
+    exec "${args[@]}"
+
+# Read one v2 legal-action page, actor scope, exact target, or cursor.
+[arg("session", long)]
+[arg("actor_id", long="actor_id")]
+[arg("target_id", long="target_id")]
+[arg("limit", long)]
+[arg("cursor", long)]
+[arg("kind", long)]
+[arg("all_pages", long="all", value="true")]
+legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py legal --session "{{ session }}")
+    [[ -z "{{ actor_id }}" ]] || args+=(--actor-id "{{ actor_id }}")
+    [[ -z "{{ target_id }}" ]] || args+=(--target-id "{{ target_id }}")
+    [[ -z "{{ limit }}" ]] || args+=(--limit "{{ limit }}")
+    [[ -z "{{ cursor }}" ]] || args+=(--cursor "{{ cursor }}")
+    [[ -z "{{ kind }}" ]] || args+=(--kind "{{ kind }}")
+    [[ -z "{{ all_pages }}" ]] || args+=(--all)
+    exec "${args[@]}"
+
+# Persist then submit exactly one current opaque v2 action.
+[arg("session", long)]
+[arg("action_id", long="action_id")]
+[arg("arguments", long)]
+[positional-arguments]
+batch session="" action_id="" arguments="{}":
+    python3 -B client.py batch \
+      --session "$1" \
+      --action-id "$2" \
+      --arguments "$3"
+
+# Resolve one durable v2 receipt without resubmitting it.
+[arg("session", long)]
+[arg("batch_id", long="batch_id")]
+receipt session="" batch_id="":
+    python3 -B client.py receipt \
+      --session "{{ session }}" \
+      --batch-id "{{ batch_id }}"
+
+# Receipt-first recovery of one exactly persisted v2 batch.
+[arg("session", long)]
+[arg("batch_id", long="batch_id")]
+retry session="" batch_id="":
+    python3 -B client.py retry \
+      --session "{{ session }}" \
+      --batch-id "{{ batch_id }}"
+
+# Wait on authenticated v2 health/state only.
+[arg("session", long)]
+[arg("wait_s", long="wait-s")]
+[arg("wait_s_compat", long="wait_s")]
+[arg("poll_s", long="poll-s")]
+[arg("poll_s_compat", long="poll_s")]
+[arg("until", long)]
+wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="phase":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -n "{{ wait_s }}" && -n "{{ wait_s_compat }}" ]]; then
+      echo "error: pass only one of --wait-s or --wait_s" >&2
+      exit 2
+    fi
+    if [[ -n "{{ poll_s }}" && -n "{{ poll_s_compat }}" ]]; then
+      echo "error: pass only one of --poll-s or --poll_s" >&2
+      exit 2
+    fi
+    wait_value="{{ wait_s_compat }}"
+    [[ -n "$wait_value" ]] || wait_value="{{ wait_s }}"
+    [[ -n "$wait_value" ]] || wait_value="120"
+    poll_value="{{ poll_s_compat }}"
+    [[ -n "$poll_value" ]] || poll_value="{{ poll_s }}"
+    [[ -n "$poll_value" ]] || poll_value="1"
+    exec python3 -B client.py wait \
+      --session "{{ session }}" \
+      --wait-s "$wait_value" \
+      --poll-s "$poll_value" \
+      --until "{{ until }}"
+
+# Read the terminal public result after play has stopped. Accept both the
+# natural `just result GAME_ID` form and the existing `--game_id GAME_ID`.
 [arg("game_id", long)]
-result game_id:
-    python3 -B client.py result --game-id "{{ game_id }}"
+result positional_game_id="" game_id="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py result)
+    [[ -z "{{ positional_game_id }}" ]] || args+=("{{ positional_game_id }}")
+    [[ -z "{{ game_id }}" ]] || args+=(--game-id "{{ game_id }}")
+    exec "${args[@]}"
 
 # Print the player-facing command reference.
 help:
     @sed -n '1,260p' docs/commands.md
 
-# Print the static strategic-v1 gameplay rules.
+# Print the static gameplay rules and negotiated protocol guidance.
 rules:
-    @sed -n '1,300p' docs/gameplay.md
+    @sed -n '1,360p' docs/gameplay.md

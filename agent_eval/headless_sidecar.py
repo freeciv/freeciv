@@ -7,9 +7,10 @@ publishes only a bounded, credential-free health snapshot to the supervisor.
 
 from __future__ import annotations
 
-import os
 import errno
+import json
 import math
+import os
 import re
 import select
 import signal
@@ -31,8 +32,10 @@ MAX_FRAME = 8192
 PROTOCOL_VERSION = 1
 NATIVE_PROTOCOL_VERSION = 2
 NATIVE_CAPABILITIES = (
-    "ACT", "ACT_CAP", "OBS_OPEN", "OBS_PAGE", "PHASE_AVAILABLE",
-    "SCOPE_OPEN", "SCOPE_PAGE", "STATE_AVAILABLE",
+    "ACT", "ACT_CAP", "ACT_RELATION_CAP", "OBS_OPEN", "OBS_PAGE",
+    "PHASE_AVAILABLE", "SCOPE_OPEN", "SCOPE_PAGE", "STATE_AVAILABLE",
+    "STATE_SCOPE_OPEN", "STATE_SCOPE_PAGE",
+    "TARGET_ACTION", "RELATION_SCOPE_OPEN", "RELATION_SCOPE_PAGE",
 )
 NATIVE_ENCODING = "percent-tab"
 NATIVE_CAPS = (
@@ -41,20 +44,37 @@ NATIVE_CAPS = (
     f"\t{NATIVE_OBSERVATION_ACTION_SCHEMA_ID}"
 )
 MAX_CAPS_BYTES = 512
-MAX_CAPABILITY_COUNT = 16
+MAX_CAPABILITY_COUNT = 18
 MAX_CAPABILITY_BYTES = 64
 MAX_ENCODING_BYTES = 32
 MAX_SCHEMA_ID_BYTES = 128
 MAX_NATIVE_REVISION = (1 << 64) - 1
 MAX_NATIVE_PHASE_INTEGER = (1 << 31) - 1
 MAX_OBSERVATION_ROWS = 8192
+MAX_STATE_SCOPE_ROWS = 40000
+MAX_STATE_SCOPE_BYTES = 16 * 1024 * 1024
 MAX_OBSERVATION_PAGE = 16
-MAX_OBSERVATION_ROW_BYTES = 767
+MAX_OBSERVATION_ROW_BYTES = 2047
 NATIVE_TOKEN_RE = re.compile(r"^[A-Za-z0-9._~-]{1,64}$")
 SNAPSHOT_RE = re.compile(r"^s[0-9]+-[0-9]+$")
 SCOPE_VIEW_RE = re.compile(r"^v[0-9]+-[0-9]+$")
+STATE_SCOPE_VIEW_RE = re.compile(r"^q[0-9]+-[0-9]+$")
+RELATION_SCOPE_VIEW_RE = re.compile(r"^r[0-9]+-[0-9]+$")
+INVESTIGATION_SELECTOR_RE = re.compile(r"^i[0-9a-f]{16}$")
 NATIVE_ACTOR_RE = re.compile(r"^[pcu]:(?:0|[1-9][0-9]*):[1-9][0-9]*$")
-ACTION_SLOT_RE = re.compile(r"^a[0-9A-F]{16}$")
+STATE_SCOPE_SELECTOR_RE = re.compile(
+    r"^(?:-|[pcu]:(?:0|[1-9][0-9]*):[1-9][0-9]*|"
+    r"t(?:0|[1-9][0-9]*)-r(?:0|[1-8])|i[0-9a-f]{16})$"
+)
+STATE_SCOPE_SECTIONS = frozenset({
+    "known_tiles", "tile_window", "cities", "units", "city_sites",
+    "diplomacy_clauses", "city_citizens",
+    "city_build_choices", "city_worklist", "city_improvements",
+    "city_governor", "target_tiles", "pregame_nations",
+    "pregame_styles", "pregame_teams",
+    "investigation",
+})
+ACTION_SLOT_RE = re.compile(r"^(?:a[0-9A-F]{16}|t[0-9A-F]{24})$")
 NATIVE_REASON_RE = re.compile(r"^[A-Z][A-Z0-9_]{0,63}$")
 PLAYER_RE = re.compile(r"^[A-Za-z0-9._-]{1,63}$")
 PING_RE = re.compile(r"^[A-Za-z0-9._:-]{1,64}$")
@@ -86,10 +106,20 @@ _NATIVE_ERROR_CODES = {
     "STALE_REVISION": "stale_revision",
     "INVALID_ACTOR": "invalid_actor",
     "SCOPE_TOO_LARGE": "actor_scope_too_large",
+    "STATE_SCOPE_TOO_LARGE": "state_scope_too_large",
     "SCOPE_GONE": "scope_gone",
+    "INVALID_RELATION": "invalid_relation",
+    # Native target discovery and server-authoritative action preflight use
+    # untagged Freeciv replies.  A timeout or mismatch can leave one reply in
+    # flight, so the supervisor must replace this sidecar before reuse.
+    "STREAM_DESYNC": "protocol_error",
+    "REVALIDATION_DESYNC": "protocol_error",
 }
-_NONTERMINAL_NATIVE_ERRORS = frozenset(_NATIVE_ERROR_CODES.values()) | {
-    "native_error",
+_NONTERMINAL_NATIVE_ERRORS = frozenset(
+    value for native, value in _NATIVE_ERROR_CODES.items()
+    if native not in {"STREAM_DESYNC", "REVALIDATION_DESYNC"}
+) | {
+    "native_error", "relation_scope_too_large",
 }
 _PHASE_MODES = frozenset({
     "concurrent", "players_alternate", "teams_alternate",
@@ -510,12 +540,20 @@ class HeadlessSidecar:
         self._client_state: str | None = None
         self._server_connected: bool | None = None
         self._seat_state: str | None = None
+        # Owner-private native identity keeps the acquired seat stable across
+        # pregame leader renames. It must never enter public health payloads.
+        self._native_player_number: int | None = None
+        self._native_player_lifecycle: int | None = None
         self._caps_received = False
         self._protocol_version: int | None = None
         self._native_revision: int | None = None
         self._capabilities_available = False
         self._native_ready_announced = False
         self._phase_evidence: dict[str, Any] | None = None
+        # Owner-private protocol evidence. Raw frames can contain native
+        # identities, so this never enters public_health().
+        self._protocol_diagnostic_stage: str | None = None
+        self._protocol_diagnostic_frame: str | None = None
 
     @staticmethod
     def _safe_environment(
@@ -595,6 +633,8 @@ class HeadlessSidecar:
                 self._callback_fired = True
                 callback = self.on_exit
                 health = self.public_health()
+        if state == "failed" and self._error_code == "protocol_error":
+            self._persist_private_protocol_diagnostic()
         if (
             callback is not None and health is not None
             and not defer_callback
@@ -773,22 +813,78 @@ class HeadlessSidecar:
             )
 
     def _send(self, value: str, deadline: float) -> None:
+        # A raw frame is useful only for the command currently in flight.  Do
+        # not let a later protocol failure persist evidence from an earlier,
+        # successfully parsed exchange.
+        with self._lock:
+            self._protocol_diagnostic_stage = None
+            self._protocol_diagnostic_frame = None
         ipc = self._ipc
         if ipc is None:
             raise SidecarError("sidecar_unavailable")
         ipc.send(value, deadline)
 
-    def _wait_message(self, deadline: float) -> str:
+    def _wait_message(
+        self, deadline: float, *, diagnostic_stage: str | None = None,
+    ) -> str:
         with self._lock:
             while True:
                 if self._messages:
-                    return self._messages.popleft()
+                    message = self._messages.popleft()
+                    if diagnostic_stage is not None:
+                        self._protocol_diagnostic_stage = diagnostic_stage
+                        self._protocol_diagnostic_frame = message
+                    return message
                 if self._state in TERMINAL_STATES:
                     raise SidecarError(self._error_code or "sidecar_unavailable")
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     raise SidecarError("deadline_exceeded", "sidecar handshake timed out")
                 self._lock.wait(min(remaining, 0.1))
+
+    def _persist_private_protocol_diagnostic(self) -> None:
+        """Persist bounded raw protocol evidence in the private run folder."""
+        with self._lock:
+            stage = self._protocol_diagnostic_stage
+            frame = self._protocol_diagnostic_frame
+        if stage is None or frame is None:
+            return
+        payload = json.dumps(
+            {"stage": stage, "raw_frame": frame},
+            ensure_ascii=False, allow_nan=False, sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        descriptor = None
+        try:
+            descriptor = os.open(
+                self.run_directory / "protocol-error.json",
+                os.O_WRONLY | os.O_CREAT | os.O_TRUNC,
+                0o600,
+            )
+            view = memoryview(payload)
+            while view:
+                written = os.write(descriptor, view)
+                if written <= 0:
+                    break
+                view = view[written:]
+        except OSError:
+            pass
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+
+    def private_protocol_diagnostic(self) -> MappingProxyType | None:
+        """Return raw parser evidence only to the owning supervisor/tests."""
+        with self._lock:
+            if (
+                self._protocol_diagnostic_stage is None
+                or self._protocol_diagnostic_frame is None
+            ):
+                return None
+            return MappingProxyType({
+                "stage": self._protocol_diagnostic_stage,
+                "raw_frame": self._protocol_diagnostic_frame,
+            })
 
     def _commit_ready(self, ready_player: str) -> dict[str, Any]:
         if ready_player != self.player_name:
@@ -995,6 +1091,36 @@ class HeadlessSidecar:
         return value
 
     @staticmethod
+    def _state_scope_view_token(value: str) -> str:
+        if (
+            not isinstance(value, str) or len(value) > 47
+            or STATE_SCOPE_VIEW_RE.fullmatch(value) is None
+        ):
+            raise SidecarError("invalid_scope")
+        revision, serial = value[1:].split("-", 1)
+        if (
+            _canonical_uint(revision, MAX_NATIVE_REVISION, "invalid_scope") < 1
+            or _canonical_uint(serial, (1 << 32) - 1, "invalid_scope") < 1
+        ):
+            raise SidecarError("invalid_scope")
+        return value
+
+    @staticmethod
+    def _relation_scope_view_token(value: str) -> str:
+        if (
+            not isinstance(value, str) or len(value) > 47
+            or RELATION_SCOPE_VIEW_RE.fullmatch(value) is None
+        ):
+            raise SidecarError("invalid_scope")
+        revision, serial = value[1:].split("-", 1)
+        if (
+            _canonical_uint(revision, MAX_NATIVE_REVISION, "invalid_scope") < 1
+            or _canonical_uint(serial, (1 << 32) - 1, "invalid_scope") < 1
+        ):
+            raise SidecarError("invalid_scope")
+        return value
+
+    @staticmethod
     def _actor_ref(value: str) -> str:
         if (
             not isinstance(value, str) or len(value) > 47
@@ -1074,7 +1200,9 @@ class HeadlessSidecar:
         with self._lock:
             self._require_protocol_two_locked()
         self._send(f"OBS_OPEN\t{request}\tstate", deadline)
-        message = self._wait_message(deadline)
+        message = self._wait_message(
+            deadline, diagnostic_stage="observation.opened",
+        )
         fatal = self._fatal_message(message)
         if fatal is not None:
             raise fatal
@@ -1131,7 +1259,9 @@ class HeadlessSidecar:
             f"OBS_PAGE\t{request}\t{snapshot}\t{offset}\t{limit}",
             deadline,
         )
-        begin = self._wait_message(deadline)
+        begin = self._wait_message(
+            deadline, diagnostic_stage="observation.page_begin",
+        )
         fatal = self._fatal_message(begin)
         if fatal is not None:
             raise fatal
@@ -1150,7 +1280,10 @@ class HeadlessSidecar:
             raise SidecarError("protocol_error")
         rows: list[str] = []
         for expected_index in range(offset, offset + expected_count):
-            row = self._wait_message(deadline)
+            row = self._wait_message(
+                deadline,
+                diagnostic_stage=f"observation.row.{expected_index}",
+            )
             fatal = self._fatal_message(row)
             if fatal is not None:
                 raise fatal
@@ -1168,7 +1301,9 @@ class HeadlessSidecar:
             rows.append(_percent_decode(
                 row_fields[4], maximum_bytes=MAX_OBSERVATION_ROW_BYTES,
             ))
-        end = self._wait_message(deadline)
+        end = self._wait_message(
+            deadline, diagnostic_stage="observation.page_end",
+        )
         fatal = self._fatal_message(end)
         if fatal is not None:
             raise fatal
@@ -1321,7 +1456,9 @@ class HeadlessSidecar:
             ),
             deadline,
         )
-        message = self._wait_message(deadline)
+        message = self._wait_message(
+            deadline, diagnostic_stage="actor_scope.opened",
+        )
         fatal = self._fatal_message(message)
         if fatal is not None:
             raise fatal
@@ -1379,7 +1516,9 @@ class HeadlessSidecar:
             f"SCOPE_PAGE\t{request}\t{view_id}\t{offset}\t{limit}",
             deadline,
         )
-        begin = self._wait_message(deadline)
+        begin = self._wait_message(
+            deadline, diagnostic_stage="actor_scope.page_begin",
+        )
         fatal = self._fatal_message(begin)
         if fatal is not None:
             raise fatal
@@ -1401,7 +1540,10 @@ class HeadlessSidecar:
             raise SidecarError("protocol_error")
         rows: list[str] = []
         for expected_index in range(offset, offset + expected_count):
-            row = self._wait_message(deadline)
+            row = self._wait_message(
+                deadline,
+                diagnostic_stage=f"actor_scope.row.{expected_index}",
+            )
             fatal = self._fatal_message(row)
             if fatal is not None:
                 raise fatal
@@ -1417,7 +1559,9 @@ class HeadlessSidecar:
             rows.append(_percent_decode(
                 row_fields[4], maximum_bytes=MAX_OBSERVATION_ROW_BYTES,
             ))
-        end = self._wait_message(deadline)
+        end = self._wait_message(
+            deadline, diagnostic_stage="actor_scope.page_end",
+        )
         fatal = self._fatal_message(end)
         if fatal is not None:
             raise fatal
@@ -1527,6 +1671,782 @@ class HeadlessSidecar:
                 self._terminal("failed", exc.code)
             raise
 
+    def read_actor_scope_catalog(
+        self,
+        request_id: str,
+        expected_revision: int,
+        actor_ref: str,
+        timeout_s: float = 30.0,
+    ) -> dict[str, Any]:
+        """Open and drain one pinned actor catalog under one command lock."""
+        request = self._request_token(request_id)
+        actor = self._actor_ref(actor_ref)
+        if (
+            isinstance(expected_revision, bool)
+            or not isinstance(expected_revision, int)
+            or not 1 <= expected_revision <= MAX_NATIVE_REVISION
+            or isinstance(timeout_s, bool)
+            or not isinstance(timeout_s, (int, float))
+            or not math.isfinite(timeout_s) or timeout_s <= 0
+        ):
+            raise SidecarError("invalid_request")
+        deadline = time.monotonic() + timeout_s
+        acquired = False
+        try:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
+                raise SidecarError("deadline_exceeded")
+            acquired = True
+            opened = self._scope_open_locked(
+                request, expected_revision, actor, deadline,
+            )
+            rows: list[str] = []
+            offset = 0
+            while offset < opened["total_count"]:
+                page = self._scope_page_locked(
+                    request, opened["view_id"], opened["revision"], actor,
+                    opened["total_count"], offset, MAX_OBSERVATION_PAGE,
+                    deadline,
+                )
+                rows.extend(page["rows"])
+                offset = page["next_offset"]
+            if offset != opened["total_count"] or len(rows) != offset:
+                raise SidecarError("protocol_error")
+            return {
+                "generation": self.generation,
+                "native_revision": opened["revision"],
+                "actor_ref": actor,
+                "view_id": opened["view_id"],
+                "offset": 0,
+                "count": offset,
+                "total_count": offset,
+                "next_offset": offset,
+                "complete": True,
+                "overflow": False,
+                "rows": tuple(rows),
+            }
+        except SidecarError as exc:
+            if acquired and self._command_error_is_terminal(exc):
+                self._terminal("failed", exc.code)
+            raise
+        finally:
+            if acquired:
+                self._command_lock.release()
+
+    def _state_scope_open_locked(
+        self,
+        request: str,
+        expected_revision: int,
+        section: str,
+        selector: str,
+        deadline: float,
+    ) -> dict[str, Any]:
+        with self._lock:
+            self._require_protocol_two_locked()
+        self._send(
+            "STATE_SCOPE_OPEN\t%s\t%d\t%s\t%s" % (
+                request, expected_revision, section,
+                _percent_encode(selector),
+            ),
+            deadline,
+        )
+        message = self._wait_message(
+            deadline, diagnostic_stage="state_scope.opened",
+        )
+        fatal = self._fatal_message(message)
+        if fatal is not None:
+            raise fatal
+        self._raise_native_error(message, request)
+        fields = message.split("\t")
+        if (
+            len(fields) != 9 or fields[0] != "STATE_SCOPE_OPENED"
+            or fields[1] != request
+        ):
+            raise SidecarError("protocol_error")
+        view = self._state_scope_view_token(fields[2])
+        revision = _canonical_uint(fields[3], MAX_NATIVE_REVISION)
+        returned_section = _percent_decode(fields[4], maximum_bytes=31)
+        returned_selector = _percent_decode(fields[5], maximum_bytes=63)
+        total = _canonical_uint(fields[6], MAX_STATE_SCOPE_ROWS)
+        if (
+            revision != expected_revision
+            or int(view[1:].split("-", 1)[0]) != revision
+            or returned_section != section
+            or returned_selector != selector
+            or fields[7:] != ["1", "0"]
+        ):
+            raise SidecarError("protocol_error")
+        self._record_native_revision(revision)
+        return {
+            "view_id": view,
+            "revision": revision,
+            "section": section,
+            "selector": selector,
+            "total_count": total,
+        }
+
+    def _state_scope_page_locked(
+        self,
+        request: str,
+        view_id: str,
+        revision: int,
+        section: str,
+        selector: str,
+        total_count: int,
+        offset: int,
+        limit: int,
+        deadline: float,
+    ) -> dict[str, Any]:
+        expected_count = min(limit, total_count - offset)
+        with self._lock:
+            self._require_protocol_two_locked()
+        self._send(
+            f"STATE_SCOPE_PAGE\t{request}\t{view_id}\t{offset}\t{limit}",
+            deadline,
+        )
+        begin = self._wait_message(
+            deadline, diagnostic_stage="state_scope.page_begin",
+        )
+        fatal = self._fatal_message(begin)
+        if fatal is not None:
+            raise fatal
+        self._raise_native_error(begin, request)
+        fields = begin.split("\t")
+        if (
+            len(fields) != 9 or fields[0] != "STATE_SCOPE_BEGIN"
+            or fields[1] != request or fields[2] != view_id
+            or _canonical_uint(fields[3], MAX_NATIVE_REVISION) != revision
+            or _percent_decode(fields[4], maximum_bytes=31) != section
+            or _percent_decode(fields[5], maximum_bytes=63) != selector
+            or _canonical_uint(fields[6], MAX_STATE_SCOPE_ROWS) != offset
+            or _canonical_uint(fields[7], MAX_OBSERVATION_PAGE)
+               != expected_count
+            or _canonical_uint(fields[8], MAX_STATE_SCOPE_ROWS) != total_count
+        ):
+            raise SidecarError("protocol_error")
+        rows: list[str] = []
+        for expected_index in range(offset, offset + expected_count):
+            row = self._wait_message(
+                deadline,
+                diagnostic_stage=f"state_scope.row.{expected_index}",
+            )
+            fatal = self._fatal_message(row)
+            if fatal is not None:
+                raise fatal
+            self._raise_native_error(row, request)
+            row_fields = row.split("\t")
+            if (
+                len(row_fields) != 5 or row_fields[0] != "STATE_SCOPE_ROW"
+                or row_fields[1] != request or row_fields[2] != view_id
+                or _canonical_uint(row_fields[3], MAX_STATE_SCOPE_ROWS)
+                   != expected_index
+            ):
+                raise SidecarError("protocol_error")
+            rows.append(_percent_decode(
+                row_fields[4], maximum_bytes=MAX_OBSERVATION_ROW_BYTES,
+            ))
+        end = self._wait_message(
+            deadline, diagnostic_stage="state_scope.page_end",
+        )
+        fatal = self._fatal_message(end)
+        if fatal is not None:
+            raise fatal
+        self._raise_native_error(end, request)
+        end_fields = end.split("\t")
+        next_offset = offset + expected_count
+        if (
+            len(end_fields) != 4 or end_fields[0] != "STATE_SCOPE_END"
+            or end_fields[1] != request or end_fields[2] != view_id
+            or _canonical_uint(end_fields[3], MAX_STATE_SCOPE_ROWS)
+               != next_offset
+        ):
+            raise SidecarError("protocol_error")
+        self._record_native_revision(revision)
+        return {
+            "generation": self.generation,
+            "native_revision": revision,
+            "section": section,
+            "selector": selector,
+            "view_id": view_id,
+            "offset": offset,
+            "count": expected_count,
+            "total_count": total_count,
+            "next_offset": next_offset,
+            "complete": True,
+            "overflow": False,
+            "rows": tuple(rows),
+        }
+
+    def read_state_scope(
+        self,
+        request_id: str,
+        expected_revision: int,
+        section: str,
+        selector: str,
+        limit: int = MAX_OBSERVATION_PAGE,
+        timeout_s: float = 5.0,
+    ) -> dict[str, Any]:
+        request = self._request_token(request_id)
+        if (
+            isinstance(expected_revision, bool)
+            or not isinstance(expected_revision, int)
+            or not 1 <= expected_revision <= MAX_NATIVE_REVISION
+            or section not in STATE_SCOPE_SECTIONS
+            or not isinstance(selector, str)
+            or STATE_SCOPE_SELECTOR_RE.fullmatch(selector) is None
+            or isinstance(limit, bool) or not isinstance(limit, int)
+            or not 1 <= limit <= MAX_OBSERVATION_PAGE
+            or isinstance(timeout_s, bool)
+            or not isinstance(timeout_s, (int, float))
+            or not math.isfinite(timeout_s) or timeout_s <= 0
+        ):
+            raise SidecarError("invalid_request")
+        deadline = time.monotonic() + timeout_s
+        with self._command_lock:
+            opened = self._state_scope_open_locked(
+                request, expected_revision, section, selector, deadline,
+            )
+            return self._state_scope_page_locked(
+                request, opened["view_id"], opened["revision"], section,
+                selector, opened["total_count"], 0, limit, deadline,
+            )
+
+    def read_state_scope_page(
+        self,
+        request_id: str,
+        view_id: str,
+        revision: int,
+        section: str,
+        selector: str,
+        total_count: int,
+        offset: int,
+        limit: int,
+        timeout_s: float = 5.0,
+    ) -> dict[str, Any]:
+        request = self._request_token(request_id)
+        view = self._state_scope_view_token(view_id)
+        if (
+            isinstance(revision, bool) or not isinstance(revision, int)
+            or not 1 <= revision <= MAX_NATIVE_REVISION
+            or int(view[1:].split("-", 1)[0]) != revision
+            or section not in STATE_SCOPE_SECTIONS
+            or not isinstance(selector, str)
+            or STATE_SCOPE_SELECTOR_RE.fullmatch(selector) is None
+            or isinstance(total_count, bool) or not isinstance(total_count, int)
+            or not 0 <= total_count <= MAX_STATE_SCOPE_ROWS
+            or isinstance(offset, bool) or not isinstance(offset, int)
+            or not 0 <= offset <= total_count
+            or isinstance(limit, bool) or not isinstance(limit, int)
+            or not 1 <= limit <= MAX_OBSERVATION_PAGE
+        ):
+            raise SidecarError("invalid_page")
+        deadline = time.monotonic() + timeout_s
+        with self._command_lock:
+            return self._state_scope_page_locked(
+                request, view, revision, section, selector, total_count,
+                offset, limit, deadline,
+            )
+
+    def read_state_scope_catalog(
+        self,
+        request_id: str,
+        expected_revision: int,
+        section: str,
+        selector: str,
+        timeout_s: float = 30.0,
+    ) -> dict[str, Any]:
+        """Open and drain one pinned state catalog before public projection."""
+        request = self._request_token(request_id)
+        if (
+            isinstance(expected_revision, bool)
+            or not isinstance(expected_revision, int)
+            or not 1 <= expected_revision <= MAX_NATIVE_REVISION
+            or section not in STATE_SCOPE_SECTIONS
+            or not isinstance(selector, str)
+            or STATE_SCOPE_SELECTOR_RE.fullmatch(selector) is None
+            or isinstance(timeout_s, bool)
+            or not isinstance(timeout_s, (int, float))
+            or not math.isfinite(timeout_s) or timeout_s <= 0
+        ):
+            raise SidecarError("invalid_request")
+        deadline = time.monotonic() + timeout_s
+        acquired = False
+        try:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
+                raise SidecarError("deadline_exceeded")
+            acquired = True
+            opened = self._state_scope_open_locked(
+                request, expected_revision, section, selector, deadline,
+            )
+            rows: list[str] = []
+            row_bytes = 0
+            offset = 0
+            while offset < opened["total_count"]:
+                page = self._state_scope_page_locked(
+                    request, opened["view_id"], opened["revision"], section,
+                    selector, opened["total_count"], offset,
+                    MAX_OBSERVATION_PAGE, deadline,
+                )
+                for row in page["rows"]:
+                    row_bytes += len(row.encode("utf-8")) + 1
+                    if row_bytes > MAX_STATE_SCOPE_BYTES:
+                        raise SidecarError("state_scope_too_large")
+                    rows.append(row)
+                offset = page["next_offset"]
+            if offset != opened["total_count"] or len(rows) != offset:
+                raise SidecarError("protocol_error")
+            return {
+                "generation": self.generation,
+                "native_revision": opened["revision"],
+                "section": section,
+                "selector": selector,
+                "view_id": opened["view_id"],
+                "offset": 0,
+                "count": offset,
+                "total_count": offset,
+                "next_offset": offset,
+                "complete": True,
+                "overflow": False,
+                "rows": tuple(rows),
+            }
+        except SidecarError as exc:
+            if acquired and self._command_error_is_terminal(exc):
+                self._terminal("failed", exc.code)
+            raise
+        finally:
+            if acquired:
+                self._command_lock.release()
+
+    def _relation_scope_open_locked(
+        self,
+        request: str,
+        expected_revision: int,
+        actor_ref: str,
+        counterpart_ref: str,
+        deadline: float,
+    ) -> dict[str, Any]:
+        with self._lock:
+            self._require_protocol_two_locked()
+        self._send(
+            "RELATION_SCOPE_OPEN\t%s\t%d\t%s\t%s" % (
+                request, expected_revision, _percent_encode(actor_ref),
+                _percent_encode(counterpart_ref),
+            ),
+            deadline,
+        )
+        message = self._wait_message(deadline)
+        fatal = self._fatal_message(message)
+        if fatal is not None:
+            raise fatal
+        try:
+            self._raise_native_error(message, request)
+        except SidecarError as exc:
+            if exc.code == "actor_scope_too_large":
+                raise SidecarError("relation_scope_too_large") from None
+            raise
+        fields = message.split("\t")
+        if (
+            len(fields) != 9 or fields[0] != "RELATION_SCOPE_OPENED"
+            or fields[1] != request
+        ):
+            raise SidecarError("protocol_error")
+        revision = _canonical_uint(fields[3], MAX_NATIVE_REVISION)
+        returned_actor = self._actor_ref(
+            _percent_decode(fields[4], maximum_bytes=47),
+        )
+        returned_counterpart = self._actor_ref(
+            _percent_decode(fields[5], maximum_bytes=47),
+        )
+        total = _canonical_uint(fields[6], MAX_OBSERVATION_ROWS)
+        complete = fields[7] == "1"
+        overflow = fields[8] == "1"
+        if (
+            revision != expected_revision
+            or returned_actor != actor_ref
+            or returned_counterpart != counterpart_ref
+            or fields[7] not in {"0", "1"}
+            or fields[8] not in {"0", "1"}
+            or complete is overflow
+        ):
+            raise SidecarError("protocol_error")
+        if overflow:
+            if fields[2] != "-" or total != 0:
+                raise SidecarError("protocol_error")
+            raise SidecarError("relation_scope_too_large")
+        view = self._relation_scope_view_token(fields[2])
+        if int(view[1:].split("-", 1)[0]) != revision:
+            raise SidecarError("protocol_error")
+        self._record_native_revision(revision)
+        return {
+            "view_id": view,
+            "revision": revision,
+            "actor_ref": returned_actor,
+            "counterpart_ref": returned_counterpart,
+            "total_count": total,
+            "complete": True,
+            "overflow": False,
+        }
+
+    def _relation_scope_page_locked(
+        self,
+        request: str,
+        view_id: str,
+        revision: int,
+        actor_ref: str,
+        counterpart_ref: str,
+        total_count: int,
+        offset: int,
+        limit: int,
+        deadline: float,
+    ) -> dict[str, Any]:
+        expected_count = min(limit, total_count - offset)
+        with self._lock:
+            self._require_protocol_two_locked()
+        self._send(
+            f"RELATION_SCOPE_PAGE\t{request}\t{view_id}\t{offset}\t{limit}",
+            deadline,
+        )
+        begin = self._wait_message(deadline)
+        fatal = self._fatal_message(begin)
+        if fatal is not None:
+            raise fatal
+        self._raise_native_error(begin, request)
+        fields = begin.split("\t")
+        returned_actor = (
+            self._actor_ref(_percent_decode(fields[4], maximum_bytes=47))
+            if len(fields) == 9 else None
+        )
+        returned_counterpart = (
+            self._actor_ref(_percent_decode(fields[5], maximum_bytes=47))
+            if len(fields) == 9 else None
+        )
+        if (
+            len(fields) != 9 or fields[0] != "RELATION_SCOPE_BEGIN"
+            or fields[1] != request or fields[2] != view_id
+            or _canonical_uint(fields[3], MAX_NATIVE_REVISION) != revision
+            or returned_actor != actor_ref
+            or returned_counterpart != counterpart_ref
+            or _canonical_uint(fields[6], MAX_OBSERVATION_ROWS) != offset
+            or _canonical_uint(fields[7], MAX_OBSERVATION_PAGE) != expected_count
+            or _canonical_uint(fields[8], MAX_OBSERVATION_ROWS) != total_count
+        ):
+            raise SidecarError("protocol_error")
+        rows: list[str] = []
+        for expected_index in range(offset, offset + expected_count):
+            row = self._wait_message(deadline)
+            fatal = self._fatal_message(row)
+            if fatal is not None:
+                raise fatal
+            self._raise_native_error(row, request)
+            row_fields = row.split("\t")
+            if (
+                len(row_fields) != 5
+                or row_fields[0] != "RELATION_SCOPE_ACTION"
+                or row_fields[1] != request or row_fields[2] != view_id
+                or _canonical_uint(row_fields[3], MAX_OBSERVATION_ROWS)
+                   != expected_index
+            ):
+                raise SidecarError("protocol_error")
+            rows.append(_percent_decode(
+                row_fields[4], maximum_bytes=MAX_OBSERVATION_ROW_BYTES,
+            ))
+        end = self._wait_message(deadline)
+        fatal = self._fatal_message(end)
+        if fatal is not None:
+            raise fatal
+        self._raise_native_error(end, request)
+        end_fields = end.split("\t")
+        next_offset = offset + expected_count
+        if (
+            len(end_fields) != 4 or end_fields[0] != "RELATION_SCOPE_END"
+            or end_fields[1] != request or end_fields[2] != view_id
+            or _canonical_uint(end_fields[3], MAX_OBSERVATION_ROWS)
+               != next_offset
+        ):
+            raise SidecarError("protocol_error")
+        self._record_native_revision(revision)
+        return {
+            "generation": self.generation,
+            "native_revision": revision,
+            "actor_ref": actor_ref,
+            "counterpart_ref": counterpart_ref,
+            "view_id": view_id,
+            "offset": offset,
+            "count": expected_count,
+            "total_count": total_count,
+            "next_offset": next_offset,
+            "complete": True,
+            "overflow": False,
+            "rows": tuple(rows),
+        }
+
+    def read_relation_scope(
+        self,
+        request_id: str,
+        expected_revision: int,
+        actor_ref: str,
+        counterpart_ref: str,
+        limit: int = MAX_OBSERVATION_PAGE,
+        timeout_s: float = 5.0,
+    ) -> dict[str, Any]:
+        """Open and read the first page of one player-pair catalog."""
+        request = self._request_token(request_id)
+        actor = self._actor_ref(actor_ref)
+        counterpart = self._actor_ref(counterpart_ref)
+        if (
+            actor == counterpart
+            or isinstance(expected_revision, bool)
+            or not isinstance(expected_revision, int)
+            or not 1 <= expected_revision <= MAX_NATIVE_REVISION
+            or isinstance(limit, bool) or not isinstance(limit, int)
+            or not 1 <= limit <= MAX_OBSERVATION_PAGE
+            or isinstance(timeout_s, bool)
+            or not isinstance(timeout_s, (int, float))
+            or not math.isfinite(timeout_s) or timeout_s <= 0
+        ):
+            raise SidecarError("invalid_request")
+        deadline = time.monotonic() + timeout_s
+        acquired = False
+        try:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
+                raise SidecarError("deadline_exceeded")
+            acquired = True
+            opened = self._relation_scope_open_locked(
+                request, expected_revision, actor, counterpart, deadline,
+            )
+            return self._relation_scope_page_locked(
+                request, opened["view_id"], opened["revision"], actor,
+                counterpart, opened["total_count"], 0, limit, deadline,
+            )
+        except SidecarError as exc:
+            if acquired and self._command_error_is_terminal(exc):
+                self._terminal("failed", exc.code)
+            raise
+        finally:
+            if acquired:
+                self._command_lock.release()
+
+    def read_relation_scope_page(
+        self,
+        request_id: str,
+        view_id: str,
+        revision: int,
+        actor_ref: str,
+        counterpart_ref: str,
+        total_count: int,
+        offset: int,
+        limit: int,
+        timeout_s: float = 5.0,
+    ) -> dict[str, Any]:
+        request = self._request_token(request_id)
+        view = self._relation_scope_view_token(view_id)
+        actor = self._actor_ref(actor_ref)
+        counterpart = self._actor_ref(counterpart_ref)
+        if (
+            actor == counterpart
+            or isinstance(revision, bool) or not isinstance(revision, int)
+            or not 1 <= revision <= MAX_NATIVE_REVISION
+            or int(view[1:].split("-", 1)[0]) != revision
+            or isinstance(total_count, bool) or not isinstance(total_count, int)
+            or not 0 <= total_count <= MAX_OBSERVATION_ROWS
+            or isinstance(offset, bool) or not isinstance(offset, int)
+            or not 0 <= offset <= total_count
+            or isinstance(limit, bool) or not isinstance(limit, int)
+            or not 1 <= limit <= MAX_OBSERVATION_PAGE
+        ):
+            raise SidecarError("invalid_page")
+        deadline = time.monotonic() + timeout_s
+        try:
+            with self._command_lock:
+                return self._relation_scope_page_locked(
+                    request, view, revision, actor, counterpart, total_count,
+                    offset, limit, deadline,
+                )
+        except SidecarError as exc:
+            if self._command_error_is_terminal(exc):
+                self._terminal("failed", exc.code)
+            raise
+
+    def read_relation_scope_catalog(
+        self,
+        request_id: str,
+        expected_revision: int,
+        actor_ref: str,
+        counterpart_ref: str,
+        timeout_s: float = 30.0,
+    ) -> dict[str, Any]:
+        """Open and drain one pinned relation catalog atomically."""
+        request = self._request_token(request_id)
+        actor = self._actor_ref(actor_ref)
+        counterpart = self._actor_ref(counterpart_ref)
+        if (
+            actor == counterpart
+            or isinstance(expected_revision, bool)
+            or not isinstance(expected_revision, int)
+            or not 1 <= expected_revision <= MAX_NATIVE_REVISION
+            or isinstance(timeout_s, bool)
+            or not isinstance(timeout_s, (int, float))
+            or not math.isfinite(timeout_s) or timeout_s <= 0
+        ):
+            raise SidecarError("invalid_request")
+        deadline = time.monotonic() + timeout_s
+        acquired = False
+        try:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
+                raise SidecarError("deadline_exceeded")
+            acquired = True
+            opened = self._relation_scope_open_locked(
+                request, expected_revision, actor, counterpart, deadline,
+            )
+            rows: list[str] = []
+            offset = 0
+            while offset < opened["total_count"]:
+                page = self._relation_scope_page_locked(
+                    request, opened["view_id"], opened["revision"], actor,
+                    counterpart, opened["total_count"], offset,
+                    MAX_OBSERVATION_PAGE, deadline,
+                )
+                rows.extend(page["rows"])
+                offset = page["next_offset"]
+            if offset != opened["total_count"] or len(rows) != offset:
+                raise SidecarError("protocol_error")
+            return {
+                "generation": self.generation,
+                "native_revision": opened["revision"],
+                "actor_ref": actor,
+                "counterpart_ref": counterpart,
+                "view_id": opened["view_id"],
+                "offset": 0,
+                "count": offset,
+                "total_count": offset,
+                "next_offset": offset,
+                "complete": True,
+                "overflow": False,
+                "rows": tuple(rows),
+            }
+        except SidecarError as exc:
+            if acquired and self._command_error_is_terminal(exc):
+                self._terminal("failed", exc.code)
+            raise
+        finally:
+            if acquired:
+                self._command_lock.release()
+
+    def read_target_action(
+        self,
+        request_id: str,
+        expected_revision: int,
+        actor_ref: str,
+        native_tile: int,
+        timeout_s: float = 5.0,
+    ) -> dict[str, Any]:
+        """Read one bounded, server-authored target capability catalog."""
+        request = self._request_token(request_id)
+        actor = self._actor_ref(actor_ref)
+        if (
+            isinstance(expected_revision, bool)
+            or not isinstance(expected_revision, int)
+            or not 1 <= expected_revision <= MAX_NATIVE_REVISION
+            or isinstance(native_tile, bool)
+            or not isinstance(native_tile, int)
+            or not 0 <= native_tile <= MAX_NATIVE_PHASE_INTEGER
+            or isinstance(timeout_s, bool)
+            or not isinstance(timeout_s, (int, float))
+            or not math.isfinite(timeout_s) or timeout_s <= 0
+        ):
+            raise SidecarError("invalid_request")
+        command = (
+            f"TARGET_ACTION\t{request}\t{expected_revision}\t"
+            f"{_percent_encode(actor)}\t{native_tile}"
+        )
+        deadline = time.monotonic() + timeout_s
+        acquired = False
+        try:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not self._command_lock.acquire(
+                timeout=remaining,
+            ):
+                raise SidecarError("deadline_exceeded")
+            acquired = True
+            with self._lock:
+                self._require_protocol_two_locked()
+            self._send(command, deadline)
+            message = self._wait_message(deadline)
+            fatal = self._fatal_message(message)
+            if fatal is not None:
+                raise fatal
+            self._raise_native_error(message, request)
+            fields = message.split("\t")
+            returned_actor = (
+                _percent_decode(fields[3], maximum_bytes=47)
+                if len(fields) == 6 else None
+            )
+            count = (
+                _canonical_uint(fields[5], 256)
+                if len(fields) == 6 else None
+            )
+            if (
+                len(fields) != 6 or fields[0] != "TARGET_BEGIN"
+                or fields[1] != request
+                or _canonical_uint(fields[2], MAX_NATIVE_REVISION)
+                   != expected_revision
+                or returned_actor != actor
+                or _canonical_uint(fields[4], MAX_NATIVE_PHASE_INTEGER)
+                   != native_tile
+                or count is None
+            ):
+                raise SidecarError("protocol_error")
+            rows: list[str] = []
+            for index in range(count):
+                message = self._wait_message(deadline)
+                fatal = self._fatal_message(message)
+                if fatal is not None:
+                    raise fatal
+                self._raise_native_error(message, request)
+                row_fields = message.split("\t")
+                if (
+                    len(row_fields) != 4
+                    or row_fields[0] != "TARGET_ROW"
+                    or row_fields[1] != request
+                    or _canonical_uint(row_fields[2], 255) != index
+                ):
+                    raise SidecarError("protocol_error")
+                rows.append(_percent_decode(
+                    row_fields[3], maximum_bytes=MAX_OBSERVATION_ROW_BYTES,
+                ))
+            message = self._wait_message(deadline)
+            fatal = self._fatal_message(message)
+            if fatal is not None:
+                raise fatal
+            self._raise_native_error(message, request)
+            end_fields = message.split("\t")
+            if (
+                len(end_fields) != 3
+                or end_fields[0] != "TARGET_END"
+                or end_fields[1] != request
+                or _canonical_uint(end_fields[2], 256) != count
+            ):
+                raise SidecarError("protocol_error")
+            self._record_native_revision(expected_revision)
+            return {
+                "generation": self.generation,
+                "native_revision": expected_revision,
+                "actor_ref": actor,
+                "native_tile": native_tile,
+                "count": count,
+                "rows": tuple(rows),
+            }
+        except SidecarError as exc:
+            if acquired and self._command_error_is_terminal(exc):
+                self._terminal("failed", exc.code)
+            raise
+        finally:
+            if acquired:
+                self._command_lock.release()
+
     def _act(
         self,
         request_id: str,
@@ -1536,6 +2456,7 @@ class HeadlessSidecar:
         *,
         expected_revision: int | None = None,
         actor_ref: str | None = None,
+        counterpart_ref: str | None = None,
         on_accepted: Callable[[dict[str, Any]], None] | None = None,
         on_ambiguous: Callable[[SidecarActionAmbiguous], None] | None = None,
     ) -> dict[str, Any]:
@@ -1565,15 +2486,28 @@ class HeadlessSidecar:
             raise SidecarError("invalid_argument")
         encoded_arguments = _percent_encode(arguments)
         if actor_ref is None:
+            if counterpart_ref is not None:
+                raise SidecarError("invalid_argument")
             command = f"ACT\t{request}\t{slot}\t{encoded_arguments}"
         else:
             actor = self._actor_ref(actor_ref)
             if expected_revision is None:
                 raise SidecarError("invalid_argument")
-            command = (
-                f"ACT_CAP\t{request}\t{expected_revision}\t"
-                f"{_percent_encode(actor)}\t{slot}\t{encoded_arguments}"
-            )
+            if counterpart_ref is None:
+                command = (
+                    f"ACT_CAP\t{request}\t{expected_revision}\t"
+                    f"{_percent_encode(actor)}\t{slot}\t{encoded_arguments}"
+                )
+            else:
+                counterpart = self._actor_ref(counterpart_ref)
+                if counterpart == actor:
+                    raise SidecarError("invalid_argument")
+                command = (
+                    f"ACT_RELATION_CAP\t{request}\t{expected_revision}\t"
+                    f"{_percent_encode(actor)}\t"
+                    f"{_percent_encode(counterpart)}\t{slot}\t"
+                    f"{encoded_arguments}"
+                )
         if len(command.encode("utf-8")) > MAX_FRAME:
             raise SidecarError("invalid_argument")
         deadline = time.monotonic() + timeout_s
@@ -1661,7 +2595,7 @@ class HeadlessSidecar:
                 self._raise_native_error(result, request)
                 result_fields = result.split("\t")
                 if (
-                    len(result_fields) != 7
+                    len(result_fields) != 8
                     or result_fields[0] != "ACT_RESULT"
                     or result_fields[1] != request
                     or result_fields[2] != slot
@@ -1688,6 +2622,19 @@ class HeadlessSidecar:
                 result_revision = _canonical_uint(
                     result_fields[6], MAX_NATIVE_REVISION,
                 )
+                observation_selector = result_fields[7]
+                if (
+                    observation_selector != "-"
+                    and INVESTIGATION_SELECTOR_RE.fullmatch(
+                        observation_selector,
+                    ) is None
+                ):
+                    raise SidecarError("protocol_error")
+                if (
+                    result_fields[3] != "applied"
+                    and observation_selector != "-"
+                ):
+                    raise SidecarError("protocol_error")
                 if result_revision < accepted_revision:
                     raise SidecarError("protocol_error")
                 self._record_native_revision(result_revision)
@@ -1723,6 +2670,10 @@ class HeadlessSidecar:
                     "native_request_id": native_request_id,
                     "accepted_revision": accepted_revision,
                     "result_revision": result_revision,
+                    "observation_selector": (
+                        None if observation_selector == "-"
+                        else observation_selector
+                    ),
                 }
             except SidecarActionAmbiguous:
                 raise
@@ -1827,6 +2778,41 @@ class HeadlessSidecar:
             "result_revision": result["result_revision"],
         }
 
+    def execute_relation_scoped_action(
+        self,
+        request_id: str,
+        expected_revision: int,
+        actor_ref: str,
+        counterpart_ref: str,
+        action_slot: str,
+        arguments: str = "-",
+        timeout_s: float = 20.0,
+        *,
+        on_accepted: Callable[[dict[str, Any]], None] | None = None,
+        on_ambiguous: Callable[[SidecarActionAmbiguous], None] | None = None,
+    ) -> dict[str, Any]:
+        """Execute a pair-bound diplomacy capability by re-enumeration."""
+        result = self._act(
+            request_id,
+            action_slot,
+            arguments,
+            timeout_s,
+            expected_revision=expected_revision,
+            actor_ref=actor_ref,
+            counterpart_ref=counterpart_ref,
+            on_accepted=on_accepted,
+            on_ambiguous=on_ambiguous,
+        )
+        return {
+            "request_id": result["request_id"],
+            "accepted": result["accepted"],
+            "applied": result["applied"],
+            "status": result["status"],
+            "reason": result["reason"],
+            "accepted_revision": result["accepted_revision"],
+            "result_revision": result["result_revision"],
+        }
+
     def status(self, timeout_s: float = 2.0) -> str:
         try:
             with self._command_lock:
@@ -1847,15 +2833,41 @@ class HeadlessSidecar:
                                 name, value = part.split("=", 1)
                                 fields[name] = value
                         if (
-                            set(fields) != {"state", "server", "seat"}
+                            set(fields) != {
+                                "state", "server", "seat", "player",
+                                "lifecycle",
+                            }
                             or fields["server"] not in {"0", "1"}
                             or not fields["state"] or not fields["seat"]
                         ):
                             raise SidecarError("protocol_error", "native STATUS is malformed")
+                        try:
+                            native_player = int(fields["player"], 10)
+                            native_lifecycle = int(fields["lifecycle"], 10)
+                        except (TypeError, ValueError):
+                            raise SidecarError(
+                                "protocol_error", "native STATUS is malformed",
+                            ) from None
+                        owns_seat = fields["seat"] == "ready"
+                        if (
+                            native_player < -1
+                            or native_lifecycle < 0
+                            or owns_seat
+                            != (native_player >= 0 and native_lifecycle > 0)
+                        ):
+                            raise SidecarError(
+                                "protocol_error", "native STATUS is malformed",
+                            )
                         with self._lock:
                             self._client_state = fields["state"]
                             self._server_connected = fields["server"] == "1"
                             self._seat_state = fields["seat"]
+                            self._native_player_number = (
+                                native_player if owns_seat else None
+                            )
+                            self._native_player_lifecycle = (
+                                native_lifecycle if owns_seat else None
+                            )
                         return message
                     raise SidecarError("protocol_error")
         except SidecarError as exc:
@@ -2068,3 +3080,17 @@ class HeadlessSidecar:
                     and not self._stop_requested
                 ),
             }
+
+    def private_native_identity(self) -> tuple[int, int] | None:
+        """Return the current native player incarnation to the owner only."""
+        with self._lock:
+            if (
+                self._seat_state != "ready"
+                or self._native_player_number is None
+                or self._native_player_lifecycle is None
+            ):
+                return None
+            return (
+                self._native_player_number,
+                self._native_player_lifecycle,
+            )

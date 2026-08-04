@@ -2,7 +2,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from agent_eval.scoring import aggregate_leaderboard, parse_scorelog
+from agent_eval.scoring import (
+    aggregate_leaderboard,
+    parse_scorelog,
+    summarize_episode,
+)
 
 
 class ScoringTests(unittest.TestCase):
@@ -62,6 +66,65 @@ data 4 1 0 4
             self.assertEqual(rows["Beta"]["last_score_turn"], 2)
             self.assertEqual(rows["Alpha"]["rank"], 1)
             self.assertEqual(rows["Beta"]["rank"], 2)
+
+    def test_summary_uses_private_player_number_after_rename(self):
+        with tempfile.TemporaryDirectory() as directory:
+            episode = Path(directory)
+            (episode / "manifest.json").write_text(
+                '{"config":{"seats":[{"id":"agent","name":"Old Name"}]}}',
+                encoding="utf-8",
+            )
+            (episode / "score.log").write_text(
+                """#FREECIV SCORELOG2 test
+tag 0 score
+turn 1 -4000 4000 BC
+addplayer 1 0 Old Name
+data 1 0 0 5
+turn 2 -3960 3960 BC
+delplayer 2 0
+addplayer 2 0 New Name
+data 2 0 0 11
+""",
+                encoding="utf-8",
+            )
+            seat = {
+                "id": "agent",
+                "name": "Old Name",
+                "type": "external",
+                "model": "test-model",
+            }
+
+            summary = summarize_episode(
+                episode,
+                private_player_seats={0: seat},
+            )
+
+            self.assertEqual(len(summary["score"]["players"]), 1)
+            row = summary["score"]["players"][0]
+            self.assertEqual(row["name"], "New Name")
+            self.assertEqual(row["score"], 11)
+            self.assertEqual(row["seat_id"], "agent")
+
+    def test_summary_without_private_mapping_keeps_name_attribution(self):
+        with tempfile.TemporaryDirectory() as directory:
+            episode = Path(directory)
+            (episode / "manifest.json").write_text(
+                '{"config":{"seats":[{"id":"agent","name":"Alpha"}]}}',
+                encoding="utf-8",
+            )
+            (episode / "score.log").write_text(
+                """#FREECIV SCORELOG2 test
+tag 0 score
+turn 1 -4000 4000 BC
+addplayer 1 0 Alpha
+data 1 0 0 5
+""",
+                encoding="utf-8",
+            )
+
+            summary = summarize_episode(episode)
+
+            self.assertEqual(summary["score"]["players"][0]["seat_id"], "agent")
 
     def test_aggregate_leaderboard(self):
         summaries = [

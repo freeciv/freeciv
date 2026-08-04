@@ -53,6 +53,7 @@ void voteinfo_queue_check_removed(void);
 void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
                         int percent_required, int flags);
 struct voteinfo *voteinfo_queue_find(int vote_no);
+const struct voteinfo *voteinfo_queue_get(int index);
 void voteinfo_do_vote(int vote_no, enum client_vote_type vote);
 struct voteinfo *voteinfo_queue_get_current(int *pindex);
 void voteinfo_queue_next(void);
@@ -65,4 +66,3 @@ bool voteinfo_bar_can_be_shown(void);
 #endif /* __cplusplus */
 
 #endif /* FC__VOTEINFO_H */
-

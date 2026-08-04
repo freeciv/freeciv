@@ -82,9 +82,7 @@ extern bool auto_connect;
 extern bool auto_spawn;
 extern bool waiting_for_end_turn;
 
-#ifdef FREECIV_DEBUG
 extern bool hackless;
-#endif /* FREECIV_DEBUG */
 
 struct global_worklist_list;    /* Defined in global_worklist.[ch]. */
 
@@ -100,6 +98,7 @@ extern struct civclient {
 void wait_till_request_got_processed(int request_id);
 bool client_is_observer(void);
 bool client_is_global_observer(void);
+uint64_t client_game_epoch(void);
 int client_player_number(void);
 bool client_has_player(void);
 

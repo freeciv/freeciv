@@ -1,0 +1,267 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Freeciv full-control-v2 player API",
+    "version": "2.0.0",
+    "description": "Authenticated, bounded, opaque-ID control for one joined Freeciv seat. Public pages are limited to 65536 canonical JSON bytes."
+  },
+  "servers": [
+    {"url": "/", "description": "Same origin returned by the join response"}
+  ],
+  "x-freeciv-v2-join-result": {
+    "required_evaluation_fields": ["objective", "max_turns", "turns_remaining"],
+    "description": "The authenticated full-control-v2 join result carries these top-level fields. objective and max_turns are immutable. turns_remaining is null until an authoritative native current turn exists, then max(0, max_turns - current_turn)."
+  },
+  "paths": {
+    "/v2/openapi.json": {
+      "get": {
+        "operationId": "getFullControlV2Contract",
+        "security": [],
+        "responses": {
+          "200": {"description": "This OpenAPI document", "content": {"application/json": {"schema": {"type": "object"}}}}
+        }
+      }
+    },
+    "/v2/games/{game_id}/me/health": {
+      "get": {
+        "operationId": "getOwnV2Health",
+        "security": [{"agentBearer": []}],
+        "parameters": [{"$ref": "#/components/parameters/GameId"}],
+        "responses": {
+          "200": {"description": "Caller-private health", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HealthEnvelope"}}}},
+          "default": {"$ref": "#/components/responses/V2Error"}
+        }
+      }
+    },
+    "/v2/games/{game_id}/me/state": {
+      "get": {
+        "operationId": "getOwnV2StatePage",
+        "security": [{"agentBearer": []}],
+        "x-freeciv-query-forms": [
+          [],
+          ["section"],
+          ["section", "limit"],
+          ["section", "actor_id"],
+          ["section", "actor_id", "limit"],
+          ["section", "relation_id"],
+          ["section", "relation_id", "limit"],
+          ["section", "center_id", "radius"],
+          ["section", "center_id", "radius", "limit"],
+          ["cursor"]
+        ],
+        "x-freeciv-max-canonical-json-bytes": 65536,
+        "parameters": [
+          {"$ref": "#/components/parameters/GameId"},
+          {"$ref": "#/components/parameters/StateSection"},
+          {"$ref": "#/components/parameters/ActorIdQuery"},
+          {"$ref": "#/components/parameters/RelationIdQuery"},
+          {"$ref": "#/components/parameters/CenterIdQuery"},
+          {"$ref": "#/components/parameters/RadiusQuery"},
+          {"$ref": "#/components/parameters/LimitQuery"},
+          {"$ref": "#/components/parameters/CursorQuery"}
+        ],
+        "responses": {
+          "200": {"description": "One bounded state page", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PageEnvelope"}}}},
+          "413": {"$ref": "#/components/responses/V2Error"},
+          "default": {"$ref": "#/components/responses/V2Error"}
+        }
+      }
+    },
+    "/v2/games/{game_id}/me/legal-actions": {
+      "get": {
+        "operationId": "getOwnV2LegalActionsPage",
+        "security": [{"agentBearer": []}],
+        "x-freeciv-query-forms": [[], ["limit"], ["actor_id"], ["actor_id", "limit"], ["actor_id", "target_id"], ["actor_id", "target_id", "limit"], ["cursor"]],
+        "x-freeciv-max-canonical-json-bytes": 65536,
+        "parameters": [
+          {"$ref": "#/components/parameters/GameId"},
+          {"$ref": "#/components/parameters/ActorIdQuery"},
+          {"$ref": "#/components/parameters/TargetIdQuery"},
+          {"$ref": "#/components/parameters/LimitQuery"},
+          {"$ref": "#/components/parameters/CursorQuery"}
+        ],
+        "responses": {
+          "200": {"description": "One bounded legal-action page. Exact Classic building sabotage is one unit.perform_action descriptor per GUI-authorized improvement; the readable building_choice and opaque action ID carry the selection, while command arguments remain exactly empty.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PageEnvelope"}}}},
+          "413": {"$ref": "#/components/responses/V2Error"},
+          "default": {"$ref": "#/components/responses/V2Error"}
+        }
+      }
+    },
+    "/v2/games/{game_id}/me/wait": {
+      "get": {
+        "operationId": "waitForOwnV2PhaseOrRevision",
+        "security": [{"agentBearer": []}],
+        "x-freeciv-query-forms": [[], ["wait_s"], ["until"], ["wait_s", "until"], ["until", "after_state_token"], ["wait_s", "until", "after_state_token"]],
+        "parameters": [
+          {"$ref": "#/components/parameters/GameId"},
+          {"name": "wait_s", "in": "query", "required": false, "schema": {"type": "number", "minimum": 0, "maximum": 300, "default": 120}},
+          {"name": "until", "in": "query", "required": false, "schema": {"type": "string", "enum": ["phase", "revision"], "default": "phase"}},
+          {"name": "after_state_token", "in": "query", "required": false, "schema": {"$ref": "#/components/schemas/OpaqueId"}}
+        ],
+        "responses": {
+          "200": {"description": "Caller-actionable wake result", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/WaitEnvelope"}}}},
+          "default": {"$ref": "#/components/responses/V2Error"}
+        }
+      }
+    },
+    "/v2/games/{game_id}/me/batches": {
+      "post": {
+        "operationId": "submitOwnV2CommandBatch",
+        "security": [{"agentBearer": []}],
+        "parameters": [{"$ref": "#/components/parameters/GameId"}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CommandBatch"}}}},
+        "responses": {
+          "200": {"description": "Terminal receipt", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CommandReceipt"}}}},
+          "202": {"description": "Accepted, ambiguous, or otherwise receipt-first result", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CommandReceipt"}}}},
+          "default": {"$ref": "#/components/responses/V2Error"}
+        }
+      }
+    },
+    "/v2/games/{game_id}/me/receipts/{batch_id}": {
+      "get": {
+        "operationId": "getOwnV2CommandReceipt",
+        "security": [{"agentBearer": []}],
+        "parameters": [{"$ref": "#/components/parameters/GameId"}, {"$ref": "#/components/parameters/BatchId"}],
+        "responses": {
+          "200": {"description": "Terminal receipt", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CommandReceipt"}}}},
+          "202": {"description": "Accepted or ambiguous receipt", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CommandReceipt"}}}},
+          "default": {"$ref": "#/components/responses/V2Error"}
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "agentBearer": {"type": "http", "scheme": "bearer", "bearerFormat": "game-scoped joined-agent bearer"}
+    },
+    "parameters": {
+      "GameId": {"name": "game_id", "in": "path", "required": true, "schema": {"type": "string", "pattern": "^game_[A-Za-z0-9_-]{20,80}$"}},
+      "BatchId": {"name": "batch_id", "in": "path", "required": true, "schema": {"$ref": "#/components/schemas/OpaqueId"}},
+      "StateSection": {
+        "name": "section", "in": "query", "required": false,
+        "description": "pregame_nations, pregame_styles, and pregame_teams are unscoped lobby-only catalogs; votes lists active visible votes; chat is the latest 64 normal-client chat/event packets; map_tiles exposes bounded fog-safe map rows; diplomacy_clauses requires relation_id; city detail sections, including city_worker_tasks, require actor_id; tile_window requires center_id and radius.",
+        "schema": {"type": "string", "enum": ["overview", "pregame_nations", "pregame_styles", "pregame_teams", "votes", "research", "governments", "multipliers", "spaceship", "diplomacy", "diplomacy_clauses", "known_tiles", "map_tiles", "infrastructure", "cities", "city_sites", "units", "tombstones", "chat", "city_detail", "city_citizens", "city_worker_tasks", "city_build_choices", "city_worklist", "city_improvements", "city_governor", "tile_window"]}
+      },
+      "ActorIdQuery": {"name": "actor_id", "in": "query", "required": false, "schema": {"$ref": "#/components/schemas/ActorId"}},
+      "RelationIdQuery": {"name": "relation_id", "in": "query", "required": false, "description": "Opaque relation_id from the diplomacy section; required only for diplomacy_clauses.", "schema": {"$ref": "#/components/schemas/RelationId"}},
+      "TargetIdQuery": {"name": "target_id", "in": "query", "required": false, "schema": {"oneOf": [{"$ref": "#/components/schemas/TileId"}, {"$ref": "#/components/schemas/RelationId"}]}},
+      "CenterIdQuery": {"name": "center_id", "in": "query", "required": false, "schema": {"$ref": "#/components/schemas/TileId"}},
+      "RadiusQuery": {"name": "radius", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 0, "maximum": 8}},
+      "LimitQuery": {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "maximum": 16, "default": 16}},
+      "CursorQuery": {"name": "cursor", "in": "query", "required": false, "schema": {"type": "string", "pattern": "^cursor_[A-Za-z0-9_-]{32}$"}}
+    },
+    "responses": {
+      "V2Error": {"description": "Structured v2 error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/StructuredError"}}}}
+    },
+    "schemas": {
+      "OpaqueId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+      "ActorId": {"type": "string", "pattern": "^(player|city|unit)_[0-9a-f]{32}$"},
+      "RelationId": {"type": "string", "pattern": "^relation_[0-9a-f]{32}$"},
+      "TileId": {"type": "string", "pattern": "^tile_[0-9a-f]{32}$"},
+      "StateRevision": {
+        "type": "object", "additionalProperties": false, "required": ["turn", "revision", "state_token"],
+        "properties": {"turn": {"type": "integer", "minimum": 0}, "revision": {"type": "integer", "minimum": 0}, "state_token": {"$ref": "#/components/schemas/OpaqueId"}}
+      },
+      "HealthEnvelope": {
+        "type": "object", "required": ["schema_version", "control_protocol", "game_id", "objective", "max_turns", "turns_remaining", "agent", "game_state", "seat", "sidecar", "observation_available", "legal_actions_available", "phase", "last_phase_end"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "objective": {"type": "string", "minLength": 1, "description": "Immutable game evaluation objective."}, "max_turns": {"type": "integer", "minimum": 1, "maximum": 5000, "description": "Immutable configured Freeciv end-turn limit."}, "turns_remaining": {"type": ["integer", "null"], "minimum": 0, "maximum": 5000, "description": "Null until current_turn is authoritative; otherwise max(0, max_turns - current_turn)."}, "agent": {"type": "object"}, "game_state": {"type": "string", "enum": ["lobby", "starting", "running", "completed", "failed", "invalid", "cancelled"]}, "seat": {"type": "object"}, "sidecar": {"type": "object"}, "observation_available": {"type": "boolean"}, "legal_actions_available": {"type": "boolean"}, "phase": {"description": "Null in lobby and terminal states; an object after native play starts.", "type": ["object", "null"]}, "last_phase_end": {"type": ["object", "null"]}},
+        "x-freeciv-lifecycle": {"lobby": {"state_sections": ["overview", "pregame_nations", "pregame_styles", "pregame_teams", "votes"], "legal_action_kinds": ["pregame.configure", "pregame.set_team", "pregame.set_ready", "player.cast_vote"], "wait_for_phase": false}, "runtime": {"game_states": ["starting", "running"], "wait_for_phase": true}}
+      },
+      "PregameNation": {
+        "type": "object", "additionalProperties": false, "required": ["id", "name", "default_style_id"],
+        "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string"}, "default_style_id": {"$ref": "#/components/schemas/OpaqueId"}}
+      },
+      "PregameStyle": {
+        "type": "object", "additionalProperties": false, "required": ["id", "name"],
+        "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string"}}
+      },
+      "PregameTeamMember": {
+        "type": "object", "additionalProperties": false, "required": ["id", "leader_name", "self"],
+        "properties": {"id": {"$ref": "#/components/schemas/ActorId"}, "leader_name": {"type": "string"}, "self": {"type": "boolean"}}
+      },
+      "PregameTeam": {
+        "type": "object", "additionalProperties": false, "required": ["id", "name", "selected", "occupied", "member_count", "members"],
+        "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string"}, "selected": {"type": "boolean"}, "occupied": {"type": "boolean"}, "member_count": {"type": "integer", "minimum": 0}, "members": {"type": "array", "items": {"$ref": "#/components/schemas/PregameTeamMember"}}}
+      },
+      "Vote": {
+        "type": "object", "additionalProperties": false, "required": ["vote_id", "description", "yes", "no", "abstain", "num_voters", "percent_required", "team_only", "current_vote", "can_vote"],
+        "properties": {"vote_id": {"$ref": "#/components/schemas/OpaqueId"}, "description": {"type": "string"}, "yes": {"type": "integer", "minimum": 0}, "no": {"type": "integer", "minimum": 0}, "abstain": {"type": "integer", "minimum": 0}, "num_voters": {"type": "integer", "minimum": 0}, "percent_required": {"type": "integer", "minimum": 0, "maximum": 100}, "team_only": {"type": "boolean"}, "current_vote": {"type": "string", "enum": ["none", "yes", "no", "abstain"]}, "can_vote": {"type": "boolean"}}
+      },
+      "CastVoteArguments": {
+        "type": "object", "additionalProperties": false, "required": ["vote_id", "vote"],
+        "properties": {"vote_id": {"$ref": "#/components/schemas/OpaqueId"}, "vote": {"type": "string", "enum": ["yes", "no", "abstain"]}},
+        "description": "Exact arguments for an enumerated player.cast_vote action; vote_id must equal the descriptor's current same-revision vote target."
+      },
+      "PregameConfigureArguments": {
+        "type": "object", "additionalProperties": false, "required": ["nation_id", "leader_name", "is_male", "style_id"],
+        "properties": {"nation_id": {"$ref": "#/components/schemas/OpaqueId"}, "leader_name": {"type": "string", "minLength": 1, "maxLength": 47}, "is_male": {"type": "boolean"}, "style_id": {"$ref": "#/components/schemas/OpaqueId"}},
+        "description": "Exact arguments for an enumerated pregame.configure action; IDs must come from the current nation/style catalogs."
+      },
+      "PregameReadyArguments": {
+        "type": "object", "additionalProperties": false, "required": ["ready"],
+        "properties": {"ready": {"type": "boolean"}},
+        "description": "Exact desired readiness for an enumerated pregame.set_ready action; the live descriptor narrows ready to the sole allowed opposite value."
+      },
+      "PregameSetTeamArguments": {
+        "type": "object", "additionalProperties": false, "required": ["team_id"],
+        "properties": {"team_id": {"$ref": "#/components/schemas/OpaqueId"}},
+        "description": "Exact arguments for an enumerated pregame.set_team action; team_id must name a noncurrent row from the current pregame_teams catalog."
+      },
+      "Page": {
+        "type": "object", "required": ["section", "items", "total_items", "next_cursor"],
+        "properties": {"section": {"type": "string"}, "items": {"type": "array", "maxItems": 16, "items": {}}, "total_items": {"type": "integer", "minimum": 0}, "next_cursor": {"type": ["string", "null"]}, "cursor_expires_at": {"type": ["string", "null"], "format": "date-time"}, "scope": {"type": "object"}, "catalog_id": {"type": "string"}, "catalog_complete": {"type": "boolean"}}
+      },
+      "PageEnvelope": {
+        "type": "object", "required": ["schema_version", "control_protocol", "game_id", "agent_id", "state_revision", "page"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "state_revision": {"$ref": "#/components/schemas/StateRevision"}, "page": {"$ref": "#/components/schemas/Page"}}
+      },
+      "Command": {
+        "type": "object", "additionalProperties": false, "required": ["action_id", "arguments"],
+        "properties": {"action_id": {"$ref": "#/components/schemas/OpaqueId"}, "arguments": {"type": "object", "description": "Must exactly match the selected descriptor schema. Exact building sabotage takes {}; the opaque action ID already binds the selected improvement."}}
+      },
+      "CommandBatch": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "batch_id", "state_revision", "commands"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "batch_id": {"$ref": "#/components/schemas/OpaqueId"}, "state_revision": {"$ref": "#/components/schemas/StateRevision"}, "commands": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/components/schemas/Command"}}}
+      },
+      "StructuredError": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "error"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "error": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable", "details"], "properties": {"code": {"type": "string", "enum": ["action_expired", "action_outcome_ambiguous", "conflict", "cursor_expired", "illegal_action", "internal_error", "invalid_batch", "invalid_request", "not_implemented", "rate_limited", "scope_too_large", "sidecar_unavailable", "stale_revision", "unsupported_protocol"]}, "message": {"type": "string"}, "retryable": {"type": "boolean"}, "details": {"type": "object"}}}, "state_revision": {"oneOf": [{"$ref": "#/components/schemas/StateRevision"}, {"type": "null"}]}}
+      },
+      "CityInvestigationObservation": {
+        "type": "object", "additionalProperties": false,
+        "description": "Immutable, request-correlated subset of the normal human-client CITY_INFO packet captured at exactly the receipt revision. It is historical after that revision and makes no current-freshness claim.",
+        "required": ["id", "type", "source", "freshness", "state_revision", "city"],
+        "properties": {
+          "id": {"$ref": "#/components/schemas/OpaqueId"},
+          "type": {"const": "city_investigation"},
+          "source": {"const": "human_client_city_info"},
+          "freshness": {"const": "captured_at_receipt_revision"},
+          "state_revision": {"$ref": "#/components/schemas/StateRevision"},
+          "city": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "name", "size", "production", "shields", "improvements", "citizens"],
+            "properties": {
+              "id": {"$ref": "#/components/schemas/ActorId"}, "name": {"type": "string", "minLength": 1}, "size": {"type": "integer", "minimum": 1},
+              "production": {"type": "object", "additionalProperties": false, "required": ["id", "kind", "name"], "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "kind": {"type": "string", "enum": ["unit", "improvement"]}, "name": {"type": "string", "minLength": 1}}},
+              "shields": {"type": "object", "additionalProperties": false, "required": ["stock", "surplus"], "properties": {"stock": {"type": "integer", "minimum": 0}, "surplus": {"type": "integer"}}},
+              "improvements": {"type": "array", "maxItems": 1024, "items": {"type": "object", "additionalProperties": false, "required": ["id", "name"], "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string", "minLength": 1}}}},
+              "citizens": {"type": "object", "additionalProperties": false, "required": ["feelings", "specialists"], "properties": {"feelings": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "object", "additionalProperties": false, "required": ["stage", "happy", "content", "unhappy", "angry"], "properties": {"stage": {"type": "string", "enum": ["base", "luxury", "effects", "nationality", "martial_law", "final"]}, "happy": {"type": "integer", "minimum": 0}, "content": {"type": "integer", "minimum": 0}, "unhappy": {"type": "integer", "minimum": 0}, "angry": {"type": "integer", "minimum": 0}}}}, "specialists": {"type": "array", "maxItems": 256, "items": {"type": "object", "additionalProperties": false, "required": ["id", "name", "count"], "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string", "minLength": 1}, "count": {"type": "integer", "minimum": 0}}}}}}
+            }
+          }
+        }
+      },
+      "CommandReceipt": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "batch_id", "receipt_state", "idempotent", "state_revision", "error", "observation"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "batch_id": {"$ref": "#/components/schemas/OpaqueId"}, "receipt_state": {"type": "string", "enum": ["accepted", "applied", "rejected", "ambiguous"]}, "idempotent": {"type": "boolean"}, "state_revision": {"$ref": "#/components/schemas/StateRevision"}, "error": {"oneOf": [{"$ref": "#/components/schemas/StructuredError"}, {"type": "null"}]}, "observation": {"oneOf": [{"$ref": "#/components/schemas/CityInvestigationObservation"}, {"type": "null"}]}}
+      },
+      "WaitEnvelope": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "wake_reason", "health", "state_revision"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "wake_reason": {"type": "string", "enum": ["phase_active", "game_terminal", "revision_changed", "timeout"]}, "health": {"$ref": "#/components/schemas/HealthEnvelope"}, "state_revision": {"oneOf": [{"$ref": "#/components/schemas/StateRevision"}, {"type": "null"}]}}
+      },
+      "CliBatchDisposition": {
+        "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "batch_id", "disposition", "receipt", "error"],
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "batch_id": {"$ref": "#/components/schemas/OpaqueId"}, "disposition": {"type": "string", "enum": ["receipt_terminal", "receipt_poll", "receipt_first", "retry_exact", "refresh"]}, "receipt": {"oneOf": [{"$ref": "#/components/schemas/CommandReceipt"}, {"type": "null"}]}, "error": {"oneOf": [{"$ref": "#/components/schemas/StructuredError"}, {"type": "null"}]}}
+      }
+    }
+  }
+}

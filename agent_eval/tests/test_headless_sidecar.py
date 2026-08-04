@@ -12,6 +12,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from agent_eval import headless_sidecar
 from agent_eval.headless_sidecar import (
     FramedIPC,
     HeadlessSidecar,
@@ -80,8 +81,10 @@ if player == "ReadyBeforeCaps":
     sys.exit(19)
 schema = "__NATIVE_SCHEMA_ID__"
 caps = (
-    "CAPS\t2\tACT,ACT_CAP,OBS_OPEN,OBS_PAGE,PHASE_AVAILABLE,SCOPE_OPEN,"
-    "SCOPE_PAGE,STATE_AVAILABLE"
+    "CAPS\t2\tACT,ACT_CAP,ACT_RELATION_CAP,OBS_OPEN,OBS_PAGE,"
+    "PHASE_AVAILABLE,SCOPE_OPEN,SCOPE_PAGE,STATE_AVAILABLE,"
+    "STATE_SCOPE_OPEN,STATE_SCOPE_PAGE,TARGET_ACTION,"
+    "RELATION_SCOPE_OPEN,RELATION_SCOPE_PAGE"
     "\tpercent-tab\t8192\t" + schema
 )
 if player == "StateBeforeCaps":
@@ -184,6 +187,10 @@ native_request_id = 40
 forced_snapshot_expiries = 0
 scope_views = {}
 scope_serial = 0
+state_scope_views = {}
+state_scope_serial = 0
+relation_views = {}
+relation_serial = 0
 while True:
     try:
         command = receive(sock)
@@ -210,7 +217,11 @@ while True:
         else:
             revision += 1
             send(sock, "STATE_AVAILABLE\t%d" % revision)
-        send(sock, "STATUS\tstate=running\tserver=1\tseat=ready")
+        send(
+            sock,
+            "STATUS\tstate=running\tserver=1\tseat=ready"
+            "\tplayer=0\tlifecycle=1",
+        )
     elif command.startswith("PING\t"):
         revision += 1
         send(sock, "STATE_AVAILABLE\t%d" % revision)
@@ -301,6 +312,94 @@ while True:
         send(sock, "PAGE_END\t%s\t%s\t%d" % (
             request, snapshot, offset + len(page),
         ))
+    elif command.startswith("STATE_SCOPE_OPEN\t"):
+        fields = command.split("\t")
+        request = fields[1]
+        expected_revision = int(fields[2])
+        section, encoded_selector = fields[3], fields[4]
+        if expected_revision != revision:
+            send(sock, "ERR\t%s\tSTALE_REVISION\t%s" % (
+                request, percent("state revision is not current"),
+            ))
+            continue
+        state_scope_serial += 1
+        view = "q%d-%d" % (revision, state_scope_serial)
+        row_count = 35 if player == "StateScopeMultiPage" else 2
+        rows = [
+            "tile index=%d x=%d y=0 known=2 terrain=Grassland owner=none"
+            % (index, index)
+            for index in range(row_count)
+        ]
+        state_scope_views[view] = (section, encoded_selector, rows)
+        send(sock, (
+            "STATE_SCOPE_OPENED\t%s\t%s\t%d\t%s\t%s\t%d\t1\t0"
+            % (request, view, revision, section, encoded_selector, len(rows))
+        ))
+    elif command.startswith("STATE_SCOPE_PAGE\t"):
+        fields = command.split("\t")
+        request, view = fields[1], fields[2]
+        offset, limit = int(fields[3]), int(fields[4])
+        section, encoded_selector, rows = state_scope_views[view]
+        page = rows[offset:offset + limit]
+        send(sock, (
+            "STATE_SCOPE_BEGIN\t%s\t%s\t%d\t%s\t%s\t%d\t%d\t%d"
+            % (request, view, revision, section, encoded_selector,
+               offset, len(page), len(rows))
+        ))
+        for index, row in enumerate(page, offset):
+            send(sock, "STATE_SCOPE_ROW\t%s\t%s\t%d\t%s" % (
+                request, view, index, percent(row),
+            ))
+        send(sock, "STATE_SCOPE_END\t%s\t%s\t%d" % (
+            request, view, offset + len(page),
+        ))
+    elif command.startswith("RELATION_SCOPE_OPEN\t"):
+        fields = command.split("\t")
+        request = fields[1]
+        expected_revision = int(fields[2])
+        encoded_actor, encoded_counterpart = fields[3], fields[4]
+        if player == "RelationScopeOverflow":
+            send(sock, (
+                "RELATION_SCOPE_OPENED\t%s\t-\t%d\t%s\t%s\t0\t0\t1"
+                % (request, expected_revision, encoded_actor,
+                   encoded_counterpart)
+            ))
+            continue
+        if expected_revision != revision:
+            send(sock, "ERR\t%s\tSTALE_REVISION\t%s" % (
+                request, percent("relation revision is not current"),
+            ))
+            continue
+        relation_serial += 1
+        view = "r%d-%d" % (revision, relation_serial)
+        rows = [
+            "action slot=a0000000000000095 kind=diplomacy.accept "
+            "actor=p:1:10 counterpart=p:2:20"
+        ]
+        relation_views[view] = (encoded_actor, encoded_counterpart, rows)
+        send(sock, (
+            "RELATION_SCOPE_OPENED\t%s\t%s\t%d\t%s\t%s\t%d\t1\t0"
+            % (request, view, revision, encoded_actor, encoded_counterpart,
+               len(rows))
+        ))
+    elif command.startswith("RELATION_SCOPE_PAGE\t"):
+        fields = command.split("\t")
+        request, view = fields[1], fields[2]
+        offset, limit = int(fields[3]), int(fields[4])
+        encoded_actor, encoded_counterpart, rows = relation_views[view]
+        page = rows[offset:offset + limit]
+        send(sock, (
+            "RELATION_SCOPE_BEGIN\t%s\t%s\t%d\t%s\t%s\t%d\t%d\t%d"
+            % (request, view, revision, encoded_actor, encoded_counterpart,
+               offset, len(page), len(rows))
+        ))
+        for index, row in enumerate(page, offset):
+            send(sock, "RELATION_SCOPE_ACTION\t%s\t%s\t%d\t%s" % (
+                request, view, index, percent(row),
+            ))
+        send(sock, "RELATION_SCOPE_END\t%s\t%s\t%d" % (
+            request, view, offset + len(page),
+        ))
     elif command.startswith("SCOPE_OPEN\t"):
         fields = command.split("\t")
         request = fields[1]
@@ -345,7 +444,7 @@ while True:
         else:
             rows = [
                 "action slot=a0123456789ABCDEF kind=phase.end actor=none "
-                "target_tile=-1 target_tech=-1 target_government=-1 "
+                "target_tile=-1 target_tech=-1 vote_no=-1 target_government=-1 "
                 "max_rate=0 "
                 "target_build_kind=none target_build=-1 target_extra=-1 "
                 "activity=none target_name=none "
@@ -374,12 +473,59 @@ while True:
         send(sock, "SCOPE_END\t%s\t%s\t%d" % (
             request, view, offset + len(page),
         ))
-    elif command.startswith("ACT\t") or command.startswith("ACT_CAP\t"):
+    elif command.startswith("TARGET_ACTION\t"):
+        fields = command.split("\t")
+        request, expected_revision = fields[1], int(fields[2])
+        encoded_actor, native_tile = fields[3], int(fields[4])
+        if expected_revision != revision:
+            send(sock, "ERR\t%s\tSTALE_REVISION\t%s" % (
+                request, percent("target revision is not current"),
+            ))
+            continue
+        if player == "TargetMalformed":
+            send(sock, "TARGET_BEGIN\t%s\t%d\t%s\t%d\t1" % (
+                request, revision, encoded_actor, native_tile,
+            ))
+            send(sock, "TARGET_ROW\t%s\t1\t%s" % (
+                request, percent("bad row index"),
+            ))
+            continue
+        if player == "TargetDesync":
+            send(sock, "ERR\t%s\tSTREAM_DESYNC\t%s" % (
+                request, percent("fresh sidecar required"),
+            ))
+            continue
+        if native_tile != 42:
+            send(sock, "TARGET_BEGIN\t%s\t%d\t%s\t%d\t0" % (
+                request, revision, encoded_actor, native_tile,
+            ))
+            send(sock, "TARGET_END\t%s\t0" % request)
+            continue
+        rows = ((
+            "action slot=t0000002A0123456789ABCDEF kind=unit.goto "
+            "actor=u:10:100 target_tile=42"
+        ), (
+            "action slot=t0000002AFEDCBA9876543210 kind=unit.special "
+            "actor=u:10:100 target_tile=42"
+        ))
+        send(sock, "TARGET_BEGIN\t%s\t%d\t%s\t%d\t%d" % (
+            request, revision, encoded_actor, native_tile, len(rows),
+        ))
+        for index, row in enumerate(rows):
+            send(sock, "TARGET_ROW\t%s\t%d\t%s" % (
+                request, index, percent(row),
+            ))
+        send(sock, "TARGET_END\t%s\t%d" % (request, len(rows)))
+    elif (
+        command.startswith("ACT\t") or command.startswith("ACT_CAP\t")
+        or command.startswith("ACT_RELATION_CAP\t")
+    ):
         fields = command.split("\t")
         request = fields[1]
+        relation_scoped = fields[0] == "ACT_RELATION_CAP"
         scoped = fields[0] == "ACT_CAP"
-        slot = fields[4] if scoped else fields[2]
-        arguments = fields[5] if scoped else fields[3]
+        slot = fields[5] if relation_scoped else (fields[4] if scoped else fields[2])
+        arguments = fields[6] if relation_scoped else (fields[5] if scoped else fields[3])
         if player == "ActionEOFBeforeAck":
             sock.close()
             sys.exit(14)
@@ -414,6 +560,11 @@ while True:
         if player == "ActionUnknownRejection":
             send(sock, "ERR\t%s\tFUTURE_CODE\t%s" % (
                 request, percent("future private detail"),
+            ))
+            continue
+        if player == "ActionRevalidationDesync":
+            send(sock, "ERR\t%s\tREVALIDATION_DESYNC\t%s" % (
+                request, percent("fresh sidecar required"),
             ))
             continue
         if player == "ActionMalformedErrCode":
@@ -455,8 +606,12 @@ while True:
         elif player == "BadTimeoutReason":
             status, reason = "timeout", "POSTCONDITION_NOT_MET"
         result_id = native_request_id + 1 if player == "BadActionCorrelation" else native_request_id
-        send(sock, "ACT_RESULT\t%s\t%s\t%s\t%s\t%d\t%d" % (
+        observation_selector = (
+            "i0123456789abcdef" if "investigation" in request else "-"
+        )
+        send(sock, "ACT_RESULT\t%s\t%s\t%s\t%s\t%d\t%d\t%s" % (
             request, slot, status, reason, result_id, revision,
+            observation_selector,
         ))
     elif command == "SHUTDOWN":
         if player == "KillOnly":
@@ -555,6 +710,7 @@ class HeadlessSidecarTests(unittest.TestCase):
             "BAD_REQUEST": "native_bad_request",
             "BAD_ENCODING": "native_bad_encoding",
             "OBS_TOO_LARGE": "observation_too_large",
+            "STATE_SCOPE_TOO_LARGE": "state_scope_too_large",
             "SNAPSHOT_GONE": "snapshot_gone",
             "BAD_OFFSET": "native_bad_offset",
             "ENCODE_FAILED": "native_encode_failed",
@@ -564,6 +720,7 @@ class HeadlessSidecarTests(unittest.TestCase):
             "STALE_ENTITY": "stale_entity",
             "BAD_ARGUMENT": "native_bad_argument",
             "NOT_SENT": "native_not_sent",
+            "REVALIDATION_DESYNC": "protocol_error",
             "FUTURE_CODE": "native_error",
         }
         for native, mapped in expected.items():
@@ -611,6 +768,9 @@ class HeadlessSidecarTests(unittest.TestCase):
         self.assertEqual(health["client_state"], "running")
         self.assertTrue(health["server_connected"])
         self.assertEqual(health["seat_state"], "ready")
+        self.assertEqual(sidecar.private_native_identity(), (0, 1))
+        self.assertNotIn("native_player", health)
+        self.assertNotIn("lifecycle", health)
         self.assertEqual(health["protocol_version"], 2)
         self.assertGreaterEqual(health["native_revision"], 4)
         self.assertTrue(health["capabilities_available"])
@@ -1101,6 +1261,134 @@ class HeadlessSidecarTests(unittest.TestCase):
         self.assertEqual(too_large.exception.code, "actor_scope_too_large")
         self.assertEqual(overflow.public_health()["state"], "ready")
 
+    def test_state_scope_catalog_is_fully_drained_from_one_pinned_view(self):
+        sidecar, _ = self.make("StateScopeMultiPage")
+        sidecar.start_and_take()
+        revision = sidecar.public_health()["native_revision"]
+
+        catalog = sidecar.read_state_scope_catalog(
+            "req-state-catalog", revision, "known_tiles", "-",
+            timeout_s=2,
+        )
+
+        self.assertEqual(catalog["native_revision"], revision)
+        self.assertEqual(catalog["section"], "known_tiles")
+        self.assertEqual(catalog["selector"], "-")
+        self.assertRegex(catalog["view_id"], rf"^q{revision}-[1-9][0-9]*$")
+        self.assertEqual(catalog["offset"], 0)
+        self.assertEqual(catalog["count"], 35)
+        self.assertEqual(catalog["total_count"], 35)
+        self.assertEqual(catalog["next_offset"], 35)
+        self.assertTrue(catalog["complete"])
+        self.assertFalse(catalog["overflow"])
+        self.assertEqual(len(catalog["rows"]), 35)
+        self.assertIn("index=0 ", catalog["rows"][0])
+        self.assertIn("index=34 ", catalog["rows"][-1])
+
+    def test_city_governor_is_a_valid_state_scope_and_byte_cap_is_nonterminal(self):
+        sidecar, _ = self.make("StateScope")
+        sidecar.start_and_take()
+        revision = sidecar.public_health()["native_revision"]
+        catalog = sidecar.read_state_scope_catalog(
+            "req-city-governor", revision, "city_governor", "c:20:200",
+        )
+        self.assertEqual(catalog["section"], "city_governor")
+        with patch.object(headless_sidecar, "MAX_STATE_SCOPE_BYTES", 1):
+            with self.assertRaises(SidecarError) as too_large:
+                sidecar.read_state_scope_catalog(
+                    "req-state-bytes", revision, "known_tiles", "-",
+                )
+        self.assertEqual(too_large.exception.code, "state_scope_too_large")
+        self.assertEqual(sidecar.public_health()["state"], "ready")
+
+    def test_relation_scope_and_pair_bound_execution_are_strict(self):
+        sidecar, _ = self.make("RelationScope")
+        sidecar.start_and_take()
+        revision = sidecar.public_health()["native_revision"]
+        page = sidecar.read_relation_scope(
+            "req-relation", revision, "p:1:10", "p:2:20", limit=1,
+        )
+        self.assertEqual(page["native_revision"], revision)
+        self.assertEqual(page["actor_ref"], "p:1:10")
+        self.assertEqual(page["counterpart_ref"], "p:2:20")
+        self.assertRegex(page["view_id"], rf"^r{revision}-[1-9][0-9]*$")
+        self.assertEqual(page["count"], 1)
+        self.assertIn("kind=diplomacy.accept", page["rows"][0])
+        applied = sidecar.execute_relation_scoped_action(
+            "req-relation-act", revision, "p:1:10", "p:2:20",
+            "a0000000000000095",
+        )
+        self.assertTrue(applied["accepted"])
+        self.assertTrue(applied["applied"])
+
+        overflow, _ = self.make("RelationScopeOverflow")
+        overflow.start_and_take()
+        with self.assertRaises(SidecarError) as too_large:
+            overflow.read_relation_scope(
+                "req-relation-overflow",
+                overflow.public_health()["native_revision"],
+                "p:1:10", "p:2:20",
+            )
+        self.assertEqual(
+            too_large.exception.code, "relation_scope_too_large",
+        )
+        self.assertEqual(overflow.public_health()["state"], "ready")
+
+        with self.assertRaises(SidecarError) as same_pair:
+            sidecar.execute_relation_scoped_action(
+                "req-same-pair", revision, "p:1:10", "p:1:10",
+                "a0000000000000095",
+            )
+        self.assertEqual(same_pair.exception.code, "invalid_argument")
+
+    def test_target_action_read_streams_bounded_catalog(self):
+        sidecar, _ = self.make("Target")
+        sidecar.start_and_take()
+        revision = sidecar.public_health()["native_revision"]
+        found = sidecar.read_target_action(
+            "req-target-one", revision, "u:10:100", 42,
+        )
+        self.assertEqual(found, {
+            "generation": sidecar.generation,
+            "native_revision": revision,
+            "actor_ref": "u:10:100",
+            "native_tile": 42,
+            "count": 2,
+            "rows": (
+                "action slot=t0000002A0123456789ABCDEF kind=unit.goto "
+                "actor=u:10:100 target_tile=42",
+                "action slot=t0000002AFEDCBA9876543210 kind=unit.special "
+                "actor=u:10:100 target_tile=42",
+            ),
+        })
+        empty = sidecar.read_target_action(
+            "req-target-empty", revision, "u:10:100", 43,
+        )
+        self.assertEqual(empty["count"], 0)
+        self.assertEqual(empty["rows"], ())
+
+        malformed, _ = self.make("TargetMalformed")
+        malformed.start_and_take()
+        with self.assertRaises(SidecarError) as raised:
+            malformed.read_target_action(
+                "req-target-malformed",
+                malformed.public_health()["native_revision"],
+                "u:10:100", 42,
+            )
+        self.assertEqual(raised.exception.code, "protocol_error")
+        self.assertEqual(malformed.public_health()["state"], "failed")
+
+        desynchronized, _ = self.make("TargetDesync")
+        desynchronized.start_and_take()
+        with self.assertRaises(SidecarError) as raised:
+            desynchronized.read_target_action(
+                "req-target-desync",
+                desynchronized.public_health()["native_revision"],
+                "u:10:100", 42,
+            )
+        self.assertEqual(raised.exception.code, "protocol_error")
+        self.assertEqual(desynchronized.public_health()["state"], "failed")
+
     def test_malformed_out_of_order_and_bad_percent_pages_fail_closed(self):
         for player in ("MalformedPage", "OutOfOrderPage", "BadPercentRow"):
             with self.subTest(player=player):
@@ -1130,6 +1418,12 @@ class HeadlessSidecarTests(unittest.TestCase):
             "req-city", "a0123456789ABCDEF", "city_name=New Rome",
         )
         self.assertTrue(city["applied"])
+        investigation = sidecar._act(
+            "req-investigation", "a0123456789ABCDEF",
+        )
+        self.assertEqual(
+            investigation["observation_selector"], "i0123456789abcdef",
+        )
         with self.assertRaises(SidecarActionNotAccepted) as stale:
             sidecar._act("req-stale", "aFFFFFFFFFFFFFFFF")
         self.assertEqual(stale.exception.code, "stale_slot")
@@ -1191,6 +1485,16 @@ class HeadlessSidecarTests(unittest.TestCase):
                 self.assertNotIn("private", str(raised.exception))
                 self.assertEqual(callbacks, [])
                 self.assertEqual(sidecar.public_health()["state"], "ready")
+
+        poisoned, _ = self.make("ActionRevalidationDesync")
+        poisoned.start_and_take()
+        with self.assertRaises(SidecarActionNotAccepted) as desynchronized:
+            poisoned.execute_scoped_action(
+                "req-preflight-desync", 2, "u:10:100",
+                "t0000002AFEDCBA9876543210",
+            )
+        self.assertEqual(desynchronized.exception.code, "protocol_error")
+        self.assertEqual(poisoned.public_health()["state"], "failed")
 
     def test_full_write_then_pre_accept_failures_are_ambiguous(self):
         for player, timeout in (
@@ -1408,7 +1712,8 @@ class HeadlessSidecarTests(unittest.TestCase):
                 self.assertEqual(sidecar.public_health()["state"], "ready")
                 self.assertEqual(
                     sidecar.status(),
-                    "STATUS\tstate=running\tserver=1\tseat=ready",
+                    "STATUS\tstate=running\tserver=1\tseat=ready"
+                    "\tplayer=0\tlifecycle=1",
                 )
                 later = sidecar.execute_action(
                     "req-after-correlated-terminal",

@@ -15,6 +15,9 @@ local supervisor, harness protocol, evaluation workflow, and `just` shortcuts.
   `strategic-v1` observation/action contract, validity rules, and limitations.
 - [Full-control v2 protocol](full-control-v2.md) — the compatibility-preserving
   headless-client architecture and strict foundation for human-level control.
+- [Player HTTP contract](../play/docs/custom-harness-v2.md) and
+  [OpenAPI 3.1](../play/docs/full-control-v2.openapi.json) — the bounded,
+  authenticated custom-harness surface.
 
 Related source documentation:
 

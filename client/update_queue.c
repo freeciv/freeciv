@@ -91,6 +91,8 @@ struct waiting_queue_data {
 static struct update_queue_hash *update_queue = NULL;
 static struct waiting_queue_hash *processing_started_waiting_queue = NULL;
 static struct waiting_queue_hash *processing_finished_waiting_queue = NULL;
+static struct waiting_queue_hash *processing_started_direct_queue = NULL;
+static struct waiting_queue_hash *processing_finished_direct_queue = NULL;
 static int update_queue_frozen_level = 0;
 static bool update_queue_has_idle_callback = FALSE;
 
@@ -172,14 +174,20 @@ void update_queue_init(void)
     /* Already initialized. */
     fc_assert(NULL != processing_started_waiting_queue);
     fc_assert(NULL != processing_finished_waiting_queue);
+    fc_assert(NULL != processing_started_direct_queue);
+    fc_assert(NULL != processing_finished_direct_queue);
     return;
   }
   fc_assert(NULL == processing_started_waiting_queue);
   fc_assert(NULL == processing_finished_waiting_queue);
+  fc_assert(NULL == processing_started_direct_queue);
+  fc_assert(NULL == processing_finished_direct_queue);
 
   update_queue = update_queue_hash_new();
   processing_started_waiting_queue = waiting_queue_hash_new();
   processing_finished_waiting_queue = waiting_queue_hash_new();
+  processing_started_direct_queue = waiting_queue_hash_new();
+  processing_finished_direct_queue = waiting_queue_hash_new();
   update_queue_frozen_level = 0;
   update_queue_has_idle_callback = FALSE;
 }
@@ -192,6 +200,8 @@ void update_queue_free(void)
   fc_assert(NULL != update_queue);
   fc_assert(NULL != processing_started_waiting_queue);
   fc_assert(NULL != processing_finished_waiting_queue);
+  fc_assert(NULL != processing_started_direct_queue);
+  fc_assert(NULL != processing_finished_direct_queue);
 
   if (NULL != update_queue) {
     update_queue_hash_destroy(update_queue);
@@ -204,6 +214,14 @@ void update_queue_free(void)
   if (NULL != processing_finished_waiting_queue) {
     waiting_queue_hash_destroy(processing_finished_waiting_queue);
     processing_finished_waiting_queue = NULL;
+  }
+  if (NULL != processing_started_direct_queue) {
+    waiting_queue_hash_destroy(processing_started_direct_queue);
+    processing_started_direct_queue = NULL;
+  }
+  if (NULL != processing_finished_direct_queue) {
+    waiting_queue_hash_destroy(processing_finished_direct_queue);
+    processing_finished_direct_queue = NULL;
   }
 
   update_queue_frozen_level = 0;
@@ -273,11 +291,32 @@ waiting_queue_execute_pending_requests(struct waiting_queue_hash *hash,
   waiting_queue_hash_remove(hash, request_id);
 }
 
+/* Execute exact packet-boundary callbacks immediately. The waiting-list
+ * destructor still owns entries that did not fire; fired data is extracted
+ * and destroyed here exactly once. */
+static inline void
+waiting_queue_execute_direct(struct waiting_queue_hash *hash, int request_id)
+{
+  struct waiting_queue_list *list;
+
+  if (NULL == hash || !waiting_queue_hash_lookup(hash, request_id, &list)) {
+    return;
+  }
+  waiting_queue_list_iterate(list, wq_data) {
+    struct update_queue_data *uq_data = waiting_queue_data_extract(wq_data);
+
+    wq_data->callback(uq_data->data);
+    update_queue_data_destroy(uq_data);
+  } waiting_queue_list_iterate_end;
+  waiting_queue_hash_remove(hash, request_id);
+}
+
 /************************************************************************//**
   Moves the instances waiting to the request_id to the callback queue.
 ****************************************************************************/
 void update_queue_processing_started(int request_id)
 {
+  waiting_queue_execute_direct(processing_started_direct_queue, request_id);
   waiting_queue_execute_pending_requests(processing_started_waiting_queue,
                                          request_id);
 }
@@ -287,6 +326,7 @@ void update_queue_processing_started(int request_id)
 ****************************************************************************/
 void update_queue_processing_finished(int request_id)
 {
+  waiting_queue_execute_direct(processing_finished_direct_queue, request_id);
   waiting_queue_execute_pending_requests(processing_finished_waiting_queue,
                                          request_id);
 }
@@ -417,6 +457,38 @@ waiting_queue_add_pending_request(struct waiting_queue_hash *hash,
 }
 
 /************************************************************************//**
+  Remove one exact callback that has not fired yet.  The list owns the
+  callback data, so removing the entry also invokes its free-data function.
+****************************************************************************/
+static bool
+waiting_queue_cancel_pending_request(struct waiting_queue_hash *hash,
+                                     int request_id,
+                                     uq_callback_t callback, void *data)
+{
+  struct waiting_queue_list *list;
+  struct waiting_queue_data *match = NULL;
+
+  if (NULL == hash || !waiting_queue_hash_lookup(hash, request_id, &list)) {
+    return FALSE;
+  }
+  waiting_queue_list_iterate(list, wq_data) {
+    if (wq_data->callback == callback && wq_data->uq_data != NULL
+        && wq_data->uq_data->data == data) {
+      match = wq_data;
+      break;
+    }
+  } waiting_queue_list_iterate_end;
+  if (match == NULL) {
+    return FALSE;
+  }
+  waiting_queue_list_remove(list, match);
+  if (waiting_queue_list_size(list) == 0) {
+    waiting_queue_hash_remove(hash, request_id);
+  }
+  return TRUE;
+}
+
+/************************************************************************//**
   Connects the callback to the start of the processing (in server side) of
   the request.
 ****************************************************************************/
@@ -468,6 +540,38 @@ void update_queue_connect_processing_finished_full(int request_id,
   waiting_queue_add_pending_request(processing_finished_waiting_queue,
                                     request_id, callback, data,
                                     free_data_func);
+}
+
+void update_queue_connect_processing_started_direct_full(
+  int request_id, uq_callback_t callback, void *data,
+  uq_free_fn_t free_data_func)
+{
+  waiting_queue_add_pending_request(processing_started_direct_queue,
+                                    request_id, callback, data,
+                                    free_data_func);
+}
+
+void update_queue_connect_processing_finished_direct_full(
+  int request_id, uq_callback_t callback, void *data,
+  uq_free_fn_t free_data_func)
+{
+  waiting_queue_add_pending_request(processing_finished_direct_queue,
+                                    request_id, callback, data,
+                                    free_data_func);
+}
+
+bool update_queue_cancel_processing_started_direct(
+  int request_id, uq_callback_t callback, void *data)
+{
+  return waiting_queue_cancel_pending_request(
+    processing_started_direct_queue, request_id, callback, data);
+}
+
+bool update_queue_cancel_processing_finished_direct(
+  int request_id, uq_callback_t callback, void *data)
+{
+  return waiting_queue_cancel_pending_request(
+    processing_finished_direct_queue, request_id, callback, data);
 }
 
 /************************************************************************//**

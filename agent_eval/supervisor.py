@@ -25,8 +25,8 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Any, Callable
-from urllib.parse import parse_qs, urlparse
+from typing import Any, Callable, Mapping
+from urllib.parse import parse_qs, unquote, urlparse
 
 from .actions import ActionError, TRAIT_MAX, TRAIT_MIN, TRAITS, validate_action
 from .bridge_status import create_bridge_journal, validate_bridge_journal
@@ -36,6 +36,7 @@ from .full_control_v2 import (
     STRATEGIC_V1,
     FullControlSchemaError,
     structured_error,
+    validate_initial_command_batch,
     validate_control_protocol,
     validate_supported_control_protocols,
 )
@@ -57,10 +58,15 @@ from .v2_receipts import (
     V2ReceiptStore,
     V2ReceiptStoreError,
 )
+from .v2_phase_events import (
+    V2PhaseEventJournal,
+    V2PhaseEventJournalError,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 VIEWER_DIST_ROOT = REPO_ROOT / "agent_eval" / "viewer" / "dist"
+V2_OPENAPI_PATH = REPO_ROOT / "play" / "docs" / "full-control-v2.openapi.json"
 VIEWER_ASSET_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,199}$")
 VIEWER_ASSET_CONTENT_TYPES = {
     ".css": "text/css; charset=utf-8",
@@ -94,6 +100,9 @@ TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
     "blitz": 60.0,
     "infinite": None,
 }
+V2_WAIT_REASONS = frozenset({
+    "phase_active", "game_terminal", "revision_changed", "timeout",
+})
 CONSOLE_TIMEOUT_RE = re.compile(
     r"['\"]timeout['\"].*?set to\s+(-?\d+)", re.IGNORECASE,
 )
@@ -125,19 +134,41 @@ SIDECAR_HEALTH_FIELDS = frozenset({
     "last_seen_at", "stopped_at", "exit_code", "error_code",
     "client_state", "server_connected", "seat_state",
 })
+V2_SIDECAR_EXIT_DIAGNOSTIC_FILENAME = "sidecar-exit-diagnostic.json"
 V2_SIDECAR_STARTUP_GRACE_S = 20.0
 V2_SIDECAR_COMPLETION_GRACE_S = 2.0
 V2_OBSERVATION_TIMEOUT_S = 5.0
+V2_POST_RESULT_OBSERVATION_RETRY_S = 2.0
+V2_POST_RESULT_OBSERVATION_RETRY_INTERVAL_S = 0.02
+V2_SCOPE_MATERIALIZATION_TIMEOUT_S = 30.0
 V2_ACTION_TIMEOUT_S = 20.0
 V2_EXECUTION_LOCK_TIMEOUT_S = 30.0
 V2_PHASE_RECONCILE_STALL_S = 30.0
 V2_PHASE_SYNCHRONIZE_STALL_S = 30.0
+# Independent control-plane guard for a coherent native phase that makes no
+# forward progress. This remains active in infinite model-timing mode; it never
+# chooses a model action and is deliberately much more generous than polling or
+# request timeouts.
+V2_PHASE_PROGRESS_STALL_S = 300.0
 V2_STATE_SECTIONS = frozenset({
-    "overview", "research", "diplomacy", "known_tiles", "cities", "units",
-    "governments", "tombstones",
+    "overview", "votes", "research", "diplomacy", "diplomacy_clauses",
+    "known_tiles", "map_tiles", "cities", "units", "city_sites",
+    "governments", "tombstones", "city_detail", "city_citizens",
+    "city_worker_tasks",
+    "city_build_choices", "city_worklist", "city_improvements",
+    "city_governor", "tile_window", "multipliers", "spaceship",
+    "infrastructure", "pregame_nations", "pregame_styles",
+    "pregame_teams", "chat",
+})
+V2_CITY_STATE_SECTIONS = frozenset({
+    "city_detail", "city_citizens", "city_build_choices", "city_worklist",
+    "city_improvements", "city_governor", "city_worker_tasks",
 })
 V2_CURSOR_RE = re.compile(r"cursor_[A-Za-z0-9_-]{32}")
 V2_ACTOR_ID_RE = re.compile(r"(?:player|city|unit)_[0-9a-f]{32}")
+V2_TILE_ID_RE = re.compile(r"tile_[0-9a-f]{32}")
+V2_RELATION_ID_RE = re.compile(r"relation_[0-9a-f]{32}")
+V2_STATE_TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,127}")
 
 
 class SupervisorError(RuntimeError):
@@ -398,6 +429,7 @@ def _integer(
 @dataclass(frozen=True)
 class Place:
     number: int
+    native_player_number: int
     seat_id: str
     player_name: str
     joinable: bool
@@ -500,11 +532,23 @@ class Game:
         self.sidecar_generations: dict[int, int] = {}
         self.sidecar_ready_generations: dict[int, int] = {}
         self.sidecar_health: dict[int, dict[str, Any]] = {}
+        # Owner-private mapping from a configured place to the exact native
+        # player incarnation reported by its sidecar. Public surfaces must
+        # never expose these native handles.
+        self.v2_native_player_identities: dict[int, tuple[int, int, int]] = {}
         self.v2_controls: dict[int, V2SeatControl] = {}
         self.v2_execution_locks: dict[
             int, tuple[int, V2SeatControl, threading.Lock]
         ] = {}
+        self.v2_pregame_execution_lock = threading.Lock()
+        self.v2_pregame_gate_open = False
+        self.v2_pregame_ready_places: set[int] = set()
         self.v2_receipt_store: V2ReceiptStore | None = None
+        self.v2_receipt_store_failed = False
+        self.v2_phase_event_journal: V2PhaseEventJournal | None = None
+        self.v2_pending_phase_ends: dict[str, dict[str, Any]] = {}
+        self.v2_phase_event_journal_failed = False
+        self.v2_failure_cleanup_started = False
         self.v2_ambiguity_trace: V2AmbiguityTrace | None = None
         self.v2_ambiguity_trace_warning_count = 0
         self.v2_active_receipt_operations = 0
@@ -517,6 +561,9 @@ class Game:
             "deadline_started_monotonic": None,
             "deadline_started_at": None,
             "synchronizing_started_monotonic": None,
+            "reported_phase_counts": [],
+            "progress_marker": None,
+            "progress_started_monotonic": None,
             "end": None,
         }
         self.sidecar_exit_grace_generations: dict[int, int] = {}
@@ -531,6 +578,7 @@ class Game:
         self.places = tuple(
             Place(
                 number=index,
+                native_player_number=index - 1,
                 seat_id=f"place-{index}",
                 player_name=(
                     f"AgentPlace{index}" if index <= joinable
@@ -548,6 +596,7 @@ class Game:
                 self.v2_receipt_store = V2ReceiptStore(
                     self.episode, game_id=self.game_id,
                 )
+                self.v2_phase_event_journal = V2PhaseEventJournal(self.episode)
                 try:
                     self.v2_ambiguity_trace = V2AmbiguityTrace(
                         self.episode, game_id=self.game_id,
@@ -563,6 +612,8 @@ class Game:
                 self.v2_ambiguity_trace.close()
             if self.v2_receipt_store is not None:
                 self.v2_receipt_store.close()
+            if self.v2_phase_event_journal is not None:
+                self.v2_phase_event_journal.close()
             raise
         finally:
             supervisor.release_game_port(self.freeciv_port)
@@ -659,6 +710,17 @@ class Game:
             "model": "classic",
         }
 
+    def _private_player_seats_locked(self) -> dict[int, dict[str, Any]]:
+        """Build report attribution without persisting native handles."""
+        result: dict[int, dict[str, Any]] = {}
+        for place in self.places:
+            native_player = place.native_player_number
+            identity = self.v2_native_player_identities.get(place.number)
+            if identity is not None:
+                native_player = identity[1]
+            result[native_player] = self._seat_config(place)
+        return result
+
     def _manifest(self, state: str | None = None) -> dict[str, Any]:
         return {
             "schema_version": 1,
@@ -701,8 +763,7 @@ class Game:
             "joined_agents": len(self.agents),
             "start_count": self.start_count,
             "current_turn": (
-                self.current_turn["turn"] if self.current_turn is not None
-                else (self.latest_turn["turn"] if self.latest_turn else None)
+                self._current_turn_locked()
             ),
             "commands_file": "server.commands",
             "trace_file": "decisions.jsonl",
@@ -926,6 +987,7 @@ class Game:
             self.state = "failed"
             self.error = message
             self.finished_at = time.time()
+            self._terminalize_v2_phase_locked("failed")
             self._write_manifest()
             self.condition.notify_all()
 
@@ -1117,15 +1179,24 @@ class Game:
 
     def _lobby_watchdog(self) -> None:
         deadline = time.monotonic() + self.config["lobby_timeout_s"]
+        timed_out = False
         with self.condition:
-            while self.state == "lobby":
+            while (
+                self.state == "lobby"
+                and len(self.place_agents) < self.max_agents
+            ):
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     self.error = "lobby timed out before all agent places joined"
+                    self.state = "failed"
+                    self.finished_at = time.time()
+                    self._terminalize_v2_phase_locked("failed")
+                    self._write_manifest()
+                    self.condition.notify_all()
+                    timed_out = True
                     break
                 self.condition.wait(remaining)
-            should_stop = self.state == "lobby" and self.error is not None
-        if should_stop:
+        if timed_out:
             self._stop_all_sidecars()
             self._terminate_child()
 
@@ -1165,6 +1236,7 @@ class Game:
         # normally completed match during finalization.
         with self.condition:
             self.server_exit_observed = True
+            self._terminalize_v2_phase_locked("terminalizing")
             self.condition.notify_all()
         if process.stdin is not None:
             process.stdin.close()
@@ -1215,7 +1287,12 @@ class Game:
                 )
             self._write_manifest(target)
         try:
-            summary = summarize_episode(self.episode)
+            with self.condition:
+                private_player_seats = self._private_player_seats_locked()
+            summary = summarize_episode(
+                self.episode,
+                private_player_seats=private_player_seats,
+            )
             _atomic_json(self.episode / "report.json", summary)
         except Exception as exc:
             with self.condition:
@@ -1232,9 +1309,13 @@ class Game:
                         self.error = f"could not render video: {exc}"
         with self.condition:
             self.state = target
+            self._terminalize_v2_phase_locked(target)
             self._write_manifest()
             try:
-                summary = summarize_episode(self.episode)
+                summary = summarize_episode(
+                    self.episode,
+                    private_player_seats=self._private_player_seats_locked(),
+                )
                 _atomic_json(self.episode / "report.json", summary)
             except Exception:
                 pass
@@ -1280,6 +1361,32 @@ class Game:
             generation=generation,
             on_exit=callback,
         )
+
+    def _persist_sidecar_exit_diagnostic(
+        self, place_number: int, generation: int, health: Mapping[str, Any],
+    ) -> None:
+        """Best-effort owner-private evidence for an unexpected seat loss."""
+        try:
+            _atomic_json(
+                self.episode / V2_SIDECAR_EXIT_DIAGNOSTIC_FILENAME,
+                {
+                    "error_code": health.get("error_code"),
+                    "exit_code": health.get("exit_code"),
+                    "game_id": self.game_id,
+                    "generation": generation,
+                    "last_seen_at": health.get("last_seen_at"),
+                    "place": place_number,
+                    "sidecar_state": health.get("state"),
+                    "stopped_at": health.get("stopped_at"),
+                    "timestamp": time.time(),
+                },
+                mode=0o600,
+            )
+        except Exception:
+            # Diagnostics are subordinate to the original sidecar failure.
+            # Never prevent or alter fail-closed terminalization if the run
+            # directory has become unavailable or unwritable.
+            pass
 
     def _on_sidecar_exit(
         self, place_number: int, generation: int, health: Any,
@@ -1365,6 +1472,10 @@ class Game:
                     self.invalid_reasons.append("sidecar_exited")
                 self.state = "failed"
                 self.finished_at = time.time()
+                self._persist_sidecar_exit_diagnostic(
+                    place_number, generation, clean,
+                )
+                self._terminalize_v2_phase_locked("failed")
                 self._write_manifest()
                 self.condition.notify_all()
                 should_terminate = True
@@ -1468,9 +1579,337 @@ class Game:
             if "=" not in item:
                 continue
             name, value = item.split("=", 1)
-            if name in {"state", "server", "seat"} and value:
+            if name in {
+                "state", "server", "seat", "player", "lifecycle",
+            } and value:
                 fields[name] = value
         return fields
+
+    def _record_v2_native_identity_locked(
+        self,
+        place: Place,
+        generation: int,
+        fields: dict[str, str],
+    ) -> None:
+        """Verify and retain one STATUS identity without publishing it."""
+        if "player" not in fields and "lifecycle" not in fields:
+            # Compatibility for injected/older test sidecars. The bundled
+            # native sidecar always supplies both fields.
+            return
+        try:
+            player_number = int(fields.get("player", ""), 10)
+            lifecycle = int(fields.get("lifecycle", ""), 10)
+        except (TypeError, ValueError):
+            raise SidecarError("protocol_error") from None
+        if (
+            fields.get("seat") != "ready"
+            or player_number != place.native_player_number
+            or lifecycle <= 0
+        ):
+            raise SidecarError("wrong_player")
+        current = self.v2_native_player_identities.get(place.number)
+        identity = (generation, player_number, lifecycle)
+        if current is not None and current != identity:
+            raise SidecarError("wrong_player")
+        self.v2_native_player_identities[place.number] = identity
+
+    def _place_identity_indexes_locked(
+        self,
+    ) -> tuple[
+        dict[str, tuple[Place, dict[str, Any]]],
+        dict[int, tuple[Place, dict[str, Any]]],
+    ]:
+        by_name: dict[str, tuple[Place, dict[str, Any]]] = {}
+        by_player: dict[int, tuple[Place, dict[str, Any]]] = {}
+        for place in self.places:
+            value = (place, self._place_identity(place))
+            by_name[place.player_name] = value
+            identity = self.v2_native_player_identities.get(place.number)
+            if (
+                identity is not None
+                and identity[0] == self.sidecar_generations.get(place.number)
+            ):
+                by_player[identity[1]] = value
+            elif not place.joinable:
+                by_player[place.native_player_number] = value
+        return by_name, by_player
+
+    def _v2_runtime_active_locked(self) -> bool:
+        """Exact cleanup gate for a still-running full-control-v2 game."""
+        return bool(
+            self.config["control_protocol"] == FULL_CONTROL_V2
+            and self.state == "running"
+            and not self.cancel_requested
+            and not self.sidecars_stopping
+            and not self.server_exit_observed
+        )
+
+    def _v2_control_active_locked(self) -> bool:
+        """Whether exact v2 state/action transport may serve this game."""
+        return bool(
+            self.config["control_protocol"] == FULL_CONTROL_V2
+            and self.state in {"lobby", "starting", "running"}
+            and not self.cancel_requested
+            and not self.sidecars_stopping
+            and not self.server_exit_observed
+        )
+
+    def _v2_seat_runtime_active_locked(
+        self,
+        place: int,
+        generation: int,
+        sidecar: Any,
+        *,
+        agent_id: str | None = None,
+        control: V2SeatControl | None = None,
+    ) -> bool:
+        """Return the single exact predicate for a usable live v2 seat."""
+        health = self.sidecar_health.get(place, {})
+        current_health = self._sanitized_sidecar_health(sidecar, generation)
+        expected_client_states = {
+            "lobby": {"preparing"},
+            "starting": {"preparing", "running"},
+            "running": {"running"},
+        }.get(self.state, set())
+        return bool(
+            self._v2_control_active_locked()
+            and self.sidecars.get(place) is sidecar
+            and self.sidecar_generations.get(place) == generation
+            and self.sidecar_ready_generations.get(place) == generation
+            and self.sidecar_exit_grace_generations.get(place) != generation
+            and health.get("generation") == generation
+            and health.get("state") == "ready"
+            and health.get("client_state") in expected_client_states
+            and health.get("server_connected") is True
+            and health.get("seat_state") == "ready"
+            and current_health.get("state") == "ready"
+            and current_health.get("client_state") in expected_client_states
+            and current_health.get("server_connected") is True
+            and current_health.get("seat_state") == "ready"
+            and (
+                agent_id is None
+                or self.place_agents.get(place) == agent_id
+                and self.agents.get(agent_id, {}).get("place") == place
+            )
+            and (
+                control is None
+                or self.v2_controls.get(place) is control
+                and control.agent_id == agent_id
+                and control.generation == generation
+            )
+        )
+
+    @staticmethod
+    def _v2_phase_receipt_final(receipt_state: Any) -> bool:
+        return receipt_state in {"applied", "ambiguous", "rejected"}
+
+    def _run_v2_failure_cleanup(self) -> None:
+        self._stop_all_sidecars()
+        self._terminate_child()
+
+    def _invalidate_v2_phase_event_journal_locked(self) -> None:
+        """Fail closed once without trying to write another phase event."""
+        if self.v2_phase_event_journal_failed:
+            return
+        self.v2_phase_event_journal_failed = True
+        reason = "v2_phase_event_journal_unavailable"
+        if reason not in self.invalid_reasons:
+            self.invalid_reasons.append(reason)
+        self.error = "full-control-v2 phase-end provenance could not be persisted"
+        self.state = "failed"
+        self.finished_at = time.time()
+        ledger = self.v2_phase_ledger
+        ledger["state"] = "failed"
+        ledger["evidence"] = {}
+        ledger["active_place"] = None
+        ledger["deadline_started_monotonic"] = None
+        ledger["deadline_started_at"] = None
+        ledger["synchronizing_started_monotonic"] = None
+        ledger["progress_marker"] = None
+        ledger["progress_started_monotonic"] = None
+        ledger["end"] = None
+        self.v2_pending_phase_ends.clear()
+        try:
+            self._write_manifest()
+        except Exception:
+            pass
+        self.condition.notify_all()
+        if not self.v2_failure_cleanup_started:
+            self.v2_failure_cleanup_started = True
+            threading.Thread(
+                target=self._run_v2_failure_cleanup,
+                name=f"freeciv-agent-phase-journal-failure-{self.game_id}",
+                daemon=True,
+            ).start()
+
+    def _finalize_v2_phase_end_locked(
+        self, claim: dict[str, Any], resolution: str,
+    ) -> bool:
+        """Queue one resolved claim and journal resolved phases in native order."""
+        if claim.get("journaled") is True:
+            return True
+        claim["resolution"] = resolution
+        claim_id = claim.get("claim_id")
+        if isinstance(claim_id, str):
+            self.v2_pending_phase_ends[claim_id] = claim
+        else:
+            self._invalidate_v2_phase_event_journal_locked()
+            return False
+
+        # Native phase resolution is observed in order, but its durable batch
+        # receipt can finish later on another request thread.  Never let a
+        # later finalized receipt overtake an earlier unresolved claim.
+        queued = sorted(
+            self.v2_pending_phase_ends.values(),
+            key=lambda item: (
+                item.get("key")
+                if isinstance(item.get("key"), tuple)
+                and len(item["key"]) == 2
+                else (1 << 63, 1 << 63)
+            ),
+        )
+        for pending in queued:
+            if not self._v2_phase_receipt_final(pending.get("receipt_state")):
+                break
+            if not self._append_v2_phase_event_locked(pending):
+                return False
+        return claim.get("journaled") is True
+
+    def _append_v2_phase_event_locked(self, claim: dict[str, Any]) -> bool:
+        """Append one already ordered, resolved, receipt-final claim."""
+        if claim.get("journaled") is True:
+            return True
+        journal = self.v2_phase_event_journal
+        key = claim.get("key")
+        place_number = claim.get("place")
+        if (
+            journal is None
+            or not isinstance(key, tuple) or len(key) != 2
+            or type(key[0]) is not int or type(key[1]) is not int
+            or type(place_number) is not int
+            or not 1 <= place_number <= len(self.places)
+        ):
+            self._invalidate_v2_phase_event_journal_locked()
+            return False
+        place = self.places[place_number - 1]
+        agent_id = self.place_agents.get(place_number)
+        agent = self.agents.get(agent_id) if agent_id is not None else None
+        source = claim.get("source")
+        receipt_state = claim.get("receipt_state")
+        resolution = claim.get("resolution")
+        if (
+            agent is None
+            or source not in {"agent", "timeout"}
+            or not self._v2_phase_receipt_final(receipt_state)
+            or resolution not in {"advanced", "terminal", "failed"}
+            or receipt_state == "rejected" and resolution != "failed"
+        ):
+            self._invalidate_v2_phase_event_journal_locked()
+            return False
+        ended_at = time.time()
+        ended_monotonic = time.monotonic()
+        deadline_started_at = claim.get("deadline_started_at")
+        deadline_started_monotonic = claim.get("deadline_started_monotonic")
+        if (
+            isinstance(deadline_started_at, bool)
+            or not isinstance(deadline_started_at, (int, float))
+            or not math.isfinite(deadline_started_at)
+            or deadline_started_at < 0
+            or deadline_started_at > ended_at
+            or isinstance(deadline_started_monotonic, bool)
+            or not isinstance(deadline_started_monotonic, (int, float))
+            or not math.isfinite(deadline_started_monotonic)
+            or deadline_started_monotonic < 0
+            or deadline_started_monotonic > ended_monotonic
+        ):
+            self._invalidate_v2_phase_event_journal_locked()
+            return False
+        event = {
+            "turn": key[0],
+            "phase": key[1],
+            "place": place_number,
+            "seat_id": place.seat_id,
+            "player_name": place.player_name,
+            "player_color": place.player_color,
+            "controller_label": agent["controller_label"],
+            "controller_type": "external",
+            "source": source,
+            "receipt_state": receipt_state,
+            "resolution": resolution,
+            "deadline_started_at": float(deadline_started_at),
+            "ended_at": ended_at,
+            "elapsed_s": max(
+                0.0, ended_monotonic - float(deadline_started_monotonic),
+            ),
+        }
+        try:
+            journal.append(event)
+        except V2PhaseEventJournalError:
+            self._invalidate_v2_phase_event_journal_locked()
+            return False
+        claim["journaled"] = True
+        claim_id = claim.get("claim_id")
+        if isinstance(claim_id, str):
+            self.v2_pending_phase_ends.pop(claim_id, None)
+        return True
+
+    def _terminalize_v2_phase_locked(self, state: str) -> None:
+        """Clear actionable phase state while retaining the last consensus key."""
+        if self.config["control_protocol"] != FULL_CONTROL_V2:
+            return
+        ledger = self.v2_phase_ledger
+        if state == "terminalizing":
+            # The monitor has observed native exit but has not yet classified
+            # it as completed/invalid/cancelled versus failed. Preserve an
+            # in-flight end claim until that authoritative classification.
+            ledger["state"] = state
+            ledger["evidence"] = {}
+            ledger["active_place"] = None
+            ledger["synchronizing_started_monotonic"] = None
+            ledger["progress_marker"] = None
+            ledger["progress_started_monotonic"] = None
+            return
+        end = ledger.get("end")
+        resolution = "failed" if state == "failed" else "terminal"
+        if isinstance(end, dict):
+            self._finalize_v2_phase_end_locked(end, resolution)
+        if self.v2_phase_event_journal_failed:
+            state = "failed"
+        ledger["state"] = state
+        ledger["evidence"] = {}
+        ledger["active_place"] = None
+        ledger["deadline_started_monotonic"] = None
+        ledger["deadline_started_at"] = None
+        ledger["synchronizing_started_monotonic"] = None
+        ledger["progress_marker"] = None
+        ledger["progress_started_monotonic"] = None
+        ledger["end"] = None
+
+    def _v2_consensus_turn_locked(self) -> int | None:
+        key = self.v2_phase_ledger.get("key")
+        return key[0] if isinstance(key, tuple) and len(key) == 2 else None
+
+    def _current_turn_locked(self) -> int | None:
+        if self.config["control_protocol"] == FULL_CONTROL_V2:
+            return self._v2_consensus_turn_locked()
+        return (
+            self.current_turn["turn"] if self.current_turn is not None
+            else (self.latest_turn["turn"] if self.latest_turn else None)
+        )
+
+    def _v2_evaluation_context_locked(self) -> dict[str, Any]:
+        """Return game-scoped evaluation context without native identifiers."""
+        current_turn = self._current_turn_locked()
+        max_turns = self.config["turns"]
+        return {
+            "objective": self.config["objective"],
+            "max_turns": max_turns,
+            "turns_remaining": (
+                None
+                if current_turn is None
+                else max(0, max_turns - current_turn)
+            ),
+        }
 
     def _collect_v2_phase_evidence(
         self, place_number: int, generation: int, sidecar: Any,
@@ -1482,13 +1921,10 @@ class Game:
             control = self.v2_controls.get(place_number)
             current = bool(
                 agent_id is not None and agent is not None and control is not None
-                and self.sidecars.get(place_number) is sidecar
-                and self.sidecar_generations.get(place_number) == generation
-                and self.sidecar_ready_generations.get(place_number) == generation
-                and self.v2_controls.get(place_number) is control
-                and self.sidecar_health.get(place_number, {}).get("state")
-                == "ready"
-                and self.state == "running"
+                and self._v2_seat_runtime_active_locked(
+                    place_number, generation, sidecar,
+                    agent_id=agent_id, control=control,
+                )
             )
         if not current or control is None or agent is None or agent_id is None:
             return None
@@ -1529,16 +1965,10 @@ class Game:
         place = evidence["place"]
         generation = evidence["generation"]
         return bool(
-            self.place_agents.get(place) == evidence["agent_id"]
-            and self.sidecars.get(place) is evidence["sidecar"]
-            and self.sidecar_generations.get(place) == generation
-            and self.sidecar_ready_generations.get(place) == generation
-            and self.v2_controls.get(place) is evidence["control"]
-            and self.sidecar_health.get(place, {}).get("generation")
-            == generation
-            and self.sidecar_health.get(place, {}).get("state") == "ready"
-            and not self.sidecars_stopping and not self.cancel_requested
-            and self.state == "running"
+            self._v2_seat_runtime_active_locked(
+                place, generation, evidence["sidecar"],
+                agent_id=evidence["agent_id"], control=evidence["control"],
+            )
         )
 
     def _fail_v2_phase_locked(self, reason: str, message: str) -> None:
@@ -1547,16 +1977,59 @@ class Game:
         self.error = message
         self.state = "failed"
         self.finished_at = time.time()
-        self.v2_phase_ledger["state"] = "failed"
+        self._terminalize_v2_phase_locked("failed")
         self._write_manifest()
         self.condition.notify_all()
+
+    def _v2_phase_progress_stalled_locked(
+        self,
+        *,
+        key: tuple[int, int],
+        state: str,
+        active_place: int | None,
+        now: float,
+    ) -> bool:
+        """Track coherent native progress independently of model deadlines."""
+        ledger = self.v2_phase_ledger
+        marker = (key, state, active_place)
+        if ledger.get("progress_marker") != marker:
+            ledger["progress_marker"] = marker
+            ledger["progress_started_monotonic"] = now
+            return False
+        if state not in {"native_phase", "phase_not_ready", "inactive_done"}:
+            return False
+        started = ledger.get("progress_started_monotonic")
+        return bool(
+            started is not None
+            and now - started >= V2_PHASE_PROGRESS_STALL_S
+        )
+
+    def _set_v2_phase_wait_state_locked(
+        self,
+        *,
+        key: tuple[int, int],
+        state: str,
+        active_place: int | None,
+        now: float,
+    ) -> bool:
+        ledger = self.v2_phase_ledger
+        ledger["state"] = state
+        if self._v2_phase_progress_stalled_locked(
+            key=key, state=state, active_place=active_place, now=now,
+        ):
+            self._fail_v2_phase_locked(
+                "v2_phase_progress_stalled",
+                "full-control-v2 native phase made no forward progress",
+            )
+            return True
+        return False
 
     def _update_v2_phase_ledger(
         self, evidence_rows: list[dict[str, Any]], now: float,
     ) -> tuple[dict[str, Any] | None, bool]:
         """Apply one consensus sample under the condition and claim timeout once."""
         with self.condition:
-            if self.state != "running" or self.sidecars_stopping:
+            if not self._v2_runtime_active_locked():
                 return None, False
             current = {
                 row["place"]: row for row in evidence_rows
@@ -1598,7 +2071,7 @@ class Game:
                 return None, False
 
             consensus = {
-                (row["turn"], row["phase"], row["mode"], row["count"])
+                (row["turn"], row["phase"], row["mode"])
                 for row in current.values()
             }
             if len(consensus) != 1:
@@ -1636,8 +2109,10 @@ class Game:
                     "full-control-v2 phase evidence was inconsistent",
                 )
                 return None, True
-            turn, phase, _mode, count = next(iter(consensus))
-            key = (turn, phase, count)
+            turn, phase, _mode = next(iter(consensus))
+            key = (turn, phase)
+            counts = sorted({row["count"] for row in current.values()})
+            ledger["reported_phase_counts"] = counts
             previous = ledger.get("key")
             if previous is not None:
                 if turn < previous[0] or (
@@ -1648,20 +2123,20 @@ class Game:
                         "full-control-v2 phase evidence regressed",
                     )
                     return None, True
-                if (
-                    turn == previous[0] and phase == previous[1]
-                    and count != previous[2]
-                ):
-                    self._fail_v2_phase_locked(
-                        "v2_phase_protocol",
-                        "full-control-v2 phase count changed in place",
-                    )
-                    return None, True
             ledger["synchronizing_started_monotonic"] = None
             if previous != key:
+                previous_end = ledger.get("end")
+                if previous is not None and isinstance(previous_end, dict):
+                    self._finalize_v2_phase_end_locked(
+                        previous_end, "advanced",
+                    )
+                    if self.v2_phase_event_journal_failed:
+                        return None, True
                 ledger["key"] = key
                 ledger["deadline_started_monotonic"] = None
                 ledger["deadline_started_at"] = None
+                ledger["progress_marker"] = None
+                ledger["progress_started_monotonic"] = None
                 ledger["end"] = None
 
             active_row = active[0] if active else None
@@ -1682,16 +2157,28 @@ class Game:
                 )
                 return None, False
             if active_row is None:
-                ledger["state"] = "native_phase"
-                return None, False
+                failed = self._set_v2_phase_wait_state_locked(
+                    key=key, state="native_phase", active_place=None, now=now,
+                )
+                return None, failed
             if not active_row["alive"] or active_row["done"]:
-                ledger["state"] = "inactive_done"
-                return None, False
+                failed = self._set_v2_phase_wait_state_locked(
+                    key=key, state="inactive_done",
+                    active_place=active_row["place"], now=now,
+                )
+                return None, failed
             if not active_row["ready"]:
-                ledger["state"] = "synchronizing"
-                return None, False
+                failed = self._set_v2_phase_wait_state_locked(
+                    key=key, state="phase_not_ready",
+                    active_place=active_row["place"], now=now,
+                )
+                return None, failed
 
             ledger["state"] = "awaiting_agent"
+            self._v2_phase_progress_stalled_locked(
+                key=key, state="awaiting_agent",
+                active_place=active_row["place"], now=now,
+            )
             timeout = self.config["action_timeout_s"]
             if ledger["deadline_started_monotonic"] is None:
                 ledger["deadline_started_monotonic"] = now
@@ -1711,9 +2198,13 @@ class Game:
                 "source": "timeout",
                 "receipt_state": "claiming",
                 "claimed_monotonic": now,
+                "deadline_started_monotonic": ledger[
+                    "deadline_started_monotonic"
+                ],
+                "deadline_started_at": ledger["deadline_started_at"],
                 "reconcile_started_monotonic": None,
                 "batch_id": (
-                    f"timeout.t{turn}.p{phase}.n{count}."
+                    f"timeout.t{turn}.p{phase}."
                     f"seat{active_row['place']}.g{active_row['generation']}"
                 ),
             }
@@ -1726,11 +2217,11 @@ class Game:
         resolution: Any, overview: dict[str, Any],
         internal_claim: dict[str, Any] | None,
     ) -> dict[str, Any]:
-        key = (resolution.turn, resolution.phase, overview["phase_count"])
+        key = (resolution.turn, resolution.phase)
         with self.condition:
             ledger = self.v2_phase_ledger
             current_key = ledger.get("key")
-            if current_key is not None and current_key != key:
+            if current_key != key:
                 raise self._v2_problem(
                     HTTPStatus.CONFLICT, "stale_revision",
                     "the requested phase is no longer current", retryable=True,
@@ -1746,6 +2237,25 @@ class Game:
                 ):
                     raise self._v2_unavailable()
                 return existing
+            evidence = ledger.get("evidence", {}).get(place)
+            if (
+                ledger.get("state") != "awaiting_agent"
+                or ledger.get("active_place") != place
+                or evidence is None
+                or evidence.get("generation") != generation
+                or evidence.get("agent_id") != self.place_agents.get(place)
+                or evidence.get("turn") != key[0]
+                or evidence.get("phase") != key[1]
+                or not evidence.get("active")
+                or not evidence.get("ready")
+                or not evidence.get("alive")
+                or evidence.get("done")
+            ):
+                raise self._v2_problem(
+                    HTTPStatus.CONFLICT, "stale_revision",
+                    "the active phase consensus is not actionable",
+                    retryable=True,
+                )
             if existing is not None and existing.get("receipt_state") != "rejected":
                 raise self._v2_problem(
                     HTTPStatus.TOO_MANY_REQUESTS, "rate_limited",
@@ -1760,6 +2270,10 @@ class Game:
                 "source": "agent",
                 "receipt_state": "claiming",
                 "claimed_monotonic": time.monotonic(),
+                "deadline_started_monotonic": ledger[
+                    "deadline_started_monotonic"
+                ],
+                "deadline_started_at": ledger["deadline_started_at"],
                 "reconcile_started_monotonic": None,
                 "batch_id": batch_id,
             }
@@ -1776,25 +2290,35 @@ class Game:
             return
         with self.condition:
             current = self.v2_phase_ledger.get("end")
-            if (
-                self.v2_phase_ledger.get("state") == "failed"
-                or current is None
-                or current.get("claim_id") != claim.get("claim_id")
-                or self.v2_phase_ledger.get("key") != claim.get("key")
-            ):
+            claim_id = claim.get("claim_id")
+            pending = (
+                self.v2_pending_phase_ends.get(claim_id)
+                if isinstance(claim_id, str) else None
+            )
+            current_matches = bool(
+                isinstance(current, dict)
+                and current.get("claim_id") == claim_id
+                and self.v2_phase_ledger.get("key") == claim.get("key")
+            )
+            target = current if current_matches else pending
+            if target is None or self.v2_phase_event_journal_failed:
                 return
-            current["receipt_state"] = receipt_state
+            target["receipt_state"] = receipt_state
             if (
                 receipt_state in {
                     "accepted", "applied", "ambiguous", "rejected",
                 }
-                and current.get("reconcile_started_monotonic") is None
+                and target.get("reconcile_started_monotonic") is None
             ):
-                current["reconcile_started_monotonic"] = time.monotonic()
-            self.v2_phase_ledger["state"] = (
-                "ambiguous_ending"
-                if receipt_state == "ambiguous" else "ending"
-            )
+                target["reconcile_started_monotonic"] = time.monotonic()
+            resolution = target.get("resolution")
+            if isinstance(resolution, str):
+                self._finalize_v2_phase_end_locked(target, resolution)
+            if current_matches and not self.v2_phase_event_journal_failed:
+                self.v2_phase_ledger["state"] = (
+                    "ambiguous_ending"
+                    if receipt_state == "ambiguous" else "ending"
+                )
             self.condition.notify_all()
 
     def _release_phase_end_claim(self, claim: dict[str, Any] | None) -> None:
@@ -1804,7 +2328,7 @@ class Game:
         with self.condition:
             current = self.v2_phase_ledger.get("end")
             if (
-                self.state != "running"
+                not self._v2_runtime_active_locked()
                 or current is None
                 or current.get("claim_id") != claim.get("claim_id")
                 or self.v2_phase_ledger.get("key") != claim.get("key")
@@ -1823,7 +2347,7 @@ class Game:
         with self.condition:
             current = self.v2_phase_ledger.get("end")
             if (
-                self.state != "running"
+                not self._v2_runtime_active_locked()
                 or current is None
                 or current.get("claim_id") != claim.get("claim_id")
                 or self.v2_phase_ledger.get("key") != claim.get("key")
@@ -1844,7 +2368,7 @@ class Game:
         with self.condition:
             current = self.v2_phase_ledger.get("end")
             if (
-                self.state != "running"
+                not self._v2_runtime_active_locked()
                 or current is None
                 or current.get("claim_id") != claim.get("claim_id")
                 or self.v2_phase_ledger.get("key") != claim.get("key")
@@ -1903,7 +2427,7 @@ class Game:
             with self.condition:
                 current = self.v2_phase_ledger.get("end")
                 if (
-                    self.state == "running"
+                    self._v2_runtime_active_locked()
                     and current is not None
                     and current.get("claim_id") == claim.get("claim_id")
                     and self.v2_phase_ledger.get("key") == claim.get("key")
@@ -1940,6 +2464,7 @@ class Game:
             game_state = self.state
             startup_deadline = self.sidecar_start_deadline
         all_running = bool(sidecars)
+        all_over = bool(sidecars)
         phase_evidence: list[dict[str, Any]] = []
         for place_number, sidecar in sidecars:
             with self.condition:
@@ -1951,13 +2476,39 @@ class Game:
                 )
             if not current:
                 all_running = False
+                all_over = False
                 continue
             try:
                 fields = self._parse_sidecar_status(sidecar.status(timeout_s=1.0))
+            except SidecarError as exc:
+                if exc.code == "command_in_progress":
+                    # STATUS shares the sidecar's single command stream.  An
+                    # accepted action temporarily opens a callback barrier so
+                    # its durable receipt can be recorded without deadlock;
+                    # polling that exact window is a skipped sample, not seat
+                    # loss.  Restart the whole poll on the next timer tick so
+                    # partial phase evidence is never reconciled.
+                    return True
+                self._on_sidecar_exit(place_number, generation, {
+                    "state": "failed",
+                    "error_code": "status_unavailable",
+                })
+                return False
             except Exception:
                 self._on_sidecar_exit(place_number, generation, {
                     "state": "failed",
                     "error_code": "status_unavailable",
+                })
+                return False
+            try:
+                with self.condition:
+                    self._record_v2_native_identity_locked(
+                        self.places[place_number - 1], generation, fields,
+                    )
+            except SidecarError:
+                self._on_sidecar_exit(place_number, generation, {
+                    "state": "failed",
+                    "error_code": "wrong_player",
                 })
                 return False
             clean = self._sanitized_sidecar_health(sidecar, generation)
@@ -1989,9 +2540,10 @@ class Game:
             healthy = owns_seat and client_state == "running"
             preparing = (
                 owns_seat and client_state == "preparing"
-                and within_startup_grace
+                and (game_state == "lobby" or within_startup_grace)
             )
             if healthy:
+                all_over = False
                 evidence = self._collect_v2_phase_evidence(
                     place_number, generation, sidecar,
                 )
@@ -2005,6 +2557,7 @@ class Game:
                 continue
             if preparing:
                 all_running = False
+                all_over = False
                 continue
             failure_code = (
                 "seat_lost" if not owns_seat else "startup_timeout"
@@ -2013,12 +2566,40 @@ class Game:
             self._on_sidecar_exit(place_number, generation, clean)
             return False
 
+        if all_over:
+            # Freeciv reports OVER to every connected client after the game is
+            # authoritatively finished, but --exit-on-end does not complete
+            # until those clients disconnect. Stop the now-terminal sidecars
+            # before the reconciliation watchdog can mistake the absence of a
+            # next phase for a stuck phase. The server monitor still owns the
+            # final completed/invalid/failed classification from its exit code
+            # and score artifact.
+            should_stop = False
+            with self.condition:
+                if (
+                    self.state in {"starting", "running"}
+                    and self.start_sent
+                    and not self.cancel_requested
+                    and self.error is None
+                    and not self.sidecars_stopping
+                    and not self.server_exit_observed
+                ):
+                    self._terminalize_v2_phase_locked("terminalizing")
+                    should_stop = True
+            if should_stop:
+                self._stop_all_sidecars()
+            return False
+
         with self.condition:
             if (
-                all_running and self.state == "starting"
+                all_running and self.state in {"lobby", "starting"}
                 and not self.cancel_requested and self.error is None
                 and not self.sidecars_stopping
             ):
+                if not self.start_sent:
+                    self.start_sent = True
+                    self.start_count += 1
+                    self.started_at = self.started_at or time.time()
                 self.state = "running"
                 self._write_manifest()
                 self.condition.notify_all()
@@ -2042,6 +2623,36 @@ class Game:
 
     def _start_if_ready(self) -> None:
         """Start once after every external seat has a current READY sidecar."""
+        if self.config["control_protocol"] == FULL_CONTROL_V2:
+            status_thread: threading.Thread | None = None
+            with self.condition:
+                if (
+                    self.state != "lobby" or self.cancel_requested
+                    or self.error is not None or self.sidecars_stopping
+                    or len(self.place_agents) != self.max_agents
+                    or any(
+                        self.sidecar_ready_generations.get(place.number)
+                        != self.sidecar_generations.get(place.number)
+                        for place in self.joinable_places
+                    )
+                ):
+                    return
+                # Joining a player resets Freeciv's ready bits. Release the
+                # explicit barrier only after every expected external sidecar
+                # owns its exact seat; native PLAYER_READY packets start it.
+                self.v2_pregame_gate_open = True
+                if self.sidecar_status_thread is None:
+                    status_thread = threading.Thread(
+                        target=self._poll_v2_sidecars,
+                        name=f"freeciv-agent-status-{self.game_id}",
+                        daemon=True,
+                    )
+                    self.sidecar_status_thread = status_thread
+                self._write_manifest()
+                self.condition.notify_all()
+            if status_thread is not None:
+                status_thread.start()
+            return
         failure = False
         with self.console_lock:
             with self.condition:
@@ -2084,6 +2695,7 @@ class Game:
                     self.error = f"could not start game: {exc}"
                     self.state = "failed"
                     self.finished_at = time.time()
+                    self._terminalize_v2_phase_locked("failed")
                     self._write_manifest()
                     self.condition.notify_all()
             else:
@@ -2846,6 +3458,9 @@ class Game:
             if self.config["control_protocol"] == FULL_CONTROL_V2:
                 generation = self.sidecar_generations.get(chosen.number, 0) + 1
                 self.sidecar_generations[chosen.number] = generation
+                self.v2_native_player_identities.pop(chosen.number, None)
+                self.v2_pregame_ready_places.discard(chosen.number)
+                self.v2_pregame_gate_open = False
                 try:
                     sidecar = self._make_sidecar(chosen, generation)
                 except Exception as exc:
@@ -2886,6 +3501,25 @@ class Game:
             assert sidecar is not None and generation is not None
             try:
                 sidecar.start_and_take()
+                # READY proves native acquisition, but connection metadata is
+                # hydrated only by STATUS. Sample it before publishing this
+                # generation so the first seat can use pregame immediately.
+                initial_status = self._parse_sidecar_status(
+                    sidecar.status(timeout_s=2.0),
+                )
+                if (
+                    initial_status.get("server") != "1"
+                    or initial_status.get("seat") != "ready"
+                    or not initial_status.get("state")
+                ):
+                    raise SidecarError(
+                        "seat_lost",
+                        "native sidecar did not retain the requested seat",
+                    )
+                with self.condition:
+                    self._record_v2_native_identity_locked(
+                        chosen, generation, initial_status,
+                    )
             except Exception as exc:
                 try:
                     sidecar.stop()
@@ -2898,6 +3532,7 @@ class Game:
                     ):
                         self.sidecars.pop(chosen.number, None)
                         self.sidecar_ready_generations.pop(chosen.number, None)
+                        self.v2_native_player_identities.pop(chosen.number, None)
                         self.sidecar_health[chosen.number] = (
                             self._sanitized_sidecar_health(sidecar, generation)
                         )
@@ -2978,6 +3613,7 @@ class Game:
                 if not accepted:
                     self.sidecars.pop(chosen.number, None)
                     self.sidecar_ready_generations.pop(chosen.number, None)
+                    self.v2_native_player_identities.pop(chosen.number, None)
                     lock_record = self.v2_execution_locks.get(chosen.number)
                     if lock_record is not None and lock_record[0] == generation:
                         self.v2_execution_locks.pop(chosen.number, None)
@@ -3048,6 +3684,7 @@ class Game:
                 f"{self.game_id}/me"
             )
             value.update({
+                **self._v2_evaluation_context_locked(),
                 "v2_transport_available": (
                     self.sidecar_ready_generations.get(agent["place"])
                     == self.sidecar_generations.get(agent["place"])
@@ -3059,6 +3696,10 @@ class Game:
                 "legal_actions_url": f"{prefix}/legal-actions",
                 "batches_url": f"{prefix}/batches",
                 "receipts_url": f"{prefix}/receipts/{{batch_id}}",
+                "wait_url": f"{prefix}/wait",
+                "openapi_url": (
+                    f"{self.supervisor.service_url}/v2/openapi.json"
+                ),
             })
         if self.error is not None:
             value["error"] = self.error
@@ -3110,17 +3751,42 @@ class Game:
             )
             observation_available = bool(
                 controller_current and control is not None
-                and control.has_snapshot
             )
+            terminalized = bool(
+                self.state in TERMINAL_STATES or self.cancel_requested
+                or self.server_exit_observed
+            )
+            public_phase = self._public_v2_phase()
+            own_phase = None
+            if not terminalized:
+                own_phase = {
+                    "state": public_phase["state"],
+                    "turn": public_phase["turn"],
+                    "phase": public_phase["phase"],
+                    "active": self.v2_phase_ledger.get("active_place")
+                    == place_number,
+                    "timing": public_phase["timing"],
+                }
+            try:
+                last_phase_end = (
+                    self.v2_phase_event_journal.last_for_place(place_number)
+                    if self.v2_phase_event_journal is not None else None
+                )
+            except V2PhaseEventJournalError:
+                self._invalidate_v2_phase_event_journal_locked()
+                last_phase_end = None
             return {
                 "schema_version": 2,
                 "control_protocol": FULL_CONTROL_V2,
                 "game_id": self.game_id,
+                **self._v2_evaluation_context_locked(),
                 "agent": {
                     "agent_id": agent_id,
                     "controller_label": agent["controller_label"],
                 },
-                "game_state": self.state,
+                "game_state": (
+                    "cancelled" if self.cancel_requested else self.state
+                ),
                 "seat": {
                     "place": place_number,
                     "seat_id": agent["seat_id"],
@@ -3129,15 +3795,122 @@ class Game:
                 "sidecar": health,
                 "observation_available": observation_available,
                 "legal_actions_available": observation_available,
+                "phase": own_phase,
+                "last_phase_end": last_phase_end,
             }
+
+    def _v2_wait_response(
+        self,
+        agent_id: str,
+        wake_reason: str,
+        health: dict[str, Any],
+        state_revision: dict[str, Any] | None,
+    ) -> dict[str, Any]:
+        if wake_reason not in V2_WAIT_REASONS:
+            raise RuntimeError("invalid private wait wake reason")
+        return {
+            "schema_version": 2,
+            "control_protocol": FULL_CONTROL_V2,
+            "game_id": self.game_id,
+            "agent_id": agent_id,
+            "wake_reason": wake_reason,
+            "health": health,
+            "state_revision": (
+                None if state_revision is None else dict(state_revision)
+            ),
+        }
+
+    def v2_wait(
+        self,
+        agent_id: str,
+        wait_s: float,
+        *,
+        until: str = "phase",
+        after_state_token: str | None = None,
+    ) -> dict[str, Any]:
+        """Long-poll caller-private readiness without spectator state."""
+        if (
+            isinstance(wait_s, bool)
+            or not isinstance(wait_s, (int, float))
+            or not math.isfinite(wait_s)
+            or not 0 <= wait_s <= 300
+            or until not in {"phase", "revision"}
+            or until == "phase" and after_state_token is not None
+            or until == "revision" and (
+                not isinstance(after_state_token, str)
+                or V2_STATE_TOKEN_RE.fullmatch(after_state_token) is None
+            )
+        ):
+            raise self._v2_problem(
+                HTTPStatus.BAD_REQUEST,
+                "invalid_request",
+                "the full-control-v2 wait request is invalid",
+                retryable=False,
+            )
+        deadline = time.monotonic() + float(wait_s)
+        latest_revision: dict[str, Any] | None = None
+        while True:
+            health = self.v2_health(agent_id)
+            if health["game_state"] in TERMINAL_STATES:
+                return self._v2_wait_response(
+                    agent_id, "game_terminal", health, latest_revision,
+                )
+            if until == "phase":
+                phase = health["phase"]
+                if (
+                    isinstance(phase, dict)
+                    and phase.get("active") is True
+                    and phase.get("state") == "awaiting_agent"
+                    and health["observation_available"] is True
+                ):
+                    return self._v2_wait_response(
+                        agent_id, "phase_active", health, latest_revision,
+                    )
+            elif health["observation_available"] is True:
+                try:
+                    overview = self.v2_get_page(
+                        agent_id, "state", "section=overview&limit=16",
+                    )
+                except APIProblem as exc:
+                    error = (
+                        exc.payload.get("error")
+                        if isinstance(exc.payload, dict) else None
+                    )
+                    if not (
+                        isinstance(error, dict)
+                        and error.get("code") in {
+                            "rate_limited", "sidecar_unavailable",
+                        }
+                        and error.get("retryable") is True
+                    ):
+                        raise
+                else:
+                    latest_revision = overview["state_revision"]
+                    if latest_revision["state_token"] != after_state_token:
+                        return self._v2_wait_response(
+                            agent_id,
+                            "revision_changed",
+                            health,
+                            latest_revision,
+                        )
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                return self._v2_wait_response(
+                    agent_id, "timeout", health, latest_revision,
+                )
+            with self.condition:
+                self.condition.wait(min(remaining, 0.25))
 
     def _v2_problem(
         self, status: int, code: str, message: str, *, retryable: bool,
+        details: dict[str, Any] | None = None,
     ) -> APIProblem:
         return APIProblem(
             status,
             message,
-            structured_error(code, message, retryable=retryable),
+            structured_error(
+                code, message, retryable=retryable, details=details,
+            ),
         )
 
     def _v2_unavailable(self) -> APIProblem:
@@ -3158,34 +3931,12 @@ class Game:
         sidecar: Any,
         control: V2SeatControl,
     ) -> bool:
-        agent = self.agents.get(agent_id)
         return bool(
-            agent is not None
-            and agent.get("place") == place_number
-            and self.place_agents.get(place_number) == agent_id
-            and self.sidecars.get(place_number) is sidecar
-            and self.sidecar_generations.get(place_number) == generation
-            and self.sidecar_ready_generations.get(place_number) == generation
-            and self.sidecar_exit_grace_generations.get(place_number)
-            != generation
-            and self.v2_controls.get(place_number) is control
-            and control.agent_id == agent_id
-            and control.generation == generation
+            self._v2_seat_runtime_active_locked(
+                place_number, generation, sidecar,
+                agent_id=agent_id, control=control,
+            )
             and getattr(sidecar, "generation", None) == generation
-            and self.sidecar_health.get(place_number, {}).get("generation")
-            == generation
-            and self.sidecar_health.get(place_number, {}).get("state")
-            == "ready"
-            and self._sanitized_sidecar_health(
-                sidecar, generation,
-            ).get("state") == "ready"
-            and not self.sidecars_stopping
-            and not self.cancel_requested
-            # A READY sidecar can briefly expose its pre-game native cache
-            # after TAKE and before the server has actually entered RUNNING.
-            # Public observations (including cached cursor continuations) are
-            # authoritative only once the supervisor observes that transition.
-            and self.state == "running"
         )
 
     def _resolve_v2_control(
@@ -3212,7 +3963,15 @@ class Game:
                 )
             ):
                 raise self._v2_unavailable()
-            return place_number, generation, sidecar, control
+            ready_allowed = (
+                self.state != "lobby"
+                or self._v2_pregame_gate_current_locked()
+            )
+        control.set_pregame_ready_allowed(ready_allowed)
+        self._require_v2_context(
+            agent_id, place_number, generation, sidecar, control,
+        )
+        return place_number, generation, sidecar, control
 
     def _require_v2_context(
         self,
@@ -3232,14 +3991,17 @@ class Game:
     @staticmethod
     def _v2_query(
         raw_query: str, endpoint: str,
-    ) -> tuple[str | None, str, int, str | None]:
+    ) -> tuple[
+        str | None, str, int, str | None, str | None, str | None,
+        str | None, int | None,
+    ]:
         if not isinstance(raw_query, str) or not raw_query.isascii():
             raise V2ControlError("invalid_request")
         query: dict[str, str] = {}
         if raw_query:
             components = raw_query.split("&")
             if (
-                len(components) > 2
+                len(components) > 5
                 or any(not component for component in components)
             ):
                 raise V2ControlError("invalid_request")
@@ -3248,7 +4010,10 @@ class Game:
                     raise V2ControlError("invalid_request")
                 name, value = component.split("=", 1)
                 if (
-                    name not in {"actor_id", "cursor", "section", "limit"}
+                    name not in {
+                        "actor_id", "target_id", "relation_id", "center_id", "radius",
+                        "cursor", "section", "limit",
+                    }
                     or name in query
                     or not value
                 ):
@@ -3260,14 +4025,39 @@ class Game:
                 or V2_CURSOR_RE.fullmatch(query["cursor"]) is None
             ):
                 raise V2ControlError("invalid_request")
-            return query["cursor"], "", MAX_PAGE_ITEMS, None
+            return (
+                query["cursor"], "", MAX_PAGE_ITEMS, None, None, None,
+                None, None,
+            )
 
-        allowed = (
-            {"section", "limit"}
-            if endpoint == "state" else {"actor_id", "limit"}
-        )
-        if set(query) - allowed:
-            raise V2ControlError("invalid_request")
+        if endpoint == "legal_actions" and set(query) in ({
+            "actor_id", "target_id",
+        }, {
+            "actor_id", "target_id", "limit",
+        }):
+            actor_id = query["actor_id"]
+            target_id = query["target_id"]
+            if (
+                V2_ACTOR_ID_RE.fullmatch(actor_id) is None
+                or (
+                    V2_TILE_ID_RE.fullmatch(target_id) is None
+                    and V2_RELATION_ID_RE.fullmatch(target_id) is None
+                )
+            ):
+                raise V2ControlError("invalid_request")
+            if (
+                "limit" in query
+                and V2_RELATION_ID_RE.fullmatch(target_id) is not None
+            ):
+                raise V2ControlError("invalid_request")
+            raw_limit = query.get("limit", str(MAX_PAGE_ITEMS))
+            if re.fullmatch(r"(?:[1-9]|1[0-6])", raw_limit) is None:
+                raise V2ControlError("invalid_request")
+            return (
+                None, "legal_actions", int(raw_limit), actor_id, target_id,
+                None, None, None,
+            )
+
         section = query.get("section", "overview")
         if endpoint == "state" and section not in V2_STATE_SECTIONS:
             raise V2ControlError("invalid_request")
@@ -3277,12 +4067,87 @@ class Game:
         actor_id = query.get("actor_id")
         if actor_id is not None and V2_ACTOR_ID_RE.fullmatch(actor_id) is None:
             raise V2ControlError("invalid_request")
-        return None, section, int(raw_limit), actor_id
+        if endpoint == "legal_actions":
+            if set(query) - {"actor_id", "limit"}:
+                raise V2ControlError("invalid_request")
+            return None, section, int(raw_limit), actor_id, None, None, None, None
+
+        if section == "diplomacy_clauses":
+            relation_id = query.get("relation_id")
+            if (
+                set(query) - {"section", "relation_id", "limit"}
+                or relation_id is None
+                or V2_RELATION_ID_RE.fullmatch(relation_id) is None
+            ):
+                raise V2ControlError("invalid_request")
+            return (
+                None, section, int(raw_limit), None, None, relation_id,
+                None, None,
+            )
+
+        if section in V2_CITY_STATE_SECTIONS:
+            if (
+                set(query) - {"section", "actor_id", "limit"}
+                or actor_id is None or not actor_id.startswith("city_")
+            ):
+                raise V2ControlError("invalid_request")
+            return (
+                None, section, int(raw_limit), actor_id, None, None,
+                None, None,
+            )
+        if section == "tile_window":
+            center_id = query.get("center_id")
+            raw_radius = query.get("radius")
+            if (
+                set(query) - {"section", "center_id", "radius", "limit"}
+                or center_id is None
+                or V2_TILE_ID_RE.fullmatch(center_id) is None
+                or raw_radius is None
+                or re.fullmatch(r"[0-8]", raw_radius) is None
+            ):
+                raise V2ControlError("invalid_request")
+            return (
+                None, section, int(raw_limit), None, None, None,
+                center_id, int(raw_radius),
+            )
+        if set(query) - {"section", "limit"}:
+            raise V2ControlError("invalid_request")
+        return None, section, int(raw_limit), None, None, None, None, None
 
     def _raise_v2_get_error(self, exc: Exception) -> None:
         if isinstance(exc, APIProblem):
             raise exc
         if isinstance(exc, V2ControlError):
+            if exc.code == "cursor_expired":
+                raise self._v2_problem(
+                    HTTPStatus.GONE,
+                    "cursor_expired",
+                    "the full-control-v2 cursor expired; restart its query",
+                    retryable=True,
+                    details=exc.details,
+                ) from exc
+            if exc.code == "cursor_in_progress":
+                raise self._v2_problem(
+                    HTTPStatus.TOO_MANY_REQUESTS,
+                    "rate_limited",
+                    "the full-control-v2 cursor continuation is in progress",
+                    retryable=True,
+                ) from exc
+            if exc.code == "rate_limited":
+                raise self._v2_problem(
+                    HTTPStatus.TOO_MANY_REQUESTS,
+                    "rate_limited",
+                    "the full-control-v2 cursor registry is at capacity; "
+                    "retry after an existing cursor expires",
+                    retryable=True,
+                ) from exc
+            if exc.code == "scope_too_large":
+                raise self._v2_problem(
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+                    "scope_too_large",
+                    "the full-control-v2 page exceeds the public byte limit",
+                    retryable=False,
+                ) from exc
             if exc.code == "invalid_request":
                 raise self._v2_problem(
                     HTTPStatus.BAD_REQUEST,
@@ -3313,13 +4178,21 @@ class Game:
                     "the full-control-v2 sidecar is busy",
                     retryable=True,
                 ) from exc
+            if exc.code == "protocol_error":
+                raise self._v2_problem(
+                    HTTPStatus.BAD_GATEWAY,
+                    "internal_error",
+                    "the native control channel returned an invalid frame; "
+                    "private diagnostics were recorded",
+                    retryable=False,
+                ) from exc
             if exc.code in {
                 "sidecar_unavailable", "native_not_ready", "deadline_exceeded",
                 "snapshot_gone", "observation_too_large", "unexpected_eof",
                 "ipc_read_failed", "ipc_write_failed", "process_exited",
             }:
                 raise self._v2_unavailable() from exc
-            if exc.code in {"invalid_actor"}:
+            if exc.code in {"invalid_actor", "invalid_relation"}:
                 raise self._v2_problem(
                     HTTPStatus.BAD_REQUEST,
                     "invalid_request",
@@ -3335,16 +4208,30 @@ class Game:
                 ) from exc
             if exc.code == "actor_scope_too_large":
                 raise self._v2_problem(
-                    HTTPStatus.CONFLICT,
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
                     "scope_too_large",
                     "the actor legal-action scope exceeds the bounded limit",
+                    retryable=False,
+                ) from exc
+            if exc.code == "relation_scope_too_large":
+                raise self._v2_problem(
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+                    "scope_too_large",
+                    "the diplomatic relation legal-action scope exceeds the bounded limit",
+                    retryable=False,
+                ) from exc
+            if exc.code == "state_scope_too_large":
+                raise self._v2_problem(
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
+                    "scope_too_large",
+                    "the native state scope exceeds the bounded limit",
                     retryable=False,
                 ) from exc
             if exc.code == "scope_gone":
                 raise self._v2_problem(
                     HTTPStatus.CONFLICT,
                     "stale_revision",
-                    "the actor legal-action scope expired; restart the actor query",
+                    "the legal-action scope expired; restart the scoped query",
                     retryable=True,
                 ) from exc
         raise self._v2_problem(
@@ -3354,6 +4241,59 @@ class Game:
             retryable=False,
         ) from exc
 
+    @staticmethod
+    def _read_v2_observation_bundle(
+        sidecar: Any, control: V2SeatControl,
+        *, on_terminal_error: Callable[[Exception], None] | None = None,
+    ) -> Mapping[str, Any]:
+        """Read compact OBS and fully drain its same-revision entity scopes."""
+        read_arguments: dict[str, Any] = {
+            "timeout_s": V2_OBSERVATION_TIMEOUT_S,
+        }
+        if on_terminal_error is not None:
+            read_arguments["on_terminal_error"] = on_terminal_error
+        observation = sidecar.read_observation(
+            f"obs_{secrets.token_urlsafe(18)}", **read_arguments,
+        )
+        catalogs: dict[str, Mapping[str, Any]] = {}
+        for request in control.prepare_observation_scopes(observation):
+            catalogs[request.section] = sidecar.read_state_scope_catalog(
+                f"state_{secrets.token_urlsafe(18)}",
+                request.native_revision,
+                request.section,
+                request.selector,
+                timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+            )
+        return control.materialize_observation_catalogs(
+            observation, catalogs,
+        )
+
+    def _read_v2_post_result_observation_bundle(
+        self, sidecar: Any, control: V2SeatControl,
+        *, on_terminal_error: Callable[[Exception], None] | None = None,
+    ) -> Mapping[str, Any]:
+        """Retry only the brief native-AI handoff after an action result."""
+        deadline = time.monotonic() + V2_POST_RESULT_OBSERVATION_RETRY_S
+        while True:
+            try:
+                return self._read_v2_observation_bundle(sidecar, control)
+            except SidecarError as exc:
+                if (
+                    exc.code == "native_not_ready"
+                    and time.monotonic() < deadline
+                ):
+                    time.sleep(V2_POST_RESULT_OBSERVATION_RETRY_INTERVAL_S)
+                    continue
+                if on_terminal_error is not None:
+                    on_terminal_error(exc)
+                raise
+
+    @staticmethod
+    def _acquire_v2_read_lock(execution_lock: threading.Lock) -> None:
+        """Fail concurrent reads retryably instead of queueing stale work."""
+        if not execution_lock.acquire(blocking=False):
+            raise SidecarError("native_busy")
+
     def v2_get_page(
         self, agent_id: str, endpoint: str, raw_query: str,
     ) -> dict[str, Any]:
@@ -3361,21 +4301,162 @@ class Game:
         try:
             if endpoint not in {"state", "legal_actions"}:
                 raise V2ControlError("invalid_request")
-            cursor, section, limit, actor_id = self._v2_query(
+            (
+                cursor, section, limit, actor_id, target_id, relation_id,
+                center_id, radius,
+            ) = self._v2_query(
                 raw_query, endpoint,
             )
-            if actor_id is None and cursor is None:
-                context = self._resolve_v2_control(agent_id)
-                place_number, generation, sidecar, control = context
-                request_id = f"obs_{secrets.token_urlsafe(18)}"
-                observation = sidecar.read_observation(
-                    request_id, timeout_s=V2_OBSERVATION_TIMEOUT_S,
+            if target_id is not None:
+                batch_context = self._resolve_v2_batch_context(agent_id)
+                place_number, generation, sidecar, control, execution_lock = (
+                    batch_context
                 )
-                page = (
-                    control.state_page(observation, section, limit)
-                    if endpoint == "state"
-                    else control.legal_actions_page(observation, limit)
+                self._acquire_v2_read_lock(execution_lock)
+                try:
+                    assert actor_id is not None
+                    observation = self._read_v2_observation_bundle(
+                        sidecar, control,
+                    )
+                    if V2_RELATION_ID_RE.fullmatch(target_id) is not None:
+                        support_request = control.prepare_relation_support_scope(
+                            observation, target_id,
+                        )
+                        support_catalog = sidecar.read_state_scope_catalog(
+                            f"state_{secrets.token_urlsafe(18)}",
+                            support_request.native_revision,
+                            support_request.section,
+                            support_request.selector,
+                            timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                        )
+                        control.hydrate_state_scope(
+                            support_request, support_catalog,
+                        )
+                        relation_request = control.prepare_relation_scope(
+                            observation, actor_id, target_id,
+                        )
+                        native_result = sidecar.read_relation_scope_catalog(
+                            f"rel_{secrets.token_urlsafe(18)}",
+                            relation_request.native_revision,
+                            relation_request.native_actor_ref,
+                            relation_request.native_counterpart_ref,
+                            timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                        )
+                        page = control.materialize_relation_scope(
+                            relation_request, native_result,
+                        )
+                    else:
+                        target_request = control.prepare_target_action(
+                            observation, actor_id, target_id, limit,
+                        )
+                        if target_request.actor_kind == "player":
+                            tile_request = control.prepare_target_tile_support(
+                                target_request,
+                            )
+                            tile_catalog = sidecar.read_state_scope_catalog(
+                                f"state_{secrets.token_urlsafe(18)}",
+                                tile_request.native_revision,
+                                tile_request.section,
+                                tile_request.selector,
+                                timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                            )
+                            control.hydrate_state_scope(
+                                tile_request, tile_catalog,
+                            )
+                        native_result = sidecar.read_target_action(
+                            f"tgt_{secrets.token_urlsafe(18)}",
+                            target_request.native_revision,
+                            target_request.native_actor_ref,
+                            target_request.native_target_tile,
+                            timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                        )
+                        page = control.target_action_page(
+                            target_request, native_result,
+                        )
+                finally:
+                    execution_lock.release()
+            elif endpoint == "state" and cursor is None:
+                if section in {
+                    "known_tiles", "map_tiles", "tile_window",
+                    "diplomacy_clauses",
+                    "city_citizens",
+                    "city_build_choices", "city_worklist",
+                    "city_improvements", "city_governor",
+                    "pregame_nations", "pregame_styles", "pregame_teams",
+                }:
+                    batch_context = self._resolve_v2_batch_context(agent_id)
+                    (
+                        place_number, generation, sidecar, control,
+                        execution_lock,
+                    ) = batch_context
+                    self._acquire_v2_read_lock(execution_lock)
+                    try:
+                        observation = self._read_v2_observation_bundle(
+                            sidecar, control,
+                        )
+                        state_request = control.prepare_state_scope(
+                            observation, section, limit, actor_id=actor_id,
+                            relation_id=relation_id,
+                            center_id=center_id, radius=radius,
+                        )
+                        if section == "city_build_choices":
+                            worklist_request = control.prepare_state_scope(
+                                observation, "city_worklist", MAX_PAGE_ITEMS,
+                                actor_id=actor_id,
+                            )
+                            worklist_catalog = sidecar.read_state_scope_catalog(
+                                f"state_{secrets.token_urlsafe(18)}",
+                                worklist_request.native_revision,
+                                worklist_request.section,
+                                worklist_request.selector,
+                                timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                            )
+                            control.hydrate_state_scope(
+                                worklist_request, worklist_catalog,
+                            )
+                        native_catalog = sidecar.read_state_scope_catalog(
+                            f"state_{secrets.token_urlsafe(18)}",
+                            state_request.native_revision,
+                            state_request.section,
+                            state_request.selector,
+                            timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                        )
+                        page = control.materialize_state_scope(
+                            state_request, native_catalog,
+                        )
+                    finally:
+                        execution_lock.release()
+                else:
+                    batch_context = self._resolve_v2_batch_context(agent_id)
+                    (
+                        place_number, generation, sidecar, control,
+                        execution_lock,
+                    ) = batch_context
+                    self._acquire_v2_read_lock(execution_lock)
+                    try:
+                        observation = self._read_v2_observation_bundle(
+                            sidecar, control,
+                        )
+                        page = control.state_page(
+                            observation, section, limit, actor_id=actor_id,
+                            relation_id=relation_id,
+                            center_id=center_id, radius=radius,
+                        )
+                    finally:
+                        execution_lock.release()
+            elif actor_id is None and cursor is None:
+                batch_context = self._resolve_v2_batch_context(agent_id)
+                place_number, generation, sidecar, control, execution_lock = (
+                    batch_context
                 )
+                self._acquire_v2_read_lock(execution_lock)
+                try:
+                    observation = self._read_v2_observation_bundle(
+                        sidecar, control,
+                    )
+                    page = control.legal_actions_page(observation, limit)
+                finally:
+                    execution_lock.release()
             elif endpoint != "legal_actions":
                 context = self._resolve_v2_control(agent_id)
                 place_number, generation, sidecar, control = context
@@ -3384,7 +4465,48 @@ class Game:
             elif cursor is not None:
                 context = self._resolve_v2_control(agent_id)
                 place_number, generation, sidecar, control = context
-                if not control.is_actor_scope_cursor(
+                if control.is_relation_scope_cursor(
+                    cursor, endpoint=endpoint,
+                ):
+                    batch_context = self._resolve_v2_batch_context(agent_id)
+                    (
+                        place_number, generation, sidecar, control,
+                        execution_lock,
+                    ) = batch_context
+                    self._acquire_v2_read_lock(execution_lock)
+                    try:
+                        relation_request = control.take_relation_scope_cursor(
+                            cursor, endpoint=endpoint,
+                        )
+                        if relation_request is None:
+                            raise V2ControlError("invalid_request")
+                        if isinstance(relation_request, dict):
+                            page = relation_request
+                        else:
+                            try:
+                                native_page = sidecar.read_relation_scope_page(
+                                    f"rel_{secrets.token_urlsafe(18)}",
+                                    relation_request.native_view_id,
+                                    relation_request.native_revision,
+                                    relation_request.native_actor_ref,
+                                    relation_request.native_counterpart_ref,
+                                    relation_request.total_count,
+                                    relation_request.offset,
+                                    relation_request.limit,
+                                    timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                                )
+                                projected = control.relation_scope_page(
+                                    relation_request, native_page,
+                                )
+                                page = control.commit_scope_cursor(
+                                    cursor, relation_request, projected,
+                                )
+                            except Exception:
+                                control.abort_scope_cursor(cursor)
+                                raise
+                    finally:
+                        execution_lock.release()
+                elif not control.is_actor_scope_cursor(
                     cursor, endpoint=endpoint,
                 ):
                     page = control.continue_page(cursor, endpoint=endpoint)
@@ -3394,29 +4516,36 @@ class Game:
                         place_number, generation, sidecar, control,
                         execution_lock,
                     ) = batch_context
-                    if not execution_lock.acquire(
-                        timeout=V2_EXECUTION_LOCK_TIMEOUT_S,
-                    ):
-                        raise self._v2_unavailable()
+                    self._acquire_v2_read_lock(execution_lock)
                     try:
                         scope_request = control.take_actor_scope_cursor(
                             cursor, endpoint=endpoint,
                         )
                         if scope_request is None:
                             raise V2ControlError("invalid_request")
-                        native_page = sidecar.read_actor_scope_page(
-                            f"scp_{secrets.token_urlsafe(18)}",
-                            scope_request.native_view_id,
-                            scope_request.native_revision,
-                            scope_request.native_actor_ref,
-                            scope_request.total_count,
-                            scope_request.offset,
-                            scope_request.limit,
-                            timeout_s=V2_OBSERVATION_TIMEOUT_S,
-                        )
-                        page = control.actor_scope_page(
-                            scope_request, native_page,
-                        )
+                        if isinstance(scope_request, dict):
+                            page = scope_request
+                        else:
+                            try:
+                                native_page = sidecar.read_actor_scope_page(
+                                    f"scp_{secrets.token_urlsafe(18)}",
+                                    scope_request.native_view_id,
+                                    scope_request.native_revision,
+                                    scope_request.native_actor_ref,
+                                    scope_request.total_count,
+                                    scope_request.offset,
+                                    scope_request.limit,
+                                    timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                                )
+                                projected = control.actor_scope_page(
+                                    scope_request, native_page,
+                                )
+                                page = control.commit_scope_cursor(
+                                    cursor, scope_request, projected,
+                                )
+                            except Exception:
+                                control.abort_scope_cursor(cursor)
+                                raise
                     finally:
                         execution_lock.release()
             else:
@@ -3424,27 +4553,50 @@ class Game:
                 place_number, generation, sidecar, control, execution_lock = (
                     batch_context
                 )
-                if not execution_lock.acquire(
-                    timeout=V2_EXECUTION_LOCK_TIMEOUT_S,
-                ):
-                    raise self._v2_unavailable()
+                self._acquire_v2_read_lock(execution_lock)
                 try:
                     assert actor_id is not None
-                    observation = sidecar.read_observation(
-                        f"obs_{secrets.token_urlsafe(18)}",
-                        timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                    observation = self._read_v2_observation_bundle(
+                        sidecar, control,
                     )
                     scope_request = control.prepare_actor_scope(
                         observation, actor_id, limit,
                     )
-                    native_page = sidecar.read_actor_scope(
+                    if scope_request.actor_kind == "city":
+                        for support_request in control.prepare_city_support_scopes(
+                            observation, actor_id,
+                        ):
+                            support_catalog = sidecar.read_state_scope_catalog(
+                                f"state_{secrets.token_urlsafe(18)}",
+                                support_request.native_revision,
+                                support_request.section,
+                                support_request.selector,
+                                timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                            )
+                            control.hydrate_state_scope(
+                                support_request, support_catalog,
+                            )
+                    elif scope_request.actor_kind == "unit":
+                        for support_request in control.prepare_unit_support_scopes(
+                            observation, actor_id,
+                        ):
+                            support_catalog = sidecar.read_state_scope_catalog(
+                                f"state_{secrets.token_urlsafe(18)}",
+                                support_request.native_revision,
+                                support_request.section,
+                                support_request.selector,
+                                timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                            )
+                            control.hydrate_state_scope(
+                                support_request, support_catalog,
+                            )
+                    native_page = sidecar.read_actor_scope_catalog(
                         f"scp_{secrets.token_urlsafe(18)}",
                         scope_request.native_revision,
                         scope_request.native_actor_ref,
-                        scope_request.limit,
-                        timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                        timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
                     )
-                    page = control.actor_scope_page(
+                    page = control.materialize_actor_scope(
                         scope_request, native_page,
                     )
                 finally:
@@ -3489,6 +4641,7 @@ class Game:
         *,
         error_code: str | None = None,
         retryable: bool = False,
+        observation: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         error = None
         if error_code is not None:
@@ -3512,9 +4665,17 @@ class Game:
             "idempotent": False,
             "state_revision": dict(state_revision),
             "error": error,
+            "observation": observation,
         }
 
     def _v2_receipt_store(self) -> V2ReceiptStore:
+        if self.v2_receipt_store_failed:
+            raise self._v2_problem(
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+                "internal_error",
+                "the command receipt store is unavailable",
+                retryable=False,
+            )
         store = self.v2_receipt_store
         if store is None:
             raise self._v2_problem(
@@ -3576,6 +4737,27 @@ class Game:
             and lock_record[2] is execution_lock
         )
 
+    def _v2_pregame_gate_current_locked(self) -> bool:
+        if (
+            not self.v2_pregame_gate_open or self.state != "lobby"
+            or len(self.place_agents) != self.max_agents
+        ):
+            return False
+        for place in self.joinable_places:
+            agent_id = self.place_agents.get(place.number)
+            sidecar = self.sidecars.get(place.number)
+            control = self.v2_controls.get(place.number)
+            generation = self.sidecar_generations.get(place.number, 0)
+            if (
+                agent_id is None or sidecar is None or control is None
+                or not self._v2_seat_runtime_active_locked(
+                    place.number, generation, sidecar,
+                    agent_id=agent_id, control=control,
+                )
+            ):
+                return False
+        return True
+
     def _resolve_v2_batch_context(
         self, agent_id: str,
     ) -> tuple[int, int, Any, V2SeatControl, threading.Lock]:
@@ -3602,9 +4784,20 @@ class Game:
                 )
             ):
                 raise self._v2_unavailable()
-            return (
+            ready_allowed = (
+                self.state != "lobby"
+                or self._v2_pregame_gate_current_locked()
+            )
+            result = (
                 place_number, generation, sidecar, control, lock_record[2],
             )
+        control.set_pregame_ready_allowed(ready_allowed)
+        if not self._v2_batch_context_current(
+            agent_id, place_number, generation, sidecar, control,
+            lock_record[2],
+        ):
+            raise self._v2_unavailable()
+        return result
 
     def _v2_batch_context_current(
         self,
@@ -3677,6 +4870,60 @@ class Game:
         ) from exc
 
     @staticmethod
+    def _v2_batch_safe_next(problem: APIProblem) -> str:
+        payload = problem.payload if isinstance(problem.payload, dict) else {}
+        error = payload.get("error") if isinstance(payload, dict) else None
+        code = error.get("code") if isinstance(error, dict) else None
+        retryable = error.get("retryable") if isinstance(error, dict) else False
+        if code in {"conflict", "internal_error"}:
+            return "receipt_first"
+        if code in {"rate_limited", "sidecar_unavailable"} and retryable is True:
+            return "retry_exact"
+        return "refresh"
+
+    def _v2_not_accepted_problem(
+        self, problem: APIProblem, batch_id: str,
+    ) -> APIProblem:
+        """Annotate a proved pre-reservation failure without making a receipt."""
+        payload = problem.payload if isinstance(problem.payload, dict) else None
+        error = payload.get("error") if isinstance(payload, dict) else None
+        if not isinstance(error, dict):
+            return self._v2_problem(
+                problem.status,
+                "internal_error",
+                "the full-control-v2 command could not be completed",
+                retryable=False,
+                details={
+                    "batch_id": batch_id,
+                    "acceptance": "not_accepted",
+                    "safe_next": "receipt_first",
+                },
+            )
+        details = error.get("details")
+        clean_details = dict(details) if isinstance(details, dict) else {}
+        clean_details.update({
+            "batch_id": batch_id,
+            "acceptance": "not_accepted",
+            "safe_next": self._v2_batch_safe_next(problem),
+        })
+        return self._v2_problem(
+            problem.status,
+            str(error.get("code") or "internal_error"),
+            str(error.get("message") or "the command was not accepted"),
+            retryable=error.get("retryable") is True,
+            details=clean_details,
+        )
+
+    def _raise_v2_not_accepted(
+        self, exc: Exception, batch_id: str,
+    ) -> None:
+        try:
+            self._raise_v2_pre_batch_error(exc)
+        except APIProblem as problem:
+            raise self._v2_not_accepted_problem(problem, batch_id) from exc
+        raise AssertionError("unreachable")
+
+    @staticmethod
     def _v2_definitive_rejection(
         code: str, *, correlated_native_rejection: bool = False,
     ) -> tuple[int, str]:
@@ -3710,6 +4957,48 @@ class Game:
             self._raise_v2_store_error(exc)
             raise AssertionError("unreachable")
 
+    def _v2_terminal_transition(
+        self,
+        store: V2ReceiptStore,
+        reservation: ReceiptReservation,
+        receipt: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Persist a terminal receipt or fail closed without leaving accepted."""
+        if receipt.get("receipt_state") not in {
+            "applied", "rejected", "ambiguous",
+        }:
+            raise AssertionError("terminal receipt required")
+        last_error: Exception | None = None
+        for _attempt in range(2):
+            try:
+                return store.transition(reservation, receipt)
+            except Exception as exc:
+                last_error = exc
+        try:
+            recovered = store.recover_incomplete(reservation)
+            if recovered.get("receipt_state") == receipt["receipt_state"]:
+                recovered = dict(recovered)
+                recovered["idempotent"] = False
+            return recovered
+        except Exception as exc:
+            last_error = exc
+        with self.condition:
+            self.v2_receipt_store_failed = True
+            self.error = "full-control-v2 receipt durability failed"
+            if "receipt_store_failure" not in self.invalid_reasons:
+                self.invalid_reasons.append("receipt_store_failure")
+            self.state = "failed"
+            self.finished_at = time.time()
+            self._terminalize_v2_phase_locked("failed")
+            try:
+                self._write_manifest()
+            except Exception:
+                pass
+            self.condition.notify_all()
+        assert last_error is not None
+        self._raise_v2_store_error(last_error)
+        raise AssertionError("unreachable")
+
     def _v2_ambiguous(
         self,
         store: V2ReceiptStore,
@@ -3726,7 +5015,7 @@ class Game:
         acceptance_known: bool,
         record_trace: bool = True,
     ) -> tuple[int, dict[str, Any]]:
-        receipt = self._v2_transition(
+        receipt = self._v2_terminal_transition(
             store,
             reservation,
             self._v2_receipt(
@@ -3816,9 +5105,32 @@ class Game:
     def v2_submit_batch(
         self, agent_id: str, batch: Any,
     ) -> tuple[int, dict[str, Any]]:
-        self._begin_v2_receipt_operation()
         try:
-            return self._v2_submit_batch_active(agent_id, batch)
+            clean_batch = validate_initial_command_batch(batch)
+        except FullControlSchemaError as exc:
+            raise self._v2_problem(
+                HTTPStatus.BAD_REQUEST,
+                "invalid_batch",
+                "the full-control-v2 command batch is invalid",
+                retryable=False,
+            ) from exc
+        if (
+            clean_batch["game_id"] != self.game_id
+            or clean_batch["agent_id"] != agent_id
+        ):
+            raise self._v2_problem(
+                HTTPStatus.BAD_REQUEST,
+                "invalid_batch",
+                "the full-control-v2 command batch is invalid",
+                retryable=False,
+            )
+        batch_id = clean_batch["batch_id"]
+        try:
+            self._begin_v2_receipt_operation()
+        except APIProblem as problem:
+            raise self._v2_not_accepted_problem(problem, batch_id) from problem
+        try:
+            return self._v2_submit_batch_active(agent_id, clean_batch)
         finally:
             self._end_v2_receipt_operation()
 
@@ -3827,7 +5139,6 @@ class Game:
         *, internal_phase_claim: dict[str, Any] | None = None,
     ) -> tuple[int, dict[str, Any]]:
         """Resolve and execute one durable, generation-scoped v2 command."""
-        store = self._v2_receipt_store()
         build_timeout_batch = batch is None and internal_phase_claim is not None
         if not build_timeout_batch and (
             not isinstance(batch, dict) or batch.get("agent_id") != agent_id
@@ -3838,26 +5149,79 @@ class Game:
                 "the full-control-v2 command batch is invalid",
                 retryable=False,
             )
+        try:
+            store = self._v2_receipt_store()
+        except APIProblem as problem:
+            if build_timeout_batch:
+                raise
+            raise self._v2_not_accepted_problem(
+                problem, batch["batch_id"],
+            ) from problem
         if not build_timeout_batch:
+            batch_id = batch["batch_id"]
             try:
                 duplicate = store.probe(batch)
             except Exception as exc:
-                self._raise_v2_store_error(exc)
+                if isinstance(exc, V2ReceiptConflict):
+                    problem = self._v2_problem(
+                        HTTPStatus.CONFLICT,
+                        "conflict",
+                        "the batch ID is already bound to a different request",
+                        retryable=False,
+                    )
+                    raise self._v2_not_accepted_problem(
+                        problem, batch_id,
+                    ) from exc
+                try:
+                    self._raise_v2_store_error(exc)
+                except APIProblem as problem:
+                    raise self._v2_not_accepted_problem(
+                        problem, batch_id,
+                    ) from exc
                 raise AssertionError("unreachable")
             if duplicate is not None and duplicate.receipt is not None:
                 return self._v2_receipt_status(duplicate.receipt), duplicate.receipt
+            if duplicate is not None:
+                raise self._v2_problem(
+                    HTTPStatus.INTERNAL_SERVER_ERROR,
+                    "internal_error",
+                    "the command receipt is incomplete",
+                    retryable=False,
+                )
 
         try:
             context = self._resolve_v2_batch_context(agent_id)
         except Exception as exc:
-            self._raise_v2_pre_batch_error(exc)
+            if build_timeout_batch:
+                self._raise_v2_pre_batch_error(exc)
+            self._raise_v2_not_accepted(exc, batch["batch_id"])
             raise AssertionError("unreachable")
         place, generation, sidecar, control, execution_lock = context
 
         # The seat lock serializes action resolution through final durability.
         # No Game condition, receipt-store lock, or control lock is held here.
         if not execution_lock.acquire(timeout=V2_EXECUTION_LOCK_TIMEOUT_S):
-            raise self._v2_unavailable()
+            problem = self._v2_unavailable()
+            if build_timeout_batch:
+                raise problem
+            raise self._v2_not_accepted_problem(
+                problem, batch["batch_id"],
+            )
+        with self.condition:
+            pregame_lock_needed = self.state == "lobby"
+        pregame_lock_held = False
+        if pregame_lock_needed:
+            pregame_lock_held = self.v2_pregame_execution_lock.acquire(
+                timeout=V2_EXECUTION_LOCK_TIMEOUT_S,
+            )
+            if not pregame_lock_held:
+                execution_lock.release()
+                problem = self._v2_unavailable()
+                if build_timeout_batch:
+                    raise problem
+                raise self._v2_not_accepted_problem(
+                    problem, batch["batch_id"],
+                )
         phase_claim: dict[str, Any] | None = None
         timeout_observation: dict[str, Any] | None = None
         phase_failure_cleanup = False
@@ -3882,9 +5246,8 @@ class Game:
                 if not claim_current:
                     raise self._v2_unavailable()
                 try:
-                    timeout_observation = sidecar.read_observation(
-                        f"obs_{secrets.token_urlsafe(18)}",
-                        timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                    timeout_observation = self._read_v2_observation_bundle(
+                        sidecar, control,
                     )
                     batch = self._v2_phase_end_batch_from_observation(
                         self.game_id, internal_phase_claim, control,
@@ -3902,7 +5265,24 @@ class Game:
             try:
                 duplicate = store.probe(batch)
             except Exception as exc:
-                self._raise_v2_store_error(exc)
+                if build_timeout_batch:
+                    self._raise_v2_store_error(exc)
+                if isinstance(exc, V2ReceiptConflict):
+                    problem = self._v2_problem(
+                        HTTPStatus.CONFLICT,
+                        "conflict",
+                        "the batch ID is already bound to a different request",
+                        retryable=False,
+                    )
+                    raise self._v2_not_accepted_problem(
+                        problem, batch["batch_id"],
+                    ) from exc
+                try:
+                    self._raise_v2_store_error(exc)
+                except APIProblem as problem:
+                    raise self._v2_not_accepted_problem(
+                        problem, batch["batch_id"],
+                    ) from exc
                 raise AssertionError("unreachable")
             if duplicate is not None and duplicate.receipt is not None:
                 return self._v2_receipt_status(duplicate.receipt), duplicate.receipt
@@ -3918,14 +5298,18 @@ class Game:
             if not self._v2_batch_context_current(
                 agent_id, place, generation, sidecar, control, execution_lock,
             ):
-                raise self._v2_unavailable()
+                problem = self._v2_unavailable()
+                if build_timeout_batch:
+                    raise problem
+                raise self._v2_not_accepted_problem(
+                    problem, batch["batch_id"],
+                )
 
             try:
                 observation = timeout_observation
                 if observation is None:
-                    observation = sidecar.read_observation(
-                        f"obs_{secrets.token_urlsafe(18)}",
-                        timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                    observation = self._read_v2_observation_bundle(
+                        sidecar, control,
                     )
                 command = batch["commands"][0]
                 resolution = control.resolve_action(
@@ -3934,6 +5318,14 @@ class Game:
                     command["action_id"],
                     command["arguments"],
                 )
+                if (
+                    resolution.public_kind == "pregame.set_ready"
+                    and resolution.native_arguments == "ready=1"
+                ):
+                    with self.condition:
+                        gate_open = self._v2_pregame_gate_current_locked()
+                    if not gate_open:
+                        raise V2ControlError("stale_revision")
                 phase_overview = None
                 if resolution.public_kind == "phase.end":
                     phase_page = control.state_page(
@@ -3941,12 +5333,19 @@ class Game:
                     )
                     phase_overview = phase_page["page"]["items"][0]
             except Exception as exc:
-                self._raise_v2_pre_batch_error(exc)
+                if build_timeout_batch:
+                    self._raise_v2_pre_batch_error(exc)
+                self._raise_v2_not_accepted(exc, batch["batch_id"])
                 raise AssertionError("unreachable")
             if not self._v2_batch_context_current(
                 agent_id, place, generation, sidecar, control, execution_lock,
             ):
-                raise self._v2_unavailable()
+                problem = self._v2_unavailable()
+                if build_timeout_batch:
+                    raise problem
+                raise self._v2_not_accepted_problem(
+                    problem, batch["batch_id"],
+                )
 
             if resolution.public_kind == "phase.end":
                 try:
@@ -3955,7 +5354,9 @@ class Game:
                         phase_overview, internal_phase_claim,
                     )
                 except Exception as exc:
-                    self._raise_v2_pre_batch_error(exc)
+                    if build_timeout_batch:
+                        self._raise_v2_pre_batch_error(exc)
+                    self._raise_v2_not_accepted(exc, batch["batch_id"])
                     raise AssertionError("unreachable")
 
             try:
@@ -4102,7 +5503,24 @@ class Game:
 
             try:
                 action_request = f"act_{secrets.token_urlsafe(18)}"
-                if resolution.scoped:
+                if resolution.relation_scoped:
+                    if (
+                        resolution.native_actor_ref is None
+                        or resolution.native_counterpart_ref is None
+                    ):
+                        raise V2ControlError("internal_error")
+                    result = sidecar.execute_relation_scoped_action(
+                        action_request,
+                        resolution.native_revision,
+                        resolution.native_actor_ref,
+                        resolution.native_counterpart_ref,
+                        resolution.native_slot,
+                        resolution.native_arguments,
+                        timeout_s=V2_ACTION_TIMEOUT_S,
+                        on_accepted=accepted,
+                        on_ambiguous=before_terminal_ambiguity,
+                    )
+                elif resolution.scoped:
                     if resolution.native_actor_ref is None:
                         raise V2ControlError("internal_error")
                     result = sidecar.execute_scoped_action(
@@ -4150,7 +5568,7 @@ class Game:
                 status, code = self._v2_definitive_rejection(
                     exc.code, correlated_native_rejection=True,
                 )
-                receipt = self._v2_transition(
+                receipt = self._v2_terminal_transition(
                     store,
                     reservation,
                     self._v2_receipt(
@@ -4180,7 +5598,7 @@ class Game:
                     self._note_phase_end_receipt(phase_claim, "ambiguous")
                     return response
                 status, code = self._v2_definitive_rejection(exc.code)
-                receipt = self._v2_transition(
+                receipt = self._v2_terminal_transition(
                     store,
                     reservation,
                     self._v2_receipt(
@@ -4217,6 +5635,17 @@ class Game:
                 or not isinstance(result.get("result_revision"), int)
                 or result["result_revision"] < 1
                 or result.get("status") not in {"applied", "rejected"}
+                or result.get("applied") is not (
+                    result.get("status") == "applied"
+                )
+                or (
+                    resolution.operation == "investigate_city"
+                    and result.get("status") == "applied"
+                ) != isinstance(result.get("observation_selector"), str)
+                or (
+                    resolution.operation != "investigate_city"
+                    or result.get("status") != "applied"
+                ) and result.get("observation_selector") is not None
             ):
                 accepted_from_result = bool(
                     isinstance(result, dict)
@@ -4235,10 +5664,29 @@ class Game:
                 )
                 self._note_phase_end_receipt(phase_claim, "ambiguous")
                 return response
+            if (
+                resolution.public_kind == "phase.end"
+                and result["status"] == "applied"
+                and result.get("applied") is True
+            ):
+                # A successful phase end intentionally removes this seat's
+                # active private observation. The correlated native result is
+                # already the authoritative proof; requiring another snapshot
+                # here turns the expected inactive handoff into ambiguity.
+                receipt = self._v2_terminal_transition(
+                    store,
+                    reservation,
+                    self._v2_receipt(
+                        agent_id, batch_id, "applied", requested_revision,
+                    ),
+                )
+                receipt_state = receipt["receipt_state"]
+                self._note_phase_end_receipt(phase_claim, receipt_state)
+                return self._v2_receipt_status(receipt), receipt
+            receipt_observation = None
             try:
-                fresh = sidecar.read_observation(
-                    f"obs_{secrets.token_urlsafe(18)}",
-                    timeout_s=V2_OBSERVATION_TIMEOUT_S,
+                fresh = self._read_v2_post_result_observation_bundle(
+                    sidecar, control,
                     on_terminal_error=lambda _exc: record_ambiguity_trace(
                         "post_result_observation",
                         "observation_unavailable",
@@ -4249,10 +5697,36 @@ class Game:
                     isinstance(fresh.get("native_revision"), bool)
                     or not isinstance(fresh.get("native_revision"), int)
                     or fresh["native_revision"] < result["result_revision"]
+                    or (
+                        resolution.operation == "investigate_city"
+                        and result["status"] == "applied"
+                        and fresh["native_revision"]
+                            != result["result_revision"]
+                    )
                 ):
                     raise SidecarError("snapshot_gone")
                 public = control.state_page(fresh, "overview", 1)
                 result_revision = dict(public["state_revision"])
+                if (
+                    resolution.operation == "investigate_city"
+                    and result["status"] == "applied"
+                ):
+                    investigation_request = control.prepare_investigation_scope(
+                        fresh, result["observation_selector"],
+                    )
+                    investigation_catalog = sidecar.read_state_scope_catalog(
+                        f"investigation_{secrets.token_urlsafe(18)}",
+                        investigation_request.native_revision,
+                        investigation_request.section,
+                        investigation_request.selector,
+                        timeout_s=V2_SCOPE_MATERIALIZATION_TIMEOUT_S,
+                    )
+                    receipt_observation = (
+                        control.project_investigation_observation(
+                            fresh, investigation_request,
+                            investigation_catalog,
+                        )
+                    )
             except Exception:
                 response = ambiguous(
                     "post_result_observation", "observation_unavailable",
@@ -4271,21 +5745,54 @@ class Game:
                 return response
 
             if result["status"] == "applied" and result.get("applied") is True:
-                receipt = self._v2_transition(
+                receipt = self._v2_terminal_transition(
                     store,
                     reservation,
                     self._v2_receipt(
                         agent_id, batch_id, "applied", result_revision,
+                        observation=receipt_observation,
                     ),
                 )
-                self._note_phase_end_receipt(phase_claim, "applied")
-                return HTTPStatus.OK, receipt
+                receipt_state = receipt["receipt_state"]
+                self._note_phase_end_receipt(phase_claim, receipt_state)
+                if (
+                    receipt_state == "applied"
+                    and resolution.public_kind == "pregame.set_ready"
+                ):
+                    desired_ready = resolution.native_arguments == "ready=1"
+                    with self.condition:
+                        if desired_ready:
+                            self.v2_pregame_ready_places.add(place)
+                        else:
+                            self.v2_pregame_ready_places.discard(place)
+                        expected = {
+                            item.number for item in self.joinable_places
+                        }
+                        if (
+                            desired_ready
+                            and self.v2_pregame_ready_places == expected
+                            and self.state == "lobby"
+                            and self.error is None
+                            and not self.cancel_requested
+                            and not self.sidecars_stopping
+                            and self._v2_pregame_gate_current_locked()
+                        ):
+                            self.start_sent = True
+                            self.start_count += 1
+                            self.started_at = self.started_at or time.time()
+                            self.state = "starting"
+                            self.sidecar_start_deadline = (
+                                time.monotonic() + V2_SIDECAR_STARTUP_GRACE_S
+                            )
+                            self._write_manifest()
+                            self.condition.notify_all()
+                return self._v2_receipt_status(receipt), receipt
             if (
                 result["status"] == "rejected"
                 and result.get("applied") is False
                 and result.get("reason") == "POSTCONDITION_NOT_MET"
             ):
-                receipt = self._v2_transition(
+                receipt = self._v2_terminal_transition(
                     store,
                     reservation,
                     self._v2_receipt(
@@ -4309,8 +5816,10 @@ class Game:
             self._note_phase_end_receipt(phase_claim, "ambiguous")
             return response
         finally:
+            if pregame_lock_held:
+                self.v2_pregame_execution_lock.release()
             execution_lock.release()
-            if phase_failure_cleanup:
+            if phase_failure_cleanup or self.v2_receipt_store_failed:
                 self._stop_all_sidecars()
                 self._terminate_child()
 
@@ -4350,10 +5859,13 @@ class Game:
                 self.condition.wait()
             store = self.v2_receipt_store
             trace = self.v2_ambiguity_trace
+            phase_events = self.v2_phase_event_journal
         if store is not None:
             store.close()
         if trace is not None:
             trace.close()
+        if phase_events is not None:
+            phase_events.close()
 
     def v2_unimplemented(self, agent_id: str, resource: str) -> APIProblem:
         health = self.v2_health(agent_id)
@@ -4911,6 +6423,7 @@ class Game:
                 return self.status()
             self.cancel_requested = True
             self.error = "cancelled by owner"
+            self._terminalize_v2_phase_locked("cancelled")
             self.condition.notify_all()
         self._stop_all_sidecars()
         self._terminate_child()
@@ -4918,7 +6431,7 @@ class Game:
 
     def urls(self) -> dict[str, str]:
         base = self.supervisor.service_url
-        return {
+        value = {
             "join_url": f"{base}/v1/games/{self.game_id}/join",
             "status_url": f"{base}/v1/games/{self.game_id}/status",
             "result_url": f"{base}/v1/games/{self.game_id}/result",
@@ -4928,6 +6441,11 @@ class Game:
             "frames_url": f"{base}/v1/games/{self.game_id}/frames",
             "video_url": f"{base}/v1/games/{self.game_id}/video.mp4",
         }
+        if self.config["control_protocol"] == FULL_CONTROL_V2:
+            value["phase_events_url"] = (
+                f"{base}/v1/games/{self.game_id}/phase-events"
+            )
+        return value
 
     def _configured_score_snapshot(self) -> dict[str, Any]:
         """Return a strict authoritative snapshot for every configured seat."""
@@ -5216,6 +6734,10 @@ class Game:
         started = ledger.get("deadline_started_monotonic")
         timeout = self.config["action_timeout_s"]
         now = time.monotonic()
+        terminalized = bool(
+            self.state in TERMINAL_STATES or self.cancel_requested
+            or self.server_exit_observed
+        )
         elapsed = max(0.0, now - started) if started is not None else None
         remaining = (
             max(0.0, timeout - elapsed)
@@ -5227,7 +6749,9 @@ class Game:
             agent_id = self.place_agents.get(place.number)
             agent = self.agents.get(agent_id) if agent_id is not None else None
             row = evidence.get(place.number)
-            if ledger["state"] == "synchronizing" or row is None:
+            if terminalized:
+                controller_state = ledger["state"]
+            elif ledger["state"] == "synchronizing" or row is None:
                 controller_state = "synchronizing"
             elif place.number != active_place:
                 controller_state = "inactive_done"
@@ -5241,7 +6765,7 @@ class Game:
             elif row["ready"]:
                 controller_state = "awaiting_agent"
             else:
-                controller_state = "synchronizing"
+                controller_state = "phase_not_ready"
             controller = {
                 "place": place.number,
                 "seat_id": place.seat_id,
@@ -5253,14 +6777,16 @@ class Game:
                 "state": controller_state,
             }
             controllers.append(controller)
-            if place.number == active_place:
+            if place.number == active_place and not terminalized:
                 active = dict(controller)
         started_at = ledger.get("deadline_started_at")
         return {
             "state": ledger["state"],
             "turn": key[0] if key is not None else None,
             "phase": key[1] if key is not None else None,
-            "phase_count": key[2] if key is not None else None,
+            "reported_phase_counts": list(
+                ledger.get("reported_phase_counts", [])
+            ),
             "phase_mode": "players_alternate" if key is not None else None,
             "active_controller": active,
             "timing": {
@@ -5305,8 +6831,7 @@ class Game:
                 "joined_agents": len(self.agents),
                 "turns": self.config["turns"],
                 "current_turn": (
-                    self.current_turn["turn"] if self.current_turn is not None
-                    else (self.latest_turn["turn"] if self.latest_turn else None)
+                    self._current_turn_locked()
                 ),
                 "objective": self.config["objective"],
                 "timing_mode": self.config["timing_mode"],
@@ -5339,10 +6864,7 @@ class Game:
                         "controller_type", "model",
                     )
                 })
-            current_turn = (
-                self.current_turn["turn"] if self.current_turn is not None
-                else (self.latest_turn["turn"] if self.latest_turn else None)
-            )
+            current_turn = self._current_turn_locked()
             public_prefix = urlparse(
                 self.supervisor.service_url,
             ).path.rstrip("/")
@@ -5661,6 +7183,41 @@ class Game:
             self.replay_cache_signature = signature
             self.replay_cache = result
             return result
+
+    def phase_events(
+        self, after_sequence: int, limit: int,
+    ) -> dict[str, Any]:
+        """Return the bounded public-safe v2 phase-end provenance feed."""
+        with self.condition:
+            if self.config["control_protocol"] != FULL_CONTROL_V2:
+                raise APIProblem(HTTPStatus.NOT_FOUND, "not found")
+            journal = self.v2_phase_event_journal
+            if journal is None or self.v2_phase_event_journal_failed:
+                raise APIProblem(
+                    HTTPStatus.SERVICE_UNAVAILABLE,
+                    "phase event provenance is unavailable",
+                )
+            try:
+                page = journal.page(after_sequence, limit)
+            except V2PhaseEventJournalError:
+                self._invalidate_v2_phase_event_journal_locked()
+                raise APIProblem(
+                    HTTPStatus.SERVICE_UNAVAILABLE,
+                    "phase event provenance is unavailable",
+                ) from None
+            complete = (
+                self.state in TERMINAL_STATES
+                and not self.v2_pending_phase_ends
+            )
+        return {
+            "schema_version": 2,
+            "control_protocol": FULL_CONTROL_V2,
+            "game_id": self.game_id,
+            "phase_events": page["items"],
+            "next_after_sequence": page["next_after_sequence"],
+            "has_more": page["has_more"],
+            "complete": complete,
+        }
 
     def replay_state(self, after_turn: int, limit: int) -> dict[str, Any]:
         replay = self._replay_data()
@@ -6490,6 +8047,27 @@ class SupervisorHandler(BaseHTTPRequestHandler):
             {"Cache-Control": "public, max-age=2"},
         )
 
+    def _v2_openapi(self) -> None:
+        try:
+            body = V2_OPENAPI_PATH.read_bytes()
+            value = json.loads(body.decode("utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise APIProblem(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                "the full-control-v2 OpenAPI contract is unavailable",
+            ) from exc
+        if not isinstance(value, dict):
+            raise APIProblem(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                "the full-control-v2 OpenAPI contract is unavailable",
+            )
+        self._send(
+            HTTPStatus.OK,
+            _canonical(value).encode("utf-8"),
+            "application/json; charset=utf-8",
+            {"Cache-Control": "no-store"},
+        )
+
     def _viewer_asset(self, name: str) -> None:
         suffix = Path(name).suffix.lower()
         if (
@@ -6573,6 +8151,11 @@ class SupervisorHandler(BaseHTTPRequestHandler):
                     },
                 )
                 return
+            if route_path == "/v2/openapi.json":
+                if parsed.query:
+                    raise APIProblem(HTTPStatus.BAD_REQUEST, "invalid request")
+                self._v2_openapi()
+                return
             if parts == ["v1", "games"]:
                 self._json(
                     HTTPStatus.OK, self.server.supervisor.games_index(),
@@ -6619,6 +8202,97 @@ class SupervisorHandler(BaseHTTPRequestHandler):
                 if suffix == ["health"]:
                     self._json(HTTPStatus.OK, game.v2_health(agent_id))
                     return
+                if suffix == ["wait"]:
+                    if not parsed.query.isascii():
+                        raise game._v2_problem(
+                            HTTPStatus.BAD_REQUEST,
+                            "invalid_request",
+                            "the full-control-v2 wait request is invalid",
+                            retryable=False,
+                        )
+                    query: dict[str, str] = {}
+                    if parsed.query:
+                        components = parsed.query.split("&")
+                        if len(components) > 3 or any(
+                            not component or component.count("=") != 1
+                            for component in components
+                        ):
+                            raise game._v2_problem(
+                                HTTPStatus.BAD_REQUEST,
+                                "invalid_request",
+                                "the full-control-v2 wait request is invalid",
+                                retryable=False,
+                            )
+                        for component in components:
+                            name, value = component.split("=", 1)
+                            if (
+                                name not in {
+                                    "wait_s", "until", "after_state_token",
+                                }
+                                or name in query or not value
+                            ):
+                                raise game._v2_problem(
+                                    HTTPStatus.BAD_REQUEST,
+                                    "invalid_request",
+                                    "the full-control-v2 wait request is invalid",
+                                    retryable=False,
+                                )
+                            try:
+                                value = unquote(value, errors="strict")
+                            except UnicodeDecodeError as exc:
+                                raise game._v2_problem(
+                                    HTTPStatus.BAD_REQUEST,
+                                    "invalid_request",
+                                    "the full-control-v2 wait request is invalid",
+                                    retryable=False,
+                                ) from exc
+                            if not value or "%" in value:
+                                raise game._v2_problem(
+                                    HTTPStatus.BAD_REQUEST,
+                                    "invalid_request",
+                                    "the full-control-v2 wait request is invalid",
+                                    retryable=False,
+                                )
+                            query[name] = value
+                    until = query.get("until", "phase")
+                    wait_text = query.get("wait_s", "120")
+                    if re.fullmatch(
+                        r"(?:0|[1-9][0-9]{0,2})(?:\.[0-9]{1,3})?",
+                        wait_text,
+                    ) is None:
+                        raise game._v2_problem(
+                            HTTPStatus.BAD_REQUEST,
+                            "invalid_request",
+                            "the full-control-v2 wait request is invalid",
+                            retryable=False,
+                        )
+                    wait_s = float(wait_text)
+                    if (
+                        wait_s > 300
+                        or until not in {"phase", "revision"}
+                        or until == "phase" and "after_state_token" in query
+                        or until == "revision"
+                        and set(query) not in (
+                            {"until", "after_state_token"},
+                            {"wait_s", "until", "after_state_token"},
+                        )
+                    ):
+                        raise game._v2_problem(
+                            HTTPStatus.BAD_REQUEST,
+                            "invalid_request",
+                            "the full-control-v2 wait request is invalid",
+                            retryable=False,
+                        )
+                    self._json(
+                        HTTPStatus.OK,
+                        game.v2_wait(
+                            agent_id,
+                            wait_s,
+                            until=until,
+                            after_state_token=query.get("after_state_token"),
+                        ),
+                    )
+                    return
                 if suffix == ["state"]:
                     self._json(
                         HTTPStatus.OK,
@@ -6664,6 +8338,45 @@ class SupervisorHandler(BaseHTTPRequestHandler):
                 suffix = parts[3:]
                 if suffix == ["status"]:
                     self._json(HTTPStatus.OK, game.status())
+                    return
+                if suffix == ["phase-events"] and not route_path.endswith("/"):
+                    if game.config["control_protocol"] != FULL_CONTROL_V2:
+                        raise APIProblem(HTTPStatus.NOT_FOUND, "not found")
+                    query = parse_qs(parsed.query, keep_blank_values=True)
+                    if set(query) - {"after_sequence", "limit"} or any(
+                        len(values) != 1 for values in query.values()
+                    ):
+                        raise APIProblem(
+                            HTTPStatus.BAD_REQUEST,
+                            "phase-events query accepts one after_sequence "
+                            "and one limit",
+                        )
+                    after_text = query.get("after_sequence", ["0"])[0]
+                    limit_text = query.get("limit", ["100"])[0]
+                    integer = re.compile(r"(?:0|[1-9][0-9]{0,18})")
+                    if (
+                        integer.fullmatch(after_text) is None
+                        or integer.fullmatch(limit_text) is None
+                    ):
+                        raise APIProblem(
+                            HTTPStatus.BAD_REQUEST,
+                            "after_sequence and limit must be canonical integers",
+                        )
+                    after_sequence = int(after_text)
+                    limit = int(limit_text)
+                    if (
+                        after_sequence > (1 << 63) - 1
+                        or not 1 <= limit <= 250
+                    ):
+                        raise APIProblem(
+                            HTTPStatus.BAD_REQUEST,
+                            "after_sequence must be in [0, 2^63-1] and limit "
+                            "must be in [1, 250]",
+                        )
+                    self._json(
+                        HTTPStatus.OK,
+                        game.phase_events(after_sequence, limit),
+                    )
                     return
                 if suffix == ["result"]:
                     self._json(HTTPStatus.OK, game.result())

@@ -123,7 +123,11 @@ def load_jsonl(path: Path) -> Iterable[dict[str, Any]]:
     return events
 
 
-def summarize_episode(directory: str | Path) -> dict[str, Any]:
+def summarize_episode(
+    directory: str | Path,
+    *,
+    private_player_seats: dict[int, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     episode = Path(directory)
     manifest_path = episode / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
@@ -131,8 +135,39 @@ def summarize_episode(directory: str | Path) -> dict[str, Any]:
     score = parse_scorelog(score_path) if score_path.exists() else {"final_turn": None, "players": []}
     seats = manifest.get("config", {}).get("seats", [])
     mapping = {item["name"]: item for item in seats}
+    if private_player_seats:
+        latest_by_player: dict[int, dict[str, Any]] = {}
+        unconfigured: list[dict[str, Any]] = []
+        for row in score["players"]:
+            player_id = row.get("player_id")
+            if type(player_id) is not int or player_id not in private_player_seats:
+                unconfigured.append(row)
+                continue
+            previous = latest_by_player.get(player_id)
+            if previous is None or (
+                row.get("last_score_turn") or -1,
+                row.get("added_turn") or -1,
+            ) > (
+                previous.get("last_score_turn") or -1,
+                previous.get("added_turn") or -1,
+            ):
+                latest_by_player[player_id] = row
+        score["players"] = list(latest_by_player.values()) + unconfigured
+        score["players"].sort(
+            key=lambda item: (-item["score"], item["player_id"]),
+        )
+        last_score = None
+        rank = 0
+        for index, row in enumerate(score["players"], 1):
+            if row["score"] != last_score:
+                rank = index
+                last_score = row["score"]
+            row["rank"] = rank
     for row in score["players"]:
-        seat = mapping.get(row["name"])
+        seat = (
+            private_player_seats.get(row.get("player_id"))
+            if private_player_seats else None
+        ) or mapping.get(row["name"])
         row["seat_id"] = seat["id"] if seat else row["name"]
         row["controller_fingerprint"] = (
             seat.get("controller_fingerprint") or controller_fingerprint(seat)

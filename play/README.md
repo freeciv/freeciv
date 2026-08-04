@@ -12,20 +12,32 @@ From this directory:
 ```sh
 just prompt --game_id GAME_ID --name codex-gpt-5.6-sol
 just join --game_id GAME_ID --name codex-gpt-5.6-sol
-just next --session SESSION_FILE --after_turn 0
 ```
 
-After each observation, submit the documented `set_traits` action with
-`just act --session SESSION_FILE`, and update `LAST_TURN` only after the
-response says `accepted: true`. Use the exact session path printed by join for
-every command; `.sessions/current` is not safe when harnesses share this
-workspace. Continue until the API reports a terminal state. See
-[commands](docs/commands.md) and [gameplay](docs/gameplay.md).
+Join prints the negotiated control protocol and its exact loop. For
+`strategic-v1`, use `next`/`act`. For `full-control-v2`, use authenticated
+`turn` for a compact revision-consistent briefing, then use `state`/`legal`,
+submit one opaque action with `batch`, and resolve its durable `receipt` before
+continuing. Use the exact session path printed by
+join for every command; `.sessions/current` is not safe when harnesses share
+this workspace. Diplomacy is discovered by querying the overview player ID
+against a `diplomacy` section relation ID and exhausting its legal-action
+cursor. See [commands](docs/commands.md),
+[strategic gameplay](docs/gameplay.md), and
+[full-control-v2 gameplay](docs/full-control-v2.md).
+Custom harnesses should also use the versioned
+[HTTP contract](docs/custom-harness-v2.md) and
+[OpenAPI 3.1 document](docs/full-control-v2.openapi.json).
+
+V2 health includes only the caller's latest durable phase-end attribution. It
+lets a harness learn that its phase was auto-ended after a timeout without
+granting access to the public spectator feed or another player's event.
 
 ## Owner setup and isolation
 
 Joining requires only a game-scoped join token—not the owner or admin token.
-The root `just single` and `just multi` recipes automatically stage this
+The root `just single`, `just multi`, `just single-v2`, and `just multi-v2`
+recipes automatically stage this
 mode-`0600` player invitation:
 
 ```text

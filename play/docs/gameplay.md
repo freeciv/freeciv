@@ -1,5 +1,9 @@
 # Classic strategic-v1 gameplay
 
+This page applies only when join reports `strategic-v1`. If join reports
+`full-control-v2`, use [the full-control-v2 loop](full-control-v2.md) instead;
+do not use `next`, `act`, or this trait-only strategy for that session.
+
 ## Goal and control boundary
 
 The objective in each private observation is authoritative. The default is to
