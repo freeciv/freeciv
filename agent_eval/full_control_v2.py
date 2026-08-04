@@ -11,7 +11,7 @@ import hashlib
 import json
 import math
 import re
-from typing import Any
+from typing import Any, Iterable
 
 
 STRATEGIC_V1 = "strategic-v1"
@@ -33,10 +33,11 @@ ACTION_FAMILIES = frozenset({
     "unit",
 })
 
-# Required descriptor families for the first complete sidecar.  This is a
-# coverage checklist, not a closed ruleset action catalog: ``unit.perform_action``
-# carries the live action/target supplied by Freeciv, and validators accept new
-# operations inside the versioned top-level families.
+# Closed public kinds projected by the current static native action rules.  A
+# runtime catalog is intentionally only the currently legal, situational
+# subset: ``unit.perform_action`` carries the live action/target supplied by
+# Freeciv, and validators still accept future operations inside the versioned
+# top-level families.
 REQUIRED_ACTION_KINDS = frozenset({
     "city.assign_citizen",
     "city.buy_production",
@@ -49,11 +50,11 @@ REQUIRED_ACTION_KINDS = frozenset({
     "city.set_specialist",
     "city.set_worklist",
     "city.sell_improvement",
-    "diplomacy.accept_treaty",
-    "diplomacy.cancel_pact",
+    "diplomacy.acceptance",
+    "diplomacy.clause",
     "diplomacy.meeting",
-    "diplomacy.propose_clause",
-    "diplomacy.remove_clause",
+    "diplomacy.relation",
+    "diplomacy.withdraw",
     "economy.set_rates",
     "government.change",
     "government.revolution",
@@ -72,6 +73,40 @@ REQUIRED_ACTION_KINDS = frozenset({
     "unit.order",
     "unit.perform_action",
 })
+PROJECTED_PUBLIC_ACTION_KIND_COUNT = 33
+PROJECTED_NATIVE_ACTION_KIND_COUNT = 75
+
+
+def assert_projected_action_contract(
+    public_kinds: Iterable[str], native_kinds: Iterable[str],
+) -> None:
+    """Fail import when the static native-to-public action map drifts.
+
+    This checks the complete projection rules, never one runtime legal-action
+    catalog.  Conditional actions may therefore be absent from any individual
+    observation without weakening the versioned contract.
+    """
+    projected_public = frozenset(public_kinds)
+    projected_native = frozenset(native_kinds)
+    if projected_public != REQUIRED_ACTION_KINDS:
+        missing = sorted(REQUIRED_ACTION_KINDS - projected_public)
+        unexpected = sorted(projected_public - REQUIRED_ACTION_KINDS)
+        raise RuntimeError(
+            "full-control-v2 public action projection drift: "
+            f"missing={missing!r} unexpected={unexpected!r}"
+        )
+    if len(projected_public) != PROJECTED_PUBLIC_ACTION_KIND_COUNT:
+        raise RuntimeError(
+            "full-control-v2 public action kind count drift: "
+            f"expected={PROJECTED_PUBLIC_ACTION_KIND_COUNT} "
+            f"actual={len(projected_public)}"
+        )
+    if len(projected_native) != PROJECTED_NATIVE_ACTION_KIND_COUNT:
+        raise RuntimeError(
+            "full-control-v2 native action kind count drift: "
+            f"expected={PROJECTED_NATIVE_ACTION_KIND_COUNT} "
+            f"actual={len(projected_native)}"
+        )
 
 ERROR_CODES = frozenset({
     "action_expired",
