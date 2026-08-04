@@ -370,6 +370,27 @@ def _public_curl(url: str) -> bytes:
     return result.stdout
 
 
+def _wait_public_route(
+    url: str, marker: bytes, *, timeout_s: float = 5,
+) -> bytes:
+    """Wait for Portless to reload routes.json after an alias update."""
+    deadline = time.monotonic() + timeout_s
+    last_error = f"response from {url} did not match the expected service"
+    while True:
+        try:
+            body = _public_curl(url)
+            if marker in body:
+                return body
+        except StackError as exc:
+            last_error = str(exc)
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise StackError(
+                f"Portless route did not become ready: {last_error}"
+            )
+        time.sleep(min(0.1, remaining))
+
+
 def _resolve_agent_binary(repo_root: Path, override: str | None) -> Path:
     candidate = (
         Path(override).expanduser().resolve()
@@ -506,10 +527,15 @@ def start_stack(args: argparse.Namespace) -> int:
             "freeciv-api.localhost": int(supervisor_raw.rsplit(":", 1)[1]),
         })
         routes_installed = True
-        if b"Freeciv Agent Arena" not in _public_curl(VIEWER_PUBLIC_URL + "/"):
-            raise StackError("Portless viewer route returned the wrong application")
-        json.loads(_public_curl(VIEWER_PUBLIC_URL + "/v1/games"))
-        health = json.loads(_public_curl(API_PUBLIC_URL + "/health"))
+        _wait_public_route(
+            VIEWER_PUBLIC_URL + "/", b"Freeciv Agent Arena",
+        )
+        json.loads(_wait_public_route(
+            VIEWER_PUBLIC_URL + "/v1/games", b'"games"',
+        ))
+        health = json.loads(_wait_public_route(
+            API_PUBLIC_URL + "/health", b'"ok":true',
+        ))
         if not isinstance(health, dict) or health.get("ok") is not True:
             raise StackError("Portless API route returned an invalid health response")
 

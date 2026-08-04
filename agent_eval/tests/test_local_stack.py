@@ -16,6 +16,7 @@ from agent_eval.local_stack import (
     _parser,
     _read_routes,
     _resolve_agent_binary,
+    _wait_public_route,
     replay,
 )
 
@@ -132,6 +133,40 @@ class PortlessAliasTests(unittest.TestCase):
         with self.assertRaisesRegex(StackError, "still running"):
             self.manager().preflight()
         self.assertEqual(self.fake.commands, [])
+
+
+class PublicRouteReadinessTests(unittest.TestCase):
+    def test_retries_while_portless_is_reloading_aliases(self):
+        with patch(
+            "agent_eval.local_stack._public_curl",
+            side_effect=[
+                StackError("curl: HTTP 502"),
+                b"old service",
+                b"Freeciv Agent Arena",
+            ],
+        ) as curl, patch("agent_eval.local_stack.time.sleep") as sleep:
+            body = _wait_public_route(
+                "https://freeciv.localhost/", b"Freeciv Agent Arena",
+                timeout_s=1,
+            )
+        self.assertEqual(body, b"Freeciv Agent Arena")
+        self.assertEqual(curl.call_count, 3)
+        self.assertEqual(sleep.call_count, 2)
+
+    def test_timeout_reports_last_portless_failure(self):
+        with patch(
+            "agent_eval.local_stack._public_curl",
+            side_effect=StackError("curl: HTTP 502"),
+        ), patch(
+            "agent_eval.local_stack.time.monotonic", side_effect=[10, 11],
+        ):
+            with self.assertRaisesRegex(
+                StackError, "Portless route did not become ready: curl: HTTP 502",
+            ):
+                _wait_public_route(
+                    "https://freeciv.localhost/", b"Freeciv Agent Arena",
+                    timeout_s=0.5,
+                )
 
 
 class ReplayCommandTests(unittest.TestCase):
