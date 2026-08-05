@@ -1589,7 +1589,7 @@ class SupervisorTests(unittest.TestCase):
             timing = {"action_timeout_s": action_timeout_s or 7.5}
         else:
             timeout = {
-                "default": 600, "blitz": 60, "infinite": None,
+                "default": 600, "infinite": None,
             }[timing_mode]
             timing = {
                 "timing_mode": timing_mode,
@@ -1961,7 +1961,7 @@ class SupervisorTests(unittest.TestCase):
 
     def test_v2_phase_deadlines_cover_presets_and_custom_timeouts(self):
         for mode, timeout in (
-            ("default", 600.0), ("blitz", 60.0),
+            ("default", 600.0), ("custom", 60.0),
             ("custom", 7.5), ("infinite", None),
         ):
             with self.subTest(mode=mode):
@@ -6238,6 +6238,25 @@ class SupervisorTests(unittest.TestCase):
         custom = self.supervisor._config({"action_timeout_s": 7.5})
         self.assertEqual(custom["timing_mode"], "custom")
         self.assertEqual(custom["action_timeout_s"], 7.5)
+        self.assertEqual(custom["difficulty"], "hard")
+
+    def test_v2_rejects_blitz_and_difficulty_is_validated(self):
+        v2 = {"control_protocol": "full-control-v2"}
+        config = self.supervisor._config(dict(v2))
+        self.assertEqual(config["timing_mode"], "default")
+        self.assertEqual(config["action_timeout_s"], 600)
+        self.assertEqual(config["difficulty"], "hard")
+        with self.assertRaises(APIProblem) as refused:
+            self.supervisor._config({**v2, "timing_mode": "blitz"})
+        self.assertIn("blitz is strategic-v1 only", str(refused.exception))
+        infinite = self.supervisor._config({**v2, "timing_mode": "infinite"})
+        self.assertIsNone(infinite["action_timeout_s"])
+        cheating = self.supervisor._config({**v2, "difficulty": "cheating"})
+        self.assertEqual(cheating["difficulty"], "cheating")
+        v1_blitz = self.supervisor._config({"timing_mode": "blitz"})
+        self.assertEqual(v1_blitz["action_timeout_s"], 60)
+        with self.assertRaises(APIProblem):
+            self.supervisor._config({"difficulty": "deity"})
         for payload in (
             {"timing_mode": "turbo"},
             {"timing_mode": "blitz", "action_timeout_s": 180},
@@ -9124,7 +9143,7 @@ data 4 0 0 70
         self.assertIn("games/{game_id}/owner.json", justfile)
         self.assertEqual(
             justfile.count('--player-invite "play/.invites/{game_id}.json"'),
-            3,
+            1,
         )
         self.assertIn("invite game_id:", justfile)
         self.assertIn("game stage-invite", justfile)
@@ -9146,15 +9165,15 @@ data 4 0 0 70
             )
             self.assertEqual(max_turns.returncode, 0, max_turns.stderr)
             rendered_max_turns = max_turns.stdout + max_turns.stderr
-            self.assertIn('turn_limit="321"', rendered_max_turns)
-            self.assertIn('--turns "$turn_limit"', rendered_max_turns)
-            self.assertIn('--timing-mode "$timing_mode"', rendered_max_turns)
-            self.assertIn("--lobby-timeout-s 0", rendered_max_turns)
+            mode_word = "single" if recipe == "single" else "multiplayer"
             self.assertIn(
-                '--player-invite "play/.invites/{game_id}.json"',
+                f'just _create {mode_word} "$protocol" "$difficulty" '
+                '"$a" "$b" "$c" "321"',
                 rendered_max_turns,
             )
-            for mode in ("blitz", "infinite"):
+            self.assertIn("protocol=full-control-v2", rendered_max_turns)
+            self.assertIn("difficulty=hard", rendered_max_turns)
+            for mode in ("infinite",):
                 mode_dry_run = subprocess.run(
                     ["just", "--dry-run", recipe, mode],
                     cwd=repo, text=True, capture_output=True,
@@ -9163,7 +9182,7 @@ data 4 0 0 70
                     mode_dry_run.returncode, 0, mode_dry_run.stderr,
                 )
                 self.assertIn(
-                    f'first="{mode}"',
+                    f'for token in "{mode}"',
                     mode_dry_run.stdout + mode_dry_run.stderr,
                 )
             legacy_dry_run = subprocess.run(
@@ -9174,9 +9193,7 @@ data 4 0 0 70
                 legacy_dry_run.returncode, 0, legacy_dry_run.stderr,
             )
             rendered_legacy = legacy_dry_run.stdout + legacy_dry_run.stderr
-            self.assertIn('first="4"', rendered_legacy)
-            self.assertIn('second="200"', rendered_legacy)
-            self.assertIn('positional_turns="$second"', rendered_legacy)
+            self.assertIn('for token in "4" "200" "" ""', rendered_legacy)
             invalid_mode = subprocess.run(
                 ["just", recipe, "turbo"],
                 cwd=repo, text=True, capture_output=True,
@@ -9249,15 +9266,20 @@ data 4 0 0 70
         }
 
         cases = (
-            ([], "2", "default", "5000"),
-            (["2", "infinite"], "2", "infinite", "5000"),
-            (["3", "blitz", "150"], "3", "blitz", "150"),
-            (["infinite", "2", "150"], "2", "infinite", "150"),
-            (["2", "150"], "2", "default", "150"),
-            (["2", "infinite", "--max-turns", "321"], "2", "infinite", "321"),
+            ([], "2", "default", "5000", "full-control-v2", "hard"),
+            (["2", "infinite"], "2", "infinite", "5000",
+             "full-control-v2", "hard"),
+            (["v1", "3", "blitz", "150"], "3", "blitz", "150",
+             "strategic-v1", "hard"),
+            (["infinite", "2", "150"], "2", "infinite", "150",
+             "full-control-v2", "hard"),
+            (["cheating", "2", "150"], "2", "default", "150",
+             "full-control-v2", "cheating"),
+            (["2", "infinite", "--max-turns", "321"], "2", "infinite", "321",
+             "full-control-v2", "hard"),
         )
         for recipe in ("single", "multi"):
-            for arguments, places, mode, turns in cases:
+            for arguments, places, mode, turns, protocol, difficulty in cases:
                 with self.subTest(recipe=recipe, arguments=arguments):
                     result = subprocess.run(
                         ["just", recipe, *arguments],
@@ -9275,6 +9297,8 @@ data 4 0 0 70
                     self.assertEqual(option("--places"), places)
                     self.assertEqual(option("--timing-mode"), mode)
                     self.assertEqual(option("--turns"), turns)
+                    self.assertEqual(option("--control-protocol"), protocol)
+                    self.assertEqual(option("--difficulty"), difficulty)
 
             invalid = subprocess.run(
                 ["just", recipe, "2", "turbo"],
@@ -9288,6 +9312,15 @@ data 4 0 0 70
                 "after places, use default, blitz, infinite, or a numeric turn limit",
                 invalid.stderr,
             )
+            v2_blitz = subprocess.run(
+                ["just", recipe, "2", "blitz"],
+                cwd=repo,
+                env=environment,
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(v2_blitz.returncode, 2)
+            self.assertIn("blitz is strategic-v1 only", v2_blitz.stderr)
 
     def _obsolete_just_replay_reuses_healthy_vite_for_picker_or_direct_game(self):
         repo = Path(__file__).parents[2]

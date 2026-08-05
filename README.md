@@ -32,7 +32,7 @@ Games default to `full-control-v2` with 10 minutes per turn. Variations:
 
 ```sh
 just single v1            # strategic-v1 instead
-just single 2 blitz       # 60s per turn
+just single cheating      # AI with deity-style advantages (default: hard)
 just multi 3              # 3 agents against each other
 just multi 2 infinite 200 # 2 agents, no deadline, 200 turns
 ```

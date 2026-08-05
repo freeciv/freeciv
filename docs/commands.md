@@ -91,7 +91,11 @@ The create bearer comes from `--admin-token` or
 - `ruleset`: currently only `classic`.
 - `objective`: any nonempty string delivered verbatim to the agents.
 - `timing-mode`: `default` (180 seconds on `strategic-v1`, 600 seconds on
-  `full-control-v2`), `blitz` (60 seconds), or `infinite` (no agent deadline).
+  `full-control-v2`), `blitz` (60 seconds, `strategic-v1` only), or
+  `infinite` (no agent deadline).
+- `difficulty`: AI skill for native players — `novice`, `easy`, `normal`,
+  `hard` (the default; strongest fair AI), or `cheating` (deity-style
+  advantages).
 - `action-timeout-s`: advanced custom deadline of at least 0.1 seconds. Omit
   it when selecting a named timing mode.
 - `lobby-timeout-s`: at least 0.1 seconds, or 0 to disable lobby expiry.
