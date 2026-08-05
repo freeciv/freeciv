@@ -22,6 +22,12 @@ class V2PlayabilitySmokeRealE2ETests(unittest.TestCase):
     """Prove the short public-CLI loop without touching a live service."""
 
     WATCHDOG_S = 60.0
+    # These player commands default to the compact text rendering; the
+    # machine-consumer contract is their byte-identical --json output.
+    JSON_FLAG_COMMANDS = frozenset({
+        "join", "health", "turn", "state", "legal", "batch", "receipt",
+        "retry",
+    })
 
     def _copy_player_workspace(self, source: Path, destination: Path) -> Path:
         shutil.copytree(
@@ -53,6 +59,8 @@ class V2PlayabilitySmokeRealE2ETests(unittest.TestCase):
         if extra_environment:
             environment.update(extra_environment)
         self._player_commands.append(arguments[0])
+        if arguments[0] in self.JSON_FLAG_COMMANDS and "--json" not in arguments:
+            arguments = (*arguments, "--json")
         completed = subprocess.run(
             ("python3", "-B", "client.py", *arguments),
             cwd=harness["workspace"],

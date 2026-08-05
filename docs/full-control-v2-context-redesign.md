@@ -184,6 +184,40 @@ decisions on the agent's behalf*.
 
 ## 5. The changes
 
+### Status: what the rounding-out pass already landed
+
+The uncommitted pass on `agent-eval-v1` (post-snapshot, by Sol) rounds out
+*capability coverage* — the Tier-2 deep paths — and starts on compaction:
+
+- **Deep paths now covered:** global/allied/private chat via
+  `chat_recipients` with `can_message` and injection-safe routing; structured
+  votes with outcome history and live ballot enums; `unit.attack_route` plus
+  the `unit_route` inspection section (reconstruct a unit's remaining queued
+  movement — the read half of "route far and wait"); `city_trade_routes`;
+  `city.manage_worker_task`; richer `city_build_choices` (city-context cost,
+  post-change shield stock, turn estimates, six-output upkeep, structured
+  stats — production is choosable from one page); the full targeted espionage
+  family (building sabotage/strike, both targeted tech-theft variants incl.
+  Future tech, subtargets as opaque named choices, subresults as public
+  `effects`); bribe/incite/bribe-stack with request-correlated `gold_cost`
+  quotes and atomic ceiling guards; paradrop/teleport/non-lethal/hut
+  variants; `pregame_teams` + `pregame.set_team`; `map_tiles` full fog-safe
+  board.
+- **Compaction started:** the `--kind --all` projection now carries `label`
+  plus the semantic `subject` discriminators, and gained `--offset` /
+  `--limit 1..64` windows with `has_more`/`next_offset` and byte-limit
+  resume.
+- **Fast-path building blocks exist at the wire:** `set_route`,
+  `attack_route`, `unit_route`, worklists, worker tasks, city rally.
+
+**What remains is almost entirely the L2/L1 surface.** None of the new
+sections have compact renderings; actor-scoped `legal` — the audit's
+dominant cost — still prints raw descriptor JSON; and each new capability
+*adds* context pressure under the current format (more sections to read,
+richer payloads). One regression against §4: the pass exposes
+`city_governor` (Freeciv's CMA) — under the no-autopilot rule that kind must
+be excluded or gated exactly like `auto_work`/`auto_explore`.
+
 ### P0 — presentation layer only (wire byte-identical, ship first)
 
 1. **Render catalogs and state as text tables by default; `--json` opt-out.**

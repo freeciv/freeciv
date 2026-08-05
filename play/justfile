@@ -6,23 +6,36 @@ export PLAY_STATE_DIR := env_var_or_default("PLAY_STATE_DIR", ".sessions")
 
 # Show the player-only workflow.
 default:
-    @echo "Freeciv player workspace"
+    @echo "Freeciv player workspace. Join, then play the loop your join names."
     @echo
-    @echo "  just prompt --game_id GAME_ID"
     @echo "  just join --game_id GAME_ID --name HARNESS-MODEL"
-    @echo "  just next --session SESSION_FILE --after_turn 0"
-    @echo "  just act --session SESSION_FILE --turn TURN --observation_id ID --action JSON"
-    @echo "  just health --session SESSION_FILE"
-    @echo "  just turn --session SESSION_FILE"
-    @echo "  just state --session SESSION_FILE --section overview"
-    @echo "  just legal --session SESSION_FILE --kind phase.end --all"
-    @echo "  just legal --session SESSION_FILE [--actor_id ID]"
-    @echo "  just batch --session SESSION_FILE --action_id ID --arguments JSON"
-    @echo "  just receipt --session SESSION_FILE --batch_id ID"
-    @echo "  just retry --session SESSION_FILE --batch_id ID"
-    @echo "  just wait --session SESSION_FILE"
     @echo
-    @echo "Read docs/gameplay.md before playing."
+    @echo "full-control-v2 — the ordinary turn is four commands:"
+    @echo "  just start --nation NAME --leader NAME --male|--female"
+    @echo "  just turn                              the briefing"
+    @echo '  just do "u1 VERB ARGS; c1 VERB ARGS"   1..8 orders'
+    @echo "  just turn --end --await                end, block, next header"
+    @echo
+    @echo "go deeper when the briefing is not enough:"
+    @echo "  just show [ALIAS|--grep PATTERN]       local files, no network"
+    @echo "  just legal --actor_id ID --all         one actor's whole menu"
+    @echo "  just legal --kind KIND --all           one class of action"
+    @echo "  just state --section SECTION           one bounded page"
+    @echo "  just batch --action_id ID --arguments JSON"
+    @echo "  just receipt --batch_id ID | just retry --batch_id ID"
+    @echo "  just health | just wait | just result GAME_ID"
+    @echo
+    @echo "strategic-v1 seats instead use:"
+    @echo "  just next --after_turn 0"
+    @echo "  just act --turn TURN --observation_id ID --action JSON"
+    @echo
+    @echo "Aliases a1..aN, u1/c1/p1/r1, and T(x,y) work anywhere an ID does;"
+    @echo "action aliases die with their revision. v2 commands print compact"
+    @echo "text; add --json for the raw wire payload. --session is optional"
+    @echo "unless this workspace holds more than one joined seat."
+    @echo
+    @echo "just help prints the play card (docs/play.md); just rules prints the"
+    @echo "gameplay rules; just prompt prints the bootstrap prompt."
 
 # Print the bootstrap prompt for a harness. This does not join a game.
 [arg("game_id", long)]
@@ -39,12 +52,13 @@ prompt game_id="GAME_ID" name="HARNESS-MODEL" place="":
 [arg("name", long)]
 [arg("place", long)]
 [arg("invite", long)]
-join game_id="" name="" place="" invite="":
+[arg("json_output", long="json", value="--json")]
+join game_id="" name="" place="" invite="" json_output="":
     python3 -B client.py join \
       --game-id "{{ game_id }}" \
       --name "{{ name }}" \
       --place "{{ place }}" \
-      --invite "{{ invite }}"
+      --invite "{{ invite }}" {{ json_output }}
 
 # Long-poll using the exact session file printed by join.
 [arg("session", long)]
@@ -70,13 +84,77 @@ act session="" turn="" observation_id="" action="":
 
 # Read this v2 seat's authenticated health and phase state.
 [arg("session", long)]
-health session="":
-    python3 -B client.py health --session "{{ session }}"
+[arg("json_output", long="json", value="--json")]
+health session="" json_output="":
+    python3 -B client.py health --session "{{ session }}" {{ json_output }}
 
-# Read one revision-consistent, bounded running-game briefing.
+# Read one briefing, or end this phase (--end) and block for the next
+# (--end --await).
 [arg("session", long)]
-turn session="":
-    python3 -B client.py turn --session "{{ session }}"
+[arg("end_phase", long="end", value="true")]
+[arg("await_phase", long="await", value="true")]
+[arg("wait_s", long="wait_s")]
+[arg("poll_s", long="poll_s")]
+[arg("json_output", long="json", value="true")]
+turn session="" end_phase="" await_phase="" wait_s="" poll_s="" json_output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py turn --session "{{ session }}")
+    [[ -z "{{ end_phase }}" ]] || args+=(--end)
+    [[ -z "{{ await_phase }}" ]] || args+=(--await)
+    [[ -z "{{ wait_s }}" ]] || args+=(--wait-s "{{ wait_s }}")
+    [[ -z "{{ poll_s }}" ]] || args+=(--poll-s "{{ poll_s }}")
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
+
+# Configure and ready this lobby seat in one call.
+[arg("session", long)]
+[arg("nation", long)]
+[arg("leader", long)]
+[arg("style", long)]
+[arg("male", long, value="true")]
+[arg("female", long, value="true")]
+[arg("json_output", long="json", value="true")]
+start session="" nation="" leader="" style="" male="" female="" json_output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py start --session "{{ session }}")
+    [[ -z "{{ nation }}" ]] || args+=(--nation "{{ nation }}")
+    [[ -z "{{ leader }}" ]] || args+=(--leader "{{ leader }}")
+    [[ -z "{{ style }}" ]] || args+=(--style "{{ style }}")
+    [[ -z "{{ male }}" ]] || args+=(--male)
+    [[ -z "{{ female }}" ]] || args+=(--female)
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
+
+# Issue 1..8 semicolon-separated orders, one receipt line each.
+[arg("session", long)]
+[arg("continue_on_error", long="continue-on-error", value="true")]
+[arg("json_output", long="json", value="true")]
+[positional-arguments]
+do orders="" session="" continue_on_error="" json_output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py do --session "{{ session }}" --orders "$1")
+    [[ -z "{{ continue_on_error }}" ]] || args+=(--continue-on-error)
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
+
+# Read this seat's local state mirror. This never contacts the server.
+[arg("session", long)]
+[arg("grep", long)]
+[arg("regex", long, value="true")]
+[arg("json_output", long="json", value="true")]
+[positional-arguments]
+show name="" session="" grep="" regex="" json_output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py show --session "{{ session }}")
+    [[ -z "{{ grep }}" ]] || args+=(--grep "{{ grep }}")
+    [[ -z "{{ regex }}" ]] || args+=(--regex)
+    [[ -z "$1" ]] || args+=("$1")
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
 
 # Read one full-control-v2 state page or continue one cursor.
 [arg("session", long)]
@@ -87,7 +165,8 @@ turn session="":
 [arg("radius", long)]
 [arg("limit", long)]
 [arg("cursor", long)]
-state session="" section="" actor_id="" relation_id="" center_id="" radius="" limit="" cursor="":
+[arg("json_output", long="json", value="true")]
+state session="" section="" actor_id="" relation_id="" center_id="" radius="" limit="" cursor="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     args=(python3 -B client.py state --session "{{ session }}")
@@ -98,6 +177,7 @@ state session="" section="" actor_id="" relation_id="" center_id="" radius="" li
     [[ -z "{{ radius }}" ]] || args+=(--radius "{{ radius }}")
     [[ -z "{{ limit }}" ]] || args+=(--limit "{{ limit }}")
     [[ -z "{{ cursor }}" ]] || args+=(--cursor "{{ cursor }}")
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 
 # Read one v2 legal-action page, actor scope, exact target, or cursor.
@@ -108,7 +188,9 @@ state session="" section="" actor_id="" relation_id="" center_id="" radius="" li
 [arg("cursor", long)]
 [arg("kind", long)]
 [arg("all_pages", long="all", value="true")]
-legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="":
+[arg("offset", long)]
+[arg("json_output", long="json", value="true")]
+legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="" offset="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     args=(python3 -B client.py legal --session "{{ session }}")
@@ -118,34 +200,39 @@ legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="
     [[ -z "{{ cursor }}" ]] || args+=(--cursor "{{ cursor }}")
     [[ -z "{{ kind }}" ]] || args+=(--kind "{{ kind }}")
     [[ -z "{{ all_pages }}" ]] || args+=(--all)
+    [[ -z "{{ offset }}" ]] || args+=(--offset "{{ offset }}")
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 
 # Persist then submit exactly one current opaque v2 action.
 [arg("session", long)]
 [arg("action_id", long="action_id")]
 [arg("arguments", long)]
+[arg("json_output", long="json", value="--json")]
 [positional-arguments]
-batch session="" action_id="" arguments="{}":
+batch session="" action_id="" arguments="{}" json_output="":
     python3 -B client.py batch \
       --session "$1" \
       --action-id "$2" \
-      --arguments "$3"
+      --arguments "$3" {{ json_output }}
 
 # Resolve one durable v2 receipt without resubmitting it.
 [arg("session", long)]
 [arg("batch_id", long="batch_id")]
-receipt session="" batch_id="":
+[arg("json_output", long="json", value="--json")]
+receipt session="" batch_id="" json_output="":
     python3 -B client.py receipt \
       --session "{{ session }}" \
-      --batch-id "{{ batch_id }}"
+      --batch-id "{{ batch_id }}" {{ json_output }}
 
 # Receipt-first recovery of one exactly persisted v2 batch.
 [arg("session", long)]
 [arg("batch_id", long="batch_id")]
-retry session="" batch_id="":
+[arg("json_output", long="json", value="--json")]
+retry session="" batch_id="" json_output="":
     python3 -B client.py retry \
       --session "{{ session }}" \
-      --batch-id "{{ batch_id }}"
+      --batch-id "{{ batch_id }}" {{ json_output }}
 
 # Wait on authenticated v2 health/state only.
 [arg("session", long)]
@@ -188,10 +275,12 @@ result positional_game_id="" game_id="":
     [[ -z "{{ game_id }}" ]] || args+=(--game-id "{{ game_id }}")
     exec "${args[@]}"
 
-# Print the player-facing command reference.
+# docs/commands.md is the harness-author reference and is deliberately not
+# printed here: every doc char an agent reads is part of its per-turn budget.
+# Print the agent-facing play card: fast paths, aliases, standing rules.
 help:
-    @sed -n '1,260p' docs/commands.md
+    @cat docs/play.md
 
 # Print the static gameplay rules and negotiated protocol guidance.
 rules:
-    @sed -n '1,360p' docs/gameplay.md
+    @cat docs/gameplay.md

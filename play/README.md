@@ -15,16 +15,25 @@ just join --game_id GAME_ID --name codex-gpt-5.6-sol
 ```
 
 Join prints the negotiated control protocol and its exact loop. For
-`strategic-v1`, use `next`/`act`. For `full-control-v2`, use authenticated
-`turn` for a compact revision-consistent briefing, then use `state`/`legal`,
-submit one opaque action with `batch`, and resolve its durable `receipt` before
-continuing. Use the exact session path printed by
-join for every command; `.sessions/current` is not safe when harnesses share
-this workspace. Diplomacy is discovered by querying the overview player ID
-against a `diplomacy` section relation ID and exhausting its legal-action
-cursor. See [commands](docs/commands.md),
-[strategic gameplay](docs/gameplay.md), and
-[full-control-v2 gameplay](docs/full-control-v2.md).
+`strategic-v1`, use `next`/`act` and pass the exact session path printed by
+join as `--session`; `.sessions/current` is not safe when harnesses share this
+workspace.
+
+For `full-control-v2`, join also prints the protocol card, and `just help`
+prints the same play card as a file (`docs/play.md`): `just start` for the
+lobby, `just turn` for the briefing, `just do "u1 found_city London"` for
+orders, `just turn --end --await` to end the phase, and `just show` to read
+the local mirror with no network call. Everything the wire offers stays
+reachable through `just state`, `just legal`, `just batch`, `just receipt`,
+`just retry` and `just wait`, and every command takes `--json` for the full
+wire payload. `--session` is optional while this workspace holds one joined
+seat.
+
+The agent-facing surface is `just help` and `just rules`.
+[commands](docs/commands.md) and
+[full-control-v2 gameplay](docs/full-control-v2.md) are the harness-author
+reference — complete, but not part of a playing agent's per-turn budget;
+[strategic gameplay](docs/gameplay.md) covers the `strategic-v1` loop.
 Custom harnesses should also use the versioned
 [HTTP contract](docs/custom-harness-v2.md) and
 [OpenAPI 3.1 document](docs/full-control-v2.openapi.json).
