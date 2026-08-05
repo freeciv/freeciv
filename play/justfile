@@ -12,13 +12,22 @@ default:
     @echo "  1. just join                           FIRST. binds this seat"
     @echo "  2. just start                          leave the lobby: configure + ready"
     @echo "  3. just turn                           the briefing"
-    @echo '  4. just do "u1 VERB ARGS; c1 VERB ARGS" 1..8 orders'
-    @echo "  5. just turn --end --await             end, block, next header"
+    @echo '  4. just do "u1 VERB ARGS; c1 VERB ARGS" --end --await --brief'
+    @echo "                                         order every actor, end the"
+    @echo "                                         phase, block, print the"
+    @echo "                                         next briefing. ONE call."
     @echo
-    @echo "then repeat 3-5 until the game is terminal. just start is this"
-    @echo "workspace's lobby command, not the repository stack command, and it"
-    @echo "needs no arguments; every flag is an override. A workspace that was"
-    @echo "not pre-configured spells step 1 out instead:"
+    @echo "  4b. with nothing left to order, step 4 is instead:"
+    @echo "  just turn --end --await --brief        end, block, next briefing"
+    @echo
+    @echo "then repeat step 4 until the game is terminal. One call carries a"
+    @echo "whole turn, and the briefing it prints ends with the do line for"
+    @echo "the turn after it; order every actor in that one line rather than"
+    @echo "one call each."
+    @echo
+    @echo "Step 2 is this workspace's lobby command, not the repository stack"
+    @echo "command, and it needs no arguments; every flag is an override. A"
+    @echo "workspace that was not pre-configured spells step 1 out instead:"
     @echo "  just join --game_id GAME_ID --name HARNESS-MODEL"
     @echo
     @echo "go deeper when the briefing is not enough:"
@@ -109,21 +118,23 @@ act session="" turn="" observation_id="" action="":
 health session="" json_output="":
     python3 -B client.py health --session "{{ session }}" {{ json_output }}
 
-# Read one briefing, or end this phase (--end) and block for the next
-# (--end --await).
+# Read one briefing, or end this phase (--end), block for the next
+# (--end --await) and print its whole briefing (--end --await --brief).
 [arg("session", long)]
 [arg("end_phase", long="end", value="true")]
 [arg("await_phase", long="await", value="true")]
+[arg("brief", long="brief", value="true")]
 [arg("decisions", long="decisions", value="true")]
 [arg("wait_s", long="wait_s")]
 [arg("poll_s", long="poll_s")]
 [arg("json_output", long="json", value="true")]
-turn session="" end_phase="" await_phase="" decisions="" wait_s="" poll_s="" json_output="":
+turn session="" end_phase="" await_phase="" brief="" decisions="" wait_s="" poll_s="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     args=(python3 -B client.py turn --session "{{ session }}")
     [[ -z "{{ end_phase }}" ]] || args+=(--end)
     [[ -z "{{ await_phase }}" ]] || args+=(--await)
+    [[ -z "{{ brief }}" ]] || args+=(--brief)
     [[ -z "{{ decisions }}" ]] || args+=(--decisions)
     [[ -z "{{ wait_s }}" ]] || args+=(--wait-s "{{ wait_s }}")
     [[ -z "{{ poll_s }}" ]] || args+=(--poll-s "{{ poll_s }}")
@@ -153,20 +164,32 @@ start session="" nation="" leader="" style="" male="" female="" json_output="":
 # The order words are variadic, so `just do u1 fortify` works unquoted; quote
 # the line when it carries more than one order, because the shell eats a bare
 # `;`. With [positional-arguments] every recipe parameter occupies a slot, so
-# the order words start at $5 -- after session, continue_on_error, no_refresh
-# and json_output.
-# Issue 1..8 semicolon-separated orders, one receipt line each.
+# the order words start at $8 -- after session, continue_on_error, no_refresh,
+# json_output, end_phase, await_phase and brief.
+# Issue 1..8 semicolon-separated orders, one receipt line each. Add --end
+# --await --brief to make the whole turn one call: orders, phase end, the
+# block, and the next briefing.
 [arg("session", long)]
 [arg("continue_on_error", long="continue-on-error", value="true")]
 [arg("no_refresh", long="no-refresh", value="true")]
 [arg("json_output", long="json", value="true")]
+[arg("end_phase", long="end", value="true")]
+[arg("await_phase", long="await", value="true")]
+[arg("brief", long="brief", value="true")]
+[arg("wait_s", long="wait_s")]
+[arg("poll_s", long="poll_s")]
 [positional-arguments]
-do session="" continue_on_error="" no_refresh="" json_output="" *orders:
+do session="" continue_on_error="" no_refresh="" json_output="" end_phase="" await_phase="" brief="" wait_s="" poll_s="" *orders:
     #!/usr/bin/env bash
     set -euo pipefail
-    args=(python3 -B client.py do --session "{{ session }}" --orders "${*:5}")
+    args=(python3 -B client.py do --session "{{ session }}" --orders "${*:10}")
     [[ -z "{{ continue_on_error }}" ]] || args+=(--continue-on-error)
     [[ -z "{{ no_refresh }}" ]] || args+=(--no-refresh)
+    [[ -z "{{ end_phase }}" ]] || args+=(--end)
+    [[ -z "{{ await_phase }}" ]] || args+=(--await)
+    [[ -z "{{ brief }}" ]] || args+=(--brief)
+    [[ -z "{{ wait_s }}" ]] || args+=(--wait-s "{{ wait_s }}")
+    [[ -z "{{ poll_s }}" ]] || args+=(--poll-s "{{ poll_s }}")
     [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 

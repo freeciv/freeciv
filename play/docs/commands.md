@@ -119,9 +119,9 @@ poll again for the same seat.
 
 ## Full-control-v2: output format
 
-An ordinary turn is four commands — `just turn`, `just do "…"`,
-`just turn --end --await`, and `just start` once in the lobby — documented
-under "Full-control-v2: fast paths" below. Everything else on this page is
+An ordinary turn is **one command** — `just do "…" --end --await --brief` —
+documented under "Full-control-v2: fast paths" below, with `just turn` and
+`just start` for the first turn and the lobby. Everything else on this page is
 the deep path underneath them: the same capabilities, spelled out.
 
 `join`, `health`, `turn`, `state`, `legal`, `batch`, `receipt`, and `retry`
@@ -291,6 +291,23 @@ just turn --end --await                              # end phase, block, header
 just show u1                                         # read files, zero network
 ```
 
+#### Fast turns: one call per turn
+
+`--end`, `--await` and `--brief` compose those steps into a single command, so
+a steady-state turn costs one model round trip instead of four or five:
+
+```sh
+just do "u3 route 40,60; c2 build Temple" --end --await --brief
+```
+
+That orders every actor, ends the phase, blocks for the next one, and prints
+its whole briefing — including the `next N actors: just do "…"` line that
+writes the following turn's command. With nothing left to order, the same turn
+is `just turn --end --await --brief`. The batching is the point: the briefing
+and every receipt tail name every actor that needs orders in one composed
+`just do` line, because one call carrying eight orders costs what one call
+carrying one order costs.
+
 ### `just do "ORDER; ORDER; …"`
 
 One to eight semicolon-separated orders. An order is `<alias> <verb> [args]`,
@@ -340,12 +357,30 @@ alias (`a7 London`).
 - Orders execute sequentially as one single-command wire batch each — the wire
   rule is unchanged — and print one receipt line each. Execution stops at the
   first order that is not accepted; pass `--continue-on-error` to keep going.
-- A successful `just do` or `just batch` ends its text output with one `next:`
-  line naming the next actor that needs a decision, from the same heuristic as
-  `just turn --decisions`. It is computed from local files only — the receipt
-  path never opens an extra socket — so caches too stale to name options
-  degrade to the actor and its `just legal` command. `--json` output is
-  unaffected.
+- A successful `just do` or `just batch` ends its text output with one tail
+  line naming what still needs orders, from the same heuristic as
+  `just turn --decisions`. With more than one actor left it is the composed
+  batch — `next 3 actors: just do "u2 road T(31,72); u5 goto T(40,60); c3
+  build Temple"` — each order being that actor's top-ranked cached option,
+  ready to run as printed and ready to edit, capped at 200 characters and
+  falling back to `next N actors need orders — just turn --decisions` when
+  even two orders will not fit. With exactly one actor left it is that
+  actor's row and its options; with none it is
+  `next: no actors need orders — just turn --end --await --brief`. It is
+  computed from local files only — the receipt path never opens an extra
+  socket — so caches too stale to name options degrade to the actor and its
+  `just legal` command. `--json` output is unaffected.
+- **`--end` composes the phase end onto the batch.** After every order in the
+  batch applies, `do` resolves and executes `phase.end` through the same
+  cached-or-enumerated path `just turn --end` uses, still as its own
+  single-command wire batch. A batch that did not finish never ends the
+  phase: without `--continue-on-error` a refused order leaves the turn open
+  and the receipt says `phase NOT ended: N/M orders applied…`; with it, the
+  end runs once the batch has finished. An end that fails after orders have
+  applied never swallows them — the orders' receipts print first, then
+  `phase NOT ended: …` with its own remedy. `--await` then blocks exactly as
+  `just wait` does, and `--brief` prints the whole next briefing; both are
+  refused without `--end`, naming the form that works.
 - An order that lands bumps the revision and expires every outstanding handle.
   The client re-enumerates exactly what the remaining orders name and re-binds
   them before sending; it never submits a handle it already knows is stale. If
@@ -368,13 +403,50 @@ fetched, and a catalog already drained at this revision is never re-fetched.
 Refused with `--end`: list what needs orders before ending the phase, not with
 it.
 
-### `just turn --end --await`
+The list closes with the composed batch it implies — the same
+`next N actors: just do "…"` line the receipt tail prints — so reading who
+needs orders and writing the one command that orders them is a single call.
+With no actor left it prints `no actors need orders; just turn --end --await
+--brief`.
+
+### `just turn --end --await [--brief]`
 
 Ends this phase with the cached `phase.end` capability (enumerating it
 internally when it is not cached), blocks exactly as `just wait` does, then
 prints the next phase's header line. `--wait_s` and `--poll_s` behave as they
 do on `just wait`. Plain `just turn` is unchanged. `--await` without `--end`
 is refused: use `just wait` to block without ending.
+
+`--brief` renders the whole next-turn briefing after the wake — byte for byte
+what plain `just turn` would print, decisions lines and events line included —
+so the next turn starts with zero read calls. It runs the same briefing fetch
+and renderer in process: one command, two logical steps. The extra state reads
+are the ones `just turn` would have made anyway; the round trip saved is the
+model's. `--brief` is refused without `--end --await`, naming that form.
+
+A briefing that cannot be built after a successful end is never swallowed: the
+end receipt and the wake header print, then `briefing failed: …` and
+`next: just turn`, with a non-zero exit.
+
+`--json` on `--brief` returns the composite the two commands would have
+returned, as one object:
+
+```json
+{
+  "schema_version": 1, "command": "turn", "status": "briefed",
+  "end":  { "…": "the disposition `turn --end --json` puts under `disposition`" },
+  "wait": { "…": "the wake `just wait --json` returns, or null" },
+  "turn": { "…": "the result `just turn --json` returns, or null" },
+  "turn_error": null
+}
+```
+
+`turn` is null exactly when `turn_error` carries the message. This is a new
+surface: `just turn --end --await --json` without `--brief` still returns the
+`{"status": "ended", "disposition", "wait"}` shape it always has.
+
+`just do "…" --end --await --brief --json` returns the same three keys added
+beside the `do` payload's own fields, which are untouched.
 
 ### `just start [--nation NAME --leader NAME --male|--female --style NAME]`
 

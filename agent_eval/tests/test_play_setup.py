@@ -93,7 +93,10 @@ class PlaySetupTests(unittest.TestCase):
                 "CLAUDE.md is only for the claude-code harness",
             )
             self.assertIn("full-control-v2", agents)
-            self.assertIn("just turn --end --await", agents)
+            # The taught loop is the one-call turn.
+            self.assertIn("--end --await --brief", agents)
+            self.assertIn("just turn --end --await --brief", agents)
+            self.assertIn('next N actors: just do "..."', agents)
             self.assertIn("cd .play/", out)
 
     def test_claude_code_harness_gets_claude_md_others_do_not(self):

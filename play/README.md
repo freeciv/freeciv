@@ -26,9 +26,10 @@ that bound seat.
 
 For `full-control-v2`, join also prints the protocol card, and `just help`
 prints the same play card as a file (`docs/play.md`): `just start` for the
-lobby, `just turn` for the briefing, `just do "u1 found_city London"` for
-orders, `just turn --end --await` to end the phase, and `just show` to read
-the local mirror with no network call. Everything the wire offers stays
+lobby, `just turn` for the briefing, `just do "u1 found_city London; c1 build
+Warriors" --end --await --brief` for a whole turn in one call (orders, phase
+end, the block, the next briefing), and `just show` to read the local mirror
+with no network call. Everything the wire offers stays
 reachable through `just state`, `just legal`, `just batch`, `just receipt`,
 `just retry` and `just wait`, and every command takes `--json` for the full
 wire payload. Every `just X` is also `./play X` — the same CLI without the

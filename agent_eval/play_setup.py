@@ -48,13 +48,18 @@ V2_LOOP_NOTE = """This is a `full-control-v2` game. Run these in order:
 
     1. just join                 # FIRST. binds this workspace to its seat
     2. just start                # lobby: configure + ready (no arguments needed)
-    3. just turn                 # each turn: briefing, options, needs-decision list
-    4. just do "u1 found_city London; u2 route 32,73"
-    5. just turn --end --await   # end the phase and wait for the next
+    3. just turn                 # the briefing: options and needs-decision list
+    4. just do "u1 found_city London; u2 route 32,73" --end --await --brief
 
-Then repeat 3-5 until the game is terminal. Nothing but `just join` works
-before `just join`, and step 2 is this workspace's lobby command, not the
-repository stack's `just start`.
+Step 4 is the whole turn in ONE call: it orders every actor, ends the phase,
+blocks for the next phase, and prints its full briefing. Repeat step 4 until
+the game is terminal, and order every actor that needs orders in that one
+line rather than one call each -- the briefing and every receipt end with a
+`next N actors: just do "..."` line that writes it for you. With nothing left
+to order, step 4 is `just turn --end --await --brief`.
+
+Nothing but `just join` works before `just join`, and step 2 is this
+workspace's lobby command, not the repository stack's `just start`.
 
 `just show` reads your local state mirror at zero network cost, and every
 error names the exact command that fixes it."""

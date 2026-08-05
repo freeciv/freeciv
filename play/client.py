@@ -2656,7 +2656,11 @@ V2_PROTOCOL_CARD = (
     "just turn                                 one briefing, one revision",
     "just turn --decisions                     one row per actor that can act",
     'just do "u1 VERB ARGS; c1 VERB ARGS"      1..8 orders, one receipt each',
-    "just turn --end --await                   end the phase, block, next header",
+    'ONE CALL PER TURN — just do "u1 VERB ARGS; c1 VERB ARGS" --end --await '
+    "--brief orders every actor, ends the phase, blocks, and prints the next "
+    "briefing. Batch every actor into one line; the `next N actors:` tail "
+    "writes that line for you.",
+    "just turn --end --await --brief           end, block, next full briefing",
     "just show [ALIAS|--grep PATTERN]          read local files, zero network",
     "just state --section SECTION              one bounded state page; "
     "section chat is the typed event feed (tech learned, growth, huts)",
@@ -4522,7 +4526,7 @@ def _briefing_needs_decision(
         if isinstance(item, dict) and item.get("production") is None:
             notes.append(f"{_named(item)} has no production")
     if not notes:
-        notes.append("nothing idle; end the phase when ready")
+        notes.append(f"nothing idle; {V2_ONE_CALL_END}")
     return (
         "needs decision: " + ", ".join(notes)
         # The count is honest about its own window: a truncated briefing has
@@ -5574,8 +5578,13 @@ def _resolve_kind_action(
     return compact, state
 
 
-def _await_line(wait: dict[str, Any]) -> str:
-    """Render the next briefing header from one validated wake."""
+def _await_line(wait: dict[str, Any], *, follow: str = "just turn") -> str:
+    """Render the next briefing header from one validated wake.
+
+    `follow` names what the agent should run next.  It is empty exactly when
+    this command is about to print that next thing itself (`--brief`), because
+    a header that points at a briefing printed three lines below it is noise.
+    """
     health = wait["health"]
     phase = health["phase"]
     turn = None if phase is None else phase["turn"]
@@ -5583,10 +5592,99 @@ def _await_line(wait: dict[str, Any]) -> str:
     revision = wait["state_revision"]
     if revision is not None:
         header += " " + _revision_label(revision)
-    return (
+    line = (
         f"{header} | woke {wait['wake_reason']} | {health['game_state']} | "
-        f"{_phase_text(phase)} | next: just turn"
+        f"{_phase_text(phase)}"
     )
+    return line + (f" | next: {follow}" if follow else "")
+
+
+def _wait_args(args: argparse.Namespace) -> argparse.Namespace:
+    """Normalise the three blocking knobs, whichever command carried them.
+
+    A knob the caller did give is passed through untouched -- `--wait-s 0` is
+    a legal non-blocking poll, so only a missing value takes the default.
+    """
+    wait_s = getattr(args, "wait_s", None)
+    poll_s = getattr(args, "poll_s", None)
+    until = getattr(args, "until", None)
+    return argparse.Namespace(
+        wait_s=float(120 if wait_s is None else wait_s),
+        poll_s=float(1 if poll_s is None else poll_s),
+        until="phase" if until is None else until,
+    )
+
+
+PHASE_END_REMEDY = (
+    "the phase may not be yours to end yet -- run `just turn` and "
+    "check that the phase is active"
+)
+
+
+def _phase_end_locked(
+    path: Path, session: dict[str, Any],
+) -> tuple[dict[str, Any], str, int, list[str]]:
+    """Execute phase.end from the cached capability; the caller holds the lock.
+
+    This is the one path that ends a phase.  `turn --end` and `do --end` both
+    run it, so the capability is resolved, enumerated when cold, and submitted
+    identically no matter which command composed it.
+    """
+    compact, _state = _resolve_kind_action(
+        path, session, "phase.end", PHASE_END_REMEDY,
+    )
+    arguments = _default_arguments(compact)
+    if arguments is None:
+        raise PlayerError(
+            "this phase.end action takes arguments; run "
+            "`just legal --kind phase.end --all` and submit it with "
+            "`just batch`"
+        )
+    batch_id = _persist_batch_for_action(
+        path, session, compact["action_id"], arguments,
+    )
+    disposition, warning, exit_code = _submit_persisted_batch(
+        path, session, batch_id,
+    )
+    return (
+        disposition, warning, exit_code,
+        _render_disposition(disposition, "phase end"),
+    )
+
+
+def _await_and_brief_locked(
+    args: argparse.Namespace,
+    path: Path,
+    session: dict[str, Any],
+    *,
+    brief: bool,
+) -> tuple[dict[str, Any], dict[str, Any] | None, str, list[str]]:
+    """Block for the next phase and, with `--brief`, render its whole briefing.
+
+    One command, two logical steps: the extra state reads the briefing costs
+    are the same reads `just turn` would have made, and the round trip they
+    save is the model's, which is the expensive one.  A briefing that cannot
+    be built never swallows the wake -- it is reported as one more line with
+    the command that retries it.
+    """
+    wait = _wait_value(path, session, _wait_args(args))
+    lines = [_await_line(wait, follow="" if brief else "just turn")]
+    if not brief:
+        return wait, None, "", lines
+    try:
+        result, aliases, decisions, events = _turn_briefing_locked(
+            path, session,
+        )
+    except (PlayerError, V2ResponseError) as exc:
+        return wait, None, str(exc), [
+            *lines,
+            f"briefing failed: {exc}",
+            "next: just turn",
+        ]
+    lines.extend(_render_turn(
+        result, aliases=aliases, decisions=decisions, events=events,
+    ))
+    return wait, result, "", lines
 
 
 def _command_turn_end(
@@ -5595,48 +5693,56 @@ def _command_turn_end(
     session: dict[str, Any],
     *,
     await_next: bool,
+    brief: bool = False,
 ) -> int:
     """End this phase from the cached capability, optionally blocking after."""
-    lines: list[str] = []
     wait: dict[str, Any] | None = None
+    briefing: dict[str, Any] | None = None
+    brief_error = ""
     with _v2_request_lock(path):
-        compact, _state = _resolve_kind_action(
-            path, session, "phase.end",
-            "the phase may not be yours to end yet -- run `just turn` and "
-            "check that the phase is active",
+        disposition, warning, exit_code, lines = _phase_end_locked(
+            path, session,
         )
-        arguments = _default_arguments(compact)
-        if arguments is None:
-            raise PlayerError(
-                "this phase.end action takes arguments; run "
-                "`just legal --kind phase.end --all` and submit it with "
-                "`just batch`"
-            )
-        batch_id = _persist_batch_for_action(
-            path, session, compact["action_id"], arguments,
-        )
-        disposition, warning, exit_code = _submit_persisted_batch(
-            path, session, batch_id,
-        )
-        lines.extend(_render_disposition(disposition, "phase end"))
         if warning:
             print(warning, file=sys.stderr)
         if await_next and _order_receipt_ok(disposition):
-            wait = _wait_value(path, session, args)
-            lines.append(_await_line(wait))
+            wait, briefing, brief_error, woke = _await_and_brief_locked(
+                args, path, session, brief=brief,
+            )
+            lines.extend(woke)
+            if brief_error:
+                exit_code = max(exit_code, 2)
         elif await_next:
             lines.append("not awaited: the phase end was not accepted")
     if _json_requested(args):
-        _print_v2_json({
-            "schema_version": 1,
-            "command": "turn",
-            "status": "ended",
-            "disposition": disposition,
-            "wait": wait,
-        })
+        if brief:
+            _print_v2_json(_composite_json("turn", {
+                "end": disposition,
+                "wait": wait,
+                "turn": briefing,
+                "turn_error": brief_error or None,
+            }))
+        else:
+            _print_v2_json({
+                "schema_version": 1,
+                "command": "turn",
+                "status": "ended",
+                "disposition": disposition,
+                "wait": wait,
+            })
     else:
         _render(lines)
     return exit_code
+
+
+def _composite_json(command: str, parts: dict[str, Any]) -> dict[str, Any]:
+    """Shape the one-call composite: the parts, each exactly as it was."""
+    return {
+        "schema_version": 1,
+        "command": command,
+        "status": "briefed",
+        **parts,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -5785,6 +5891,68 @@ def _decision_options(
     return options, len(by_verb)
 
 
+def _tier1_word(compact: dict[str, Any], verb: str) -> str:
+    """Prefer the short word `just do` documents over the wire operation.
+
+    Only the tier-1 verbs that add no arguments of their own are substituted:
+    `route` means `set_route mode=goto` and would silently pick a mode the
+    enumerated action may not have, so it is left alone.
+    """
+    for word, tier1 in V2_TIER1_VERBS.items():
+        if tier1["arguments"]:
+            continue
+        if (
+            compact["kind"] == tier1["kind"]
+            and _order_operation(compact) == tier1["operation"]
+        ):
+            return word
+    return verb
+
+
+def _decision_order(
+    pool: list[dict[str, Any]], alias: str,
+) -> str:
+    """Compose one runnable order from this actor's best cached option.
+
+    The order is written the way `just do` reads it -- `ALIAS VERB [TARGET]` --
+    and is only offered when it resolves to exactly one cached action *and*
+    binds that action's whole argument schema, so the batch line runs exactly
+    as printed. An option that cannot meet both (a target no single word can
+    name, or an argument only the player can choose, like a new city's name)
+    yields to the next-ranked option rather than printing a command that would
+    refuse; the actor's full menu is one `just legal` away either way.
+    """
+    if not alias or not pool:
+        return ""
+    by_verb: dict[str, list[dict[str, Any]]] = {}
+    for compact in pool:
+        by_verb.setdefault(_decision_verb(compact), []).append(compact)
+    ranked = sorted(
+        by_verb.items(), key=lambda item: _decision_option_rank(item[1][0]),
+    )
+    for verb, rows in ranked:
+        word = _tier1_word(rows[0], verb)
+        tier1 = V2_TIER1_VERBS.get(word)
+        defaults = dict(tier1["arguments"]) if tier1 else {}
+        keys = [_action_target_key(compact) for compact in rows]
+        single = [key for key in keys if key and len(key.split()) == 1]
+        unique = {key for key in single if single.count(key) == 1}
+        for compact, key in zip(rows, keys):
+            if key not in unique:
+                if len(rows) > 1:
+                    # Nothing one word long picks this action out of its
+                    # siblings, so the printed line could not select it.
+                    continue
+                key = ""
+            # A coordinate word is eaten by the target selector; any other
+            # target word goes on to the argument schema.
+            values = [] if _order_target_keys(key) else ([key] if key else [])
+            if _order_match(compact, values, defaults, None) is None:
+                continue
+            return " ".join(part for part in (alias, word, key) if part)
+    return ""
+
+
 def _decision_actor_row(
     alias: str,
     actor_id: str,
@@ -5803,6 +5971,7 @@ def _decision_actor_row(
         "state": description,
         "options": options,
         "option_count": total,
+        "order": _decision_order(pool, alias),
         "remedy": f"just legal --actor_id {alias} --all",
     }
 
@@ -5901,6 +6070,10 @@ def _decision_meeting_rows(
             "state": "meeting pending",
             "options": options,
             "option_count": total,
+            # A meeting's actor is this seat's own player, not the relation the
+            # row is named after, so no `ALIAS VERB` order can be composed for
+            # it; the batch line leaves it to its own drill-down.
+            "order": "",
             "remedy": "just legal --kind diplomacy.accept --all",
         })
     return rows
@@ -5944,10 +6117,40 @@ def _decision_line(row: dict[str, Any]) -> str:
     return line
 
 
+V2_FOCUS_LINE_MAX = 200
+V2_ONE_CALL_END = "just turn --end --await --brief"
+
+
+def _batch_focus_command(rows: list[dict[str, Any]]) -> str:
+    """Compose the whole remaining turn as one `just do` line.
+
+    The focus loop used to name one actor at a time, and a seat that reads one
+    actor plays one actor: the shipped agent batched in 8% of its calls.  So
+    when more than one actor needs orders the tail is the composed command
+    itself -- every actor's top option, ready to edit and ready to run -- and
+    the single-actor form is kept only for the case where it is the truth.
+    """
+    orders = [row["order"] for row in rows[:V2_MAX_ORDERS] if row["order"]]
+    if len(orders) < 2:
+        # One composable actor is not a batch, and an actor whose catalog this
+        # seat cannot read is better served by the single-actor form below.
+        return ""
+    total = len(rows)
+    while len(orders) > 1:
+        head = f"next {total} actors"
+        if len(orders) != total:
+            head += f", top {len(orders)}"
+        line = f'{head}: just do "{"; ".join(orders)}"'
+        if len(line) <= V2_FOCUS_LINE_MAX:
+            return line
+        orders.pop()
+    return f"next {total} actors need orders — just turn --decisions"
+
+
 def _next_focus_line(
     session_path: Path, state: dict[str, Any], done: frozenset[str],
 ) -> str:
-    """Name the next actor that needs a decision, from local caches only.
+    """Name what still needs orders, from local caches only.
 
     This runs on the receipt path, so it must never fetch and never fail: a
     cache too stale to name options degrades to the actor and its enumeration
@@ -5959,7 +6162,10 @@ def _next_focus_line(
     except PlayerError:
         return ""
     if not rows:
-        return "next: no actors need orders — just turn --end --await"
+        return f"next: no actors need orders — {V2_ONE_CALL_END}"
+    batched = _batch_focus_command(rows)
+    if batched:
+        return batched
     return "next: " + _decision_line(rows[0])
 
 
@@ -5988,6 +6194,10 @@ def _briefing_decision_lines(
             f"+{len(rows) - V2_BRIEFING_DECISION_ROWS} more actors — "
             "just turn --decisions"
         )
+    # The briefing is where the next `do` is chosen, so it closes with that
+    # `do` already written: reading the menu and composing the batch are the
+    # same act, not two calls.
+    lines.extend(line for line in (_batch_focus_command(rows),) if line)
     return lines
 
 
@@ -6054,11 +6264,14 @@ def _command_turn_decisions(
     if not rows:
         _render([
             f"{label} decisions 0 — no actors need orders; "
-            "just turn --end --await"
+            + V2_ONE_CALL_END
         ])
         return 0
     lines = [f"{label} decisions {len(rows)}"]
     lines.extend(_decision_line(row) for row in rows)
+    # The list closes with the batch it implies, so reading who needs orders
+    # and writing the one command that orders them is a single call.
+    lines.extend(line for line in (_batch_focus_command(rows),) if line)
     _render(lines)
     return 0
 
@@ -6068,10 +6281,16 @@ def command_turn(args: argparse.Namespace) -> int:
     end_phase = bool(getattr(args, "end_phase", False))
     await_next = bool(getattr(args, "await_phase", False))
     decisions = bool(getattr(args, "decisions", False))
+    brief = bool(getattr(args, "brief", False))
     if await_next and not end_phase:
         raise PlayerError(
             "just turn --await blocks after ending the phase; use "
             "`just turn --end --await`, or `just wait` on its own"
+        )
+    if brief and not (end_phase and await_next):
+        raise PlayerError(
+            "just turn --brief prints the briefing of the phase it just woke "
+            "into, so it needs the wake: use `just turn --end --await --brief`"
         )
     if decisions and end_phase:
         raise PlayerError(
@@ -6081,106 +6300,122 @@ def command_turn(args: argparse.Namespace) -> int:
     if decisions:
         return _command_turn_decisions(args, path, session)
     if end_phase:
-        return _command_turn_end(args, path, session, await_next=await_next)
+        return _command_turn_end(
+            args, path, session, await_next=await_next, brief=brief,
+        )
     with _v2_request_lock(path):
-        for attempt in range(2):
-            health = _turn_health(session)
-            if health["game_state"] in TERMINAL_STATES:
-                _emit_turn(args, {
-                    "schema_version": 1,
-                    "command": "turn",
-                    "status": "terminal",
-                    "context": _turn_health_context(health),
-                    "next_commands": [
-                        f"just result {session['game_id']}",
-                    ],
-                })
-                return 0
-            phase = health["phase"]
-            actionable = (
-                health["game_state"] == "running"
-                and health["observation_available"]
-                and isinstance(phase, dict)
-                and phase["active"] is True
-                and phase["state"] == "awaiting_agent"
-            )
-            if not actionable:
-                if health["game_state"] == "lobby":
-                    next_commands = [
-                        "just state --section overview",
-                        "just state --section pregame_nations",
-                        "just state --section pregame_styles",
-                        "just state --section pregame_teams",
-                        "just legal",
-                    ]
-                    status = "lobby"
-                else:
-                    next_commands = ["just wait"]
-                    status = "not_ready"
-                _emit_turn(args, {
-                    "schema_version": 1,
-                    "command": "turn",
-                    "status": status,
-                    "context": _turn_health_context(health),
-                    "next_commands": next_commands,
-                })
-                return 0
+        result, aliases, decision_lines, events = _turn_briefing_locked(
+            path, session,
+        )
+    _emit_turn(args, result, aliases, decisions=decision_lines, events=events)
+    return 0
 
-            pages = {
-                section: _turn_page(session, section)
-                for section in V2_TURN_SECTIONS
-            }
-            final_health = _turn_health(session)
-            revisions = [
-                pages[section]["state_revision"]
-                for section in V2_TURN_SECTIONS
-            ]
-            consistent = all(value == revisions[0] for value in revisions[1:])
-            consistent = consistent and (
-                _turn_health_epoch(health) == _turn_health_epoch(final_health)
-            )
-            phase = final_health["phase"]
-            if phase is not None and phase["turn"] is not None:
-                consistent = consistent and phase["turn"] == revisions[0]["turn"]
-            if not consistent:
-                if attempt == 0:
-                    continue
-                raise PlayerError(
-                    "the game changed twice while building the turn briefing; "
-                    "run `just turn` again"
-                )
 
-            state = _load_v2_client_state(path, session)
-            # Read before the mirror is overwritten: the event total it still
-            # holds is the one this seat has already been shown.
-            seen_events = _mirror_event_count(path)
-            for section in V2_TURN_SECTIONS:
-                _remember_page(path, state, pages[section], legal=False)
-            for section in V2_TURN_SECTIONS:
-                _mirror_page(path, state, pages[section], "turn")
-            _mirror_health(path, final_health, "turn", revisions[0])
-            overview_items = pages["overview"]["page"]["items"]
-            if len(overview_items) != 1:
-                raise PlayerError("the turn briefing has no current overview")
-            result = {
+def _turn_briefing_locked(
+    path: Path, session: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, str] | None, list[str], str]:
+    """Build one turn briefing; the caller already holds this seat's lock.
+
+    Returning the parts instead of printing them is what lets `--brief`
+    compose: the same fetch, the same consistency retry and the same rendering
+    serve `just turn` and the tail of a one-call turn alike.
+    """
+    for attempt in range(2):
+        health = _turn_health(session)
+        if health["game_state"] in TERMINAL_STATES:
+            return {
                 "schema_version": 1,
                 "command": "turn",
-                "status": "ready",
-                "context": _turn_health_context(final_health),
-                "state_revision": revisions[0],
-                "overview": overview_items[0],
-                "cities": _turn_compact_page(pages["cities"]),
-                "units": _turn_compact_page(pages["units"]),
-                "research": _turn_compact_page(pages["research"]),
-                "next_commands": _turn_next_commands(pages),
-            }
-            state = _load_v2_client_state(path, session)
-            _emit_turn(
-                args, result, _alias_map(state),
-                decisions=_briefing_decision_lines(path, state),
-                events=_briefing_events_line(overview_items[0], seen_events),
+                "status": "terminal",
+                "context": _turn_health_context(health),
+                "next_commands": [
+                    f"just result {session['game_id']}",
+                ],
+            }, None, [], ""
+        phase = health["phase"]
+        actionable = (
+            health["game_state"] == "running"
+            and health["observation_available"]
+            and isinstance(phase, dict)
+            and phase["active"] is True
+            and phase["state"] == "awaiting_agent"
+        )
+        if not actionable:
+            if health["game_state"] == "lobby":
+                next_commands = [
+                    "just state --section overview",
+                    "just state --section pregame_nations",
+                    "just state --section pregame_styles",
+                    "just state --section pregame_teams",
+                    "just legal",
+                ]
+                status = "lobby"
+            else:
+                next_commands = ["just wait"]
+                status = "not_ready"
+            return {
+                "schema_version": 1,
+                "command": "turn",
+                "status": status,
+                "context": _turn_health_context(health),
+                "next_commands": next_commands,
+            }, None, [], ""
+
+        pages = {
+            section: _turn_page(session, section)
+            for section in V2_TURN_SECTIONS
+        }
+        final_health = _turn_health(session)
+        revisions = [
+            pages[section]["state_revision"]
+            for section in V2_TURN_SECTIONS
+        ]
+        consistent = all(value == revisions[0] for value in revisions[1:])
+        consistent = consistent and (
+            _turn_health_epoch(health) == _turn_health_epoch(final_health)
+        )
+        phase = final_health["phase"]
+        if phase is not None and phase["turn"] is not None:
+            consistent = consistent and phase["turn"] == revisions[0]["turn"]
+        if not consistent:
+            if attempt == 0:
+                continue
+            raise PlayerError(
+                "the game changed twice while building the turn briefing; "
+                "run `just turn` again"
             )
-            return 0
+
+        state = _load_v2_client_state(path, session)
+        # Read before the mirror is overwritten: the event total it still
+        # holds is the one this seat has already been shown.
+        seen_events = _mirror_event_count(path)
+        for section in V2_TURN_SECTIONS:
+            _remember_page(path, state, pages[section], legal=False)
+        for section in V2_TURN_SECTIONS:
+            _mirror_page(path, state, pages[section], "turn")
+        _mirror_health(path, final_health, "turn", revisions[0])
+        overview_items = pages["overview"]["page"]["items"]
+        if len(overview_items) != 1:
+            raise PlayerError("the turn briefing has no current overview")
+        result = {
+            "schema_version": 1,
+            "command": "turn",
+            "status": "ready",
+            "context": _turn_health_context(final_health),
+            "state_revision": revisions[0],
+            "overview": overview_items[0],
+            "cities": _turn_compact_page(pages["cities"]),
+            "units": _turn_compact_page(pages["units"]),
+            "research": _turn_compact_page(pages["research"]),
+            "next_commands": _turn_next_commands(pages),
+        }
+        state = _load_v2_client_state(path, session)
+        return (
+            result,
+            _alias_map(state),
+            _briefing_decision_lines(path, state),
+            _briefing_events_line(overview_items[0], seen_events),
+        )
     raise AssertionError("unreachable turn briefing state")
 
 
@@ -7808,11 +8043,30 @@ def command_do(args: argparse.Namespace) -> int:
         )
     orders = _parse_orders(written or positional)
     keep_going = bool(getattr(args, "continue_on_error", False))
+    end_phase = bool(getattr(args, "end_phase", False))
+    await_next = bool(getattr(args, "await_phase", False))
+    brief = bool(getattr(args, "brief", False))
+    if await_next and not end_phase:
+        raise PlayerError(
+            'just do --await blocks after ending the phase; use `just do "…" '
+            "--end --await`, or `just wait` on its own"
+        )
+    if brief and not (end_phase and await_next):
+        raise PlayerError(
+            "just do --brief prints the briefing of the phase it just woke "
+            'into, so it needs the wake: use `just do "…" --end --await '
+            "--brief`"
+        )
     lines: list[str] = []
     records: list[dict[str, Any]] = []
     exit_code = 0
     applied = 0
     ordered: set[str] = set()
+    ending: dict[str, Any] | None = None
+    wait: dict[str, Any] | None = None
+    briefing: dict[str, Any] | None = None
+    brief_error = ""
+    ended = False
     with _v2_request_lock(path):
         state = _load_v2_client_state(path, session)
         if bool(getattr(args, "no_refresh", False)):
@@ -7922,14 +8176,47 @@ def command_do(args: argparse.Namespace) -> int:
                 exit_code = max(exit_code, 2)
                 break
             pending = [item for item in rebound if item is not None]
+        # The phase end is composed onto the batch, never fused into it: the
+        # orders' receipts are already recorded above, and everything below
+        # only ever adds lines to them.  A batch that did not finish leaves
+        # the phase open and says so -- ending a phase whose orders were
+        # refused would spend the turn on an empire the agent never gave.
+        tail: list[str] = []
+        if end_phase:
+            finished = applied == len(orders) or (keep_going and not stopped)
+            if not finished:
+                tail.append(
+                    f"phase NOT ended: {applied}/{len(orders)} orders "
+                    "applied, so the turn is still yours; fix the refused "
+                    "order and re-issue it, or end anyway with "
+                    f"`{V2_ONE_CALL_END}`"
+                )
+                exit_code = max(exit_code, 2)
+            else:
+                tail, ending, ended, exit_code = _do_phase_end(
+                    args, path, session, exit_code,
+                )
+                if ended and await_next:
+                    wait, briefing, brief_error, woke = _await_and_brief_locked(
+                        args, path, session, brief=brief,
+                    )
+                    tail.extend(woke)
+                    if brief_error:
+                        exit_code = max(exit_code, 2)
+                elif ended:
+                    tail.append(
+                        "next: just wait — or add --await --brief to spend "
+                        "one call on the whole turn"
+                    )
     summary = f"{applied}/{len(orders)} applied"
     if bound is not None:
         summary += f" {_revision_label(bound)}"
     lines.append(summary)
     if stopped:
         lines.append(stopped)
+    lines.extend(tail)
     if _json_requested(args):
-        _print_v2_json({
+        payload = {
             "schema_version": 1,
             "command": "do",
             "orders": records,
@@ -7937,9 +8224,20 @@ def command_do(args: argparse.Namespace) -> int:
             "applied": applied,
             "state_revision": bound,
             "stopped": stopped or None,
-        })
+        }
+        if end_phase:
+            # A new surface: the composite only ever appears when the new flag
+            # asked for it, so the shape `just do --json` has always returned
+            # is untouched.
+            payload.update({
+                "end": ending,
+                "wait": wait,
+                "turn": briefing,
+                "turn_error": brief_error or None,
+            })
+        _print_v2_json(payload)
     else:
-        if applied:
+        if applied and not ended:
             # One focus line for the whole batch, from local caches only.
             focus = _next_focus_line(
                 path, _load_v2_client_state(path, session), frozenset(ordered),
@@ -7948,6 +8246,38 @@ def command_do(args: argparse.Namespace) -> int:
                 lines.append(focus)
         _render(lines)
     return exit_code
+
+
+def _do_phase_end(
+    args: argparse.Namespace,
+    path: Path,
+    session: dict[str, Any],
+    exit_code: int,
+) -> tuple[list[str], dict[str, Any] | None, bool, int]:
+    """Run `do --end`'s phase end, turning any failure into printable lines.
+
+    The applied orders are already receipted, so an end that cannot run must
+    never leave as an exception: it becomes one more line, with the command
+    that finishes the turn by hand.
+    """
+    try:
+        disposition, warning, code, lines = _phase_end_locked(path, session)
+    except (PlayerError, V2ResponseError) as exc:
+        # The refusal carries its own remedy, and the focus tail below still
+        # names what the turn has left; nothing more is added here.
+        return [f"phase NOT ended: {exc}"], None, False, max(exit_code, 2)
+    if warning:
+        print(warning, file=sys.stderr)
+    ended = _order_receipt_ok(disposition)
+    if not ended:
+        lines.append(
+            "phase NOT ended: the phase end above was not accepted"
+            + (
+                "; not awaited"
+                if bool(getattr(args, "await_phase", False)) else ""
+            )
+        )
+    return lines, disposition, ended, max(exit_code, code)
 
 
 def _get_receipt_response(
@@ -9162,6 +9492,10 @@ def parser() -> argparse.ArgumentParser:
         help="with --end: block until the next phase, then print its header",
     )
     turn.add_argument(
+        "--brief", action="store_true",
+        help="with --end --await: print the whole next briefing on waking",
+    )
+    turn.add_argument(
         "--decisions", action="store_true",
         help="one row per actor that can still act, with its best options",
     )
@@ -9198,6 +9532,21 @@ def parser() -> argparse.ArgumentParser:
         "--no-refresh", dest="no_refresh", action="store_true",
         help="refuse a stale action alias instead of re-binding it",
     )
+    do.add_argument(
+        "--end", dest="end_phase", action="store_true",
+        help="end this phase once every order in the batch has applied",
+    )
+    do.add_argument(
+        "--await", dest="await_phase", action="store_true",
+        help="with --end: block until the next phase, then print its header",
+    )
+    do.add_argument(
+        "--brief", action="store_true",
+        help="with --end --await: print the whole next briefing on waking",
+    )
+    do.add_argument("--wait-s", type=float, default=120)
+    do.add_argument("--poll-s", type=float, default=1)
+    do.add_argument("--until", choices=("phase", "revision"), default="phase")
     json_escape_hatch(do)
     do.set_defaults(handler=command_do)
 

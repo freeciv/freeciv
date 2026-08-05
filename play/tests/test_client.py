@@ -262,9 +262,20 @@ class PlayerClientTests(unittest.TestCase):
                 "start", "--nation", "English", "--leader", "Ada",
                 "--female", "--style", "European",
             ),
+            ("turn", "--end", "--await", "--brief"),
             ("do", "u1 found_city London; u2 move 32,73"),
             ("do", "u1 fortify", "--continue-on-error"),
             ("do", "u1 fortify", "--json"),
+            # The one-call turn.
+            ("do", "u1 route 40,60; c2 build Temple", "--end"),
+            (
+                "do", "u1 route 40,60; c2 build Temple",
+                "--end", "--await", "--brief",
+            ),
+            (
+                "do", "u1 fortify", "--end", "--await", "--brief",
+                "--wait_s", "60", "--poll_s", "2",
+            ),
             ("show",),
             ("show", "units"),
             ("show", "u1"),
@@ -318,6 +329,26 @@ class PlayerClientTests(unittest.TestCase):
             )
             argv = capture.read_text(encoding="utf-8").splitlines()
             self.assertEqual(argv[-2:], ["--arguments", payload])
+
+            # The one-call turn: the variadic order words still arrive as one
+            # exact argument once the three new flags have taken their slots.
+            orders = "u1 route 40,60; c2 build Temple"
+            environment["V2_CAPTURE"] = str(root / "one-call")
+            completed = subprocess.run(
+                ("just", "do", orders, "--end", "--await", "--brief"),
+                cwd=client.ROOT, env=environment, check=False,
+                capture_output=True, text=True,
+            )
+            self.assertEqual(
+                completed.returncode, 0,
+                completed.stdout + completed.stderr,
+            )
+            argv = (root / "one-call").read_text(
+                encoding="utf-8",
+            ).splitlines()
+            self.assertEqual(
+                argv[-4:], [orders, "--end", "--await", "--brief"],
+            )
 
     def test_v2_turn_restarts_once_and_returns_one_compact_revision(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -7271,6 +7302,541 @@ client._remember_receipt(path, state, receipt)
                             "await_phase": False, "decisions": True,
                             "wait_s": 120, "poll_s": 1, "until": "phase",
                         })())
+                blocked.assert_not_called()
+
+    # ------------------------------------------------------------------
+    # The one-call turn: a steady-state turn is `do … --end --await
+    # --brief`, and the focus loop teaches the batch that fills it.
+    # ------------------------------------------------------------------
+
+    def stage_batch_seat(
+        self, session_path: Path, session: dict, revision: dict,
+    ) -> None:
+        """The focus seat, plus the city catalog that makes c1 composable."""
+        self.stage_focus_seat(session_path, session, revision)
+        self.cache_actor_catalog(
+            session_path, session, revision, self.CITY_ONE, [
+                self.city_action(
+                    revision, "action_prod01" + "0" * 19,
+                    kind="city.set_production", operation="set_production",
+                    label="Build Warriors",
+                    target=self.production_target("Warriors", "a"),
+                ),
+                self.city_action(
+                    revision, "action_prod02" + "0" * 19,
+                    kind="city.set_production", operation="set_production",
+                    label="Build Granary",
+                    target=self.production_target("Granary", "b"),
+                ),
+            ],
+        )
+
+    def test_v2_focus_tail_composes_every_actor_into_one_do(self):
+        """Three actors need orders, so the tail is the batch that gives them."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=AssertionError("the tail opened a socket"),
+                ), redirect_stdout(stdout):
+                    self.assertEqual(client.command_turn(self.turn_args(
+                        str(session_path), decisions=True,
+                    )), 0)
+                lines = stdout.getvalue().splitlines()
+                self.assertEqual(lines[0], "rev7/t3 decisions 3")
+                # One command, every actor, each with its top-ranked option
+                # written the way `just do` reads it.
+                self.assertEqual(
+                    lines[-1],
+                    'next 3 actors: just do "u1 found_city T(31,72); '
+                    'u2 road T(31,72); c1 build Warriors"',
+                )
+                self.assertLessEqual(len(lines[-1]), 200)
+
+                # And the composed command runs exactly as printed.
+                composed = lines[-1].split('just do "', 1)[1].rstrip('"')
+                state = client._load_v2_client_state(session_path, session)
+                resolved = client._resolve_orders(
+                    state, session_path, client._parse_orders(composed),
+                )
+                self.assertEqual(
+                    [item["action_id"] for item in resolved],
+                    [
+                        "action_found" + "0" * 20,
+                        "action_road0" + "0" * 20,
+                        "action_prod01" + "0" * 19,
+                    ],
+                )
+
+                # On the receipt path the same tail costs no round trip, and
+                # the actor just ordered is never offered back.
+                sent = 0
+
+                def responder(method, url, current, **options):
+                    nonlocal sent
+                    sent += 1
+                    body = json.loads(options["encoded_body"].decode("utf-8"))
+                    return client.JSONResponse(200, self.receipt(
+                        session, body["batch_id"], "applied",
+                        revision=revision,
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72)", str(session_path),
+                    )), 0)
+                self.assertEqual(sent, 1)
+                receipted = stdout.getvalue().splitlines()
+                self.assertEqual(
+                    receipted[-1],
+                    'next 2 actors: just do "u2 road T(31,72); '
+                    'c1 build Warriors"',
+                )
+
+    def test_v2_composed_order_never_prints_a_command_that_would_refuse(self):
+        """Only orders that resolve *and* bind their whole schema are offered."""
+        revision = self.revision(7)
+        founding = self.found_city_action(self.actor_action(
+            revision, "action_found" + "0" * 20, self.UNIT_ONE,
+            kind="unit.found_city", operation="found_city",
+            label="Found city",
+        ))
+        moving = self.actor_action(
+            revision, "action_move1" + "0" * 20, self.UNIT_ONE, x=31, y=72,
+        )
+        pool = [
+            client._compact_legal_action(item) for item in (founding, moving)
+        ]
+        # `found_city` outranks `move`, but its city name is the player's to
+        # choose, so `u1 found_city T(31,72)` would refuse. The tail yields to
+        # the next option rather than printing it.
+        self.assertEqual(client._decision_order(pool, "u1"), "u1 move T(31,72)")
+
+        # With no schema to fill it is offered first, as its rank says.
+        plain = [client._compact_legal_action(item) for item in (
+            self.actor_action(
+                revision, "action_found" + "0" * 20, self.UNIT_ONE,
+                kind="unit.found_city", operation="found_city",
+                label="Found city",
+            ),
+            moving,
+        )]
+        self.assertEqual(
+            client._decision_order(plain, "u1"), "u1 found_city T(31,72)",
+        )
+
+        # Two actions sharing one verb and one target key cannot be told
+        # apart by the printed line, so neither is offered.
+        twins = [client._compact_legal_action(item) for item in (
+            self.actor_action(
+                revision, "action_twin1" + "0" * 20, self.UNIT_ONE,
+                kind="unit.start_activity", operation="road", label="Road",
+            ),
+            self.actor_action(
+                revision, "action_twin2" + "0" * 20, self.UNIT_ONE,
+                kind="unit.start_activity", operation="road", label="Road",
+            ),
+        )]
+        self.assertEqual(client._decision_order(twins, "u1"), "")
+        self.assertEqual(client._decision_order(pool, ""), "")
+        self.assertEqual(client._decision_order([], "u1"), "")
+
+    def test_v2_focus_tail_falls_back_when_the_composed_line_overflows(self):
+        rows = [
+            {
+                "alias": f"u{number}",
+                "actor_id": f"unit_{number}",
+                "state": "idle",
+                "options": [],
+                "option_count": 1,
+                "order": f"u{number} connect_route T(100,{number:03d})",
+                "remedy": f"just legal --actor_id u{number} --all",
+            }
+            for number in range(1, 9)
+        ]
+        # Eight orders of this width do not fit, so the line trims to the
+        # actors it can name while the count stays honest.
+        trimmed = client._batch_focus_command(rows)
+        self.assertTrue(trimmed.startswith("next 8 actors, top "), trimmed)
+        self.assertLessEqual(len(trimmed), 200)
+
+        # Widen every order past the point where even two fit, and the tail
+        # stops composing rather than printing a truncated command.
+        for row in rows:
+            row["order"] = row["order"] + " " + "x" * 90
+        self.assertEqual(
+            client._batch_focus_command(rows),
+            "next 8 actors need orders — just turn --decisions",
+        )
+
+    def test_v2_focus_tail_keeps_one_actor_and_teaches_the_one_call_ending(self):
+        one = [{
+            "alias": "u2", "actor_id": "unit_2", "state": "Workers idle",
+            "options": ["a4 road"], "option_count": 1,
+            "order": "u2 road T(31,72)",
+            "remedy": "just legal --actor_id u2 --all",
+        }]
+        # One actor is not a batch: the single-actor row is still the truth.
+        self.assertEqual(client._batch_focus_command(one), "")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                state = client._load_v2_client_state(session_path, session)
+                # No actor needs orders, so the tail names the one call that
+                # ends the turn and starts the next one.
+                self.assertEqual(
+                    client._next_focus_line(
+                        session_path, state, frozenset(),
+                    ),
+                    "next: no actors need orders — "
+                    "just turn --end --await --brief",
+                )
+
+    def one_call_responder(
+        self, session: dict, revision: dict, phase_end: dict,
+        log: list[str], *, order_receipt: str = "applied",
+    ):
+        """Answer every request one `do … --end --await --brief` call makes."""
+        briefing = self.briefing_responder(session, revision)
+
+        def responder(method, url, current, **options):
+            if method == "POST":
+                payload = json.loads(options["encoded_body"].decode("utf-8"))
+                action_id = payload["commands"][0]["action_id"]
+                ending = action_id == phase_end["action_id"]
+                log.append("end" if ending else "order")
+                return client.JSONResponse(200, self.receipt(
+                    session, payload["batch_id"],
+                    "applied" if ending else order_receipt,
+                    revision=revision,
+                ))
+            if "/legal" in url:
+                log.append("legal")
+                return client.JSONResponse(200, self.page(
+                    session, legal=True, revision=revision,
+                    items=[phase_end],
+                ))
+            log.append("brief")
+            return briefing(method, url, current, **options)
+
+        return responder
+
+    def test_v2_one_call_turn_orders_ends_wakes_and_briefs(self):
+        """`do "…" --end --await --brief` is the whole steady-state turn."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+                phase_end = self.pregame_action(
+                    revision, "action_" + "e" * 26, "phase.end", "end",
+                    "End phase", {"type": "object"}, None,
+                )
+                log: list[str] = []
+                waking = self.wait_response(
+                    session, "phase_active", active=True,
+                    revision=self.revision(9),
+                )
+
+                def wait(path, current, args):
+                    log.append("wait")
+                    return waking
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, log,
+                    ),
+                ), patch.object(
+                    client, "_wait_value", side_effect=wait,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72); c1 build Warriors",
+                        str(session_path), end_phase=True, await_phase=True,
+                        brief=True,
+                    )), 0)
+
+                # Two orders, one phase end (enumerated first), one wake, then
+                # the briefing -- in that order, in one call.
+                self.assertEqual(
+                    log[:5], ["order", "order", "legal", "end", "wait"],
+                )
+                self.assertIn("brief", log)
+                printed = stdout.getvalue()
+                lines = printed.splitlines()
+                self.assertTrue(lines[0].startswith("u1 found_city T(31,72) →"))
+                self.assertTrue(lines[1].startswith("c1 build Warriors →"))
+                self.assertEqual(lines[2], "2/2 applied rev7/t3")
+                self.assertTrue(lines[3].startswith("phase end → applied"))
+                # The wake header does not point at the briefing it prints.
+                self.assertIn("woke phase_active", lines[4])
+                self.assertNotIn("next: just turn", lines[4])
+                # The next turn's whole briefing, decisions line and all.
+                self.assertIn("T3 rev7/t3 | running", printed)
+                self.assertIn("units 3/3", printed)
+                self.assertIn("cities 1/1", printed)
+                self.assertIn("needs decision:", printed)
+                self.assertNotIn("phase NOT ended", printed)
+
+    def test_v2_one_call_turn_composite_json_carries_each_part_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+                phase_end = self.pregame_action(
+                    revision, "action_" + "e" * 26, "phase.end", "end",
+                    "End phase", {"type": "object"}, None,
+                )
+                waking = self.wait_response(
+                    session, "phase_active", active=True,
+                    revision=self.revision(9),
+                )
+                log: list[str] = []
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, log,
+                    ),
+                ), patch.object(
+                    client, "_wait_value", return_value=waking,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72)", str(session_path),
+                        end_phase=True, await_phase=True, brief=True,
+                        json_output=True,
+                    )), 0)
+                payload = json.loads(stdout.getvalue())
+                # The `do` shape is untouched; the composite is added beside it.
+                self.assertEqual(set(payload), {
+                    "schema_version", "command", "orders", "requested",
+                    "applied", "state_revision", "stopped",
+                    "end", "wait", "turn", "turn_error",
+                })
+                self.assertEqual(payload["applied"], 1)
+                self.assertEqual(payload["end"]["receipt"]["receipt_state"], "applied")
+                self.assertEqual(payload["wait"]["wake_reason"], "phase_active")
+                self.assertEqual(payload["turn"]["command"], "turn")
+                self.assertEqual(payload["turn"]["status"], "ready")
+                self.assertIsNone(payload["turn_error"])
+
+                # `turn --end --await --brief --json` returns the same three
+                # parts, and no `do` fields it never had.
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, [],
+                    ),
+                ), patch.object(
+                    client, "_wait_value", return_value=waking,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_turn(self.turn_args(
+                        str(session_path), end_phase=True, await_phase=True,
+                        brief=True, json_output=True,
+                    )), 0)
+                composite = json.loads(stdout.getvalue())
+                self.assertEqual(set(composite), {
+                    "schema_version", "command", "status",
+                    "end", "wait", "turn", "turn_error",
+                })
+                self.assertEqual(composite["command"], "turn")
+                self.assertEqual(composite["status"], "briefed")
+                self.assertEqual(composite["turn"]["status"], "ready")
+
+                # Without --brief the shape `turn --end --await --json` has
+                # always returned is untouched.
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, [],
+                    ),
+                ), patch.object(
+                    client, "_wait_value", return_value=waking,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_turn(self.turn_args(
+                        str(session_path), end_phase=True, await_phase=True,
+                        json_output=True,
+                    )), 0)
+                ended = json.loads(stdout.getvalue())
+                self.assertEqual(set(ended), {
+                    "schema_version", "command", "status", "disposition",
+                    "wait",
+                })
+                self.assertEqual(ended["status"], "ended")
+
+    def test_v2_do_end_never_ends_a_phase_whose_batch_stopped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+                phase_end = self.pregame_action(
+                    revision, "action_" + "e" * 26, "phase.end", "end",
+                    "End phase", {"type": "object"}, None,
+                )
+                log: list[str] = []
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, log,
+                        order_receipt="rejected",
+                    ),
+                ), patch.object(
+                    client, "_wait_value",
+                    side_effect=AssertionError("a stopped batch awaited"),
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72); c1 build Warriors",
+                        str(session_path), end_phase=True, await_phase=True,
+                        brief=True,
+                    )), 2)
+                printed = stdout.getvalue()
+                # The first order was refused, so the batch stopped, nothing
+                # enumerated phase.end, and the turn is still the agent's.
+                self.assertEqual(log, ["order"])
+                self.assertIn("phase NOT ended", printed)
+                self.assertIn("0/2 orders applied", printed)
+                self.assertIn("0/2 applied", printed)
+                self.assertIn("just turn --end --await --brief", printed)
+
+    def test_v2_do_end_prints_the_receipts_then_the_end_failure(self):
+        """An end that cannot run never takes the applied orders with it."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+
+                def no_phase_end(method, url, current, **options):
+                    if method == "POST":
+                        payload = json.loads(
+                            options["encoded_body"].decode("utf-8"),
+                        )
+                        return client.JSONResponse(200, self.receipt(
+                            session, payload["batch_id"], "applied",
+                            revision=revision,
+                        ))
+                    # This seat holds no phase.end at this revision.
+                    return client.JSONResponse(200, self.page(
+                        session, legal=True, revision=revision, items=[],
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=no_phase_end,
+                ), patch.object(
+                    client, "_wait_value",
+                    side_effect=AssertionError("awaited an unended phase"),
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72)", str(session_path),
+                        end_phase=True, await_phase=True, brief=True,
+                    )), 2)
+                lines = stdout.getvalue().splitlines()
+                # Receipt, summary, then the failure with its own remedy --
+                # in that order, never swallowed.
+                self.assertTrue(lines[0].startswith("u1 found_city T(31,72) →"))
+                self.assertIn("applied", lines[0])
+                self.assertEqual(lines[1], "1/1 applied rev7/t3")
+                self.assertTrue(
+                    lines[2].startswith("phase NOT ended: "), lines[2],
+                )
+                self.assertIn("just turn", lines[2])
+                # The turn is still the agent's, so the tail still names it.
+                self.assertEqual(
+                    lines[3],
+                    'next 2 actors: just do "u2 road T(31,72); '
+                    'c1 build Warriors"',
+                )
+
+    def test_v2_brief_without_a_wake_is_refused_with_the_form_that_works(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, _session = self.v2_session(root)
+                with patch.object(client, "_v2_response") as blocked:
+                    for args, pattern in (
+                        (
+                            self.turn_args(
+                                str(session_path), end_phase=True, brief=True,
+                            ),
+                            r"just turn --end --await --brief",
+                        ),
+                        (
+                            self.turn_args(str(session_path), brief=True),
+                            r"just turn --end --await --brief",
+                        ),
+                    ):
+                        with self.assertRaisesRegex(
+                            client.PlayerError, pattern,
+                        ):
+                            client.command_turn(args)
+                    for values, pattern in (
+                        ({"end_phase": True, "brief": True}, r"--end --await"),
+                        ({"brief": True}, r"--end --await"),
+                        ({"await_phase": True}, r"just do --await"),
+                    ):
+                        with self.assertRaisesRegex(
+                            client.PlayerError, pattern,
+                        ):
+                            client.command_do(self.do_args(
+                                "u1 fortify", str(session_path), **values,
+                            ))
                 blocked.assert_not_called()
 
     def stage_stale_aliases(
