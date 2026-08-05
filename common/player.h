@@ -364,6 +364,11 @@ struct player
 
       bool color_changeable;
 
+      /* Monotonic identity for this client-side player incarnation. Player
+       * slots may be reused while a client remains connected; zero means no
+       * exact incarnation has been assigned yet. */
+      uint64_t lifecycle_id;
+
       int culture;
     } client;
   };

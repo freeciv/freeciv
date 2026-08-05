@@ -62,6 +62,22 @@ void update_queue_connect_processing_finished_full(int request_id,
                                                    uq_free_fn_t
                                                    free_data_func);
 
+/* Exact processing-boundary callbacks. Unlike the UI update callbacks above,
+ * these run synchronously inside PACKET_PROCESSING_STARTED/FINISHED handling.
+ * Callers must do bounded cache bookkeeping only and defer UI/network work. */
+void update_queue_connect_processing_started_direct_full(
+  int request_id, uq_callback_t callback, void *data,
+  uq_free_fn_t free_data_func);
+void update_queue_connect_processing_finished_direct_full(
+  int request_id, uq_callback_t callback, void *data,
+  uq_free_fn_t free_data_func);
+/* Remove one exact direct callback that has not fired yet.  A successful
+ * cancellation runs its free-data function exactly once. */
+bool update_queue_cancel_processing_started_direct(
+  int request_id, uq_callback_t callback, void *data);
+bool update_queue_cancel_processing_finished_direct(
+  int request_id, uq_callback_t callback, void *data);
+
 bool update_queue_is_switching_page(void);
 
 void science_report_dialog_update(void);

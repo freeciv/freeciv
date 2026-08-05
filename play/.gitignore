@@ -1,0 +1,5 @@
+.sessions/
+.invites/*.json
+*.log
+*.out
+__pycache__/

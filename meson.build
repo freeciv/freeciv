@@ -4276,6 +4276,73 @@ executable('freeciv-stub',
 
 endif
 
+if get_option('clients').contains('agent')
+
+if host_machine.system() == 'windows'
+  error('The agent client requires POSIX inherited AF_UNIX sockets')
+endif
+
+freeciv_agent_exe = executable('freeciv-agent',
+  'client/gui_cbsetter.c',
+  'client/gui_interface.c',
+  'client/gui-agent/gui_main.c',
+  'client/gui-agent/ipc_codec.c',
+  'client/gui-agent/protocol_v2.c',
+  'client/gui-agent/protocol_v2_codec.c',
+  'client/gui-stub/canvas.c',
+  'client/gui-stub/chatline.c',
+  'client/gui-stub/citydlg.c',
+  'client/gui-stub/cityrep.c',
+  'client/gui-stub/colors.c',
+  'client/gui-stub/connectdlg.c',
+  'client/gui-stub/dialogs.c',
+  'client/gui-agent/diplodlg.c',
+  'client/gui-stub/finddlg.c',
+  'client/gui-stub/gotodlg.c',
+  'client/gui-stub/graphics.c',
+  'client/gui-stub/helpdlg.c',
+  'client/gui-stub/infradlg.c',
+  'client/gui-stub/inteldlg.c',
+  'client/gui-stub/luaconsole.c',
+  'client/gui-stub/mapctrl.c',
+  'client/gui-stub/mapview.c',
+  'client/gui-stub/menu.c',
+  'client/gui-stub/messagedlg.c',
+  'client/gui-stub/messagewin.c',
+  'client/gui-agent/optiondlg.c',
+  'client/gui-stub/pages.c',
+  'client/gui-stub/plrdlg.c',
+  'client/gui-stub/ratesdlg.c',
+  'client/gui-stub/repodlgs.c',
+  'client/gui-stub/spaceshipdlg.c',
+  'client/gui-agent/sprite.c',
+  'client/gui-stub/themes.c',
+  'client/gui-stub/voteinfo_bar.c',
+  'client/gui-stub/wldlg.c',
+  clienticon,
+  include_directories: client_inc,
+  dependencies: [audio_dep, net_dep, gettext_dep, mw_extra_dep],
+  link_with: client_common,
+  install: true,
+  win_subsystem: 'console'
+  )
+
+freeciv_agent_sidecar_test = executable('freeciv-agent-sidecar-test',
+  'client/gui-agent/test_sidecar.c',
+  'client/gui-agent/protocol_v2_codec.c',
+  install: false
+  )
+
+test('freeciv-agent-sidecar', freeciv_agent_sidecar_test,
+  args: [freeciv_agent_exe],
+  env: {
+    'FREECIV_DATA_PATH': s_root / 'data'
+  },
+  timeout: 30
+  )
+
+endif
+
 if get_option('fcmp') != []
 
 fcmp_common = static_library('fcmp_common',

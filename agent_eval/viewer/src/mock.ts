@@ -1,0 +1,115 @@
+import type { ReplayResponse, WatchResponse } from './types'
+
+const places = [
+  {
+    place: 1,
+    seat_id: 'place-1',
+    player_name: 'AgentPlace1',
+    controller: 'agent' as const,
+    joined: true,
+    controller_label: 'codex-gpt-5.6-sol',
+    controller_type: 'external',
+    model: 'gpt-5.6-sol',
+    player_color: '#0067A5',
+  },
+  {
+    place: 2,
+    seat_id: 'place-2',
+    player_name: 'NativePlace2',
+    controller: 'native_classic_ai' as const,
+    joined: false,
+    controller_label: null,
+    controller_type: 'native',
+    model: 'classic',
+    player_color: '#F38400',
+  },
+]
+
+export const mockWatch: WatchResponse = {
+  schema_version: 1,
+  label: 'Omniscient strategic map snapshots',
+  game: {
+    schema_version: 1,
+    game_id: 'game_abcdefghijklmnopqrstuvwx',
+    state: 'running',
+    benchmark_valid: null,
+    mode: 'single',
+    places: 2,
+    max_agents: 1,
+    joined_agents: 1,
+    turns: 5000,
+    current_turn: 3,
+    objective: 'Maximize final civilization score.',
+    error: null,
+    invalid_reasons: [],
+    resolved_places: places,
+    leaderboard: [],
+    outcome: { status: 'pending', summary: 'Waiting for a complete score snapshot' },
+  },
+  timeline: [],
+  frames: [{
+    index: 0,
+    turn: 3,
+    source_name: 'turn-0003-map.ppm',
+    png_url: '/v1/games/game_abcdefghijklmnopqrstuvwx/frames/0.png',
+    map_players: [
+      { player_id: 0, player_name: 'AgentPlace1', player_color: '#0067A5' },
+      { player_id: 1, player_name: 'NativePlace2', player_color: '#F38400' },
+      { player_id: 2, player_name: 'Blackbeard', player_color: '#FF1493' },
+    ],
+  }],
+}
+
+export const mockReplay: ReplayResponse = {
+  schema_version: 1,
+  game_id: mockWatch.game.game_id,
+  available: true,
+  next_after_turn: 3,
+  has_more: false,
+  complete: false,
+  catalog: {
+    technologies: [
+      { id: 1, rule_name: 'Alphabet', name: 'Alphabet', cost_base: 10, depth: 0 },
+      { id: 2, rule_name: 'Writing', name: 'Writing', cost_base: 20, requires: [1], depth: 1 },
+    ],
+  },
+  snapshots: [1, 2, 3].map((turn) => ({
+    turn,
+    year: -4000 + (turn - 1) * 50,
+    players: [
+      {
+        seat_id: 'place-1', place: 1, player_id: 0,
+        player_name: 'AgentPlace1', player_color: '#0067A5',
+        controller_label: 'codex-gpt-5.6-sol', controller_type: 'external',
+        model: 'gpt-5.6-sol', nation: 'Danish', government: 'Despotism',
+        alive: true, score: turn * 12, cities: turn, citizens: turn * 2,
+        units: 4 + turn, gold: 50 + turn * 3, culture: turn * 2,
+        known_tech_ids: turn > 1 ? [1] : [],
+        gained_tech_ids: turn === 2 ? [1] : [], lost_tech_ids: [],
+        research: { tech_id: 2, name: 'Writing', bulbs: turn * 4, cost: 20 },
+        future_techs: 0, scored: true,
+      },
+      {
+        seat_id: 'place-2', place: 2, player_id: 1,
+        player_name: 'NativePlace2', player_color: '#F38400',
+        controller_label: 'Freeciv Classic AI', controller_type: 'native',
+        model: 'classic', nation: 'Romans', government: 'Despotism',
+        alive: true, score: turn * 9, cities: turn, citizens: turn * 2,
+        units: 3 + turn, gold: 44 + turn, culture: turn,
+        known_tech_ids: [], gained_tech_ids: [], lost_tech_ids: [],
+        research: { tech_id: 1, name: 'Alphabet', bulbs: turn * 3, cost: 10 },
+        future_techs: 0, scored: true,
+      },
+      {
+        seat_id: 'dynamic-player-2', player_id: 2,
+        player_name: 'Blackbeard', player_color: '#FF1493',
+        controller_label: 'Freeciv dynamic faction', controller_type: 'dynamic',
+        nation: 'Pirate', government: 'Anarchy', alive: true,
+        score: 0, cities: 0, citizens: 0, units: 2, gold: 0, culture: 0,
+        known_tech_ids: [], gained_tech_ids: [], lost_tech_ids: [],
+        research: { tech_id: null, name: '', bulbs: 0, cost: 0 },
+        future_techs: 0, scored: false,
+      },
+    ],
+  })),
+}

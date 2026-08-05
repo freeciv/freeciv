@@ -161,6 +161,14 @@ struct voteinfo *voteinfo_queue_find(int vote_no)
   return NULL;
 }
 
+const struct voteinfo *voteinfo_queue_get(int index)
+{
+  if (index < 0 || index >= voteinfo_list_size(voteinfo_queue)) {
+    return NULL;
+  }
+  return voteinfo_list_get(voteinfo_queue, index);
+}
+
 /**********************************************************************//**
   Initialize data structures used by this module.
 **************************************************************************/

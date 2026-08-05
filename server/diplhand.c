@@ -353,7 +353,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                         _("Clause requirements are no longer fulfilled. "
                           "Treaty with %s canceled!"),
                         nation_plural_for_player(pplayer));
-          return;
+          goto cleanup;
         }
       }
 

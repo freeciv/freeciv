@@ -62,6 +62,13 @@ do {                                                    \
  * Used in network protocol. */
 #define REQEST_PLAYER_INITIATED (0)
 
+/* Reserved request kinds used by gui-agent protocol v2.  These values are
+ * echoed in replies so the headless client can correlate background action
+ * discovery without confusing it with a foreground player request. */
+#define AGENT_V2_ACTION_RECEIPT_KIND (252)
+#define AGENT_V2_ACTION_QUERY_KIND (253)
+#define AGENT_V2_ACTION_REVALIDATE_KIND (254)
+
 /* Used in network protocol. */
 enum unit_info_use {
   UNIT_INFO_IDENTITY,

@@ -37,6 +37,7 @@
 #include "mapview_g.h"
 
 /* client */
+#include "climap.h"
 #include "goto.h"
 #include "mapctrl_common.h"
 
@@ -56,6 +57,12 @@ struct part {
   struct pf_map *map;
 };
 
+struct client_connect_path_data {
+  enum unit_activity activity;
+  struct extra_type *target;
+  int speed;
+};
+
 struct goto_map {
   struct unit *focus;
   struct part *parts;
@@ -63,12 +70,27 @@ struct goto_map {
   union {
     struct {
       int initial_turns;
+      struct client_connect_path_data path_data;
     } connect;
     struct {
       struct pf_path *return_path;
     } patrol;
   };
   struct pf_parameter template;
+};
+
+struct client_rally_plan {
+  struct city *city;
+  struct unit *virtual_unit;
+  struct pf_path *path;
+  struct packet_city_rally_point packet;
+  struct client_rally_plan_info info;
+};
+
+struct client_unit_route_plan {
+  struct unit *unit;
+  struct packet_unit_orders packet;
+  struct client_unit_route_plan_info info;
 };
 
 /* Get 'struct goto_map_list' and related functions: */
@@ -91,11 +113,30 @@ struct goto_map {
 static struct goto_map_list *goto_maps = nullptr;
 static bool goto_warned = FALSE;
 
+struct client_goto_pathfinder {
+  const struct unit *unit;
+  struct pf_map *map;
+};
+
 static void reset_last_part(struct goto_map *goto_map);
 static void remove_last_part(struct goto_map *goto_map);
 static void fill_parameter_part(struct pf_parameter *param,
                                 const struct goto_map *goto_map,
                                 const struct part *p);
+static void make_path_orders(struct unit *punit, struct pf_path *path,
+                             enum unit_orders orders,
+                             struct unit_order *final_order,
+                             struct unit_order *order_list,
+                             int *length, int *dest_tile);
+static bool make_connect_path_orders(
+  struct unit *punit, const struct pf_path *path,
+  enum unit_activity activity, struct extra_type *target,
+  struct packet_unit_orders *packet);
+static bool order_wants_direction(enum unit_orders order, action_id act_id,
+                                  struct tile *tgt_tile,
+                                  struct unit *punit);
+static bool order_demands_direction(enum unit_orders order,
+                                    action_id act_id);
 
 /****************************************************************************
   Various stuff for the goto routes
@@ -618,41 +659,46 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
   position.  A negative number means it's impossible.
 ****************************************************************************/
 static int get_activity_time(const struct tile *ptile,
-                             const struct player *pplayer)
+                             const struct player *pplayer,
+                             enum unit_activity activity,
+                             struct extra_type *target)
 {
   struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
 
-  fc_assert_ret_val(hover_state == HOVER_CONNECT, -1);
-
-  switch (connect_activity) {
+  if (target == nullptr) {
+    return -1;
+  }
+  switch (activity) {
   case ACTIVITY_IRRIGATE:
     if (pterrain->irrigation_time == 0) {
       return -1;
     }
     extra_type_iterate(pextra) {
-      if (BV_ISSET(connect_tgt->conflicts, extra_index(pextra))
+      if (BV_ISSET(target->conflicts, extra_index(pextra))
           && tile_has_extra(ptile, pextra)) {
         /* Don't replace old extras. */
         return -1;
       }
     } extra_type_iterate_end;
 
-    if (tile_has_extra(ptile, connect_tgt)) {
+    if (tile_has_extra(ptile, target)) {
       break;
     }
 
     activity_mc = pterrain->irrigation_time;
     break;
   case ACTIVITY_GEN_ROAD:
-    fc_assert(is_extra_caused_by(connect_tgt, EC_ROAD));
+    if (!is_extra_caused_by(target, EC_ROAD)) {
+      return -1;
+    }
 
-    if (!tile_has_extra(ptile, connect_tgt)) {
+    if (!tile_has_extra(ptile, target)) {
       struct tile *vtile;
       int single_mc;
 
       vtile = tile_virtual_new(ptile);
-      single_mc = check_recursive_road_connect(vtile, connect_tgt,
+      single_mc = check_recursive_road_connect(vtile, target,
                                                nullptr, pplayer, 0);
       tile_virtual_destroy(vtile);
 
@@ -664,7 +710,8 @@ static int get_activity_time(const struct tile *ptile,
     }
     break;
   default:
-    log_error("Invalid connect activity: %d.", connect_activity);
+    log_error("Invalid connect activity: %d.", activity);
+    return -1;
   }
 
   return activity_mc;
@@ -701,6 +748,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
                             unsigned *dest_cost, unsigned *dest_extra,
                             const struct pf_parameter *param)
 {
+  const struct client_connect_path_data *data = param->data;
   int activity_time, move_cost, moves_left;
   int total_cost, total_extra;
   struct road_type *proad;
@@ -709,7 +757,12 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     return -1;
   }
 
-  activity_time = get_activity_time(dest_tile, param->owner);
+  if (data == nullptr || data->activity != ACTIVITY_GEN_ROAD
+      || data->target == nullptr || data->speed <= 0) {
+    return -1;
+  }
+  activity_time = get_activity_time(dest_tile, param->owner,
+                                    data->activity, data->target);
   if (activity_time < 0) {
     return -1;
   }
@@ -725,9 +778,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     return -1;
   }
 
-  fc_assert(connect_activity == ACTIVITY_GEN_ROAD);
-
-  proad = extra_road_get(connect_tgt);
+  proad = extra_road_get(data->target);
 
   if (proad == nullptr) {
     /* No suitable road type available */
@@ -759,7 +810,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
    * will count as a full turn towards the activity time */
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
-    int speed = FC_PTR_TO_INT(param->data);
+    int speed = data->speed;
 
     activity_time = ((activity_time * ACTIVITY_FACTOR)
                      + (speed - 1)) / speed;
@@ -812,13 +863,19 @@ static int get_connect_irrig(const struct tile *src_tile,
                              unsigned *dest_cost, unsigned *dest_extra,
                              const struct pf_parameter *param)
 {
+  const struct client_connect_path_data *data = param->data;
   int activity_time, move_cost, moves_left, total_cost;
 
   if (tile_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
     return -1;
   }
 
-  activity_time = get_activity_time(dest_tile, param->owner);
+  if (data == nullptr || data->activity != ACTIVITY_IRRIGATE
+      || data->target == nullptr || data->speed <= 0) {
+    return -1;
+  }
+  activity_time = get_activity_time(dest_tile, param->owner,
+                                    data->activity, data->target);
   if (activity_time < 0) {
     return -1;
   }
@@ -853,7 +910,7 @@ static int get_connect_irrig(const struct tile *src_tile,
    * will count as a full turn towards the activity time */
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
-    int speed = FC_PTR_TO_INT(param->data);
+    int speed = data->speed;
 
     activity_time = ((activity_time * ACTIVITY_FACTOR)
                      + (speed - 1)) / speed;
@@ -918,6 +975,587 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
 }
 
 /************************************************************************//**
+  Create the normal-client goto pathfinder used by non-interactive clients.
+
+  Callers may query multiple destinations through this object. This keeps the
+  exact human-client movement callbacks while sharing one pf_map for a bounded
+  destination catalog.
+****************************************************************************/
+struct client_goto_pathfinder *
+client_goto_pathfinder_new(const struct unit *punit)
+{
+  struct client_goto_pathfinder *finder;
+  struct pf_parameter parameter;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr) {
+    return nullptr;
+  }
+  finder = fc_malloc(sizeof(*finder));
+  goto_fill_parameter_base(&parameter, punit);
+  finder->unit = punit;
+  finder->map = pf_map_new(&parameter);
+  if (finder->map == nullptr) {
+    free(finder);
+    return nullptr;
+  }
+  return finder;
+}
+
+/************************************************************************//**
+  Destroy a shared normal-client goto pathfinder.
+****************************************************************************/
+void client_goto_pathfinder_destroy(struct client_goto_pathfinder *finder)
+{
+  if (finder != nullptr) {
+    if (finder->map != nullptr) {
+      pf_map_destroy(finder->map);
+    }
+    free(finder);
+  }
+}
+
+static uint64_t client_goto_path_signature(const struct pf_path *path)
+{
+  uint64_t hash = UINT64_C(14695981039346656037);
+  unsigned int i;
+
+#define GOTO_HASH_VALUE(_value) do {                                      \
+  const unsigned char *bytes = (const unsigned char *) &(_value);          \
+  size_t byte_index;                                                       \
+  for (byte_index = 0; byte_index < sizeof(_value); byte_index++) {        \
+    hash ^= bytes[byte_index];                                             \
+    hash *= UINT64_C(1099511628211);                                       \
+  }                                                                        \
+} while (FALSE)
+
+  GOTO_HASH_VALUE(path->length);
+  for (i = 0; i < path->length; i++) {
+    const struct pf_position *position = &path->positions[i];
+    int tile_id = tile_index(position->tile);
+    enum direction8 dir_to_here = (i == 0
+                                   ? direction8_invalid()
+                                   : position->dir_to_here);
+    enum direction8 dir_to_next = (i + 1 == path->length
+                                   ? direction8_invalid()
+                                   : position->dir_to_next_pos);
+
+    GOTO_HASH_VALUE(tile_id);
+    GOTO_HASH_VALUE(position->turn);
+    GOTO_HASH_VALUE(position->moves_left);
+    GOTO_HASH_VALUE(position->fuel_left);
+    GOTO_HASH_VALUE(position->total_MC);
+    GOTO_HASH_VALUE(position->total_EC);
+    GOTO_HASH_VALUE(dir_to_next);
+    GOTO_HASH_VALUE(dir_to_here);
+  }
+#undef GOTO_HASH_VALUE
+  return hash;
+}
+
+/************************************************************************//**
+  Resolve one destination with the exact normal-client goto rules.
+
+  The returned route description is private control-plane evidence. It lets a
+  caller bind a capability to the exact path without exposing route steps.
+****************************************************************************/
+bool client_goto_pathfinder_destination(
+  struct client_goto_pathfinder *finder, const struct tile *ptile,
+  struct client_goto_path_info *info)
+{
+  struct pf_path *path;
+  struct unit_order orders[MAX_LEN_ROUTE];
+  int order_count = 0;
+  int destination_tile = -1;
+
+  if (finder == nullptr || finder->map == nullptr || finder->unit == nullptr
+      || ptile == nullptr || info == nullptr) {
+    return FALSE;
+  }
+  path = pf_map_path(finder->map, (struct tile *) ptile);
+  if (path == nullptr) {
+    return FALSE;
+  }
+  if (path->length <= 1 || path->length - 1 >= MAX_LEN_ROUTE) {
+    pf_path_destroy(path);
+    return FALSE;
+  }
+  make_path_orders((struct unit *) finder->unit, path, ORDER_MOVE, nullptr,
+                   orders, &order_count, &destination_tile);
+  if (order_count < 1 || order_count >= MAX_LEN_ROUTE) {
+    pf_path_destroy(path);
+    return FALSE;
+  }
+  info->order_count = order_count;
+  info->destination_tile = destination_tile;
+  info->orders_digest = unit_orders_digest(order_count, orders);
+  info->route_signature = client_goto_path_signature(path);
+  info->action_move = orders[order_count - 1].order == ORDER_ACTION_MOVE;
+  pf_path_destroy(path);
+  return TRUE;
+}
+
+static struct client_unit_route_plan *
+client_unit_plan_from_path(struct unit *punit, struct pf_path *path,
+                           const struct tile *target,
+                           enum unit_orders path_order,
+                           struct unit_order *final_order)
+{
+  struct client_unit_route_plan *plan;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || path == nullptr
+      || target == nullptr || path->length < 1
+      || (path_order != ORDER_MOVE && path_order != ORDER_ACTION_MOVE)
+      || path->length - 1 + (final_order != nullptr ? 1 : 0)
+         >= MAX_LEN_ROUTE) {
+    return nullptr;
+  }
+  plan = fc_calloc(1, sizeof(*plan));
+  plan->unit = punit;
+  plan->packet.unit_id = punit->id;
+  plan->packet.src_tile = tile_index(unit_tile(punit));
+  plan->packet.repeat = FALSE;
+  plan->packet.vigilant = FALSE;
+  plan->info.route_signature = client_goto_path_signature(path);
+  make_path_orders(punit, path, path_order, final_order,
+                   plan->packet.orders, &plan->packet.length,
+                   &plan->packet.dest_tile);
+  if (plan->packet.length < 1 || plan->packet.length >= MAX_LEN_ROUTE
+      || !unit_order_list_is_sane(
+           &wld.map, plan->packet.length, plan->packet.orders)) {
+    client_unit_route_plan_destroy(plan);
+    return nullptr;
+  }
+  plan->info.source_tile = plan->packet.src_tile;
+  plan->info.destination_tile = plan->packet.dest_tile;
+  plan->info.target_tile = tile_index(target);
+  plan->info.waypoint_count = 1;
+  plan->info.order_count = plan->packet.length;
+  plan->info.orders_digest = unit_orders_digest(
+    plan->packet.length, plan->packet.orders);
+  plan->info.final_action = final_order != nullptr
+                            ? final_order->action : ACTION_NONE;
+  plan->info.final_subtarget = final_order != nullptr
+                               ? final_order->sub_target : NO_TARGET;
+  plan->info.action_move = final_order == nullptr
+                           && plan->packet.orders[
+                                plan->packet.length - 1].order
+                              == ORDER_ACTION_MOVE;
+  plan->info.repeat = FALSE;
+  plan->info.vigilant = FALSE;
+  return plan;
+}
+
+/************************************************************************//**
+  Materialize one exact normal-client goto packet, including an action-move
+  final step when the destination is currently occupied by a non-allied
+  city or unit.
+****************************************************************************/
+struct client_unit_route_plan *
+client_unit_goto_plan_new(struct unit *punit, struct tile *target)
+{
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_path *path;
+  struct client_unit_route_plan *plan;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || target == nullptr
+      || target == unit_tile(punit)
+      || client_tile_get_known(target) == TILE_UNKNOWN) {
+    return nullptr;
+  }
+  goto_fill_parameter_base(&parameter, punit);
+  pfm = pf_map_new(&parameter);
+  if (pfm == nullptr) {
+    return nullptr;
+  }
+  path = pf_map_path(pfm, target);
+  pf_map_destroy(pfm);
+  plan = client_unit_plan_from_path(punit, path, target, ORDER_MOVE, nullptr);
+  pf_path_destroy(path);
+  return plan;
+}
+
+/************************************************************************//**
+  Materialize the normal client's "attack everything along this path" route.
+
+  Every movement step is deliberately ORDER_ACTION_MOVE.  The server remains
+  authoritative and may stop the route to request an action decision, exactly
+  as it does for the interactive client command.
+****************************************************************************/
+struct client_unit_route_plan *
+client_unit_attack_plan_new(struct unit *punit, struct tile *target)
+{
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_path *path;
+  struct client_unit_route_plan *plan;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || target == nullptr
+      || target == unit_tile(punit)
+      || client_tile_get_known(target) == TILE_UNKNOWN) {
+    return nullptr;
+  }
+  goto_fill_parameter_base(&parameter, punit);
+  parameter.move_rate = 0;
+  parameter.is_pos_dangerous = nullptr;
+  parameter.get_moves_left_req = nullptr;
+  pfm = pf_map_new(&parameter);
+  if (pfm == nullptr) {
+    return nullptr;
+  }
+  path = pf_map_path(pfm, target);
+  pf_map_destroy(pfm);
+  plan = client_unit_plan_from_path(
+    punit, path, target, ORDER_ACTION_MOVE, nullptr);
+  pf_path_destroy(path);
+  return plan;
+}
+
+/************************************************************************//**
+  Materialize the native "goto and perform" order sequence. The action and
+  subtarget are private control-plane inputs; the resulting packet is frozen
+  and can be compared by its full unit-order digest before dispatch.
+****************************************************************************/
+struct client_unit_route_plan *
+client_unit_action_route_plan_new(struct unit *punit, struct tile *target,
+                                  int action, int subtarget)
+{
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_path *path;
+  struct client_unit_route_plan *plan;
+  struct unit_order final_order;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || target == nullptr
+      || client_tile_get_known(target) == TILE_UNKNOWN
+      || !action_id_exists(action)
+      || action_get_actor_kind(action_by_number(action)) != AAK_UNIT) {
+    return nullptr;
+  }
+  goto_fill_parameter_base(&parameter, punit);
+  pfm = pf_map_new(&parameter);
+  if (pfm == nullptr) {
+    return nullptr;
+  }
+  path = pf_map_path(pfm, target);
+  pf_map_destroy(pfm);
+  if (path == nullptr) {
+    return nullptr;
+  }
+  if (path->length > 1
+      && order_wants_direction(ORDER_PERFORM_ACTION, action, target, punit)) {
+    struct tile *origin = path->positions[path->length - 2].tile;
+
+    if (!same_pos(origin, target)) {
+      pf_path_backtrack(path, origin);
+    }
+  } else if (path->length == 1
+             && order_demands_direction(ORDER_PERFORM_ACTION, action)) {
+    pf_path_destroy(path);
+    return nullptr;
+  }
+  memset(&final_order, 0, sizeof(final_order));
+  final_order.order = ORDER_PERFORM_ACTION;
+  final_order.dir = DIR8_ORIGIN;
+  final_order.activity = ACTIVITY_LAST;
+  final_order.target = tile_index(target);
+  final_order.sub_target = subtarget;
+  final_order.action = action;
+  plan = client_unit_plan_from_path(
+    punit, path, target, ORDER_MOVE, &final_order);
+  pf_path_destroy(path);
+  return plan;
+}
+
+/************************************************************************//**
+  Materialize the native road/irrigation connect route without relying on
+  interactive hover state. The packet remains private and owns the exact
+  interleaved construction and movement order list.
+****************************************************************************/
+struct client_unit_route_plan *
+client_unit_connect_plan_new(struct unit *punit, struct tile *target,
+                             enum unit_activity activity,
+                             struct extra_type *extra)
+{
+  struct client_connect_path_data data;
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_path *path;
+  struct client_unit_route_plan *plan;
+  int initial_activity;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || target == nullptr
+      || extra == nullptr || target == unit_tile(punit)
+      || client_tile_get_known(target) == TILE_UNKNOWN
+      || (activity == ACTIVITY_GEN_ROAD
+          && !is_extra_caused_by(extra, EC_ROAD))
+      || (activity == ACTIVITY_IRRIGATE
+          && !is_extra_caused_by(extra, EC_IRRIGATION))
+      || (activity != ACTIVITY_GEN_ROAD && activity != ACTIVITY_IRRIGATE)
+      || !can_unit_do_connect(punit, activity, extra)) {
+    return nullptr;
+  }
+
+  goto_fill_parameter_base(&parameter, punit);
+  data.activity = activity;
+  data.target = extra;
+  data.speed = get_activity_rate(punit);
+  if (data.speed <= 0) {
+    return nullptr;
+  }
+  parameter.get_costs = activity == ACTIVITY_IRRIGATE
+                        ? get_connect_irrig : get_connect_road;
+  parameter.get_moves_left_req = nullptr;
+  parameter.data = &data;
+  initial_activity = get_activity_time(unit_tile(punit), unit_owner(punit),
+                                       activity, extra);
+  if (initial_activity < 0) {
+    return nullptr;
+  }
+  if (initial_activity > 0) {
+    parameter.moves_left_initially = parameter.move_rate;
+  }
+
+  pfm = pf_map_new(&parameter);
+  if (pfm == nullptr) {
+    return nullptr;
+  }
+  path = pf_map_path(pfm, target);
+  pf_map_destroy(pfm);
+  if (path == nullptr || path->length <= 1) {
+    pf_path_destroy(path);
+    return nullptr;
+  }
+
+  plan = fc_calloc(1, sizeof(*plan));
+  plan->unit = punit;
+  plan->info.route_signature = client_goto_path_signature(path);
+  if (!make_connect_path_orders(punit, path, activity, extra,
+                                &plan->packet)) {
+    pf_path_destroy(path);
+    client_unit_route_plan_destroy(plan);
+    return nullptr;
+  }
+  pf_path_destroy(path);
+  plan->info.source_tile = plan->packet.src_tile;
+  plan->info.destination_tile = plan->packet.dest_tile;
+  plan->info.target_tile = tile_index(target);
+  plan->info.waypoint_count = 1;
+  plan->info.order_count = plan->packet.length;
+  plan->info.orders_digest = unit_orders_digest(
+    plan->packet.length, plan->packet.orders);
+  plan->info.final_action = activity_default_action(activity);
+  plan->info.final_subtarget = extra_index(extra);
+  plan->info.action_move = FALSE;
+  plan->info.repeat = FALSE;
+  plan->info.vigilant = FALSE;
+  return plan;
+}
+
+/************************************************************************//**
+  Continue the normal human-client pathfinder from the exact final movement
+  state of PATH.  This is the non-UI equivalent of adding a goto waypoint.
+****************************************************************************/
+static void client_unit_route_continue_parameter(
+  struct pf_parameter *parameter, const struct unit *punit,
+  const struct pf_path *path)
+{
+  const struct pf_position *last = pf_path_last_position(path);
+
+  parameter->start_tile = last->tile;
+  parameter->moves_left_initially = last->moves_left;
+  parameter->fuel_left_initially = last->fuel_left;
+  if (can_exist_at_tile(&wld.map, parameter->utype, last->tile)) {
+    parameter->transported_by_initially = nullptr;
+  } else {
+    const struct unit *transporter = transporter_for_unit_at(
+      punit, last->tile);
+
+    parameter->transported_by_initially = transporter != nullptr
+      ? unit_type_get(transporter) : nullptr;
+  }
+}
+
+/************************************************************************//**
+  Materialize an ordered semantic route with the exact normal-client path
+  rules. Native directions and order enums remain private to this plan.
+****************************************************************************/
+struct client_unit_route_plan *
+client_unit_route_plan_new(struct unit *punit,
+                           enum client_unit_route_mode mode,
+                           struct tile *const *waypoints,
+                           size_t waypoint_count)
+{
+  struct client_unit_route_plan *plan;
+  struct pf_parameter parameter;
+  struct pf_path *combined = nullptr;
+  struct tile *origin;
+  const struct player *owner;
+  size_t segment_count;
+  size_t i;
+
+  if (punit == nullptr || (origin = unit_tile(punit)) == nullptr
+      || waypoints == nullptr || waypoint_count < 1
+      || waypoint_count > CLIENT_UNIT_ROUTE_MAX_WAYPOINTS
+      || (mode != CLIENT_UNIT_ROUTE_GOTO
+          && mode != CLIENT_UNIT_ROUTE_PATROL)) {
+    return nullptr;
+  }
+  if (waypoints[0] == origin
+      || (mode == CLIENT_UNIT_ROUTE_GOTO
+          && waypoints[waypoint_count - 1] == origin)) {
+    return nullptr;
+  }
+
+  goto_fill_parameter_base(&parameter, punit);
+  owner = unit_owner(punit);
+  /* The normal GUI treats a one-position return path as a no-op. */
+  segment_count = waypoint_count
+                  + (mode == CLIENT_UNIT_ROUTE_PATROL
+                     && waypoints[waypoint_count - 1] != origin ? 1 : 0);
+  for (i = 0; i < segment_count; i++) {
+    struct tile *target = i < waypoint_count ? waypoints[i] : origin;
+    struct pf_map *pfm;
+    struct pf_path *segment;
+
+    if (target == nullptr
+        || client_tile_get_known(target) == TILE_UNKNOWN
+        || target == parameter.start_tile
+        || is_non_allied_city_tile(target, owner)
+        || is_non_allied_unit_tile(
+             target, owner, unit_has_type_flag(punit, UTYF_FLAGLESS))) {
+      pf_path_destroy(combined);
+      return nullptr;
+    }
+    pfm = pf_map_new(&parameter);
+    if (pfm == nullptr) {
+      pf_path_destroy(combined);
+      return nullptr;
+    }
+    segment = pf_map_path(pfm, target);
+    pf_map_destroy(pfm);
+    if (segment == nullptr || segment->length <= 1) {
+      pf_path_destroy(segment);
+      pf_path_destroy(combined);
+      return nullptr;
+    }
+    combined = pf_path_concat(combined, segment);
+    if (combined == nullptr || combined->length <= 1
+        || combined->length - 1 >= MAX_LEN_ROUTE) {
+      pf_path_destroy(segment);
+      pf_path_destroy(combined);
+      return nullptr;
+    }
+    client_unit_route_continue_parameter(&parameter, punit, segment);
+    pf_path_destroy(segment);
+  }
+
+  plan = fc_calloc(1, sizeof(*plan));
+  plan->unit = punit;
+  plan->packet.unit_id = punit->id;
+  plan->packet.src_tile = tile_index(origin);
+  plan->packet.repeat = mode == CLIENT_UNIT_ROUTE_PATROL;
+  plan->packet.vigilant = mode == CLIENT_UNIT_ROUTE_PATROL;
+  make_path_orders(punit, combined, ORDER_MOVE, nullptr,
+                   plan->packet.orders, &plan->packet.length,
+                   &plan->packet.dest_tile);
+  pf_path_destroy(combined);
+  if (plan->packet.length < 1 || plan->packet.length >= MAX_LEN_ROUTE) {
+    client_unit_route_plan_destroy(plan);
+    return nullptr;
+  }
+  for (i = 0; i < (size_t) plan->packet.length; i++) {
+    if (plan->packet.orders[i].order == ORDER_ACTION_MOVE) {
+      client_unit_route_plan_destroy(plan);
+      return nullptr;
+    }
+  }
+  plan->info.source_tile = plan->packet.src_tile;
+  plan->info.destination_tile = plan->packet.dest_tile;
+  plan->info.target_tile = plan->packet.dest_tile;
+  plan->info.waypoint_count = (int) waypoint_count;
+  plan->info.order_count = plan->packet.length;
+  plan->info.orders_digest = unit_orders_digest(
+    plan->packet.length, plan->packet.orders);
+  plan->info.route_signature = 0;
+  plan->info.final_action = ACTION_NONE;
+  plan->info.final_subtarget = NO_TARGET;
+  plan->info.action_move = FALSE;
+  plan->info.repeat = plan->packet.repeat;
+  plan->info.vigilant = plan->packet.vigilant;
+  return plan;
+}
+
+/************************************************************************//**
+  Destroy a semantic unit route plan.
+****************************************************************************/
+void client_unit_route_plan_destroy(struct client_unit_route_plan *plan)
+{
+  free(plan);
+}
+
+/************************************************************************//**
+  Return private exact evidence for a materialized semantic route.
+****************************************************************************/
+const struct client_unit_route_plan_info *
+client_unit_route_plan_get_info(const struct client_unit_route_plan *plan)
+{
+  return plan != nullptr ? &plan->info : nullptr;
+}
+
+/************************************************************************//**
+  Whether TARGET is one of the exact action-move destinations frozen in PLAN.
+  This is private correlation evidence for a server action-decision pause; it
+  deliberately exposes neither native directions nor the order list.
+****************************************************************************/
+bool client_unit_route_plan_contains_action_move_target(
+  const struct client_unit_route_plan *plan, const struct tile *target)
+{
+  struct tile *position;
+  int i;
+
+  if (plan == nullptr || target == nullptr
+      || (position = index_to_tile(&wld.map, plan->packet.src_tile))
+         == nullptr) {
+    return FALSE;
+  }
+  for (i = 0; i < plan->packet.length; i++) {
+    const struct unit_order *order = &plan->packet.orders[i];
+
+    if (order->order != ORDER_MOVE
+        && order->order != ORDER_ACTION_MOVE) {
+      continue;
+    }
+    position = mapstep(&wld.map, position, order->dir);
+    if (position == nullptr) {
+      return FALSE;
+    }
+    if (order->order == ORDER_ACTION_MOVE && position == target) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/************************************************************************//**
+  Send a semantic route through the same two normal-client requests as goto.
+****************************************************************************/
+int client_unit_route_plan_send(struct client_unit_route_plan *plan)
+{
+  int before;
+
+  if (plan == nullptr || plan->unit == nullptr || !can_client_issue_orders()
+      || unit_tile(plan->unit) == nullptr
+      || tile_index(unit_tile(plan->unit)) != plan->packet.src_tile) {
+    return 0;
+  }
+  before = client.conn.client.last_request_id_used;
+  request_unit_ssa_set(plan->unit, SSA_NONE);
+  send_packet_unit_orders(&client.conn, &plan->packet);
+  return client.conn.client.last_request_id_used - before;
+}
+
+/************************************************************************//**
   Fill the PF parameter with the correct client-goto values.
   The storage behind "connect_speed" must remain valid for the lifetime
   of the pf_map.
@@ -941,7 +1579,8 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
   case HOVER_CONNECT:
     {
       int activity_initial;
-      int speed;
+      struct client_connect_path_data *data =
+        &goto_map->connect.path_data;
 
       if (connect_activity == ACTIVITY_IRRIGATE) {
         parameter->get_costs = get_connect_irrig;
@@ -950,19 +1589,23 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
       }
       parameter->get_moves_left_req = nullptr;
 
-      speed = get_activity_rate(punit);
-      parameter->data = FC_INT_TO_PTR(speed);
+      data->activity = connect_activity;
+      data->target = connect_tgt;
+      data->speed = get_activity_rate(punit);
+      parameter->data = data;
 
       /* Take into account the activity time at the origin */
       activity_initial = get_activity_time(unit_tile(punit),
-                                           unit_owner(punit));
+                                           unit_owner(punit),
+                                           data->activity, data->target);
 
       if (activity_initial > 0) {
         /* First action is activity */
         parameter->moves_left_initially = parameter->move_rate;
         /* Number of turns, rounding up */
         goto_map->connect.initial_turns
-          = ((activity_initial * ACTIVITY_FACTOR + (speed - 1)) / speed);
+          = ((activity_initial * ACTIVITY_FACTOR + (data->speed - 1))
+             / data->speed);
         if (punit->moves_left == 0) {
           goto_map->connect.initial_turns++;
         }
@@ -1096,7 +1739,8 @@ bool goto_get_turns(int *min, int *max)
   if (hover_state == HOVER_CONNECT) {
     /* In connect mode, we want to know the turn number the activity will
      * be finished. */
-    int activity_time = get_activity_time(goto_destination, client_player());
+    int activity_time = get_activity_time(
+      goto_destination, client_player(), connect_activity, connect_tgt);
 
     goto_map_list_iterate(goto_maps, goto_map) {
       bool moved = FALSE;
@@ -1177,7 +1821,8 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       return FALSE; /* We never connect on unknown tiles. */
     }
 
-    activity_time = get_activity_time(ptile, client_player());
+    activity_time = get_activity_time(
+      ptile, client_player(), connect_activity, connect_tgt);
 
     goto_map_list_iterate(goto_maps, goto_map) {
       const struct pf_path *path;
@@ -1520,26 +2165,23 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 /************************************************************************//**
   Send a path as a goto or patrol rally orders to the server.
 ****************************************************************************/
-static void send_rally_path_orders(struct city *pcity, struct unit *punit,
+static void make_rally_path_orders(struct packet_city_rally_point *packet,
+                                   struct city *pcity, struct unit *punit,
                                    struct pf_path *path, bool vigilant,
                                    bool persistent,
                                    enum unit_orders orders,
                                    struct unit_order *final_order)
 {
-  struct packet_city_rally_point p;
-
-  memset(&p, 0, sizeof(p));
-  p.id = pcity->id;
-  p.vigilant = vigilant;
-  p.persistent = persistent;
+  memset(packet, 0, sizeof(*packet));
+  packet->id = pcity->id;
+  packet->vigilant = vigilant;
+  packet->persistent = persistent;
 
   log_goto_packet("Rally orders for city %d:", pcity->id);
-  log_goto_packet("  Vigilant: %d.", p.vigilant);
+  log_goto_packet("  Vigilant: %d.", packet->vigilant);
 
   make_path_orders(punit, path, orders, final_order,
-                   p.orders, &p.length, nullptr);
-
-  send_packet_city_rally_point(&client.conn, &p, FALSE);
+                   packet->orders, &packet->length, nullptr);
 }
 
 /************************************************************************//**
@@ -1549,17 +2191,6 @@ void send_goto_path(struct unit *punit, struct pf_path *path,
                     struct unit_order *final_order)
 {
   send_path_orders(punit, path, FALSE, FALSE, ORDER_MOVE, final_order);
-}
-
-/************************************************************************//**
-  Send an arbitrary rally path for the city to the server.
-****************************************************************************/
-static void send_rally_path(struct city *pcity, struct unit *punit,
-                            bool persistent, struct pf_path *path,
-                            struct unit_order *final_order)
-{
-  send_rally_path_orders(pcity, punit, path, FALSE, persistent,
-                         ORDER_MOVE, final_order);
 }
 
 /************************************************************************//**
@@ -1590,46 +2221,185 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
   Send rally orders for the city to move new units to the arbitrary tile.
   Returns FALSE if no path is found for the currently produced unit type.
 ****************************************************************************/
-bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
+struct client_rally_plan *
+client_rally_plan_new(struct city *pcity, const struct tile *ptile)
 {
+  struct client_rally_plan *plan;
   const struct unit_type *putype;
-  struct unit *punit;
   struct pf_parameter parameter;
   struct pf_map *pfm;
-  struct pf_path *path;
+  int i;
 
-  fc_assert_ret_val(pcity != nullptr, FALSE);
-  fc_assert_ret_val(ptile != nullptr, FALSE);
+  if (pcity == nullptr || city_tile(pcity) == nullptr || ptile == nullptr
+      || ptile == city_tile(pcity)) {
+    return nullptr;
+  }
 
   /* Create a virtual unit of the type being produced by the city. */
   if (pcity->production.kind != VUT_UTYPE) {
     /* Can only give orders to units. */
-    return FALSE;
+    return nullptr;
   }
 
   putype = pcity->production.value.utype;
-  punit = unit_virtual_create(client_player(), pcity, putype,
-                              city_production_unit_veteran_level(pcity,
-                                                                 putype));
+  plan = fc_calloc(1, sizeof(*plan));
+  plan->city = pcity;
+  plan->info.source_city_tile = tile_index(city_tile(pcity));
+  plan->info.production_unit_type = utype_number(putype);
+  plan->info.veteran_level = city_production_unit_veteran_level(
+    pcity, putype);
+  plan->info.target_tile = tile_index(ptile);
+  plan->virtual_unit = unit_virtual_create(
+    client_player(), pcity, putype, plan->info.veteran_level);
+  if (plan->virtual_unit == nullptr) {
+    client_rally_plan_destroy(plan);
+    return nullptr;
+  }
 
   /* Use the unit to find a path to the destination tile. */
-  goto_fill_parameter_base(&parameter, punit);
+  goto_fill_parameter_base(&parameter, plan->virtual_unit);
   pfm = pf_map_new(&parameter);
-  path = pf_map_path(pfm, ptile);
+  if (pfm == nullptr) {
+    client_rally_plan_destroy(plan);
+    return nullptr;
+  }
+  plan->path = pf_map_path(pfm, (struct tile *) ptile);
   pf_map_destroy(pfm);
 
-  if (path != nullptr) {
-    /* Send orders to server. */
-    send_rally_path(pcity, punit, persistent, path, nullptr);
-    unit_virtual_destroy(punit);
-    pf_path_destroy(path);
+  if (plan->path == nullptr || plan->path->length <= 1
+      || plan->path->length - 1 >= MAX_LEN_ROUTE) {
+    client_rally_plan_destroy(plan);
+    return nullptr;
+  }
+  make_rally_path_orders(&plan->packet, pcity, plan->virtual_unit,
+                         plan->path, FALSE, FALSE, ORDER_MOVE, nullptr);
+  if (plan->packet.length < 1
+      || plan->packet.length >= MAX_LEN_ROUTE) {
+    client_rally_plan_destroy(plan);
+    return nullptr;
+  }
+  plan->info.order_count = plan->packet.length;
+  plan->info.orders_digest = unit_orders_digest(
+    plan->packet.length, plan->packet.orders);
+  plan->info.action_move = FALSE;
+  for (i = 0; i < plan->packet.length; i++) {
+    if (plan->packet.orders[i].order == ORDER_ACTION_MOVE) {
+      plan->info.action_move = TRUE;
+      break;
+    }
+  }
+  return plan;
+}
 
-    return TRUE;
-  } else {
-    unit_virtual_destroy(punit);
+/************************************************************************//**
+  Destroy one materialized rally plan and every object it owns.
+****************************************************************************/
+void client_rally_plan_destroy(struct client_rally_plan *plan)
+{
+  if (plan != nullptr) {
+    if (plan->path != nullptr) {
+      pf_path_destroy(plan->path);
+    }
+    if (plan->virtual_unit != nullptr) {
+      unit_virtual_destroy(plan->virtual_unit);
+    }
+    free(plan);
+  }
+}
 
+/************************************************************************//**
+  Return private evidence for a materialized rally plan.
+****************************************************************************/
+const struct client_rally_plan_info *
+client_rally_plan_get_info(const struct client_rally_plan *plan)
+{
+  return plan != nullptr ? &plan->info : nullptr;
+}
+
+/************************************************************************//**
+  Test whether CITY already contains the exact plan and flags.
+****************************************************************************/
+bool client_rally_plan_matches_city(const struct client_rally_plan *plan,
+                                    const struct city *pcity,
+                                    bool persistent)
+{
+  int i;
+
+  if (plan == nullptr || pcity == nullptr || plan->packet.length <= 0
+      || pcity->rally_point.length != (size_t) plan->packet.length
+      || pcity->rally_point.orders == nullptr
+      || pcity->rally_point.persistent != persistent
+      || pcity->rally_point.vigilant) {
     return FALSE;
   }
+  for (i = 0; i < plan->packet.length; i++) {
+    if (!are_unit_orders_equal(&pcity->rally_point.orders[i],
+                               &plan->packet.orders[i])) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+/************************************************************************//**
+  Force-send the exact already-materialized plan as one request.
+****************************************************************************/
+int client_rally_plan_send(struct client_rally_plan *plan, bool persistent)
+{
+  if (plan == nullptr || plan->city == nullptr || plan->packet.length <= 0) {
+    return 0;
+  }
+  plan->packet.persistent = persistent;
+  plan->packet.vigilant = FALSE;
+  return send_packet_city_rally_point(&client.conn, &plan->packet, TRUE);
+}
+
+/************************************************************************//**
+  Force-send a canonical empty rally point regardless of current production.
+****************************************************************************/
+int client_rally_point_clear_forced(const struct city *pcity)
+{
+  struct packet_city_rally_point packet;
+
+  if (pcity == nullptr) {
+    return 0;
+  }
+  memset(&packet, 0, sizeof(packet));
+  packet.id = pcity->id;
+  return send_packet_city_rally_point(&client.conn, &packet, TRUE);
+}
+
+/************************************************************************//**
+  Send legacy GUI rally orders while preserving packet-delta suppression.
+****************************************************************************/
+bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
+{
+  struct client_rally_plan *plan;
+
+  /* The legacy GUI uses selecting the source city tile as its Unset
+   * operation.  Preserve that length-zero, delta-suppressed packet behavior;
+   * v2 uses the separate forced clear seam and never treats this as set. */
+  if (pcity != nullptr && city_tile(pcity) != nullptr
+      && ptile == city_tile(pcity)) {
+    struct packet_city_rally_point packet;
+
+    memset(&packet, 0, sizeof(packet));
+    packet.id = pcity->id;
+    packet.persistent = persistent;
+    send_packet_city_rally_point(&client.conn, &packet, FALSE);
+    return TRUE;
+  }
+
+  plan = client_rally_plan_new(pcity, ptile);
+
+  if (plan == nullptr) {
+    return FALSE;
+  }
+  plan->packet.persistent = persistent;
+  plan->packet.vigilant = FALSE;
+  send_packet_city_rally_point(&client.conn, &plan->packet, FALSE);
+  client_rally_plan_destroy(plan);
+  return TRUE;
 }
 
 /************************************************************************//**
@@ -1638,25 +2408,15 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
 ****************************************************************************/
 bool send_attack_tile(struct unit *punit, struct tile *ptile)
 {
-  struct pf_parameter parameter;
-  struct pf_map *pfm;
-  struct pf_path *path;
+  struct client_unit_route_plan *plan =
+    client_unit_attack_plan_new(punit, ptile);
 
-  goto_fill_parameter_base(&parameter, punit);
-  parameter.move_rate = 0;
-  parameter.is_pos_dangerous = nullptr;
-  parameter.get_moves_left_req = nullptr;
-  pfm = pf_map_new(&parameter);
-  path = pf_map_path(pfm, ptile);
-  pf_map_destroy(pfm);
-
-  if (path != nullptr) {
-   send_path_orders(punit, path, FALSE, FALSE, ORDER_ACTION_MOVE, nullptr);
-   pf_path_destroy(path);
-   return TRUE;
+  if (plan == nullptr) {
+    return FALSE;
   }
-
-  return FALSE;
+  (void) client_unit_route_plan_send(plan);
+  client_unit_route_plan_destroy(plan);
+  return TRUE;
 }
 
 /************************************************************************//**
@@ -1692,7 +2452,7 @@ void send_patrol_route(void)
   Fill orders to build recursive roads.
 ****************************************************************************/
 static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
-                                 struct packet_unit_orders *p, int rec)
+                                  struct packet_unit_orders *p, int rec)
 {
   if (rec > MAX_EXTRA_TYPES) {
     return FALSE;
@@ -1715,6 +2475,10 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
     }
   } extra_deps_iterate_end;
 
+  if (p->length >= MAX_LEN_ROUTE) {
+    return FALSE;
+  }
+
   p->orders[p->length].order = ORDER_PERFORM_ACTION;
   p->orders[p->length].dir = DIR8_ORIGIN;
   p->orders[p->length].activity = ACTIVITY_LAST;
@@ -1722,8 +2486,90 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
   p->orders[p->length].sub_target = extra_index(pextra);
   p->orders[p->length].action = ACTION_ROAD;
   p->length++;
+  tile_add_extra(ptile, pextra);
 
   return TRUE;
+}
+
+/************************************************************************//**
+  Fill one exact native connect order packet. Virtual tile copies let road
+  dependencies planned earlier on a tile satisfy later dependencies without
+  mutating the real client map.
+****************************************************************************/
+static bool make_connect_path_orders(
+  struct unit *punit, const struct pf_path *path,
+  enum unit_activity activity, struct extra_type *target,
+  struct packet_unit_orders *packet)
+{
+  unsigned int i;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || path == nullptr
+      || path->length < 1 || target == nullptr || packet == nullptr
+      || (activity != ACTIVITY_IRRIGATE
+          && activity != ACTIVITY_GEN_ROAD)) {
+    return FALSE;
+  }
+  memset(packet, 0, sizeof(*packet));
+  packet->unit_id = punit->id;
+  packet->src_tile = tile_index(unit_tile(punit));
+  packet->repeat = FALSE;
+  packet->vigilant = FALSE;
+
+  for (i = 0; i < path->length; i++) {
+    struct tile *real_tile = path->positions[i].tile;
+    struct tile *virtual_tile = tile_virtual_new(real_tile);
+
+    if (virtual_tile == nullptr) {
+      return FALSE;
+    }
+    switch (activity) {
+    case ACTIVITY_IRRIGATE:
+      if (!tile_has_extra(virtual_tile, target)) {
+        if (packet->length >= MAX_LEN_ROUTE) {
+          tile_virtual_destroy(virtual_tile);
+          return FALSE;
+        }
+        packet->orders[packet->length].order = ORDER_PERFORM_ACTION;
+        packet->orders[packet->length].dir = DIR8_ORIGIN;
+        packet->orders[packet->length].activity = ACTIVITY_LAST;
+        packet->orders[packet->length].target = tile_index(real_tile);
+        packet->orders[packet->length].sub_target = extra_index(target);
+        packet->orders[packet->length].action = ACTION_IRRIGATE;
+        packet->length++;
+      }
+      break;
+    case ACTIVITY_GEN_ROAD:
+      if (!order_recursive_roads(virtual_tile, target, packet, 0)) {
+        tile_virtual_destroy(virtual_tile);
+        return FALSE;
+      }
+      break;
+    default:
+      tile_virtual_destroy(virtual_tile);
+      return FALSE;
+    }
+    tile_virtual_destroy(virtual_tile);
+
+    if (i + 1 < path->length) {
+      struct tile *next = path->positions[i + 1].tile;
+
+      if (packet->length >= MAX_LEN_ROUTE || same_pos(real_tile, next)) {
+        return FALSE;
+      }
+      packet->orders[packet->length].order = ORDER_MOVE;
+      packet->orders[packet->length].dir = get_direction_for_step(
+        &(wld.map), real_tile, next);
+      packet->orders[packet->length].activity = ACTIVITY_LAST;
+      packet->orders[packet->length].target = NO_TARGET;
+      packet->orders[packet->length].sub_target = NO_TARGET;
+      packet->orders[packet->length].action = ACTION_NONE;
+      packet->length++;
+    }
+  }
+  packet->dest_tile = tile_index(path->positions[path->length - 1].tile);
+  return packet->length > 0 && packet->length <= MAX_LEN_ROUTE
+         && unit_order_list_is_sane(&wld.map, packet->length,
+                                    packet->orders);
 }
 
 /************************************************************************//**
@@ -1738,7 +2584,6 @@ void send_connect_route(enum unit_activity activity,
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct packet_unit_orders p;
-    struct tile *old_tile;
     struct pf_path *path = nullptr;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
@@ -1755,58 +2600,11 @@ void send_connect_route(enum unit_activity activity,
       i++;
     } while (i < goto_map->num_parts);
 
-    p.unit_id = punit->id;
-    p.src_tile = tile_index(unit_tile(punit));
-    p.repeat = FALSE;
-    p.vigilant = FALSE; /* Should be TRUE? */
-
-    p.length = 0;
-    old_tile = path->positions[0].tile;
-
-    for (i = 0; i < path->length; i++) {
-      switch (activity) {
-      case ACTIVITY_IRRIGATE:
-        if (!tile_has_extra(old_tile, tgt)) {
-          /* Assume the unit can irrigate or we wouldn't be here. */
-          p.orders[p.length].order = ORDER_PERFORM_ACTION;
-          p.orders[p.length].dir = DIR8_ORIGIN;
-          p.orders[p.length].activity = ACTIVITY_LAST;
-          p.orders[p.length].target = old_tile->index;
-          p.orders[p.length].sub_target = extra_index(tgt);
-          p.orders[p.length].action = ACTION_IRRIGATE;
-          p.length++;
-        }
-        break;
-      case ACTIVITY_GEN_ROAD:
-        order_recursive_roads(old_tile, tgt, &p, 0);
-        break;
-      default:
-        log_error("Invalid connect activity: %d.", activity);
-        break;
-      }
-
-      if (i != path->length - 1) {
-        struct tile *new_tile = path->positions[i + 1].tile;
-
-        fc_assert(!same_pos(new_tile, old_tile));
-
-        p.orders[p.length].order = ORDER_MOVE;
-        p.orders[p.length].dir = get_direction_for_step(&(wld.map),
-                                                        old_tile, new_tile);
-        p.orders[p.length].activity = ACTIVITY_LAST;
-        p.orders[p.length].target = NO_TARGET;
-        p.orders[p.length].sub_target = NO_TARGET;
-        p.orders[p.length].action = ACTION_NONE;
-        p.length++;
-
-        old_tile = new_tile;
-      }
+    if (make_connect_path_orders(punit, path, activity, tgt, &p)) {
+      request_unit_ssa_set(punit, SSA_NONE);
+      send_packet_unit_orders(&client.conn, &p);
     }
-
-    p.dest_tile = tile_index(old_tile);
-
-    request_unit_ssa_set(punit, SSA_NONE);
-    send_packet_unit_orders(&client.conn, &p);
+    pf_path_destroy(path);
   } goto_map_unit_iterate_end;
 }
 

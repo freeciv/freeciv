@@ -7969,6 +7969,8 @@ static bool load_ruleset_actions(struct section_file *file,
              ACT_SUB_RES_NON_LETHAL);
       BV_SET(action_by_number(ACTION_BOMBARD3)->sub_results,
              ACT_SUB_RES_NON_LETHAL);
+      BV_SET(action_by_number(ACTION_BOMBARD4)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
     }
   }
 

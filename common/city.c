@@ -3741,14 +3741,13 @@ void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
 **************************************************************************/
 void city_rally_point_clear(struct city *pcity)
 {
-  /* Free rally points */
-  if (pcity->rally_point.length > 0) {
-    pcity->rally_point.length = 0;
-    pcity->rally_point.persistent = FALSE;
-    pcity->rally_point.vigilant = FALSE;
-    free(pcity->rally_point.orders);
-    pcity->rally_point.orders = nullptr;
-  }
+  /* Canonicalize even a partially initialized or previously rejected
+   * state.  In particular, never key ownership of ORDERS off LENGTH. */
+  free(pcity->rally_point.orders);
+  pcity->rally_point.orders = nullptr;
+  pcity->rally_point.length = 0;
+  pcity->rally_point.persistent = FALSE;
+  pcity->rally_point.vigilant = FALSE;
 }
 
 /**********************************************************************//**
@@ -3774,27 +3773,24 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
     return;
   }
 
-  pcity->rally_point.length = packet->length;
-
   if (packet->length == 0) {
-    pcity->rally_point.vigilant = FALSE;
-    pcity->rally_point.persistent = FALSE;
-    if (pcity->rally_point.orders) {
-      free(pcity->rally_point.orders);
-      pcity->rally_point.orders = nullptr;
-    }
+    city_rally_point_clear(pcity);
   } else {
     checked_orders = create_unit_orders(nmap, packet->length,
                                         packet->orders);
     if (!checked_orders) {
-      pcity->rally_point.length = 0;
       log_error("invalid rally point orders for %s.",
                 city_name_get(pcity));
       return;
     }
 
+    /* Validation and allocation completed without touching the old state.
+     * Commit the replacement only now, so a rejected packet cannot leak the
+     * previous vector or leave its metadata partially updated. */
+    free(pcity->rally_point.orders);
+    pcity->rally_point.orders = checked_orders;
+    pcity->rally_point.length = packet->length;
     pcity->rally_point.persistent = packet->persistent;
     pcity->rally_point.vigilant = packet->vigilant;
-    pcity->rally_point.orders = checked_orders;
   }
 }

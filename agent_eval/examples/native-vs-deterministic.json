@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "name": "native-vs-deterministic",
+  "ruleset": "classic",
+  "turns": 100,
+  "seeds": [101, 202, 303],
+  "seats": [
+    {
+      "id": "native",
+      "name": "SeatOne",
+      "type": "native"
+    },
+    {
+      "id": "deterministic",
+      "name": "SeatTwo",
+      "type": "deterministic"
+    }
+  ],
+  "server": {
+    "binary": "build-agent/freeciv-server",
+    "agentd_port": 0,
+    "allow_fallbacks": false,
+    "frame_interval": 5,
+    "frame_zoom": 1,
+    "wall_timeout_s": 900
+  }
+}

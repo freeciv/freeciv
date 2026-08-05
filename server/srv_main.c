@@ -343,6 +343,21 @@ enum server_states server_state(void)
   return civserver_state;
 }
 
+/* A normal client has historically delegated leftover spaceship placement
+ * to the server at phase end.  A gui-agent connection is an explicit human
+ * control surface and must retain that choice for its controller. */
+static bool player_has_explicit_spaceship_controller(
+  const struct player *pplayer)
+{
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (pconn->client_gui == GUI_AGENT && conn_controls_player(pconn)) {
+      return TRUE;
+    }
+  } conn_list_iterate_end;
+
+  return FALSE;
+}
+
 /**********************************************************************//**
   Set current server state.
 **************************************************************************/
@@ -357,6 +372,20 @@ void set_server_state(enum server_states newstate)
 bool game_was_started(void)
 {
   return (!game.info.is_new_game || S_S_INITIAL != server_state());
+}
+
+/* Machine-readable record of why the game ended. Freeciv itself only
+ * reports the victory condition as a translated notification, which is not
+ * usable by the agent-eval harness; this keeps a stable code alongside it. */
+static const char *game_over_victory = nullptr;
+
+/**********************************************************************//**
+  Return a stable, untranslated code for the victory condition that ended
+  the game, or nullptr while the game is still running.
+**************************************************************************/
+const char *server_game_over_victory(void)
+{
+  return game_over_victory;
 }
 
 /**********************************************************************//**
@@ -374,6 +403,8 @@ bool check_for_game_over(void)
   struct player *victor;
   int winners = 0;
   struct astring str = ASTRING_INIT;
+
+  game_over_victory = nullptr;
 
   /* Check for scenario victory; dead players can win if they are on a team
    * with the winners. */
@@ -399,6 +430,7 @@ bool check_for_game_over(void)
                 _("Scenario victory to %s."), astr_str(&str));
     log_normal(_("Scenario victory to %s."), astr_str(&str));
     astr_free(&str);
+    game_over_victory = "scenario";
     return TRUE;
   }
   astr_free(&str);
@@ -427,6 +459,7 @@ bool check_for_game_over(void)
     notify_conn(game.est_connections, nullptr, E_GAME_END, ftc_server,
                 _("Game is over."));
     log_normal(_("Game is over."));
+    game_over_victory = "all_defeated";
     return TRUE;
   } else {
     if (defeated > 0) {
@@ -468,6 +501,7 @@ bool check_for_game_over(void)
               pplayer->is_winner = TRUE;
             } player_list_iterate_end;
 
+            game_over_victory = "team";
             return TRUE;
           }
         } teams_iterate_end;
@@ -524,6 +558,7 @@ bool check_for_game_over(void)
         log_normal(_("Allied victory to %s."), astr_str(&str));
         astr_free(&str);
         player_list_destroy(winner_list);
+        game_over_victory = "allied";
         return TRUE;
       }
     }
@@ -557,6 +592,7 @@ bool check_for_game_over(void)
         log_normal(_("World Peace victory to %s."), astr_str(&str));
         astr_free(&str);
 
+        game_over_victory = "world_peace";
         return TRUE;
       }
     }
@@ -583,6 +619,7 @@ bool check_for_game_over(void)
                     _("Game ended in conquest victory for %s."), player_name(victor));
         log_normal(_("Game ended in conquest victory for %s."), player_name(victor));
         victor->is_winner = TRUE;
+        game_over_victory = "conquest";
         return TRUE;
       }
     }
@@ -617,6 +654,7 @@ bool check_for_game_over(void)
                  player_name(best));
       best->is_winner = TRUE;
 
+      game_over_victory = "culture";
       return TRUE;
     }
   }
@@ -626,6 +664,7 @@ bool check_for_game_over(void)
     notify_conn(game.est_connections, nullptr, E_GAME_END, ftc_server,
                 _("Game ended as the turn limit was exceeded."));
     log_normal(_("Game ended as the turn limit was exceeded."));
+    game_over_victory = "turn_limit";
     return TRUE;
   } else if (game.info.turn == game.server.end_turn) {
     /* Give them a chance to decide to extend the game */
@@ -694,6 +733,7 @@ bool check_for_game_over(void)
                     _("Game ended in victory for %s."), player_name(pplayer));
         pplayer->is_winner = TRUE;
       }
+      game_over_victory = "spacerace";
       return TRUE;
     }
 
@@ -1205,6 +1245,12 @@ static void begin_turn(bool is_new_turn)
     } players_iterate_end;
     log_civ_score_now();
 
+    /* Let explicitly loaded unsafe agent bridges adjust the classic AI's
+     * strategic traits after scores are current and before its phase. */
+    script_server_unsafe_signal_emit("agent_turn_begin",
+                                     (lua_Integer)game.info.turn,
+                                     (lua_Integer)game.info.year);
+
     /* Retire useless barbarian units */
     players_iterate(pplayer) {
       unit_list_iterate_safe(pplayer->units, punit) {
@@ -1550,7 +1596,8 @@ static void end_phase(void)
 
     /* If player finished spaceship parts last turn already, and didn't place them
      * during this entire turn, autoplace them. */
-    if (adv_spaceship_autoplace(pplayer, &pplayer->spaceship)) {
+    if (!player_has_explicit_spaceship_controller(pplayer)
+        && adv_spaceship_autoplace(pplayer, &pplayer->spaceship)) {
       notify_player(pplayer, nullptr, E_SPACESHIP, ftc_server,
                     _("Automatically placed spaceship parts that were still not placed."));
     }
@@ -3082,6 +3129,10 @@ static void srv_running(void)
     (void) send_server_info_to_metaserver(META_REFRESH);
 
     if (S_S_OVER != server_state() && check_for_game_over()) {
+      struct astring winners = ASTRING_INIT;
+      const char *winner_names;
+      bool first_winner = TRUE;
+
       set_server_state(S_S_OVER);
       if (game.info.turn > game.server.end_turn) {
         /* Endturn was reached - rank users based on team scores */
@@ -3090,6 +3141,34 @@ static void srv_running(void)
         /* Game ended for victory conditions - rank users based on survival */
         rank_users(FALSE);
       }
+
+      /* Report the victory condition in machine-readable form so that an
+       * explicitly loaded unsafe agent bridge can record why the game ended.
+       * The engine otherwise only emits a translated player notification. */
+      players_iterate(pplayer) {
+        if (!pplayer->is_winner || is_barbarian(pplayer)) {
+          continue;
+        }
+        if (!first_winner) {
+          astr_add(&winners, ",");
+        }
+        astr_add(&winners, "%s", player_name(pplayer));
+        first_winner = FALSE;
+      } players_iterate_end;
+
+      /* An untouched astring holds a null pointer, which must never reach
+       * the script layer as a string; endings such as the turn limit have
+       * no winner at all. */
+      winner_names = astr_str(&winners);
+      script_server_unsafe_signal_emit("agent_game_over",
+                                       server_game_over_victory() != nullptr
+                                       ? server_game_over_victory()
+                                       : "unknown",
+                                       winner_names != nullptr
+                                       ? winner_names : "",
+                                       (lua_Integer)game.info.turn,
+                                       (lua_Integer)game.info.year);
+      astr_free(&winners);
     } else if (S_S_OVER == server_state()) {
       /* Game terminated by /endgame command - calculate team scores */
       rank_users(TRUE);

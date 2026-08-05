@@ -457,6 +457,9 @@ struct city {
 
     struct {
       /* Only used at the client (the server is omniscient; ./client/). */
+      /* Monotonic process-local identity for the exact client city object.
+       * Zero means that no exact lifetime has been assigned yet. */
+      uint64_t lifecycle_id;
       bool occupied;
       int  walls;
       bool happy;

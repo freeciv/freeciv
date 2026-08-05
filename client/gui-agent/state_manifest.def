@@ -1,0 +1,119 @@
+/*
+ * Protocol-2 observation classification manifest.
+ *
+ * AGENT_V2_STATE_CLASS(row_kind, authority, visibility)
+ *
+ * Keep this list declarative: a later generator can consume the same source
+ * to produce machine-readable coverage reports without teaching the native
+ * exporter about an external schema language.
+ */
+AGENT_V2_STATE_CLASS(meta, client_cache, public_session)
+/* Own pregame identity selection and desired readiness only. */
+AGENT_V2_STATE_CLASS(pregame, client_cache,
+                     own_identity_selection_and_readiness_only)
+AGENT_V2_STATE_CLASS(pregame_nation, client_cache,
+                     own_bounded_choice_catalog)
+AGENT_V2_STATE_CLASS(pregame_style, client_cache,
+                     own_bounded_choice_catalog)
+/* Every occupied lobby team plus one split choice; member refs stay private. */
+AGENT_V2_STATE_CLASS(pregame_team, client_cache,
+                     pregame_team_choice_catalog)
+AGENT_V2_STATE_CLASS(pregame_team_member, client_cache,
+                     pregame_team_membership_identity)
+/* Active visible vote records plus a bounded, seat-epoch-scoped outcome
+ * history derived from structured resolve/remove packets. */
+AGENT_V2_STATE_CLASS(vote, client_cache,
+                     active_visible_votes_and_recent_outcomes)
+/* Bounded history of chat/event packets visible to this normal client. */
+AGENT_V2_STATE_CLASS(chat, client_packet, normal_client_visible_history_only)
+/* Visible normal-player roster; native refs never cross the trust boundary. */
+AGENT_V2_STATE_CLASS(chat_recipient, client_cache,
+                     visible_player_private_message_eligibility_only)
+/* Own identity/phase; gold/rates; changeable_tax and max_rate constraints. */
+AGENT_V2_STATE_CLASS(player, client_cache, own_identity_phase_economy_only)
+/* Own government transition state; native IDs are replaced at trust boundary. */
+AGENT_V2_STATE_CLASS(governance, client_cache, own_government_transition_only)
+/* Complete <=127 ruleset catalog with current safe change availability. */
+AGENT_V2_STATE_CLASS(government, client_cache, own_bounded_choice_catalog)
+/* Complete bounded policy-slider catalog and exact legal targets. */
+AGENT_V2_STATE_CLASS(multiplier, client_cache, own_bounded_choice_catalog)
+/* Exact own spaceship inventory, placed parts, derived performance, launch. */
+AGENT_V2_STATE_CLASS(spaceship, client_cache, own_spaceship_only)
+/* Complete fixed structural-slot graph; native slot numbers stay private. */
+AGENT_V2_STATE_CLASS(spaceship_structural, client_cache, own_spaceship_only)
+/* Own tech/future progress; opaque target/goal IDs; bulbs/cost/output. */
+AGENT_V2_STATE_CLASS(research, client_cache, own_progress_target_goal_only)
+/* id/name/state for known/available/reachable/future/unset; choice flags. */
+AGENT_V2_STATE_CLASS(research_tech, client_cache, own_bounded_choice_catalog)
+/* Public node plus own cached reachability, next step, unknown count, and cost. */
+AGENT_V2_STATE_CLASS(research_graph, client_cache,
+                     own_progress_over_public_research_node)
+/* Public ruleset direct/root prerequisite edges and concrete unlocks. */
+AGENT_V2_STATE_CLASS(research_edge, ruleset, public_research_graph)
+AGENT_V2_STATE_CLASS(research_unlock, ruleset,
+                     public_research_unlock_summary)
+/* Relation plus only the normal client's contact-visible public fields. */
+AGENT_V2_STATE_CLASS(diplomacy, client_cache, own_relation_and_public_intel)
+/* Rates/culture/research/known-tech set only with team embassy visibility. */
+AGENT_V2_STATE_CLASS(diplomacy_intel, client_cache, embassy_only)
+/* Canonically sorted clauses from an open meeting visible to this seat. */
+AGENT_V2_STATE_CLASS(diplomacy_clause, client_cache, own_meeting_only)
+/* Unknown tiles appear only as terrain/owner-redacted legal move targets. */
+AGENT_V2_STATE_CLASS(tile, client_cache, known_or_redacted_move_target_only)
+/* Bounded target/window tile cache with resource, label, and generic yields. */
+AGENT_V2_STATE_CLASS(tile_local, client_cache,
+                     bounded_known_cache_or_fully_redacted_target_only)
+/* Per-extra cached rule label and ruleset cause tags for a local tile row. */
+AGENT_V2_STATE_CLASS(tile_extra, client_cache,
+                     bounded_known_cache_only)
+/* Static ruleset catalog plus own infrastructure points and tile placement. */
+AGENT_V2_STATE_CLASS(infrastructure_extra, ruleset, own_bounded_choice_catalog)
+/* Own production plus exact citizen, food, output-loss, and pollution state. */
+AGENT_V2_STATE_CLASS(city, client_cache, own_city_internals_only)
+/* City short-info only: site identity/name/owner/tile/size, never internals. */
+AGENT_V2_STATE_CLASS(city_site, client_cache, known_or_visible_externals_only)
+/* Exact own-city worker allocation and yields over its bounded city radius. */
+AGENT_V2_STATE_CLASS(city_tile, client_cache,
+                     own_citizen_allocation_and_yields_only)
+/* Exact normal-client standing worker-task cache, separate from citizens. */
+AGENT_V2_STATE_CLASS(city_worker_task, client_cache,
+                     own_city_management_only)
+/* Exact all-specialist counts, population status, and per-type yields. */
+AGENT_V2_STATE_CLASS(city_specialist, client_cache,
+                     own_citizen_allocation_and_yields_only)
+/* Exact current queue, separate from current production. */
+AGENT_V2_STATE_CLASS(city_worklist, client_cache, own_city_management_only)
+/* Bounded union of queueable targets and unique current-worklist targets. */
+AGENT_V2_STATE_CLASS(city_build_choice, client_cache, own_bounded_choice_catalog)
+/* Exact present improvements with current sellability and public price. */
+AGENT_V2_STATE_CLASS(city_improvement, client_cache, own_city_management_only)
+/* Exact own-city route packet/cache rows.  A counterpart is linked only while
+ * its city is owned or currently visible; otherwise no native identity leaves
+ * the trust boundary. */
+AGENT_V2_STATE_CLASS(city_trade_route, client_cache,
+                     own_city_route_with_visible_partner_only)
+/* One-use request-bound foreign-city internals from the human CITY_INFO
+ * investigation packet only. */
+AGENT_V2_STATE_CLASS(investigation, client_packet,
+                     request_bound_foreign_city_internals)
+AGENT_V2_STATE_CLASS(investigation_improvement, client_packet,
+                     request_bound_foreign_city_internals)
+AGENT_V2_STATE_CLASS(investigation_citizens, client_packet,
+                     request_bound_foreign_city_internals)
+AGENT_V2_STATE_CLASS(investigation_specialist, client_packet,
+                     request_bound_foreign_city_internals)
+/* Exact flags/count with an opaque public plan identity; route stays private. */
+AGENT_V2_STATE_CLASS(city_rally, client_cache, own_city_management_only)
+/* Exact locally stored native CMA goal, present only while governed. */
+AGENT_V2_STATE_CLASS(city_governor, client_cma, own_city_management_only)
+/* Visible type; own home/conversion/activity plus exact transport graph state. */
+/* Own exact current/type telemetry; visible units only short-safe/public type. */
+AGENT_V2_STATE_CLASS(unit, client_cache,
+                     own_telemetry_or_visible_short_packet_and_public_type)
+AGENT_V2_STATE_CLASS(unit_route, client_cache,
+                     own_queued_route_summary_only)
+AGENT_V2_STATE_CLASS(unit_route_step, client_cache,
+                     own_actor_scoped_queued_route_only)
+AGENT_V2_STATE_CLASS(tombstone, exporter_tracker, formerly_visible_only)
+/* Global legacy plus scoped city/worker/order/self/transport/government sets. */
+AGENT_V2_STATE_CLASS(action, native_registry, client_possible_or_unresolved)

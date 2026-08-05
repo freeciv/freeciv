@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include <limits.h>
+
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
@@ -66,6 +68,40 @@ bool are_unit_orders_equal(const struct unit_order *order1,
       && order1->sub_target == order2->sub_target
       && order1->action == order2->action
       && order1->dir == order2->dir;
+}
+
+/**********************************************************************//**
+  Return a padding- and architecture-independent FNV-1a digest for an exact
+  unit-order vector.  Each signed protocol field is normalized to its 32-bit
+  two's-complement representation and hashed most-significant byte first.
+**************************************************************************/
+uint64_t unit_orders_digest(int length, const struct unit_order *orders)
+{
+  uint64_t digest = UINT64_C(14695981039346656037);
+  int i;
+
+#define HASH_ORDER_VALUE(_value) do {                                    \
+  uint32_t normalized = (uint32_t) (int32_t) (_value);                    \
+  int shift;                                                              \
+  for (shift = 24; shift >= 0; shift -= 8) {                              \
+    digest ^= (normalized >> shift) & UINT32_C(0xff);                     \
+    digest *= UINT64_C(1099511628211);                                    \
+  }                                                                       \
+} while (FALSE)
+
+  fc_assert_ret_val(length >= 0, 0);
+  fc_assert_ret_val(length == 0 || orders != nullptr, 0);
+  HASH_ORDER_VALUE(length);
+  for (i = 0; i < length; i++) {
+    HASH_ORDER_VALUE(orders[i].order);
+    HASH_ORDER_VALUE(orders[i].activity);
+    HASH_ORDER_VALUE(orders[i].target);
+    HASH_ORDER_VALUE(orders[i].sub_target);
+    HASH_ORDER_VALUE(orders[i].action);
+    HASH_ORDER_VALUE(orders[i].dir);
+  }
+#undef HASH_ORDER_VALUE
+  return digest;
 }
 
 /**********************************************************************//**
@@ -2355,7 +2391,7 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
   @param  punit       Unit to bribe
   @param  briber      Player that wants to bribe
   @param  briber_unit Unit that does the bribing
-  @return             Bribe cost
+  @return             Bribe cost, or -1 when the sum does not fit in int
 **************************************************************************/
 int unit_bribe_cost(const struct unit *punit, const struct player *briber,
                     const struct unit *briber_unit)
@@ -2449,7 +2485,12 @@ int stack_bribe_cost(const struct tile *ptile, const struct player *briber,
   int bribe_cost = 0;
 
   unit_list_iterate(ptile->units, pbribed) {
-    bribe_cost += unit_bribe_cost(pbribed, briber, briber_unit);
+    int unit_cost = unit_bribe_cost(pbribed, briber, briber_unit);
+
+    if (unit_cost < 0 || bribe_cost > INT_MAX - unit_cost) {
+      return -1;
+    }
+    bribe_cost += unit_cost;
   } unit_list_iterate_end;
 
   return bribe_cost;

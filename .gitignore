@@ -13,3 +13,7 @@
 /Makefile.in
 /configure
 /freeciv-CI.log
+/.agent-eval/
+/session-runs/
+/pi-session-*.html
+/agent_eval/viewer/dist/

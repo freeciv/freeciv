@@ -1,6 +1,6 @@
 option('clients',
        type: 'array',
-       choices: ['gtk3.22','sdl2', 'qt', 'gtk4', 'stub', 'sdl3', 'gtk4x'],
+       choices: ['gtk3.22','sdl2', 'qt', 'gtk4', 'stub', 'agent', 'sdl3', 'gtk4x'],
        value: ['gtk4'],
        description: 'Clients to build')
 

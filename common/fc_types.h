@@ -631,6 +631,10 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE9NAME "gtk4"
 #define SPECENUM_VALUE10 GUI_GTK5
 #define SPECENUM_VALUE10NAME "gtk4x"
+/* Headless, explicitly controlled client.  Kept distinct from GUI_STUB so
+ * normal clients and the server can avoid making choices on its behalf. */
+#define SPECENUM_VALUE11 GUI_AGENT
+#define SPECENUM_VALUE11NAME "agent"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */

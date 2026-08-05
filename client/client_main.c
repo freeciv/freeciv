@@ -148,6 +148,7 @@ enum announce_type announce;
 struct civclient client;
 
 static enum client_states civclient_state = C_S_INITIAL;
+static uint64_t civclient_game_epoch = 1;
 
 /* TRUE if an end turn request is blocked by busy agents */
 bool waiting_for_end_turn = FALSE;
@@ -157,9 +158,7 @@ bool waiting_for_end_turn = FALSE;
  */
 static bool server_busy = FALSE;
 
-#ifdef FREECIV_DEBUG
 bool hackless = FALSE;
-#endif
 
 static bool client_quitting = FALSE;
 
@@ -245,6 +244,7 @@ static void at_exit(void)
 **************************************************************************/
 static void client_game_init(void)
 {
+  civclient_game_epoch++;
   client.conn.playing = NULL;
   client.conn.observer = FALSE;
 
@@ -268,6 +268,7 @@ static void client_game_init(void)
 **************************************************************************/
 static void client_game_free(void)
 {
+  civclient_game_epoch++;
   editgui_popdown_all();
 
   animations_free();
@@ -298,6 +299,7 @@ static void client_game_free(void)
 **************************************************************************/
 static void client_game_reset(void)
 {
+  civclient_game_epoch++;
   editgui_popdown_all();
 
   packhand_free();
@@ -1080,6 +1082,11 @@ void wait_till_request_got_processed(int request_id)
 bool client_is_observer(void)
 {
   return client.conn.established && client.conn.observer;
+}
+
+uint64_t client_game_epoch(void)
+{
+  return civclient_game_epoch;
 }
 
 /* Seconds_to_turndone is the number of seconds the server has told us

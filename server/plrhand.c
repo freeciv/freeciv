@@ -920,8 +920,14 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
         city_map_update_empty(pcity, ptile);
         pcity->specialists[DEFAULT_SPECIALIST]++;
+        city_refresh(pcity);
       }
     } whole_map_iterate_end;
+    /* The shared-tiles bit is directional.  Refresh both parties' views of
+     * the giver immediately, then publish the affected cities after their
+     * cached outputs have been recomputed. */
+    send_player_info_c(pplayer, nullptr);
+    sync_cities();
     notify_player(pplayer2, nullptr, E_TREATY_BROKEN, ftc_server,
                   _("%s no longer shares tiles with us!"),
                   player_name(pplayer));

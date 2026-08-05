@@ -2446,6 +2446,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
                        + params->moves_left_initially);
       pos->moves_left = params->move_rate;
       pos->fuel_left = params->fuel;
+      pos->dir_to_here = direction8_invalid();
       pos->dir_to_next_pos = dir_next;
       dir_next = direction8_invalid();
       segment = node->segment;
@@ -2467,6 +2468,9 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
     pos->total_MC = (pf_moves_left_initially(params)
                      - pf_move_rate(params) + segment->cost);
     pos->total_EC = segment->extra_cost;
+    pos->dir_to_here = (i == 0
+                        ? direction8_invalid()
+                        : segment->dir_to_here);
     pos->dir_to_next_pos = dir_next;
     pf_fuel_finalize_position(pos, params, node, segment);
 

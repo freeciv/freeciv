@@ -7357,6 +7357,7 @@ void tileset_use_preferred_theme(const struct tileset *t)
   case GUI_WEB:
   case GUI_GTK2:
   case GUI_GTK3:
+  case GUI_AGENT:
     break;
   }
 
