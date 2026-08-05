@@ -241,6 +241,10 @@ V2_PHASE_PROGRESS_STALL_S = 300.0
 # recover from; a run of three, a quarter second apart, is the thread itself
 # failing, and a game nobody polls never advances another phase.
 V2_STATUS_POLL_FAULT_LIMIT = 3
+# Cadence of the background replay keep-warm thread. Turns take tens of
+# seconds, a no-op refresh is a single scandir, and the thread converges on
+# any backlog in bounded batches before sleeping.
+V2_REPLAY_KEEPWARM_INTERVAL_S = 5.0
 V2_STATE_SECTIONS = frozenset({
     "overview", "votes", "research", "diplomacy", "diplomacy_clauses",
     "known_tiles", "map_tiles", "cities", "units", "city_sites",
@@ -719,6 +723,7 @@ class Game:
         self.sidecars_stopping = False
         self.sidecar_start_deadline: float | None = None
         self.sidecar_status_thread: threading.Thread | None = None
+        self.v2_replay_keepwarm_thread: threading.Thread | None = None
         self.server_exit_observed = False
         self.freeciv_port = supervisor.reserve_game_port()
 
@@ -3338,6 +3343,7 @@ class Game:
                 self.condition.notify_all()
             if status_thread is not None:
                 status_thread.start()
+            self._start_v2_replay_keepwarm()
             return
         failure = False
         with self.console_lock:
@@ -3401,6 +3407,7 @@ class Game:
                         daemon=True,
                     )
                     self.sidecar_status_thread.start()
+            self._start_v2_replay_keepwarm()
 
     def authorize_owner(self, token: str | None) -> None:
         if token is None:
@@ -8900,6 +8907,59 @@ class Game:
             "year": self._replay_int(raw.get("year"), 0),
             "players": players,
         }
+
+    def _start_v2_replay_keepwarm(self) -> None:
+        """Keep replay telemetry converted in the background.
+
+        Reconstruction otherwise happens only on the viewer's read path, a
+        bounded batch per request — so opening the viewer cold on a
+        300-turn game meant watching the scores catch up poll by poll.
+        This thread does the same bounded work off the hot paths (never the
+        liveness poller), so the viewer opens warm.
+        """
+        with self.condition:
+            if (
+                self.v2_replay_producer is None
+                or self.v2_replay_keepwarm_thread is not None
+            ):
+                return
+            thread = threading.Thread(
+                target=self._keep_v2_replay_warm,
+                name=f"freeciv-agent-replay-warm-{self.game_id}",
+                daemon=True,
+            )
+            self.v2_replay_keepwarm_thread = thread
+        thread.start()
+
+    def _keep_v2_replay_warm(self) -> None:
+        while True:
+            with self.condition:
+                if self.state in TERMINAL_STATES or self.cancel_requested:
+                    return
+            try:
+                # Converge on backlog (bounded batches), then heartbeat.
+                while True:
+                    with self.replay_lock:
+                        producer = self.v2_replay_producer
+                        if producer is None:
+                            return
+                        appended = producer.refresh()
+                    if appended <= 0:
+                        break
+                    with self.condition:
+                        if (
+                            self.state in TERMINAL_STATES
+                            or self.cancel_requested
+                        ):
+                            return
+            except Exception:
+                # Spectator telemetry must never take a thread down; the
+                # producer disables itself when it cannot make progress.
+                pass
+            with self.condition:
+                if self.state in TERMINAL_STATES or self.cancel_requested:
+                    return
+            time.sleep(V2_REPLAY_KEEPWARM_INTERVAL_S)
 
     def _refresh_v2_replay(self) -> None:
         """Convert any autosave a full-control-v2 game has finished writing."""
