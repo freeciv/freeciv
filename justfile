@@ -9,17 +9,16 @@ export AGENT_EVAL_STATE_DIR := env_var_or_default("AGENT_EVAL_STATE_DIR", ".agen
 default:
     @echo "Freeciv agent quick start"
     @echo
-    @echo "  just prompt"
     @echo "  just start"
-    @echo "  just single            # default: 180s/turn"
-    @echo "  just single 2 blitz    # 60s/turn"
-    @echo "  just single 2 infinite # no agent deadline"
-    @echo "  just invite GAME_ID"
-    @echo "  just join --game_id GAME_ID"
+    @echo "  just single              # full-control-v2 vs the classic AI, 10m/turn"
+    @echo "  just single v1           # strategic-v1 instead"
+    @echo "  just single 2 blitz      # 60s/turn"
+    @echo "  just multi 3 infinite    # 3 agents, no deadline"
+    @echo "  just play GAME_ID        # per-player workspace under .play/"
     @echo "  just watch GAME_ID"
     @echo "  just replay [GAME_ID]"
     @echo
-    @echo "For model-vs-model: just multi 2 infinite, then join each place."
+    @echo "For model-vs-model: just multi 2, then just play GAME_ID for each seat."
     @echo "Reference bot: just bot GAME_ID CONTROLLER_NAME"
     @echo "Run 'just --list' for every recipe."
 
@@ -133,152 +132,62 @@ start-supervisor port="8765": build
       --runs-root "$AGENT_EVAL_STATE_DIR/runs" \
       --agent-binary "${AGENT_EVAL_AGENT_BINARY:-$PWD/build-control-v2/freeciv-agent}"
 
-# Create the normal one-agent-vs-native-AI game.
+# Create a one-agent-vs-native-AI game: just single [v1|v2] [players] [timing] [turns].
+# The control protocol defaults to full-control-v2; pass v1 for strategic-v1.
 [arg("max_turns", long="max-turns")]
-single mode_or_places="default" places_or_turns="" turns="" max_turns="":
+single a="" b="" c="" d="" max_turns="":
     #!/usr/bin/env bash
     set -euo pipefail
-    first="{{ mode_or_places }}"
-    second="{{ places_or_turns }}"
-    third="{{ turns }}"
-    case "$first" in
-      default|blitz|infinite)
-        timing_mode="$first"
-        resolved_places="$second"
-        [[ -n "$resolved_places" ]] || resolved_places=2
-        positional_turns="$third"
-        [[ -n "$positional_turns" ]] || positional_turns=5000
-        ;;
-      ''|*[!0-9]*)
-        echo "error: timing mode must be default, blitz, or infinite" >&2
-        exit 2
-        ;;
-      *)
-        resolved_places="$first"
-        case "$second" in
-          default|blitz|infinite)
-            timing_mode="$second"
-            positional_turns="$third"
-            [[ -n "$positional_turns" ]] || positional_turns=5000
-            ;;
-          '')
-            timing_mode=default
-            positional_turns=5000
-            if [[ -n "$third" ]]; then
-              echo "error: a turn limit cannot follow an empty timing argument" >&2
-              exit 2
-            fi
-            ;;
-          *[!0-9]*)
-            echo "error: after places, use default, blitz, infinite, or a numeric turn limit" >&2
-            exit 2
-            ;;
-          *)
-            timing_mode=default
-            positional_turns="$second"
-            if [[ -n "$third" ]]; then
-              echo "error: put the timing mode before the final turn limit" >&2
-              exit 2
-            fi
-            ;;
-        esac
-        ;;
+    protocol=full-control-v2
+    a="{{ a }}"; b="{{ b }}"; c="{{ c }}"; d="{{ d }}"
+    case "$a" in
+      v1) protocol=strategic-v1; a="$b"; b="$c"; c="$d"; d="" ;;
+      v2) a="$b"; b="$c"; c="$d"; d="" ;;
     esac
-    turn_limit="{{ max_turns }}"
-    [[ -n "$turn_limit" ]] || turn_limit="$positional_turns"
-    mkdir -p "$AGENT_EVAL_STATE_DIR"
-    python3 -B -m agent_eval game create \
-      --service-url "$AGENT_EVAL_SERVICE_URL" \
-      --mode single \
-      --places "$resolved_places" \
-      --turns "$turn_limit" \
-      --timing-mode "$timing_mode" \
-      --lobby-timeout-s 0 \
-      --credentials "$AGENT_EVAL_STATE_DIR/games/{game_id}/owner.json" \
-      --player-invite "play/.invites/{game_id}.json"
+    if [[ -n "$d" ]]; then
+      echo "error: too many arguments; usage: just single [v1|v2] [players] [default|blitz|infinite] [turns]" >&2
+      exit 2
+    fi
+    [[ -n "$a" ]] || a=default
+    just _create single "$protocol" "$a" "$b" "$c" "{{ max_turns }}"
 
-# Create an all-agent game; places is also the maximum agent count.
+# Create an all-agent game: just multi [v1|v2] [players] [timing] [turns].
+# The control protocol defaults to full-control-v2; pass v1 for strategic-v1.
 [arg("max_turns", long="max-turns")]
-multi mode_or_places="default" places_or_turns="" turns="" max_turns="":
+multi a="" b="" c="" d="" max_turns="":
     #!/usr/bin/env bash
     set -euo pipefail
-    first="{{ mode_or_places }}"
-    second="{{ places_or_turns }}"
-    third="{{ turns }}"
-    case "$first" in
-      default|blitz|infinite)
-        timing_mode="$first"
-        resolved_places="$second"
-        [[ -n "$resolved_places" ]] || resolved_places=2
-        positional_turns="$third"
-        [[ -n "$positional_turns" ]] || positional_turns=5000
-        ;;
-      ''|*[!0-9]*)
-        echo "error: timing mode must be default, blitz, or infinite" >&2
-        exit 2
-        ;;
-      *)
-        resolved_places="$first"
-        case "$second" in
-          default|blitz|infinite)
-            timing_mode="$second"
-            positional_turns="$third"
-            [[ -n "$positional_turns" ]] || positional_turns=5000
-            ;;
-          '')
-            timing_mode=default
-            positional_turns=5000
-            if [[ -n "$third" ]]; then
-              echo "error: a turn limit cannot follow an empty timing argument" >&2
-              exit 2
-            fi
-            ;;
-          *[!0-9]*)
-            echo "error: after places, use default, blitz, infinite, or a numeric turn limit" >&2
-            exit 2
-            ;;
-          *)
-            timing_mode=default
-            positional_turns="$second"
-            if [[ -n "$third" ]]; then
-              echo "error: put the timing mode before the final turn limit" >&2
-              exit 2
-            fi
-            ;;
-        esac
-        ;;
+    protocol=full-control-v2
+    a="{{ a }}"; b="{{ b }}"; c="{{ c }}"; d="{{ d }}"
+    case "$a" in
+      v1) protocol=strategic-v1; a="$b"; b="$c"; c="$d"; d="" ;;
+      v2) a="$b"; b="$c"; c="$d"; d="" ;;
     esac
-    turn_limit="{{ max_turns }}"
-    [[ -n "$turn_limit" ]] || turn_limit="$positional_turns"
-    mkdir -p "$AGENT_EVAL_STATE_DIR"
-    python3 -B -m agent_eval game create \
-      --service-url "$AGENT_EVAL_SERVICE_URL" \
-      --mode multiplayer \
-      --places "$resolved_places" \
-      --turns "$turn_limit" \
-      --timing-mode "$timing_mode" \
-      --lobby-timeout-s 0 \
-      --credentials "$AGENT_EVAL_STATE_DIR/games/{game_id}/owner.json" \
-      --player-invite "play/.invites/{game_id}.json"
+    if [[ -n "$d" ]]; then
+      echo "error: too many arguments; usage: just multi [v1|v2] [players] [default|blitz|infinite] [turns]" >&2
+      exit 2
+    fi
+    [[ -n "$a" ]] || a=default
+    just _create multiplayer "$protocol" "$a" "$b" "$c" "{{ max_turns }}"
 
 # Create a full-control-v2 one-agent-vs-native-AI game.
 [arg("max_turns", long="max-turns")]
 single-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
-    @just _create-v2 single "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
+    @just _create single full-control-v2 "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
 
 # Create a full-control-v2 all-agent game.
 [arg("max_turns", long="max-turns")]
 multi-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
-    @just _create-v2 multiplayer "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
+    @just _create multiplayer full-control-v2 "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
 
 # Materialize per-player game workspaces under .play/ (interactive picker;
 # also takes --player HARNESS:MODEL, --invite PATH, --force).
 play *args="":
     python3 -B -m agent_eval.play_setup {{ args }}
 
-# Shared parser for the additive v2 creation conveniences above.
+# Shared creation parser: [places|timing] [timing|turns] [turns] grammar.
 [private]
-_create-v2 game_mode mode_or_places places_or_turns turns max_turns:
+_create game_mode protocol mode_or_places places_or_turns turns max_turns:
     #!/usr/bin/env bash
     set -euo pipefail
     first="{{ mode_or_places }}"
@@ -336,7 +245,7 @@ _create-v2 game_mode mode_or_places places_or_turns turns max_turns:
       --places "$resolved_places" \
       --turns "$turn_limit" \
       --timing-mode "$timing_mode" \
-      --control-protocol full-control-v2 \
+      --control-protocol "{{ protocol }}" \
       --lobby-timeout-s 0 \
       --credentials "$AGENT_EVAL_STATE_DIR/games/{game_id}/owner.json" \
       --player-invite "play/.invites/{game_id}.json"
