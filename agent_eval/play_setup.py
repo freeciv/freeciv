@@ -23,6 +23,8 @@ import re
 import shutil
 import subprocess
 import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -42,6 +44,26 @@ MODEL_CHOICES = (
     "gemini-3-pro",
 )
 
+V2_LOOP_NOTE = """This is a `full-control-v2` game. The loop:
+
+    just join                    # prints the protocol card
+    just start                   # lobby: configure + ready (no arguments needed)
+    just turn                    # each turn: briefing, options, needs-decision list
+    just do "u1 found_city London; u2 route 32,73"
+    just turn --end --await      # end the phase and wait for the next
+
+`just show` reads your local state mirror at zero network cost, and every
+error names the exact command that fixes it."""
+
+V1_LOOP_NOTE = """This is a `strategic-v1` game. The loop:
+
+    just join
+    just next --after_turn 0     # then pass the last observed turn each time
+    just act --turn T --observation_id ID \\
+      --action '{"type":"set_traits","traits":{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}'
+
+Read `docs/gameplay.md` for the trait contract before your first `act`."""
+
 SCRATCHPAD_NOTE = """
 ## Your workspace and scratchpad
 
@@ -52,24 +74,50 @@ scripts anywhere inside it (for example `notes.md`, `plan.md`, or a
 everything you create inside this folder; never read or write parent
 directories or sibling player folders.
 
-The game and your controller name are pre-configured. Start with:
-
-    just join
-
-then follow the protocol card it prints.
+The game and your controller name are pre-configured, so `just join`
+needs no arguments. {loop_note}
 """
 
 CLAUDE_NOTE = """# Playing Freeciv from this workspace
 
 Read `AGENTS.md` first — it is the workspace contract. This folder is
-pre-configured for `{game_id}` as `{name}`: run `just join` (no arguments
-needed), then follow the protocol card it prints. Bare `just` reprints the
-short workflow at any time.
+pre-configured for `{game_id}` as `{name}`; bare `just` reprints the short
+workflow at any time.
+
+{loop_note}
 
 This folder is also your scratchpad. Write plans, notes, and helper
 scripts here (`notes.md`, `plan.md`, `scripts/`) to reason about the game;
 keep everything inside this folder.
 """
+
+CONTROL_PROTOCOLS = {"strategic-v1", "full-control-v2"}
+
+
+def _fetch_protocol(invite_path: Path) -> str:
+    """Ask the supervisor which control protocol the game negotiates."""
+    try:
+        invite = json.loads(invite_path.read_text(encoding="utf-8"))
+        service_url = invite["service_url"].rstrip("/")
+        game_id = invite["game_id"]
+    except (OSError, ValueError, KeyError, AttributeError) as exc:
+        raise SetupError(f"unreadable invitation {invite_path}: {exc}") from exc
+    url = f"{service_url}/v1/games/{game_id}/status"
+    try:
+        with urllib.request.urlopen(url, timeout=10) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, OSError, ValueError) as exc:
+        raise SetupError(
+            f"could not read the game's control protocol from {url}: {exc}\n"
+            "is the local stack running? start it with `just start` from "
+            "the repository root"
+        ) from exc
+    protocol = payload.get("control_protocol") or "strategic-v1"
+    if protocol not in CONTROL_PROTOCOLS:
+        raise SetupError(
+            f"game {game_id} negotiates unsupported protocol {protocol!r}"
+        )
+    return protocol
 
 
 class SetupError(Exception):
@@ -186,6 +234,7 @@ def _stage_invite(
 def _materialize(
     game_id: str, harness: str, model: str, *, place: int | None,
     repo_root: Path, invite: Path | None, force: bool,
+    protocol_cache: dict[str, str],
 ) -> Path:
     name = f"{harness}-{model}"
     workspace = repo_root / ".play" / _slug(f"{game_id}_{harness}_{model}")
@@ -204,31 +253,43 @@ def _materialize(
     )
     (workspace / ".sessions").mkdir(mode=0o700)
     (workspace / ".invites").mkdir(mode=0o700)
+    staged_invite = workspace / ".invites" / f"{game_id}.json"
     how = _stage_invite(
-        game_id, workspace / ".invites" / f"{game_id}.json",
-        explicit=invite, repo_root=repo_root,
+        game_id, staged_invite, explicit=invite, repo_root=repo_root,
     )
+    if game_id not in protocol_cache:
+        protocol_cache[game_id] = _fetch_protocol(staged_invite)
+    protocol = protocol_cache[game_id]
     config = {
         "schema_version": 1,
         "game_id": game_id,
         "name": name,
         "place": place,
+        "control_protocol": protocol,
     }
     config_path = workspace / ".playconfig.json"
     config_path.write_text(
         json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8",
     )
     config_path.chmod(0o600)
-    note = SCRATCHPAD_NOTE.format(game_id=game_id, name=name)
+    loop_note = V2_LOOP_NOTE if protocol == "full-control-v2" else V1_LOOP_NOTE
+    note = SCRATCHPAD_NOTE.format(
+        game_id=game_id, name=name, loop_note=loop_note,
+    )
     agents = workspace / "AGENTS.md"
     with agents.open("a", encoding="utf-8") as handle:
         handle.write(note)
-    (workspace / "CLAUDE.md").write_text(
-        CLAUDE_NOTE.format(game_id=game_id, name=name), encoding="utf-8",
-    )
+    if harness == "claude-code":
+        (workspace / "CLAUDE.md").write_text(
+            CLAUDE_NOTE.format(
+                game_id=game_id, name=name, loop_note=loop_note,
+            ),
+            encoding="utf-8",
+        )
     print(
         f"created {workspace.relative_to(repo_root)} "
-        f"({name}{f', place {place}' if place else ''}; invite {how})"
+        f"({name}, {protocol}"
+        f"{f', place {place}' if place else ''}; invite {how})"
     )
     return workspace
 
@@ -265,11 +326,13 @@ def main(argv: list[str] | None = None) -> int:
             players = _interactive_players()
         invite = Path(args.invite) if args.invite else None
         workspaces = []
+        protocol_cache: dict[str, str] = {}
         for index, (harness, model) in enumerate(players):
             place = index + 1 if len(players) > 1 else None
             workspaces.append(_materialize(
                 game_id, harness, model, place=place, repo_root=repo_root,
                 invite=invite, force=args.force,
+                protocol_cache=protocol_cache,
             ))
         print()
         print("Point each model at its folder and say go, for example:")

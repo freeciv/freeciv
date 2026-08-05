@@ -42,9 +42,13 @@ class PlaySetupTests(unittest.TestCase):
         )
         return repo
 
-    def _run(self, repo: Path, *argv: str) -> tuple[int, str, str]:
+    def _run(
+        self, repo: Path, *argv: str, protocol: str = "full-control-v2",
+    ) -> tuple[int, str, str]:
         out, err = io.StringIO(), io.StringIO()
-        with redirect_stdout(out), redirect_stderr(err):
+        with patch.object(
+            play_setup, "_fetch_protocol", return_value=protocol,
+        ), redirect_stdout(out), redirect_stderr(err):
             code = play_setup.main([
                 *argv, "--repo-root", str(repo),
             ])
@@ -75,6 +79,7 @@ class PlaySetupTests(unittest.TestCase):
                 "game_id": GAME_ID,
                 "name": "codex-gpt-5.6-sol",
                 "place": None,
+                "control_protocol": "full-control-v2",
             })
             config_mode = stat.S_IMODE(
                 (workspace / ".playconfig.json").stat().st_mode
@@ -83,10 +88,71 @@ class PlaySetupTests(unittest.TestCase):
             agents = (workspace / "AGENTS.md").read_text(encoding="utf-8")
             self.assertIn("scratchpad", agents)
             self.assertIn("codex-gpt-5.6-sol", agents)
-            claude = (workspace / "CLAUDE.md").read_text(encoding="utf-8")
-            self.assertIn("just join", claude)
-            self.assertIn("scratchpad", claude)
+            self.assertFalse(
+                (workspace / "CLAUDE.md").exists(),
+                "CLAUDE.md is only for the claude-code harness",
+            )
+            self.assertIn("full-control-v2", agents)
+            self.assertIn("just turn --end --await", agents)
             self.assertIn("cd .play/", out)
+
+    def test_claude_code_harness_gets_claude_md_others_do_not(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = self._repo(directory)
+            code, _out, err = self._run(
+                repo, GAME_ID,
+                "--player", "claude-code:claude-fable-5",
+                "--player", "pi:gpt-5.5",
+            )
+            self.assertEqual(code, 0, err)
+            claude_ws = (
+                repo / ".play" / f"{GAME_ID}_claude-code_claude-fable-5"
+            )
+            pi_ws = repo / ".play" / f"{GAME_ID}_pi_gpt-5.5"
+            claude = (claude_ws / "CLAUDE.md").read_text(encoding="utf-8")
+            self.assertIn("scratchpad", claude)
+            self.assertIn("full-control-v2", claude)
+            self.assertFalse((pi_ws / "CLAUDE.md").exists())
+            self.assertIn(
+                "scratchpad",
+                (pi_ws / "AGENTS.md").read_text(encoding="utf-8"),
+            )
+
+    def test_v1_games_get_the_strategic_loop_note(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = self._repo(directory)
+            code, _out, err = self._run(
+                repo, GAME_ID,
+                "--player", "claude-code:claude-fable-5",
+                protocol="strategic-v1",
+            )
+            self.assertEqual(code, 0, err)
+            workspace = (
+                repo / ".play" / f"{GAME_ID}_claude-code_claude-fable-5"
+            )
+            agents = (workspace / "AGENTS.md").read_text(encoding="utf-8")
+            claude = (workspace / "CLAUDE.md").read_text(encoding="utf-8")
+            for document in (agents, claude):
+                self.assertIn("strategic-v1", document)
+                self.assertIn("just next --after_turn", document)
+                self.assertIn("set_traits", document)
+                self.assertNotIn("turn --end --await", document)
+            config = json.loads(
+                (workspace / ".playconfig.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(config["control_protocol"], "strategic-v1")
+
+    def test_unreachable_supervisor_names_the_stack_remedy(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = self._repo(directory)
+            out, err = io.StringIO(), io.StringIO()
+            with redirect_stdout(out), redirect_stderr(err):
+                code = play_setup.main([
+                    GAME_ID, "--player", "codex:gpt-5.6-sol",
+                    "--repo-root", str(repo),
+                ])
+            self.assertEqual(code, 2)
+            self.assertIn("just start", err.getvalue())
 
     def test_multiple_players_get_sequential_places(self):
         with tempfile.TemporaryDirectory() as directory:
