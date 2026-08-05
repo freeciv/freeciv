@@ -616,12 +616,14 @@ def scoped_worker_rows() -> tuple[str, ...]:
         _action(
             104, "unit.start_activity", "u:10:100", -1,
             "unit.start_activity", "Worker Activity", "Activity Installed", 0,
-            target_extra=7, activity="road", target_name="Road",
+            target_extra=7, subtarget_kind="extra_not_there",
+            activity="road", target_name="Road",
         ),
         _action(
             105, "unit.start_activity", "u:10:100", -1,
             "unit.start_activity", "Worker Activity", "Activity Installed", 0,
-            target_extra=8, activity="pillage", target_name="Irrigation",
+            target_extra=8, subtarget_kind="extra",
+            activity="pillage", target_name="Irrigation",
         ),
     )
 
@@ -2643,7 +2645,14 @@ class V2ProjectionTests(unittest.TestCase):
             "sender_name=Other self=0 channel=allied event=chat_msg "
             "truncated=0 message=Meet%20at%20dawn"
         )
-        rows = tuple(sorted(valid_rows() + (self.chat_action(), chat_row)))
+        boundary_row = (
+            "chat sequence=10 turn=7 phase=2 sender=server "
+            "sender_name=server self=0 channel=event event=e_next_year "
+            "truncated=0 message=Year%3A%203750%20BCE"
+        )
+        rows = tuple(sorted(
+            valid_rows() + (self.chat_action(), chat_row, boundary_row)
+        ))
         observation_value = observation(rows)
         feed = self.control.state_page(
             observation_value, section="chat",
@@ -2657,7 +2666,23 @@ class V2ProjectionTests(unittest.TestCase):
             "event": "chat_msg",
             "message": "Meet at dawn",
             "truncated": False,
+        }, {
+            "sequence": 10,
+            "turn": 7,
+            "phase": 2,
+            "sender": {"kind": "server", "name": "server", "self": False},
+            "channel": "event",
+            "event": "e_next_year",
+            "message": "Year: 3750 BCE",
+            "truncated": False,
         }])
+        forged = V2SeatControl("game_test", "chat_phase_overflow", 1)
+        with self.assertRaisesRegex(V2ControlError, "internal_error"):
+            forged.state_page(observation(tuple(
+                row.replace("phase=2 sender=server", "phase=3 sender=server")
+                if row.startswith("chat sequence=10 ") else row
+                for row in rows
+            )), section="chat")
         snapshot = self.control._snapshot(observation_value)
         action = next(
             item for item in snapshot.legal_actions
@@ -7157,7 +7182,8 @@ class V2ProjectionTests(unittest.TestCase):
         same_road = _action(
             107, "unit.start_activity", "u:10:100", -1,
             "unit.start_activity", "Worker Activity", "Activity Installed", 0,
-            target_extra=9, activity="road", target_name="Railroad",
+            target_extra=9, subtarget_kind="extra_not_there",
+            activity="road", target_name="Railroad",
         )
         rejected_request = self.control.prepare_actor_scope(
             current, own_unit["id"], 16,
@@ -8615,6 +8641,13 @@ class V2ProjectionTests(unittest.TestCase):
             (
                 own_unit_id,
                 road.replace("target_extra=7", "target_extra=-1"),
+            ),
+            (
+                own_unit_id,
+                road.replace(
+                    "subtarget_kind=extra_not_there",
+                    "subtarget_kind=building",
+                ),
             ),
         )
         for serial, (actor_id, forged) in enumerate(cases, start=20):

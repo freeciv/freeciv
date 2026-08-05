@@ -196,13 +196,20 @@ class V2PlayabilitySmokeRealE2ETests(unittest.TestCase):
         return items
 
     def _legal_actions(
-        self, harness: dict, service_url: str, deadline: float,
+        self,
+        harness: dict,
+        service_url: str,
+        deadline: float,
+        *,
+        actor_id: str | None = None,
     ) -> list[dict]:
-        page = self._run_player(
-            harness,
-            service_url,
-            deadline,
+        arguments = [
             "legal", "--session", str(harness["session"]), "--limit", "16",
+        ]
+        if actor_id is not None:
+            arguments.extend(("--actor-id", actor_id))
+        page = self._run_player(
+            harness, service_url, deadline, *arguments,
         )
         items = list(page["page"]["items"])
         cursor = page["page"]["next_cursor"]
@@ -335,6 +342,14 @@ class V2PlayabilitySmokeRealE2ETests(unittest.TestCase):
         )
         self.assertEqual(len(overview), 1)
         self.assertTrue(overview[0]["active_phase"])
+        units = self._state_pages(
+            harness, service_url, deadline, "units",
+        )
+        self.assertTrue(units)
+        for unit in units:
+            self.assertTrue(self._legal_actions(
+                harness, service_url, deadline, actor_id=unit["id"],
+            ))
         actions = self._legal_actions(harness, service_url, deadline)
         research = next(
             action for action in actions
@@ -548,6 +563,11 @@ class V2PlayabilitySmokeRealE2ETests(unittest.TestCase):
                 harness, supervisor.service_url, deadline,
             )
             self.assertGreaterEqual(second["phase"]["turn"], 2)
+            second_overview = self._state_pages(
+                harness, supervisor.service_url, deadline, "overview",
+            )
+            self.assertEqual(len(second_overview), 1)
+            self.assertTrue(second_overview[0]["active_phase"])
             game = supervisor.game(created["game_id"])
             self.assertEqual(game.start_count, 1)
             commands = (game.episode / "server.commands").read_text(

@@ -1411,8 +1411,15 @@ _NON_SPECIAL_ACTION_SUBRESULT_SETS: Mapping[
 def _non_special_action_metadata_supported(
     action: Mapping[str, Any],
 ) -> bool:
+    if action["native_rule"] == "unit.start_activity":
+        targeted = action["activity"] in _TARGETED_ACTIVITIES
+        subtarget_supported = action["subtarget_kind"] in (
+            {"extra", "extra_not_there"} if targeted else {"none"}
+        )
+    else:
+        subtarget_supported = action["subtarget_kind"] == "none"
     return (
-        action["subtarget_kind"] == "none"
+        subtarget_supported
         and action["subresults"] in _NON_SPECIAL_ACTION_SUBRESULT_SETS.get(
             action["native_rule"], ((),),
         )
@@ -7625,7 +7632,9 @@ class V2SeatControl:
         if any(
             item["sequence"] == 0
             or item["turn"] > meta["turn"]
-            or item["phase"] >= meta["phase_count"]
+            # Freeciv uses phase_count as a turn-boundary sentinel while
+            # emitting end-of-turn and next-year events.
+            or item["phase"] > meta["phase_count"]
             or item["self"] and item["sender"] == "server"
             for item in chats
         ):
