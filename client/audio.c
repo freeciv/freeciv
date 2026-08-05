@@ -45,7 +45,7 @@
 #define SNDSPEC_SUFFIX		".soundspec"
 #define MUSICSPEC_SUFFIX        ".musicspec"
 
-#define SOUNDSPEC_CAPSTR "+Freeciv-3.2-soundset"
+#define SOUNDSPEC_CAPSTR "+Freeciv-soundset-3.4-Devel-2026.Aug.05"
 #define MUSICSPEC_CAPSTR "+Freeciv-3.2-musicspec"
 
 /* Keep them open throughout */

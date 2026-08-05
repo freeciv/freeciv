@@ -1,6 +1,6 @@
 [soundspec]
 ; Format and options of this spec file:
-options = "+Freeciv-3.2-soundset"
+options = "+Freeciv-soundset-3.4-Devel-2026.Aug.05"
 
 [info]
 artists = "\
@@ -354,6 +354,7 @@ e_tech_learned = "stdsounds/complete.ogg" ; [stumpy]
 ;e_unit_escaped = ""
 
 ; Those pseudo-events are only used in the sound system.
+;e_client_launch = ""
 e_enter_game = "stdsounds/fanfare.ogg" ; [spring]
 ;e_client_quit = ""
 ;e_leave_game = ""

@@ -679,7 +679,8 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
   cache_tilesets();
 
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
-  start_menu_music("music_menu", NULL);
+  audio_play_sound("e_client_launch", nullptr, nullptr);
+  start_menu_music("music_menu", nullptr);
 
   if (!postpone_tileset) {
     int tsret = default_tileset_select();
