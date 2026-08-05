@@ -342,6 +342,14 @@ class V2PlayabilitySmokeRealE2ETests(unittest.TestCase):
         )
         self.assertEqual(len(overview), 1)
         self.assertTrue(overview[0]["active_phase"])
+        player_actions = self._legal_actions(
+            harness, service_url, deadline,
+            actor_id=overview[0]["player"]["id"],
+        )
+        player_kinds = {action["kind"] for action in player_actions}
+        self.assertIn("player.propose_server_setting", player_kinds)
+        self.assertIn("government.revolution", player_kinds)
+        self.assertNotIn("player.send_chat", player_kinds)
         units = self._state_pages(
             harness, service_url, deadline, "units",
         )

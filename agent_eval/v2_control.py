@@ -10003,11 +10003,23 @@ class V2SeatControl:
             "phase.end", "research.set_target", "research.set_goal",
             "economy.set_rates",
         }
+        player_global_operations = {
+            "cast_vote", "cancel_vote", "propose_server_setting", "surrender",
+        }
         if request.actor_kind == "player":
+            # The native player scope repeats actorless strategic actions and
+            # player-bound global governance actions (but not send_chat), then
+            # adds scoped-only government, multiplier, and spaceship controls.
             expected = {
                 action["slot"]: action for action in parsed.actions
-                if action["actor_ref"] is None
-                and action["native_rule"] in player_rules
+                if (
+                    action["actor_ref"] is None
+                    and action["native_rule"] in player_rules
+                ) or (
+                    action["actor_ref"] == request.native_actor_ref
+                    and _ACTION_RULES[action["native_rule"]].operation
+                        in player_global_operations
+                )
             }
             if parsed.governance is None:
                 _fail()
