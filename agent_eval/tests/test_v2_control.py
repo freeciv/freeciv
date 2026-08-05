@@ -941,7 +941,7 @@ def complete_v2_row(row: str) -> str:
             "science": 0,
         }
         row += (
-            f" citizen_happy=0 citizen_content={size} citizen_unhappy=0 "
+            f" citizen_happy=0 citizen_content=0 citizen_unhappy=0 "
             f"citizen_angry=0 citizen_workers=0 citizen_specialists={size} "
             "food_stock=0 granary_size=20 growth_turns=1000000000 "
             "pollution=0"
@@ -1087,13 +1087,28 @@ def complete_v2_rows(rows: tuple[str, ...]) -> tuple[str, ...]:
         size = int(re.search(r"(?:^| )size=([0-9]+)(?: |$)", row).group(1))
         worker_count = workers.get(city_ref, 0)
         specialist_count = specialists.get(city_ref, size - worker_count)
-        completed[index] = re.sub(
+        row = re.sub(
             r" citizen_workers=[0-9]+ citizen_specialists=[0-9]+ ",
             f" citizen_workers={worker_count} "
             f"citizen_specialists={specialist_count} ",
             row,
             count=1,
         )
+        # Freeciv's mood counters cover only the non-specialist citizens, so a
+        # default-shaped fixture has to follow its own worker count.  A row
+        # that names a deliberate mood split keeps it.
+        if re.search(
+            r" citizen_happy=0 citizen_content=[0-9]+ citizen_unhappy=0"
+            r" citizen_angry=0 ",
+            row,
+        ) is not None:
+            row = re.sub(
+                r" citizen_content=[0-9]+ ",
+                f" citizen_content={worker_count} ",
+                row,
+                count=1,
+            )
+        completed[index] = row
     return tuple(completed)
 
 
@@ -9047,7 +9062,7 @@ class V2ProjectionTests(unittest.TestCase):
     def test_city_detail_and_citizens_project_exact_output_telemetry(self):
         rows = list(complete_v2_rows(valid_rows(actions=False)))
         city_telemetry = (
-            "citizen_happy=1 citizen_content=1 citizen_unhappy=0 "
+            "citizen_happy=0 citizen_content=0 citizen_unhappy=0 "
             "citizen_angry=0 citizen_workers=0 citizen_specialists=2 "
             "food_stock=7 granary_size=20 growth_turns=1000000000 "
             "pollution=2 "
@@ -9093,7 +9108,7 @@ class V2ProjectionTests(unittest.TestCase):
             current, "city_detail", actor_id=city_id,
         )["page"]["items"][0]
         self.assertEqual(detail["citizens"], {
-            "happy": 1, "content": 1, "unhappy": 0, "angry": 0,
+            "happy": 0, "content": 0, "unhappy": 0, "angry": 0,
             "workers": 0, "specialists": 2,
         })
         self.assertEqual(detail["food_storage"], {

@@ -5489,9 +5489,19 @@ class V2SeatControl:
             if (
                 size == 0 or granary_size == 0
                 or growth_turns > _FC_INFINITY
+                # Freeciv's mood counters describe only the citizens who are
+                # not specialists: ``citizen_base_mood`` subtracts
+                # ``city_specialists`` before it distributes content, angry and
+                # unhappy, and the client reassembles size as the mood total
+                # plus the normal specialists.  The native row reports
+                # ``workers`` as exactly ``size - specialists``, so the mood
+                # counters must total the workers, not the size.  Asserting
+                # ``size`` here holds only while a city has no specialist at
+                # all, and permanently rejects every later observation once one
+                # appears.
                 or sum(citizen_counts[name] for name in (
                     "happy", "content", "unhappy", "angry",
-                )) != size
+                )) != citizen_counts["workers"]
                 or citizen_counts["workers"]
                    + citizen_counts["specialists"] != size
                 or (food, shields, trade) != (
@@ -7367,7 +7377,15 @@ class V2SeatControl:
                 if value["native_tile"] == item["native_tile"]
             ), None)
             if (
-                city is None or tile is None or tile["known"] != 2
+                city is None
+                # Worker tasks travel with the cities catalog and so reach a
+                # compact observation, but tiles are exported only through
+                # STATE_SCOPE and do not.  Demanding a matching tile row
+                # unconditionally would make any persisted worker task reject
+                # every observation for the rest of the game, exactly as the
+                # neighbouring city and city-site checks would without their
+                # own catalog guard.
+                or full_tile_catalog and (tile is None or tile["known"] != 2)
                 or (
                     city_tiles_by_ref[item["city_ref"]]
                     and city_tile is None
@@ -7947,6 +7965,14 @@ class V2SeatControl:
                 if action["native_target_tech"] != -1 or action["max_rate"] != 0:
                     _fail()
                 actor = own_units.get(action["actor_ref"])
+                # Deliberately NOT guarded by full_tile_catalog, unlike the
+                # worker-task check above: tile-targeted action rows never
+                # appear in the compact OBS (its builder emits only global
+                # player/communication actions), and scoped payloads bundle
+                # every referenced target tile by construction
+                # (protocol_v2.c v2_emit_actor_scope, actor_target_tiles).
+                # A tile-targeted action without its tile is therefore a
+                # genuine contract fault, not a catalog-scope artifact.
                 target = tile_by_index.get(action["native_target_tile"])
                 if actor is None or target is None:
                     _fail()

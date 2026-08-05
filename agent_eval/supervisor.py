@@ -65,6 +65,14 @@ from .v2_phase_events import (
     V2PhaseEventJournal,
     V2PhaseEventJournalError,
 )
+from .v2_recovery import (
+    RecoveryBudget,
+    V2RecoveryError,
+    V2RecoveryJournal,
+    WedgeDetector,
+    recovery_kind_for_attempt,
+    select_rollback_save,
+)
 from .v2_replay import V2ReplayProducer
 
 
@@ -114,7 +122,11 @@ V2_TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
 AI_DIFFICULTY_LEVELS = ("novice", "easy", "normal", "hard", "cheating")
 V2_WAIT_REASONS = frozenset({
     "phase_active", "game_terminal", "revision_changed", "timeout",
+    "boundary_recovered",
 })
+# How long a caller's own wait may block while its seat is being recovered
+# before the wait answers with a plain timeout instead.
+V2_RECOVERY_WAIT_GRACE_S = 120.0
 _NATIVE_CODE_TOKEN = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
 # Sidecar native error tokens mapped onto the closed public refusal
 # vocabulary.  Anything absent falls back to ``native_refused``, which still
@@ -590,6 +602,25 @@ class Game:
         self.v2_failure_cleanup_started = False
         self.v2_ambiguity_trace: V2AmbiguityTrace | None = None
         self.v2_ambiguity_trace_warning_count = 0
+        # A native boundary can stop answering while every component still
+        # reports itself healthy.  These track the proof, the bounded budget
+        # for escaping it, and what the seat should be told meanwhile.
+        self.v2_wedge_detector = WedgeDetector()
+        self.v2_recovery_budget = RecoveryBudget()
+        self.v2_recovery_journal: V2RecoveryJournal | None = None
+        self.v2_recovery_journal_failed = False
+        # place -> {"trigger", "turn", "detected_at"} while the seat is known
+        # wedged and has not been recovered.  Presence alone closes the seat's
+        # runtime gate, so no request can be served against a dead boundary.
+        self.v2_wedged_places: dict[int, dict[str, Any]] = {}
+        # place -> {"kind", "attempt", "turn", "target_turn"} while a recovery
+        # is in flight, for the seat-facing explanation of the wait.
+        self.v2_recovery_in_flight: dict[int, dict[str, Any]] = {}
+        # place -> the last recorded rollback event, published on health.
+        self.v2_last_recovery: dict[int, dict[str, Any]] = {}
+        # place -> the newest turn in which this seat had an action applied,
+        # so a rollback can say whether it rewound past one.
+        self.v2_applied_turns: dict[int, int] = {}
         self.v2_replay_producer: V2ReplayProducer | None = None
         self.v2_active_receipt_operations = 0
         self.v2_receipts_closing = False
@@ -964,7 +995,8 @@ class Game:
             self._wait_for_prompt()
             self._send_commands(commands)
             self.monitor_thread = threading.Thread(
-                target=self._monitor, name=f"freeciv-monitor-{self.game_id}",
+                target=self._monitor, args=(self.process,),
+                name=f"freeciv-monitor-{self.game_id}",
                 daemon=True,
             )
             self.monitor_thread.start()
@@ -1287,8 +1319,9 @@ class Game:
 
         threading.Thread(target=kill_later, daemon=True).start()
 
-    def _monitor(self) -> None:
-        process = self.process
+    def _monitor(self, process: Any = None) -> None:
+        if process is None:
+            process = self.process
         if process is None:
             return
         try:
@@ -1297,6 +1330,12 @@ class Game:
             returncode = None
             with self.condition:
                 self.error = f"could not monitor freeciv-server: {exc}"
+        with self.condition:
+            if self.process is not process:
+                # Boundary recovery disowns a server before replacing it, so
+                # this exit is the intended end of a superseded process, not
+                # the end of the game.  Its replacement has its own monitor.
+                return
         # Once wait() has returned, native client disconnects are an expected
         # consequence of server completion.  Publish that fact before output
         # draining or sidecar shutdown so their callbacks cannot invalidate a
@@ -1741,6 +1780,13 @@ class Game:
         }.get(self.state, set())
         return bool(
             self._v2_control_active_locked()
+            # A wedged boundary keeps every component reporting itself healthy,
+            # so it has to be excluded here explicitly.  Closing the one gate
+            # every v2 path shares turns an unattributable internal error into
+            # an honest retryable "seat unavailable" for reads, dispatches and
+            # health alike, and keeps it closed until recovery republishes the
+            # seat on a new generation.
+            and place not in self.v2_wedged_places
             and self.sidecars.get(place) is sidecar
             and self.sidecar_generations.get(place) == generation
             and self.sidecar_ready_generations.get(place) == generation
@@ -3817,6 +3863,15 @@ class Game:
                 ):
                     current = health
                 health = current
+            wedged = self.v2_wedged_places.get(place_number)
+            if wedged is not None:
+                # Every component below still reports itself healthy, which is
+                # exactly the failure being reported.  Say the boundary is
+                # wedged rather than repeating their answer.
+                health = dict(health)
+                health["state"] = "wedged"
+                health["error_code"] = "native_boundary_wedged"
+                health["generation"] = generation
             control = self.v2_controls.get(place_number)
             controller_current = (
                 control is not None
@@ -3875,6 +3930,10 @@ class Game:
                 "legal_actions_available": observation_available,
                 "phase": own_phase,
                 "last_phase_end": last_phase_end,
+                "last_recovery": (
+                    dict(self.v2_last_recovery[place_number])
+                    if place_number in self.v2_last_recovery else None
+                ),
             }
 
     def _v2_wait_response(
@@ -3927,11 +3986,33 @@ class Game:
             )
         deadline = time.monotonic() + float(wait_s)
         latest_revision: dict[str, Any] | None = None
+        entry_generation = health_generation = None
+        with self.condition:
+            agent = self.agents.get(agent_id)
+            if agent is not None:
+                entry_generation = self.sidecar_generations.get(agent["place"])
         while True:
             health = self.v2_health(agent_id)
             if health["game_state"] in TERMINAL_STATES:
                 return self._v2_wait_response(
                     agent_id, "game_terminal", health, latest_revision,
+                )
+            sidecar_health = health.get("sidecar")
+            health_generation = (
+                sidecar_health.get("generation")
+                if isinstance(sidecar_health, dict) else None
+            )
+            if (
+                entry_generation is not None
+                and isinstance(health_generation, int)
+                and health_generation > entry_generation
+                and health["observation_available"] is True
+            ):
+                # The seat this caller was waiting on was recovered underneath
+                # it.  Say so instead of reporting a phase or revision change,
+                # because every id it holds expired with the old generation.
+                return self._v2_wait_response(
+                    agent_id, "boundary_recovered", health, latest_revision,
                 )
             if until == "phase":
                 phase = health["phase"]
@@ -4390,6 +4471,541 @@ class Game:
         if not execution_lock.acquire(blocking=False):
             raise SidecarError("native_busy")
 
+    @staticmethod
+    def _v2_boundary_failure_is_unattributable(exc: Exception) -> bool:
+        """Whether one failure carries the signature of a wedged boundary.
+
+        Every refusal this service can attribute names its layer and says
+        whether to retry: a stale revision, an expired capability, a busy or
+        departed sidecar, an illegal action.  Only a projection that the
+        boundary keeps producing and the projector keeps refusing arrives with
+        no attribution at all, as a bare internal error.  Those, and only
+        those, are evidence.
+        """
+        if isinstance(exc, V2ControlError):
+            return exc.code == "internal_error"
+        return not isinstance(exc, (APIProblem, SidecarError))
+
+    def _v2_place_for_agent(self, agent_id: str) -> int | None:
+        with self.condition:
+            agent = self.agents.get(agent_id)
+            return agent["place"] if agent is not None else None
+
+    def _note_v2_boundary_outcome(
+        self,
+        place: int | None,
+        *,
+        ok: bool,
+        trigger: str = "boundary_internal_error",
+    ) -> None:
+        """Record one boundary outcome and start recovery once it is wedged."""
+        detected: dict[str, Any] | None = None
+        with self.condition:
+            if (
+                place is None
+                or self.config["control_protocol"] != FULL_CONTROL_V2
+            ):
+                return
+            if ok:
+                self.v2_wedge_detector.note_success(place)
+                return
+            if (
+                place in self.v2_wedged_places
+                or place in self.v2_recovery_in_flight
+                or self.state in TERMINAL_STATES
+                or self.cancel_requested
+                or self.sidecars_stopping
+                or self.server_exit_observed
+            ):
+                return
+            if not self.v2_wedge_detector.note_failure(place):
+                return
+            detected = {
+                "trigger": trigger,
+                "turn": self._current_turn_locked() or 1,
+                "detected_at": time.time(),
+                "generation": self.sidecar_generations.get(place, 0),
+            }
+            self.v2_wedged_places[place] = detected
+            self.v2_wedge_detector.clear(place)
+            self.condition.notify_all()
+        self._start_v2_boundary_recovery(place, detected)
+
+    def _note_v2_ambiguous_observation(self, place: int | None) -> None:
+        """Credit an unavailable post-result read toward a wedge proof.
+
+        The ambiguous receipt itself is correct behaviour and must never be
+        enough on its own, so this only shortens the proof: the next boundary
+        failure with no successful read in between completes it.
+        """
+        with self.condition:
+            if (
+                place is None
+                or self.config["control_protocol"] != FULL_CONTROL_V2
+                or place in self.v2_wedged_places
+            ):
+                return
+            self.v2_wedge_detector.note_ambiguous_observation(place)
+
+    def _v2_recovery_journal_handle(self) -> V2RecoveryJournal | None:
+        with self.condition:
+            if self.v2_recovery_journal is not None:
+                return self.v2_recovery_journal
+            if self.v2_recovery_journal_failed:
+                return None
+        try:
+            journal = V2RecoveryJournal(self.episode, game_id=self.game_id)
+        except V2RecoveryError:
+            with self.condition:
+                self.v2_recovery_journal_failed = True
+            return None
+        with self.condition:
+            if self.v2_recovery_journal is None:
+                self.v2_recovery_journal = journal
+                return journal
+        journal.close()
+        with self.condition:
+            return self.v2_recovery_journal
+
+    def _record_v2_recovery_event(self, **fields: Any) -> None:
+        """Journal one rollback so scoring can flag a recovered game."""
+        journal = self._v2_recovery_journal_handle()
+        if journal is None:
+            return
+        try:
+            record = journal.record(**fields)
+        except V2RecoveryError:
+            with self.condition:
+                self.v2_recovery_journal_failed = True
+            return
+        with self.condition:
+            self.v2_last_recovery[record["place"]] = record
+
+    def _start_v2_boundary_recovery(
+        self, place: int, detected: dict[str, Any],
+    ) -> None:
+        threading.Thread(
+            target=self._run_v2_boundary_recovery,
+            args=(place, detected),
+            name=f"freeciv-v2-recovery-{self.game_id}-{place}",
+            daemon=True,
+        ).start()
+
+    def _fail_v2_wedged_game(self, place: int, reason: str) -> None:
+        """End a game whose boundary cannot be recovered, naming why."""
+        with self.condition:
+            if self.state in TERMINAL_STATES:
+                return
+            self.error = reason
+            if "v2_boundary_wedged" not in self.invalid_reasons:
+                self.invalid_reasons.append("v2_boundary_wedged")
+            self.state = "failed"
+            self.finished_at = time.time()
+            self._terminalize_v2_phase_locked("failed")
+            self._write_manifest()
+            self.condition.notify_all()
+        self._stop_all_sidecars()
+        self._terminate_child()
+
+    def _run_v2_boundary_recovery(
+        self, place: int, detected: dict[str, Any],
+    ) -> None:
+        """Escape one wedged boundary, or end the game saying it could not.
+
+        Two tiers, in cost order.  A boundary that is broken only inside its
+        client is fixed by a fresh sidecar generation against the same live
+        server, which discards no play at all.  Only once that has been tried
+        is it worth rewinding the game to the last autosave that predates
+        whatever produced the wedge.
+        """
+        turn = detected["turn"]
+        trigger = detected["trigger"]
+        seat_id = self.places[place - 1].seat_id
+        with self.condition:
+            if place not in self.v2_wedged_places:
+                return
+            attempt = self.v2_recovery_budget.next_attempt(turn)
+            if attempt is None:
+                reason = self.v2_recovery_budget.exhausted_reason(turn)
+            else:
+                reason = None
+                kind = recovery_kind_for_attempt(attempt)
+                self.v2_recovery_in_flight[place] = {
+                    "kind": kind,
+                    "attempt": attempt,
+                    "turn": turn,
+                    "started_at": time.time(),
+                    "target_turn": None,
+                }
+                self.condition.notify_all()
+        if reason is not None:
+            self._record_v2_recovery_event(
+                place=place, seat_id=seat_id, turn=turn,
+                attempt=max(1, self.v2_recovery_budget.attempts_for_turn(turn)),
+                kind=recovery_kind_for_attempt(2), trigger=trigger,
+                outcome="abandoned",
+                sidecar_generation=max(
+                    1, self.sidecar_generations.get(place, 1),
+                ),
+                recovered_to_turn=None, rewound_applied_actions=False,
+            )
+            self._fail_v2_wedged_game(place, reason)
+            return
+
+        recovered_to_turn: int | None = None
+        rewound = False
+        outcome = "failed"
+        try:
+            if kind != "autosave_rollback":
+                advanced = self._v2_recovery_rebuild_seat(place, kind)
+            else:
+                selected = select_rollback_save(
+                    self.episode / "saves", at_or_before_turn=turn,
+                )
+                if selected is None:
+                    advanced = False
+                else:
+                    save_path, recovered_to_turn = selected
+                    with self.condition:
+                        in_flight = self.v2_recovery_in_flight.get(place)
+                        if in_flight is not None:
+                            in_flight["target_turn"] = recovered_to_turn
+                        # Freeciv writes each autosave at the start of its
+                        # turn, so reloading the save named for a turn in which
+                        # this seat already applied an action discards that
+                        # action.  Its receipt stays terminal and is never
+                        # replayed, so the divergence has to be recorded.
+                        rewound = self.v2_applied_turns.get(
+                            place, 0,
+                        ) >= recovered_to_turn
+                        self.condition.notify_all()
+                    # The server is replaced between tearing the old seat down
+                    # and taking the new one, so no registered sidecar ever
+                    # outlives the server it was connected to.
+                    advanced = self._v2_recovery_rebuild_seat(
+                        place, kind,
+                        before_attach=lambda: self._v2_recovery_reload_server(
+                            save_path,
+                        ),
+                    )
+                    if advanced:
+                        advanced = self._v2_recovery_start_loaded_game()
+            outcome = "recovered" if advanced else "failed"
+        except Exception:
+            outcome = "failed"
+        finally:
+            with self.condition:
+                self.v2_recovery_in_flight.pop(place, None)
+                generation = max(1, self.sidecar_generations.get(place, 1))
+                if outcome == "recovered":
+                    self.v2_wedged_places.pop(place, None)
+                    self.v2_wedge_detector.clear(place)
+                self.condition.notify_all()
+            self._record_v2_recovery_event(
+                place=place, seat_id=seat_id, turn=turn, attempt=attempt,
+                kind=kind, trigger=trigger, outcome=outcome,
+                sidecar_generation=generation,
+                recovered_to_turn=recovered_to_turn,
+                rewound_applied_actions=rewound,
+            )
+        if outcome == "recovered":
+            return
+        # The seat is still wedged.  Re-arm detection so the next tier runs,
+        # and drive it immediately rather than waiting for the agent to
+        # rediscover a boundary that has already been proven dead.
+        with self.condition:
+            still_wedged = place in self.v2_wedged_places
+        if still_wedged:
+            self._run_v2_boundary_recovery(place, detected)
+
+    def _v2_recovery_rebuild_seat(
+        self,
+        place: int,
+        kind: str,
+        *,
+        before_attach: Callable[[], bool] | None = None,
+    ) -> bool:
+        """Republish one seat on the next sidecar generation.
+
+        Action ids and cursors are generation-scoped, so every handle the agent
+        cached against the wedged generation fails closed on its own once this
+        returns; nothing here has to invalidate them.
+
+        ``before_attach`` runs after the old seat is torn down and before the
+        new one is taken.  Replacing the server has to happen in exactly that
+        window: a sidecar still registered while its server dies is read by the
+        status poller as an unexpected seat loss, which fails the whole game.
+        """
+        generation = self._v2_recovery_detach_seat(place)
+        if generation is None:
+            return False
+        if before_attach is not None and not before_attach():
+            return False
+        return self._v2_recovery_attach_seat(place, generation)
+
+    def _v2_recovery_detach_seat(self, place: int) -> int | None:
+        """Retire the wedged generation and reserve the one that replaces it."""
+        with self.condition:
+            if (
+                self.config["control_protocol"] != FULL_CONTROL_V2
+                or self.state in TERMINAL_STATES
+                or self.cancel_requested
+                # A server that has already exited is being finalized by its
+                # monitor; clearing the stopping latch below would fight it.
+                or self.server_exit_observed
+            ):
+                return None
+            agent_id = self.place_agents.get(place)
+            if agent_id is None or place - 1 >= len(self.places):
+                return None
+            previous = self.sidecars.pop(place, None)
+            control = self.v2_controls.pop(place, None)
+            self.v2_execution_locks.pop(place, None)
+            self.sidecar_ready_generations.pop(place, None)
+            self.sidecar_exit_grace_generations.pop(place, None)
+            generation = self.sidecar_generations.get(place, 0) + 1
+            self.sidecar_generations[place] = generation
+            self.v2_native_player_identities.pop(place, None)
+            self.sidecars_stopping = False
+            self.condition.notify_all()
+        if control is not None:
+            control.close()
+        if previous is not None:
+            try:
+                previous.stop()
+            except Exception:
+                pass
+        return generation
+
+    def _v2_recovery_attach_seat(self, place: int, generation: int) -> bool:
+        """Take the seat again on ``generation`` and republish it."""
+        with self.condition:
+            agent_id = self.place_agents.get(place)
+            if (
+                agent_id is None
+                or place - 1 >= len(self.places)
+                or self.sidecar_generations.get(place) != generation
+                or self.state in TERMINAL_STATES
+                or self.cancel_requested
+            ):
+                return False
+        chosen = self.places[place - 1]
+        try:
+            sidecar = self._make_sidecar(chosen, generation)
+        except Exception:
+            return False
+        try:
+            sidecar.start_and_take()
+            fields = self._parse_sidecar_status(sidecar.status(timeout_s=5.0))
+            if (
+                fields.get("server") != "1" or fields.get("seat") != "ready"
+                or not fields.get("state")
+            ):
+                raise SidecarError("seat_lost")
+        except Exception:
+            try:
+                sidecar.stop()
+            except Exception:
+                pass
+            return False
+        health = self._sanitized_sidecar_health(sidecar, generation)
+        health["client_state"] = fields["state"]
+        health["server_connected"] = True
+        health["seat_state"] = fields["seat"]
+        with self.condition:
+            if (
+                self.sidecar_generations.get(place) != generation
+                or self.state in TERMINAL_STATES or self.cancel_requested
+            ):
+                stale = True
+            else:
+                stale = False
+                try:
+                    self._record_v2_native_identity_locked(
+                        chosen, generation, fields,
+                    )
+                except SidecarError:
+                    stale = True
+            if not stale:
+                self.sidecars[place] = sidecar
+                self.sidecar_health[place] = health
+                self.sidecar_ready_generations[place] = generation
+                new_control = V2SeatControl(
+                    self.game_id, agent_id, generation,
+                )
+                self.v2_controls[place] = new_control
+                self.v2_execution_locks[place] = (
+                    generation, new_control, threading.Lock(),
+                )
+                # The rebuilt boundary has to re-agree on the current turn and
+                # phase before any seat may act on it again.
+                self.v2_phase_ledger["evidence"].pop(place, None)
+                self.v2_phase_ledger["state"] = "synchronizing"
+                self.v2_phase_ledger["synchronizing_started_monotonic"] = (
+                    time.monotonic()
+                )
+                self.condition.notify_all()
+        if stale:
+            try:
+                sidecar.stop()
+            except Exception:
+                pass
+            return False
+        return True
+
+    def _v2_recovery_start_loaded_game(self) -> bool:
+        """Resume a reloaded save, which Freeciv leaves sitting in pregame.
+
+        Loading a savegame restores its players and their turn but returns the
+        server to pregame, where it waits for an explicit ``start``.  Nothing
+        else in this service will send one: a full-control-v2 game is started
+        once, by its seats' own native ready packets, and that happens during
+        the lobby and never again.  So recovery has to start the game itself,
+        without consulting the original start latch, which is why a second
+        rollback attempt can still start the game after a first one failed.
+        """
+        with self.console_lock:
+            with self.condition:
+                if (
+                    self.config["control_protocol"] != FULL_CONTROL_V2
+                    or self.state in TERMINAL_STATES
+                    or self.cancel_requested
+                    or self.server_exit_observed
+                    or self.process is None
+                ):
+                    return False
+                self.start_sent = True
+                self.start_count += 1
+            try:
+                self._send_commands(["start"], wait_for_prompt=False)
+                self._append_server_commands(["start"])
+            except Exception:
+                return False
+        with self.condition:
+            self._write_manifest()
+            self.condition.notify_all()
+        return True
+
+    def _append_server_commands(self, commands: list[str]) -> None:
+        """Keep the console audit trail complete across a server replacement."""
+        with (self.episode / "server.commands").open(
+            "a", encoding="utf-8",
+        ) as stream:
+            for command in commands:
+                stream.write(command + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+
+    def _v2_recovery_reload_server(self, save_path: Path) -> bool:
+        """Restart Freeciv on a saved turn, discarding the wedging state.
+
+        Only reached when a fresh boundary against the live server has already
+        failed, which means the state the server is serving is itself what the
+        boundary cannot project.  The game is otherwise already lost, so the
+        cost of restarting is bounded by an outcome that was going to be a
+        failure either way.
+        """
+        with self.condition:
+            if (
+                self.config["control_protocol"] != FULL_CONTROL_V2
+                or self.state not in {"running", "starting"}
+                or self.cancel_requested or self.server_exit_observed
+            ):
+                return False
+            previous = self.process
+            # Disowning the process first makes the running monitor thread
+            # recognize its server as intentionally replaced, so the restart
+            # cannot be mistaken for the end of the game.
+            self.process = None
+            self.output_thread = None
+            self.monitor_thread = None
+            self.condition.notify_all()
+        if previous is not None:
+            try:
+                if previous.stdin is not None:
+                    previous.stdin.close()
+            except OSError:
+                pass
+            try:
+                if previous.poll() is None:
+                    previous.terminate()
+            except OSError:
+                pass
+            try:
+                previous.wait(timeout=10)
+            except Exception:
+                try:
+                    previous.kill()
+                except Exception:
+                    pass
+        try:
+            self._launch_from_save(save_path)
+        except Exception:
+            return False
+        return True
+
+    def _launch_from_save(self, save_path: Path) -> None:
+        """Bring up a Freeciv server on an existing savegame.
+
+        A loaded save already carries its players, their human/AI assignment
+        and its ruleset, so none of the pregame construction commands are
+        replayed.  Only the settings this harness depends on are re-asserted.
+        """
+        commands = [
+            "set timeout 0",
+            "set first_timeout 0",
+            "set autotoggle disabled",
+            "set phasemode PLAYER",
+            "set fixedlength disabled",
+            "set turnblock disabled",
+            f"set endturn {self.config['turns']}",
+            "set saveturns 1",
+            "set autosaves turn|gameover",
+            "set savename turn-%04T-%R",
+        ]
+        command = [
+            str(self.supervisor.binary),
+            "--Announce", "none",
+            "--bind", "127.0.0.1",
+            "--port", str(self.freeciv_port),
+            "--exit-on-end",
+            "--file", str(save_path),
+            "--saves", str(self.episode / "saves"),
+            "--log", str(self.episode / "server.log"),
+        ]
+        process = self.supervisor.process_factory(
+            command,
+            cwd=self.episode,
+            env=self._process_environment(""),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            bufsize=0,
+        )
+        with self.condition:
+            self.process = process
+            self.server_exit_observed = False
+            self.condition.notify_all()
+        self.output_thread = threading.Thread(
+            target=self._pump_output,
+            name=f"freeciv-output-{self.game_id}",
+            daemon=True,
+        )
+        self.output_thread.start()
+        self._wait_for_prompt()
+        self._send_commands(commands)
+        # Appended, never rewritten: the journal has to show the original
+        # pregame construction and every command a recovery sent after it.
+        self._append_server_commands(
+            [f"# reload {save_path.name}", *commands],
+        )
+        self.monitor_thread = threading.Thread(
+            target=self._monitor, args=(process,),
+            name=f"freeciv-monitor-{self.game_id}",
+            daemon=True,
+        )
+        self.monitor_thread.start()
+
     def v2_get_page(
         self, agent_id: str, endpoint: str, raw_query: str,
     ) -> dict[str, Any]:
@@ -4705,8 +5321,15 @@ class Game:
             self._require_v2_context(
                 agent_id, place_number, generation, sidecar, control,
             )
+            self._note_v2_boundary_outcome(
+                self._v2_place_for_agent(agent_id), ok=True,
+            )
             return page
         except Exception as exc:
+            if self._v2_boundary_failure_is_unattributable(exc):
+                self._note_v2_boundary_outcome(
+                    self._v2_place_for_agent(agent_id), ok=False,
+                )
             self._raise_v2_get_error(exc)
             raise AssertionError("unreachable")
 
@@ -5421,6 +6044,8 @@ class Game:
                         timeout_observation,
                     )
                 except Exception as exc:
+                    if self._v2_boundary_failure_is_unattributable(exc):
+                        self._note_v2_boundary_outcome(place, ok=False)
                     self._raise_v2_pre_batch_error(exc)
                     raise AssertionError("unreachable")
                 if not self._v2_batch_context_current(
@@ -5500,10 +6125,13 @@ class Game:
                     )
                     phase_overview = phase_page["page"]["items"][0]
             except Exception as exc:
+                if self._v2_boundary_failure_is_unattributable(exc):
+                    self._note_v2_boundary_outcome(place, ok=False)
                 if build_timeout_batch:
                     self._raise_v2_pre_batch_error(exc)
                 self._raise_v2_not_accepted(exc, batch["batch_id"])
                 raise AssertionError("unreachable")
+            self._note_v2_boundary_outcome(place, ok=True)
             if not self._v2_batch_context_current(
                 agent_id, place, generation, sidecar, control, execution_lock,
             ):
@@ -5575,6 +6203,11 @@ class Game:
                 nonlocal trace_recorded
                 if trace_recorded:
                     return
+                if (
+                    stage == "post_result_observation"
+                    and reason == "observation_unavailable"
+                ):
+                    self._note_v2_ambiguous_observation(place)
                 self._record_v2_ambiguity(
                     agent_id=agent_id,
                     batch_id=batch_id,
@@ -5593,6 +6226,11 @@ class Game:
                 *,
                 acceptance_known: bool,
             ) -> tuple[int, dict[str, Any]]:
+                if (
+                    stage == "post_result_observation"
+                    and reason == "observation_unavailable"
+                ):
+                    self._note_v2_ambiguous_observation(place)
                 return self._v2_ambiguous(
                     store,
                     reservation,
@@ -5958,6 +6596,14 @@ class Game:
                 )
                 receipt_state = receipt["receipt_state"]
                 self._note_phase_end_receipt(phase_claim, receipt_state)
+                if receipt_state == "applied":
+                    applied_turn = result_revision.get("turn")
+                    if isinstance(applied_turn, int):
+                        with self.condition:
+                            self.v2_applied_turns[place] = max(
+                                self.v2_applied_turns.get(place, 0),
+                                applied_turn,
+                            )
                 if (
                     receipt_state == "applied"
                     and resolution.public_kind == "player.surrender"
@@ -6980,6 +7626,50 @@ class Game:
             self.state in TERMINAL_STATES or self.cancel_requested
             or self.server_exit_observed
         )
+        wedged = self.v2_wedged_places.get(place_number)
+        if not terminalized and wedged is not None:
+            # This has to precede the "nothing is blocking you" answer below:
+            # the ledger can still say the phase is this seat's while the
+            # boundary that would carry its actions is dead.
+            in_flight = self.v2_recovery_in_flight.get(place_number)
+            if in_flight is None:
+                summary = (
+                    "The native control boundary for this seat stopped "
+                    "answering and is being recovered; no request against it "
+                    "can succeed until it is republished on a new generation."
+                )
+            elif in_flight["kind"] == "autosave_rollback":
+                target = in_flight.get("target_turn")
+                summary = (
+                    "The native control boundary for this seat wedged. The "
+                    "game is being rolled back to the "
+                    + (
+                        f"turn {target} autosave"
+                        if isinstance(target, int) else "last readable autosave"
+                    )
+                    + " and this seat will return on sidecar generation "
+                    f"{self.sidecar_generations.get(place_number, 0) + 1}. "
+                    "Every action id and cursor cached against the previous "
+                    "generation is already expired."
+                )
+            else:
+                summary = (
+                    "The native control boundary for this seat wedged and is "
+                    "being re-attached on sidecar generation "
+                    f"{self.sidecar_generations.get(place_number, 0) + 1}. "
+                    "Every action id and cursor cached against the previous "
+                    "generation is already expired."
+                )
+            started = ledger.get("progress_started_monotonic")
+            return {
+                "kind": "boundary_recovery",
+                "summary": summary,
+                "seats": [],
+                "waiting_s": (
+                    round(max(0.0, time.monotonic() - started), 3)
+                    if started is not None else None
+                ),
+            }
         if not terminalized and state == "awaiting_agent" and (
             active_place == place_number
         ):

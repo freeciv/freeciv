@@ -4131,7 +4131,7 @@ class SupervisorTests(unittest.TestCase):
             "trade_route_count=0 trade_route_capacity=3 "
             "did_sell=0 allow_disband=0 new_citizens=default "
             "options_conflict=0 airlift_remaining=1 airlift_max=1 "
-            "governor_enabled=0 citizen_happy=0 citizen_content=2 "
+            "governor_enabled=0 citizen_happy=0 citizen_content=0 "
             "citizen_unhappy=0 citizen_angry=0 citizen_workers=0 "
             "citizen_specialists=2 food_stock=5 granary_size=20 "
             "growth_turns=5 pollution=0 food_citizen_base=2 food_net=5 "
