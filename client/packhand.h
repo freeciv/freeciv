@@ -32,6 +32,7 @@ struct packet_unit_action_answer;
 struct packet_unit_actions;
 struct packet_unit_combat_info;
 struct packet_worker_task;
+struct voteinfo;
 
 /* Read-only notification after a full PACKET_UNIT_INFO has been merged into
  * the client cache. Short unit packets deliberately do not reach this hook. */
@@ -77,6 +78,19 @@ typedef void (*packhand_investigation_observer_fn)(
 typedef void (*packhand_worker_task_observer_fn)(
   const struct packet_worker_task *packet, const struct city *pcity,
   int request_id, void *data);
+enum packhand_vote_stage {
+  PACKHAND_VOTE_NEW,
+  PACKHAND_VOTE_UPDATE,
+  PACKHAND_VOTE_RESOLVE,
+  PACKHAND_VOTE_REMOVE
+};
+
+/* Passive notification after a structured vote packet has been merged into
+ * the normal client's vote cache.  The pointed-to record is owned by the
+ * vote cache and is valid only for the duration of the callback. */
+typedef void (*packhand_vote_observer_fn)(
+  enum packhand_vote_stage stage, const struct voteinfo *vote,
+  int request_id, void *data);
 
 /* client */
 #include <packhand_gen.h>       /* <> so looked from the build directory first. */
@@ -107,6 +121,8 @@ void packhand_set_investigation_observer(
   packhand_investigation_observer_fn observer, void *data);
 void packhand_set_worker_task_observer(
   packhand_worker_task_observer_fn observer, void *data);
+void packhand_set_vote_observer(
+  packhand_vote_observer_fn observer, void *data);
 
 void play_sound_for_event(enum event_type type);
 void target_government_init(void);

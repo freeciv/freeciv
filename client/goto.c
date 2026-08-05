@@ -1097,12 +1097,14 @@ bool client_goto_pathfinder_destination(
 static struct client_unit_route_plan *
 client_unit_plan_from_path(struct unit *punit, struct pf_path *path,
                            const struct tile *target,
+                           enum unit_orders path_order,
                            struct unit_order *final_order)
 {
   struct client_unit_route_plan *plan;
 
   if (punit == nullptr || unit_tile(punit) == nullptr || path == nullptr
       || target == nullptr || path->length < 1
+      || (path_order != ORDER_MOVE && path_order != ORDER_ACTION_MOVE)
       || path->length - 1 + (final_order != nullptr ? 1 : 0)
          >= MAX_LEN_ROUTE) {
     return nullptr;
@@ -1114,7 +1116,7 @@ client_unit_plan_from_path(struct unit *punit, struct pf_path *path,
   plan->packet.repeat = FALSE;
   plan->packet.vigilant = FALSE;
   plan->info.route_signature = client_goto_path_signature(path);
-  make_path_orders(punit, path, ORDER_MOVE, final_order,
+  make_path_orders(punit, path, path_order, final_order,
                    plan->packet.orders, &plan->packet.length,
                    &plan->packet.dest_tile);
   if (plan->packet.length < 1 || plan->packet.length >= MAX_LEN_ROUTE
@@ -1134,10 +1136,10 @@ client_unit_plan_from_path(struct unit *punit, struct pf_path *path,
                             ? final_order->action : ACTION_NONE;
   plan->info.final_subtarget = final_order != nullptr
                                ? final_order->sub_target : NO_TARGET;
-  plan->info.action_move =
-    final_order == nullptr
-    && plan->packet.orders[plan->packet.length - 1].order
-       == ORDER_ACTION_MOVE;
+  plan->info.action_move = final_order == nullptr
+                           && plan->packet.orders[
+                                plan->packet.length - 1].order
+                              == ORDER_ACTION_MOVE;
   plan->info.repeat = FALSE;
   plan->info.vigilant = FALSE;
   return plan;
@@ -1168,7 +1170,43 @@ client_unit_goto_plan_new(struct unit *punit, struct tile *target)
   }
   path = pf_map_path(pfm, target);
   pf_map_destroy(pfm);
-  plan = client_unit_plan_from_path(punit, path, target, nullptr);
+  plan = client_unit_plan_from_path(punit, path, target, ORDER_MOVE, nullptr);
+  pf_path_destroy(path);
+  return plan;
+}
+
+/************************************************************************//**
+  Materialize the normal client's "attack everything along this path" route.
+
+  Every movement step is deliberately ORDER_ACTION_MOVE.  The server remains
+  authoritative and may stop the route to request an action decision, exactly
+  as it does for the interactive client command.
+****************************************************************************/
+struct client_unit_route_plan *
+client_unit_attack_plan_new(struct unit *punit, struct tile *target)
+{
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_path *path;
+  struct client_unit_route_plan *plan;
+
+  if (punit == nullptr || unit_tile(punit) == nullptr || target == nullptr
+      || target == unit_tile(punit)
+      || client_tile_get_known(target) == TILE_UNKNOWN) {
+    return nullptr;
+  }
+  goto_fill_parameter_base(&parameter, punit);
+  parameter.move_rate = 0;
+  parameter.is_pos_dangerous = nullptr;
+  parameter.get_moves_left_req = nullptr;
+  pfm = pf_map_new(&parameter);
+  if (pfm == nullptr) {
+    return nullptr;
+  }
+  path = pf_map_path(pfm, target);
+  pf_map_destroy(pfm);
+  plan = client_unit_plan_from_path(
+    punit, path, target, ORDER_ACTION_MOVE, nullptr);
   pf_path_destroy(path);
   return plan;
 }
@@ -1223,7 +1261,8 @@ client_unit_action_route_plan_new(struct unit *punit, struct tile *target,
   final_order.target = tile_index(target);
   final_order.sub_target = subtarget;
   final_order.action = action;
-  plan = client_unit_plan_from_path(punit, path, target, &final_order);
+  plan = client_unit_plan_from_path(
+    punit, path, target, ORDER_MOVE, &final_order);
   pf_path_destroy(path);
   return plan;
 }
@@ -1462,6 +1501,40 @@ const struct client_unit_route_plan_info *
 client_unit_route_plan_get_info(const struct client_unit_route_plan *plan)
 {
   return plan != nullptr ? &plan->info : nullptr;
+}
+
+/************************************************************************//**
+  Whether TARGET is one of the exact action-move destinations frozen in PLAN.
+  This is private correlation evidence for a server action-decision pause; it
+  deliberately exposes neither native directions nor the order list.
+****************************************************************************/
+bool client_unit_route_plan_contains_action_move_target(
+  const struct client_unit_route_plan *plan, const struct tile *target)
+{
+  struct tile *position;
+  int i;
+
+  if (plan == nullptr || target == nullptr
+      || (position = index_to_tile(&wld.map, plan->packet.src_tile))
+         == nullptr) {
+    return FALSE;
+  }
+  for (i = 0; i < plan->packet.length; i++) {
+    const struct unit_order *order = &plan->packet.orders[i];
+
+    if (order->order != ORDER_MOVE
+        && order->order != ORDER_ACTION_MOVE) {
+      continue;
+    }
+    position = mapstep(&wld.map, position, order->dir);
+    if (position == nullptr) {
+      return FALSE;
+    }
+    if (order->order == ORDER_ACTION_MOVE && position == target) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
 
 /************************************************************************//**
@@ -2335,25 +2408,15 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile, bool persistent)
 ****************************************************************************/
 bool send_attack_tile(struct unit *punit, struct tile *ptile)
 {
-  struct pf_parameter parameter;
-  struct pf_map *pfm;
-  struct pf_path *path;
+  struct client_unit_route_plan *plan =
+    client_unit_attack_plan_new(punit, ptile);
 
-  goto_fill_parameter_base(&parameter, punit);
-  parameter.move_rate = 0;
-  parameter.is_pos_dangerous = nullptr;
-  parameter.get_moves_left_req = nullptr;
-  pfm = pf_map_new(&parameter);
-  path = pf_map_path(pfm, ptile);
-  pf_map_destroy(pfm);
-
-  if (path != nullptr) {
-   send_path_orders(punit, path, FALSE, FALSE, ORDER_ACTION_MOVE, nullptr);
-   pf_path_destroy(path);
-   return TRUE;
+  if (plan == nullptr) {
+    return FALSE;
   }
-
-  return FALSE;
+  (void) client_unit_route_plan_send(plan);
+  client_unit_route_plan_destroy(plan);
+  return TRUE;
 }
 
 /************************************************************************//**

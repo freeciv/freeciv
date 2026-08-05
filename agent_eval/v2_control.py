@@ -27,6 +27,7 @@ from .full_control_v2 import (
     FULL_CONTROL_SCHEMA_VERSION,
     FULL_CONTROL_V2,
     FullControlSchemaError,
+    assert_projected_action_contract,
     validate_legal_action_descriptor,
     validate_state_revision,
 )
@@ -59,8 +60,11 @@ MAX_RELATION_OVERLAY_BYTES = 64 * 1024 * 1024
 MAX_BUNDLED_ROWS = MAX_NATIVE_ROWS + 3 * MAX_NATIVE_STATE_SCOPE_ROWS
 MAX_GOVERNMENTS = 127
 MAX_MULTIPLIERS = 50
+MAX_MULTIPLIER_CHOICES = 1 << 32
 MAX_CITY_BUILD_CHOICES = 1024
 MAX_CITY_WORKLIST = 64
+MAX_CITY_TRADE_ROUTES = 20
+MAX_GOODS_TYPES = 25
 MAX_RALLY_ORDERS = 2000
 MAX_UNIT_ROUTE_WAYPOINTS = 64
 MAX_INFRASTRUCTURE_CHOICES = 250
@@ -70,6 +74,7 @@ INVESTIGATION_FEELING_STAGES = (
     "base", "luxury", "effects", "nationality", "martial_law", "final",
 )
 MAX_VOTES = 256
+MAX_VOTE_HISTORY = 64
 
 _PRIVATE_FRAME_CONTRACTS: Mapping[str, str] = MappingProxyType({
     "SCOPE_OPEN": "SCOPE_OPEN request expected_revision actor_ref",
@@ -188,8 +193,9 @@ _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
     ),
     "pregame_team_member": ("team", "player", "leader"),
     "vote": (
-        "vote_no", "description", "yes", "no", "abstain", "num_voters",
-        "percent_required", "team_only", "current_vote", "can_vote",
+        "vote_no", "caller", "description", "yes", "no", "abstain",
+        "num_voters", "percent_required", "team_only", "current_vote",
+        "can_vote", "status", "outcome_turn", "outcome_phase",
     ),
     "player": (
         "ref", "name", "nation", "government", "gold", "tax",
@@ -271,8 +277,9 @@ _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
         "trade", "production_kind", "production_id", "production_name",
         "shield_stock", "shield_cost", "buy_cost", "can_buy", "can_change",
         "citizen_tile_count", "specialist_type_count", "worklist_length",
-        "build_choice_count", "improvement_count", "did_sell",
-        "allow_disband", "new_citizens", "options_conflict",
+        "build_choice_count", "improvement_count", "trade_route_count",
+        "trade_route_capacity", "did_sell", "allow_disband",
+        "new_citizens", "options_conflict",
         "airlift_remaining", "airlift_max", "governor_enabled",
         "citizen_happy", "citizen_content", "citizen_unhappy",
         "citizen_angry", "citizen_workers", "citizen_specialists",
@@ -309,10 +316,25 @@ _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
     ),
     "city_build_choice": (
         "city", "production_kind", "production_id", "production_name",
-        "can_queue", "can_build_now",
+        "can_queue", "can_build_now", "shield_cost",
+        "shield_stock_after_change", "turns", "turns_with_stock",
+        "upkeep_food", "upkeep_shield", "upkeep_trade", "upkeep_gold",
+        "upkeep_luxury", "upkeep_science", "happy_cost", "unit_attack",
+        "unit_defense", "unit_move_rate", "unit_hp", "unit_firepower",
+        "unit_vision_radius_sq", "unit_transport_capacity", "unit_fuel",
+        "unit_pop_cost", "unit_bombard_rate", "unit_city_size",
+        "unit_paradrop_range", "building_genus", "building_obsolete",
+        "building_redundant", "building_convert", "building_allows_units",
+        "building_allows_extras", "building_prevents_disaster",
+        "building_protects_vs_actions", "building_allows_actions",
     ),
     "city_improvement": (
         "city", "improvement_id", "name", "sellable", "sell_price",
+    ),
+    "city_trade_route": (
+        "city", "position", "partner", "partner_visibility",
+        "partner_name", "base_value", "effective_value", "direction",
+        "goods_id", "goods_name",
     ),
     "investigation": (
         "city", "lifecycle", "tile", "name", "size", "production_kind",
@@ -350,7 +372,12 @@ _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
         "transport_capacity", "occupied", "paradropped", "paradrop_range",
         "controller", "has_orders", "orders_repeat", "orders_vigilant",
         "order_count", "orders_digest", "orders_destination",
+        "action_decision_want", "action_decision_tile",
     ),
+    "unit_route": (
+        "unit", "order_index", "reconstructable", "step_count",
+    ),
+    "unit_route_step": ("unit", "sequence", "kind", "tile"),
     "unit_visible": (
         "ref", "scope", "owner", "type_id", "type", "tile", "x", "y",
         "hp", "veteran", "veteran_name", "veteran_levels",
@@ -364,6 +391,9 @@ _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
         "sequence", "turn", "phase", "sender", "sender_name", "self",
         "channel", "event", "truncated", "message",
     ),
+    "chat_recipient": (
+        "ref", "name", "self", "connected", "can_message",
+    ),
     "action": (
         "slot", "kind", "actor", "counterpart", "meeting_generation",
         "clauses_digest", "self_accepted", "other_accepted",
@@ -372,13 +402,17 @@ _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
         "desired_acceptance", "target_tile", "source_city",
         "destination_city", "target_unit",
         "transport_context", "target_tech",
-        "vote_no", "target_government", "max_rate", "route_waypoint_limit",
+        "vote_no", "server_setting_id", "server_setting_type",
+        "server_setting_min", "server_setting_max", "server_setting_current",
+        "server_setting_value",
+        "target_government", "max_rate", "route_waypoint_limit",
         "infrastructure_cost", "infrastructure_turns",
         "infrastructure_choice_count", "infrastructure_choices",
         "target_build_kind", "target_build", "spaceship_part",
         "spaceship_value", "target_multiplier", "multiplier_value",
         "source_specialist",
-        "target_specialist", "target_extra", "activity",
+        "target_specialist", "target_extra", "subtarget_kind",
+        "subresults", "activity",
         "target_name", "native_rule",
         "target_kind", "result", "actor_consuming_always", "legality",
         "probability_kind", "probability_min", "probability_max",
@@ -407,9 +441,9 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
         "pregame_team_member team=%d player=%s leader=%s"
     ),
     "vote": (
-        "vote vote_no=%d description=%s yes=%d no=%d abstain=%d "
+        "vote vote_no=%d caller=%s description=%s yes=%d no=%d abstain=%d "
         "num_voters=%d percent_required=%d team_only=%d current_vote=%s "
-        "can_vote=%d"
+        "can_vote=%d status=%s outcome_turn=%d outcome_phase=%d"
     ),
     "player": (
         "player ref=%s name=%s nation=%s government=%s gold=%d tax=%d "
@@ -429,7 +463,7 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
     "multiplier": (
         "multiplier id=%d name=%s value=%d target=%d start=%d stop=%d "
         "step=%d minimum_turns=%d changed_turn=%d can_change=%d "
-        "choice_count=%d"
+        "choice_count=%llu"
     ),
     "spaceship": (
         "spaceship state=%s structurals=%d structurals_placed=%d "
@@ -503,7 +537,8 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
         "production_name=%s shield_stock=%d shield_cost=%d buy_cost=%d "
         "can_buy=%d can_change=%d citizen_tile_count=%d "
         "specialist_type_count=%d worklist_length=%d build_choice_count=%d "
-        "improvement_count=%d did_sell=%d allow_disband=%d "
+        "improvement_count=%d trade_route_count=%d "
+        "trade_route_capacity=%u did_sell=%d allow_disband=%d "
         "new_citizens=%s options_conflict=%d airlift_remaining=%d "
         "airlift_max=%d governor_enabled=%d citizen_happy=%d "
         "citizen_content=%d citizen_unhappy=%d citizen_angry=%d "
@@ -545,11 +580,27 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
     ),
     "city_build_choice": (
         "city_build_choice city=%s production_kind=%s production_id=%d "
-        "production_name=%s can_queue=%d can_build_now=%d"
+        "production_name=%s can_queue=%d can_build_now=%d shield_cost=%d "
+        "shield_stock_after_change=%d turns=%d turns_with_stock=%d "
+        "upkeep_food=%d upkeep_shield=%d upkeep_trade=%d upkeep_gold=%d "
+        "upkeep_luxury=%d upkeep_science=%d happy_cost=%d unit_attack=%d "
+        "unit_defense=%d unit_move_rate=%d unit_hp=%d unit_firepower=%d "
+        "unit_vision_radius_sq=%d unit_transport_capacity=%d unit_fuel=%d "
+        "unit_pop_cost=%d unit_bombard_rate=%d unit_city_size=%d "
+        "unit_paradrop_range=%d building_genus=%s building_obsolete=%d "
+        "building_redundant=%d building_convert=%d "
+        "building_allows_units=%d building_allows_extras=%d "
+        "building_prevents_disaster=%d building_protects_vs_actions=%d "
+        "building_allows_actions=%d"
     ),
     "city_improvement": (
         "city_improvement city=%s improvement_id=%d name=%s sellable=%d "
         "sell_price=%d"
+    ),
+    "city_trade_route": (
+        "city_trade_route city=%s position=%d partner=%s "
+        "partner_visibility=%s partner_name=%s base_value=%d "
+        "effective_value=%d direction=%s goods_id=%d goods_name=%s"
     ),
     "investigation": (
         "investigation city=%s lifecycle=%llu tile=%d name=%s size=%d "
@@ -592,7 +643,14 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
         "activity_progress=%d transport_state=%s transporter=%s "
         "transport_capacity=%d occupied=%d paradropped=%d paradrop_range=%d "
         "controller=%s has_orders=%d orders_repeat=%d orders_vigilant=%d "
-        "order_count=%d orders_digest=%s orders_destination=%d"
+        "order_count=%d orders_digest=%s orders_destination=%d "
+        "action_decision_want=%s action_decision_tile=%d"
+    ),
+    "unit_route": (
+        "unit_route unit=%s order_index=%d reconstructable=%d step_count=%d"
+    ),
+    "unit_route_step": (
+        "unit_route_step unit=%s sequence=%d kind=%s tile=%d"
     ),
     "unit_visible": (
         "unit ref=%s scope=visible owner=%s type_id=%d type=%s tile=%d "
@@ -607,6 +665,9 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
         "chat sequence=%llu turn=%d phase=%d sender=%s sender_name=%s "
         "self=%d channel=%s event=%s truncated=%d message=%s"
     ),
+    "chat_recipient": (
+        "chat_recipient ref=%s name=%s self=%d connected=%d can_message=%d"
+    ),
     "action": (
         "action slot=%s kind=%s actor=%s counterpart=%s "
         "meeting_generation=%llu clauses_digest=%s self_accepted=%d "
@@ -616,14 +677,19 @@ _ROW_FORMAT_CONTRACTS: Mapping[str, str] = MappingProxyType({
         "desired_acceptance=%d target_tile=%d source_city=%s "
         "destination_city=%s target_unit=%s "
         "transport_context=%s target_tech=%d "
-        "vote_no=%d target_government=%d max_rate=%d route_waypoint_limit=%d "
+        "vote_no=%d server_setting_id=%d server_setting_type=%s "
+        "server_setting_min=%d server_setting_max=%d "
+        "server_setting_current=%d server_setting_value=%d "
+        "target_government=%d max_rate=%d "
+        "route_waypoint_limit=%d "
         "infrastructure_cost=%d infrastructure_turns=%d "
         "infrastructure_choice_count=%d infrastructure_choices=%s "
         "target_build_kind=%s "
         "target_build=%d spaceship_part=%s spaceship_value=%d "
         "target_multiplier=%d multiplier_value=%d "
         "source_specialist=%d target_specialist=%d "
-        "target_extra=%d activity=%s target_name=%s "
+        "target_extra=%d subtarget_kind=%s subresults=%s activity=%s "
+        "target_name=%s "
         "native_rule=%s target_kind=%s result=%s actor_consuming_always=%d "
         "legality=%s probability_kind=%s probability_min=%d "
         "probability_max=%d gold_cost=%d args=%s"
@@ -637,21 +703,26 @@ _STATE_SECTIONS = frozenset({
     "multipliers", "spaceship", "infrastructure",
     "tombstones", "city_detail", "city_citizens",
     "city_build_choices", "city_worklist", "city_improvements",
-    "tile_window", "city_governor", "city_worker_tasks",
+    "city_trade_routes", "tile_window", "city_governor",
+    "city_worker_tasks",
     "pregame_nations", "pregame_styles", "pregame_teams", "chat",
+    "chat_recipients", "unit_route",
 })
 _CITY_STATE_SECTIONS = frozenset({
     "city_detail", "city_citizens", "city_build_choices", "city_worklist",
-    "city_improvements", "city_governor", "city_worker_tasks",
+    "city_improvements", "city_trade_routes", "city_governor",
+    "city_worker_tasks",
 })
 _NATIVE_STATE_SCOPE_SECTIONS = frozenset({
     "known_tiles", "map_tiles", "tile_window", "cities", "units", "city_sites",
     "diplomacy_clauses", "city_citizens",
     "city_build_choices", "city_worklist", "city_improvements",
-    "city_governor", "target_tiles",
+    "city_trade_routes", "city_governor", "target_tiles", "unit_route",
     "pregame_nations", "pregame_styles",
-    "pregame_teams", "investigation",
+    "pregame_teams", "chat_recipients", "investigation",
+    "action_decision_tile",
 })
+_UNIT_ROUTE_STEP_KINDS = frozenset({"move", "action_move", "wait"})
 _MAP_TOPOLOGIES = frozenset({
     "square", "isometric_square", "hex", "isometric_hex",
 })
@@ -662,6 +733,7 @@ _CLIENT_STATES = frozenset({
 _PHASE_MODES = frozenset({
     "concurrent", "players_alternate", "teams_alternate",
 })
+_VOTE_STATUSES = frozenset({"active", "passed", "failed", "removed"})
 _DIPLOMACY_STATES = frozenset({
     "Armistice", "War", "Cease-fire", "Peace", "Alliance", "Never met",
     "Team",
@@ -685,6 +757,19 @@ _PLAYER_CONTROLLERS = frozenset({"human", "ai"})
 _LEGALITY = frozenset({"legal", "possibly_legal", "unresolved"})
 _PROBABILITY_KINDS = frozenset({
     "exact", "range", "unknown", "not_implemented",
+})
+_ACTION_SUBTARGET_KINDS = frozenset({
+    "none", "building", "technology", "extra", "extra_not_there",
+    "specialist",
+})
+_ACTION_SUBRESULTS = (
+    "hut_enter", "hut_frighten", "may_embark", "non_lethal",
+)
+_ACTION_SUBRESULT_EFFECTS: Mapping[str, str] = MappingProxyType({
+    "hut_enter": "enter_huts",
+    "hut_frighten": "frighten_huts",
+    "may_embark": "may_embark",
+    "non_lethal": "non_lethal_to_target_units",
 })
 _BUILD_KINDS = frozenset({"none", "unit", "improvement"})
 _TRANSPORT_STATES = frozenset({"untransported", "transported", "unresolved"})
@@ -720,12 +805,46 @@ _SPACESHIP_PARTS = frozenset({
     "none", "structural", "fuel", "propulsion", "habitation",
     "life_support", "solar_panels",
 })
+_SERVER_SETTING_TYPES = frozenset({
+    "none", "boolean", "integer", "string", "enum", "bitwise",
+})
 _NEW_CITIZENS = frozenset({"default", "science", "gold"})
 _CITY_SITE_VISIBILITIES = frozenset({"own", "visible", "known"})
+_TRADE_ROUTE_PARTNER_VISIBILITIES = frozenset({
+    "own", "visible", "unavailable",
+})
+_TRADE_ROUTE_DIRECTIONS = frozenset({
+    "from", "to", "bidirectional",
+})
 _CHAT_SENDERS = frozenset({
     "player", "observer", "connection", "server", "unknown",
 })
 _CHAT_CHANNELS = frozenset({"global", "allied", "private", "chat", "event"})
+_CHAT_SEND_CHANNELS = ("global", "allied", "private")
+_CHAT_FORBIDDEN_CODEPOINT_RANGES = (
+    (0x0000, 0x001F), (0x007F, 0x009F), (0x00AD, 0x00AD),
+    (0x0600, 0x0605), (0x061C, 0x061C), (0x06DD, 0x06DD),
+    (0x070F, 0x070F), (0x0890, 0x0891), (0x08E2, 0x08E2),
+    (0x180E, 0x180E), (0x200B, 0x200F), (0x202A, 0x202E),
+    (0x2060, 0x2064), (0x2066, 0x206F), (0xFEFF, 0xFEFF),
+    (0xFFF9, 0xFFFB), (0x110BD, 0x110BD), (0x110CD, 0x110CD),
+    (0x13430, 0x1343F), (0x1BCA0, 0x1BCA3),
+    (0x1D173, 0x1D17A), (0xE0001, 0xE0001),
+    (0xE0020, 0xE007F),
+)
+
+
+def _chat_message_safe(message: str, encoded: bytes) -> bool:
+    return (
+        1 <= len(encoded) <= MAX_CHAT_MESSAGE_BYTES
+        and not encoded.startswith(b" ")
+        and not encoded.endswith(b" ")
+        and not any(
+            lower <= ord(character) <= upper
+            for character in message
+            for lower, upper in _CHAT_FORBIDDEN_CODEPOINT_RANGES
+        )
+    )
 _DIPLOMACY_CLAUSE_TYPES = frozenset({
     "Advance", "Gold", "Map", "Seamap", "City", "Ceasefire", "Peace",
     "Alliance", "Vision", "Embassy", "SharedTiles",
@@ -802,6 +921,42 @@ _ACTION_RULES: Mapping[str, _NativeActionRule] = MappingProxyType({
         "player.cast_vote", "player.cast_vote", "cast_vote", "standard",
         "Vote", "Vote Recorded", False, "vote-required",
     ),
+    "player.cancel_vote": _NativeActionRule(
+        "player.cancel_vote", "player.cancel_vote", "cancel_vote", "standard",
+        "Vote", "Vote Cancelled", False, "none",
+    ),
+    "player.propose_server_setting_boolean": _NativeActionRule(
+        "player.propose_server_setting", "player.propose_server_setting",
+        "propose_server_setting", "boolean", "Server Setting Vote",
+        "Vote Proposed Or Setting Applied", False, "none",
+    ),
+    "player.propose_server_setting_integer": _NativeActionRule(
+        "player.propose_server_setting", "player.propose_server_setting",
+        "propose_server_setting", "integer", "Server Setting Vote",
+        "Vote Proposed Or Setting Applied", False,
+        "server-setting-integer-required",
+    ),
+    "player.propose_server_setting_string": _NativeActionRule(
+        "player.propose_server_setting", "player.propose_server_setting",
+        "propose_server_setting", "string", "Server Setting Vote",
+        "Vote Proposed Or Setting Applied", False,
+        "server-setting-string-required",
+    ),
+    "player.propose_server_setting_enum": _NativeActionRule(
+        "player.propose_server_setting", "player.propose_server_setting",
+        "propose_server_setting", "enum", "Server Setting Vote",
+        "Vote Proposed Or Setting Applied", False, "none",
+    ),
+    "player.propose_server_setting_bitwise": _NativeActionRule(
+        "player.propose_server_setting", "player.propose_server_setting",
+        "propose_server_setting", "bitwise", "Server Setting Vote",
+        "Vote Proposed Or Setting Applied", False,
+        "server-setting-bitwise-required",
+    ),
+    "player.surrender": _NativeActionRule(
+        "player.surrender", "player.surrender", "surrender", "standard",
+        "Player", "Surrender Recorded", False, "none",
+    ),
     "phase.end": _NativeActionRule(
         "phase.end", "phase.end", "end", "standard", "player",
         "phase_end", False, "none",
@@ -833,7 +988,7 @@ _ACTION_RULES: Mapping[str, _NativeActionRule] = MappingProxyType({
     "player.set_multiplier": _NativeActionRule(
         "player.set_multiplier", "player.set_multiplier", "set_multiplier",
         "standard", "Multiplier", "Multiplier Target Changed", False,
-        "none",
+        "multiplier-value-required",
     ),
     "spaceship.place_component": _NativeActionRule(
         "spaceship.place_component", "spaceship.place_component",
@@ -987,6 +1142,11 @@ _ACTION_RULES: Mapping[str, _NativeActionRule] = MappingProxyType({
         "unit.cancel_orders", "unit.order", "cancel_orders", "opaque",
         "Unit", "Orders Cancelled", False, "none",
     ),
+    "unit.clear_action_decision": _NativeActionRule(
+        "unit.clear_action_decision", "unit.order",
+        "clear_action_decision", "opaque", "Action Decision",
+        "Action Decision Cleared", False, "none",
+    ),
     "unit.goto": _NativeActionRule(
         "unit.goto", "unit.order", "goto", "opaque", "Tile",
         "Orders Queued", False, "none",
@@ -1002,6 +1162,10 @@ _ACTION_RULES: Mapping[str, _NativeActionRule] = MappingProxyType({
     "unit.set_route": _NativeActionRule(
         "unit.set_route", "unit.order", "set_route", "opaque", "Route",
         "Orders Queued", False, "route-required",
+    ),
+    "unit.attack_route": _NativeActionRule(
+        "unit.attack_route", "unit.order", "attack_route", "opaque",
+        "Attack Route", "Orders Queued", False, "attack-route-required",
     ),
     "player.place_infrastructure": _NativeActionRule(
         "player.place_infrastructure", "player.set_infrastructure",
@@ -1191,22 +1355,74 @@ _ACTION_RULES: Mapping[str, _NativeActionRule] = MappingProxyType({
     ),
 })
 
+_PROJECTED_PUBLIC_ACTION_KINDS = frozenset(
+    rule.public_kind for rule in _ACTION_RULES.values()
+)
+_PROJECTED_NATIVE_ACTION_KINDS = frozenset(
+    rule.native_kind for rule in _ACTION_RULES.values()
+)
+assert_projected_action_contract(
+    _PROJECTED_PUBLIC_ACTION_KINDS, _PROJECTED_NATIVE_ACTION_KINDS,
+)
+
 
 @dataclass(frozen=True)
 class _SpecialActionRule:
     operation: str
     target_kind: str
     label: str
-    native_subresults: str = "none"
+    native_subtarget: str = "none"
+    allowed_subresult_sets: tuple[tuple[str, ...], ...] = ((),)
     probability_policy: str = "resolved"
     native_rules: tuple[str, ...] = ()
     gold_cost_policy: str = "none"
 
 
-# This is deliberately a small semantic allowlist.  Native target discovery
-# may report more Freeciv actions, but actions requiring a quoted cost,
-# selectable subtarget, or special result stay fail-closed until their full
-# server-authoritative contract is represented here.
+# Freeciv has four fixed ruleset-defined user-action slots.  Their native
+# result is intentionally empty: a ruleset supplies the effects and the normal
+# server remains authoritative.  Project them through one generic semantic
+# operation while keeping the concrete slot and target binding private.
+_RULESET_CUSTOM_ACTION_RESULT = "Ruleset Custom"
+_RULESET_CUSTOM_ACTION_RULES = frozenset({
+    "User Action 1", "User Action 2", "User Action 3", "User Action 4",
+})
+_RULESET_CUSTOM_TARGET_KINDS = frozenset({
+    "City", "Unit", "Stack", "Tile", "Extras", "Self",
+})
+
+# These sub-results are fixed metadata on otherwise ordinary native actions.
+# They are not caller-controlled arguments; the opaque action slot selects the
+# complete semantic.  Paradrop's may-embark bit is ruleset-dependent.
+_NON_SPECIAL_ACTION_SUBRESULT_SETS: Mapping[
+    str, tuple[tuple[str, ...], ...]
+] = MappingProxyType({
+    "Paradrop Unit": ((), ("may_embark",)),
+    "Paradrop Unit Frighten": (
+        ("hut_frighten",), ("hut_frighten", "may_embark"),
+    ),
+    "Paradrop Unit Enter": (
+        ("hut_enter",), ("hut_enter", "may_embark"),
+    ),
+    "Teleport Frighten": (("hut_frighten",),),
+    "Teleport Enter": (("hut_enter",),),
+})
+
+
+def _non_special_action_metadata_supported(
+    action: Mapping[str, Any],
+) -> bool:
+    return (
+        action["subtarget_kind"] == "none"
+        and action["subresults"] in _NON_SPECIAL_ACTION_SUBRESULT_SETS.get(
+            action["native_rule"], ((),),
+        )
+    )
+
+
+# This is a semantic allowlist for hard-coded action results plus the generic
+# closed custom-action family above. Native target discovery may report more
+# Freeciv actions, but quoted costs, selectable subtargets, and special results
+# stay fail-closed until their full server-authoritative contract is modeled.
 _SPECIAL_ACTION_RESULTS: Mapping[
     tuple[str, str], _SpecialActionRule
 ] = MappingProxyType({
@@ -1246,7 +1462,7 @@ _SPECIAL_ACTION_RESULTS: Mapping[
     ("Unit Targeted Sabotage City", "City"): _SpecialActionRule(
         "sabotage_building", "City",
         "Sabotage selected city improvement",
-        native_subresults="building",
+        native_subtarget="building",
         probability_policy="unresolved",
         native_rules=(
             "Targeted Sabotage City",
@@ -1265,9 +1481,12 @@ _SPECIAL_ACTION_RESULTS: Mapping[
     ),
     ("Unit Targeted Steal Tech", "City"): _SpecialActionRule(
         "steal_technology", "City", "Steal selected technology",
-        native_subresults="technology",
-        probability_policy="unresolved",
-        native_rules=("Targeted Steal Tech Escape Expected",),
+        native_subtarget="technology",
+        probability_policy="native",
+        native_rules=(
+            "Targeted Steal Tech",
+            "Targeted Steal Tech Escape Expected",
+        ),
     ),
     ("Unit Sabotage Unit", "Unit"): _SpecialActionRule(
         "sabotage_unit", "Unit", "Sabotage unit",
@@ -1280,6 +1499,7 @@ _SPECIAL_ACTION_RESULTS: Mapping[
     ),
     ("Unit Bombard", "Stack"): _SpecialActionRule(
         "bombard", "Stack", "Bombard target stack",
+        allowed_subresult_sets=(("non_lethal",),),
     ),
     ("Unit Suitcase Nuke", "City"): _SpecialActionRule(
         "suitcase_nuke", "City", "Detonate suitcase nuclear device",
@@ -1302,6 +1522,11 @@ _SPECIAL_ACTION_RESULTS: Mapping[
     ("Unit Surgical Strike Production", "City"): _SpecialActionRule(
         "strike_production", "City", "Strike city production",
     ),
+    ("Unit Surgical Strike Building", "City"): _SpecialActionRule(
+        "strike_building", "City", "Strike selected city improvement",
+        native_subtarget="building",
+        native_rules=("Surgical Strike Building",),
+    ),
     ("Unit Conquer City", "City"): _SpecialActionRule(
         "conquer_city", "City", "Conquer city",
     ),
@@ -1319,7 +1544,16 @@ _SPECIAL_ACTION_RESULTS: Mapping[
     ),
     ("Unit Paradrop Conquer", "Tile"): _SpecialActionRule(
         "paradrop_conquer", "Tile", "Paradrop and conquer tile",
-        "hut_enter", "unresolved", ("Paradrop Unit Enter Conquer",),
+        allowed_subresult_sets=(
+            (), ("may_embark",),
+            ("hut_enter",), ("hut_enter", "may_embark"),
+            ("hut_frighten",), ("hut_frighten", "may_embark"),
+        ),
+        probability_policy="unresolved",
+        native_rules=(
+            "Paradrop Unit Conquer", "Paradrop Unit Frighten Conquer",
+            "Paradrop Unit Enter Conquer",
+        ),
     ),
     ("Wipe Units", "Stack"): _SpecialActionRule(
         "wipe_units", "Stack", "Wipe unit stack",
@@ -1329,21 +1563,56 @@ _SPECIAL_ACTION_RESULTS: Mapping[
     ),
     ("Teleport Conquer", "Tile"): _SpecialActionRule(
         "teleport_conquer", "Tile", "Teleport and conquer tile",
+        allowed_subresult_sets=(
+            (), ("hut_enter",), ("hut_frighten",),
+        ),
     ),
     ("Unit Conquer Extras", "Extras"): _SpecialActionRule(
         "conquer_extras", "Extras", "Conquer tile extras",
     ),
     ("Unit Enter Hut", "Tile"): _SpecialActionRule(
         "enter_hut", "Tile", "Enter hut",
-        "hut_enter", "unresolved",
-        ("Enter Hut", "Enter Hut 2"),
+        allowed_subresult_sets=(("hut_enter",),),
+        probability_policy="unresolved",
+        native_rules=(
+            "Enter Hut", "Enter Hut 2", "Enter Hut 3", "Enter Hut 4",
+        ),
     ),
     ("Unit Frighten Hut", "Tile"): _SpecialActionRule(
         "frighten_hut", "Tile", "Frighten hut",
-        "hut_frighten", "unresolved",
-        ("Frighten Hut", "Frighten Hut 2"),
+        allowed_subresult_sets=(("hut_frighten",),),
+        probability_policy="unresolved",
+        native_rules=(
+            "Frighten Hut", "Frighten Hut 2", "Frighten Hut 3",
+            "Frighten Hut 4",
+        ),
     ),
 })
+
+
+def _special_action_rule(
+    action: Mapping[str, Any],
+) -> _SpecialActionRule | None:
+    rule = _SPECIAL_ACTION_RESULTS.get((
+        action["result"], action["target_kind"],
+    ))
+    if rule is not None:
+        return rule
+    if (
+        action["result"] == _RULESET_CUSTOM_ACTION_RESULT
+        and action["native_rule"] in _RULESET_CUSTOM_ACTION_RULES
+        and action["target_kind"] in _RULESET_CUSTOM_TARGET_KINDS
+        and action["subtarget_kind"] == "none"
+        and action["subresults"] == ()
+    ):
+        return _SpecialActionRule(
+            "ruleset_action", action["target_kind"],
+            action["target_name"],
+            native_rules=tuple(
+                sorted(_RULESET_CUSTOM_ACTION_RULES)
+            ),
+        )
+    return None
 
 
 def _derive_native_schema_id() -> str:
@@ -1376,8 +1645,8 @@ def _derive_native_schema_id() -> str:
                 "target_kind": target_kind,
                 "operation": rule.operation,
                 "cost": rule.gold_cost_policy,
-                "subtarget": "none",
-                "subresults": rule.native_subresults,
+                "subtarget": rule.native_subtarget,
+                "subresult_sets": rule.allowed_subresult_sets,
                 "probability_policy": rule.probability_policy,
                 "native_rules": rule.native_rules,
             }
@@ -1385,10 +1654,31 @@ def _derive_native_schema_id() -> str:
                 _SPECIAL_ACTION_RESULTS.items()
             )
         ],
+        "generic_special_action_contract": {
+            "native_result": _RULESET_CUSTOM_ACTION_RESULT,
+            "native_rules": sorted(_RULESET_CUSTOM_ACTION_RULES),
+            "target_kinds": sorted(_RULESET_CUSTOM_TARGET_KINDS),
+            "operation": "ruleset_action",
+            "cost": "none",
+            "subtarget": "none",
+            "subresult_sets": [[]],
+            "probability_policy": "resolved",
+            "label": "native_ui_name",
+        },
+        "non_special_subresults": [
+            [name, result_sets]
+            for name, result_sets in sorted(
+                _NON_SPECIAL_ACTION_SUBRESULT_SETS.items()
+            )
+        ],
         "value_domains": {
+            "action_subtarget_kinds": sorted(_ACTION_SUBTARGET_KINDS),
+            "action_subresults": list(_ACTION_SUBRESULTS),
+            "action_subresult_effects": dict(_ACTION_SUBRESULT_EFFECTS),
             "map_topologies": sorted(_MAP_TOPOLOGIES),
             "client_states": sorted(_CLIENT_STATES),
             "phase_modes": sorted(_PHASE_MODES),
+            "vote_statuses": sorted(_VOTE_STATUSES),
             "diplomacy_states": sorted(_DIPLOMACY_STATES),
             "diplomacy_cancel_reasons": sorted(
                 _DIPLOMACY_CANCEL_REASONS
@@ -1417,8 +1707,16 @@ def _derive_native_schema_id() -> str:
             "spaceship_parts": sorted(_SPACESHIP_PARTS),
             "new_citizens": sorted(_NEW_CITIZENS),
             "city_site_visibilities": sorted(_CITY_SITE_VISIBILITIES),
+            "trade_route_partner_visibilities": sorted(
+                _TRADE_ROUTE_PARTNER_VISIBILITIES
+            ),
+            "trade_route_directions": sorted(_TRADE_ROUTE_DIRECTIONS),
+            "chat_senders": sorted(_CHAT_SENDERS),
+            "chat_channels": sorted(_CHAT_CHANNELS),
+            "chat_send_channels": list(_CHAT_SEND_CHANNELS),
             "extra_cause_tags_by_bit": list(_EXTRA_CAUSE_TAGS),
             "unit_scopes": ["own", "visible"],
+            "unit_route_step_kinds": sorted(_UNIT_ROUTE_STEP_KINDS),
             "tile_known": [0, 1, 2],
             "tombstone_kinds": ["player", "city", "unit"],
             "booleans": [0, 1],
@@ -1454,8 +1752,11 @@ def _derive_native_schema_id() -> str:
             ),
             "max_governments": MAX_GOVERNMENTS,
             "max_multipliers": MAX_MULTIPLIERS,
+            "max_multiplier_choices": MAX_MULTIPLIER_CHOICES,
             "max_city_build_choices": MAX_CITY_BUILD_CHOICES,
             "max_city_worklist": MAX_CITY_WORKLIST,
+            "max_city_trade_routes": MAX_CITY_TRADE_ROUTES,
+            "max_goods_types": MAX_GOODS_TYPES,
             "max_rally_orders": MAX_RALLY_ORDERS,
             "max_unit_route_waypoints": MAX_UNIT_ROUTE_WAYPOINTS,
             "unit_route_waypoint_rules": [
@@ -1464,6 +1765,17 @@ def _derive_native_schema_id() -> str:
                 "consecutive-waypoints-differ",
             ],
             "max_infrastructure_choices": MAX_INFRASTRUCTURE_CHOICES,
+            "max_chat_message_bytes": MAX_CHAT_MESSAGE_BYTES,
+            "chat_forbidden_codepoint_ranges": [
+                [lower, upper]
+                for lower, upper in _CHAT_FORBIDDEN_CODEPOINT_RANGES
+            ],
+            "chat_native_argument_grammar": (
+                "channel=<global|allied|private>;"
+                "recipient=<none|p:id:incarnation>;message=<percent-encoded>"
+            ),
+            "chat_message_edge_policy": "no-leading-or-trailing-U+0020",
+            "max_vote_history": MAX_VOTE_HISTORY,
             "governor_minimum_surplus_min": -100,
             "governor_minimum_surplus_max": 100,
             "governor_weight_min": 0,
@@ -1520,8 +1832,17 @@ class _ActionBinding:
     phase: int
     max_rate: int
     argument_max: int = 0
+    argument_min: int = 0
+    argument_step: int = 1
+    argument_excluded: int | None = None
     actor_ref: str | None = None
     vote_id: str | None = None
+    vote_choices: tuple[str, ...] = ()
+    server_setting_type: str = "none"
+    server_setting_min: int = 0
+    server_setting_max: int = 0
+    server_setting_current: int = -1
+    server_setting_value: int = -1
     counterpart_ref: str | None = None
     infrastructure_choices: tuple[tuple[str, int], ...] = ()
     scoped: bool = False
@@ -1613,6 +1934,7 @@ class V2TargetActionRequest:
     native_target_tile: int
     native_revision: int
     limit: int
+    action_decision: bool = False
 
 
 @dataclass(frozen=True)
@@ -1628,6 +1950,12 @@ class _RelationBinding:
 
 
 @dataclass(frozen=True)
+class _ActionDecisionBinding:
+    actor_id: str
+    native_target_tile: int
+
+
+@dataclass(frozen=True)
 class _ProjectedSnapshot:
     native_revision: int
     row_digest: str
@@ -1638,6 +1966,7 @@ class _ProjectedSnapshot:
     actor_bindings: Mapping[str, _ActorBinding]
     relation_bindings: Mapping[str, _RelationBinding]
     tile_bindings: Mapping[str, int]
+    action_decision_bindings: Mapping[str, _ActionDecisionBinding]
     parsed: _ParsedObservation
     canonical_bytes: int
 
@@ -1790,6 +2119,7 @@ class _ParsedObservation:
     city_rallies: tuple[Mapping[str, Any], ...]
     city_governors: tuple[Mapping[str, Any], ...]
     units: tuple[Mapping[str, Any], ...]
+    unit_routes: tuple[Mapping[str, Any], ...]
     tombstones: tuple[Mapping[str, Any], ...]
     chats: tuple[Mapping[str, Any], ...]
     actions: tuple[Mapping[str, Any], ...]
@@ -2053,6 +2383,9 @@ class V2SeatControl:
         self._pregame_state_overlays: dict[
             tuple[int, str], tuple[Mapping[str, Any], ...]
         ] = {}
+        self._chat_recipient_overlays: dict[
+            int, tuple[Mapping[str, Any], ...]
+        ] = {}
         self._relation_state_overlays: dict[
             tuple[int, str], tuple[Mapping[str, Any], ...]
         ] = {}
@@ -2093,6 +2426,7 @@ class V2SeatControl:
             self._actor_tile_overlays.clear()
             self._city_state_overlays.clear()
             self._pregame_state_overlays.clear()
+            self._chat_recipient_overlays.clear()
             self._relation_state_overlays.clear()
             self._relation_clause_overlays.clear()
             self._relation_overlay_charges.clear()
@@ -2126,6 +2460,7 @@ class V2SeatControl:
             self._actor_tile_overlays.clear()
             self._city_state_overlays.clear()
             self._pregame_state_overlays.clear()
+            self._chat_recipient_overlays.clear()
             self._relation_state_overlays.clear()
             self._relation_clause_overlays.clear()
             self._relation_overlay_charges.clear()
@@ -2165,7 +2500,7 @@ class V2SeatControl:
                     _fail()
                 forbidden = {
                     "city", "city_site", "unit", "tombstone",
-                    "diplomacy_clause",
+                    "diplomacy_clause", "unit_route",
                 }
                 for row in rows:
                     if not isinstance(row, str) or row.split(" ", 1)[0] in forbidden:
@@ -2196,7 +2531,7 @@ class V2SeatControl:
         merged = list(observation["rows"])
         allowed = {
             "cities": frozenset({"city", "city_rally", "city_worker_task"}),
-            "units": frozenset({"unit"}),
+            "units": frozenset({"unit", "unit_route"}),
             "city_sites": frozenset({"city_site"}),
         }
         try:
@@ -2295,6 +2630,21 @@ class V2SeatControl:
             snapshot = self._snapshot(observation)
             if snapshot.native_revision != max(self._snapshots):
                 raise V2ControlError("stale_revision")
+            if section == "chat_recipients":
+                if (
+                    snapshot.parsed.meta["state"] not in {
+                        "preparing", "running",
+                    }
+                    or actor_id is not None or relation_id is not None
+                    or center_id is not None or radius is not None
+                ):
+                    raise V2ControlError("invalid_request")
+                return V2StateScopeRequest(
+                    section=section,
+                    selector="-",
+                    native_revision=snapshot.native_revision,
+                    limit=clean_limit,
+                )
             if section in {
                 "pregame_nations", "pregame_styles", "pregame_teams",
             }:
@@ -2334,6 +2684,30 @@ class V2SeatControl:
                 )
                 if (
                     binding is None or binding.kind != "unit"
+                    or relation_id is not None
+                    or center_id is not None or radius is not None
+                ):
+                    raise V2ControlError("invalid_request")
+                return V2StateScopeRequest(
+                    section=section,
+                    selector=binding.native_ref,
+                    native_revision=snapshot.native_revision,
+                    limit=clean_limit,
+                    actor_id=actor_id,
+                )
+            if section == "unit_route":
+                binding = (
+                    snapshot.actor_bindings.get(actor_id)
+                    if isinstance(actor_id, str) else None
+                )
+                unit = next((
+                    item for item in snapshot.sections["units"]
+                    if item["id"] == actor_id
+                ), None)
+                if (
+                    binding is None or binding.kind != "unit"
+                    or unit is None or unit.get("route") is None
+                    or not unit["route"]["path_available"]
                     or relation_id is not None
                     or center_id is not None or radius is not None
                 ):
@@ -2781,6 +3155,7 @@ class V2SeatControl:
             self._scoped_tile_bindings.popitem(last=False)
         if request.section in {
             "known_tiles", "map_tiles", "tile_window", "target_tiles",
+            "action_decision_tile",
         }:
             for item in parsed_rows:
                 key = (snapshot.native_revision, item["native_index"])
@@ -2797,7 +3172,10 @@ class V2SeatControl:
             )
             while len(self._actor_tile_overlays) > MAX_PINNED_SCOPE_VIEWS:
                 self._actor_tile_overlays.popitem(last=False)
-        elif request.actor_id is not None:
+        elif (
+            request.actor_id is not None
+            and request.section in _CITY_STATE_SECTIONS
+        ):
             self._city_state_overlays[
                 (snapshot.native_revision, request.selector, request.section)
             ] = tuple(_freeze(item) for item in parsed_rows)
@@ -2807,6 +3185,16 @@ class V2SeatControl:
             self._pregame_state_overlays[
                 (snapshot.native_revision, request.section)
             ] = tuple(_freeze(item) for item in parsed_rows)
+        if request.section == "chat_recipients":
+            recipients = tuple(
+                _freeze(item) for item in parsed_rows
+            )
+            existing = self._chat_recipient_overlays.get(
+                snapshot.native_revision,
+            )
+            if existing is not None and existing != recipients:
+                raise V2ControlError("internal_error")
+            self._chat_recipient_overlays[snapshot.native_revision] = recipients
         if request.relation_id is not None:
             key = (snapshot.native_revision, request.selector)
             public_frozen = tuple(_freeze(item) for item in public_items)
@@ -2976,6 +3364,16 @@ class V2SeatControl:
                 scoped = self._scoped_tile_bindings.get(target_id)
                 if scoped is not None and scoped[0] == snapshot.native_revision:
                     native_tile = scoped[1]
+            decision = (
+                snapshot.action_decision_bindings.get(target_id)
+                if native_tile is None and isinstance(target_id, str)
+                else None
+            )
+            action_decision = bool(
+                decision is not None and decision.actor_id == actor_id
+            )
+            if action_decision:
+                native_tile = decision.native_target_tile
             if (
                 actor is None or actor.kind not in {"player", "unit", "city"}
                 or native_tile is None
@@ -2989,6 +3387,7 @@ class V2SeatControl:
                 native_target_tile=native_tile,
                 native_revision=snapshot.native_revision,
                 limit=clean_limit,
+                action_decision=action_decision,
             )
 
     def target_action_page(
@@ -3012,6 +3411,16 @@ class V2SeatControl:
                 and scoped_tile[0] == snapshot.native_revision
             ):
                 bound_tile = scoped_tile[1]
+            if request.action_decision:
+                decision = snapshot.action_decision_bindings.get(
+                    request.target_id,
+                )
+                bound_tile = (
+                    decision.native_target_tile
+                    if decision is not None
+                    and decision.actor_id == request.actor_id
+                    else None
+                )
             if (
                 actor is None or actor.kind != request.actor_kind
                 or actor.kind not in {"player", "unit", "city"}
@@ -3070,15 +3479,33 @@ class V2SeatControl:
                 scoped = self._scoped_tile_bindings.get(request.target_id)
                 if scoped is not None and scoped[0] == snapshot.native_revision:
                     bound_tile = scoped[1]
+            if request.action_decision:
+                decision = snapshot.action_decision_bindings.get(
+                    request.target_id,
+                )
+                bound_tile = (
+                    decision.native_target_tile
+                    if decision is not None
+                    and decision.actor_id == request.actor_id
+                    else None
+                )
             if bound_tile != request.native_target_tile:
                 raise V2ControlError("invalid_request")
             return V2StateScopeRequest(
-                section="tile_window",
-                selector=f"t{request.native_target_tile}-r0",
+                section=(
+                    "action_decision_tile"
+                    if request.action_decision else "tile_window"
+                ),
+                selector=(
+                    request.native_actor_ref
+                    if request.action_decision
+                    else f"t{request.native_target_tile}-r0"
+                ),
                 native_revision=request.native_revision,
                 limit=MAX_PAGE_ITEMS,
-                center_id=request.target_id,
-                radius=0,
+                actor_id=(request.actor_id if request.action_decision else None),
+                center_id=(None if request.action_decision else request.target_id),
+                radius=(None if request.action_decision else 0),
             )
 
     def take_actor_scope_cursor(
@@ -3712,6 +4139,21 @@ class V2SeatControl:
                 (snapshot.native_revision, binding.native_counterpart_ref),
                 (),
             )
+        if section == "chat_recipients":
+            if (
+                actor_id is not None or relation_id is not None
+                or center_id is not None or radius is not None
+            ):
+                raise V2ControlError("invalid_request")
+            return tuple(_freeze({
+                "id": self._entity_id("player", item["ref"]),
+                "name": item["name"],
+                "self": item["self"],
+                "connected": item["connected"],
+                "can_message": item["can_message"],
+            }) for item in self._chat_recipient_overlays.get(
+                snapshot.native_revision, (),
+            ))
         if section == "tile_window":
             if (
                 actor_id is not None
@@ -3748,6 +4190,21 @@ class V2SeatControl:
         ):
             raise V2ControlError("invalid_request")
         return snapshot.sections[section]
+
+    @staticmethod
+    def _map_coordinates_for_native_index(
+        meta: Mapping[str, Any], native_index: int,
+    ) -> tuple[int, int]:
+        width = meta["map_width"]
+        height = meta["map_height"]
+        if not 0 <= native_index < width * height:
+            _fail()
+        native_x = native_index % width
+        native_y = native_index // width
+        if not meta["topology"].startswith("isometric_"):
+            return native_x, native_y
+        x = native_x + (native_y + (native_y & 1)) // 2
+        return x, width + native_y - x
 
     @staticmethod
     def _validate_tile_coordinates(
@@ -3905,6 +4362,41 @@ class V2SeatControl:
     def _production_id(self, kind: str, native_index: int) -> str:
         return self._mac("production", "entity", kind, native_index)
 
+    def _public_build_choice(
+        self, value: Mapping[str, Any], city_id: str,
+    ) -> dict[str, Any]:
+        def public_turn(turns: int | None) -> int | None:
+            return None if turns in {None, _FC_INFINITY} else turns
+
+        return {
+            "city_id": city_id,
+            "id": self._production_id(
+                value["production_kind"], value["production_native_id"],
+            ),
+            "kind": value["production_kind"],
+            "name": value["production_name"],
+            "can_queue": value["can_queue"],
+            "can_build_now": value["can_build_now"],
+            "cost": {
+                "shields": value["shield_cost"],
+                "shield_stock_after_change": value[
+                    "shield_stock_after_change"
+                ],
+                "turns": public_turn(value["turns"]),
+                "turns_with_stock": public_turn(value["turns_with_stock"]),
+            },
+            "upkeep": dict(value["upkeep"]),
+            "happy_cost": value["happy_cost"],
+            "unit": (
+                dict(value["unit_stats"])
+                if value["unit_stats"] is not None else None
+            ),
+            "building": (
+                dict(value["building_stats"])
+                if value["building_stats"] is not None else None
+            ),
+        }
+
     def _unit_type_id(self, native_index: int) -> str:
         return self._mac("unit_type", "entity", "unit_type", native_index)
 
@@ -4005,7 +4497,7 @@ class V2SeatControl:
                 "research_unlock", "diplomacy", "diplomacy_intel",
                 "diplomacy_clause", "tile",
                 "infrastructure_extra",
-                "city", "unit", "city_site",
+                "city", "unit", "unit_route", "unit_route_step", "city_site",
                 "city_tile", "city_specialist", "city_worklist",
                 "city_build_choice", "city_improvement", "city_rally",
                 "city_governor", "city_worker_task",
@@ -4067,10 +4559,11 @@ class V2SeatControl:
                         "research_unlock", "diplomacy", "diplomacy_intel",
                         "diplomacy_clause",
                         "tile", "infrastructure_extra", "city", "unit",
+                        "unit_route", "unit_route_step",
                         "city_site", "city_tile", "city_specialist",
                         "city_worklist", "city_build_choice",
                         "city_improvement", "city_rally", "city_governor",
-                        "city_worker_task", "tombstone", "chat",
+                        "city_worker_task", "tombstone",
                     )):
                 _fail()
         elif pregame is not None:
@@ -4157,6 +4650,9 @@ class V2SeatControl:
                 _freeze(item) for item in buckets["city_governor"]
             ),
             units=tuple(_freeze(item) for item in buckets["unit"]),
+            unit_routes=tuple(
+                _freeze(item) for item in buckets["unit_route"]
+            ),
             tombstones=tuple(_freeze(item) for item in buckets["tombstone"]),
             chats=tuple(_freeze(item) for item in buckets["chat"]),
             actions=tuple(_freeze(item) for item in buckets["action"]),
@@ -4291,14 +4787,27 @@ class V2SeatControl:
                 raw["percent_required"], unsigned=True, maximum=100,
             )
             current_vote = raw["current_vote"]
+            can_vote = _boolean(raw["can_vote"])
+            status = raw["status"]
+            outcome_turn = _integer(raw["outcome_turn"])
+            outcome_phase = _integer(raw["outcome_phase"])
             if yes + no + abstain > num_voters or current_vote not in {
                 "none", "yes", "no", "abstain",
-            }:
+            } or status not in _VOTE_STATUSES or (
+                outcome_turn < -1 or outcome_phase < -1
+            ) or (
+                status == "active"
+                and (outcome_turn != -1 or outcome_phase != -1)
+            ) or (
+                status != "active"
+                and (can_vote or outcome_turn < 0 or outcome_phase < 0)
+            ):
                 _fail()
             return {
                 "native_vote_no": _integer(
                     raw["vote_no"], unsigned=True, maximum=_I32_MAX,
                 ),
+                "caller": _text(raw["caller"]),
                 "description": _text(raw["description"]),
                 "yes": yes,
                 "no": no,
@@ -4307,7 +4816,14 @@ class V2SeatControl:
                 "percent_required": percent_required,
                 "team_only": _boolean(raw["team_only"]),
                 "current_vote": current_vote,
-                "can_vote": _boolean(raw["can_vote"]),
+                "can_vote": can_vote,
+                "status": status,
+                "outcome_turn": (
+                    None if outcome_turn == -1 else outcome_turn
+                ),
+                "outcome_phase": (
+                    None if outcome_phase == -1 else outcome_phase
+                ),
             }
         if kind == "player":
             ref = _entity_ref(raw["ref"], "p")
@@ -4415,7 +4931,7 @@ class V2SeatControl:
                 "can_change": _boolean(raw["can_change"]),
                 "choice_count": _integer(
                     raw["choice_count"], unsigned=True,
-                    maximum=MAX_SCOPED_ACTIONS,
+                    maximum=MAX_MULTIPLIER_CHOICES,
                 ),
             }
             start = values["start"]
@@ -4981,6 +5497,14 @@ class V2SeatControl:
                     raw["improvement_count"], unsigned=True,
                     maximum=MAX_CITY_BUILD_CHOICES,
                 ),
+                "trade_route_count": _integer(
+                    raw["trade_route_count"], unsigned=True,
+                    maximum=MAX_CITY_TRADE_ROUTES,
+                ),
+                "trade_route_capacity": _integer(
+                    raw["trade_route_capacity"], unsigned=True,
+                    maximum=MAX_CITY_TRADE_ROUTES,
+                ),
                 "did_sell": _boolean(raw["did_sell"]),
                 "allow_disband": _boolean(raw["allow_disband"]),
                 "new_citizens": new_citizens,
@@ -5108,6 +5632,93 @@ class V2SeatControl:
             production_kind = raw["production_kind"]
             if production_kind not in _BUILD_KINDS - {"none"}:
                 _fail()
+            shield_cost = _integer(raw["shield_cost"])
+            shield_stock_after_change = _integer(
+                raw["shield_stock_after_change"]
+            )
+            turns = _integer(raw["turns"])
+            turns_with_stock = _integer(raw["turns_with_stock"])
+            upkeep = {
+                output: _integer(
+                    raw[f"upkeep_{output}"], unsigned=True,
+                    maximum=_I32_MAX,
+                )
+                for output in _CITY_OUTPUTS
+            }
+            happy_cost = _integer(raw["happy_cost"])
+            unit_fields = {
+                key: _integer(raw[f"unit_{key}"])
+                for key in (
+                    "attack", "defense", "move_rate", "hp", "firepower",
+                    "vision_radius_sq", "transport_capacity", "fuel",
+                    "pop_cost", "bombard_rate", "city_size",
+                    "paradrop_range",
+                )
+            }
+            building_genus = _text(raw["building_genus"])
+            building_fields = {
+                key: _integer(raw[f"building_{key}"])
+                for key in (
+                    "obsolete", "redundant", "convert", "allows_units",
+                    "allows_extras", "prevents_disaster",
+                    "protects_vs_actions", "allows_actions",
+                )
+            }
+            if production_kind == "unit":
+                if (
+                    shield_cost < 1
+                    or shield_stock_after_change < 0
+                    or turns < 1 or turns > _FC_INFINITY
+                    or turns_with_stock < 1
+                    or turns_with_stock > _FC_INFINITY
+                    or happy_cost < 0
+                    or any(value < 0 for value in unit_fields.values())
+                    or unit_fields["hp"] < 1
+                    or unit_fields["firepower"] < 1
+                    or building_genus != "none"
+                    or any(value != -1 for value in building_fields.values())
+                ):
+                    _fail()
+                unit_stats: dict[str, Any] | None = unit_fields
+                building_stats: dict[str, Any] | None = None
+            else:
+                if (
+                    happy_cost != -1
+                    or any(value != -1 for value in unit_fields.values())
+                    or building_genus == "none"
+                    or any(value not in {0, 1} for value in building_fields.values())
+                    or any(
+                        upkeep[output] != 0
+                        for output in _CITY_OUTPUTS if output != "gold"
+                    )
+                    or (
+                        building_fields["convert"] == 1
+                        and (
+                            shield_cost != -1
+                            or shield_stock_after_change != -1
+                            or turns != -1 or turns_with_stock != -1
+                        )
+                    )
+                    or (
+                        building_fields["convert"] == 0
+                        and (
+                            shield_cost < 1
+                            or shield_stock_after_change < 0
+                            or turns < 1 or turns > _FC_INFINITY
+                            or turns_with_stock < 1
+                            or turns_with_stock > _FC_INFINITY
+                        )
+                    )
+                ):
+                    _fail()
+                unit_stats = None
+                building_stats = {
+                    "genus": building_genus,
+                    **{
+                        key: bool(value)
+                        for key, value in building_fields.items()
+                    },
+                }
             return {
                 "city_ref": raw["city"],
                 "city_parsed_ref": _entity_ref(raw["city"], "c"),
@@ -5119,6 +5730,21 @@ class V2SeatControl:
                 "production_name": _text(raw["production_name"]),
                 "can_queue": _boolean(raw["can_queue"]),
                 "can_build_now": _boolean(raw["can_build_now"]),
+                "shield_cost": (
+                    None if shield_cost == -1 else shield_cost
+                ),
+                "shield_stock_after_change": (
+                    None if shield_stock_after_change == -1
+                    else shield_stock_after_change
+                ),
+                "turns": None if turns == -1 else turns,
+                "turns_with_stock": (
+                    None if turns_with_stock == -1 else turns_with_stock
+                ),
+                "upkeep": upkeep,
+                "happy_cost": None if happy_cost == -1 else happy_cost,
+                "unit_stats": unit_stats,
+                "building_stats": building_stats,
             }
         if kind == "city_improvement":
             sell_price = _integer(
@@ -5136,6 +5762,48 @@ class V2SeatControl:
                 "name": _text(raw["name"]),
                 "sellable": _boolean(raw["sellable"]),
                 "sell_price": sell_price,
+            }
+        if kind == "city_trade_route":
+            visibility = raw["partner_visibility"]
+            direction = raw["direction"]
+            partner_ref = None if raw["partner"] == "none" else raw["partner"]
+            partner_name = _text(raw["partner_name"])
+            if partner_ref is not None:
+                _entity_ref(partner_ref, "c")
+            if (
+                visibility not in _TRADE_ROUTE_PARTNER_VISIBILITIES
+                or direction not in _TRADE_ROUTE_DIRECTIONS
+                or (visibility == "unavailable")
+                   is not (partner_ref is None)
+                or visibility == "unavailable"
+                   and partner_name != "unavailable"
+            ):
+                _fail()
+            return {
+                "city_ref": raw["city"],
+                "city_parsed_ref": _entity_ref(raw["city"], "c"),
+                "position": _integer(
+                    raw["position"], unsigned=True,
+                    maximum=MAX_CITY_TRADE_ROUTES - 1,
+                ),
+                "partner_ref": partner_ref,
+                "partner_visibility": visibility,
+                "partner_name": (
+                    None if partner_ref is None else partner_name
+                ),
+                "base_value": _integer(
+                    raw["base_value"], unsigned=True, maximum=_I32_MAX,
+                ),
+                "effective_value": _integer(
+                    raw["effective_value"], unsigned=True,
+                    maximum=_I32_MAX,
+                ),
+                "direction": direction,
+                "native_goods_id": _integer(
+                    raw["goods_id"], unsigned=True,
+                    maximum=MAX_GOODS_TYPES - 1,
+                ),
+                "goods_name": _text(raw["goods_name"]),
             }
         if kind == "investigation":
             production_kind = raw["production_kind"]
@@ -5279,6 +5947,41 @@ class V2SeatControl:
                 "celebration_weight": celebration_weight,
                 "require_happy": _boolean(raw["require_happy"]),
                 "maximize_growth": _boolean(raw["maximize_growth"]),
+            }
+        if kind == "unit_route":
+            order_index = _integer(
+                raw["order_index"], unsigned=True,
+                maximum=MAX_RALLY_ORDERS - 1,
+            )
+            reconstructable = _boolean(raw["reconstructable"])
+            step_count = _integer(
+                raw["step_count"], unsigned=True,
+                maximum=MAX_RALLY_ORDERS - 1,
+            )
+            if reconstructable is not (step_count > 0):
+                _fail()
+            return {
+                "unit_ref": raw["unit"],
+                "unit_parsed_ref": _entity_ref(raw["unit"], "u"),
+                "order_index": order_index,
+                "reconstructable": reconstructable,
+                "step_count": step_count,
+            }
+        if kind == "unit_route_step":
+            step_kind = raw["kind"]
+            if step_kind not in _UNIT_ROUTE_STEP_KINDS:
+                _fail()
+            return {
+                "unit_ref": raw["unit"],
+                "unit_parsed_ref": _entity_ref(raw["unit"], "u"),
+                "sequence": _integer(
+                    raw["sequence"], unsigned=True,
+                    maximum=MAX_RALLY_ORDERS - 1,
+                ),
+                "kind": step_kind,
+                "native_tile": _integer(
+                    raw["tile"], unsigned=True, maximum=_I32_MAX,
+                ),
             }
         if kind == "unit":
             scope = raw["scope"]
@@ -5484,6 +6187,20 @@ class V2SeatControl:
                 item["order_count"] = order_count
                 item["orders_digest"] = orders_digest
                 item["orders_destination"] = orders_destination
+                action_decision_want = raw["action_decision_want"]
+                action_decision_tile = _integer(raw["action_decision_tile"])
+                if (
+                    action_decision_want not in {
+                        "nothing", "passive", "active",
+                    }
+                    or action_decision_tile < -1
+                    or action_decision_tile > _I32_MAX
+                    or (action_decision_want == "nothing")
+                       is not (action_decision_tile == -1)
+                ):
+                    _fail()
+                item["action_decision_want"] = action_decision_want
+                item["action_decision_tile"] = action_decision_tile
             return item
         if kind == "tombstone":
             expected = {"player": "p", "city": "c", "unit": "u"}.get(raw["kind"])
@@ -5493,6 +6210,15 @@ class V2SeatControl:
                 "ref": raw["ref"],
                 "parsed_ref": _entity_ref(raw["ref"], expected),
                 "kind": raw["kind"],
+            }
+        if kind == "chat_recipient":
+            return {
+                "ref": raw["ref"],
+                "parsed_ref": _entity_ref(raw["ref"], "p"),
+                "name": _text(raw["name"]),
+                "self": _boolean(raw["self"]),
+                "connected": _boolean(raw["connected"]),
+                "can_message": _boolean(raw["can_message"]),
             }
         if kind == "chat":
             sender = raw["sender"]
@@ -5601,6 +6327,22 @@ class V2SeatControl:
             target_extra = _integer(raw["target_extra"])
             if target_extra < -1 or target_extra > _I32_MAX:
                 _fail()
+            subtarget_kind = raw["subtarget_kind"]
+            if subtarget_kind not in _ACTION_SUBTARGET_KINDS:
+                _fail()
+            if raw["subresults"] == "none":
+                subresults: tuple[str, ...] = ()
+            else:
+                subresults = tuple(raw["subresults"].split(","))
+                if (
+                    not subresults
+                    or any(item not in _ACTION_SUBRESULTS
+                           for item in subresults)
+                    or tuple(sorted(
+                        set(subresults), key=_ACTION_SUBRESULTS.index,
+                    )) != subresults
+                ):
+                    _fail()
             source_specialist = _integer(raw["source_specialist"])
             target_specialist = _integer(raw["target_specialist"])
             if (
@@ -5656,6 +6398,25 @@ class V2SeatControl:
             gold_cost = _integer(raw["gold_cost"])
             if gold_cost < -1 or gold_cost > _I32_MAX:
                 _fail()
+            server_setting_id = _integer(raw["server_setting_id"])
+            server_setting_type = raw["server_setting_type"]
+            server_setting_min = _integer(raw["server_setting_min"])
+            server_setting_max = _integer(raw["server_setting_max"])
+            server_setting_current = _integer(raw["server_setting_current"])
+            server_setting_value = _integer(raw["server_setting_value"])
+            if (
+                server_setting_id < -1 or server_setting_id > _I32_MAX
+                or server_setting_type not in _SERVER_SETTING_TYPES
+                or server_setting_min < -_I32_MAX - 1
+                or server_setting_min > _I32_MAX
+                or server_setting_max < -_I32_MAX - 1
+                or server_setting_max > _I32_MAX
+                or server_setting_current < -_I32_MAX - 1
+                or server_setting_current > _I32_MAX
+                or server_setting_value < -_I32_MAX - 1
+                or server_setting_value > _I32_MAX
+            ):
+                _fail()
             return {
                 "slot": raw["slot"], "native_kind": raw["kind"], "actor_ref": actor,
                 "counterpart_ref": counterpart,
@@ -5682,6 +6443,12 @@ class V2SeatControl:
                 "transport_context_ref": transport_context,
                 "native_target_tech": _integer(raw["target_tech"]),
                 "native_vote_no": _integer(raw["vote_no"]),
+                "native_server_setting_id": server_setting_id,
+                "server_setting_type": server_setting_type,
+                "server_setting_min": server_setting_min,
+                "server_setting_max": server_setting_max,
+                "server_setting_current": server_setting_current,
+                "server_setting_value": server_setting_value,
                 "native_target_government": _integer(
                     raw["target_government"],
                 ),
@@ -5711,6 +6478,8 @@ class V2SeatControl:
                 "native_source_specialist": source_specialist,
                 "native_target_specialist": target_specialist,
                 "native_target_extra": target_extra,
+                "subtarget_kind": subtarget_kind,
+                "subresults": subresults,
                 "activity": activity,
                 "target_name": _text(raw["target_name"]),
                 "native_rule": _text(raw["native_rule"]),
@@ -5726,6 +6495,87 @@ class V2SeatControl:
             }
         _fail()
 
+    @staticmethod
+    def _setting_fields_are_empty(action: Mapping[str, Any]) -> bool:
+        return (
+            action["native_server_setting_id"] == -1
+            and action["server_setting_type"] == "none"
+            and action["server_setting_min"] == 0
+            and action["server_setting_max"] == 0
+            and action["server_setting_current"] == -1
+            and action["server_setting_value"] == -1
+        )
+
+    @staticmethod
+    def _setting_action_is_well_formed(
+        action: Mapping[str, Any], rule: _NativeActionRule,
+    ) -> bool:
+        setting_type = action["server_setting_type"]
+        minimum = action["server_setting_min"]
+        maximum = action["server_setting_max"]
+        current = action["server_setting_current"]
+        value = action["server_setting_value"]
+        if (
+            action["native_server_setting_id"] < 0
+            or setting_type != rule.variant
+            or minimum > maximum
+        ):
+            return False
+        if setting_type == "boolean":
+            return (
+                minimum == 0 and maximum == 1
+                and current in {0, 1} and value in {0, 1}
+                and value != current
+            )
+        if setting_type == "enum":
+            return (
+                minimum == 0 and maximum >= 0
+                and minimum <= current <= maximum
+                and minimum <= value <= maximum and value != current
+            )
+        if setting_type == "integer":
+            return minimum <= current <= maximum and value == -1
+        if setting_type == "string":
+            return (
+                minimum == 0 and maximum > 0
+                and current == -1 and value == -1
+            )
+        if setting_type == "bitwise":
+            return (
+                minimum == 0 and maximum >= 0
+                and minimum <= current <= maximum and value == -1
+            )
+        return False
+
+    @staticmethod
+    def _governance_targets_are_empty(action: Mapping[str, Any]) -> bool:
+        return (
+            action["native_target_tile"] == -1
+            and action["native_target_tech"] == -1
+            and action["native_target_government"] == -1
+            and action["max_rate"] == 0
+            and action["route_waypoint_limit"] == 0
+            and action["infrastructure_cost"] == 0
+            and action["infrastructure_turns"] == 0
+            and action["infrastructure_choice_count"] == 0
+            and not action["infrastructure_choices"]
+            and action["target_build_kind"] == "none"
+            and action["native_target_build"] == -1
+            and action["spaceship_part"] == "none"
+            and action["spaceship_value"] == -1
+            and action["native_target_multiplier"] == -1
+            and action["multiplier_value"] == -1
+            and action["native_source_specialist"] == -1
+            and action["native_target_specialist"] == -1
+            and action["native_target_extra"] == -1
+            and action["activity"] == "none"
+            and action["source_city_ref"] is None
+            and action["destination_city_ref"] is None
+            and action["target_unit_ref"] is None
+            and action["transport_context_ref"] is None
+            and action["gold_cost"] == -1
+        )
+
     def _validate_cross_links(
         self,
         buckets: Mapping[str, list[dict[str, Any]]],
@@ -5737,12 +6587,15 @@ class V2SeatControl:
 
         meta = buckets["meta"][0]
         votes = buckets["vote"]
-        if len(votes) > MAX_VOTES:
+        if len(votes) > MAX_VOTES or sum(
+            item["status"] != "active" for item in votes
+        ) > MAX_VOTE_HISTORY:
             _fail()
         unique([item["native_vote_no"] for item in votes])
         vote_by_no = {item["native_vote_no"]: item for item in votes}
         if meta["state"] == "preparing":
             pregame = buckets["pregame"][0]
+            chats = buckets["chat"]
             actions = buckets["action"]
             cast_actions = [
                 item for item in actions
@@ -5751,21 +6604,40 @@ class V2SeatControl:
             expected_vote_nos = {
                 item["native_vote_no"] for item in votes if item["can_vote"]
             }
+            if len(chats) > MAX_CHAT_HISTORY:
+                _fail()
+            unique([item["sequence"] for item in chats])
+            if any(
+                item["sequence"] == 0
+                or item["turn"] != 0 or item["phase"] != 0
+                or item["self"] and item["sender"] == "server"
+                for item in chats
+            ):
+                _fail()
             unique([item["slot"] for item in actions])
             if (
                 meta["turn"] != 0 or meta["phase"] != 0
                 or meta["phase_count"] != 1 or meta["active_phase"]
                 or meta["phase_ready"]
                 or len(actions)
-                   != (1 if pregame["ready"] else 3) + len(expected_vote_nos)
+                   < (2 if pregame["ready"] else 4) + len(expected_vote_nos)
                 or {item["native_rule"] for item in actions}
                    - {
                        "pregame.configure", "pregame.set_ready",
                        "pregame.set_team", "player.cast_vote",
+                       "player.send_chat",
+                       "player.cancel_vote",
+                       "player.propose_server_setting_boolean",
+                       "player.propose_server_setting_integer",
+                       "player.propose_server_setting_string",
+                       "player.propose_server_setting_enum",
+                       "player.propose_server_setting_bitwise",
                    }
                 or {item["native_vote_no"] for item in cast_actions}
                    != expected_vote_nos
                 or sum(item["native_rule"] == "pregame.set_ready"
+                       for item in actions) != 1
+                or sum(item["native_rule"] == "player.send_chat"
                        for item in actions) != 1
                 or (not pregame["ready"])
                    != any(item["native_rule"] == "pregame.configure"
@@ -5776,26 +6648,48 @@ class V2SeatControl:
                 or pregame["team_choices"] < 1
             ):
                 _fail()
+            setting_keys: set[tuple[int, str, int]] = set()
             for action in actions:
                 rule = _ACTION_RULES.get(action["native_rule"])
-                is_vote = rule is not None and rule.operation == "cast_vote"
+                operation = rule.operation if rule is not None else ""
+                is_vote = operation in {"cast_vote", "cancel_vote"}
+                is_setting = operation == "propose_server_setting"
+                is_chat = operation == "send_chat"
                 if (
                     rule is None or action["native_kind"] != rule.native_kind
                     or action["target_kind"] != rule.target_kind
                     or action["result"] != rule.result
                     or action["args"] != rule.args
+                    or not _non_special_action_metadata_supported(action)
                     or action["actor_ref"] != pregame["ref"]
                     or action["legality"] != "legal"
                     or action["probability_kind"] != "exact"
                     or action["probability_min"] != 200
                     or action["probability_max"] != 200
                     or (action["native_vote_no"] == -1) is is_vote
-                    or is_vote and (
+                    or (is_vote and (
                         action["native_vote_no"] not in vote_by_no
-                        or action["target_name"] != "vote"
+                        or action["target_name"] != (
+                            "vote" if operation == "cast_vote" else "own vote"
+                        )
                         or action["native_target_tile"] != -1
                         or action["native_target_tech"] != -1
                         or action["max_rate"] != 0
+                    ))
+                    or (operation in {
+                        "cast_vote", "cancel_vote", "propose_server_setting",
+                    } and not self._governance_targets_are_empty(action))
+                    or (is_setting and not self._setting_action_is_well_formed(
+                        action, rule,
+                    ))
+                    or (not is_setting and not self._setting_fields_are_empty(
+                        action,
+                    ))
+                    or is_chat and (
+                        action["native_target_tile"] != -1
+                        or action["native_target_tech"] != -1
+                        or action["max_rate"] != 0
+                        or action["target_name"] != "none"
                     )
                     or action["desired_acceptance"]
                        != ((not pregame["ready"])
@@ -5803,6 +6697,15 @@ class V2SeatControl:
                            else -1)
                 ):
                     _fail()
+                if is_setting:
+                    setting_key = (
+                        action["native_server_setting_id"],
+                        action["server_setting_type"],
+                        action["server_setting_value"],
+                    )
+                    if setting_key in setting_keys:
+                        _fail()
+                    setting_keys.add(setting_key)
             return
         tiles = buckets["tile"]
         unique([item["native_index"] for item in tiles])
@@ -5916,8 +6819,9 @@ class V2SeatControl:
             ):
                 _fail()
             change_observable = (
-                finish_turn > current_turn
-                or (finish_turn <= 0 and not governance["no_anarchy"])
+                governance["no_anarchy"]
+                or finish_turn > current_turn
+                or finish_turn <= 0
             )
             for item in governments:
                 if item["can_change"] and (
@@ -6636,6 +7540,27 @@ class V2SeatControl:
                 own_units[unit["ref"]] = unit
             elif self_ref is None or unit["owner_ref"] == self_ref:
                 _fail()
+        if buckets["unit_route_step"]:
+            _fail()
+        route_summaries = buckets["unit_route"]
+        unique([item["unit_ref"] for item in route_summaries])
+        ordered_unit_refs = {
+            unit["ref"] for unit in own_units.values() if unit["has_orders"]
+        }
+        if {item["unit_ref"] for item in route_summaries} != ordered_unit_refs:
+            _fail()
+        for route in route_summaries:
+            unit = own_units[route["unit_ref"]]
+            if (
+                route["order_index"] >= unit["order_count"]
+                or route["step_count"] > unit["order_count"]
+                or unit["orders_repeat"] and route["reconstructable"]
+                   and route["step_count"] != unit["order_count"]
+                or not unit["orders_repeat"] and route["reconstructable"]
+                   and route["step_count"]
+                       != unit["order_count"] - route["order_index"]
+            ):
+                _fail()
         for unit in own_units.values():
             converted_type_id = unit["converted_type_native_id"]
             if (
@@ -6728,8 +7653,10 @@ class V2SeatControl:
         )
         ordinary_actions = [
             item for item in buckets["action"]
-            if item["native_rule"] not in {
-                "player.send_chat", "player.cast_vote",
+            if _ACTION_RULES.get(item["native_rule"]) is None
+            or _ACTION_RULES[item["native_rule"]].operation not in {
+                "send_chat", "cast_vote", "cancel_vote",
+                "propose_server_setting", "surrender",
             }
         ]
         if ordinary_actions and not action_eligible:
@@ -6753,6 +7680,9 @@ class V2SeatControl:
         rates_action_count = 0
         chat_action_count = 0
         vote_action_nos: set[int] = set()
+        cancel_vote_action_nos: set[int] = set()
+        setting_action_keys: set[tuple[int, str, int]] = set()
+        surrender_action_count = 0
         for action in buckets["action"]:
             rule = _ACTION_RULES.get(action["native_rule"])
             if rule is None or (
@@ -6761,9 +7691,22 @@ class V2SeatControl:
                 or action["result"] != rule.result
                 or action["consuming"] is not rule.consuming
                 or action["args"] != rule.args
+                or not _non_special_action_metadata_supported(action)
             ):
                 _fail()
             self._validate_probability(action)
+            is_setting = rule.operation == "propose_server_setting"
+            if (
+                (
+                    is_setting
+                    and not self._setting_action_is_well_formed(action, rule)
+                )
+                or (
+                    not is_setting
+                    and not self._setting_fields_are_empty(action)
+                )
+            ):
+                _fail()
             if (
                 action["counterpart_ref"] is not None
                 or action["meeting_generation"] != 0
@@ -6803,8 +7746,49 @@ class V2SeatControl:
                     _fail()
                 vote_action_nos.add(action["native_vote_no"])
                 continue
+            if rule.operation == "cancel_vote":
+                vote = vote_by_no.get(action["native_vote_no"])
+                if (
+                    meta["state"] != "running"
+                    or player is None or vote is None
+                    or action["actor_ref"] != player["ref"]
+                    or action["native_vote_no"] in cancel_vote_action_nos
+                    or action["target_name"] != "own vote"
+                    or not self._governance_targets_are_empty(action)
+                ):
+                    _fail()
+                cancel_vote_action_nos.add(action["native_vote_no"])
+                continue
             if action["native_vote_no"] != -1:
                 _fail()
+            if rule.operation == "propose_server_setting":
+                setting_key = (
+                    action["native_server_setting_id"],
+                    action["server_setting_type"],
+                    action["server_setting_value"],
+                )
+                if (
+                    meta["state"] != "running"
+                    or player is None or action["actor_ref"] != player["ref"]
+                    or action["target_name"] == "none"
+                    or not self._governance_targets_are_empty(action)
+                    or setting_key in setting_action_keys
+                ):
+                    _fail()
+                setting_action_keys.add(setting_key)
+                continue
+            if rule.operation == "surrender":
+                surrender_action_count += 1
+                if (
+                    meta["state"] != "running"
+                    or player is None or not player["alive"]
+                    or action["actor_ref"] != player["ref"]
+                    or action["target_name"] != "self"
+                    or not self._governance_targets_are_empty(action)
+                    or surrender_action_count > 1
+                ):
+                    _fail()
+                continue
             # City, worker, and government capabilities are actor-scoped
             # only.  The complete global catalog retains its original grammar
             # and must carry exact sentinels in every new target field.
@@ -6819,7 +7803,7 @@ class V2SeatControl:
                     "sell_improvement", "set_governor", "clear_governor",
                     "upgrade", "rehome", "join_city", "establish_trade",
                     "marketplace", "help_wonder", "disband_recover",
-                    "set_route", "place_infrastructure",
+                    "set_route", "attack_route", "place_infrastructure",
                 }
                 or action["target_unit_ref"] is not None
                 or action["transport_context_ref"] is not None
@@ -7009,9 +7993,14 @@ class V2SeatControl:
             ),
         }
         vote_items = [{
+            "vote_ref": self._mac(
+                "vote_ref", "vote", self.generation,
+                item["native_vote_no"],
+            ),
             "vote_id": self._mac(
                 "vote", "vote", native_revision, item["native_vote_no"],
             ),
+            "caller": item["caller"],
             "description": item["description"],
             "yes": item["yes"],
             "no": item["no"],
@@ -7021,6 +8010,9 @@ class V2SeatControl:
             "team_only": item["team_only"],
             "current_vote": item["current_vote"],
             "can_vote": item["can_vote"],
+            "status": item["status"],
+            "outcome_turn": item["outcome_turn"],
+            "outcome_phase": item["outcome_phase"],
         } for item in sorted(
             parsed.votes, key=lambda value: value["native_vote_no"],
         )]
@@ -7587,6 +8579,10 @@ class V2SeatControl:
                 },
                 "production": production,
                 "airlift": airlift,
+                "trade_routes": {
+                    "count": item["trade_route_count"],
+                    "capacity": item["trade_route_capacity"],
+                },
                 "governor_enabled": item["governor_enabled"],
             }
             city_items.append(summary)
@@ -7611,6 +8607,7 @@ class V2SeatControl:
                     "worklist": item["worklist_length"],
                     "build_choices": item["build_choice_count"],
                     "improvements": item["improvement_count"],
+                    "trade_routes": item["trade_route_count"],
                 },
                 "management": {
                     "did_sell": item["did_sell"],
@@ -7692,14 +8689,7 @@ class V2SeatControl:
                 "name": value["production_name"],
             } for value in worklist)
             city_build_choice_items.extend({
-                "city_id": city_id,
-                "id": self._production_id(
-                    value["production_kind"], value["production_native_id"],
-                ),
-                "kind": value["production_kind"],
-                "name": value["production_name"],
-                "can_queue": value["can_queue"],
-                "can_build_now": value["can_build_now"],
+                **self._public_build_choice(value, city_id),
                 "preservable_count": sum(
                     existing["production_kind"] == value["production_kind"]
                     and existing["production_native_id"]
@@ -7714,6 +8704,9 @@ class V2SeatControl:
                 "sellable": value["sellable"],
                 "sell_price": value["sell_price"],
             } for value in improvements)
+        route_summaries = {
+            item["unit_ref"]: item for item in parsed.unit_routes
+        }
         unit_items = []
         for item in parsed.units:
             public = {
@@ -7744,6 +8737,7 @@ class V2SeatControl:
                 },
             }
             if item["scope"] == "own":
+                route_summary = route_summaries.get(item["ref"])
                 public["home_city_id"] = (
                     self._entity_id("city", item["home_ref"])
                     if item["home_ref"] is not None else None
@@ -7787,8 +8781,19 @@ class V2SeatControl:
                     "mode": "patrol" if item["orders_repeat"] else "goto",
                     "vigilant": item["orders_vigilant"],
                     "order_count": item["order_count"],
+                    "path_available": route_summary["reconstructable"],
+                    "path_step_count": route_summary["step_count"],
                     "destination": public_destination,
                 } if item["has_orders"] else None)
+                decision_tile = item["action_decision_tile"]
+                public["action_decision"] = {
+                    "want": item["action_decision_want"],
+                    "pending": decision_tile >= 0,
+                    "tile_id": (
+                        self._tile_id(decision_tile)
+                        if decision_tile >= 0 else None
+                    ),
+                }
                 public["activity"] = {
                     "id": self._activity_id(
                         item["activity"], item["activity_target"],
@@ -7868,6 +8873,27 @@ class V2SeatControl:
                     kind="unit", native_ref=native_unit["ref"],
                 )
 
+        action_decision_bindings: dict[str, _ActionDecisionBinding] = {}
+        for native_unit, public_unit in zip(parsed.units, unit_items):
+            if (
+                native_unit["scope"] != "own"
+                or native_unit["action_decision_tile"] < 0
+            ):
+                continue
+            target_id = self._tile_id(
+                native_unit["action_decision_tile"],
+            )
+            binding = _ActionDecisionBinding(
+                actor_id=public_unit["id"],
+                native_target_tile=native_unit["action_decision_tile"],
+            )
+            if (
+                target_id in action_decision_bindings
+                and action_decision_bindings[target_id] != binding
+            ):
+                _fail()
+            action_decision_bindings[target_id] = binding
+
         tile_bindings: dict[str, int] = {}
         for tile in parsed.tiles:
             if tile["known"] not in {1, 2}:
@@ -7905,7 +8931,14 @@ class V2SeatControl:
                 action["native_target_tech"],
             )
             vote = vote_by_native.get(action["native_vote_no"])
-            if rule.operation == "cast_vote":
+            vote_choices = (
+                tuple(
+                    choice for choice in ("yes", "no", "abstain")
+                    if choice != vote["current_vote"]
+                ) if rule.operation == "cast_vote" and vote is not None
+                else ()
+            )
+            if rule.operation in {"cast_vote", "cancel_vote"}:
                 public_actor = (
                     {"type": "player", "id": player_id}
                     if player_id is not None else None
@@ -7914,6 +8947,20 @@ class V2SeatControl:
                     {"type": "vote", "vote_id": vote["vote_id"]}
                     if vote is not None else None
                 )
+            elif rule.operation == "propose_server_setting":
+                public_actor = (
+                    {"type": "player", "id": player_id}
+                    if player_id is not None else None
+                )
+                public_target = self._server_setting_target(
+                    action, native_revision,
+                )
+            elif rule.operation == "surrender":
+                public_actor = (
+                    {"type": "player", "id": player_id}
+                    if player_id is not None else None
+                )
+                public_target = public_actor
             elif rule.operation == "send_chat":
                 public_actor = (
                     {"type": "player", "id": player_id}
@@ -7921,7 +8968,8 @@ class V2SeatControl:
                 )
                 public_target = {
                     "type": "chat_channel",
-                    "channels": ["global", "allied"],
+                    "channels": list(_CHAT_SEND_CHANNELS),
+                    "recipients_from": "chat_recipients",
                 }
             elif rule.operation in {"set_target", "set_goal"}:
                 public_actor = None
@@ -7962,6 +9010,12 @@ class V2SeatControl:
                 "kind": rule.public_kind,
                 "label": (
                     "Cast vote" if rule.operation == "cast_vote"
+                    else "Cancel own vote"
+                    if rule.operation == "cancel_vote"
+                    else f"Propose changing {action['target_name']}"
+                    if rule.operation == "propose_server_setting"
+                    else "Surrender"
+                    if rule.operation == "surrender"
                     else self._action_label(
                         rule, actor,
                         target_tech
@@ -7973,6 +9027,12 @@ class V2SeatControl:
                 "arguments_schema": self._arguments_schema(
                     rule, action["max_rate"],
                     vote_id=vote["vote_id"] if vote is not None else None,
+                    vote_choices=vote_choices,
+                    server_setting=(
+                        action
+                        if rule.operation == "propose_server_setting"
+                        else None
+                    ),
                 ),
                 "state_revision": state_revision,
             }
@@ -7992,6 +9052,12 @@ class V2SeatControl:
                 max_rate=action["max_rate"],
                 actor_ref=action["actor_ref"],
                 vote_id=vote["vote_id"] if vote is not None else None,
+                vote_choices=vote_choices,
+                server_setting_type=action["server_setting_type"],
+                server_setting_min=action["server_setting_min"],
+                server_setting_max=action["server_setting_max"],
+                server_setting_current=action["server_setting_current"],
+                server_setting_value=action["server_setting_value"],
             )
 
         legal_counts = dict(sorted(Counter(
@@ -8043,6 +9109,9 @@ class V2SeatControl:
                 "city_improvements": sum(
                     item["improvement_count"] for item in parsed.cities
                 ),
+                "city_trade_routes": sum(
+                    item["trade_route_count"] for item in parsed.cities
+                ),
                 "city_governor": sum(
                     int(item["governor_enabled"]) for item in parsed.cities
                 ),
@@ -8075,11 +9144,13 @@ class V2SeatControl:
             "city_build_choices": city_build_choice_items,
             "city_worklist": city_worklist_items,
             "city_improvements": city_improvement_items,
+            "city_trade_routes": [],
             "city_governor": [],
             "city_sites": city_site_items,
             "units": unit_items,
             "tombstones": tombstone_items,
             "chat": chat_items,
+            "chat_recipients": [],
         }
         size_payload = {
             "state_revision": state_revision,
@@ -8107,6 +9178,9 @@ class V2SeatControl:
             actor_bindings=MappingProxyType(actor_bindings),
             relation_bindings=MappingProxyType(relation_bindings),
             tile_bindings=MappingProxyType(tile_bindings),
+            action_decision_bindings=MappingProxyType(
+                action_decision_bindings,
+            ),
             parsed=parsed,
             canonical_bytes=canonical_bytes,
         )
@@ -8135,9 +9209,14 @@ class V2SeatControl:
         descriptors: list[dict[str, Any]] = []
         bindings: dict[str, _ActionBinding] = {}
         vote_items = [{
+            "vote_ref": self._mac(
+                "vote_ref", "vote", self.generation,
+                item["native_vote_no"],
+            ),
             "vote_id": self._mac(
                 "vote", "vote", native_revision, item["native_vote_no"],
             ),
+            "caller": item["caller"],
             "description": item["description"],
             "yes": item["yes"],
             "no": item["no"],
@@ -8147,6 +9226,9 @@ class V2SeatControl:
             "team_only": item["team_only"],
             "current_vote": item["current_vote"],
             "can_vote": item["can_vote"],
+            "status": item["status"],
+            "outcome_turn": item["outcome_turn"],
+            "outcome_phase": item["outcome_phase"],
         } for item in sorted(
             parsed.votes, key=lambda value: value["native_vote_no"],
         )]
@@ -8158,6 +9240,22 @@ class V2SeatControl:
                 strict=True,
             )
         }
+        chat_items = [{
+            "sequence": item["sequence"],
+            "turn": item["turn"],
+            "phase": item["phase"],
+            "sender": {
+                "kind": item["sender"],
+                "name": item["sender_name"],
+                "self": item["self"],
+            },
+            "channel": item["channel"],
+            "event": item["event"],
+            "message": item["message"],
+            "truncated": item["truncated"],
+        } for item in sorted(
+            parsed.chats, key=lambda value: value["sequence"],
+        )]
         for action in parsed.actions:
             rule = _ACTION_RULES[action["native_rule"]]
             if (
@@ -8171,11 +9269,51 @@ class V2SeatControl:
             )
             desired = action["desired_acceptance"]
             vote = vote_by_native.get(action["native_vote_no"])
+            vote_choices = (
+                tuple(
+                    choice for choice in ("yes", "no", "abstain")
+                    if choice != vote["current_vote"]
+                ) if rule.operation == "cast_vote" and vote is not None
+                else ()
+            )
+            if rule.operation == "propose_server_setting":
+                public_target = self._server_setting_target(
+                    action, native_revision,
+                )
+            elif rule.operation in {"cast_vote", "cancel_vote"}:
+                public_target = (
+                    {"type": "vote", "vote_id": vote["vote_id"]}
+                    if vote is not None else None
+                )
+            elif rule.operation == "send_chat":
+                public_target = {
+                    "type": "chat_channel",
+                    "channels": list(_CHAT_SEND_CHANNELS),
+                    "recipients_from": "chat_recipients",
+                }
+            else:
+                public_target = {
+                    "type": {
+                        "configure": "pregame_configuration",
+                        "set_team": "pregame_team",
+                        "set_ready": "pregame_readiness",
+                    }[rule.operation],
+                    "desired_ready": desired == 1
+                    if rule.operation == "set_ready" else None,
+                    "choices_from": "pregame_teams"
+                    if rule.operation == "set_team" else None,
+                }
             descriptor = {
                 "action_id": action_id,
                 "kind": rule.public_kind,
                 "label": (
-                    "Cast vote" if rule.operation == "cast_vote" else {
+                    "Cast vote" if rule.operation == "cast_vote"
+                    else "Send chat message"
+                    if rule.operation == "send_chat" else {
+                        "cancel_vote": "Cancel own vote",
+                        "propose_server_setting": (
+                            f"Propose changing {action['target_name']}"
+                        ),
                         "configure": "Choose nation, leader, sex, and style",
                         "set_team": "Choose team",
                         "set_ready": (
@@ -8186,21 +9324,7 @@ class V2SeatControl:
                 ),
                 "subject": {
                     "actor": {"type": "player", "id": player_id},
-                    "target": (
-                        {"type": "vote", "vote_id": vote["vote_id"]}
-                        if rule.operation == "cast_vote" and vote is not None
-                        else {
-                        "type": {
-                            "configure": "pregame_configuration",
-                            "set_team": "pregame_team",
-                            "set_ready": "pregame_readiness",
-                        }[rule.operation],
-                        "desired_ready": desired == 1
-                        if rule.operation == "set_ready" else None,
-                        "choices_from": "pregame_teams"
-                        if rule.operation == "set_team" else None,
-                        }
-                    ),
+                    "target": public_target,
                     "operation": rule.operation,
                     "variant": rule.variant,
                     "consuming": False,
@@ -8210,6 +9334,12 @@ class V2SeatControl:
                 "arguments_schema": self._arguments_schema(
                     rule, desired if rule.operation == "set_ready" else 0,
                     vote_id=vote["vote_id"] if vote is not None else None,
+                    vote_choices=vote_choices,
+                    server_setting=(
+                        action
+                        if rule.operation == "propose_server_setting"
+                        else None
+                    ),
                 ),
                 "state_revision": state_revision,
             }
@@ -8229,6 +9359,12 @@ class V2SeatControl:
                 max_rate=desired if rule.operation == "set_ready" else 0,
                 actor_ref=pregame["ref"],
                 vote_id=vote["vote_id"] if vote is not None else None,
+                vote_choices=vote_choices,
+                server_setting_type=action["server_setting_type"],
+                server_setting_min=action["server_setting_min"],
+                server_setting_max=action["server_setting_max"],
+                server_setting_current=action["server_setting_current"],
+                server_setting_value=action["server_setting_value"],
             )
         sections = {
             "overview": [{
@@ -8250,6 +9386,7 @@ class V2SeatControl:
                     "pregame_styles": pregame["style_choices"],
                     "pregame_teams": pregame["team_choices"],
                     "votes": len(vote_items),
+                    "chat": len(chat_items),
                     "legal_actions": len(descriptors),
                 },
                 "legal_action_counts": dict(sorted(Counter(
@@ -8260,7 +9397,8 @@ class V2SeatControl:
             "pregame_styles": [],
             "pregame_teams": [],
             "votes": vote_items,
-            "chat": [],
+            "chat": chat_items,
+            "chat_recipients": [],
         }
         size_payload = {
             "state_revision": state_revision,
@@ -8285,6 +9423,7 @@ class V2SeatControl:
             actor_bindings=MappingProxyType(actor_bindings),
             relation_bindings=MappingProxyType({}),
             tile_bindings=MappingProxyType({}),
+            action_decision_bindings=MappingProxyType({}),
             parsed=parsed,
             canonical_bytes=canonical_bytes,
         )
@@ -8375,6 +9514,8 @@ class V2SeatControl:
                         "unit.goto", "unit.goto_and_perform",
                         "unit.connect_route", "Paradrop Unit",
                         "Paradrop Unit Frighten", "Paradrop Unit Enter",
+                        "Teleport", "Teleport2", "Teleport3",
+                        "Teleport Frighten", "Teleport Enter",
                     })
                     if request.actor_kind == "unit"
                     else frozenset({"city.set_rally"})
@@ -8392,11 +9533,11 @@ class V2SeatControl:
                             "goto", "goto_and_perform", "connect_route",
                         }
                         and binding.public_kind != "unit.order"
-                        or binding.operation == "paradrop"
+                        or binding.operation in {"paradrop", "teleport"}
                         and binding.public_kind != "unit.perform_action"
                         or binding.operation not in {
                             "goto", "goto_and_perform", "connect_route",
-                            "paradrop",
+                            "paradrop", "teleport",
                         }
                     )
                     or request.actor_kind == "city" and (
@@ -8421,21 +9562,43 @@ class V2SeatControl:
         action_id: str,
     ) -> tuple[dict[str, Any], _ActionBinding]:
         """Translate one safe server-discovered action without enum leakage."""
-        rule = _SPECIAL_ACTION_RESULTS.get((
-            action["result"], action["target_kind"],
-        ))
+        rule = _special_action_rule(action)
         parsed = snapshot.parsed
+        ruleset_custom = (
+            rule is not None and rule.operation == "ruleset_action"
+        )
         targeted_technology = (
-            rule is not None and rule.native_subresults == "technology"
+            rule is not None and rule.native_subtarget == "technology"
         )
         targeted_building = (
-            rule is not None and rule.native_subresults == "building"
+            rule is not None and rule.native_subtarget == "building"
+        )
+        targeted_extra = (
+            rule is not None
+            and rule.native_subtarget in {"extra", "extra_not_there"}
+        )
+        targeted_specialist = (
+            rule is not None and rule.native_subtarget == "specialist"
         )
         paid = rule is not None and rule.gold_cost_policy == "quoted_maximum"
         target_technology = next((
             tech for tech in parsed.research_techs
             if tech["native_id"] == action["native_target_tech"]
         ), None)
+        if (
+            targeted_technology and target_technology is None
+            and action["target_name"] == "Future Tech"
+            and action["native_target_tech"] >= 0
+        ):
+            # The victim may own future levels before this seat is itself
+            # eligible to research Future Tech, in which case the ordinary
+            # self-research catalog has no row for it.  The request-bound
+            # native action row is still the authoritative selectable choice.
+            target_technology = {
+                "native_id": action["native_target_tech"],
+                "name": "Future Tech",
+                "state": "future",
+            }
         actor = next((
             unit for unit in parsed.units
             if unit["ref"] == request.native_actor_ref
@@ -8444,11 +9607,21 @@ class V2SeatControl:
         tile = self._known_tile_for_native(
             snapshot, request.native_target_tile,
         )
+        decision_binding = snapshot.action_decision_bindings.get(
+            request.target_id,
+        )
+        exact_action_decision = (
+            request.action_decision
+            and decision_binding is not None
+            and decision_binding.actor_id == request.actor_id
+            and decision_binding.native_target_tile
+               == request.native_target_tile
+        )
         if (
             rule is None
             or actor is None
             or tile is None
-            or tile["known"] == 0
+            or (tile["known"] == 0 and not exact_action_decision)
             or (
                 tile["known"] == 1
                 and rule.operation != "paradrop_conquer"
@@ -8460,7 +9633,7 @@ class V2SeatControl:
             or (targeted_technology and (
                 target_technology is None
                 or target_technology["state"] not in {
-                    "available", "reachable",
+                    "available", "reachable", "future",
                 }
                 or action["target_name"] != target_technology["name"]
             ))
@@ -8474,7 +9647,19 @@ class V2SeatControl:
                 action["target_build_kind"] != "none"
                 or action["native_target_build"] != -1
             ))
+            or (targeted_extra
+                and action["native_target_extra"] < 0)
+            or (not targeted_extra
+                and action["native_target_extra"] != -1)
+            or (targeted_specialist
+                and action["native_target_specialist"] < 0)
+            or (not targeted_specialist
+                and action["native_target_specialist"] != -1)
+            or action["subtarget_kind"] != rule.native_subtarget
+            or action["subresults"] not in rule.allowed_subresult_sets
             or (not targeted_technology and not targeted_building
+                and not targeted_extra and not targeted_specialist
+                and not ruleset_custom
                 and action["target_name"] != "target")
             or action["native_target_government"] != -1
             or action["max_rate"] != 0
@@ -8487,14 +9672,14 @@ class V2SeatControl:
             or action["native_target_multiplier"] != -1
             or action["multiplier_value"] != -1
             or action["native_source_specialist"] != -1
-            or action["native_target_specialist"] != -1
-            or action["native_target_extra"] != -1
             or action["activity"] != "none"
             or (rule.probability_policy == "unresolved"
                 and action["probability_kind"] != "not_implemented")
             or (rule.probability_policy == "resolved"
                 and action["probability_kind"] == "not_implemented")
-            or rule.probability_policy not in {"resolved", "unresolved"}
+            or rule.probability_policy not in {
+                "resolved", "unresolved", "native",
+            }
             or rule.gold_cost_policy not in {"none", "quoted_maximum"}
             or (rule.native_rules
                 and action["native_rule"] not in rule.native_rules)
@@ -8561,9 +9746,10 @@ class V2SeatControl:
                     "Extras": "tile",
                 }[rule.target_kind],
                 "id": request.target_id,
-                "x": tile["x"],
-                "y": tile["y"],
             }
+            if tile["known"] != 0:
+                public_target["x"] = tile["x"]
+                public_target["y"] = tile["y"]
         elif rule.target_kind == "Self":
             if (
                 action["destination_city_ref"] is not None
@@ -8604,6 +9790,36 @@ class V2SeatControl:
                     action["destination_city_ref"], action["native_rule"],
                     action_id, action["native_target_build"],
                 ),
+                "name": action["target_name"],
+            }
+        if targeted_extra:
+            subject["extra_choice"] = {
+                "id": self._mac(
+                    "extra_choice", "target_action", action_id,
+                    action["subtarget_kind"],
+                    action["native_target_extra"],
+                ),
+                "name": action["target_name"],
+                "presence": (
+                    "present" if action["subtarget_kind"] == "extra"
+                    else "absent"
+                ),
+            }
+        if targeted_specialist:
+            subject["specialist_choice"] = {
+                "id": self._mac(
+                    "specialist_choice", "target_action", action_id,
+                    action["native_target_specialist"],
+                ),
+                "name": action["target_name"],
+            }
+        if action["subresults"]:
+            subject["effects"] = [
+                _ACTION_SUBRESULT_EFFECTS[item]
+                for item in action["subresults"]
+            ]
+        if ruleset_custom:
+            subject["ruleset_action"] = {
                 "name": action["target_name"],
             }
         if paid:
@@ -8656,6 +9872,7 @@ class V2SeatControl:
             "city_build_choices": tuple(snapshot.parsed.city_build_choices),
             "city_worklist": tuple(snapshot.parsed.city_worklists),
             "city_improvements": tuple(snapshot.parsed.city_improvements),
+            "city_trade_routes": (),
             "city_governor": tuple(snapshot.parsed.city_governors),
         }.get(section)
         if source is None:
@@ -8799,15 +10016,10 @@ class V2SeatControl:
             expected_multiplier_capabilities: set[str] = set()
             if action_eligible:
                 for item in parsed.multipliers:
-                    if not item["can_change"]:
-                        continue
-                    for value in range(
-                        item["start"], item["stop"] + 1, item["step"],
-                    ):
-                        if value != item["target"]:
-                            expected_multiplier_capabilities.add(
-                                f"set_multiplier:{item['native_id']}:{value}"
-                            )
+                    if item["can_change"] and item["choice_count"] > 1:
+                        expected_multiplier_capabilities.add(
+                            f"set_multiplier:{item['native_id']}"
+                        )
             ship = parsed.spaceship
             if action_eligible and ship is not None and ship["state"] == "started":
                 expected_spaceship_capabilities.update(
@@ -9100,6 +10312,10 @@ class V2SeatControl:
                     turn=base_binding.turn,
                     phase=base_binding.phase,
                     max_rate=base_binding.max_rate,
+                    argument_max=base_binding.argument_max,
+                    argument_min=base_binding.argument_min,
+                    argument_step=base_binding.argument_step,
+                    argument_excluded=base_binding.argument_excluded,
                     actor_ref=request.native_actor_ref,
                     scoped=True,
                 )
@@ -9117,8 +10333,7 @@ class V2SeatControl:
                             "place_component", "launch",
                         }
                         else f"set_multiplier:"
-                             f"{action['native_target_multiplier']}:"
-                             f"{action['multiplier_value']}"
+                             f"{action['native_target_multiplier']}"
                         if scoped_binding.operation == "set_multiplier"
                         else f"{scoped_binding.operation}:"
                              f"{action['native_target_government']}"
@@ -9397,6 +10612,7 @@ class V2SeatControl:
         ):
             _fail()
         allowed = {
+            "chat_recipients": frozenset({"chat_recipient"}),
             "pregame_nations": frozenset({"pregame_nation"}),
             "pregame_styles": frozenset({"pregame_style"}),
             "pregame_teams": frozenset({
@@ -9406,12 +10622,17 @@ class V2SeatControl:
             "map_tiles": frozenset({"tile"}),
             "tile_window": frozenset({"tile_local", "tile_extra"}),
             "target_tiles": frozenset({"tile_local", "tile_extra"}),
+            "action_decision_tile": frozenset({
+                "tile_local", "tile_extra",
+            }),
             "diplomacy_clauses": frozenset({"diplomacy_clause"}),
             "city_citizens": frozenset({"city_tile", "city_specialist"}),
             "city_build_choices": frozenset({"city_build_choice"}),
             "city_worklist": frozenset({"city_worklist"}),
             "city_improvements": frozenset({"city_improvement"}),
+            "city_trade_routes": frozenset({"city_trade_route"}),
             "city_governor": frozenset({"city_governor"}),
+            "unit_route": frozenset({"unit_route_step"}),
         }.get(request.section)
         if allowed is None:
             _fail()
@@ -9421,6 +10642,105 @@ class V2SeatControl:
         parsed_rows = tuple(item for _, item in parsed_pairs)
         public: list[dict[str, Any]] = []
         tile_bindings: list[tuple[str, int, int, int]] = []
+        if request.section == "chat_recipients":
+            self_ref = (
+                snapshot.parsed.pregame["ref"]
+                if snapshot.parsed.pregame is not None
+                else snapshot.parsed.player["ref"]
+                if snapshot.parsed.player is not None
+                else None
+            )
+            self_rows = tuple(item for item in parsed_rows if item["self"])
+            if (
+                request.selector != "-"
+                or snapshot.parsed.meta["state"] not in {
+                    "preparing", "running",
+                }
+                or self_ref is None or total < 1
+                or len({item["ref"] for item in parsed_rows}) != total
+                or len({item["name"] for item in parsed_rows}) != total
+                or len(self_rows) != 1 or self_rows[0]["ref"] != self_ref
+                or any(
+                    item["can_message"] and not item["connected"]
+                    for item in parsed_rows
+                )
+            ):
+                _fail()
+            ordered = tuple(sorted(
+                parsed_rows, key=lambda item: item["parsed_ref"],
+            ))
+            public.extend({
+                "id": self._entity_id("player", item["ref"]),
+                "name": item["name"],
+                "self": item["self"],
+                "connected": item["connected"],
+                "can_message": item["can_message"],
+            } for item in ordered)
+            return (
+                tuple(_freeze(item) for item in public), (),
+                tuple(_freeze(item) for item in ordered),
+            )
+        if request.section == "unit_route":
+            binding = snapshot.actor_bindings.get(request.actor_id)
+            native_unit = next((
+                item for item in snapshot.parsed.units
+                if item["scope"] == "own"
+                and item["ref"] == request.selector
+            ), None)
+            summary = next((
+                item for item in snapshot.parsed.unit_routes
+                if item["unit_ref"] == request.selector
+            ), None)
+            public_unit = next((
+                item for item in snapshot.sections["units"]
+                if item["id"] == request.actor_id
+            ), None)
+            if (
+                binding is None or binding.kind != "unit"
+                or binding.native_ref != request.selector
+                or native_unit is None or summary is None
+                or public_unit is None or public_unit.get("route") is None
+                or not summary["reconstructable"]
+                or total != summary["step_count"]
+                or request.relation_id is not None
+                or request.center_id is not None or request.radius is not None
+            ):
+                _fail()
+            ordered = sorted(parsed_rows, key=lambda item: item["sequence"])
+            if (
+                [item["sequence"] for item in ordered] != list(range(total))
+                or any(item["unit_ref"] != request.selector for item in ordered)
+            ):
+                _fail()
+            prior_x, prior_y = self._map_coordinates_for_native_index(
+                snapshot.parsed.meta, native_unit["native_tile"],
+            )
+            for item in ordered:
+                x, y = self._map_coordinates_for_native_index(
+                    snapshot.parsed.meta, item["native_tile"],
+                )
+                distance = self._map_distance(
+                    snapshot.parsed.meta, prior_x, prior_y, x, y,
+                )
+                if (
+                    item["kind"] == "wait" and distance != 0
+                    or item["kind"] != "wait" and distance != 1
+                ):
+                    _fail()
+                tile_id = self._tile_id(item["native_tile"])
+                public.append({
+                    "unit_id": request.actor_id,
+                    "route_id": public_unit["route"]["id"],
+                    "sequence": item["sequence"],
+                    "kind": item["kind"],
+                    "tile": {"id": tile_id, "x": x, "y": y},
+                })
+                tile_bindings.append((tile_id, item["native_tile"], x, y))
+                prior_x, prior_y = x, y
+            return (
+                tuple(_freeze(item) for item in public),
+                tuple(tile_bindings), parsed_rows,
+            )
         if request.section == "pregame_nations":
             pregame = snapshot.parsed.pregame
             if (
@@ -9538,6 +10858,7 @@ class V2SeatControl:
             )
         if request.section in {
             "known_tiles", "map_tiles", "tile_window", "target_tiles",
+            "action_decision_tile",
         }:
             tile_rows = tuple(
                 item for kind, item in parsed_pairs
@@ -9633,6 +10954,28 @@ class V2SeatControl:
                 ), None)
                 if center is None or center["known"] == 0:
                     _fail()
+            elif request.section == "action_decision_tile":
+                binding = snapshot.actor_bindings.get(request.actor_id)
+                if (
+                    binding is None or binding.kind != "unit"
+                    or binding.native_ref != request.selector
+                    or request.relation_id is not None
+                    or request.center_id is not None
+                    or request.radius is not None
+                    or len(tile_rows) != 1 or extra_rows
+                ):
+                    _fail()
+                expected = next((
+                    value for value in snapshot.action_decision_bindings.values()
+                    if value.actor_id == request.actor_id
+                ), None)
+                if (
+                    expected is None
+                    or tile_rows[0]["native_index"]
+                       != expected.native_target_tile
+                ):
+                    _fail()
+                center = None
             else:
                 binding = snapshot.actor_bindings.get(request.actor_id)
                 if (
@@ -9861,6 +11204,7 @@ class V2SeatControl:
             "city_build_choices": city["build_choice_count"],
             "city_worklist": city["worklist_length"],
             "city_improvements": city["improvement_count"],
+            "city_trade_routes": city["trade_route_count"],
             "city_governor": int(city["governor_enabled"]),
         }[request.section]
         if total != expected_total:
@@ -9966,14 +11310,7 @@ class V2SeatControl:
                 (),
             )
             public.extend({
-                "city_id": city_id,
-                "id": self._production_id(
-                    item["production_kind"], item["production_native_id"],
-                ),
-                "kind": item["production_kind"],
-                "name": item["production_name"],
-                "can_queue": item["can_queue"],
-                "can_build_now": item["can_build_now"],
+                **self._public_build_choice(item, city_id),
                 "preservable_count": sum(
                     prior["production_kind"] == item["production_kind"]
                     and prior["production_native_id"]
@@ -9993,6 +11330,80 @@ class V2SeatControl:
                 "sellable": item["sellable"],
                 "sell_price": item["sell_price"],
             } for item in sorted(parsed_rows, key=lambda item: item["native_id"]))
+        elif request.section == "city_trade_routes":
+            ordered_routes = sorted(
+                parsed_rows, key=lambda item: item["position"],
+            )
+            if (
+                [item["position"] for item in ordered_routes]
+                != list(range(total))
+                or len({
+                    item["partner_ref"] for item in ordered_routes
+                    if item["partner_ref"] is not None
+                }) != sum(
+                    item["partner_ref"] is not None
+                    for item in ordered_routes
+                )
+            ):
+                _fail()
+            sites = {
+                item["ref"]: item for item in snapshot.parsed.city_sites
+            }
+            goods: dict[int, str] = {}
+            for item in ordered_routes:
+                previous = goods.setdefault(
+                    item["native_goods_id"], item["goods_name"],
+                )
+                partner = (
+                    sites.get(item["partner_ref"])
+                    if item["partner_ref"] is not None else None
+                )
+                if (
+                    previous != item["goods_name"]
+                    or item["partner_ref"] == request.selector
+                    or item["partner_ref"] is not None and (
+                        partner is None
+                        or partner["visibility"]
+                           != item["partner_visibility"]
+                        or partner["visibility"] not in {"own", "visible"}
+                        or partner["name"] != item["partner_name"]
+                    )
+                    or item["partner_ref"] is None and (
+                        item["partner_visibility"] != "unavailable"
+                        or item["partner_name"] is not None
+                    )
+                ):
+                    _fail()
+            public.extend({
+                "route_id": self._mac(
+                    "trade_route", "city-route", request.selector,
+                    item["position"], item["partner_ref"] or "unavailable",
+                    item["native_goods_id"], item["direction"],
+                ),
+                "city_id": city_id,
+                "position": item["position"],
+                "partner": ({
+                    "available": True,
+                    "city_id": self._entity_id(
+                        "city", item["partner_ref"],
+                    ),
+                    "name": item["partner_name"],
+                    "visibility": item["partner_visibility"],
+                } if item["partner_ref"] is not None else {
+                    "available": False,
+                }),
+                "value": {
+                    "base": item["base_value"],
+                    "effective": item["effective_value"],
+                },
+                "direction": item["direction"],
+                "goods": {
+                    "id": self._mac(
+                        "goods", "goods", item["native_goods_id"],
+                    ),
+                    "name": item["goods_name"],
+                },
+            } for item in ordered_routes)
         else:
             if total not in {0, 1}:
                 _fail()
@@ -10271,6 +11682,7 @@ class V2SeatControl:
             or action["result"] != rule.result
             or action["consuming"] is not False
             or action["args"] != rule.args
+            or not _non_special_action_metadata_supported(action)
             or action["actor_ref"] != request.native_actor_ref
             or action["counterpart_ref"]
                != request.native_counterpart_ref
@@ -10398,6 +11810,14 @@ class V2SeatControl:
             public_type = _DIPLOMACY_CLAUSE_PUBLIC_TYPES[native_type]
             if action["target_name"] != native_type:
                 _fail()
+            existing_native = next((
+                item for item in self._relation_clause_rows(
+                    snapshot, request.native_counterpart_ref,
+                )
+                if item["giver_ref"] == giver_ref
+                and item["clause_type"] == native_type
+                and item["native_value"] == native_value
+            ), None)
             clause: dict[str, Any] = {
                 "type": public_type,
                 "giver_player_id": giver_id,
@@ -10440,17 +11860,31 @@ class V2SeatControl:
                     item for item in parsed.city_sites
                     if item["parsed_ref"][1] == native_value
                 ), None)
-                if (
-                    site is None or site["owner_ref"] != giver_ref
-                    or action["source_city_ref"] != site["ref"]
-                    or action["clause_name"] != site["name"]
-                ):
-                    _fail()
-                clause["value"] = {
-                    "type": "city",
-                    "id": self._entity_id("city", site["ref"]),
-                    "name": site["name"],
-                }
+                unavailable_removal = (
+                    rule.operation == "remove_clause"
+                    and existing_native is not None
+                    and existing_native["value_kind"] == "city_unavailable"
+                )
+                if unavailable_removal:
+                    if (
+                        site is not None
+                        or action["source_city_ref"] is not None
+                        or action["clause_name"] != "unavailable"
+                        or existing_native["name"] != "unavailable"
+                    ):
+                        _fail()
+                else:
+                    if (
+                        site is None or site["owner_ref"] != giver_ref
+                        or action["source_city_ref"] != site["ref"]
+                        or action["clause_name"] != site["name"]
+                    ):
+                        _fail()
+                    clause["value"] = {
+                        "type": "city",
+                        "id": self._entity_id("city", site["ref"]),
+                        "name": site["name"],
+                    }
             elif (
                 native_value != 0 or action["source_city_ref"] is not None
                 or action["clause_name"] != "none"
@@ -10460,14 +11894,6 @@ class V2SeatControl:
             ):
                 _fail()
 
-            existing_native = next((
-                item for item in self._relation_clause_rows(
-                    snapshot, request.native_counterpart_ref,
-                )
-                if item["giver_ref"] == giver_ref
-                and item["clause_type"] == native_type
-                and item["native_value"] == native_value
-            ), None)
             if rule.operation == "remove_clause":
                 if existing_native is None:
                     _fail()
@@ -10562,6 +11988,7 @@ class V2SeatControl:
             or action["result"] != rule.result
             or action["consuming"] is not rule.consuming
             or action["args"] != rule.args
+            or not _non_special_action_metadata_supported(action)
             or action["actor_ref"] != request.native_actor_ref
             or action["native_target_tech"] != -1
             or action["max_rate"] != 0
@@ -10587,6 +12014,10 @@ class V2SeatControl:
         public_source_city: dict[str, Any] | None = None
         public_upgrade_target: dict[str, Any] | None = None
         infrastructure_binding_choices: tuple[tuple[str, int], ...] = ()
+        argument_min = 0
+        argument_max = action["route_waypoint_limit"]
+        argument_step = 1
+        argument_excluded: int | None = None
         label: str
         if request.actor_kind == "player":
             player = parsed.player
@@ -10715,7 +12146,6 @@ class V2SeatControl:
                     if item["native_id"]
                        == action["native_target_multiplier"]
                 ), None)
-                value = action["multiplier_value"]
                 if (
                     multiplier is None
                     or action["native_target_tile"] != -1
@@ -10723,19 +12153,27 @@ class V2SeatControl:
                     or action["spaceship_part"] != "none"
                     or action["spaceship_value"] != -1
                     or not multiplier["can_change"]
-                    or value == multiplier["target"]
-                    or not multiplier["start"] <= value <= multiplier["stop"]
-                    or (value - multiplier["start"]) % multiplier["step"] != 0
+                    or multiplier["choice_count"] <= 1
+                    or action["multiplier_value"] != -1
                     or action["target_name"] != multiplier["name"]
                 ):
                     _fail()
+                argument_min = multiplier["start"]
+                argument_max = multiplier["stop"]
+                argument_step = multiplier["step"]
+                argument_excluded = multiplier["target"]
                 public_target = {
                     "type": "multiplier",
                     "id": self._multiplier_id(multiplier["native_id"]),
                     "name": multiplier["name"],
-                    "value": value,
+                    "value": multiplier["value"],
+                    "target": multiplier["target"],
+                    "minimum": multiplier["start"],
+                    "maximum": multiplier["stop"],
+                    "step": multiplier["step"],
+                    "choice_count": multiplier["choice_count"],
                 }
-                label = f"Set {multiplier['name']} target to {value}"
+                label = f"Set {multiplier['name']} target"
             else:
                 ship = parsed.spaceship
                 if (
@@ -11235,8 +12673,9 @@ class V2SeatControl:
                     "airlift", "paradrop", "teleport",
                     *city_target_operations,
                     "auto_work", "auto_explore", "cancel_automation",
-                    "cancel_orders", "goto", "goto_and_perform",
-                    "connect_route", "set_route",
+                    "cancel_orders", "clear_action_decision", "goto",
+                    "goto_and_perform",
+                    "connect_route", "set_route", "attack_route",
                     "move", "attack", "suicide_attack", "found_city",
                 }
                 or action["native_target_government"] != -1
@@ -11259,7 +12698,47 @@ class V2SeatControl:
             tile_operations = {
                 "move", "attack", "suicide_attack", "found_city",
             }
-            if rule.operation == "set_route":
+            if rule.operation == "clear_action_decision":
+                target_id = (
+                    unit["action_decision_tile"] >= 0
+                    and self._tile_id(unit["action_decision_tile"])
+                )
+                decision = (
+                    snapshot.action_decision_bindings.get(target_id)
+                    if isinstance(target_id, str) else None
+                )
+                if (
+                    decision is None
+                    or decision.actor_id != public_actor["id"]
+                    or decision.native_target_tile
+                       != action["native_target_tile"]
+                    or action["native_target_tile"]
+                       != unit["action_decision_tile"]
+                    or unit["action_decision_want"] not in {
+                        "passive", "active",
+                    }
+                    or action["target_name"]
+                       != unit["action_decision_want"]
+                    or action["source_city_ref"] is not None
+                    or action["destination_city_ref"] is not None
+                    or action["target_unit_ref"] is not None
+                    or action["transport_context_ref"] is not None
+                    or action["target_build_kind"] != "none"
+                    or action["native_target_build"] != -1
+                    or action["native_target_extra"] != -1
+                    or action["activity"] != "none"
+                    or action["probability_kind"] != "exact"
+                    or action["probability_min"] != 200
+                    or action["probability_max"] != 200
+                ):
+                    _fail()
+                public_target = {
+                    "type": "action_decision",
+                    "tile_id": target_id,
+                    "want": unit["action_decision_want"],
+                }
+                label = "Clear pending unit action decision"
+            elif rule.operation in {"set_route", "attack_route"}:
                 if (
                     action["native_target_tile"] != -1
                     or action["source_city_ref"] is not None
@@ -11270,9 +12749,14 @@ class V2SeatControl:
                     or action["native_target_build"] != -1
                     or action["native_target_extra"] != -1
                     or action["activity"] != "none"
-                    or action["target_name"] != "route"
-                    or action["route_waypoint_limit"]
-                       != MAX_UNIT_ROUTE_WAYPOINTS
+                    or action["target_name"] != (
+                        "route" if rule.operation == "set_route"
+                        else "destination"
+                    )
+                    or action["route_waypoint_limit"] != (
+                        MAX_UNIT_ROUTE_WAYPOINTS
+                        if rule.operation == "set_route" else 0
+                    )
                     or action["legality"] != "legal"
                     or action["probability_kind"] != "exact"
                     or action["probability_min"] != 200
@@ -11285,8 +12769,16 @@ class V2SeatControl:
                     or unit["occupied"] != 0
                 ):
                     _fail()
-                public_target = {"type": "route"}
-                label = "Set an ordered unit route"
+                public_target = (
+                    {"type": "route"}
+                    if rule.operation == "set_route"
+                    else {"type": "route", "mode": "attack"}
+                )
+                label = (
+                    "Set an ordered unit route"
+                    if rule.operation == "set_route"
+                    else "Attack along a route"
+                )
             elif rule.operation in tile_operations:
                 origin_tile = {
                     "native_index": unit["native_tile"],
@@ -11481,8 +12973,11 @@ class V2SeatControl:
                     request.native_actor_ref,
                 )
                 own_cities = {item["ref"]: item for item in parsed.cities}
+                city_sites = {
+                    item["ref"]: item for item in parsed.city_sites
+                }
                 source_city = own_cities.get(action["source_city_ref"])
-                destination_city = own_cities.get(
+                destination_city = city_sites.get(
                     action["destination_city_ref"],
                 )
                 if (
@@ -11500,7 +12995,7 @@ class V2SeatControl:
                         or action["native_target_tile"] != -1
                         or source_city is None
                         or destination_city is None
-                        or source_city is destination_city
+                        or source_city["ref"] == destination_city["ref"]
                         or source_city["native_tile"] != unit["native_tile"]
                         or action["target_name"] != destination_city["name"]
                         or action["probability_kind"] == "not_implemented"
@@ -11512,9 +13007,16 @@ class V2SeatControl:
                             "city", destination_city["ref"],
                         ),
                         "name": destination_city["name"],
+                        "owner_player_id": self._entity_id(
+                            "player", destination_city["owner_ref"],
+                        ),
                         "tile_id": self._tile_id(
                             destination_city["native_tile"],
                         ),
+                        "x": destination_city["x"],
+                        "y": destination_city["y"],
+                        "size": destination_city["size"],
+                        "visibility": destination_city["visibility"],
                     }
                     label = f"Airlift unit to {destination_city['name']}"
                 else:
@@ -11523,17 +13025,8 @@ class V2SeatControl:
                         or action["destination_city_ref"] is not None
                         or target_tile is None
                         or (
-                            rule.operation == "paradrop"
-                            and target_tile["known"] == 0
-                        )
-                        or (
-                            rule.operation == "paradrop"
-                            and target_tile["known"] == 1
+                            target_tile["known"] in {0, 1}
                             and not isinstance(request, V2TargetActionRequest)
-                        )
-                        or (
-                            rule.operation == "teleport"
-                            and target_tile["known"] != 2
                         )
                         or target_tile["native_index"] == unit["native_tile"]
                         or action["target_name"] != "destination"
@@ -11541,6 +13034,16 @@ class V2SeatControl:
                             rule.operation == "teleport"
                             and action["probability_kind"]
                                 == "not_implemented"
+                            and not isinstance(request, V2TargetActionRequest)
+                        )
+                        or (
+                            target_tile["known"] == 0
+                            and (
+                                action["legality"] != "possibly_legal"
+                                or action["probability_kind"] != "unknown"
+                                or action["probability_min"] != 0
+                                or action["probability_max"] != 200
+                            )
                         )
                     ):
                         _fail()
@@ -12116,17 +13619,25 @@ class V2SeatControl:
             subject["source_city"] = public_source_city
         if public_upgrade_target is not None:
             subject["upgrade_to"] = public_upgrade_target
+        if action["subresults"]:
+            subject["effects"] = [
+                _ACTION_SUBRESULT_EFFECTS[item]
+                for item in action["subresults"]
+            ]
         descriptor = {
             "action_id": action_id,
             "kind": rule.public_kind,
             "label": label,
             "subject": subject,
             "arguments_schema": self._arguments_schema(
-                rule, action["route_waypoint_limit"],
+                rule, argument_max,
                 tuple(
                     public_id
                     for public_id, _ in infrastructure_binding_choices
                 ),
+                argument_min=argument_min,
+                argument_step=argument_step,
+                argument_excluded=argument_excluded,
             ),
             "state_revision": state_revision,
         }
@@ -12143,7 +13654,10 @@ class V2SeatControl:
             turn=parsed.meta["turn"],
             phase=parsed.meta["phase"],
             max_rate=0,
-            argument_max=action["route_waypoint_limit"],
+            argument_max=argument_max,
+            argument_min=argument_min,
+            argument_step=argument_step,
+            argument_excluded=argument_excluded,
             actor_ref=request.native_actor_ref,
             infrastructure_choices=infrastructure_binding_choices,
             scoped=True,
@@ -12159,6 +13673,42 @@ class V2SeatControl:
             "kind": kind,
             "minimum_percent": action["probability_min"] / 2,
             "maximum_percent": action["probability_max"] / 2,
+        }
+
+    def _server_setting_target(
+        self, action: Mapping[str, Any], native_revision: int,
+    ) -> dict[str, Any]:
+        setting_type = action["server_setting_type"]
+        fixed_value: bool | int | None
+        if setting_type == "boolean":
+            fixed_value = bool(action["server_setting_value"])
+            current_value: bool | int | None = bool(
+                action["server_setting_current"],
+            )
+        elif setting_type == "enum":
+            fixed_value = action["server_setting_value"]
+            current_value = action["server_setting_current"]
+        elif setting_type in {"integer", "bitwise"}:
+            fixed_value = None
+            current_value = action["server_setting_current"]
+        else:
+            fixed_value = None
+            current_value = None
+        return {
+            "type": "server_setting",
+            "id": self._mac(
+                "server_setting", "server_setting", native_revision,
+                action["native_server_setting_id"], setting_type,
+                action["server_setting_min"], action["server_setting_max"],
+                action["server_setting_current"],
+                action["server_setting_value"],
+            ),
+            "name": action["target_name"],
+            "value_type": setting_type,
+            "minimum": action["server_setting_min"],
+            "maximum": action["server_setting_max"],
+            "current_value": current_value,
+            "proposed_value": fixed_value,
         }
 
     @staticmethod
@@ -12196,7 +13746,10 @@ class V2SeatControl:
     def _arguments_schema(
         rule: _NativeActionRule, argument_max: int,
         infrastructure_choices: tuple[str, ...] = (),
-        *, vote_id: str | None = None,
+        *, vote_id: str | None = None, argument_min: int = 0,
+        vote_choices: tuple[str, ...] = (),
+        argument_step: int = 1, argument_excluded: int | None = None,
+        server_setting: Mapping[str, Any] | None = None,
     ) -> dict[str, Any]:
         if rule.operation == "configure":
             return {
@@ -12232,19 +13785,68 @@ class V2SeatControl:
                 "additionalProperties": False,
             }
         if rule.operation == "cast_vote":
-            if vote_id is None:
+            if vote_id is None or not vote_choices or any(
+                choice not in {"yes", "no", "abstain"}
+                for choice in vote_choices
+            ):
                 _fail()
             return {
                 "type": "object",
                 "properties": {
                     "vote_id": {"type": "string", "enum": [vote_id]},
                     "vote": {
-                        "type": "string", "enum": ["yes", "no", "abstain"],
+                        "type": "string", "enum": list(vote_choices),
                     },
                 },
                 "required": ["vote_id", "vote"],
                 "additionalProperties": False,
             }
+        if rule.operation == "propose_server_setting":
+            if server_setting is None:
+                _fail()
+            setting_type = server_setting["server_setting_type"]
+            minimum = server_setting["server_setting_min"]
+            maximum = server_setting["server_setting_max"]
+            if setting_type in {"boolean", "enum"}:
+                return {
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": False,
+                    "metadata": {
+                        "value_bound_by_descriptor": True,
+                    },
+                }
+            if setting_type in {"integer", "bitwise"}:
+                return {
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "integer",
+                            "minimum": minimum,
+                            "maximum": maximum,
+                            "multipleOf": 1,
+                        },
+                    },
+                    "required": ["value"],
+                    "additionalProperties": False,
+                }
+            if setting_type == "string":
+                return {
+                    "type": "object",
+                    "properties": {
+                        "value": {
+                            "type": "string", "minLength": 0,
+                            "maxLength": maximum,
+                            "metadata": {
+                                "max_utf8_bytes": maximum,
+                                "double_quote_allowed": False,
+                            },
+                        },
+                    },
+                    "required": ["value"],
+                    "additionalProperties": False,
+                }
+            _fail()
         if rule.operation == "set_team":
             return {
                 "type": "object",
@@ -12260,7 +13862,16 @@ class V2SeatControl:
                 "type": "object",
                 "properties": {
                     "channel": {
-                        "type": "string", "enum": ["global", "allied"],
+                        "type": "string",
+                        "enum": list(_CHAT_SEND_CHANNELS),
+                    },
+                    "recipient_id": {
+                        "type": "string",
+                        "pattern": r"^player_[0-9a-f]{32}$",
+                        "metadata": {
+                            "opaque_ids_from": "state.chat_recipients",
+                            "requires_item_field": {"can_message": True},
+                        },
                     },
                     "message": {
                         "type": "string", "minLength": 1,
@@ -12268,12 +13879,32 @@ class V2SeatControl:
                         "metadata": {
                             "max_utf8_bytes": MAX_CHAT_MESSAGE_BYTES,
                             "commands_allowed": False,
-                            "private_targets_allowed": False,
+                            "channel_prefixes_server_generated": True,
+                            "colons_allowed": True,
+                            "forbidden_codepoint_ranges": [
+                                [lower, upper]
+                                for lower, upper in (
+                                    _CHAT_FORBIDDEN_CODEPOINT_RANGES
+                                )
+                            ],
+                            "leading_trailing_ascii_space_allowed": False,
                         },
                     },
                 },
                 "required": ["channel", "message"],
+                "allOf": [{
+                    "if": {
+                        "properties": {"channel": {"const": "private"}},
+                        "required": ["channel"],
+                    },
+                    "then": {"required": ["recipient_id"]},
+                    "else": {"not": {"required": ["recipient_id"]}},
+                }],
                 "additionalProperties": False,
+                "metadata": {
+                    "recipient_ids_from": "chat_recipients",
+                    "private_recipients_require": {"can_message": True},
+                },
             }
         if rule.operation == "place_infrastructure":
             if not infrastructure_choices:
@@ -12326,6 +13957,23 @@ class V2SeatControl:
                 "required": ["mode", "waypoints"],
                 "additionalProperties": False,
             }
+        if rule.operation == "attack_route":
+            return {
+                "type": "object",
+                "properties": {
+                    "destination_id": {
+                        "type": "string",
+                        "metadata": {
+                            "opaque_ids_from": (
+                                "state.known_tiles or state.tile_window"
+                            ),
+                            "must_differ_from_actor_source": True,
+                        },
+                    },
+                },
+                "required": ["destination_id"],
+                "additionalProperties": False,
+            }
         if rule.operation == "set_rates":
             rate = {
                 "type": "integer", "minimum": 0, "maximum": argument_max,
@@ -12346,6 +13994,40 @@ class V2SeatControl:
                         "equals": 100,
                     },
                     "server_step": 1,
+                },
+            }
+        if rule.operation == "set_multiplier":
+            if (
+                argument_step < 1
+                or argument_max < argument_min
+                or argument_excluded is None
+                or not argument_min <= argument_excluded <= argument_max
+                or (argument_excluded - argument_min) % argument_step != 0
+            ):
+                _fail()
+            return {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "minimum": argument_min,
+                        "maximum": argument_max,
+                        "multipleOf": 1,
+                    },
+                },
+                "required": ["value"],
+                "additionalProperties": False,
+                "metadata": {
+                    "integer_grid": {
+                        "field": "value",
+                        "origin": argument_min,
+                        "step": argument_step,
+                    },
+                    "not_equal": {
+                        "field": "value",
+                        "value": argument_excluded,
+                        "reason": "current_target_is_a_no_op",
+                    },
                 },
             }
         if rule.args == "gold-required":
@@ -12376,7 +14058,7 @@ class V2SeatControl:
                         "items": {"type": "string"},
                         "metadata": {
                             "opaque_ids_from": (
-                                "city.management.build_choices"
+                                "city_build_choices"
                             ),
                             "eligibility": (
                                 "can_queue or occurrence does not exceed "
@@ -12567,32 +14249,47 @@ class V2SeatControl:
                 raise V2ControlError("invalid_request")
             return f"team={selected['native_id']}"
         if contract == "chat-required":
-            if type(arguments) is not dict or set(arguments) != {
-                "channel", "message",
-            }:
+            if type(arguments) is not dict:
                 raise V2ControlError("invalid_request")
-            channel = arguments["channel"]
-            message = arguments["message"]
-            if not isinstance(channel, str) or channel not in {
-                "global", "allied",
-            } or not isinstance(message, str):
+            channel = arguments.get("channel")
+            message = arguments.get("message")
+            if (
+                not isinstance(channel, str)
+                or channel not in _CHAT_SEND_CHANNELS
+                or not isinstance(message, str)
+                or set(arguments) != (
+                    {"channel", "recipient_id", "message"}
+                    if channel == "private" else {"channel", "message"}
+                )
+            ):
                 raise V2ControlError("invalid_request")
             try:
                 encoded = message.encode("utf-8", "strict")
             except UnicodeEncodeError as exc:
                 raise V2ControlError("invalid_request") from exc
-            if (
-                not 1 <= len(encoded) <= MAX_CHAT_MESSAGE_BYTES
-                or message != message.strip()
-                or message[0] in {"/", ".", ":"}
-                or ":" in message
-                or any(
-                    unicodedata.category(character).startswith("C")
-                    for character in message
-                )
-            ):
+            if not _chat_message_safe(message, encoded):
                 raise V2ControlError("invalid_request")
-            return f"channel={channel};message={_percent_encode(encoded)}"
+            native_recipient = "none"
+            if channel == "private":
+                recipient_id = arguments["recipient_id"]
+                if not isinstance(recipient_id, str):
+                    raise V2ControlError("invalid_request")
+                recipient = next((
+                    item for item in self._chat_recipient_overlays.get(
+                        snapshot.native_revision, (),
+                    )
+                    if self._entity_id("player", item["ref"])
+                       == recipient_id
+                ), None)
+                if recipient is None:
+                    raise V2ControlError("invalid_request")
+                if not recipient["can_message"]:
+                    raise V2ControlError("invalid_request")
+                native_recipient = recipient["ref"]
+            return (
+                f"channel={channel};recipient={native_recipient};"
+                f"message={_percent_encode(encoded)}"
+            )
         if contract == "vote-required":
             if (
                 type(arguments) is not dict
@@ -12600,10 +14297,63 @@ class V2SeatControl:
                 or not isinstance(arguments["vote_id"], str)
                 or arguments["vote_id"] != binding.vote_id
                 or not isinstance(arguments["vote"], str)
-                or arguments["vote"] not in {"yes", "no", "abstain"}
+                or arguments["vote"] not in binding.vote_choices
             ):
                 raise V2ControlError("invalid_request")
             return f"vote={arguments['vote']}"
+        if contract == "multiplier-value-required":
+            if type(arguments) is not dict or set(arguments) != {"value"}:
+                raise V2ControlError("invalid_request")
+            value = arguments["value"]
+            if (
+                isinstance(value, bool) or not isinstance(value, int)
+                or binding.argument_step < 1
+                or value < binding.argument_min
+                or value > binding.argument_max
+                or (value - binding.argument_min) % binding.argument_step != 0
+                or value == binding.argument_excluded
+            ):
+                raise V2ControlError("invalid_request")
+            return f"value={value}"
+        if contract in {
+            "server-setting-integer-required",
+            "server-setting-bitwise-required",
+        }:
+            if type(arguments) is not dict or set(arguments) != {"value"}:
+                raise V2ControlError("invalid_request")
+            value = arguments["value"]
+            if (
+                isinstance(value, bool) or not isinstance(value, int)
+                or value < binding.server_setting_min
+                or value > binding.server_setting_max
+                or value == binding.server_setting_current
+                or (
+                    contract == "server-setting-bitwise-required"
+                    and value < 0
+                )
+            ):
+                raise V2ControlError("invalid_request")
+            return f"value={value}"
+        if contract == "server-setting-string-required":
+            if (
+                type(arguments) is not dict
+                or set(arguments) != {"value"}
+                or not isinstance(arguments["value"], str)
+            ):
+                raise V2ControlError("invalid_request")
+            value = arguments["value"]
+            try:
+                encoded = value.encode("utf-8", "strict")
+            except UnicodeEncodeError as exc:
+                raise V2ControlError("invalid_request") from exc
+            if (
+                len(encoded) > binding.server_setting_max
+                or any(byte < 0x20 or byte == 0x7F for byte in encoded)
+                or any(0x80 <= ord(character) <= 0x9F for character in value)
+                or '"' in value
+            ):
+                raise V2ControlError("invalid_request")
+            return f"value={_percent_encode(encoded)}"
         if contract == "none":
             if type(arguments) is not dict or arguments:
                 raise V2ControlError("invalid_request")
@@ -12689,6 +14439,38 @@ class V2SeatControl:
                 f"mode={arguments['mode']};waypoints="
                 + ",".join(str(value) for value in native_waypoints)
             )
+        if contract == "attack-route-required":
+            if (
+                type(arguments) is not dict
+                or set(arguments) != {"destination_id"}
+                or binding.actor_ref is None
+                or binding.argument_max != 0
+            ):
+                raise V2ControlError("invalid_request")
+            destination_id = arguments["destination_id"]
+            native_tile = (
+                snapshot.tile_bindings.get(destination_id)
+                if isinstance(destination_id, str) else None
+            )
+            if native_tile is None and isinstance(destination_id, str):
+                scoped = self._scoped_tile_bindings.get(destination_id)
+                if (
+                    scoped is not None
+                    and scoped[0] == snapshot.native_revision
+                ):
+                    native_tile = scoped[1]
+            unit = next((
+                item for item in snapshot.parsed.units
+                if item["scope"] == "own"
+                and item["ref"] == binding.actor_ref
+            ), None)
+            if (
+                unit is None
+                or native_tile is None
+                or native_tile == unit["native_tile"]
+            ):
+                raise V2ControlError("invalid_request")
+            return f"destination={native_tile}"
         if contract == "worklist-required":
             if (
                 type(arguments) is not dict
@@ -12921,6 +14703,9 @@ class V2SeatControl:
         for key in tuple(self._pregame_state_overlays):
             if key[0] not in retained_revisions:
                 self._pregame_state_overlays.pop(key, None)
+        for revision in tuple(self._chat_recipient_overlays):
+            if revision not in retained_revisions:
+                self._chat_recipient_overlays.pop(revision, None)
         for key in tuple(self._relation_state_overlays):
             if key[0] not in retained_revisions:
                 self._drop_relation_overlay(key)

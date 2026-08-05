@@ -15,6 +15,7 @@
 #include <fc_config.h>
 #endif
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -157,6 +158,77 @@ static bool unit_do_destroy_city(struct player *act_player,
 static bool do_unit_change_homecity(struct unit *punit,
                                     struct city *pcity,
                                     const struct action *paction);
+
+#define AGENT_V2_MAX_COST_PREFIX "agent-v2-max-cost:"
+
+/**********************************************************************//**
+  Send gui-agent a structured result for an exact unit action request.
+
+  The processing boundary is connection-local.  All controlling gui-agent
+  connections for the acting player receive the packet, but only the
+  connection that originated this request sees it under the matching request
+  id and may therefore attribute it to its pending action.
+**************************************************************************/
+static void agent_v2_send_action_receipt(struct player *pplayer,
+                                         int actor_id, int target_id,
+                                         action_id action_type,
+                                         bool performed)
+{
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (pconn->client_gui == GUI_AGENT && conn_controls_player(pconn)) {
+      dsend_packet_unit_action_answer(
+        pconn, actor_id, target_id, performed ? 1 : 0, action_type,
+        AGENT_V2_ACTION_RECEIPT_KIND);
+    }
+  } conn_list_iterate_end;
+}
+
+/**********************************************************************//**
+  Parse gui-agent's optional paid-action ceiling. Non-reserved names keep
+  their legacy meaning. A reserved payload is canonical only when its value
+  is exactly "0" or an unsigned decimal without leading zeroes and fits int.
+**************************************************************************/
+static bool agent_v2_parse_max_cost(const char *name,
+                                    bool *guarded, int *max_cost)
+{
+  const char *digits;
+  int value = 0;
+
+  fc_assert_ret_val(guarded != nullptr, FALSE);
+  fc_assert_ret_val(max_cost != nullptr, FALSE);
+
+  *guarded = FALSE;
+  *max_cost = 0;
+
+  if (name == nullptr || name[0] == '\0'
+      || strncmp(name, AGENT_V2_MAX_COST_PREFIX,
+                 strlen(AGENT_V2_MAX_COST_PREFIX)) != 0) {
+    return TRUE;
+  }
+
+  digits = name + strlen(AGENT_V2_MAX_COST_PREFIX);
+  if (digits[0] == '\0' || (digits[0] == '0' && digits[1] != '\0')) {
+    return FALSE;
+  }
+
+  for (; *digits != '\0'; digits++) {
+    int digit;
+
+    if (*digits < '0' || *digits > '9') {
+      return FALSE;
+    }
+    digit = *digits - '0';
+    if (value > (INT_MAX - digit) / 10) {
+      return FALSE;
+    }
+    value = value * 10 + digit;
+  }
+
+  *guarded = TRUE;
+  *max_cost = value;
+  return TRUE;
+}
+
 static bool do_attack(struct unit *actor_unit, struct tile *target_tile,
                       const struct action *paction);
 static bool do_unit_strike_city_production(struct player *act_player,
@@ -3132,6 +3204,7 @@ static void illegal_action(struct player *pplayer,
 {
   bool information_revealed;
   bool was_punished;
+  struct tile *actor_tile = unit_tile(actor);
   const struct civ_map *nmap = &(wld.map);
 
   struct action *stopped_action = action_by_number(stopped_action_id);
@@ -3167,7 +3240,7 @@ static void illegal_action(struct player *pplayer,
      * crashes. See hrm Bug #879880 */
     /* TODO: Get the explanation before the punishment and show it here.
      * See hrm Bug #879881 */
-    notify_player(pplayer, unit_tile(actor),
+    notify_player(pplayer, actor_tile,
                   (information_revealed
                    ? E_UNIT_ILLEGAL_ACTION : E_BAD_COMMAND), ftc_server,
                   _("No explanation why you couldn't do %s. This is a bug."
@@ -3189,6 +3262,19 @@ static void unit_query_impossible(struct connection *pc,
                                   0,
                                   ACTION_NONE,
                                   request_kind);
+}
+
+/**********************************************************************//**
+  Whether an invalid action-details query should be treated as an illegal
+  action.  Gui-agent's reserved background query can race ordinary game-state
+  changes; an unavailable answer must not punish or otherwise mutate its
+  actor.  Every other client and request kind retains the normal behavior.
+**************************************************************************/
+static bool unit_action_query_should_punish(const struct connection *pc,
+                                            int request_kind)
+{
+  return pc->client_gui != GUI_AGENT
+         || request_kind != AGENT_V2_ACTION_QUERY_KIND;
 }
 
 /**********************************************************************//**
@@ -3240,9 +3326,11 @@ void handle_unit_action_query(struct connection *pc,
                                                       pactor),
                                       action_type, request_kind);
     } else {
-      illegal_action(pplayer, pactor, action_type,
-                     punit ? unit_owner(punit) : nullptr,
-                     nullptr, nullptr, punit, request_kind, ACT_REQ_PLAYER);
+      if (unit_action_query_should_punish(pc, request_kind)) {
+        illegal_action(pplayer, pactor, action_type,
+                       punit ? unit_owner(punit) : nullptr,
+                       nullptr, nullptr, punit, request_kind, ACT_REQ_PLAYER);
+      }
       unit_query_impossible(pc, actor_id, target_id, request_kind);
       return;
     }
@@ -3251,15 +3339,20 @@ void handle_unit_action_query(struct connection *pc,
     if (ptile != nullptr
         && is_action_enabled_unit_on_stack(nmap, action_type,
                                            pactor, ptile)) {
-      dsend_packet_unit_action_answer(pc,
-                                      actor_id, target_id,
-                                      stack_bribe_cost(ptile, pplayer,
-                                                       pactor),
-                                      action_type, request_kind);
+      int cost = stack_bribe_cost(ptile, pplayer, pactor);
+
+      if (cost >= 0) {
+        dsend_packet_unit_action_answer(pc, actor_id, target_id, cost,
+                                        action_type, request_kind);
+      } else {
+        unit_query_impossible(pc, actor_id, target_id, request_kind);
+      }
     } else {
-      illegal_action(pplayer, pactor, action_type,
-                     punit ? unit_owner(punit) : nullptr,
-                     nullptr, nullptr, punit, request_kind, ACT_REQ_PLAYER);
+      if (unit_action_query_should_punish(pc, request_kind)) {
+        illegal_action(pplayer, pactor, action_type,
+                       punit ? unit_owner(punit) : nullptr,
+                       nullptr, nullptr, punit, request_kind, ACT_REQ_PLAYER);
+      }
       unit_query_impossible(pc, actor_id, target_id, request_kind);
       return;
     }
@@ -3273,9 +3366,11 @@ void handle_unit_action_query(struct connection *pc,
                                       city_incite_cost(pplayer, pcity),
                                       action_type, request_kind);
     } else {
-      illegal_action(pplayer, pactor, action_type,
-                     pcity ? city_owner(pcity) : nullptr,
-                     nullptr, pcity, nullptr, request_kind, ACT_REQ_PLAYER);
+      if (unit_action_query_should_punish(pc, request_kind)) {
+        illegal_action(pplayer, pactor, action_type,
+                       pcity ? city_owner(pcity) : nullptr,
+                       nullptr, pcity, nullptr, request_kind, ACT_REQ_PLAYER);
+      }
       unit_query_impossible(pc, actor_id, target_id, request_kind);
       return;
     }
@@ -3298,9 +3393,11 @@ void handle_unit_action_query(struct connection *pc,
                                       upgr_cost, action_type,
                                       request_kind);
     } else {
-      illegal_action(pplayer, pactor, action_type,
-                     pcity ? city_owner(pcity) : nullptr,
-                     nullptr, pcity, nullptr, request_kind, ACT_REQ_PLAYER);
+      if (unit_action_query_should_punish(pc, request_kind)) {
+        illegal_action(pplayer, pactor, action_type,
+                       pcity ? city_owner(pcity) : nullptr,
+                       nullptr, pcity, nullptr, request_kind, ACT_REQ_PLAYER);
+      }
       unit_query_impossible(pc, actor_id, target_id, request_kind);
       return;
     }
@@ -3313,9 +3410,11 @@ void handle_unit_action_query(struct connection *pc,
       spy_send_sabotage_list(pc, pactor, pcity,
                              action_by_number(action_type), request_kind);
     } else {
-      illegal_action(pplayer, pactor, action_type,
-                     pcity ? city_owner(pcity) : nullptr,
-                     nullptr, pcity, nullptr, request_kind, ACT_REQ_PLAYER);
+      if (unit_action_query_should_punish(pc, request_kind)) {
+        illegal_action(pplayer, pactor, action_type,
+                       pcity ? city_owner(pcity) : nullptr,
+                       nullptr, pcity, nullptr, request_kind, ACT_REQ_PLAYER);
+      }
       unit_query_impossible(pc, actor_id, target_id, request_kind);
       return;
     }
@@ -3338,8 +3437,12 @@ void handle_unit_do_action(struct player *pplayer,
                            const char *name,
                            const action_id action_type)
 {
-  (void) unit_perform_action(pplayer, actor_id, target_id, sub_tgt_id, name,
-                             action_type, ACT_REQ_PLAYER);
+  bool performed = unit_perform_action(
+    pplayer, actor_id, target_id, sub_tgt_id, name,
+    action_type, ACT_REQ_PLAYER);
+
+  agent_v2_send_action_receipt(
+    pplayer, actor_id, target_id, action_type, performed);
 }
 
 /**********************************************************************//**
@@ -3385,6 +3488,8 @@ bool unit_perform_action(struct player *pplayer,
   struct city *pcity = nullptr;
   struct specialist *sub_tgt_spec = nullptr;
   const struct civ_map *nmap = &(wld.map);
+  bool max_cost_guarded = FALSE;
+  int max_cost = 0;
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -3395,6 +3500,25 @@ bool unit_perform_action(struct player *pplayer,
   }
 
   paction = action_by_number(action_type);
+
+  if ((paction->result == ACTRES_SPY_BRIBE_UNIT
+       || paction->result == ACTRES_SPY_BRIBE_STACK
+       || paction->result == ACTRES_SPY_INCITE_CITY)
+      && !agent_v2_parse_max_cost(name, &max_cost_guarded, &max_cost)) {
+    notify_player(pplayer, actor_unit != nullptr ? unit_tile(actor_unit) : nullptr,
+                  E_BAD_COMMAND, ftc_server,
+                  _("The paid-action maximum cost is malformed."));
+    log_verbose("unit_perform_action() malformed paid-action maximum cost");
+    return FALSE;
+  }
+  if (paction->result == ACTRES_SPY_INCITE_CITY
+      && max_cost_guarded && max_cost >= INCITE_IMPOSSIBLE_COST) {
+    notify_player(pplayer, actor_unit != nullptr ? unit_tile(actor_unit) : nullptr,
+                  E_BAD_COMMAND, ftc_server,
+                  _("The revolt maximum cost is not payable."));
+    log_verbose("unit_perform_action() impossible revolt maximum cost");
+    return FALSE;
+  }
 
   if (actor_unit == nullptr) {
     /* Probably died or bribed. */
@@ -3540,7 +3664,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    pcity ? city_owner(pcity) : nullptr, nullptr, pcity,   \
-                   nullptr, TRUE, requester);                             \
+                   nullptr, REQEST_PLAYER_INITIATED, requester);         \
   }
 
 #define ACTION_PERFORM_UNIT_SELF(action, actor, action_performer)         \
@@ -3564,7 +3688,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    unit_owner(actor_unit), nullptr, nullptr, actor_unit,  \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                  \
   }
 
 #define ACTION_PERFORM_UNIT_UNIT(action, actor, target, action_performer) \
@@ -3595,7 +3719,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    punit ? unit_owner(punit) : nullptr, nullptr, nullptr, \
-                   punit, TRUE, requester);                               \
+                   punit, REQEST_PLAYER_INITIATED, requester);           \
   }
 
 #define ACTION_PERFORM_UNIT_STACK(action, actor, target, action_performer)\
@@ -3627,7 +3751,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    nullptr, target_tile, nullptr, nullptr,                \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                  \
   }
 
 #define ACTION_PERFORM_UNIT_TILE(action, actor, target, action_performer) \
@@ -3655,7 +3779,7 @@ bool unit_perform_action(struct player *pplayer,
     illegal_action(pplayer, actor_unit, action_type,                      \
                    target_tile ? tile_owner(target_tile) : nullptr,       \
                    target_tile, nullptr, nullptr,                         \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                  \
   }
 
 #define ACTION_PERFORM_UNIT_EXTRAS(action, actor, target, action_performer)\
@@ -3683,7 +3807,7 @@ bool unit_perform_action(struct player *pplayer,
     illegal_action(pplayer, actor_unit, action_type,                      \
                    target_tile ? target_tile->extras_owner : nullptr,     \
                    target_tile, nullptr, nullptr,                         \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                  \
   }
 
 #define ACTION_PERFORM_UNIT_ANY(paction, actor,                           \
@@ -3722,7 +3846,8 @@ bool unit_perform_action(struct player *pplayer,
   case ACTRES_SPY_BRIBE_UNIT:
     ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              diplomat_bribe_unit(pplayer, actor_unit, punit,
-                                                 paction));
+                                                 paction, max_cost_guarded,
+                                                 max_cost));
     break;
   case ACTRES_SPY_SABOTAGE_UNIT:
     /* Difference is caused by data in the action structure. */
@@ -3794,6 +3919,17 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
     /* Difference is caused by data in the action structure. */
+    if ((action_type == ACTION_SPY_TARGETED_SABOTAGE_CITY
+         || action_type == ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
+        && (sub_tgt_impr == nullptr
+            || pcity == nullptr
+            || !city_has_building(pcity, sub_tgt_impr)
+            || sub_tgt_impr->sabotage <= 0)) {
+      /* The client's targeted-building catalog can become stale. Reject the
+       * choice before emitting action_started_unit_city; this is not an
+       * attempted illegal action and must not punish the actor. */
+      return FALSE;
+    }
     ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
                                                sub_tgt_impr->item_number,
@@ -3833,7 +3969,8 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_incite(pplayer, actor_unit, pcity,
-                                             paction));
+                                             paction, max_cost_guarded,
+                                             max_cost));
     break;
   case ACTRES_SPY_STEAL_TECH:
     /* Difference is caused by data in the action structure. */
@@ -3961,7 +4098,9 @@ bool unit_perform_action(struct player *pplayer,
   case ACTRES_SPY_BRIBE_STACK:
     ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
                               diplomat_bribe_stack(pplayer, actor_unit,
-                                                   target_tile, paction));
+                                                   target_tile, paction,
+                                                   max_cost_guarded,
+                                                   max_cost));
     break;
   case ACTRES_NUKE_UNITS:
     ACTION_PERFORM_UNIT_STACK(action_type, actor_unit, target_tile,
@@ -6964,6 +7103,12 @@ void handle_unit_orders(struct player *pplayer,
               packet->orders[i].sub_target);
   }
 #endif /* FREECIV_DEBUG */
+
+  /* Echo the exact installed order list before execution can consume or
+   * replace it. Request-correlated control clients use this full unit-info
+   * update as proof of the packet the server accepted; the later update
+   * still reports the resulting live state. */
+  send_unit_info(nullptr, punit);
 
   if (!is_player_phase(unit_owner(punit), game.info.phase)
       || execute_orders(punit, TRUE)) {

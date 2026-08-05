@@ -343,6 +343,21 @@ enum server_states server_state(void)
   return civserver_state;
 }
 
+/* A normal client has historically delegated leftover spaceship placement
+ * to the server at phase end.  A gui-agent connection is an explicit human
+ * control surface and must retain that choice for its controller. */
+static bool player_has_explicit_spaceship_controller(
+  const struct player *pplayer)
+{
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (pconn->client_gui == GUI_AGENT && conn_controls_player(pconn)) {
+      return TRUE;
+    }
+  } conn_list_iterate_end;
+
+  return FALSE;
+}
+
 /**********************************************************************//**
   Set current server state.
 **************************************************************************/
@@ -1581,7 +1596,8 @@ static void end_phase(void)
 
     /* If player finished spaceship parts last turn already, and didn't place them
      * during this entire turn, autoplace them. */
-    if (adv_spaceship_autoplace(pplayer, &pplayer->spaceship)) {
+    if (!player_has_explicit_spaceship_controller(pplayer)
+        && adv_spaceship_autoplace(pplayer, &pplayer->spaceship)) {
       notify_player(pplayer, nullptr, E_SPACESHIP, ftc_server,
                     _("Automatically placed spaceship parts that were still not placed."));
     }

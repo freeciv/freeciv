@@ -3,7 +3,7 @@
   "info": {
     "title": "Freeciv full-control-v2 player API",
     "version": "2.0.0",
-    "description": "Authenticated, bounded, opaque-ID control for one joined Freeciv seat. Public pages are limited to 65536 canonical JSON bytes."
+    "description": "Authenticated, bounded, opaque-ID control for one joined Freeciv seat. Public pages are limited to 65536 canonical JSON bytes. Normal-player governance is exposed only as closed typed descriptors; arbitrary slash/server commands and administrator controls are not part of this API."
   },
   "servers": [
     {"url": "/", "description": "Same origin returned by the join response"}
@@ -81,7 +81,7 @@
           {"$ref": "#/components/parameters/CursorQuery"}
         ],
         "responses": {
-          "200": {"description": "One bounded legal-action page. Exact Classic building sabotage is one unit.perform_action descriptor per GUI-authorized improvement; the readable building_choice and opaque action ID carry the selection, while command arguments remain exactly empty.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PageEnvelope"}}}},
+          "200": {"description": "One bounded legal-action page. Supported targeted technology/building actions expose request-bound opaque named choices, and supported fixed native subresults expose ordered public effects; command arguments remain exactly those in each descriptor's arguments_schema.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/LegalActionPageEnvelope"}}}},
           "413": {"$ref": "#/components/responses/V2Error"},
           "default": {"$ref": "#/components/responses/V2Error"}
         }
@@ -139,8 +139,8 @@
       "BatchId": {"name": "batch_id", "in": "path", "required": true, "schema": {"$ref": "#/components/schemas/OpaqueId"}},
       "StateSection": {
         "name": "section", "in": "query", "required": false,
-        "description": "pregame_nations, pregame_styles, and pregame_teams are unscoped lobby-only catalogs; votes lists active visible votes; chat is the latest 64 normal-client chat/event packets; map_tiles exposes bounded fog-safe map rows; diplomacy_clauses requires relation_id; city detail sections, including city_worker_tasks, require actor_id; tile_window requires center_id and radius.",
-        "schema": {"type": "string", "enum": ["overview", "pregame_nations", "pregame_styles", "pregame_teams", "votes", "research", "governments", "multipliers", "spaceship", "diplomacy", "diplomacy_clauses", "known_tiles", "map_tiles", "infrastructure", "cities", "city_sites", "units", "tombstones", "chat", "city_detail", "city_citizens", "city_worker_tasks", "city_build_choices", "city_worklist", "city_improvements", "city_governor", "tile_window"]}
+        "description": "pregame_nations, pregame_styles, and pregame_teams are unscoped lobby-only catalogs; votes lists active visible votes plus the latest 64 structured outcomes for this seat epoch; chat is the latest 64 normal-client chat/event packets; chat_recipients is the visible normal-player roster for private chat and is available while preparing or running; map_tiles exposes bounded fog-safe map rows; diplomacy_clauses requires relation_id; city detail sections, including city_worker_tasks and city_trade_routes, require actor_id; unit_route requires a unit actor_id; tile_window requires center_id and radius.",
+        "schema": {"type": "string", "enum": ["overview", "pregame_nations", "pregame_styles", "pregame_teams", "votes", "research", "governments", "multipliers", "spaceship", "diplomacy", "diplomacy_clauses", "known_tiles", "map_tiles", "infrastructure", "cities", "city_sites", "units", "tombstones", "chat", "chat_recipients", "city_detail", "city_citizens", "city_worker_tasks", "city_trade_routes", "city_build_choices", "city_worklist", "city_improvements", "city_governor", "tile_window", "unit_route"]}
       },
       "ActorIdQuery": {"name": "actor_id", "in": "query", "required": false, "schema": {"$ref": "#/components/schemas/ActorId"}},
       "RelationIdQuery": {"name": "relation_id", "in": "query", "required": false, "description": "Opaque relation_id from the diplomacy section; required only for diplomacy_clauses.", "schema": {"$ref": "#/components/schemas/RelationId"}},
@@ -156,8 +156,14 @@
     "schemas": {
       "OpaqueId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
       "ActorId": {"type": "string", "pattern": "^(player|city|unit)_[0-9a-f]{32}$"},
+      "PlayerId": {"type": "string", "pattern": "^player_[0-9a-f]{32}$"},
       "RelationId": {"type": "string", "pattern": "^relation_[0-9a-f]{32}$"},
       "TileId": {"type": "string", "pattern": "^tile_[0-9a-f]{32}$"},
+      "ActionKind": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$",
+        "description": "Stable public capability family in namespace.action form. Clients must branch on this value rather than on opaque action IDs; new conforming kinds may be added without a protocol version change."
+      },
       "StateRevision": {
         "type": "object", "additionalProperties": false, "required": ["turn", "revision", "state_token"],
         "properties": {"turn": {"type": "integer", "minimum": 0}, "revision": {"type": "integer", "minimum": 0}, "state_token": {"$ref": "#/components/schemas/OpaqueId"}}
@@ -165,7 +171,7 @@
       "HealthEnvelope": {
         "type": "object", "required": ["schema_version", "control_protocol", "game_id", "objective", "max_turns", "turns_remaining", "agent", "game_state", "seat", "sidecar", "observation_available", "legal_actions_available", "phase", "last_phase_end"],
         "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "objective": {"type": "string", "minLength": 1, "description": "Immutable game evaluation objective."}, "max_turns": {"type": "integer", "minimum": 1, "maximum": 5000, "description": "Immutable configured Freeciv end-turn limit."}, "turns_remaining": {"type": ["integer", "null"], "minimum": 0, "maximum": 5000, "description": "Null until current_turn is authoritative; otherwise max(0, max_turns - current_turn)."}, "agent": {"type": "object"}, "game_state": {"type": "string", "enum": ["lobby", "starting", "running", "completed", "failed", "invalid", "cancelled"]}, "seat": {"type": "object"}, "sidecar": {"type": "object"}, "observation_available": {"type": "boolean"}, "legal_actions_available": {"type": "boolean"}, "phase": {"description": "Null in lobby and terminal states; an object after native play starts.", "type": ["object", "null"]}, "last_phase_end": {"type": ["object", "null"]}},
-        "x-freeciv-lifecycle": {"lobby": {"state_sections": ["overview", "pregame_nations", "pregame_styles", "pregame_teams", "votes"], "legal_action_kinds": ["pregame.configure", "pregame.set_team", "pregame.set_ready", "player.cast_vote"], "wait_for_phase": false}, "runtime": {"game_states": ["starting", "running"], "wait_for_phase": true}}
+        "x-freeciv-lifecycle": {"lobby": {"state_sections": ["overview", "pregame_nations", "pregame_styles", "pregame_teams", "votes", "chat", "chat_recipients"], "legal_action_kinds": ["pregame.configure", "pregame.set_team", "pregame.set_ready", "player.cast_vote", "player.send_chat", "player.propose_server_setting", "player.cancel_vote"], "wait_for_phase": false}, "runtime": {"game_states": ["starting", "running"], "state_sections_include": ["chat", "chat_recipients"], "legal_action_kinds_include": ["player.send_chat"], "governance_action_kinds": ["player.cast_vote", "player.propose_server_setting", "player.cancel_vote", "player.surrender"], "wait_for_phase": true}}
       },
       "PregameNation": {
         "type": "object", "additionalProperties": false, "required": ["id", "name", "default_style_id"],
@@ -183,14 +189,47 @@
         "type": "object", "additionalProperties": false, "required": ["id", "name", "selected", "occupied", "member_count", "members"],
         "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string"}, "selected": {"type": "boolean"}, "occupied": {"type": "boolean"}, "member_count": {"type": "integer", "minimum": 0}, "members": {"type": "array", "items": {"$ref": "#/components/schemas/PregameTeamMember"}}}
       },
+      "ChatRecipient": {
+        "type": "object", "additionalProperties": false, "required": ["id", "name", "self", "connected", "can_message"],
+        "properties": {"id": {"$ref": "#/components/schemas/PlayerId"}, "name": {"type": "string", "minLength": 1}, "self": {"type": "boolean"}, "connected": {"type": "boolean"}, "can_message": {"type": "boolean"}},
+        "description": "One visible normal-player recipient. The ID is an opaque same-revision player ID suitable for player.send_chat recipient_id only when can_message is true. can_message requires a connected player whose current name is safe and unambiguous for Freeciv's PlayerName: syntax; native code revalidates it immediately before send. Native player and connection identifiers are never exposed."
+      },
       "Vote": {
-        "type": "object", "additionalProperties": false, "required": ["vote_id", "description", "yes", "no", "abstain", "num_voters", "percent_required", "team_only", "current_vote", "can_vote"],
-        "properties": {"vote_id": {"$ref": "#/components/schemas/OpaqueId"}, "description": {"type": "string"}, "yes": {"type": "integer", "minimum": 0}, "no": {"type": "integer", "minimum": 0}, "abstain": {"type": "integer", "minimum": 0}, "num_voters": {"type": "integer", "minimum": 0}, "percent_required": {"type": "integer", "minimum": 0, "maximum": 100}, "team_only": {"type": "boolean"}, "current_vote": {"type": "string", "enum": ["none", "yes", "no", "abstain"]}, "can_vote": {"type": "boolean"}}
+        "type": "object", "additionalProperties": false, "required": ["vote_ref", "vote_id", "caller", "description", "yes", "no", "abstain", "num_voters", "percent_required", "team_only", "current_vote", "can_vote", "status", "outcome_turn", "outcome_phase"],
+        "properties": {"vote_ref": {"$ref": "#/components/schemas/OpaqueId", "description": "Stable for this vote across revisions in the current sidecar generation."}, "vote_id": {"$ref": "#/components/schemas/OpaqueId", "description": "Revision-bound target used only by a current cast action."}, "caller": {"type": "string"}, "description": {"type": "string"}, "yes": {"type": "integer", "minimum": 0}, "no": {"type": "integer", "minimum": 0}, "abstain": {"type": "integer", "minimum": 0}, "num_voters": {"type": "integer", "minimum": 0}, "percent_required": {"type": "integer", "minimum": 0, "maximum": 100}, "team_only": {"type": "boolean"}, "current_vote": {"type": "string", "enum": ["none", "yes", "no", "abstain"], "description": "Last ballot confirmed by an exact request-correlated server update."}, "can_vote": {"type": "boolean"}, "status": {"type": "string", "enum": ["active", "passed", "failed", "removed"]}, "outcome_turn": {"type": ["integer", "null"], "minimum": 0}, "outcome_phase": {"type": ["integer", "null"], "minimum": 0}}
       },
       "CastVoteArguments": {
         "type": "object", "additionalProperties": false, "required": ["vote_id", "vote"],
         "properties": {"vote_id": {"$ref": "#/components/schemas/OpaqueId"}, "vote": {"type": "string", "enum": ["yes", "no", "abstain"]}},
-        "description": "Exact arguments for an enumerated player.cast_vote action; vote_id must equal the descriptor's current same-revision vote target."
+        "description": "Exact arguments for an enumerated player.cast_vote action; vote_id must equal the descriptor's current same-revision vote target, and the live descriptor excludes the already-confirmed ballot as a non-observable no-op."
+      },
+      "ChatMessage": {
+        "type": "string", "minLength": 1, "maxLength": 512,
+        "description": "Strict UTF-8 text of 1 through 512 encoded bytes. Leading or trailing ASCII U+0020 and every Unicode Cc or Cf code point are rejected. Colons and command-looking text remain literal because the native client generates the routing prefix, including a protective ASCII space for global chat that the server trims before display.",
+        "x-freeciv-validation": {"encoding": "strict-utf8", "min_bytes": 1, "max_bytes": 512, "forbidden_edge_code_point": "U+0020", "forbidden_unicode_categories": ["Cc", "Cf"]}
+      },
+      "SendChatArguments": {
+        "oneOf": [
+          {"type": "object", "additionalProperties": false, "required": ["channel", "message"], "properties": {"channel": {"type": "string", "enum": ["global", "allied"]}, "message": {"$ref": "#/components/schemas/ChatMessage"}}},
+          {"type": "object", "additionalProperties": false, "required": ["channel", "recipient_id", "message"], "properties": {"channel": {"const": "private"}, "recipient_id": {"$ref": "#/components/schemas/PlayerId"}, "message": {"$ref": "#/components/schemas/ChatMessage"}}}
+        ],
+        "description": "Exact arguments for player.send_chat in PREPARING or RUNNING. Private recipient_id comes from a same-revision chat_recipients row with can_message true; native code revalidates the recipient, connection, and name immediately before send. Native-generated one-ASCII-space global, '.' allied, or exact 'PlayerName:' private prefixes prevent arbitrary server commands, caller-selected rerouting, and direct connection messaging. The server parses the protective global space as public chat and trims it before display.",
+        "x-freeciv-receipt": {"global_or_allied": "request-bound self echo on the requested channel with the exact message suffix", "private": "request-bound sender echo exactly ->{PlayerName} message; the recipient normal client sees {SenderName} message", "remote_delivery_acknowledged": false}
+      },
+      "ProposeServerSettingArguments": {
+        "description": "Exact arguments for an enumerated player.propose_server_setting action. A boolean or enum descriptor binds one noncurrent value and requires the empty object. Integer, bitwise, and string descriptors require value with the exact type and bounds published by that live descriptor; string values also reject control characters and double quotes. No setting name, slash command, native vote text, or arbitrary server-command string is accepted.",
+        "oneOf": [
+          {"type": "object", "additionalProperties": false, "maxProperties": 0},
+          {"type": "object", "additionalProperties": false, "required": ["value"], "properties": {"value": {"oneOf": [{"type": "integer"}, {"type": "string"}]}}}
+        ]
+      },
+      "CancelVoteArguments": {
+        "type": "object", "additionalProperties": false, "maxProperties": 0,
+        "description": "Exact empty arguments for player.cancel_vote. The descriptor's opaque target binds one current active vote owned by the caller; another player's vote and all-votes cancellation are not expressible."
+      },
+      "SurrenderArguments": {
+        "type": "object", "additionalProperties": false, "maxProperties": 0,
+        "description": "Exact empty arguments for player.surrender. The descriptor binds the caller's own player and is available only while the game is running, that player is alive, and surrender has not already been acknowledged."
       },
       "PregameConfigureArguments": {
         "type": "object", "additionalProperties": false, "required": ["nation_id", "leader_name", "is_male", "style_id"],
@@ -207,17 +246,81 @@
         "properties": {"team_id": {"$ref": "#/components/schemas/OpaqueId"}},
         "description": "Exact arguments for an enumerated pregame.set_team action; team_id must name a noncurrent row from the current pregame_teams catalog."
       },
+      "JsonObject": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "A bounded JSON object whose section-specific shape is documented by the matching state-section contract."
+      },
+      "LegalActionSubject": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["operation"],
+        "properties": {
+          "operation": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Public semantic operation discriminator inside an aggregated action kind."},
+          "target": {"description": "Caller-visible target summary. IDs and native variants remain opaque."},
+          "probability": {"type": "object", "description": "Bounded caller-visible action probability when applicable."},
+          "gold_cost": {"type": "integer", "minimum": 0},
+          "technology_choice": {"type": "object", "additionalProperties": false, "required": ["id", "name"], "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string", "minLength": 1}}, "description": "One request-bound regular or Future technology selected by this exact opaque action."},
+          "building_choice": {"type": "object", "additionalProperties": false, "required": ["id", "name"], "properties": {"id": {"$ref": "#/components/schemas/OpaqueId"}, "name": {"type": "string", "minLength": 1}}, "description": "One request-bound city improvement selected by this exact opaque action."},
+          "effects": {"type": "array", "maxItems": 4, "uniqueItems": true, "items": {"type": "string", "enum": ["enter_huts", "frighten_huts", "may_embark", "non_lethal_to_target_units"]}, "description": "Canonical ordered public effects fixed by the selected opaque native action; never caller-controlled arguments."}
+        },
+        "description": "Caller-visible semantic subject. operation and any additional public discriminator fields distinguish choices sharing one ActionKind; unknown fields must be treated as opaque data, not native protocol internals."
+      },
+      "LegalActionDescriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action_id", "kind", "label", "subject", "arguments_schema", "state_revision"],
+        "properties": {
+          "action_id": {"$ref": "#/components/schemas/OpaqueId"},
+          "kind": {"$ref": "#/components/schemas/ActionKind"},
+          "label": {"type": "string", "minLength": 1, "maxLength": 240},
+          "subject": {"$ref": "#/components/schemas/LegalActionSubject"},
+          "arguments_schema": {"type": "object", "description": "Exact JSON Schema for this descriptor's command arguments; callers must not infer arguments from kind or label."},
+          "state_revision": {"$ref": "#/components/schemas/StateRevision"}
+        },
+        "description": "One same-revision opaque capability. Cache the full descriptor and submit only its action_id with arguments matching arguments_schema."
+      },
       "Page": {
         "type": "object", "required": ["section", "items", "total_items", "next_cursor"],
-        "properties": {"section": {"type": "string"}, "items": {"type": "array", "maxItems": 16, "items": {}}, "total_items": {"type": "integer", "minimum": 0}, "next_cursor": {"type": ["string", "null"]}, "cursor_expires_at": {"type": ["string", "null"], "format": "date-time"}, "scope": {"type": "object"}, "catalog_id": {"type": "string"}, "catalog_complete": {"type": "boolean"}}
+        "properties": {"section": {"type": "string"}, "items": {"type": "array", "maxItems": 16, "items": {"$ref": "#/components/schemas/JsonObject"}}, "total_items": {"type": "integer", "minimum": 0}, "next_cursor": {"type": ["string", "null"]}, "cursor_expires_at": {"type": ["string", "null"], "format": "date-time"}, "scope": {"type": "object"}, "catalog_id": {"type": "string"}, "catalog_complete": {"type": "boolean"}},
+        "x-freeciv-section-item-schemas": {"chat_recipients": {"$ref": "#/components/schemas/ChatRecipient"}}
       },
       "PageEnvelope": {
         "type": "object", "required": ["schema_version", "control_protocol", "game_id", "agent_id", "state_revision", "page"],
         "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "state_revision": {"$ref": "#/components/schemas/StateRevision"}, "page": {"$ref": "#/components/schemas/Page"}}
       },
+      "LegalActionPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["section", "items", "total_items", "next_cursor"],
+        "properties": {
+          "section": {"const": "legal_actions"},
+          "items": {"type": "array", "maxItems": 16, "items": {"$ref": "#/components/schemas/LegalActionDescriptor"}},
+          "total_items": {"type": "integer", "minimum": 0},
+          "next_cursor": {"type": ["string", "null"], "pattern": "^cursor_[A-Za-z0-9_-]{32}$"},
+          "cursor_expires_at": {"type": ["string", "null"], "format": "date-time"},
+          "scope": {"type": "object", "description": "Exact public actor or actor-target catalog scope."},
+          "catalog_id": {"type": "string"},
+          "catalog_complete": {"type": "boolean"}
+        }
+      },
+      "LegalActionPageEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema_version", "control_protocol", "game_id", "agent_id", "state_revision", "page"],
+        "properties": {
+          "schema_version": {"const": 2},
+          "control_protocol": {"const": "full-control-v2"},
+          "game_id": {"type": "string"},
+          "agent_id": {"$ref": "#/components/schemas/OpaqueId"},
+          "state_revision": {"$ref": "#/components/schemas/StateRevision"},
+          "page": {"$ref": "#/components/schemas/LegalActionPage"}
+        }
+      },
       "Command": {
         "type": "object", "additionalProperties": false, "required": ["action_id", "arguments"],
-        "properties": {"action_id": {"$ref": "#/components/schemas/OpaqueId"}, "arguments": {"type": "object", "description": "Must exactly match the selected descriptor schema. Exact building sabotage takes {}; the opaque action ID already binds the selected improvement."}}
+        "properties": {"action_id": {"$ref": "#/components/schemas/OpaqueId"}, "arguments": {"type": "object", "description": "Must exactly match the selected descriptor schema. Exact building sabotage takes {}; the opaque action ID already binds the selected improvement. Governance descriptors never accept a setting name, slash command, native vote text, or arbitrary server-command string."}},
+        "x-freeciv-kind-argument-schemas": {"player.send_chat": {"$ref": "#/components/schemas/SendChatArguments"}, "player.propose_server_setting": {"$ref": "#/components/schemas/ProposeServerSettingArguments"}, "player.cancel_vote": {"$ref": "#/components/schemas/CancelVoteArguments"}, "player.surrender": {"$ref": "#/components/schemas/SurrenderArguments"}}
       },
       "CommandBatch": {
         "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "batch_id", "state_revision", "commands"],

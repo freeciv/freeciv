@@ -642,7 +642,8 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_bribe_unit(struct player *pplayer, struct unit *pdiplomat,
-                         struct unit *pvictim, const struct action *paction)
+                         struct unit *pvictim, const struct action *paction,
+                         bool max_cost_guarded, int max_cost)
 {
   char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
@@ -683,6 +684,20 @@ bool diplomat_bribe_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Get bribe cost, ignoring any previously saved value. */
   bribe_cost = unit_bribe_cost(pvictim, pplayer, pdiplomat);
+
+  /* action_started_unit_unit Lua has already run. Never let a stale quote
+   * authorize a more expensive action. This must precede the treasury check,
+   * infiltration, ownership changes, and any other action side effect. */
+  if (max_cost_guarded && bribe_cost > max_cost) {
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("The current bribe cost of %d gold exceeds your "
+                    "authorized maximum of %d gold."),
+                  bribe_cost, max_cost);
+    log_debug("bribe-unit: current cost %d exceeds authorized maximum %d",
+              bribe_cost, max_cost);
+    return FALSE;
+  }
 
   /* If player doesn't have enough gold, can't bribe. */
   if (pplayer->economic.gold < bribe_cost) {
@@ -810,64 +825,107 @@ bool diplomat_bribe_unit(struct player *pplayer, struct unit *pdiplomat,
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_bribe_stack(struct player *pplayer, struct unit *pdiplomat,
-                          struct tile *pvictim, const struct action *paction)
+                          struct tile *pvictim, const struct action *paction,
+                          bool max_cost_guarded, int max_cost)
 {
   int bribe_cost = 0;
   int bribe_count = 0;
+  int stack_size;
+  int stack_index = 0;
   struct city *pcity;
   bool bounce = FALSE;
-  int diplomat_id = pdiplomat->id;
+  int diplomat_id;
+  int diplomat_homecity;
   const struct unit_type *act_utype;
 
-  unit_list_iterate(pvictim->units, pbribed) {
-    struct player *owner = unit_owner(pbribed);
+  /* Sanity check: The actor and target still exist. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
+  fc_assert_ret_val(pvictim, FALSE);
 
-    if (!pplayers_at_war(pplayer, owner)) {
-      notify_player(pplayer, unit_tile(pdiplomat),
-                    E_MY_DIPLOMAT_FAILED, ftc_server,
-                    _("You are not in war with all the units in the stack."));
-      return FALSE;
-    }
-  } unit_list_iterate_end;
+  /* Changing a unit's owner can run scripts. They may remove the diplomat,
+   * so don't dereference its original pointer after the transfers start. */
+  diplomat_id = pdiplomat->id;
+  diplomat_homecity = pdiplomat->homecity;
+  act_utype = unit_type_get(pdiplomat);
 
-  bribe_cost = stack_bribe_cost(pvictim, pplayer, pdiplomat);
-
-  /* If player doesn't have enough gold, can't bribe. */
-  if (pplayer->economic.gold < bribe_cost) {
-    notify_player(pplayer, unit_tile(pdiplomat),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("You don't have enough gold to bribe the unit stack."));
-    log_debug("bribe-stack: not enough gold");
+  stack_size = unit_list_size(pvictim->units);
+  if (stack_size <= 0) {
     return FALSE;
   }
+  {
+    int bribed_ids[stack_size];
 
-  pcity = tile_city(pvictim);
-  if (pcity != NULL && !pplayers_allied(city_owner(pcity), pplayer)) {
-    bounce = TRUE;
-  }
+    unit_list_iterate(pvictim->units, pbribed) {
+      struct player *owner = unit_owner(pbribed);
 
-  unit_list_iterate_safe(pvictim->units, pbribed) {
-    struct player *owner = unit_owner(pbribed);
-    struct unit *nunit = unit_change_owner(pbribed, pplayer,
-                                           pdiplomat->homecity, ULR_BRIBED);
-
-    notify_player(owner, pvictim, E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
-                  /* TRANS: <unit> ... <Poles> */
-                  _("Your %s was bribed by the %s."),
-                  unit_link(nunit), nation_plural_for_player(pplayer));
-    bribe_count++;
-
-    if (bounce) {
-      bounce_unit(pbribed, TRUE);
+      if (!pplayers_at_war(pplayer, owner)) {
+        notify_player(pplayer, unit_tile(pdiplomat),
+                      E_MY_DIPLOMAT_FAILED, ftc_server,
+                      _("You are not in war with all the units in the stack."));
+        return FALSE;
+      }
+      bribed_ids[stack_index++] = pbribed->id;
+    } unit_list_iterate_end;
+    fc_assert_ret_val(stack_index == stack_size, FALSE);
+    bribe_cost = stack_bribe_cost(pvictim, pplayer, pdiplomat);
+    if (bribe_cost < 0) {
+      notify_player(pplayer, unit_tile(pdiplomat),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("That unit stack is too expensive to bribe."));
+      return FALSE;
     }
-  } unit_list_iterate_safe_end;
+    if (max_cost_guarded && bribe_cost > max_cost) {
+      notify_player(pplayer, unit_tile(pdiplomat),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("The current stack bribe cost of %d gold exceeds your "
+                      "authorized maximum of %d gold."),
+                    bribe_cost, max_cost);
+      return FALSE;
+    }
+    if (pplayer->economic.gold < bribe_cost) {
+      notify_player(pplayer, unit_tile(pdiplomat),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("You don't have enough gold to bribe the unit stack."));
+      return FALSE;
+    }
+    pcity = tile_city(pvictim);
+    bounce = pcity != NULL && !pplayers_allied(city_owner(pcity), pplayer);
 
-  if (!unit_is_alive(diplomat_id)) {
-    /* Destroyed by a script */
-    pdiplomat = NULL;
+    for (stack_index = 0; stack_index < stack_size; stack_index++) {
+      struct unit *pbribed = game_unit_by_number(bribed_ids[stack_index]);
+      struct player *owner;
+      const struct unit_type *bribed_utype;
+      struct unit *nunit;
+      const char *bribed_link;
+      int replacement_homecity;
+
+      if (pbribed == NULL || unit_tile(pbribed) != pvictim) {
+        continue;
+      }
+      owner = unit_owner(pbribed);
+      bribed_utype = unit_type_get(pbribed);
+      replacement_homecity =
+        diplomat_homecity != IDENTITY_NUMBER_ZERO
+        && player_city_by_number(pplayer, diplomat_homecity) != NULL
+        ? diplomat_homecity : IDENTITY_NUMBER_ZERO;
+      nunit = unit_change_owner(pbribed, pplayer,
+                                replacement_homecity, ULR_BRIBED);
+      bribed_link = nunit != NULL
+                    ? unit_link(nunit)
+                    : utype_name_translation(bribed_utype);
+      notify_player(owner, pvictim, E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
+                    _("Your %s was bribed by the %s."),
+                    bribed_link, nation_plural_for_player(pplayer));
+      bribe_count++;
+      if (bounce && nunit != NULL) {
+        bounce_unit(nunit, TRUE);
+      }
+    }
   }
 
-  act_utype = unit_type_get(pdiplomat);
+  /* The original pointer may have been invalidated by a script. */
+  pdiplomat = player_unit_by_number(pplayer, diplomat_id);
 
   /* Notify everybody involved. */
   notify_player(pplayer, pvictim, E_MY_DIPLOMAT_BRIBE, ftc_server,
@@ -894,6 +952,8 @@ bool diplomat_bribe_stack(struct player *pplayer, struct unit *pdiplomat,
     return TRUE;
   }
 
+  pcity = tile_city(pvictim);
+
   /* Try to move the briber onto the victim's square unless the victim has
    * been bounced because it couldn't share tile with a unit or city. */
   if (!bounce
@@ -906,7 +966,8 @@ bool diplomat_bribe_stack(struct player *pplayer, struct unit *pdiplomat,
       && unit_is_alive(diplomat_id)) {
     pdiplomat->moves_left = 0;
   }
-  if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
+  pdiplomat = player_unit_by_number(pplayer, diplomat_id);
+  if (pdiplomat != NULL) {
     send_unit_info(NULL, pdiplomat);
   }
 
@@ -1253,7 +1314,8 @@ bool diplomat_may_lose_gold(struct player *dec_player, struct player *inc_player
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
-                     struct city *pcity, const struct action *paction)
+                     struct city *pcity, const struct action *paction,
+                     bool max_cost_guarded, int max_cost)
 {
   struct player *cplayer;
   struct tile *ctile;
@@ -1285,6 +1347,27 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Get incite cost, ignoring any previously saved value. */
   revolt_cost = city_incite_cost(pplayer, pcity);
+
+  /* Keep the unpayable sentinel unpayable even for unusually rich players. */
+  if (revolt_cost == INCITE_IMPOSSIBLE_COST) {
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("You can't incite a revolt in %s."), clink);
+    log_debug("incite: city cannot be incited");
+    return FALSE;
+  }
+
+  /* action_started_unit_city Lua has already run. Never let a stale quote
+   * authorize a more expensive action. This must precede the treasury check,
+   * infiltration, dice rolls, city changes, and any other action side effect. */
+  if (max_cost_guarded && revolt_cost > max_cost) {
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("The current revolt cost of %d gold exceeds your "
+                    "authorized maximum of %d gold."),
+                  revolt_cost, max_cost);
+    log_debug("incite: current cost %d exceeds authorized maximum %d",
+              revolt_cost, max_cost);
+    return FALSE;
+  }
 
   /* If player doesn't have enough gold, can't incite a revolt. */
   if (pplayer->economic.gold < revolt_cost) {
@@ -1418,6 +1501,39 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(pdiplomat, FALSE);
+
+  /* A targeted sabotage request can become stale after the client receives
+   * the city's building list. Reject an invalid target before infiltration
+   * can consume movement or either failure roll can destroy the actor. */
+  if (paction->id == ACTION_SPY_TARGETED_SABOTAGE_CITY
+      || paction->id == ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC) {
+    struct impr_type *pimprove = improvement_by_number(improvement);
+
+    if (pimprove == NULL) {
+      log_error("sabotage: requested for invalid improvement %d", improvement);
+      return FALSE;
+    }
+    if (!city_has_building(pcity, pimprove)) {
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("Your %s could not find the %s to sabotage in %s."),
+                    unit_name_translation(pdiplomat),
+                    improvement_name_translation(pimprove),
+                    city_link(pcity));
+      log_debug("sabotage: target improvement not found: %d (%s)",
+                improvement, improvement_rule_name(pimprove));
+      return FALSE;
+    }
+    if (pimprove->sabotage <= 0) {
+      notify_player(pplayer, city_tile(pcity),
+                    E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("You cannot sabotage a %s!"),
+                    improvement_name_translation(pimprove));
+      log_debug("sabotage: disallowed target improvement: %d (%s)",
+                improvement, improvement_rule_name(pimprove));
+      return FALSE;
+    }
+  }
 
   act_utype = unit_type_get(pdiplomat);
 
@@ -1961,12 +2077,16 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
 
   const char *tgt_city_link;
   const struct unit_type *act_utype;
+  int actor_id;
+  bool actor_consumed;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(act_player, FALSE);
   fc_assert_ret_val(act_unit, FALSE);
 
   act_utype = unit_type_get(act_unit);
+  actor_id = act_unit->id;
+  actor_consumed = utype_is_consumed_by_action(paction, act_utype);
 
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(tgt_city, FALSE);
@@ -2033,10 +2153,14 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
   diplomat_escape_full(act_player, act_unit, TRUE,
                        tgt_tile, tgt_city_link, paction);
 
-  if (utype_is_consumed_by_action(paction, unit_type_get(act_unit))) {
+  if (actor_consumed) {
+    struct unit *consumed_actor = player_unit_by_number(act_player, actor_id);
+
     /* The unit must be wiped here so it won't be seen as a victim of the
      * detonation of its own nuke. */
-    wipe_unit(act_unit, ULR_USED, NULL);
+    if (consumed_actor != NULL) {
+      wipe_unit(consumed_actor, ULR_USED, NULL);
+    }
   }
 
   /* Detonate the nuke. */

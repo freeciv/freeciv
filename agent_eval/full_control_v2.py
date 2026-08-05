@@ -59,10 +59,13 @@ REQUIRED_ACTION_KINDS = frozenset({
     "government.change",
     "government.revolution",
     "phase.end",
+    "player.cancel_vote",
     "player.cast_vote",
+    "player.propose_server_setting",
     "player.set_infrastructure",
     "player.set_multiplier",
     "player.send_chat",
+    "player.surrender",
     "pregame.configure",
     "pregame.set_ready",
     "pregame.set_team",
@@ -73,8 +76,8 @@ REQUIRED_ACTION_KINDS = frozenset({
     "unit.order",
     "unit.perform_action",
 })
-PROJECTED_PUBLIC_ACTION_KIND_COUNT = 33
-PROJECTED_NATIVE_ACTION_KIND_COUNT = 75
+PROJECTED_PUBLIC_ACTION_KIND_COUNT = 36
+PROJECTED_NATIVE_ACTION_KIND_COUNT = 79
 
 
 def assert_projected_action_contract(

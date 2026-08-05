@@ -444,7 +444,11 @@ while True:
         else:
             rows = [
                 "action slot=a0123456789ABCDEF kind=phase.end actor=none "
-                "target_tile=-1 target_tech=-1 vote_no=-1 target_government=-1 "
+                "target_tile=-1 target_tech=-1 vote_no=-1 "
+                "server_setting_id=-1 server_setting_type=none "
+                "server_setting_min=0 server_setting_max=0 "
+                "server_setting_current=-1 server_setting_value=-1 "
+                "target_government=-1 "
                 "max_rate=0 "
                 "target_build_kind=none target_build=-1 target_extra=-1 "
                 "activity=none target_name=none "

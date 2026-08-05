@@ -23,7 +23,7 @@ The initial playable vertical slice is now landed. Authenticated agents can
 read native, fog-projected state and legal-action pages, submit exactly one
 opaque action per batch, and retrieve durable receipts. The native action
 catalog is deliberately bounded and now includes `pregame.configure`,
-`pregame.set_ready`, `phase.end`,
+`pregame.set_ready`, `player.send_chat`, `phase.end`,
 `unit.move`, `unit.attack`, `city.found`, `research.set_target`,
 `research.set_goal`, `economy.set_rates`, `city.set_production`,
 `city.buy_production`, `city.work_tile`, `city.unwork_tile`,
@@ -31,6 +31,7 @@ catalog is deliberately bounded and now includes `pregame.configure`,
 `unit.sentry`, `unit.auto_work`, `unit.auto_explore`,
 `unit.cancel_automation`, `unit.cancel_orders`, `unit.goto`,
 `unit.goto_and_perform`, `unit.connect_route`, `unit.set_route`,
+`unit.attack_route`,
 `unit.fortify`, `unit.convert`,
 `unit.disband`, `unit.homeless`, `unit.board`, `unit.deboard`, `unit.embark`,
 `unit.disembark`, `unit.load`, `unit.unload`, `government.revolution`,
@@ -40,7 +41,8 @@ catalog is deliberately bounded and now includes `pregame.configure`,
 `city.set_governor`, `city.clear_governor`, `unit.airlift`,
 `unit.paradrop`, `unit.teleport`, `unit.upgrade`, `unit.rehome`,
 `unit.join_city`, `unit.establish_trade`, `unit.marketplace`, and
-`unit.help_wonder`, bounded server-discovered `unit.special`,
+`unit.help_wonder`, `player.cast_vote`, `player.propose_server_setting`,
+`player.cancel_vote`, `player.surrender`, bounded server-discovered `unit.special`,
 `player.place_infrastructure`, plus relation-scoped meeting open/close, clause proposal
 and removal, desired treaty acceptance/withdrawal, relation cancellation, and
 outgoing vision/shared-tile withdrawal. Fine-grained capabilities are exposed
@@ -55,8 +57,8 @@ The live authenticated surface is:
 | Method and path | Current behavior |
 | --- | --- |
 | `GET /v2/games/{game_id}/me/health` | Caller seat, sanitized sidecar health, state/action availability, and only that seat's latest durable phase-end event. |
-| `GET /v2/games/{game_id}/me/state` | One caller-private state page: bounded pregame overview/nation/style/team catalogs in the lobby, or one fog-safe runtime section after start. |
-| `GET /v2/games/{game_id}/me/legal-actions` | One page of current opaque action capabilities: pregame configure/readiness globally in the lobby, then runtime capabilities optionally filtered to one current owned actor, known target tile, infrastructure tile, or diplomatic relation. |
+| `GET /v2/games/{game_id}/me/state` | One caller-private state page: bounded pregame overview/nation/style/team catalogs, visible chat, and opaque chat-recipient rows in the lobby, or one fog-safe runtime section after start. |
+| `GET /v2/games/{game_id}/me/legal-actions` | One page of current opaque action capabilities: pregame configure/readiness and normal-player chat globally in the lobby, then runtime capabilities optionally filtered to one current owned actor, known target tile, infrastructure tile, or diplomatic relation. |
 | `POST /v2/games/{game_id}/me/batches` | Validate, durably reserve, and execute one command. |
 | `GET /v2/games/{game_id}/me/receipts/{batch_id}` | Read the caller's durable receipt. |
 | `GET /v1/games/{game_id}/phase-events?after_sequence=0&limit=100` | Public, bounded, sequence-paginated phase-end attribution for a v2 evaluation. |
@@ -122,7 +124,7 @@ missing or different schema ID fails sidecar startup
 transactionally. This prevents a stale `freeciv-agent` binary from reaching a
 later state read with a grammar that the Python projection cannot interpret.
 The current schema ID is
-`sha256-724d2b86bda6b3467db318e006e81d3ab9eb788a91e47c1a53bd14d46252740b`.
+`sha256-3471520648d923f16fda4e1b58858301f343a64165b7e6cd2e3dd93af79cd3f4`.
 
 The Freeciv server remains authoritative for legality, movement, combat,
 research prerequisites, diplomacy, turn boundaries, and victory. The
@@ -144,16 +146,19 @@ Freeciv ruleset variants can produce multiple descriptors of the same family:
 | `pregame.configure` | `pregame.configure` | Select one live nation/style pair plus a bounded leader name and sex while unready. Opaque choice IDs come only from the two bounded pregame state catalogs. Freeciv canonicalizes the first ASCII leader character to uppercase, and the public postcondition reports that canonical spelling. |
 | `pregame.set_team` | `pregame.set_team` | Select one noncurrent team while unready using an opaque ID from the same-revision `pregame_teams` catalog. Rows identify the selected team and its members without exposing native team slots. |
 | `pregame.set_ready` | `pregame.set_ready` | Set the exact opposite desired readiness state. `ready: true` is not advertised until every expected external sidecar generation is healthy. The last external ready packet starts the native game; no console start shortcut is used. |
-| `player.cast_vote` | `player.cast_vote` | Cast yes, no, or abstain on one active normal-client vote using exactly its current revision-bound opaque `vote_id`. The native queue number and full queue binding remain private; dispatch uses only `voteinfo_do_vote`. |
+| `player.cast_vote` | `player.cast_vote` | Cast a different yes, no, or abstain ballot on one active normal-client vote using exactly its current revision-bound opaque `vote_id`. The descriptor omits the already-confirmed choice. The native queue number and full queue binding remain private; dispatch uses only `voteinfo_do_vote`. |
+| `player.propose_server_setting` | `player.propose_server_setting` | Propose a change to one exact server-advertised, currently changeable normal-client setting. Boolean and enum descriptors bind one noncurrent value and take `{}`. Integer, bitwise, and string descriptors take exactly `{"value": ...}` with the type and bounds in the live `arguments_schema`. Dispatch uses the typed Freeciv option API, not caller-supplied command text. Available in the lobby and while running when the normal client marks the setting changeable. |
+| `player.cancel_vote` | `player.cancel_vote` | Cancel one exact active vote created by the caller. The opaque target binds the vote and arguments are exactly `{}`; another player's vote, all votes, and stale or resolved votes are never advertised. Available in the lobby and while running. |
+| `player.surrender` | `player.surrender` | Surrender only the caller's own live player through the normal player command path. The player target is self, arguments are exactly `{}`, and the capability is available only after the game is running while that player is alive and has not already surrendered. |
 | `phase.end` | `phase.end` | End the active player's phase; exact empty arguments. |
 | `unit.move` | `unit.order` | Move an owned unit to one adjacent target tile; exact empty arguments. |
 | `unit.attack` | `unit.perform_action` | Normal or suicide attack variants against a visible target stack; exact empty arguments. |
-| `unit.special` | `unit.perform_action` | Server-discovered spy, sabotage, bombardment, nuclear, conquest, healing, and related ruleset actions for one exact actor and target tile. Native rule and target IDs remain private. Classic Bribe Unit, Bribe Stack, and both Incite City variants expose an authenticated `gold_cost` maximum, re-quote immediately before dispatch, and carry that ceiling into a server-side guard. Bribe Stack additionally freezes the exact visible target-stack signature. Other complex-subtarget, generic, and unsupported subresult-bearing actions remain omitted. |
+| `unit.special` | `unit.perform_action` | Server-discovered spy, sabotage, bombardment, nuclear, conquest, healing, and related ruleset actions for one exact actor and target tile. Native rule and target IDs remain private. Supported technology and building subtargets become request-bound opaque named choices, and supported fixed action subresults become ordered public `effects`. Classic Bribe Unit, Bribe Stack, and both Incite City variants expose an authenticated `gold_cost` maximum, re-quote immediately before dispatch, and carry that ceiling into a server-side guard. Bribe Stack additionally freezes the exact visible target-stack signature. The four Freeciv user-action slots are accepted only in their simple form with no complex subtarget or subresult. Direct extra/extra-not-there routing, specialist subtargets, and unmodeled subresult families remain omitted. |
 | `city.found` | `unit.perform_action` | Found a city on the unit's current tile; requires a bounded `city_name`. |
 | `research.set_target` | `research.set_target` | Select an enumerated opaque immediate-research choice; exact empty arguments. |
 | `research.set_goal` | `research.set_goal` | Select or clear an enumerated opaque long-term research goal; exact empty arguments. |
 | `economy.set_rates` | `economy.set_rates` | Set exact tax, luxury, and science integers within the current Freeciv rate constraint. |
-| `player.send_chat` | `player.send_chat` | Send one 1–512-byte UTF-8 message to `global` or `allied` chat through the normal chat packet API. The sidecar supplies the allied prefix itself and rejects command prefixes, private-target colons, whitespace-only text, and control characters. |
+| `player.send_chat` | `player.send_chat` | During both `PREPARING` and `RUNNING`, send one normal-player `global`, `allied`, or `private` message. Private messages require a same-revision opaque `recipient_id` from a `chat_recipients` row whose `can_message` is true; global/allied messages omit it. The message must be strict UTF-8 of 1–512 encoded bytes, may contain colons and command-looking text, must not begin or end with ASCII space U+0020, and must not contain Unicode `Cc` or `Cf` code points. The native client—not the caller—generates one leading ASCII space for global, `.` for allied, or the exact `PlayerName:` routing prefix for private. The server parses the protective global space as public chat and trims it before display, so message text cannot become a server command or choose a different recipient. Direct connection messaging remains unavailable. |
 | `city.set_production` | `city.set_production` | Select one noncurrent ruleset production target Freeciv says this owned city can build now; exact empty arguments. Actor-scoped only. |
 | `city.buy_production` | `city.buy_production` | Buy the owned city's exact current production when Freeciv permits it and the player can afford its cached cost; exact empty arguments. Actor-scoped only. |
 | `city.work_tile` | `city.assign_citizen` | Move the first positive normal specialist to one exact, seen, nonfree, currently unworked tile that Freeciv says the owned city can work; exact empty arguments. Actor-scoped only. |
@@ -174,10 +179,12 @@ Freeciv ruleset variants can produce multiple descriptors of the same family:
 | `unit.auto_explore` | `unit.order` | Hand one exact owned idle unit with no queued orders or goto plan to Freeciv's native auto-explorer when the exact Explore activity predicate permits it. Exact empty arguments; actor-scoped only. |
 | `unit.cancel_automation` | `unit.order` | Take an exact auto-working or auto-exploring unit back under manual control through the normal two-request client activity helper. Exact empty arguments; actor-scoped only. |
 | `unit.cancel_orders` | `unit.order` | Clear an exact owned manual unit's queued route when it is idle and has queued orders. A private goto destination may be present for a direct goto or absent for a route inherited from a city rally point; route details remain private. Exact empty arguments; actor-scoped only. |
+| `unit.clear_action_decision` | `unit.order` | Dismiss one exact pending active or passive action decision for an owned unit. Own-unit state exposes the decision kind and an opaque decision-tile ID; that tile can be used only with the same actor to discover the server-advertised target actions, even when it is still unknown. Selecting one of those exact target actions sends the action and clears the client decision transactionally. Exact empty arguments; actor-scoped only. |
 | `unit.goto` | `unit.order` | Queue an exact normal-client goto route to one of at most 64 deterministic nearest reachable visible or remembered destinations within real map distance 8. A legal occupied destination may freeze a final action-move order. The opaque target exposes only its public tile ID and known coordinates; route steps and costs remain private. Exact empty arguments; actor-scoped or actor-plus-target-scoped. |
 | `unit.goto_and_perform` | `unit.order` | Queue a normal-client route with one frozen permitted, nonconsuming native action as its final order. The destination tile, semantic action, exact city lifecycle or visible stack signature, private subtarget, order list, and digest are bound by the actor-plus-target lease; queued unit-target actions are excluded because the native order carries only a tile. No native action/order IDs or packet fields are public. Exact empty arguments. |
 | `unit.connect_route` | `unit.order` | Queue a native road or irrigation connect route to an exact remembered or visible tile, including recursive road prerequisites and interleaved construction/movement orders. The semantic activity and opaque extra are public; native orders, action IDs, directions, and digest stay private. Exact empty arguments; actor-plus-target-scoped only. |
 | `unit.set_route` | `unit.order` | Queue a caller-selected `goto` or closed `patrol` through one through 64 ordered opaque remembered/visible tile waypoint IDs. The normal client pathfinder materializes every segment; native directions, costs, and the exact route digest stay private. Actor-scoped only. |
+| `unit.attack_route` | `unit.order` | Queue the normal client's attack-capable path to one caller-selected remembered or visible opaque destination. Every movement step uses Freeciv's action-move order; the server still chooses legality and may pause at any step for a player action decision. Exact `{destination_id}` arguments; actor-scoped only. |
 | `unit.fortify` | `unit.perform_action` | Start a legal Freeciv self-target fortify action for one owned unit that is not already fortifying or fortified; exact empty arguments. Actor-scoped only. |
 | `unit.convert` | `unit.perform_action` | Start a legal Freeciv self-target conversion to the exact ruleset-defined opaque unit type; exact empty arguments. Actor-scoped only. |
 | `unit.disband` | `unit.perform_action` | Execute a legal consuming Freeciv self-target disband action; exact empty arguments. Actor-scoped only. |
@@ -188,9 +195,9 @@ Freeciv ruleset variants can produce multiple descriptors of the same family:
 | `unit.establish_trade` | `unit.perform_action` | Consume one exact owned caravan whose exact owned home city is bound as the source to establish a route with one distinct exact visible or remembered city; exact empty arguments. Actor-scoped only. |
 | `unit.marketplace` | `unit.perform_action` | Consume one exact owned caravan whose exact owned home city is bound as the source to enter one distinct exact visible or remembered city's marketplace; exact empty arguments. Actor-scoped only. |
 | `unit.help_wonder` | `unit.perform_action` | Consume one exact owned unit to contribute its ruleset shield value to production in one exact visible or remembered city through `Help Wonder`; exact empty arguments. Actor-scoped only. |
-| `unit.airlift` | `unit.perform_action` | Airlift one owned unit from its exact current owned city to one distinct exact owned city through `Airlift Unit`; exact empty arguments. Actor-scoped only. |
-| `unit.paradrop` | `unit.perform_action` | Paradrop one owned unit to one exact currently seen nonorigin tile through `Paradrop Unit`, `Paradrop Unit Frighten`, or `Paradrop Unit Enter`; exact empty arguments. Actor-scoped only. |
-| `unit.teleport` | `unit.perform_action` | Teleport one owned unit to one exact currently seen nonorigin tile through `Teleport`, `Teleport2`, `Teleport3`, `Teleport Frighten`, or `Teleport Enter`; exact empty arguments. Actor-scoped only. |
+| `unit.airlift` | `unit.perform_action` | Airlift one owned unit from its exact current owned city to one distinct exact cached own or allied city through `Airlift Unit` when Freeciv's normal client probability permits it; exact empty arguments. The source and destination city sites, tiles, and lifetimes are frozen. Actor-scoped only. |
+| `unit.paradrop` | `unit.perform_action` | Paradrop one owned unit to one exact visible, remembered, or fully redacted unknown nonorigin tile through `Paradrop Unit`, `Paradrop Unit Frighten`, or `Paradrop Unit Enter`; exact empty arguments. Actor-plus-target-scoped only. |
+| `unit.teleport` | `unit.perform_action` | Teleport one owned unit to one exact visible, remembered, or fully redacted unknown nonorigin tile through `Teleport`, `Teleport2`, `Teleport3`, `Teleport Frighten`, or `Teleport Enter`; exact empty arguments. Actor-plus-target-scoped only. |
 | `unit.board` | `unit.perform_action` | Board owned cargo onto one exact visible domestic or allied transporter on the same tile, including a native-legal direct transporter switch. Actor-scoped only. |
 | `unit.deboard` | `unit.perform_action` | Detach owned cargo from its exact current visible domestic or allied transporter without moving either unit. Actor-scoped only. |
 | `unit.embark` | `unit.perform_action` | Move owned cargo onto one exact visible domestic or allied transporter on an adjacent currently seen tile, including a native-legal direct transporter switch. Actor-scoped only. |
@@ -204,13 +211,45 @@ Freeciv ruleset variants can produce multiple descriptors of the same family:
 | `spaceship.place_component` | `spaceship.place_component` | Place one exact available structural slot or the next fuel, propulsion, habitation, life-support, or solar-panel part. Player-actor-scoped only. |
 | `spaceship.launch` | `spaceship.launch` | Launch the exact own spaceship only when Freeciv reports a positive success rate and an available capital. Player-actor-scoped only. |
 
-Vote application is positive only when the same active client-cache record
-shows the requested `client_vote` after processing. If that vote resolves or
-disappears after dispatch, the receipt is terminal `ambiguous` and
-nonretryable; it is never mislabeled as a clean rejection.
+Vote application is positive only after the normal client receives the exact
+request-correlated structured `PACKET_VOTE_UPDATE` for that vote. The local
+`client_vote` field is optimistic and is never treated as server authority.
+Because accepted non-no-op ballots update the tallies before any resolve and
+remove packets, a decisive vote can return `applied` even when it disappears
+or starts the game in the same request. Missing or mismatched updates remain
+terminal `ambiguous` and nonretryable. The state surface retains the latest 64
+structured outcomes (`passed`, `failed`, or `removed`) under a stable
+generation-scoped `vote_ref`; `vote_id` remains revision-bound and actionable
+only while `status` is `active`.
+
+A setting proposal is
+`applied` only when the typed option has the requested value or the exact
+request-correlated new-vote notification proves the proposal was created;
+the vote need not remain active because it may resolve immediately. Vote
+cancellation requires the request-correlated vote-aborted notification and
+disappearance of the bound own vote. Surrender
+requires the request-correlated game-end notification. If any of these
+governance actions crosses the native processing boundary without its exact
+postcondition, the receipt is terminal `ambiguous` and nonretryable; a vote
+that resolves quickly is never mislabeled as a clean rejection.
+
+These actions are a closed projection of the normal-player governance
+surface, not a command console. `player.propose_server_setting` is generated
+only from the connection-specific option catalog and sends only the selected
+typed option value through Freeciv's option setter. The API accepts no slash
+command, option name, native vote text, or arbitrary server-command string.
+The other control-level families -- `cut`, `debug`, `rulesetdir`, `aitoggle`,
+`create`, `restricted`, `novice`, `easy`, `normal`, `hard`, `cheating`,
+`experimental`, `timeoutincrease`, `remove`, `load`, `read`, `reset`,
+`default`, and `kick` -- are not modeled and remain absent. The admin/hack
+`quit`, `wall`, `connectmsg`, `metaconnection`, `metaserver`, `cmdlevel`,
+`playercolor`, `playernation`, `endgame`, `save`, `scensave`, `write`, `lua`,
+and `aicmd` families are also outside the player API. Lobby team choice is
+available only through the separate closed `pregame.set_team` descriptor.
+
 | `diplomacy.open_meeting` / `diplomacy.close_meeting` | `diplomacy.meeting` | Open or close negotiations with one exact opaque relation. Player-plus-relation-scoped only. |
-| `diplomacy.propose_clause` | `diplomacy.clause` | Propose an exact directional technology, map, sea map, city, pact, vision, embassy, or shared-tiles clause. Gold takes exact `{gold: N}` within the descriptor's current bound. Player-plus-relation-scoped only. |
-| `diplomacy.remove_clause` | `diplomacy.clause` | Remove one exact currently projected clause by opaque treaty identity; exact empty arguments. Player-plus-relation-scoped only. |
+| `diplomacy.propose_clause` | `diplomacy.clause` | Propose an exact directional technology, map, sea map, city, pact, vision, embassy, or shared-tiles clause. Technology candidates match the normal GTK client: when the giver's team lacks an embassy with the receiver, the client cannot apply the receiver-prerequisite filter and leaves final validation to the server. Gold takes exact `{gold: N}` within the descriptor's current bound. Player-plus-relation-scoped only. |
+| `diplomacy.remove_clause` | `diplomacy.clause` | Remove one exact currently projected clause by opaque treaty identity; exact empty arguments. A city clause remains removable if its city is no longer in the caller's visible city-site catalog; the public value is then an opaque `available: false` placeholder and exposes neither the hidden native city ID nor its name. Player-plus-relation-scoped only. |
 | `diplomacy.accept` / `diplomacy.withdraw_acceptance` | `diplomacy.acceptance` | Set the caller's desired acceptance state for the exact current clause digest. Exact empty arguments; never replay an ambiguous acceptance. Player-plus-relation-scoped only. |
 | `diplomacy.break_relation` | `diplomacy.relation` | Lower the current pact only when Freeciv's native cancellation predicate is exactly allowed. Player-plus-relation-scoped only. |
 | `diplomacy.withdraw_vision` / `diplomacy.withdraw_shared_tiles` | `diplomacy.withdraw` | Withdraw one exact outgoing benefit; exact empty arguments. Player-plus-relation-scoped only. |
@@ -285,14 +324,19 @@ targets and execution repeats `is_tiles_adjacent` plus the exact live
 action-probability and component-signature checks before dispatch.
 
 Noncombat mobility retains every exact allowed ruleset variant as a distinct
-opaque capability. Airlift requires exact owned source and destination city
-lifetimes and tiles; allied-city airlift remains deferred even though the
-fog-safe city-site lifetime model is now available. Paradrop and teleport accept only currently
-seen destination tiles. Remembered paradrop targets and large-range
-target-filtered queries are later work. `not_implemented` probability is
-preserved only for paradrop, whose result remains server-authoritative;
-airlift and teleport fail closed. Airlift, paradrop, and teleport conquer
-variants remain reserved for the combat slice and are excluded by exact name.
+opaque capability. Airlift requires an exact owned source plus an exact cached
+own or allied destination city lifetime and tile; the normal client action
+probability remains authoritative about the ruleset's allied-destination
+style. Paradrop and teleport destinations are discovered only through one
+explicit actor-plus-target query. Visible and remembered tiles preserve the
+normal client's cached probability. A truly unknown tile is accepted only
+when the same client-side movement check is possible, and its probability is
+replaced with the public `unknown` range so hidden terrain, ownership, extras,
+units, or cities cannot be inferred. The server still enforces final legality.
+Keeping all eight destination variants out of the ordinary actor catalog makes
+catalog size independent of map area; one target catalog remains capped at
+256 actions. Airlift, paradrop, and teleport conquer variants remain reserved
+for the combat slice and are excluded by exact name.
 
 This list is closed fail-safe in the current projector: an unrecognized native
 rule or contradictory target/result contract invalidates that observation
@@ -354,22 +398,24 @@ during-revolution government, and the player is not already in that government
 with it selected as the target. A change capability excludes the current,
 selected, and during-revolution governments, requires Freeciv's requirements
 predicate, and is emitted only when the result can be observed unambiguously:
-either the revolution finish is in a future turn, or it is a nonpositive finish
-without the no-Anarchy effect.
+either the no-Anarchy effect is active, the revolution finish is in a future
+turn, or it is a nonpositive finish.
 
 The sidecar deliberately exports no direct change while a positive revolution
-finish is due at or before the current turn, and no zero-turn no-Anarchy
-change. Those transitions can complete inside the same server processing
-boundary without a later player-state packet that proves which choice was
-accepted. They stay absent rather than exposing a provisional outcome state or
-a receipt that guesses. The public status is one of `stable`, `anarchy`,
-`anarchy_targeted`, `choice_required`, or `enactment_pending`; revolution
-methods are `fixed`, `random`, `quickening`, or `random_quickening`.
+finish is due at or before the current turn unless no-Anarchy is active. A
+zero-turn no-Anarchy choice is legal: Freeciv records the target immediately
+and enacts it at the end of the player phase. Because that path intentionally
+does not echo the pending target in a player-state packet, the sidecar proves
+acceptance from the exact request-correlated `E_REVOLT_START` event rather than
+guessing from a later cache state. The public status is one of `stable`,
+`anarchy`, `anarchy_targeted`, `choice_required`, or `enactment_pending`;
+revolution methods are `fixed`, `random`, `quickening`, or
+`random_quickening`.
 
-Movement or transport disembark into an adjacent unknown tile are the landed
+Movement, transport disembark, paradrop, and teleport are the landed
 unknown-target exceptions. Their target metadata contains only an opaque tile
 ID, coordinates, and `visibility: "unknown"`; terrain, ownership, extras,
-resources, labels, and yields are omitted. A matching move action remains
+resources, labels, and yields are omitted. Matching relocation actions remain
 unknown/possibly-legal. Disembark is exported only when its actor-only native
 legality is exact and its full transport component transition is receiptable.
 Unknown-target attacks and all other unknown-target action families are
@@ -385,9 +431,9 @@ these rows are requirements, not available commands:
 
 | Domain | Required controls | Initial action kinds |
 | --- | --- | --- |
-| Pregame | landed: choose nation, leader, sex, style, and team from bounded live catalogs; set or withdraw desired readiness; start only after every external seat is joined and ready. | `pregame.configure`, `pregame.set_team`, `pregame.set_ready` |
+| Pregame | landed: choose nation, leader, sex, style, and team from bounded live catalogs; exchange normal global/allied/private lobby messages using the visible roster; set or withdraw desired readiness; start only after every external seat is joined and ready. | `pregame.configure`, `pregame.set_team`, `pregame.set_ready`, `player.send_chat` |
 | Unit orders | landed: adjacent move, bounded goto discovery, arbitrary remembered/visible target goto lookup, sentry, fortify, native automation, cancel automation, cancel queued routes, transport, and disband; target: patrol/waypoints, wait/skip, wake, repeat, and vigilant routes | `unit.order` plus the landed actor-scoped transport action families |
-| Ruleset unit actions | attack, conquer, found city, all worker activities, pillage, upgrade, rehome, caravan trade/help-wonder, diplomat/spy actions, bombard, paradrop, airlift, nuke, convert, and every action/target Freeciv advertises | landed for the bounded result set documented below, including guarded Classic Bribe Unit, Bribe Stack, both Incite City variants, five exact Classic random espionage variants, Classic targeted technology-theft escape, and Classic extra conquest and hut variants 1/2; other complex-subtarget, other subresult-bearing, and generic user actions remain targets |
+| Ruleset unit actions | attack, conquer, found city, all worker activities, pillage, upgrade, rehome, caravan trade/help-wonder, diplomat/spy actions, bombard, paradrop, airlift, nuke, convert, and every action/target Freeciv advertises | landed for the bounded result set documented below, including guarded Classic Bribe Unit, Bribe Stack, both Incite City variants, five exact Classic random espionage variants, both targeted technology-theft variants with regular/Future choices, targeted building sabotage/strike, supported fixed subresult effects, Classic extra conquest and hut variants, and the four simple user-action slots; direct extra/extra-not-there routing, specialist subtargets, and other unmodeled result/subresult families remain targets |
 | Cities | choose/change production and buy production | `city.set_production`, `city.buy_production` |
 | Citizens | work/unwork tiles and assign specialists | landed as `city.assign_citizen` and `city.set_specialist` |
 | Automation | set, inspect, and clear city governor choices | `city.set_governor` |
@@ -397,7 +443,7 @@ these rows are requirements, not available commands:
 | Government | start revolution and select a legal government | `government.revolution`, `government.change` |
 | Diplomacy | landed: open/close meetings, add/remove every server-advertised clause (maps, gold, cities, technologies, shared vision, embassies, shared tiles, and pacts), set/withdraw acceptance, lower cancellable pacts, and withdraw outgoing vision/shared tiles | `diplomacy.meeting`, `diplomacy.clause`, `diplomacy.acceptance`, `diplomacy.relation`, `diplomacy.withdraw` |
 | Player controls | select legal infrastructure and ruleset multipliers/policies exposed by the client | `player.set_infrastructure`, `player.set_multiplier` |
-| Votes | inspect active visible vote text, tallies, threshold, team-only status, and own vote; cast yes/no/abstain when permitted | `player.cast_vote` |
+| Votes and player governance | inspect visible caller/text/tallies, threshold, team-only status, request-confirmed own ballot, and a bounded structured outcome history; cast a different yes/no/abstain ballot when permitted; propose typed changes to currently changeable server settings; cancel only the caller's own active vote; surrender only the caller's running player | `player.cast_vote`, `player.propose_server_setting`, `player.cancel_vote`, `player.surrender` |
 | Spaceship | inspect inventory, place structural/component/module parts in legal slots, and launch when legal (part construction is city production) | `spaceship.place_component`, `spaceship.launch` |
 | Phase | explicitly finish the seat's action phase | `phase.end` |
 
@@ -443,7 +489,7 @@ returns the `overview` section. A caller may request exactly one of:
 - `pregame_nations` (lobby only)
 - `pregame_styles` (lobby only)
 - `pregame_teams` (lobby only)
-- `votes` (active votes visible to the normal player)
+- `votes` (active visible votes plus the latest 64 structured outcomes in the current seat epoch)
 - `research`
 - `governments`
 - `multipliers`
@@ -457,6 +503,7 @@ returns the `overview` section. A caller may request exactly one of:
 - `city_detail`
 - `city_citizens`
 - `city_worker_tasks`
+- `city_trade_routes`
 - `city_build_choices`
 - `city_worklist`
 - `city_improvements`
@@ -464,11 +511,16 @@ returns the `overview` section. A caller may request exactly one of:
 - `tile_window`
 - `city_sites`
 - `units`
+- `unit_route` (requires `actor_id` for an owned unit with a reconstructable queued route)
 - `tombstones`
 - `chat` (the latest 64 normal-client chat/event packets)
+- `chat_recipients` (the visible normal-player roster for private chat, available
+  both in the lobby and after start; rows expose only an opaque player ID,
+  display name, `self`, `connected`, and `can_message`)
 
 Use `?section=SECTION&limit=N`, where `N` is 1 through 16. City child sections
-also require `actor_id=CURRENT_OWN_CITY_ID`. `diplomacy_clauses` requires
+also require `actor_id=CURRENT_OWN_CITY_ID`; `unit_route` requires
+`actor_id=CURRENT_OWN_UNIT_ID`. `diplomacy_clauses` requires
 `relation_id=CURRENT_RELATION_ID`; clauses are paged per meeting rather than as
 one global catalog. `tile_window` instead requires a
 known `center_id=TILE_ID` and `radius=0..8`; it uses Freeciv's map topology and
@@ -554,12 +606,29 @@ target and long-term goal. The detail sections currently project:
   `city_build_choices`, and `city_improvements` expose the exact ordered
   worklist, the union of current entries and currently queueable opaque
   production choices, and installed improvements with sellability and price.
+  `city_trade_routes` exposes the own-city trade-route packet/cache records:
+  a stable opaque route ID, position, raw and effective value, direction, and
+  opaque goods. A partner city is linked only when it is owned or currently
+  visible and its identity/name/visibility exactly cross-link to `city_sites`;
+  remembered or unavailable partners project only `available: false`, without
+  a native city number or correlatable substitute ID. Compact city rows expose
+  the current route count and ruleset-derived capacity so the scoped catalog
+  is cardinality checked.
   `city_detail` exposes whether native client-governor control is enabled;
   the full CMA minimum-surplus/weight goal is available only through the
   bounded, owned-city `city_governor` section.
-  Each build choice carries `can_queue`, `can_build_now`, and
-  `preservable_count`; a nonqueueable choice exists only because that many
-  occurrences are still in the current worklist. `city_detail` also carries
+  Each build choice carries `can_queue`, `can_build_now`,
+  `preservable_count`, city-context shield cost and post-change stock, turn
+  estimates with and without existing stock, six-output upkeep, and the
+  applicable unit or building details. Unit details include combat, movement,
+  hit-point, transport, fuel, population, bombard, city-founding, vision, and
+  paradrop values from the active ruleset. Building details include genus,
+  current obsolescence/redundancy, conversion status, and the ruleset cache's
+  unit/extra/disaster/action capability flags. A turn estimate of `null` means
+  Freeciv reports `never`; conversion projects have `null` cost and turn
+  fields because their shield output is continuous. A nonqueueable choice
+  exists only because `preservable_count` occurrences remain in the current
+  worklist. `city_detail` also carries
   the once-per-turn `did_sell` flag and normalized options. Legacy simultaneous
   science/gold new-citizen bits project with science precedence and
   `options.conflict: true` so `city.set_options` can repair them;
@@ -571,10 +640,15 @@ target and long-term goal. The detail sections currently project:
 - own units, including an opaque unit-type ID, opaque home-city reference,
   optional opaque conversion-target type, semantic activity, progress, an
   opaque current extra target when present, and exact transport state,
-  capacity, occupancy, and an opaque transporter reference when resolved.
+  capacity, occupancy, an opaque transporter reference when resolved, and any
+  pending action-decision kind plus its same-actor-only opaque tile reference.
   Own units also expose semantic automation controller state (`none`,
-  `auto_work`, or `auto_explore`) and the exact `has_orders` boolean; raw goto
-  destinations, order arrays, and native controller IDs remain private;
+  `auto_work`, or `auto_explore`), the exact `has_orders` boolean, and an
+  opaque route identity with `path_available` and `path_step_count`. When the
+  route is reconstructable, `unit_route` pages its remaining ordered
+  `move`, `action_move`, or `wait` steps as opaque tile IDs and safe map
+  coordinates. Native tile IDs, directions, costs, digests, and controller
+  IDs remain private;
   currently visible foreign units
   include an opaque unit-type ID but no private ownership-only state;
 - type-only tombstones for tracked player/city/unit lifetimes that disappeared
@@ -644,6 +718,25 @@ JSON-schema-shaped `arguments_schema`. The economy descriptor requires exact
 `max_rate`, with a semantic sum of 100. The projector and sidecar both validate
 arguments before translation.
 
+In both the lobby and the running game, `player.send_chat` requires `channel`
+and `message`. `global` and `allied` take no recipient; `private` additionally
+requires the exact same-revision opaque `recipient_id` from
+`chat_recipients`, and that row must report `can_message: true`. This flag is
+true only when the recipient is connected and its current player name is safe
+and unambiguous for Freeciv's `PlayerName:` syntax. Fetch that unscoped catalog
+before choosing a private recipient and refresh it together with legal actions
+after any revision change. The public row never exposes a native player number,
+connection ID, or server command target. Immediately before sending, native
+code revalidates the recipient, connection, and name. It prepends one ASCII
+space for global chat, `.` for allied chat, and the selected exact
+`PlayerName:` for private chat. The server parses the protective global space
+as public chat and trims it before display. Consequently leading `/`, `.`, or
+`:` text and embedded colons remain message text rather than changing the
+routing mode or entering the server console. Messages are
+strict UTF-8 of 1 through 512 encoded bytes; leading/trailing ASCII U+0020 and
+all Unicode `Cc` and `Cf` code points are rejected identically at both
+validation boundaries. Direct connection messaging is not exposed.
+
 In the lobby, `pregame.configure` instead requires exactly the currently
 enumerated opaque `nation_id` and `style_id`, a bounded `leader_name`, and the
 advertised boolean `is_male`. `pregame.set_team` requires exactly one opaque
@@ -706,8 +799,9 @@ An owned unit, city, or the self player can query one exact bound tile with
 `?actor_id=OPAQUE_ACTOR_ID&target_id=OPAQUE_TILE_ID`, optionally adding a page
 `limit` from 1 through 16. No section or other parameter is valid. Both IDs
 must come from the caller's current snapshot. `map_tiles` may bind a fully
-redacted unknown coordinate for far `unit.goto`; other target families require
-the visibility stated by their live descriptor. Foreign, stale, malformed, and
+redacted unknown coordinate for far `unit.goto`, `unit.paradrop`, or
+`unit.teleport`; other target families require the visibility stated by their
+live descriptor. Foreign, stale, malformed, and
 cross-seat IDs fail before the private native query. The city's own source tile also fails before the
 native query: explicit actor-scoped `clear_rally`, not source-tile set, is the
 v2 clear operation. A valid target with no safe human-client action returns an
@@ -715,7 +809,8 @@ ordinary legal-actions page with zero items; it does not expose a private
 route- or action-failure reason. City target catalogs can contain
 `city.set_rally`; self-player target catalogs can contain infrastructure
 placement; unit target catalogs can contain `unit.goto`,
-`unit.goto_and_perform`, `unit.connect_route`, plus a bounded set of
+`unit.goto_and_perform`, `unit.connect_route`, the three paradrop variants,
+the five teleport variants, plus a bounded set of
 server-advertised immediate actions. Every target catalog uses the same atomic cursor
 contract as other scoped catalogs and must reach `catalog_complete: true`
 before any descriptor can execute.
@@ -731,10 +826,13 @@ bombardment, suitcase nuclear attack, distinct city/tile nuclear attack, stack
 nuclear attack, city destruction, expulsion, production strikes, city
 conquest, healing, ransom, plague, spy attack/escape, wipe,
 paradrop-conquer, teleport-conquer, Classic extra conquest variants 1/2, and
-Classic hut entry/frightening variants 1/2. A ruleset action is included only
-when it has no complex subtarget and no action subresults, except the hut
-actions' exact hardcoded enter/frighten subresult and the exact Classic
-`Targeted Steal Tech Escape Expected` technology subtarget. Random city sabotage is
+Classic hut entry/frightening variants 1/2. Fixed native subresults are accepted
+only for the enumerated action contracts; their canonical order is preserved as
+public `effects` such as `enter_huts`, `frighten_huts`, `may_embark`, and
+`non_lethal_to_target_units`. Technology and building subtargets are accepted
+only by the targeted-theft and targeted-building contracts below. The four
+ruleset user-action slots are included only when they carry neither a complex
+subtarget nor a subresult. Random city sabotage is
 limited to Classic `Sabotage City` and `Sabotage City Escape`; production
 sabotage to `Sabotage City Production Escape`; and random technology theft to
 `Steal Tech` and `Steal Tech Escape Expected`. These five, targeted technology
@@ -743,7 +841,7 @@ fabricating odds.
 
 Targeted technology theft is exposed only when the normal client is authorized
 to see the victim's research through an embassy or team relationship. Each
-normal-GUI-valid regular technology becomes a separate action carrying a
+normal-GUI-valid regular or Future technology becomes a separate action carrying a
 human-readable name and an opaque `technology_choice.id`; the native technology
 number never crosses the HTTP boundary. The frozen native slot binds the actor,
 city, action, selected technology, native revision, and a digest of the victim's
@@ -769,14 +867,15 @@ disappearance and owned replacement lifetimes are optional corroboration when
 no members were visible; an exact visible baseline that conflicts with those
 mappings fails closed. Any missing positive proof or correlated failure after
 dispatch is terminal `ambiguous` and is never replayed. Exact Classic targeted
-building sabotage is exposed as one frozen action per normal-GUI-authorized
-improvement with an opaque `building_choice.id`; the harness submits `{}` and
-the eligible-building list is re-queried immediately before dispatch. Targeted future-tech
-theft, the plain/non-Classic targeted-theft variant, the non-Classic non-escape
-production-sabotage action, specialist
-subtargets, additional ruleset variants, and generic ruleset
-user actions are deferred until every cost, extra, subtarget, or subresult can
-be safely bound into the frozen catalog.
+building sabotage and surgical building strikes are exposed as one frozen
+action per normal-GUI-authorized improvement with an opaque
+`building_choice.id`; the harness submits `{}` and the eligible-building list
+is re-queried immediately before dispatch. Both targeted-theft variants accept
+regular and Future technology choices. The non-Classic non-escape
+production-sabotage action, direct extra/extra-not-there routing, specialist
+subtargets, additional unmodeled ruleset results, and complex user actions are
+deferred until every cost, extra, subtarget, or subresult can be safely bound
+into the frozen catalog.
 
 Classic `Investigate City` and its consuming alternate are ordinary
 target-scoped `unit.perform_action` choices. An applied investigation requires
@@ -858,9 +957,11 @@ with their response; independently validated global player actions retain
 their normal behavior.
 
 The current player actor catalog contains `phase.end`, research target and
-goal, economy-rate, revolution, government-change, and active vote-casting
-capabilities. Vote capabilities remain available outside the player's action
-phase when the normal client may vote. An owned
+goal, economy-rate, revolution, government-change, active vote-casting,
+changeable-setting proposal, own-vote cancellation, and surrender
+capabilities. Vote and server-setting governance capabilities remain
+available outside the player's action phase when the normal client permits
+them; surrender is running-only. An owned
 unit catalog contains its current move, attack, and found-city capabilities;
 worker activity starts and a cancel capability when applicable; sentry; and
 legal self-target fortify, convert, disband, and make-homeless capabilities
@@ -998,12 +1099,16 @@ research target), or all three economic rates equal the requested values.
 Native processing without a provable outcome is never reported as applied.
 
 For `player.send_chat`, `applied` has a narrower request-bound meaning: the
-normal packet handler received the same request's `E_CHAT_MSG` self echo with
-the requested global/allied channel and exact message suffix, and received no
-same-request `E_CHAT_ERROR`. The capability never invokes the server console
-and cannot address a private player or connection. The `chat` state section
-contains only the plain text visible to the normal client, with sender,
-channel, event, turn/phase, self attribution, and explicit truncation metadata.
+normal packet handler received the same request's `E_CHAT_MSG` self echo on the
+requested channel with no same-request `E_CHAT_ERROR`. Global and allied echoes
+must contain the exact message suffix. A private echo must be exactly
+`->{PlayerName} message`, binding the receipt to the same resolved recipient;
+the recipient's normal client sees `{SenderName} message`. This is sender-side
+proof of the exact normal-player routing result, not a separate remote-delivery
+acknowledgement. The capability never invokes the server console or direct
+connection messaging. The `chat` state section contains only the plain text
+visible to the normal client, with sender, channel, event, turn/phase, self
+attribution, and explicit truncation metadata.
 
 City-production, management, citizen, and worker-activity receipts use the same exact rule. Here,
 `applied` means that the immediate command effect was proved inside the native
@@ -1116,6 +1221,12 @@ improvement has finished:
   verifies the canonical inactive state. Ordered waypoint goto and closed
   patrol routes are available through `unit.set_route`; independently editing
   repeat or vigilant flags remains deferred.
+- `unit.attack_route` uses the normal client's dedicated attack-path
+  pathfinder settings and freezes every step as an action move. The exact
+  immutable order list is sent through the same two-request route boundary.
+  Applied can be proved by an exact remaining suffix, arrival at the frozen
+  destination, or a request-correlated active decision on one of the frozen
+  action-move tiles.
 - `unit.fortify` then requires no activity target and either fortifying or
   already-completed fortified activity.
 - `unit.convert` then requires either the exact conversion activity with no
@@ -1157,7 +1268,9 @@ improvement has finished:
   retain their exact baseline tiles and lifetimes while that exact actor
   lifetime moves from the source-city tile to the destination-city tile.
 - `unit.paradrop` and `unit.teleport` require the exact actor lifetime to move
-  from a distinct baseline tile to the exact currently seen target tile.
+  from a distinct baseline tile to the exact revision-bound target tile.
+  Visible and remembered targets preserve the normal client's probability;
+  unknown targets bind only an opaque tile identity and public unknown range.
   Paradrop additionally requires `paradropped` to transition from false to
   true; an already-paradropped baseline cannot satisfy the proof.
 - The Enter variants are exposed, but disappearance of the actor at the
@@ -1291,9 +1404,9 @@ The following foundations are landed:
    goto, target-on-demand city rally set/replace/clear, plus exact queued-route
    cancellation including rally-inherited orders,
    self-target, city-target upgrade/rehome/join/trade/marketplace/help-wonder,
-   owned-actor transport with visible allied targets, owned-city airlift,
-   seen-tile paradrop
-   and teleport unit actions, and safe
+   owned-actor transport with visible allied targets, own/allied-destination
+   airlift, target-bounded visible/remembered/unknown paradrop and teleport
+   unit actions, and safe
    government/revolution control, exact ruleset multiplier targets, and
    spaceship placement/launch, plus exact city CMA governor inspection,
    install/replace, and clear;

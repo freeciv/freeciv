@@ -19,7 +19,7 @@ from agent_eval.supervisor import Supervisor, make_supervisor_server
     "set FREECIV_AGENT_E2E=1 for the isolated mobility HTTP smoke",
 )
 class V2MobilityRealE2ETests(unittest.TestCase):
-    """Exercise Classic airlift and paradrop through the public v2 surface."""
+    """Exercise Classic airlift and target-scoped paradrop through public v2."""
 
     @staticmethod
     def _batch(game_id, joined, action, batch_id):
@@ -330,23 +330,39 @@ class V2MobilityRealE2ETests(unittest.TestCase):
             )
             self.assertEqual(moved_warrior["tile_id"], destination["tile_id"])
 
-            paratrooper_actions = self._pages(
-                root, token, "legal-actions",
-                f"actor_id={quote(paratrooper['id'])}&limit=16",
+            # Map-sized relocation catalogs are intentionally absent from the
+            # actor scope. Select an observed normal-client tile, then request
+            # the exact actor/target catalog used for execution.
+            known_tiles = self._pages(
+                root, token, "state", "section=known_tiles&limit=64",
                 public_payloads,
             )
-            paradrops = [
-                action for action in paratrooper_actions
-                if action["subject"]["operation"] == "paradrop"
-            ]
-            self.assertTrue(paradrops, paratrooper_actions)
-            unresolved_paradrops = [
-                action for action in paradrops
-                if action["subject"]["probability"]["kind"]
-                == "not_implemented"
-            ]
-            self.assertTrue(unresolved_paradrops, paratrooper_actions)
-            paradrop = unresolved_paradrops[0]
+            paradrop = None
+            target_page_items = []
+            for tile in known_tiles:
+                if (
+                    tile["id"] == paratrooper["tile_id"]
+                    or tile["visibility"] != "visible"
+                ):
+                    continue
+                target_page_items = self._pages(
+                    root, token, "legal-actions",
+                    f"actor_id={quote(paratrooper['id'])}"
+                    f"&target_id={quote(tile['id'])}&limit=16",
+                    public_payloads,
+                )
+                paradrop = next(
+                    (
+                        action for action in target_page_items
+                        if action["subject"]["operation"] == "paradrop"
+                        and action["subject"]["probability"]["kind"]
+                        == "not_implemented"
+                    ),
+                    None,
+                )
+                if paradrop is not None:
+                    break
+            self.assertIsNotNone(paradrop, target_page_items)
             self.assertEqual(
                 paradrop["subject"]["probability"]["kind"],
                 "not_implemented",

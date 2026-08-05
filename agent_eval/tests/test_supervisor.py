@@ -115,14 +115,53 @@ def _complete_v2_action_row(row):
             f"placing_time={'-1' if ' known=0 ' in row else '1'}"
         )
     if row.startswith("unit ") and " scope=own " in row \
+            and " veteran=" not in row:
+        row = re.sub(
+            r" hp=([0-9]+) moves=",
+            " hp=\\1 veteran=0 veteran_name=Regular veteran_levels=1 "
+            "veteran_power=100 veteran_move_bonus=0 fuel=0 max_hp=100 "
+            "max_fuel=0 move_rate=3 attack=1 defense=1 firepower=1 "
+            "base_upkeep_food=0 base_upkeep_shield=0 "
+            "base_upkeep_trade=0 base_upkeep_gold=0 "
+            "base_upkeep_luxury=0 base_upkeep_science=0 upkeep_food=0 "
+            "upkeep_shield=0 upkeep_trade=0 upkeep_gold=0 "
+            "upkeep_luxury=0 upkeep_science=0 moves=",
+            row,
+            count=1,
+        )
+    if row.startswith("unit ") and " scope=own " in row \
             and " orders_repeat=" not in row:
-        return row + (
+        row += (
             " orders_repeat=0 orders_vigilant=0 order_count=0 "
             "orders_digest=fnv1a64-0000000000000000 "
             "orders_destination=-1"
         )
+    if row.startswith("unit ") and " scope=own " in row \
+            and " action_decision_want=" not in row:
+        row += " action_decision_want=nothing action_decision_tile=-1"
+    if row.startswith("diplomacy ") and " intel_level=" not in row:
+        row = row.replace(
+            " has_embassy=",
+            " intel_level=contact team=2 team_name=Team%202 same_team=0 "
+            "controller=human connected=1 score=17 gold=23 "
+            "government=Despotism has_embassy=",
+            1,
+        )
     if not row.startswith("action "):
         return row
+    if " vote_no=" not in row:
+        row = row.replace(
+            " target_government=", " vote_no=-1 target_government=", 1,
+        )
+    if " server_setting_id=" not in row:
+        row = row.replace(
+            " target_government=",
+            " server_setting_id=-1 server_setting_type=none "
+            "server_setting_min=0 server_setting_max=0 "
+            "server_setting_current=-1 server_setting_value=-1 "
+            "target_government=",
+            1,
+        )
     if " route_waypoint_limit=" not in row:
         row = row.replace(
             " target_build_kind=",
@@ -136,6 +175,12 @@ def _complete_v2_action_row(row):
             " source_specialist=",
             " spaceship_part=none spaceship_value=-1 "
             "target_multiplier=-1 multiplier_value=-1 source_specialist=",
+            1,
+        )
+    if " subtarget_kind=" not in row:
+        row = row.replace(
+            " activity=",
+            " subtarget_kind=none subresults=none activity=",
             1,
         )
     if " counterpart=" in row:
@@ -256,7 +301,10 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
         rows.extend((
             "action slot=a0000000000000001 kind=phase.end actor=none "
             "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=phase.end target_kind=player result=phase_end "
@@ -264,7 +312,10 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "probability_min=200 probability_max=200 args=none",
             "action slot=a0000000000000002 kind=research.set_target actor=none "
             "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
-            "target_tech=6 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=6 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_target target_kind=Technology "
@@ -273,7 +324,10 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "args=none",
             "action slot=a0000000000000003 kind=research.set_goal actor=none "
             "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
-            "target_tech=4 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=4 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_goal target_kind=Technology "
@@ -282,7 +336,10 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "args=none",
             "action slot=a0000000000000004 kind=research.set_goal actor=none "
             "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
-            "target_tech=6 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=6 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_goal target_kind=Technology "
@@ -291,7 +348,10 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "args=none",
             "action slot=a0000000000000005 kind=research.set_goal actor=none "
             "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
-            "target_tech=1000 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=1000 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=research.set_goal target_kind=Technology "
@@ -300,7 +360,10 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "args=none",
             "action slot=a0000000000000006 kind=economy.set_rates actor=none "
             "target_tile=-1 source_city=none destination_city=none target_unit=none transport_context=none "
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=70 "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=70 "
             "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=none "
             "native_rule=economy.set_rates target_kind=Player "
@@ -313,17 +376,30 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
             "unit ref=u:10:100 scope=own owner=p:1:10 type_id=13 "
             "type=Warriors home_city=none converts_to_id=-1 "
             "converts_to=none tile=0 "
-            "x=0 y=0 hp=10 moves=3 activity=idle activity_target=-1 "
+            "x=0 y=0 hp=10 veteran=0 veteran_name=Green veteran_levels=2 "
+            "veteran_power=100 veteran_move_bonus=0 fuel=0 max_hp=10 "
+            "max_fuel=0 move_rate=3 attack=1 defense=1 firepower=1 "
+            "base_upkeep_food=0 base_upkeep_shield=1 base_upkeep_trade=0 "
+            "base_upkeep_gold=0 base_upkeep_luxury=0 "
+            "base_upkeep_science=0 upkeep_food=0 upkeep_shield=1 "
+            "upkeep_trade=0 upkeep_gold=0 upkeep_luxury=0 upkeep_science=0 "
+            "moves=3 activity=idle activity_target=-1 "
             "activity_target_name=none activity_progress=0 "
             "transport_state=untransported transporter=none "
             "transport_capacity=0 occupied=0 paradropped=0 paradrop_range=0 "
-            "controller=none has_orders=0"
+            "controller=none has_orders=0 orders_repeat=0 orders_vigilant=0 "
+            "order_count=0 orders_digest=fnv1a64-0000000000000000 "
+            "orders_destination=-1 action_decision_want=nothing "
+            "action_decision_tile=-1"
         )
         rows.extend(
             (
                 f"action slot=a{index:016X} kind=unit.move actor=u:10:100 "
                 "target_tile=0 source_city=none destination_city=none target_unit=none transport_context=none "
-                "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+                "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+                "server_setting_type=none server_setting_min=0 "
+                "server_setting_max=0 server_setting_current=-1 "
+                "server_setting_value=-1 target_government=-1 max_rate=0 "
                 "target_build_kind=none target_build=-1 source_specialist=-1 target_specialist=-1 target_extra=-1 "
                 "activity=none target_name=none "
                 "native_rule=Unit%20Move target_kind=Tile "
@@ -349,6 +425,47 @@ def native_v2_rows(*, tile_count=1, action_count=6, malformed=False):
     return tuple(sorted(_complete_v2_action_row(row) for row in rows))
 
 
+def native_v2_city_build_choice_row(*, production_kind, production_id, name):
+    if production_kind == "unit":
+        telemetry = (
+            "shield_cost=10 shield_stock_after_change=4 turns=3 "
+            "turns_with_stock=3 upkeep_food=0 upkeep_shield=1 "
+            "upkeep_trade=0 upkeep_gold=0 upkeep_luxury=0 "
+            "upkeep_science=0 happy_cost=0 unit_attack=1 unit_defense=1 "
+            "unit_move_rate=3 unit_hp=10 unit_firepower=1 "
+            "unit_vision_radius_sq=5 unit_transport_capacity=0 unit_fuel=0 "
+            "unit_pop_cost=0 unit_bombard_rate=0 unit_city_size=0 "
+            "unit_paradrop_range=0 building_genus=none "
+            "building_obsolete=-1 building_redundant=-1 "
+            "building_convert=-1 building_allows_units=-1 "
+            "building_allows_extras=-1 building_prevents_disaster=-1 "
+            "building_protects_vs_actions=-1 building_allows_actions=-1"
+        )
+    elif production_kind == "improvement":
+        telemetry = (
+            "shield_cost=60 shield_stock_after_change=4 turns=28 "
+            "turns_with_stock=28 upkeep_food=0 upkeep_shield=0 "
+            "upkeep_trade=0 upkeep_gold=1 upkeep_luxury=0 "
+            "upkeep_science=0 happy_cost=-1 unit_attack=-1 unit_defense=-1 "
+            "unit_move_rate=-1 unit_hp=-1 unit_firepower=-1 "
+            "unit_vision_radius_sq=-1 unit_transport_capacity=-1 "
+            "unit_fuel=-1 unit_pop_cost=-1 unit_bombard_rate=-1 "
+            "unit_city_size=-1 unit_paradrop_range=-1 "
+            "building_genus=improvement building_obsolete=0 "
+            "building_redundant=0 building_convert=0 "
+            "building_allows_units=0 building_allows_extras=0 "
+            "building_prevents_disaster=0 building_protects_vs_actions=0 "
+            "building_allows_actions=0"
+        )
+    else:
+        raise ValueError("unsupported fixture production kind")
+    return (
+        f"city_build_choice city=c:20:200 production_kind={production_kind} "
+        f"production_id={production_id} production_name={name} can_queue=1 "
+        f"can_build_now=1 {telemetry}"
+    )
+
+
 def native_v2_pregame_rows(*, ready=False):
     rows = [
         (
@@ -360,13 +477,16 @@ def native_v2_pregame_rows(*, ready=False):
         (
             "pregame ref=p:1:10 leader=Codex nation=none sex=male "
             f"style=none ready={int(ready)} nation_choices=2 "
-            "style_choices=2"
+            "style_choices=2 team_choices=3"
         ),
         _complete_v2_action_row(
             "action slot=a0000000000000501 kind=pregame.set_ready "
             "actor=p:1:10 target_tile=-1 source_city=none "
             "destination_city=none target_unit=none transport_context=none "
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 "
             "target_specialist=-1 target_extra=-1 activity=none "
             "target_name=readiness native_rule=pregame.set_ready "
@@ -375,8 +495,23 @@ def native_v2_pregame_rows(*, ready=False):
             "probability_min=200 probability_max=200 "
             "args=pregame-ready-required"
         ),
+        _complete_v2_action_row(
+            "action slot=a0000000000000504 kind=player.send_chat "
+            "actor=p:1:10 target_tile=-1 source_city=none "
+            "destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
+            "target_build_kind=none target_build=-1 source_specialist=-1 "
+            "target_specialist=-1 target_extra=-1 activity=none "
+            "target_name=none native_rule=player.send_chat "
+            "target_kind=Chat%20Channel result=Chat%20Echo%20Received "
+            "actor_consuming_always=0 legality=legal probability_kind=exact "
+            "probability_min=200 probability_max=200 args=chat-required"
+        ),
     ]
-    rows[-1] = rows[-1].replace(
+    rows[2] = rows[2].replace(
         "desired_acceptance=-1", f"desired_acceptance={0 if ready else 1}",
     )
     if not ready:
@@ -384,7 +519,10 @@ def native_v2_pregame_rows(*, ready=False):
             "action slot=a0000000000000500 kind=pregame.configure "
             "actor=p:1:10 target_tile=-1 source_city=none "
             "destination_city=none target_unit=none transport_context=none "
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 "
             "target_specialist=-1 target_extra=-1 activity=none "
             "target_name=configuration native_rule=pregame.configure "
@@ -392,6 +530,22 @@ def native_v2_pregame_rows(*, ready=False):
             "result=Configuration%20Changed actor_consuming_always=0 "
             "legality=legal probability_kind=exact probability_min=200 "
             "probability_max=200 args=pregame-config-required"
+        ))
+        rows.append(_complete_v2_action_row(
+            "action slot=a0000000000000502 kind=pregame.set_team "
+            "actor=p:1:10 target_tile=-1 source_city=none "
+            "destination_city=none target_unit=none transport_context=none "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
+            "target_build_kind=none target_build=-1 source_specialist=-1 "
+            "target_specialist=-1 target_extra=-1 activity=none "
+            "target_name=team native_rule=pregame.set_team "
+            "target_kind=Pregame%20Team result=Team%20Changed "
+            "actor_consuming_always=0 legality=legal probability_kind=exact "
+            "probability_min=200 probability_max=200 "
+            "args=pregame-team-required"
         ))
     return tuple(sorted(rows))
 
@@ -449,7 +603,11 @@ def _native_v2_scoped_rows(actor_ref):
             "probability_min=200 probability_max=200 args=none",
             "action slot=a000000000000006C kind=city.set_worklist "
             "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
-            "transport_context=none target_tech=-1 vote_no=-1 target_government=-1 "
+            "transport_context=none target_tech=-1 vote_no=-1 "
+            "server_setting_id=-1 server_setting_type=none "
+            "server_setting_min=0 server_setting_max=0 "
+            "server_setting_current=-1 server_setting_value=-1 "
+            "target_government=-1 "
             "max_rate=0 target_build_kind=none target_build=-1 "
             "source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=worklist "
@@ -459,7 +617,11 @@ def _native_v2_scoped_rows(actor_ref):
             "probability_max=200 args=worklist-required",
             "action slot=a000000000000006D kind=city.set_options "
             "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
-            "transport_context=none target_tech=-1 vote_no=-1 target_government=-1 "
+            "transport_context=none target_tech=-1 vote_no=-1 "
+            "server_setting_id=-1 server_setting_type=none "
+            "server_setting_min=0 server_setting_max=0 "
+            "server_setting_current=-1 server_setting_value=-1 "
+            "target_government=-1 "
             "max_rate=0 target_build_kind=none target_build=-1 "
             "source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=options "
@@ -469,7 +631,11 @@ def _native_v2_scoped_rows(actor_ref):
             "probability_max=200 args=city-options-required",
             "action slot=a000000000000006E kind=city.rename "
             "actor=c:20:200 target_tile=-1 source_city=none destination_city=none target_unit=none "
-            "transport_context=none target_tech=-1 vote_no=-1 target_government=-1 "
+            "transport_context=none target_tech=-1 vote_no=-1 "
+            "server_setting_id=-1 server_setting_type=none "
+            "server_setting_min=0 server_setting_max=0 "
+            "server_setting_current=-1 server_setting_value=-1 "
+            "target_government=-1 "
             "max_rate=0 target_build_kind=none target_build=-1 "
             "source_specialist=-1 target_specialist=-1 target_extra=-1 "
             "activity=none target_name=name native_rule=city.rename "
@@ -480,7 +646,10 @@ def _native_v2_scoped_rows(actor_ref):
             "action slot=a000000000000006F kind=city.set_governor "
             "actor=c:20:200 target_tile=-1 source_city=none "
             "destination_city=none target_unit=none transport_context=none "
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=0 "
+            "target_tech=-1 vote_no=-1 server_setting_id=-1 "
+            "server_setting_type=none server_setting_min=0 "
+            "server_setting_max=0 server_setting_current=-1 "
+            "server_setting_value=-1 target_government=-1 max_rate=0 "
             "target_build_kind=none target_build=-1 source_specialist=-1 "
             "target_specialist=-1 target_extra=-1 activity=none "
             "target_name=governor native_rule=city.set_governor "
@@ -850,12 +1019,26 @@ class FakeSidecar:
             "rows": rows,
         }
 
+    @staticmethod
+    def _tile_local_row(row):
+        if row.startswith("tile "):
+            row = "tile_local " + row[len("tile "):]
+        if " resource_extra=" not in row:
+            row += (
+                " resource_extra=-1 resource_name=none has_label=0 "
+                "label=none food=2 shields=1 trade=0"
+            )
+        return row
+
     def _state_scope_rows(self, section, selector):
         if section == "investigation":
             return self.factory.investigation_rows
         if self.factory.state_scope_rows is not None \
                 and section == "tile_window":
-            return self.factory.state_scope_rows
+            return tuple(
+                self._tile_local_row(row)
+                for row in self.factory.state_scope_rows
+            )
         rows = self.factory.observation_rows_by_player.get(
             self.player_name, self.factory.observation_rows,
         )
@@ -883,7 +1066,7 @@ class FakeSidecar:
                 dx = abs(tile - center)
                 dx = min(dx, 16 - dx) if dx <= 16 else dx
                 if dx <= radius:
-                    selected.append(row)
+                    selected.append(self._tile_local_row(row))
             return tuple(selected)
         if section in {"cities", "units", "city_sites"}:
             prefixes = {
@@ -914,7 +1097,7 @@ class FakeSidecar:
                 ).group(1)) >= 0
             }
             return tuple(
-                row for row in rows
+                self._tile_local_row(row) for row in rows
                 if row.startswith("tile ")
                 and int(re.search(r"\bindex=([0-9]+)", row).group(1))
                     in targets
@@ -924,6 +1107,7 @@ class FakeSidecar:
             "city_build_choices": ("city_build_choice ",),
             "city_worklist": ("city_worklist ",),
             "city_improvements": ("city_improvement ",),
+            "city_trade_routes": ("city_trade_route ",),
             "city_governor": ("city_governor ",),
         }[section]
         return tuple(
@@ -1327,6 +1511,59 @@ class SupervisorTests(unittest.TestCase):
         legal = game.v2_get_page(joined["agent_id"], "legal_actions", "")
         action = legal["page"]["items"][0]
         return created, game, joined, action
+
+    def ready_v2_non_phase_action(self):
+        created, game, joined, action = self.ready_v2_action()
+        if action["kind"] == "phase.end":
+            legal = game.v2_get_page(
+                joined["agent_id"], "legal_actions", "limit=16",
+            )
+            action = next(
+                item for item in legal["page"]["items"]
+                if item["kind"] != "phase.end"
+            )
+        return created, game, joined, action
+
+    def ready_v2_vote_action(self):
+        rows = list(native_v2_rows())
+        rows.extend((
+            (
+                "vote vote_no=42 caller=alice description=Start%20now%3F "
+                "yes=1 no=0 abstain=0 num_voters=2 percent_required=50 "
+                "team_only=0 current_vote=none can_vote=1 status=active "
+                "outcome_turn=-1 outcome_phase=-1"
+            ),
+            _complete_v2_action_row(
+                "action slot=a00000000000000FE kind=player.cast_vote "
+                "actor=p:1:10 target_tile=-1 source_city=none "
+                "destination_city=none target_unit=none "
+                "transport_context=none target_tech=-1 vote_no=42 "
+                "target_government=-1 max_rate=0 target_build_kind=none "
+                "target_build=-1 source_specialist=-1 "
+                "target_specialist=-1 target_extra=-1 activity=none "
+                "target_name=vote native_rule=player.cast_vote "
+                "target_kind=Vote result=Vote%20Recorded "
+                "actor_consuming_always=0 legality=legal "
+                "probability_kind=exact probability_min=200 "
+                "probability_max=200 args=vote-required"
+            ),
+        ))
+        self.sidecar_factory.observation_rows = tuple(sorted(rows))
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-vote-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        self._seed_v2_phase(game)
+        legal = game.v2_get_page(joined["agent_id"], "legal_actions", "")
+        action = next(
+            item for item in legal["page"]["items"]
+            if item["kind"] == "player.cast_vote"
+        )
+        vote_id = action["subject"]["target"]["vote_id"]
+        return game, joined, action, vote_id
 
     @staticmethod
     def v2_batch(game, joined, action, batch_id="batch_one", arguments=None):
@@ -2062,8 +2299,8 @@ class SupervisorTests(unittest.TestCase):
         reads = game.sidecars[1].read_count
         game._run_v2_timeout_phase_end(claim)
         self.assertEqual(self.sidecar_factory.action_count, 1)
-        # One locked observation selects and resolves; one verifies the result.
-        self.assertEqual(game.sidecars[1].read_count - reads, 2)
+        # The exact correlated native phase result is authoritative.
+        self.assertEqual(game.sidecars[1].read_count - reads, 1)
         self.assertEqual(
             game.v2_phase_ledger["end"]["receipt_state"], "applied",
         )
@@ -2328,6 +2565,49 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(sidecar.read_count - reads_before, 1)
         self.assertEqual(
             game.v2_phase_ledger["end"]["receipt_state"], "applied",
+        )
+
+    def test_v2_applied_vote_does_not_require_resolved_vote_observation(self):
+        game, joined, action, vote_id = self.ready_v2_vote_action()
+        reads = 0
+
+        def reject_post_result_read(current, _request_id, _timeout):
+            nonlocal reads
+            reads += 1
+            if reads > 1:
+                raise SidecarError("snapshot_gone")
+            return {
+                "generation": current.generation,
+                "native_revision": self.sidecar_factory.native_revision,
+                "rows": self.sidecar_factory.observation_rows,
+            }
+
+        self.sidecar_factory.read_hook = reject_post_result_read
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, action, batch_id="vote_no_snapshot",
+                arguments={"vote_id": vote_id, "vote": "yes"},
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertEqual(reads, 2)
+
+    def test_v2_nondecisive_vote_uses_fresh_receipt_revision(self):
+        game, joined, action, vote_id = self.ready_v2_vote_action()
+        status, receipt = game.v2_submit_batch(
+            joined["agent_id"],
+            self.v2_batch(
+                game, joined, action, batch_id="vote_fresh_snapshot",
+                arguments={"vote_id": vote_id, "vote": "yes"},
+            ),
+        )
+        self.assertEqual(status, HTTPStatus.OK)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        self.assertGreater(
+            receipt["state_revision"]["revision"],
+            action["state_revision"]["revision"],
         )
 
     def test_v2_agent_phase_end_rejection_releases_claim_and_can_retry(self):
@@ -2984,6 +3264,8 @@ class SupervisorTests(unittest.TestCase):
             created["join_token"], controller_label="codex-current-model",
             supported_control_protocols=["full-control-v2"],
         )
+        self._mark_v2_running(game)
+        game.start_sent = True
         current = self.sidecar_factory.created[-1]
         current.die()
         self.assertEqual(game.state, "failed")
@@ -3014,6 +3296,8 @@ class SupervisorTests(unittest.TestCase):
             created["join_token"], controller_label="codex-diagnostic-model",
             supported_control_protocols=["full-control-v2"],
         )
+        self._mark_v2_running(game)
+        game.start_sent = True
         sidecar = self.sidecar_factory.created[-1]
         sidecar.state = "failed"
         sidecar.error_code = "process_exited"
@@ -3047,19 +3331,20 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(game.state, "failed")
         self.assertIn("sidecar_exited", game.invalid_reasons)
 
-    def test_v2_start_failure_returns_terminal_join_and_stops_sidecars(self):
+    def test_v2_join_does_not_depend_on_console_start(self):
         created = self.create(control_protocol="full-control-v2")
         game = self.supervisor.game(created["game_id"])
+        self.send_mock.reset_mock()
         self.send_mock.side_effect = RuntimeError("start rejected")
         joined = game.join(
             created["join_token"], controller_label="codex-start-failure",
             supported_control_protocols=["full-control-v2"],
         )
-        self.assertEqual(joined["state"], "failed")
-        self.assertIn("could not start game", joined["error"])
+        self.assertEqual(joined["state"], "lobby")
         self.assertTrue(joined["agent_token"])
-        self.assertFalse(joined["v2_transport_available"])
-        self.assertGreaterEqual(self.sidecar_factory.created[-1].stop_count, 1)
+        self.assertTrue(joined["v2_transport_available"])
+        self.send_mock.assert_not_called()
+        self.assertEqual(self.sidecar_factory.created[-1].stop_count, 0)
 
     def test_v2_cancel_lobby_timeout_and_close_cleanup_sidecars(self):
         created = self.create(
@@ -3374,6 +3659,8 @@ class SupervisorTests(unittest.TestCase):
             created["join_token"], controller_label="codex-real-loss",
             supported_control_protocols=["full-control-v2"],
         )
+        self._mark_v2_running(game)
+        game.start_sent = True
         current = self.sidecar_factory.created[-1]
         process = DeferredProcess()
         game.process = process
@@ -3500,7 +3787,7 @@ class SupervisorTests(unittest.TestCase):
                 supported_control_protocols=["full-control-v2"],
             )
 
-        self.assertEqual(game.state, "starting")
+        self.assertEqual(game.state, "lobby")
         self._mark_v2_running(game)
         state = game.v2_get_page(
             joined["agent_id"], "state", "section=known_tiles&limit=1",
@@ -3514,7 +3801,7 @@ class SupervisorTests(unittest.TestCase):
         self.assertIsNotNone(legal_cursor)
         reads = self.sidecar_factory.created[-1].read_count
 
-        for pre_running_state in ("lobby", "starting"):
+        for pre_running_state in ("lobby",):
             with game.condition:
                 game.state = pre_running_state
                 game.condition.notify_all()
@@ -3840,28 +4127,47 @@ class SupervisorTests(unittest.TestCase):
             "shield_cost=10 buy_cost=12 can_buy=1 can_change=1 "
             "citizen_tile_count=1 specialist_type_count=1 "
             "worklist_length=0 build_choice_count=2 improvement_count=0 "
+            "trade_route_count=0 trade_route_capacity=3 "
             "did_sell=0 allow_disband=0 new_citizens=default "
             "options_conflict=0 airlift_remaining=1 airlift_max=1 "
-            "governor_enabled=0"
+            "governor_enabled=0 citizen_happy=0 citizen_content=2 "
+            "citizen_unhappy=0 citizen_angry=0 citizen_workers=0 "
+            "citizen_specialists=2 food_stock=5 granary_size=20 "
+            "growth_turns=5 pollution=0 food_citizen_base=2 food_net=5 "
+            "food_surplus=3 food_usage=2 food_waste=0 "
+            "food_unhappy_penalty=0 shield_citizen_base=1 shield_net=2 "
+            "shield_surplus=2 shield_usage=0 shield_waste=0 "
+            "shield_unhappy_penalty=0 trade_citizen_base=0 trade_net=1 "
+            "trade_surplus=1 trade_usage=0 trade_waste=0 "
+            "trade_unhappy_penalty=0 gold_citizen_base=0 gold_net=0 "
+            "gold_surplus=0 gold_usage=0 gold_waste=0 "
+            "gold_unhappy_penalty=0 luxury_citizen_base=0 luxury_net=0 "
+            "luxury_surplus=0 luxury_usage=0 luxury_waste=0 "
+            "luxury_unhappy_penalty=0 science_citizen_base=2 "
+            "science_net=0 science_surplus=0 science_usage=0 "
+            "science_waste=0 science_unhappy_penalty=0"
         )
         rows.append(
             "city_site ref=c:20:200 owner=p:1:10 name=Alpha tile=0 "
             "x=0 y=0 size=2 visibility=own"
         )
         rows.append(
-            "city_tile city=c:20:200 tile=0 worked=1 free_worked=1 can_work=1"
+            "city_tile city=c:20:200 tile=0 worked=1 free_worked=1 "
+            "can_work=1 food=2 shields=1 trade=0 gold=0 luxury=0 science=0"
         )
         rows.extend((
-            "city_build_choice city=c:20:200 production_kind=improvement "
-            "production_id=5 production_name=Granary can_queue=1 "
-            "can_build_now=1",
-            "city_build_choice city=c:20:200 production_kind=unit "
-            "production_id=2 production_name=Warriors can_queue=1 "
-            "can_build_now=1",
+            native_v2_city_build_choice_row(
+                production_kind="improvement", production_id=5,
+                name="Granary",
+            ),
+            native_v2_city_build_choice_row(
+                production_kind="unit", production_id=2, name="Warriors",
+            ),
         ))
         rows.append(
             "city_specialist city=c:20:200 specialist=0 name=Entertainer "
-            "count=2 counts_toward_population=1 can_use=1 is_default=1"
+            "count=2 counts_toward_population=1 can_use=1 is_default=1 "
+            "food=0 shields=0 trade=0 gold=0 luxury=0 science=1"
         )
         rows.append(
             "city_rally city=c:20:200 active=0 persistent=0 vigilant=0 "
@@ -3889,7 +4195,8 @@ class SupervisorTests(unittest.TestCase):
         )["page"]["items"][0]["id"]
         for section in (
             "city_detail", "city_citizens", "city_build_choices",
-            "city_worklist", "city_improvements", "city_governor",
+            "city_worklist", "city_improvements", "city_trade_routes",
+            "city_governor",
             "city_worker_tasks",
         ):
             with self.subTest(state_section=section):
@@ -4252,7 +4559,9 @@ class SupervisorTests(unittest.TestCase):
             "orders_digest=fnv1a64-0000000000000000 "
             "orders_destination=-1",
         ))
-        self.sidecar_factory.observation_rows = tuple(sorted(rows))
+        self.sidecar_factory.observation_rows = tuple(sorted(
+            _complete_v2_action_row(row) for row in rows
+        ))
         self.sidecar_factory.state_scope_rows = (
             "tile index=8 x=4 y=2 known=2 terrain=Grassland owner=none "
             "placing_extra=-1 placing_extra_name=none placing_turns=0 "
@@ -4317,7 +4626,8 @@ class SupervisorTests(unittest.TestCase):
             for index in range(clause_count)
         )
         self.sidecar_factory.observation_rows = tuple(sorted(
-            native_v2_rows(action_count=0) + (relation,) + clauses
+            native_v2_rows(action_count=0)
+            + (_complete_v2_action_row(relation),) + clauses
         ))
         created = self.create(control_protocol="full-control-v2")
         game = self.supervisor.game(created["game_id"])
@@ -4369,7 +4679,7 @@ class SupervisorTests(unittest.TestCase):
             "cancel_reason=not_allowed"
         )
         self.sidecar_factory.observation_rows = tuple(sorted(
-            native_v2_rows() + (relation,)
+            native_v2_rows() + (_complete_v2_action_row(relation),)
         ))
         self.sidecar_factory.relation_rows = (
             native_v2_relation_action(
@@ -4485,21 +4795,14 @@ class SupervisorTests(unittest.TestCase):
                     f"{root}/state", joined["agent_token"],
                 )
                 self.assertEqual(status, HTTPStatus.OK)
-            status, continued = raw_json_request(
-                f"{root}/legal-actions?cursor={cursor}",
-                joined["agent_token"],
-            )
-            self.assertEqual(status, HTTPStatus.OK)
-            self.assertEqual(
-                continued["state_revision"], scoped["state_revision"],
-            )
-
-            status, replayed = raw_json_request(
-                f"{root}/legal-actions?cursor={cursor}",
-                joined["agent_token"],
-            )
-            self.assertEqual(status, HTTPStatus.OK)
-            self.assertEqual(replayed, continued)
+            for _ in range(2):
+                status, stale = raw_json_request(
+                    f"{root}/legal-actions?cursor={cursor}",
+                    joined["agent_token"],
+                )
+                self.assertEqual(status, HTTPStatus.CONFLICT)
+                self.assertEqual(stale["error"]["code"], "stale_revision")
+                self.assertTrue(stale["error"]["retryable"])
         finally:
             server.shutdown()
             server.server_close()
@@ -4727,7 +5030,7 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(stopped.exception.status, HTTPStatus.SERVICE_UNAVAILABLE)
 
     def test_v2_batch_applies_persists_and_replays_after_terminal(self):
-        _created, game, joined, action = self.ready_v2_action()
+        _created, game, joined, action = self.ready_v2_non_phase_action()
         command = self.v2_batch(game, joined, action, "batch_applied")
         status, receipt = game.v2_submit_batch(joined["agent_id"], command)
         self.assertEqual(status, HTTPStatus.OK)
@@ -5504,7 +5807,7 @@ class SupervisorTests(unittest.TestCase):
         )
 
     def test_v2_missing_fresh_result_state_is_accepted_but_ambiguous(self):
-        _created, game, joined, action = self.ready_v2_action()
+        _created, game, joined, action = self.ready_v2_non_phase_action()
         reads = 0
 
         def fail_second(sidecar, _request_id, _timeout):
@@ -5537,7 +5840,7 @@ class SupervisorTests(unittest.TestCase):
         self.assertTrue(trace["acceptance_known"])
 
     def test_v2_post_result_native_not_ready_is_retried(self):
-        _created, game, joined, action = self.ready_v2_action()
+        _created, game, joined, action = self.ready_v2_non_phase_action()
         reads = 0
 
         def transient_second_read(sidecar, _request_id, _timeout):
@@ -5663,7 +5966,7 @@ class SupervisorTests(unittest.TestCase):
             store.lookup(joined["agent_id"], "batch_close")
 
     def test_v2_supervisor_close_drains_blocked_batch_before_store_close(self):
-        _created, game, joined, action = self.ready_v2_action()
+        _created, game, joined, action = self.ready_v2_non_phase_action()
         trace_store = game.v2_ambiguity_trace
         self.assertIsNotNone(trace_store)
         accepted = threading.Event()

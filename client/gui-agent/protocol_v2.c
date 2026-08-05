@@ -70,6 +70,7 @@
 #include "citydlg_common.h"
 #include "goto.h"
 #include "mapctrl_common.h"
+#include "options.h"
 #include "packhand.h"
 #include "update_queue.h"
 #include "voteinfo.h"
@@ -101,6 +102,16 @@
 FC_STATIC_ASSERT(CLIENT_UNIT_ROUTE_MAX_WAYPOINTS
                  == FC_AGENT_V2_MAX_UNIT_ROUTE_WAYPOINTS,
                  agent_v2_unit_route_waypoint_limit_mismatch);
+FC_STATIC_ASSERT(ASTK_NONE == 0 && ASTK_BUILDING == 1 && ASTK_TECH == 2
+                 && ASTK_EXTRA == 3 && ASTK_EXTRA_NOT_THERE == 4
+                 && ASTK_SPECIALIST == 5 && ASTK_COUNT == 6,
+                 agent_v2_action_subtarget_wire_order_mismatch);
+FC_STATIC_ASSERT(ACT_SUB_RES_HUT_ENTER == 0
+                 && ACT_SUB_RES_HUT_FRIGHTEN == 1
+                 && ACT_SUB_RES_MAY_EMBARK == 2
+                 && ACT_SUB_RES_NON_LETHAL == 3
+                 && ACT_SUB_RES_COUNT == 4,
+                 agent_v2_action_subresult_wire_order_mismatch);
 
 enum {
   AGENT_V2_MANIFEST_COUNT = 0
@@ -141,6 +152,8 @@ struct agent_v2_action {
   int goto_destination_tile;
   int source_unit_moves;
   bool source_unit_paradropped;
+  enum action_decision action_decision_want;
+  bool clears_action_decision;
   bool special_target_known_seen;
   int special_target_city_id;
   uint64_t special_target_city_incarnation;
@@ -181,6 +194,12 @@ struct agent_v2_action {
   uint64_t target_stack_signature;
   int vote_no;
   uint64_t vote_signature;
+  int server_setting_id;
+  int server_setting_type;
+  int server_setting_min;
+  int server_setting_max;
+  int server_setting_value;
+  uint64_t server_setting_signature;
   int target_government;
   int target_build_kind;
   int target_build_id;
@@ -340,6 +359,12 @@ struct agent_v2_investigation_payload {
   uint64_t digest;
 };
 
+enum agent_v2_chat_channel {
+  AGENT_V2_CHAT_GLOBAL,
+  AGENT_V2_CHAT_ALLIED,
+  AGENT_V2_CHAT_PRIVATE
+};
+
 struct agent_v2_investigation_observation {
   bool valid;
   bool consumed;
@@ -401,8 +426,10 @@ struct agent_v2_pending {
   bool last_processing_started;
   bool exact_unit_state_latched;
   bool exact_route_state_latched;
+  bool attack_route_result_latched;
   bool paid_success_event_latched;
   bool paid_failure_event_latched;
+  bool government_change_event_latched;
   bool action_success_receipt_latched;
   bool combat_info_latched;
   bool spy_attack_actor_loss_event_latched;
@@ -420,7 +447,14 @@ struct agent_v2_pending {
   bool caravan_action_event_latched;
   bool chat_echo_latched;
   bool chat_error_latched;
-  bool desired_chat_allied;
+  bool vote_recorded_latched;
+  bool vote_proposal_ack_latched;
+  bool vote_cancel_ack_latched;
+  bool surrender_ack_latched;
+  enum agent_v2_chat_channel desired_chat_channel;
+  int desired_chat_recipient_id;
+  uint64_t desired_chat_recipient_incarnation;
+  char desired_chat_recipient_name[MAX_LEN_NAME];
   char desired_chat_message[FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES + 1];
   bool bribe_visible_baseline_exact;
   bool bribe_visible_mapping_conflict;
@@ -516,6 +550,8 @@ struct agent_v2_pending {
   int desired_luxury;
   int desired_science;
   enum client_vote_type desired_client_vote;
+  int desired_server_setting_int;
+  char desired_server_setting_string[MAX_LEN_MSG];
   struct universal desired_production;
   enum unit_activity desired_activity;
   enum server_side_agent desired_ssa;
@@ -578,6 +614,34 @@ struct agent_v2_chat_entry {
   char message[FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES + 1];
 };
 
+enum agent_v2_vote_status {
+  AGENT_V2_VOTE_PASSED,
+  AGENT_V2_VOTE_FAILED,
+  AGENT_V2_VOTE_REMOVED
+};
+
+struct agent_v2_vote_outcome {
+  int vote_no;
+  char caller[MAX_LEN_NAME];
+  char description[512];
+  int yes;
+  int no;
+  int abstain;
+  int num_voters;
+  int percent_required;
+  int flags;
+  enum client_vote_type current_vote;
+  enum agent_v2_vote_status status;
+  int turn;
+  int phase;
+};
+
+struct agent_v2_vote_confirmation {
+  bool valid;
+  int vote_no;
+  enum client_vote_type vote;
+};
+
 struct agent_v2_callback_token {
   uint64_t nonce;
   int request_id;
@@ -608,6 +672,7 @@ static enum client_states v2_seat_client_state = C_S_INITIAL;
 static uint64_t v2_seat_epoch;
 static uint64_t v2_next_action_nonce;
 static int v2_next_local_operation_id;
+static bool v2_surrendered;
 static unsigned int v2_snapshot_serial;
 static struct agent_v2_row v2_work_rows[AGENT_V2_MAX_ROWS];
 static size_t v2_work_row_count;
@@ -644,6 +709,12 @@ static struct agent_v2_chat_entry
 static size_t v2_chat_history_start;
 static size_t v2_chat_history_count;
 static uint64_t v2_chat_sequence;
+static struct agent_v2_vote_outcome
+  v2_vote_history[FC_AGENT_V2_MAX_VOTE_HISTORY];
+static size_t v2_vote_history_start;
+static size_t v2_vote_history_count;
+static struct agent_v2_vote_confirmation
+  v2_vote_confirmations[FC_AGENT_V2_MAX_VOTES];
 static struct agent_v2_target_query v2_target_query;
 static struct agent_v2_special_revalidation v2_special_revalidation;
 static struct agent_v2_investigation_observation v2_investigation;
@@ -658,6 +729,7 @@ static bool v2_special_revalidation_desynchronized;
 
 static bool v2_cache_coherent(void);
 static bool v2_action_postcondition(void);
+static bool v2_unit_action_decision_pending(const struct unit *punit);
 static bool v2_action_probability_matches(
   struct act_prob probability, const struct agent_v2_action *action);
 static void v2_action_processing_started(void *data);
@@ -666,6 +738,9 @@ static void v2_action_first_processing_finished(void *data);
 static void v2_action_last_processing_started(void *data);
 static void v2_worker_task_observer(
   const struct packet_worker_task *packet, const struct city *pcity,
+  int request_id, void *data);
+static void v2_vote_observer(
+  enum packhand_vote_stage stage, const struct voteinfo *vote,
   int request_id, void *data);
 static void v2_full_unit_info_observer(const struct unit *punit,
                                        int request_id, void *data);
@@ -684,6 +759,7 @@ static uint64_t v2_existing_incarnation(enum agent_v2_entity_kind kind,
                                         int id);
 static bool v2_production_supported(const struct universal *target);
 static const char *v2_build_kind_name(int kind);
+static bool v2_city_site_known(const struct city *pcity);
 static bool v2_exact_seat_epoch_current(void);
 static void v2_nuke_tile_info_observer(
   const struct packet_nuke_tile_info *packet, int request_id, void *data);
@@ -1027,6 +1103,24 @@ static int v2_action_compare(const void *left, const void *right)
   if (a->vote_signature != b->vote_signature) {
     return a->vote_signature < b->vote_signature ? -1 : 1;
   }
+  if (a->server_setting_id != b->server_setting_id) {
+    return a->server_setting_id < b->server_setting_id ? -1 : 1;
+  }
+  if (a->server_setting_type != b->server_setting_type) {
+    return a->server_setting_type < b->server_setting_type ? -1 : 1;
+  }
+  if (a->server_setting_min != b->server_setting_min) {
+    return a->server_setting_min < b->server_setting_min ? -1 : 1;
+  }
+  if (a->server_setting_max != b->server_setting_max) {
+    return a->server_setting_max < b->server_setting_max ? -1 : 1;
+  }
+  if (a->server_setting_value != b->server_setting_value) {
+    return a->server_setting_value < b->server_setting_value ? -1 : 1;
+  }
+  if (a->server_setting_signature != b->server_setting_signature) {
+    return a->server_setting_signature < b->server_setting_signature ? -1 : 1;
+  }
   if (a->target_government != b->target_government) {
     return a->target_government < b->target_government ? -1 : 1;
   }
@@ -1304,6 +1398,7 @@ static void v2_action_init(struct agent_v2_action *entry)
   entry->source_unit_tile = -1;
   entry->goto_destination_tile = -1;
   entry->source_unit_moves = -1;
+  entry->action_decision_want = ACT_DEC_NOTHING;
   entry->special_target_city_id = -1;
   entry->special_target_city_owner = -1;
   entry->special_target_extra_owner = -1;
@@ -1320,6 +1415,11 @@ static void v2_action_init(struct agent_v2_action *entry)
   entry->transport_context_id = -1;
   entry->target_tech = -1;
   entry->vote_no = -1;
+  entry->server_setting_id = -1;
+  entry->server_setting_type = -1;
+  entry->server_setting_min = 0;
+  entry->server_setting_max = 0;
+  entry->server_setting_value = -1;
   entry->target_government = -1;
   entry->target_build_kind = VUT_NONE;
   entry->target_build_id = -1;
@@ -2502,24 +2602,25 @@ static bool v2_multiplier_value_valid(const struct multiplier *pmul,
          && ((int64_t) value - (int64_t) pmul->start) % pmul->step == 0;
 }
 
-static int v2_multiplier_choice_count(const struct multiplier *pmul)
+static bool v2_multiplier_choice_count(const struct multiplier *pmul,
+                                       uint64_t *result)
 {
   int64_t span;
-  int64_t count;
 
-  if (pmul == NULL || pmul->step <= 0 || pmul->stop < pmul->start) {
-    return -1;
+  if (pmul == NULL || result == NULL
+      || pmul->step <= 0 || pmul->stop < pmul->start) {
+    return FALSE;
   }
   span = (int64_t) pmul->stop - (int64_t) pmul->start;
   if (span % pmul->step != 0) {
-    return -1;
+    return FALSE;
   }
-  count = span / pmul->step + 1;
-  return count > 0 && count <= INT_MAX ? (int) count : -1;
+  *result = (uint64_t) (span / pmul->step) + 1;
+  return *result > 0;
 }
 
 static bool v2_multiplier_action_still_legal(
-  struct player *self, const struct agent_v2_action *action)
+  struct player *self, const struct agent_v2_action *action, int value)
 {
   struct multiplier *pmul;
 
@@ -2530,56 +2631,49 @@ static bool v2_multiplier_action_still_legal(
          != v2_existing_incarnation(AGENT_V2_ENTITY_PLAYER,
                                     player_number(self))
       || action->target_multiplier < 0
-      || action->target_multiplier >= multiplier_count()) {
+      || action->target_multiplier >= multiplier_count()
+      || action->multiplier_value != -1) {
     return FALSE;
   }
   pmul = multiplier_by_number(action->target_multiplier);
   return pmul != NULL && !pmul->ruledit_disabled
          && multiplier_can_be_changed(pmul, self)
-         && v2_multiplier_value_valid(pmul, action->multiplier_value)
+         && v2_multiplier_value_valid(pmul, value)
          && player_multiplier_target_value(self, pmul)
-            != action->multiplier_value;
+            != value;
 }
 
 static void v2_build_multiplier_actions(
   struct player *self, struct agent_v2_action_buffer *buffer)
 {
   multipliers_re_active_iterate(pmul) {
-    int count = v2_multiplier_choice_count(pmul);
-    int choice;
+    uint64_t count;
+    struct agent_v2_action *entry;
 
-    if (count < 1) {
+    if (!v2_multiplier_choice_count(pmul, &count)) {
       buffer->overflow = TRUE;
       return;
     }
-    if (!multiplier_can_be_changed(pmul, self)) {
+    if (!multiplier_can_be_changed(pmul, self) || count <= 1) {
       continue;
     }
-    for (choice = 0; choice < count; choice++) {
-      int64_t candidate = (int64_t) pmul->start
-                          + (int64_t) choice * pmul->step;
-      struct agent_v2_action *entry;
-
-      if (candidate == player_multiplier_target_value(self, pmul)) {
-        continue;
-      }
-      if (candidate < INT_MIN || candidate > INT_MAX
-          || buffer->count >= buffer->capacity) {
-        buffer->overflow = TRUE;
-        return;
-      }
-      entry = &buffer->actions[buffer->count++];
-      v2_action_init(entry);
-      entry->kind = AGENT_V2_ACTION_MULTIPLIER_SET;
-      entry->player_id = player_number(self);
-      entry->player_incarnation = v2_existing_incarnation(
-        AGENT_V2_ENTITY_PLAYER, entry->player_id);
-      entry->target_multiplier = multiplier_number(pmul);
-      entry->multiplier_value = (int) candidate;
-      entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
-      entry->probability_min = action_prob_new_certain().min;
-      entry->probability_max = action_prob_new_certain().max;
+    if (buffer->count >= buffer->capacity) {
+      buffer->overflow = TRUE;
+      return;
     }
+    entry = &buffer->actions[buffer->count++];
+    v2_action_init(entry);
+    entry->kind = AGENT_V2_ACTION_MULTIPLIER_SET;
+    entry->player_id = player_number(self);
+    entry->player_incarnation = v2_existing_incarnation(
+      AGENT_V2_ENTITY_PLAYER, entry->player_id);
+    entry->target_multiplier = multiplier_number(pmul);
+    /* The exact target is a validated ACT_CAP argument. Keeping the sentinel
+     * in the revision-bound row makes a large integer range one capability. */
+    entry->multiplier_value = -1;
+    entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
+    entry->probability_min = action_prob_new_certain().min;
+    entry->probability_max = action_prob_new_certain().max;
   } multipliers_re_active_iterate_end;
 }
 
@@ -2638,6 +2732,208 @@ static bool v2_vote_can_vote(const struct player *self,
          && can_client_control() && !is_server_busy();
 }
 
+static bool v2_governance_ready(const struct player *self)
+{
+  return self != NULL && is_human(self) && v2_seat_authorized
+         && v2_cache_coherent() && can_client_control()
+         && (client_state() == C_S_PREPARING
+             || client_state() == C_S_RUNNING)
+         && !is_server_busy();
+}
+
+static uint64_t v2_server_setting_signature(const struct option *option)
+{
+  uint64_t hash = UINT64_C(1469598103934665603);
+  int id;
+  int type;
+  bool changeable;
+
+  if (option == NULL || option_optset(option) != server_optset
+      || option_name(option) == NULL) {
+    return 0;
+  }
+  id = option_number(option);
+  type = option_type(option);
+  changeable = option_is_changeable(option);
+  hash = v2_hash_bytes(hash, &id, sizeof(id));
+  hash = v2_hash_bytes(hash, &type, sizeof(type));
+  hash = v2_hash_bytes(hash, &changeable, sizeof(changeable));
+  hash = v2_hash_bytes(
+    hash, option_name(option), strlen(option_name(option)) + 1);
+  switch ((enum option_type) type) {
+  case OT_BOOLEAN: {
+    bool value = option_bool_get(option);
+    hash = v2_hash_bytes(hash, &value, sizeof(value));
+    break;
+  }
+  case OT_INTEGER: {
+    int value = option_int_get(option);
+    int minimum = option_int_min(option);
+    int maximum = option_int_max(option);
+    hash = v2_hash_bytes(hash, &value, sizeof(value));
+    hash = v2_hash_bytes(hash, &minimum, sizeof(minimum));
+    hash = v2_hash_bytes(hash, &maximum, sizeof(maximum));
+    break;
+  }
+  case OT_STRING: {
+    const char *value = option_str_get(option);
+    if (value == NULL) {
+      return 0;
+    }
+    hash = v2_hash_bytes(hash, value, strlen(value) + 1);
+    break;
+  }
+  case OT_ENUM: {
+    int value = option_enum_get_int(option);
+    const struct strvec *values = option_enum_values(option);
+    int count = values != NULL ? strvec_size(values) : -1;
+    hash = v2_hash_bytes(hash, &value, sizeof(value));
+    hash = v2_hash_bytes(hash, &count, sizeof(count));
+    break;
+  }
+  case OT_BITWISE: {
+    unsigned value = option_bitwise_get(option);
+    unsigned mask = option_bitwise_mask(option);
+    hash = v2_hash_bytes(hash, &value, sizeof(value));
+    hash = v2_hash_bytes(hash, &mask, sizeof(mask));
+    break;
+  }
+  default:
+    return 0;
+  }
+  return hash;
+}
+
+static int v2_server_setting_string_max(const struct option *option)
+{
+  size_t overhead;
+
+  if (option == NULL || option_name(option) == NULL) {
+    return -1;
+  }
+  /* server_option_str_set() formats `/set NAME "VALUE"` into one
+   * MAX_LEN_MSG packet. Include its trailing NUL in the exact budget. */
+  overhead = strlen(option_name(option)) + strlen("/set  \"\"") + 1;
+  if (overhead > MAX_LEN_MSG) {
+    return -1;
+  }
+  return (int) (MAX_LEN_MSG - overhead);
+}
+
+static bool v2_vote_owned_by_self(const struct voteinfo *vote)
+{
+  return v2_vote_active(vote) && client.conn.username[0] != '\0'
+         && strcmp(vote->user, client.conn.username) == 0;
+}
+
+static void v2_add_governance_action(
+  struct player *self, struct agent_v2_action_buffer *buffer,
+  enum agent_v2_action_kind kind)
+{
+  struct agent_v2_action *entry;
+
+  if (buffer->count >= buffer->capacity) {
+    buffer->overflow = TRUE;
+    return;
+  }
+  entry = &buffer->actions[buffer->count++];
+  v2_action_init(entry);
+  entry->kind = kind;
+  entry->player_id = player_number(self);
+  entry->player_incarnation = v2_existing_incarnation(
+    AGENT_V2_ENTITY_PLAYER, entry->player_id);
+  entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
+  entry->probability_min = action_prob_new_certain().min;
+  entry->probability_max = action_prob_new_certain().max;
+}
+
+static void v2_build_setting_vote_actions(
+  struct player *self, struct agent_v2_action_buffer *buffer)
+{
+  if (!v2_governance_ready(self)) {
+    return;
+  }
+  options_iterate(server_optset, option) {
+    int type;
+    int minimum = 0;
+    int maximum = 0;
+    int first_value = -1;
+    int last_value = -1;
+    uint64_t signature;
+
+    if (!option_is_changeable(option)
+        || (signature = v2_server_setting_signature(option)) == 0) {
+      continue;
+    }
+    type = option_type(option);
+    switch ((enum option_type) type) {
+    case OT_BOOLEAN:
+      minimum = 0;
+      maximum = 1;
+      first_value = last_value = option_bool_get(option) ? 0 : 1;
+      break;
+    case OT_INTEGER:
+      minimum = option_int_min(option);
+      maximum = option_int_max(option);
+      break;
+    case OT_STRING:
+      minimum = 0;
+      maximum = v2_server_setting_string_max(option);
+      if (maximum < 0) {
+        continue;
+      }
+      break;
+    case OT_ENUM: {
+      const struct strvec *values = option_enum_values(option);
+      int count = values != NULL ? strvec_size(values) : 0;
+      if (count <= 0) {
+        continue;
+      }
+      minimum = 0;
+      maximum = count - 1;
+      first_value = 0;
+      last_value = maximum;
+      break;
+    }
+    case OT_BITWISE:
+      minimum = 0;
+      maximum = (int) MIN(option_bitwise_mask(option), (unsigned) INT_MAX);
+      break;
+    default:
+      continue;
+    }
+    do {
+      struct agent_v2_action *entry;
+      int desired = first_value;
+
+      if (type == OT_ENUM && desired == option_enum_get_int(option)) {
+        first_value++;
+        continue;
+      }
+      if (buffer->count >= buffer->capacity) {
+        buffer->overflow = TRUE;
+        return;
+      }
+      entry = &buffer->actions[buffer->count++];
+      v2_action_init(entry);
+      entry->kind = AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING;
+      entry->player_id = player_number(self);
+      entry->player_incarnation = v2_existing_incarnation(
+        AGENT_V2_ENTITY_PLAYER, entry->player_id);
+      entry->server_setting_id = option_number(option);
+      entry->server_setting_type = type;
+      entry->server_setting_min = minimum;
+      entry->server_setting_max = maximum;
+      entry->server_setting_value = desired;
+      entry->server_setting_signature = signature;
+      entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
+      entry->probability_min = action_prob_new_certain().min;
+      entry->probability_max = action_prob_new_certain().max;
+      first_value++;
+    } while (first_value >= 0 && first_value <= last_value);
+  } options_iterate_end;
+}
+
 static const char *v2_client_vote_name(enum client_vote_type vote)
 {
   switch (vote) {
@@ -2653,9 +2949,129 @@ static const char *v2_client_vote_name(enum client_vote_type vote)
   return NULL;
 }
 
+static enum client_vote_type v2_confirmed_vote(int vote_no)
+{
+  size_t i;
+
+  for (i = 0; i < ARRAY_SIZE(v2_vote_confirmations); i++) {
+    if (v2_vote_confirmations[i].valid
+        && v2_vote_confirmations[i].vote_no == vote_no) {
+      return v2_vote_confirmations[i].vote;
+    }
+  }
+  return CVT_NONE;
+}
+
+static bool v2_set_confirmed_vote(int vote_no, enum client_vote_type vote)
+{
+  size_t i;
+  struct agent_v2_vote_confirmation *free_entry = NULL;
+
+  for (i = 0; i < ARRAY_SIZE(v2_vote_confirmations); i++) {
+    struct agent_v2_vote_confirmation *entry = &v2_vote_confirmations[i];
+
+    if (entry->valid && entry->vote_no == vote_no) {
+      entry->vote = vote;
+      return TRUE;
+    }
+    if (!entry->valid && free_entry == NULL) {
+      free_entry = entry;
+    }
+  }
+  if (free_entry == NULL || vote_no < 0) {
+    return FALSE;
+  }
+  free_entry->valid = TRUE;
+  free_entry->vote_no = vote_no;
+  free_entry->vote = vote;
+  return TRUE;
+}
+
+static void v2_clear_confirmed_vote(int vote_no)
+{
+  size_t i;
+
+  for (i = 0; i < ARRAY_SIZE(v2_vote_confirmations); i++) {
+    if (v2_vote_confirmations[i].valid
+        && v2_vote_confirmations[i].vote_no == vote_no) {
+      memset(&v2_vote_confirmations[i], 0,
+             sizeof(v2_vote_confirmations[i]));
+      return;
+    }
+  }
+}
+
+static const char *v2_vote_status_name(enum agent_v2_vote_status status)
+{
+  switch (status) {
+  case AGENT_V2_VOTE_PASSED:
+    return "passed";
+  case AGENT_V2_VOTE_FAILED:
+    return "failed";
+  case AGENT_V2_VOTE_REMOVED:
+    return "removed";
+  }
+  return NULL;
+}
+
+static struct agent_v2_vote_outcome *v2_vote_history_find(int vote_no)
+{
+  size_t offset;
+
+  for (offset = 0; offset < v2_vote_history_count; offset++) {
+    size_t index = (v2_vote_history_start + offset)
+                   % FC_AGENT_V2_MAX_VOTE_HISTORY;
+
+    if (v2_vote_history[index].vote_no == vote_no) {
+      return &v2_vote_history[index];
+    }
+  }
+  return NULL;
+}
+
+static void v2_record_vote_outcome(
+  const struct voteinfo *vote, enum agent_v2_vote_status status)
+{
+  struct agent_v2_vote_outcome *outcome;
+  size_t index;
+
+  if (vote == NULL || vote->vote_no < 0) {
+    return;
+  }
+  outcome = v2_vote_history_find(vote->vote_no);
+  if (outcome == NULL) {
+    if (v2_vote_history_count < FC_AGENT_V2_MAX_VOTE_HISTORY) {
+      index = (v2_vote_history_start + v2_vote_history_count)
+              % FC_AGENT_V2_MAX_VOTE_HISTORY;
+      v2_vote_history_count++;
+    } else {
+      index = v2_vote_history_start;
+      v2_vote_history_start = (v2_vote_history_start + 1)
+                              % FC_AGENT_V2_MAX_VOTE_HISTORY;
+    }
+    outcome = &v2_vote_history[index];
+  }
+  memset(outcome, 0, sizeof(*outcome));
+  outcome->vote_no = vote->vote_no;
+  fc_strlcpy(outcome->caller, vote->user, sizeof(outcome->caller));
+  fc_strlcpy(outcome->description, vote->desc,
+             sizeof(outcome->description));
+  outcome->yes = vote->yes;
+  outcome->no = vote->no;
+  outcome->abstain = vote->abstain;
+  outcome->num_voters = vote->num_voters;
+  outcome->percent_required = vote->percent_required;
+  outcome->flags = vote->flags;
+  outcome->current_vote = v2_confirmed_vote(vote->vote_no);
+  outcome->status = status;
+  outcome->turn = client_state() == C_S_RUNNING ? game.info.turn : 0;
+  outcome->phase = client_state() == C_S_RUNNING ? game.info.phase : 0;
+}
+
 static uint64_t v2_vote_signature(const struct voteinfo *vote)
 {
   uint64_t hash = UINT64_C(1469598103934665603);
+  enum client_vote_type confirmed_vote;
 
   if (vote == NULL) {
     return 0;
@@ -2670,8 +3086,8 @@ static uint64_t v2_vote_signature(const struct voteinfo *vote)
   hash = v2_hash_bytes(hash, &vote->no, sizeof(vote->no));
   hash = v2_hash_bytes(hash, &vote->abstain, sizeof(vote->abstain));
   hash = v2_hash_bytes(hash, &vote->num_voters, sizeof(vote->num_voters));
-  hash = v2_hash_bytes(hash, &vote->client_vote,
-                       sizeof(vote->client_vote));
+  confirmed_vote = v2_confirmed_vote(vote->vote_no);
+  hash = v2_hash_bytes(hash, &confirmed_vote, sizeof(confirmed_vote));
   return hash;
 }
 
@@ -2712,6 +3128,115 @@ static bool v2_vote_action_still_legal(
          && v2_vote_signature(vote) == action->vote_signature;
 }
 
+static bool v2_cancel_vote_action_still_legal(
+  const struct player *self, const struct agent_v2_action *action)
+{
+  const struct voteinfo *vote;
+
+  if (self == NULL || action == NULL
+      || action->kind != AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+      || action->player_id != player_number(self)
+      || action->player_incarnation == 0
+      || action->player_incarnation
+         != v2_existing_incarnation(AGENT_V2_ENTITY_PLAYER,
+                                    player_number(self))
+      || !v2_governance_ready(self)
+      || (vote = v2_vote_by_number(action->vote_no)) == NULL) {
+    return FALSE;
+  }
+  return v2_vote_owned_by_self(vote)
+         && v2_vote_signature(vote) == action->vote_signature;
+}
+
+static bool v2_setting_action_still_legal(
+  const struct player *self, const struct agent_v2_action *action)
+{
+  struct option *option;
+  int minimum;
+  int maximum;
+
+  if (self == NULL || action == NULL
+      || action->kind != AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+      || action->player_id != player_number(self)
+      || action->player_incarnation == 0
+      || action->player_incarnation
+         != v2_existing_incarnation(AGENT_V2_ENTITY_PLAYER,
+                                    player_number(self))
+      || !v2_governance_ready(self)
+      || (option = optset_option_by_number(
+            server_optset, action->server_setting_id)) == NULL
+      || !option_is_changeable(option)
+      || option_type(option) != action->server_setting_type
+      || v2_server_setting_signature(option)
+         != action->server_setting_signature) {
+    return FALSE;
+  }
+  minimum = 0;
+  maximum = 0;
+  switch ((enum option_type) action->server_setting_type) {
+  case OT_BOOLEAN:
+    minimum = 0;
+    maximum = 1;
+    if ((action->server_setting_value != 0
+         && action->server_setting_value != 1)
+        || action->server_setting_value == option_bool_get(option)) {
+      return FALSE;
+    }
+    break;
+  case OT_INTEGER:
+    minimum = option_int_min(option);
+    maximum = option_int_max(option);
+    if (action->server_setting_value != -1) {
+      return FALSE;
+    }
+    break;
+  case OT_STRING:
+    minimum = 0;
+    maximum = v2_server_setting_string_max(option);
+    if (action->server_setting_value != -1) {
+      return FALSE;
+    }
+    break;
+  case OT_ENUM: {
+    const struct strvec *values = option_enum_values(option);
+
+    minimum = 0;
+    maximum = values != NULL ? strvec_size(values) - 1 : -1;
+    if (maximum < 0 || action->server_setting_value < minimum
+        || action->server_setting_value > maximum
+        || action->server_setting_value == option_enum_get_int(option)) {
+      return FALSE;
+    }
+    break;
+  }
+  case OT_BITWISE:
+    minimum = 0;
+    maximum = (int) MIN(option_bitwise_mask(option), (unsigned) INT_MAX);
+    if (action->server_setting_value != -1) {
+      return FALSE;
+    }
+    break;
+  default:
+    return FALSE;
+  }
+  return action->server_setting_min == minimum
+         && action->server_setting_max == maximum;
+}
+
+static bool v2_surrender_action_still_legal(
+  const struct player *self, const struct agent_v2_action *action)
+{
+  return self != NULL && action != NULL
+         && action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER
+         && action->player_id == player_number(self)
+         && action->player_incarnation != 0
+         && action->player_incarnation
+            == v2_existing_incarnation(AGENT_V2_ENTITY_PLAYER,
+                                       player_number(self))
+         && v2_governance_ready(self) && client_state() == C_S_RUNNING
+         && self->is_alive && !v2_surrendered;
+}
+
 static bool v2_parse_vote_argument(const char *text,
                                    enum client_vote_type *vote)
 {
@@ -2734,6 +3259,9 @@ static void v2_build_vote_rows(const struct player *self)
 {
   int size = voteinfo_queue_size();
   int index;
+  size_t active_count = 0;
+  size_t history_offset;
+  size_t history_skip;
 
   if (size < 0 || size > FC_AGENT_V2_MAX_VOTES) {
     v2_overflow = TRUE;
@@ -2742,6 +3270,7 @@ static void v2_build_vote_rows(const struct player *self)
   for (index = 0; index < size; index++) {
     const struct voteinfo *vote = voteinfo_queue_get(index);
     const char *current_vote;
+    char caller[AGENT_V2_ROW_MAX];
     char description[AGENT_V2_ROW_MAX];
 
     if (vote == NULL || vote->vote_no < 0) {
@@ -2751,21 +3280,63 @@ static void v2_build_vote_rows(const struct player *self)
     if (!v2_vote_active(vote)) {
       continue;
     }
-    current_vote = v2_client_vote_name(vote->client_vote);
+    current_vote = v2_client_vote_name(v2_confirmed_vote(vote->vote_no));
     if (current_vote == NULL
         || vote->percent_required < 0 || vote->percent_required > 100
         || vote->yes < 0 || vote->no < 0 || vote->abstain < 0
         || vote->num_voters < 0
+        || !v2_encode_row_value(vote->user, caller, sizeof(caller))
         || !v2_encode_row_value(vote->desc, description,
                                 sizeof(description))) {
       v2_overflow = TRUE;
       return;
     }
     v2_add_row(FC_AGENT_V2_ROW_VOTE,
-               vote->vote_no, description, vote->yes, vote->no,
+               vote->vote_no, caller, description, vote->yes, vote->no,
                vote->abstain, vote->num_voters, vote->percent_required,
                (vote->flags & AGENT_V2_VOTE_TEAM_ONLY) != 0 ? 1 : 0,
-               current_vote, v2_vote_can_vote(self, vote) ? 1 : 0);
+               current_vote, v2_vote_can_vote(self, vote) ? 1 : 0,
+               "active", -1, -1);
+    active_count++;
+  }
+  if (active_count > FC_AGENT_V2_MAX_VOTES) {
+    v2_overflow = TRUE;
+    return;
+  }
+  history_skip = v2_vote_history_count
+                 > FC_AGENT_V2_MAX_VOTES - active_count
+                 ? v2_vote_history_count
+                   - (FC_AGENT_V2_MAX_VOTES - active_count) : 0;
+  for (history_offset = history_skip;
+       history_offset < v2_vote_history_count; history_offset++) {
+    const struct agent_v2_vote_outcome *outcome =
+      &v2_vote_history[(v2_vote_history_start + history_offset)
+                       % FC_AGENT_V2_MAX_VOTE_HISTORY];
+    const char *current_vote = v2_client_vote_name(outcome->current_vote);
+    const char *status = v2_vote_status_name(outcome->status);
+    char caller[AGENT_V2_ROW_MAX];
+    char description[AGENT_V2_ROW_MAX];
+
+    if (current_vote == NULL || status == NULL
+        || outcome->vote_no < 0
+        || outcome->percent_required < 0
+        || outcome->percent_required > 100
+        || outcome->yes < 0 || outcome->no < 0 || outcome->abstain < 0
+        || outcome->num_voters < 0 || outcome->turn < 0
+        || outcome->phase < 0
+        || !v2_encode_row_value(outcome->caller, caller, sizeof(caller))
+        || !v2_encode_row_value(outcome->description, description,
+                                sizeof(description))) {
+      v2_overflow = TRUE;
+      return;
+    }
+    v2_add_row(
+      FC_AGENT_V2_ROW_VOTE,
+      outcome->vote_no, caller, description,
+      outcome->yes, outcome->no, outcome->abstain, outcome->num_voters,
+      outcome->percent_required,
+      (outcome->flags & AGENT_V2_VOTE_TEAM_ONLY) != 0 ? 1 : 0,
+      current_vote, 0, status, outcome->turn, outcome->phase);
   }
 }
 
@@ -2787,24 +3358,45 @@ static void v2_build_vote_actions(
       buffer->overflow = TRUE;
       return;
     }
-    if (!v2_vote_can_vote(self, vote)) {
+    if (!v2_vote_active(vote)) {
       continue;
     }
-    if (buffer->count >= buffer->capacity) {
-      buffer->overflow = TRUE;
-      return;
+    if (v2_vote_can_vote(self, vote)) {
+      if (buffer->count >= buffer->capacity) {
+        buffer->overflow = TRUE;
+        return;
+      }
+      entry = &buffer->actions[buffer->count++];
+      v2_action_init(entry);
+      entry->kind = AGENT_V2_ACTION_PLAYER_CAST_VOTE;
+      entry->player_id = player_number(self);
+      entry->player_incarnation = v2_existing_incarnation(
+        AGENT_V2_ENTITY_PLAYER, entry->player_id);
+      entry->vote_no = vote->vote_no;
+      entry->vote_signature = v2_vote_signature(vote);
+      entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
+      entry->probability_min = action_prob_new_certain().min;
+      entry->probability_max = action_prob_new_certain().max;
     }
-    entry = &buffer->actions[buffer->count++];
-    v2_action_init(entry);
-    entry->kind = AGENT_V2_ACTION_PLAYER_CAST_VOTE;
-    entry->player_id = player_number(self);
-    entry->player_incarnation = v2_existing_incarnation(
-      AGENT_V2_ENTITY_PLAYER, entry->player_id);
-    entry->vote_no = vote->vote_no;
-    entry->vote_signature = v2_vote_signature(vote);
-    entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
-    entry->probability_min = action_prob_new_certain().min;
-    entry->probability_max = action_prob_new_certain().max;
+    if (v2_governance_ready(self) && v2_vote_owned_by_self(vote)) {
+      struct agent_v2_action *cancel;
+
+      if (buffer->count >= buffer->capacity) {
+        buffer->overflow = TRUE;
+        return;
+      }
+      cancel = &buffer->actions[buffer->count++];
+      v2_action_init(cancel);
+      cancel->kind = AGENT_V2_ACTION_PLAYER_CANCEL_VOTE;
+      cancel->player_id = player_number(self);
+      cancel->player_incarnation = v2_existing_incarnation(
+        AGENT_V2_ENTITY_PLAYER, cancel->player_id);
+      cancel->vote_no = vote->vote_no;
+      cancel->vote_signature = v2_vote_signature(vote);
+      cancel->probability_kind = AGENT_V2_PROBABILITY_EXACT;
+      cancel->probability_min = action_prob_new_certain().min;
+      cancel->probability_max = action_prob_new_certain().max;
+    }
   }
 }
 
@@ -2818,6 +3410,12 @@ static void v2_build_player_actions(
     return;
   }
   v2_build_vote_actions(self, buffer);
+  v2_build_setting_vote_actions(self, buffer);
+  if (v2_governance_ready(self) && client_state() == C_S_RUNNING
+      && self->is_alive && !v2_surrendered) {
+    v2_add_governance_action(
+      self, buffer, AGENT_V2_ACTION_PLAYER_SURRENDER);
+  }
   if (!v2_actions_ready(phase)) {
     return;
   }
@@ -2868,7 +3466,9 @@ static void v2_build_player_actions(
 
 static bool v2_communication_ready(const struct player *self)
 {
-  return self != NULL && client_state() == C_S_RUNNING
+  return self != NULL
+         && (client_state() == C_S_PREPARING
+             || client_state() == C_S_RUNNING)
          && v2_seat_authorized && v2_cache_coherent()
          && can_client_control() && is_human(self) && !is_server_busy();
 }
@@ -2999,6 +3599,13 @@ static void v2_build_unit_actions(
 static bool v2_special_result_supported(enum action_result result,
                                         enum action_target_kind target_kind)
 {
+  if (result == ACTRES_NONE) {
+    /* Freeciv's four ruleset-defined user-action slots deliberately have no
+     * hard-coded result.  Their target kind and enablers are nevertheless
+     * fully server-authored, so the normal action dialog can expose them as
+     * exact, revision-bound capabilities without teaching v2 their effect. */
+    return target_kind >= ATK_CITY && target_kind < ATK_COUNT;
+  }
   switch (result) {
   case ACTRES_SPY_BRIBE_UNIT:
   case ACTRES_SPY_BRIBE_STACK:
@@ -3022,6 +3629,7 @@ static bool v2_special_result_supported(enum action_result result,
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_STRIKE_BUILDING:
   case ACTRES_CONQUER_CITY:
   case ACTRES_HEAL_UNIT:
   case ACTRES_COLLECT_RANSOM:
@@ -3056,6 +3664,7 @@ static bool v2_special_result_supported(enum action_result result,
   case ACTRES_CONQUER_CITY:
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_SPY_ESCAPE:
+  case ACTRES_STRIKE_BUILDING:
     return target_kind == ATK_CITY;
   case ACTRES_SPY_BRIBE_UNIT:
   case ACTRES_SPY_SABOTAGE_UNIT:
@@ -3113,6 +3722,45 @@ static bool v2_targeted_sabotage_action(const struct action *paction)
          && action_get_sub_target_kind(paction) == ASTK_BUILDING
          && (paction->id == ACTION_SPY_TARGETED_SABOTAGE_CITY
              || paction->id == ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC);
+}
+
+/* Actions whose normal client asks the server for one exact selectable
+ * building list.  The request-correlated packet is transient and is consumed
+ * before it can hydrate a foreign-city cache. */
+static bool v2_targeted_building_action(const struct action *paction)
+{
+  return v2_targeted_sabotage_action(paction)
+         || (paction != NULL
+             && paction->result == ACTRES_STRIKE_BUILDING
+             && action_get_target_kind(paction) == ATK_CITY
+             && action_get_sub_target_kind(paction) == ASTK_BUILDING);
+}
+
+static bool v2_ruleset_custom_action(const struct action *paction)
+{
+  int subresult;
+
+  if (paction == NULL || paction->result != ACTRES_NONE
+      || action_get_actor_kind(paction) != AAK_UNIT
+      || action_get_target_kind(paction) >= ATK_COUNT
+      || action_get_sub_target_kind(paction) != ASTK_NONE
+      || action_id_has_complex_target(paction->id)) {
+    return FALSE;
+  }
+  for (subresult = 0; subresult < ACT_SUB_RES_COUNT; subresult++) {
+    if (BV_ISSET(paction->sub_results, subresult)) {
+      return FALSE;
+    }
+  }
+  switch (paction->id) {
+  case ACTION_USER_ACTION1:
+  case ACTION_USER_ACTION2:
+  case ACTION_USER_ACTION3:
+  case ACTION_USER_ACTION4:
+    return TRUE;
+  default:
+    return FALSE;
+  }
 }
 
 static bool v2_classic_nuke_action(const struct action *paction)
@@ -3189,21 +3837,76 @@ static bool v2_paid_quote_accepted(const struct action *paction,
              || current_cost < INCITE_IMPOSSIBLE_COST);
 }
 
+/* Action sub-results are fixed by this Freeciv revision, not supplied by the
+ * caller.  Admit only the exact built-in combinations that the normal client
+ * can execute; this prevents a future ruleset/action change from silently
+ * acquiring a different semantic under an already-issued opaque slot. */
+static bool v2_special_subresults_supported(const struct action *paction)
+{
+  bool hut_enter;
+  bool hut_frighten;
+  bool may_embark;
+  bool non_lethal;
+
+  if (paction == NULL) {
+    return FALSE;
+  }
+  hut_enter = BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
+  hut_frighten = BV_ISSET(
+    paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
+  may_embark = BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK);
+  non_lethal = BV_ISSET(paction->sub_results, ACT_SUB_RES_NON_LETHAL);
+  if (hut_enter && hut_frighten) {
+    return FALSE;
+  }
+  switch (paction->result) {
+  case ACTRES_BOMBARD:
+    return non_lethal && !hut_enter && !hut_frighten && !may_embark;
+  case ACTRES_PARADROP_CONQUER:
+    return !non_lethal
+           && hut_enter == (paction->id == ACTION_PARADROP_ENTER_CONQUER)
+           && hut_frighten
+              == (paction->id == ACTION_PARADROP_FRIGHTEN_CONQUER)
+           && (paction->id == ACTION_PARADROP_CONQUER
+               || paction->id == ACTION_PARADROP_FRIGHTEN_CONQUER
+               || paction->id == ACTION_PARADROP_ENTER_CONQUER);
+  case ACTRES_TELEPORT_CONQUER:
+    return !may_embark && !non_lethal
+           && hut_enter == (paction->id == ACTION_TELEPORT_ENTER_CONQUER)
+           && hut_frighten
+              == (paction->id == ACTION_TELEPORT_FRIGHTEN_CONQUER)
+           && (paction->id == ACTION_TELEPORT_CONQUER
+               || paction->id == ACTION_TELEPORT_FRIGHTEN_CONQUER
+               || paction->id == ACTION_TELEPORT_ENTER_CONQUER);
+  case ACTRES_HUT_ENTER:
+    return hut_enter && !hut_frighten && !may_embark && !non_lethal;
+  case ACTRES_HUT_FRIGHTEN:
+    return !hut_enter && hut_frighten && !may_embark && !non_lethal;
+  default:
+    return !hut_enter && !hut_frighten && !may_embark && !non_lethal;
+  }
+}
+
 static bool v2_special_action_shape_supported(const struct action *paction)
 {
-  enum action_sub_result allowed_subresult = ACT_SUB_RES_COUNT;
   bool targeted_tech;
   bool targeted_building;
-  int subresult;
 
   if (paction == NULL
       || !v2_special_result_supported(
            paction->result, action_get_target_kind(paction))) {
     return FALSE;
   }
+  if (paction->result == ACTRES_NONE) {
+    return v2_ruleset_custom_action(paction);
+  }
+  if (!v2_special_subresults_supported(paction)) {
+    return FALSE;
+  }
   targeted_tech = paction->result == ACTRES_SPY_TARGETED_STEAL_TECH;
   targeted_building =
-    paction->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY;
+    paction->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY
+    || paction->result == ACTRES_STRIKE_BUILDING;
   if (action_id_has_complex_target(paction->id)
         != (targeted_tech || targeted_building)
       || action_get_sub_target_kind(paction)
@@ -3252,44 +3955,44 @@ static bool v2_special_action_shape_supported(const struct action *paction)
     }
     break;
   case ACTRES_SPY_TARGETED_STEAL_TECH:
-    if (paction->id != ACTION_SPY_TARGETED_STEAL_TECH_ESC) {
+    if (paction->id != ACTION_SPY_TARGETED_STEAL_TECH
+        && paction->id != ACTION_SPY_TARGETED_STEAL_TECH_ESC) {
+      return FALSE;
+    }
+    break;
+  case ACTRES_STRIKE_BUILDING:
+    if (paction->id != ACTION_STRIKE_BUILDING) {
       return FALSE;
     }
     break;
   case ACTRES_PARADROP_CONQUER:
-    if (paction->id != ACTION_PARADROP_ENTER_CONQUER) {
-      return FALSE;
-    }
-    allowed_subresult = ACT_SUB_RES_HUT_ENTER;
     break;
   case ACTRES_CONQUER_EXTRAS:
     if (paction->id != ACTION_CONQUER_EXTRAS
-        && paction->id != ACTION_CONQUER_EXTRAS2) {
+        && paction->id != ACTION_CONQUER_EXTRAS2
+        && paction->id != ACTION_CONQUER_EXTRAS3
+        && paction->id != ACTION_CONQUER_EXTRAS4) {
       return FALSE;
     }
     break;
   case ACTRES_HUT_ENTER:
     if (paction->id != ACTION_HUT_ENTER
-        && paction->id != ACTION_HUT_ENTER2) {
+        && paction->id != ACTION_HUT_ENTER2
+        && paction->id != ACTION_HUT_ENTER3
+        && paction->id != ACTION_HUT_ENTER4) {
       return FALSE;
     }
-    allowed_subresult = ACT_SUB_RES_HUT_ENTER;
     break;
   case ACTRES_HUT_FRIGHTEN:
     if (paction->id != ACTION_HUT_FRIGHTEN
-        && paction->id != ACTION_HUT_FRIGHTEN2) {
+        && paction->id != ACTION_HUT_FRIGHTEN2
+        && paction->id != ACTION_HUT_FRIGHTEN3
+        && paction->id != ACTION_HUT_FRIGHTEN4) {
       return FALSE;
     }
-    allowed_subresult = ACT_SUB_RES_HUT_FRIGHTEN;
     break;
   default:
     break;
-  }
-  for (subresult = 0; subresult < ACT_SUB_RES_COUNT; subresult++) {
-    if (BV_ISSET(paction->sub_results, subresult)
-        != (subresult == allowed_subresult)) {
-      return FALSE;
-    }
   }
   return TRUE;
 }
@@ -3304,11 +4007,12 @@ static bool v2_special_not_implemented_allowed(const struct action *paction)
   case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
   case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
   case ACTRES_SPY_STEAL_TECH:
-  case ACTRES_SPY_TARGETED_STEAL_TECH:
   case ACTRES_PARADROP_CONQUER:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
     return TRUE;
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+    return paction->id == ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   default:
     return FALSE;
   }
@@ -3349,7 +4053,26 @@ static uint64_t v2_target_research_digest(const struct player *target)
   return digest;
 }
 
-static uint64_t v2_sabotage_catalog_digest(
+static bool v2_building_catalog_choice_allowed(
+  const struct action *paction,
+  const struct packet_city_sabotage_list *packet,
+  const struct impr_type *pimprove)
+{
+  if (paction == NULL || packet == NULL || pimprove == NULL
+      || !v2_targeted_building_action(paction)
+      || !BV_ISSET(packet->improvements, improvement_index(pimprove))) {
+    return FALSE;
+  }
+  /* Targeted diplomatic sabotage has an additional per-building chance
+   * guard.  Surgical strike's server list has already removed hidden and
+   * indestructible buildings and must not be narrowed by that unrelated
+   * field. */
+  return paction->result != ACTRES_SPY_TARGETED_SABOTAGE_CITY
+         || pimprove->sabotage > 0;
+}
+
+static uint64_t v2_building_catalog_digest(
+  const struct action *paction,
   const struct packet_city_sabotage_list *packet)
 {
   uint64_t digest = UINT64_C(1469598103934665603);
@@ -3367,8 +4090,7 @@ static uint64_t v2_sabotage_catalog_digest(
   improvement_iterate(pimprove) {
     int improvement_id = improvement_number(pimprove);
 
-    if (BV_ISSET(packet->improvements, improvement_index(pimprove))
-        && pimprove->sabotage > 0) {
+    if (v2_building_catalog_choice_allowed(paction, packet, pimprove)) {
       digest = v2_hash_bytes(
         digest, &improvement_id, sizeof(improvement_id));
       choice_count++;
@@ -3395,11 +4117,16 @@ static bool v2_targeted_tech_choice_current(
          && can_see_techs_of_target(self, victim)
          && expected_digest != 0
          && v2_target_research_digest(victim) == expected_digest
-         && valid_advance_by_number(tech) != NULL
-         && research_invention_state(self_research, tech) != TECH_KNOWN
-         && research_invention_state(victim_research, tech) == TECH_KNOWN
-         && research_invention_gettable(
-              self_research, tech, game.info.tech_steal_allow_holes);
+         && (tech == A_FUTURE
+             ? self_research->future_tech < victim_research->future_tech
+             : (valid_advance_by_number(tech) != NULL
+                && research_invention_state(self_research, tech)
+                   != TECH_KNOWN
+                && research_invention_state(victim_research, tech)
+                   == TECH_KNOWN
+                && research_invention_gettable(
+                     self_research, tech,
+                     game.info.tech_steal_allow_holes)));
 }
 
 static bool v2_add_server_special_action_one(
@@ -3413,7 +4140,7 @@ static bool v2_add_server_special_action_one(
   struct city *lease_city = NULL;
   struct player *lease_extra_owner = NULL;
 
-  if (paction->id == ACTION_PARADROP_ENTER_CONQUER) {
+  if (paction->result == ACTRES_PARADROP_CONQUER) {
     lease_city = target_tile != NULL ? tile_city(target_tile) : NULL;
     lease_extra_owner = target_tile != NULL
                         ? extra_owner(target_tile) : NULL;
@@ -3444,7 +4171,12 @@ static bool v2_add_server_special_action_one(
     AGENT_V2_ENTITY_UNIT, actor->id);
   entry->unit_lifecycle_id = actor->client.lifecycle_id;
   entry->target_tile = target_tile != NULL ? tile_index(target_tile) : -1;
-  if (paction->id == ACTION_PARADROP_ENTER_CONQUER) {
+  if (v2_unit_action_decision_pending(actor)
+      && actor->action_decision_tile == target_tile) {
+    entry->action_decision_want = actor->action_decision_want;
+    entry->clears_action_decision = TRUE;
+  }
+  if (paction->result == ACTRES_PARADROP_CONQUER) {
     entry->source_unit_tile = tile_index(unit_tile(actor));
     entry->source_unit_moves = actor->moves_left;
     entry->source_unit_paradropped = actor->paradropped;
@@ -3573,9 +4305,16 @@ static bool v2_add_server_special_action(
         break;
       }
     } advance_index_iterate_end;
+    if (!buffer->overflow
+        && v2_targeted_tech_choice_current(
+             self, target_city, A_FUTURE, digest)) {
+      (void) v2_add_server_special_action_one(
+        buffer, actor, target_unit, target_city, target_tile,
+        paction, probability, A_FUTURE, digest);
+    }
     return buffer->count > before_count;
   }
-  if (paction->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY) {
+  if (v2_targeted_building_action(paction)) {
     if (subtarget != ASTK_BUILDING || target_city == NULL) {
       return FALSE;
     }
@@ -3597,21 +4336,10 @@ static bool v2_add_server_special_action(
 static void v2_build_noncombat_mobility_actions(
   const struct unit *punit, struct agent_v2_action_buffer *buffer)
 {
-  static const action_id paradrop_actions[] = {
-    ACTION_PARADROP, ACTION_PARADROP_FRIGHTEN, ACTION_PARADROP_ENTER
-  };
-  static const action_id teleport_actions[] = {
-    ACTION_TELEPORT, ACTION_TELEPORT2, ACTION_TELEPORT3,
-    ACTION_TELEPORT_FRIGHTEN, ACTION_TELEPORT_ENTER
-  };
   struct player *self = client_player();
   struct tile *origin;
   struct city *source;
   struct act_prob not_implemented = action_prob_new_not_impl();
-  bool paradrop_maybe[ARRAY_SIZE(paradrop_actions)];
-  bool teleport_maybe[ARRAY_SIZE(teleport_actions)];
-  bool any_tile_mobility = FALSE;
-  size_t i;
 
   if (self == NULL || punit == NULL
       || punit->ssa_controller != SSA_NONE
@@ -3619,99 +4347,54 @@ static void v2_build_noncombat_mobility_actions(
     return;
   }
 
-  /* This first slice intentionally exposes only owned-to-owned airlift.
-   * Allied city sites need their own fog-safe public lifetime model. */
+  /* The normal goto/airlift dialog can select any cached city whose live
+   * action probability permits the transfer, including an allied city when
+   * AIRLIFTING_ALLIED_DEST is enabled.  City-site rows already expose the
+   * same normal-client external data and bind exact cache lifetimes. */
   source = tile_city(origin);
   if (source != NULL && city_owner(source) == self
       && action_maybe_possible_actor_unit(
            &wld.map, ACTION_AIRLIFT, punit)) {
-    city_list_iterate(self->cities, destination) {
-      struct act_prob probability;
+    players_iterate(owner) {
+      city_list_iterate(owner->cities, destination) {
+        struct act_prob probability;
 
-      if (destination == source) {
-        continue;
-      }
-      probability = action_prob_vs_city(
-        &wld.map, punit, ACTION_AIRLIFT, destination);
-      if (action_prob_possible(probability)
-          && !are_action_probabilitys_equal(
-               &probability, &not_implemented)) {
-        v2_buffer_add_relocation_action(
-          buffer, AGENT_V2_ACTION_UNIT_AIRLIFT, punit, NULL,
-          source, destination, ACTION_AIRLIFT, probability);
+        if (destination == source || !v2_city_site_known(destination)) {
+          continue;
+        }
+        probability = action_prob_vs_city(
+          &wld.map, punit, ACTION_AIRLIFT, destination);
+        if (action_prob_possible(probability)
+            && !are_action_probabilitys_equal(
+                 &probability, &not_implemented)) {
+          v2_buffer_add_relocation_action(
+            buffer, AGENT_V2_ACTION_UNIT_AIRLIFT, punit, NULL,
+            source, destination, ACTION_AIRLIFT, probability);
+          if (buffer->overflow) {
+            break;
+          }
+        }
         if (buffer->overflow) {
           break;
         }
-      }
-    } city_list_iterate_end;
-  }
-
-  for (i = 0; i < ARRAY_SIZE(paradrop_actions); i++) {
-    paradrop_maybe[i] = action_maybe_possible_actor_unit(
-      &wld.map, paradrop_actions[i], punit);
-    any_tile_mobility = any_tile_mobility || paradrop_maybe[i];
-  }
-  for (i = 0; i < ARRAY_SIZE(teleport_actions); i++) {
-    teleport_maybe[i] = action_maybe_possible_actor_unit(
-      &wld.map, teleport_actions[i], punit);
-    any_tile_mobility = any_tile_mobility || teleport_maybe[i];
-  }
-  if (!any_tile_mobility) {
-    return;
-  }
-
-  whole_map_iterate(&wld.map, target) {
-    if (buffer->overflow) {
-      break;
-    }
-    if (target == origin || client_tile_get_known(target) != TILE_KNOWN_SEEN) {
-      continue;
-    }
-    for (i = 0; i < ARRAY_SIZE(paradrop_actions); i++) {
+      } city_list_iterate_end;
       if (buffer->overflow) {
         break;
       }
-      if (!paradrop_maybe[i]) {
-        continue;
-      }
-      struct act_prob probability = action_prob_vs_tile(
-        &wld.map, punit, paradrop_actions[i], target, NULL);
-
-      /* NOT_IMPLEMENTED still means potentially legal. The server remains
-       * authoritative and the public descriptor preserves that uncertainty. */
-      if (action_prob_possible(probability)) {
-        v2_buffer_add_relocation_action(
-          buffer, AGENT_V2_ACTION_UNIT_PARADROP, punit, target,
-          NULL, NULL, paradrop_actions[i], probability);
-      }
-    }
-    for (i = 0; i < ARRAY_SIZE(teleport_actions); i++) {
-      if (buffer->overflow) {
-        break;
-      }
-      if (!teleport_maybe[i]) {
-        continue;
-      }
-      struct act_prob probability = action_prob_vs_tile(
-        &wld.map, punit, teleport_actions[i], target, NULL);
-
-      if (action_prob_possible(probability)
-          && !are_action_probabilitys_equal(
-               &probability, &not_implemented)) {
-        v2_buffer_add_relocation_action(
-          buffer, AGENT_V2_ACTION_UNIT_TELEPORT, punit, target,
-          NULL, NULL, teleport_actions[i], probability);
-      }
-    }
-  } whole_map_iterate_end;
+    } players_iterate_end;
+  }
 }
 
-static void v2_build_unit_target_paradrop_actions(
+static void v2_build_unit_target_mobility_actions(
   const struct unit *punit, const struct tile *target,
   struct agent_v2_action_buffer *buffer)
 {
   static const action_id paradrop_actions[] = {
     ACTION_PARADROP, ACTION_PARADROP_FRIGHTEN, ACTION_PARADROP_ENTER
+  };
+  static const action_id teleport_actions[] = {
+    ACTION_TELEPORT, ACTION_TELEPORT2, ACTION_TELEPORT3,
+    ACTION_TELEPORT_FRIGHTEN, ACTION_TELEPORT_ENTER
   };
   struct player *self = client_player();
   enum known_type known;
@@ -3721,13 +4404,14 @@ static void v2_build_unit_target_paradrop_actions(
       || punit->client.lifecycle_id == 0
       || punit->ssa_controller != SSA_NONE
       || unit_tile(punit) == NULL || target == NULL
-      || target == unit_tile(punit)
-      || (known = client_tile_get_known(target)) == TILE_UNKNOWN) {
+      || target == unit_tile(punit)) {
     return;
   }
+  known = client_tile_get_known(target);
   for (i = 0; i < ARRAY_SIZE(paradrop_actions); i++) {
     const struct action *paction = action_by_number(paradrop_actions[i]);
     struct act_prob probability;
+    enum fc_agent_v2_target_action_policy policy;
 
     if (paction == NULL
         || !action_maybe_possible_actor_unit(
@@ -3736,34 +4420,45 @@ static void v2_build_unit_target_paradrop_actions(
     }
     probability = action_prob_unit_vs_tgt(
       &wld.map, paction, punit, tile_city(target), NULL, target, NULL);
-    if (fc_agent_v2_target_action_policy(
-          FALSE, FALSE, action_prob_possible(probability))
-        == FC_AGENT_V2_TARGET_ACTION_PRESERVE_PROBABILITY) {
+    policy = fc_agent_v2_target_action_policy(
+      known == TILE_UNKNOWN, TRUE, action_prob_possible(probability));
+    if (policy != FC_AGENT_V2_TARGET_ACTION_REJECT) {
+      if (policy == FC_AGENT_V2_TARGET_ACTION_REDACT_TO_UNKNOWN) {
+        probability = action_prob_new_unknown();
+      }
       v2_buffer_add_relocation_action(
         buffer, AGENT_V2_ACTION_UNIT_PARADROP, punit, target,
         NULL, NULL, paradrop_actions[i], probability);
     }
   }
-
-  /* Visible targets use the request-correlated server discovery lane below.
-   * For remembered targets, reconstruct the normal client's cached
-   * paradrop-conquer variants locally without asking the server about fog. */
-  if (known != TILE_KNOWN_UNSEEN) {
-    return;
-  }
-  action_iterate(act_id) {
-    const struct action *paction = action_by_number(act_id);
+  for (i = 0; i < ARRAY_SIZE(teleport_actions); i++) {
+    const struct action *paction = action_by_number(teleport_actions[i]);
     struct act_prob probability;
+    enum fc_agent_v2_target_action_policy policy;
 
-    if (paction == NULL || paction->result != ACTRES_PARADROP_CONQUER
-        || !action_maybe_possible_actor_unit(&wld.map, act_id, punit)) {
+    if (paction == NULL
+        || !action_maybe_possible_actor_unit(
+             &wld.map, teleport_actions[i], punit)) {
       continue;
     }
     probability = action_prob_unit_vs_tgt(
       &wld.map, paction, punit, tile_city(target), NULL, target, NULL);
-    (void) v2_add_server_special_action(
-      buffer, punit, NULL, tile_city(target), target, paction, probability);
-  } action_iterate_end;
+    policy = fc_agent_v2_target_action_policy(
+      known == TILE_UNKNOWN, TRUE, action_prob_possible(probability));
+    if (policy != FC_AGENT_V2_TARGET_ACTION_REJECT) {
+      if (policy == FC_AGENT_V2_TARGET_ACTION_REDACT_TO_UNKNOWN) {
+        probability = action_prob_new_unknown();
+      }
+      v2_buffer_add_relocation_action(
+        buffer, AGENT_V2_ACTION_UNIT_TELEPORT, punit, target,
+        NULL, NULL, teleport_actions[i], probability);
+    }
+  }
+
+  /* Only currently visible targets enter the request-correlated server
+   * discovery lane below.  Remembered and unknown targets retain exactly the
+   * normal client's locally available relocation choices without asking the
+   * server a fog-sensitive question. */
 }
 
 static bool v2_noncombat_mobility_action_allowed(
@@ -3989,6 +4684,46 @@ static void v2_build_unit_cancel_orders_action(
   }
   v2_buffer_add_unit_automation_action(
     buffer, AGENT_V2_ACTION_UNIT_CANCEL_ORDERS, punit);
+}
+
+static bool v2_unit_action_decision_pending(const struct unit *punit)
+{
+  return punit != NULL
+         && fc_agent_v2_action_decision_state_valid(
+              punit->action_decision_want,
+              punit->action_decision_tile != NULL
+                ? tile_index(punit->action_decision_tile) : -1)
+         && punit->action_decision_want != ACT_DEC_NOTHING;
+}
+
+static void v2_build_unit_clear_action_decision_action(
+  const struct unit *punit, struct agent_v2_action_buffer *buffer)
+{
+  struct player *self = client_player();
+  struct agent_v2_action *entry;
+
+  if (punit == NULL || self == NULL || unit_owner(punit) != self
+      || punit->client.lifecycle_id == 0
+      || !v2_unit_action_decision_pending(punit)
+      || buffer->count >= buffer->capacity) {
+    if (buffer->count >= buffer->capacity) {
+      buffer->overflow = TRUE;
+    }
+    return;
+  }
+  entry = &buffer->actions[buffer->count++];
+  v2_action_init(entry);
+  entry->kind = AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION;
+  entry->unit_id = punit->id;
+  entry->unit_incarnation = v2_existing_incarnation(
+    AGENT_V2_ENTITY_UNIT, punit->id);
+  entry->unit_lifecycle_id = punit->client.lifecycle_id;
+  entry->target_tile = tile_index(punit->action_decision_tile);
+  entry->action_decision_want = punit->action_decision_want;
+  entry->clears_action_decision = TRUE;
+  entry->probability_kind = AGENT_V2_PROBABILITY_EXACT;
+  entry->probability_min = action_prob_new_certain().min;
+  entry->probability_max = action_prob_new_certain().max;
 }
 
 static bool v2_unit_goto_actor_clean(const struct unit *punit)
@@ -4434,6 +5169,16 @@ static void v2_build_unit_set_route_action(
     buffer->actions[index].route_waypoint_limit =
       CLIENT_UNIT_ROUTE_MAX_WAYPOINTS;
   }
+}
+
+static void v2_build_unit_attack_route_action(
+  const struct unit *punit, struct agent_v2_action_buffer *buffer)
+{
+  if (!v2_unit_goto_actor_clean(punit)) {
+    return;
+  }
+  v2_buffer_add_unit_automation_action(
+    buffer, AGENT_V2_ACTION_UNIT_ATTACK_ROUTE, punit);
 }
 
 static void v2_buffer_add_self_action(
@@ -5517,9 +6262,13 @@ static uint64_t v2_hash_actor_catalog(
         player_unit_by_number(self, id), &buffer);
       v2_build_unit_cancel_orders_action(
         player_unit_by_number(self, id), &buffer);
+      v2_build_unit_clear_action_decision_action(
+        player_unit_by_number(self, id), &buffer);
       v2_build_unit_goto_actions(
         player_unit_by_number(self, id), &buffer);
       v2_build_unit_set_route_action(
+        player_unit_by_number(self, id), &buffer);
+      v2_build_unit_attack_route_action(
         player_unit_by_number(self, id), &buffer);
       v2_build_self_unit_actions(player_unit_by_number(self, id), &buffer);
       v2_build_city_target_unit_actions(
@@ -5664,6 +6413,131 @@ static bool v2_worklist_contains(const struct worklist *worklist,
     }
   }
   return FALSE;
+}
+
+static bool v2_city_build_choice_available(
+  const struct city *pcity, const struct universal *target)
+{
+  return can_city_build_later(&wld.map, pcity, target)
+         || v2_worklist_contains(&pcity->worklist, target);
+}
+
+static void v2_add_city_build_choice_row(
+  const struct city *pcity, const char *city_reference,
+  const struct universal *target, const char *target_name)
+{
+  const struct player *owner = city_owner(pcity);
+  const char *kind = v2_build_kind_name(target->kind);
+  const char *building_genus = "none";
+  int shield_cost = -1;
+  int shield_stock_after_change = -1;
+  int turns = -1;
+  int turns_with_stock = -1;
+  int upkeep[O_LAST] = { 0 };
+  int happy_cost = -1;
+  int unit_attack = -1;
+  int unit_defense = -1;
+  int unit_move_rate = -1;
+  int unit_hp = -1;
+  int unit_firepower = -1;
+  int unit_vision_radius_sq = -1;
+  int unit_transport_capacity = -1;
+  int unit_fuel = -1;
+  int unit_pop_cost = -1;
+  int unit_bombard_rate = -1;
+  int unit_city_size = -1;
+  int unit_paradrop_range = -1;
+  int building_obsolete = -1;
+  int building_redundant = -1;
+  int building_convert = -1;
+  int building_allows_units = -1;
+  int building_allows_extras = -1;
+  int building_prevents_disaster = -1;
+  int building_protects_vs_actions = -1;
+  int building_allows_actions = -1;
+
+  if (kind == NULL || owner == NULL) {
+    v2_overflow = TRUE;
+    return;
+  }
+
+  switch (target->kind) {
+  case VUT_UTYPE:
+  {
+    const struct unit_type *putype = target->value.utype;
+
+    shield_cost = utype_build_shield_cost(pcity, owner, putype);
+    shield_stock_after_change = city_change_production_penalty(pcity, target);
+    turns = city_turns_to_build(pcity, target, FALSE);
+    turns_with_stock = city_turns_to_build(pcity, target, TRUE);
+    output_type_iterate(output) {
+      upkeep[output] = utype_upkeep_cost(
+        putype, NULL, city_owner(pcity), output);
+    } output_type_iterate_end;
+    happy_cost = utype_happy_cost(putype, owner);
+    unit_attack = putype->attack_strength;
+    unit_defense = putype->defense_strength;
+    unit_move_rate = putype->move_rate;
+    unit_hp = putype->hp;
+    unit_firepower = putype->firepower;
+    unit_vision_radius_sq = putype->vision_radius_sq;
+    unit_transport_capacity = putype->transport_capacity;
+    unit_fuel = putype->fuel;
+    unit_pop_cost = putype->pop_cost;
+    unit_bombard_rate = putype->bombard_rate;
+    unit_city_size = putype->city_size;
+    unit_paradrop_range = putype->paratroopers_range;
+    break;
+  }
+  case VUT_IMPROVEMENT:
+  {
+    const struct impr_type *pimprove = target->value.building;
+
+    building_genus = impr_genus_id_name(pimprove->genus);
+    if (building_genus == NULL) {
+      v2_overflow = TRUE;
+      return;
+    }
+    building_convert = is_convert_improvement(pimprove) ? 1 : 0;
+    if (!building_convert) {
+      shield_cost = impr_build_shield_cost(pcity, pimprove);
+      shield_stock_after_change = city_change_production_penalty(
+        pcity, target);
+      turns = city_turns_to_build(pcity, target, FALSE);
+      turns_with_stock = city_turns_to_build(pcity, target, TRUE);
+    }
+    upkeep[O_GOLD] = city_improvement_upkeep(pcity, pimprove);
+    building_obsolete = improvement_obsolete(
+      owner, pimprove, pcity) ? 1 : 0;
+    building_redundant = is_improvement_redundant(
+      pcity, pimprove) ? 1 : 0;
+    building_allows_units = pimprove->allows_units ? 1 : 0;
+    building_allows_extras = pimprove->allows_extras ? 1 : 0;
+    building_prevents_disaster = pimprove->prevents_disaster ? 1 : 0;
+    building_protects_vs_actions = pimprove->protects_vs_actions ? 1 : 0;
+    building_allows_actions = pimprove->allows_actions ? 1 : 0;
+    break;
+  }
+  default:
+    v2_overflow = TRUE;
+    return;
+  }
+
+  v2_state_add_row(
+    FC_AGENT_V2_ROW_CITY_BUILD_CHOICE,
+    city_reference, kind, universal_number(target), target_name,
+    can_city_build_later(&wld.map, pcity, target) ? 1 : 0,
+    can_city_build_now(&wld.map, pcity, target, RPT_CERTAIN) ? 1 : 0,
+    shield_cost, shield_stock_after_change, turns, turns_with_stock,
+    upkeep[O_FOOD], upkeep[O_SHIELD], upkeep[O_TRADE], upkeep[O_GOLD],
+    upkeep[O_LUXURY], upkeep[O_SCIENCE], happy_cost,
+    unit_attack, unit_defense, unit_move_rate, unit_hp, unit_firepower,
+    unit_vision_radius_sq, unit_transport_capacity, unit_fuel,
+    unit_pop_cost, unit_bombard_rate, unit_city_size, unit_paradrop_range,
+    building_genus, building_obsolete, building_redundant,
+    building_convert, building_allows_units, building_allows_extras,
+    building_prevents_disaster, building_protects_vs_actions,
+    building_allows_actions);
 }
 
 static int v2_worklist_count(const struct worklist *worklist,
@@ -6036,6 +6910,71 @@ static void v2_build_chat_rows(void)
   }
 }
 
+static bool v2_chat_recipient_connected(const struct player *recipient)
+{
+  if (recipient == NULL) {
+    return FALSE;
+  }
+  conn_list_iterate(recipient->connections, connection) {
+    if (!connection->observer) {
+      return TRUE;
+    }
+  } conn_list_iterate_end;
+  return FALSE;
+}
+
+static bool v2_chat_recipient_name_safe(const struct player *recipient)
+{
+  const char *name;
+
+  if (recipient == NULL
+      || (name = player_name(recipient)) == NULL
+      || !fc_agent_v2_chat_message_safe(name)) {
+    return FALSE;
+  }
+  return name[0] != SERVER_COMMAND_PREFIX
+         && name[0] != CHAT_ALLIES_PREFIX
+         && name[0] != CHAT_DIRECT_PREFIX
+         && strchr(name, CHAT_DIRECT_PREFIX) == NULL;
+}
+
+static bool v2_chat_recipient_messageable(const struct player *recipient)
+{
+  return v2_chat_recipient_connected(recipient)
+         && v2_chat_recipient_name_safe(recipient);
+}
+
+static bool v2_add_chat_recipient_state_rows(void)
+{
+  const struct player *self = client_player();
+  bool emitted_self = FALSE;
+
+  if (self == NULL) {
+    return FALSE;
+  }
+  players_iterate(recipient) {
+    char reference[48];
+    char name_value[AGENT_V2_ROW_MAX];
+
+    if (recipient->client.lifecycle_id == 0
+        || strcmp(player_name(recipient), ANON_PLAYER_NAME) == 0) {
+      continue;
+    }
+    v2_entity_ref(AGENT_V2_ENTITY_PLAYER, player_number(recipient),
+                  reference, sizeof(reference));
+    if (!v2_encode_row_value(player_name(recipient), name_value,
+                             sizeof(name_value))) {
+      return FALSE;
+    }
+    v2_state_add_row(FC_AGENT_V2_ROW_CHAT_RECIPIENT,
+                     reference, name_value, recipient == self ? 1 : 0,
+                     v2_chat_recipient_connected(recipient) ? 1 : 0,
+                     v2_chat_recipient_messageable(recipient) ? 1 : 0);
+    emitted_self = emitted_self || recipient == self;
+  } players_iterate_end;
+  return emitted_self && !v2_overflow;
+}
+
 static void v2_collect_positive_tech_requirements(
   const struct requirement_vector *requirements, bv_techs *techs)
 {
@@ -6355,10 +7294,11 @@ static void v2_build_rows(
     }
     multipliers_re_active_iterate(pmul) {
       int id = multiplier_number(pmul);
-      int choices = v2_multiplier_choice_count(pmul);
+      uint64_t choices;
       char multiplier_name[AGENT_V2_ROW_MAX];
 
-      if (id < 0 || id >= MAX_NUM_MULTIPLIERS || choices < 1
+      if (id < 0 || id >= MAX_NUM_MULTIPLIERS
+          || !v2_multiplier_choice_count(pmul, &choices)
           || !v2_multiplier_value_valid(
                pmul, player_multiplier_value(self, pmul))
           || !v2_multiplier_value_valid(
@@ -6375,7 +7315,7 @@ static void v2_build_rows(
                    pmul->start, pmul->stop, pmul->step,
                    pmul->minimum_turns, self->multipliers[id].changed,
                    multiplier_can_be_changed(pmul, self) ? 1 : 0,
-                   choices);
+                   (unsigned long long) choices);
       }
     } multipliers_re_active_iterate_end;
     {
@@ -6919,6 +7859,7 @@ static void v2_build_pregame_rows(void)
              nation_value, sex, style_value, self->is_ready ? 1 : 0,
              nation_choices, style_count(), team_choices);
   v2_build_vote_rows(self);
+  v2_build_chat_rows();
 
   if (!self->is_ready) {
     if (v2_work_action_count >= AGENT_V2_MAX_ACTIONS) {
@@ -6979,6 +7920,8 @@ static void v2_build_pregame_rows(void)
     };
 
     v2_build_vote_actions(self, &buffer);
+    v2_build_communication_actions(self, &buffer);
+    v2_build_setting_vote_actions(self, &buffer);
     v2_work_action_count = buffer.count;
     if (buffer.overflow) {
       v2_overflow = TRUE;
@@ -7066,8 +8009,7 @@ static void v2_build_city_state_rows(const struct player *self)
         .value = { .building = pimprove }
       };
 
-      if (can_city_build_later(&wld.map, pcity, &target)
-          || v2_worklist_contains(&pcity->worklist, &target)) {
+      if (v2_city_build_choice_available(pcity, &target)) {
         build_choice_count++;
       }
       if (city_has_building(pcity, pimprove)) {
@@ -7080,8 +8022,7 @@ static void v2_build_city_state_rows(const struct player *self)
         .value = { .utype = putype }
       };
 
-      if (can_city_build_later(&wld.map, pcity, &target)
-          || v2_worklist_contains(&pcity->worklist, &target)) {
+      if (v2_city_build_choice_available(pcity, &target)) {
         build_choice_count++;
       }
       } unit_type_iterate_end;
@@ -7115,6 +8056,7 @@ static void v2_build_city_state_rows(const struct player *self)
                        city_can_change_build(pcity) ? 1 : 0,
                        citizen_tile_count, specialist_count(),
                        worklist_count, build_choice_count, improvement_count,
+                       city_num_trade_routes(pcity), max_trade_routes(pcity),
                        pcity->did_sell ? 1 : 0,
                        BV_ISSET(pcity->city_options, CITYO_DISBAND) ? 1 : 0,
                        new_citizens,
@@ -7188,6 +8130,109 @@ static void v2_build_city_state_rows(const struct player *self)
   } city_list_iterate_end;
 }
 
+static bool v2_build_unit_route_rows(const struct unit *punit,
+                                     const char *reference, bool emit,
+                                     int *order_index, int *step_count)
+{
+  const struct tile *cursor;
+  int *targets = NULL;
+  const char **kinds = NULL;
+  int start;
+  int count;
+
+  if (order_index == NULL || step_count == NULL) {
+    return FALSE;
+  }
+  *order_index = 0;
+  *step_count = 0;
+  if (punit == NULL || !punit->has_orders) {
+    return TRUE;
+  }
+  if (punit->orders.list == NULL || punit->orders.length < 1
+      || punit->orders.length >= MAX_LEN_ROUTE
+      || punit->orders.index < 0
+      || punit->orders.index > punit->orders.length
+      || (!punit->orders.repeat
+          && punit->orders.index >= punit->orders.length)) {
+    return FALSE;
+  }
+
+  start = punit->orders.repeat
+          ? punit->orders.index % punit->orders.length
+          : punit->orders.index;
+  count = punit->orders.repeat
+          ? punit->orders.length : punit->orders.length - start;
+  *order_index = start;
+  targets = fc_malloc(count * sizeof(*targets));
+  kinds = fc_malloc(count * sizeof(*kinds));
+  cursor = unit_tile(punit);
+  if (cursor == NULL) {
+    FC_FREE(targets);
+    FC_FREE(kinds);
+    return FALSE;
+  }
+
+  for (int sequence = 0; sequence < count; sequence++) {
+    int index = punit->orders.repeat
+                ? (start + sequence) % punit->orders.length
+                : start + sequence;
+    const struct unit_order *order = &punit->orders.list[index];
+
+    switch (order->order) {
+    case ORDER_MOVE:
+      kinds[sequence] = "move";
+      cursor = mapstep(&(wld.map), cursor, order->dir);
+      break;
+    case ORDER_ACTION_MOVE:
+      kinds[sequence] = "action_move";
+      cursor = mapstep(&(wld.map), cursor, order->dir);
+      break;
+    case ORDER_FULL_MP:
+      kinds[sequence] = "wait";
+      break;
+    case ORDER_ACTIVITY:
+    case ORDER_PERFORM_ACTION:
+    case ORDER_LAST:
+      FC_FREE(targets);
+      FC_FREE(kinds);
+      return TRUE;
+    }
+    if (cursor == NULL) {
+      FC_FREE(targets);
+      FC_FREE(kinds);
+      return FALSE;
+    }
+    targets[sequence] = tile_index(cursor);
+  }
+
+  *step_count = count;
+  if (emit) {
+    for (int sequence = 0; sequence < count; sequence++) {
+      v2_state_add_row(FC_AGENT_V2_ROW_UNIT_ROUTE_STEP,
+                       reference, sequence, kinds[sequence],
+                       targets[sequence]);
+    }
+  }
+  FC_FREE(targets);
+  FC_FREE(kinds);
+  return !v2_overflow;
+}
+
+static const char *v2_action_decision_name(enum action_decision want)
+{
+  switch (want) {
+  case ACT_DEC_NOTHING:
+    return "nothing";
+  case ACT_DEC_PASSIVE:
+    return "passive";
+  case ACT_DEC_ACTIVE:
+    return "active";
+  case ACT_DEC_COUNT:
+    break;
+  }
+  return NULL;
+}
+
 static void v2_build_unit_state_rows(const struct player *self)
 {
   unit_list_iterate(self->units, punit) {
@@ -7219,7 +8264,13 @@ static void v2_build_unit_state_rows(const struct player *self)
                                          punit->activity_target) : "none";
     const char *controller = v2_unit_controller_name(
       punit->ssa_controller);
+    const char *action_decision = v2_action_decision_name(
+      punit->action_decision_want);
+    int action_decision_tile = punit->action_decision_tile != NULL
+                               ? tile_index(punit->action_decision_tile) : -1;
     char orders_digest[32];
+    int route_order_index = 0;
+    int route_step_count = 0;
 
     fc_snprintf(
       orders_digest, sizeof(orders_digest), "fnv1a64-%016llx",
@@ -7228,6 +8279,11 @@ static void v2_build_unit_state_rows(const struct player *self)
 
     v2_entity_ref(AGENT_V2_ENTITY_UNIT, punit->id,
                   reference, sizeof(reference));
+    if (!v2_build_unit_route_rows(punit, reference, FALSE,
+                                  &route_order_index,
+                                  &route_step_count)) {
+      v2_overflow = TRUE;
+    }
     v2_entity_ref(AGENT_V2_ENTITY_PLAYER, player_number(self),
                   owner_reference, sizeof(owner_reference));
     if (punit->homecity != IDENTITY_NUMBER_ZERO) {
@@ -7251,7 +8307,10 @@ static void v2_build_unit_state_rows(const struct player *self)
       fc_strlcpy(transporter_reference, "none",
                  sizeof(transporter_reference));
     }
-    if (activity == NULL || controller == NULL || unit_type == NULL
+    if (activity == NULL || controller == NULL || action_decision == NULL
+        || !fc_agent_v2_action_decision_state_valid(
+             punit->action_decision_want, action_decision_tile)
+        || unit_type == NULL
         || veteran_level == NULL || transport_state_value == NULL) {
       v2_overflow = TRUE;
     } else if (v2_encode_row_value(utype_rule_name(unit_type),
@@ -7302,7 +8361,14 @@ static void v2_build_unit_state_rows(const struct player *self)
                        punit->has_orders ? punit->orders.length : 0,
                        orders_digest,
                        punit->has_orders && punit->goto_tile != NULL
-                         ? tile_index(punit->goto_tile) : -1);
+                         ? tile_index(punit->goto_tile) : -1,
+                       action_decision, action_decision_tile);
+      if (punit->has_orders) {
+        v2_state_add_row(FC_AGENT_V2_ROW_UNIT_ROUTE,
+                         reference, route_order_index,
+                         route_step_count > 0 ? 1 : 0,
+                         route_step_count);
+      }
     }
   } unit_list_iterate_end;
 
@@ -7517,11 +8583,13 @@ static bool v2_build_state_scope_rows(
   const char *section, const char *selector, bool capture)
 {
   struct city *pcity = NULL;
+  struct unit *punit = NULL;
   struct tile *center = NULL;
   struct player *counterpart = NULL;
   struct treaty *treaty = NULL;
   struct agent_v2_relation_state *relation = NULL;
   bool actor_target_tiles = FALSE;
+  struct tile *actor_action_decision_tile = NULL;
   size_t actor_action_count = 0;
   bool actor_action_overflow = FALSE;
   size_t parsed_center;
@@ -7544,7 +8612,13 @@ static bool v2_build_state_scope_rows(
     return v2_add_investigation_state_rows(selector);
   }
 
-  if (strcmp(section, "pregame_nations") == 0
+  if (strcmp(section, "chat_recipients") == 0) {
+    if ((client_state() != C_S_PREPARING
+         && client_state() != C_S_RUNNING)
+        || strcmp(selector, "-") != 0) {
+      return FALSE;
+    }
+  } else if (strcmp(section, "pregame_nations") == 0
       || strcmp(section, "pregame_styles") == 0
       || strcmp(section, "pregame_teams") == 0) {
     if (client_state() != C_S_PREPARING || strcmp(selector, "-") != 0) {
@@ -7607,6 +8681,31 @@ static bool v2_build_state_scope_rows(
       return FALSE;
     }
     actor_target_tiles = TRUE;
+  } else if (strcmp(section, "unit_route") == 0) {
+    enum agent_v2_entity_kind kind;
+    int unit_id;
+    uint64_t incarnation;
+
+    if (!v2_resolve_owned_actor(selector, &kind, &unit_id, &incarnation)
+        || kind != AGENT_V2_ENTITY_UNIT
+        || (punit = player_unit_by_number(client_player(), unit_id)) == NULL) {
+      return FALSE;
+    }
+  } else if (strcmp(section, "action_decision_tile") == 0) {
+    enum agent_v2_entity_kind kind;
+    int actor_id;
+    uint64_t incarnation;
+    struct unit *actor;
+
+    if (!v2_resolve_owned_actor(
+          selector, &kind, &actor_id, &incarnation)
+        || kind != AGENT_V2_ENTITY_UNIT
+        || (actor = player_unit_by_number(
+              client_player(), actor_id)) == NULL
+        || !v2_unit_action_decision_pending(actor)) {
+      return FALSE;
+    }
+    actor_action_decision_tile = actor->action_decision_tile;
   } else {
     enum agent_v2_entity_kind kind;
     int city_id;
@@ -7616,6 +8715,7 @@ static bool v2_build_state_scope_rows(
         && strcmp(section, "city_build_choices") != 0
         && strcmp(section, "city_worklist") != 0
         && strcmp(section, "city_improvements") != 0
+        && strcmp(section, "city_trade_routes") != 0
         && strcmp(section, "city_governor") != 0) {
       return FALSE;
     }
@@ -7659,6 +8759,9 @@ static bool v2_build_state_scope_rows(
   }
   if (strcmp(section, "pregame_teams") == 0) {
     return v2_add_pregame_team_state_rows();
+  }
+  if (strcmp(section, "chat_recipients") == 0) {
+    return v2_add_chat_recipient_state_rows();
   }
 
   if (strcmp(section, "known_tiles") == 0
@@ -7706,6 +8809,22 @@ static bool v2_build_state_scope_rows(
       }
     }
     return !v2_overflow;
+  }
+
+  if (actor_action_decision_tile != NULL) {
+    return v2_state_add_tile(actor_action_decision_tile, TRUE)
+           && !v2_overflow;
+  }
+
+  if (punit != NULL) {
+    char reference[48];
+    int order_index;
+    int step_count;
+
+    v2_entity_ref(AGENT_V2_ENTITY_UNIT, punit->id,
+                  reference, sizeof(reference));
+    return v2_build_unit_route_rows(punit, reference, TRUE,
+                                    &order_index, &step_count);
   }
 
   if (strcmp(section, "cities") == 0
@@ -7870,6 +8989,73 @@ static bool v2_build_state_scope_rows(
                          && can_city_sell_building(pcity, pimprove) ? 1 : 0,
                          impr_sell_gold(pimprove));
       } improvement_iterate_end;
+    } else if (strcmp(section, "city_trade_routes") == 0) {
+      int position = 0;
+
+      trade_routes_iterate(pcity, proute) {
+        const struct city *partner = game_city_by_number(proute->partner);
+        struct goods_type *goods = proute->goods;
+        const char *visibility = "unavailable";
+        const char *direction = NULL;
+        char partner_reference[48];
+        char partner_name[AGENT_V2_ROW_MAX];
+        char goods_name[AGENT_V2_ROW_MAX];
+        int64_t scaled_value;
+        int effective_value;
+
+        fc_strlcpy(partner_reference, "none", sizeof(partner_reference));
+        fc_strlcpy(partner_name, "unavailable", sizeof(partner_name));
+        if (partner != NULL && v2_city_site_known(partner)
+            && (city_owner(partner) == client_player()
+                || client_tile_get_known(city_tile(partner))
+                   == TILE_KNOWN_SEEN)) {
+          visibility = city_owner(partner) == client_player()
+                       ? "own" : "visible";
+          v2_entity_ref(AGENT_V2_ENTITY_CITY, partner->id,
+                        partner_reference, sizeof(partner_reference));
+          if (!v2_encode_row_value(city_name_get(partner), partner_name,
+                                   sizeof(partner_name))) {
+            v2_overflow = TRUE;
+            break;
+          }
+        }
+        switch (proute->dir) {
+        case RDIR_FROM:
+          direction = "from";
+          break;
+        case RDIR_TO:
+          direction = "to";
+          break;
+        case RDIR_BIDIRECTIONAL:
+          direction = "bidirectional";
+          break;
+        case RDIR_NONE:
+          break;
+        }
+        scaled_value = (int64_t) proute->value
+                       * (100 + get_city_bonus(
+                           pcity, EFT_TRADE_ROUTE_PCT));
+        if (goods == NULL || direction == NULL || proute->value < 0
+            || goods_number(goods) < 0
+            || goods_number(goods) >= game.control.num_goods_types
+            || scaled_value < 0
+            || scaled_value / 100 > INT_MAX
+            || !v2_encode_row_value(goods_rule_name(goods), goods_name,
+                                    sizeof(goods_name))) {
+          v2_overflow = TRUE;
+          break;
+        }
+        effective_value = (int) (scaled_value / 100);
+        v2_state_add_row(
+          FC_AGENT_V2_ROW_CITY_TRADE_ROUTE,
+          reference, position, partner_reference, visibility, partner_name,
+          proute->value, effective_value, direction, goods_number(goods),
+          goods_name);
+        position++;
+      } trade_routes_iterate_end;
+      if (position != city_num_trade_routes(pcity)) {
+        v2_overflow = TRUE;
+      }
     } else {
       improvement_iterate(pimprove) {
         struct universal target = {
@@ -7878,17 +9064,11 @@ static bool v2_build_state_scope_rows(
         };
         char target_name[AGENT_V2_ROW_MAX];
 
-        if ((can_city_build_later(&wld.map, pcity, &target)
-             || v2_worklist_contains(&pcity->worklist, &target))
+        if (v2_city_build_choice_available(pcity, &target)
             && v2_encode_row_value(universal_rule_name(&target),
                                    target_name, sizeof(target_name))) {
-          v2_state_add_row(FC_AGENT_V2_ROW_CITY_BUILD_CHOICE,
-                           reference, "improvement",
-                           improvement_number(pimprove), target_name,
-                           can_city_build_later(&wld.map, pcity, &target)
-                             ? 1 : 0,
-                           can_city_build_now(&wld.map, pcity, &target,
-                                              RPT_CERTAIN) ? 1 : 0);
+          v2_add_city_build_choice_row(
+            pcity, reference, &target, target_name);
         }
       } improvement_iterate_end;
       unit_type_iterate(putype) {
@@ -7898,17 +9078,11 @@ static bool v2_build_state_scope_rows(
         };
         char target_name[AGENT_V2_ROW_MAX];
 
-        if ((can_city_build_later(&wld.map, pcity, &target)
-             || v2_worklist_contains(&pcity->worklist, &target))
+        if (v2_city_build_choice_available(pcity, &target)
             && v2_encode_row_value(universal_rule_name(&target),
                                    target_name, sizeof(target_name))) {
-          v2_state_add_row(FC_AGENT_V2_ROW_CITY_BUILD_CHOICE,
-                           reference, "unit", utype_number(putype),
-                           target_name,
-                           can_city_build_later(&wld.map, pcity, &target)
-                             ? 1 : 0,
-                           can_city_build_now(&wld.map, pcity, &target,
-                                              RPT_CERTAIN) ? 1 : 0);
+          v2_add_city_build_choice_row(
+            pcity, reference, &target, target_name);
         }
       } unit_type_iterate_end;
     }
@@ -7935,10 +9109,13 @@ static bool v2_hash_state_catalogs(uint64_t *hash)
 {
   static const char *city_sections[] = {
     "city_citizens", "city_build_choices", "city_worklist",
-    "city_improvements", "city_governor"
+    "city_improvements", "city_trade_routes", "city_governor"
   };
   struct player *self = client_player();
 
+  if (!v2_hash_state_catalog(hash, "chat_recipients", "-")) {
+    return FALSE;
+  }
   if (client_state() == C_S_PREPARING) {
     return v2_hash_state_catalog(hash, "pregame_nations", "-")
            && v2_hash_state_catalog(hash, "pregame_styles", "-")
@@ -7986,6 +9163,8 @@ static bool v2_action_equal(const struct agent_v2_action *a,
          && a->source_unit_tile == b->source_unit_tile
          && a->source_unit_moves == b->source_unit_moves
          && a->source_unit_paradropped == b->source_unit_paradropped
+         && a->action_decision_want == b->action_decision_want
+         && a->clears_action_decision == b->clears_action_decision
          && a->special_target_known_seen == b->special_target_known_seen
          && a->special_target_city_id == b->special_target_city_id
          && a->special_target_city_incarnation
@@ -8037,6 +9216,12 @@ static bool v2_action_equal(const struct agent_v2_action *a,
          && a->target_stack_signature == b->target_stack_signature
          && a->vote_no == b->vote_no
          && a->vote_signature == b->vote_signature
+         && a->server_setting_id == b->server_setting_id
+         && a->server_setting_type == b->server_setting_type
+         && a->server_setting_min == b->server_setting_min
+         && a->server_setting_max == b->server_setting_max
+         && a->server_setting_value == b->server_setting_value
+         && a->server_setting_signature == b->server_setting_signature
          && a->target_government == b->target_government
          && a->target_build_kind == b->target_build_kind
          && a->target_build_id == b->target_build_id
@@ -8229,6 +9414,12 @@ static const char *v2_action_kind_name(enum agent_v2_action_kind kind)
     return "pregame.set_ready";
   case AGENT_V2_ACTION_PLAYER_CAST_VOTE:
     return "player.cast_vote";
+  case AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING:
+    return "player.propose_server_setting";
+  case AGENT_V2_ACTION_PLAYER_CANCEL_VOTE:
+    return "player.cancel_vote";
+  case AGENT_V2_ACTION_PLAYER_SURRENDER:
+    return "player.surrender";
   case AGENT_V2_ACTION_PHASE_END:
     return "phase.end";
   case AGENT_V2_ACTION_MOVE:
@@ -8331,6 +9522,8 @@ static const char *v2_action_kind_name(enum agent_v2_action_kind kind)
     return "unit.cancel_automation";
   case AGENT_V2_ACTION_UNIT_CANCEL_ORDERS:
     return "unit.cancel_orders";
+  case AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION:
+    return "unit.clear_action_decision";
   case AGENT_V2_ACTION_UNIT_GOTO:
     return "unit.goto";
   case AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM:
@@ -8339,6 +9532,8 @@ static const char *v2_action_kind_name(enum agent_v2_action_kind kind)
     return "unit.connect_route";
   case AGENT_V2_ACTION_UNIT_SET_ROUTE:
     return "unit.set_route";
+  case AGENT_V2_ACTION_UNIT_ATTACK_ROUTE:
+    return "unit.attack_route";
   case AGENT_V2_ACTION_UNIT_SPECIAL:
     return "unit.special";
   case AGENT_V2_ACTION_PLAYER_PLACE_INFRA:
@@ -8393,6 +9588,85 @@ static const char *v2_probability_kind_name(
   return "invalid";
 }
 
+/* Stable wire names for Freeciv's complex-action metadata.  These are
+ * deliberately independent of translated UI labels and enum ordinals. */
+static const char *v2_action_subtarget_kind_name(
+  enum action_sub_target_kind kind)
+{
+  switch (kind) {
+  case ASTK_NONE:
+    return "none";
+  case ASTK_BUILDING:
+    return "building";
+  case ASTK_TECH:
+    return "technology";
+  case ASTK_EXTRA:
+    return "extra";
+  case ASTK_EXTRA_NOT_THERE:
+    return "extra_not_there";
+  case ASTK_SPECIALIST:
+    return "specialist";
+  case ASTK_COUNT:
+    break;
+  }
+  return NULL;
+}
+
+static const char *v2_action_subresult_name(enum action_sub_result result)
+{
+  switch (result) {
+  case ACT_SUB_RES_HUT_ENTER:
+    return "hut_enter";
+  case ACT_SUB_RES_HUT_FRIGHTEN:
+    return "hut_frighten";
+  case ACT_SUB_RES_MAY_EMBARK:
+    return "may_embark";
+  case ACT_SUB_RES_NON_LETHAL:
+    return "non_lethal";
+  case ACT_SUB_RES_COUNT:
+    break;
+  }
+  return NULL;
+}
+
+static bool v2_format_action_subresults(const struct action *native,
+                                        char *text, size_t text_size)
+{
+  size_t used = 0;
+  int subresult;
+
+  if (text == NULL || text_size == 0) {
+    return FALSE;
+  }
+  if (native == NULL) {
+    fc_strlcpy(text, "none", text_size);
+    return TRUE;
+  }
+  text[0] = '\0';
+  for (subresult = 0; subresult < ACT_SUB_RES_COUNT; subresult++) {
+    const char *name;
+    int length;
+
+    if (!BV_ISSET(native->sub_results, subresult)) {
+      continue;
+    }
+    name = v2_action_subresult_name(subresult);
+    if (name == NULL) {
+      return FALSE;
+    }
+    length = fc_snprintf(text + used, text_size - used, "%s%s",
+                         used > 0 ? "," : "", name);
+    if (length < 0 || (size_t) length >= text_size - used) {
+      return FALSE;
+    }
+    used += (size_t) length;
+  }
+  if (used == 0) {
+    fc_strlcpy(text, "none", text_size);
+  }
+  return TRUE;
+}
+
 static bool v2_format_action_row(const struct agent_v2_action *action,
                                  struct agent_v2_row *row)
 {
@@ -8404,9 +9678,14 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
   const char *build_kind = v2_build_kind_name(action->target_build_kind);
   const char *spaceship_part = "none";
   const char *activity = v2_worker_activity_name(action->target_activity);
+  const char *subtarget_kind = native != NULL
+                               ? v2_action_subtarget_kind_name(
+                                   action_get_sub_target_kind(native))
+                               : "none";
   const char *target_name = "none";
   const char *clause_name = "none";
   const char *argument_contract = "none";
+  const char *setting_type = "none";
   bool consuming = native != NULL && native->actor_consuming_always;
   const char *legality = action->probability_kind
                          == AGENT_V2_PROBABILITY_NOT_IMPLEMENTED
@@ -8427,11 +9706,14 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
   char build_kind_value[AGENT_V2_ROW_MAX];
   char spaceship_part_value[AGENT_V2_ROW_MAX];
   char activity_value[AGENT_V2_ROW_MAX];
+  char subresults_value[96];
   char target_name_value[AGENT_V2_ROW_MAX];
+  char setting_type_value[32];
   char source_city[48];
   char destination_city[48];
   char target_unit[48];
   char transport_context[48];
+  int setting_current = -1;
   int length;
 
   if (action->kind == AGENT_V2_ACTION_PREGAME_CONFIGURE) {
@@ -8485,6 +9767,70 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     result_name = "Vote Recorded";
     target_name = "vote";
     argument_contract = "vote-required";
+    consuming = FALSE;
+  } else if (action->kind == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING) {
+    struct option *option = optset_option_by_number(
+      server_optset, action->server_setting_id);
+
+    if (native != NULL || action->player_id < 0 || option == NULL
+        || action->server_setting_type != option_type(option)) {
+      return FALSE;
+    }
+    target_kind = "Server Setting Vote";
+    result_name = "Vote Proposed Or Setting Applied";
+    target_name = option_name(option);
+    consuming = FALSE;
+    switch ((enum option_type) action->server_setting_type) {
+    case OT_BOOLEAN:
+      native_rule = "player.propose_server_setting_boolean";
+      setting_type = "boolean";
+      setting_current = option_bool_get(option) ? 1 : 0;
+      argument_contract = "none";
+      break;
+    case OT_INTEGER:
+      native_rule = "player.propose_server_setting_integer";
+      setting_type = "integer";
+      setting_current = option_int_get(option);
+      argument_contract = "server-setting-integer-required";
+      break;
+    case OT_STRING:
+      native_rule = "player.propose_server_setting_string";
+      setting_type = "string";
+      argument_contract = "server-setting-string-required";
+      break;
+    case OT_ENUM:
+      native_rule = "player.propose_server_setting_enum";
+      setting_type = "enum";
+      setting_current = option_enum_get_int(option);
+      argument_contract = "none";
+      break;
+    case OT_BITWISE:
+      native_rule = "player.propose_server_setting_bitwise";
+      setting_type = "bitwise";
+      setting_current = (int) MIN(option_bitwise_get(option),
+                                  (unsigned) INT_MAX);
+      argument_contract = "server-setting-bitwise-required";
+      break;
+    default:
+      return FALSE;
+    }
+  } else if (action->kind == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE) {
+    if (native != NULL || action->player_id < 0 || action->vote_no < 0) {
+      return FALSE;
+    }
+    native_rule = "player.cancel_vote";
+    target_kind = "Vote";
+    result_name = "Vote Cancelled";
+    target_name = "own vote";
+    consuming = FALSE;
+  } else if (action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER) {
+    if (native != NULL || action->player_id < 0) {
+      return FALSE;
+    }
+    native_rule = "player.surrender";
+    target_kind = "Player";
+    result_name = "Surrender Recorded";
+    target_name = "self";
     consuming = FALSE;
   } else if (action->kind >= AGENT_V2_ACTION_DIPLOMACY_OPEN_MEETING
       && action->kind
@@ -8599,6 +9945,18 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     target_name = remove ? "standing task"
                   : task_extra != NULL ? extra_rule_name(task_extra) : activity;
     consuming = FALSE;
+  } else if (action->kind
+               == AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION) {
+    if (native != NULL || action->unit_id < 0 || action->target_tile < 0
+        || !action->clears_action_decision
+        || action->action_decision_want == ACT_DEC_NOTHING) {
+      return FALSE;
+    }
+    native_rule = "unit.clear_action_decision";
+    target_kind = "Action Decision";
+    result_name = "Action Decision Cleared";
+    target_name = v2_action_decision_name(action->action_decision_want);
+    consuming = FALSE;
   } else if (action->kind == AGENT_V2_ACTION_UNIT_GOTO) {
     if (native != NULL || action->source_unit_tile < 0
         || action->target_tile < 0 || action->goto_order_count < 1
@@ -8663,6 +10021,18 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     target_name = "route";
     argument_contract = "route-required";
     consuming = FALSE;
+  } else if (action->kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE) {
+    if (native != NULL || action->unit_id < 0
+        || action->target_tile != -1
+        || action->route_waypoint_limit != 0) {
+      return FALSE;
+    }
+    native_rule = "unit.attack_route";
+    target_kind = "Attack Route";
+    result_name = "Orders Queued";
+    target_name = "destination";
+    argument_contract = "attack-route-required";
+    consuming = FALSE;
   } else if (action->kind == AGENT_V2_ACTION_UNIT_SPECIAL) {
     const struct extra_type *target_extra =
       action->target_extra != EXTRA_NONE
@@ -8681,9 +10051,10 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
         || action->gold_cost < -1) {
       return FALSE;
     }
-    if (native->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY) {
+    if (v2_targeted_building_action(native)) {
       if (target_improvement == NULL || target_city == NULL
-          || target_improvement->sabotage <= 0
+          || (native->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY
+              && target_improvement->sabotage <= 0)
           || action->target_building_catalog_request_id <= 0
           || action->target_building_catalog_revision != v2_revision
           || action->target_building_catalog_digest == 0) {
@@ -8698,18 +10069,20 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     }
     native_rule = action_id_rule_name(action->action);
     target_kind = action_target_kind_name(native->target_kind);
-    result_name = action_result_name(native->result);
+    result_name = native->result == ACTRES_NONE
+                  ? "Ruleset Custom" : action_result_name(native->result);
     target_name = target_extra != NULL
                   ? extra_rule_name(target_extra)
-                  : native->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY
+                  : v2_targeted_building_action(native)
                     && target_improvement != NULL && target_city != NULL
                     ? city_improvement_name_translation(
                         target_city, target_improvement)
-                  : action->target_tech >= A_FIRST
-                    && action->target_tech < A_LAST
+                  : native->result == ACTRES_NONE
+                    ? action_id_name_translation(action->action)
+                  : (valid_advance_by_number(action->target_tech) != NULL
+                     || action->target_tech == A_FUTURE)
                     && self_research != NULL
-                    ? research_advance_name_translation(
-                        self_research, action->target_tech)
+                    ? v2_research_choice_name(action->target_tech)
                     : "target";
   } else if (action->kind == AGENT_V2_ACTION_PLAYER_PLACE_INFRA) {
     if (native != NULL || action->player_id < 0
@@ -8761,14 +10134,14 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
                                   ? player_city_by_number(
                                       self, action->source_city_id) : NULL;
       const struct city *destination = self != NULL
-                                       ? player_city_by_number(
-                                           self,
+                                       ? game_city_by_number(
                                            action->destination_city_id) : NULL;
 
       expected_result = ACTRES_AIRLIFT;
       expected_target = ATK_CITY;
       if (action->action != ACTION_AIRLIFT || source == NULL
-          || destination == NULL || source == destination
+          || !v2_city_site_known(destination)
+          || source == destination
           || action->target_tile != -1) {
         return FALSE;
       }
@@ -9022,14 +10395,14 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
         action->target_multiplier);
 
       if (pmul == NULL || pmul->ruledit_disabled
-          || !v2_multiplier_value_valid(pmul,
-                                        action->multiplier_value)) {
+          || action->multiplier_value != -1) {
         return FALSE;
       }
       native_rule = "player.set_multiplier";
       target_kind = "Multiplier";
       result_name = "Multiplier Target Changed";
       target_name = multiplier_rule_name(pmul);
+      argument_contract = "multiplier-value-required";
       break;
     }
     case AGENT_V2_ACTION_SPACESHIP_PLACE:
@@ -9257,7 +10630,12 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     case CLAUSE_CITY: {
       const struct city *city = game_city_by_number(action->clause_value);
 
-      clause_name = city != NULL ? city_name_get(city) : "Unavailable";
+      /* A removal descriptor must remain usable after the city falls out of
+       * this seat's visible city-site catalog.  The treaty key is sufficient
+       * to remove the clause; exporting the hidden city's identity or name is
+       * neither necessary nor privacy-safe. */
+      clause_name = city != NULL && action->source_city_id >= 0
+                    ? city_name_get(city) : "unavailable";
       break;
     }
     default:
@@ -9272,6 +10650,9 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
                               sizeof(result_value))
       || build_kind == NULL
       || activity == NULL
+      || subtarget_kind == NULL
+      || !v2_format_action_subresults(
+           native, subresults_value, sizeof(subresults_value))
       || !v2_encode_row_value(build_kind, build_kind_value,
                               sizeof(build_kind_value))
       || !v2_encode_row_value(spaceship_part, spaceship_part_value,
@@ -9280,6 +10661,8 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
                               sizeof(activity_value))
       || !v2_encode_row_value(target_name, target_name_value,
                               sizeof(target_name_value))
+      || !v2_encode_row_value(setting_type, setting_type_value,
+                              sizeof(setting_type_value))
       || !v2_encode_row_value(
            clause_type_is_valid(action->clause_type)
              ? clause_type_name(action->clause_type) : "none",
@@ -9303,7 +10686,10 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     action->desired_acceptance,
     action->target_tile, source_city, destination_city,
     target_unit, transport_context,
-    action->target_tech, action->vote_no, action->target_government,
+    action->target_tech, action->vote_no, action->server_setting_id,
+    setting_type_value, action->server_setting_min,
+    action->server_setting_max,
+    setting_current, action->server_setting_value, action->target_government,
     action->max_rate,
     action->route_waypoint_limit,
     action->infrastructure_cost, action->infrastructure_turns,
@@ -9312,7 +10698,8 @@ static bool v2_format_action_row(const struct agent_v2_action *action,
     spaceship_part_value, action->spaceship_value,
     action->target_multiplier, action->multiplier_value,
     action->source_specialist, action->target_specialist,
-    action->target_extra, activity_value, target_name_value,
+    action->target_extra, subtarget_kind, subresults_value,
+    activity_value, target_name_value,
     rule_value, target_value, result_value, consuming ? 1 : 0, legality,
     v2_probability_kind_name(action->probability_kind),
     action->probability_min, action->probability_max, action->gold_cost,
@@ -9385,6 +10772,112 @@ static bool v2_parse_size(const char *text, size_t *value)
   }
   *value = (size_t) parsed;
   return (unsigned long) *value == parsed;
+}
+
+static bool v2_parse_canonical_int(const char *text, int *value)
+{
+  char canonical[32];
+  char *end = NULL;
+  long parsed;
+
+  if (text == NULL || value == NULL || text[0] == '\0') {
+    return FALSE;
+  }
+  errno = 0;
+  parsed = strtol(text, &end, 10);
+  if (errno != 0 || end == text || *end != '\0'
+      || parsed < INT_MIN || parsed > INT_MAX) {
+    return FALSE;
+  }
+  fc_snprintf(canonical, sizeof(canonical), "%ld", parsed);
+  if (strcmp(text, canonical) != 0) {
+    return FALSE;
+  }
+  *value = (int) parsed;
+  return TRUE;
+}
+
+static bool v2_setting_string_safe(const char *value)
+{
+  const unsigned char *cursor;
+
+  if (value == NULL || strlen(value) >= MAX_LEN_MSG) {
+    return FALSE;
+  }
+  for (cursor = (const unsigned char *) value; *cursor != '\0'; cursor++) {
+    if (*cursor < 0x20 || *cursor == 0x7f || *cursor == '"'
+        || (*cursor == 0xc2 && cursor[1] >= 0x80
+            && cursor[1] <= 0x9f)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+static bool v2_parse_server_setting_argument(
+  const struct agent_v2_action *action, const char *text,
+  int *integer_value, char *string_value, size_t string_size)
+{
+  struct option *option;
+
+  if (action == NULL || text == NULL || integer_value == NULL
+      || string_value == NULL || string_size < MAX_LEN_MSG
+      || !v2_setting_action_still_legal(client_player(), action)
+      || (option = optset_option_by_number(
+            server_optset, action->server_setting_id)) == NULL) {
+    return FALSE;
+  }
+  *integer_value = -1;
+  string_value[0] = '\0';
+  switch ((enum option_type) action->server_setting_type) {
+  case OT_BOOLEAN:
+  case OT_ENUM:
+    if (strcmp(text, "-") != 0) {
+      return FALSE;
+    }
+    *integer_value = action->server_setting_value;
+    return TRUE;
+  case OT_INTEGER:
+    if (strncmp(text, "value=", 6) != 0
+        || !v2_parse_canonical_int(text + 6, integer_value)
+        || *integer_value < action->server_setting_min
+        || *integer_value > action->server_setting_max
+        || *integer_value == option_int_get(option)) {
+      return FALSE;
+    }
+    return TRUE;
+  case OT_STRING: {
+    char canonical[MAX_LEN_MSG * 3 + 1];
+
+    if (strncmp(text, "value=", 6) != 0
+        || !fc_agent_v2_percent_decode(
+             text + 6, string_value, string_size)
+        || !v2_setting_string_safe(string_value)
+        || strlen(string_value) > (size_t) action->server_setting_max
+        || !fc_agent_v2_percent_encode(
+             string_value, canonical, sizeof(canonical))
+        || strcmp(text + 6, canonical) != 0
+        || strcmp(string_value, option_str_get(option)) == 0) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+  case OT_BITWISE: {
+    size_t parsed;
+
+    if (strncmp(text, "value=", 6) != 0
+        || !v2_parse_size(text + 6, &parsed)
+        || parsed > (size_t) action->server_setting_max
+        || parsed > UINT_MAX
+        || (unsigned) parsed == option_bitwise_get(option)) {
+      return FALSE;
+    }
+    *integer_value = (int) parsed;
+    return TRUE;
+  }
+  default:
+    return FALSE;
+  }
 }
 
 static bool v2_parse_revision(const char *text, uint64_t *value)
@@ -9588,6 +11081,7 @@ static void v2_build_relation_clause_candidates(
     struct player *receiver = giver == self ? other : self;
     const struct research *giver_research = research_get(giver);
     const struct research *receiver_research = research_get(receiver);
+    bool team_embassy = team_has_embassy(giver->team, receiver);
 
     for (type_index = 0; type_index < ARRAY_SIZE(directional);
          type_index++) {
@@ -9616,9 +11110,10 @@ static void v2_build_relation_clause_candidates(
         Tech_type_id tech = advance_number(advance);
 
         if (research_invention_state(giver_research, tech) == TECH_KNOWN
-            && research_invention_gettable(
-                 receiver_research, tech,
-                 game.info.tech_trade_allow_holes)
+            && (!team_embassy
+                || research_invention_gettable(
+                     receiver_research, tech,
+                     game.info.tech_trade_allow_holes))
             && (research_invention_state(receiver_research, tech)
                   == TECH_UNKNOWN
                 || research_invention_state(receiver_research, tech)
@@ -9720,6 +11215,8 @@ static bool v2_build_relation_scope(
       struct player *giver = clause->from;
       const struct city *city = clause->type == CLAUSE_CITY
                                 ? game_city_by_number(clause->value) : NULL;
+      const struct city *known_city = city != NULL && v2_city_site_known(city)
+                                      ? city : NULL;
 
       if (giver == NULL || !clause_type_is_valid(clause->type)) {
         buffer.overflow = TRUE;
@@ -9729,7 +11226,7 @@ static bool v2_build_relation_scope(
         &buffer, AGENT_V2_ACTION_DIPLOMACY_REMOVE_CLAUSE,
         self, other, relation->meeting_generation, clauses_digest,
         self_accepted, other_accepted, giver, clause->type,
-        clause->value, city, -1);
+        clause->value, known_city, -1);
     } clause_list_iterate_end;
     if (!buffer.overflow) {
       v2_build_relation_clause_candidates(
@@ -9824,9 +11321,13 @@ static bool v2_build_actor_scope(
         player_unit_by_number(self, id), &buffer);
       v2_build_unit_cancel_orders_action(
         player_unit_by_number(self, id), &buffer);
+      v2_build_unit_clear_action_decision_action(
+        player_unit_by_number(self, id), &buffer);
       v2_build_unit_goto_actions(
         player_unit_by_number(self, id), &buffer);
       v2_build_unit_set_route_action(
+        player_unit_by_number(self, id), &buffer);
+      v2_build_unit_attack_route_action(
         player_unit_by_number(self, id), &buffer);
       v2_build_self_unit_actions(player_unit_by_number(self, id), &buffer);
       v2_build_city_target_unit_actions(
@@ -10457,7 +11958,8 @@ static void v2_target_query_desynchronize(const char *detail)
   v2_target_query_desynchronized = TRUE;
 }
 
-static void v2_invalidate_seat_epoch(const char *reason)
+static void v2_invalidate_seat_epoch(
+  const char *reason, bool preserve_vote_history)
 {
   bool had_pending = v2_pending.active;
   enum fc_agent_v2_terminal_result terminal
@@ -10506,6 +12008,13 @@ static void v2_invalidate_seat_epoch(const char *reason)
   v2_chat_history_start = 0;
   v2_chat_history_count = 0;
   v2_chat_sequence = 0;
+  v2_surrendered = FALSE;
+  if (!preserve_vote_history) {
+    memset(v2_vote_history, 0, sizeof(v2_vote_history));
+    v2_vote_history_start = 0;
+    v2_vote_history_count = 0;
+  }
+  memset(v2_vote_confirmations, 0, sizeof(v2_vote_confirmations));
   v2_seat_epoch++;
   v2_revision++;
   if (v2_revision == 0) {
@@ -10618,19 +12127,32 @@ static bool v2_sync_seat_epoch(void)
                                            &current);
 
   if (changed) {
+    bool same_pinned_pregame_transition =
+      v2_seat_client_state == C_S_PREPARING
+      && client_state() == C_S_RUNNING
+      && seat != NULL && v2_seat_player == seat
+      && v2_seat_player_number == number;
+
     if (v2_pending.active
         && v2_pending.action.kind == AGENT_V2_ACTION_PREGAME_SET_READY
         && v2_pending.action.desired_acceptance == 1
-        && v2_seat_client_state == C_S_PREPARING
-        && client_state() == C_S_RUNNING
-        && seat != NULL && v2_seat_player == seat
-        && v2_seat_player_number == number) {
+        && same_pinned_pregame_transition) {
       /* The last ready packet starts the game before its pregame echo can be
        * observed. The exact same pinned seat entering RUNNING is the native
        * postcondition, so preserve an applied receipt across epoch rotation. */
       v2_pending.terminal = FC_AGENT_V2_TERMINAL_APPLIED;
+    } else if (v2_pending.active
+               && v2_pending.action.kind
+                  == AGENT_V2_ACTION_PLAYER_CAST_VOTE
+               && v2_pending.vote_recorded_latched
+               && same_pinned_pregame_transition) {
+      /* A decisive pregame ballot may start the game after its exact
+       * request-correlated UPDATE but before PROCESSING_FINISHED reaches the
+       * old cache epoch.  The accepted ballot remains authoritative. */
+      v2_pending.terminal = FC_AGENT_V2_TERMINAL_APPLIED;
     }
-    v2_invalidate_seat_epoch("SEAT_EPOCH_CHANGED");
+    v2_invalidate_seat_epoch(
+      "SEAT_EPOCH_CHANGED", same_pinned_pregame_transition);
   }
   v2_seat_known = TRUE;
   v2_seat_authorized = authorized;
@@ -11262,6 +12784,7 @@ static void v2_action_processing_finished(void *data)
 {
   const struct agent_v2_callback_token *token = data;
   bool seat_epoch_current;
+  bool exact_request_boundaries;
   bool postcondition_met;
 
   if (v2_pending.finished_token == token) {
@@ -11273,14 +12796,33 @@ static void v2_action_processing_finished(void *data)
   }
   seat_epoch_current = v2_pending.seat_epoch == v2_seat_epoch
                        && v2_exact_seat_epoch_current();
-  postcondition_met = seat_epoch_current
-                      && v2_pending.processing_started
-                      && v2_pending.baseline_captured
-                      && v2_pending.last_processing_started
-                      && (v2_pending.request_count == 1
-                          || v2_pending.first_processing_finished)
+  exact_request_boundaries = v2_pending.processing_started
+                             && v2_pending.baseline_captured
+                             && v2_pending.last_processing_started
+                             && (v2_pending.request_count == 1
+                                 || v2_pending.first_processing_finished);
+  postcondition_met = seat_epoch_current && exact_request_boundaries
                       && v2_action_postcondition();
   if (v2_pending.action.kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE) {
+    /* Ballot recording is complete once the exact request-correlated UPDATE
+     * arrived inside exact processing boundaries.  The command accepted by
+     * that ballot may immediately start/end the game or otherwise rotate the
+     * seat epoch before FINISHED; that must not erase the accepted ballot. */
+    v2_pending.terminal = exact_request_boundaries
+                          && v2_pending.vote_recorded_latched
+                          ? FC_AGENT_V2_TERMINAL_APPLIED
+                          : FC_AGENT_V2_TERMINAL_PROCESSING_BOUNDARY_MISMATCH;
+    return;
+  } else if (v2_pending.action.kind
+               == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+             || v2_pending.action.kind
+                == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+             || v2_pending.action.kind
+                == AGENT_V2_ACTION_PLAYER_SURRENDER) {
+    if (postcondition_met
+        && v2_pending.action.kind == AGENT_V2_ACTION_PLAYER_SURRENDER) {
+      v2_surrendered = TRUE;
+    }
     v2_pending.terminal = postcondition_met
                           ? FC_AGENT_V2_TERMINAL_APPLIED
                           : FC_AGENT_V2_TERMINAL_PROCESSING_BOUNDARY_MISMATCH;
@@ -11319,7 +12861,8 @@ static void v2_action_processing_finished(void *data)
       || v2_pending.action.kind == AGENT_V2_ACTION_UNIT_GOTO
       || v2_pending.action.kind == AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM
       || v2_pending.action.kind == AGENT_V2_ACTION_UNIT_CONNECT_ROUTE
-      || v2_pending.action.kind == AGENT_V2_ACTION_UNIT_SET_ROUTE) {
+      || v2_pending.action.kind == AGENT_V2_ACTION_UNIT_SET_ROUTE
+      || v2_pending.action.kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE) {
     /* Either normal client request may already have changed the route.
      * Anything short of both exact boundaries and the command's exact route
      * postcondition is therefore ambiguous, never a clean rejection. */
@@ -11389,6 +12932,58 @@ static void v2_action_processing_finished(void *data)
     postcondition_met);
 }
 
+static void v2_vote_observer(
+  enum packhand_vote_stage stage, const struct voteinfo *vote,
+  int request_id, void *data)
+{
+  bool seat_current;
+  bool pending_same_epoch;
+
+  (void) data;
+  if (vote == NULL || vote->vote_no < 0) {
+    return;
+  }
+  seat_current = v2_exact_seat_epoch_current();
+  pending_same_epoch = v2_pending.seat_epoch == v2_seat_epoch
+                       && seat_current;
+  if (stage == PACKHAND_VOTE_NEW) {
+    if (!v2_set_confirmed_vote(vote->vote_no, CVT_NONE)) {
+      v2_overflow = TRUE;
+    }
+    return;
+  }
+  if (stage == PACKHAND_VOTE_UPDATE
+      && fc_agent_v2_vote_update_matches(
+        v2_pending.active, v2_pending.processing_started,
+        v2_pending.baseline_captured, pending_same_epoch,
+        v2_pending.action.kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE,
+        request_id, v2_pending.request_id,
+        vote->vote_no, v2_pending.action.vote_no)) {
+    if (v2_set_confirmed_vote(
+          vote->vote_no, v2_pending.desired_client_vote)) {
+      v2_pending.vote_recorded_latched = TRUE;
+    } else {
+      v2_pending.terminal =
+        FC_AGENT_V2_TERMINAL_PROCESSING_BOUNDARY_MISMATCH;
+    }
+  }
+  if (!v2_seat_authorized || !seat_current) {
+    return;
+  }
+  if (stage == PACKHAND_VOTE_RESOLVE) {
+    v2_record_vote_outcome(
+      vote, vote->passed ? AGENT_V2_VOTE_PASSED : AGENT_V2_VOTE_FAILED);
+  } else if (stage == PACKHAND_VOTE_REMOVE) {
+    if (vote->resolved) {
+      v2_record_vote_outcome(
+        vote, vote->passed ? AGENT_V2_VOTE_PASSED : AGENT_V2_VOTE_FAILED);
+    } else {
+      v2_record_vote_outcome(vote, AGENT_V2_VOTE_REMOVED);
+    }
+    v2_clear_confirmed_vote(vote->vote_no);
+  }
+}
+
 static void v2_worker_task_observer(
   const struct packet_worker_task *packet, const struct city *pcity,
   int request_id, void *data)
@@ -11455,6 +13050,7 @@ static void v2_full_unit_info_observer(const struct unit *punit,
   struct player *self;
   uint64_t incarnation;
   const struct action *native;
+  int action_decision_tile;
 
   (void) data;
   if (punit == NULL) {
@@ -11463,6 +13059,8 @@ static void v2_full_unit_info_observer(const struct unit *punit,
   self = client_player();
   incarnation = v2_existing_incarnation(AGENT_V2_ENTITY_UNIT, punit->id);
   native = action_by_number(v2_pending.action.action);
+  action_decision_tile = punit->action_decision_tile != NULL
+                         ? tile_index(punit->action_decision_tile) : -1;
   if (v2_pending.active && v2_pending.baseline_captured
       && v2_pending.seat_epoch == v2_seat_epoch
       && v2_exact_seat_epoch_current()
@@ -11478,7 +13076,9 @@ static void v2_full_unit_info_observer(const struct unit *punit,
           || v2_pending.action.kind
              == AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM
           || v2_pending.action.kind
-             == AGENT_V2_ACTION_UNIT_CONNECT_ROUTE)
+             == AGENT_V2_ACTION_UNIT_CONNECT_ROUTE
+          || v2_pending.action.kind
+             == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE)
       && unit_tile(punit) != NULL
       && tile_index(unit_tile(punit))
          == v2_pending.requested_unit_source_tile
@@ -11494,6 +13094,45 @@ static void v2_full_unit_info_observer(const struct unit *punit,
       && tile_index(punit->goto_tile)
          == v2_pending.desired_route_destination_tile) {
     v2_pending.exact_route_state_latched = TRUE;
+  }
+  if (v2_pending.active && v2_pending.baseline_captured
+      && v2_pending.seat_epoch == v2_seat_epoch
+      && v2_exact_seat_epoch_current()
+      && request_id == v2_pending.request_id
+      && v2_pending.request_count == 2 && self != NULL
+      && v2_pending.action.kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE
+      && unit_owner(punit) == self
+      && punit->id == v2_pending.action.unit_id
+      && punit->client.lifecycle_id != 0
+      && punit->client.lifecycle_id
+         == v2_pending.action.unit_lifecycle_id
+      && incarnation == v2_pending.action.unit_incarnation
+      && unit_tile(punit) != NULL
+      && ((punit->has_orders
+           && punit->orders.length == v2_pending.desired_route_order_count
+           && punit->orders.index >= 0
+           && punit->orders.index < punit->orders.length
+           && punit->orders.list != NULL
+           && unit_orders_digest(punit->orders.length, punit->orders.list)
+              == v2_pending.desired_route_orders_digest
+           && !punit->orders.repeat && !punit->orders.vigilant
+           && punit->goto_tile != NULL
+           && tile_index(punit->goto_tile)
+              == v2_pending.desired_route_destination_tile)
+          || (!punit->has_orders && punit->goto_tile == NULL
+              && tile_index(unit_tile(punit))
+                 == v2_pending.desired_route_destination_tile)
+          || (fc_agent_v2_route_paused_for_decision(
+                TRUE, punit->action_decision_want, action_decision_tile,
+                &action_decision_tile, 1)
+              && client_unit_route_plan_contains_action_move_target(
+                   v2_pending.unit_route_plan,
+                   punit->action_decision_tile)))) {
+    /* Execution can advance the just-installed queue before the correlated
+     * unit packet arrives.  Preserve three exact positive shapes: an exact
+     * remaining suffix, arrival at the frozen destination, or the human
+     * action decision on one of the immutable action-move steps. */
+    v2_pending.attack_route_result_latched = TRUE;
   }
   if (v2_pending.active && v2_pending.baseline_captured
       && v2_pending.seat_epoch == v2_seat_epoch
@@ -11632,6 +13271,20 @@ static const char *v2_chat_channel(enum event_type event,
   return "chat";
 }
 
+static const char *v2_requested_chat_channel_name(
+  enum agent_v2_chat_channel channel)
+{
+  switch (channel) {
+  case AGENT_V2_CHAT_GLOBAL:
+    return "global";
+  case AGENT_V2_CHAT_ALLIED:
+    return "allied";
+  case AGENT_V2_CHAT_PRIVATE:
+    return "private";
+  }
+  return "invalid";
+}
+
 static void v2_capture_chat_packet(const struct packet_chat_msg *packet,
                                    const char *plain,
                                    const char *channel)
@@ -11645,7 +13298,9 @@ static void v2_capture_chat_packet(const struct packet_chat_msg *packet,
   size_t plain_length;
 
   if (!v2_seat_authorized || !v2_exact_seat_epoch_current()
-      || client_state() != C_S_RUNNING || packet == NULL || plain == NULL
+      || (client_state() != C_S_PREPARING
+          && client_state() != C_S_RUNNING)
+      || packet == NULL || plain == NULL
       || channel == NULL || plain[0] == '\0'
       || v2_chat_sequence == UINT64_MAX) {
     return;
@@ -11679,8 +13334,8 @@ static void v2_capture_chat_packet(const struct packet_chat_msg *packet,
   entry = &v2_chat_history[slot];
   memset(entry, 0, sizeof(*entry));
   entry->sequence = ++v2_chat_sequence;
-  entry->turn = packet->turn;
-  entry->phase = packet->phase;
+  entry->turn = client_state() == C_S_PREPARING ? 0 : packet->turn;
+  entry->phase = client_state() == C_S_PREPARING ? 0 : packet->phase;
   entry->self = sender != NULL && sender->id == client.conn.id;
   plain_length = strlen(plain);
   entry->truncated = plain_length > FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES;
@@ -11718,21 +13373,57 @@ static void v2_chat_msg_observer(
       && v2_pending.seat_epoch == v2_seat_epoch
       && v2_exact_seat_epoch_current()
       && v2_pending.action.kind == AGENT_V2_ACTION_PLAYER_SEND_CHAT) {
-    size_t desired_length = strlen(v2_pending.desired_chat_message);
-
     if (packet->event == E_CHAT_ERROR) {
       v2_pending.chat_error_latched = TRUE;
     } else if (packet->event == E_CHAT_MSG
-               && packet->conn_id == client.conn.id
-               && strcmp(channel, v2_pending.desired_chat_allied
-                                  ? "allied" : "global") == 0
-               && plain_length >= desired_length
-               && strcmp(plain + plain_length - desired_length,
-                         v2_pending.desired_chat_message) == 0) {
+               && fc_agent_v2_chat_echo_matches(
+                    v2_pending.active, v2_pending.baseline_captured,
+                    v2_pending.seat_epoch == v2_seat_epoch
+                      && v2_exact_seat_epoch_current(),
+                    request_id, v2_pending.request_id,
+                    packet->conn_id, client.conn.id,
+                    channel, v2_requested_chat_channel_name(
+                      v2_pending.desired_chat_channel),
+                    plain, v2_pending.desired_chat_message,
+                    v2_pending.desired_chat_channel == AGENT_V2_CHAT_PRIVATE
+                      ? v2_pending.desired_chat_recipient_name : NULL)) {
       v2_pending.chat_echo_latched = TRUE;
     }
   }
+  if (v2_pending.active && v2_pending.baseline_captured
+      && v2_pending.seat_epoch == v2_seat_epoch
+      && v2_exact_seat_epoch_current()) {
+    if (v2_pending.action.kind
+          == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+        && request_id == v2_pending.first_request_id
+        && packet->event == E_VOTE_NEW) {
+      v2_pending.vote_proposal_ack_latched = TRUE;
+    } else if (v2_pending.action.kind
+                 == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+               && request_id == v2_pending.request_id
+               && packet->event == E_VOTE_ABORTED) {
+      v2_pending.vote_cancel_ack_latched = TRUE;
+    } else if (v2_pending.action.kind
+                 == AGENT_V2_ACTION_PLAYER_SURRENDER
+               && request_id == v2_pending.request_id
+               && packet->event == E_GAME_END) {
+      v2_pending.surrender_ack_latched = TRUE;
+    }
+  }
   text_tag_list_destroy(tags);
+
+  if (v2_pending.active && v2_pending.processing_started
+      && v2_pending.baseline_captured
+      && request_id == v2_pending.request_id
+      && v2_pending.seat_epoch == v2_seat_epoch
+      && v2_exact_seat_epoch_current()
+      && v2_pending.action.kind == AGENT_V2_ACTION_GOVERNMENT_CHANGE
+      && packet->event == E_REVOLT_START) {
+    /* Zero-turn government changes do not publish their pending target in a
+     * player-info packet. This exact request-correlated event is emitted only
+     * after the server has accepted and recorded the desired government. */
+    v2_pending.government_change_event_latched = TRUE;
+  }
 
   if (!v2_pending.active
       || !v2_pending.baseline_captured
@@ -11862,12 +13553,52 @@ static bool v2_action_postcondition(void)
                || (v2_pending.desired_pregame_ready
                    && client_state() == C_S_RUNNING));
   case AGENT_V2_ACTION_PLAYER_CAST_VOTE: {
-    const struct voteinfo *vote =
-      v2_vote_by_number(v2_pending.action.vote_no);
-
-    return v2_vote_active(vote)
-           && vote->client_vote == v2_pending.desired_client_vote;
+    /* The normal vote cache updates client_vote optimistically before the
+     * server handles PACKET_VOTE_SUBMIT.  Only the exact request-correlated
+     * PACKET_VOTE_UPDATE proves that the server accepted this non-no-op
+     * ballot; the vote may already have resolved and disappeared. */
+    return v2_pending.vote_recorded_latched;
   }
+  case AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING: {
+    struct option *option = optset_option_by_number(
+      server_optset, v2_pending.action.server_setting_id);
+    bool applied = FALSE;
+
+    if (option != NULL
+        && option_type(option) == v2_pending.action.server_setting_type) {
+      switch ((enum option_type) v2_pending.action.server_setting_type) {
+      case OT_BOOLEAN:
+        applied = option_bool_get(option)
+                  == (v2_pending.desired_server_setting_int != 0);
+        break;
+      case OT_INTEGER:
+        applied = option_int_get(option)
+                  == v2_pending.desired_server_setting_int;
+        break;
+      case OT_STRING:
+        applied = strcmp(option_str_get(option),
+                         v2_pending.desired_server_setting_string) == 0;
+        break;
+      case OT_ENUM:
+        applied = option_enum_get_int(option)
+                  == v2_pending.desired_server_setting_int;
+        break;
+      case OT_BITWISE:
+        applied = option_bitwise_get(option)
+                  == (unsigned) v2_pending.desired_server_setting_int;
+        break;
+      default:
+        break;
+      }
+    }
+    return applied || v2_pending.vote_proposal_ack_latched;
+  }
+  case AGENT_V2_ACTION_PLAYER_CANCEL_VOTE:
+    return v2_pending.vote_cancel_ack_latched
+           && !v2_vote_active(
+                v2_vote_by_number(v2_pending.action.vote_no));
+  case AGENT_V2_ACTION_PLAYER_SURRENDER:
+    return v2_pending.surrender_ack_latched;
   case AGENT_V2_ACTION_PHASE_END:
     return self != NULL
            && (game.info.turn != v2_pending.before_turn
@@ -12221,6 +13952,7 @@ static bool v2_action_postcondition(void)
   case AGENT_V2_ACTION_UNIT_GOTO:
   case AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM:
   case AGENT_V2_ACTION_UNIT_CONNECT_ROUTE:
+  case AGENT_V2_ACTION_UNIT_ATTACK_ROUTE:
     return fc_agent_v2_unit_route_install_postcondition(
       v2_pending.action.unit_lifecycle_id,
       v2_pending.before_unit_present,
@@ -12240,7 +13972,9 @@ static bool v2_action_postcondition(void)
       v2_pending.desired_route_repeat,
       v2_pending.desired_route_vigilant,
       v2_pending.action.kind == AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM,
-      v2_pending.exact_route_state_latched);
+      v2_pending.exact_route_state_latched)
+      || (v2_pending.action.kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE
+          && v2_pending.attack_route_result_latched);
   case AGENT_V2_ACTION_UNIT_SET_ROUTE:
     unit = self != NULL
            ? player_unit_by_number(self, v2_pending.action.unit_id) : NULL;
@@ -12503,10 +14237,8 @@ static bool v2_action_postcondition(void)
     source_city = self != NULL
                   ? player_city_by_number(
                       self, v2_pending.action.source_city_id) : NULL;
-    destination_city = self != NULL
-                       ? player_city_by_number(
-                           self,
-                           v2_pending.action.destination_city_id) : NULL;
+    destination_city = game_city_by_number(
+      v2_pending.action.destination_city_id);
     return source_city != NULL && destination_city != NULL
            && v2_pending.before_source_city_present
            && v2_pending.before_destination_city_present
@@ -12674,7 +14406,8 @@ static bool v2_action_postcondition(void)
       v2_government_id(self->target_government),
       self->revolution_finishes,
       government_number(game.government_during_revolution),
-      v2_pending.desired_government);
+      v2_pending.desired_government,
+      v2_pending.government_change_event_latched);
   case AGENT_V2_ACTION_MULTIPLIER_SET: {
     int multiplier_id;
 
@@ -12777,6 +14510,16 @@ static bool v2_action_postcondition(void)
     return other != NULL && v2_pending.before_gives_shared_tiles
            && !gives_shared_tiles(self, other);
   }
+  case AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION:
+    unit = self != NULL
+           ? player_unit_by_number(self, v2_pending.action.unit_id) : NULL;
+    return unit != NULL
+           && unit->client.lifecycle_id
+              == v2_pending.action.unit_lifecycle_id
+           && v2_existing_incarnation(AGENT_V2_ENTITY_UNIT, unit->id)
+              == v2_pending.action.unit_incarnation
+           && unit->action_decision_want == ACT_DEC_NOTHING
+           && unit->action_decision_tile == NULL;
   case AGENT_V2_ACTION_UNIT_SPECIAL: {
     const struct action *native =
       action_by_number(v2_pending.action.action);
@@ -12796,6 +14539,12 @@ static bool v2_action_postcondition(void)
          == v2_pending.action.unit_incarnation;
     current_unit_tile = current_unit_present && unit_tile(unit) != NULL
                         ? tile_index(unit_tile(unit)) : -1;
+    if (v2_pending.action.clears_action_decision
+        && current_unit_present
+        && (unit->action_decision_want != ACT_DEC_NOTHING
+            || unit->action_decision_tile != NULL)) {
+      return FALSE;
+    }
     target = v2_tile_index_valid(v2_pending.action.target_tile)
              ? index_to_tile(&wld.map, v2_pending.action.target_tile) : NULL;
     destination_city = game_city_by_number(
@@ -12964,6 +14713,35 @@ static bool v2_action_postcondition(void)
                   v2_pending.before_target_building_present,
                   current_building_present);
     }
+    case ACTRES_STRIKE_BUILDING: {
+      const struct impr_type *improvement =
+        v2_pending.action.target_build_kind == VUT_IMPROVEMENT
+        ? improvement_by_number(v2_pending.action.target_build_id) : NULL;
+      bool current_city_present =
+        destination_city != NULL && city_tile(destination_city) == target
+        && v2_existing_incarnation(
+             AGENT_V2_ENTITY_CITY, destination_city->id)
+           == v2_pending.action.destination_city_incarnation;
+      bool externally_visible = improvement != NULL
+                                && is_improvement_visible(improvement);
+      bool current_building_present =
+        externally_visible && destination_city != NULL
+        && city_has_building(destination_city, improvement);
+
+      return improvement != NULL
+             && fc_agent_v2_targeted_sabotage_postcondition(
+                  v2_pending.before_special_target_exact,
+                  v2_pending.action_success_receipt_latched,
+                  externally_visible,
+                  v2_pending.action.destination_city_lifecycle_id,
+                  v2_pending.before_destination_city_present,
+                  v2_pending.before_destination_city_lifecycle_id,
+                  current_city_present,
+                  destination_city != NULL
+                    ? destination_city->client.lifecycle_id : 0,
+                  v2_pending.before_target_building_present,
+                  current_building_present);
+    }
     case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION: {
       bool current_city_binding_exact =
         destination_city != NULL && city_tile(destination_city) == target
@@ -13011,8 +14789,9 @@ static bool v2_action_postcondition(void)
       return fc_agent_v2_espionage_effect_postcondition(
         v2_pending.before_special_target_exact,
         v2_pending.before_research_exact
-          && v2_pending.action.target_tech >= A_FIRST
-          && v2_pending.action.target_tech < A_LAST,
+          && ((v2_pending.action.target_tech >= A_FIRST
+               && v2_pending.action.target_tech < A_LAST)
+              || v2_pending.action.target_tech == A_FUTURE),
         v2_pending.action.destination_city_lifecycle_id,
         v2_pending.before_destination_city_present,
         v2_pending.before_destination_city_lifecycle_id,
@@ -13023,10 +14802,15 @@ static bool v2_action_postcondition(void)
         destination_city != NULL
           ? destination_city->client.lifecycle_id : 0,
         research != NULL
-          && !BV_ISSET(v2_pending.before_known_techs,
-                       v2_pending.action.target_tech)
-          && research_invention_state(
-               research, v2_pending.action.target_tech) == TECH_KNOWN);
+          && (v2_pending.action.target_tech == A_FUTURE
+              ? (v2_pending.before_future_tech >= 0
+                 && research->future_tech
+                    > v2_pending.before_future_tech)
+              : (!BV_ISSET(v2_pending.before_known_techs,
+                           v2_pending.action.target_tech)
+                 && research_invention_state(
+                      research, v2_pending.action.target_tech)
+                    == TECH_KNOWN)));
     case ACTRES_STRIKE_PRODUCTION:
       return destination_city != NULL
              && v2_pending.before_destination_city_internals_exact
@@ -13060,8 +14844,7 @@ static bool v2_action_postcondition(void)
                                            ? extra_owner(target) : NULL;
       bv_extras current_huts = v2_hut_extras_on_tile(target);
 
-      return native->id == ACTION_PARADROP_ENTER_CONQUER
-             && target != NULL
+      return target != NULL
              && client_tile_get_known(target) == TILE_KNOWN_SEEN
              && fc_agent_v2_paradrop_enter_conquer_postcondition(
                   v2_pending.before_special_target_exact,
@@ -13150,6 +14933,14 @@ static bool v2_action_postcondition(void)
                   v2_pending.before_unit_present,
                   v2_pending.before_unit_lifecycle_id,
                   game_unit_by_number(v2_pending.action.unit_id) != NULL);
+    case ACTRES_NONE:
+      return v2_ruleset_custom_action(native)
+             && fc_agent_v2_custom_action_postcondition(
+                  v2_pending.before_special_target_exact,
+                  v2_pending.action_success_receipt_latched,
+                  v2_pending.action.unit_lifecycle_id,
+                  v2_pending.before_unit_present,
+                  v2_pending.before_unit_lifecycle_id);
     default:
       return FALSE;
     }
@@ -13671,6 +15462,22 @@ static bool v2_unit_cancel_orders_action_still_legal(
          && v2_unit_cancel_orders_available(punit);
 }
 
+static bool v2_unit_clear_action_decision_still_legal(
+  const struct player *self, const struct unit *punit,
+  const struct agent_v2_action *action)
+{
+  return action->kind == AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION
+         && self != NULL && punit != NULL && unit_owner(punit) == self
+         && punit->client.lifecycle_id != 0
+         && punit->client.lifecycle_id == action->unit_lifecycle_id
+         && v2_existing_incarnation(AGENT_V2_ENTITY_UNIT, punit->id)
+            == action->unit_incarnation
+         && action->clears_action_decision
+         && v2_unit_action_decision_pending(punit)
+         && punit->action_decision_want == action->action_decision_want
+         && tile_index(punit->action_decision_tile) == action->target_tile;
+}
+
 static bool v2_unit_goto_action_still_legal(
   const struct player *self, const struct unit *punit,
   const struct agent_v2_action *action)
@@ -13829,6 +15636,20 @@ static bool v2_unit_set_route_action_still_legal(
             == action->unit_incarnation
          && action->route_waypoint_limit
             == CLIENT_UNIT_ROUTE_MAX_WAYPOINTS
+         && v2_unit_goto_actor_clean(punit);
+}
+
+static bool v2_unit_attack_route_action_still_legal(
+  const struct player *self, const struct unit *punit,
+  const struct agent_v2_action *action)
+{
+  return action->kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE
+         && self != NULL && punit != NULL && unit_owner(punit) == self
+         && punit->client.lifecycle_id != 0
+         && punit->client.lifecycle_id == action->unit_lifecycle_id
+         && v2_existing_incarnation(AGENT_V2_ENTITY_UNIT, punit->id)
+            == action->unit_incarnation
+         && action->route_waypoint_limit == 0
          && v2_unit_goto_actor_clean(punit);
 }
 
@@ -14089,7 +15910,8 @@ static bool v2_noncombat_mobility_action_still_legal(
   }
   if (action->kind == AGENT_V2_ACTION_UNIT_AIRLIFT) {
     struct city *source = NULL;
-    struct city *destination = NULL;
+    struct city *destination = game_city_by_number(
+      action->destination_city_id);
 
     if (native->result != ACTRES_AIRLIFT
         || action_get_target_kind(native) != ATK_CITY
@@ -14098,10 +15920,12 @@ static bool v2_noncombat_mobility_action_still_legal(
              self, action->source_city_id,
              action->source_city_incarnation,
              action->source_city_lifecycle_id, &source)
-        || !v2_action_city_matches(
-             self, action->destination_city_id,
-             action->destination_city_incarnation,
-             action->destination_city_lifecycle_id, &destination)
+        || !v2_city_site_known(destination)
+        || destination->client.lifecycle_id
+           != action->destination_city_lifecycle_id
+        || v2_existing_incarnation(
+             AGENT_V2_ENTITY_CITY, destination->id)
+           != action->destination_city_incarnation
         || source == destination || tile_city(unit_tile(actor)) != source
         || tile_index(city_tile(source)) != action->source_city_tile
         || tile_index(unit_tile(actor)) != action->source_city_tile
@@ -14126,18 +15950,16 @@ static bool v2_noncombat_mobility_action_still_legal(
         || action->destination_city_id != -1
         || !v2_tile_index_valid(action->target_tile)
         || (target = index_to_tile(&wld.map, action->target_tile)) == NULL
-        || target == unit_tile(actor)
-        || (action->kind == AGENT_V2_ACTION_UNIT_PARADROP
-            ? client_tile_get_known(target) == TILE_UNKNOWN
-            : client_tile_get_known(target) != TILE_KNOWN_SEEN)) {
+        || target == unit_tile(actor)) {
       return FALSE;
     }
-    probability = action_prob_vs_tile(
-      &wld.map, actor, native->id, target, NULL);
-    if (action->kind == AGENT_V2_ACTION_UNIT_TELEPORT
-        && are_action_probabilitys_equal(
-             &probability, &not_implemented)) {
+    probability = action_prob_unit_vs_tgt(
+      &wld.map, native, actor, tile_city(target), NULL, target, NULL);
+    if (!action_prob_possible(probability)) {
       return FALSE;
+    }
+    if (client_tile_get_known(target) == TILE_UNKNOWN) {
+      probability = action_prob_new_unknown();
     }
   }
   return v2_action_probability_matches(probability, action);
@@ -14537,7 +16359,7 @@ static void v2_target_query_request_next_detail(void)
       &v2_target_query.actions[v2_target_query.detail_action_index];
     const struct action *native = action_by_number(action->action);
 
-    if (!v2_targeted_sabotage_action(native)
+    if (!v2_targeted_building_action(native)
         || action->target_build_kind == VUT_IMPROVEMENT) {
       v2_target_query.detail_action_index++;
       continue;
@@ -14548,7 +16370,7 @@ static void v2_target_query_request_next_detail(void)
         || v2_target_query.detail_query_pending
         || v2_special_revalidation.detail_query_pending) {
       v2_target_query_desynchronize(
-        "targeted sabotage detail query has an invalid binding");
+        "building-choice detail query has an invalid binding");
       return;
     }
     before_request = client.conn.client.last_request_id_used;
@@ -14560,7 +16382,7 @@ static void v2_target_query_request_next_detail(void)
         || client.conn.client.last_request_id_used
            != v2_target_query.detail_request_id) {
       v2_error(v2_target_query.request, "NOT_SENT",
-               "targeted sabotage building query was not sent");
+               "building-choice query was not sent");
       v2_target_query_clear();
       return;
     }
@@ -14784,7 +16606,7 @@ static bool v2_special_action_still_bound(
           ? action->gold_cost < 0 : action->gold_cost != -1)) {
     return FALSE;
   }
-  if (native->id == ACTION_PARADROP_ENTER_CONQUER) {
+  if (native->result == ACTRES_PARADROP_CONQUER) {
     struct city *lease_city = tile_city(target_tile);
     bv_extras current_huts = v2_hut_extras_on_tile(target_tile);
 
@@ -14913,9 +16735,10 @@ static bool v2_special_action_still_bound(
       action->target_build_kind == VUT_IMPROVEMENT
       ? improvement_by_number(action->target_build_id) : NULL;
 
-    if (!v2_targeted_sabotage_action(native)
+    if (!v2_targeted_building_action(native)
         || target_city == NULL || improvement == NULL
-        || improvement->sabotage <= 0
+        || (native->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY
+            && improvement->sabotage <= 0)
         || action->target_tech != -1
         || action->target_research_digest != 0
         || action->target_building_catalog_request_id <= 0
@@ -15014,6 +16837,9 @@ static bool v2_special_revalidation_reply(
     }
     break;
   case ATK_SELF:
+    /* The exact owned actor and its current target tile were already rebound
+     * above; the server action matrix carries no additional self target id. */
+    break;
   case ATK_COUNT:
     v2_error(v2_special_revalidation.request, "STALE_SLOT",
              "server preflight target kind is unsupported");
@@ -15029,7 +16855,7 @@ static bool v2_special_revalidation_reply(
     v2_special_revalidation_clear();
     return TRUE;
   }
-  if (v2_targeted_sabotage_action(native)) {
+  if (v2_targeted_building_action(native)) {
     int before_request = client.conn.client.last_request_id_used;
 
     if (v2_target_query.detail_query_pending
@@ -15050,7 +16876,7 @@ static bool v2_special_revalidation_reply(
         || v2_special_revalidation.detail_request_id
            == action->target_building_catalog_request_id) {
       v2_error(v2_special_revalidation.request, "NOT_SENT",
-               "targeted sabotage preflight query was not sent exactly once");
+               "building-choice preflight query was not sent exactly once");
       v2_special_revalidation_clear();
       return TRUE;
     }
@@ -15210,7 +17036,7 @@ static void v2_unit_action_answer_observer(
 
     if (index >= v2_target_query.action_count) {
       v2_target_query_desynchronize(
-        "targeted sabotage failure reply lost its pending action");
+        "building-choice failure reply lost its pending action");
       return;
     }
     action = &v2_target_query.actions[index];
@@ -15219,7 +17045,7 @@ static void v2_unit_action_answer_observer(
         || packet->target_id != action->destination_city_id
         || packet->action_type != ACTION_NONE) {
       v2_target_query_desynchronize(
-        "targeted sabotage failure reply did not match its exact request");
+        "building-choice failure reply did not match its exact request");
       return;
     }
     memmove(action, action + 1,
@@ -15239,11 +17065,11 @@ static void v2_unit_action_answer_observer(
         || packet->target_id != action->destination_city_id
         || packet->action_type != ACTION_NONE) {
       v2_special_revalidation_desynchronize(
-        "targeted sabotage failure reply did not match its exact preflight");
+        "building-choice failure reply did not match its exact preflight");
       return;
     }
     v2_error(v2_special_revalidation.request, "STALE_SLOT",
-             "selected sabotage building is no longer available");
+             "selected building is no longer available");
     v2_special_revalidation_clear();
     return;
   }
@@ -15318,7 +17144,7 @@ static void v2_unit_action_answer_observer(
   v2_target_query_request_next_cost();
 }
 
-static bool v2_sabotage_list_matches_action(
+static bool v2_building_list_matches_action(
   const struct packet_city_sabotage_list *packet, int request_id,
   int expected_request_id, const struct agent_v2_action *action)
 {
@@ -15335,7 +17161,7 @@ static bool v2_sabotage_list_matches_action(
   return packet != NULL && request_id > 0
          && request_id == expected_request_id
          && packet->request_kind == AGENT_V2_ACTION_QUERY_KIND
-         && v2_targeted_sabotage_action(native)
+         && v2_targeted_building_action(native)
          && packet->actor_id == action->unit_id
          && packet->city_id == action->destination_city_id
          && packet->act_id == action->action
@@ -15370,30 +17196,30 @@ static bool v2_city_sabotage_list_observer(
     uint64_t digest;
 
     if (index >= v2_target_query.action_count
-        || !v2_sabotage_list_matches_action(
+        || !v2_building_list_matches_action(
              packet, request_id, v2_target_query.detail_request_id,
              &v2_target_query.actions[index])) {
       v2_target_query_desynchronize(
-        "sabotage list reply did not match the pending target query");
+        "building list reply did not match the pending target query");
       return TRUE;
     }
     if (v2_target_query.revision != v2_revision) {
       v2_error(v2_target_query.request, "STALE_REVISION",
-               "state changed during targeted sabotage discovery");
+               "state changed during building-choice discovery");
       v2_target_query_clear();
       return TRUE;
     }
     base = v2_target_query.actions[index];
     improvement_iterate(pimprove) {
-      if (BV_ISSET(packet->improvements, improvement_index(pimprove))
-          && pimprove->sabotage > 0) {
+      if (v2_building_catalog_choice_allowed(
+            action_by_number(base.action), packet, pimprove)) {
         choice_count++;
       }
     } improvement_iterate_end;
     if (v2_target_query.action_count - 1 + choice_count
         > FC_AGENT_V2_MAX_TARGET_ACTIONS) {
       v2_error(v2_target_query.request, "SCOPE_TOO_LARGE",
-               "targeted sabotage choices exceed bounded capacity");
+               "building choices exceed bounded capacity");
       v2_target_query_clear();
       return TRUE;
     }
@@ -15401,10 +17227,11 @@ static bool v2_city_sabotage_list_observer(
             &v2_target_query.actions[index + 1],
             (v2_target_query.action_count - index - 1) * sizeof(base));
     v2_target_query.action_count--;
-    digest = v2_sabotage_catalog_digest(packet);
+    digest = v2_building_catalog_digest(
+      action_by_number(base.action), packet);
     improvement_iterate(pimprove) {
-      if (BV_ISSET(packet->improvements, improvement_index(pimprove))
-          && pimprove->sabotage > 0) {
+      if (v2_building_catalog_choice_allowed(
+            action_by_number(base.action), packet, pimprove)) {
         struct agent_v2_action *choice =
           &v2_target_query.actions[v2_target_query.action_count++];
 
@@ -15430,29 +17257,33 @@ static bool v2_city_sabotage_list_observer(
       action->target_build_kind == VUT_IMPROVEMENT
       ? improvement_by_number(action->target_build_id) : NULL;
 
-    if (!v2_sabotage_list_matches_action(
+    const struct action *native = action_by_number(action->action);
+
+    if (!v2_building_list_matches_action(
           packet, request_id, v2_special_revalidation.detail_request_id,
           action)) {
       v2_special_revalidation_desynchronize(
-        "sabotage list reply did not match the pending action preflight");
+        "building list reply did not match the pending action preflight");
       return TRUE;
     }
     if (v2_special_revalidation.revision != v2_revision) {
       v2_error(v2_special_revalidation.request, "STALE_REVISION",
-               "state changed during targeted sabotage preflight");
+               "state changed during building-choice preflight");
       v2_special_revalidation_clear();
       return TRUE;
     }
-    if (improvement == NULL || improvement->sabotage <= 0
+    if (native == NULL || improvement == NULL
+        || (native->result == ACTRES_SPY_TARGETED_SABOTAGE_CITY
+            && improvement->sabotage <= 0)
         || action->target_building_catalog_request_id <= 0
         || action->target_building_catalog_revision
            != v2_special_revalidation.revision
         || action->target_building_catalog_digest
-           != v2_sabotage_catalog_digest(packet)
-        || !BV_ISSET(packet->improvements,
-                     improvement_index(improvement))) {
+           != v2_building_catalog_digest(native, packet)
+        || !v2_building_catalog_choice_allowed(
+             native, packet, improvement)) {
       v2_error(v2_special_revalidation.request, "STALE_SLOT",
-               "selected sabotage building is no longer in the exact catalog");
+               "selected building is no longer in the exact catalog");
       v2_special_revalidation_clear();
       return TRUE;
     }
@@ -15576,7 +17407,7 @@ static void v2_handle_target_action(char **fields)
     };
     enum known_type known = client_tile_get_known(target);
 
-    v2_build_unit_target_paradrop_actions(actor, target, &buffer);
+    v2_build_unit_target_mobility_actions(actor, target, &buffer);
     if (buffer.overflow) {
       v2_error(v2_target_query.request, "SCOPE_TOO_LARGE",
                "target action scope exceeds bounded capacity");
@@ -15584,8 +17415,13 @@ static void v2_handle_target_action(char **fields)
       return;
     }
     v2_target_query.action_count = buffer.count;
-    if (!fc_agent_v2_target_server_query_allowed(
-          known != TILE_UNKNOWN, known == TILE_KNOWN_SEEN)) {
+    if (!fc_agent_v2_action_decision_target_query_allowed(
+          known != TILE_UNKNOWN, known == TILE_KNOWN_SEEN,
+          actor != NULL && unit_owner(actor) == client_player(),
+          actor != NULL ? actor->action_decision_want : ACT_DEC_NOTHING,
+          actor != NULL && actor->action_decision_tile != NULL
+            ? tile_index(actor->action_decision_tile) : -1,
+          native_tile)) {
       v2_target_query.cost_action_index = 0;
       v2_target_query_request_next_cost();
       return;
@@ -16205,6 +18041,30 @@ static bool v2_parse_gold_argument(const char *text, int *amount)
   return TRUE;
 }
 
+static bool v2_parse_multiplier_value_argument(const char *text, int *value)
+{
+  char *end = NULL;
+  char canonical[64];
+  long parsed;
+
+  if (text == NULL || value == NULL || strncmp(text, "value=", 6) != 0
+      || text[6] == '\0') {
+    return FALSE;
+  }
+  errno = 0;
+  parsed = strtol(text + 6, &end, 10);
+  if (errno != 0 || end == text + 6 || *end != '\0'
+      || parsed < INT_MIN || parsed > INT_MAX) {
+    return FALSE;
+  }
+  fc_snprintf(canonical, sizeof(canonical), "value=%d", (int) parsed);
+  if (strcmp(text, canonical) != 0) {
+    return FALSE;
+  }
+  *value = (int) parsed;
+  return TRUE;
+}
+
 static bool v2_parse_pregame_config_argument(
   const char *text, int *nation, char *leader, size_t leader_size,
   bool *is_male, int *style)
@@ -16316,6 +18176,31 @@ static struct client_unit_route_plan *v2_parse_unit_route_argument(
   return client_unit_route_plan_new(punit, mode, waypoints, count);
 }
 
+static struct client_unit_route_plan *v2_parse_unit_attack_route_argument(
+  struct unit *punit, const char *text)
+{
+  static const char prefix[] = "destination=";
+  size_t parsed;
+  char canonical[48];
+  struct tile *target;
+
+  if (punit == NULL || unit_tile(punit) == NULL || text == NULL
+      || strncmp(text, prefix, sizeof(prefix) - 1) != 0
+      || !v2_parse_size(text + sizeof(prefix) - 1, &parsed)
+      || parsed > INT_MAX
+      || !v2_tile_index_valid((int) parsed)
+      || (target = index_to_tile(&wld.map, (int) parsed)) == NULL
+      || target == unit_tile(punit)
+      || client_tile_get_known(target) == TILE_UNKNOWN) {
+    return NULL;
+  }
+  fc_snprintf(canonical, sizeof(canonical), "destination=%zu", parsed);
+  if (strcmp(text, canonical) != 0) {
+    return NULL;
+  }
+  return client_unit_attack_plan_new(punit, target);
+}
+
 static bool v2_parse_infrastructure_extra_argument(
   const struct agent_v2_action *action, const char *text,
   struct extra_type **result)
@@ -16374,49 +18259,70 @@ static bool v2_infrastructure_choice_still_legal(
 }
 
 static bool v2_parse_chat_argument(
-  const char *text, bool *allied, char *message, size_t message_size)
+  const char *text, enum agent_v2_chat_channel *channel,
+  struct player **recipient, char *message, size_t message_size)
 {
-  static const char global_prefix[] = "channel=global;message=";
-  static const char allied_prefix[] = "channel=allied;message=";
+  static const char global_prefix[] =
+    "channel=global;recipient=none;message=";
+  static const char allied_prefix[] =
+    "channel=allied;recipient=none;message=";
+  static const char private_prefix[] = "channel=private;recipient=";
+  static const char message_separator[] = ";message=";
   const char *encoded;
   char canonical[FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES * 3 + 1];
-  const unsigned char *cursor;
-  size_t length;
+  char recipient_ref[48];
 
-  if (text == NULL || allied == NULL || message == NULL
+  if (text == NULL || channel == NULL || recipient == NULL || message == NULL
       || message_size < FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES + 1) {
     return FALSE;
   }
+  *recipient = NULL;
   if (strncmp(text, global_prefix, sizeof(global_prefix) - 1) == 0) {
-    *allied = FALSE;
+    *channel = AGENT_V2_CHAT_GLOBAL;
     encoded = text + sizeof(global_prefix) - 1;
   } else if (strncmp(text, allied_prefix,
                      sizeof(allied_prefix) - 1) == 0) {
-    *allied = TRUE;
+    *channel = AGENT_V2_CHAT_ALLIED;
     encoded = text + sizeof(allied_prefix) - 1;
+  } else if (strncmp(text, private_prefix,
+                     sizeof(private_prefix) - 1) == 0) {
+    const char *reference = text + sizeof(private_prefix) - 1;
+    const char *separator = strstr(reference, message_separator);
+    char kind;
+    int id;
+    uint64_t incarnation;
+    size_t reference_length;
+
+    if (separator == NULL
+        || (reference_length = (size_t) (separator - reference)) == 0
+        || reference_length >= sizeof(recipient_ref)) {
+      return FALSE;
+    }
+    memcpy(recipient_ref, reference, reference_length);
+    recipient_ref[reference_length] = '\0';
+    if (!fc_agent_v2_parse_entity_ref(
+          recipient_ref, &kind, &id, &incarnation)
+        || kind != 'p'
+        || (*recipient = player_by_number(id)) == NULL
+        || incarnation != v2_existing_incarnation(
+             AGENT_V2_ENTITY_PLAYER, id)
+        || strcmp(player_name(*recipient), ANON_PLAYER_NAME) == 0
+        || !v2_chat_recipient_messageable(*recipient)) {
+      *recipient = NULL;
+      return FALSE;
+    }
+    *channel = AGENT_V2_CHAT_PRIVATE;
+    encoded = separator + sizeof(message_separator) - 1;
   } else {
     return FALSE;
   }
   if (!fc_agent_v2_percent_decode(encoded, message, message_size)
       || !fc_agent_v2_percent_encode(message, canonical,
                                      sizeof(canonical))
-      || strcmp(encoded, canonical) != 0) {
+      || strcmp(encoded, canonical) != 0
+      || !fc_agent_v2_chat_message_safe(message)) {
+    *recipient = NULL;
     return FALSE;
-  }
-  length = strlen(message);
-  if (length == 0 || length > FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES
-      || message[0] == SERVER_COMMAND_PREFIX
-      || message[0] == CHAT_ALLIES_PREFIX
-      || message[0] == CHAT_DIRECT_PREFIX
-      || message[0] == ' ' || message[length - 1] == ' ') {
-    return FALSE;
-  }
-  for (cursor = (const unsigned char *) message; *cursor != '\0'; cursor++) {
-    if (*cursor < 0x20 || *cursor == 0x7f
-        || (*cursor == 0xc2 && cursor[1] >= 0x80 && cursor[1] <= 0x9f)
-        || *cursor == (unsigned char) CHAT_DIRECT_PREFIX) {
-      return FALSE;
-    }
   }
   return TRUE;
 }
@@ -16448,19 +18354,26 @@ static void v2_execute_action(char **fields,
   bool requested_pregame_ready = FALSE;
   char requested_pregame_leader[MAX_LEN_NAME] = "";
   int requested_gold = -1;
-  bool requested_chat_allied = FALSE;
+  int requested_multiplier_value = 0;
+  enum agent_v2_chat_channel requested_chat_channel = AGENT_V2_CHAT_GLOBAL;
+  struct player *requested_chat_recipient = NULL;
   char requested_chat_message[FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES + 1] = "";
   enum client_vote_type requested_vote = CVT_NONE;
+  int requested_server_setting_int = -1;
+  char requested_server_setting_string[MAX_LEN_MSG] = "";
   int special_target = -1;
   int special_subtarget = NO_TARGET;
   int before_request;
   uint64_t selected_revision = v2_revision;
   bool pregame_action;
   bool communication_action;
-  bool vote_action;
+  bool governance_action;
 
   if (action->kind == AGENT_V2_ACTION_PREGAME_SET_TEAM
-      || action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE) {
+      || action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE
+      || action->kind == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+      || action->kind == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+      || action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER) {
     /* A refresh immediately before dispatch must compare against the
      * exact action selected at entry, not an aliased current-registry row. */
     frozen_action = *action;
@@ -16472,7 +18385,11 @@ static void v2_execute_action(char **fields,
     || action->kind == AGENT_V2_ACTION_PREGAME_SET_READY;
   communication_action =
     action->kind == AGENT_V2_ACTION_PLAYER_SEND_CHAT;
-  vote_action = action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE;
+  governance_action =
+    action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE
+    || action->kind == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+    || action->kind == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+    || action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER;
 
   worklist_init(&requested_worklist);
   BV_CLR_ALL(requested_city_options);
@@ -16481,11 +18398,19 @@ static void v2_execute_action(char **fields,
     v2_error(fields[1], "BUSY", "one native action is already pending");
     return;
   }
-  if (vote_action) {
+  if (governance_action) {
     if ((client_state() != C_S_PREPARING
          && client_state() != C_S_RUNNING)
-        || !v2_vote_action_still_legal(self, action)) {
-      v2_error(fields[1], "NOT_READY", "client cannot cast this vote now");
+        || (action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE
+            && !v2_vote_action_still_legal(self, action))
+        || (action->kind == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+            && !v2_setting_action_still_legal(self, action))
+        || (action->kind == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+            && !v2_cancel_vote_action_still_legal(self, action))
+        || (action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER
+            && !v2_surrender_action_still_legal(self, action))) {
+      v2_error(fields[1], "NOT_READY",
+               "client cannot issue this governance action now");
       return;
     }
   } else if (pregame_action) {
@@ -16568,6 +18493,12 @@ static void v2_execute_action(char **fields,
              "unit order capability is no longer legal");
     return;
   }
+  if (action->kind == AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION
+      && !v2_unit_clear_action_decision_still_legal(self, unit, action)) {
+    v2_error(fields[1], "STALE_SLOT",
+             "unit action decision is no longer pending");
+    return;
+  }
   if (action->kind == AGENT_V2_ACTION_UNIT_GOTO) {
     if (!v2_unit_goto_action_still_legal(self, unit, action)) {
       v2_error(fields[1], "STALE_SLOT",
@@ -16601,6 +18532,12 @@ static void v2_execute_action(char **fields,
       && !v2_unit_set_route_action_still_legal(self, unit, action)) {
     v2_error(fields[1], "STALE_SLOT",
              "unit route capability is no longer legal");
+    return;
+  }
+  if (action->kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE
+      && !v2_unit_attack_route_action_still_legal(self, unit, action)) {
+    v2_error(fields[1], "STALE_SLOT",
+             "unit attack-route capability is no longer legal");
     return;
   }
   if ((action->kind == AGENT_V2_ACTION_UNIT_SENTRY
@@ -16643,11 +18580,19 @@ static void v2_execute_action(char **fields,
              "government capability is no longer legal");
     return;
   }
-  if (action->kind == AGENT_V2_ACTION_MULTIPLIER_SET
-      && !v2_multiplier_action_still_legal(self, action)) {
-    v2_error(fields[1], "STALE_SLOT",
-             "multiplier capability is no longer legal");
-    return;
+  if (action->kind == AGENT_V2_ACTION_MULTIPLIER_SET) {
+    if (!v2_parse_multiplier_value_argument(
+          fields[3], &requested_multiplier_value)) {
+      v2_error(fields[1], "BAD_ARGUMENT",
+               "player.set_multiplier requires one canonical integer value");
+      return;
+    }
+    if (!v2_multiplier_action_still_legal(
+          self, action, requested_multiplier_value)) {
+      v2_error(fields[1], "STALE_SLOT",
+               "multiplier capability or requested value is no longer legal");
+      return;
+    }
   }
   if ((action->kind == AGENT_V2_ACTION_SPACESHIP_PLACE
        || action->kind == AGENT_V2_ACTION_SPACESHIP_LAUNCH)
@@ -16656,7 +18601,8 @@ static void v2_execute_action(char **fields,
              "spaceship capability is no longer legal");
     return;
   }
-  research = !pregame_action && !vote_action ? research_get(self) : NULL;
+  research = !pregame_action && !governance_action
+             ? research_get(self) : NULL;
   if ((action->kind == AGENT_V2_ACTION_RESEARCH_TARGET
        || action->kind == AGENT_V2_ACTION_RESEARCH_GOAL)
       && !v2_research_action_still_legal(research, action)) {
@@ -16665,9 +18611,33 @@ static void v2_execute_action(char **fields,
   }
   if (action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE) {
     if (!v2_parse_vote_argument(fields[3], &requested_vote)
-        || !v2_vote_action_still_legal(self, action)) {
+        || !v2_vote_action_still_legal(self, action)
+        || requested_vote == v2_confirmed_vote(action->vote_no)) {
       v2_error(fields[1], "BAD_ARGUMENT",
-               "player.cast_vote requires yes, no, or abstain");
+               "player.cast_vote requires a different yes, no, or abstain");
+      return;
+    }
+  } else if (action->kind == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING) {
+    if (!v2_parse_server_setting_argument(
+          action, fields[3], &requested_server_setting_int,
+          requested_server_setting_string,
+          sizeof(requested_server_setting_string))) {
+      v2_error(fields[1], "BAD_ARGUMENT",
+               "player.propose_server_setting requires one typed value");
+      return;
+    }
+  } else if (action->kind == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE) {
+    if (strcmp(fields[3], "-") != 0
+        || !v2_cancel_vote_action_still_legal(self, action)) {
+      v2_error(fields[1], "BAD_ARGUMENT",
+               "player.cancel_vote accepts no arguments and only cancels the caller's vote");
+      return;
+    }
+  } else if (action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER) {
+    if (strcmp(fields[3], "-") != 0
+        || !v2_surrender_action_still_legal(self, action)) {
+      v2_error(fields[1], "BAD_ARGUMENT",
+               "player.surrender accepts no arguments while alive");
       return;
     }
   } else if (action->kind == AGENT_V2_ACTION_PREGAME_CONFIGURE) {
@@ -16832,12 +18802,16 @@ static void v2_execute_action(char **fields,
                "economy.set_rates requires valid tax luxury science rates");
       return;
     }
+  } else if (action->kind == AGENT_V2_ACTION_MULTIPLIER_SET) {
+    /* Parsed and checked against the revision-bound multiplier grid above. */
   } else if (action->kind == AGENT_V2_ACTION_PLAYER_SEND_CHAT) {
     if (!v2_parse_chat_argument(
-          fields[3], &requested_chat_allied, requested_chat_message,
+          fields[3], &requested_chat_channel, &requested_chat_recipient,
+          requested_chat_message,
           sizeof(requested_chat_message))) {
       v2_error(fields[1], "BAD_ARGUMENT",
-               "player.send_chat requires bounded global or allied text");
+               "player.send_chat requires a bounded global, allied, or "
+               "private player message");
       return;
     }
   } else if (action->kind == AGENT_V2_ACTION_UNIT_SET_ROUTE) {
@@ -16846,6 +18820,13 @@ static void v2_execute_action(char **fields,
       v2_error(fields[1], "BAD_ARGUMENT",
                "unit.set_route requires 1-64 current tile waypoints, "
                "first != source and goto final != source");
+      return;
+    }
+  } else if (action->kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE) {
+    unit_route_plan = v2_parse_unit_attack_route_argument(unit, fields[3]);
+    if (unit_route_plan == NULL) {
+      v2_error(fields[1], "BAD_ARGUMENT",
+               "unit.attack_route requires one current known destination");
       return;
     }
   } else if (action->kind == AGENT_V2_ACTION_PLAYER_PLACE_INFRA) {
@@ -17032,7 +19013,18 @@ static void v2_execute_action(char **fields,
   fc_strlcpy(v2_pending.request, fields[1], sizeof(v2_pending.request));
   fc_strlcpy(v2_pending.slot, fields[2], sizeof(v2_pending.slot));
   v2_pending.action = *action;
-  v2_pending.desired_chat_allied = requested_chat_allied;
+  v2_pending.desired_chat_channel = requested_chat_channel;
+  if (requested_chat_recipient != NULL) {
+    v2_pending.desired_chat_recipient_id =
+      player_number(requested_chat_recipient);
+    v2_pending.desired_chat_recipient_incarnation =
+      v2_existing_incarnation(
+        AGENT_V2_ENTITY_PLAYER, player_number(requested_chat_recipient));
+    fc_utf8_strlcpy_trunc(
+      v2_pending.desired_chat_recipient_name,
+      player_name(requested_chat_recipient),
+      sizeof(v2_pending.desired_chat_recipient_name));
+  }
   fc_strlcpy(v2_pending.desired_chat_message, requested_chat_message,
              sizeof(v2_pending.desired_chat_message));
   v2_pending.desired_pregame_nation = requested_pregame_nation;
@@ -17041,6 +19033,10 @@ static void v2_execute_action(char **fields,
   v2_pending.desired_pregame_male = requested_pregame_male;
   v2_pending.desired_pregame_ready = requested_pregame_ready;
   v2_pending.desired_client_vote = requested_vote;
+  v2_pending.desired_server_setting_int = requested_server_setting_int;
+  fc_strlcpy(v2_pending.desired_server_setting_string,
+             requested_server_setting_string,
+             sizeof(v2_pending.desired_server_setting_string));
   fc_strlcpy(v2_pending.desired_pregame_leader,
              requested_pregame_leader,
              sizeof(v2_pending.desired_pregame_leader));
@@ -17118,13 +19114,15 @@ static void v2_execute_action(char **fields,
       || action->kind == AGENT_V2_ACTION_UNIT_GOTO
       || action->kind == AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM
       || action->kind == AGENT_V2_ACTION_UNIT_CONNECT_ROUTE
-      || action->kind == AGENT_V2_ACTION_UNIT_SET_ROUTE) {
+      || action->kind == AGENT_V2_ACTION_UNIT_SET_ROUTE
+      || action->kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE) {
     v2_pending.requested_unit_source_tile = tile_index(unit_tile(unit));
   }
   if (action->kind == AGENT_V2_ACTION_UNIT_GOTO
       || action->kind == AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM
       || action->kind == AGENT_V2_ACTION_UNIT_CONNECT_ROUTE
-      || action->kind == AGENT_V2_ACTION_UNIT_SET_ROUTE) {
+      || action->kind == AGENT_V2_ACTION_UNIT_SET_ROUTE
+      || action->kind == AGENT_V2_ACTION_UNIT_ATTACK_ROUTE) {
     const struct client_unit_route_plan_info *info =
       client_unit_route_plan_get_info(v2_pending.unit_route_plan);
 
@@ -17170,7 +19168,14 @@ static void v2_execute_action(char **fields,
   }
   if (action->kind == AGENT_V2_ACTION_MULTIPLIER_SET) {
     v2_pending.desired_multiplier = action->target_multiplier;
-    v2_pending.desired_multiplier_value = action->multiplier_value;
+    v2_pending.desired_multiplier_value = requested_multiplier_value;
+    if (!v2_multiplier_action_still_legal(
+          self, action, requested_multiplier_value)) {
+      v2_pending_clear();
+      v2_error(fields[1], "STALE_SLOT",
+               "multiplier capability changed before send");
+      return;
+    }
   }
 
   if (action->kind == AGENT_V2_ACTION_PLAYER_PLACE_INFRA
@@ -17191,7 +19196,7 @@ static void v2_execute_action(char **fields,
     return;
   }
   if (action->kind == AGENT_V2_ACTION_PREGAME_SET_TEAM
-      || action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE) {
+      || governance_action) {
     const struct agent_v2_action *current_action;
 
     if (!v2_refresh() || v2_revision != selected_revision) {
@@ -17205,7 +19210,14 @@ static void v2_execute_action(char **fields,
         || (action->kind == AGENT_V2_ACTION_PREGAME_SET_TEAM
             && !v2_pregame_team_choice_still_allowed(
                  self, requested_pregame_team))
-        || (vote_action && !v2_vote_action_still_legal(self, action))) {
+        || (action->kind == AGENT_V2_ACTION_PLAYER_CAST_VOTE
+            && !v2_vote_action_still_legal(self, action))
+        || (action->kind == AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING
+            && !v2_setting_action_still_legal(self, action))
+        || (action->kind == AGENT_V2_ACTION_PLAYER_CANCEL_VOTE
+            && !v2_cancel_vote_action_still_legal(self, action))
+        || (action->kind == AGENT_V2_ACTION_PLAYER_SURRENDER
+            && !v2_surrender_action_still_legal(self, action))) {
       v2_pending_clear();
       v2_error(fields[1], "STALE_SLOT",
                "action binding changed before send");
@@ -17242,6 +19254,41 @@ static void v2_execute_action(char **fields,
   case AGENT_V2_ACTION_PLAYER_CAST_VOTE:
     voteinfo_do_vote(action->vote_no, v2_pending.desired_client_vote);
     break;
+  case AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING: {
+    struct option *option = optset_option_by_number(
+      server_optset, action->server_setting_id);
+
+    switch ((enum option_type) action->server_setting_type) {
+    case OT_BOOLEAN:
+      (void) option_bool_set(
+        option, v2_pending.desired_server_setting_int != 0);
+      break;
+    case OT_INTEGER:
+      (void) option_int_set(option, v2_pending.desired_server_setting_int);
+      break;
+    case OT_STRING:
+      (void) option_str_set(
+        option, v2_pending.desired_server_setting_string);
+      break;
+    case OT_ENUM:
+      (void) option_enum_set_int(
+        option, v2_pending.desired_server_setting_int);
+      break;
+    case OT_BITWISE:
+      (void) option_bitwise_set(
+        option, (unsigned) v2_pending.desired_server_setting_int);
+      break;
+    default:
+      break;
+    }
+    break;
+  }
+  case AGENT_V2_ACTION_PLAYER_CANCEL_VOTE:
+    send_chat("/cancelvote");
+    break;
+  case AGENT_V2_ACTION_PLAYER_SURRENDER:
+    send_chat("/surrender");
+    break;
   case AGENT_V2_ACTION_PHASE_END:
     send_turn_done();
     break;
@@ -17267,15 +19314,39 @@ static void v2_execute_action(char **fields,
                               v2_pending.desired_science);
     break;
   case AGENT_V2_ACTION_PLAYER_SEND_CHAT:
-    if (v2_pending.desired_chat_allied) {
+    if (v2_pending.desired_chat_channel == AGENT_V2_CHAT_ALLIED) {
       char outgoing[FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES + 2];
 
       outgoing[0] = CHAT_ALLIES_PREFIX;
       fc_strlcpy(outgoing + 1, v2_pending.desired_chat_message,
                  sizeof(outgoing) - 1);
       send_chat(outgoing);
+    } else if (v2_pending.desired_chat_channel == AGENT_V2_CHAT_PRIVATE) {
+      char outgoing[MAX_LEN_MSG];
+      int outgoing_length;
+
+      outgoing_length = fc_snprintf(
+        outgoing, sizeof(outgoing), "%s%c%s",
+        v2_pending.desired_chat_recipient_name, CHAT_DIRECT_PREFIX,
+        v2_pending.desired_chat_message);
+      if (outgoing_length < 0
+          || (size_t) outgoing_length >= sizeof(outgoing)) {
+        v2_pending_clear();
+        v2_error(fields[1], "BAD_ARGUMENT",
+                 "private chat message could not be encoded safely");
+        return;
+      }
+      send_chat(outgoing);
     } else {
-      send_chat(v2_pending.desired_chat_message);
+      char outgoing[FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES + 2];
+
+      /* Freeciv checks command/channel routing before trimming display text.
+       * A generated leading space therefore forces the global path while
+       * preserving the caller's exact message in the echoed chat packet. */
+      outgoing[0] = ' ';
+      fc_strlcpy(outgoing + 1, v2_pending.desired_chat_message,
+                 sizeof(outgoing) - 1);
+      send_chat(outgoing);
     }
     break;
   case AGENT_V2_ACTION_CITY_PRODUCTION:
@@ -17400,14 +19471,33 @@ static void v2_execute_action(char **fields,
   case AGENT_V2_ACTION_UNIT_CANCEL_ORDERS:
     request_orders_cleared(unit);
     break;
+  case AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION:
+    action_selection_no_longer_in_progress(action->unit_id);
+    action_decision_clear_want(action->unit_id);
+    break;
   case AGENT_V2_ACTION_UNIT_GOTO:
   case AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM:
   case AGENT_V2_ACTION_UNIT_CONNECT_ROUTE:
   case AGENT_V2_ACTION_UNIT_SET_ROUTE:
+  case AGENT_V2_ACTION_UNIT_ATTACK_ROUTE:
     (void) client_unit_route_plan_send(v2_pending.unit_route_plan);
     break;
   case AGENT_V2_ACTION_UNIT_SPECIAL:
-    if (v2_paid_special_action(action_by_number(action->action))) {
+    if (action->clears_action_decision) {
+      char maximum_cost[MAX_LEN_NAME];
+      const char *name = "";
+
+      if (v2_paid_special_action(action_by_number(action->action))) {
+        fc_snprintf(maximum_cost, sizeof(maximum_cost),
+                    "agent-v2-max-cost:%d", action->gold_cost);
+        name = maximum_cost;
+      }
+      dsend_packet_unit_do_action(
+        &client.conn, action->unit_id, special_target,
+        special_subtarget, name, action->action);
+      action_selection_no_longer_in_progress(action->unit_id);
+      action_decision_clear_want(action->unit_id);
+    } else if (v2_paid_special_action(action_by_number(action->action))) {
       char maximum_cost[MAX_LEN_NAME];
 
       fc_snprintf(maximum_cost, sizeof(maximum_cost),
@@ -17734,7 +19824,7 @@ static void v2_handle_relation_cap_action(char **fields)
 void fc_agent_v2_init(fc_agent_v2_emit_fn emit,
                       fc_agent_v2_authorized_fn authorized)
 {
-  fc_assert(AGENT_V2_MANIFEST_COUNT == 42);
+  fc_assert(AGENT_V2_MANIFEST_COUNT == 47);
   fc_agent_v2_reset();
   v2_emit = emit;
   v2_authorized = authorized;
@@ -17754,6 +19844,7 @@ void fc_agent_v2_init(fc_agent_v2_emit_fn emit,
     v2_nuke_tile_info_observer, NULL);
   packhand_set_investigation_observer(v2_investigation_observer, NULL);
   packhand_set_worker_task_observer(v2_worker_task_observer, NULL);
+  packhand_set_vote_observer(v2_vote_observer, NULL);
 }
 
 void fc_agent_v2_reset(void)
@@ -17767,6 +19858,7 @@ void fc_agent_v2_reset(void)
   packhand_set_nuke_tile_info_observer(NULL, NULL);
   packhand_set_investigation_observer(NULL, NULL);
   packhand_set_worker_task_observer(NULL, NULL);
+  packhand_set_vote_observer(NULL, NULL);
   v2_pending_clear();
   v2_special_revalidation_clear();
   memset(v2_snapshots, 0, sizeof(v2_snapshots));
@@ -17800,6 +19892,11 @@ void fc_agent_v2_reset(void)
   v2_chat_history_start = 0;
   v2_chat_history_count = 0;
   v2_chat_sequence = 0;
+  v2_surrendered = FALSE;
+  memset(v2_vote_history, 0, sizeof(v2_vote_history));
+  v2_vote_history_start = 0;
+  v2_vote_history_count = 0;
+  memset(v2_vote_confirmations, 0, sizeof(v2_vote_confirmations));
   v2_seat_known = FALSE;
   v2_seat_authorized = FALSE;
   v2_seat_player = NULL;

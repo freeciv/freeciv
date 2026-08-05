@@ -88,13 +88,92 @@ class V2RemainingControlTests(unittest.TestCase):
         action = _parsed_action(control, _action(
             300, "player.set_multiplier", "p:1:10", -1,
             "player.set_multiplier", "Multiplier", "Multiplier Target Changed", 0,
-            target_multiplier=0, multiplier_value=60, target_name="Policy",
+            "multiplier-value-required",
+            target_multiplier=0, multiplier_value=-1, target_name="Policy",
         ))
         descriptor, binding = control._project_scoped_action(
             snapshot, request, action, "action_multiplier",
         )
-        self.assertEqual(descriptor["subject"]["target"]["value"], 60)
+        self.assertEqual(descriptor["subject"]["target"]["value"], 50)
+        self.assertEqual(descriptor["subject"]["target"]["target"], 50)
+        self.assertEqual(descriptor["arguments_schema"]["required"], ["value"])
+        self.assertEqual(
+            descriptor["arguments_schema"]["metadata"]["integer_grid"],
+            {"field": "value", "origin": 0, "step": 10},
+        )
         self.assertEqual(binding.operation, "set_multiplier")
+
+    def test_large_multiplier_grid_is_one_validated_scalar_capability(self):
+        rows = tuple(
+            (
+                "multiplier id=0 name=Policy value=-1 target=2 "
+                "start=-100000 stop=100001 step=3 minimum_turns=2 "
+                "changed_turn=0 can_change=1 choice_count=66668"
+            ) if row.startswith("multiplier ") else row
+            for row in valid_rows()
+        )
+        current = observation(tuple(sorted(rows)))
+        control = V2SeatControl("game_large_multiplier", "agent_large", 1)
+        player_id = control.state_page(current)["page"]["items"][0]["player"][
+            "id"
+        ]
+        native = tuple(
+            row for row in rows
+            if row.startswith("action ") and " actor=none " in row
+        ) + scoped_government_rows() + (
+            _action(
+                300, "player.set_multiplier", "p:1:10", -1,
+                "player.set_multiplier", "Multiplier",
+                "Multiplier Target Changed", 0,
+                "multiplier-value-required",
+                target_multiplier=0, multiplier_value=-1,
+                target_name="Policy",
+            ),
+        )
+        request = control.prepare_actor_scope(current, player_id, 16)
+        page = control.materialize_actor_scope(
+            request, self._actor_catalog(request, native),
+        )
+        multiplier = next(
+            item for item in page["page"]["items"]
+            if item["kind"] == "player.set_multiplier"
+        )
+        self.assertEqual(
+            multiplier["subject"]["target"]["choice_count"], 66668,
+        )
+        self.assertEqual(multiplier["subject"]["target"]["step"], 3)
+        self.assertEqual(
+            multiplier["arguments_schema"]["metadata"]["not_equal"]["value"],
+            2,
+        )
+        resolved = control.resolve_action(
+            current, multiplier["state_revision"], multiplier["action_id"],
+            {"value": 100001},
+        )
+        self.assertEqual(resolved.native_arguments, "value=100001")
+        for value in (True, -100001, 0, 2, 100002):
+            with self.subTest(value=value), self.assertRaisesRegex(
+                V2ControlError, "invalid_request",
+            ):
+                control.resolve_action(
+                    current, multiplier["state_revision"],
+                    multiplier["action_id"], {"value": value},
+                )
+
+    def test_native_multiplier_catalog_is_compact_and_argument_validated(self):
+        source = (
+            Path(__file__).parents[2]
+            / "client"
+            / "gui-agent"
+            / "protocol_v2.c"
+        ).read_text(encoding="utf-8")
+        builder = source.split(
+            "static void v2_build_multiplier_actions", 1,
+        )[1].split("static bool v2_unit_goto_actor_clean", 1)[0]
+        self.assertNotIn("for (choice", builder)
+        self.assertIn("entry->multiplier_value = -1", builder)
+        self.assertIn("multiplier-value-required", source)
+        self.assertIn("v2_parse_multiplier_value_argument", source)
 
     def test_spaceship_state_and_structural_action_are_exact(self):
         rows = []
@@ -160,7 +239,8 @@ class V2RemainingControlTests(unittest.TestCase):
                 300, "player.set_multiplier", "p:1:10", -1,
                 "player.set_multiplier", "Multiplier",
                 "Multiplier Target Changed", 0,
-                target_multiplier=0, multiplier_value=0,
+                "multiplier-value-required",
+                target_multiplier=0, multiplier_value=-1,
                 target_name="Policy",
             ),
             _action(
@@ -184,10 +264,10 @@ class V2RemainingControlTests(unittest.TestCase):
             current,
             by_operation["set_multiplier"]["state_revision"],
             by_operation["set_multiplier"]["action_id"],
-            {},
+            {"value": 0},
         )
         self.assertEqual(multiplier.operation, "set_multiplier")
-        self.assertEqual(multiplier.native_arguments, "-")
+        self.assertEqual(multiplier.native_arguments, "value=0")
         spaceship = control.resolve_action(
             current,
             by_operation["place_component"]["state_revision"],
@@ -302,4 +382,3 @@ class V2RemainingControlTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

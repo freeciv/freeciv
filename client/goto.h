@@ -113,6 +113,8 @@ client_unit_route_plan_new(struct unit *punit,
 struct client_unit_route_plan *
 client_unit_goto_plan_new(struct unit *punit, struct tile *target);
 struct client_unit_route_plan *
+client_unit_attack_plan_new(struct unit *punit, struct tile *target);
+struct client_unit_route_plan *
 client_unit_action_route_plan_new(struct unit *punit, struct tile *target,
                                   int action, int subtarget);
 struct client_unit_route_plan *
@@ -122,6 +124,8 @@ client_unit_connect_plan_new(struct unit *punit, struct tile *target,
 void client_unit_route_plan_destroy(struct client_unit_route_plan *plan);
 const struct client_unit_route_plan_info *
 client_unit_route_plan_get_info(const struct client_unit_route_plan *plan);
+bool client_unit_route_plan_contains_action_move_target(
+  const struct client_unit_route_plan *plan, const struct tile *target);
 int client_unit_route_plan_send(struct client_unit_route_plan *plan);
 void send_goto_path(struct unit *punit, struct pf_path *path,
                     struct unit_order *last_order);

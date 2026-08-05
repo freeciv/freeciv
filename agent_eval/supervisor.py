@@ -156,13 +156,15 @@ V2_STATE_SECTIONS = frozenset({
     "governments", "tombstones", "city_detail", "city_citizens",
     "city_worker_tasks",
     "city_build_choices", "city_worklist", "city_improvements",
-    "city_governor", "tile_window", "multipliers", "spaceship",
+    "city_trade_routes", "city_governor", "tile_window", "multipliers",
+    "spaceship",
     "infrastructure", "pregame_nations", "pregame_styles",
-    "pregame_teams", "chat",
+    "pregame_teams", "chat", "chat_recipients", "unit_route",
 })
 V2_CITY_STATE_SECTIONS = frozenset({
     "city_detail", "city_citizens", "city_build_choices", "city_worklist",
-    "city_improvements", "city_governor", "city_worker_tasks",
+    "city_improvements", "city_trade_routes", "city_governor",
+    "city_worker_tasks",
 })
 V2_CURSOR_RE = re.compile(r"cursor_[A-Za-z0-9_-]{32}")
 V2_ACTOR_ID_RE = re.compile(r"(?:player|city|unit)_[0-9a-f]{32}")
@@ -2592,7 +2594,7 @@ class Game:
 
         with self.condition:
             if (
-                all_running and self.state in {"lobby", "starting"}
+                all_running and self.state == "starting"
                 and not self.cancel_requested and self.error is None
                 and not self.sidecars_stopping
             ):
@@ -4095,6 +4097,16 @@ class Game:
                 None, section, int(raw_limit), actor_id, None, None,
                 None, None,
             )
+        if section == "unit_route":
+            if (
+                set(query) - {"section", "actor_id", "limit"}
+                or actor_id is None or not actor_id.startswith("unit_")
+            ):
+                raise V2ControlError("invalid_request")
+            return (
+                None, section, int(raw_limit), actor_id, None, None,
+                None, None,
+            )
         if section == "tile_window":
             center_id = query.get("center_id")
             raw_radius = query.get("radius")
@@ -4349,7 +4361,10 @@ class Game:
                         target_request = control.prepare_target_action(
                             observation, actor_id, target_id, limit,
                         )
-                        if target_request.actor_kind == "player":
+                        if (
+                            target_request.actor_kind == "player"
+                            or target_request.action_decision
+                        ):
                             tile_request = control.prepare_target_tile_support(
                                 target_request,
                             )
@@ -4381,8 +4396,10 @@ class Game:
                     "diplomacy_clauses",
                     "city_citizens",
                     "city_build_choices", "city_worklist",
-                    "city_improvements", "city_governor",
+                    "city_improvements", "city_trade_routes",
+                    "city_governor",
                     "pregame_nations", "pregame_styles", "pregame_teams",
+                    "chat_recipients", "unit_route",
                 }:
                     batch_context = self._resolve_v2_batch_context(agent_id)
                     (
@@ -5664,15 +5681,19 @@ class Game:
                 )
                 self._note_phase_end_receipt(phase_claim, "ambiguous")
                 return response
+            vote_native_fallback = (
+                resolution.public_kind == "player.cast_vote"
+                and result["status"] == "applied"
+                and result.get("applied") is True
+            )
             if (
                 resolution.public_kind == "phase.end"
                 and result["status"] == "applied"
                 and result.get("applied") is True
             ):
                 # A successful phase end intentionally removes this seat's
-                # active private observation. The correlated native result is
-                # already the authoritative proof; requiring another snapshot
-                # here turns the expected inactive handoff into ambiguity.
+                # active private observation. Its correlated native result is
+                # already the authoritative proof.
                 receipt = self._v2_terminal_transition(
                     store,
                     reservation,
@@ -5687,10 +5708,13 @@ class Game:
             try:
                 fresh = self._read_v2_post_result_observation_bundle(
                     sidecar, control,
-                    on_terminal_error=lambda _exc: record_ambiguity_trace(
-                        "post_result_observation",
-                        "observation_unavailable",
-                        acceptance_known=True,
+                    on_terminal_error=(
+                        None if vote_native_fallback else
+                        lambda _exc: record_ambiguity_trace(
+                            "post_result_observation",
+                            "observation_unavailable",
+                            acceptance_known=True,
+                        )
                     ),
                 )
                 if (
@@ -5727,6 +5751,29 @@ class Game:
                             investigation_catalog,
                         )
                     )
+            except SidecarError:
+                if vote_native_fallback:
+                    # A decisive ballot can resolve, disappear, or start the
+                    # game before a fresh normal-player snapshot is readable.
+                    # The exact request-correlated native UPDATE remains
+                    # authoritative, while ordinary votes still use the
+                    # fresh-revision path above.
+                    receipt = self._v2_terminal_transition(
+                        store,
+                        reservation,
+                        self._v2_receipt(
+                            agent_id, batch_id, "applied", requested_revision,
+                        ),
+                    )
+                    receipt_state = receipt["receipt_state"]
+                    self._note_phase_end_receipt(phase_claim, receipt_state)
+                    return self._v2_receipt_status(receipt), receipt
+                response = ambiguous(
+                    "post_result_observation", "observation_unavailable",
+                    acceptance_known=True,
+                )
+                self._note_phase_end_receipt(phase_claim, "ambiguous")
+                return response
             except Exception:
                 response = ambiguous(
                     "post_result_observation", "observation_unavailable",

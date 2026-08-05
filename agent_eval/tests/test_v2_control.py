@@ -11,11 +11,17 @@ import unittest
 from unittest import mock
 
 import agent_eval.v2_control as v2_control
-from agent_eval.full_control_v2 import validate_legal_action_descriptor
+from agent_eval.full_control_v2 import (
+    PROJECTED_NATIVE_ACTION_KIND_COUNT,
+    PROJECTED_PUBLIC_ACTION_KIND_COUNT,
+    REQUIRED_ACTION_KINDS,
+    validate_legal_action_descriptor,
+)
 from agent_eval.v2_control import (
     V2ActionResolution,
     V2ControlError,
     V2SeatControl,
+    V2TargetActionRequest,
 )
 
 
@@ -32,6 +38,12 @@ def _action(
     *,
     target_tech: int = -1,
     vote_no: int = -1,
+    server_setting_id: int = -1,
+    server_setting_type: str = "none",
+    server_setting_min: int = 0,
+    server_setting_max: int = 0,
+    server_setting_current: int = -1,
+    server_setting_value: int = -1,
     target_government: int = -1,
     max_rate: int = 0,
     route_waypoint_limit: int = 0,
@@ -52,6 +64,8 @@ def _action(
     source_specialist: int = -1,
     target_specialist: int = -1,
     target_extra: int = -1,
+    subtarget_kind: str = "none",
+    subresults: str = "none",
     activity: str = "none",
     target_name: str = "none",
     target_unit: str = "none",
@@ -94,7 +108,13 @@ def _action(
         f"source_city={source_city} "
         f"destination_city={destination_city} target_unit={target_unit} "
         f"transport_context={transport_context} target_tech={target_tech} "
-        f"vote_no={vote_no} target_government={target_government} "
+        f"vote_no={vote_no} server_setting_id={server_setting_id} "
+        f"server_setting_type={server_setting_type} "
+        f"server_setting_min={server_setting_min} "
+        f"server_setting_max={server_setting_max} "
+        f"server_setting_current={server_setting_current} "
+        f"server_setting_value={server_setting_value} "
+        f"target_government={target_government} "
         f"max_rate={max_rate} "
         f"route_waypoint_limit={route_waypoint_limit} "
         f"infrastructure_cost={infrastructure_cost} "
@@ -108,7 +128,8 @@ def _action(
         f"multiplier_value={multiplier_value} "
         f"source_specialist={source_specialist} "
         f"target_specialist={target_specialist} "
-        f"target_extra={target_extra} activity={activity} "
+        f"target_extra={target_extra} subtarget_kind={subtarget_kind} "
+        f"subresults={subresults} activity={activity} "
         f"target_name={pct(target_name)} "
         f"native_rule={pct(rule)} "
         f"target_kind={pct(target_kind)} result={pct(result)} "
@@ -325,6 +346,11 @@ def pregame_rows(*, ready: bool = False) -> tuple[str, ...]:
             0, "pregame-ready-required",
             desired_acceptance=0 if ready else 1,
         ),
+        _action(
+            0x504, "player.send_chat", "p:1:10", -1,
+            "player.send_chat", "Chat Channel", "Chat Echo Received", 0,
+            "chat-required",
+        ),
     ]
     if not ready:
         rows.extend((
@@ -348,9 +374,10 @@ def vote_rows(
 ) -> tuple[str, ...]:
     rows = list(valid_rows(actions=phase_actions))
     rows.append(
-        "vote vote_no=42 description=Change%20the%20map%3F "
+        "vote vote_no=42 caller=alice description=Change%20the%20map%3F "
         f"yes={yes} no=1 abstain=0 num_voters=8 percent_required=60 "
-        f"team_only=1 current_vote={current_vote} can_vote={int(can_vote)}"
+        f"team_only=1 current_vote={current_vote} can_vote={int(can_vote)} "
+        "status=active outcome_turn=-1 outcome_phase=-1"
     )
     if can_vote:
         rows.append(_action(
@@ -365,14 +392,53 @@ def pregame_vote_rows(*, ready: bool = False) -> tuple[str, ...]:
     rows = list(pregame_rows(ready=ready))
     rows.extend((
         (
-            "vote vote_no=42 description=Start%20now%3F yes=1 no=0 "
+            "vote vote_no=42 caller=alice description=Start%20now%3F "
+            "yes=1 no=0 "
             "abstain=0 num_voters=2 percent_required=50 team_only=0 "
-            "current_vote=none can_vote=1"
+            "current_vote=none can_vote=1 status=active outcome_turn=-1 "
+            "outcome_phase=-1"
         ),
         _action(
             0x503, "player.cast_vote", "p:1:10", -1,
             "player.cast_vote", "Vote", "Vote Recorded", 0,
             "vote-required", vote_no=42, target_name="vote",
+        ),
+    ))
+    return tuple(sorted(rows))
+
+
+def governance_rows() -> tuple[str, ...]:
+    rows = list(vote_rows(phase_actions=False))
+    proposals = (
+        (20, "boolean", "none", 0, 1, 0, 1, "timeout"),
+        (21, "integer", "server-setting-integer-required", 0, 300, 60, -1,
+         "turn_timeout"),
+        (22, "string", "server-setting-string-required", 0, 119, -1, -1,
+         "welcome_message"),
+        (23, "enum", "none", 0, 2, 0, 1, "phase_mode"),
+        (24, "bitwise", "server-setting-bitwise-required", 0, 7, 1, -1,
+         "allowed_features"),
+    )
+    for slot, setting_type, args, minimum, maximum, current, value, name in proposals:
+        rows.append(_action(
+            slot, "player.propose_server_setting", "p:1:10", -1,
+            f"player.propose_server_setting_{setting_type}",
+            "Server Setting Vote", "Vote Proposed Or Setting Applied", 0,
+            args, server_setting_id=slot, server_setting_type=setting_type,
+            server_setting_min=minimum, server_setting_max=maximum,
+            server_setting_current=current, server_setting_value=value,
+            target_name=name,
+        ))
+    rows.extend((
+        _action(
+            25, "player.cancel_vote", "p:1:10", -1,
+            "player.cancel_vote", "Vote", "Vote Cancelled", 0,
+            vote_no=42, target_name="own vote",
+        ),
+        _action(
+            26, "player.surrender", "p:1:10", -1,
+            "player.surrender", "Player", "Surrender Recorded", 0,
+            target_name="self",
         ),
     ))
     return tuple(sorted(rows))
@@ -641,12 +707,12 @@ def noncombat_mobility_rows() -> tuple[tuple[str, ...], tuple[str, ...]]:
             "Paradrop Unit Frighten", "Tile", "Unit Paradrop", 0,
             target_name="destination", legality="unresolved",
             probability_kind="not_implemented", probability_min=-1,
-            probability_max=-1,
+            probability_max=-1, subresults="hut_frighten",
         ),
         _action(
             143, "unit.paradrop", "u:10:100", 6,
             "Paradrop Unit Enter", "Tile", "Unit Paradrop", 0,
-            target_name="destination",
+            target_name="destination", subresults="hut_enter",
         ),
         _action(
             144, "unit.teleport", "u:10:100", 6,
@@ -666,12 +732,12 @@ def noncombat_mobility_rows() -> tuple[tuple[str, ...], tuple[str, ...]]:
         _action(
             147, "unit.teleport", "u:10:100", 6,
             "Teleport Frighten", "Tile", "Teleport", 0,
-            target_name="destination",
+            target_name="destination", subresults="hut_frighten",
         ),
         _action(
             148, "unit.teleport", "u:10:100", 6,
             "Teleport Enter", "Tile", "Teleport", 0,
-            target_name="destination",
+            target_name="destination", subresults="hut_enter",
         ),
     )
     return tuple(sorted(rows)), scoped
@@ -886,6 +952,11 @@ def complete_v2_row(row: str) -> str:
                 f"{output}_surplus={surplus} {output}_usage={usage} "
                 f"{output}_waste=0 {output}_unhappy_penalty=0"
             )
+    if row.startswith("city ") and " trade_route_count=" not in row:
+        row = row.replace(
+            " did_sell=", " trade_route_count=0 trade_route_capacity=3 did_sell=",
+            1,
+        )
     if row.startswith(("city_tile ", "city_specialist ")) \
             and " food=" not in row:
         row += " food=0 shields=0 trade=0 gold=0 luxury=0 science=0"
@@ -894,6 +965,41 @@ def complete_v2_row(row: str) -> str:
         row = row.replace(
             " can_use=", " counts_toward_population=1 can_use=", 1,
         )
+    if row.startswith("city_build_choice ") and " shield_cost=" not in row:
+        common = (
+            " shield_cost=40 shield_stock_after_change=10 turns=20 "
+            "turns_with_stock=15 upkeep_food=0 upkeep_shield=0 "
+            "upkeep_trade=0 upkeep_gold=0 upkeep_luxury=0 "
+            "upkeep_science=0"
+        )
+        if " production_kind=unit " in row:
+            row += common + (
+                " happy_cost=0 unit_attack=1 unit_defense=1 "
+                "unit_move_rate=3 unit_hp=10 unit_firepower=1 "
+                "unit_vision_radius_sq=2 unit_transport_capacity=0 "
+                "unit_fuel=0 unit_pop_cost=0 unit_bombard_rate=0 "
+                "unit_city_size=1 unit_paradrop_range=0 "
+                "building_genus=none building_obsolete=-1 "
+                "building_redundant=-1 building_convert=-1 "
+                "building_allows_units=-1 building_allows_extras=-1 "
+                "building_prevents_disaster=-1 "
+                "building_protects_vs_actions=-1 "
+                "building_allows_actions=-1"
+            )
+        else:
+            row += common + (
+                " happy_cost=-1 unit_attack=-1 unit_defense=-1 "
+                "unit_move_rate=-1 unit_hp=-1 unit_firepower=-1 "
+                "unit_vision_radius_sq=-1 unit_transport_capacity=-1 "
+                "unit_fuel=-1 unit_pop_cost=-1 unit_bombard_rate=-1 "
+                "unit_city_size=-1 unit_paradrop_range=-1 "
+                "building_genus=Improvement building_obsolete=0 "
+                "building_redundant=0 building_convert=0 "
+                "building_allows_units=0 building_allows_extras=0 "
+                "building_prevents_disaster=0 "
+                "building_protects_vs_actions=0 "
+                "building_allows_actions=0"
+            )
     if row.startswith("unit ") and " scope=own " in row \
             and " veteran=" not in row:
         row = re.sub(
@@ -926,6 +1032,9 @@ def complete_v2_row(row: str) -> str:
             "orders_digest=fnv1a64-0000000000000000 "
             "orders_destination=-1"
         )
+    if row.startswith("unit ") and " scope=own " in row \
+            and " action_decision_want=" not in row:
+        row += " action_decision_want=nothing action_decision_tile=-1"
     if row.startswith("diplomacy ") and " intel_level=" not in row:
         row = row.replace(
             " has_embassy=",
@@ -1009,7 +1118,7 @@ def compact_bundle(
     rows = complete_v2_rows(rows)
     section_prefixes = {
         "cities": ("city ", "city_rally ", "city_worker_task "),
-        "units": ("unit ",),
+        "units": ("unit ", "unit_route "),
         "city_sites": ("city_site ",),
     }
     scoped_prefixes = (
@@ -1160,6 +1269,7 @@ def relation_action(
     clause_name: str = "none",
     desired_acceptance: int = -1,
     args: str = "none",
+    source_city: str = "none",
 ) -> str:
     return _action(
         slot, rule if rule != "diplomacy.propose_gold"
@@ -1170,6 +1280,7 @@ def relation_action(
         relation_state="Peace", clause_giver=clause_giver,
         clause_type=clause_type, clause_value=clause_value,
         clause_name=clause_name, desired_acceptance=desired_acceptance,
+        source_city=source_city,
     )
 
 
@@ -1319,7 +1430,11 @@ class V2NativeSchemaTests(unittest.TestCase):
         lines = header.splitlines()
         prefix = f"#define {name}"
         for index, line in enumerate(lines):
-            if not line.startswith(prefix):
+            if not (
+                line == prefix
+                or line.startswith(prefix + " ")
+                or line.startswith(prefix + "\t")
+            ):
                 continue
             parts = [line[len(prefix):]]
             while line.rstrip().endswith("\\"):
@@ -1332,19 +1447,25 @@ class V2NativeSchemaTests(unittest.TestCase):
             return "".join(ast.literal_eval(token) for token in tokens)
         raise AssertionError(f"missing C schema macro {name}")
 
-    def test_native_action_slice_counts_are_pinned(self):
-        native_kinds = {
-            rule.native_kind for rule in v2_control._ACTION_RULES.values()
-        }
+    def test_static_action_projection_contract_is_pinned(self):
+        native_kinds = v2_control._PROJECTED_NATIVE_ACTION_KINDS
+        public_kinds = v2_control._PROJECTED_PUBLIC_ACTION_KINDS
         global_kinds = {
             "phase.end", "unit.move", "unit.attack", "city.found",
             "research.set_target", "research.set_goal", "economy.set_rates",
-            "player.send_chat", "player.cast_vote",
+            "player.send_chat", "player.cast_vote", "player.cancel_vote",
+            "player.propose_server_setting", "player.surrender",
             "pregame.configure", "pregame.set_ready", "pregame.set_team",
         }
-        self.assertEqual(len(native_kinds), 74)
+        self.assertEqual(public_kinds, REQUIRED_ACTION_KINDS)
+        self.assertEqual(
+            len(public_kinds), PROJECTED_PUBLIC_ACTION_KIND_COUNT,
+        )
+        self.assertEqual(
+            len(native_kinds), PROJECTED_NATIVE_ACTION_KIND_COUNT,
+        )
         self.assertTrue(global_kinds < native_kinds)
-        self.assertEqual(len(native_kinds - global_kinds), 62)
+        self.assertEqual(len(native_kinds - global_kinds), 64)
 
     def test_multiplier_state_and_scoped_action_are_opaque_and_exact(self):
         rows = tuple(
@@ -1373,7 +1494,8 @@ class V2NativeSchemaTests(unittest.TestCase):
             300, "player.set_multiplier", "p:1:10", -1,
             "player.set_multiplier", "Multiplier",
             "Multiplier Target Changed", 0,
-            target_multiplier=0, multiplier_value=60,
+            "multiplier-value-required",
+            target_multiplier=0, multiplier_value=-1,
             target_name="Policy",
         )
         action = control._parse_row(
@@ -1383,7 +1505,15 @@ class V2NativeSchemaTests(unittest.TestCase):
             snapshot, request, action, "action_multiplier",
         )
         self.assertEqual(descriptor["kind"], "player.set_multiplier")
-        self.assertEqual(descriptor["subject"]["target"]["value"], 60)
+        self.assertEqual(descriptor["subject"]["target"]["value"], 50)
+        self.assertEqual(descriptor["subject"]["target"]["target"], 50)
+        self.assertEqual(
+            descriptor["arguments_schema"]["properties"]["value"],
+            {
+                "type": "integer", "minimum": 0, "maximum": 100,
+                "multipleOf": 1,
+            },
+        )
         self.assertEqual(binding.operation, "set_multiplier")
 
     def test_city_governor_state_and_scoped_actions_are_exact(self):
@@ -1588,6 +1718,35 @@ class V2NativeSchemaTests(unittest.TestCase):
         ):
             self.assertNotEqual(v2_control._derive_native_schema_id(), baseline)
 
+    def test_native_mobility_catalogs_are_target_bounded_and_fog_safe(self):
+        repository = Path(v2_control.__file__).resolve().parent.parent
+        protocol = (
+            repository / "client" / "gui-agent" / "protocol_v2.c"
+        ).read_text(encoding="utf-8")
+        actor_catalog = protocol.split(
+            "static void v2_build_noncombat_mobility_actions(", 1,
+        )[1].split(
+            "static void v2_build_unit_target_mobility_actions(", 1,
+        )[0]
+        target_catalog = protocol.split(
+            "static void v2_build_unit_target_mobility_actions(", 1,
+        )[1].split(
+            "static bool v2_noncombat_mobility_action_allowed(", 1,
+        )[0]
+        self.assertNotIn("whole_map_iterate", actor_catalog)
+        self.assertIn("players_iterate(owner)", actor_catalog)
+        self.assertIn("game_city_by_number", protocol)
+        for required in (
+            "teleport_actions[]", "known == TILE_UNKNOWN, TRUE",
+            "action_prob_new_unknown()", "FC_AGENT_V2_MAX_TARGET_ACTIONS",
+        ):
+            with self.subTest(required=required):
+                haystack = (
+                    protocol if required == "FC_AGENT_V2_MAX_TARGET_ACTIONS"
+                    else target_catalog
+                )
+                self.assertIn(required, haystack)
+
     def test_native_schema_fingerprint_includes_telemetry_domains(self):
         baseline = v2_control._derive_native_schema_id()
         with mock.patch.object(
@@ -1612,6 +1771,12 @@ class V2NativeSchemaTests(unittest.TestCase):
             v2_control, "_SPECIAL_ACTION_RESULTS", MappingProxyType(changed),
         ):
             self.assertNotEqual(v2_control._derive_native_schema_id(), baseline)
+        with mock.patch.object(
+            v2_control, "_RULESET_CUSTOM_ACTION_RULES",
+            frozenset((*v2_control._RULESET_CUSTOM_ACTION_RULES,
+                       "User Action 5")),
+        ):
+            self.assertNotEqual(v2_control._derive_native_schema_id(), baseline)
 
     def test_native_hut_extras_and_paradrop_conquer_bind_exact_variants(self):
         protocol = (
@@ -1625,7 +1790,11 @@ class V2NativeSchemaTests(unittest.TestCase):
             "ACTION_PARADROP_ENTER_CONQUER",
         ):
             self.assertIn(action, protocol)
-        self.assertIn("allowed_subresult = ACT_SUB_RES_HUT_ENTER;", protocol)
+        self.assertIn("v2_special_subresults_supported(", protocol)
+        self.assertIn(
+            "BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)",
+            protocol,
+        )
         self.assertIn("special_target_known_seen", protocol)
         self.assertIn("source_unit_moves", protocol)
         self.assertIn(
@@ -1821,6 +1990,41 @@ class V2NativeSchemaTests(unittest.TestCase):
         self.assertIn('"%d:%d:%d;"', digest)
         self.assertIn("UINT64_C(14695981039346656037)", digest)
 
+    def test_native_diplomacy_candidates_preserve_gui_intel_semantics(self):
+        repository = Path(v2_control.__file__).resolve().parent.parent
+        protocol = (
+            repository / "client" / "gui-agent" / "protocol_v2.c"
+        ).read_text(encoding="utf-8")
+        candidates = protocol[
+            protocol.index("static void v2_build_relation_clause_candidates("):
+            protocol.index("static bool v2_build_relation_scope(")
+        ]
+        self.assertIn(
+            "bool team_embassy = team_has_embassy(giver->team, receiver);",
+            candidates,
+        )
+        self.assertIn(
+            "&& (!team_embassy\n"
+            "                || research_invention_gettable(",
+            candidates,
+        )
+
+        relation_start = protocol.index("static bool v2_build_relation_scope(")
+        relation_scope = protocol[
+            relation_start:
+            protocol.index("static bool v2_build_actor_scope(", relation_start)
+        ]
+        self.assertIn(
+            "const struct city *known_city = city != NULL "
+            "&& v2_city_site_known(city)",
+            relation_scope.replace("\n                                      ", " "),
+        )
+        self.assertIn("clause->value, known_city, -1);", relation_scope)
+        self.assertIn(
+            "clause_name = city != NULL && action->source_city_id >= 0",
+            protocol,
+        )
+
     def test_native_action_stream_keeps_acceptance_and_result_contiguous(self):
         repository = Path(v2_control.__file__).resolve().parent.parent
         protocol = (
@@ -1928,6 +2132,7 @@ class V2NativeSchemaTests(unittest.TestCase):
             "FC_AGENT_V2_ROW_CITY_WORKLIST": "city_worklist",
             "FC_AGENT_V2_ROW_CITY_BUILD_CHOICE": "city_build_choice",
             "FC_AGENT_V2_ROW_CITY_IMPROVEMENT": "city_improvement",
+            "FC_AGENT_V2_ROW_CITY_TRADE_ROUTE": "city_trade_route",
             "FC_AGENT_V2_ROW_INVESTIGATION": "investigation",
             "FC_AGENT_V2_ROW_INVESTIGATION_IMPROVEMENT": (
                 "investigation_improvement"
@@ -1941,8 +2146,11 @@ class V2NativeSchemaTests(unittest.TestCase):
             "FC_AGENT_V2_ROW_CITY_RALLY": "city_rally",
             "FC_AGENT_V2_ROW_UNIT_OWN": "unit_own",
             "FC_AGENT_V2_ROW_UNIT_VISIBLE": "unit_visible",
+            "FC_AGENT_V2_ROW_UNIT_ROUTE": "unit_route",
+            "FC_AGENT_V2_ROW_UNIT_ROUTE_STEP": "unit_route_step",
             "FC_AGENT_V2_ROW_TOMBSTONE": "tombstone",
             "FC_AGENT_V2_ROW_CHAT": "chat",
+            "FC_AGENT_V2_ROW_CHAT_RECIPIENT": "chat_recipient",
             "FC_AGENT_V2_ROW_ACTION": "action",
         }
         emitters = protocol + codec
@@ -1954,7 +2162,9 @@ class V2NativeSchemaTests(unittest.TestCase):
                 )
                 tokens = template.split(" ")
                 expected_kind = (
-                    "unit" if schema_key.startswith("unit_") else schema_key
+                    "unit"
+                    if schema_key in {"unit_own", "unit_visible"}
+                    else schema_key
                 )
                 self.assertEqual(tokens[0], expected_kind)
                 self.assertEqual(
@@ -1990,6 +2200,23 @@ class V2NativeSchemaTests(unittest.TestCase):
             "!v2_refresh() || v2_revision != selected_revision", protocol,
         )
         self.assertIn(
+            "fc_agent_v2_vote_update_matches(", protocol,
+        )
+        self.assertIn(
+            "v2_pending.vote_recorded_latched = TRUE", protocol,
+        )
+        self.assertIn(
+            "return v2_pending.vote_recorded_latched", protocol,
+        )
+        self.assertIn(
+            "exact_request_boundaries\n"
+            "                          && v2_pending.vote_recorded_latched",
+            protocol,
+        )
+        self.assertIn(
+            "requested_vote == v2_confirmed_vote(action->vote_no)", protocol,
+        )
+        self.assertNotIn(
             "vote->client_vote == v2_pending.desired_client_vote", protocol,
         )
         self.assertIn(
@@ -2221,10 +2448,10 @@ class V2NativeSchemaTests(unittest.TestCase):
         self.assertNotIn("&& unit_owner(cargo) == self", transport)
         self.assertNotIn("&& unit_owner(transporter) == self", transport)
         self.assertNotIn(
-            "client_tile_get_known(target) != TILE_UNKNOWN", protocol,
+            "client_tile_get_known(target) != TILE_UNKNOWN", transport,
         )
         self.assertNotIn(
-            "client_tile_get_known(target_tile) == TILE_UNKNOWN", protocol,
+            "client_tile_get_known(target_tile) == TILE_UNKNOWN", transport,
         )
         self.assertIn(
             "struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);",
@@ -2256,12 +2483,15 @@ class V2NativeSchemaTests(unittest.TestCase):
             "start_revolution();",
             "set_government_choice(government);",
             "government capability is no longer legal",
+            "packet->event == E_REVOLT_START",
+            "v2_pending.government_change_event_latched = TRUE;",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, protocol)
         for required in (
+            "return has_no_anarchy || revolution_finishes > current_turn",
             "revolution_finishes > current_turn",
-            "revolution_finishes <= 0 && !has_no_anarchy",
+            "change_event_latched",
             "after_current == during_government",
             "after_target == desired_government",
             "after_current == desired_government && after_target < 0",
@@ -2269,23 +2499,151 @@ class V2NativeSchemaTests(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, codec)
 
+    def test_native_custom_ruleset_and_building_choice_contracts(self):
+        repository = Path(v2_control.__file__).resolve().parent.parent
+        protocol = (
+            repository / "client" / "gui-agent" / "protocol_v2.c"
+        ).read_text(encoding="utf-8")
+        codec = (
+            repository / "client" / "gui-agent" / "protocol_v2_codec.c"
+        ).read_text(encoding="utf-8")
+        sandbox = (
+            repository / "data" / "sandbox" / "actions.ruleset"
+        ).read_text(encoding="utf-8")
+        granularity = (
+            repository / "data" / "granularity" / "actions.ruleset"
+        ).read_text(encoding="utf-8")
+        for required in (
+            "paction->result == ACTRES_NONE",
+            "ACTION_USER_ACTION1",
+            "ACTION_USER_ACTION2",
+            "ACTION_USER_ACTION3",
+            "ACTION_USER_ACTION4",
+            "v2_targeted_building_action(",
+            "ACTRES_STRIKE_BUILDING",
+            "v2_building_catalog_choice_allowed(",
+            "v2_building_catalog_digest(",
+            "fc_agent_v2_custom_action_postcondition(",
+            'request_do_action(action->action, action->unit_id,',
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, protocol)
+        self.assertIn(
+            "performed receipt is therefore the authoritative positive evidence",
+            codec,
+        )
+        self.assertIn('action  = "User Action 1"', sandbox)
+        self.assertIn('action  = "User Action 2"', sandbox)
+        self.assertIn('action        = "Surgical Strike Building"', granularity)
+
 
 class V2ProjectionTests(unittest.TestCase):
     def setUp(self) -> None:
         self.control = V2SeatControl("game_test", "agent_test", 1)
 
-    def test_chat_feed_and_send_capability_are_bounded_and_strict(self):
-        chat_action = _action(
+    def test_owned_route_scope_reconstructs_opaque_remaining_path(self):
+        rows = list(complete_v2_rows(valid_rows()))
+        for index, row in enumerate(rows):
+            if row.startswith("unit ref=u:10:100 scope=own "):
+                rows[index] = row.replace(
+                    "has_orders=0 orders_repeat=0 orders_vigilant=0 "
+                    "order_count=0 orders_digest=fnv1a64-0000000000000000 "
+                    "orders_destination=-1",
+                    "has_orders=1 orders_repeat=0 orders_vigilant=0 "
+                    "order_count=2 orders_digest=fnv1a64-0000000000000001 "
+                    "orders_destination=7",
+                )
+                break
+        else:
+            self.fail("owned unit fixture missing")
+        rows.append(
+            "unit_route unit=u:10:100 order_index=0 "
+            "reconstructable=1 step_count=2"
+        )
+        bundled = compact_bundle(self.control, tuple(rows))
+        unit = self.control.state_page(
+            bundled, section="units",
+        )["page"]["items"][0]
+        self.assertEqual(unit["route"]["path_step_count"], 2)
+        self.assertTrue(unit["route"]["path_available"])
+        request = self.control.prepare_state_scope(
+            bundled, "unit_route", actor_id=unit["id"],
+        )
+        page = self.control.materialize_state_scope(request, {
+            "generation": 1, "native_revision": 11,
+            "section": "unit_route", "selector": "u:10:100",
+            "view_id": "q11-90", "offset": 0, "count": 2,
+            "total_count": 2, "next_offset": 2,
+            "complete": True, "overflow": False,
+            "rows": (
+                "unit_route_step unit=u:10:100 sequence=0 kind=move tile=6",
+                "unit_route_step unit=u:10:100 sequence=1 kind=action_move tile=7",
+            ),
+        })
+        self.assertEqual(
+            [item["kind"] for item in page["page"]["items"]],
+            ["move", "action_move"],
+        )
+        self.assertTrue(all(
+            set(item["tile"]) == {"id", "x", "y"}
+            and item["unit_id"] == unit["id"]
+            and item["route_id"] == unit["route"]["id"]
+            for item in page["page"]["items"]
+        ))
+        self.assertNotIn("native", json.dumps(page))
+
+    def test_owned_route_scope_rejects_nonadjacent_step(self):
+        rows = list(complete_v2_rows(valid_rows()))
+        for index, row in enumerate(rows):
+            if row.startswith("unit ref=u:10:100 scope=own "):
+                rows[index] = row.replace(
+                    "has_orders=0 orders_repeat=0 orders_vigilant=0 "
+                    "order_count=0 orders_digest=fnv1a64-0000000000000000 "
+                    "orders_destination=-1",
+                    "has_orders=1 orders_repeat=0 orders_vigilant=0 "
+                    "order_count=1 orders_digest=fnv1a64-0000000000000001 "
+                    "orders_destination=9",
+                )
+                break
+        rows.append(
+            "unit_route unit=u:10:100 order_index=0 "
+            "reconstructable=1 step_count=1"
+        )
+        bundled = compact_bundle(self.control, tuple(rows))
+        unit = self.control.state_page(
+            bundled, section="units",
+        )["page"]["items"][0]
+        request = self.control.prepare_state_scope(
+            bundled, "unit_route", actor_id=unit["id"],
+        )
+        with self.assertRaisesRegex(V2ControlError, "internal_error"):
+            self.control.materialize_state_scope(request, {
+                "generation": 1, "native_revision": 11,
+                "section": "unit_route", "selector": "u:10:100",
+                "view_id": "q11-91", "offset": 0, "count": 1,
+                "total_count": 1, "next_offset": 1,
+                "complete": True, "overflow": False,
+                "rows": (
+                    "unit_route_step unit=u:10:100 sequence=0 "
+                    "kind=move tile=9",
+                ),
+            })
+
+    @staticmethod
+    def chat_action() -> str:
+        return _action(
             15, "player.send_chat", "p:1:10", -1,
             "player.send_chat", "Chat Channel", "Chat Echo Received", 0,
             "chat-required",
         )
+
+    def test_chat_feed_and_send_capability_match_human_channels(self):
         chat_row = (
             "chat sequence=9 turn=7 phase=1 sender=player "
             "sender_name=Other self=0 channel=allied event=chat_msg "
             "truncated=0 message=Meet%20at%20dawn"
         )
-        rows = tuple(sorted(valid_rows() + (chat_action, chat_row)))
+        rows = tuple(sorted(valid_rows() + (self.chat_action(), chat_row)))
         observation_value = observation(rows)
         feed = self.control.state_page(
             observation_value, section="chat",
@@ -2305,15 +2663,54 @@ class V2ProjectionTests(unittest.TestCase):
             item for item in snapshot.legal_actions
             if item["kind"] == "player.send_chat"
         )
-        binding = snapshot.action_bindings[action["action_id"]]
+        schema = action["arguments_schema"]
         self.assertEqual(
-            self.control._resolve_arguments(
-                snapshot, binding,
-                {"channel": "global", "message": "Hello world"},
-            ),
-            "channel=global;message=Hello%20world",
+            list(schema["properties"]["channel"]["enum"]),
+            ["global", "allied", "private"],
         )
-        for message in ("", "/help", ".allies", "Other: secret", "bad\nline"):
+        self.assertEqual(
+            set(schema["properties"]),
+            {"channel", "recipient_id", "message"},
+        )
+        self.assertEqual(set(schema["required"]), {"channel", "message"})
+        self.assertFalse(schema["additionalProperties"])
+        self.assertEqual(
+            schema["properties"]["recipient_id"]["metadata"]
+            ["opaque_ids_from"],
+            "state.chat_recipients",
+        )
+        self.assertEqual(
+            schema["allOf"][0]["if"]["properties"]["channel"]["const"],
+            "private",
+        )
+        self.assertEqual(
+            list(schema["allOf"][0]["then"]["required"]),
+            ["recipient_id"],
+        )
+        binding = snapshot.action_bindings[action["action_id"]]
+        accepted = (
+            ("global", "Hello world", "Hello%20world"),
+            ("global", "/help", "%2Fhelp"),
+            ("global", ".allies", ".allies"),
+            ("global", "Other: secret", "Other%3A%20secret"),
+            ("global", ":announce", "%3Aannounce"),
+            ("allied", "plan: /attack", "plan%3A%20%2Fattack"),
+            ("global", "private\ue000use", "private%EE%80%80use"),
+        )
+        for channel, message, encoded in accepted:
+            with self.subTest(channel=channel, message=message):
+                self.assertEqual(
+                    self.control._resolve_arguments(
+                        snapshot, binding,
+                        {"channel": channel, "message": message},
+                    ),
+                    f"channel={channel};recipient=none;message={encoded}",
+                )
+        for message in (
+            "", " leading", "trailing ", "bad\nline", "bad\x7fline",
+            "bad\u0085line", "bad\u200bline", "bad\ufeffline",
+            "bad\ud800line",
+        ):
             with self.subTest(message=message), self.assertRaisesRegex(
                 V2ControlError, "invalid_request",
             ):
@@ -2323,11 +2720,184 @@ class V2ProjectionTests(unittest.TestCase):
                 )
         inactive = V2SeatControl("game_chat_inactive", "agent_chat", 1)
         inactive_actions = inactive.legal_actions_page(observation(
-            tuple(sorted(valid_rows(actions=False) + (chat_action,))),
+            tuple(sorted(valid_rows(actions=False) + (self.chat_action(),))),
         ))["page"]["items"]
         self.assertEqual(
             [item["kind"] for item in inactive_actions],
             ["player.send_chat"],
+        )
+
+    def test_chat_recipients_are_opaque_and_private_resolution_is_exact(self):
+        current = observation(tuple(sorted(
+            valid_rows() + (self.chat_action(),)
+        )), revision=31)
+        snapshot = self.control._snapshot(current)
+        action = next(
+            item for item in snapshot.legal_actions
+            if item["kind"] == "player.send_chat"
+        )
+        binding = snapshot.action_bindings[action["action_id"]]
+        request = self.control.prepare_state_scope(
+            current, "chat_recipients",
+        )
+        page = self.control.materialize_state_scope(
+            request,
+            state_scope_catalog(request, (
+                "chat_recipient ref=p:1:10 name=Codex self=1 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Claude self=0 connected=1 can_message=1",
+                "chat_recipient ref=p:3:30 name=Pi self=0 connected=0 can_message=0",
+            )),
+        )
+        recipients = page["page"]["items"]
+        self.assertEqual(
+            [(item["name"], item["self"], item["connected"],
+              item["can_message"])
+             for item in recipients],
+            [("Codex", True, True, True), ("Claude", False, True, True),
+             ("Pi", False, False, False)],
+        )
+        self.assertTrue(all(
+            re.fullmatch(r"player_[0-9a-f]{32}", item["id"])
+            for item in recipients
+        ))
+        public_json = json.dumps(page, sort_keys=True)
+        for native in ("p:1:10", "p:2:20", "p:3:30", '"ref"'):
+            self.assertNotIn(native, public_json)
+        self.assertEqual(
+            self.control.state_page(
+                current, "chat_recipients",
+            )["page"]["items"],
+            recipients,
+        )
+        claude = next(item for item in recipients if item["name"] == "Claude")
+        pi = next(item for item in recipients if item["name"] == "Pi")
+        self.assertEqual(
+            self.control._resolve_arguments(snapshot, binding, {
+                "channel": "private",
+                "recipient_id": claude["id"],
+                "message": "Claude: try /help",
+            }),
+            "channel=private;recipient=p:2:20;"
+            "message=Claude%3A%20try%20%2Fhelp",
+        )
+        for arguments in (
+            {"channel": "private", "message": "missing recipient"},
+            {"channel": "private", "recipient_id": "player_" + "f" * 32,
+             "message": "forged recipient"},
+            {"channel": "private", "recipient_id": pi["id"],
+             "message": "recipient is not connected"},
+            {"channel": "global", "recipient_id": claude["id"],
+             "message": "recipient forbidden"},
+        ):
+            with self.subTest(arguments=arguments), self.assertRaisesRegex(
+                V2ControlError, "invalid_request",
+            ):
+                self.control._resolve_arguments(snapshot, binding, arguments)
+
+    def test_chat_recipient_scope_requires_one_self_unique_live_refs_and_revision(self):
+        current = observation(tuple(sorted(
+            valid_rows() + (self.chat_action(),)
+        )), revision=41)
+        valid = (
+            "chat_recipient ref=p:1:10 name=Codex self=1 connected=1 can_message=1",
+            "chat_recipient ref=p:2:20 name=Claude self=0 connected=1 can_message=1",
+        )
+        invalid_rows = (
+            (
+                "chat_recipient ref=p:1:10 name=Codex self=0 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Claude self=0 connected=1 can_message=1",
+            ),
+            (
+                "chat_recipient ref=p:1:10 name=Codex self=1 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Claude self=1 connected=1 can_message=1",
+            ),
+            (
+                "chat_recipient ref=p:1:10 name=Codex self=1 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Claude self=0 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Imposter self=0 connected=1 can_message=1",
+            ),
+            (
+                "chat_recipient ref=p:1:10 name=Codex self=1 connected=1 can_message=1",
+                "chat_recipient ref=p:2:0 name=Claude self=0 connected=1 can_message=1",
+            ),
+            (
+                "chat_recipient ref=p:9:90 name=Wrong self=1 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Claude self=0 connected=1 can_message=1",
+            ),
+            (
+                "chat_recipient ref=p:1:10 name=Codex self=1 connected=1 can_message=1",
+                "chat_recipient ref=p:2:20 name=Claude self=0 connected=0 can_message=1",
+            ),
+        )
+        for ordinal, rows in enumerate(invalid_rows, start=1):
+            with self.subTest(ordinal=ordinal):
+                control = V2SeatControl(
+                    f"game_chat_scope_{ordinal}",
+                    f"agent_chat_scope_{ordinal}", 1,
+                )
+                request = control.prepare_state_scope(
+                    current, "chat_recipients",
+                )
+                with self.assertRaisesRegex(V2ControlError, "internal_error"):
+                    control.materialize_state_scope(
+                        request, state_scope_catalog(request, rows),
+                    )
+
+        revision_control = V2SeatControl(
+            "game_chat_scope_revision", "agent_chat_scope_revision", 1,
+        )
+        request = revision_control.prepare_state_scope(
+            current, "chat_recipients",
+        )
+        wrong_revision = state_scope_catalog(request, valid)
+        wrong_revision["native_revision"] = request.native_revision + 1
+        with self.assertRaisesRegex(V2ControlError, "internal_error"):
+            revision_control.materialize_state_scope(request, wrong_revision)
+        revision_control.state_page(observation(tuple(sorted(
+            valid_rows() + (self.chat_action(),)
+        )), revision=42))
+        with self.assertRaisesRegex(V2ControlError, "stale_revision"):
+            revision_control.materialize_state_scope(
+                request, state_scope_catalog(request, valid),
+            )
+
+    def test_pregame_chat_is_available_and_history_is_projected(self):
+        chat_row = (
+            "chat sequence=1 turn=0 phase=0 sender=player "
+            "sender_name=Claude self=0 channel=private event=chat_msg "
+            "truncated=0 message=Ready%3F"
+        )
+        current = observation(tuple(sorted(
+            pregame_rows() + (chat_row,)
+        )), revision=51)
+        actions = self.control.legal_actions_page(current)["page"]["items"]
+        chat = next(item for item in actions
+                    if item["kind"] == "player.send_chat")
+        self.assertEqual(
+            list(chat["arguments_schema"]["properties"]["channel"]["enum"]),
+            ["global", "allied", "private"],
+        )
+        self.assertEqual(
+            self.control.state_page(current, "chat")["page"]["items"],
+            [{
+                "sequence": 1,
+                "turn": 0,
+                "phase": 0,
+                "sender": {
+                    "kind": "player", "name": "Claude", "self": False,
+                },
+                "channel": "private",
+                "event": "chat_msg",
+                "message": "Ready?",
+                "truncated": False,
+            }],
+        )
+        self.assertEqual(
+            self.control.resolve_action(
+                current, chat["state_revision"], chat["action_id"],
+                {"channel": "global", "message": "I am ready: /start"},
+            ).native_arguments,
+            "channel=global;recipient=none;message=I%20am%20ready%3A%20%2Fstart",
         )
 
     @staticmethod
@@ -2357,7 +2927,10 @@ class V2ProjectionTests(unittest.TestCase):
         actions = self.control.legal_actions_page(current)["page"]["items"]
         self.assertEqual(
             {item["kind"] for item in actions},
-            {"pregame.configure", "pregame.set_ready", "pregame.set_team"},
+            {
+                "pregame.configure", "pregame.set_ready",
+                "pregame.set_team", "player.send_chat",
+            },
         )
         ready = next(item for item in actions
                      if item["kind"] == "pregame.set_ready")
@@ -2478,14 +3051,17 @@ class V2ProjectionTests(unittest.TestCase):
         blocked_actions = blocked.legal_actions_page(current)["page"]["items"]
         self.assertEqual(
             {item["kind"] for item in blocked_actions},
-            {"pregame.configure", "pregame.set_team"},
+            {"pregame.configure", "pregame.set_team", "player.send_chat"},
         )
         blocked_token = blocked_actions[0]["state_revision"]["state_token"]
         blocked.set_pregame_ready_allowed(True)
         released_actions = blocked.legal_actions_page(current)["page"]["items"]
         self.assertEqual(
             {item["kind"] for item in released_actions},
-            {"pregame.configure", "pregame.set_ready", "pregame.set_team"},
+            {
+                "pregame.configure", "pregame.set_ready",
+                "pregame.set_team", "player.send_chat",
+            },
         )
         self.assertNotEqual(
             blocked_token,
@@ -2497,11 +3073,17 @@ class V2ProjectionTests(unittest.TestCase):
         ready_actions = self.control.legal_actions_page(
             ready_current,
         )["page"]["items"]
-        self.assertEqual(len(ready_actions), 1)
-        self.assertEqual(ready_actions[0]["kind"], "pregame.set_ready")
+        self.assertEqual(
+            {item["kind"] for item in ready_actions},
+            {"pregame.set_ready", "player.send_chat"},
+        )
+        ready_action = next(
+            item for item in ready_actions
+            if item["kind"] == "pregame.set_ready"
+        )
         resolution = self.control.resolve_action(
-            ready_current, ready_actions[0]["state_revision"],
-            ready_actions[0]["action_id"], {"ready": False},
+            ready_current, ready_action["state_revision"],
+            ready_action["action_id"], {"ready": False},
         )
         self.assertEqual(resolution.native_arguments, "ready=0")
         without_action = tuple(
@@ -2814,6 +3396,82 @@ class V2ProjectionTests(unittest.TestCase):
             remove["subject"]["clause"]["giver_player_id"],
             relation["player_id"],
         )
+
+    def test_relation_scope_can_remove_unavailable_city_without_leaking_it(self):
+        hidden_native_city = 9099
+        city = (
+            "p:2:20", 4, "City", "city_unavailable",
+            hidden_native_city, "unavailable",
+        )
+        current = observation(treaty_rows((city,)), revision=26)
+        overview = self.control.state_page(current)["page"]["items"][0]
+        relation = self.control.state_page(
+            current, "diplomacy",
+        )["page"]["items"][0]
+        request = self.control.prepare_relation_scope(
+            current, overview["player"]["id"], relation["relation_id"], 8,
+        )
+        digest = v2_control._diplomacy_clauses_digest([{
+            "giver_ref": "p:2:20", "native_type": 4,
+            "native_value": hidden_native_city,
+        }])
+        actions = (
+            relation_action(
+                0x261, "diplomacy.close_meeting", "Meeting Closed",
+                "meeting", clauses_digest=digest,
+            ),
+            relation_action(
+                0x262, "diplomacy.accept", "Acceptance Recorded",
+                "accepted", clauses_digest=digest, desired_acceptance=1,
+            ),
+            relation_action(
+                0x263, "diplomacy.break_relation", "Relation Changed",
+                "lower relation", clauses_digest=digest,
+            ),
+            relation_action(
+                0x264, "diplomacy.remove_clause", "Clause Removed",
+                "City", clauses_digest=digest, clause_giver="p:2:20",
+                clause_type="City", clause_value=hidden_native_city,
+                clause_name="unavailable",
+            ),
+        )
+        page = self.control.relation_scope_page(
+            request, self.relation_page(
+                request, actions, view="r26-1", total=len(actions),
+            ),
+        )
+        remove = next(
+            item for item in page["page"]["items"]
+            if item["subject"]["operation"] == "remove_clause"
+        )
+        self.assertEqual(remove["subject"]["clause"]["value"], {
+            "type": "city",
+            "id": self.control.state_page(
+                current, "diplomacy_clauses",
+            )["page"]["items"][0]["value"]["id"],
+            "name": "Unavailable city",
+            "available": False,
+        })
+        public = json.dumps(page, sort_keys=True)
+        self.assertNotIn(str(hidden_native_city), public)
+        self.assertNotIn("p:2:20", public)
+        resolution = self.control.resolve_action(
+            current, remove["state_revision"], remove["action_id"], {},
+        )
+        self.assertEqual(resolution.native_arguments, "-")
+        self.assertTrue(resolution.relation_scoped)
+
+        forged = replace_row(
+            actions,
+            "clause_name=unavailable desired_acceptance=-1",
+            "clause_name=Secretopolis desired_acceptance=-1",
+        )
+        with self.assertRaisesRegex(V2ControlError, "internal_error"):
+            self.control.relation_scope_page(
+                request, self.relation_page(
+                    request, forged, view="r26-forged", total=len(forged),
+                ),
+            )
 
     def test_relation_scope_rejects_pair_forgery_and_blocked_cancel(self):
         rows = replace_row(
@@ -3219,40 +3877,62 @@ class V2ProjectionTests(unittest.TestCase):
             "slot=a0000000000000000",
             "slot=t0000000F0123456789ABCDEF",
         )
+        unknown_paradrop = _action(
+            0, "unit.paradrop", "u:10:100", 15,
+            "Paradrop Unit", "Tile", "Unit Paradrop", 0,
+            target_name="destination", legality="possibly_legal",
+            probability_kind="unknown", probability_min=0,
+            probability_max=200,
+        ).replace(
+            "slot=a0000000000000000",
+            "slot=t0000000FFEDCBA9876543210",
+        )
+        unknown_teleport = _action(
+            0, "unit.teleport", "u:10:100", 15,
+            "Teleport", "Tile", "Teleport", 0,
+            target_name="destination", legality="possibly_legal",
+            probability_kind="unknown", probability_min=0,
+            probability_max=200,
+        ).replace(
+            "slot=a0000000000000000",
+            "slot=t0000000F0011223344556677",
+        )
         target_page = self.control.target_action_page(unknown_request, {
             "generation": 1,
             "native_revision": unknown_request.native_revision,
             "actor_ref": unknown_request.native_actor_ref,
             "native_tile": unknown_request.native_target_tile,
-            "count": 1,
-            "rows": (goto,),
+            "count": 3,
+            "rows": (goto, unknown_paradrop, unknown_teleport),
         })
+        unknown_actions = {
+            item["subject"]["operation"]: item
+            for item in target_page["page"]["items"]
+        }
         self.assertEqual(
-            target_page["page"]["items"][0]["subject"]["operation"],
-            "goto",
+            set(unknown_actions), {"goto", "paradrop", "teleport"},
         )
         self.assertEqual(
-            set(target_page["page"]["items"][0]["subject"]["target"]),
+            set(unknown_actions["goto"]["subject"]["target"]),
             {"type", "id", "x", "y"},
         )
-
-        unknown_paradrop = _action(
-            0, "unit.paradrop", "u:10:100", 15,
-            "Paradrop Unit", "Tile", "Unit Paradrop", 0,
-            target_name="destination",
-        ).replace(
-            "slot=a0000000000000000",
-            "slot=t0000000FFEDCBA9876543210",
-        )
-        with self.assertRaisesRegex(V2ControlError, "internal_error"):
-            self.control.target_action_page(unknown_request, {
-                "generation": 1,
-                "native_revision": unknown_request.native_revision,
-                "actor_ref": unknown_request.native_actor_ref,
-                "native_tile": unknown_request.native_target_tile,
-                "count": 1,
-                "rows": (unknown_paradrop,),
-            })
+        for operation in ("paradrop", "teleport"):
+            descriptor = unknown_actions[operation]
+            self.assertEqual(
+                descriptor["subject"]["target"]["visibility"], "unknown",
+            )
+            self.assertEqual(
+                descriptor["subject"]["probability"],
+                {
+                    "kind": "unknown",
+                    "minimum_percent": 0.0,
+                    "maximum_percent": 100.0,
+                },
+            )
+            self.assertEqual(
+                set(descriptor["subject"]["target"]),
+                {"type", "id", "x", "y", "visibility"},
+            )
 
         remembered = next(
             item for item in page["page"]["items"]
@@ -3266,10 +3946,18 @@ class V2ProjectionTests(unittest.TestCase):
             "Paradrop Unit Frighten", "Tile", "Unit Paradrop", 0,
             target_name="destination", legality="unresolved",
             probability_kind="not_implemented", probability_min=-1,
-            probability_max=-1,
+            probability_max=-1, subresults="hut_frighten",
         ).replace(
             "slot=a0000000000000000",
             "slot=t000000070123456789ABCDEF",
+        )
+        teleport = _action(
+            0, "unit.teleport", "u:10:100", 7,
+            "Teleport3", "Tile", "Teleport", 0,
+            target_name="destination",
+        ).replace(
+            "slot=a0000000000000000",
+            "slot=t00000007FEDCBA9876543210",
         )
         remembered_page = self.control.target_action_page(
             remembered_request, {
@@ -3277,18 +3965,105 @@ class V2ProjectionTests(unittest.TestCase):
                 "native_revision": remembered_request.native_revision,
                 "actor_ref": remembered_request.native_actor_ref,
                 "native_tile": remembered_request.native_target_tile,
-                "count": 1,
-                "rows": (paradrop,),
+                "count": 2,
+                "rows": (paradrop, teleport),
             },
         )
-        descriptor = remembered_page["page"]["items"][0]
-        self.assertEqual(descriptor["subject"]["operation"], "paradrop")
+        remembered_actions = {
+            item["subject"]["operation"]: item
+            for item in remembered_page["page"]["items"]
+        }
+        self.assertEqual(set(remembered_actions), {"paradrop", "teleport"})
+        for descriptor in remembered_actions.values():
+            self.assertEqual(
+                descriptor["subject"]["target"]["visibility"],
+                "remembered",
+            )
         self.assertEqual(
-            descriptor["subject"]["target"]["visibility"], "remembered",
+            remembered_actions["paradrop"]["subject"]["probability"][
+                "kind"
+            ],
+            "not_implemented",
+        )
+
+    def test_large_map_mobility_uses_bounded_target_catalog(self):
+        side = 50
+        tile_count = side * side
+        rows = tuple(
+            row.replace(
+                "map_width=16 map_height=16",
+                f"map_width={side} map_height={side}",
+            )
+            for row in valid_rows()
+        )
+        control = V2SeatControl("game_test", "large_mobility_map", 1)
+        current = observation(rows)
+        actor_id = next(
+            item["id"] for item in control.state_page(
+                current, "units",
+            )["page"]["items"] if item["scope"] == "own"
+        )
+        map_rows = tuple(
+            "tile "
+            f"index={index} x={index % side} y={index // side} "
+            "known=0 terrain=unknown owner=none placing_extra=-1 "
+            "placing_extra_name=none placing_turns=0 placing_time=-1"
+            for index in range(tile_count)
+        )
+        state_request = control.prepare_state_scope(
+            current, "map_tiles", 16,
+        )
+        first = control.materialize_state_scope(
+            state_request, state_scope_catalog(state_request, map_rows),
+        )
+        self.assertEqual(first["page"]["total_items"], tile_count)
+        target_id = control._tile_id(tile_count - 1)
+        target_request = control.prepare_target_action(
+            current, actor_id, target_id,
+        )
+        mobility = tuple(
+            _action(
+                0,
+                "unit.paradrop" if index < 3 else "unit.teleport",
+                "u:10:100", tile_count - 1, rule, "Tile",
+                "Unit Paradrop" if index < 3 else "Teleport", 0,
+                target_name="destination", legality="possibly_legal",
+                probability_kind="unknown", probability_min=0,
+                probability_max=200,
+                subresults={
+                    "Paradrop Unit Frighten": "hut_frighten",
+                    "Paradrop Unit Enter": "hut_enter",
+                    "Teleport Frighten": "hut_frighten",
+                    "Teleport Enter": "hut_enter",
+                }.get(rule, "none"),
+            ).replace(
+                "slot=a0000000000000000",
+                f"slot=t{tile_count - 1:08X}{index + 1:016X}",
+            )
+            for index, rule in enumerate((
+                "Paradrop Unit", "Paradrop Unit Frighten",
+                "Paradrop Unit Enter", "Teleport", "Teleport2",
+                "Teleport3", "Teleport Frighten", "Teleport Enter",
+            ))
+        )
+        page = control.target_action_page(target_request, {
+            "generation": 1,
+            "native_revision": target_request.native_revision,
+            "actor_ref": target_request.native_actor_ref,
+            "native_tile": target_request.native_target_tile,
+            "count": len(mobility),
+            "rows": mobility,
+        })
+        self.assertEqual(page["page"]["total_items"], 8)
+        self.assertLess(
+            page["page"]["total_items"], v2_control.MAX_SCOPED_ACTIONS,
         )
         self.assertEqual(
-            descriptor["subject"]["probability"]["kind"],
-            "not_implemented",
+            {
+                item["subject"]["target"]["visibility"]
+                for item in page["page"]["items"]
+            },
+            {"unknown"},
         )
 
     def test_city_rally_target_action_is_opaque_and_binds_persistence(self):
@@ -3461,6 +4236,7 @@ class V2ProjectionTests(unittest.TestCase):
             target_name="target", legality="unresolved",
             probability_kind="not_implemented",
             probability_min=-1, probability_max=-1,
+            subresults="hut_enter",
         ).replace(
             "slot=a0000000000000000",
             "slot=t000000060123456789ABCDEF",
@@ -3505,7 +4281,7 @@ class V2ProjectionTests(unittest.TestCase):
         base = observation()
         cases = {
             "wrong_native_variant": (
-                base, 6, "Paradrop Unit Conquer", "unresolved",
+                base, 6, "Paradrop Unit", "unresolved",
                 "not_implemented", -1, -1,
             ),
             "resolved_probability": (
@@ -3546,6 +4322,7 @@ class V2ProjectionTests(unittest.TestCase):
                 "Unit Paradrop Conquer", 0, target_name="target",
                 legality=legality, probability_kind=probability,
                 probability_min=minimum, probability_max=maximum,
+                subresults="hut_enter",
             ).replace(
                 "slot=a0000000000000000",
                 f"slot=t{tile:08X}0123456789ABCDEF",
@@ -3560,6 +4337,70 @@ class V2ProjectionTests(unittest.TestCase):
                     "native_tile": request.native_target_tile,
                     "count": 1,
                     "rows": (row,),
+                })
+
+    def test_action_subresults_project_ordered_effects_and_fail_closed(self):
+        current = observation()
+
+        def request_for(control: V2SeatControl) -> V2TargetActionRequest:
+            actor_id = next(
+                item["id"] for item in control.state_page(
+                    current, "units",
+                )["page"]["items"] if item["scope"] == "own"
+            )
+            target_id = next(
+                item["id"] for item in control.state_page(
+                    current, "known_tiles",
+                )["page"]["items"] if item["x"] == 2
+            )
+            return control.prepare_target_action(current, actor_id, target_id)
+
+        request = request_for(self.control)
+        row = _action(
+            0, "unit.paradrop", "u:10:100", 6,
+            "Paradrop Unit Enter", "Tile", "Unit Paradrop", 0,
+            target_name="destination",
+            subresults="hut_enter,may_embark",
+        ).replace(
+            "slot=a0000000000000000",
+            "slot=t000000060123456789ABCDEF",
+        )
+        page = self.control.target_action_page(request, {
+            "generation": 1,
+            "native_revision": request.native_revision,
+            "actor_ref": request.native_actor_ref,
+            "native_tile": request.native_target_tile,
+            "count": 1,
+            "rows": (row,),
+        })
+        descriptor = page["page"]["items"][0]
+        self.assertEqual(
+            descriptor["subject"]["effects"],
+            ["enter_huts", "may_embark"],
+        )
+
+        for serial, subresults in enumerate((
+            "may_embark,hut_enter", "hut_enter,hut_enter",
+            "hut_enter,unknown",
+        ), start=1):
+            control = V2SeatControl(
+                "game_test", f"agent_subresult_order_{serial}", 1,
+            )
+            invalid_request = request_for(control)
+            invalid = row.replace(
+                "subresults=hut_enter,may_embark",
+                f"subresults={subresults}",
+            )
+            with self.subTest(subresults=subresults), self.assertRaisesRegex(
+                V2ControlError, "internal_error",
+            ):
+                control.target_action_page(invalid_request, {
+                    "generation": 1,
+                    "native_revision": invalid_request.native_revision,
+                    "actor_ref": invalid_request.native_actor_ref,
+                    "native_tile": invalid_request.native_target_tile,
+                    "count": 1,
+                    "rows": (invalid,),
                 })
 
     def test_classic_hut_and_extras_variants_are_opaque_and_unresolved(self):
@@ -3591,12 +4432,17 @@ class V2ProjectionTests(unittest.TestCase):
         rows = []
         for index, (native_rule, target_kind, result, _operation,
                     probability_kind, legality, minimum, maximum) in enumerate(specs):
+            subresults = (
+                "hut_enter" if result == "Unit Enter Hut"
+                else "hut_frighten" if result == "Unit Frighten Hut"
+                else "none"
+            )
             row = _action(
                 index, "unit.special", "u:10:100", 6,
                 native_rule, target_kind, result, 0,
                 target_name="target", probability_kind=probability_kind,
                 legality=legality, probability_min=minimum,
-                probability_max=maximum,
+                probability_max=maximum, subresults=subresults,
             ).replace(
                 f"slot=a{index:016X}",
                 f"slot=t00000006{index + 1:016X}",
@@ -3764,7 +4610,8 @@ class V2ProjectionTests(unittest.TestCase):
                 "Targeted Steal Tech Escape Expected", "City",
                 "Unit Targeted Steal Tech", 0,
                 target_tech=tech, destination_city="c:30:300",
-                target_name=name, legality="unresolved",
+                target_name=name, subtarget_kind="technology",
+                legality="unresolved",
                 probability_kind="not_implemented",
                 probability_min=-1, probability_max=-1,
             ).replace(
@@ -3815,11 +4662,12 @@ class V2ProjectionTests(unittest.TestCase):
         ):
             self.assertNotIn(private, public)
 
-        excluded = _action(
+        forged = _action(
             0, "unit.special", "u:10:100", 6,
             "Targeted Steal Tech", "City", "Unit Targeted Steal Tech", 1,
             target_tech=4, destination_city="c:30:300", target_name="Writing",
-            legality="unresolved", probability_kind="not_implemented",
+            subtarget_kind="building", legality="unresolved",
+            probability_kind="not_implemented",
             probability_min=-1, probability_max=-1,
         ).replace(
             "slot=a0000000000000000", "slot=t0000000600000000000000FF",
@@ -3843,8 +4691,57 @@ class V2ProjectionTests(unittest.TestCase):
                 "actor_ref": rejected_request.native_actor_ref,
                 "native_tile": rejected_request.native_target_tile,
                 "count": 1,
-                "rows": (excluded,),
+                "rows": (forged,),
             })
+
+    def test_targeted_technology_theft_projects_future_tech_choice(self):
+        rows, _ = economic_unit_rows()
+        current = observation(rows)
+        actor_id = next(
+            item["id"] for item in self.control.state_page(
+                current, "units",
+            )["page"]["items"] if item["scope"] == "own"
+        )
+        target_id = next(
+            item["id"] for item in self.control.state_page(
+                current, "known_tiles",
+            )["page"]["items"] if item["x"] == 2
+        )
+        request = self.control.prepare_target_action(
+            current, actor_id, target_id,
+        )
+        future = _action(
+            0, "unit.special", "u:10:100", 6,
+            "Targeted Steal Tech", "City", "Unit Targeted Steal Tech", 1,
+            target_tech=255, destination_city="c:30:300",
+            target_name="Future Tech", subtarget_kind="technology",
+            legality="unresolved", probability_kind="not_implemented",
+            probability_min=-1, probability_max=-1,
+        ).replace(
+            "slot=a0000000000000000",
+            "slot=t000000060123456789ABCDEF",
+        )
+        page = self.control.target_action_page(request, {
+            "generation": 1,
+            "native_revision": request.native_revision,
+            "actor_ref": request.native_actor_ref,
+            "native_tile": request.native_target_tile,
+            "count": 1,
+            "rows": (future,),
+        })
+        descriptor = page["page"]["items"][0]
+        self.assertEqual(
+            descriptor["subject"]["technology_choice"]["name"],
+            "Future Tech",
+        )
+        self.assertNotEqual(
+            descriptor["subject"]["technology_choice"]["id"], "255",
+        )
+        resolution = self.control.resolve_action(
+            current, descriptor["state_revision"],
+            descriptor["action_id"], {},
+        )
+        self.assertEqual(resolution.operation, "steal_technology")
 
     def test_classic_targeted_building_sabotage_projects_bound_choices(self):
         rows, _ = economic_unit_rows()
@@ -3873,6 +4770,7 @@ class V2ProjectionTests(unittest.TestCase):
                 consuming,
                 target_build_kind="improvement", target_build=building,
                 destination_city="c:30:300", target_name=name,
+                subtarget_kind="building",
                 legality="unresolved", probability_kind="not_implemented",
                 probability_min=-1, probability_max=-1,
             ).replace(
@@ -3929,6 +4827,171 @@ class V2ProjectionTests(unittest.TestCase):
             "unit.special", "c:30:300", "target_build",
         ):
             self.assertNotIn(private, public)
+
+    def test_custom_ruleset_actions_and_surgical_building_are_projected(self):
+        rows, _ = economic_unit_rows()
+        current = observation(rows)
+        actor_id = next(
+            item["id"] for item in self.control.state_page(
+                current, "units",
+            )["page"]["items"] if item["scope"] == "own"
+        )
+        target_id = next(
+            item["id"] for item in self.control.state_page(
+                current, "known_tiles",
+            )["page"]["items"] if item["x"] == 2
+        )
+        private_rows = (
+            _action(
+                0, "unit.special", "u:10:100", 6,
+                "User Action 1", "Unit", "Ruleset Custom", 0,
+                target_unit="u:11:101",
+                target_name="Disrupt Supply Lines",
+            ),
+            _action(
+                1, "unit.special", "u:10:100", 6,
+                "User Action 2", "Tile", "Ruleset Custom", 0,
+                target_name="Use Ancient Transportation Network",
+            ),
+            _action(
+                2, "unit.special", "u:10:100", 6,
+                "Surgical Strike Building", "City",
+                "Unit Surgical Strike Building", 0,
+                destination_city="c:30:300",
+                target_build_kind="improvement", target_build=7,
+                target_name="Granary", subtarget_kind="building",
+            ),
+        )
+        private_rows = tuple(
+            row.replace(
+                f"slot=a{index:016X}",
+                f"slot=t00000006{index + 1:016X}",
+            )
+            for index, row in enumerate(private_rows)
+        )
+        request = self.control.prepare_target_action(
+            current, actor_id, target_id, limit=16,
+        )
+        page = self.control.target_action_page(request, {
+            "generation": 1,
+            "native_revision": request.native_revision,
+            "actor_ref": request.native_actor_ref,
+            "native_tile": request.native_target_tile,
+            "count": len(private_rows),
+            "rows": private_rows,
+        })
+        items = page["page"]["items"]
+        self.assertEqual(
+            [item["subject"]["operation"] for item in items],
+            ["ruleset_action", "ruleset_action", "strike_building"],
+        )
+        self.assertEqual(
+            [item["label"] for item in items[:2]],
+            ["Disrupt Supply Lines", "Use Ancient Transportation Network"],
+        )
+        self.assertEqual(items[0]["subject"]["ruleset_action"], {
+            "name": "Disrupt Supply Lines",
+        })
+        self.assertEqual(items[1]["subject"]["target"]["type"], "tile")
+        building = items[2]["subject"]["building_choice"]
+        self.assertEqual(building["name"], "Granary")
+        self.assertNotEqual(building["id"], "7")
+        for item in items:
+            resolved = self.control.resolve_action(
+                current, item["state_revision"], item["action_id"], {},
+            )
+            self.assertEqual(
+                resolved.operation, item["subject"]["operation"],
+            )
+            self.assertTrue(resolved.scoped)
+            self.assertEqual(resolved.native_arguments, "-")
+        public = json.dumps(items, sort_keys=True)
+        for private in (
+            "User Action 1", "User Action 2", "Ruleset Custom",
+            "Surgical Strike Building", "Unit Surgical Strike Building",
+            "unit.special", "u:11:101", "c:30:300",
+        ):
+            self.assertNotIn(private, public)
+
+        for wrong_rule, wrong_build_kind in (
+            ("Unused Action", "none"),
+            ("User Action 3", "improvement"),
+        ):
+            rejected = V2SeatControl("game_test", "agent_custom_reject", 1)
+            rejected_actor = next(
+                item["id"] for item in rejected.state_page(
+                    current, "units",
+                )["page"]["items"] if item["scope"] == "own"
+            )
+            rejected_target = next(
+                item["id"] for item in rejected.state_page(
+                    current, "known_tiles",
+                )["page"]["items"] if item["x"] == 2
+            )
+            rejected_request = rejected.prepare_target_action(
+                current, rejected_actor, rejected_target,
+            )
+            invalid = _action(
+                0, "unit.special", "u:10:100", 6,
+                wrong_rule, "Tile", "Ruleset Custom", 0,
+                target_build_kind=wrong_build_kind,
+                target_build=7 if wrong_build_kind != "none" else -1,
+                target_name="Custom Action",
+            ).replace(
+                "slot=a0000000000000000", "slot=t0000000600000000000000AA",
+            )
+            with self.assertRaisesRegex(V2ControlError, "internal_error"):
+                rejected.target_action_page(rejected_request, {
+                    "generation": 1,
+                    "native_revision": rejected_request.native_revision,
+                    "actor_ref": rejected_request.native_actor_ref,
+                    "native_tile": rejected_request.native_target_tile,
+                    "count": 1,
+                    "rows": (invalid,),
+                })
+
+        for serial, invalid in enumerate((
+            _action(
+                0, "unit.special", "u:10:100", 6,
+                "User Action 3", "Tile", "Ruleset Custom", 0,
+                target_name="Custom Specialist", target_specialist=0,
+                subtarget_kind="specialist",
+            ),
+            _action(
+                0, "unit.special", "u:10:100", 6,
+                "User Action 4", "Tile", "Ruleset Custom", 0,
+                target_name="Custom Hut Effect", subresults="hut_enter",
+            ),
+        ), start=1):
+            rejected = V2SeatControl(
+                "game_test", f"agent_custom_complex_reject_{serial}", 1,
+            )
+            rejected_actor = next(
+                item["id"] for item in rejected.state_page(
+                    current, "units",
+                )["page"]["items"] if item["scope"] == "own"
+            )
+            rejected_target = next(
+                item["id"] for item in rejected.state_page(
+                    current, "known_tiles",
+                )["page"]["items"] if item["x"] == 2
+            )
+            rejected_request = rejected.prepare_target_action(
+                current, rejected_actor, rejected_target,
+            )
+            invalid = invalid.replace(
+                "slot=a0000000000000000",
+                f"slot=t0000000600000000000000{serial:02X}",
+            )
+            with self.assertRaisesRegex(V2ControlError, "internal_error"):
+                rejected.target_action_page(rejected_request, {
+                    "generation": 1,
+                    "native_revision": rejected_request.native_revision,
+                    "actor_ref": rejected_request.native_actor_ref,
+                    "native_tile": rejected_request.native_target_tile,
+                    "count": 1,
+                    "rows": (invalid,),
+                })
 
     def test_target_catalog_rejects_cost_subtarget_cross_kind_and_sentinels(self):
         rows, _ = economic_unit_rows()
@@ -4395,6 +5458,80 @@ class V2ProjectionTests(unittest.TestCase):
             "Road",
         )
 
+    def test_owned_city_trade_routes_are_complete_and_fog_safe(self):
+        rows = [
+            row.replace(
+                "improvement_count=0 did_sell=0",
+                "improvement_count=0 trade_route_count=2 "
+                "trade_route_capacity=3 did_sell=0",
+            ) if row.startswith("city ref=c:20:200 ") else row
+            for row in valid_rows(actions=False)
+        ]
+        rows.append(
+            "city_site ref=c:30:300 owner=p:2:20 name=Beta tile=6 "
+            "x=2 y=2 size=4 visibility=visible"
+        )
+        current = observation(tuple(sorted(rows)))
+        city = self.control.state_page(
+            current, "cities",
+        )["page"]["items"][0]
+        self.assertEqual(city["trade_routes"], {"count": 2, "capacity": 3})
+        request = self.control.prepare_state_scope(
+            current, "city_trade_routes", actor_id=city["id"],
+        )
+        route_rows = (
+            "city_trade_route city=c:20:200 position=0 partner=c:30:300 "
+            "partner_visibility=visible partner_name=Beta base_value=4 "
+            "effective_value=5 direction=bidirectional goods_id=2 "
+            "goods_name=Spices",
+            "city_trade_route city=c:20:200 position=1 partner=none "
+            "partner_visibility=unavailable partner_name=unavailable "
+            "base_value=2 effective_value=2 direction=from goods_id=3 "
+            "goods_name=Silk",
+        )
+        page = self.control.materialize_state_scope(
+            request, state_scope_catalog(request, route_rows),
+        )
+        routes = page["page"]["items"]
+        self.assertEqual(len(routes), 2)
+        self.assertRegex(routes[0]["route_id"], r"^trade_route_[0-9a-f]{32}$")
+        self.assertEqual(routes[0]["city_id"], city["id"])
+        self.assertEqual(routes[0]["partner"], {
+            "available": True,
+            "city_id": next(
+                item["id"] for item in self.control.state_page(
+                    current, "city_sites",
+                )["page"]["items"] if item["name"] == "Beta"
+            ),
+            "name": "Beta",
+            "visibility": "visible",
+        })
+        self.assertEqual(routes[0]["value"], {"base": 4, "effective": 5})
+        self.assertEqual(routes[0]["direction"], "bidirectional")
+        self.assertRegex(routes[0]["goods"]["id"], r"^goods_[0-9a-f]{32}$")
+        self.assertEqual(routes[0]["goods"]["name"], "Spices")
+        self.assertEqual(routes[1]["partner"], {"available": False})
+        self.assertNotIn("native", json.dumps(routes, sort_keys=True))
+        self.assertNotIn("c:30:300", json.dumps(routes, sort_keys=True))
+
+        missing_partner = (
+            route_rows[0].replace("partner=c:30:300", "partner=c:31:301"),
+            route_rows[1],
+        )
+        fresh = V2SeatControl("game_trade_bad", "agent_trade_bad", 1)
+        bad_current = observation(tuple(sorted(rows)))
+        bad_city = fresh.state_page(
+            bad_current, "cities",
+        )["page"]["items"][0]
+        bad_request = fresh.prepare_state_scope(
+            bad_current, "city_trade_routes", actor_id=bad_city["id"],
+        )
+        with self.assertRaisesRegex(V2ControlError, "internal_error"):
+            fresh.materialize_state_scope(
+                bad_request,
+                state_scope_catalog(bad_request, missing_partner),
+            )
+
     def test_active_city_rally_projects_plan_and_clear_capability(self):
         rows = replace_row(
             valid_rows(),
@@ -4504,6 +5641,60 @@ class V2ProjectionTests(unittest.TestCase):
             control.prepare_target_action(current, actor_id, foreign_target)
         self.assertEqual(foreign.exception.code, "invalid_request")
 
+    def test_build_choice_telemetry_is_structured_and_paginates(self):
+        current = observation()
+        city = self.control.state_page(
+            current, "cities",
+        )["page"]["items"][0]
+        bundled = self.control.state_page(
+            current, "city_build_choices", actor_id=city["id"],
+        )["page"]["items"]
+        settlers = next(item for item in bundled if item["name"] == "Settlers")
+        self.assertEqual(settlers["cost"], {
+            "shields": 40,
+            "shield_stock_after_change": 10,
+            "turns": 20,
+            "turns_with_stock": 15,
+        })
+        self.assertEqual(settlers["happy_cost"], 0)
+        self.assertEqual(settlers["unit"], {
+            "attack": 1,
+            "defense": 1,
+            "move_rate": 3,
+            "hp": 10,
+            "firepower": 1,
+            "vision_radius_sq": 2,
+            "transport_capacity": 0,
+            "fuel": 0,
+            "pop_cost": 0,
+            "bombard_rate": 0,
+            "city_size": 1,
+            "paradrop_range": 0,
+        })
+        self.assertIsNone(settlers["building"])
+
+        request = self.control.prepare_state_scope(
+            current, "city_build_choices", 1, actor_id=city["id"],
+        )
+        native_rows = tuple(
+            row for row in current["rows"]
+            if row.startswith("city_build_choice ")
+        )
+        first = self.control.materialize_state_scope(
+            request, state_scope_catalog(request, native_rows),
+        )
+        second = self.control.continue_page(
+            first["page"]["next_cursor"], endpoint="state",
+        )
+        paged = [*first["page"]["items"], *second["page"]["items"]]
+        self.assertEqual(
+            [item["name"] for item in paged],
+            [item["name"] for item in bundled],
+        )
+        self.assertTrue(all(
+            "cost" in item and "upkeep" in item for item in paged
+        ))
+
     def test_city_management_state_actions_and_arguments_are_exact(self):
         rows, scoped = city_management_control_rows()
         current = observation(rows)
@@ -4543,6 +5734,29 @@ class V2ProjectionTests(unittest.TestCase):
         self.assertEqual(stale_choice["preservable_count"], 2)
         self.assertTrue(queue_choice["can_queue"])
         self.assertEqual(queue_choice["preservable_count"], 0)
+        self.assertEqual(queue_choice["cost"], {
+            "shields": 40,
+            "shield_stock_after_change": 10,
+            "turns": 20,
+            "turns_with_stock": 15,
+        })
+        self.assertEqual(queue_choice["upkeep"], {
+            "food": 0, "shield": 0, "trade": 0,
+            "gold": 0, "luxury": 0, "science": 0,
+        })
+        self.assertIsNone(queue_choice["happy_cost"])
+        self.assertIsNone(queue_choice["unit"])
+        self.assertEqual(queue_choice["building"], {
+            "genus": "Improvement",
+            "obsolete": False,
+            "redundant": False,
+            "convert": False,
+            "allows_units": False,
+            "allows_extras": False,
+            "prevents_disaster": False,
+            "protects_vs_actions": False,
+            "allows_actions": False,
+        })
         self.assertEqual(management["options"], {
             "allow_disband": False,
             "new_citizens": "science",
@@ -4593,6 +5807,11 @@ class V2ProjectionTests(unittest.TestCase):
         self.assertTrue(
             worklist["arguments_schema"]["properties"]["items"]
             ["metadata"]["duplicates_allowed"]
+        )
+        self.assertEqual(
+            worklist["arguments_schema"]["properties"]["items"]
+            ["metadata"]["opaque_ids_from"],
+            "city_build_choices",
         )
         self.assertEqual(
             worklist["arguments_schema"]["properties"]["items"]
@@ -5572,6 +6791,64 @@ class V2ProjectionTests(unittest.TestCase):
         ):
             self.assertNotIn(private, serialized)
 
+    def test_airlift_accepts_exact_non_owned_city_site_destination(self):
+        rows, _ = noncombat_mobility_rows()
+        rows = tuple(sorted((*rows, (
+            "city_site ref=c:30:300 owner=p:2:20 name=Allied%20Harbor "
+            "tile=7 x=3 y=2 size=4 visibility=known"
+        ))))
+        current = observation(rows)
+        unit = next(
+            item for item in self.control.state_page(
+                current, "units",
+            )["page"]["items"] if item["scope"] == "own"
+        )
+        site = next(
+            item for item in self.control.state_page(
+                current, "city_sites",
+            )["page"]["items"] if item["name"] == "Allied Harbor"
+        )
+        airlift = _action(
+            140, "unit.airlift", "u:10:100", -1,
+            "Airlift Unit", "City", "Unit Airlift", 0,
+            source_city="c:20:200", destination_city="c:30:300",
+            target_name="Allied Harbor", legality="possibly_legal",
+            probability_kind="unknown", probability_min=0,
+            probability_max=200,
+        )
+        request = self.control.prepare_actor_scope(current, unit["id"], 16)
+        global_rows = [
+            row for row in rows
+            if row.startswith("action ") and " actor=u:10:100 " in row
+        ]
+        page = self.control.actor_scope_page(
+            request,
+            self.scope_page(
+                request, [*global_rows, airlift], view="v11-196",
+            ),
+        )
+        descriptor = next(
+            item for item in page["page"]["items"]
+            if item["subject"]["operation"] == "airlift"
+        )
+        self.assertEqual(descriptor["subject"]["target"], {
+            "type": "city",
+            "id": site["id"],
+            "name": "Allied Harbor",
+            "owner_player_id": site["owner_player_id"],
+            "tile_id": site["tile_id"],
+            "x": 3,
+            "y": 2,
+            "size": 4,
+            "visibility": "known",
+        })
+        resolved = self.control.resolve_action(
+            current, descriptor["state_revision"],
+            descriptor["action_id"], {},
+        )
+        self.assertEqual(resolved.operation, "airlift")
+        self.assertEqual(resolved.native_arguments, "-")
+
     def test_noncombat_mobility_forgery_and_scope_overflow_fail_closed(self):
         rows, mobility = noncombat_mobility_rows()
         current = observation(rows)
@@ -5990,7 +7267,7 @@ class V2ProjectionTests(unittest.TestCase):
         self.assertEqual(cancel_resolved.native_arguments, "-")
 
     def test_cancel_orders_is_scoped_opaque_and_requires_exact_public_state(self):
-        queued_rows = tuple(sorted(
+        queued_rows = tuple(sorted(tuple(
             row.replace(
                 "controller=none has_orders=0 orders_repeat=0 "
                 "orders_vigilant=0 order_count=0 "
@@ -6003,7 +7280,10 @@ class V2ProjectionTests(unittest.TestCase):
             )
             for row in valid_rows()
             if not (row.startswith("action ") and " actor=u:10:100 " in row)
-        ))
+        ) + (
+            "unit_route unit=u:10:100 order_index=0 "
+            "reconstructable=1 step_count=2",
+        )))
         current = observation(queued_rows, revision=13)
         own = next(
             item for item in self.control.state_page(
@@ -6056,9 +7336,13 @@ class V2ProjectionTests(unittest.TestCase):
             ("controller=none has_orders=1",
              "controller=auto_work has_orders=1"),
         ), start=14):
-            invalid = observation(
-                replace_row(queued_rows, old, new), revision=revision,
-            )
+            invalid_rows = replace_row(queued_rows, old, new)
+            if "has_orders=0" in new:
+                invalid_rows = tuple(
+                    row for row in invalid_rows
+                    if not row.startswith("unit_route ")
+                )
+            invalid = observation(invalid_rows, revision=revision)
             invalid_own = next(
                 item for item in self.control.state_page(
                     invalid, "units",
@@ -6074,6 +7358,129 @@ class V2ProjectionTests(unittest.TestCase):
                         invalid_request, [cancel],
                         view=f"v{revision}-199",
                     ),
+                )
+
+    def test_pending_action_decision_is_opaque_queryable_and_clearable(self):
+        pending_rows = tuple(sorted(
+            row.replace(
+                "action_decision_want=nothing action_decision_tile=-1",
+                "action_decision_want=active action_decision_tile=8",
+            )
+            for row in complete_v2_rows(valid_rows())
+            if not (row.startswith("action ") and " actor=u:10:100 " in row)
+        ))
+        current = observation(pending_rows, revision=18)
+        own = next(
+            item for item in self.control.state_page(
+                current, "units",
+            )["page"]["items"] if item["scope"] == "own"
+        )
+        decision = own["action_decision"]
+        self.assertEqual(decision["want"], "active")
+        self.assertTrue(decision["pending"])
+        self.assertRegex(decision["tile_id"], r"^tile_[0-9a-f]{32}$")
+
+        actor_request = self.control.prepare_actor_scope(
+            current, own["id"], 16,
+        )
+        clear = _action(
+            0x9A, "unit.clear_action_decision", "u:10:100", 8,
+            "unit.clear_action_decision", "Action Decision",
+            "Action Decision Cleared", 0, target_name="active",
+        )
+        clear_page = self.control.actor_scope_page(
+            actor_request,
+            self.scope_page(actor_request, [clear], view="v18-199"),
+        )
+        clear_descriptor = clear_page["page"]["items"][0]
+        self.assertEqual(clear_descriptor["kind"], "unit.order")
+        self.assertEqual(
+            clear_descriptor["subject"]["operation"],
+            "clear_action_decision",
+        )
+        self.assertEqual(
+            clear_descriptor["subject"]["target"],
+            {
+                "type": "action_decision",
+                "tile_id": decision["tile_id"],
+                "want": "active",
+            },
+        )
+        resolved = self.control.resolve_action(
+            current, clear_descriptor["state_revision"],
+            clear_descriptor["action_id"], {},
+        )
+        self.assertEqual(resolved.operation, "clear_action_decision")
+        self.assertEqual(resolved.native_arguments, "-")
+
+        target_request = self.control.prepare_target_action(
+            current, own["id"], decision["tile_id"],
+        )
+        self.assertTrue(target_request.action_decision)
+        support = self.control.prepare_target_tile_support(target_request)
+        self.assertEqual(support.section, "action_decision_tile")
+        self.assertEqual(support.selector, "u:10:100")
+        self.control.hydrate_state_scope(support, {
+            "generation": 1,
+            "native_revision": 18,
+            "section": "action_decision_tile",
+            "selector": "u:10:100",
+            "view_id": "q18-200",
+            "offset": 0,
+            "count": 1,
+            "total_count": 1,
+            "next_offset": 1,
+            "complete": True,
+            "overflow": False,
+            "rows": (
+                "tile_local index=8 x=4 y=2 known=0 terrain=unknown "
+                "owner=none placing_extra=-1 placing_extra_name=none "
+                "placing_turns=0 placing_time=-1 resource_extra=-1 "
+                "resource_name=none has_label=0 label=none food=-1 "
+                "shields=-1 trade=-1",
+            ),
+        })
+        attack = _action(
+            0, "unit.special", "u:10:100", 8, "Nuke", "Tile",
+            "Unit Nuke", 1, target_name="target",
+        ).replace(
+            "slot=a0000000000000000",
+            "slot=t000000080123456789ABCDEF",
+        )
+        attack_page = self.control.target_action_page(target_request, {
+            "generation": 1,
+            "native_revision": 18,
+            "actor_ref": "u:10:100",
+            "native_tile": 8,
+            "count": 1,
+            "rows": (attack,),
+        })
+        attack_target = attack_page["page"]["items"][0]["subject"]["target"]
+        self.assertEqual(attack_target["id"], decision["tile_id"])
+        self.assertNotIn("x", attack_target)
+        self.assertNotIn("y", attack_target)
+
+        overview = self.control.state_page(current)["page"]["items"][0]
+        with self.assertRaisesRegex(V2ControlError, "invalid_request"):
+            self.control.prepare_target_action(
+                current, overview["player"]["id"], decision["tile_id"],
+            )
+        for malformed in (
+            "action_decision_want=nothing action_decision_tile=8",
+            "action_decision_want=active action_decision_tile=-1",
+        ):
+            with self.subTest(malformed=malformed), self.assertRaisesRegex(
+                V2ControlError, "internal_error",
+            ):
+                bad = tuple(
+                    row.replace(
+                        "action_decision_want=active action_decision_tile=8",
+                        malformed,
+                    )
+                    for row in pending_rows
+                )
+                V2SeatControl("game_test", "bad_decision", 1).state_page(
+                    observation(bad, revision=19), "units",
                 )
 
     def test_goto_is_scoped_opaque_and_projects_only_known_tile(self):
@@ -6140,9 +7547,13 @@ class V2ProjectionTests(unittest.TestCase):
             ),
             ("activity=idle", "activity=sentry"),
         ), start=20):
-            invalid = observation(
-                replace_row(valid_rows(), old, new), revision=revision,
-            )
+            invalid_rows = replace_row(valid_rows(), old, new)
+            if "has_orders=1" in new:
+                invalid_rows = tuple(sorted((*invalid_rows,
+                    "unit_route unit=u:10:100 order_index=0 "
+                    "reconstructable=1 step_count=2",
+                )))
+            invalid = observation(invalid_rows, revision=revision)
             invalid_own = next(
                 item for item in self.control.state_page(
                     invalid, "units",
@@ -6225,6 +7636,65 @@ class V2ProjectionTests(unittest.TestCase):
             {"mode": "patrol", "waypoints": [tile_by_x[3], tile_by_x[3]]},
             {"mode": "goto", "waypoints": [tile_by_x[3], tile_by_x[1]]},
             {"mode": "loop", "waypoints": [tile_by_x[3]]},
+        ):
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(
+                V2ControlError, "invalid_request",
+            ):
+                self.control.resolve_action(
+                    current, descriptor["state_revision"],
+                    descriptor["action_id"], invalid,
+                )
+
+    def test_attack_route_resolves_one_opaque_destination_exactly(self):
+        current = observation(valid_rows(), revision=24)
+        own = next(
+            item for item in self.control.state_page(
+                current, "units",
+            )["page"]["items"] if item["scope"] == "own"
+        )
+        tiles = self.control.state_page(
+            current, "known_tiles",
+        )["page"]["items"]
+        tile_by_x = {item["x"]: item["id"] for item in tiles}
+        request = self.control.prepare_actor_scope(current, own["id"], 16)
+        global_rows = [
+            row for row in valid_rows()
+            if row.startswith("action ") and " actor=u:10:100 " in row
+        ]
+        attack_route = _action(
+            156, "unit.attack_route", "u:10:100", -1,
+            "unit.attack_route", "Attack Route", "Orders Queued", 0,
+            "attack-route-required", target_name="destination",
+        )
+        payload = self.control.actor_scope_page(
+            request,
+            self.scope_page(
+                request, [*global_rows, attack_route], view="v24-204",
+            ),
+        )
+        descriptor = next(
+            item for item in payload["page"]["items"]
+            if item["subject"]["operation"] == "attack_route"
+        )
+        self.assertEqual(descriptor["kind"], "unit.order")
+        self.assertEqual(descriptor["subject"]["target"], {
+            "type": "route", "mode": "attack",
+        })
+        self.assertEqual(
+            descriptor["arguments_schema"]["required"],
+            ["destination_id"],
+        )
+        resolved = self.control.resolve_action(
+            current, descriptor["state_revision"], descriptor["action_id"],
+            {"destination_id": tile_by_x[3]},
+        )
+        self.assertEqual(resolved.operation, "attack_route")
+        self.assertEqual(resolved.native_arguments, "destination=7")
+        for invalid in (
+            {"destination_id": tile_by_x[1]},
+            {"destination_id": "tile_unknown"},
+            {"destination_id": tile_by_x[3], "mode": "attack"},
+            {},
         ):
             with self.subTest(invalid=invalid), self.assertRaisesRegex(
                 V2ControlError, "invalid_request",
@@ -7251,6 +8721,7 @@ class V2ProjectionTests(unittest.TestCase):
             "city_build_choices": 2,
             "city_worklist": 0,
             "city_improvements": 0,
+            "city_trade_routes": 0,
             "city_governor": 0,
             "city_sites": 1,
             "units": 2,
@@ -8203,20 +9674,20 @@ class V2ProjectionTests(unittest.TestCase):
                 "id=6 name=Bronze%20Working state=known",
             ),
             replace_row(
-                rows, "target_tech=6 vote_no=-1 target_government=-1 max_rate=0 ",
-                "target_tech=5 vote_no=-1 target_government=-1 max_rate=0 ",
+                rows, "target_tech=6 vote_no=-1 ",
+                "target_tech=5 vote_no=-1 ",
             ),
             replace_row(
-                rows, "target_tech=4 vote_no=-1 target_government=-1 max_rate=0 ",
-                "target_tech=3 vote_no=-1 target_government=-1 max_rate=0 ",
+                rows, "target_tech=4 vote_no=-1 ",
+                "target_tech=3 vote_no=-1 ",
             ),
             replace_row(
                 rows, "changeable_tax=1 max_rate=70",
                 "changeable_tax=0 max_rate=70",
             ),
             replace_row(
-                rows, "target_tech=-1 vote_no=-1 target_government=-1 max_rate=70 ",
-                "target_tech=-1 vote_no=-1 target_government=-1 max_rate=60 ",
+                rows, "server_setting_value=-1 target_government=-1 max_rate=70 ",
+                "server_setting_value=-1 target_government=-1 max_rate=60 ",
             ),
         )
         for hostile in cases:
@@ -8273,11 +9744,47 @@ class V2ProjectionTests(unittest.TestCase):
             replace_row(rows, "method=random max_turns=5 untargeted_allowed=1", "method=quickening max_turns=5 untargeted_allowed=1"),
             replace_row(rows, "untargeted_allowed=1 no_anarchy=0 can_revolution=1", "untargeted_allowed=0 no_anarchy=0 can_revolution=1"),
             replace_row(rows, "finish_turn=-1", "finish_turn=7"),
-            replace_row(rows, "no_anarchy=0", "no_anarchy=1"),
         )
         for hostile in malformed:
             self.control = V2SeatControl("game_test", "agent_test", 1)
             self.assertInternal(hostile)
+
+    def test_no_anarchy_preserves_legal_government_changes(self):
+        rows = replace_row(
+            valid_rows(), "no_anarchy=0", "no_anarchy=1",
+        )
+        current = observation(rows)
+        overview = self.control.state_page(current)["page"]["items"][0]
+        self.assertIs(
+            overview["player"]["government_state"]["no_anarchy"], True,
+        )
+        governments = self.control.state_page(
+            current, "governments",
+        )["page"]["items"]
+        self.assertEqual(
+            {item["name"] for item in governments if item["can_change"]},
+            {"Monarchy", "Republic"},
+        )
+
+        player_rows = [
+            row for row in valid_rows()
+            if row.startswith("action ") and " actor=none " in row
+        ] + list(scoped_government_rows())
+        request = self.control.prepare_actor_scope(
+            current, overview["player"]["id"], len(player_rows),
+        )
+        page = self.control.actor_scope_page(
+            request,
+            self.scope_page(request, player_rows),
+        )["page"]
+        self.assertEqual(
+            {
+                item["subject"]["target"]["name"]
+                for item in page["items"]
+                if item["subject"]["operation"] == "change"
+            },
+            {"Monarchy", "Republic"},
+        )
 
     def test_all_four_revolution_methods_project_with_exact_targetless_flag(self):
         for method, untargeted, can_revolution in (
@@ -9134,12 +10641,18 @@ class V2ActionResolutionTests(unittest.TestCase):
         observed = observation(rows)
         vote = self.control.state_page(observed, "votes")["page"]["items"][0]
         self.assertEqual(set(vote), {
-            "vote_id", "description", "yes", "no", "abstain",
+            "vote_ref", "vote_id", "caller", "description", "yes", "no", "abstain",
             "num_voters", "percent_required", "team_only",
-            "current_vote", "can_vote",
+            "current_vote", "can_vote", "status", "outcome_turn",
+            "outcome_phase",
         })
+        self.assertEqual(vote["caller"], "alice")
+        self.assertEqual(vote["status"], "active")
+        self.assertIsNone(vote["outcome_turn"])
+        self.assertIsNone(vote["outcome_phase"])
         self.assertNotEqual(vote["vote_id"], "42")
         self.assertRegex(vote["vote_id"], r"^vote_[0-9a-f]{32}$")
+        self.assertRegex(vote["vote_ref"], r"^vote_ref_[0-9a-f]{32}$")
         actions_page = self.control.legal_actions_page(observed)
         action = self._find(actions_page["page"]["items"], "cast_vote")
         self.assertEqual(action["subject"]["target"], {
@@ -9171,6 +10684,40 @@ class V2ActionResolutionTests(unittest.TestCase):
             "items"
         ][0]
         self.assertNotEqual(vote["vote_id"], changed_vote["vote_id"])
+        self.assertEqual(vote["vote_ref"], changed_vote["vote_ref"])
+        changed_action = self._find(
+            self.control.legal_actions_page(changed)["page"]["items"],
+            "cast_vote",
+        )
+        self.assertEqual(
+            changed_action["arguments_schema"]["properties"]["vote"]["enum"],
+            ["no", "abstain"],
+        )
+        with self.assertRaisesRegex(V2ControlError, "invalid_request"):
+            self.control.resolve_action(
+                changed, changed_action["state_revision"],
+                changed_action["action_id"],
+                {"vote_id": changed_vote["vote_id"], "vote": "yes"},
+            )
+
+    def test_resolved_vote_outcome_is_durable_and_not_actionable(self):
+        rows = list(valid_rows(actions=False))
+        rows.append(
+            "vote vote_no=42 caller=alice description=Start%20now%3F "
+            "yes=2 no=0 abstain=0 num_voters=2 percent_required=50 "
+            "team_only=0 current_vote=yes can_vote=0 status=passed "
+            "outcome_turn=7 outcome_phase=1"
+        )
+        observed = observation(tuple(sorted(rows)))
+        vote = self.control.state_page(observed, "votes")["page"]["items"][0]
+        self.assertEqual(vote["status"], "passed")
+        self.assertEqual(vote["outcome_turn"], 7)
+        self.assertEqual(vote["outcome_phase"], 1)
+        self.assertEqual(vote["current_vote"], "yes")
+        self.assertFalse(any(
+            item["subject"]["operation"] == "cast_vote"
+            for item in self.control.legal_actions_page(observed)["page"]["items"]
+        ))
 
     def test_vote_visibility_without_permission_has_no_cast_action(self):
         observed = observation(
@@ -9193,6 +10740,106 @@ class V2ActionResolutionTests(unittest.TestCase):
             {"vote_id": vote["vote_id"], "vote": "abstain"},
         )
         self.assertEqual(resolved.native_arguments, "vote=abstain")
+
+    def test_server_setting_vote_is_available_in_pregame(self):
+        rows = list(pregame_rows())
+        rows.append(_action(
+            0x505, "player.propose_server_setting", "p:1:10", -1,
+            "player.propose_server_setting_boolean", "Server Setting Vote",
+            "Vote Proposed Or Setting Applied", 0, server_setting_id=7,
+            server_setting_type="boolean", server_setting_min=0,
+            server_setting_max=1, server_setting_current=0,
+            server_setting_value=1, target_name="start_units",
+        ))
+        observed = observation(tuple(sorted(rows)), revision=12)
+        payload = self.control.legal_actions_page(observed)
+        action = self._find(
+            payload["page"]["items"], "propose_server_setting",
+        )
+        self.assertEqual(action["subject"]["target"]["value_type"], "boolean")
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], action["action_id"], {},
+        ).native_arguments, "-")
+
+    def test_player_governance_actions_are_closed_typed_and_opaque(self):
+        observed = observation(governance_rows())
+        votes = self.control.state_page(observed, "votes")["page"]["items"]
+        payload = self.control.legal_actions_page(observed)
+        actions = payload["page"]["items"]
+
+        cancel = self._find(actions, "cancel_vote")
+        self.assertEqual(cancel["subject"]["target"], {
+            "type": "vote", "vote_id": votes[0]["vote_id"],
+        })
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], cancel["action_id"], {},
+        ).native_arguments, "-")
+
+        surrender = self._find(actions, "surrender")
+        self.assertEqual(
+            surrender["subject"]["target"], surrender["subject"]["actor"],
+        )
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], surrender["action_id"], {},
+        ).native_arguments, "-")
+
+        proposals = [
+            item for item in actions
+            if item["subject"]["operation"] == "propose_server_setting"
+        ]
+        self.assertEqual(len(proposals), 5)
+        by_type = {
+            item["subject"]["target"]["value_type"]: item
+            for item in proposals
+        }
+        for target in (item["subject"]["target"] for item in proposals):
+            self.assertRegex(target["id"], r"^server_setting_[0-9a-f]{32}$")
+            self.assertNotIn("native", json.dumps(target))
+        fixed = by_type["boolean"]
+        self.assertIs(fixed["subject"]["target"]["proposed_value"], True)
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], fixed["action_id"], {},
+        ).native_arguments, "-")
+
+        integer = by_type["integer"]
+        self.assertEqual(integer["arguments_schema"]["properties"]["value"], {
+            "type": "integer", "minimum": 0, "maximum": 300,
+            "multipleOf": 1,
+        })
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], integer["action_id"],
+            {"value": 180},
+        ).native_arguments, "value=180")
+
+        string = by_type["string"]
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], string["action_id"],
+            {"value": "Hello world"},
+        ).native_arguments, "value=Hello%20world")
+        bitwise = by_type["bitwise"]
+        self.assertEqual(self.control.resolve_action(
+            observed, payload["state_revision"], bitwise["action_id"],
+            {"value": 7},
+        ).native_arguments, "value=7")
+
+        invalid = (
+            (integer, {"value": 60}),
+            (integer, {"value": 301}),
+            (integer, {"command": "/set timeout 180"}),
+            (string, {"value": "bad\nvalue"}),
+            (string, {"value": 'bad"value'}),
+            (bitwise, {"value": True}),
+            (cancel, {"vote_id": votes[0]["vote_id"]}),
+            (surrender, {"confirm": True}),
+        )
+        for action, arguments in invalid:
+            with self.subTest(arguments=arguments), self.assertRaisesRegex(
+                V2ControlError, "invalid_request",
+            ):
+                self.control.resolve_action(
+                    observed, payload["state_revision"], action["action_id"],
+                    arguments,
+                )
 
     def test_current_no_argument_action_resolves_to_immutable_private_inputs(self):
         state_revision, actions = self._actions()
@@ -9262,8 +10909,8 @@ class V2ActionResolutionTests(unittest.TestCase):
                 "tax=30 science=60 luxury=10",
                 "tax=34 science=33 luxury=33",
             ),
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=70 ",
-            "target_tech=-1 vote_no=-1 target_government=-1 max_rate=34 ",
+            "server_setting_value=-1 target_government=-1 max_rate=70 ",
+            "server_setting_value=-1 target_government=-1 max_rate=34 ",
         )
         max_34_rows = replace_row(
             max_34_rows, "changeable_tax=1 max_rate=70",

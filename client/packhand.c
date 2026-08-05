@@ -143,6 +143,8 @@ static packhand_worker_task_observer_fn worker_task_observer;
 static void *worker_task_observer_data;
 static packhand_investigation_observer_fn investigation_observer;
 static void *investigation_observer_data;
+static packhand_vote_observer_fn vote_observer;
+static void *vote_observer_data;
 
 /**********************************************************************//**
   Install or clear the read-only observer for merged full unit packets.
@@ -232,6 +234,16 @@ void packhand_set_worker_task_observer(
 {
   worker_task_observer = observer;
   worker_task_observer_data = observer != NULL ? data : NULL;
+}
+
+/**********************************************************************//**
+  Install or clear the passive observer for merged vote packets.
+**************************************************************************/
+void packhand_set_vote_observer(
+  packhand_vote_observer_fn observer, void *data)
+{
+  vote_observer = observer;
+  vote_observer_data = observer != NULL ? data : NULL;
 }
 
 static struct {
@@ -489,7 +501,9 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 
   punit->action_decision_want = packet->action_decision_want;
   punit->action_decision_tile
-    = index_to_tile(&(wld.map), packet->action_decision_tile);
+    = packet->action_decision_want == ACT_DEC_NOTHING
+      ? nullptr
+      : index_to_tile(&(wld.map), packet->action_decision_tile);
 
   punit->client.asking_city_name = FALSE;
 
@@ -5894,7 +5908,15 @@ void handle_edit_fogofwar_state(bool enabled)
 ****************************************************************************/
 void handle_vote_remove(int vote_no)
 {
+  const struct voteinfo *vi = voteinfo_queue_find(vote_no);
+
   voteinfo_queue_delayed_remove(vote_no);
+  if (vote_observer != NULL && vi != NULL) {
+    vote_observer(
+      PACKHAND_VOTE_REMOVE, vi,
+      client.conn.client.request_id_of_currently_handled_packet,
+      vote_observer_data);
+  }
   voteinfo_gui_update();
 }
 
@@ -5917,6 +5939,12 @@ void handle_vote_update(int vote_no, int yes, int no, int abstain,
   vi->abstain = abstain;
   vi->num_voters = num_voters;
 
+  if (vote_observer != NULL) {
+    vote_observer(
+      PACKHAND_VOTE_UPDATE, vi,
+      client.conn.client.request_id_of_currently_handled_packet,
+      vote_observer_data);
+  }
   voteinfo_gui_update();
 }
 
@@ -5934,6 +5962,12 @@ void handle_vote_new(const struct packet_vote_new *packet)
                      packet->desc,
                      packet->percent_required,
                      packet->flags);
+  if (vote_observer != NULL) {
+    vote_observer(
+      PACKHAND_VOTE_NEW, voteinfo_queue_find(packet->vote_no),
+      client.conn.client.request_id_of_currently_handled_packet,
+      vote_observer_data);
+  }
   voteinfo_gui_update();
 }
 
@@ -5953,6 +5987,12 @@ void handle_vote_resolve(int vote_no, bool passed)
   vi->resolved = TRUE;
   vi->passed = passed;
 
+  if (vote_observer != NULL) {
+    vote_observer(
+      PACKHAND_VOTE_RESOLVE, vi,
+      client.conn.client.request_id_of_currently_handled_packet,
+      vote_observer_data);
+  }
   voteinfo_gui_update();
 }
 

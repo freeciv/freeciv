@@ -28,8 +28,13 @@ turn exists it is `null`; wait exposes the same values inside `health`.
 
 Before the normal machine loop, branch on health. While `game_state` is
 `lobby`, do not wait for a phase. Fetch `overview`, `pregame_nations`,
-`pregame_styles`, `pregame_teams`, and `votes`; optionally post the enumerated
-`pregame.configure` or `pregame.set_team`; refresh after each;
+`pregame_styles`, `pregame_teams`, `votes`, `chat`, and `chat_recipients`;
+normal `player.send_chat` is already available for global, allied, or private
+lobby chat. Optionally post the enumerated `pregame.configure` or
+`pregame.set_team`; refresh after each. The lobby may
+also enumerate `player.propose_server_setting` for a currently changeable
+typed setting and `player.cancel_vote` for the caller's own active vote;
+refresh after either action;
 then post the enumerated `pregame.set_ready` with the exact desired
 `{"ready": true}` argument. The server does not advertise readiness until
 every external seat and its exact sidecar generation are present. Opening that
@@ -99,20 +104,52 @@ variant, the non-Classic non-escape production-sabotage action, and generic rule
 actions stay absent and fail closed. An `ambiguous` receipt is terminal: never infer rejection from
 unchanged state and never submit the action again automatically.
 
+## Closed player governance
+
+Normal-player governance is exposed only through closed descriptors. A
+`player.propose_server_setting` descriptor identifies one server-advertised,
+currently changeable setting. Boolean and enum choices are fully bound by the
+descriptor and take `{}`; integer, bitwise, and string settings take exactly
+`{"value": ...}` constrained by that descriptor's live `arguments_schema`.
+Never send a setting name or slash command. `player.cancel_vote` takes `{}`
+and can target only the caller's own active opaque vote. `player.surrender`
+takes `{}`, targets only self, and appears only while the game is running and
+the player remains alive.
+
+These governance capabilities may appear outside the caller's active action
+phase, so inspect them whenever the state revision changes rather than
+assuming they are phase-bound. A governance `ambiguous` receipt is terminal
+and must never be replayed automatically. The player API does not provide a
+generic server-command escape hatch; unmodeled voteable commands and all
+administrator, file, script, ruleset-loading, reset/default, and debug
+families remain unavailable.
+
 ## State scopes
 
 Unscoped sections are `overview`, `pregame_nations`, `pregame_styles`,
 `pregame_teams`, `votes`, `research`, `governments`, `multipliers`, `spaceship`,
 `diplomacy`, `known_tiles`, `map_tiles`, `infrastructure`, `cities`,
-`city_sites`, `units`, `tombstones`, and `chat`. The three pregame catalogs are available only while preparing;
+`city_sites`, `units`, `tombstones`, `chat`, and `chat_recipients`. The three pregame catalogs are available only while preparing;
 nation/style IDs are inputs to `pregame.configure`, while a noncurrent team ID
-is the sole input to `pregame.set_team`. `cities` is a
+is the sole input to `pregame.set_team`. `chat` and `chat_recipients` are
+available while preparing and running. Recipient rows expose only an opaque
+player ID, display name, `self`, `connected`, and `can_message`; native player
+and connection identifiers remain private. `can_message` is true only when the
+recipient is connected and its current player name is safe and unambiguous for
+Freeciv's `PlayerName:` syntax. `cities` is a
 compact summary catalog. `diplomacy_clauses` is relation-scoped and requires
 the opaque `relation_id` from the corresponding `diplomacy` row.
 
 Detailed city collections are independently pageable through `city_detail`,
-`city_citizens`, `city_worker_tasks`, `city_build_choices`, `city_worklist`, and
-`city_improvements`; each initial query requires the opaque city `actor_id`.
+`city_citizens`, `city_worker_tasks`, `city_trade_routes`,
+`city_build_choices`, `city_worklist`, and `city_improvements`; each initial
+query requires the opaque city `actor_id`. Trade-route rows contain only the
+owned endpoint's cached human-client facts. Their partner object is opaque for
+an owned/currently visible partner and is `{ "available": false }` otherwise.
+Build-choice rows include city-context cost and post-change stock, turn
+estimates with and without existing stock, six-output upkeep, and structured
+unit/building stats sourced from the active ruleset. Treat `null` turns as
+Freeciv's `never` result and do not hardcode Classic costs or combat values.
 Spatial inspection uses `section=tile_window`, an opaque known-tile
 `center_id`, and a radius from 0 through 8. The server applies map topology,
 wrapping, and fog-of-war rules. Initial scoped queries may also include a
@@ -120,9 +157,33 @@ page `limit`; continuation sends only the returned cursor.
 
 `unit.set_route` uses exact `{mode, waypoints}` arguments, where `mode` is
 `goto` or `patrol` and `waypoints` contains one through 64 opaque IDs from the
-current known-tile state. Infrastructure placement is discovered with the
+current known-tile state. `unit.attack_route` uses exact `{destination_id}`
+arguments with one opaque current known-tile ID. Its queued steps are all
+action moves and may stop for a normal Freeciv action decision.
+Infrastructure placement is discovered with the
 self player actor plus a seen target tile and accepts one opaque `extra_id`
 from that exact descriptor's advertised choices.
+
+`player.send_chat` takes `channel` and `message` in both lifecycle states.
+Global/allied messages must omit `recipient_id`; private messages require an
+opaque same-revision `recipient_id` from a `chat_recipients` row with
+`can_message: true`. Fetch that catalog and the legal-action descriptor at the
+same revision, then refresh both after any revision change. Native code
+revalidates the recipient, connection, and name immediately before sending.
+Messages must be strict UTF-8 of 1 through 512 encoded
+bytes, must not begin or end with ASCII U+0020, and must not contain Unicode
+`Cc` or `Cf` code points. Colons and command-looking text are literal: the
+native client prepends one protective ASCII space for global, `.` for allied,
+or the selected exact `PlayerName:` for private. The server parses the global
+space as public chat and trims it before display, leaving no arbitrary
+server-command or caller-selected connection-message path.
+
+An applied global/allied receipt matches the exact request-bound self-echo
+channel and message suffix. An applied private receipt matches the complete
+sender-side echo `->{PlayerName} message`, while the recipient's normal client
+sees `{SenderName} message`. That receipt binds the selected recipient but is
+not a separate remote-delivery acknowledgement. Direct connection messaging is
+not exposed.
 
 ## Batch recovery
 

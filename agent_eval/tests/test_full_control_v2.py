@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -22,6 +23,34 @@ REVISION = {"turn": 7, "revision": 3, "state_token": "state_opaque-7-3"}
 
 
 class FullControlV2SchemaTests(unittest.TestCase):
+    def test_native_state_manifest_classifies_chat_recipients_and_trade_routes(self):
+        repository = Path(__file__).parents[2]
+        manifest = (
+            repository / "client" / "gui-agent" / "state_manifest.def"
+        ).read_text(encoding="utf-8")
+        rows = re.findall(
+            r"^AGENT_V2_STATE_CLASS\(\s*([a-z_]+),",
+            manifest,
+            flags=re.MULTILINE,
+        )
+        self.assertEqual(len(rows), 47)
+        self.assertEqual(rows.count("chat"), 1)
+        self.assertEqual(rows.count("chat_recipient"), 1)
+        self.assertEqual(rows.count("city_trade_route"), 1)
+        self.assertIn(
+            "AGENT_V2_STATE_CLASS(chat, client_packet, "
+            "normal_client_visible_history_only)",
+            manifest,
+        )
+
+        protocol = (
+            repository / "client" / "gui-agent" / "protocol_v2.c"
+        ).read_text(encoding="utf-8")
+        initializer = protocol.split("void fc_agent_v2_init(", 1)[1].split(
+            "void fc_agent_v2_reset(void)", 1,
+        )[0]
+        self.assertIn("fc_assert(AGENT_V2_MANIFEST_COUNT == 47);", initializer)
+
     def test_relation_frames_reach_the_v2_dispatcher(self):
         source = (
             Path(__file__).parents[2]

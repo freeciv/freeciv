@@ -150,11 +150,15 @@ static bool expect_frame(int fd, const char *expected)
 
 static bool test_protocol_v2_codec(void)
 {
+  static const int route_action_move_tiles[] = {17, 23, 31};
   static const size_t action_request_counts[AGENT_V2_ACTION_KIND_COUNT] = {
     [AGENT_V2_ACTION_PREGAME_CONFIGURE] = 1,
     [AGENT_V2_ACTION_PREGAME_SET_TEAM] = 1,
     [AGENT_V2_ACTION_PREGAME_SET_READY] = 1,
     [AGENT_V2_ACTION_PLAYER_CAST_VOTE] = 1,
+    [AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING] = 2,
+    [AGENT_V2_ACTION_PLAYER_CANCEL_VOTE] = 1,
+    [AGENT_V2_ACTION_PLAYER_SURRENDER] = 1,
     [AGENT_V2_ACTION_PHASE_END] = 1,
     [AGENT_V2_ACTION_MOVE] = 2,
     [AGENT_V2_ACTION_ATTACK] = 2,
@@ -206,10 +210,12 @@ static bool test_protocol_v2_codec(void)
     [AGENT_V2_ACTION_UNIT_AUTO_EXPLORE] = 1,
     [AGENT_V2_ACTION_UNIT_CANCEL_AUTOMATION] = 2,
     [AGENT_V2_ACTION_UNIT_CANCEL_ORDERS] = 2,
+    [AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION] = 1,
     [AGENT_V2_ACTION_UNIT_GOTO] = 2,
     [AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM] = 2,
     [AGENT_V2_ACTION_UNIT_CONNECT_ROUTE] = 2,
     [AGENT_V2_ACTION_UNIT_SET_ROUTE] = 2,
+    [AGENT_V2_ACTION_UNIT_ATTACK_ROUTE] = 2,
     [AGENT_V2_ACTION_UNIT_SPECIAL] = 2,
     [AGENT_V2_ACTION_PLAYER_PLACE_INFRA] = 1,
     [AGENT_V2_ACTION_GOVERNMENT_REVOLUTION] = 1,
@@ -281,6 +287,32 @@ static bool test_protocol_v2_codec(void)
       || fc_agent_v2_percent_decode("bad%C0%AFutf8", decoded,
                                     sizeof(decoded))) {
     fprintf(stderr, "protocol 2 canonical percent codec failed\n");
+    return false;
+  }
+  if (!fc_agent_v2_chat_message_safe("Hello: /world .allies")
+      || !fc_agent_v2_chat_message_safe("private: message")
+      || fc_agent_v2_chat_message_safe("")
+      || fc_agent_v2_chat_message_safe(" leading")
+      || fc_agent_v2_chat_message_safe("trailing ")
+      || fc_agent_v2_chat_message_safe("bad\nline")
+      || fc_agent_v2_chat_message_safe("bad\xE2\x80\x8B" "format")
+      || !fc_agent_v2_chat_echo_matches(
+           true, true, true, 7, 7, 42, 42,
+           "private", "private", "->{Claude} meet:here",
+           "meet:here", "Claude")
+      || fc_agent_v2_chat_echo_matches(
+           true, true, true, 7, 7, 42, 42,
+           "private", "private", "->{Other} meet:here",
+           "meet:here", "Claude")
+      || !fc_agent_v2_chat_echo_matches(
+           true, true, true, 7, 7, 42, 42,
+           "global", "global", "<Codex> :status: green",
+           "status: green", NULL)
+      || fc_agent_v2_chat_echo_matches(
+           true, true, true, 8, 7, 42, 42,
+           "global", "global", "<Codex> :status: green",
+           "status: green", NULL)) {
+    fprintf(stderr, "protocol 2 safe chat/echo contract failed\n");
     return false;
   }
   if (snprintf(meta_row, sizeof(meta_row), FC_AGENT_V2_ROW_META,
@@ -356,7 +388,30 @@ static bool test_protocol_v2_codec(void)
       || fc_agent_v2_target_server_query_allowed(false, false)
       || fc_agent_v2_target_server_query_allowed(false, true)
       || fc_agent_v2_target_server_query_allowed(true, false)
-      || !fc_agent_v2_target_server_query_allowed(true, true)) {
+      || !fc_agent_v2_target_server_query_allowed(true, true)
+      || !fc_agent_v2_action_decision_state_valid(0, -1)
+      || !fc_agent_v2_action_decision_state_valid(1, 23)
+      || !fc_agent_v2_action_decision_state_valid(2, 23)
+      || fc_agent_v2_action_decision_state_valid(0, 23)
+      || fc_agent_v2_action_decision_state_valid(2, -1)
+      || !fc_agent_v2_action_decision_target_query_allowed(
+           false, false, true, 2, 23, 23)
+      || fc_agent_v2_action_decision_target_query_allowed(
+           false, false, false, 2, 23, 23)
+      || fc_agent_v2_action_decision_target_query_allowed(
+           false, false, true, 2, 23, 24)
+      || !fc_agent_v2_route_paused_for_decision(
+           true, 2, 23, route_action_move_tiles,
+           sizeof(route_action_move_tiles)
+             / sizeof(route_action_move_tiles[0]))
+      || fc_agent_v2_route_paused_for_decision(
+           false, 2, 23, route_action_move_tiles,
+           sizeof(route_action_move_tiles)
+             / sizeof(route_action_move_tiles[0]))
+      || fc_agent_v2_route_paused_for_decision(
+           true, 2, 29, route_action_move_tiles,
+           sizeof(route_action_move_tiles)
+             / sizeof(route_action_move_tiles[0]))) {
     fprintf(stderr, "protocol 2 unknown target policy failed\n");
     return false;
   }
@@ -1017,6 +1072,12 @@ static bool test_protocol_v2_codec(void)
         AGENT_V2_ACTION_UNIT_GOTO, true,
         77, -1, -1, -1, -1, -1)
       || !fc_agent_v2_unit_route_shape_matches(
+        AGENT_V2_ACTION_UNIT_ATTACK_ROUTE, true,
+        -1, -1, -1, -1, -1, -1)
+      || fc_agent_v2_unit_route_shape_matches(
+        AGENT_V2_ACTION_UNIT_ATTACK_ROUTE, false,
+        -1, -1, -1, -1, -1, -1)
+      || !fc_agent_v2_unit_route_shape_matches(
         AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM, false,
         77, -1, -1, -1, 77, -1)
       || fc_agent_v2_unit_route_shape_matches(
@@ -1161,6 +1222,21 @@ static bool test_protocol_v2_codec(void)
     fprintf(stderr, "protocol 2 structured action receipt binding failed\n");
     return false;
   }
+  if (!fc_agent_v2_custom_action_postcondition(
+        true, true, 100, true, 100)
+      || fc_agent_v2_custom_action_postcondition(
+           false, true, 100, true, 100)
+      || fc_agent_v2_custom_action_postcondition(
+           true, false, 100, true, 100)
+      || fc_agent_v2_custom_action_postcondition(
+           true, true, 0, true, 0)
+      || fc_agent_v2_custom_action_postcondition(
+           true, true, 100, false, 100)
+      || fc_agent_v2_custom_action_postcondition(
+           true, true, 100, true, 101)) {
+    fprintf(stderr, "protocol 2 custom-action receipt failed\n");
+    return false;
+  }
   if (!fc_agent_v2_poison_city_postcondition(
         true, true, 200, true, 200, 5, true, true, 200, 4)
       || !fc_agent_v2_poison_city_postcondition(
@@ -1191,6 +1267,27 @@ static bool test_protocol_v2_codec(void)
       || fc_agent_v2_sabotage_city_postcondition(
            true, true, 200, true, 200, true, false, 201, true)) {
     fprintf(stderr, "protocol 2 sabotage-city receipt failed\n");
+    return false;
+  }
+  if (!fc_agent_v2_vote_update_matches(
+        true, true, true, true, true, 42, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           false, true, true, true, true, 42, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, false, true, true, true, 42, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, true, false, true, true, 42, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, true, true, false, true, 42, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, true, true, true, false, 42, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, true, true, true, true, 0, 0, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, true, true, true, true, 41, 42, 7, 7)
+      || fc_agent_v2_vote_update_matches(
+           true, true, true, true, true, 42, 42, 6, 7)) {
+    fprintf(stderr, "protocol 2 vote-update binding failed\n");
     return false;
   }
   if (!fc_agent_v2_combat_observer_matches(
@@ -1438,7 +1535,8 @@ static bool test_protocol_v2_codec(void)
   }
   if (!fc_agent_v2_government_change_observable(12, 11, true)
       || !fc_agent_v2_government_change_observable(-1, 11, false)
-      || fc_agent_v2_government_change_observable(-1, 11, true)
+      || !fc_agent_v2_government_change_observable(-1, 11, true)
+      || !fc_agent_v2_government_change_observable(11, 11, true)
       || fc_agent_v2_government_change_observable(11, 11, false)
       || !fc_agent_v2_revolution_available(true, true, false, false)
       || fc_agent_v2_revolution_available(false, true, false, false)
@@ -1464,15 +1562,17 @@ static bool test_protocol_v2_codec(void)
     return false;
   }
   if (!fc_agent_v2_government_postcondition(
-        FC_AGENT_V2_GOV_REVOLUTION, 2, -1, -1, 0, 0, 10, 0, 0)
+        FC_AGENT_V2_GOV_REVOLUTION, 2, -1, -1, 0, 0, 10, 0, 0, false)
       || fc_agent_v2_government_postcondition(
-        FC_AGENT_V2_GOV_REVOLUTION, 0, 0, 9, 0, 0, 10, 0, 0)
+        FC_AGENT_V2_GOV_REVOLUTION, 0, 0, 9, 0, 0, 10, 0, 0, false)
       || !fc_agent_v2_government_postcondition(
-        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 0, 3, 10, 0, 3)
+        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 0, 3, 10, 0, 3, false)
       || !fc_agent_v2_government_postcondition(
-        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 3, -1, -1, 0, 3)
+        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 3, -1, -1, 0, 3, false)
+      || !fc_agent_v2_government_postcondition(
+        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 2, -1, -1, 0, 3, true)
       || fc_agent_v2_government_postcondition(
-        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 0, 4, 10, 0, 3)) {
+        FC_AGENT_V2_GOV_CHANGE, 2, -1, -1, 0, 4, 10, 0, 3, false)) {
     fprintf(stderr, "protocol 2 government postcondition failed\n");
     return false;
   }

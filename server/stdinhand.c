@@ -2374,6 +2374,73 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
 }
 
 /**********************************************************************//**
+  Return whether a basic-level caller is changing the team of the player
+  controlled by that same connection before the game has started.
+**************************************************************************/
+static bool team_command_is_self_service(struct connection *caller,
+                                         const char *str)
+{
+  struct player *pplayer = nullptr;
+  enum m_pre_result match_result;
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char *arg[2];
+  int ntokens, i;
+  bool self_service = FALSE;
+
+  if (caller == nullptr || conn_get_access(caller) != ALLOW_BASIC
+      || server_state() != S_S_INITIAL || conn_get_player(caller) == nullptr
+      || str == nullptr || str[0] == '\0') {
+    return FALSE;
+  }
+
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
+  if (ntokens == 2) {
+    pplayer = player_by_name_prefix(arg[0], &match_result);
+    self_service = (pplayer != nullptr
+                    && pplayer == conn_get_player(caller));
+  }
+
+  for (i = 0; i < ntokens; i++) {
+    free(arg[i]);
+  }
+
+  return self_service;
+}
+
+/**********************************************************************//**
+  Return whether the team choice is still available to a basic-level player
+  changing their own team. This must be checked immediately before applying
+  the change, since readiness and team membership may have changed since the
+  command was classified as self-service.
+**************************************************************************/
+static bool team_command_self_service_allowed(const struct player *pplayer,
+                                              const struct team_slot *tslot)
+{
+  if (server_state() != S_S_INITIAL || !game.info.is_new_game
+      || pplayer->is_ready || pplayer->team == nullptr
+      || team_slot_index(tslot) == team_number(pplayer->team)) {
+    return FALSE;
+  }
+
+  if (team_slot_is_used(tslot)) {
+    return TRUE;
+  }
+
+  if (player_list_size(team_members(pplayer->team)) <= 1) {
+    return FALSE;
+  }
+
+  team_slots_iterate(first_unused) {
+    if (!team_slot_is_used(first_unused)) {
+      return first_unused == tslot;
+    }
+  } team_slots_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Handle team command
 **************************************************************************/
 static bool team_command(struct connection *caller, char *str, bool check)
@@ -2432,6 +2499,14 @@ static bool team_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check) {
+    if (caller != nullptr && conn_get_access(caller) == ALLOW_BASIC
+        && conn_get_player(caller) == pplayer
+        && !team_command_self_service_allowed(pplayer, tslot)) {
+      cmd_reply(CMD_TEAM, caller, C_FAIL,
+                _("That team choice is no longer available."));
+      goto cleanup;
+    }
+
     /* Should never fail when slot given is not nullptr */
     team_add_player(pplayer, team_new(tslot));
     send_player_info_c(pplayer, nullptr);
@@ -4451,6 +4526,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   char *cptr_s, *cptr_d;
   enum command_id cmd;
   enum cmdlevel level;
+  bool self_service_team;
 
   /* Remove leading and trailing spaces, and server command prefix. */
   cptr_s = str = skip_leading_spaces(str);
@@ -4515,9 +4591,12 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   }
 
   level = command_level(command_by_number(cmd));
+  self_service_team = (cmd == CMD_TEAM
+                       && team_command_is_self_service(caller, arg));
 
   if (conn_can_vote(caller, nullptr) && level == ALLOW_CTRL
       && conn_get_access(caller) == ALLOW_BASIC && !check
+      && !self_service_team
       && !vote_would_pass_immediately(caller, cmd)) {
     struct vote *vote;
     bool caller_had_vote = (get_vote_by_caller(caller) != nullptr);
@@ -4571,7 +4650,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     }
   }
 
-  if (caller
+  if (caller && !self_service_team
       && !((check || vote_would_pass_immediately(caller, cmd))
            && conn_get_access(caller) >= ALLOW_BASIC
            && level == ALLOW_CTRL)

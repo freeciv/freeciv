@@ -229,6 +229,11 @@ struct unit {
 
       /* Used in a follow up question about a selected action. */
       struct act_prob *act_prob_cache;
+
+      /* Monotonic identity of this exact client-side unit lifetime.  Unlike
+       * the server-provided numeric ID, this changes when a removed unit ID
+       * is later reused. */
+      uint64_t lifecycle_id;
     } client;
 
     struct {
@@ -305,6 +310,7 @@ extern const Activity_type_id tile_changing_activities[];
 
 bool are_unit_orders_equal(const struct unit_order *order1,
                            const struct unit_order *order2);
+uint64_t unit_orders_digest(int length, const struct unit_order *orders);
 
 int unit_shield_value(const struct unit *punit,
                       const struct unit_type *punittype,

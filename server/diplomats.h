@@ -33,9 +33,11 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
                        struct unit *pvictim,
                        const struct action *paction);
 bool diplomat_bribe_unit(struct player *pplayer, struct unit *pdiplomat,
-                         struct unit *pvictim, const struct action *paction);
+                         struct unit *pvictim, const struct action *paction,
+                         bool max_cost_guarded, int max_cost);
 bool diplomat_bribe_stack(struct player *pplayer, struct unit *pdiplomat,
-                          struct tile *pvictim, const struct action *paction);
+                          struct tile *pvictim, const struct action *paction,
+                          bool max_cost_guarded, int max_cost);
 bool spy_attack(struct player *act_player, struct unit *act_unit,
                 struct tile *tgt_tile, const struct action *paction);
 int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
@@ -44,7 +46,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                        struct city  *pcity, int technology,
                        const struct action *paction);
 bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
-                     struct city *pcity, const struct action *paction);
+                     struct city *pcity, const struct action *paction,
+                     bool max_cost_guarded, int max_cost);
 bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        struct city *pcity, Impr_type_id improvement,
                        const struct action *paction);

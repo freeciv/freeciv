@@ -34,51 +34,156 @@ static int v2_hex_value(char value)
   return -1;
 }
 
+static bool v2_decode_utf8_codepoint(const char *text, size_t length,
+                                     size_t *offset, uint32_t *result)
+{
+  size_t i = *offset;
+  const unsigned char first = (unsigned char) text[i];
+  uint32_t value;
+  size_t count;
+  size_t j;
+
+  if (i >= length) {
+    return false;
+  }
+  if (first <= 0x7f) {
+    *result = first;
+    *offset = i + 1;
+    return true;
+  } else if (first >= 0xc2 && first <= 0xdf) {
+    value = first & 0x1f;
+    count = 1;
+  } else if (first >= 0xe0 && first <= 0xef) {
+    value = first & 0x0f;
+    count = 2;
+  } else if (first >= 0xf0 && first <= 0xf4) {
+    value = first & 0x07;
+    count = 3;
+  } else {
+    return false;
+  }
+  if (length - i - 1 < count) {
+    return false;
+  }
+  for (j = 1; j <= count; j++) {
+    const unsigned char next = (unsigned char) text[i + j];
+
+    if ((next & 0xc0) != 0x80) {
+      return false;
+    }
+    value = (value << 6) | (next & 0x3f);
+  }
+  if ((count == 2 && value < 0x800)
+      || (count == 3 && value < 0x10000)
+      || value > 0x10ffff
+      || (value >= 0xd800 && value <= 0xdfff)) {
+    return false;
+  }
+  *result = value;
+  *offset = i + count + 1;
+  return true;
+}
+
 static bool v2_valid_utf8(const char *text, size_t length)
 {
   size_t i = 0;
 
   while (i < length) {
-    const unsigned char first = (unsigned char) text[i];
     uint32_t value;
-    size_t count;
-    size_t j;
 
-    if (first <= 0x7f) {
-      i++;
-      continue;
-    } else if (first >= 0xc2 && first <= 0xdf) {
-      value = first & 0x1f;
-      count = 1;
-    } else if (first >= 0xe0 && first <= 0xef) {
-      value = first & 0x0f;
-      count = 2;
-    } else if (first >= 0xf0 && first <= 0xf4) {
-      value = first & 0x07;
-      count = 3;
-    } else {
+    if (!v2_decode_utf8_codepoint(text, length, &i, &value)) {
       return false;
     }
-    if (length - i - 1 < count) {
-      return false;
-    }
-    for (j = 1; j <= count; j++) {
-      const unsigned char next = (unsigned char) text[i + j];
-
-      if ((next & 0xc0) != 0x80) {
-        return false;
-      }
-      value = (value << 6) | (next & 0x3f);
-    }
-    if ((count == 2 && value < 0x800)
-        || (count == 3 && value < 0x10000)
-        || value > 0x10ffff
-        || (value >= 0xd800 && value <= 0xdfff)) {
-      return false;
-    }
-    i += count + 1;
   }
   return true;
+}
+
+static bool v2_chat_codepoint_forbidden(uint32_t value)
+{
+  return value <= 0x001f
+         || (value >= 0x007f && value <= 0x009f)
+         || value == 0x00ad
+         || (value >= 0x0600 && value <= 0x0605)
+         || value == 0x061c || value == 0x06dd || value == 0x070f
+         || (value >= 0x0890 && value <= 0x0891)
+         || value == 0x08e2 || value == 0x180e
+         || (value >= 0x200b && value <= 0x200f)
+         || (value >= 0x202a && value <= 0x202e)
+         || (value >= 0x2060 && value <= 0x2064)
+         || (value >= 0x2066 && value <= 0x206f)
+         || value == 0xfeff
+         || (value >= 0xfff9 && value <= 0xfffb)
+         || value == 0x110bd || value == 0x110cd
+         || (value >= 0x13430 && value <= 0x1343f)
+         || (value >= 0x1bca0 && value <= 0x1bca3)
+         || (value >= 0x1d173 && value <= 0x1d17a)
+         || value == 0xe0001
+         || (value >= 0xe0020 && value <= 0xe007f);
+}
+
+bool fc_agent_v2_chat_message_safe(const char *message)
+{
+  size_t length;
+  size_t offset = 0;
+
+  if (message == NULL
+      || (length = strlen(message)) == 0
+      || length > FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES
+      || message[0] == ' ' || message[length - 1] == ' '
+      || !v2_valid_utf8(message, length)) {
+    return false;
+  }
+  while (offset < length) {
+    uint32_t value;
+
+    if (!v2_decode_utf8_codepoint(message, length, &offset, &value)
+        || v2_chat_codepoint_forbidden(value)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool fc_agent_v2_chat_echo_matches(
+  bool active, bool baseline_captured, bool exact_seat_epoch,
+  int request_id, int expected_request_id,
+  int sender_connection_id, int self_connection_id,
+  const char *channel, const char *expected_channel,
+  const char *plain, const char *message, const char *recipient_name)
+{
+  size_t plain_length;
+  size_t message_length;
+
+  if (!active || !baseline_captured || !exact_seat_epoch
+      || request_id != expected_request_id
+      || sender_connection_id != self_connection_id
+      || channel == NULL || expected_channel == NULL
+      || strcmp(channel, expected_channel) != 0
+      || plain == NULL || message == NULL) {
+    return false;
+  }
+  plain_length = strlen(plain);
+  message_length = strlen(message);
+  if (recipient_name == NULL) {
+    return plain_length >= message_length
+           && strcmp(plain + plain_length - message_length, message) == 0;
+  }
+  {
+    static const char prefix[] = "->{";
+    static const char separator[] = "} ";
+    size_t recipient_length = strlen(recipient_name);
+    size_t expected_length = sizeof(prefix) - 1 + recipient_length
+                             + sizeof(separator) - 1 + message_length;
+
+    return plain_length == expected_length
+           && memcmp(plain, prefix, sizeof(prefix) - 1) == 0
+           && memcmp(plain + sizeof(prefix) - 1,
+                     recipient_name, recipient_length) == 0
+           && memcmp(plain + sizeof(prefix) - 1 + recipient_length,
+                     separator, sizeof(separator) - 1) == 0
+           && memcmp(plain + expected_length - message_length,
+                     message, message_length) == 0;
+  }
 }
 
 bool fc_agent_v2_percent_encode(const char *raw, char *encoded,
@@ -211,8 +316,8 @@ bool fc_agent_v2_government_change_observable(int revolution_finishes,
                                               int current_turn,
                                               bool has_no_anarchy)
 {
-  return revolution_finishes > current_turn
-         || (revolution_finishes <= 0 && !has_no_anarchy);
+  return has_no_anarchy || revolution_finishes > current_turn
+         || revolution_finishes <= 0;
 }
 
 bool fc_agent_v2_revolution_available(bool untargeted_allowed,
@@ -265,7 +370,8 @@ bool fc_agent_v2_government_postcondition(
   enum fc_agent_v2_government_command command,
   int before_current, int before_target, int before_finish,
   int after_current, int after_target, int after_finish,
-  int during_government, int desired_government)
+  int during_government, int desired_government,
+  bool change_event_latched)
 {
   if (command == FC_AGENT_V2_GOV_REVOLUTION) {
     return after_current == during_government
@@ -274,7 +380,8 @@ bool fc_agent_v2_government_postcondition(
                || after_target != before_target);
   }
   if (command == FC_AGENT_V2_GOV_CHANGE) {
-    return (after_current == during_government
+    return change_event_latched
+           || (after_current == during_government
             && after_target == desired_government)
            || (after_current == desired_government && after_target < 0);
   }
@@ -936,6 +1043,45 @@ bool fc_agent_v2_target_server_query_allowed(
   return target_known && target_visible;
 }
 
+bool fc_agent_v2_action_decision_state_valid(int want, int tile)
+{
+  /* Keep this codec helper independent of common/unit.h while matching
+   * enum action_decision's stable NOTHING, PASSIVE, ACTIVE ordering. */
+  return (want == 0 && tile == -1)
+         || ((want == 1 || want == 2) && tile >= 0);
+}
+
+bool fc_agent_v2_action_decision_target_query_allowed(
+  bool target_known, bool target_visible, bool owned_actor,
+  int want, int decision_tile, int requested_tile)
+{
+  return fc_agent_v2_target_server_query_allowed(
+           target_known, target_visible)
+         || (owned_actor
+             && fc_agent_v2_action_decision_state_valid(
+                  want, decision_tile)
+             && want != 0 && requested_tile == decision_tile);
+}
+
+bool fc_agent_v2_route_paused_for_decision(
+  bool same_actor_lifetime, int want, int decision_tile,
+  const int *action_move_tiles, size_t action_move_tile_count)
+{
+  size_t i;
+
+  if (!same_actor_lifetime || action_move_tiles == NULL
+      || want == 0
+      || !fc_agent_v2_action_decision_state_valid(want, decision_tile)) {
+    return false;
+  }
+  for (i = 0; i < action_move_tile_count; i++) {
+    if (action_move_tiles[i] == decision_tile) {
+      return true;
+    }
+  }
+  return false;
+}
+
 static uint64_t v2_hash_bytes(uint64_t hash, const void *data, size_t length)
 {
   const unsigned char *bytes = data;
@@ -1026,6 +1172,20 @@ bool fc_agent_v2_target_slot_matches(const char *left, const char *right)
     difference |= (unsigned char) left[i] ^ (unsigned char) right[i];
   }
   return difference == 0;
+}
+
+bool fc_agent_v2_vote_update_matches(
+  bool pending_active, bool processing_started, bool baseline_captured,
+  bool seat_epoch_current, bool cast_vote_action,
+  int observed_request_id, int expected_request_id,
+  int observed_vote_no, int expected_vote_no)
+{
+  return pending_active && processing_started && baseline_captured
+         && seat_epoch_current && cast_vote_action
+         && observed_request_id > 0
+         && observed_request_id == expected_request_id
+         && observed_vote_no >= 0
+         && observed_vote_no == expected_vote_no;
 }
 
 enum fc_agent_v2_completion
@@ -1315,12 +1475,17 @@ size_t fc_agent_v2_expected_request_count(enum agent_v2_action_kind kind)
   case AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM:
   case AGENT_V2_ACTION_UNIT_CONNECT_ROUTE:
   case AGENT_V2_ACTION_UNIT_SET_ROUTE:
+  case AGENT_V2_ACTION_UNIT_ATTACK_ROUTE:
   case AGENT_V2_ACTION_UNIT_SPECIAL:
     return 2;
+  case AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION:
+    return 1;
   case AGENT_V2_ACTION_PREGAME_CONFIGURE:
   case AGENT_V2_ACTION_PREGAME_SET_TEAM:
   case AGENT_V2_ACTION_PREGAME_SET_READY:
   case AGENT_V2_ACTION_PLAYER_CAST_VOTE:
+  case AGENT_V2_ACTION_PLAYER_CANCEL_VOTE:
+  case AGENT_V2_ACTION_PLAYER_SURRENDER:
   case AGENT_V2_ACTION_PHASE_END:
   case AGENT_V2_ACTION_RESEARCH_TARGET:
   case AGENT_V2_ACTION_RESEARCH_GOAL:
@@ -1358,6 +1523,10 @@ size_t fc_agent_v2_expected_request_count(enum agent_v2_action_kind kind)
   case AGENT_V2_ACTION_DIPLOMACY_WITHDRAW_VISION:
   case AGENT_V2_ACTION_DIPLOMACY_WITHDRAW_SHARED_TILES:
     return 1;
+  case AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING:
+    /* The normal option API emits the closed /set request followed by a
+     * sync-serial request.  Both boundaries are part of one v2 command. */
+    return 2;
   case AGENT_V2_ACTION_CITY_SET_GOVERNOR:
   case AGENT_V2_ACTION_CITY_CLEAR_GOVERNOR:
     /* Native CMA is a synchronous local client agent. It may emit zero or
@@ -1656,6 +1825,12 @@ bool fc_agent_v2_unit_route_shape_matches(
     /* A normal goto may end in ACTION_MOVE, but never appends a separate
      * perform-action descriptor. */
     return final_action == action_none && final_subtarget == no_target;
+  case AGENT_V2_ACTION_UNIT_ATTACK_ROUTE:
+    /* Attack-route movement is the normal client's explicit
+     * ORDER_ACTION_MOVE path mode, not a separate perform-action order. */
+    return action_move
+           && final_action == action_none
+           && final_subtarget == no_target;
   case AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM:
     return !action_move && expected_action != action_none
            && expected_subtarget == no_target
@@ -1779,6 +1954,19 @@ bool fc_agent_v2_action_receipt_matches(
          && observed_target >= 0 && observed_target == expected_target
          && observed_action >= 0 && observed_action == expected_action
          && observed_status == 1;
+}
+
+bool fc_agent_v2_custom_action_postcondition(
+  bool target_binding_exact, bool success_receipt_latched,
+  uint64_t expected_actor_lifecycle,
+  bool before_actor_present, uint64_t before_actor_lifecycle)
+{
+  /* A ruleset custom action may intentionally mutate only Lua/effect state
+   * that the normal client cannot inspect.  The server's exact request-bound
+   * performed receipt is therefore the authoritative positive evidence. */
+  return target_binding_exact && success_receipt_latched
+         && expected_actor_lifecycle != 0 && before_actor_present
+         && before_actor_lifecycle == expected_actor_lifecycle;
 }
 
 bool fc_agent_v2_poison_city_postcondition(

@@ -28,6 +28,7 @@
 #define FC_AGENT_V2_MAX_UNIT_ROUTE_WAYPOINTS 64
 #define FC_AGENT_V2_MAX_INFRA_CHOICES 250
 #define FC_AGENT_V2_MAX_VOTES 256
+#define FC_AGENT_V2_MAX_VOTE_HISTORY 64
 #define FC_AGENT_V2_INFRA_CHOICES_TEXT 1024
 #define FC_AGENT_V2_MAX_CHAT_HISTORY 64
 #define FC_AGENT_V2_MAX_CHAT_MESSAGE_BYTES 512
@@ -38,7 +39,7 @@
  * grammar.  Python tests pin this literal to that derivation so a projection
  * grammar change cannot silently keep accepting an older native client. */
 #define FC_AGENT_V2_SCHEMA_ID \
-  "sha256-724d2b86bda6b3467db318e006e81d3ab9eb788a91e47c1a53bd14d46252740b"
+  "sha256-3471520648d923f16fda4e1b58858301f343a64165b7e6cd2e3dd93af79cd3f4"
 #define FC_AGENT_V2_CAPS_FRAME \
   "CAPS\t2\tACT,ACT_CAP,ACT_RELATION_CAP,OBS_OPEN,OBS_PAGE," \
   "PHASE_AVAILABLE,SCOPE_OPEN," \
@@ -118,10 +119,12 @@
   "pregame_team id=%d name=%s selected=%d occupied=%d member_count=%d"
 #define FC_AGENT_V2_ROW_PREGAME_TEAM_MEMBER \
   "pregame_team_member team=%d player=%s leader=%s"
+#define FC_AGENT_V2_ROW_CHAT_RECIPIENT \
+  "chat_recipient ref=%s name=%s self=%d connected=%d can_message=%d"
 #define FC_AGENT_V2_ROW_VOTE \
-  "vote vote_no=%d description=%s yes=%d no=%d abstain=%d " \
+  "vote vote_no=%d caller=%s description=%s yes=%d no=%d abstain=%d " \
   "num_voters=%d percent_required=%d team_only=%d current_vote=%s " \
-  "can_vote=%d"
+  "can_vote=%d status=%s outcome_turn=%d outcome_phase=%d"
 #define FC_AGENT_V2_ROW_PLAYER \
   "player ref=%s name=%s nation=%s government=%s gold=%d tax=%d " \
   "science=%d luxury=%d alive=%d phase_done=%d changeable_tax=%d " \
@@ -134,7 +137,7 @@
   "government id=%d name=%s current=%d target=%d during=%d can_change=%d"
 #define FC_AGENT_V2_ROW_MULTIPLIER \
   "multiplier id=%d name=%s value=%d target=%d start=%d stop=%d step=%d " \
-  "minimum_turns=%d changed_turn=%d can_change=%d choice_count=%d"
+  "minimum_turns=%d changed_turn=%d can_change=%d choice_count=%llu"
 #define FC_AGENT_V2_ROW_SPACESHIP \
   "spaceship state=%s structurals=%d structurals_placed=%d " \
   "components=%d fuel=%d propulsion=%d modules=%d habitation=%d " \
@@ -192,7 +195,8 @@
   "trade=%d production_kind=%s production_id=%d production_name=%s " \
   "shield_stock=%d shield_cost=%d buy_cost=%d can_buy=%d can_change=%d " \
   "citizen_tile_count=%d specialist_type_count=%d worklist_length=%d " \
-  "build_choice_count=%d improvement_count=%d did_sell=%d " \
+  "build_choice_count=%d improvement_count=%d trade_route_count=%d " \
+  "trade_route_capacity=%u did_sell=%d " \
   "allow_disband=%d new_citizens=%s options_conflict=%d " \
   "airlift_remaining=%d airlift_max=%d governor_enabled=%d " \
   "citizen_happy=%d citizen_content=%d citizen_unhappy=%d " \
@@ -228,10 +232,24 @@
   "production_id=%d production_name=%s"
 #define FC_AGENT_V2_ROW_CITY_BUILD_CHOICE \
   "city_build_choice city=%s production_kind=%s production_id=%d " \
-  "production_name=%s can_queue=%d can_build_now=%d"
+  "production_name=%s can_queue=%d can_build_now=%d shield_cost=%d " \
+  "shield_stock_after_change=%d turns=%d turns_with_stock=%d " \
+  "upkeep_food=%d upkeep_shield=%d upkeep_trade=%d upkeep_gold=%d " \
+  "upkeep_luxury=%d upkeep_science=%d happy_cost=%d unit_attack=%d " \
+  "unit_defense=%d unit_move_rate=%d unit_hp=%d unit_firepower=%d " \
+  "unit_vision_radius_sq=%d unit_transport_capacity=%d unit_fuel=%d " \
+  "unit_pop_cost=%d unit_bombard_rate=%d unit_city_size=%d " \
+  "unit_paradrop_range=%d building_genus=%s building_obsolete=%d " \
+  "building_redundant=%d building_convert=%d building_allows_units=%d " \
+  "building_allows_extras=%d building_prevents_disaster=%d " \
+  "building_protects_vs_actions=%d building_allows_actions=%d"
 #define FC_AGENT_V2_ROW_CITY_IMPROVEMENT \
   "city_improvement city=%s improvement_id=%d name=%s sellable=%d " \
   "sell_price=%d"
+#define FC_AGENT_V2_ROW_CITY_TRADE_ROUTE \
+  "city_trade_route city=%s position=%d partner=%s " \
+  "partner_visibility=%s partner_name=%s base_value=%d " \
+  "effective_value=%d direction=%s goods_id=%d goods_name=%s"
 #define FC_AGENT_V2_ROW_INVESTIGATION \
   "investigation city=%s lifecycle=%llu tile=%d name=%s size=%d " \
   "production_kind=%s production_id=%d production_name=%s " \
@@ -267,7 +285,12 @@
   "activity_progress=%d transport_state=%s transporter=%s " \
   "transport_capacity=%d occupied=%d paradropped=%d paradrop_range=%d " \
   "controller=%s has_orders=%d orders_repeat=%d orders_vigilant=%d " \
-  "order_count=%d orders_digest=%s orders_destination=%d"
+  "order_count=%d orders_digest=%s orders_destination=%d " \
+  "action_decision_want=%s action_decision_tile=%d"
+#define FC_AGENT_V2_ROW_UNIT_ROUTE \
+  "unit_route unit=%s order_index=%d reconstructable=%d step_count=%d"
+#define FC_AGENT_V2_ROW_UNIT_ROUTE_STEP \
+  "unit_route_step unit=%s sequence=%d kind=%s tile=%d"
 #define FC_AGENT_V2_ROW_UNIT_VISIBLE \
   "unit ref=%s scope=visible owner=%s type_id=%d type=%s tile=%d x=%d " \
   "y=%d hp=%d veteran=%d veteran_name=%s veteran_levels=%d " \
@@ -288,14 +311,18 @@
   "clause_name=%s desired_acceptance=%d target_tile=%d source_city=%s " \
   "destination_city=%s target_unit=%s " \
   "transport_context=%s target_tech=%d " \
-  "vote_no=%d target_government=%d max_rate=%d route_waypoint_limit=%d " \
+  "vote_no=%d server_setting_id=%d server_setting_type=%s " \
+  "server_setting_min=%d server_setting_max=%d server_setting_current=%d " \
+  "server_setting_value=%d " \
+  "target_government=%d max_rate=%d route_waypoint_limit=%d " \
   "infrastructure_cost=%d infrastructure_turns=%d " \
   "infrastructure_choice_count=%d infrastructure_choices=%s " \
   "target_build_kind=%s target_build=%d " \
   "spaceship_part=%s spaceship_value=%d " \
   "target_multiplier=%d multiplier_value=%d " \
   "source_specialist=%d target_specialist=%d " \
-  "target_extra=%d activity=%s target_name=%s native_rule=%s " \
+  "target_extra=%d subtarget_kind=%s subresults=%s activity=%s " \
+  "target_name=%s native_rule=%s " \
   "target_kind=%s result=%s actor_consuming_always=%d legality=%s " \
   "probability_kind=%s probability_min=%d probability_max=%d gold_cost=%d " \
   "args=%s"
@@ -359,6 +386,9 @@ enum agent_v2_action_kind {
   AGENT_V2_ACTION_PREGAME_SET_TEAM,
   AGENT_V2_ACTION_PREGAME_SET_READY,
   AGENT_V2_ACTION_PLAYER_CAST_VOTE,
+  AGENT_V2_ACTION_PLAYER_PROPOSE_SETTING,
+  AGENT_V2_ACTION_PLAYER_CANCEL_VOTE,
+  AGENT_V2_ACTION_PLAYER_SURRENDER,
   AGENT_V2_ACTION_PHASE_END,
   AGENT_V2_ACTION_MOVE,
   AGENT_V2_ACTION_ATTACK,
@@ -410,10 +440,12 @@ enum agent_v2_action_kind {
   AGENT_V2_ACTION_UNIT_AUTO_EXPLORE,
   AGENT_V2_ACTION_UNIT_CANCEL_AUTOMATION,
   AGENT_V2_ACTION_UNIT_CANCEL_ORDERS,
+  AGENT_V2_ACTION_UNIT_CLEAR_ACTION_DECISION,
   AGENT_V2_ACTION_UNIT_GOTO,
   AGENT_V2_ACTION_UNIT_GOTO_AND_PERFORM,
   AGENT_V2_ACTION_UNIT_CONNECT_ROUTE,
   AGENT_V2_ACTION_UNIT_SET_ROUTE,
+  AGENT_V2_ACTION_UNIT_ATTACK_ROUTE,
   AGENT_V2_ACTION_UNIT_SPECIAL,
   AGENT_V2_ACTION_PLAYER_PLACE_INFRA,
   AGENT_V2_ACTION_GOVERNMENT_REVOLUTION,
@@ -481,6 +513,13 @@ bool fc_agent_v2_percent_encode(const char *raw, char *encoded,
                                 size_t encoded_size);
 bool fc_agent_v2_percent_decode(const char *encoded, char *decoded,
                                 size_t decoded_size);
+bool fc_agent_v2_chat_message_safe(const char *message);
+bool fc_agent_v2_chat_echo_matches(
+  bool active, bool baseline_captured, bool exact_seat_epoch,
+  int request_id, int expected_request_id,
+  int sender_connection_id, int self_connection_id,
+  const char *channel, const char *expected_channel,
+  const char *plain, const char *message, const char *recipient_name);
 bool fc_agent_v2_parse_entity_ref(const char *text, char *kind, int *id,
                                   uint64_t *incarnation);
 uint64_t fc_agent_v2_research_choices_digest_init(void);
@@ -519,7 +558,8 @@ bool fc_agent_v2_government_postcondition(
   enum fc_agent_v2_government_command command,
   int before_current, int before_target, int before_finish,
   int after_current, int after_target, int after_finish,
-  int during_government, int desired_government);
+  int during_government, int desired_government,
+  bool change_event_latched);
 bool fc_agent_v2_probability_candidate_preferred(
   int candidate_rank, int candidate_min, int candidate_max,
   int candidate_action, int existing_rank, int existing_min,
@@ -653,6 +693,13 @@ enum fc_agent_v2_action_query fc_agent_v2_action_query_policy(
   bool target_unknown, bool movement_action);
 bool fc_agent_v2_target_server_query_allowed(
   bool target_known, bool target_visible);
+bool fc_agent_v2_action_decision_state_valid(int want, int tile);
+bool fc_agent_v2_action_decision_target_query_allowed(
+  bool target_known, bool target_visible, bool owned_actor,
+  int want, int decision_tile, int requested_tile);
+bool fc_agent_v2_route_paused_for_decision(
+  bool same_actor_lifetime, int want, int decision_tile,
+  const int *action_move_tiles, size_t action_move_tile_count);
 
 void fc_agent_v2_make_slot(char *slot, size_t slot_size,
                            uint64_t secret, uint64_t revision,
@@ -665,6 +712,12 @@ bool fc_agent_v2_make_target_slot(char *slot, size_t slot_size,
 bool fc_agent_v2_parse_target_slot(const char *slot,
                                    uint32_t *native_tile);
 bool fc_agent_v2_target_slot_matches(const char *left, const char *right);
+
+bool fc_agent_v2_vote_update_matches(
+  bool pending_active, bool processing_started, bool baseline_captured,
+  bool seat_epoch_current, bool cast_vote_action,
+  int observed_request_id, int expected_request_id,
+  int observed_vote_no, int expected_vote_no);
 
 enum fc_agent_v2_completion
 fc_agent_v2_classify_completion(bool request_processed,
@@ -864,6 +917,10 @@ bool fc_agent_v2_action_receipt_matches(
   int observed_actor, int expected_actor,
   int observed_target, int expected_target,
   int observed_action, int expected_action, int observed_status);
+bool fc_agent_v2_custom_action_postcondition(
+  bool target_binding_exact, bool success_receipt_latched,
+  uint64_t expected_actor_lifecycle,
+  bool before_actor_present, uint64_t before_actor_lifecycle);
 bool fc_agent_v2_poison_city_postcondition(
   bool target_binding_exact, bool success_receipt_latched,
   uint64_t expected_city_lifecycle,

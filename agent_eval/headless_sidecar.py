@@ -71,7 +71,7 @@ STATE_SCOPE_SECTIONS = frozenset({
     "diplomacy_clauses", "city_citizens",
     "city_build_choices", "city_worklist", "city_improvements",
     "city_governor", "target_tiles", "pregame_nations",
-    "pregame_styles", "pregame_teams",
+    "pregame_styles", "pregame_teams", "chat_recipients", "unit_route",
     "investigation",
 })
 ACTION_SLOT_RE = re.compile(r"^(?:a[0-9A-F]{16}|t[0-9A-F]{24})$")

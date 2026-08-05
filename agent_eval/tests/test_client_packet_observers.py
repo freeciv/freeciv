@@ -5,6 +5,57 @@ import unittest
 
 
 class ClientPacketObserverTests(unittest.TestCase):
+    def test_unit_packet_normalizes_absent_action_decision_tile(self) -> None:
+        repository = Path(__file__).resolve().parents[2]
+        source = (repository / "client" / "packhand.c").read_text(
+            encoding="utf-8"
+        )
+
+        unpack = source.split(
+            "punit->action_decision_want = packet->action_decision_want;", 1
+        )[1].split("punit->client.asking_city_name", 1)[0]
+        self.assertIn(
+            "packet->action_decision_want == ACT_DEC_NOTHING", unpack,
+        )
+        self.assertIn("? nullptr", unpack)
+        self.assertIn(
+            ": index_to_tile(&(wld.map), packet->action_decision_tile)",
+            unpack,
+        )
+
+    def test_vote_observer_sees_each_structured_cache_transition(self) -> None:
+        repository = Path(__file__).resolve().parents[2]
+        header = (repository / "client" / "packhand.h").read_text(
+            encoding="utf-8"
+        )
+        source = (repository / "client" / "packhand.c").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("enum packhand_vote_stage", header)
+        self.assertIn("typedef void (*packhand_vote_observer_fn)(", header)
+        self.assertIn("void packhand_set_vote_observer(", header)
+        setter = source.split(
+            "void packhand_set_vote_observer(", 1
+        )[1].split("}\n", 1)[0]
+        self.assertIn("vote_observer = observer;", setter)
+        self.assertIn("observer != NULL ? data : NULL", setter)
+        for handler, stage in (
+            ("handle_vote_new", "PACKHAND_VOTE_NEW"),
+            ("handle_vote_update", "PACKHAND_VOTE_UPDATE"),
+            ("handle_vote_resolve", "PACKHAND_VOTE_RESOLVE"),
+            ("handle_vote_remove", "PACKHAND_VOTE_REMOVE"),
+        ):
+            with self.subTest(handler=handler):
+                body = source.split(f"void {handler}(", 1)[1].split(
+                    "/************************************************************************", 1
+                )[0]
+                self.assertIn(stage, body)
+                self.assertIn(
+                    "client.conn.client.request_id_of_currently_handled_packet",
+                    body,
+                )
+
     def test_passive_request_correlated_packet_observers_preserve_gui_handlers(
         self,
     ) -> None:

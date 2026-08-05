@@ -261,6 +261,81 @@ multi mode_or_places="default" places_or_turns="" turns="" max_turns="":
       --credentials "$AGENT_EVAL_STATE_DIR/games/{game_id}/owner.json" \
       --player-invite "play/.invites/{game_id}.json"
 
+# Create a full-control-v2 one-agent-vs-native-AI game.
+[arg("max_turns", long="max-turns")]
+single-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
+    @just _create-v2 single "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
+
+# Create a full-control-v2 all-agent game.
+[arg("max_turns", long="max-turns")]
+multi-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
+    @just _create-v2 multiplayer "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
+
+# Shared parser for the additive v2 creation conveniences above.
+[private]
+_create-v2 game_mode mode_or_places places_or_turns turns max_turns:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    first="{{ mode_or_places }}"
+    second="{{ places_or_turns }}"
+    third="{{ turns }}"
+    case "$first" in
+      default|blitz|infinite)
+        timing_mode="$first"
+        resolved_places="$second"
+        [[ -n "$resolved_places" ]] || resolved_places=2
+        positional_turns="$third"
+        [[ -n "$positional_turns" ]] || positional_turns=5000
+        ;;
+      ''|*[!0-9]*)
+        echo "error: timing mode must be default, blitz, or infinite" >&2
+        exit 2
+        ;;
+      *)
+        resolved_places="$first"
+        case "$second" in
+          default|blitz|infinite)
+            timing_mode="$second"
+            positional_turns="$third"
+            [[ -n "$positional_turns" ]] || positional_turns=5000
+            ;;
+          '')
+            timing_mode=default
+            positional_turns=5000
+            if [[ -n "$third" ]]; then
+              echo "error: a turn limit cannot follow an empty timing argument" >&2
+              exit 2
+            fi
+            ;;
+          *[!0-9]*)
+            echo "error: after places, use default, blitz, infinite, or a numeric turn limit" >&2
+            exit 2
+            ;;
+          *)
+            timing_mode=default
+            positional_turns="$second"
+            if [[ -n "$third" ]]; then
+              echo "error: put the timing mode before the final turn limit" >&2
+              exit 2
+            fi
+            ;;
+        esac
+        ;;
+    esac
+    turn_limit="{{ max_turns }}"
+    [[ -n "$turn_limit" ]] || turn_limit="$positional_turns"
+    mkdir -p "$AGENT_EVAL_STATE_DIR"
+    python3 -B -m agent_eval game create \
+      --service-url "$AGENT_EVAL_SERVICE_URL" \
+      --mode "{{ game_mode }}" \
+      --places "$resolved_places" \
+      --turns "$turn_limit" \
+      --timing-mode "$timing_mode" \
+      --control-protocol full-control-v2 \
+      --lobby-timeout-s 0 \
+      --credentials "$AGENT_EVAL_STATE_DIR/games/{game_id}/owner.json" \
+      --player-invite "play/.invites/{game_id}.json"
+
 # Rebuild one player-only invitation from its owner credentials.
 invite game_id:
     #!/usr/bin/env bash
@@ -314,7 +389,7 @@ prompt game_id="" name="" place="":
       "Replace HARNESS-MODEL below with your real identity, for example:" \
       "codex-gpt-5.6-sol, pi-gpt-5.6-sol, or claude-code-claude-opus." \
       "Do not join with a generic label such as Agent." \
-      "Games created by just single or just multi already have a private player invitation staged." \
+      "Games created by just single, just multi, just single-v2, or just multi-v2 already have a private player invitation staged." \
       "$timing_line" \
       "You—the assigned harness/model—must inspect observations and choose actions directly." \
       "Do not write, launch, or delegate to an automated bot solely to beat the clock." \
@@ -340,7 +415,8 @@ prompt game_id="" name="" place="":
     do not retry the same command in a loop.
     EOF
 
-# Without an ID, print the bootstrap prompt. With an ID, join and print play instructions.
+# Without an ID, print the bootstrap prompt. With an ID, enter the canonical
+# player-only join flow; owner credentials never enter the harness session.
 [arg("game_id", long)]
 [arg("name", long)]
 [arg("place", long)]
@@ -363,141 +439,12 @@ join game_id="" name="Agent" place="":
     EOF
       exit 2
     fi
-    game_state_dir="$AGENT_EVAL_STATE_DIR/games/{{ game_id }}"
-    mkdir -p "$game_state_dir"
-    session_key="$(python3 -B -c \
-      'import sys; from agent_eval.client import controller_session_key; print(controller_session_key(sys.argv[1]))' \
-      "$controller_name")"
-    args=(
-      python3 -B -m agent_eval game join "{{ game_id }}"
-      --service-url "$AGENT_EVAL_SERVICE_URL"
-      --credentials "$game_state_dir/owner.json"
-      --controller-label "$controller_name"
-      --session "$game_state_dir/${session_key}.json"
-    )
+    args=(just join --game_id "{{ game_id }}" --name "$controller_name")
     if [[ -n "{{ place }}" ]]; then
       args+=(--place "{{ place }}")
     fi
-    if ! curl --silent --show-error --fail --max-time 3 \
-      "$AGENT_EVAL_SERVICE_URL/health" >/dev/null 2>&1; then
-      cat >&2 <<EOF
-    Cannot reach the Freeciv game supervisor at:
-      $AGENT_EVAL_SERVICE_URL
-
-    Game {{ game_id }} cannot be joined while its original supervisor is down.
-    Game IDs belong to the supervisor process that created them; restarting a
-    new supervisor does not recover an interrupted live game.
-
-    If this is a local match, ask the game owner to:
-      1. run 'just start' in a terminal and leave it running;
-      2. create a new match with 'just single' or 'just multi';
-      3. give you the new game ID.
-
-    If the game is hosted elsewhere, set AGENT_EVAL_SERVICE_URL to that server.
-    Stop here and report this problem to the user. Do not retry this stale ID.
-    EOF
-      exit 2
-    fi
-    join_error="$game_state_dir/${session_key}-join-error.log"
-    if ! "${args[@]}" >"$game_state_dir/${session_key}-join.json" 2>"$join_error"; then
-      if grep -qi 'game not found' "$join_error"; then
-        cat >&2 <<EOF
-    The Freeciv supervisor is running, but it does not know game {{ game_id }}.
-
-    The game ID is wrong, expired, or belongs to a different supervisor. Ask
-    the game owner for the current game ID and service URL. Do not keep retrying
-    this ID and do not create a replacement game unless the user asks you to.
-    EOF
-      else
-        cat "$join_error" >&2
-        cat >&2 <<EOF
-
-    The supervisor rejected the join request for game {{ game_id }}. Check that
-    the lobby is still open, the requested place is available, and this
-    checkout has the matching invitation credentials. Stop and ask the user
-    rather than retrying blindly.
-    EOF
-      fi
-      exit 2
-    fi
-    session_path="$(cd "$game_state_dir" && pwd)/${session_key}.json"
-    timing_line="$(python3 -B -c '
-    import json, math, sys
-    value = json.load(open(sys.argv[1], encoding="utf-8"))
-    mode = value.get("timing_mode") or "unknown"
-    timeout = value.get("action_timeout_s")
-    if mode == "infinite" and timeout is None:
-        print("Timing mode: infinite (no agent action deadline)")
-    elif isinstance(timeout, (int, float)) and not isinstance(timeout, bool) and math.isfinite(timeout):
-        print(f"Timing mode: {mode} ({timeout:g} seconds per agent turn)")
-    else:
-        print(f"Timing mode: {mode} (deadline unavailable)")
-    ' "$game_state_dir/${session_key}-join.json")"
-    repo_root="$(pwd)"
-    control_protocol="$(python3 -B -c '
-    import json, sys
-    value = json.load(open(sys.argv[1], encoding="utf-8"))
-    print(value.get("control_protocol") or "strategic-v1")
-    ' "$session_path")"
-    if [[ "$control_protocol" == "full-control-v2" ]]; then
-      cat <<EOF
-    Joined full-control-v2 for game {{ game_id }} as $controller_name.
-
-    Private session file: $session_path
-    Protocol contract: $repo_root/docs/full-control-v2.md
-
-    The headless Freeciv client sidecar and v2 state/action routes are not
-    available yet. This lobby fails safely before Freeciv starts and never
-    falls back to the strategic-v1 trait API. Do not run the strategic
-    next/act loop for this session.
-    EOF
-      exit 0
-    fi
-    cat <<EOF
-    You are now playing Freeciv through the strategic-v1 session API.
-
-    Game ID: {{ game_id }}
-    Controller: $controller_name
-    $timing_line
-    Private session file: $session_path
-    Agent contract and action rules: $repo_root/agent_eval/README.md
-    Classic Freeciv ruleset notes: $repo_root/data/classic/README.classic
-
-    Read the agent contract before playing. The observation returned by the
-    session API is your authoritative game state, and its objective is your
-    goal for this match. This is strategic-v1, not primitive unit control:
-    Freeciv's hard Classic AI executes legal city, unit, diplomacy, and combat
-    actions. Once per turn you choose the target integer modifiers in [-49, 50]
-    for aggressive, builder, expansionist, and trader.
-
-    You—the assigned harness/model—must inspect each observation and choose
-    its action directly. Do not write, launch, or delegate to an automated bot
-    solely to beat the clock.
-
-    Repeat until state is completed, invalid, failed, or cancelled:
-
-    1. Long-poll for your next turn. Start with LAST_TURN=0:
-
-       python3 -B -m agent_eval agent next --session "$session_path" --after-turn LAST_TURN --wait-s 120
-
-    2. Read objective, observation, deadline_at, and action_schema. Choose all
-       four integer trait targets in the documented range. OBSERVATION_ID is
-       the nonempty top-level observation_id field returned by step 1; do not
-       call act if it is absent.
-
-    3. Submit the action exactly once; exact retries are safe:
-
-       python3 -B -m agent_eval agent act --session "$session_path" --turn TURN --observation-id=OBSERVATION_ID --action '{"type":"set_traits","traits":{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}'
-
-    4. Advance LAST_TURN to TURN only after act returns accepted=true. If act
-       fails or returns anything else, do not claim submission and do not
-       advance: call next again with this same explicit session path and the
-       unchanged LAST_TURN so the server can redeliver an unsubmitted turn.
-       Never use a shared current-session pointer. Never print or share the
-       session token. Run exactly one active observe/act loop for this session;
-       do not resume a second loop concurrently. Do not use the omniscient
-       watch endpoints as game perception.
-    EOF
+    cd play
+    exec "${args[@]}"
 
 # Run the model-free reference bot for one game-scoped controller session.
 bot game_id name:
