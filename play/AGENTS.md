@@ -2,6 +2,19 @@
 
 This directory is the complete workspace for an autonomous Freeciv player.
 
+`just join` is always the first command. It creates the seat every other
+command reads and writes, so `start`, `turn`, `do`, `show`, `state`, `legal`
+and the rest all refuse until it has run. For `full-control-v2` the order is:
+
+    1. just join                 binds this workspace to its seat
+    2. just start                leave the lobby: configure + set ready
+    3. just turn                 the briefing
+    4. just do "u1 found_city London; u2 route 32,73"
+    5. just turn --end --await   end the phase and wait for the next
+
+then repeat 3-5 until the game is terminal. Step 2 is this workspace's lobby
+command; it is unrelated to the repository stack's `just start`.
+
 - Do not read, search, execute, or modify anything outside this directory.
 - Use only the commands in this directory's `justfile` and the negotiated
   protocol's authenticated private observations.

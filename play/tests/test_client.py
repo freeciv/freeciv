@@ -6508,9 +6508,10 @@ client._remember_receipt(path, state, receipt)
             )
 
         # The bare `just` menu is the short workflow and never re-types a path.
+        # Steps may be numbered ("  1. just join"), so accept both spellings.
         menu = [
             line.strip() for line in source.splitlines()
-            if line.strip().startswith(("@echo \"  just ", "@echo '  just "))
+            if re.match(r"@echo [\"']  (?:\d+\. )?just ", line.strip())
         ]
         self.assertNotIn("--session", "\n".join(menu))
         for fast_path in (
@@ -6557,6 +6558,184 @@ client._remember_receipt(path, state, receipt)
             "ambiguous",
         ):
             self.assertIn(invariant, agents)
+
+    def test_every_taught_surface_numbers_join_as_the_first_step(self):
+        """A live agent ran `just start` blind because nothing said join ran first.
+
+        The bare menu, AGENTS.md and the play card are the only three places
+        it can read before the first command, so all three must open with the
+        same numbered order and agree on which step comes second.
+        """
+        order = ("just join", "just start", "just turn", "just do")
+        surfaces = {
+            "justfile": (client.ROOT / "justfile").read_text(encoding="utf-8"),
+            "AGENTS.md": (
+                client.ROOT / "AGENTS.md"
+            ).read_text(encoding="utf-8"),
+            "docs/play.md": (
+                client.ROOT / "docs" / "play.md"
+            ).read_text(encoding="utf-8"),
+        }
+        for name, text in surfaces.items():
+            positions = [text.find(step) for step in order]
+            for step, position in zip(order, positions):
+                self.assertNotEqual(position, -1, f"{name} never names {step}")
+            self.assertEqual(
+                positions, sorted(positions),
+                f"{name} teaches the loop out of order: "
+                f"{dict(zip(order, positions))}",
+            )
+            # The steps are numbered, not just ordered: an agent that skims
+            # reads "1." and runs it.
+            self.assertRegex(
+                text, r"1\.\s+just join",
+                f"{name} does not number `just join` as step 1",
+            )
+            self.assertRegex(
+                text, r"2\.\s+just start",
+                f"{name} does not number `just start` as step 2",
+            )
+        # `just start` collides with the repository stack command by name, so
+        # every surface that teaches it must disambiguate.
+        for name in ("justfile", "AGENTS.md", "docs/play.md"):
+            self.assertIn(
+                "repository stack", surfaces[name],
+                f"{name} never distinguishes `just start` from the stack's",
+            )
+
+    def test_a_preconfigured_workspace_answers_every_v2_command_with_join(self):
+        """`just play` workspaces need `just join`, not the generic join form.
+
+        Printing `just join --game_id ... --name ...` here teaches a command
+        line the agent cannot fill in, at the one moment it has no other
+        source of truth.
+        """
+        commands = (
+            "start", "turn", "show", "state", "legal", "health", "wait", "do",
+            "batch", "receipt", "retry", "use",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            (root / ".sessions").mkdir(parents=True)
+            (root / ".playconfig.json").write_text(
+                json.dumps({
+                    "schema_version": 1, "game_id": self.GAME_ID,
+                    "name": "codex-test-model", "place": None,
+                    "control_protocol": "full-control-v2",
+                }),
+                encoding="utf-8",
+            )
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                for name in commands:
+                    with self.subTest(command=name):
+                        with self.assertRaises(client.PlayerError) as caught:
+                            client._session_path("") if name != "use" else (
+                                client.command_use(
+                                    argparse.Namespace(target="", json=False),
+                                )
+                            )
+                        message = str(caught.exception)
+                        self.assertIn("`just join`", message)
+                        self.assertIn(self.GAME_ID, message)
+                        self.assertNotIn("--game_id", message)
+                        self.assertNotIn("multiple private sessions", message)
+                # Without the config the generic remedy is still correct.
+                (root / ".playconfig.json").unlink()
+                with self.assertRaises(client.PlayerError) as caught:
+                    client._session_path("")
+                self.assertIn("--game_id", str(caught.exception))
+
+    def test_v2_health_survives_an_additive_server_field(self):
+        """The supervisor gained `last_recovery`; every command died on it.
+
+        A closed schema that fails the whole surface on one unknown key is a
+        worse failure than the drift it detects, so an optional field is
+        accepted and any drift names itself.
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                _path, session = self.v2_session(root)
+        recovery = {
+            "attempt": 1,
+            "client_state": "running",
+            "exit_code": None,
+            "exit_signal": None,
+            "format": "freeciv-full-control-v2-recovery",
+            "game_id": self.GAME_ID,
+            "kind": "sidecar_reattach",
+            "outcome": "recovered",
+            "place": 1,
+            "recovered_to_turn": 51,
+            "rewound_applied_actions": True,
+            "schema_version": 1,
+            "seat_id": "place-1",
+            "sidecar_generation": 2,
+            "timestamp": "2026-08-05T09:49:19.508Z",
+            "trigger": "sidecar_exit",
+            "turn": 52,
+        }
+        absent = self.health(session, active=True)
+        self.assertNotIn("last_recovery", client._validate_health(
+            absent, session,
+        ))
+
+        null = dict(absent, last_recovery=None)
+        self.assertIsNone(
+            client._validate_health(null, session)["last_recovery"],
+        )
+
+        populated = dict(absent, last_recovery=recovery)
+        clean = client._validate_health(populated, session)
+        self.assertEqual(clean["last_recovery"], recovery)
+        rendered = "\n".join(client._render_health(clean))
+        self.assertIn("last recovery t52 sidecar_reattach recovered", rendered)
+        self.assertIn("rolled back", rendered)
+
+        for broken in (
+            dict(recovery, kind="teleport"),
+            dict(recovery, outcome="fine"),
+            dict(recovery, place=2),
+            {key: value for key, value in recovery.items() if key != "turn"},
+        ):
+            with self.assertRaises(client.PlayerError):
+                client._validate_health(
+                    dict(absent, last_recovery=broken), session,
+                )
+
+    def test_a_drifted_schema_names_the_field_that_drifted(self):
+        """Listing the expected fields alone leaves nothing to act on."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                _path, session = self.v2_session(root)
+        drifted = dict(self.health(session, active=True), invented_field=1)
+        with self.assertRaises(client.PlayerError) as caught:
+            client._validate_health(drifted, session)
+        self.assertIn("unexpected invented_field", str(caught.exception))
+
+        truncated = self.health(session, active=True)
+        del truncated["sidecar"]
+        with self.assertRaises(client.PlayerError) as caught:
+            client._validate_health(truncated, session)
+        self.assertIn("missing sidecar", str(caught.exception))
+
+    def test_play_do_takes_its_orders_positionally_like_just_do(self):
+        """`./play do "…"` is advertised by the wrapper and must parse."""
+        parsed = client.parser()
+        positional = parsed.parse_args(["do", "u1 found_city London"])
+        self.assertEqual(positional.positional_orders, ["u1 found_city London"])
+        flagged = parsed.parse_args(["do", "--orders", "u1 found_city London"])
+        self.assertEqual(flagged.orders, "u1 found_city London")
+        self.assertEqual(flagged.positional_orders, [])
 
     def test_v2_join_card_and_state_header_carry_the_same_contract(self):
         """Join teaches the protocol once; header.txt repeats it for free."""

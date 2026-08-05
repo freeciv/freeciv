@@ -234,6 +234,65 @@ class PlaySetupTests(unittest.TestCase):
             workspace = repo / ".play" / f"{GAME_ID}_codex_gpt-5.6-sol"
             self.assertTrue((workspace / ".playconfig.json").is_file())
 
+    def test_generated_notes_number_join_first_and_start_second(self):
+        """A live agent ran `just start` before `just join` and stalled.
+
+        These notes and the workspace's own `just` menu are read before the
+        first command, so they must number the same order rather than list an
+        unordered set of fast paths.
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            repo = self._repo(directory)
+            code, out, err = self._run(
+                repo, GAME_ID,
+                "--player", "claude-code:claude-fable-5",
+                "--player", "pi:gpt-5.5",
+            )
+            self.assertEqual(code, 0, err)
+            claude_ws = (
+                repo / ".play" / f"{GAME_ID}_claude-code_claude-fable-5"
+            )
+            notes = {
+                "AGENTS.md": (
+                    claude_ws / "AGENTS.md"
+                ).read_text(encoding="utf-8"),
+                "CLAUDE.md": (
+                    claude_ws / "CLAUDE.md"
+                ).read_text(encoding="utf-8"),
+                "AGENTS.md (pi)": (
+                    repo / ".play" / f"{GAME_ID}_pi_gpt-5.5" / "AGENTS.md"
+                ).read_text(encoding="utf-8"),
+            }
+            for name, text in notes.items():
+                self.assertRegex(
+                    text, r"1\.\s+just join", f"{name} does not number join 1"
+                )
+                self.assertRegex(
+                    text, r"2\.\s+just start",
+                    f"{name} does not number start 2",
+                )
+                self.assertLess(
+                    text.index("just join"), text.index("just start"), name,
+                )
+                self.assertIn("repository stack", text, name)
+        # The closing hint the operator hands to each model names join too.
+        self.assertIn("&& just join", out)
+
+    def test_v1_notes_number_join_first_as_well(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = self._repo(directory)
+            code, _out, err = self._run(
+                repo, GAME_ID, "--player", "codex:gpt-5.6-sol",
+                protocol="strategic-v1",
+            )
+            self.assertEqual(code, 0, err)
+            agents = (
+                repo / ".play" / f"{GAME_ID}_codex_gpt-5.6-sol" / "AGENTS.md"
+            ).read_text(encoding="utf-8")
+            self.assertRegex(agents, r"1\.\s+just join")
+            self.assertRegex(agents, r"2\.\s+just next")
+            self.assertIn("strategic-v1", agents)
+
 
 if __name__ == "__main__":
     unittest.main()

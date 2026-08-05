@@ -44,23 +44,27 @@ MODEL_CHOICES = (
     "gemini-3-pro",
 )
 
-V2_LOOP_NOTE = """This is a `full-control-v2` game. The loop:
+V2_LOOP_NOTE = """This is a `full-control-v2` game. Run these in order:
 
-    just join                    # prints the protocol card
-    just start                   # lobby: configure + ready (no arguments needed)
-    just turn                    # each turn: briefing, options, needs-decision list
-    just do "u1 found_city London; u2 route 32,73"
-    just turn --end --await      # end the phase and wait for the next
+    1. just join                 # FIRST. binds this workspace to its seat
+    2. just start                # lobby: configure + ready (no arguments needed)
+    3. just turn                 # each turn: briefing, options, needs-decision list
+    4. just do "u1 found_city London; u2 route 32,73"
+    5. just turn --end --await   # end the phase and wait for the next
+
+Then repeat 3-5 until the game is terminal. Nothing but `just join` works
+before `just join`, and step 2 is this workspace's lobby command, not the
+repository stack's `just start`.
 
 `just show` reads your local state mirror at zero network cost, and every
 error names the exact command that fixes it."""
 
-V1_LOOP_NOTE = """This is a `strategic-v1` game. The loop:
+V1_LOOP_NOTE = """This is a `strategic-v1` game. Run these in order:
 
-    just join
-    just next --after_turn 0     # then pass the last observed turn each time
-    just act --turn T --observation_id ID \\
-      --action '{"type":"set_traits","traits":{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}'
+    1. just join                 # FIRST. binds this workspace to its seat
+    2. just next --after_turn 0  # then pass the last observed turn each time
+    3. just act --turn T --observation_id ID \\
+         --action '{"type":"set_traits","traits":{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}'
 
 Read `docs/gameplay.md` for the trait contract before your first `act`."""
 
@@ -75,14 +79,15 @@ everything you create inside this folder; never read or write parent
 directories or sibling player folders.
 
 The game and your controller name are pre-configured, so `just join`
-needs no arguments. {loop_note}
+needs no arguments — run it first, before anything else. {loop_note}
 """
 
 CLAUDE_NOTE = """# Playing Freeciv from this workspace
 
 Read `AGENTS.md` first — it is the workspace contract. This folder is
-pre-configured for `{game_id}` as `{name}`; bare `just` reprints the short
-workflow at any time.
+pre-configured for `{game_id}` as `{name}`, so `just join` takes no
+arguments; run it before any other command. Bare `just` reprints the
+numbered workflow at any time.
 
 {loop_note}
 

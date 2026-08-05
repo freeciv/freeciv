@@ -6,15 +6,20 @@ export PLAY_STATE_DIR := env_var_or_default("PLAY_STATE_DIR", ".sessions")
 
 # Show the player-only workflow.
 default:
-    @echo "Freeciv player workspace. Join, then play the loop your join names."
+    @echo "Freeciv player workspace. Run these in order; nothing else works first."
     @echo
+    @echo "full-control-v2 — start here:"
+    @echo "  1. just join                           FIRST. binds this seat"
+    @echo "  2. just start                          leave the lobby: configure + ready"
+    @echo "  3. just turn                           the briefing"
+    @echo '  4. just do "u1 VERB ARGS; c1 VERB ARGS" 1..8 orders'
+    @echo "  5. just turn --end --await             end, block, next header"
+    @echo
+    @echo "then repeat 3-5 until the game is terminal. just start is this"
+    @echo "workspace's lobby command, not the repository stack command, and it"
+    @echo "needs no arguments; every flag is an override. A workspace that was"
+    @echo "not pre-configured spells step 1 out instead:"
     @echo "  just join --game_id GAME_ID --name HARNESS-MODEL"
-    @echo
-    @echo "full-control-v2 — the ordinary turn is four commands:"
-    @echo "  just start                             every flag is an override"
-    @echo "  just turn                              the briefing"
-    @echo '  just do "u1 VERB ARGS; c1 VERB ARGS"   1..8 orders'
-    @echo "  just turn --end --await                end, block, next header"
     @echo
     @echo "go deeper when the briefing is not enough:"
     @echo "  just turn --decisions                  who still needs orders"

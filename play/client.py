@@ -725,6 +725,43 @@ def _seat_binding_line(
     )
 
 
+def _preconfigured_game_id() -> str | None:
+    """The game `just play` pinned this workspace to, if it did.
+
+    Read defensively: this only sharpens an error message, so a workspace
+    with an unreadable config still gets the generic remedy rather than a
+    second failure stacked on the first.
+    """
+    try:
+        raw = json.loads(
+            (ROOT / ".playconfig.json").read_text(encoding="utf-8"),
+        )
+    except (OSError, ValueError):
+        return None
+    game_id = raw.get("game_id") if isinstance(raw, dict) else None
+    if not isinstance(game_id, str) or GAME_ID_RE.fullmatch(game_id) is None:
+        return None
+    return game_id
+
+
+def _no_session_error() -> PlayerError:
+    """One remedy for every command that runs before the seat exists.
+
+    In a pre-configured workspace `just join` takes no arguments, so the
+    generic form teaches the wrong command at the exact moment the agent has
+    nothing else to go on.
+    """
+    game_id = _preconfigured_game_id()
+    if game_id is not None:
+        return PlayerError(
+            f"run `just join` first — this workspace is pre-configured for "
+            f"{game_id}, and every other command needs the seat it creates"
+        )
+    return PlayerError(
+        "no current session; run `just join --game_id ... --name ...` first"
+    )
+
+
 def _session_path(explicit: str) -> Path:
     """Resolve the session file every command works against.
 
@@ -767,9 +804,7 @@ def _session_path(explicit: str) -> Path:
     try:
         relative = pointer.read_text(encoding="utf-8").strip()
     except OSError as exc:
-        raise PlayerError(
-            "no current session; run `just join --game_id ... --name ...` first"
-        ) from exc
+        raise _no_session_error() from exc
     path = Path(relative)
     if path.is_absolute() or ".." in path.parts:
         raise PlayerError("the current-session pointer is invalid")
@@ -1024,9 +1059,26 @@ def _save_v2_client_state(session_path: Path, value: dict[str, Any]) -> None:
 
 
 def _exact(value: Any, fields: set[str], label: str) -> dict[str, Any]:
-    if not isinstance(value, dict) or set(value) != fields:
+    if not isinstance(value, dict):
         raise PlayerError(
-            f"invalid {label}: expected exactly {', '.join(sorted(fields))}"
+            f"invalid {label}: expected a JSON object with exactly "
+            f"{', '.join(sorted(fields))}"
+        )
+    if set(value) != fields:
+        # Naming the drift is the whole diagnosis: a server that gained one
+        # field otherwise fails every command with a wall of field names and
+        # no way to tell which of them is the problem.
+        drift = "; ".join(
+            part for part in (
+                f"missing {', '.join(sorted(fields - set(value)))}"
+                if fields - set(value) else "",
+                f"unexpected {', '.join(sorted(set(value) - fields))}"
+                if set(value) - fields else "",
+            ) if part
+        )
+        raise PlayerError(
+            f"invalid {label}: {drift}. Expected exactly "
+            f"{', '.join(sorted(fields))}"
         )
     return value
 
@@ -1732,12 +1784,48 @@ def _validate_phase_end_event(
     return dict(raw)
 
 
+V2_RECOVERY_FIELDS = {
+    "attempt", "client_state", "exit_code", "exit_signal", "format",
+    "game_id", "kind", "outcome", "place", "recovered_to_turn",
+    "rewound_applied_actions", "schema_version", "seat_id",
+    "sidecar_generation", "timestamp", "trigger", "turn",
+}
+V2_RECOVERY_KINDS = {"sidecar_reattach", "autosave_rollback"}
+V2_RECOVERY_OUTCOMES = {"recovered", "failed", "abandoned"}
+
+
+def _validate_recovery_event(
+    value: Any, session: dict[str, Any], seat: dict[str, Any],
+) -> dict[str, Any]:
+    raw = _exact(value, V2_RECOVERY_FIELDS, "v2 health last recovery")
+    if (
+        raw["game_id"] != session["game_id"]
+        or raw["seat_id"] != seat["seat_id"]
+        or raw["place"] != seat["place"]
+    ):
+        raise PlayerError("invalid v2 health last recovery seat")
+    if (
+        raw["kind"] not in V2_RECOVERY_KINDS
+        or raw["outcome"] not in V2_RECOVERY_OUTCOMES
+        or not isinstance(raw["trigger"], str) or not raw["trigger"]
+        or not isinstance(raw["rewound_applied_actions"], bool)
+        or not isinstance(raw["timestamp"], str) or not raw["timestamp"]
+    ):
+        raise PlayerError("invalid v2 health last recovery")
+    return _json_value(dict(raw), "v2 health last recovery")
+
+
 def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
     base_fields = {
         "schema_version", "control_protocol", "game_id", "agent",
         "game_state", "seat", "sidecar", "observation_available",
         "legal_actions_available", "phase", "last_phase_end",
     }
+    # Optional-if-present, like seat.standing: a supervisor that reports
+    # rollbacks and one that does not are both valid peers, and an additive
+    # server field must never take the whole play surface down.
+    if isinstance(value, dict) and "last_recovery" in value:
+        base_fields = base_fields | {"last_recovery"}
     present = (
         set(value).intersection(V2_EVALUATION_FIELDS)
         if isinstance(value, dict) else set()
@@ -1911,6 +1999,11 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
         "phase": clean_phase,
         "last_phase_end": last_phase_end,
     }
+    if "last_recovery" in raw:
+        result["last_recovery"] = (
+            None if raw["last_recovery"] is None
+            else _validate_recovery_event(raw["last_recovery"], session, seat)
+        )
     if evaluation is not None:
         result.update(evaluation)
     return result
@@ -4330,6 +4423,18 @@ def _render_health(health: dict[str, Any]) -> list[str]:
             f"source={event['source']} {event['receipt_state']} "
             f"{event['resolution']} {_scalar(event['elapsed_s'])}s"
         )
+    recovery = health.get("last_recovery")
+    if recovery is not None:
+        line = (
+            f"last recovery t{_scalar(recovery['turn'])} "
+            f"{recovery['kind']} {recovery['outcome']} "
+            f"trigger={recovery['trigger']}"
+        )
+        if recovery["recovered_to_turn"] is not None:
+            line += f" rewound to t{_scalar(recovery['recovered_to_turn'])}"
+        if recovery["rewound_applied_actions"]:
+            line += " — applied actions were rolled back; re-read `just turn`"
+        lines.append(line)
     return lines
 
 
@@ -5239,6 +5344,13 @@ def command_use(args: argparse.Namespace) -> int:
     if not target:
         binding = _read_seat_binding()
         if binding is None:
+            game_id = _preconfigured_game_id()
+            if game_id is not None:
+                raise PlayerError(
+                    f"run `just join` first — this workspace is "
+                    f"pre-configured for {game_id}, and joining binds the "
+                    "seat this command reports"
+                )
             raise PlayerError(
                 "this workspace is not bound to a seat. Join one with "
                 "`just join --game_id GAME_ID --name HARNESS-MODEL`, or bind "
@@ -7687,7 +7799,14 @@ def _order_receipt_ok(disposition: dict[str, Any]) -> bool:
 
 def command_do(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
-    orders = _parse_orders(getattr(args, "orders", ""))
+    written = (getattr(args, "orders", "") or "").strip()
+    positional = " ".join(getattr(args, "positional_orders", None) or []).strip()
+    if written and positional:
+        raise PlayerError(
+            "orders were given twice; pass them once, either as "
+            '`just do "u1 found_city London"` or as --orders'
+        )
+    orders = _parse_orders(written or positional)
     keep_going = bool(getattr(args, "continue_on_error", False))
     lines: list[str] = []
     records: list[dict[str, Any]] = []
@@ -9068,6 +9187,9 @@ def parser() -> argparse.ArgumentParser:
         "--orders", default="",
         help='1..8 semicolon-separated orders, e.g. "u1 found_city London"',
     )
+    # `just do "…"` passes the orders positionally, so `./play do "…"` must
+    # too, or the two spellings are not one command.
+    do.add_argument("positional_orders", nargs="*", default=[])
     do.add_argument(
         "--continue-on-error", dest="continue_on_error", action="store_true",
         help="keep issuing later orders after one is rejected",

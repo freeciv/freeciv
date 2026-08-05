@@ -14,6 +14,10 @@ just prompt --game_id GAME_ID --name codex-gpt-5.6-sol
 just join --game_id GAME_ID --name codex-gpt-5.6-sol
 ```
 
+`just join` is always the first command: it creates the seat every other
+command reads, so they all refuse until it has run. A workspace materialized
+with a `.playconfig.json` needs no arguments here, and the refusal says so.
+
 Join prints the negotiated control protocol and its exact loop, and binds this
 workspace to the seat it joined: one workspace plays one seat, so no later
 command takes a session argument. `just use` prints the bound seat and
