@@ -1,0 +1,66 @@
+Freeciv Agent Arena License
+
+Copyright (c) 2026 Rahul Tarak
+
+SCOPE. This license applies to the agent evaluation harness contained in
+this repository — including the supervisor, control protocols, sidecar
+integration, player workspace and client, replay and telemetry pipeline,
+viewer, evaluation tooling, and associated documentation under
+`agent_eval/`, `play/`, `docs/`, and the repository-root recipes
+(collectively, the "Software"). It does NOT apply to Freeciv itself:
+the Freeciv game engine and all modifications to the Freeciv source tree
+(including `client/`, `server/`, `common/`, `data/`, and related
+directories) are and remain licensed under the GNU General Public License
+version 2 or later — see `COPYING`. Nothing in this license grants any
+right to Freeciv beyond, or in conflict with, the GPL.
+
+Permission is hereby granted, free of charge, to any person (the
+"Licensee") obtaining a copy of the Software to deal in the Software
+without restriction — including, without limitation, the rights to use,
+copy, modify, merge, publish, distribute, and create derivative works of
+the Software — in each case subject to the following conditions:
+
+1. The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software. Licensee's use of
+the Software must comply with applicable laws and regulations.
+
+2. "Recreational Use" means using the Software to set up and play games —
+with or between AI agents, models, or humans — for personal enjoyment,
+curiosity, content creation, or informal tinkering, including modifying
+the Software for such purposes. Recreational Use is free, unrestricted,
+and encouraged.
+
+3. "Benchmark Service" means operating any product, service, or program —
+commercial or otherwise — that uses the Software or its derivative works
+to evaluate, score, rank, or compare AI models or agents, where the
+evaluations, rankings, results, or evaluation access are offered or
+published to third parties (including, without limitation, leaderboards,
+evaluation APIs, model report cards, and paid or unpaid evaluation
+offerings). Operating a Benchmark Service requires the prior written
+permission of the copyright holder. Contact <hey@cryo.wtf> before any
+such use.
+
+4. "Training Environment Use" means using the Software or its derivative
+works as an environment to train, fine-tune, or otherwise optimize AI
+models or agents — including, without limitation, reinforcement learning,
+generating trajectories, rewards, preference signals, or synthetic data
+for training, or any automated self-improvement loop whose outputs are
+used to update model weights. Training Environment Use requires the prior
+written permission of the copyright holder. Contact <hey@cryo.wtf> before
+any such use.
+
+5. For clarity, Sections 3 and 4 do not apply to Recreational Use, nor to
+personal, non-commercial experimentation whose results are not offered to
+third parties as a service and are not used to update model weights.
+
+6. THE SOFTWARE AND ANY OUTPUT AND RESULTS THEREFROM ARE PROVIDED ON AN
+"AS IS" BASIS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+For permission requests or any questions regarding this license, contact
+<hey@cryo.wtf>.
