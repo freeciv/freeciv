@@ -105,12 +105,13 @@ TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
     "infinite": None,
 }
 # Full-control-v2 phases cover a whole human-style turn (reads, catalog
-# enumeration, and every order), so the default budget is ten minutes.
+# enumeration, and every order), so the default budget is ten minutes and
+# the 60-second blitz preset is not offered at all.
 V2_TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
     "default": 600.0,
-    "blitz": 60.0,
     "infinite": None,
 }
+AI_DIFFICULTY_LEVELS = ("novice", "easy", "normal", "hard", "cheating")
 V2_WAIT_REASONS = frozenset({
     "phase_active", "game_terminal", "revision_changed", "timeout",
 })
@@ -909,7 +910,7 @@ class Game:
                 f"aitoggle {place.player_name}"
                 for place in self.joinable_places
             )
-        commands.append("hard")
+        commands.append(self.config.get("difficulty", "hard"))
         if self.config["control_protocol"] == STRATEGIC_V1:
             commands.append(
                 "lua unsafe-file "
@@ -8047,7 +8048,7 @@ class Supervisor:
         known = {
             "mode", "places", "turns", "seed", "ruleset", "objective",
             "timing_mode", "action_timeout_s", "lobby_timeout_s", "frame_interval",
-            "frame_zoom", "control_protocol",
+            "frame_zoom", "control_protocol", "difficulty",
         }
         unknown = sorted(set(payload) - known)
         if unknown:
@@ -8104,7 +8105,12 @@ class Supervisor:
         ):
             raise APIProblem(
                 HTTPStatus.BAD_REQUEST,
-                "timing_mode must be default, blitz, or infinite",
+                "timing_mode must be "
+                + " or ".join(sorted(timing_timeouts))
+                + (
+                    " for full-control-v2 (blitz is strategic-v1 only)"
+                    if control_protocol == FULL_CONTROL_V2 else ""
+                ),
             )
         if raw_timing_mode is None:
             if not timeout_supplied:
@@ -8157,6 +8163,13 @@ class Supervisor:
             payload.get("frame_zoom", 1),
             "frame_zoom", minimum=1, maximum=1,
         )
+        difficulty = payload.get("difficulty", "hard")
+        if difficulty not in AI_DIFFICULTY_LEVELS:
+            raise APIProblem(
+                HTTPStatus.BAD_REQUEST,
+                "difficulty must be one of "
+                + ", ".join(AI_DIFFICULTY_LEVELS),
+            )
         return {
             "mode": mode,
             "places": places,
@@ -8165,6 +8178,7 @@ class Supervisor:
             "ruleset": ruleset,
             "objective": objective.strip(),
             "control_protocol": control_protocol,
+            "difficulty": difficulty,
             "timing_mode": timing_mode,
             "action_timeout_s": action_timeout_s,
             "lobby_timeout_s": lobby_timeout_s,

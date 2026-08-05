@@ -12,7 +12,7 @@ default:
     @echo "  just start"
     @echo "  just single              # full-control-v2 vs the classic AI, 10m/turn"
     @echo "  just single v1           # strategic-v1 instead"
-    @echo "  just single 2 blitz      # 60s/turn"
+    @echo "  just single cheating     # AI with deity-style advantages"
     @echo "  just multi 3 infinite    # 3 agents, no deadline"
     @echo "  just play GAME_ID        # per-player workspace under .play/"
     @echo "  just watch GAME_ID"
@@ -132,53 +132,83 @@ start-supervisor port="8765": build
       --runs-root "$AGENT_EVAL_STATE_DIR/runs" \
       --agent-binary "${AGENT_EVAL_AGENT_BINARY:-$PWD/build-control-v2/freeciv-agent}"
 
-# Create a one-agent-vs-native-AI game: just single [v1|v2] [players] [timing] [turns].
+# Create a one-agent-vs-native-AI game: just single [v1|v2] [difficulty] [players] [timing] [turns].
 # The control protocol defaults to full-control-v2; pass v1 for strategic-v1.
 [arg("max_turns", long="max-turns")]
 single a="" b="" c="" d="" max_turns="":
     #!/usr/bin/env bash
     set -euo pipefail
     protocol=full-control-v2
-    a="{{ a }}"; b="{{ b }}"; c="{{ c }}"; d="{{ d }}"
-    case "$a" in
-      v1) protocol=strategic-v1; a="$b"; b="$c"; c="$d"; d="" ;;
-      v2) a="$b"; b="$c"; c="$d"; d="" ;;
-    esac
+    difficulty=hard
+    args=()
+    for token in "{{ a }}" "{{ b }}" "{{ c }}" "{{ d }}"; do
+      case "$token" in
+        '') ;;
+        v1) protocol=strategic-v1 ;;
+        v2) protocol=full-control-v2 ;;
+        novice|easy|normal|hard|cheating) difficulty="$token" ;;
+        *) args+=("$token") ;;
+      esac
+    done
+    a="${args[0]:-}"; b="${args[1]:-}"; c="${args[2]:-}"; d="${args[3]:-}"
+    if [[ "$protocol" == full-control-v2 ]]; then
+      for token in "$a" "$b" "$c"; do
+        if [[ "$token" == blitz ]]; then
+          echo "error: blitz is strategic-v1 only; full-control-v2 games use default (10 minutes per turn) or infinite" >&2
+          exit 2
+        fi
+      done
+    fi
     if [[ -n "$d" ]]; then
-      echo "error: too many arguments; usage: just single [v1|v2] [players] [default|blitz|infinite] [turns]" >&2
+      echo "error: too many arguments; usage: just single [v1|v2] [difficulty] [players] [default|infinite] [turns]" >&2
       exit 2
     fi
     [[ -n "$a" ]] || a=default
-    just _create single "$protocol" "$a" "$b" "$c" "{{ max_turns }}"
+    just _create single "$protocol" "$difficulty" "$a" "$b" "$c" "{{ max_turns }}"
 
-# Create an all-agent game: just multi [v1|v2] [players] [timing] [turns].
+# Create an all-agent game: just multi [v1|v2] [difficulty] [players] [timing] [turns].
 # The control protocol defaults to full-control-v2; pass v1 for strategic-v1.
 [arg("max_turns", long="max-turns")]
 multi a="" b="" c="" d="" max_turns="":
     #!/usr/bin/env bash
     set -euo pipefail
     protocol=full-control-v2
-    a="{{ a }}"; b="{{ b }}"; c="{{ c }}"; d="{{ d }}"
-    case "$a" in
-      v1) protocol=strategic-v1; a="$b"; b="$c"; c="$d"; d="" ;;
-      v2) a="$b"; b="$c"; c="$d"; d="" ;;
-    esac
+    difficulty=hard
+    args=()
+    for token in "{{ a }}" "{{ b }}" "{{ c }}" "{{ d }}"; do
+      case "$token" in
+        '') ;;
+        v1) protocol=strategic-v1 ;;
+        v2) protocol=full-control-v2 ;;
+        novice|easy|normal|hard|cheating) difficulty="$token" ;;
+        *) args+=("$token") ;;
+      esac
+    done
+    a="${args[0]:-}"; b="${args[1]:-}"; c="${args[2]:-}"; d="${args[3]:-}"
+    if [[ "$protocol" == full-control-v2 ]]; then
+      for token in "$a" "$b" "$c"; do
+        if [[ "$token" == blitz ]]; then
+          echo "error: blitz is strategic-v1 only; full-control-v2 games use default (10 minutes per turn) or infinite" >&2
+          exit 2
+        fi
+      done
+    fi
     if [[ -n "$d" ]]; then
-      echo "error: too many arguments; usage: just multi [v1|v2] [players] [default|blitz|infinite] [turns]" >&2
+      echo "error: too many arguments; usage: just multi [v1|v2] [difficulty] [players] [default|infinite] [turns]" >&2
       exit 2
     fi
     [[ -n "$a" ]] || a=default
-    just _create multiplayer "$protocol" "$a" "$b" "$c" "{{ max_turns }}"
+    just _create multiplayer "$protocol" "$difficulty" "$a" "$b" "$c" "{{ max_turns }}"
 
 # Create a full-control-v2 one-agent-vs-native-AI game.
 [arg("max_turns", long="max-turns")]
 single-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
-    @just _create single full-control-v2 "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
+    @just _create single full-control-v2 hard "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
 
 # Create a full-control-v2 all-agent game.
 [arg("max_turns", long="max-turns")]
 multi-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
-    @just _create multiplayer full-control-v2 "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
+    @just _create multiplayer full-control-v2 hard "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
 
 # Materialize per-player game workspaces under .play/ (interactive picker;
 # also takes --player HARNESS:MODEL, --invite PATH, --force).
@@ -187,7 +217,7 @@ play *args="":
 
 # Shared creation parser: [places|timing] [timing|turns] [turns] grammar.
 [private]
-_create game_mode protocol mode_or_places places_or_turns turns max_turns:
+_create game_mode protocol difficulty mode_or_places places_or_turns turns max_turns:
     #!/usr/bin/env bash
     set -euo pipefail
     first="{{ mode_or_places }}"
@@ -246,6 +276,7 @@ _create game_mode protocol mode_or_places places_or_turns turns max_turns:
       --turns "$turn_limit" \
       --timing-mode "$timing_mode" \
       --control-protocol "{{ protocol }}" \
+      --difficulty "{{ difficulty }}" \
       --lobby-timeout-s 0 \
       --credentials "$AGENT_EVAL_STATE_DIR/games/{game_id}/owner.json" \
       --player-invite "play/.invites/{game_id}.json"

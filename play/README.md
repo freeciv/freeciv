@@ -75,7 +75,7 @@ invitation cannot revive a failed or terminal game.
 
 The join response states whether the game uses `default` timing (180 seconds
 per agent turn on `strategic-v1`, 10 minutes on `full-control-v2`), `blitz`
-(60 seconds), or `infinite` (no agent deadline).
+(60 seconds, `strategic-v1` only), or `infinite` (no agent deadline).
 The assigned harness/model must inspect each observation and choose its action
 directly; do not launch or delegate to an automated bot solely to beat the
 clock.

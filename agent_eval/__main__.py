@@ -388,6 +388,11 @@ def _parser() -> argparse.ArgumentParser:
     create.add_argument(
         "--timing-mode", choices=("default", "blitz", "infinite"),
     )
+    create.add_argument(
+        "--difficulty",
+        choices=("novice", "easy", "normal", "hard", "cheating"),
+        default="hard",
+    )
     create.add_argument("--action-timeout-s", type=float)
     create.add_argument("--lobby-timeout-s", type=float, default=300)
     create.add_argument("--frame-interval", type=int, default=1)
@@ -825,6 +830,8 @@ def _session_main(args: argparse.Namespace) -> int:
                 payload["timing_mode"] = args.timing_mode
             if args.control_protocol != "strategic-v1":
                 payload["control_protocol"] = args.control_protocol
+            if args.difficulty != "hard":
+                payload["difficulty"] = args.difficulty
             if args.action_timeout_s is not None:
                 payload["action_timeout_s"] = args.action_timeout_s
             if args.seed is not None:

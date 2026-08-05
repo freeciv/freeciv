@@ -408,8 +408,9 @@ raw packets or native IDs.
 
 ## Timing and stopping
 
-`default` allows 600 seconds (10 minutes) for the whole active player phase,
-`blitz` allows 60 seconds, and `infinite` has no model deadline. A separate generous native
+`default` allows 600 seconds (10 minutes) for the whole active player phase
+and `infinite` has no model deadline; `blitz` exists only on `strategic-v1`
+and is never negotiated for a `full-control-v2` game. A separate generous native
 progress watchdog detects a stuck control plane; it does not choose actions or
 shorten the model's configured time.
 

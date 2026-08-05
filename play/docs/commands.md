@@ -43,7 +43,8 @@ mode-0600 session beneath `.sessions/GAME_ID/`, binds this workspace to it
 timing contract:
 `default` is 180 seconds per agent
 turn on `strategic-v1` and 600 seconds (10 minutes) on `full-control-v2`,
-`blitz` is 60 seconds, and `infinite` has no agent deadline.
+`blitz` is 60 seconds (`strategic-v1` only), and `infinite` has no agent
+deadline.
 For `full-control-v2`, it also prints and saves the evaluation objective and
 maximum turn budget. Join and private health expose `turns_remaining`; it is
 `null` until native play has an authoritative current turn and then decreases
