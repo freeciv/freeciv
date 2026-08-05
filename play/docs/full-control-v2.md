@@ -39,9 +39,14 @@ invented. What changed is what you read and type.
   this seat has already seen. The client expands them against its private
   cache before it builds the request. Entity and tile aliases are stable for
   the whole game. An action alias is scoped to the revision it was enumerated
-  at and is refused once a newer revision is known — it fails closed exactly
-  like the expired opaque ID it stands for, and the refusal names the
-  `just legal` command that re-enumerates it.
+  at, and its number dies with that revision. Its *meaning* — actor, kind,
+  operation, normalized target, argument-schema shape — is recorded alongside
+  it, so `just do` and `just batch` re-enumerate and re-bind the alias to the
+  same action when the action is unchanged, printing one `a3 rebound at rev14`
+  line. The wire only ever carries the fresh revision-bound `action_id`. A
+  vanished or now-ambiguous action fails closed exactly like the expired
+  opaque ID it stands for, naming the `just legal` command that re-enumerates
+  it; `--no-refresh` keeps that refusal without the extra request.
 - **Fast paths.** `just start`, `just turn`, `just do "…"`, and
   `just turn --end --await` cover an ordinary turn in four commands. Each is
   sugar over the same enumerated capabilities and resolves entirely against
@@ -59,11 +64,11 @@ invented. What changed is what you read and type.
   fixes it — the query to restart after `cursor_expired`, the enumeration
   that re-issues an expired alias, the narrower scope after
   `scope_too_large`. Read the error rather than re-reading this page.
-- **The session is implicit.** `--session` is optional on every command; the
-  client uses the explicit path, then `PLAY_SESSION`, then the single private
-  session in this workspace. Pass `--session SESSION_FILE` only when this
-  workspace holds more than one joined seat. Never print or paste its
-  contents.
+- **One workspace, one seat.** Join binds this workspace to the seat it
+  joined, so no command takes a session argument. The client uses an explicit
+  `--session` first, then `PLAY_SESSION`, then that binding, then a sole
+  unbound session. `just use` prints the bound seat and `just use GAME_ID`
+  rebinds it. Never print or paste a session file's contents.
 
 Join prints a protocol card summarizing all of this, and `state/header.txt`
 carries the same card, so the contract is re-readable from a file.
@@ -91,11 +96,13 @@ until the game starts. The last ready action uses Freeciv's native ready packet
 to start the game; the supervisor never substitutes a console `start` command.
 Continue the normal loop below once health leaves `lobby`.
 
-`just start --nation NAME --leader NAME --male|--female [--style NAME]` is
-that whole sequence in one command: it resolves the nation and style by name
-from the pregame catalogs, executes the enumerated `pregame.configure`,
-re-enumerates because configuring bumps the revision, then executes the
-freshly enumerated `pregame.set_ready`. It uses the same capabilities and the
+`just start` is that whole sequence in one command, and needs no arguments:
+an omitted `--nation` draws one from the pregame catalog, `--leader` comes
+from the seat's controller label (or the lobby's own leader name),
+`--male`/`--female` from the lobby's own default, and `--style` from the
+nation's `default_style_id`. It prints the one line it resolved, executes the
+enumerated `pregame.configure`, re-enumerates because configuring bumps the
+revision, then executes the freshly enumerated `pregame.set_ready`. It uses the same capabilities and the
 same one-command batches described above; when readiness is not enumerable it
 stops and names the `just legal` command that would show it. Team selection,
 lobby chat, and votes stay on the explicit path.
@@ -122,8 +129,8 @@ follow-up question without a request. The numbered steps below are the same
 loop written out in full; use them whenever the short form is not enough, and
 for every capability the fast paths do not name.
 
-1. The session is implicit; add `--session SESSION_FILE` only when this
-   workspace holds a second joined seat.
+1. Join bound this workspace to your seat, so no step below names one;
+   `just use` reports which seat that is.
 2. Run `just turn`. It returns a bounded briefing with
    health/evaluation context plus overview, owned cities, owned units, and
    research from one exact revision. The client retries the whole sequential
@@ -276,7 +283,14 @@ cursor's RFC 3339 expiry. On retryable `cursor_expired`, use the structured
 Every public page is also capped at 65,536 canonical JSON bytes. A page may
 therefore contain fewer items than the requested limit while still returning a
 cursor. `scope_too_large` means one item cannot fit. Cursor-capacity
-`rate_limited` never invalidates an existing unexpired cursor; retry later.
+`rate_limited` carries `details.retry_after_seconds` and an RFC 3339
+`details.retry_after`; retry then. It never touches a page chain that still
+owes a continuation. A chain that is fully **drained** — its terminal page
+already served, nothing outstanding — may be retired under capacity pressure,
+and a later continuation of it replays as retryable `cursor_expired` with a
+`details.restart` query. A scoped catalog's cursor records are also released
+as soon as a newer revision lands, since they could only refuse with
+`stale_revision` from that point on.
 
 Scoped legal pages share a stable opaque `catalog_id`. Prefix pages report
 `catalog_complete: false`, and the player client stages their descriptors in
@@ -394,8 +408,8 @@ raw packets or native IDs.
 
 ## Timing and stopping
 
-`default` allows 180 seconds for the whole active player phase, `blitz` allows
-60 seconds, and `infinite` has no model deadline. A separate generous native
+`default` allows 600 seconds (10 minutes) for the whole active player phase,
+`blitz` allows 60 seconds, and `infinite` has no model deadline. A separate generous native
 progress watchdog detects a stuck control plane; it does not choose actions or
 shorten the model's configured time.
 

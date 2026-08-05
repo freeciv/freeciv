@@ -428,7 +428,7 @@ class TableRenderingTests(unittest.TestCase):
             second = [row.split("\t") for row in body[1:]][1]
             self.assertEqual(second[1].strip(), "Workers")
             self.assertEqual(second[3].strip(), "30,71")
-            self.assertEqual(second[7].strip(), "goto 27,65 4st")
+            self.assertEqual(second[7].strip(), "→(27,65) 4st")
 
     def test_aliases_supplied_by_the_cli_are_used_verbatim(self):
         with workspace() as mirror:
@@ -1214,6 +1214,141 @@ class DriftTests(unittest.TestCase):
                 (),
             )
             self.assertFalse(mirror.exists())
+
+
+class YieldOverlayTests(unittest.TestCase):
+    TILE_A = "tile_" + "1" * 32
+    TILE_B = "tile_" + "2" * 32
+
+    def citizens(self, city: str = CITY_A) -> list[dict]:
+        return [
+            {
+                "city_id": city, "kind": "tile", "tile_id": self.TILE_A,
+                "worked": True, "free_worked": True, "can_work": True,
+                "yields": {
+                    "food": 2, "shields": 1, "trade": 0,
+                    "gold": 0, "luxury": 0, "science": 0,
+                },
+            },
+            {
+                "city_id": city, "kind": "tile", "tile_id": self.TILE_B,
+                "worked": False, "free_worked": False, "can_work": True,
+                "yields": {
+                    "food": 1, "shields": 0, "trade": 3,
+                    "gold": 0, "luxury": 0, "science": 0,
+                },
+            },
+            {
+                "city_id": city, "kind": "specialist", "id": "specialist_1",
+                "name": "Elvis", "count": 0,
+                "counts_toward_population": True, "can_use": True,
+                "is_default": True,
+                "yields": {"food": 0, "shields": 0, "trade": 0,
+                           "gold": 0, "luxury": 2, "science": 0},
+            },
+        ]
+
+    def terrain(self) -> list[dict]:
+        return [
+            {"id": self.TILE_A, "x": 30, "y": 71,
+             "visibility": "visible", "terrain": "Grassland"},
+            {"id": self.TILE_B, "x": 31, "y": 71,
+             "visibility": "visible", "terrain": "Plains"},
+            {"id": "tile_3", "x": 30, "y": 72,
+             "visibility": "visible", "terrain": "Forest"},
+            {"id": "tile_4", "x": 31, "y": 72, "visibility": "unknown"},
+        ]
+
+    def aliases(self) -> dict[str, str]:
+        return {
+            self.TILE_A: "T(30,71)", self.TILE_B: "T(31,71)",
+            CITY_A: "c1",
+        }
+
+    def test_citizen_pages_price_tiles_and_specialists_are_skipped(self):
+        with workspace() as mirror:
+            written = state_mirror.update_from_page(
+                mirror, "state",
+                page("city_citizens", revision(9), self.citizens()),
+                aliases=self.aliases(),
+            )
+            self.assertTrue(any(
+                path.name == "yields.tsv" for path in written
+            ))
+            text = read(mirror, "state", "yields.tsv")
+            body = [
+                line for line in text.splitlines()
+                if line and not line.startswith("#")
+            ]
+            self.assertEqual(len(body), 3)
+            self.assertEqual(body[0].split("\t")[0].strip(), "tile")
+            first = [cell.strip() for cell in body[1].split("\t")]
+            self.assertEqual(first[:5], ["T(30,71)", "2", "1", "0", "yes"])
+            self.assertEqual(first[5], "c1")
+            self.assertNotIn("Elvis", text)
+            self.assertIn("# rev 9 turn 3", text)
+
+    def test_yields_overlay_reads_the_grid_and_marks_unpriced_tiles(self):
+        with workspace() as mirror:
+            state_mirror.update_from_page(
+                mirror, "state", page("known_tiles", revision(9), self.terrain()),
+            )
+            state_mirror.update_from_page(
+                mirror, "state",
+                page("city_citizens", revision(9), self.citizens()),
+                aliases=self.aliases(),
+            )
+            lines = state_mirror.render_map_yields(mirror)
+            self.assertEqual(lines[0], "# rev 9 turn 3")
+            self.assertIn("2 tiles priced", lines[1])
+            self.assertIn("window x 30..31 y 71..71", lines[1])
+            row = [line for line in lines if line.startswith("   71")][0]
+            self.assertIn("G2/1/0", row)
+            self.assertIn("P1/0/3", row)
+
+    def test_an_unpriced_tile_inside_the_window_renders_a_question_mark(self):
+        with workspace() as mirror:
+            state_mirror.update_from_page(
+                mirror, "state", page("known_tiles", revision(9), self.terrain()),
+            )
+            far = self.citizens()
+            far[1]["tile_id"] = "tile_4"
+            state_mirror.update_from_page(
+                mirror, "state", page("city_citizens", revision(9), far),
+                aliases={**self.aliases(), "tile_4": "T(31,72)"},
+            )
+            lines = state_mirror.render_map_yields(mirror)
+            body = [line for line in lines if "|" in line]
+            grid = "\n".join(body)
+            # (31,71) is on the map but was never priced.
+            self.assertIn("P?", grid)
+            self.assertIn("G2/1/0", grid)
+
+    def test_an_empty_overlay_names_the_command_that_fills_it(self):
+        with workspace() as mirror:
+            self.assertEqual(state_mirror.render_map_yields(mirror), [])
+            state_mirror.update_from_page(
+                mirror, "state", page("known_tiles", revision(9), self.terrain()),
+            )
+            lines = state_mirror.render_map_yields(mirror)
+            self.assertEqual(len(lines), 2)
+            self.assertIn("city_citizens", lines[1])
+
+    def test_a_tile_without_a_coordinate_alias_never_enters_the_grid(self):
+        with workspace() as mirror:
+            state_mirror.update_from_page(
+                mirror, "state", page("known_tiles", revision(9), self.terrain()),
+            )
+            state_mirror.update_from_page(
+                mirror, "state",
+                page("city_citizens", revision(9), self.citizens()),
+                aliases={CITY_A: "c1"},
+            )
+            text = read(mirror, "state", "yields.tsv")
+            self.assertIn(self.TILE_A, text)
+            lines = state_mirror.render_map_yields(mirror)
+            self.assertEqual(len(lines), 2)
+            self.assertIn("city_citizens", lines[1])
 
 
 if __name__ == "__main__":

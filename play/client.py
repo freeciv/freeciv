@@ -14,6 +14,7 @@ import fcntl
 import hashlib
 import json
 import os
+import random
 import re
 import secrets
 import stat
@@ -38,6 +39,10 @@ GAME_ID_RE = re.compile(r"^game_[A-Za-z0-9_-]{20,80}$")
 CONTROLLER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{2,95}$")
 TERMINAL_STATES = {"completed", "invalid", "failed", "cancelled"}
 FULL_CONTROL_V2 = "full-control-v2"
+# One workspace plays one seat.  `join` records that seat here so no later
+# command has to name it; `use` rebinds it.  The file holds a path and a game
+# ID only — never a bearer token.
+SEAT_BINDING_NAME = "current-seat.json"
 V2_RECEIPT_STATES = {"accepted", "applied", "rejected", "ambiguous"}
 V2_TERMINAL_RECEIPTS = {"applied", "rejected", "ambiguous"}
 V2_ERROR_CODES = {
@@ -87,6 +92,13 @@ V2_SIDECAR_FIELDS = {
 }
 OPAQUE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 ACTION_KIND_RE = re.compile(r"^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$")
+# `--kind` must accept exactly what the kind column prints.  That column shows
+# `unit.order/move` whenever the operation is not already the kind's own tail,
+# so the selector is the public kind with an optional `/operation` suffix; a
+# bare kind still means "every operation under this kind".
+ACTION_KIND_SELECTOR_RE = re.compile(
+    r"^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*(?:/[a-z][a-z0-9_]*)?$"
+)
 CURSOR_RE = re.compile(r"^cursor_[A-Za-z0-9_-]{32}$")
 CATALOG_RE = re.compile(r"^catalog_[A-Za-z0-9_-]{32}$")
 CITY_ID_RE = re.compile(r"^city_[0-9a-f]{32}$")
@@ -108,6 +120,10 @@ ALIAS_ENTITY_TYPES = {
 }
 ALIAS_ENTITY_KEYS = ("id", "relation_id", "player_id")
 V2_MAX_ACTION_ALIASES = 8192
+# One alias entry's semantic identity: actor, kind, operation, normalized
+# target and argument-schema shape.  Bounded so a drifted cache cannot grow the
+# private state file without limit.
+V2_MAX_ALIAS_SEMANTICS = 1024
 V2_MAX_ENTITY_ALIASES = 4096
 V2_MAX_TILE_ALIASES = 4096
 V2_MAX_DRAINED_ACTORS = 4096
@@ -570,9 +586,9 @@ def _state_root() -> Path:
     return resolved
 
 
-def _set_current_session(session_path: Path) -> None:
-    root = _state_root()
-    _session, relative = _state_relative_path(session_path)
+def _state_regular_file(path: Path, label: str) -> Path:
+    """Return the state-relative path of an existing regular state file."""
+    _destination, relative = _state_relative_path(path)
     parent_descriptor = _open_state_directory(
         relative.parts[:-1], create=False,
     )
@@ -588,25 +604,135 @@ def _set_current_session(session_path: Path) -> None:
         try:
             metadata = os.fstat(descriptor)
             if not stat.S_ISREG(metadata.st_mode):
-                raise PlayerError("the current session must be a regular file")
+                raise PlayerError(f"the {label} must be a regular file")
         finally:
             os.close(descriptor)
     except OSError as exc:
         raise PlayerError(
-            "the current session must be a real file inside PLAY_STATE_DIR"
+            f"the {label} must be a real file inside PLAY_STATE_DIR"
         ) from exc
     finally:
         os.close(parent_descriptor)
+    return relative
+
+
+def _set_current_session(session_path: Path) -> None:
+    root = _state_root()
+    relative = _state_regular_file(session_path, "current session")
     _write_private_text(root / "current", str(relative) + "\n")
+
+
+def _seat_binding_path() -> Path:
+    return _state_root() / SEAT_BINDING_NAME
+
+
+def _private_sessions(game_id: str = "") -> list[Path]:
+    """Return every mode-0600 session file this workspace holds, sorted."""
+    root = _state_root()
+    sessions: list[Path] = []
+    for candidate in root.glob(f"{game_id or 'game_*'}/*.json"):
+        try:
+            metadata = candidate.lstat()
+        except OSError:
+            continue
+        if stat.S_ISREG(metadata.st_mode) and metadata.st_mode & 0o777 == 0o600:
+            sessions.append(candidate.absolute())
+    sessions.sort()
+    return sessions
+
+
+def _read_seat_binding() -> dict[str, Any] | None:
+    """Return the seat this workspace is bound to, or None when unbound."""
+    path = _seat_binding_path()
+    try:
+        if not path.is_file():
+            return None
+    except OSError:
+        return None
+    malformed = (
+        "the workspace seat binding is unreadable. Rebind this workspace "
+        f"with `just use GAME_ID`, or delete .sessions/{SEAT_BINDING_NAME}."
+    )
+    try:
+        value = _load_private_object(path, "workspace seat binding")
+    except PlayerError as exc:
+        raise PlayerError(f"{exc}. {malformed}") from exc
+    game_id = value.get("game_id")
+    relative = value.get("session")
+    if (
+        not isinstance(game_id, str)
+        or not GAME_ID_RE.fullmatch(game_id)
+        or not isinstance(relative, str)
+        or not relative
+    ):
+        raise PlayerError(malformed)
+    candidate = Path(relative)
+    if candidate.is_absolute() or ".." in candidate.parts:
+        raise PlayerError(malformed)
+    try:
+        session, _relative = _state_relative_path(_state_root() / candidate)
+    except PlayerError as exc:
+        raise PlayerError(malformed) from exc
+    bound_at = value.get("bound_at")
+    return {
+        "game_id": game_id,
+        "session": session,
+        "relative": str(candidate),
+        "bound_at": bound_at if isinstance(bound_at, str) else "",
+    }
+
+
+def _bind_workspace_seat(
+    session_path: Path, game_id: str,
+) -> dict[str, Any] | None:
+    """Bind this workspace to one seat; return the binding it replaced.
+
+    The binding is a pointer, never a credential: it holds the session's
+    workspace-relative path and its game, and nothing that could authenticate
+    a request on its own.
+    """
+    relative = _state_regular_file(session_path, "session")
+    try:
+        previous = _read_seat_binding()
+    except PlayerError:
+        # A binding this client cannot read is exactly what rebinding repairs,
+        # so it must never block the command that repairs it.
+        previous = None
+    _write_private_json(_seat_binding_path(), {
+        "schema_version": 1,
+        "game_id": _game_id(game_id),
+        "session": str(relative),
+        "bound_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    })
+    if previous is not None and previous["relative"] == str(relative):
+        return None
+    return previous
+
+
+def _seat_binding_line(
+    game_id: str, replaced: dict[str, Any] | None = None,
+) -> str:
+    """State the one fact a bound workspace changes: no command needs a seat."""
+    if replaced is None:
+        rebound = ""
+    elif replaced["game_id"] != game_id:
+        rebound = f", rebound from {replaced['game_id']}"
+    else:
+        rebound = ", rebound to another seat in the same game"
+    return (
+        f"this workspace is now playing {game_id}{rebound} — commands need "
+        "no --session"
+    )
 
 
 def _session_path(explicit: str) -> Path:
     """Resolve the session file every command works against.
 
-    ``--session`` is optional on every command: an explicit path wins, then
-    ``PLAY_SESSION``, then the sole private session in this workspace.  Two or
-    more sessions stay fail-closed — the seat must be named, because guessing
-    one would act with the wrong seat's credentials.
+    One workspace plays one seat.  An explicit ``--session`` wins, then
+    ``PLAY_SESSION``, then the seat ``join`` bound this workspace to, then a
+    sole unbound session.  Only an *unbound* workspace holding two or more
+    sessions is refused: guessing there would act with the wrong seat's
+    credentials, and `use` names the seat in one command instead.
     """
     value = explicit.strip() or os.environ.get("PLAY_SESSION", "").strip()
     if value:
@@ -615,22 +741,25 @@ def _session_path(explicit: str) -> Path:
             path = ROOT / path
         destination, _relative = _state_relative_path(path)
         return destination
-    root = _state_root()
-    sessions: list[Path] = []
-    for candidate in root.glob("game_*/*.json"):
+    binding = _read_seat_binding()
+    if binding is not None:
+        bound = binding["session"]
         try:
-            metadata = candidate.lstat()
+            metadata = bound.lstat()
         except OSError:
-            continue
-        if stat.S_ISREG(metadata.st_mode) and metadata.st_mode & 0o777 == 0o600:
-            sessions.append(candidate.absolute())
-    sessions.sort()
+            metadata = None
+        # A binding whose seat file is gone is stale, not authoritative: fall
+        # through, so the rules below either find the one real seat or name
+        # the command that rebinds this workspace.
+        if metadata is not None and stat.S_ISREG(metadata.st_mode):
+            return bound
+    sessions = _private_sessions()
     if len(sessions) > 1:
         raise PlayerError(
-            "multiple private sessions exist in this player workspace; "
-            "the shared .sessions/current pointer is ambiguous. Use the exact "
-            "`--session SESSION_FILE` returned by your join on every command, "
-            "or export PLAY_SESSION=SESSION_FILE once for the whole seat."
+            "multiple private sessions exist in this player workspace and "
+            "none of them is bound to it. Bind the seat you are playing with "
+            "`just use GAME_ID` (or `just use SESSION_FILE`) and no later "
+            "command needs --session; `just join` binds it for you."
         )
     if len(sessions) == 1:
         return sessions[0]
@@ -739,7 +868,7 @@ def _empty_action_aliases() -> dict[str, Any]:
 
 def _empty_v2_client_state(session: dict[str, Any]) -> dict[str, Any]:
     return {
-        "schema_version": 4,
+        "schema_version": 5,
         "game_id": session["game_id"],
         "agent_id": session["agent_id"],
         "last_revision": None,
@@ -790,15 +919,16 @@ def _load_v2_client_state_unlocked(
     legacy = set(value) == legacy_fields and value.get("schema_version") == 1
     staged = set(value) == staged_fields and value.get("schema_version") == 2
     aliased = set(value) == aliased_fields and value.get("schema_version") == 3
-    current = set(value) == current_fields and value.get("schema_version") == 4
+    drained = set(value) == current_fields and value.get("schema_version") == 4
+    current = set(value) == current_fields and value.get("schema_version") == 5
     if (
-        not (legacy or staged or aliased or current)
+        not (legacy or staged or aliased or drained or current)
         or value.get("game_id") != session["game_id"]
         or value.get("agent_id") != session["agent_id"]
         or not isinstance(value.get("actions"), dict)
         or not isinstance(value.get("batches"), dict)
         or not isinstance(value.get("receipts"), dict)
-        or (staged or aliased or current)
+        or (staged or aliased or drained or current)
         and not isinstance(value.get("pending_catalogs"), dict)
     ):
         raise PlayerError(f"private v2 client state {path} is invalid")
@@ -824,18 +954,41 @@ def _load_v2_client_state_unlocked(
         })
         _save_v2_client_state_unlocked(session_path, migrated)
         return migrated
-    if staged or aliased:
-        # A v2 cache predates the alias dialect and a v3 cache predates the
-        # drained-catalog record.  Neither holds anything unsound, so keep
-        # every capability: numbering starts at the next enumeration, and no
-        # catalog is claimed drained until one is drained again.
+    if staged or aliased or drained:
+        # A v2 cache predates the alias dialect, a v3 cache predates the
+        # drained-catalog record, and a v4 cache numbered its aliases without
+        # recording what each one *means*.  None holds anything unsound, so
+        # every capability is kept: numbering starts at the next enumeration,
+        # no catalog is claimed drained until one is drained again, and a v4
+        # alias carries an empty semantic identity — it still resolves at its
+        # own revision and still fails closed after a bump, it simply cannot be
+        # carried across one.
         value = dict(value)
-        value["schema_version"] = 4
+        value["schema_version"] = 5
         if staged:
             value["action_aliases"] = _empty_action_aliases()
             value["entity_aliases"] = {}
             value["tile_aliases"] = {}
-        value["drained_actors"] = []
+        else:
+            table = value["action_aliases"]
+            if (
+                isinstance(table, dict)
+                and set(table) == {"state_revision", "by_alias"}
+                and isinstance(table["by_alias"], dict)
+                and all(
+                    isinstance(entry, dict)
+                    for entry in table["by_alias"].values()
+                )
+            ):
+                value["action_aliases"] = {
+                    "state_revision": table["state_revision"],
+                    "by_alias": {
+                        alias: {"semantics": "", **entry}
+                        for alias, entry in table["by_alias"].items()
+                    },
+                }
+        if not drained:
+            value["drained_actors"] = []
         _save_v2_client_state_unlocked(session_path, value)
     _validate_alias_state(value)
     _validate_drained_actors(value["drained_actors"])
@@ -1267,10 +1420,12 @@ def _validate_alias_state(value: dict[str, Any]) -> None:
         if (
             ACTION_ALIAS_RE.fullmatch(alias) is None
             or not isinstance(entry, dict)
-            or set(entry) != {"action_id", "actor_id"}
+            or set(entry) != {"action_id", "actor_id", "semantics"}
             or not isinstance(entry["action_id"], str)
             or OPAQUE_ID_RE.fullmatch(entry["action_id"]) is None
             or not isinstance(entry["actor_id"], str)
+            or not isinstance(entry["semantics"], str)
+            or len(entry["semantics"]) > V2_MAX_ALIAS_SEMANTICS
             or entry["actor_id"]
             and ACTOR_ID_RE.fullmatch(entry["actor_id"]) is None
             or entry["action_id"] in action_ids
@@ -1611,9 +1766,14 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
         or agent["controller_label"] != session["controller_label"]
     ):
         raise PlayerError("invalid v2 health agent identity")
-    seat = _exact(
-        raw["seat"], {"place", "seat_id", "player_name"}, "health seat",
-    )
+    seat_fields = {"place", "seat_id", "player_name"}
+    if isinstance(raw["seat"], dict) and "standing" in raw["seat"]:
+        seat_fields = seat_fields | {"standing"}
+    seat = _exact(raw["seat"], seat_fields, "health seat")
+    if "standing" in seat and seat["standing"] not in {
+        "active", "surrendered", "eliminated", "termination_pending",
+    }:
+        raise PlayerError("invalid v2 health seat standing")
     for name in ("place", "seat_id", "player_name"):
         expected = session.get(name)
         if expected is not None and seat[name] != expected:
@@ -1650,11 +1810,46 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
     elif raw["game_state"] in TERMINAL_STATES:
         raise PlayerError("terminal v2 health retained stale phase state")
     else:
-        phase = _exact(
-            phase,
-            {"state", "turn", "phase", "active", "timing"},
-            "health phase",
-        )
+        phase_fields = {"state", "turn", "phase", "active", "timing"}
+        if isinstance(phase, dict) and "waiting_on" in phase:
+            phase_fields = phase_fields | {"waiting_on"}
+        phase = _exact(phase, phase_fields, "health phase")
+        waiting_on = phase.get("waiting_on")
+        if waiting_on is not None:
+            waiting_on = _exact(
+                waiting_on,
+                {"kind", "summary", "seats", "waiting_s"},
+                "health phase waiting_on",
+            )
+            if waiting_on["kind"] not in {
+                "seat_not_ready", "seat_surrendered", "seat_inactive",
+                "other_seat", "native_phase", "phase_synchronization",
+                "phase_end", "termination",
+            } or not isinstance(waiting_on["summary"], str) \
+                    or not waiting_on["summary"]:
+                raise PlayerError("invalid v2 health phase waiting_on")
+            _safe_number(
+                waiting_on["waiting_s"], "health waiting_on waiting_s",
+                nullable=True,
+            )
+            if not isinstance(waiting_on["seats"], list):
+                raise PlayerError("invalid v2 health waiting_on seats")
+            waiting_on = {
+                "kind": waiting_on["kind"],
+                "summary": waiting_on["summary"],
+                "waiting_s": waiting_on["waiting_s"],
+                "seats": [
+                    dict(_exact(
+                        row,
+                        {
+                            "place", "seat_id", "player_name",
+                            "controller_label", "standing", "is_self",
+                        },
+                        "health waiting_on seat",
+                    ))
+                    for row in waiting_on["seats"]
+                ],
+            }
         if (
             phase["state"] not in V2_PHASE_STATES
             or phase["turn"] is not None and (
@@ -1688,6 +1883,8 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
             "phase": phase["phase"], "active": phase["active"],
             "timing": dict(timing),
         }
+        if "waiting_on" in phase:
+            clean_phase["waiting_on"] = waiting_on
     if (
         evaluation is not None
         and clean_phase is not None
@@ -1877,10 +2074,41 @@ def _entity_alias_prefix(identifier: Any) -> str | None:
     return None
 
 
+def _action_semantics(descriptor: dict[str, Any]) -> str:
+    """Name what an action *is*, with nothing revision-bound inside it.
+
+    Identity is the actor, the public kind, the operation, the target by
+    coordinate or name, and the *shape* of the argument schema — never the
+    HMAC handle, never a hash, never an enum's current members.  Two
+    enumerations of the same board position therefore produce the same string,
+    which is what lets `a3` keep meaning "that same move" across a revision
+    bump while the wire still carries the fresh handle.
+    """
+    compact = _compact_legal_action(descriptor)
+    properties, required = _order_properties(compact)
+    return "\n".join((
+        _order_actor(compact),
+        compact["kind"],
+        _order_operation(compact),
+        _action_target_key(compact),
+        ",".join(sorted(properties)),
+        ",".join(sorted(required)),
+    ))[:V2_MAX_ALIAS_SEMANTICS]
+
+
+def _alias_entries(
+    descriptors: dict[str, dict[str, Any]], actor_id: str,
+) -> list[tuple[str, str, str]]:
+    return [
+        (action_id, actor_id, _action_semantics(descriptor))
+        for action_id, descriptor in descriptors.items()
+    ]
+
+
 def _assign_action_aliases(
     state: dict[str, Any],
     revision: dict[str, Any],
-    entries: list[tuple[str, str]],
+    entries: list[tuple[str, str, str]],
 ) -> None:
     """Number newly enumerated actions a1..aN inside their own revision.
 
@@ -1896,16 +2124,61 @@ def _assign_action_aliases(
     by_alias = table["by_alias"]
     known = {entry["action_id"] for entry in by_alias.values()}
     number = max((int(alias[1:]) for alias in by_alias), default=0) + 1
-    for action_id, actor_id in entries:
+    for action_id, actor_id, semantics in entries:
         if action_id in known:
             continue
         if len(by_alias) >= V2_MAX_ACTION_ALIASES or number > 9999:
             return
         by_alias[f"a{number}"] = {
             "action_id": action_id, "actor_id": actor_id,
+            "semantics": semantics,
         }
         known.add(action_id)
         number += 1
+
+
+def _rebind_action_aliases(
+    state: dict[str, Any], previous: dict[str, Any],
+) -> int:
+    """Give every unchanged action its previous number back after a bump.
+
+    Continuity is by semantic identity alone, so `a3` keeps naming the same
+    move while the wire carries only the handle the fresh enumeration issued.
+    An identity that now names two actions, or none, keeps the number the
+    enumeration gave it and fails closed when it is asked for by its old name.
+    """
+    table = state["action_aliases"]
+    fresh = table["by_alias"]
+    by_semantics: dict[str, list[str]] = {}
+    for alias, entry in fresh.items():
+        if entry["semantics"]:
+            by_semantics.setdefault(entry["semantics"], []).append(alias)
+    rebound: dict[str, dict[str, Any]] = {}
+    taken: set[str] = set()
+    for alias, entry in previous.items():
+        candidates = by_semantics.get(entry["semantics"], [])
+        if not entry["semantics"] or len(candidates) != 1:
+            continue
+        if candidates[0] in taken or alias in rebound:
+            continue
+        rebound[alias] = fresh[candidates[0]]
+        taken.add(candidates[0])
+    merged = dict(rebound)
+    number = 1
+    for alias, entry in fresh.items():
+        if alias in taken:
+            continue
+        while f"a{number}" in merged:
+            number += 1
+        if number > 9999:
+            break
+        merged[f"a{number}"] = entry
+        number += 1
+    table["by_alias"] = {
+        alias: merged[alias]
+        for alias in sorted(merged, key=lambda name: int(name[1:]))
+    }
+    return len(rebound)
 
 
 def _assign_entity_aliases(
@@ -2145,9 +2418,10 @@ def _remember_page_unlocked(
                 for action_id, descriptor in descriptors.items()
             ):
                 # Idempotent replay of an already-promoted final page.
-                _assign_action_aliases(state, revision, [
-                    (action_id, scope["actor_id"]) for action_id in descriptors
-                ])
+                _assign_action_aliases(
+                    state, revision,
+                    _alias_entries(descriptors, scope["actor_id"]),
+                )
                 _save_v2_client_state_unlocked(session_path, state)
                 return list(accumulated.values())
             if len(accumulated) != total:
@@ -2167,9 +2441,10 @@ def _remember_page_unlocked(
                     )
                 promoted[action_id] = descriptor
             state["actions"] = promoted
-            _assign_action_aliases(state, revision, [
-                (action_id, scope["actor_id"]) for action_id in accumulated
-            ])
+            _assign_action_aliases(
+                state, revision,
+                _alias_entries(accumulated, scope["actor_id"]),
+            )
             state["pending_catalogs"].pop(catalog_id, None)
             # Only a complete, promoted, actor-wide catalog may later be
             # rendered as equivalent to another actor's: a target-scoped
@@ -2184,10 +2459,13 @@ def _remember_page_unlocked(
             if existing is not None and existing != descriptor:
                 raise PlayerError("one action ID described two different actions")
             state["actions"][action_id] = descriptor
-        _assign_action_aliases(state, revision, [
-            (descriptor["action_id"], "")
-            for descriptor in public_page["items"]
-        ])
+        _assign_action_aliases(state, revision, _alias_entries(
+            {
+                descriptor["action_id"]: descriptor
+                for descriptor in public_page["items"]
+            },
+            "",
+        ))
     else:
         _learn_state_aliases(state, page["page"]["items"])
     _save_v2_client_state_unlocked(session_path, state)
@@ -2280,18 +2558,22 @@ V2_PROTOCOL_CARD = (
     "locally; the wire carries the server's opaque ID.",
     "ERRORS carry their own remedy: every refusal names the exact command "
     "that fixes it.",
-    "just start --nation N --leader L --male|--female [--style S]",
+    "just start                                get into the game; every flag "
+    "(--nation --leader --male|--female --style) is an override",
     "just turn                                 one briefing, one revision",
+    "just turn --decisions                     one row per actor that can act",
     'just do "u1 VERB ARGS; c1 VERB ARGS"      1..8 orders, one receipt each',
     "just turn --end --await                   end the phase, block, next header",
     "just show [ALIAS|--grep PATTERN]          read local files, zero network",
-    "just state --section SECTION              one bounded state page",
+    "just state --section SECTION              one bounded state page; "
+    "section chat is the typed event feed (tech learned, growth, huts)",
     "just legal --actor_id ID --all            one actor's whole menu",
     "just legal --kind KIND --all              one class of action",
     "just batch --action_id ID --arguments JSON",
     "just receipt --batch_id ID | just retry --batch_id ID | just wait",
-    "add --json to any of these for the full wire payload; --session only "
-    "when this workspace holds a second joined seat",
+    "just use GAME_ID                          rebind this workspace's seat",
+    "add --json to any of these for the full wire payload; join bound this "
+    "workspace to your seat, so no command takes a session argument",
 )
 
 
@@ -2376,7 +2658,7 @@ def _print_v2_json(value: dict[str, Any]) -> None:
 # `--json` flag.  Their refusals must stay JSON too: a machine consumer polling
 # `just wait` in a loop has no flag with which to turn prose back off, so
 # rendering its error compactly would be a JSON escape hatch with a hole in it.
-V2_JSON_ONLY_COMMANDS = frozenset({"act", "next", "result", "wait"})
+V2_JSON_ONLY_COMMANDS = frozenset({"act", "next", "result"})
 
 # The same escape hatch for a machine consumer that owns the environment but
 # not the argument vector -- an e2e harness whose shared `subprocess.run`
@@ -2569,28 +2851,116 @@ def _expand_alias(state: dict[str, Any], text: str, path: Path) -> str:
     return text
 
 
+def _refresh_stale_alias(
+    path: Path,
+    session: dict[str, Any],
+    state: dict[str, Any],
+    alias: str,
+    *,
+    locked: bool,
+) -> tuple[dict[str, Any], str] | None:
+    """Re-enumerate one stale action alias and re-bind it by what it means.
+
+    The drain is the same scoped drain a manual `just legal --actor_id … --all`
+    performs, and the wire still only ever carries the fresh revision-bound
+    handle it returns.  Returns the reloaded client state and the one line to
+    print, or None when the plain refusal must stand: the semantic action is
+    gone, or the alias never carried an identity to re-resolve.
+    """
+    table = state["action_aliases"]
+    entry = table["by_alias"].get(alias)
+    if (
+        entry is None
+        or not entry["semantics"]
+        or table["state_revision"] is None
+        or table["state_revision"] == state["last_revision"]
+    ):
+        return None
+    previous = dict(table["by_alias"])
+    semantics = entry["semantics"]
+    if locked:
+        _drain_legal_unlocked(path, session, actor_id=entry["actor_id"])
+    else:
+        with _v2_request_lock(path):
+            _drain_legal_unlocked(path, session, actor_id=entry["actor_id"])
+    fresh = _load_v2_client_state(path, session)
+    matches = sorted(
+        name for name, item in fresh["action_aliases"]["by_alias"].items()
+        if item["semantics"] == semantics
+    )
+    if not matches:
+        return None
+    if len(matches) > 1:
+        # Fail closed: two actions now answer to one identity, and picking
+        # either would be this client choosing the agent's move for it.
+        raise PlayerError(
+            f"action alias {alias} names {len(matches)} actions at "
+            f"{_revision_label(fresh['last_revision'])} "
+            f"({' '.join(matches)}); name exactly one of them"
+        )
+    _rebind_action_aliases(fresh, previous)
+    _save_v2_client_state(path, fresh)
+    return fresh, (
+        f"{alias} rebound at rev{fresh['last_revision']['revision']}"
+    )
+
+
+def _expand_action_alias_refreshing(
+    path: Path,
+    session: dict[str, Any],
+    state: dict[str, Any],
+    alias: str,
+    *,
+    locked: bool,
+) -> tuple[str, dict[str, Any], str]:
+    """Expand one action alias, carrying it across a revision bump if it can."""
+    try:
+        return _expand_action_alias(state, alias, path), state, ""
+    except PlayerError:
+        rebound = _refresh_stale_alias(
+            path, session, state, alias, locked=locked,
+        )
+        if rebound is None:
+            raise
+        fresh, note = rebound
+        return _expand_action_alias(fresh, alias, path), fresh, note
+
+
 def _resolve_alias_arguments(
     path: Path,
     session: dict[str, Any],
     args: argparse.Namespace,
     fields: tuple[str, ...],
+    *,
+    notes: list[str] | None = None,
 ) -> argparse.Namespace:
     """Expand every alias-shaped ID argument before a request is built.
 
     The arguments are rewritten in place, so no code downstream of this call
     can see an alias.  The cache is only opened when an alias is actually
     present, so a command that already names opaque IDs behaves exactly as it
-    did before.
+    did before.  A stale *action* alias is re-bound by semantic identity unless
+    the caller passed `--no-refresh`, in which case the plain refusal stands.
     """
     raw = {
         name: (getattr(args, name, "") or "").strip() for name in fields
     }
     if not any(_looks_like_alias(text) for text in raw.values()):
         return args
+    refresh = not bool(getattr(args, "no_refresh", False))
     state = _load_v2_client_state(path, session)
     for name, text in raw.items():
-        if _looks_like_alias(text):
-            setattr(args, name, _expand_alias(state, text, path))
+        if not _looks_like_alias(text):
+            continue
+        if refresh and ACTION_ALIAS_RE.fullmatch(text) is not None:
+            identifier, state, note = _expand_action_alias_refreshing(
+                path, session, state, text, locked=False,
+            )
+            if note and notes is not None:
+                notes.append(note)
+            setattr(args, name, identifier)
+            continue
+        setattr(args, name, _expand_alias(state, text, path))
     return args
 
 
@@ -2968,6 +3338,157 @@ def _legal_rows(
     return _table(rows)
 
 
+# ---------------------------------------------------------------------------
+# Global-catalog grouping (redesign doc §9.1).
+#
+# The player scope enumerates ~147 actions, of which ~50 are server-setting
+# proposals and dozens more are one research goal or target each.  Flat, they
+# bury the handful of rows an agent actually chooses between.  The default
+# rendering of the *global* catalog therefore groups by action kind and
+# collapses the families below; `--full` restores the flat list, and every
+# scoped (`--actor_id`/`--kind`) rendering is untouched.  This is rendering
+# only: the staged descriptor cache and `--json` are byte-identical.
+# ---------------------------------------------------------------------------
+
+# Housekeeping kinds: bulk governance plumbing, not a move on the board.  Each
+# entry names the family the summary line leads with and the plural noun it
+# counts, so the collapsed row reads as a sentence and still names the exact
+# drill-down that prints the rows it stands for.
+V2_CATALOG_HOUSEKEEPING: dict[str, tuple[str, str]] = {
+    "player.propose_server_setting": ("governance", "setting proposals"),
+    "player.propose_server_setting_boolean": (
+        "governance", "boolean setting proposals",
+    ),
+    "player.propose_server_setting_integer": (
+        "governance", "integer setting proposals",
+    ),
+    "player.propose_server_setting_string": (
+        "governance", "string setting proposals",
+    ),
+    "player.propose_server_setting_enum": (
+        "governance", "enum setting proposals",
+    ),
+    "player.propose_server_setting_bitwise": (
+        "governance", "bitwise setting proposals",
+    ),
+    "player.cast_vote": ("governance", "ballots"),
+    "player.cancel_vote": ("governance", "vote withdrawals"),
+    "player.send_chat": ("chat", "chat recipients"),
+}
+# Kinds whose rows differ only by which named choice they select.  The names
+# are the whole decision, so they render inline on one row instead of one row
+# each.
+V2_CATALOG_CHOICE_KINDS = {"research.set_goal", "research.set_target"}
+# A single row is never worth a summary line: collapsing starts at two.
+V2_CATALOG_COLLAPSE_MIN = 2
+V2_CATALOG_LINE_MAX = 200
+
+
+def _legal_row_is_default(compact: dict[str, Any]) -> bool:
+    """Report whether one row carries nothing but defaults.
+
+    A row with a non-default probability, legality, consuming flag or variant,
+    or with a gold price, is exactly the decision a summary line would hide, so
+    it is never collapsed — it prints individually even inside a collapsed
+    family.
+    """
+    subject = compact["subject"]
+    if not isinstance(subject, dict):
+        raise _drift("legal action subject")
+    return (
+        "probability" not in compact
+        and "gold_cost" not in compact
+        and "gold_range" not in compact
+        and subject.get("legality") in (None, "legal")
+        and subject.get("consuming") in (None, False)
+        and subject.get("variant") is None
+    )
+
+
+def _catalog_choice_line(
+    kind: str, compacts: list[dict[str, Any]], aliases: dict[str, str] | None,
+) -> str:
+    """Collapse one choice family to a row that still names every choice.
+
+    The aliases come first while they fit, because they are what the agent
+    types back.  Past the budget the names alone lead and the drill-down
+    command recovers the rows; a name is never dropped without one.
+    """
+    named = aliases or {}
+    choices = [
+        (
+            named.get(compact["action_id"], ""),
+            _action_target_key(compact) or compact["label"],
+        )
+        for compact in compacts
+    ]
+    head = f"{kind}: {len(compacts)} choices — "
+    with_aliases = head + " · ".join(
+        f"{alias} {name}" if alias else name for alias, name in choices
+    )
+    if len(with_aliases) <= V2_CATALOG_LINE_MAX:
+        return with_aliases
+    drill = f" — just legal --kind {kind} --all"
+    plain = head + " · ".join(name for _alias, name in choices)
+    if len(plain) + len(drill) <= V2_CATALOG_LINE_MAX:
+        return plain + drill
+    budget = V2_CATALOG_LINE_MAX - len(head) - len(drill) - 2
+    shown: list[str] = []
+    used = 0
+    for _alias, name in choices:
+        if used + len(name) + 3 > budget:
+            break
+        shown.append(name)
+        used += len(name) + 3
+    return head + " · ".join(shown) + " …" + drill
+
+
+def _grouped_legal_lines(
+    compacts: list[dict[str, Any]], aliases: dict[str, str] | None,
+) -> list[str]:
+    """Render a global catalog grouped by kind, housekeeping collapsed."""
+    order: list[str] = []
+    families: dict[str, list[dict[str, Any]]] = {}
+    for compact in compacts:
+        kind = compact["kind"]
+        if kind not in families:
+            order.append(kind)
+            families[kind] = []
+        families[kind].append(compact)
+    kept: list[dict[str, Any]] = []
+    summaries: list[str] = []
+    collapsed = 0
+    for kind in order:
+        rows = families[kind]
+        plain = [row for row in rows if _legal_row_is_default(row)]
+        summary = None
+        if len(plain) >= V2_CATALOG_COLLAPSE_MIN:
+            if kind in V2_CATALOG_HOUSEKEEPING:
+                family, noun = V2_CATALOG_HOUSEKEEPING[kind]
+                summary = (
+                    f"{family}: {len(plain)} {noun} — "
+                    f"just legal --kind {kind} --all"
+                )
+            elif kind in V2_CATALOG_CHOICE_KINDS:
+                summary = _catalog_choice_line(kind, plain, aliases)
+        if summary is None:
+            # Rows are emitted in first-seen kind order, so a family that is
+            # not collapsed is still grouped rather than interleaved.
+            kept.extend(rows)
+            continue
+        summaries.append(summary)
+        collapsed += len(plain)
+        kept.extend(row for row in rows if not _legal_row_is_default(row))
+    lines = _legal_rows(kept, None, aliases) if kept else []
+    lines.extend(summaries)
+    if collapsed:
+        lines.append(
+            f"{collapsed} rows collapsed into {len(summaries)} kinds; "
+            "add --full for the flat list"
+        )
+    return lines
+
+
 def _action_kind_key(compact: dict[str, Any]) -> str:
     """Name one action's kind and operation, with no opaque handle in it."""
     subject = compact["subject"]
@@ -2980,6 +3501,39 @@ def _action_kind_key(compact: dict[str, Any]) -> str:
     ):
         kind = f"{kind}/{operation}"
     return kind
+
+
+def _descriptor_kind_key(descriptor: dict[str, Any]) -> str:
+    """Name a raw descriptor's kind exactly as the kind column prints it."""
+    subject = descriptor["subject"]
+    kind = descriptor["kind"]
+    operation = subject.get("operation") if isinstance(subject, dict) else None
+    if isinstance(operation, str) and operation and not kind.endswith(
+        "." + operation,
+    ):
+        return f"{kind}/{operation}"
+    return kind
+
+
+def _kind_selector_matches(descriptor: dict[str, Any], selector: str) -> bool:
+    """Report whether one descriptor answers to a printed kind selector.
+
+    A bare kind selects every operation under it; the `kind/operation` form the
+    kind column prints selects exactly the one row it was copied from.  Nothing
+    else matches, so the filter accepts its own output and no more.
+    """
+    kind, _slash, operation = selector.partition("/")
+    if descriptor["kind"] != kind:
+        return False
+    if not operation:
+        return True
+    subject = descriptor["subject"]
+    found = subject.get("operation") if isinstance(subject, dict) else None
+    if found == operation:
+        return True
+    # `unit.sentry` prints without a suffix because its operation is already
+    # the kind's tail; `unit.sentry/sentry` is still the same row.
+    return found is None and kind.split(".", 1)[-1] == operation
 
 
 def _action_target_key(compact: dict[str, Any]) -> str:
@@ -3081,7 +3635,10 @@ def _catalog_equivalence(
 
 
 def _render_legal_page(
-    value: dict[str, Any], aliases: dict[str, str] | None = None,
+    value: dict[str, Any],
+    aliases: dict[str, str] | None = None,
+    *,
+    full: bool = False,
 ) -> list[str]:
     page = value["page"]
     scope = page.get("scope")
@@ -3092,10 +3649,11 @@ def _render_legal_page(
     if not page["items"]:
         lines.append("(no legal actions on this page)")
         return lines
-    lines.extend(_legal_rows(
-        [_compact_legal_action(item) for item in page["items"]], scope,
-        aliases,
-    ))
+    compacts = [_compact_legal_action(item) for item in page["items"]]
+    if scope is None and not full:
+        lines.extend(_grouped_legal_lines(compacts, aliases))
+        return lines
+    lines.extend(_legal_rows(compacts, scope, aliases))
     return lines
 
 
@@ -3104,6 +3662,8 @@ def _render_legal_compact(
     scope: dict[str, Any] | None,
     aliases: dict[str, str] | None = None,
     equivalence: tuple[str, list[dict[str, Any]]] | None = None,
+    *,
+    full: bool = False,
 ) -> list[str]:
     kind = result["kind"]
     header = (
@@ -3131,8 +3691,12 @@ def _render_legal_compact(
         header += " oversized_single"
     lines = [header]
     if not result["actions"]:
+        # A kind that matched nothing never reaches a renderer -- it refuses,
+        # naming the kinds that do exist -- so an empty window here is either
+        # an empty scope or an offset past the end, and it says which.
         lines.append(
-            f"(no {kind} actions in this catalog)" if kind
+            f"(offset {result['offset']} is past the {result['matched']} "
+            "matched actions; drop --offset)" if result["matched"]
             else "(no legal actions in this catalog)"
         )
         return lines
@@ -3140,6 +3704,9 @@ def _render_legal_compact(
         lines.extend(_equivalence_lines(
             result, scope, aliases, equivalence,
         ))
+        return lines
+    if scope is None and kind is None and not full:
+        lines.extend(_grouped_legal_lines(result["actions"], aliases))
         return lines
     lines.extend(_legal_rows(result["actions"], scope, aliases))
     return lines
@@ -3197,6 +3764,31 @@ def _equivalence_lines(
     return lines
 
 
+def _route_summary(route: Any) -> str:
+    """Summarize a unit's standing route from fields already ingested.
+
+    `→(40,60) 3st` reads as "walking to 40,60, three path steps left".  The
+    count is what `unit.route` already carries — there is no turn estimate on
+    the wire, so none is invented.  A path the server could not reconstruct
+    falls back to the queued order count, which is still a real number of steps
+    left, and prints `?st` only when the payload names neither.  `patrol` and
+    `vigilant` print only when they are set, like every other non-default.
+    """
+    if not isinstance(route, dict):
+        return ""
+    destination = _coordinates(route.get("destination")) or "?"
+    count = route.get("path_step_count")
+    if route.get("path_available") is False or count is None:
+        count = route.get("order_count")
+    steps = "?" if count is None else _scalar(count)
+    text = f"→({destination.lstrip('@')}) {steps}st"
+    if route.get("mode") not in (None, "goto"):
+        text += f" {_scalar(route['mode'])}"
+    if route.get("vigilant") is True:
+        text += " vigilant"
+    return text
+
+
 def _unit_row(
     alias: str, item: dict[str, Any], *, show_id: bool = True,
 ) -> list[str]:
@@ -3221,13 +3813,9 @@ def _unit_row(
     activity = item.get("activity")
     if isinstance(activity, dict) and "name" in activity:
         detail.append(_scalar(activity["name"]))
-    route = item.get("route")
-    if isinstance(route, dict):
-        destination = _coordinates(route.get("destination")) or "?"
-        detail.append(
-            f"{_scalar(route.get('mode'))}{destination}"
-            f"/{_scalar(route.get('order_count'))}steps"
-        )
+    summary = _route_summary(item.get("route"))
+    if summary:
+        detail.append(summary)
     automation = item.get("automation")
     if isinstance(automation, dict) and automation.get("controller") not in (
         None, "player",
@@ -3512,6 +4100,36 @@ def _research_text(research: Any) -> str:
     return " ".join(parts)
 
 
+def _score_text(score: Any) -> str:
+    """Name the objective this seat is graded on, as precisely as it is known.
+
+    `exact` is the engine's own number when the boundary can carry it;
+    otherwise the seat prints the lower bound it can prove from its own rows,
+    marked `>=` so it is never mistaken for the score itself.  The components
+    are what moved it, so a decision can be credited to one of them.  An older
+    server sends no score at all and this line simply does not appear.
+    """
+    if not isinstance(score, dict):
+        return ""
+    exact = score.get("exact")
+    if isinstance(exact, int) and not isinstance(exact, bool):
+        text = f"score {exact}"
+    else:
+        lower = score.get("lower_bound")
+        if isinstance(lower, bool) or not isinstance(lower, int):
+            return ""
+        text = f"score >={lower}"
+    components = score.get("components")
+    if isinstance(components, dict):
+        named = ", ".join(
+            f"{key} {_scalar(value)}"
+            for key, value in components.items() if value
+        )
+        if named:
+            text += f" ({named})"
+    return text
+
+
 def _render_overview(
     items: list[dict[str, Any]], aliases: dict[str, str] | None = None,
 ) -> list[str]:
@@ -3526,6 +4144,9 @@ def _render_overview(
         if "client_state" in item:
             head.append(_scalar(item["client_state"]))
         head.append(_economy_text(item.get("player")))
+        score = _score_text(item.get("score"))
+        if score:
+            head.append(score)
         lines.append(" | ".join(head))
         lines.append(_research_text(item.get("research")))
         game_map = item.get("map")
@@ -3685,6 +4306,8 @@ def _render_health(health: dict[str, Any]) -> list[str]:
         f"seat {_scalar(seat['place'])} {seat['player_name']} "
         f"({health['agent']['controller_label']})"
     )
+    if seat.get("standing") not in (None, "active"):
+        identity += f" | standing {seat['standing']}"
     if "objective" in health:
         identity += (
             f" | objective {health['objective']}"
@@ -3692,6 +4315,13 @@ def _render_health(health: dict[str, Any]) -> list[str]:
             f"/{_scalar(health['max_turns'])} remaining"
         )
     lines.append(identity)
+    phase = health.get("phase")
+    if isinstance(phase, dict) and phase.get("waiting_on") is not None:
+        blocked = phase["waiting_on"]
+        waiting = f"waiting on {blocked['kind']}: {blocked['summary']}"
+        if blocked.get("waiting_s") is not None:
+            waiting += f" ({_scalar(blocked['waiting_s'])}s)"
+        lines.append(waiting)
     event = health["last_phase_end"]
     if event is not None:
         lines.append(
@@ -3709,12 +4339,9 @@ def _unit_status(item: dict[str, Any]) -> str:
         status = activity["name"]
     else:
         status = "unknown"
-    route = item.get("route")
-    if isinstance(route, dict):
-        status += (
-            f" {_scalar(route.get('mode'))}"
-            f"{_coordinates(route.get('destination')) or ''}"
-        )
+    summary = _route_summary(item.get("route"))
+    if summary:
+        status += " " + summary
     automation = item.get("automation")
     if isinstance(automation, dict) and automation.get("controller") not in (
         None, "player",
@@ -3805,6 +4432,8 @@ def _render_turn(
     *,
     tiles: dict[str, Any] | None = None,
     aliases: dict[str, str] | None = None,
+    decisions: list[str] | None = None,
+    events: str = "",
 ) -> list[str]:
     context = result["context"]
     phase = context["phase"]
@@ -3831,6 +4460,11 @@ def _render_turn(
         header.append(
             f"{_scalar(context['turns_remaining'])} turns left"
         )
+    # The number this seat is graded on belongs on the line it reads first:
+    # a decision cannot be credited to an objective it never sees.
+    score = _score_text(overview.get("score"))
+    if score:
+        header.append(score)
     lines = [" | ".join(header)]
     lines.append(
         _economy_text(overview.get("player"))
@@ -3873,6 +4507,12 @@ def _render_turn(
         overview, units["items"], cities["items"],
         partial=bool(truncated),
     ))
+    # One line per actor that still needs orders, carrying the option aliases
+    # `do` accepts -- the field doc §8's ideal transcript spends its budget on
+    # and the shipped briefing dropped.  It is read from local caches only.
+    lines.extend(decisions or [])
+    if events:
+        lines.append(events)
     # A truncated section is never a dead end: the continuation cursor is the
     # only way to reach the rest, so it is printed, not hidden behind --json.
     lines.extend(truncated)
@@ -3957,6 +4597,44 @@ _ERROR_REMEDIES = {
 }
 
 
+# The page-restart query a retired cursor forwards, in the order the recipe
+# takes it.  A key outside this set means the server described a page this
+# client cannot spell, and the remedy is withheld rather than guessed at.
+V2_RESTART_OPTIONS = (
+    "section", "actor_id", "target_id", "relation_id", "center_id", "radius",
+    "limit",
+)
+V2_RESTART_COMMANDS = {"state": "just state", "legal_actions": "just legal"}
+
+
+def _restart_command(value: Any) -> str:
+    """Spell the page a retired cursor says to ask for again."""
+    if not isinstance(value, dict):
+        return ""
+    query = value.get("query")
+    command = V2_RESTART_COMMANDS.get(value.get("endpoint"))
+    if command is None or not isinstance(query, dict) or not query:
+        return ""
+    if any(key not in V2_RESTART_OPTIONS for key in query):
+        return ""
+    for key in V2_RESTART_OPTIONS:
+        if query.get(key) is not None:
+            command += f" --{key} {_scalar(query[key])}"
+    return command
+
+
+def _retry_after_text(details: dict[str, Any]) -> str:
+    """Say when a rate-limited request may be sent again, in seconds."""
+    seconds = details.get("retry_after_seconds")
+    if isinstance(seconds, bool) or not isinstance(seconds, (int, float)):
+        return ""
+    text = f"retry the same command in {_scalar(seconds)}s"
+    at = details.get("retry_after")
+    if isinstance(at, str) and at:
+        text += f" (not before {at})"
+    return text
+
+
 def _render_error_payload(payload: Any) -> list[str]:
     """Render a server refusal compactly, remedy first.
 
@@ -3974,6 +4652,9 @@ def _render_error_payload(payload: Any) -> list[str]:
     if isinstance(revision, dict) and "revision" in revision:
         lines[0] += f"  {_revision_label(revision)}"
     details = body.get("details")
+    # Every detail key this renderer spells out in full, so the `--json`
+    # offer below can tell "there is more" from "you have already seen it".
+    expressed = {"safe_next", "batch_id"}
     if isinstance(details, dict):
         safe_next = details.get("safe_next")
         remedy = _ERROR_REMEDIES.get(safe_next) if isinstance(
@@ -3984,16 +4665,35 @@ def _render_error_payload(payload: Any) -> list[str]:
             if isinstance(batch_id, str) and batch_id:
                 remedy = remedy.replace("--batch_id ID", f"--batch_id {batch_id}")
             lines.append(f"next ({safe_next}): {remedy}")
+        # A rate limit has exactly one remedy and it is a clock, not a flag.
+        retry = _retry_after_text(details)
+        if retry:
+            lines.append(f"next: {retry}")
+            expressed |= {"retry_after_seconds", "retry_after"}
+        # A retired cursor already names the page to ask for again.
+        restart = _restart_command(details.get("restart"))
+        if restart:
+            lines.append(f"next: {restart}")
+            expressed.add("restart")
         rest = [
             f"{key}={_flat(value)}"
             for key, value in sorted(details.items())
-            if key not in {"safe_next", "batch_id"} and value is not None
+            if key not in expressed and value is not None
         ]
         if rest:
             lines.append("  " + " ".join(rest))
     if body.get("retryable") is True:
         lines.append("retryable: the same request may be sent again")
-    lines.append("full payload: re-run the same command with --json")
+    # A standing remedy that never pays teaches the agent to burn a call after
+    # every server error.  `--json` adds exactly the untruncated `details`
+    # object, so it is offered only when some part of that object is a nested
+    # value this compact form had to elide -- never after a rate limit, a
+    # restart query, or a transport failure, all of which are printed whole.
+    if isinstance(details, dict) and any(
+        key not in expressed and isinstance(value, (dict, list))
+        for key, value in details.items()
+    ):
+        lines.append("full payload: re-run the same command with --json")
     return lines
 
 
@@ -4048,6 +4748,7 @@ def _render_disposition(
 
 def _render_join(
     session: dict[str, Any], result: dict[str, Any], path: Path,
+    replaced: dict[str, Any] | None = None,
 ) -> list[str]:
     timeout = session.get("action_timeout_s")
     timing = (
@@ -4063,7 +4764,10 @@ def _render_join(
         f"seat {_scalar(session.get('place'))} "
         f"{_scalar(session.get('player_name'))} | proto {protocol} | "
         f"state {_scalar(result.get('state'))} | {timing}",
-        f"session {path}",
+        # The path deliberately does not appear here.  Printing it is what
+        # taught every observed agent to re-type it on 79 of 82 commands;
+        # `just use` prints it when an operator actually needs it.
+        _seat_binding_line(session["game_id"], replaced),
     ]
     if "objective" in session:
         lines.append(
@@ -4220,7 +4924,8 @@ Before joining, identify yourself with a truthful public harness-model label,
 such as codex-gpt-5.6-sol, pi-gpt-5.6-sol, or claude-code-claude-opus.
 
 Timing is reported by the join response: default gives each agent 180 seconds
-per turn, blitz gives 60 seconds, and infinite has no agent deadline. You—the
+per turn on strategic-v1 and 10 minutes on full-control-v2,
+blitz gives 60 seconds, and infinite has no agent deadline. You—the
 assigned harness/model—must inspect each observation and choose its action
 directly. Do not write, launch, or delegate to an automated bot solely to beat
 the clock.
@@ -4229,20 +4934,19 @@ Read AGENTS.md, then run:
 
   just join --game_id {game_id} --name {name}{place}
 
-The command returns a `session_file` and the negotiated protocol. If join
-reports `strategic-v1`, pass that exact path as `--session` in every command,
-never the shared `.sessions/current` pointer, and repeat:
+Join binds this workspace to the seat it joined, so no later command names a
+session. If join reports `strategic-v1`, repeat:
 
-  just next --session SESSION_FILE --after_turn LAST_TURN
-  just act --session SESSION_FILE --turn TURN --observation_id OBSERVATION_ID --action '{{"type":"set_traits","traits":{{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}}}'
+  just next --after_turn LAST_TURN
+  just act --turn TURN --observation_id OBSERVATION_ID --action '{{"type":"set_traits","traits":{{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}}}'
 
 Advance LAST_TURN only after `act` returns `accepted: true`. If `act` fails or
 returns anything else, do not claim success and do not advance; poll again with
-the same explicit session and LAST_TURN so the server can redeliver the turn.
+the same LAST_TURN so the server can redeliver the turn.
 
 If join reports `full-control-v2`, the command contract is the protocol card
-join prints; run `just help` for the play card. `--session` is optional there.
-Errors carry their own remedy, so read the refusal instead of the docs.
+join prints; run `just help` for the play card. Errors carry their own remedy,
+so read the refusal instead of the docs.
 
 Use only the negotiated protocol's authenticated private state for decisions.
 Never inspect parent directories or spectator data. Stop on completed, invalid,
@@ -4369,6 +5073,12 @@ def command_join(args: argparse.Namespace) -> int:
     path = _state_root() / args.game_id / f"{_session_key(controller)}.json"
     _write_private_json(path, session)
     _set_current_session(path)
+    # Joining *is* the binding: from here every command in this workspace
+    # resolves this seat by itself, so nothing downstream has to re-type a
+    # path.  `--json` stays byte-identical, so the binding is reported in the
+    # human renderings only.
+    replaced = _bind_workspace_seat(path, args.game_id)
+    binding = _seat_binding_line(args.game_id, replaced)
     public = {key: value for key, value in result.items()
               if key != "agent_token"}
     public["session_saved"] = True
@@ -4376,7 +5086,7 @@ def command_join(args: argparse.Namespace) -> int:
     if _json_requested(args):
         _print_json(public)
     else:
-        _render(_render_join(session, public, path))
+        _render(_render_join(session, public, path, replaced))
     timing_mode = str(result.get("timing_mode") or "unknown")
     action_timeout_s = result.get("action_timeout_s")
     deadline = (
@@ -4406,7 +5116,8 @@ def command_join(args: argparse.Namespace) -> int:
         # cannot -- the evaluation frame and the three rules that are about
         # conduct rather than syntax.
         print(
-            f"\nJoined a full-control-v2 session.\nSession file: {path}\n"
+            f"\nJoined a full-control-v2 session.\n"
+            f"{binding[0].upper() + binding[1:]}.\n"
             f"Timing mode: {timing_mode}; {deadline}.\n"
             f"{evaluation_line}"
             "Do not use strategic `just next` or `just act`. The command "
@@ -4435,12 +5146,100 @@ def command_join(args: argparse.Namespace) -> int:
             "You—the assigned harness/model—must inspect each observation and "
             "choose its action directly. Do not write, launch, or delegate to "
             "an automated bot solely to beat the clock.\n"
-            f"Session file: {path}\n"
+            f"{binding[0].upper() + binding[1:]}.\n"
             "Read docs/gameplay.md, then start with "
-            f"`just next --session {path} --after_turn 0`. Use that same exact "
-            "session path for every next and act command.",
+            "`just next --after_turn 0`; every next and act command works "
+            "against this bound seat.",
             file=sys.stderr,
         )
+    return 0
+
+
+def _workspace_relative(path: Path) -> str:
+    """Spell a state path the way `use` accepts it: relative to the workspace."""
+    try:
+        return str(path.relative_to(ROOT.resolve()))
+    except ValueError:
+        return str(path)
+
+
+def _resolve_use_target(value: str) -> Path:
+    """Resolve `use`'s argument: a game ID, or one session path."""
+    if GAME_ID_RE.fullmatch(value):
+        sessions = _private_sessions(value)
+        if not sessions:
+            raise PlayerError(
+                f"this workspace holds no joined seat for {value}. Join one "
+                f"with `just join --game_id {value} --name HARNESS-MODEL`."
+            )
+        if len(sessions) > 1:
+            candidates = ", ".join(
+                f"`just use {_workspace_relative(session)}`"
+                for session in sessions
+            )
+            raise PlayerError(
+                f"{value} has {len(sessions)} joined seats in this "
+                f"workspace; name the one you are playing: {candidates}"
+            )
+        return sessions[0]
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        path = ROOT / path
+    destination, _relative = _state_relative_path(path)
+    return destination
+
+
+def command_use(args: argparse.Namespace) -> int:
+    """Bind this workspace to one seat, or report the seat it already plays."""
+    target = (getattr(args, "target", "") or "").strip()
+    if not target:
+        binding = _read_seat_binding()
+        if binding is None:
+            raise PlayerError(
+                "this workspace is not bound to a seat. Join one with "
+                "`just join --game_id GAME_ID --name HARNESS-MODEL`, or bind "
+                "a seat you already joined with `just use GAME_ID`."
+            )
+        if _json_requested(args):
+            _print_json({
+                "game_id": binding["game_id"],
+                "session_file": str(binding["session"]),
+                "bound_at": binding["bound_at"],
+                "rebound_from": None,
+            })
+            return 0
+        bound = f" | bound {binding['bound_at']}" if binding["bound_at"] else ""
+        _render([
+            f"playing {binding['game_id']} | seat "
+            f"{_workspace_relative(binding['session'])}{bound}",
+            "commands need no --session; `just use GAME_ID` rebinds this "
+            "workspace",
+        ])
+        return 0
+    path = _resolve_use_target(target)
+    session = _load_private_object(path, "session")
+    game_id = session.get("game_id")
+    if (
+        not isinstance(game_id, str)
+        or not GAME_ID_RE.fullmatch(game_id)
+        or not isinstance(session.get("agent_token"), str)
+    ):
+        raise PlayerError(
+            f"{target} is not a session this workspace joined. Bind a seat "
+            "by its game with `just use GAME_ID`."
+        )
+    replaced = _bind_workspace_seat(path, game_id)
+    _set_current_session(path)
+    if _json_requested(args):
+        binding = _read_seat_binding() or {}
+        _print_json({
+            "game_id": game_id,
+            "session_file": str(path),
+            "bound_at": binding.get("bound_at", ""),
+            "rebound_from": None if replaced is None else replaced["game_id"],
+        })
+        return 0
+    _render([_seat_binding_line(game_id, replaced)])
     return 0
 
 
@@ -4575,11 +5374,19 @@ def _emit_turn(
     args: argparse.Namespace,
     result: dict[str, Any],
     aliases: dict[str, str] | None = None,
+    *,
+    decisions: list[str] | None = None,
+    events: str = "",
 ) -> None:
+    # The decision summaries and the events line are projections of pages this
+    # command already fetched and of files it already wrote, so they belong to
+    # the rendering only: `--json` stays the byte-identical wire result.
     if _json_requested(args):
         _print_v2_json(result)
     else:
-        _render(_render_turn(result, aliases=aliases))
+        _render(_render_turn(
+            result, aliases=aliases, decisions=decisions, events=events,
+        ))
 
 
 def _cached_kind_action(
@@ -4676,15 +5483,447 @@ def _command_turn_end(
     return exit_code
 
 
+# ---------------------------------------------------------------------------
+# The focus loop (redesign doc §9.2).
+#
+# Freeciv's GUI walks a human from one actor that needs orders to the next.
+# The same walk is a projection here: `just turn --decisions` prints the whole
+# list, and the text rendering of every successful `do`/`batch` receipt ends
+# with one `next:` line naming the next actor on it, so acting walks the loop
+# exactly like the native client.
+#
+# The heuristic, in one place:
+#   unit      needs a decision when it has moves left, is idle, and carries no
+#             standing route or queued orders
+#   city      needs a decision when it is building nothing, or finishes what it
+#             is building this turn (an empty or completing queue)
+#   relation  needs a decision when this seat holds a cached diplomacy action
+#             against it — a meeting is open and unanswered
+# Relevance of an option: the verbs a player reaches for first
+# (`V2_DECISION_PREFERRED`, in order), then any verb this table has never heard
+# of, then the housekeeping that merely parks an actor
+# (`V2_DECISION_HOUSEKEEPING`).  A ruleset verb we do not know is therefore
+# still offered ahead of sentry/disband, never dropped.
+#
+# Sources: the L1 mirror tables and the revision-scoped action cache — both
+# local files.  `turn --decisions` refreshes exactly what is stale and drains
+# the catalog once when it holds none; the receipt tail opens no socket at all
+# and degrades to naming the actor and its enumeration command when the cached
+# options have died with their revision.
+# ---------------------------------------------------------------------------
+
+
+V2_DECISION_MAX_OPTIONS = 5
+V2_DECISION_MAX_ROWS = 40
+V2_DECISION_ROW_MAX = 120
+V2_DECISION_PREFERRED = (
+    "found_city", "found", "set_production", "buy_production", "set_worklist",
+    "build", "set_route", "attack_route", "connect_route", "goto",
+    "goto_and_perform", "move", "start_activity", "work_tile",
+    "change_worker_task", "request_worker_task", "set_rally", "join_city",
+    "establish_trade", "help_wonder", "upgrade", "attack", "set_target",
+    "set_goal", "set_rates", "assign_citizen", "place_infrastructure",
+)
+V2_DECISION_HOUSEKEEPING = frozenset({
+    "sentry", "fortify", "disband", "disband_recover", "cancel_orders",
+    "cancel_activity", "cancel_automation", "clear_action_decision",
+    "rehome", "homeless", "unload", "load", "board", "deboard", "embark",
+    "disembark", "auto_work", "auto_explore", "set_options", "rename",
+    "clear_rally", "clear_governor", "set_governor", "remove_worker_task",
+})
+MIRROR_REV_RE = re.compile(r"^# rev (\d+) turn (\d+)\b")
+MIRROR_CELL_RE = re.compile(r"^-?[0-9]{1,9}$")
+
+
+def _mirror_table(
+    session_path: Path, parts: tuple[str, ...],
+) -> tuple[tuple[int, int] | None, list[str], list[list[str]]]:
+    """Read one mirror TSV as (revision, columns, rows); empty when absent."""
+    text = _mirror_text(session_path, parts)
+    if text is None:
+        return None, [], []
+    lines = text.splitlines()
+    match = MIRROR_REV_RE.match(lines[0]) if lines else None
+    revision = (
+        None if match is None else (int(match.group(2)), int(match.group(1)))
+    )
+    body = [
+        line for line in lines if line and not line.startswith("#")
+    ]
+    if not body:
+        return revision, [], []
+    return (
+        revision,
+        [cell.strip() for cell in body[0].split("\t")],
+        [[cell.strip() for cell in line.split("\t")] for line in body[1:]],
+    )
+
+
+def _mirror_is_fresh(
+    session_path: Path,
+    parts: tuple[str, ...],
+    revision: dict[str, Any] | None,
+) -> bool:
+    """Report whether one mirror table already reflects this exact revision."""
+    if revision is None:
+        return False
+    found, _columns, _rows = _mirror_table(session_path, parts)
+    return found == (revision["turn"], revision["revision"])
+
+
+def _mirror_cell(columns: list[str], row: list[str], name: str) -> str:
+    if name not in columns:
+        return ""
+    index = columns.index(name)
+    return row[index] if index < len(row) else ""
+
+
+def _mirror_number(text: str) -> int | None:
+    """Read the left half of a `3/3` mirror cell as an integer, or None."""
+    head = text.split("/", 1)[0].strip()
+    return int(head) if MIRROR_CELL_RE.fullmatch(head) else None
+
+
+def _decision_verb(compact: dict[str, Any]) -> str:
+    tail = compact["kind"].split(".", 1)[-1]
+    operation = _order_operation(compact)
+    return operation if operation and operation != tail else tail
+
+
+def _decision_option_rank(compact: dict[str, Any]) -> tuple[int, int, str]:
+    tail = compact["kind"].split(".", 1)[-1]
+    words = {tail, _order_operation(compact)} - {""}
+    for index, verb in enumerate(V2_DECISION_PREFERRED):
+        if verb in words:
+            return (0, index, tail)
+    if words & V2_DECISION_HOUSEKEEPING:
+        return (2, 0, tail)
+    return (1, 0, tail)
+
+
+def _decision_options(
+    pool: list[dict[str, Any]], aliases: dict[str, str],
+) -> tuple[list[str], int]:
+    """Name one actor's most relevant options, one line item per verb.
+
+    Collapsing by verb is what keeps sixty enumerated `move` rows from crowding
+    out `found_city`: the row shows the verb once, with its count, and the
+    drill-down prints every target.
+    """
+    by_verb: dict[str, list[dict[str, Any]]] = {}
+    for compact in pool:
+        by_verb.setdefault(_decision_verb(compact), []).append(compact)
+    ranked = sorted(
+        by_verb.items(), key=lambda item: _decision_option_rank(item[1][0]),
+    )
+    options: list[str] = []
+    for verb, rows in ranked[:V2_DECISION_MAX_OPTIONS]:
+        compact = rows[0]
+        text = verb if len(rows) == 1 else f"{verb}x{len(rows)}"
+        if len(rows) == 1:
+            target = _action_target_key(compact)
+            if target:
+                text += f" {target}"
+        alias = aliases.get(compact["action_id"], "")
+        options.append(f"{alias} {text}".strip())
+    return options, len(by_verb)
+
+
+def _decision_actor_row(
+    alias: str,
+    actor_id: str,
+    description: str,
+    state: dict[str, Any],
+    aliases: dict[str, str],
+) -> dict[str, Any]:
+    pool = [
+        compact for compact in _order_pool(state)
+        if _order_actor(compact) == actor_id
+    ]
+    options, total = _decision_options(pool, aliases)
+    return {
+        "alias": alias,
+        "actor_id": actor_id,
+        "state": description,
+        "options": options,
+        "option_count": total,
+        "remedy": f"just legal --actor_id {alias} --all",
+    }
+
+
+def _decision_unit_rows(
+    session_path: Path, state: dict[str, Any], aliases: dict[str, str],
+) -> list[dict[str, Any]]:
+    _revision, columns, rows = _mirror_table(
+        session_path, V2_SHOW_FILES["units"],
+    )
+    found: list[tuple[int, dict[str, Any]]] = []
+    for row in rows:
+        alias = _mirror_cell(columns, row, "alias")
+        if ENTITY_ALIAS_RE.fullmatch(alias) is None or alias[0] != "u":
+            continue
+        if _mirror_cell(columns, row, "who") not in {"own", "-", ""}:
+            continue
+        moves = _mirror_number(_mirror_cell(columns, row, "moves"))
+        if moves is not None and moves <= 0:
+            continue
+        if _mirror_cell(columns, row, "orders") not in {"-", ""}:
+            continue
+        activity = _mirror_cell(columns, row, "activity")
+        if activity not in {"idle", "-", ""}:
+            continue
+        position = _mirror_cell(columns, row, "pos")
+        description = " ".join(part for part in (
+            _mirror_cell(columns, row, "unit"),
+            f"@{position}" if position not in {"-", ""} else "",
+            "idle",
+        ) if part)
+        found.append((int(alias[1:]), _decision_actor_row(
+            alias, state["entity_aliases"].get(alias, ""), description,
+            state, aliases,
+        )))
+    return [row for _number, row in sorted(found, key=lambda item: item[0])]
+
+
+def _decision_city_rows(
+    session_path: Path, state: dict[str, Any], aliases: dict[str, str],
+) -> list[dict[str, Any]]:
+    _revision, columns, rows = _mirror_table(
+        session_path, V2_SHOW_FILES["cities"],
+    )
+    found: list[tuple[int, dict[str, Any]]] = []
+    for row in rows:
+        alias = _mirror_cell(columns, row, "alias")
+        if ENTITY_ALIAS_RE.fullmatch(alias) is None or alias[0] != "c":
+            continue
+        building = _mirror_cell(columns, row, "building")
+        shields = _mirror_cell(columns, row, "shields")
+        stock, _slash, cost = shields.partition("/")
+        stock_value = _mirror_number(stock)
+        cost_value = _mirror_number(cost)
+        empty = building in {"-", ""}
+        completing = (
+            stock_value is not None and cost_value is not None
+            and stock_value >= cost_value
+        )
+        if not empty and not completing:
+            continue
+        position = _mirror_cell(columns, row, "pos")
+        description = " ".join(part for part in (
+            _mirror_cell(columns, row, "city"),
+            f"@{position}" if position not in {"-", ""} else "",
+            "no production" if empty else f"{building} {shields} done",
+        ) if part)
+        found.append((int(alias[1:]), _decision_actor_row(
+            alias, state["entity_aliases"].get(alias, ""), description,
+            state, aliases,
+        )))
+    return [row for _number, row in sorted(found, key=lambda item: item[0])]
+
+
+def _decision_meeting_rows(
+    state: dict[str, Any], aliases: dict[str, str],
+) -> list[dict[str, Any]]:
+    """One row per relation this seat holds an unanswered diplomacy action for."""
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for compact in _order_pool(state):
+        if compact["kind"].split(".", 1)[0] != "diplomacy":
+            continue
+        target = compact["target"]
+        name = (
+            aliases.get(target["id"], "")
+            if isinstance(target, dict) and isinstance(target.get("id"), str)
+            else ""
+        )
+        groups.setdefault(name or "diplomacy", []).append(compact)
+    rows: list[dict[str, Any]] = []
+    for name, pool in groups.items():
+        options, total = _decision_options(pool, aliases)
+        rows.append({
+            "alias": name,
+            "actor_id": "",
+            "state": "meeting pending",
+            "options": options,
+            "option_count": total,
+            "remedy": "just legal --kind diplomacy.accept --all",
+        })
+    return rows
+
+
+def _decision_rows(
+    session_path: Path,
+    state: dict[str, Any],
+    *,
+    done: frozenset[str] = frozenset(),
+) -> list[dict[str, Any]]:
+    """Walk this seat's actors in a stable order: units, cities, meetings."""
+    aliases = _alias_map(state)
+    rows = (
+        _decision_unit_rows(session_path, state, aliases)
+        + _decision_city_rows(session_path, state, aliases)
+        + _decision_meeting_rows(state, aliases)
+    )
+    # An actor this command has just ordered is never offered back: the focus
+    # loop moves on, exactly as clicking through the native client does.
+    return [
+        row for row in rows if not row["actor_id"] or row["actor_id"] not in done
+    ][:V2_DECISION_MAX_ROWS]
+
+
+def _decision_line(row: dict[str, Any]) -> str:
+    head = f"{row['alias']} {row['state']}"
+    line = head
+    shown = 0
+    for option in row["options"]:
+        candidate = line + (" — " if shown == 0 else " · ") + option
+        if len(candidate) > V2_DECISION_ROW_MAX:
+            break
+        line, shown = candidate, shown + 1
+    if shown == 0:
+        return f"{head} — {row['remedy']}"
+    if row["option_count"] > shown:
+        more = f" · more: {row['remedy']}"
+        if len(line) + len(more) <= V2_DECISION_ROW_MAX:
+            line += more
+    return line
+
+
+def _next_focus_line(
+    session_path: Path, state: dict[str, Any], done: frozenset[str],
+) -> str:
+    """Name the next actor that needs a decision, from local caches only.
+
+    This runs on the receipt path, so it must never fetch and never fail: a
+    cache too stale to name options degrades to the actor and its enumeration
+    command, and a cache that cannot be read at all prints nothing rather than
+    turning a successful receipt into an error.
+    """
+    try:
+        rows = _decision_rows(session_path, state, done=done)
+    except PlayerError:
+        return ""
+    if not rows:
+        return "next: no actors need orders — just turn --end --await"
+    return "next: " + _decision_line(rows[0])
+
+
+V2_BRIEFING_DECISION_ROWS = 8
+
+
+def _briefing_decision_lines(
+    session_path: Path, state: dict[str, Any],
+) -> list[str]:
+    """Summarise each actor that needs orders, from local caches only.
+
+    This is the same projection `turn --decisions` prints, minus its fetches:
+    the briefing has already written the unit and city tables it walks, and an
+    actor whose catalog is not cached degrades to its own drill-down command
+    rather than costing a round trip the briefing never promised.
+    """
+    try:
+        rows = _decision_rows(session_path, state)
+    except PlayerError:
+        return []
+    lines = [
+        _decision_line(row) for row in rows[:V2_BRIEFING_DECISION_ROWS]
+    ]
+    if len(rows) > V2_BRIEFING_DECISION_ROWS:
+        lines.append(
+            f"+{len(rows) - V2_BRIEFING_DECISION_ROWS} more actors — "
+            "just turn --decisions"
+        )
+    return lines
+
+
+def _mirror_event_count(session_path: Path) -> int | None:
+    """Read the event total the mirror recorded the last time it was written."""
+    try:
+        _revision, columns, rows = _mirror_table(
+            session_path, V2_SHOW_FILES["overview"],
+        )
+    except PlayerError:
+        return None
+    for row in rows:
+        if _mirror_cell(columns, row, "fact") == "count_chat":
+            return _mirror_number(_mirror_cell(columns, row, "value"))
+    return None
+
+
+def _briefing_events_line(overview: Any, seen: int | None) -> str:
+    """Name the typed event feed when it has grown since the last briefing."""
+    counts = overview.get("counts") if isinstance(overview, dict) else None
+    total = counts.get("chat") if isinstance(counts, dict) else None
+    if isinstance(total, bool) or not isinstance(total, int):
+        return ""
+    fresh = total if seen is None else total - seen
+    if fresh <= 0:
+        return ""
+    return f"events: {fresh} new — just state --section chat"
+
+
+def _command_turn_decisions(
+    args: argparse.Namespace, path: Path, session: dict[str, Any],
+) -> int:
+    """Print one row per actor that can act this phase."""
+    with _v2_request_lock(path):
+        for section in ("units", "cities"):
+            state = _load_v2_client_state(path, session)
+            if not _mirror_is_fresh(
+                path, V2_SHOW_FILES[section], state["last_revision"],
+            ):
+                _fetch_state_section(path, session, section)
+        state = _load_v2_client_state(path, session)
+        if not _order_pool(state):
+            # One unscoped drain enumerates every actor at once.  A catalog
+            # this client already holds at this revision is never re-fetched.
+            _drain_legal_unlocked(path, session)
+            state = _load_v2_client_state(path, session)
+        rows = _decision_rows(path, state)
+    revision = state["last_revision"]
+    if _json_requested(args):
+        _print_v2_json({
+            "schema_version": 1,
+            "command": "turn",
+            "status": "decisions",
+            "state_revision": revision,
+            "decisions": [
+                {key: row[key] for key in (
+                    "alias", "actor_id", "state", "options", "option_count",
+                )}
+                for row in rows
+            ],
+        })
+        return 0
+    label = "no revision" if revision is None else _revision_label(revision)
+    if not rows:
+        _render([
+            f"{label} decisions 0 — no actors need orders; "
+            "just turn --end --await"
+        ])
+        return 0
+    lines = [f"{label} decisions {len(rows)}"]
+    lines.extend(_decision_line(row) for row in rows)
+    _render(lines)
+    return 0
+
+
 def command_turn(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
     end_phase = bool(getattr(args, "end_phase", False))
     await_next = bool(getattr(args, "await_phase", False))
+    decisions = bool(getattr(args, "decisions", False))
     if await_next and not end_phase:
         raise PlayerError(
             "just turn --await blocks after ending the phase; use "
             "`just turn --end --await`, or `just wait` on its own"
         )
+    if decisions and end_phase:
+        raise PlayerError(
+            "just turn --decisions lists what still needs orders; run it "
+            "before `just turn --end`, not with it"
+        )
+    if decisions:
+        return _command_turn_decisions(args, path, session)
     if end_phase:
         return _command_turn_end(args, path, session, await_next=await_next)
     with _v2_request_lock(path):
@@ -4756,6 +5995,9 @@ def command_turn(args: argparse.Namespace) -> int:
                 )
 
             state = _load_v2_client_state(path, session)
+            # Read before the mirror is overwritten: the event total it still
+            # holds is the one this seat has already been shown.
+            seen_events = _mirror_event_count(path)
             for section in V2_TURN_SECTIONS:
                 _remember_page(path, state, pages[section], legal=False)
             for section in V2_TURN_SECTIONS:
@@ -4776,7 +6018,12 @@ def command_turn(args: argparse.Namespace) -> int:
                 "research": _turn_compact_page(pages["research"]),
                 "next_commands": _turn_next_commands(pages),
             }
-            _emit_turn(args, result, _alias_map(state))
+            state = _load_v2_client_state(path, session)
+            _emit_turn(
+                args, result, _alias_map(state),
+                decisions=_briefing_decision_lines(path, state),
+                events=_briefing_events_line(overview_items[0], seen_events),
+            )
             return 0
     raise AssertionError("unreachable turn briefing state")
 
@@ -5029,6 +6276,116 @@ def _compact_legal_limit(value: Any, *, default: int = V2_LEGAL_MATCH_LIMIT) -> 
     return int(text)
 
 
+V2_KIND_LIST_MAX = 24
+
+
+def _cached_descriptors(state: dict[str, Any]) -> list[dict[str, Any]]:
+    """Every raw descriptor this seat still holds at the newest revision."""
+    revision = state["last_revision"]
+    return [
+        descriptor for descriptor in state["actions"].values()
+        if descriptor.get("state_revision") == revision
+    ]
+
+
+def _kind_list(kinds: list[str]) -> str:
+    shown = kinds[:V2_KIND_LIST_MAX]
+    return " ".join(shown) + (" …" if len(kinds) > len(shown) else "")
+
+
+def _cached_kind_scopes(
+    state: dict[str, Any], selector: str, asked: str = "",
+) -> list[str]:
+    """Name the actors whose cached catalog already offers this kind.
+
+    The scope that was just searched is never named back: a remedy that
+    repeats the command which failed is not a remedy.
+    """
+    aliases = _alias_map(state)
+    found: list[str] = []
+    for descriptor in _cached_descriptors(state):
+        if not _kind_selector_matches(descriptor, selector):
+            continue
+        subject = descriptor["subject"]
+        actor = subject.get("actor") if isinstance(subject, dict) else None
+        actor_id = actor.get("id") if isinstance(actor, dict) else None
+        if not isinstance(actor_id, str) or actor_id == asked:
+            continue
+        name = aliases.get(actor_id, actor_id)
+        if name not in found:
+            found.append(name)
+    return found
+
+
+def _kind_matched_nothing(
+    path: Path,
+    session: dict[str, Any],
+    selector: str,
+    scope: dict[str, Any] | None,
+    present: list[str],
+    total: Any,
+    revision: dict[str, Any] | None,
+) -> PlayerError:
+    """Refuse a kind filter that matched nothing, naming what does exist.
+
+    An empty page an agent believes is more expensive than a refusal: it
+    teaches that a whole class of action does not exist.  So a filter that
+    matched none of a non-empty catalog fails, and the failure prints the
+    kinds that catalog really carries plus, when the local cache knows better,
+    the actor scope where this kind does live.
+    """
+    label = "no revision" if revision is None else _revision_label(revision)
+    lines = [
+        f"legal --kind {selector} matched none of the "
+        f"{_scalar(total)} actions in the {_scope_text(scope)} catalog "
+        f"at {label}"
+    ]
+    if present:
+        lines.append(f"kinds in that catalog: {_kind_list(present)}")
+    scopes = _cached_kind_scopes(
+        _load_v2_client_state(path, session), selector,
+        scope["actor_id"] if scope else "",
+    )
+    if scopes:
+        lines.append(
+            f"{selector} is an actor-scoped kind; this seat holds it for "
+            f"{' '.join(scopes[:8])} — read one with "
+            f"`just legal --actor_id {scopes[0]} --all`"
+        )
+    elif not scope:
+        lines.append(
+            "unit and city kinds are enumerated per actor: "
+            "`just legal --actor_id ACTOR_ID --all`, or "
+            "`just turn --decisions` for every actor at once"
+        )
+    return PlayerError("\n".join(lines))
+
+
+def _unknown_kind(
+    path: Path, session: dict[str, Any], selector: str,
+) -> PlayerError:
+    """Refuse a malformed kind, naming the kinds this seat has actually read."""
+    state = _load_v2_client_state(path, session)
+    kinds: list[str] = []
+    for descriptor in _cached_descriptors(state):
+        key = _descriptor_kind_key(descriptor)
+        if key not in kinds:
+            kinds.append(key)
+    lines = [
+        f"legal --kind {selector} is not an action kind; write the kind "
+        "column exactly as it prints, either `family.kind` or "
+        "`family.kind/operation`"
+    ]
+    if kinds:
+        lines.append(f"kinds in this seat's cached catalog: {_kind_list(kinds)}")
+    else:
+        lines.append(
+            "this seat has read no catalog yet; run `just turn --decisions` "
+            "or `just legal --actor_id ACTOR_ID --all` first"
+        )
+    return PlayerError("\n".join(lines))
+
+
 def _command_legal_all(
     args: argparse.Namespace,
     path: Path,
@@ -5065,6 +6422,9 @@ def _command_legal_all(
     byte_limited = False
     oversized_single = False
     pages_read = 0
+    # Every kind selector this drain actually printed, so a zero-match filter
+    # can name the taxonomy that exists instead of asserting an empty catalog.
+    present: list[str] = []
     with _v2_request_lock(path):
         for pages_read in range(1, V2_LEGAL_DRAIN_MAX_PAGES + 1):
             value = _read_legal_page(
@@ -5083,7 +6443,10 @@ def _command_legal_all(
                     "run the same command again"
                 )
             for descriptor in value["page"]["items"]:
-                if kind and descriptor["kind"] != kind:
+                present_kind = _descriptor_kind_key(descriptor)
+                if present_kind not in present:
+                    present.append(present_kind)
+                if kind and not _kind_selector_matches(descriptor, kind):
                     continue
                 match_offset = matched
                 matched += 1
@@ -5120,6 +6483,11 @@ def _command_legal_all(
             raise PlayerError(
                 "the legal catalog exceeded the safe 512-page drain limit"
             )
+    if kind and not matched:
+        raise _kind_matched_nothing(
+            path, session, kind, _requested_scope(actor_id, target_id),
+            present, catalog_total, revision,
+        )
     next_offset = offset + len(compact_actions)
     has_more = next_offset < matched
     result = {
@@ -5151,12 +6519,20 @@ def _command_legal_all(
         # An actor's whole catalog is the one that repeats across identical
         # units; a kind-filtered window is not a catalog and is never deduped.
         None if kind else _catalog_equivalence(state, result, scope, aliases),
+        full=bool(getattr(args, "full", False)),
     ))
     return 0
 
 
 def command_legal(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
+    with _phase_aware_refusal(path):
+        return _legal_command(args, path, session)
+
+
+def _legal_command(
+    args: argparse.Namespace, path: Path, session: dict[str, Any],
+) -> int:
     args = _resolve_alias_arguments(
         path, session, args, ("actor_id", "target_id"),
     )
@@ -5171,8 +6547,8 @@ def command_legal(args: argparse.Namespace) -> int:
             "class of action, or `--actor_id ACTOR_ID [--target_id TARGET_ID] "
             "--all` for one actor's complete catalog"
         )
-    if kind and ACTION_KIND_RE.fullmatch(kind) is None:
-        raise PlayerError("legal --kind must be an exact public action kind")
+    if kind and ACTION_KIND_SELECTOR_RE.fullmatch(kind) is None:
+        raise _unknown_kind(path, session, kind)
     if all_pages:
         return _command_legal_all(args, path, session, kind)
     if getattr(args, "offset", "") not in (None, ""):
@@ -5189,6 +6565,7 @@ def command_legal(args: argparse.Namespace) -> int:
     else:
         _render(_render_legal_page(
             value, _alias_map(_load_v2_client_state(path, session)),
+            full=bool(getattr(args, "full", False)),
         ))
     return 0
 
@@ -5414,15 +6791,31 @@ def _submit_persisted_batch(
 
 def command_batch(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
-    args = _resolve_alias_arguments(path, session, args, ("action_id",))
+    with _phase_aware_refusal(path):
+        return _batch_command(args, path, session)
+
+
+def _batch_command(
+    args: argparse.Namespace, path: Path, session: dict[str, Any],
+) -> int:
+    notes: list[str] = []
+    args = _resolve_alias_arguments(
+        path, session, args, ("action_id",), notes=notes,
+    )
     action_id = _opaque(args.action_id.strip(), "action ID")
     arguments = _parse_json_object(args.arguments, "--arguments")
     with _v2_request_lock(path):
         batch_id = _persist_batch_for_action(
             path, session, action_id, arguments,
         )
-        intent = _batch_intent(
-            _load_v2_client_state(path, session), batch_id,
+        cached = _load_v2_client_state(path, session)
+        intent = _batch_intent(cached, batch_id)
+        # Read the actor before the send: applying the action bumps the
+        # revision, which wipes the descriptor this lookup needs.
+        descriptor = cached["actions"].get(action_id)
+        actor = (
+            _order_actor(_compact_legal_action(descriptor))
+            if isinstance(descriptor, dict) else ""
         )
         try:
             disposition, warning, exit_code = _submit_persisted_batch(
@@ -5440,7 +6833,15 @@ def command_batch(args: argparse.Namespace) -> int:
     if _json_requested(args):
         _print_v2_json(disposition)
     else:
-        _render(_render_disposition(disposition, intent))
+        lines = notes + _render_disposition(disposition, intent)
+        if _order_receipt_ok(disposition):
+            focus = _next_focus_line(
+                path, _load_v2_client_state(path, session),
+                frozenset({actor} if actor else ()),
+            )
+            if focus:
+                lines.append(focus)
+        _render(lines)
     if warning:
         print(warning, file=sys.stderr)
     receipt = disposition["receipt"]
@@ -5470,6 +6871,43 @@ V2_ACTION_FAMILIES = frozenset({
     "pregame", "research", "spaceship", "unit",
 })
 ORDER_COORDINATE_RE = re.compile(r"^(-?[0-9]{1,4}),(-?[0-9]{1,4})$")
+
+# ---------------------------------------------------------------------------
+# Tier-1 vocabulary (redesign doc §4).
+#
+# These six words are the only ones `do` accepts that the catalog does not
+# print itself, and each is a fixed route to one advertised capability: the
+# public kind, the operation, and the arguments the word itself fixes.  A verb
+# whose capability this seat's catalog does not advertise fails closed naming
+# the enumeration command -- nothing here invents a synonym, and nothing here
+# can name an action the server did not offer.
+# ---------------------------------------------------------------------------
+V2_TIER1_VERBS: dict[str, dict[str, Any]] = {
+    "route": {
+        "kind": "unit.order", "operation": "set_route",
+        "arguments": {"mode": "goto"},
+    },
+    "patrol": {
+        "kind": "unit.order", "operation": "set_route",
+        "arguments": {"mode": "patrol"},
+    },
+    "build": {
+        "kind": "city.set_production", "operation": "set_production",
+        "arguments": {},
+    },
+    "queue": {
+        "kind": "city.set_worklist", "operation": "set_worklist",
+        "arguments": {},
+    },
+    "rally": {
+        "kind": "city.set_rally", "operation": "set_rally",
+        "arguments": {"persistent": False},
+    },
+    "goal": {
+        "kind": "research.set_goal", "operation": "set_goal",
+        "arguments": {},
+    },
+}
 
 
 class _OrderUnresolved(Exception):
@@ -5609,17 +7047,86 @@ def _order_properties(compact: dict[str, Any]) -> tuple[
     return properties, required
 
 
+def _order_array_bounds(specification: Any) -> tuple[int, int]:
+    """Read one array property's own declared element bounds."""
+    if not isinstance(specification, dict):
+        return 0, V2_MAX_ORDER_WORDS
+    minimum = specification.get("minItems")
+    maximum = specification.get("maxItems")
+    return (
+        minimum if isinstance(minimum, int) and not isinstance(minimum, bool)
+        else 0,
+        maximum if isinstance(maximum, int) and not isinstance(maximum, bool)
+        else V2_MAX_ORDER_WORDS,
+    )
+
+
+def _is_array_property(specification: Any) -> bool:
+    return isinstance(specification, dict) and specification.get(
+        "type",
+    ) == "array"
+
+
 def _order_arguments(
-    compact: dict[str, Any], values: list[str],
+    compact: dict[str, Any],
+    values: list[str],
+    defaults: dict[str, Any] | None = None,
+    element: Any = None,
 ) -> dict[str, Any] | None:
-    """Bind the order's remaining words to this action's own argument schema."""
+    """Bind the order's remaining words to this action's own argument schema.
+
+    Scalars bind one word each in required-then-optional order.  A single
+    array-typed property instead takes the whole remaining tail, one element
+    per word, because that is the only shape in which an ordered list can be
+    written on a command line -- `u2 route T(38,34) T(39,35)`.  ``defaults``
+    are the values a Tier-1 verb itself fixed, so they are never asked of the
+    agent and never overridden by position.
+    """
     properties, required = _order_properties(compact)
+    fixed = {
+        name: value for name, value in (defaults or {}).items()
+        if name in properties
+    }
     if not properties:
-        return {} if not values else None
-    names = required + [name for name in properties if name not in required]
-    if not len(required) <= len(values) <= len(names):
+        return {} if not values and not defaults else None
+    names = [name for name in required if name not in fixed]
+    names += [
+        name for name in properties
+        if name not in required and name not in fixed
+    ]
+    arrays = [name for name in names if _is_array_property(properties[name])]
+    if len(arrays) > 1:
+        # Two open-ended lists cannot be told apart on one line; the raw
+        # `just batch --arguments JSON` form still expresses them exactly.
         return None
-    arguments: dict[str, Any] = {}
+    arguments: dict[str, Any] = dict(fixed)
+    if arrays:
+        tail_name = arrays[0]
+        head = [name for name in names if name != tail_name]
+        if len(values) < len(head):
+            return None
+        for name, text in zip(head, values):
+            converted = _order_value(properties[name], text)
+            if converted is _ORDER_BAD:
+                return None
+            arguments[name] = converted
+        words = values[len(head):]
+        minimum, maximum = _order_array_bounds(properties[tail_name])
+        if tail_name not in required and not words:
+            return arguments
+        if not minimum <= len(words) <= maximum:
+            return None
+        items: list[Any] = []
+        for text in words:
+            value = text if element is None else element(text)
+            if value is _ORDER_BAD:
+                return None
+            items.append(value)
+        arguments[tail_name] = items
+        return arguments
+    needed = sum(1 for name in required if name not in fixed)
+    if not needed <= len(values) <= len(names):
+        return None
     for name, text in zip(names, values):
         converted = _order_value(properties[name], text)
         if converted is _ORDER_BAD:
@@ -5649,13 +7156,18 @@ def _order_discriminators(compact: dict[str, Any]) -> set[str]:
 
 
 def _order_match(
-    compact: dict[str, Any], values: list[str],
+    compact: dict[str, Any],
+    values: list[str],
+    defaults: dict[str, Any] | None = None,
+    element: Any = None,
 ) -> dict[str, Any] | None:
-    arguments = _order_arguments(compact, values)
+    arguments = _order_arguments(compact, values, defaults, element)
     if arguments is not None:
         return arguments
     properties, _required = _order_properties(compact)
-    if properties or not values:
+    # A Tier-1 word fixes arguments; an action that cannot take them is not
+    # the action that word names, however well its label reads.
+    if properties or not values or defaults:
         return None
     # An action that takes no arguments is selected by what distinguishes it
     # from its siblings: its label, its named target, or a subject value the
@@ -5677,6 +7189,73 @@ def _default_arguments(compact: dict[str, Any]) -> dict[str, Any] | None:
             return None
         arguments[name] = choices[0]
     return arguments
+
+
+def _named_target_id(
+    state: dict[str, Any], actor_id: str, text: str,
+) -> str | None:
+    """Find the opaque ID this actor's own catalog gave a named target.
+
+    A worklist item is a production this seat has already been offered by
+    name: the `city.set_production` rows for the same city carry exactly the
+    IDs `set_worklist` accepts.  Nothing is invented -- an unlisted name has
+    no ID here and the order fails closed.
+    """
+    found: set[str] = set()
+    wanted = text.casefold()
+    for compact in _order_pool(state):
+        if actor_id and _order_actor(compact) != actor_id:
+            continue
+        target = compact["target"]
+        if not isinstance(target, dict):
+            continue
+        name = target.get("name")
+        identifier = target.get("id")
+        if (
+            isinstance(name, str) and name.casefold() == wanted
+            and isinstance(identifier, str) and identifier
+        ):
+            found.add(identifier)
+    return found.pop() if len(found) == 1 else None
+
+
+def _order_element_resolver(
+    state: dict[str, Any], actor_id: str, verb: str, *, strict: bool,
+) -> Any:
+    """Expand one list element to the opaque ID the wire requires.
+
+    Coordinates resolve through the tile alias cache this seat already built
+    from pages it read; every other word is looked up by name in the same
+    actor's catalog.  ``strict`` is set only when exactly one capability is in
+    play, so the refusal can name the word that failed instead of degrading to
+    "no cached action takes those arguments".
+    """
+
+    def resolve(text: str) -> Any:
+        tile = TILE_ALIAS_RE.fullmatch(text) or ORDER_COORDINATE_RE.fullmatch(
+            text,
+        )
+        if tile is not None:
+            try:
+                return _expand_tile_alias(
+                    state, int(tile.group(1)), int(tile.group(2)),
+                )
+            except PlayerError as exc:
+                if strict:
+                    raise _OrderUnresolved(str(exc), actor_id) from exc
+                return _ORDER_BAD
+        identifier = _named_target_id(state, actor_id, text)
+        if identifier is not None:
+            return identifier
+        if strict:
+            raise _OrderUnresolved(
+                f"`{verb}` takes items this seat has been offered by name; "
+                f"no cached target is named {text}",
+                actor_id,
+            )
+        return _ORDER_BAD
+
+    return resolve
 
 
 def _order_resolution(
@@ -5704,6 +7283,7 @@ def _resolve_order(
     rest = tokens[1:]
     actor_id = ""
     verb = ""
+    defaults: dict[str, Any] = {}
     if ACTION_ALIAS_RE.fullmatch(first) is not None:
         # A bare alias already names one exact capability.
         action_id = _expand_action_alias(state, first, path)
@@ -5747,13 +7327,39 @@ def _resolve_order(
         else:
             verb, rest = first, rest
         selector = verb.casefold()
-        pool = [item for item in pool if selector in _order_verbs(item)]
-        if not pool:
-            raise _OrderUnresolved(
-                f"no cached action advertises the verb `{verb}`", actor_id,
-            )
+        tier1 = V2_TIER1_VERBS.get(selector)
+        if tier1 is not None:
+            pool = [
+                item for item in pool
+                if item["kind"] == tier1["kind"]
+                and _order_operation(item) == tier1["operation"]
+            ]
+            if not pool:
+                raise _OrderUnresolved(
+                    f"`{verb}` names {tier1['kind']}/{tier1['operation']}, "
+                    "which this seat's cached catalog does not advertise "
+                    + (f"for {first}" if actor_id else "here"),
+                    actor_id,
+                )
+            defaults = tier1["arguments"]
+        else:
+            pool = [item for item in pool if selector in _order_verbs(item)]
+            if not pool:
+                raise _OrderUnresolved(
+                    f"no cached action advertises the verb `{verb}`", actor_id,
+                )
         values = rest
-        if values:
+        # An action whose arguments are an ordered list reads its coordinates
+        # as list elements, not as the one target that selects it among
+        # siblings, so the first word is never eaten as a target key.
+        listed = all(
+            any(
+                _is_array_property(specification)
+                for specification in _order_properties(item)[0].values()
+            )
+            for item in pool
+        )
+        if values and not listed:
             keys = _order_target_keys(values[0])
             if keys:
                 narrowed = [
@@ -5766,10 +7372,14 @@ def _resolve_order(
                         actor_id,
                     )
                 pool, values = narrowed, values[1:]
+    element = _order_element_resolver(
+        state, actor_id, verb or first, strict=len(pool) == 1,
+    )
     matches = [
         (item, arguments)
         for item, arguments in (
-            (item, _order_match(item, values)) for item in pool
+            (item, _order_match(item, values, defaults, element))
+            for item in pool
         )
         if arguments is not None
     ]
@@ -5847,14 +7457,50 @@ def _unresolved_report(
         remedy = _order_enumeration_command(path, state, actor)
         if remedy not in remedies:
             remedies.append(remedy)
+    # An order refused while this seat's own phase is over is not a cache
+    # miss, and sending the agent to re-enumerate would only produce a fresh
+    # catalog it still cannot act on.
+    stalled = _cached_phase_note(path)
+    if stalled:
+        return "\n".join([stalled, *lines])
     lines.extend(f"enumerate with: {remedy}" for remedy in remedies)
     return "\n".join(lines)
 
 
-def _resolve_orders(
+def _refresh_stale_order_aliases(
+    path: Path,
+    session: dict[str, Any],
+    state: dict[str, Any],
+    orders: list[str],
+    notes: list[str],
+) -> dict[str, Any]:
+    """Re-bind any stale action alias these orders name before resolving them.
+
+    This is the same mechanism `do` already runs between its own orders, moved
+    one step earlier: an alias the agent typed from a catalog it read one
+    revision ago keeps its number when the action itself is unchanged.
+    """
+    for text in orders:
+        words = text.split()
+        if not words or ACTION_ALIAS_RE.fullmatch(words[0]) is None:
+            continue
+        try:
+            _expand_action_alias(state, words[0], path)
+        except PlayerError:
+            rebound = _refresh_stale_alias(
+                path, session, state, words[0], locked=True,
+            )
+            if rebound is None:
+                continue
+            state, note = rebound
+            notes.append(note)
+    return state
+
+
+def _order_outcomes(
     state: dict[str, Any], path: Path, orders: list[str],
-) -> list[dict[str, Any]]:
-    """Resolve every order up front; refuse the whole batch if any cannot be."""
+) -> list[tuple[str, dict[str, Any] | None, str, str]]:
+    """Resolve every order against the cache, keeping each one's verdict."""
     outcomes: list[tuple[str, dict[str, Any] | None, str, str]] = []
     for text in orders:
         try:
@@ -5863,9 +7509,84 @@ def _resolve_orders(
             outcomes.append((text, None, exc.reason, exc.actor_id))
         except PlayerError as exc:
             outcomes.append((text, None, str(exc), ""))
+    return outcomes
+
+
+def _order_fetch_targets(
+    state: dict[str, Any],
+    outcomes: list[tuple[str, dict[str, Any] | None, str, str]],
+) -> list[str]:
+    """Name the actors an unresolved order asked for and this seat never read.
+
+    Only a *never drained* actor qualifies.  An actor whose complete catalog is
+    already cached at this revision has been asked and answered: a verb it does
+    not offer is a real refusal, not a cache miss, and re-fetching it would
+    turn one bad word into a silent round trip every turn.
+    """
+    drained = set(state["drained_actors"])
+    wanted: list[str] = []
+    for _text, resolved, _reason, actor in outcomes:
+        if (
+            resolved is not None or not actor
+            or actor in drained or actor in wanted
+        ):
+            continue
+        wanted.append(actor)
+    return wanted
+
+
+def _resolve_orders(
+    state: dict[str, Any], path: Path, orders: list[str],
+) -> list[dict[str, Any]]:
+    """Resolve every order up front; refuse the whole batch if any cannot be."""
+    outcomes = _order_outcomes(state, path, orders)
     if any(resolved is None for _text, resolved, _reason, _actor in outcomes):
         raise PlayerError(_unresolved_report(path, state, outcomes))
     return [resolved for _text, resolved, _reason, _actor in outcomes]
+
+
+def _resolve_orders_fetching(
+    path: Path,
+    session: dict[str, Any],
+    state: dict[str, Any],
+    orders: list[str],
+    notes: list[str],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Resolve the batch, drawing each unread actor's catalog once first.
+
+    This is what makes the printed loop -- `turn`, then `do` -- run as printed:
+    a briefing does not enumerate capabilities, so the first `do` of a turn
+    names actors whose catalog this seat has never read.  Every such actor is
+    fetched *before* anything is sent, and the batch is then re-resolved whole,
+    so a genuinely bad verb still refuses with the per-order table and no order
+    reaches the wire.  `--no-refresh` keeps the plain refusal.
+    """
+    outcomes = _order_outcomes(state, path, orders)
+    targets = _order_fetch_targets(state, outcomes)
+    if not targets:
+        if any(resolved is None for _t, resolved, _r, _a in outcomes):
+            raise PlayerError(_unresolved_report(path, state, outcomes))
+        return [resolved for _t, resolved, _r, _a in outcomes], state
+    aliases = {
+        identifier: alias
+        for alias, identifier in state["entity_aliases"].items()
+    }
+    for actor_id in targets:
+        _drain_legal_unlocked(path, session, actor_id=actor_id)
+        state = _load_v2_client_state(path, session)
+        revision = state["last_revision"]
+        notes.append(
+            f"fetched {aliases.get(actor_id, actor_id)} options"
+            + (
+                f" (rev{revision['revision']})" if revision is not None else ""
+            )
+        )
+    try:
+        return _resolve_orders(state, path, orders), state
+    except PlayerError as exc:
+        # The fetch already happened; a refusal that hid it would leave the
+        # agent unable to tell a cold cache from a wrong word.
+        raise PlayerError("\n".join([*notes, str(exc)])) from exc
 
 
 def _drain_legal_unlocked(
@@ -5928,9 +7649,18 @@ def command_do(args: argparse.Namespace) -> int:
     records: list[dict[str, Any]] = []
     exit_code = 0
     applied = 0
+    ordered: set[str] = set()
     with _v2_request_lock(path):
         state = _load_v2_client_state(path, session)
-        pending = _resolve_orders(state, path, orders)
+        if bool(getattr(args, "no_refresh", False)):
+            pending = _resolve_orders(state, path, orders)
+        else:
+            state = _refresh_stale_order_aliases(
+                path, session, state, orders, lines,
+            )
+            pending, state = _resolve_orders_fetching(
+                path, session, state, orders, lines,
+            )
         bound = state["last_revision"]
         stopped = ""
         # An outcome this client has already been told is never discarded: the
@@ -5966,6 +7696,8 @@ def command_do(args: argparse.Namespace) -> int:
                 "arguments": resolved["arguments"],
                 "disposition": disposition,
             })
+            if resolved["actor_id"]:
+                ordered.add(resolved["actor_id"])
             lines.extend(_render_disposition(disposition, resolved["order"]))
             if warning:
                 print(warning, file=sys.stderr)
@@ -6044,6 +7776,13 @@ def command_do(args: argparse.Namespace) -> int:
             "stopped": stopped or None,
         })
     else:
+        if applied:
+            # One focus line for the whole batch, from local caches only.
+            focus = _next_focus_line(
+                path, _load_v2_client_state(path, session), frozenset(ordered),
+            )
+            if focus:
+                lines.append(focus)
         _render(lines)
     return exit_code
 
@@ -6317,9 +8056,24 @@ def _wait_value(
     )
 
 
+def _render_wait(wait: dict[str, Any]) -> list[str]:
+    """Render one wake the way every other v2 command renders: compactly.
+
+    The first line is the same header `turn --end --await` already prints, so
+    a blocking wait and a blocking phase end read identically; the health
+    one-liners below it are what `just health` prints, and nothing here is a
+    field the JSON form does not carry.
+    """
+    return [_await_line(wait), *_render_health(wait["health"])]
+
+
 def command_wait(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
-    _print_v2_json(_wait_value(path, session, args))
+    value = _wait_value(path, session, args)
+    if _json_requested(args):
+        _print_v2_json(value)
+    else:
+        _render(_render_wait(value))
     return 0
 
 
@@ -6360,6 +8114,53 @@ def _mirror_text(session_path: Path, parts: tuple[str, ...]) -> str | None:
         )
     except (PlayerError, OSError):
         return None
+
+
+# The phase line `state_mirror` writes into `state/header.txt` from the last
+# health payload this seat read.  It is the one statement about whose turn it
+# is that costs no round trip.
+MIRROR_PHASE_RE = re.compile(
+    r"^phase\s+(\S+) · turn \S+ phase \S+ · active (\S+)\s*$", re.MULTILINE,
+)
+# Phase states in which an order cannot land because this seat's own turn is
+# over or has not begun on the board.  `synchronizing` is deliberately absent:
+# that is the lobby, where the remedy is `just start`, not `just wait`.
+V2_PHASE_STALLED = frozenset({
+    "inactive_done", "ending", "ambiguous_ending", "native_phase",
+    "phase_not_ready", "terminalizing",
+})
+
+
+def _cached_phase_note(session_path: Path) -> str:
+    """Say, from the mirror alone, that this seat's phase is not active."""
+    header = _mirror_text(session_path, V2_SHOW_FILES["header"])
+    match = MIRROR_PHASE_RE.search(header or "")
+    if match is None:
+        return ""
+    state, active = match.group(1), match.group(2)
+    if state in V2_PHASE_STALLED or (
+        active == "False" and state == "awaiting_agent"
+    ):
+        return f"your phase is not active (state {state}) — just wait"
+    return ""
+
+
+@contextmanager
+def _phase_aware_refusal(session_path: Path):
+    """Lead a refusal with the phase fact when this seat's turn is not live.
+
+    Acting after the phase has ended looks exactly like a cold cache from
+    inside the resolver, and the cache-miss remedy then succeeds without
+    fixing anything -- the agent re-enumerates, retries, and loops.  The
+    mirror already recorded whose phase it is, so the refusal says so first.
+    """
+    try:
+        yield
+    except PlayerError as exc:
+        note = _cached_phase_note(session_path)
+        if not note or str(exc).startswith(note):
+            raise
+        raise PlayerError(f"{note}\n{exc}") from exc
 
 
 def _mirror_pregame_catalog(
@@ -6487,6 +8288,74 @@ def _check_pregame_arguments(
         )
 
 
+# A leader name the boundary accepts: non-empty, stripped, no control
+# characters, under 48 UTF-8 bytes.  Everything outside letters, digits,
+# spaces, apostrophes, periods and hyphens becomes a hyphen, so a harness
+# label like `pi-gpt-5.5` survives as itself.
+LEADER_STRIP_RE = re.compile(r"[^0-9A-Za-z '.\-]+")
+
+
+def _sanitized_leader(label: str) -> str:
+    """Reduce a controller label to a leader name Freeciv will accept."""
+    text = re.sub(r"\s+", " ", LEADER_STRIP_RE.sub("-", label)).strip(" -.'")
+    while len(text.encode("utf-8")) > V2_LEADER_MAX_BYTES:
+        text = text[:-1]
+    return text.strip(" -.'")
+
+
+def _pregame_default_nation(items: list[dict[str, Any]]) -> dict[str, Any]:
+    """Pick one nation at random from what the lobby actually offers.
+
+    Nations are cosmetic under this eval's fixed-trait setup, so `just start`
+    with no arguments picks one rather than making the agent read a 50-row
+    catalog to type a name back.  The pick is made over the sorted catalog, so
+    seeding the RNG makes it reproducible.
+    """
+    choices = sorted(
+        (
+            item for item in items
+            if isinstance(item.get("id"), str)
+            and isinstance(item.get("name"), str) and item["name"]
+        ),
+        key=lambda item: item["name"],
+    )
+    if not choices:
+        raise PlayerError(
+            "this lobby offers no selectable nation; read the catalog with "
+            "`just state --section pregame_nations`"
+        )
+    return random.choice(choices)
+
+
+def _pregame_seat_defaults(
+    path: Path, session: dict[str, Any],
+) -> dict[str, str]:
+    """Read the leader and sex the lobby already holds for this seat.
+
+    The lobby `overview` carries the seat's own pregame identity, so a missing
+    `--leader`/`--male|--female` resolves against the catalog rather than
+    against a value this client invented.
+    """
+    items = _fetch_state_section(path, session, "overview")
+    player = items[0].get("player") if items else None
+    if not isinstance(player, dict):
+        return {"leader": "", "sex": ""}
+    leader = player.get("leader_name")
+    sex = player.get("sex")
+    return {
+        "leader": leader if isinstance(leader, str) else "",
+        "sex": sex if sex in {"male", "female"} else "",
+    }
+
+
+def _cached_style_name(path: Path, style_id: str) -> str:
+    """Name a style from the mirror only; never spend a request on a label."""
+    for item in _mirror_pregame_catalog(path, "pregame_styles"):
+        if item["id"] == style_id:
+            return item["name"]
+    return ""
+
+
 def command_start(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
     nation = (getattr(args, "nation", "") or "").strip()
@@ -6494,13 +8363,9 @@ def command_start(args: argparse.Namespace) -> int:
     style = (getattr(args, "style", "") or "").strip()
     male = bool(getattr(args, "male", False))
     female = bool(getattr(args, "female", False))
-    if not nation or not leader:
+    if male and female:
         raise PlayerError(
-            "just start needs --nation NAME and --leader NAME"
-        )
-    if male == female:
-        raise PlayerError(
-            "just start needs exactly one of --male or --female"
+            "just start takes at most one of --male or --female"
         )
     if len(leader.encode("utf-8")) > V2_LEADER_MAX_BYTES:
         raise PlayerError(
@@ -6517,15 +8382,18 @@ def command_start(args: argparse.Namespace) -> int:
                 "just start configures a lobby seat; this game is "
                 f"{health['game_state']} -- run `just turn`"
             )
-        chosen = _pregame_choice(
-            _pregame_catalog(path, session, "pregame_nations"),
-            nation, "nation",
+        nations = _pregame_catalog(path, session, "pregame_nations")
+        chosen = (
+            _pregame_choice(nations, nation, "nation") if nation
+            else _pregame_default_nation(nations)
         )
         if style:
-            style_id = _pregame_choice(
+            style_entry = _pregame_choice(
                 _pregame_catalog(path, session, "pregame_styles"),
                 style, "style",
-            )["id"]
+            )
+            style_id = style_entry["id"]
+            style_name = style_entry["name"]
         else:
             style_id = chosen.get("default_style_id")
             if not isinstance(style_id, str) or not style_id:
@@ -6533,6 +8401,36 @@ def command_start(args: argparse.Namespace) -> int:
                     f"nation {chosen['name']} carries no default style; pass "
                     "--style NAME (see `just state --section pregame_styles`)"
                 )
+            style_name = _cached_style_name(path, style_id)
+        if not leader:
+            leader = _sanitized_leader(
+                session.get("controller_label", "") or "",
+            )
+        if not leader or not (male or female):
+            # Only what is still missing costs a request.
+            defaults = _pregame_seat_defaults(path, session)
+            if not leader:
+                leader = _sanitized_leader(defaults["leader"])
+            if not (male or female):
+                # The catalog's own default first; failing that a deterministic
+                # pick over the resolved name, so two runs of the same zero-arg
+                # command configure the same seat.
+                sex = defaults["sex"] or (
+                    "male"
+                    if hashlib.sha256(leader.encode("utf-8")).digest()[0] % 2
+                    else "female"
+                )
+                male, female = sex == "male", sex == "female"
+        if not leader:
+            raise PlayerError(
+                "no leader name could be resolved for this seat; pass "
+                "`just start --leader NAME`"
+            )
+        lines.append(
+            f"starting as {chosen['name']} — {leader} "
+            f"({'male' if male else 'female'}), style "
+            f"{style_name or 'the nation default'}"
+        )
         arguments = {
             "nation_id": chosen["id"],
             "leader_name": leader,
@@ -6620,6 +8518,7 @@ V2_SHOW_FILES: dict[str, tuple[str, ...]] = {
     "units": ("state", "units.tsv"),
     "cities": ("state", "cities.tsv"),
     "map": ("state", "map.txt"),
+    "yields": ("state", "yields.tsv"),
     "delta": ("state", "delta.md"),
     "nations": ("cache", "nations.tsv"),
     "styles": ("cache", "styles.tsv"),
@@ -6668,10 +8567,69 @@ def _show_present(session_path: Path) -> list[tuple[str, tuple[str, ...], str]]:
 
 
 def _show_empty(session_path: Path) -> PlayerError:
+    # The remedy has to run in the phase the agent is actually in.  A seat
+    # still in the lobby has no units and no briefing to write, and `just
+    # turn` there returns the lobby card without writing a file -- so the
+    # command named first is the one that projects a page in either phase.
     return PlayerError(
-        "this seat has no local state mirror yet; run `just turn` (or "
-        "`just state --section units`) once and the files appear under "
-        f"{_mirror_path(session_path)}"
+        "this seat has no local state mirror yet; run "
+        "`just state --section overview` (it works in the lobby too, and "
+        "`just turn` writes the rest once the game is running); the files "
+        f"then appear under {_mirror_path(session_path)}"
+    )
+
+
+def _show_sources(
+    session_path: Path, name: str, pattern: str,
+) -> list[tuple[str, ...]]:
+    """Name the mirror files one `show` invocation actually rendered."""
+    if pattern or not name:
+        return [parts for _label, parts, _text in _show_present(session_path)]
+    parts = V2_SHOW_FILES.get(name)
+    if parts is not None:
+        return [parts]
+    sources = [V2_SHOW_FILES[label] for label in V2_SHOW_ROW_FILES]
+    sources.append(("state", "options", f"{name}.txt"))
+    return sources
+
+
+def _show_staleness(
+    session_path: Path, session: dict[str, Any], sources: list[tuple[str, ...]],
+) -> str:
+    """Warn when what was just printed predates the revision this seat knows.
+
+    Every rendered file stamps the revision it was written at, and semantic
+    alias continuity means an `aN` read from an older file still resolves to
+    the move it named -- but only because it is re-verified by meaning on use.
+    Saying so is the difference between a projection and a claim about now.
+    """
+    try:
+        current = _load_v2_client_state(session_path, session)["last_revision"]
+    except PlayerError:
+        # A banner is an annotation, never a gate: an unreadable private cache
+        # must not stop `show` from printing files it can read perfectly well.
+        return ""
+    if current is None:
+        return ""
+    # `_mirror_table` reports `(turn, revision)`; revision is the monotonic
+    # half, so the oldest projection is the one with the smallest revision.
+    def order(stamp: tuple[int, int]) -> tuple[int, int]:
+        return (stamp[1], stamp[0])
+
+    rendered: tuple[int, int] | None = None
+    for parts in sources:
+        found, _columns, _rows = _mirror_table(session_path, parts)
+        if found is not None and (
+            rendered is None or order(found) < order(rendered)
+        ):
+            rendered = found
+    if rendered is None or order(rendered) >= (
+        current["revision"], current["turn"],
+    ):
+        return ""
+    return (
+        f"stale: rendered at rev{rendered[1]}, now rev{current['revision']} — "
+        "aliases will be re-verified by meaning on use"
     )
 
 
@@ -6820,7 +8778,7 @@ def _show_grep(
 
 def command_show(args: argparse.Namespace) -> int:
     """Read this seat's mirror files. This command never opens a socket."""
-    path, _session = _v2_session(args.session)
+    path, session = _v2_session(args.session)
     pattern = (getattr(args, "grep", "") or "").strip()
     name = (getattr(args, "name", "") or "").strip()
     if pattern and name:
@@ -6830,6 +8788,28 @@ def command_show(args: argparse.Namespace) -> int:
     regex = bool(getattr(args, "regex", False))
     if regex and not pattern:
         raise PlayerError("just show --regex needs a --grep PATTERN to apply to")
+    if bool(getattr(args, "yields", False)):
+        if name != "map" or pattern:
+            raise PlayerError(
+                "--yields overlays the terrain grid; run `just show map "
+                "--yields`"
+            )
+        lines = state_mirror.render_map_yields(_mirror_path(path))
+        if not lines:
+            raise PlayerError(
+                "this seat has no map projection yet; run `just turn` or "
+                "`just state --section map_tiles` to write one"
+            )
+        if _json_requested(args):
+            _print_v2_json({
+                "schema_version": 1,
+                "command": "show",
+                "selection": "map --yields",
+                "lines": lines,
+            })
+        else:
+            _render(lines)
+        return 0
     if pattern:
         selection = f"grep {pattern}"
         lines = _show_grep(path, pattern, regex=regex)
@@ -6839,6 +8819,11 @@ def command_show(args: argparse.Namespace) -> int:
     else:
         selection = ""
         lines = _show_default(path)
+    # The banner is computed at read time and never written back: rewriting a
+    # projection to say it is old would change the very stamp being judged.
+    stale = _show_staleness(path, session, _show_sources(path, name, pattern))
+    if stale:
+        lines = [stale, *lines]
     if _json_requested(args):
         _print_v2_json({
             "schema_version": 1,
@@ -6950,7 +8935,11 @@ def command_result(args: argparse.Namespace) -> int:
 
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(
-        prog="client.py", description="player-only Freeciv session client",
+        # The `play` shim names itself here so its usage line reads as the
+        # command that was actually typed.  It is cosmetic: the shim execs
+        # this same file with this same argument vector.
+        prog=os.environ.get("PLAY_PROG") or "client.py",
+        description="player-only Freeciv session client",
     )
     commands = value.add_subparsers(dest="command", required=True)
 
@@ -6975,6 +8964,11 @@ def parser() -> argparse.ArgumentParser:
     join.add_argument("--join-token", default="")
     json_escape_hatch(join)
     join.set_defaults(handler=command_join)
+
+    use = commands.add_parser("use")
+    use.add_argument("target", nargs="?", default="")
+    json_escape_hatch(use)
+    use.set_defaults(handler=command_use)
 
     next_command = commands.add_parser("next")
     next_command.add_argument("--session", default="")
@@ -7004,6 +8998,10 @@ def parser() -> argparse.ArgumentParser:
         "--await", dest="await_phase", action="store_true",
         help="with --end: block until the next phase, then print its header",
     )
+    turn.add_argument(
+        "--decisions", action="store_true",
+        help="one row per actor that can still act, with its best options",
+    )
     turn.add_argument("--wait-s", type=float, default=120)
     turn.add_argument("--poll-s", type=float, default=1)
     turn.add_argument("--until", choices=("phase", "revision"), default="phase")
@@ -7030,6 +9028,10 @@ def parser() -> argparse.ArgumentParser:
         "--continue-on-error", dest="continue_on_error", action="store_true",
         help="keep issuing later orders after one is rejected",
     )
+    do.add_argument(
+        "--no-refresh", dest="no_refresh", action="store_true",
+        help="refuse a stale action alias instead of re-binding it",
+    )
     json_escape_hatch(do)
     do.set_defaults(handler=command_do)
 
@@ -7040,6 +9042,10 @@ def parser() -> argparse.ArgumentParser:
     show.add_argument(
         "--regex", action="store_true",
         help="read --grep as a regular expression instead of literal text",
+    )
+    show.add_argument(
+        "--yields", action="store_true",
+        help="with `map`: overlay per-tile food/shields/trade on the grid",
     )
     json_escape_hatch(show)
     show.set_defaults(handler=command_show)
@@ -7074,6 +9080,10 @@ def parser() -> argparse.ArgumentParser:
         "--offset", default="",
         help="compact match offset 0..8192; requires --kind/--all",
     )
+    legal.add_argument(
+        "--full", action="store_true",
+        help="print the global catalog flat instead of grouped by kind",
+    )
     json_escape_hatch(legal)
     legal.set_defaults(handler=command_legal)
 
@@ -7081,6 +9091,10 @@ def parser() -> argparse.ArgumentParser:
     batch.add_argument("--session", default="")
     batch.add_argument("--action-id", required=True)
     batch.add_argument("--arguments", default="{}")
+    batch.add_argument(
+        "--no-refresh", dest="no_refresh", action="store_true",
+        help="refuse a stale action alias instead of re-binding it",
+    )
     json_escape_hatch(batch)
     batch.set_defaults(handler=command_batch)
 
@@ -7101,6 +9115,7 @@ def parser() -> argparse.ArgumentParser:
     wait.add_argument("--wait-s", type=float, default=120)
     wait.add_argument("--poll-s", type=float, default=1)
     wait.add_argument("--until", choices=("phase", "revision"), default="phase")
+    json_escape_hatch(wait)
     wait.set_defaults(handler=command_wait)
 
     result = commands.add_parser("result")

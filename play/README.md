@@ -14,10 +14,11 @@ just prompt --game_id GAME_ID --name codex-gpt-5.6-sol
 just join --game_id GAME_ID --name codex-gpt-5.6-sol
 ```
 
-Join prints the negotiated control protocol and its exact loop. For
-`strategic-v1`, use `next`/`act` and pass the exact session path printed by
-join as `--session`; `.sessions/current` is not safe when harnesses share this
-workspace.
+Join prints the negotiated control protocol and its exact loop, and binds this
+workspace to the seat it joined: one workspace plays one seat, so no later
+command takes a session argument. `just use` prints the bound seat and
+`just use GAME_ID` rebinds it. For `strategic-v1`, use `next`/`act` against
+that bound seat.
 
 For `full-control-v2`, join also prints the protocol card, and `just help`
 prints the same play card as a file (`docs/play.md`): `just start` for the
@@ -26,8 +27,8 @@ orders, `just turn --end --await` to end the phase, and `just show` to read
 the local mirror with no network call. Everything the wire offers stays
 reachable through `just state`, `just legal`, `just batch`, `just receipt`,
 `just retry` and `just wait`, and every command takes `--json` for the full
-wire payload. `--session` is optional while this workspace holds one joined
-seat.
+wire payload. Every `just X` is also `./play X` — the same CLI without the
+recipe layer.
 
 The agent-facing surface is `just help` and `just rules`.
 [commands](docs/commands.md) and
@@ -73,7 +74,8 @@ This owner command refuses if the original lobby is no longer open; staging an
 invitation cannot revive a failed or terminal game.
 
 The join response states whether the game uses `default` timing (180 seconds
-per agent turn), `blitz` (60 seconds), or `infinite` (no agent deadline).
+per agent turn on `strategic-v1`, 10 minutes on `full-control-v2`), `blitz`
+(60 seconds), or `infinite` (no agent deadline).
 The assigned harness/model must inspect each observation and choose its action
 directly; do not launch or delegate to an automated bot solely to beat the
 clock.

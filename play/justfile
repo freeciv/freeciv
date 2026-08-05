@@ -11,13 +11,15 @@ default:
     @echo "  just join --game_id GAME_ID --name HARNESS-MODEL"
     @echo
     @echo "full-control-v2 — the ordinary turn is four commands:"
-    @echo "  just start --nation NAME --leader NAME --male|--female"
+    @echo "  just start                             every flag is an override"
     @echo "  just turn                              the briefing"
     @echo '  just do "u1 VERB ARGS; c1 VERB ARGS"   1..8 orders'
     @echo "  just turn --end --await                end, block, next header"
     @echo
     @echo "go deeper when the briefing is not enough:"
+    @echo "  just turn --decisions                  who still needs orders"
     @echo "  just show [ALIAS|--grep PATTERN]       local files, no network"
+    @echo "  just show map --yields                 terrain plus f/s/t yields"
     @echo "  just legal --actor_id ID --all         one actor's whole menu"
     @echo "  just legal --kind KIND --all           one class of action"
     @echo "  just state --section SECTION           one bounded page"
@@ -31,8 +33,11 @@ default:
     @echo
     @echo "Aliases a1..aN, u1/c1/p1/r1, and T(x,y) work anywhere an ID does;"
     @echo "action aliases die with their revision. v2 commands print compact"
-    @echo "text; add --json for the raw wire payload. --session is optional"
-    @echo "unless this workspace holds more than one joined seat."
+    @echo "text; add --json for the raw wire payload. Join binds this"
+    @echo "workspace to the seat it joined, so no command takes a session"
+    @echo "argument; just use GAME_ID rebinds it and bare just use prints it."
+    @echo
+    @echo "./play is the same CLI without just: ./play turn, ./play use."
     @echo
     @echo "just help prints the play card (docs/play.md); just rules prints the"
     @echo "gameplay rules; just prompt prints the bootstrap prompt."
@@ -60,7 +65,18 @@ join game_id="" name="" place="" invite="" json_output="":
       --place "{{ place }}" \
       --invite "{{ invite }}" {{ json_output }}
 
-# Long-poll using the exact session file printed by join.
+# Bind this workspace to one joined seat, or print the seat it plays.
+[arg("json_output", long="json", value="true")]
+[positional-arguments]
+use target="" json_output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py use)
+    [[ -z "$1" ]] || args+=("$1")
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
+
+# Long-poll the bound seat, or an explicit --session.
 [arg("session", long)]
 [arg("after_turn", long)]
 [arg("wait_s", long)]
@@ -70,7 +86,7 @@ next session="" after_turn="0" wait_s="120":
       --after-turn "{{ after_turn }}" \
       --wait-s "{{ wait_s }}"
 
-# Submit using the same exact session file; advance only after accepted=true.
+# Submit for the bound seat; advance only after accepted=true.
 [arg("session", long)]
 [arg("turn", long)]
 [arg("observation_id", long)]
@@ -93,15 +109,17 @@ health session="" json_output="":
 [arg("session", long)]
 [arg("end_phase", long="end", value="true")]
 [arg("await_phase", long="await", value="true")]
+[arg("decisions", long="decisions", value="true")]
 [arg("wait_s", long="wait_s")]
 [arg("poll_s", long="poll_s")]
 [arg("json_output", long="json", value="true")]
-turn session="" end_phase="" await_phase="" wait_s="" poll_s="" json_output="":
+turn session="" end_phase="" await_phase="" decisions="" wait_s="" poll_s="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     args=(python3 -B client.py turn --session "{{ session }}")
     [[ -z "{{ end_phase }}" ]] || args+=(--end)
     [[ -z "{{ await_phase }}" ]] || args+=(--await)
+    [[ -z "{{ decisions }}" ]] || args+=(--decisions)
     [[ -z "{{ wait_s }}" ]] || args+=(--wait-s "{{ wait_s }}")
     [[ -z "{{ poll_s }}" ]] || args+=(--poll-s "{{ poll_s }}")
     [[ -z "{{ json_output }}" ]] || args+=(--json)
@@ -127,16 +145,23 @@ start session="" nation="" leader="" style="" male="" female="" json_output="":
     [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 
+# The order words are variadic, so `just do u1 fortify` works unquoted; quote
+# the line when it carries more than one order, because the shell eats a bare
+# `;`. With [positional-arguments] every recipe parameter occupies a slot, so
+# the order words start at $5 -- after session, continue_on_error, no_refresh
+# and json_output.
 # Issue 1..8 semicolon-separated orders, one receipt line each.
 [arg("session", long)]
 [arg("continue_on_error", long="continue-on-error", value="true")]
+[arg("no_refresh", long="no-refresh", value="true")]
 [arg("json_output", long="json", value="true")]
 [positional-arguments]
-do orders="" session="" continue_on_error="" json_output="":
+do session="" continue_on_error="" no_refresh="" json_output="" *orders:
     #!/usr/bin/env bash
     set -euo pipefail
-    args=(python3 -B client.py do --session "{{ session }}" --orders "$1")
+    args=(python3 -B client.py do --session "{{ session }}" --orders "${*:5}")
     [[ -z "{{ continue_on_error }}" ]] || args+=(--continue-on-error)
+    [[ -z "{{ no_refresh }}" ]] || args+=(--no-refresh)
     [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 
@@ -144,14 +169,16 @@ do orders="" session="" continue_on_error="" json_output="":
 [arg("session", long)]
 [arg("grep", long)]
 [arg("regex", long, value="true")]
+[arg("yields", long, value="true")]
 [arg("json_output", long="json", value="true")]
 [positional-arguments]
-show name="" session="" grep="" regex="" json_output="":
+show name="" session="" grep="" regex="" yields="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     args=(python3 -B client.py show --session "{{ session }}")
     [[ -z "{{ grep }}" ]] || args+=(--grep "{{ grep }}")
     [[ -z "{{ regex }}" ]] || args+=(--regex)
+    [[ -z "{{ yields }}" ]] || args+=(--yields)
     [[ -z "$1" ]] || args+=("$1")
     [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
@@ -189,8 +216,9 @@ state session="" section="" actor_id="" relation_id="" center_id="" radius="" li
 [arg("kind", long)]
 [arg("all_pages", long="all", value="true")]
 [arg("offset", long)]
+[arg("full", long, value="true")]
 [arg("json_output", long="json", value="true")]
-legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="" offset="" json_output="":
+legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="" offset="" full="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     args=(python3 -B client.py legal --session "{{ session }}")
@@ -201,6 +229,7 @@ legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="
     [[ -z "{{ kind }}" ]] || args+=(--kind "{{ kind }}")
     [[ -z "{{ all_pages }}" ]] || args+=(--all)
     [[ -z "{{ offset }}" ]] || args+=(--offset "{{ offset }}")
+    [[ -z "{{ full }}" ]] || args+=(--full)
     [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 
@@ -208,13 +237,17 @@ legal session="" actor_id="" target_id="" limit="" cursor="" kind="" all_pages="
 [arg("session", long)]
 [arg("action_id", long="action_id")]
 [arg("arguments", long)]
-[arg("json_output", long="json", value="--json")]
+[arg("no_refresh", long="no-refresh", value="true")]
+[arg("json_output", long="json", value="true")]
 [positional-arguments]
-batch session="" action_id="" arguments="{}" json_output="":
-    python3 -B client.py batch \
-      --session "$1" \
-      --action-id "$2" \
-      --arguments "$3" {{ json_output }}
+batch session="" action_id="" arguments="{}" no_refresh="" json_output="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py batch --session "$1" --action-id "$2")
+    args+=(--arguments "$3")
+    [[ -z "{{ no_refresh }}" ]] || args+=(--no-refresh)
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
 
 # Resolve one durable v2 receipt without resubmitting it.
 [arg("session", long)]
@@ -241,7 +274,8 @@ retry session="" batch_id="" json_output="":
 [arg("poll_s", long="poll-s")]
 [arg("poll_s_compat", long="poll_s")]
 [arg("until", long)]
-wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="phase":
+[arg("json_output", long="json", value="true")]
+wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="phase" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     if [[ -n "{{ wait_s }}" && -n "{{ wait_s_compat }}" ]]; then
@@ -258,11 +292,13 @@ wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="pha
     poll_value="{{ poll_s_compat }}"
     [[ -n "$poll_value" ]] || poll_value="{{ poll_s }}"
     [[ -n "$poll_value" ]] || poll_value="1"
-    exec python3 -B client.py wait \
-      --session "{{ session }}" \
-      --wait-s "$wait_value" \
-      --poll-s "$poll_value" \
-      --until "{{ until }}"
+    args=(python3 -B client.py wait
+      --session "{{ session }}"
+      --wait-s "$wait_value"
+      --poll-s "$poll_value"
+      --until "{{ until }}")
+    [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
 
 # Read the terminal public result after play has stopped. Accept both the
 # natural `just result GAME_ID` form and the existing `--game_id GAME_ID`.
