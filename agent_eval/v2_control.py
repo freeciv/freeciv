@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 import hashlib
 import hmac
 import json
+import math
 import re
 import secrets
 import threading
@@ -44,8 +45,12 @@ CURSOR_TTL_SECONDS = 300.0
 RETIRED_CURSOR_TTL_SECONDS = 900.0
 MAX_RETIRED_CURSORS = 8192
 MAX_CURSOR_RECORDS = MAX_CURSORS + MAX_RETIRED_CURSORS
-MAX_ACTIVE_CURSOR_CHAINS = 64
-MAX_RETIRED_CURSOR_CHAINS = 512
+MAX_ACTIVE_CURSOR_CHAINS = 512
+# The unfiltered legal-action catalog is how a seat reaches `phase.end`, so
+# ordinary reads may never consume the whole chain budget: the last slots are
+# admissible only to that traversal.
+RESERVED_CATALOG_CHAINS = 64
+MAX_RETIRED_CURSOR_CHAINS = 4096
 MAX_CURSOR_CHAIN_PAGES = 40000
 MAX_CURSOR_CHAIN_SLOTS = 65536
 MAX_CURSOR_CHAIN_BYTES = 32 * 1024 * 1024
@@ -1850,6 +1855,7 @@ class _ActionBinding:
     server_setting_max: int = 0
     server_setting_current: int = -1
     server_setting_value: int = -1
+    server_setting_name: str = ""
     counterpart_ref: str | None = None
     infrastructure_choices: tuple[tuple[str, int], ...] = ()
     scoped: bool = False
@@ -2092,6 +2098,7 @@ class _RetiredPageChain:
     exposed_through: int
     restart: Mapping[str, Any]
     forget_at: float
+    code: str = "cursor_expired"
 
 
 @dataclass(frozen=True)
@@ -3640,7 +3647,7 @@ class V2SeatControl:
             and 1 <= page_index <= retired.exposed_through
         ):
             raise V2ControlError(
-                "cursor_expired",
+                retired.code,
                 details={"restart": _thaw(retired.restart)},
             )
         raise V2ControlError("invalid_request")
@@ -3950,6 +3957,7 @@ class V2SeatControl:
                     binding = None
             if binding is None:
                 raise V2ControlError("action_expired")
+            self._reject_phase_control_proposal(binding)
             native_arguments = self._resolve_arguments(
                 snapshot, binding, arguments,
             )
@@ -3965,6 +3973,39 @@ class V2SeatControl:
                 native_counterpart_ref=binding.counterpart_ref,
                 scoped=binding.scoped,
                 relation_scoped=binding.relation_scoped,
+            )
+
+    @staticmethod
+    def _reject_phase_control_proposal(binding: _ActionBinding) -> None:
+        """Refuse governance proposals that would strand this seat's phase.
+
+        Two server settings provably break full-control-v2's phase handover:
+
+        ``fixedlength`` enabled makes Freeciv's own ``can_end_turn()``
+        (client/mapctrl_common.c) return false unconditionally, regardless of
+        ``timeout``.  That flag is what the native boundary reports as this
+        seat's phase readiness, and phase.end is only advertised while it
+        holds, so the seat can never end its phase again.  The server's
+        matching guard in ``check_for_full_turn_done`` only honours
+        ``fixedlength`` when ``timeout`` is nonzero, and these games run with
+        ``timeout 0``, so the server would still be waiting on a phase_done
+        the agent has lost every means of sending.
+
+        ``phasemode`` other than PLAYER breaks the one-active-seat invariant
+        the phase ledger enforces, which fails the whole game.
+
+        Turning ``fixedlength`` back off stays legal so a game that somehow
+        acquired it can recover.
+        """
+        if binding.operation != "propose_server_setting":
+            return
+        name = binding.server_setting_name
+        if name == "phasemode" or (
+            name == "fixedlength" and binding.server_setting_value
+        ):
+            raise V2ControlError(
+                "invalid_request",
+                details={"rejection_reason": "phase_control_conflict"},
             )
 
     def continue_page(self, cursor: str, *, endpoint: str) -> dict[str, Any]:
@@ -4025,7 +4066,7 @@ class V2SeatControl:
                 raise V2ControlError("invalid_request")
             if 1 <= page_index <= retired.exposed_through:
                 raise V2ControlError(
-                    "cursor_expired",
+                    retired.code,
                     details={"restart": _thaw(retired.restart)},
                 )
             raise V2ControlError("invalid_request")
@@ -9067,6 +9108,10 @@ class V2SeatControl:
                 server_setting_max=action["server_setting_max"],
                 server_setting_current=action["server_setting_current"],
                 server_setting_value=action["server_setting_value"],
+                server_setting_name=(
+                    action["target_name"]
+                    if rule.operation == "propose_server_setting" else ""
+                ),
             )
 
         legal_counts = dict(sorted(Counter(
@@ -9089,6 +9134,7 @@ class V2SeatControl:
             },
             "player": public_player,
             "research": public_research,
+            "score": self._own_score(parsed, public_spaceship),
             "counts": {
                 "research": len(research_items),
                 "governments": len(government_items),
@@ -9193,6 +9239,49 @@ class V2SeatControl:
             parsed=parsed,
             canonical_bytes=canonical_bytes,
         )
+
+    @staticmethod
+    def _own_score(
+        parsed: _ParsedObservation,
+        public_spaceship: Mapping[str, Any] | None,
+    ) -> dict[str, Any]:
+        """Project what this seat can prove about its own civilization score.
+
+        The eval optimizes the final civilization score, and Freeciv computes
+        it from citizens, known techs, great wonders, an arrived spaceship,
+        units built and killed, and culture.  Only the seat's own rows feed
+        this, so nothing here is visible to or about another player; the terms
+        the private observation does not carry are named rather than guessed,
+        and every one of them is non-negative, which makes the total a true
+        lower bound instead of an estimate that can read high.
+        """
+        citizens = sum(city["size"] for city in parsed.cities)
+        techs = 0
+        if parsed.research is not None:
+            # `techs` counts the always-known root advance, which scores zero.
+            techs = max(0, parsed.research["techs"] - 1)
+            techs += parsed.research["future"] * 5 // 2
+        spaceship = 0
+        if (
+            public_spaceship is not None
+            and public_spaceship["state"] == "arrived"
+        ):
+            spaceship = int(
+                public_spaceship["population"]
+                * public_spaceship["success_rate"] / 100
+            )
+        return {
+            "exact": None,
+            "lower_bound": citizens + 2 * techs + spaceship,
+            "components": {
+                "citizens": citizens,
+                "techs": techs,
+                "spaceship": spaceship,
+            },
+            "unobserved": [
+                "wonders", "units_built", "units_killed", "culture",
+            ],
+        }
 
     def _project_pregame(
         self,
@@ -9374,6 +9463,10 @@ class V2SeatControl:
                 server_setting_max=action["server_setting_max"],
                 server_setting_current=action["server_setting_current"],
                 server_setting_value=action["server_setting_value"],
+                server_setting_name=(
+                    action["target_name"]
+                    if rule.operation == "propose_server_setting" else ""
+                ),
             )
         sections = {
             "overview": [{
@@ -14197,14 +14290,23 @@ class V2SeatControl:
                 or not isinstance(style_id, str)
                 or not isinstance(leader_name, str)
                 or type(is_male) is not bool
-                or not leader_name or leader_name != leader_name.strip()
+            ):
+                raise V2ControlError("invalid_request")
+            if (
+                not leader_name or leader_name != leader_name.strip()
                 or any(unicodedata.category(char).startswith("C")
                        for char in leader_name)
             ):
-                raise V2ControlError("invalid_request")
+                raise V2ControlError(
+                    "invalid_request",
+                    details={"rejection_reason": "pregame_leader_invalid"},
+                )
             encoded_leader = leader_name.encode("utf-8", "strict")
             if len(encoded_leader) >= 48:
-                raise V2ControlError("invalid_request")
+                raise V2ControlError(
+                    "invalid_request",
+                    details={"rejection_reason": "pregame_leader_invalid"},
+                )
             if "a" <= leader_name[0] <= "z":
                 leader_name = leader_name[0].upper() + leader_name[1:]
                 encoded_leader = leader_name.encode("utf-8", "strict")
@@ -14224,8 +14326,20 @@ class V2SeatControl:
                 if self._mac("style", "style", item["native_id"])
                    == style_id
             ), None)
-            if nation is None or style is None or snapshot.parsed.pregame is None:
+            if snapshot.parsed.pregame is None:
                 raise V2ControlError("invalid_request")
+            # One refusal per field: a four-argument lobby command that only
+            # says "invalid" costs a new seat one probe per argument.
+            if nation is None:
+                raise V2ControlError(
+                    "invalid_request",
+                    details={"rejection_reason": "pregame_nation_unknown"},
+                )
+            if style is None:
+                raise V2ControlError(
+                    "invalid_request",
+                    details={"rejection_reason": "pregame_style_unknown"},
+                )
             current = snapshot.parsed.pregame
             if (
                 current["nation"] == nation["name"]
@@ -14233,7 +14347,12 @@ class V2SeatControl:
                 and current["leader"] == leader_name
                 and current["sex"] == ("male" if is_male else "female")
             ):
-                raise V2ControlError("invalid_request")
+                raise V2ControlError(
+                    "invalid_request",
+                    details={
+                        "rejection_reason": "pregame_configuration_unchanged",
+                    },
+                )
             return (
                 f"nation={nation['native_id']},"
                 f"leader={_percent_encode(encoded_leader)},"
@@ -14343,17 +14462,27 @@ class V2SeatControl:
             if type(arguments) is not dict or set(arguments) != {"value"}:
                 raise V2ControlError("invalid_request")
             value = arguments["value"]
+            if isinstance(value, bool) or not isinstance(value, int):
+                raise V2ControlError("invalid_request")
+            if value == binding.server_setting_current:
+                raise V2ControlError(
+                    "invalid_request",
+                    details={"rejection_reason": "server_setting_unchanged"},
+                )
             if (
-                isinstance(value, bool) or not isinstance(value, int)
-                or value < binding.server_setting_min
+                value < binding.server_setting_min
                 or value > binding.server_setting_max
-                or value == binding.server_setting_current
                 or (
                     contract == "server-setting-bitwise-required"
                     and value < 0
                 )
             ):
-                raise V2ControlError("invalid_request")
+                raise V2ControlError(
+                    "invalid_request",
+                    details={
+                        "rejection_reason": "server_setting_out_of_range",
+                    },
+                )
             return f"value={value}"
         if contract == "server-setting-string-required":
             if (
@@ -14367,9 +14496,15 @@ class V2SeatControl:
                 encoded = value.encode("utf-8", "strict")
             except UnicodeEncodeError as exc:
                 raise V2ControlError("invalid_request") from exc
+            if len(encoded) > binding.server_setting_max:
+                raise V2ControlError(
+                    "invalid_request",
+                    details={
+                        "rejection_reason": "server_setting_out_of_range",
+                    },
+                )
             if (
-                len(encoded) > binding.server_setting_max
-                or any(byte < 0x20 or byte == 0x7F for byte in encoded)
+                any(byte < 0x20 or byte == 0x7F for byte in encoded)
                 or any(0x80 <= ord(character) <= 0x9F for character in value)
                 or '"' in value
             ):
@@ -14730,6 +14865,7 @@ class V2SeatControl:
         for key in tuple(self._relation_state_overlays):
             if key[0] not in retained_revisions:
                 self._drop_relation_overlay(key)
+        self._release_superseded_scopes()
         if snapshot.native_revision not in self._snapshots:
             _fail()
 
@@ -14775,6 +14911,9 @@ class V2SeatControl:
             limit,
             values,
             {"endpoint": endpoint, "query": restart_query},
+            # The unscoped catalog is the only way a seat can reach its
+            # `phase.end` capability, so it draws on the reserve.
+            reserved=endpoint == "legal_actions",
         )
 
     def _ordinary_public_page(
@@ -14947,6 +15086,7 @@ class V2SeatControl:
         scope: Mapping[str, Any] | None = None,
         catalog_id: str | None = None,
         pending_bindings: tuple[tuple[str, _ActionBinding], ...] = (),
+        reserved: bool = False,
     ) -> dict[str, Any]:
         self._expire_page_chains()
         ranges, charge = self._plan_page_chain(
@@ -14969,13 +15109,19 @@ class V2SeatControl:
             or charge > MAX_CURSOR_CHAIN_BYTES
         ):
             raise V2ControlError("scope_too_large")
+        admissible = MAX_ACTIVE_CURSOR_CHAINS - (
+            0 if reserved else RESERVED_CATALOG_CHAINS
+        )
+        self._reclaim_drained_chains(slots, charge, admissible)
         if (
-            len(self._page_chains) >= MAX_ACTIVE_CURSOR_CHAINS
+            len(self._page_chains) >= admissible
             or len(self._retired_page_chains) >= MAX_RETIRED_CURSOR_CHAINS
             or self._page_chain_slots + slots > MAX_CURSOR_CHAIN_SLOTS
             or self._page_chain_bytes + charge > MAX_CURSOR_CHAIN_BYTES
         ):
-            raise V2ControlError("rate_limited")
+            raise V2ControlError(
+                "rate_limited", details=self._capacity_retry_details(),
+            )
         nonce = secrets.token_bytes(12)
         while nonce in self._page_chains or nonce in self._retired_page_chains:
             nonce = secrets.token_bytes(12)
@@ -15245,7 +15391,40 @@ class V2SeatControl:
             or len(self._cursors) + len(self._retired_cursors)
                >= MAX_CURSOR_RECORDS
         ):
-            raise V2ControlError("rate_limited")
+            raise V2ControlError(
+                "rate_limited", details=self._capacity_retry_details(),
+            )
+
+    def _capacity_retry_details(self) -> dict[str, Any]:
+        """Say when capacity frees up, since nothing the caller does releases it.
+
+        Reaching here means every reclaimable record has already been
+        reclaimed, so what remains is held until its own deadline and the
+        earliest of those deadlines is the earliest a retry can succeed.  It
+        is a floor, not a promise: another caller may take the slot first.
+        """
+        now = time.monotonic()
+        deadlines = [
+            record.expires_at for record in self._cursors.values()
+            # A reservation in flight is released by its own completion, not
+            # by the clock, so it cannot date a retry.
+            if not record.in_flight
+        ]
+        for chain in self._page_chains.values():
+            if not chain.deadlines:
+                continue
+            deadlines.append(
+                chain.deadlines[chain.frontier]
+                if chain.frontier is not None
+                else max(chain.deadlines.values())
+            )
+        if not deadlines:
+            return {}
+        wait = max(0.0, min(deadlines) - now)
+        return {
+            "retry_after_seconds": math.ceil(wait),
+            "retry_after": self._cursor_expiry_text(time.time() + wait),
+        }
 
     def _expire_cursors(self) -> None:
         now = time.monotonic()
@@ -15257,7 +15436,7 @@ class V2SeatControl:
                 self._retired_cursors.pop(cursor, None)
 
     def _retire_page_chain(
-        self, nonce: bytes, chain: _PageChain,
+        self, nonce: bytes, chain: _PageChain, code: str = "cursor_expired",
     ) -> None:
         self._page_chains.pop(nonce, None)
         self._page_chain_slots -= len(chain.ranges) - 1
@@ -15267,8 +15446,37 @@ class V2SeatControl:
             exposed_through=chain.exposed_through,
             restart=chain.restart,
             forget_at=time.monotonic() + RETIRED_CURSOR_TTL_SECONDS,
+            code=code,
         )
         self._retired_page_chains.move_to_end(nonce)
+
+    def _reclaim_drained_chains(
+        self, slots: int, charge: int, admissible: int,
+    ) -> None:
+        """Under pressure, give up replay of traversals already finished.
+
+        A chain whose frontier is gone handed out its terminal page with
+        ``next_cursor: null``: the caller holds no cursor it was promised a
+        future for, and every page it did consume is already in its hands.
+        What the chain still buys is a byte-identical replay of pages it has
+        served, and that is the only thing surrendered here -- and only when
+        the alternative is refusing a caller that has no cursor at all.  A
+        chain still owing a continuation is never touched, and a reclaimed
+        chain stays an authentic tombstone that names its restart query.
+        """
+        while (
+            len(self._page_chains) >= admissible
+            or self._page_chain_slots + slots > MAX_CURSOR_CHAIN_SLOTS
+            or self._page_chain_bytes + charge > MAX_CURSOR_CHAIN_BYTES
+        ):
+            victim = next((
+                (nonce, chain)
+                for nonce, chain in self._page_chains.items()
+                if chain.frontier is None
+            ), None)
+            if victim is None:
+                return
+            self._retire_page_chain(*victim)
 
     def _expire_page_chains(self) -> None:
         now = time.monotonic()
@@ -15286,6 +15494,36 @@ class V2SeatControl:
         for nonce, record in tuple(self._retired_page_chains.items()):
             if record.forget_at <= now:
                 self._retired_page_chains.pop(nonce, None)
+
+    def _release_superseded_scopes(self) -> None:
+        """Free every scoped record a newer revision has already invalidated.
+
+        A scoped catalog is promoted atomically or not at all, and both
+        ``take_*_scope_cursor`` and the chain continuation refuse an
+        unpublished catalog once a newer revision lands.  Holding those
+        records for the rest of their five minutes reserves capacity for
+        traversals that can no longer return anything but ``stale_revision``,
+        which is what exhausted the registry in live play.  Records for the
+        current revision, and ordinary self-contained page chains, keep their
+        full lifetime and their repeat-safety.
+        """
+        if not self._snapshots:
+            return
+        current = max(self._snapshots)
+        for cursor, record in tuple(self._cursors.items()):
+            if (
+                isinstance(record, (_ActorScopeCursor, _RelationScopeCursor))
+                and record.native_revision != current
+                and not record.in_flight
+            ):
+                self._retire_cursor(cursor, record, "stale_revision")
+        for nonce, chain in tuple(self._page_chains.items()):
+            if (
+                chain.pending_bindings
+                and not chain.bindings_published
+                and chain.state_revision.get("revision") != current
+            ):
+                self._retire_page_chain(nonce, chain, "stale_revision")
 
     def _evict_cursors(self, native_revision: int) -> None:
         for cursor, record in tuple(self._cursors.items()):

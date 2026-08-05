@@ -340,7 +340,14 @@ class FullControlV2SchemaTests(unittest.TestCase):
                 "code": "illegal_action",
                 "message": "The action is no longer legal.",
                 "retryable": True,
-                "details": {},
+                "details": {
+                    "rejection": {
+                        "layer": "catalog",
+                        "reason": "action_not_advertised",
+                        "native_code": None,
+                        "native_reason": None,
+                    },
+                },
             },
             "state_revision": REVISION,
         }
@@ -350,6 +357,18 @@ class FullControlV2SchemaTests(unittest.TestCase):
             "error": rejected_error,
         }
         self.assertEqual(validate_command_receipt(rejected), rejected)
+        # A rejected receipt that names no layer is a contract violation, so
+        # a bare illegal_action can no longer reach an agent.
+        with self.assertRaisesRegex(
+            FullControlSchemaError, "must attribute its refusal",
+        ):
+            validate_command_receipt({
+                **rejected,
+                "error": {
+                    **rejected_error,
+                    "error": {**rejected_error["error"], "details": {}},
+                },
+            })
         with self.assertRaisesRegex(
             FullControlSchemaError, "same non-null state_revision",
         ):

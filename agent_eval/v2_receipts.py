@@ -24,6 +24,8 @@ from .full_control_v2 import (
     FULL_CONTROL_SCHEMA_VERSION,
     FULL_CONTROL_V2,
     FullControlSchemaError,
+    receipt_rejection,
+    rejection_message,
     structured_error,
     validate_command_receipt,
     validate_state_revision,
@@ -177,24 +179,36 @@ def _safe_public_receipt(value: Any) -> dict[str, Any]:
     intentionally accepts general structured details, but this store must not
     persist native handles, credentials, command arguments, paths, or exception
     text embedded in otherwise schema-valid error data.
+
+    The one detail that survives is the refusal attribution, and only because
+    it is re-validated here against closed server-authored vocabularies: every
+    field is a token this server chose, never anything the caller or the native
+    boundary wrote.  Its message is likewise re-derived from the attribution
+    rather than copied, so no prose crosses the durability boundary either.
     """
     clean = validate_command_receipt(value)
     error = clean["error"]
     if error is None:
         return clean
     code = error["error"]["code"]
-    message = (
-        "The action outcome is unknown and the command will not be replayed."
-        if clean["receipt_state"] == "ambiguous"
-        else "The command was rejected."
-    )
+    attribution = receipt_rejection(error)
+    if attribution is not None:
+        details = {"rejection": attribution}
+        message = rejection_message(attribution)
+    else:
+        details = {}
+        message = (
+            "The action outcome is unknown and the command will not be replayed."
+            if clean["receipt_state"] == "ambiguous"
+            else "The command was rejected."
+        )
     return validate_command_receipt({
         **clean,
         "error": structured_error(
             code,
             message,
             retryable=error["error"]["retryable"],
-            details={},
+            details=details,
             state_revision=clean["state_revision"],
         ),
     })

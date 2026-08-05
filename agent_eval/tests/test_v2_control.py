@@ -2943,6 +2943,138 @@ class V2ProjectionTests(unittest.TestCase):
             "rows": rows,
         }
 
+    def _pregame_lobby(self, current, serial):
+        """Return the configure action plus its live nation and style IDs."""
+        configure = next(
+            item for item in self.control.legal_actions_page(
+                current,
+            )["page"]["items"]
+            if item["kind"] == "pregame.configure"
+        )
+        nation_request = self.control.prepare_state_scope(
+            current, "pregame_nations",
+        )
+        nations = self.control.materialize_state_scope(
+            nation_request,
+            self.pregame_catalog(nation_request, (
+                "pregame_nation id=1 name=Romans default_style=2",
+                "pregame_nation id=3 name=Greeks default_style=4",
+            ), serial=serial),
+        )["page"]["items"]
+        style_request = self.control.prepare_state_scope(
+            current, "pregame_styles",
+        )
+        styles = self.control.materialize_state_scope(
+            style_request,
+            self.pregame_catalog(style_request, (
+                "pregame_style id=2 name=European",
+                "pregame_style id=4 name=Classical",
+            ), serial=serial + 1),
+        )["page"]["items"]
+        return configure, nations[0]["id"], styles[0]["id"]
+
+    def test_overview_scores_the_objective_from_own_rows_only(self):
+        """The eval optimizes score, so the seat must be able to read it."""
+        overview = self.control.state_page(observation())["page"]["items"][0]
+        cities = self.control.state_page(
+            observation(), "cities",
+        )["page"]["items"]
+        citizens = sum(city["size"] for city in cities)
+        # Freeciv scores one point per citizen and two per known advance; the
+        # root advance the research row counts is not one of them.
+        techs = overview["research"]["techs_researched"] - 1
+        self.assertEqual(overview["score"], {
+            "exact": None,
+            "lower_bound": citizens + 2 * techs,
+            "components": {
+                "citizens": citizens,
+                "techs": techs,
+                "spaceship": 0,
+            },
+            "unobserved": [
+                "wonders", "units_built", "units_killed", "culture",
+            ],
+        })
+        # Nothing here is another player's: the seat sees a foreign score in
+        # its diplomacy rows and that number never reaches its own total.
+        foreign = self.control.state_page(
+            observation(), "diplomacy",
+        )["page"]["items"]
+        self.assertTrue(any(item["score"] is not None for item in foreign))
+        lobby = V2SeatControl("game_test", "agent_lobby", 1)
+        self.assertNotIn(
+            "score",
+            lobby.state_page(
+                observation(pregame_rows(), revision=5),
+            )["page"]["items"][0],
+        )
+
+    def test_pregame_configure_refusal_names_the_field_it_refused(self):
+        """One lobby probe per refusal, not one per argument."""
+        current = observation(pregame_rows(), revision=5)
+        configure, nation_id, style_id = self._pregame_lobby(current, 1)
+        valid = {
+            "nation_id": nation_id,
+            "leader_name": "Claude Five",
+            "is_male": False,
+            "style_id": style_id,
+        }
+        cases = {
+            "pregame_nation_unknown": {
+                **valid, "nation_id": "nation_" + "0" * 32,
+            },
+            "pregame_style_unknown": {
+                **valid, "style_id": "style_" + "0" * 32,
+            },
+            "pregame_leader_invalid": {**valid, "leader_name": " Claude "},
+        }
+        for reason, arguments in cases.items():
+            with self.subTest(reason=reason):
+                with self.assertRaises(V2ControlError) as refused:
+                    self.control.resolve_action(
+                        current, configure["state_revision"],
+                        configure["action_id"], arguments,
+                    )
+                self.assertEqual(refused.exception.code, "invalid_request")
+                self.assertEqual(
+                    refused.exception.details["rejection_reason"], reason,
+                )
+        # A field the schema itself rejects stays unattributed rather than
+        # guessing which of four arguments the caller meant.
+        with self.assertRaises(V2ControlError) as malformed:
+            self.control.resolve_action(
+                current, configure["state_revision"], configure["action_id"],
+                {**valid, "is_male": "false"},
+            )
+        self.assertEqual(malformed.exception.details, {})
+
+    def test_pregame_configure_reports_a_no_op_as_a_no_op(self):
+        settled = observation(
+            tuple(
+                "pregame ref=p:1:10 leader=Codex nation=Romans sex=male "
+                "style=European ready=0 nation_choices=2 style_choices=2 "
+                "team_choices=3"
+                if row.startswith("pregame ref=") else row
+                for row in pregame_rows()
+            ),
+            revision=5,
+        )
+        configure, nation_id, style_id = self._pregame_lobby(settled, 1)
+        with self.assertRaises(V2ControlError) as refused:
+            self.control.resolve_action(
+                settled, configure["state_revision"], configure["action_id"],
+                {
+                    "nation_id": nation_id,
+                    "leader_name": "Codex",
+                    "is_male": True,
+                    "style_id": style_id,
+                },
+            )
+        self.assertEqual(
+            refused.exception.details["rejection_reason"],
+            "pregame_configuration_unchanged",
+        )
+
     def test_pregame_projects_catalogs_configuration_and_desired_readiness(self):
         current = observation(pregame_rows(), revision=5)
         overview = self.control.state_page(current)["page"]["items"][0]
@@ -6416,9 +6548,14 @@ class V2ProjectionTests(unittest.TestCase):
         self.control.state_page(observation(revision=12))
         self.control.state_page(observation(revision=13))
         self.assertNotIn(request.native_revision, self.control._snapshots)
-        self.assertTrue(self.control.is_actor_scope_cursor(
-            cursor, endpoint="legal_actions",
-        ))
+        # The newer revision releases the seat's capacity immediately: the
+        # cursor could only ever answer stale_revision from here, so it is a
+        # tombstone rather than a reservation waiting out its five minutes.
+        self.assertNotIn(cursor, self.control._cursors)
+        with self.assertRaisesRegex(V2ControlError, "stale_revision"):
+            self.control.is_actor_scope_cursor(
+                cursor, endpoint="legal_actions",
+            )
         with self.assertRaisesRegex(V2ControlError, "stale_revision"):
             self.control.take_actor_scope_cursor(
                 cursor, endpoint="legal_actions",
@@ -8702,7 +8839,7 @@ class V2ProjectionTests(unittest.TestCase):
         self.assertEqual(tuple(overview), (
             "client_state", "turn", "phase", "phase_mode", "phase_count",
             "active_phase", "phase_ready", "map", "player", "research",
-            "counts", "legal_action_counts",
+            "score", "counts", "legal_action_counts",
         ))
         self.assertEqual(overview["client_state"], "running")
         self.assertEqual(overview["turn"], 7)
@@ -10381,6 +10518,15 @@ class V2PaginationTests(unittest.TestCase):
     def setUp(self) -> None:
         self.control = V2SeatControl("game_test", "agent_test", 1)
 
+    @staticmethod
+    def _chain_budget(chains, reserve=0):
+        """Shrink the whole chain budget, reserve included, to `chains`."""
+        return mock.patch.multiple(
+            v2_control,
+            MAX_ACTIVE_CURSOR_CHAINS=chains + reserve,
+            RESERVED_CATALOG_CHAINS=reserve,
+        )
+
     def _synthetic_chain(self, total, limit):
         snapshot = self.control._snapshot(observation())
         values = tuple({"ordinal": index} for index in range(total))
@@ -10415,7 +10561,7 @@ class V2PaginationTests(unittest.TestCase):
         )
 
     def test_chain_admission_is_atomic_under_capacity_pressure(self):
-        with mock.patch.object(v2_control, "MAX_ACTIVE_CURSOR_CHAINS", 1):
+        with self._chain_budget(1):
             accepted = self._synthetic_chain(4, 1)
             before = dict(self.control._page_chains)
             with self.assertRaisesRegex(V2ControlError, "rate_limited"):
@@ -10424,7 +10570,7 @@ class V2PaginationTests(unittest.TestCase):
             self.assertEqual(self._drain_chain(accepted), 4)
 
     def test_abandoned_chain_ttl_releases_reserved_capacity(self):
-        with mock.patch.object(v2_control, "MAX_ACTIVE_CURSOR_CHAINS", 1):
+        with self._chain_budget(1):
             with mock.patch.object(v2_control.time, "monotonic", return_value=10.0):
                 abandoned = self._synthetic_chain(4, 1)
             cursor = abandoned["page"]["next_cursor"]
@@ -10504,21 +10650,20 @@ class V2PaginationTests(unittest.TestCase):
         )
 
     def test_cursor_capacity_preserves_live_and_retired_authenticity(self):
-        with mock.patch.object(v2_control.time, "monotonic", return_value=10.0):
+        with self._chain_budget(8), mock.patch.object(
+            v2_control.time, "monotonic", return_value=10.0,
+        ):
             cursors = [
                 self.control.state_page(
                     observation(), "known_tiles", limit=2,
                 )["page"]["next_cursor"]
-                for _ in range(v2_control.MAX_ACTIVE_CURSOR_CHAINS)
+                for _ in range(8)
             ]
             with self.assertRaisesRegex(V2ControlError, "rate_limited"):
                 self.control.state_page(
                     observation(), "known_tiles", limit=2,
                 )
-        self.assertEqual(
-            len(self.control._page_chains),
-            v2_control.MAX_ACTIVE_CURSOR_CHAINS,
-        )
+        self.assertEqual(len(self.control._page_chains), 8)
         with mock.patch.object(v2_control.time, "monotonic", return_value=11.0):
             self.assertEqual(
                 len(self.control.continue_page(

@@ -288,6 +288,35 @@ receipt internals, and policy forbids exposing it):
   Reading a file can never leak beyond fog because it is a projection of
   pages the seat already received.
 
+### P1.5 — workspace = seat: ambient session and a player CLI
+
+Field evidence (`game-play-so-far.jsonl`, first live game on the new
+surface): the agent still passed the full quoted `--session` path on **79 of
+82** gameplay commands (~10.5k chars of pure argument overhead) even though
+the flag is optional — because join prints the `session_file` path
+prominently and the agent pattern-matches it, and because a second join in
+the same workspace re-arms the multi-session fail-closed rule. Optional is
+not the same as ambient.
+
+- **Bind the workspace to the seat at join.** `join` records the session as
+  the workspace's current seat; every subsequent command uses it with no
+  flag and no inference. One workspace = one seat is already the e2e
+  pattern (each harness plays in a copied workspace); make it the contract
+  instead of guarding against sharing. `play use SESSION` remains as the
+  explicit override; two-seats-in-one-workspace becomes unsupported rather
+  than ambiguously guarded.
+- **Promote the CLI over the justfile as the front door.** `client.py`
+  already is the CLI; give it a `play` entrypoint and let the justfile
+  survive as a thin alias. The justfile layer costs real tokens and breaks
+  the error contract: `just`'s own errors cannot carry remedies (the only
+  refusal class on the surface that can't name its next command), recipe
+  argument forwarding drifts from argparse (`turn --until` exists only on
+  the plumbing), quoting is a footgun (`just do u1 fortify` dies inside
+  just), and agents read the justfile itself when confused (30.7k chars in
+  the observed game).
+- **After binding, join's output should say** "this workspace is now playing
+  game X — commands need no session argument" and print bare commands only.
+
 ### P2 — protocol changes (each trades something; priced here)
 
 1. **Kill per-tile goto enumeration; keep single-step moves + `set_route`.**
@@ -431,7 +460,125 @@ rule those become explicit orders at identical cost — e.g.
 *cheaper*, because standing routes report by exception instead of the agent
 re-deciding delegated units.
 
-## 9. Rollout
+## 9. Field results and open gaps (first live game on the new surface)
+
+From `game-play-so-far.jsonl` (5 turn numbers reached): gameplay-only cost
+was **86 calls / ~37k tokens ≈ 7–9k tokens per turn** — roughly 9× better
+than the audited v1 turn, still ~2× over the §7 target. Where the remaining
+fat is: `legal` is still the workhorse (22 calls, 3.4k chars average —
+revision bumps and retries force re-enumeration), one bare `just show`
+dumped a 16k-char mirror (scoped output needs to be the default, with a
+budget), `monitor`/wait tails cost 23k chars, and the justfile self-reads
+cost 30.7k. Separately — and dwarfing all of it — the agent spent ~400k
+chars (~100k tokens) reading harness source to debug live failures: an HTTP
+500 `internal_error` from `legal`, `start` rejecting its own configure
+arguments, and a style-name resolution bug. **Reliability is now the
+dominant token cost: every harness bug converts directly into an agent
+source-diving expedition.**
+
+Known telemetry gap: the live viewer never shows data for v2 games. Replay
+telemetry (`replay.jsonl`) is written by the strategic-v1 Lua bridge, and
+`supervisor.py` strips every `AGENT_EVAL_*` variable from the server
+environment for `FULL_CONTROL_V2` games — so the file stays empty and the
+viewer waits forever for its first snapshot, even though v2 games already
+write per-turn autosaves and `score.log`. Fix: have the live replay endpoint
+fall back to `save_replay.replay_from_autosaves` (the reconstruction path
+the archived-run gateway already uses) when `replay.jsonl` is empty.
+
+### Second field report (28 turns, post-P0/P1 surface)
+
+What held: the compact `turn` briefing, stable entity aliases, durable
+receipts with fail-closed validation, `show` for cheap local reads, and
+errors naming their refresh command — through 28 turns of founding, workers,
+research, production, and turn transitions. The remaining gaps, each with
+its planned fix and the layer it lives at:
+
+1. **Catalog noise** — player scope enumerated 147 actions, including ~50
+   `player.propose_server_setting` rows and dozens of research goals.
+   *Fix (client):* the default global-catalog rendering groups by family and
+   collapses non-gameplay families to one line each
+   (`governance: 50 setting proposals — just legal --kind
+   player.propose_server_setting --all`); research goals render as one row
+   with the choices inline. `--full` restores the flat list. The deep path
+   is untouched.
+2. **Micromanagement doesn't scale** — each city/unit needs separate
+   inspection. *Fix (client):* a decision-focused projection —
+   `turn --decisions` (and the briefing's tail line grows into it): one row
+   per actor that can act this turn, with its state and its 3–5 most
+   relevant options, batched across actors in one call. This is the
+   freeciv-GUI focus loop as a projection — and it also drives the receipt
+   tail: every successful `do`/`batch` receipt ends with one `next:` line
+   naming the next actor that needs a decision (with cached option aliases
+   when fresh, the bare `options` command when not), so acting walks the
+   focus loop exactly like the Civ client. Zero extra network from receipt
+   paths.
+3. **Alias churn** — every applied action bumps the revision and kills
+   `a1..aN`, forcing re-enumeration. *Fix (client, guarantee-preserving):*
+   semantic alias continuity — on a revision bump the client re-resolves
+   each alias to the new descriptor with the same (actor, kind, operation,
+   target) from the refreshed catalog it was going to fetch anyway, keeping
+   `a1` meaning "that same move". The wire still only ever carries the
+   fresh revision-bound id; an alias whose semantic action vanished fails
+   closed exactly as today. `do` already re-binds internally; this extends
+   the same mechanism to the interactive surface.
+4. **Generic native rejections** — a schema-valid `{"value":30}` endturn
+   proposal rejected as bare `illegal_action`. *Fix (server):* receipts
+   carry the native reason (Freeciv's own rejection string or the failed
+   precondition) whenever the boundary has one; `illegal_action` without a
+   reason becomes a contract violation.
+5. **Stuck non-ready phases** — after an applied `fixedlength` proposal the
+   game sat `phase_not_ready` and `wait` timed out silently. *Fix
+   (server):* `phase_not_ready` and every `wait` timeout carry a
+   `waiting_on` field (which seats/settings/native transition), so a stuck
+   control loop is diagnosable from the response.
+6. **Surrender semantics** — surrender `applied` but the game stayed
+   `running`. *Fix (server):* health exposes the seat's standing
+   (`active | surrendered | eliminated | termination_pending`) so an agent
+   can distinguish "I resigned and am waiting for the engine" from "nothing
+   happened".
+7. **Spatial reasoning** — the text map works but planning roads/exploration
+   across units is hard. *Fix (client/mirror):* `map.txt` gains optional
+   yield/resource overlays (`show map --yields`), and `unit_route` data
+   renders as route summaries on the units table (`u2 →(40,60) 3t left`).
+8. **Pregame friction** — English/Ada required explicitly picking European,
+   and every flag was mandatory. *Fix (client):* `just start` works with
+   zero arguments — "get me into the game": random available nation
+   (cosmetic under fixed traits), leader defaults to the controller label,
+   sex defaults, style follows the nation. Every flag stays as an override,
+   and start prints the one-line resolved choice
+   (`starting as English — Ada (female), style European`).
+
+### DX audit (2 live games + 2 adversarial reviews, pre-P1.6 snapshot)
+
+Two agents played 18 and 20 turns; two adversarial reviewers audited cold
+start/misuse and design-promise keeping. Validated unprompted by everyone:
+`turn` (600–830 chars for a whole civilization), `turn --end --await`
+(~170 chars), receipts, `show --grep`. Empty turns cost ~350 chars.
+
+**The systemic finding: the taught loop doesn't work as printed.** Plain
+`turn` never primes the action cache, so the first `do` of every turn fails
+and each actor costs a `legal --actor_id --all` call (~3.3k chars); options
+enumeration was 75–85% of every turn's bytes (~3.4 handle-fetch calls/turn
+against §7's target of zero), and ~55 such calls exhausted the server cursor
+registry — an HTTP 429 that then blocked `turn --end` itself. §8's ideal
+transcript only closed its budget because the briefing carried per-unit
+option summaries; the shipped briefing dropped exactly that field.
+
+Blockers/majors driving the next wave (beyond what P1.6/server fixes already
+landed): trust — `show` renders stale alias numbers with no staleness
+banner (semantic continuity closes the misfire, the display still lies);
+`--kind` rejects the exact strings its own kind column prints and returns
+0/0 for kinds that exist; §4's Tier-1 verbs (route/patrol/build/queue/rally)
+are structurally unreachable through `do`; the optimized objective (score)
+is unobservable through the surface; no negative space — both players
+independently lost ~4 game turns to "found_city silently absent because
+goto spent all MP" with no way to ask why; `do` discards good orders when a
+neighbor fails and (pre-continuity) lost its tail to its own first order's
+revision bump; pregame catalogs advertise nations another seat already
+holds; `wait` alone violates the text-by-default contract; the
+"re-run with --json" remedy line decorates errors it cannot help (429s).
+
+## 10. Rollout
 
 1. **P0** (client.py rendering + aliases + defaults): no server change, no
    schema change, immediately benefits every seat. Golden-fixture tests on
