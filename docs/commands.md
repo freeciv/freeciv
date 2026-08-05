@@ -90,8 +90,8 @@ The create bearer comes from `--admin-token` or
 - `seed`: 1 through 2,147,483,647; omitted means a generated seed.
 - `ruleset`: currently only `classic`.
 - `objective`: any nonempty string delivered verbatim to the agents.
-- `timing-mode`: `default` (180 seconds), `blitz` (60 seconds), or
-  `infinite` (no agent deadline).
+- `timing-mode`: `default` (180 seconds on `strategic-v1`, 600 seconds on
+  `full-control-v2`), `blitz` (60 seconds), or `infinite` (no agent deadline).
 - `action-timeout-s`: advanced custom deadline of at least 0.1 seconds. Omit
   it when selecting a named timing mode.
 - `lobby-timeout-s`: at least 0.1 seconds, or 0 to disable lobby expiry.

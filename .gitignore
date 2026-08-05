@@ -14,6 +14,7 @@
 /configure
 /freeciv-CI.log
 /.agent-eval/
+/.play/
 /session-runs/
 /pi-session-*.html
 /agent_eval/viewer/dist/

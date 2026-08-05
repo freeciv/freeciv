@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from agent_eval.full_control_v2 import structured_error
+from agent_eval.full_control_v2 import rejection, structured_error
 from agent_eval.v2_receipts import (
     MAX_RECORD_BYTES,
     RECEIPT_DIRECTORY,
@@ -69,6 +69,13 @@ def receipt(
             "illegal_action",
             "The action is not legal in the current state.",
             retryable=True,
+            details={
+                "rejection": rejection(
+                    "native_preflight",
+                    "native_bad_argument",
+                    native_code="native_bad_argument",
+                ),
+            },
             state_revision=current_revision,
         )
     return {
@@ -387,11 +394,17 @@ class V2ReceiptStoreTests(unittest.TestCase):
             )
             unsafe = store.reserve(batch("batch_unsafe_error"))
             unsafe_receipt = receipt("batch_unsafe_error", "rejected")
+            attribution = rejection(
+                "native_dispatch",
+                "postcondition_not_met",
+                native_reason="POSTCONDITION_NOT_MET",
+            )
             unsafe_receipt["error"] = structured_error(
                 "illegal_action",
                 "native request 91 failed at /private/episode/path",
                 retryable=True,
                 details={
+                    "rejection": attribution,
                     "native_slot": "slot-41",
                     "native_request_id": 91,
                     "join_token": "JOIN_SECRET",
@@ -400,11 +413,40 @@ class V2ReceiptStoreTests(unittest.TestCase):
                 state_revision=REVISION,
             )
             safe = store.transition(unsafe, unsafe_receipt)
-            self.assertEqual(safe["error"]["error"]["details"], {})
+            # The refusal attribution is an allowlist of one, re-validated
+            # against closed vocabularies. Every other caller-supplied detail
+            # and the caller's prose are still dropped.
+            self.assertEqual(
+                safe["error"]["error"]["details"], {"rejection": attribution},
+            )
             self.assertEqual(
                 safe["error"]["error"]["message"],
-                "The command was rejected.",
+                "The native client dispatched the action and the expected "
+                "effect did not take hold; the action had no effect. A "
+                "governance proposal that needs a vote, or a setting that "
+                "only takes effect at a turn boundary, reports this. "
+                "(native result: POSTCONDITION_NOT_MET)",
             )
+            # A rejection that is not from the closed vocabulary is refused
+            # outright rather than silently downgraded.
+            forged = store.reserve(batch("batch_forged_rejection"))
+            forged_receipt = receipt("batch_forged_rejection", "rejected")
+            forged_receipt["error"] = structured_error(
+                "illegal_action",
+                "The command was rejected.",
+                retryable=True,
+                details={
+                    "rejection": {
+                        "layer": "native_dispatch",
+                        "reason": "/private/episode/path",
+                        "native_code": None,
+                        "native_reason": None,
+                    },
+                },
+                state_revision=REVISION,
+            )
+            with self.assertRaises(V2ReceiptInvalidTransition):
+                store.transition(forged, forged_receipt)
         path = self.episode / RECEIPT_DIRECTORY / record_name(
             AGENT_ID, "batch_secrets",
         )

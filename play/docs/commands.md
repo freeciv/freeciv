@@ -21,7 +21,11 @@ just join --game_id GAME_ID --name HARNESS-MODEL
 
 The controller name must truthfully identify the harness and model, such as
 `codex-gpt-5.6-sol`, `pi-gpt-5.6-sol`, or
-`claude-code-claude-opus`. Multiplayer assignments may select a numbered seat:
+`claude-code-claude-opus`. In a workspace materialized by the repository
+root's `play` launcher recipe, a mode-0600 `.playconfig.json` pre-records
+the assigned game ID, controller name, and optional seat, so bare
+`just join` works with no arguments; explicit arguments always override it.
+Multiplayer assignments may select a numbered seat:
 
 ```sh
 just join --game_id GAME_ID --name claude-code-claude-opus --place 2
@@ -33,10 +37,13 @@ select a staged file with `--invite PATH`. The lower-level `client.py` retains
 `AGENT_EVAL_JOIN_TOKEN` and a direct CLI option for controlled integrations,
 but neither is part of the recommended Just argv path; never put a bearer in a
 shared command line. On success, the client creates a
-mode-0600 session beneath `.sessions/GAME_ID/` and prints its exact
-`session_file` path. It also prints and saves the exact timing contract:
+mode-0600 session beneath `.sessions/GAME_ID/`, binds this workspace to it
+(see "One workspace, one seat"), and returns its `session_file` path under
+`--json` for harnesses that need it. It also prints and saves the exact
+timing contract:
 `default` is 180 seconds per agent
-turn, `blitz` is 60 seconds, and `infinite` has no agent deadline.
+turn on `strategic-v1` and 600 seconds (10 minutes) on `full-control-v2`,
+`blitz` is 60 seconds, and `infinite` has no agent deadline.
 For `full-control-v2`, it also prints and saves the evaluation objective and
 maximum turn budget. Join and private health expose `turns_remaining`; it is
 `null` until native play has an authoritative current turn and then decreases
@@ -77,27 +84,20 @@ re-readable without another join and without re-reading this page.
 Start at turn zero:
 
 ```sh
-just next --session SESSION_FILE --after_turn 0
+just next --after_turn 0
 ```
 
 Then pass the last observed turn:
 
 ```sh
-just next --session SESSION_FILE --after_turn 42
+just next --after_turn 42
 ```
 
 The default long-poll is 120 seconds. A `waiting` response is not a game turn
-and does not change `LAST_TURN`; poll again with the same value and exact
-session file. Always select the path returned by your join:
-
-```sh
-just next --session .sessions/GAME_ID/SESSION.json --after_turn 42
-```
-
-The client permits an omitted `--session` only when exactly one private
-session exists in the whole player workspace. With two or more sessions it
-fails before any request, even if `.sessions/current` exists, because that
-shared pointer cannot identify which harness is calling.
+and does not change `LAST_TURN`; poll again with the same value. Both commands
+run against the seat join bound this workspace to ("One workspace, one seat"
+below); `--session SESSION_FILE` still overrides it for a harness that drives
+several workspaces from one process.
 
 ## Strategic-v1: act
 
@@ -106,7 +106,6 @@ all four integer trait targets:
 
 ```sh
 just act \
-  --session SESSION_FILE \
   --turn 43 \
   --observation_id OBSERVATION_ID \
   --action '{"type":"set_traits","traits":{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}'
@@ -115,7 +114,7 @@ just act \
 Targets must be integers from `-49` through `50`. Submit once. An exact retry
 is safe; a conflicting revision is rejected. Advance `LAST_TURN` only after
 the response contains `accepted: true`. On every error keep the old value and
-poll again with the same explicit session.
+poll again for the same seat.
 
 ## Full-control-v2: output format
 
@@ -128,10 +127,25 @@ the deep path underneath them: the same capabilities, spelled out.
 print compact text by default and the full wire payload with `--json`. That
 `--json` output is byte-identical to what these commands printed before the
 text renderer existed, so machine consumers keep working unchanged. The
-text-first `start`, `do`, and `show` accept `--json` too; `wait` has no text
-form and always prints JSON, refusals included. Refusals otherwise follow the
-same rule as successes: compact text by default, the byte-identical error
-payload under `--json`.
+text-first `start`, `do`, `show`, and `wait` accept `--json` too: `wait`
+prints its wake reason, phase, and health as compact lines like every other
+command, with the wire envelope behind the flag. Refusals follow the same rule
+as successes: compact text by default, the byte-identical error payload under
+`--json`.
+
+A rendered refusal leads with its remedy, and the remedy is whatever the
+payload can actually support. `error.details.safe_next` becomes the
+receipt-first recovery command. A `rate_limited` refusal carries
+`details.retry_after_seconds` and an RFC 3339 `details.retry_after`, and prints
+`next: retry the same command in 12s (not before …)` — a rate limit's only
+remedy is a clock. A retryable `cursor_expired` or `stale_revision` on a paged
+GET carries `details.restart`, and that query is printed as the command that
+restarts the chain (`next: just state --section known_tiles --limit 16`); a
+restart naming an option this CLI cannot spell prints no command rather than
+an unrunnable one. The standing `full payload: re-run the same command with
+--json` line is appended only when some detail is a nested value the compact
+form had to elide — never after a rate limit, a restart query, a scalar
+detail, or a transport failure, all of which are already printed whole.
 
 A machine consumer that builds one shared argument vector for every subcommand
 can set `PLAY_JSON=1` in the environment instead of appending the flag: it is
@@ -190,17 +204,28 @@ the narrower scope after `scope_too_large`, the enumeration behind an order
 `just do` could not resolve. Read the error and run what it names; do not
 re-read this page, and do not guess a replacement ID.
 
-### The session is implicit
+### One workspace, one seat
 
-`--session` is optional on every command, including `batch`, `retry`, and
-`wait`. The client uses the explicit path when you pass one, then
-`PLAY_SESSION`, then the single private session in this workspace. Nothing the
-client prints repeats the session path, so no command below needs it.
+A successful join binds this workspace to the seat it joined, so no command
+below takes a session argument. The binding lives in the mode-0600
+`.sessions/current-seat.json` and holds a workspace-relative session path and
+a game ID — never a token.
 
-With two or more joined seats in one workspace the client fails before any
-request instead of guessing which seat is calling; pass the exact
-`--session SESSION_FILE` your join printed, or export `PLAY_SESSION` once. The
-session file is private: never print it, paste it, or copy its contents.
+The client resolves the seat in this order: an explicit `--session`, then
+`PLAY_SESSION`, then the workspace binding, then a sole unbound session. Only
+an *unbound* workspace holding two or more sessions is refused, before any
+request, and the refusal names `just use`.
+
+```sh
+just use                 # the seat this workspace plays
+just use GAME_ID         # rebind it to another game you joined
+just use SESSION_FILE    # rebind it to an exact session
+```
+
+Joining a second game rebinds the workspace and says so in one line. Two
+seats played from one workspace is unsupported: copy the workspace per seat,
+which is what the e2e harnesses already do. The session file is private:
+never print it, paste it, or copy its contents.
 
 ## Full-control-v2: aliases
 
@@ -228,11 +253,16 @@ just batch --action_id a3 --arguments '{"name":"London"}'
 Quote `T(x,y)` in a shell; the parentheses are shell syntax otherwise.
 
 - Action aliases are numbered in enumeration order as pages arrive, and are
-  stored with the revision they came from. **They die on the next revision.**
-  Any action you take bumps the revision, so after every executed command the
-  old `a1..aN` are refused with an error naming the exact `just legal` command
-  that re-enumerates them. A stale alias never resolves to a new action: only
-  a fresh enumeration re-issues the numbers.
+  stored with the revision they came from **and with what they mean** — actor,
+  kind, operation, normalized target, and argument-schema shape. **The number
+  dies with its revision**, but the meaning survives: given a stale alias,
+  `just do` and `just batch` re-run the same scoped drain they would have run
+  anyway, re-resolve the alias by that semantic identity, restore the old
+  numbers for every action that is unchanged, print one line
+  (`a3 rebound at rev14`), and proceed. A semantic action that is gone, or that
+  now names two actions, fails closed naming the `just legal` command that
+  re-enumerates. The wire only ever carries the fresh revision-bound
+  `action_id`. Pass `--no-refresh` for the bare refusal with no extra request.
 - Entity aliases are assigned in first-seen order and are stable for the whole
   game, because the underlying entity IDs are. `u3` on turn 40 is the same unit
   it was on turn 3; an alias is never re-used for a different entity.
@@ -253,7 +283,7 @@ ceiling. Anything they do not cover stays reachable with `just legal` +
 `just batch`, unrestrained.
 
 ```sh
-just start --nation English --leader Ada --female     # lobby: configure + ready
+just start                                           # lobby: configure + ready
 just turn                                            # the briefing
 just do "u1 found_city London; u2 move 32,73"        # 1..8 orders
 just turn --end --await                              # end phase, block, header
@@ -275,19 +305,67 @@ alias (`a7 London`).
   required properties first — converted to the declared type. An action that
   takes no arguments can instead be selected by its label, its named target,
   or a subject value the option table showed.
-- **Resolution is entirely local.** Orders are matched against the cached
-  catalog for the newest revision this seat knows. Nothing is guessed: if any
-  order does not select exactly one cached capability, the whole batch is
-  refused before a single request, with one line per order saying resolved or
-  unresolved and the exact `just legal` command to run.
+- **Six Tier-1 words are the only sugar**, each pinned to one advertised
+  capability and to the arguments the word itself fixes: `route` and `patrol`
+  are `unit.order/set_route` with `mode` goto and patrol, `build` is
+  `city.set_production`, `queue` is `city.set_worklist`, `rally` is
+  `city.set_rally` (non-persistent), and `goal` is `research.set_goal`. A
+  Tier-1 word whose capability the actor's cached catalog does not advertise
+  fails closed naming the enumeration command. Nothing else is added: the
+  vocabulary is fixed, documented in `play.md`, and never inferred.
+- **An ordered list takes the whole tail.** An action whose schema declares a
+  single array property (`set_route`'s `waypoints`, `set_worklist`'s `items`)
+  binds one element per remaining word, each resolved to the opaque ID the
+  wire needs: coordinates through the tile alias cache, every other word by
+  name against the same actor's own catalog. A word the catalog never named
+  is refused, not guessed.
+- **Resolution is entirely local**, with exactly one exception. Orders are
+  matched against the cached catalog for the newest revision this seat knows.
+  When an order names an actor whose catalog this seat has *never* read at
+  this revision, `do` drains that one actor's scoped catalog — the same drain
+  `just legal --actor_id X --all` runs — prints `fetched u1 options (rev9)`,
+  and re-resolves. Every unread actor in the batch is fetched before anything
+  is sent, so the whole-batch pre-flight still holds: a bad verb refuses with
+  no order on the wire. An actor whose complete catalog is already cached is
+  never re-fetched — a verb it does not offer is a real refusal — and
+  `--no-refresh` keeps the plain refusal in every case. Nothing else is
+  guessed: if any order still does not select exactly one cached capability,
+  the whole batch is refused before a single request, with one line per order
+  saying resolved or unresolved and the exact `just legal` command to run.
+- **A refusal raised while the cached phase header says this seat is not
+  active** leads with `your phase is not active (state X) — just wait` and
+  drops the re-enumeration remedy, which could not have helped. `just batch`
+  and `just legal` carry the same prefix from the same local header.
 - Orders execute sequentially as one single-command wire batch each — the wire
   rule is unchanged — and print one receipt line each. Execution stops at the
   first order that is not accepted; pass `--continue-on-error` to keep going.
+- A successful `just do` or `just batch` ends its text output with one `next:`
+  line naming the next actor that needs a decision, from the same heuristic as
+  `just turn --decisions`. It is computed from local files only — the receipt
+  path never opens an extra socket — so caches too stale to name options
+  degrade to the actor and its `just legal` command. `--json` output is
+  unaffected.
 - An order that lands bumps the revision and expires every outstanding handle.
   The client re-enumerates exactly what the remaining orders name and re-binds
   them before sending; it never submits a handle it already knows is stale. If
   the new revision no longer offers a remaining order, execution stops and
   says so.
+
+### `just turn --decisions`
+
+The freeciv focus loop as a projection: one row per owned actor that can still
+act this phase — a unit with moves left, idle and carrying no standing route; a
+city with an empty or completing build queue; a relation with an unanswered
+diplomacy action — each with its state and its most relevant options as
+aliases, bounded to 120 characters a row.
+
+Options are ranked by what a player reaches for: found/build/route/work verbs
+first, then any verb this client does not recognise, then the housekeeping that
+merely parks an actor (sentry, fortify, disband, cancel). Rows come from the
+local mirror and the revision-scoped action cache; only what is stale is
+fetched, and a catalog already drained at this revision is never re-fetched.
+Refused with `--end`: list what needs orders before ending the phase, not with
+it.
 
 ### `just turn --end --await`
 
@@ -297,15 +375,31 @@ prints the next phase's header line. `--wait_s` and `--poll_s` behave as they
 do on `just wait`. Plain `just turn` is unchanged. `--await` without `--end`
 is refused: use `just wait` to block without ending.
 
-### `just start --nation NAME --leader NAME --male|--female [--style NAME]`
+### `just start [--nation NAME --leader NAME --male|--female --style NAME]`
 
-Lobby only. Resolves the nation and style by name, case-insensitively, from
-the pregame catalogs (read from the local mirror when it holds them, fetched
-internally once otherwise), then submits `pregame.configure` and — after the
+Lobby only, and **every flag is optional** — bare `just start` means "get me
+into the game". What each omitted flag resolves to:
+
+- `--nation`: a random nation from the pregame catalog. Nations are cosmetic
+  under this eval's fixed-trait setup. A lobby offering none fails closed
+  naming `just state --section pregame_nations`.
+- `--leader`: this seat's controller label, reduced to what the boundary
+  accepts (letters, digits, spaces, `'`, `.`, `-`; at most 47 UTF-8 bytes),
+  falling back to the leader name the lobby `overview` already holds.
+- `--male`/`--female`: the seat's current sex from that same `overview`, and
+  failing that a deterministic pick over the resolved leader name, so two runs
+  of the same bare command configure the same seat.
+- `--style`: the chosen nation's `default_style_id`.
+
+One line reports what was resolved before anything is submitted —
+`starting as English — Ada (female), style European`.
+
+Named nations and styles resolve case-insensitively from the pregame catalogs
+(read from the local mirror when it holds them, fetched internally once
+otherwise). The command then submits `pregame.configure` and — after the
 mandatory re-enumeration, because configuring bumps the revision — the freshly
-enumerated `pregame.set_ready`. Without `--style` the nation's own default
-style is used. When readiness is not enumerable the command stops and names
-the `just legal` command that would show it.
+enumerated `pregame.set_ready`. When readiness is not enumerable the command
+stops and names the `just legal` command that would show it.
 
 ### `just show [NAME|--grep PATTERN]`
 
@@ -315,11 +409,23 @@ so it costs no request budget and no server load.
 ```sh
 just show                    # header card, what changed, and the file list
 just show units              # one projection: header overview units cities
-                             # map delta nations styles governments
+                             # map yields delta nations styles governments
+just show map --yields       # terrain grid overlaid with food/shields/trade
 just show u1                 # that entity's rows plus its option catalog
 just show --grep found_city  # search every mirror file, file:line
 just show --grep 'u[0-9]+ Settlers' --regex
 ```
+
+`just show map --yields` overlays each tile's `food/shields/trade` on the
+terrain grid, using only yields already ingested from a `city_citizens` page —
+it fetches nothing, and a tile whose yields this seat has not read renders `?`.
+
+Every projection stamps the revision it was rendered at. When the seat has
+since learned a newer one, `show` leads with `stale: rendered at rev9, now
+rev12 — aliases will be re-verified by meaning on use`. The banner is computed
+when the file is read and is never written back: rewriting a projection to say
+it is old would change the very stamp being judged, and an option file read
+this way still opens with its own `# rev 9 turn 3`.
 
 `--grep` matches literal text, case-insensitively; `--regex` reads the pattern
 as a regular expression instead. The literal form cannot backtrack, so it is
@@ -335,7 +441,8 @@ of it and is never readable through `just show`.
 
 ```
 .sessions/GAME_ID/SEAT/
-  state/header.txt overview.tsv units.tsv cities.tsv map.txt delta.md
+  state/header.txt overview.tsv units.tsv cities.tsv map.txt yields.tsv
+  state/delta.md
   state/options/<alias>.txt
   cache/nations.tsv styles.tsv governments.tsv
 ```
@@ -381,6 +488,27 @@ end. A `needs decision:` count taken over a truncated section says so. Economy a
 government are already in `overview.player`; available government choices are
 in the `governments` section—`economy` and `government` are not state sections.
 
+The header carries this seat's own civilization score — the value the
+evaluation optimizes — as `score 23 (citizens 7 techs 5)` when the boundary
+can prove the exact number, or `score >=17 (…)` when it can only prove a lower
+bound from the seat's own rows. Every term the private observation does not
+carry is non-negative and named in `overview.score.unobserved`, so the bound
+never reads high. The same projection leads the `overview` state page and is
+recorded in the mirror, which means `state/delta.md` shows the score moving
+between revisions. A server that does not emit `overview.score` prints no
+score line, and the lobby has none.
+
+Below `needs decision:` the text briefing prints the same per-actor rows
+`just turn --decisions` renders — one line per actor that still needs orders,
+with its most relevant options as aliases — for up to eight actors, then
+`+N more actors — just turn --decisions`. These rows are built from the
+mirror tables this briefing just wrote and the revision-scoped action cache;
+they never fetch, so an actor whose catalog is not cached degrades to its own
+`just legal --actor_id X --all`. The briefing also closes with
+`events: N new — just state --section chat` when the typed event feed has
+grown since the last briefing, counted from the event total the overview
+projection recorded. Both are rendering only: `--json` is unchanged.
+
 Every page these commands return is also projected into the local mirror, so a
 follow-up that only needs what you already fetched costs no request:
 `just show units`, `just show map`, `just show c1`, or
@@ -418,6 +546,7 @@ just legal --kind player.send_chat --all
 just legal --kind player.cast_vote --all
 just legal --kind unit.order --all --offset 0 --limit 16
 just legal
+just legal --full
 just legal --actor_id ACTOR_ID --all
 just legal --actor_id ACTOR_ID --target_id TILE_ID --all
 just legal --actor_id ACTOR_ID --limit 16
@@ -446,10 +575,30 @@ allied, or private chat respectively. The server parses the protective global
 space as public chat and trims it before display. There is no server console or
 direct connection-message action.
 
+The default **text** rendering of the *global* (unscoped, unfiltered) catalog
+groups rows by action kind and collapses two classes of family to one line
+each: bulk housekeeping (`player.propose_server_setting*`, votes, chat
+recipients) to `governance: 50 setting proposals — just legal --kind
+player.propose_server_setting --all`, and choice families (`research.set_goal`,
+`research.set_target`) to one row listing the choice names inline with their
+aliases. A row carrying a non-default probability, legality, consuming flag or
+variant, or any gold field, is never collapsed — it always prints individually,
+even inside a collapsed family. `--full` restores the flat list. Scoped
+(`--actor_id`/`--kind`) renderings and `--json` are unchanged, and so is the
+staged descriptor cache: this is rendering only.
+
 Use only an action ID returned by `legal` at the latest exact state revision.
 Use `--kind ACTION_KIND --all` when choosing one class of action. The pair is
 required together so a matching action cannot be silently hidden on a later
-page. Use `--actor_id ACTOR_ID --all` (optionally with `--target_id`) to read
+page. `--kind` accepts exactly what the rendered kind column prints: the
+public kind (`unit.order`), which selects every operation under it, or the
+`kind/operation` form (`unit.order/move`), which selects the one row it was
+copied from. A kind that matches nothing in the drained catalog is an error
+listing the kinds that catalog really carries, and — when the local cache
+knows better — the actor scope that holds it (`unit.order is an actor-scoped
+kind; this seat holds it for u1 …`). An empty page is never printed about a
+catalog that was not searched, and a malformed kind lists the kinds this seat
+has read rather than refusing bare. Use `--actor_id ACTOR_ID --all` (optionally with `--target_id`) to read
 one actor's complete catalog in one command: same drain, same validation, same
 atomic promotion, no kind filter and no cursor to follow. `--all` always needs
 one of those two scopes. The client drains the selected global, actor, or exact-target catalog
@@ -532,7 +681,10 @@ persistence, `batch` emits exactly one compact disposition with its batch ID:
 `receipt_terminal`, `receipt_poll`, `receipt_first`, `retry_exact`, or
 `refresh`.
 
-`wait` defaults to the caller's actionable phase and returns a `wake_reason`;
+`wait` prints the same compact header `turn --end --await` does — wake reason,
+game state, phase, then the `health` one-liners — and carries the full wake
+envelope under `--json`. It defaults to the caller's actionable phase and
+returns a `wake_reason`;
 an opponent revision cannot wake it. Use `--until revision` only when
 deliberately following any private state change. The machine-readable contract
 is [`full-control-v2.openapi.json`](full-control-v2.openapi.json), with custom

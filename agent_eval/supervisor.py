@@ -25,7 +25,7 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Any, Callable, Mapping
+from typing import Any, Callable, Iterable, Mapping
 from urllib.parse import parse_qs, unquote, urlparse
 
 from .actions import ActionError, TRAIT_MAX, TRAIT_MIN, TRAITS, validate_action
@@ -34,7 +34,10 @@ from .config import controller_fingerprint
 from .full_control_v2 import (
     FULL_CONTROL_V2,
     STRATEGIC_V1,
+    REJECTION_REASONS,
     FullControlSchemaError,
+    rejection,
+    rejection_message,
     structured_error,
     validate_initial_command_batch,
     validate_control_protocol,
@@ -62,6 +65,7 @@ from .v2_phase_events import (
     V2PhaseEventJournal,
     V2PhaseEventJournalError,
 )
+from .v2_replay import V2ReplayProducer
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -100,9 +104,37 @@ TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
     "blitz": 60.0,
     "infinite": None,
 }
+# Full-control-v2 phases cover a whole human-style turn (reads, catalog
+# enumeration, and every order), so the default budget is ten minutes.
+V2_TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
+    "default": 600.0,
+    "blitz": 60.0,
+    "infinite": None,
+}
 V2_WAIT_REASONS = frozenset({
     "phase_active", "game_terminal", "revision_changed", "timeout",
 })
+_NATIVE_CODE_TOKEN = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
+# Sidecar native error tokens mapped onto the closed public refusal
+# vocabulary.  Anything absent falls back to ``native_refused``, which still
+# names the layer, so no rejection can lose its attribution.
+_V2_NATIVE_REJECTION_REASONS = {
+    "native_busy": "native_busy",
+    "native_bad_argument": "native_bad_argument",
+    "invalid_argument": "native_bad_argument",
+    "native_bad_request": "native_bad_request",
+    "invalid_request": "native_bad_request",
+    "invalid_action": "native_bad_request",
+    "native_not_ready": "native_not_ready",
+    "native_not_sent": "native_not_ready",
+    "command_in_progress": "native_busy",
+    "stale_slot": "native_entity_expired",
+    "stale_entity": "native_entity_expired",
+    "stale_revision": "revision_stale",
+    "sidecar_unavailable": "seat_unavailable",
+    "deadline_exceeded": "seat_unavailable",
+    "native_error": "native_refused",
+}
 CONSOLE_TIMEOUT_RE = re.compile(
     r"['\"]timeout['\"].*?set to\s+(-?\d+)", re.IGNORECASE,
 )
@@ -545,6 +577,10 @@ class Game:
         self.v2_pregame_execution_lock = threading.Lock()
         self.v2_pregame_gate_open = False
         self.v2_pregame_ready_places: set[int] = set()
+        # Seats whose own applied receipt says they resigned. Freeciv keeps a
+        # surrendered player alive until it reaps them, so this is the only
+        # way to tell "I resigned and am waiting" from "nothing happened".
+        self.v2_surrendered_places: set[int] = set()
         self.v2_receipt_store: V2ReceiptStore | None = None
         self.v2_receipt_store_failed = False
         self.v2_phase_event_journal: V2PhaseEventJournal | None = None
@@ -553,6 +589,7 @@ class Game:
         self.v2_failure_cleanup_started = False
         self.v2_ambiguity_trace: V2AmbiguityTrace | None = None
         self.v2_ambiguity_trace_warning_count = 0
+        self.v2_replay_producer: V2ReplayProducer | None = None
         self.v2_active_receipt_operations = 0
         self.v2_receipts_closing = False
         self.v2_phase_ledger: dict[str, Any] = {
@@ -608,6 +645,16 @@ class Game:
                     # durability.  An unsafe/unavailable trace never prevents
                     # a game from starting and can never authorize replay.
                     self.v2_ambiguity_trace_warning_count += 1
+                # A full-control-v2 server never loads the strategic-v1 Lua
+                # bridge, so nothing would append replay telemetry.  Rebuild
+                # the same rows from the autosaves this game already writes.
+                self.v2_replay_producer = V2ReplayProducer(
+                    self.supervisor.runs_root,
+                    self.game_id,
+                    self.episode,
+                    seat_ids=self._replay_seat_ids,
+                    cache_root=self.supervisor.replay_cache_root,
+                )
             self._launch(internal_token)
         except Exception:
             if self.v2_ambiguity_trace is not None:
@@ -722,6 +769,23 @@ class Game:
                 native_player = identity[1]
             result[native_player] = self._seat_config(place)
         return result
+
+    def _replay_seat_ids(self) -> dict[int, str]:
+        """Map each native player number to the seat that configured it.
+
+        Replay rows rebuilt from autosaves identify players by number, so this
+        mirrors ``_private_player_seats_locked`` and keeps an archived journal
+        and the episode report attributing the same player to the same seat.
+        """
+        with self.condition:
+            result: dict[int, str] = {}
+            for place in self.places:
+                identity = self.v2_native_player_identities.get(place.number)
+                result[
+                    identity[1] if identity is not None
+                    else place.native_player_number
+                ] = place.seat_id
+            return result
 
     def _manifest(self, state: str | None = None) -> dict[str, Any]:
         return {
@@ -1288,6 +1352,7 @@ class Game:
                     f"freeciv-server exited {returncode} or produced no score.log"
                 )
             self._write_manifest(target)
+        self._drain_v2_replay()
         try:
             with self.condition:
                 private_player_seats = self._private_player_seats_locked()
@@ -2163,7 +2228,15 @@ class Game:
                     key=key, state="native_phase", active_place=None, now=now,
                 )
                 return None, failed
-            if not active_row["alive"] or active_row["done"]:
+            if (
+                not active_row["alive"]
+                or active_row["done"]
+                # A seat that resigned cannot become ready again, so reporting
+                # it as merely "not ready" invites a control loop to keep
+                # waiting for a readiness that will never arrive. It is
+                # inactive, and the progress-stall guard still applies.
+                or active_row["place"] in self.v2_surrendered_places
+            ):
                 failed = self._set_v2_phase_wait_state_locked(
                     key=key, state="inactive_done",
                     active_place=active_row["place"], now=now,
@@ -3768,6 +3841,7 @@ class Game:
                     "active": self.v2_phase_ledger.get("active_place")
                     == place_number,
                     "timing": public_phase["timing"],
+                    "waiting_on": self._v2_waiting_on_locked(place_number),
                 }
             try:
                 last_phase_end = (
@@ -3793,6 +3867,7 @@ class Game:
                     "place": place_number,
                     "seat_id": agent["seat_id"],
                     "player_name": agent["player_name"],
+                    "standing": self._v2_seat_standing_locked(place_number),
                 },
                 "sidecar": health,
                 "observation_available": observation_available,
@@ -3923,6 +3998,7 @@ class Game:
             "sidecar_unavailable",
             "the full-control-v2 sidecar is unavailable",
             retryable=retryable,
+            details={"rejection": rejection("runtime", "seat_unavailable")},
         )
 
     def _v2_context_current_locked(
@@ -4146,12 +4222,18 @@ class Game:
                     retryable=True,
                 ) from exc
             if exc.code == "rate_limited":
+                wait = exc.details.get("retry_after_seconds")
                 raise self._v2_problem(
                     HTTPStatus.TOO_MANY_REQUESTS,
                     "rate_limited",
                     "the full-control-v2 cursor registry is at capacity; "
-                    "retry after an existing cursor expires",
+                    + (
+                        f"retry in {wait}s, when the earliest cursor expires"
+                        if isinstance(wait, int)
+                        else "retry after an existing cursor expires"
+                    ),
                     retryable=True,
+                    details=exc.details,
                 ) from exc
             if exc.code == "scope_too_large":
                 raise self._v2_problem(
@@ -4175,6 +4257,7 @@ class Game:
                     "stale_revision",
                     "the full-control-v2 state revision is stale",
                     retryable=True,
+                    details=exc.details,
                 ) from exc
             raise self._v2_problem(
                 HTTPStatus.INTERNAL_SERVER_ERROR,
@@ -4659,17 +4742,25 @@ class Game:
         error_code: str | None = None,
         retryable: bool = False,
         observation: dict[str, Any] | None = None,
+        rejection: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         error = None
         if error_code is not None:
-            message = (
-                "The action outcome is unknown and the command will not be replayed."
-                if state == "ambiguous" else "The command was rejected."
-            )
+            details: dict[str, Any] = {}
+            if rejection is not None:
+                details["rejection"] = rejection
+                message = rejection_message(rejection)
+            else:
+                message = (
+                    "The action outcome is unknown and the command will not "
+                    "be replayed."
+                    if state == "ambiguous" else "The command was rejected."
+                )
             error = structured_error(
                 error_code,
                 message,
                 retryable=retryable,
+                details=details,
                 state_revision=state_revision,
             )
         return {
@@ -4710,6 +4801,9 @@ class Game:
                 "conflict",
                 "the batch ID is already bound to a different request",
                 retryable=False,
+                details={
+                    "rejection": rejection("store", "receipt_conflict"),
+                },
             ) from exc
         if isinstance(exc, V2ReceiptInvalidBatch):
             raise self._v2_problem(
@@ -4717,21 +4811,14 @@ class Game:
                 "invalid_batch",
                 "the full-control-v2 command batch is invalid",
                 retryable=False,
-            ) from exc
-        if isinstance(exc, (
-            V2ReceiptCorrupt, V2ReceiptInvalidTransition, V2ReceiptStoreError,
-        )):
-            raise self._v2_problem(
-                HTTPStatus.INTERNAL_SERVER_ERROR,
-                "internal_error",
-                "the command receipt store is unavailable",
-                retryable=False,
+                details={"rejection": rejection("schema", "batch_malformed")},
             ) from exc
         raise self._v2_problem(
             HTTPStatus.INTERNAL_SERVER_ERROR,
             "internal_error",
             "the command receipt store is unavailable",
             retryable=False,
+            details={"rejection": rejection("store", "internal_failure")},
         ) from exc
 
     def _v2_batch_context_current_locked(
@@ -4831,6 +4918,22 @@ class Game:
                 execution_lock,
             )
 
+    @staticmethod
+    def _v2_control_rejection(
+        exc: V2ControlError, layer: str, default_reason: str,
+    ) -> dict[str, Any]:
+        """Attribute a resolver refusal, preferring the resolver's own reason.
+
+        ``V2SeatControl`` names the specific contract it refused in
+        ``details["rejection_reason"]`` where it can.  Anything it does not
+        name still gets the layer plus this call site's default, so no
+        pre-dispatch refusal reaches an agent unattributed.
+        """
+        reason = exc.details.get("rejection_reason")
+        if reason not in REJECTION_REASONS:
+            reason = default_reason
+        return rejection(layer, reason)
+
     def _raise_v2_pre_batch_error(self, exc: Exception) -> None:
         if isinstance(exc, APIProblem):
             raise exc
@@ -4841,6 +4944,11 @@ class Game:
                     "stale_revision",
                     "the requested state revision is no longer current",
                     retryable=True,
+                    details={
+                        "rejection": self._v2_control_rejection(
+                            exc, "revision", "revision_stale",
+                        ),
+                    },
                 ) from exc
             if exc.code == "action_expired":
                 raise self._v2_problem(
@@ -4848,13 +4956,22 @@ class Game:
                     "action_expired",
                     "the requested action capability has expired",
                     retryable=True,
+                    details={
+                        "rejection": self._v2_control_rejection(
+                            exc, "catalog", "action_not_advertised",
+                        ),
+                    },
                 ) from exc
             if exc.code == "invalid_request":
+                attribution = self._v2_control_rejection(
+                    exc, "arguments", "arguments_invalid",
+                )
                 raise self._v2_problem(
                     HTTPStatus.UNPROCESSABLE_ENTITY,
                     "illegal_action",
-                    "the action arguments are invalid",
+                    rejection_message(attribution),
                     retryable=False,
+                    details={"rejection": attribution},
                 ) from exc
             if exc.code == "sidecar_unavailable":
                 raise self._v2_unavailable() from exc
@@ -4863,6 +4980,9 @@ class Game:
                 "internal_error",
                 "the full-control-v2 command could not be resolved",
                 retryable=False,
+                details={
+                    "rejection": rejection("preflight", "internal_failure"),
+                },
             ) from exc
         if isinstance(exc, SidecarError):
             if exc.code == "native_busy":
@@ -4871,6 +4991,11 @@ class Game:
                     "rate_limited",
                     "the full-control-v2 sidecar is busy",
                     retryable=True,
+                    details={
+                        "rejection": self._v2_native_rejection(
+                            exc.code, error_code="rate_limited",
+                        ),
+                    },
                 ) from exc
             if exc.code in {
                 "sidecar_unavailable", "native_not_ready", "native_not_sent",
@@ -4884,6 +5009,7 @@ class Game:
             "internal_error",
             "the full-control-v2 command could not be completed",
             retryable=False,
+            details={"rejection": rejection("runtime", "internal_failure")},
         ) from exc
 
     @staticmethod
@@ -4961,6 +5087,27 @@ class Game:
         }:
             return HTTPStatus.INTERNAL_SERVER_ERROR, "internal_error"
         return HTTPStatus.UNPROCESSABLE_ENTITY, "illegal_action"
+
+    @staticmethod
+    def _v2_native_rejection(
+        code: str, *, error_code: str, dispatched: bool = False,
+    ) -> dict[str, Any]:
+        """Attribute one native-boundary refusal to a layer and a reason.
+
+        ``code`` is the sidecar's mapped native error token, already a closed
+        vocabulary.  It is echoed as ``native_code`` so an operator can tell a
+        ``BAD_ARGUMENT`` refusal from a ``NOT_READY`` one even where both
+        become ``illegal_action`` on the wire.
+        """
+        layer = "native_dispatch" if dispatched else "native_preflight"
+        reason = _V2_NATIVE_REJECTION_REASONS.get(code)
+        if reason is None:
+            reason = (
+                "internal_failure" if error_code == "internal_error"
+                else "native_refused"
+            )
+        native_code = code if _NATIVE_CODE_TOKEN.fullmatch(code) else None
+        return rejection(layer, reason, native_code=native_code)
 
     def _v2_transition(
         self,
@@ -5130,6 +5277,7 @@ class Game:
                 "invalid_batch",
                 "the full-control-v2 command batch is invalid",
                 retryable=False,
+                details={"rejection": rejection("schema", "batch_malformed")},
             ) from exc
         if (
             clean_batch["game_id"] != self.game_id
@@ -5140,6 +5288,7 @@ class Game:
                 "invalid_batch",
                 "the full-control-v2 command batch is invalid",
                 retryable=False,
+                details={"rejection": rejection("schema", "batch_malformed")},
             )
         batch_id = clean_batch["batch_id"]
         try:
@@ -5595,6 +5744,9 @@ class Game:
                         requested_revision,
                         error_code=code,
                         retryable=code == "stale_revision",
+                        rejection=self._v2_native_rejection(
+                            exc.code, error_code=code,
+                        ),
                     ),
                 )
                 self._note_phase_end_receipt(phase_claim, "rejected")
@@ -5625,6 +5777,9 @@ class Game:
                         requested_revision,
                         error_code=code,
                         retryable=code == "stale_revision",
+                        rejection=self._v2_native_rejection(
+                            exc.code, error_code=code,
+                        ),
                     ),
                 )
                 self._note_phase_end_receipt(phase_claim, "rejected")
@@ -5804,6 +5959,13 @@ class Game:
                 self._note_phase_end_receipt(phase_claim, receipt_state)
                 if (
                     receipt_state == "applied"
+                    and resolution.public_kind == "player.surrender"
+                ):
+                    with self.condition:
+                        self.v2_surrendered_places.add(place)
+                        self.condition.notify_all()
+                if (
+                    receipt_state == "applied"
                     and resolution.public_kind == "pregame.set_ready"
                 ):
                     desired_ready = resolution.native_arguments == "ready=1"
@@ -5848,6 +6010,11 @@ class Game:
                         "rejected",
                         result_revision,
                         error_code="illegal_action",
+                        rejection=rejection(
+                            "native_dispatch",
+                            "postcondition_not_met",
+                            native_reason=result["reason"],
+                        ),
                     ),
                 )
                 self._note_phase_end_receipt(phase_claim, "rejected")
@@ -6772,6 +6939,155 @@ class Game:
             "controllers": controllers,
         }
 
+    def _v2_seat_standing_locked(self, place_number: int) -> str:
+        """Report one seat's own standing in the game.
+
+        ``surrender`` is applied by the native client long before Freeciv
+        reaps the player, and a seat that only sees ``applied`` plus a still
+        running game cannot tell that apart from a no-op. These four values
+        are derived from state the supervisor already holds: the seat's own
+        applied surrender receipt, the liveness bit on its phase evidence, and
+        whether a termination is already in flight.
+        """
+        row = self.v2_phase_ledger.get("evidence", {}).get(place_number)
+        surrendered = place_number in self.v2_surrendered_places
+        if row is not None and not row["alive"]:
+            return "eliminated"
+        if not surrendered:
+            return "active"
+        terminating = bool(
+            self.cancel_requested
+            or self.sidecars_stopping
+            or self.server_exit_observed
+            or self.state in TERMINAL_STATES
+        )
+        return "termination_pending" if terminating else "surrendered"
+
+    def _v2_waiting_on_locked(self, place_number: int) -> dict[str, Any] | None:
+        """Name what the phase loop is blocked on, from this seat's view.
+
+        ``None`` means nothing is blocking: it is this seat's phase and the
+        native boundary will accept its phase end. Every other case names a
+        blocker, so a control loop that sees ``phase_not_ready`` or a ``wait``
+        timeout can say why rather than guessing.
+        """
+        ledger = self.v2_phase_ledger
+        state = ledger["state"]
+        active_place = ledger.get("active_place")
+        evidence = ledger.get("evidence", {})
+        terminalized = bool(
+            self.state in TERMINAL_STATES or self.cancel_requested
+            or self.server_exit_observed
+        )
+        if not terminalized and state == "awaiting_agent" and (
+            active_place == place_number
+        ):
+            return None
+
+        def seat_rows(places: Iterable[int]) -> list[dict[str, Any]]:
+            rows = []
+            for number in sorted(places):
+                if number < 1 or number > len(self.places):
+                    continue
+                place = self.places[number - 1]
+                agent_id = self.place_agents.get(number)
+                agent = self.agents.get(agent_id) if agent_id is not None else None
+                rows.append({
+                    "place": number,
+                    "seat_id": place.seat_id,
+                    "player_name": place.player_name,
+                    "controller_label": (
+                        agent["controller_label"] if agent is not None else None
+                    ),
+                    "standing": self._v2_seat_standing_locked(number),
+                    "is_self": number == place_number,
+                })
+            return rows
+
+        if terminalized:
+            kind, seats, summary = (
+                "termination",
+                [],
+                "The game is being terminalized; no further phase will open.",
+            )
+        elif state == "synchronizing":
+            missing = {
+                place.number for place in self.joinable_places
+            } - set(evidence)
+            seats = seat_rows(missing or set(evidence))
+            kind = "phase_synchronization"
+            summary = (
+                "Seat phase reports have not agreed on the current turn and "
+                "phase yet."
+                if not missing else
+                "Waiting for phase evidence from seats that have not reported."
+            )
+        elif state in {"ending", "ambiguous_ending"}:
+            end = ledger.get("end") or {}
+            kind = "phase_end"
+            seats = seat_rows(
+                {end["place"]} if isinstance(end.get("place"), int) else set()
+            )
+            summary = (
+                "A phase end is in flight and its outcome is not yet known."
+                if state == "ambiguous_ending" else
+                "A phase end is in flight and has not been reconciled yet."
+            )
+        elif state == "native_phase" or active_place is None:
+            kind = "native_phase"
+            seats = []
+            summary = (
+                "No seat holds the phase; the native server is between "
+                "phases."
+            )
+        else:
+            seats = seat_rows({active_place})
+            active_standing = self._v2_seat_standing_locked(active_place)
+            mine = active_place == place_number
+            if state == "inactive_done" and active_standing in {
+                "surrendered", "termination_pending",
+            }:
+                kind = "seat_surrendered"
+                summary = (
+                    "The seat holding the phase has surrendered and is "
+                    "waiting for the server to reap it; it will not end its "
+                    "phase."
+                    if not mine else
+                    "You surrendered and are waiting for the server to reap "
+                    "this seat; this seat will not end its phase."
+                )
+            elif state == "inactive_done":
+                kind = "seat_inactive"
+                summary = (
+                    "The seat holding the phase is finished or no longer "
+                    "alive; the native server advances next."
+                )
+            elif state == "phase_not_ready":
+                kind = "seat_not_ready"
+                summary = (
+                    "The native client has not announced that this seat may "
+                    "end its phase. Freeciv withholds that permission while "
+                    "the server setting fixedlength is enabled, while the "
+                    "server is busy, and until a phase-timing setting change "
+                    "takes effect at the next turn boundary."
+                    if mine else
+                    "The native client has not announced that the seat "
+                    "holding the phase may end it."
+                )
+            else:
+                kind = "other_seat"
+                summary = "Another seat holds the phase and has not ended it."
+        started = ledger.get("progress_started_monotonic")
+        return {
+            "kind": kind,
+            "summary": summary,
+            "seats": seats,
+            "waiting_s": (
+                round(max(0.0, time.monotonic() - started), 3)
+                if started is not None else None
+            ),
+        }
+
     def _public_v2_phase(self) -> dict[str, Any]:
         ledger = self.v2_phase_ledger
         key = ledger.get("key")
@@ -6807,7 +7123,10 @@ class Game:
                     "ambiguous_ending"
                     if end.get("receipt_state") == "ambiguous" else "ending"
                 )
-            elif not row["alive"] or row["done"]:
+            elif (
+                not row["alive"] or row["done"]
+                or place.number in self.v2_surrendered_places
+            ):
                 controller_state = "inactive_done"
             elif row["ready"]:
                 controller_state = "awaiting_agent"
@@ -6993,6 +7312,7 @@ class Game:
         raw: Any,
         catalog_ids: set[int],
         place_identities: dict[str, tuple[Place, dict[str, Any]]],
+        player_identities: dict[int, tuple[Place, dict[str, Any]]] | None = None,
     ) -> dict[str, Any] | None:
         if not isinstance(raw, dict):
             return None
@@ -7001,6 +7321,12 @@ class Game:
         if player_id < 0 or not player_name:
             return None
         configured = place_identities.get(player_name)
+        if configured is None and player_identities is not None:
+            # A full-control-v2 seat is played through a native client, which
+            # renames its player to a ruleset leader name.  Those rows are
+            # matched by native player number instead, the same handle the
+            # episode report attributes by.
+            configured = player_identities.get(player_id)
         if configured is not None:
             place, identity = configured
             seat_id = place.seat_id
@@ -7073,6 +7399,7 @@ class Game:
         raw: Any,
         catalog_ids: set[int],
         place_identities: dict[str, tuple[Place, dict[str, Any]]],
+        player_identities: dict[int, tuple[Place, dict[str, Any]]] | None = None,
     ) -> dict[str, Any] | None:
         if not isinstance(raw, dict):
             return None
@@ -7085,7 +7412,7 @@ class Game:
         players = [
             player for player in (
                 self._sanitize_replay_player(
-                    value, catalog_ids, place_identities,
+                    value, catalog_ids, place_identities, player_identities,
                 )
                 for value in raw_players
             )
@@ -7104,19 +7431,51 @@ class Game:
             "players": players,
         }
 
+    def _refresh_v2_replay(self) -> None:
+        """Convert any autosave a full-control-v2 game has finished writing."""
+        producer = self.v2_replay_producer
+        if producer is None:
+            return
+        try:
+            producer.refresh()
+        except Exception:
+            # Spectator telemetry never fails a read, and the producer already
+            # disables itself once it cannot make progress.
+            pass
+
+    def _drain_v2_replay(self) -> None:
+        """Convert every remaining autosave once the game has finished."""
+        producer = self.v2_replay_producer
+        if producer is None:
+            return
+        try:
+            with self.replay_lock:
+                producer.drain()
+        except Exception:
+            pass
+
     def _replay_data(self) -> dict[str, Any]:
         with self.replay_lock:
+            self._refresh_v2_replay()
             with self.condition:
                 public_places = self._public_places()
-                place_identities = {
-                    place.player_name: (place, self._place_identity(place))
-                    for place in self.places
-                }
+                place_identities, player_identities = (
+                    self._place_identity_indexes_locked()
+                )
+                if self.config["control_protocol"] != FULL_CONTROL_V2:
+                    # Only a v2 game plays through a renaming native client.
+                    # Elsewhere a number match could claim a dynamic faction.
+                    player_identities = {}
+                identity_signature = sorted(
+                    (number, place.seat_id)
+                    for number, (place, _identity) in player_identities.items()
+                )
             signature = (
                 self._file_signature(self.replay_path),
                 self._file_signature(self.replay_catalog_path),
                 self._file_signature(self.replay_warnings_path),
                 _canonical(public_places),
+                _canonical(identity_signature),
             )
             if (
                 signature == self.replay_cache_signature
@@ -7166,6 +7525,7 @@ class Game:
                     continue
                 snapshot = self._sanitize_replay_snapshot(
                     raw_snapshot, catalog_ids, place_identities,
+                    player_identities,
                 )
                 if snapshot is None:
                     warnings.append({
@@ -7626,6 +7986,10 @@ class Supervisor:
         self.admin_token_hash = _digest(admin_token)
         self.runs_root = Path(runs_root).resolve()
         self.runs_root.mkdir(parents=True, exist_ok=True)
+        # Where reconstructed autosave telemetry is cached.  This is the same
+        # location the replay gateway is given, so a live full-control-v2 game
+        # and the archived viewer parse each autosave once between them.
+        self.replay_cache_root = self.runs_root.parent / "replay-cache"
         configured = Path(binary) if binary else REPO_ROOT / "build-agent" / "freeciv-server"
         if not configured.is_absolute():
             configured = (REPO_ROOT / configured).resolve()
@@ -7727,11 +8091,16 @@ class Supervisor:
             )
         except FullControlSchemaError as exc:
             raise APIProblem(HTTPStatus.BAD_REQUEST, str(exc)) from exc
+        timing_timeouts = (
+            V2_TIMING_MODE_TIMEOUTS
+            if control_protocol == FULL_CONTROL_V2
+            else TIMING_MODE_TIMEOUTS
+        )
         raw_timing_mode = payload.get("timing_mode")
         timeout_supplied = "action_timeout_s" in payload
         if (
             raw_timing_mode is not None
-            and raw_timing_mode not in TIMING_MODE_TIMEOUTS
+            and raw_timing_mode not in timing_timeouts
         ):
             raise APIProblem(
                 HTTPStatus.BAD_REQUEST,
@@ -7740,7 +8109,7 @@ class Supervisor:
         if raw_timing_mode is None:
             if not timeout_supplied:
                 timing_mode = "default"
-                action_timeout_s = TIMING_MODE_TIMEOUTS[timing_mode]
+                action_timeout_s = timing_timeouts[timing_mode]
             elif payload.get("action_timeout_s") is None:
                 timing_mode = "infinite"
                 action_timeout_s = None
@@ -7750,12 +8119,12 @@ class Supervisor:
                     "action_timeout_s", minimum=0.1,
                 )
                 timing_mode = next((
-                    name for name, timeout in TIMING_MODE_TIMEOUTS.items()
+                    name for name, timeout in timing_timeouts.items()
                     if timeout == action_timeout_s
                 ), "custom")
         else:
             timing_mode = raw_timing_mode
-            expected_timeout = TIMING_MODE_TIMEOUTS[timing_mode]
+            expected_timeout = timing_timeouts[timing_mode]
             if timeout_supplied:
                 supplied_timeout = payload.get("action_timeout_s")
                 if expected_timeout is None:

@@ -132,8 +132,120 @@ RECEIPT_STATES = frozenset({
 })
 TERMINAL_RECEIPT_STATES = frozenset({"ambiguous", "applied", "rejected"})
 
+# Which validation layer refused a command.  Every rejected receipt names
+# exactly one, so "the server said no" is never the whole story an agent gets.
+REJECTION_LAYERS = frozenset({
+    "schema",            # the public batch failed closed-schema validation
+    "revision",          # the batch named a state revision that is not current
+    "catalog",           # the action was never advertised at that revision
+    "arguments",         # the action's own argument contract refused the value
+    "preflight",         # a supervisor precondition refused before dispatch
+    "native_preflight",  # the native boundary refused before dispatching
+    "native_dispatch",   # native accepted, dispatched, and the effect failed
+    "store",             # the durable receipt store refused the batch identity
+    "runtime",           # the seat runtime could not carry the command
+})
+
+# The specific refusal.  This vocabulary is closed and server-authored: no
+# caller text, native prose, path, or exception message ever enters it, so a
+# reason is safe to persist in a durable receipt and to echo to the agent.
+REJECTION_REASONS = frozenset({
+    "batch_malformed",
+    "revision_stale",
+    "action_not_advertised",
+    "arguments_invalid",
+    "server_setting_out_of_range",
+    "server_setting_unchanged",
+    "pregame_nation_unknown",
+    "pregame_style_unknown",
+    "pregame_leader_invalid",
+    "pregame_configuration_unchanged",
+    "phase_control_conflict",
+    "phase_not_current",
+    "seat_unavailable",
+    "receipt_conflict",
+    "native_busy",
+    "native_bad_argument",
+    "native_bad_request",
+    "native_not_ready",
+    "native_entity_expired",
+    "native_refused",
+    "postcondition_not_met",
+    "internal_failure",
+})
+
+_REJECTION_MESSAGES = {
+    "batch_malformed":
+        "The command batch did not match the full-control-v2 schema.",
+    "revision_stale":
+        "The command named a state revision that is no longer current; "
+        "refresh the observation and reissue against the new revision.",
+    "action_not_advertised":
+        "The action was not advertised as legal at the requested state "
+        "revision; re-enumerate legal actions and reissue.",
+    "arguments_invalid":
+        "The action arguments did not satisfy the action's own contract.",
+    "server_setting_out_of_range":
+        "The proposed server setting value is outside the range the server "
+        "advertises for that setting.",
+    "server_setting_unchanged":
+        "The proposed server setting value already equals the current value, "
+        "so there is nothing to propose.",
+    "pregame_nation_unknown":
+        "The nation_id field is not one the pregame_nations section offers "
+        "at this revision; only that field is wrong. That section lists only "
+        "nations no other player holds, so a nation that was free when it "
+        "was read can be claimed before the command lands; re-read "
+        "pregame_nations and pick from the current list.",
+    "pregame_style_unknown":
+        "The style_id field is not one of the IDs the pregame_styles section "
+        "advertises at this revision; only that field is wrong.",
+    "pregame_leader_invalid":
+        "The leader_name field is empty, too long, padded, or contains "
+        "control characters; only that field is wrong.",
+    "pregame_configuration_unchanged":
+        "Every field already holds the requested value, so the configuration "
+        "would not change.",
+    "phase_control_conflict":
+        "The proposal would change the server settings that full-control-v2 "
+        "uses to hand phases to agents, which would leave this seat unable to "
+        "end its phase.",
+    "phase_not_current":
+        "The phase this command belongs to is no longer the current phase.",
+    "seat_unavailable":
+        "This seat's runtime was not available to carry the command.",
+    "receipt_conflict":
+        "The batch ID is already bound to a different request.",
+    "native_busy":
+        "The native client was already executing a command; retry the same "
+        "batch.",
+    "native_bad_argument":
+        "The native client refused the action's argument before dispatching "
+        "it.",
+    "native_bad_request":
+        "The native client refused the action request before dispatching it.",
+    "native_not_ready":
+        "The native client cannot issue this action in its current state; it "
+        "may become issuable again in a later phase.",
+    "native_entity_expired":
+        "The action's native subject no longer exists at the current "
+        "revision; re-enumerate legal actions and reissue.",
+    "native_refused":
+        "The native client refused the action before dispatching it.",
+    "postcondition_not_met":
+        "The native client dispatched the action and the expected effect did "
+        "not take hold; the action had no effect. A governance proposal that "
+        "needs a vote, or a setting that only takes effect at a turn "
+        "boundary, reports this.",
+    "internal_failure":
+        "The command could not be completed by the control server.",
+}
+assert set(_REJECTION_MESSAGES) == REJECTION_REASONS
+
 _OPAQUE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 _ACTION_KIND = re.compile(r"^([a-z][a-z0-9_]*)\.([a-z][a-z0-9_]*)$")
+_NATIVE_CODE = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
+_NATIVE_REASON = re.compile(r"^[A-Z][A-Z0-9_]{0,63}$")
 
 
 class FullControlSchemaError(ValueError):
@@ -420,6 +532,104 @@ def structured_error(
     })
 
 
+def validate_rejection(value: Any) -> dict[str, Any]:
+    """Validate one closed refusal attribution carried on a rejected receipt.
+
+    Every field is drawn from a server-authored closed vocabulary.  ``layer``
+    and ``reason`` are ours; ``native_code`` is the mapped sidecar error code
+    and ``native_reason`` the native result reason, both already canonical
+    tokens rather than the native boundary's free prose.  Nothing here can
+    carry a native handle, a command argument, a path, or exception text, so a
+    rejection is safe to persist durably and to return to the agent.
+    """
+    raw = _exact_object(
+        value,
+        {"layer", "reason", "native_code", "native_reason"},
+        "rejection",
+    )
+    if raw["layer"] not in REJECTION_LAYERS:
+        raise FullControlSchemaError(
+            f"rejection.layer must be one of {sorted(REJECTION_LAYERS)}"
+        )
+    if raw["reason"] not in REJECTION_REASONS:
+        raise FullControlSchemaError(
+            f"rejection.reason must be one of {sorted(REJECTION_REASONS)}"
+        )
+    native_code = raw["native_code"]
+    if native_code is not None and (
+        not isinstance(native_code, str)
+        or _NATIVE_CODE.fullmatch(native_code) is None
+    ):
+        raise FullControlSchemaError(
+            "rejection.native_code must be a lowercase token or null"
+        )
+    native_reason = raw["native_reason"]
+    if native_reason is not None and (
+        not isinstance(native_reason, str)
+        or _NATIVE_REASON.fullmatch(native_reason) is None
+    ):
+        raise FullControlSchemaError(
+            "rejection.native_reason must be an uppercase token or null"
+        )
+    if raw["layer"] not in {"native_preflight", "native_dispatch"} and (
+        native_code is not None or native_reason is not None
+    ):
+        raise FullControlSchemaError(
+            "only a native rejection layer may carry native attribution"
+        )
+    return {
+        "layer": raw["layer"],
+        "reason": raw["reason"],
+        "native_code": native_code,
+        "native_reason": native_reason,
+    }
+
+
+def rejection(
+    layer: str,
+    reason: str,
+    *,
+    native_code: str | None = None,
+    native_reason: str | None = None,
+) -> dict[str, Any]:
+    """Build one validated refusal attribution."""
+    return validate_rejection({
+        "layer": layer,
+        "reason": reason,
+        "native_code": native_code,
+        "native_reason": native_reason,
+    })
+
+
+def rejection_message(value: dict[str, Any]) -> str:
+    """Return the server-authored sentence for one validated rejection."""
+    clean = validate_rejection(value)
+    message = _REJECTION_MESSAGES[clean["reason"]]
+    if clean["native_reason"] is not None:
+        message = f"{message} (native result: {clean['native_reason']})"
+    elif clean["native_code"] is not None:
+        message = f"{message} (native code: {clean['native_code']})"
+    return message[:500]
+
+
+def receipt_rejection(value: Any) -> dict[str, Any] | None:
+    """Extract the validated rejection carried by a structured error, if any.
+
+    Returns ``None`` when the error carries no attribution; raises when it
+    carries one that does not validate, so a malformed attribution can never
+    be mistaken for an absent one.
+    """
+    if not isinstance(value, dict):
+        return None
+    error = value.get("error")
+    if not isinstance(error, dict):
+        return None
+    details = error.get("details")
+    if not isinstance(details, dict) or "rejection" not in details:
+        return None
+    return validate_rejection(details["rejection"])
+
+
 def validate_city_investigation_observation(value: Any) -> dict[str, Any]:
     """Validate the bounded, immutable CITY_INFO capture on an applied receipt."""
     raw = _exact_object(
@@ -696,6 +906,17 @@ def validate_command_receipt(value: Any) -> dict[str, Any]:
         raise FullControlSchemaError(
             "an action_outcome_ambiguous error requires an ambiguous receipt"
         )
+    if raw["receipt_state"] == "rejected":
+        # A refusal an agent cannot attribute to a layer is a contract
+        # violation, not a receipt.  Fail closed here so no path can mint a
+        # bare illegal_action again.
+        attribution = receipt_rejection(error)
+        if attribution is None:
+            raise FullControlSchemaError(
+                "a rejected command receipt must attribute its refusal in "
+                "error.details.rejection"
+            )
+        error["error"]["details"]["rejection"] = attribution
     return {
         "schema_version": FULL_CONTROL_SCHEMA_VERSION,
         "control_protocol": FULL_CONTROL_V2,

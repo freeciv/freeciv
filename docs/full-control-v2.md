@@ -534,10 +534,18 @@ native I/O. `page.cursor_expires_at` is the RFC 3339 expiry for
 `next_cursor`, or `null` on the final page, and every successful continuation
 gives its next cursor a fresh lifetime. An authentic expired cursor returns
 retryable `cursor_expired` with a public `details.restart` query; a forged
-cursor remains nonretryable `invalid_request`. Unexpired cursors are never
-evicted to admit a new cursor: capacity pressure returns retryable
-`rate_limited`, while authentic expired-cursor tombstones remain recognizable
-for their retention window. In addition to the sixteen-item cap, every
+cursor remains nonretryable `invalid_request`. A chain still owing a
+continuation is never evicted to admit a new cursor: capacity pressure
+returns retryable `rate_limited` carrying `details.retry_after_seconds` and
+`retry_after`. Two bounded exceptions exist. A fully drained chain — its
+terminal page already served, no continuation outstanding — may be retired
+under capacity pressure; replaying one of its consumed pages then returns
+retryable `cursor_expired` with a `details.restart` query. And a scoped
+catalog's cursor records are released as soon as a newer state revision
+lands, since the catalog contract already requires restarting the scoped
+query after any bump; such a cursor returns `stale_revision` with its
+restart query. Authentic expired-cursor tombstones remain recognizable for
+their retention window. In addition to the sixteen-item cap, every
 canonical public page is capped at 65,536 UTF-8 JSON bytes. Pagination stops
 early at that byte boundary; a single oversized item fails closed as
 `scope_too_large`. The current implementation retains two projected revisions
@@ -1347,7 +1355,7 @@ Named timing modes are:
 
 | Mode | Active-phase deadline |
 | --- | --- |
-| `default` | 180 seconds |
+| `default` | 600 seconds (10 minutes) |
 | `blitz` | 60 seconds |
 | `infinite` | No deadline (`null`) |
 

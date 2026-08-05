@@ -1589,7 +1589,7 @@ class SupervisorTests(unittest.TestCase):
             timing = {"action_timeout_s": action_timeout_s or 7.5}
         else:
             timeout = {
-                "default": 180, "blitz": 60, "infinite": None,
+                "default": 600, "blitz": 60, "infinite": None,
             }[timing_mode]
             timing = {
                 "timing_mode": timing_mode,
@@ -1961,7 +1961,7 @@ class SupervisorTests(unittest.TestCase):
 
     def test_v2_phase_deadlines_cover_presets_and_custom_timeouts(self):
         for mode, timeout in (
-            ("default", 180.0), ("blitz", 60.0),
+            ("default", 600.0), ("blitz", 60.0),
             ("custom", 7.5), ("infinite", None),
         ):
             with self.subTest(mode=mode):
@@ -4413,6 +4413,43 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(self.sidecar_factory.last_scoped_actor, "c:20:200")
         self.assertEqual(self.sidecar_factory.scoped_action_count, 6)
 
+    def test_v2_capacity_refusal_states_a_remedy_and_spares_phase_end(self):
+        self.sidecar_factory.observation_rows = native_v2_rows(
+            tile_count=4, action_count=10,
+        )
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-capacity",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        agent_id = joined["agent_id"]
+        query = "section=known_tiles&limit=1"
+        with patch.multiple(
+            v2_control,
+            MAX_ACTIVE_CURSOR_CHAINS=2,
+            RESERVED_CATALOG_CHAINS=1,
+        ):
+            game.v2_get_page(agent_id, "state", query)
+            with self.assertRaises(APIProblem) as refused:
+                game.v2_get_page(agent_id, "state", query)
+            # Ordinary reads are refused, but the enumeration that carries
+            # phase.end draws on capacity they can never consume.
+            catalog = game.v2_get_page(agent_id, "legal_actions", "limit=16")
+        error = refused.exception.payload["error"]
+        self.assertEqual(refused.exception.status, HTTPStatus.TOO_MANY_REQUESTS)
+        self.assertEqual(error["code"], "rate_limited")
+        self.assertTrue(error["retryable"])
+        wait = error["details"]["retry_after_seconds"]
+        self.assertIsInstance(wait, int)
+        self.assertTrue(0 < wait <= v2_control.CURSOR_TTL_SECONDS)
+        self.assertIn(f"retry in {wait}s", error["message"])
+        self.assertTrue(error["details"]["retry_after"].endswith("Z"))
+        self.assertIn(
+            "phase.end", {item["kind"] for item in catalog["page"]["items"]},
+        )
+
     def test_v2_exact_target_action_query_empty_errors_and_execution_lock(self):
         self.sidecar_factory.observation_rows = native_v2_rows(
             tile_count=2, action_count=10,
@@ -5340,6 +5377,12 @@ class SupervisorTests(unittest.TestCase):
                 "batch_id": "batch_second",
                 "acceptance": "not_accepted",
                 "safe_next": "refresh",
+                "rejection": {
+                    "layer": "revision",
+                    "reason": "revision_stale",
+                    "native_code": None,
+                    "native_reason": None,
+                },
             },
         )
         self.assertEqual(self.sidecar_factory.action_count, 1)
@@ -5375,8 +5418,18 @@ class SupervisorTests(unittest.TestCase):
         self.assertNotIn(
             malformed["batch_id"], json.dumps(malformed_error.exception.payload),
         )
+        # The attribution names the layer that refused and nothing else; the
+        # caller's batch ID and body still never appear in the payload.
         self.assertEqual(
-            malformed_error.exception.payload["error"]["details"], {},
+            malformed_error.exception.payload["error"]["details"],
+            {
+                "rejection": {
+                    "layer": "schema",
+                    "reason": "batch_malformed",
+                    "native_code": None,
+                    "native_reason": None,
+                },
+            },
         )
 
         for field, wrong in (

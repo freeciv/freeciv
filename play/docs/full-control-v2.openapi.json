@@ -280,10 +280,37 @@
         },
         "description": "One same-revision opaque capability. Cache the full descriptor and submit only its action_id with arguments matching arguments_schema."
       },
+      "ErrorDetails": {
+        "type": "object",
+        "description": "Structured, machine-usable refusal context. The object stays open so a later boundary can add a key, but every key documented here is stable. rejection_reason attributes a receipt-level rejection to the exact precondition that failed. retry_after_seconds/retry_after accompany rate_limited and are the only remedy for it. restart accompanies a retryable cursor_expired or stale_revision on a paged GET and names the query that starts the page chain again. safe_next and batch_id drive receipt-first recovery.",
+        "properties": {
+          "rejection_reason": {"type": "string", "enum": ["phase_control_conflict", "pregame_configuration_unchanged", "pregame_leader_invalid", "pregame_nation_unknown", "pregame_style_unknown", "server_setting_out_of_range", "server_setting_unchanged"]},
+          "retry_after_seconds": {"type": "integer", "minimum": 0, "description": "Whole seconds to wait before the same request may be sent again."},
+          "retry_after": {"type": "string", "format": "date-time", "description": "RFC 3339 instant the retry_after_seconds countdown ends at."},
+          "restart": {"$ref": "#/components/schemas/PageRestart"},
+          "safe_next": {"type": "string", "enum": ["receipt_first", "refresh", "retry_exact"]},
+          "batch_id": {"$ref": "#/components/schemas/OpaqueId"}
+        }
+      },
+      "PageRestart": {
+        "type": "object", "additionalProperties": false, "required": ["endpoint", "query"],
+        "properties": {"endpoint": {"type": "string", "enum": ["state", "legal_actions"]}, "query": {"type": "object", "additionalProperties": false, "properties": {"section": {"type": "string"}, "actor_id": {"$ref": "#/components/schemas/ActorId"}, "target_id": {"$ref": "#/components/schemas/OpaqueId"}, "center_id": {"$ref": "#/components/schemas/TileId"}, "radius": {"type": "integer", "minimum": 0}, "limit": {"type": "integer", "minimum": 1, "maximum": 16}}}},
+        "description": "The exact scope of a retired page chain, so a caller can ask for it again from the first page. A cursor that still owes a continuation is never retired; a fully drained chain may be, and a scoped catalog's cursors are released as soon as a newer revision lands."
+      },
+      "OverviewScore": {
+        "type": "object", "additionalProperties": false, "required": ["exact", "lower_bound", "components", "unobserved"],
+        "properties": {"exact": {"type": ["integer", "null"], "description": "The engine's own civilization score when the boundary can carry it, otherwise null."}, "lower_bound": {"type": "integer", "minimum": 0, "description": "Sum of the score terms this seat's own private observation proves. Every omitted term is non-negative, so this is a true lower bound and never reads high."}, "components": {"type": "object", "additionalProperties": false, "required": ["citizens", "techs", "spaceship"], "properties": {"citizens": {"type": "integer", "minimum": 0}, "techs": {"type": "integer", "minimum": 0}, "spaceship": {"type": "integer", "minimum": 0}}}, "unobserved": {"type": "array", "items": {"type": "string"}, "description": "Score terms the private observation does not carry, named rather than guessed."}},
+        "description": "This seat's own civilization score - the value the evaluation optimizes. Present on a running-game overview item only; the lobby overview carries no score, and an older server omits the field entirely."
+      },
+      "Overview": {
+        "type": "object",
+        "description": "The single overview item. Only the fields a caller must be able to rely on are described here; the item carries more.",
+        "properties": {"score": {"$ref": "#/components/schemas/OverviewScore"}}
+      },
       "Page": {
         "type": "object", "required": ["section", "items", "total_items", "next_cursor"],
         "properties": {"section": {"type": "string"}, "items": {"type": "array", "maxItems": 16, "items": {"$ref": "#/components/schemas/JsonObject"}}, "total_items": {"type": "integer", "minimum": 0}, "next_cursor": {"type": ["string", "null"]}, "cursor_expires_at": {"type": ["string", "null"], "format": "date-time"}, "scope": {"type": "object"}, "catalog_id": {"type": "string"}, "catalog_complete": {"type": "boolean"}},
-        "x-freeciv-section-item-schemas": {"chat_recipients": {"$ref": "#/components/schemas/ChatRecipient"}}
+        "x-freeciv-section-item-schemas": {"chat_recipients": {"$ref": "#/components/schemas/ChatRecipient"}, "overview": {"$ref": "#/components/schemas/Overview"}}
       },
       "PageEnvelope": {
         "type": "object", "required": ["schema_version", "control_protocol", "game_id", "agent_id", "state_revision", "page"],
@@ -328,7 +355,7 @@
       },
       "StructuredError": {
         "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "error"],
-        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "error": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable", "details"], "properties": {"code": {"type": "string", "enum": ["action_expired", "action_outcome_ambiguous", "conflict", "cursor_expired", "illegal_action", "internal_error", "invalid_batch", "invalid_request", "not_implemented", "rate_limited", "scope_too_large", "sidecar_unavailable", "stale_revision", "unsupported_protocol"]}, "message": {"type": "string"}, "retryable": {"type": "boolean"}, "details": {"type": "object"}}}, "state_revision": {"oneOf": [{"$ref": "#/components/schemas/StateRevision"}, {"type": "null"}]}}
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "error": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable", "details"], "properties": {"code": {"type": "string", "enum": ["action_expired", "action_outcome_ambiguous", "conflict", "cursor_expired", "illegal_action", "internal_error", "invalid_batch", "invalid_request", "not_implemented", "rate_limited", "scope_too_large", "sidecar_unavailable", "stale_revision", "unsupported_protocol"]}, "message": {"type": "string"}, "retryable": {"type": "boolean"}, "details": {"$ref": "#/components/schemas/ErrorDetails"}}}, "state_revision": {"oneOf": [{"$ref": "#/components/schemas/StateRevision"}, {"type": "null"}]}}
       },
       "CityInvestigationObservation": {
         "type": "object", "additionalProperties": false,

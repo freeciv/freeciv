@@ -96,6 +96,7 @@ from typing import Any
 
 __all__ = [
     "mirror_dir",
+    "render_map_yields",
     "update_from_page",
     "update_from_receipt",
     "update_from_health",
@@ -125,6 +126,8 @@ _HEADER_FILE = (_STATE_DIR, "header.txt")
 _DELTA_FILE = (_STATE_DIR, "delta.md")
 _OVERVIEW_FILE = (_STATE_DIR, "overview.tsv")
 _MAP_FILE = (_STATE_DIR, "map.txt")
+_YIELD_FILE = (_STATE_DIR, "yields.tsv")
+_YIELD_COLUMNS = ("tile", "food", "shields", "trade", "worked", "city")
 
 _SECTION_TITLES = {
     "overview": "overview",
@@ -463,9 +466,31 @@ def _render_overview(
         add("research_goal", _dig(research, "goal"))
         add("techs_researched", _dig(research, "techs_researched"))
         add("future_tech", _dig(research, "future_tech"))
+    score = _dig(item, "score")
+    if isinstance(score, Mapping):
+        # The evaluated objective belongs in the projection the delta digest
+        # diffs, so a turn's effect on it shows up as `score 17 -> 19` for
+        # free.  `exact` leads when the boundary carries it; otherwise the
+        # provable lower bound does, marked so it cannot be misread.
+        exact = _dig(score, "exact")
+        add(
+            "score",
+            _cell(exact) if isinstance(exact, int) and not isinstance(
+                exact, bool,
+            ) else f">={_cell(_dig(score, 'lower_bound'))}",
+        )
+        components = _dig(score, "components")
+        if isinstance(components, Mapping):
+            add("score_from", " ".join(
+                f"{name} {_cell(value)}"
+                for name, value in components.items() if value
+            ) or "-")
     counts = _dig(item, "counts")
     if isinstance(counts, Mapping):
-        for name in ("cities", "units", "known_tiles", "legal_actions"):
+        # `chat` is the typed event feed (tech learned, city growth, huts).
+        # Recording its total is what lets the next briefing say how many
+        # events arrived without reading the feed itself.
+        for name in ("cities", "units", "known_tiles", "legal_actions", "chat"):
             add(f"count_{name}", _dig(counts, name))
     return columns, rows
 
@@ -487,12 +512,20 @@ def _render_units(
             destination = _dig(route, "destination")
             where = (
                 _position(destination)
-                if isinstance(destination, Mapping) else "-"
+                if isinstance(destination, Mapping) else "?"
             )
-            orders = "{} {} {}st".format(
-                _cell(_dig(route, "mode")), where,
-                _cell(_dig(route, "path_step_count")),
+            # Same route summary the CLI's unit tables print, so a row read
+            # here and a row read there say the same thing: where the unit is
+            # walking and how many path steps of it are left.
+            count = _dig(route, "path_step_count")
+            if _dig(route, "path_available") is False or count is _MISSING:
+                count = _dig(route, "order_count")
+            orders = "→({}) {}st".format(
+                where, "?" if count is _MISSING else _cell(count),
             )
+            mode = _dig(route, "mode")
+            if mode is not _MISSING and mode not in (None, "goto"):
+                orders += " " + _cell(mode)
         activity = _cell(_dig(item, "activity", "name"))
         target = _dig(item, "activity", "target", "name")
         if activity != "-" and target is not _MISSING and target is not None:
@@ -783,6 +816,83 @@ def _render_map(
     return "\n".join(lines) + "\n"
 
 
+_YIELD_TILE_RE = re.compile(r"^T\((-?\d{1,4}),(-?\d{1,4})\)$")
+# A worked city radius is 5x5; anything much larger is a grid nobody reads, so
+# the overlay degrades to a list instead of printing a wall.
+_YIELD_WINDOW_MAX = 24
+
+
+def render_map_yields(session_dir: Path | str) -> list[str]:
+    """Overlay the per-tile yields this seat has read onto the terrain grid.
+
+    Both inputs are files the mirror already wrote, so this opens no socket and
+    proves nothing beyond fog.  The window is the bounding box of the priced
+    tiles — a city's worked radius, not the whole board — and a tile inside it
+    whose yields this seat has never read renders `?` rather than a zero.
+    """
+    session_dir = Path(session_dir)
+    parsed = _parse_map(_read(session_dir, _MAP_FILE))
+    if not parsed.grid:
+        return []
+    table = _parse_table(_read(session_dir, _YIELD_FILE))
+    priced: dict[tuple[int, int], str] = {}
+    if table.columns[:4] == _YIELD_COLUMNS[:4]:
+        for row in table.rows:
+            match = _YIELD_TILE_RE.match(row[0]) if row else None
+            if match is None or len(row) < 4:
+                continue
+            priced[(int(match.group(1)), int(match.group(2)))] = "/".join(
+                row[1:4],
+            )
+    lines = [_rev_line(parsed.revision)]
+    if not priced:
+        lines.append(
+            "# no tile yields read yet; price a city's tiles with "
+            "`just state --section city_citizens --actor_id c1`",
+        )
+        return lines
+    xs = [x for x, _y in priced]
+    ys = [y for _x, y in priced]
+    min_x, max_x = min(xs), max(xs)
+    min_y, max_y = min(ys), max(ys)
+    lines.append(
+        f"# yields · {len(priced)} tiles priced · "
+        f"window x {min_x}..{max_x} y {min_y}..{max_y}",
+    )
+    lines.append(
+        "# cell TERRAIN food/shields/trade · '?' = not read for that tile",
+    )
+    if max_x - min_x + 1 > _YIELD_WINDOW_MAX or (
+        max_y - min_y + 1 > _YIELD_WINDOW_MAX
+    ):
+        lines.extend(
+            "{},{} {} {}".format(
+                x, y, parsed.grid.get((x, y), "?"), priced[(x, y)],
+            )
+            for x, y in sorted(priced)
+        )
+        return lines
+    cells = {
+        (x, y): "{}{}".format(
+            parsed.grid.get((x, y), "?"), priced.get((x, y), "?"),
+        )
+        for y in range(min_y, max_y + 1)
+        for x in range(min_x, max_x + 1)
+    }
+    width = max(len(text) for text in cells.values())
+    lines.append(
+        "      " + " ".join(
+            str(x).ljust(width) for x in range(min_x, max_x + 1)
+        ).rstrip(),
+    )
+    for y in range(min_y, max_y + 1):
+        row = " ".join(
+            cells[(x, y)].ljust(width) for x in range(min_x, max_x + 1)
+        )
+        lines.append(f"{y:>5} |{row}".rstrip())
+    return lines
+
+
 # --------------------------------------------------------------------------
 # legal-action catalogs
 # --------------------------------------------------------------------------
@@ -1065,6 +1175,10 @@ def update_from_page(
         )
     if section in {"known_tiles", "map_tiles", "tile_window"}:
         return _update_map(session_dir, command, revision, items)
+    if section == "city_citizens":
+        return _update_yields(
+            session_dir, command, revision, inner, items, aliases,
+        )
     target = _SECTION_TARGETS.get(section)
     renderer = _RENDERERS.get(section)
     if target is None or renderer is None:
@@ -1126,6 +1240,70 @@ def _update_map(
             f"terrain known: {known_before} -> {known_after} tiles",
         )
     delta = _update_delta(session_dir, revision, command, "map", entries)
+    if delta is not None:
+        written.append(delta)
+    return tuple(written)
+
+
+def _update_yields(
+    session_dir: Path,
+    command: str,
+    revision: tuple[int, int],
+    inner: Mapping[str, Any],
+    items: Sequence[Any],
+    aliases: Mapping[str, str] | None,
+) -> tuple[Path, ...]:
+    """Project the per-tile yields a `city_citizens` page carried.
+
+    This is the only page that prices a tile in food/shields/trade, so it is
+    what `show map --yields` overlays.  A tile is keyed by the coordinate alias
+    the CLI already assigned it; a tile this seat has never located by
+    coordinate keeps its opaque handle, because inventing a coordinate for it
+    would put a tile on the map the seat has not seen.
+    """
+    rows: list[list[str]] = []
+    for item in items:
+        if not isinstance(item, Mapping):
+            raise _error("city citizen item is not an object")
+        if _dig(item, "kind") != "tile":
+            continue
+        yields = _dig(item, "yields")
+        tile_id = _dig(item, "tile_id")
+        if not isinstance(yields, Mapping) or not isinstance(tile_id, str):
+            continue
+        city_id = _dig(item, "city_id")
+        rows.append([
+            _cell((aliases or {}).get(tile_id, tile_id)),
+            _cell(_dig(yields, "food")),
+            _cell(_dig(yields, "shields")),
+            _cell(_dig(yields, "trade")),
+            "yes" if _dig(item, "worked") is True else "no",
+            _cell(
+                (aliases or {}).get(city_id, city_id)
+                if isinstance(city_id, str) else city_id
+            ),
+        ])
+    if not rows:
+        return ()
+    prior = _parse_table(_read(session_dir, _YIELD_FILE))
+    if _stale(revision, prior.revision):
+        return ()
+    if prior.revision == revision and prior.columns == _YIELD_COLUMNS:
+        # One page prices one city's tiles; a second city's page must add to
+        # the overlay rather than replace it.
+        merged = prior.by_key()
+        for row in rows:
+            merged[row[0]] = tuple(row)
+        rows = [list(row) for row in merged.values()]
+    note = _page_note("yields", len(rows), len(rows), True)
+    written = [_write(
+        session_dir, _YIELD_FILE,
+        _table_text(revision, (note,), _YIELD_COLUMNS, rows),
+    )]
+    delta = _update_delta(
+        session_dir, revision, command, "yields",
+        [f"tile yields known for {len(rows)} tiles"],
+    )
     if delta is not None:
         written.append(delta)
     return tuple(written)

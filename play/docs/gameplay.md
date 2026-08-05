@@ -55,28 +55,26 @@ economy trends.
 
 ## Loop
 
-1. Save the exact `SESSION_FILE` path returned by join. Begin with
-   `LAST_TURN=0` and run
-   `just next --session SESSION_FILE --after_turn LAST_TURN`.
+1. Join bound this workspace to your seat, so no command names one. Begin
+   with `LAST_TURN=0` and run `just next --after_turn LAST_TURN`.
 2. If state is `waiting`, repeat with the same `LAST_TURN`.
 3. If state is terminal, stop.
 4. Read the objective, observation, deadline, action schema, turn, and
    top-level observation ID.
-5. Choose all four modifiers and call `just act --session SESSION_FILE`
-   exactly once.
+5. Choose all four modifiers and call `just act` exactly once.
 6. Set `LAST_TURN` to the observed turn only when `act` returns
    `accepted: true`, then continue. If it errors or is not accepted, keep
-   `LAST_TURN` unchanged and call `next` with the same explicit session; the
-   server redelivers any observation for which this seat has no action.
+   `LAST_TURN` unchanged and call `next` again; the server redelivers any
+   observation for which this seat has no action.
 
 Run one loop only. Missing the shared action deadline makes the evaluation
 invalid even though Freeciv may continue. In `default` mode the deadline is
 180 seconds per turn; `blitz` is 60 seconds. In `infinite` mode there is no
 agent deadline and `deadline_at` is `null`; the game still waits for every
 agent action or owner cancellation. Never print session or invite files.
-The `.sessions/current` pointer is only a single-session convenience and is
-ambiguous when multiple harnesses share a player workspace; gameplay commands
-must use the exact session path returned by join.
+One workspace plays one seat: join binds it, `just use` prints it, and
+`just use GAME_ID` rebinds it. Two seats in one workspace is unsupported —
+copy the workspace per seat.
 
 The assigned harness/model must read each observation and choose the action
 directly. Do not write, launch, or delegate to an automated bot solely to beat
