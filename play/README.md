@@ -46,8 +46,8 @@ granting access to the public spectator feed or another player's event.
 ## Owner setup and isolation
 
 Joining requires only a game-scoped join token—not the owner or admin token.
-The root `just single`, `just multi`, `just single-v2`, and `just multi-v2`
-recipes automatically stage this
+The root `just single` and `just multi` recipes (full-control-v2 by
+default; pass `v1` for strategic-v1) automatically stage this
 mode-`0600` player invitation:
 
 ```text
