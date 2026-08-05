@@ -11290,5 +11290,208 @@ class V2ActionResolutionTests(unittest.TestCase):
             )
 
 
+
+
+class V2ProjectorInvariantScopeTests(unittest.TestCase):
+    """Wedge regressions for invariants that only hold at a full catalog.
+
+    Every case here reproduces the turn-52 signature: a native observation
+    Freeciv is entitled to emit that the projector rejected with
+    ``internal_error``, permanently, because python asserted a model the C
+    never promised.
+    """
+
+    def setUp(self) -> None:
+        self.control = V2SeatControl("game_test", "agent_test", 1)
+
+    def assertAccepted(self, rows: tuple[str, ...]) -> dict[str, object]:
+        return self.control.state_page(observation(rows))
+
+    def assertInternal(self, rows: tuple[str, ...]) -> None:
+        with self.assertRaises(V2ControlError) as caught:
+            self.control.state_page(observation(rows))
+        self.assertEqual(caught.exception.code, "internal_error")
+
+    @staticmethod
+    def _without(rows: tuple[str, ...], *prefixes: str) -> tuple[str, ...]:
+        return tuple(
+            row for row in rows if not row.startswith(prefixes)
+        )
+
+    def test_citizen_catalog_alone_does_not_demand_build_choice_catalog(self):
+        # "city_citizens" and "city_build_choices" are independent
+        # STATE_SCOPE sections (protocol_v2.c v2_build_state_scope_rows), so a
+        # bundle carrying the citizens rows without the build choices is legal.
+        rows = self._without(valid_rows(actions=False), "city_build_choice ")
+        page = self.assertAccepted(rows)
+        self.assertEqual(page["page"]["items"][0]["turn"], 7)
+
+    def test_build_choice_catalog_alone_does_not_demand_citizen_catalog(self):
+        rows = self._without(
+            valid_rows(actions=False), "city_tile ", "city_specialist ",
+        )
+        self.assertAccepted(rows)
+
+    def test_present_build_choice_catalog_still_matches_its_count(self):
+        rows = replace_row(
+            valid_rows(actions=False),
+            "build_choice_count=2", "build_choice_count=3",
+        )
+        self.assertInternal(rows)
+
+    def test_present_citizen_catalog_still_matches_its_tile_count(self):
+        # Retargeted: the previous mutation (a specialist `count`) was caught
+        # by a different identity elsewhere in the projector, so this test
+        # passed with every per-catalog citizen guard forced to False and gave
+        # no protection at all against the guard being weakened or removed.
+        # `citizen_tile_count` versus the number of `city_tile` rows is
+        # checked ONLY by the citizen cross-link.
+        rows = replace_row(
+            valid_rows(actions=False),
+            "citizen_tile_count=1", "citizen_tile_count=2",
+        )
+        self.assertInternal(rows)
+
+    def test_present_citizen_catalog_still_matches_its_specialist_count(self):
+        rows = replace_row(
+            valid_rows(actions=False),
+            "specialist_type_count=1", "specialist_type_count=2",
+        )
+        self.assertInternal(rows)
+
+    def test_a_citizen_desync_the_client_self_healed_keeps_the_seat_usable(self):
+        # client/packhand.c handle_city_info() treats a server/client citizen
+        # disagreement as RECOVERABLE: it logs "%d citizens not equal %d city
+        # size" and overrides with city_size_set(pcity, packet->size), leaving
+        # feel[] and specialists[] alone.  After that self-heal the emitter's
+        # workers no longer equal the mood total -- permanently, on every
+        # subsequent observation, because the city row is in every OBS bundle.
+        # Rejecting it is the turn-52 shape one layer down: the C logs and
+        # keeps playing while the harness bricks the seat forever.
+        # complete_v2_row fills the citizen fields, so apply it first, then
+        # move one citizen into `happy` without touching `workers`: exactly
+        # the post-self-heal shape where sum(feel) no longer equals workers
+        # while workers + specialists still equals the overridden size.
+        rows = replace_row(
+            complete_v2_rows(valid_rows(actions=False)),
+            "citizen_happy=0", "citizen_happy=1",
+        )
+        page = self.assertAccepted(rows)
+        self.assertEqual(page["page"]["items"][0]["turn"], 7)
+
+        # The seat is still usable afterwards: a second observation projects.
+        self.assertTrue(self.control.state_page(
+            observation(rows, revision=12),
+        )["page"]["items"])
+
+        # And the fault is NAMED, not silent.
+        self.assertEqual(
+            self.control.native_anomalies.get("city_citizen_counts"), 2,
+        )
+        current = observation(rows, revision=13)
+        city = self.control.state_page(current, "cities")["page"]["items"][0]
+        detail = self.control.state_page(
+            current, "city_detail", actor_id=city["id"],
+        )["page"]["items"][0]
+        self.assertIs(detail["citizen_counts_consistent"], False)
+
+    def test_a_consistent_city_reports_consistent_citizen_counts(self):
+        current = observation(valid_rows(actions=False))
+        city = self.control.state_page(current, "cities")["page"]["items"][0]
+        detail = self.control.state_page(
+            current, "city_detail", actor_id=city["id"],
+        )["page"]["items"][0]
+        self.assertIs(detail["citizen_counts_consistent"], True)
+        self.assertEqual(self.control.native_anomalies, {})
+
+    def test_a_worker_task_needs_no_citizen_row_for_its_tile(self):
+        # worker_task_is_sane() (common/workertask.c) never constrains the
+        # task tile to the city work radius, and the city_citizens section
+        # emits a city_tile row only for TILE_KNOWN_SEEN / worked /
+        # free-worked tiles.  A task on a fogged in-radius tile, or any
+        # out-of-radius tile, therefore has no citizen row -- and demanding
+        # one is the shape that produced the worker-task wedge.
+        # The citizens catalog IS present (city_tile for tile 5), so the old
+        # ungated check saw a non-empty city_tiles_by_ref and demanded a
+        # citizen row for the task's tile.  Tile 6 is known=2 and simply has
+        # no citizen row, which is what a fogged or out-of-radius task tile
+        # looks like.
+        rows = tuple(sorted(valid_rows(actions=False) + (
+            "city_worker_task city=c:20:200 tile=6 activity=road "
+            "target_extra=7 target_extra_name=Road want=80",
+        )))
+        self.assertAccepted(rows)
+
+    def test_citizen_tiles_do_not_require_the_map_tile_catalog(self):
+        # Citizen tiles ride the "city_citizens" scope while map tiles ride
+        # "known_tiles"/"map_tiles"/"tile_window"; requiring the map row made
+        # every citizens bundle fail forever.
+        rows = self._without(valid_rows(actions=False), "tile ")
+        self.assertAccepted(rows)
+
+    def test_citizen_tiles_still_cross_check_against_a_full_tile_catalog(self):
+        rows = replace_row(
+            valid_rows(actions=False),
+            "city_tile city=c:20:200 tile=5 worked=1 free_worked=1 can_work=1",
+            "city_tile city=c:20:200 tile=7 worked=1 free_worked=1 can_work=1",
+        )
+        self.assertInternal(rows)
+
+    @staticmethod
+    def _catalog_withheld_rows(*, phase_ready: bool):
+        # The turn-boundary shape: is_server_busy() is latched by
+        # handle_end_turn() until handle_start_phase() for phase 0
+        # (client/packhand.c), which forces BOTH v2_actions_ready() -- so the
+        # research/rates catalog is withheld -- and can_end_turn(), i.e.
+        # meta.phase_ready, false.  So the honest boundary bundle has
+        # phase_ready=0 and no phase.end action.
+        rows = tuple(
+            row for row in valid_rows()
+            if " kind=research.set_target " not in row
+            and " kind=research.set_goal " not in row
+            and " kind=economy.set_rates " not in row
+            and (phase_ready or " kind=phase.end " not in row)
+        )
+        if phase_ready:
+            return rows
+        return replace_row(rows, "phase_ready=1", "phase_ready=0")
+
+    def test_withheld_player_action_catalog_is_not_a_contract_fault(self):
+        # protocol_v2.c v2_actions_ready() also requires
+        # can_client_issue_orders() and !is_server_busy(); client/packhand.c
+        # latches server_busy from handle_end_turn() until handle_start_phase()
+        # for phase 0, so the native client legitimately emits no research and
+        # no rates action while this seat still reads as eligible.
+        page = self.control.state_page(observation(
+            self._catalog_withheld_rows(phase_ready=False),
+        ))
+        self.assertTrue(page["page"]["items"][0]["active_phase"])
+
+    def test_a_ready_seat_may_not_withhold_its_whole_player_catalog(self):
+        # The discriminator the relaxation must be gated on.  phase_ready is
+        # can_end_turn() (client/mapctrl_common.c), which implies every
+        # conjunct of v2_actions_ready() (protocol_v2.c) -- and v2_refresh()
+        # publishes no rows at all unless the seat is authorized and the cache
+        # coherent.  So an observation with phase_ready=1 PROVES the native
+        # emitted the complete research/rates catalog.  Accepting an empty one
+        # here would let a native fault silently brick research and taxation
+        # for the rest of the game: no error, no receipt, no attribution.
+        self.assertInternal(self._catalog_withheld_rows(phase_ready=True))
+
+    def test_partially_withheld_player_action_catalog_still_fails(self):
+        rows = tuple(
+            row for row in valid_rows()
+            if " kind=economy.set_rates " not in row
+        )
+        self.assertInternal(rows)
+
+    def test_partial_research_action_catalog_still_fails(self):
+        rows = tuple(
+            row for row in valid_rows()
+            if " kind=research.set_goal " not in row
+        )
+        self.assertInternal(rows)
+
+
 if __name__ == "__main__":
     unittest.main()

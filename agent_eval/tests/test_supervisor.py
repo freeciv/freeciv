@@ -3258,7 +3258,8 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(game.place_agents, {})
         self.assertFalse(game.start_sent)
 
-    def test_v2_current_sidecar_death_fails_game_without_ai_fallback(self):
+    def test_v2_sidecar_death_recovers_in_game_and_fails_in_lobby(self):
+        """A seat is never handed to Freeciv AI, whichever way it is lost."""
         created = self.create(control_protocol="full-control-v2")
         game = self.supervisor.game(created["game_id"])
         game.join(
@@ -3269,9 +3270,12 @@ class SupervisorTests(unittest.TestCase):
         game.start_sent = True
         current = self.sidecar_factory.created[-1]
         current.die()
-        self.assertEqual(game.state, "failed")
-        self.assertIn("sidecar_exited", game.invalid_reasons)
-        self.assertTrue(game.sidecars_stopping)
+        # Mid-game the server still holds the state and its autosaves, so the
+        # seat comes back on a new generation instead of ending the game.
+        self.assertEqual(game.state, "running")
+        self.assertEqual(game.sidecar_generations[1], 2)
+        self.assertNotIn("sidecar_exited", game.invalid_reasons)
+        self.assertFalse(game.sidecars_stopping)
         self.assertFalse(any(
             call.args[1] == ["aitoggle AgentPlace1"]
             for call in self.send_mock.call_args_list
@@ -3317,7 +3321,17 @@ class SupervisorTests(unittest.TestCase):
         timestamp = diagnostic.pop("timestamp")
         self.assertIsInstance(timestamp, float)
         self.assertEqual(diagnostic, {
+            "died_at": {
+                "turn": None,
+                "phase": None,
+                "phase_ledger_state": "synchronizing",
+                "seat_local_revision": None,
+                # The last state the supervisor accepted while the seat still
+                # worked, not the null the dying generation now reports.
+                "last_status_client_state": "running",
+            },
             "error_code": "process_exited",
+            "forensics": {},
             "exit_code": 17,
             "game_id": created["game_id"],
             "generation": 1,
@@ -3329,8 +3343,10 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
         text = path.read_text(encoding="utf-8")
         self.assertNotIn("must-not-persist", text)
-        self.assertEqual(game.state, "failed")
-        self.assertIn("sidecar_exited", game.invalid_reasons)
+        # The diagnostic is written whichever way the loss is resolved; this
+        # seat was mid-game on a live server, so it is recovered.
+        self.assertEqual(game.state, "running")
+        self.assertNotIn("sidecar_exited", game.invalid_reasons)
 
     def test_v2_join_does_not_depend_on_console_start(self):
         created = self.create(control_protocol="full-control-v2")
@@ -3669,10 +3685,13 @@ class SupervisorTests(unittest.TestCase):
             "agent_eval.supervisor.V2_SIDECAR_COMPLETION_GRACE_S", 0.03,
         ):
             disconnect_with_cached_running(current)
-            wait_until(lambda: game.state == "failed")
+            # The grace still bounds how long the loss stays undecided; what
+            # follows it is now a recovery rather than a failed game.
+            wait_until(lambda: game.sidecar_generations.get(1) == 2)
             wait_until(lambda: current.stop_count >= 1)
-        self.assertIn("sidecar_exited", game.invalid_reasons)
-        self.assertNotIn(1, game.sidecar_ready_generations)
+        self.assertEqual(game.state, "running")
+        self.assertNotIn("sidecar_exited", game.invalid_reasons)
+        self.assertEqual(game.sidecar_ready_generations.get(1), 2)
         self.assertGreaterEqual(current.stop_count, 1)
 
     def test_v2_health_routes_are_scoped_sanitized_and_truthful(self):

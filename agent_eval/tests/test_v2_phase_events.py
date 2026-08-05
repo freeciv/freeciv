@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 from agent_eval.v2_phase_events import (
     PHASE_EVENT_FILENAME,
+    PHASE_EVENT_QUARANTINE_FILENAME,
     V2PhaseEventJournal,
     V2PhaseEventJournalError,
 )
@@ -95,8 +96,15 @@ class V2PhaseEventJournalTests(unittest.TestCase):
                 encoding="utf-8",
             )
             os.chmod(path, 0o600)
-            with self.assertRaises(V2PhaseEventJournalError):
-                V2PhaseEventJournal(root)
+            # Reload keeps the valid prefix and quarantines the rest: an
+            # out-of-order record on disk is a damaged journal, not a reason
+            # to refuse to open the game it belongs to.
+            with V2PhaseEventJournal(root) as reloaded:
+                self.assertEqual(
+                    [item["sequence"] for item in reloaded.page(0, 100)["items"]],
+                    [1],
+                )
+                self.assertGreater(reloaded.quarantined_bytes, 0)
 
     def test_nonterminal_accepted_receipt_cannot_finalize_an_event(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -140,7 +148,7 @@ class V2PhaseEventJournalTests(unittest.TestCase):
                 journal.append(self.event())
             self.assertNotIn("private filesystem detail", str(failed.exception))
 
-    def test_corruption_and_noncanonical_records_fail_reload(self):
+    def test_corruption_and_noncanonical_records_are_quarantined_on_reload(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             with V2PhaseEventJournal(root):
@@ -148,8 +156,95 @@ class V2PhaseEventJournalTests(unittest.TestCase):
             path = root / PHASE_EVENT_FILENAME
             path.write_text('{"sequence":1}\n', encoding="utf-8")
             os.chmod(path, 0o600)
-            with self.assertRaises(V2PhaseEventJournalError):
-                V2PhaseEventJournal(root)
+            with V2PhaseEventJournal(root) as journal:
+                self.assertEqual(journal.page(0, 100)["items"], [])
+                self.assertEqual(journal.quarantined_bytes, 15)
+                # The journal is usable again from sequence one.
+                self.assertEqual(journal.append(self.event())["sequence"], 1)
+            quarantine = root / PHASE_EVENT_QUARANTINE_FILENAME
+            self.assertEqual(stat.S_IMODE(quarantine.stat().st_mode), 0o600)
+            self.assertEqual(
+                quarantine.read_text(encoding="utf-8"), '{"sequence":1}\n',
+            )
+            self.assertEqual(
+                [
+                    json.loads(line)["sequence"]
+                    for line in path.read_text(encoding="utf-8").splitlines()
+                ],
+                [1],
+            )
+
+    def test_torn_final_append_is_repaired_instead_of_bricking_the_journal(self):
+        """The turn-66 shape: a process dies mid-append and never restarts."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with V2PhaseEventJournal(root) as journal:
+                first = journal.append(self.event(turn=3, phase=1, place=1))
+                journal.append(self.event(turn=4, phase=1, place=1))
+            path = root / PHASE_EVENT_FILENAME
+            lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+            # Keep event one whole, then half of event two and no newline.
+            torn = lines[0] + lines[1][: len(lines[1]) // 2]
+            path.write_text(torn, encoding="utf-8")
+            os.chmod(path, 0o600)
+            with V2PhaseEventJournal(root) as journal:
+                self.assertEqual(journal.page(0, 100)["items"], [first])
+                self.assertEqual(
+                    journal.quarantined_bytes, len(torn) - len(lines[0]),
+                )
+                replacement = journal.append(self.event(turn=4, phase=1, place=1))
+                self.assertEqual(replacement["sequence"], 2)
+            # The repaired file is a clean, contiguous journal again.
+            with V2PhaseEventJournal(root) as reopened:
+                self.assertEqual(
+                    [
+                        item["sequence"]
+                        for item in reopened.page(0, 100)["items"]
+                    ],
+                    [1, 2],
+                )
+                self.assertEqual(reopened.quarantined_bytes, 0)
+            self.assertIn(
+                lines[1][: len(lines[1]) // 2],
+                (root / PHASE_EVENT_QUARANTINE_FILENAME).read_text(
+                    encoding="utf-8",
+                ),
+            )
+
+    def test_repair_survives_a_filesystem_that_refuses_the_quarantine(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with V2PhaseEventJournal(root) as journal:
+                first = journal.append(self.event())
+            path = root / PHASE_EVENT_FILENAME
+            with path.open("a", encoding="utf-8") as stream:
+                stream.write("{not json}\n")
+            os.chmod(path, 0o600)
+            with patch(
+                "agent_eval.v2_phase_events.os.ftruncate",
+                side_effect=OSError("injected private detail"),
+            ), patch(
+                "agent_eval.v2_phase_events.os.pread",
+                side_effect=self.pread_only_the_first_read(),
+            ):
+                journal = V2PhaseEventJournal(root)
+            with journal:
+                self.assertEqual(journal.page(0, 100)["items"], [first])
+                self.assertGreater(journal.quarantined_bytes, 0)
+
+    @staticmethod
+    def pread_only_the_first_read():
+        """Let the journal read, but fail the forensic copy of the tail."""
+        real = os.pread
+        state = {"calls": 0}
+
+        def pread(*args, **kwargs):
+            state["calls"] += 1
+            if state["calls"] > 1:
+                raise OSError("injected private detail")
+            return real(*args, **kwargs)
+
+        return pread
 
 
 if __name__ == "__main__":

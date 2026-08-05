@@ -12,6 +12,7 @@ import json
 import math
 import os
 import re
+import resource
 import select
 import signal
 import socket
@@ -20,6 +21,7 @@ import subprocess
 import threading
 import time
 from collections import deque
+from collections.abc import Mapping
 from contextlib import contextmanager
 from pathlib import Path
 from types import MappingProxyType
@@ -124,6 +126,46 @@ _NONTERMINAL_NATIVE_ERRORS = frozenset(
 _PHASE_MODES = frozenset({
     "concurrent", "players_alternate", "teams_alternate",
 })
+# Native client log verbosity, as the client's own single-letter levels:
+# (f)atal, (e)rror, (w)arning, (n)ormal, (v)erbose.  Anything else is refused
+# by the client at launch, including the numeric levels other Freeciv tools
+# accept.
+#
+# The default is deliberately "normal" and not "verbose".  Verbose is the level
+# a postmortem wants -- it adds "Beginning turn N" and the connection
+# diagnostics whose absence made the turn-66 stderr.log unreadable -- but
+# ``log_packet`` is ``log_verbose`` (utility/log.h:138) and Freeciv flushes
+# every log line, so verbose costs one flushed stderr write per packet received
+# from the server, inside the same single-threaded loop that answers this
+# sidecar's IPC.  Measured against the real client on a pregame connection
+# alone: 3291 packet lines and 306 KB in ~15 s, against 199 bytes at normal.
+# Buying diagnostics by slowing the client's reply path would deepen exactly
+# the latency that the turn-66 incident was the tail of, so the level is a
+# documented knob for a hunt rather than a default.
+NATIVE_LOG_LEVELS = frozenset({"f", "e", "w", "n", "v"})
+DEFAULT_NATIVE_LOG_LEVEL = "n"
+# Owner-private capture ring.  The client writes its own logs, so the harness
+# cannot line-buffer them; it can only bound them and keep a copy of the end.
+LOG_RING_BYTES = 8192
+LOG_TAIL_LINES = 30
+LOG_TAIL_BYTES = 4096
+# Per-stream disk ceiling and the tail preserved when it is reached.  Verbose
+# logging over a long game must never fill the owner's disk, and truncating to
+# nothing would destroy the very evidence the verbosity was raised for.
+LOG_ROTATE_BYTES = 4 * 1024 * 1024
+LOG_ROTATE_KEEP_BYTES = 256 * 1024
+LOG_SWEEP_INTERVAL_S = 5.0
+# Core files are truncated at this size by the kernel.  Unlimited cores from a
+# long-lived client are a disk-exhaustion risk; a bounded core still carries
+# the stack that distinguishes a native fault from a harness one.
+DEFAULT_CORE_DUMP_LIMIT_BYTES = 1 << 30
+EXIT_FORENSICS_FILENAME = "exit-forensics.json"
+# How many replies a client may owe before its stream is abandoned.  Each entry
+# is one liveness command whose reply arrived too late to be read; the stream
+# stays recoverable because the reply is still identifiable and discardable in
+# order.  The cap exists so an endlessly unanswering client is still eventually
+# fail-closed rather than accumulating expectations forever.
+MAX_UNANSWERED_LIVENESS_REPLIES = 8
 
 
 def _validate_native_caps(message: str) -> None:
@@ -495,6 +537,8 @@ class HeadlessSidecar:
         process_factory: Callable[..., Any] = subprocess.Popen,
         handshake_timeout_s: float = 20.0,
         stop_timeout_s: float = 2.0,
+        native_log_level: str | None = DEFAULT_NATIVE_LOG_LEVEL,
+        core_dump_limit_bytes: int | None = DEFAULT_CORE_DUMP_LIMIT_BYTES,
     ):
         if not PLAYER_RE.fullmatch(player_name):
             raise SidecarError("invalid_player", "sidecar player name is unsafe")
@@ -502,6 +546,16 @@ class HeadlessSidecar:
             raise SidecarError("invalid_generation")
         if not isinstance(port, int) or not 1 <= port <= 65535:
             raise SidecarError("invalid_port")
+        if native_log_level is not None and native_log_level not in (
+            NATIVE_LOG_LEVELS
+        ):
+            raise SidecarError("invalid_log_level")
+        if core_dump_limit_bytes is not None and (
+            isinstance(core_dump_limit_bytes, bool)
+            or not isinstance(core_dump_limit_bytes, int)
+            or core_dump_limit_bytes < 0
+        ):
+            raise SidecarError("invalid_core_limit")
         self.binary = Path(binary).resolve()
         self.game_id = game_id
         self.seat_id = seat_id
@@ -513,6 +567,8 @@ class HeadlessSidecar:
         self.process_factory = process_factory
         self.handshake_timeout_s = handshake_timeout_s
         self.stop_timeout_s = stop_timeout_s
+        self.native_log_level = native_log_level
+        self.core_dump_limit_bytes = core_dump_limit_bytes
         self.run_directory = Path(run_root).resolve() / (
             f"{seat_id}-generation-{generation}"
         )
@@ -554,6 +610,33 @@ class HeadlessSidecar:
         # identities, so this never enters public_health().
         self._protocol_diagnostic_stage: str | None = None
         self._protocol_diagnostic_frame: str | None = None
+        # Exit evidence.  ``_exit_code`` alone cannot say whether a death was
+        # observed before or after the seat was already given up on, and that
+        # distinction is the difference between a client that crashed and a
+        # client the harness killed after deciding it had crashed.
+        self._exit_observed_at: float | None = None
+        self._exit_observed_after_terminal = False
+        # Owner-private capture ring over the client's own logs.  The child
+        # writes to these files directly, so nothing here can ever block it.
+        self._log_lock = threading.Lock()
+        self._log_rings: dict[str, dict[str, Any]] = {
+            name: {
+                "data": b"",
+                "bytes": 0,
+                "total_bytes": 0,
+                "dropped_bytes": 0,
+                "last_output_at": None,
+            }
+            for name in ("stdout", "stderr")
+        }
+        self._log_swept_at: float | None = None
+        # Replies owed by a client that answered a liveness command too late.
+        # Each entry names the frame prefixes of one abandoned reply, in the
+        # order the client will emit them, so a late answer can be discarded
+        # instead of being mistaken for the next command's.
+        self._stale_replies: deque[tuple[str, ...]] = deque()
+        self._unanswered_replies = 0
+        self._discarded_late_replies = 0
 
     @staticmethod
     def _safe_environment(
@@ -581,15 +664,67 @@ class HeadlessSidecar:
             self.options_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600,
         )
         os.close(option_fd)
-        stdout_fd = os.open(
-            self.stdout_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600,
-        )
-        stderr_fd = os.open(
-            self.stderr_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600,
-        )
+        # O_APPEND, so that every write lands at the current end of the file.
+        # Without it the client keeps its own offset and the disk-cap sweep
+        # below would leave a sparse hole in front of the surviving tail,
+        # turning the evidence into NUL bytes.
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_APPEND
+        stdout_fd = os.open(self.stdout_path, flags, 0o600)
+        stderr_fd = os.open(self.stderr_path, flags, 0o600)
         return os.fdopen(stdout_fd, "wb", buffering=0), os.fdopen(
             stderr_fd, "wb", buffering=0,
         )
+
+    def _core_dump_preexec(self) -> Callable[[], None] | None:
+        """Permit a bounded core file in the child, or nothing if disabled.
+
+        A native fault that leaves no core is nearly as opaque as no fault at
+        all.  The limit is applied between fork and exec, so it is deliberately
+        one pre-resolved syscall with no allocation, name lookup or logging:
+        anything richer risks deadlocking a forked child of a threaded parent.
+        """
+        limit = self.core_dump_limit_bytes
+        if not limit:
+            return None
+        try:
+            soft, hard = resource.getrlimit(resource.RLIMIT_CORE)
+        except (OSError, ValueError, resource.error):  # pragma: no cover
+            return None
+        if hard != resource.RLIM_INFINITY:
+            limit = min(limit, hard)
+        if soft != resource.RLIM_INFINITY and soft >= limit:
+            # Already permitted at least as much as this sidecar asks for.
+            return None
+        limits = (limit, hard)
+
+        def apply_core_limit(
+            _setrlimit=resource.setrlimit,
+            _which=resource.RLIMIT_CORE,
+            _limits=limits,
+        ) -> None:
+            try:
+                _setrlimit(_which, _limits)
+            except Exception:
+                # A child that cannot dump core must still start and play.
+                pass
+
+        return apply_core_limit
+
+    def _launch_argv(self, ipc_fd: int, connection_name: str) -> list[str]:
+        """The exact private launch command line, with no credentials in it."""
+        argv = [
+            str(self.binary), "--autoconnect", "--name", connection_name,
+            "--server", self.host, "--port", str(self.port),
+        ]
+        if self.native_log_level is not None:
+            # Stated explicitly even at the client's own default level, so the
+            # verbosity a log was captured at is recorded in the launch rather
+            # than assumed by whoever reads the log afterwards.
+            argv += ["--debug", self.native_log_level]
+        argv += [
+            "--", "--ipc-fd", str(ipc_fd), "--player", self.player_name,
+        ]
+        return argv
 
     def _set_state(self, state: str) -> None:
         if state not in SIDE_CAR_STATES:
@@ -635,6 +770,10 @@ class HeadlessSidecar:
                 health = self.public_health()
         if state == "failed" and self._error_code == "protocol_error":
             self._persist_private_protocol_diagnostic()
+        # Every terminalization, not only the ones a supervisor is listening
+        # for: the evidence has to exist before anyone decides what the loss
+        # was, and it must survive this process.
+        self._capture_exit_evidence()
         if (
             callback is not None and health is not None
             and not defer_callback
@@ -753,6 +892,11 @@ class HeadlessSidecar:
             with self._lock:
                 if self._state in TERMINAL_STATES or self._state == "stopping":
                     return
+            # Self-throttled, so this costs one stat plus an 8 KiB read every
+            # few seconds.  Sampling from the only thread that is guaranteed
+            # to run for the whole life of the client means the capture ring
+            # is warm before a death rather than after it.
+            self._sample_logs()
             try:
                 message = ipc.receive(time.monotonic() + 1.0)
             except SidecarError as exc:
@@ -804,13 +948,22 @@ class HeadlessSidecar:
             return
         with self._lock:
             self._exit_code = returncode
+            self._exit_observed_at = time.time()
             stopping = self._state == "stopping"
             terminal = self._state in TERMINAL_STATES
+            self._exit_observed_after_terminal = terminal
         if not terminal:
             self._terminal(
                 "stopped" if stopping else "failed",
                 None if stopping else "process_exited",
             )
+            return
+        # The seat had already been given up on when the client actually died.
+        # That is the most misleading case there is -- it is how a harness
+        # timeout gets written up as a native crash, and how a real native
+        # crash that happened moments later gets lost entirely -- so the exit
+        # status is recorded again now that it is finally known.
+        self._capture_exit_evidence()
 
     def _send(self, value: str, deadline: float) -> None:
         # A raw frame is useful only for the command currently in flight.  Do
@@ -831,6 +984,15 @@ class HeadlessSidecar:
             while True:
                 if self._messages:
                     message = self._messages.popleft()
+                    if self._stale_replies and message.startswith(
+                        self._stale_replies[0],
+                    ):
+                        # The answer to a command that already gave up, in the
+                        # order it was abandoned.  Discarding it here is what
+                        # keeps a late reply from being read as this one's.
+                        self._stale_replies.popleft()
+                        self._discarded_late_replies += 1
+                        continue
                     if diagnostic_stage is not None:
                         self._protocol_diagnostic_stage = diagnostic_stage
                         self._protocol_diagnostic_frame = message
@@ -932,11 +1094,7 @@ class HeadlessSidecar:
             parent, child = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
             child.set_inheritable(True)
             connection_name = f"AE{self.generation}-{self.player_name}"[:63]
-            argv = [
-                str(self.binary), "--autoconnect", "--name", connection_name,
-                "--server", self.host, "--port", str(self.port), "--",
-                "--ipc-fd", str(child.fileno()), "--player", self.player_name,
-            ]
+            argv = self._launch_argv(child.fileno(), connection_name)
             environment = self._safe_environment(
                 self.home_directory, self.options_path,
                 Path(__file__).resolve().parent.parent / "data",
@@ -946,18 +1104,21 @@ class HeadlessSidecar:
                     raise SidecarError(
                         "sidecar_unavailable", "sidecar stopped before launch",
                     )
-                self._process = self.process_factory(
-                    argv,
-                    cwd=self.run_directory,
-                    env=environment,
-                    stdin=subprocess.DEVNULL,
-                    stdout=stdout_stream,
-                    stderr=stderr_stream,
-                    pass_fds=(child.fileno(),),
-                    close_fds=True,
-                    start_new_session=True,
-                    shell=False,
-                )
+                launch_options: dict[str, Any] = {
+                    "cwd": self.run_directory,
+                    "env": environment,
+                    "stdin": subprocess.DEVNULL,
+                    "stdout": stdout_stream,
+                    "stderr": stderr_stream,
+                    "pass_fds": (child.fileno(),),
+                    "close_fds": True,
+                    "start_new_session": True,
+                    "shell": False,
+                }
+                preexec = self._core_dump_preexec()
+                if preexec is not None:
+                    launch_options["preexec_fn"] = preexec
+                self._process = self.process_factory(argv, **launch_options)
                 self._socket = parent
                 self._ipc = FramedIPC(parent)
                 self._set_state("handshaking")
@@ -1174,15 +1335,86 @@ class HeadlessSidecar:
 
     @staticmethod
     def _command_error_is_terminal(error: SidecarError) -> bool:
+        """Whether one command failure is evidence that the client is broken.
+
+        ``deadline_exceeded`` deliberately is not.  A missed reply is a latency
+        observation: it says the client did not answer inside a budget the
+        caller chose, and says nothing at all about whether the client is
+        alive, connected or holding a seat.  Treating it as corruption is what
+        let a single 1.0 s liveness poll during a turn-change refresh brick a
+        healthy seat at turn 66.  Whether an abandoned command leaves this
+        sidecar *usable* is a separate question about stream synchronization,
+        answered by :meth:`_handle_command_failure`.
+        """
         return error.code not in (
             _NONTERMINAL_NATIVE_ERRORS
             | {
                 "sidecar_unavailable", "invalid_request", "invalid_snapshot",
                 "invalid_scope", "invalid_actor", "invalid_page",
                 "invalid_action", "invalid_argument",
-                "command_in_progress",
+                "command_in_progress", "deadline_exceeded",
             }
         )
+
+    def _arm_stream_resync(self, prefixes: tuple[str, ...]) -> bool:
+        """Remember one abandoned reply so a late answer cannot be misread.
+
+        The native stream is a single ordered channel of untagged frames, so a
+        reply the caller stopped waiting for would otherwise be consumed as the
+        *next* command's answer.  Recording its frame prefixes lets it be
+        recognized and discarded in order instead, which is what makes a
+        timeout survivable rather than terminal.  Only replies to commands with
+        no game side effect are ever abandoned this way; a mutating command's
+        answer is evidence about the game and is never silently dropped.
+        """
+        with self._lock:
+            if self._state in TERMINAL_STATES:
+                return False
+            if len(self._stale_replies) >= MAX_UNANSWERED_LIVENESS_REPLIES:
+                # A client that owes this many replies is no longer merely
+                # slow.  Fail closed, but only after real corroboration.
+                return False
+            self._stale_replies.append(prefixes)
+            self._unanswered_replies += 1
+            return True
+
+    def _handle_command_failure(
+        self,
+        error: SidecarError,
+        *,
+        sent: bool = True,
+        resync: tuple[str, ...] | None = None,
+        defer_callback: bool = False,
+        on_terminal: Callable[[SidecarError], None] | None = None,
+    ) -> tuple[
+        Callable[[int, dict[str, Any]], None] | None,
+        dict[str, Any] | None,
+    ]:
+        """Decide what one failed command means for the whole sidecar.
+
+        Two independent questions decide it: is the client broken, and is the
+        message stream still synchronized.  A timeout answers only the second,
+        and only when the request actually reached the client.  ``resync``
+        names the reply this sidecar can still identify and discard when it
+        eventually arrives; without it an abandoned request leaves the stream
+        unrecoverable and the sidecar must be replaced -- not because the
+        client died, but because this object can no longer read it safely.
+        """
+        code = error.code
+        if code == "deadline_exceeded":
+            if not sent:
+                # Nothing was ever put on the wire, so nothing is owed.
+                return None, None
+            if resync is not None and self._arm_stream_resync(resync):
+                return None, None
+        elif not self._command_error_is_terminal(error):
+            return None, None
+        if on_terminal is not None:
+            try:
+                on_terminal(error)
+            except Exception:
+                pass
+        return self._terminal("failed", code, defer_callback=defer_callback)
 
     def _record_native_revision(self, revision: int) -> None:
         with self._lock:
@@ -1237,8 +1469,7 @@ class HeadlessSidecar:
                 deadline = time.monotonic() + timeout_s
                 return self._obs_open_locked(request, deadline)
         except SidecarError as exc:
-            if self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            self._handle_command_failure(exc)
             raise
 
     def _obs_page_locked(
@@ -1362,8 +1593,7 @@ class HeadlessSidecar:
                     deadline,
                 )
         except SidecarError as exc:
-            if self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            self._handle_command_failure(exc)
             raise
 
     def read_observation(
@@ -1429,13 +1659,10 @@ class HeadlessSidecar:
         except SidecarError as exc:
             # A caller waiting behind another command can exhaust its own
             # budget without implying corruption or failure of the sidecar.
-            if acquired and self._command_error_is_terminal(exc):
-                if on_terminal_error is not None:
-                    try:
-                        on_terminal_error(exc)
-                    except Exception:
-                        pass
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(
+                    exc, on_terminal=on_terminal_error,
+                )
             raise
         finally:
             if acquired:
@@ -1626,8 +1853,8 @@ class HeadlessSidecar:
                 opened["total_count"], 0, limit, deadline,
             )
         except SidecarError as exc:
-            if acquired and self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
         finally:
             if acquired:
@@ -1667,8 +1894,7 @@ class HeadlessSidecar:
                     limit, deadline,
                 )
         except SidecarError as exc:
-            if self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            self._handle_command_failure(exc)
             raise
 
     def read_actor_scope_catalog(
@@ -1726,8 +1952,8 @@ class HeadlessSidecar:
                 "rows": tuple(rows),
             }
         except SidecarError as exc:
-            if acquired and self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
         finally:
             if acquired:
@@ -2011,8 +2237,8 @@ class HeadlessSidecar:
                 "rows": tuple(rows),
             }
         except SidecarError as exc:
-            if acquired and self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
         finally:
             if acquired:
@@ -2221,8 +2447,8 @@ class HeadlessSidecar:
                 counterpart, opened["total_count"], 0, limit, deadline,
             )
         except SidecarError as exc:
-            if acquired and self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
         finally:
             if acquired:
@@ -2265,8 +2491,7 @@ class HeadlessSidecar:
                     offset, limit, deadline,
                 )
         except SidecarError as exc:
-            if self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            self._handle_command_failure(exc)
             raise
 
     def read_relation_scope_catalog(
@@ -2328,8 +2553,8 @@ class HeadlessSidecar:
                 "rows": tuple(rows),
             }
         except SidecarError as exc:
-            if acquired and self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
         finally:
             if acquired:
@@ -2440,8 +2665,8 @@ class HeadlessSidecar:
                 "rows": tuple(rows),
             }
         except SidecarError as exc:
-            if acquired and self._command_error_is_terminal(exc):
-                self._terminal("failed", exc.code)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
         finally:
             if acquired:
@@ -2687,22 +2912,20 @@ class HeadlessSidecar:
                     on_ambiguous(exc)
                 except Exception:
                     pass
-            if (
-                self._command_error_is_terminal(exc)
-                and not (
-                    isinstance(exc, SidecarActionAmbiguous)
-                    and exc.stream_synchronized
-                )
-                and not (
-                    not send_may_have_begun
-                    and exc.code == "deadline_exceeded"
-                )
+            if not (
+                isinstance(exc, SidecarActionAmbiguous)
+                and exc.stream_synchronized
             ):
                 # Publish terminal state while the action still owns the
                 # command gate, then release it before invoking external
                 # on_exit code.  No command can slip through in between.
-                deferred_exit = self._terminal(
-                    "failed", exc.code, defer_callback=True,
+                #
+                # An action's reply is never abandoned for resynchronization:
+                # it is the only evidence of whether the game applied the act,
+                # so a timeout here must reach the supervisor's ambiguity
+                # handling rather than be quietly discarded later.
+                deferred_exit = self._handle_command_failure(
+                    exc, sent=send_may_have_begun, defer_callback=True,
                 )
             raise
         finally:
@@ -2814,13 +3037,30 @@ class HeadlessSidecar:
         }
 
     def status(self, timeout_s: float = 2.0) -> str:
+        """Sample one liveness answer from the client.
+
+        This is the cheapest question the boundary can be asked and the one
+        whose failure means the least: a client rebuilding its whole state at a
+        turn boundary can miss the budget while perfectly healthy, so a timeout
+        here leaves the sidecar usable and merely owes one STATUS reply.  The
+        caller decides what a missed sample means; this object refuses to
+        decide that a slow client is a dead one.
+        """
+        sent = False
+        asked = False
         try:
             with self._command_lock:
                 deadline = time.monotonic() + timeout_s
                 with self._lock:
                     if self._state != "ready":
                         raise SidecarError("sidecar_unavailable")
+                # From here the frame may be partially on the wire even if the
+                # call raises, and a half-written frame is a corrupt stream
+                # rather than an owed reply.  Only a completed send leaves a
+                # reply that can be identified and discarded later.
+                sent = True
                 self._send("STATUS", deadline)
+                asked = True
                 while True:
                     message = self._wait_message(deadline)
                     fatal = self._fatal_message(message)
@@ -2871,20 +3111,26 @@ class HeadlessSidecar:
                         return message
                     raise SidecarError("protocol_error")
         except SidecarError as exc:
-            if exc.code not in {"sidecar_unavailable", "command_in_progress"}:
-                self._terminal("failed", exc.code)
+            self._handle_command_failure(
+                exc, sent=sent,
+                resync=("STATUS\t",) if asked else None,
+            )
             raise
 
     def ping(self, token: str, timeout_s: float = 2.0) -> bool:
         if not PING_RE.fullmatch(token):
             raise SidecarError("invalid_ping")
+        sent = False
+        asked = False
         try:
             with self._command_lock:
                 deadline = time.monotonic() + timeout_s
                 with self._lock:
                     if self._state != "ready":
                         raise SidecarError("sidecar_unavailable")
+                sent = True
                 self._send(f"PING\t{token}", deadline)
+                asked = True
                 while True:
                     message = self._wait_message(deadline)
                     fatal = self._fatal_message(message)
@@ -2894,8 +3140,12 @@ class HeadlessSidecar:
                         return True
                     raise SidecarError("protocol_error")
         except SidecarError as exc:
-            if exc.code not in {"sidecar_unavailable", "command_in_progress"}:
-                self._terminal("failed", exc.code)
+            # Like STATUS, a PONG carries no game state, so a late one can be
+            # recognized by its token and thrown away.
+            self._handle_command_failure(
+                exc, sent=sent,
+                resync=(f"PONG\t{token}",) if asked else None,
+            )
             raise
 
     @staticmethod
@@ -3038,6 +3288,12 @@ class HeadlessSidecar:
         for thread in (self._reader_thread, self._monitor_thread):
             if thread is not None and thread is not current:
                 thread.join(timeout=self.stop_timeout_s + 0.25)
+        if self._process is not None:
+            # A sidecar that was already terminal when stop() ran did not
+            # capture the signal stop() then delivered.  Recording it is what
+            # tells a later reader that the harness killed this client, rather
+            # than leaving a SIGKILL to be read as a native fault.
+            self._capture_exit_evidence()
         return self.public_health()
 
     @staticmethod
@@ -3057,7 +3313,22 @@ class HeadlessSidecar:
             process.kill()
 
     def public_health(self) -> dict[str, Any]:
+        # Poll the child here rather than reporting only what the monitor has
+        # reaped: the exit callback fires synchronously from whichever thread
+        # observed the failure, and a health snapshot that says "failed" with
+        # no exit status and no liveness reads as "the client vanished" when
+        # the truth may be "the client is still running and merely slow".
+        process = self._process
+        try:
+            returncode = None if process is None else process.poll()
+        except Exception:
+            returncode = None
         with self._lock:
+            if returncode is None:
+                returncode = self._exit_code
+            elif self._exit_code is None:
+                self._exit_code = returncode
+                self._exit_observed_at = time.time()
             return {
                 "state": self._state,
                 "generation": self.generation,
@@ -3067,6 +3338,10 @@ class HeadlessSidecar:
                 "last_seen_at": self._last_seen_at,
                 "stopped_at": self._stopped_at,
                 "exit_code": self._exit_code,
+                **self._exit_signal_fields(self._exit_code),
+                "process_alive": (
+                    process is not None and self._exit_code is None
+                ),
                 "error_code": self._error_code,
                 "client_state": self._client_state,
                 "server_connected": self._server_connected,
@@ -3080,6 +3355,275 @@ class HeadlessSidecar:
                     and not self._stop_requested
                 ),
             }
+
+    @staticmethod
+    def _tail_bytes(path: Path, maximum_bytes: int) -> bytes | None:
+        """Read the end of one file, or None when it cannot be read at all."""
+        try:
+            with open(path, "rb") as handle:
+                handle.seek(0, os.SEEK_END)
+                size = handle.tell()
+                handle.seek(max(0, size - maximum_bytes))
+                return handle.read(maximum_bytes)
+        except OSError:
+            return None
+
+    @staticmethod
+    def _tail_lines(data: bytes, lines: int) -> tuple[str, ...]:
+        text = data.decode("utf-8", "replace")
+        return tuple(
+            line[:512] for line in text.splitlines()[-lines:] if line.strip()
+        )
+
+    def _rotate_log(self, path: Path, size: int) -> tuple[int, int]:
+        """Cap one private log, keeping its tail; return (size, dropped).
+
+        The client owns the writing end and must never be blocked or made to
+        fail by the harness, so the file is truncated in place under O_APPEND
+        rather than renamed or piped.  A write racing this rotation can lose a
+        partial line; that is acceptable for a diagnostic log and happens only
+        once per :data:`LOG_ROTATE_BYTES` of output.
+        """
+        tail = self._tail_bytes(path, LOG_ROTATE_KEEP_BYTES)
+        if tail is None:
+            return size, 0
+        marker = (
+            b"--- earlier output dropped by the sidecar log cap ---\n"
+        )
+        descriptor = None
+        try:
+            descriptor = os.open(path, os.O_WRONLY | os.O_APPEND)
+            os.truncate(descriptor, 0)
+            os.write(descriptor, marker)
+            os.write(descriptor, tail)
+        except OSError:
+            return size, 0
+        finally:
+            if descriptor is not None:
+                try:
+                    os.close(descriptor)
+                except OSError:
+                    pass
+        return len(marker) + len(tail), max(0, size - len(tail))
+
+    def _sample_logs(self, *, force: bool = False) -> None:
+        """Refresh the capture ring and hold the private logs under their cap.
+
+        The child writes its own diagnostics, so the harness cannot line-buffer
+        them; what it can do is keep its own copy of the end of each stream and
+        observe *when* the stream last grew.  A client that writes nothing at
+        all between startup and death is the turn-66 signature, and it is only
+        legible as evidence if the silence itself was recorded.
+        """
+        now = time.monotonic()
+        with self._log_lock:
+            if (
+                not force and self._log_swept_at is not None
+                and now - self._log_swept_at < LOG_SWEEP_INTERVAL_S
+            ):
+                return
+            self._log_swept_at = now
+            for name, path in (
+                ("stdout", self.stdout_path), ("stderr", self.stderr_path),
+            ):
+                entry = self._log_rings[name]
+                try:
+                    stats = os.stat(path)
+                except OSError:
+                    continue
+                size = stats.st_size
+                if size > 0:
+                    # The client is the only other writer, so the file's own
+                    # modification time is the moment it last said anything --
+                    # a far more useful fact than when this sweep noticed.
+                    entry["last_output_at"] = stats.st_mtime
+                dropped = 0
+                if size > LOG_ROTATE_BYTES:
+                    # Keep the client's last write time across the rotation:
+                    # the mtime after this point is the harness's, not its.
+                    size, dropped = self._rotate_log(path, size)
+                entry["dropped_bytes"] += dropped
+                # Everything this stream has ever held, whether or not it is
+                # still on disk, to within the one marker line each rotation
+                # adds.  What it is for is answering "did the client ever say
+                # anything", so exactness below a line does not matter.
+                entry["total_bytes"] = entry["dropped_bytes"] + size
+                entry["bytes"] = size
+                data = self._tail_bytes(path, LOG_RING_BYTES)
+                if data is not None:
+                    entry["data"] = data
+
+    def _log_evidence(self, name: str, path: Path, lines: int) -> dict[str, Any]:
+        """Tail plus growth history for one private client stream."""
+        with self._log_lock:
+            entry = dict(self._log_rings[name])
+        data = self._tail_bytes(path, LOG_TAIL_BYTES)
+        if data is None:
+            # The file is gone or unreadable; the ring is the only copy left.
+            data = entry["data"]
+        return {
+            "tail": self._tail_lines(data, lines),
+            "bytes": entry["total_bytes"],
+            "dropped_bytes": entry["dropped_bytes"],
+            "last_output_at": entry["last_output_at"],
+        }
+
+    def _persist_exit_forensics(self, forensics: Mapping[str, Any]) -> None:
+        """Write the exit evidence beside the client, before anyone asks.
+
+        The supervisor normally collects this through the exit callback, but a
+        supervisor can itself be gone, restarted or blocked when a client dies.
+        A death that is only ever reported in memory is a death that can be
+        lost, so it is also recorded in the sidecar's own private directory.
+        """
+        record = {
+            "game_id": self.game_id,
+            "seat_id": self.seat_id,
+            "generation": self.generation,
+            "player_name": self.player_name,
+            "timestamp": time.time(),
+            **{
+                key: (list(value) if isinstance(value, tuple) else value)
+                for key, value in forensics.items()
+            },
+        }
+        descriptor = None
+        try:
+            payload = json.dumps(
+                record, ensure_ascii=False, allow_nan=False, sort_keys=True,
+                separators=(",", ":"),
+            ).encode("utf-8")
+            descriptor = os.open(
+                self.run_directory / EXIT_FORENSICS_FILENAME,
+                os.O_WRONLY | os.O_CREAT | os.O_TRUNC,
+                0o600,
+            )
+            view = memoryview(payload)
+            while view:
+                written = os.write(descriptor, view)
+                if written <= 0:
+                    break
+                view = view[written:]
+        except (OSError, TypeError, ValueError):
+            # Evidence is subordinate to the failure it describes.
+            pass
+        finally:
+            if descriptor is not None:
+                try:
+                    os.close(descriptor)
+                except OSError:
+                    pass
+
+    def _capture_exit_evidence(self) -> dict[str, Any]:
+        """Sample and persist everything known about how this sidecar ended."""
+        self._sample_logs(force=True)
+        forensics = self.private_exit_forensics()
+        self._persist_exit_forensics(forensics)
+        return forensics
+
+    def _exit_status_snapshot(self) -> dict[str, Any]:
+        """Poll the child once and reconcile it with the recorded exit code.
+
+        The monitor thread may not have reaped an exit yet when a command
+        publishes a failure, and equally a command may publish a failure for a
+        client that is still running.  Both facts have to be sampled here, at
+        the same instant, or the resulting record cannot distinguish them.
+        """
+        process = self._process
+        returncode: int | None = None
+        if process is not None:
+            try:
+                returncode = process.poll()
+            except Exception:
+                returncode = None
+        with self._lock:
+            if returncode is None:
+                returncode = self._exit_code
+            elif self._exit_code is None:
+                self._exit_code = returncode
+                self._exit_observed_at = time.time()
+            snapshot = {
+                "exit_code": returncode,
+                "process_alive": process is not None and returncode is None,
+                "process_started": process is not None,
+                "exit_observed_at": self._exit_observed_at,
+                "exit_observed_after_terminal": (
+                    self._exit_observed_after_terminal
+                ),
+            }
+        snapshot.update(self._exit_signal_fields(returncode))
+        return snapshot
+
+    @staticmethod
+    def _exit_signal_fields(returncode: int | None) -> dict[str, Any]:
+        """Split a wait status into a signal number and its name, if any."""
+        if not isinstance(returncode, int) or returncode >= 0:
+            return {"exit_signal": None, "exit_signal_name": None}
+        number = -returncode
+        try:
+            name = signal.Signals(number).name
+        except ValueError:
+            name = None
+        return {"exit_signal": number, "exit_signal_name": name}
+
+    def private_exit_forensics(
+        self, *, tail_lines: int = LOG_TAIL_LINES,
+    ) -> dict[str, Any]:
+        """Owner-private evidence about how this sidecar stopped working.
+
+        A client can stop serving without dying, so this deliberately reports
+        liveness separately from an exit status: ``exit_code`` is null and
+        ``process_alive`` true for a client that simply stopped answering,
+        which is the difference between a crash and a hang.  The process is
+        polled here rather than trusting the monitor thread, which may not
+        have reaped it yet when a command deadline publishes the failure.
+        """
+        status = self._exit_status_snapshot()
+        with self._lock:
+            state = self._state
+            client_state = self._client_state
+            error_code = self._error_code
+            last_seen_at = self._last_seen_at
+            started_at = self._started_at
+            stopped_at = self._stopped_at
+            unanswered = self._unanswered_replies
+            outstanding = len(self._stale_replies)
+            discarded = self._discarded_late_replies
+            stop_requested = self._stop_requested
+        stderr = self._log_evidence("stderr", self.stderr_path, tail_lines)
+        stdout = self._log_evidence("stdout", self.stdout_path, tail_lines)
+        return {
+            **status,
+            "sidecar_state": state,
+            # Whether the HARNESS asked for this death.  Without it a SIGKILL
+            # the supervisor issued during an orderly stop is indistinguishable
+            # from an external SIGKILL: identical exit_signal_name, identical
+            # process_alive.  Reading the first as a native fault is exactly
+            # the mis-attribution this campaign is about.
+            "stop_requested": stop_requested,
+            "client_state": client_state,
+            "error_code": error_code,
+            "last_seen_at": last_seen_at,
+            "started_at": started_at,
+            "stopped_at": stopped_at,
+            # A client that dies without writing anything looks exactly like a
+            # client that was killed while healthy unless the silence is itself
+            # recorded, with the verbosity it was launched at to say whether
+            # silence was even possible.
+            "native_log_level": self.native_log_level,
+            "stderr_tail": stderr["tail"],
+            "stdout_tail": stdout["tail"],
+            "stderr_bytes": stderr["bytes"],
+            "stdout_bytes": stdout["bytes"],
+            "stderr_dropped_bytes": stderr["dropped_bytes"],
+            "stdout_dropped_bytes": stdout["dropped_bytes"],
+            "stderr_last_output_at": stderr["last_output_at"],
+            "stdout_last_output_at": stdout["last_output_at"],
+            "unanswered_replies": unanswered,
+            "outstanding_replies": outstanding,
+            "discarded_late_replies": discarded,
+            "core_dump_limit_bytes": self.core_dump_limit_bytes,
+        }
 
     def private_native_identity(self) -> tuple[int, int] | None:
         """Return the current native player incarnation to the owner only."""

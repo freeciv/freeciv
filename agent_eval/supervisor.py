@@ -66,6 +66,7 @@ from .v2_phase_events import (
     V2PhaseEventJournalError,
 )
 from .v2_recovery import (
+    MAX_RECOVERY_ATTEMPTS_PER_GAME,
     RecoveryBudget,
     V2RecoveryError,
     V2RecoveryJournal,
@@ -178,9 +179,49 @@ SIDECAR_HEALTH_FIELDS = frozenset({
     "state", "generation", "player_name", "started_at", "ready_at",
     "last_seen_at", "stopped_at", "exit_code", "error_code",
     "client_state", "server_connected", "seat_state",
+    # The three facts that separate "the client crashed" from "the client is
+    # alive and merely slow".  Without them a live-but-unresponsive seat reads
+    # as `state=failed, exit_code=null`, byte-identical to a silent death --
+    # which is exactly the ambiguity that cost a day of the turn-66 hunt.
+    "exit_signal", "exit_signal_name", "process_alive",
 })
+
+class _RecoveryAbandoned:
+    """A recovery attempt that never ran because the game is going away.
+
+    Distinct from ``False``: an attempt that *ran and failed* is evidence the
+    seat is unrecoverable and must escalate, while one that was refused by a
+    cancel, a completed-game teardown or an already-exited server proves
+    nothing at all.  Conflating them is what let an owner's cancel land in the
+    manifest as ``v2_boundary_wedged``.
+    """
+
+    __slots__ = ()
+
+    def __bool__(self) -> bool:
+        return False
+
+    def __repr__(self) -> str:
+        return "RECOVERY_ABANDONED"
+
+
+RECOVERY_ABANDONED = _RecoveryAbandoned()
 V2_SIDECAR_EXIT_DIAGNOSTIC_FILENAME = "sidecar-exit-diagnostic.json"
+V2_SIDECAR_EXIT_HISTORY_FILENAME = "sidecar-exit-history.json"
+# One more than a game's whole recovery budget, so every death a recovered
+# game can survive keeps its own logs and the first one is never the one lost.
+V2_SIDECAR_EXIT_HISTORY_LIMIT = MAX_RECOVERY_ATTEMPTS_PER_GAME + 1
 V2_SIDECAR_STARTUP_GRACE_S = 20.0
+# The liveness poll has no caller waiting on its answer, so it must carry the
+# LOOSEST budget in the system, not the tightest.  It used to be 1.0s -- half
+# the 2.0s of a request-path status and a fifth of the 5.0s a recovery gets --
+# and a single missed sample destroyed a healthy seat-owning client.
+V2_LIVENESS_POLL_TIMEOUT_S = 6.0
+# One slow sample is "slow", never "gone".  A seat-loss verdict from a timeout
+# alone needs a run of misses that no latency tail explains, spanning real
+# time, with no evidence the process is still alive.
+V2_LIVENESS_MISS_THRESHOLD = 3
+V2_LIVENESS_MISS_WINDOW_S = 10.0
 V2_SIDECAR_COMPLETION_GRACE_S = 2.0
 V2_OBSERVATION_TIMEOUT_S = 5.0
 V2_POST_RESULT_OBSERVATION_RETRY_S = 2.0
@@ -195,6 +236,11 @@ V2_PHASE_SYNCHRONIZE_STALL_S = 30.0
 # chooses a model action and is deliberately much more generous than polling or
 # request timeouts.
 V2_PHASE_PROGRESS_STALL_S = 300.0
+# Consecutive unexpected faults in the seat status poll before the game is
+# failed rather than left unwatched.  One is a transient the next sample can
+# recover from; a run of three, a quarter second apart, is the thread itself
+# failing, and a game nobody polls never advances another phase.
+V2_STATUS_POLL_FAULT_LIMIT = 3
 V2_STATE_SECTIONS = frozenset({
     "overview", "votes", "research", "diplomacy", "diplomacy_clauses",
     "known_tiles", "map_tiles", "cities", "units", "city_sites",
@@ -607,6 +653,10 @@ class Game:
         # for escaping it, and what the seat should be told meanwhile.
         self.v2_wedge_detector = WedgeDetector()
         self.v2_recovery_budget = RecoveryBudget()
+        # Serializes the recovery MECHANISM across seats: rebuilding a seat and
+        # replacing the server are both whole-game operations, and two of them
+        # at once corrupt each other.  Never held while self.condition is held.
+        self.v2_recovery_lock = threading.RLock()
         self.v2_recovery_journal: V2RecoveryJournal | None = None
         self.v2_recovery_journal_failed = False
         # place -> {"trigger", "turn", "detected_at"} while the seat is known
@@ -616,11 +666,39 @@ class Game:
         # place -> {"kind", "attempt", "turn", "target_turn"} while a recovery
         # is in flight, for the seat-facing explanation of the wait.
         self.v2_recovery_in_flight: dict[int, dict[str, Any]] = {}
+        # place -> (first_miss_monotonic, consecutive_misses) for liveness
+        # polls that timed out.  A timeout is evidence of slowness; only a run
+        # of them, over real time, with a dead process, is evidence of loss.
+        self.v2_liveness_misses: dict[int, tuple[float, int]] = {}
         # place -> the last recorded rollback event, published on health.
         self.v2_last_recovery: dict[int, dict[str, Any]] = {}
+        # Game-wide recovery facts, published on the manifest so a scorer can
+        # tell a clean game from a recovered one without reading the journal.
+        self.v2_recovery_summary: dict[str, Any] = {
+            "attempts": 0,
+            "by_kind": {},
+            "by_outcome": {},
+            "rewound_applied_actions": False,
+            "recovered_to_turns": [],
+        }
+        # Every unexpected seat loss this game survived, newest last, kept
+        # owner-private: recovery means the latest-death file is no longer the
+        # only death.
+        self.v2_sidecar_exit_history: list[dict[str, Any]] = []
         # place -> the newest turn in which this seat had an action applied,
         # so a rollback can say whether it rewound past one.
         self.v2_applied_turns: dict[int, int] = {}
+        # Which run of this game is current: 0 until an autosave rollback
+        # replaces the world, then one more per rollback.  Everything keyed on
+        # "what happened in turn T" -- phase events, command receipts -- has to
+        # be scoped by it, because after a rewind turn T happens again and is
+        # not the same turn T.
+        self.v2_incarnation = 0
+        # True only while a tier-2 rollback is between disowning the old
+        # server and launching its replacement.  Every other seat's client
+        # loses its connection in that window; that is the recovery working,
+        # not a seat loss, and must never start a second recovery.
+        self.v2_server_replacing = False
         self.v2_replay_producer: V2ReplayProducer | None = None
         self.v2_active_receipt_operations = 0
         self.v2_receipts_closing = False
@@ -870,6 +948,7 @@ class Game:
             "frames": len(self._ppm_frames()),
             "checkpoints": len(self._save_files()),
             "video_file": "game.mp4" if (self.episode / "game.mp4").exists() else None,
+            "recovery": self._v2_recovery_manifest_locked(),
         }
 
     def _write_manifest(self, state: str | None = None) -> None:
@@ -1245,18 +1324,29 @@ class Game:
         if expected_timeout is not None and len(commands) != 1:
             raise ValueError("expected_timeout requires exactly one command")
         with self.console_lock:
-            if self.process is None or self.process.stdin is None:
+            # Bound to one exact process for the whole batch.  A rollback can
+            # disown and replace the server between two commands of the same
+            # batch, and a batch that finishes against a different server than
+            # it started against is neither the settings it meant to apply nor
+            # a failure anyone would see.
+            process = self.process
+            if process is None or process.stdin is None:
                 raise SupervisorError("Freeciv stdin is unavailable")
             for command in commands:
                 if self.supervisor.shutdown_event.is_set():
                     raise SupervisorError("supervisor is shutting down")
+                if self.process is not process:
+                    raise SupervisorError(
+                        "the Freeciv server was replaced while sending "
+                        "console commands"
+                    )
                 try:
                     with self.condition:
                         self.at_prompt = False
                         after_sequence = self.server_output_sequence
                     value: Any = (command + "\n").encode("utf-8")
-                    self.process.stdin.write(value)
-                    self.process.stdin.flush()
+                    process.stdin.write(value)
+                    process.stdin.flush()
                 except (BrokenPipeError, OSError) as exc:
                     raise SupervisorError(
                         f"cannot write Freeciv command: {exc}"
@@ -1324,18 +1414,24 @@ class Game:
             process = self.process
         if process is None:
             return
+        monitor_error: str | None = None
         try:
             returncode = process.wait()
         except Exception as exc:
             returncode = None
-            with self.condition:
-                self.error = f"could not monitor freeciv-server: {exc}"
+            monitor_error = f"could not monitor freeciv-server: {exc}"
         with self.condition:
             if self.process is not process:
                 # Boundary recovery disowns a server before replacing it, so
                 # this exit is the intended end of a superseded process, not
                 # the end of the game.  Its replacement has its own monitor.
+                # Nothing about a superseded process may be published, an
+                # error least of all: a game whose error is set is failed at
+                # its next classification, so recording one here would let a
+                # retired server end a game that recovery had just rescued.
                 return
+            if monitor_error is not None:
+                self.error = monitor_error
         # Once wait() has returned, native client disconnects are an expected
         # consequence of server completion.  Publish that fact before output
         # draining or sidecar shutdown so their callbacks cannot invalidate a
@@ -1469,24 +1565,222 @@ class Game:
             on_exit=callback,
         )
 
+    @staticmethod
+    def _collect_v2_sidecar_forensics(sidecar: Any) -> dict[str, Any]:
+        """Ask one sidecar how it stopped working, tolerating any answer.
+
+        A seat can be lost precisely because its sidecar is unusable, so this
+        must never raise: no evidence is a worse outcome than partial
+        evidence, but neither may replace the original failure.
+
+        This runs with the game condition held, deliberately.  The cost is one
+        non-blocking ``poll()`` and two tail reads bounded to 4 KiB each, of
+        files in the run directory the supervisor already writes under the
+        same lock; the benefit is that the process, the sidecar's own state
+        and its logs are sampled as one instant.  Releasing the lock first
+        would let the generation be retired and the sidecar stopped in
+        between, so the evidence would describe a seat that no longer exists.
+        """
+        collect = getattr(sidecar, "private_exit_forensics", None)
+        if not callable(collect):
+            return {}
+        try:
+            forensics = collect()
+        except Exception:
+            return {}
+        if not isinstance(forensics, Mapping):
+            return {}
+        clean: dict[str, Any] = {}
+        for key in (
+            "exit_code", "exit_signal", "exit_signal_name", "process_alive",
+            "sidecar_state", "client_state", "error_code", "last_seen_at",
+        ):
+            value = forensics.get(key)
+            if value is None or isinstance(value, (str, int, float, bool)):
+                clean[key] = value
+        for key in ("stderr_tail", "stdout_tail"):
+            value = forensics.get(key)
+            if isinstance(value, (list, tuple)):
+                clean[key] = [
+                    item[:512] for item in value
+                    if isinstance(item, str)
+                ][-30:]
+        return clean
+
+    @staticmethod
+    def _v2_forensic_summary(forensics: Mapping[str, Any]) -> str:
+        """One human-readable clause naming how a seat's client stopped."""
+        if not forensics:
+            return "no exit diagnostics were available"
+        signal_name = forensics.get("exit_signal_name")
+        exit_signal = forensics.get("exit_signal")
+        exit_code = forensics.get("exit_code")
+        if isinstance(exit_signal, int):
+            cause = f"killed by signal {signal_name or exit_signal}"
+        elif isinstance(exit_code, int):
+            cause = f"exited with code {exit_code}"
+        elif forensics.get("process_alive") is True:
+            cause = "stopped answering while still running"
+        else:
+            cause = "stopped without an observed exit status"
+        client_state = forensics.get("client_state")
+        error_code = forensics.get("error_code")
+        detail = []
+        if isinstance(client_state, str):
+            detail.append(f"last native client state {client_state}")
+        if isinstance(error_code, str):
+            detail.append(f"sidecar error {error_code}")
+        return cause + (f" ({', '.join(detail)})" if detail else "")
+
+    @staticmethod
+    def _v2_seat_loss_attribution(
+        forensics: Mapping[str, Any],
+    ) -> tuple[str, str]:
+        """Name the seat loss by the evidence, not by assumption.
+
+        The hard-coded wording used to assert "sidecar exited" for a client
+        that was demonstrably still running, producing the self-contradicting
+        sentence "sidecar exited (... stopped answering while still running)".
+        That sentence sent the turn-66 hunt after a native crash for a day.
+        The machine-readable reason token was wrong in the same way, and it is
+        what scoring consumes.
+        """
+        exited = isinstance(forensics.get("exit_code"), int) or isinstance(
+            forensics.get("exit_signal"), int,
+        )
+        if not exited and forensics.get("process_alive") is True:
+            return (
+                "sidecar_unresponsive",
+                "full-control-v2 sidecar stopped answering while still "
+                "running",
+            )
+        return ("sidecar_exited", "full-control-v2 sidecar exited")
+
+    def _v2_sidecar_exit_recoverable_locked(self, place_number: int) -> bool:
+        """Whether a lost seat should be recovered instead of ending the game.
+
+        Only a mid-game seat behind a live server qualifies.  The server owns
+        the authoritative state and its per-turn autosaves, so a new sidecar
+        generation can retake the seat having lost nothing.  A loss during the
+        lobby, during an intentional teardown, or after the server itself has
+        gone keeps the existing fail-closed behaviour, because in those cases
+        there is either nothing to return to or something else already owns
+        the outcome.
+        """
+        return bool(
+            self.config["control_protocol"] == FULL_CONTROL_V2
+            # "starting" counts: the server is up and the game may already be
+            # under way, so the seat still has somewhere to come back to.
+            and self.state in {"running", "starting"}
+            and self.start_sent
+            and not self.cancel_requested
+            and not self.sidecars_stopping
+            and not self.server_exit_observed
+            and self.place_agents.get(place_number) is not None
+            and place_number not in self.v2_wedged_places
+            and place_number not in self.v2_recovery_in_flight
+        )
+
+    def _v2_death_context_locked(
+        self, place_number: int, last_client_state: Any = None,
+    ) -> dict[str, Any]:
+        """Where in the game one seat was when its client stopped serving.
+
+        Forensics from the sidecar say how it died; this says when.  Without
+        the turn, the phase and the seat-local revision that the boundary had
+        last agreed on, a death recorded mid-transition cannot be told apart
+        from one at rest, which is exactly the ambiguity that left the turn-66
+        incident unattributable.  ``last_client_state`` is passed in by the
+        caller rather than read here, because it has to come from the last
+        health the supervisor itself accepted, before the failure health of
+        the dying generation overwrites it: what the client last said while it
+        was working is evidence, and what it says while dying is not.
+        """
+        ledger = self.v2_phase_ledger
+        key = ledger.get("key")
+        keyed = key if isinstance(key, tuple) and len(key) == 2 else (None, None)
+        evidence = ledger.get("evidence", {}).get(place_number)
+        revision = (
+            evidence.get("seat_local_revision")
+            if isinstance(evidence, Mapping) else None
+        )
+        # Both come from the ledger key, which is the last turn and phase every
+        # seat agreed on.  That survives the death: live consensus does not,
+        # because it needs the seat that has just stopped reporting.
+        return {
+            "turn": keyed[0],
+            "phase": keyed[1],
+            "phase_ledger_state": ledger.get("state"),
+            "seat_local_revision": revision if isinstance(revision, int) else None,
+            "last_status_client_state": (
+                last_client_state if isinstance(last_client_state, str) else None
+            ),
+        }
+
+    @staticmethod
+    def _v2_death_context_summary(context: Mapping[str, Any]) -> str:
+        """One clause placing a seat loss in the game, for the manifest error."""
+        turn = context.get("turn")
+        phase = context.get("phase")
+        where = (
+            f"turn {turn}" if isinstance(turn, int) else "an unknown turn"
+        )
+        if isinstance(phase, int):
+            where += f" phase {phase}"
+        ledger_state = context.get("phase_ledger_state")
+        if isinstance(ledger_state, str):
+            where += f" while the phase ledger was {ledger_state}"
+        revision = context.get("seat_local_revision")
+        if isinstance(revision, int):
+            where += f", at seat revision {revision}"
+        return where
+
     def _persist_sidecar_exit_diagnostic(
-        self, place_number: int, generation: int, health: Mapping[str, Any],
+        self,
+        place_number: int,
+        generation: int,
+        health: Mapping[str, Any],
+        forensics: Mapping[str, Any] | None = None,
+        context: Mapping[str, Any] | None = None,
     ) -> None:
         """Best-effort owner-private evidence for an unexpected seat loss."""
+        record = {
+            "died_at": dict(context or {}),
+            "error_code": health.get("error_code"),
+            "exit_code": health.get("exit_code"),
+            "forensics": dict(forensics or {}),
+            "game_id": self.game_id,
+            "generation": generation,
+            "last_seen_at": health.get("last_seen_at"),
+            "place": place_number,
+            "sidecar_state": health.get("state"),
+            "stopped_at": health.get("stopped_at"),
+            "timestamp": time.time(),
+        }
+        # Recovery makes several deaths in one game the expected case rather
+        # than an impossible one, and the single latest-death file is
+        # overwritten by each.  The journal keeps every death's exit status,
+        # but the log tails are the only evidence that distinguishes a native
+        # crash from a silent disappearance, so the earlier ones are kept here
+        # too.  Bounded, because this is evidence and not a log.
+        self.v2_sidecar_exit_history.append(record)
+        del self.v2_sidecar_exit_history[:-V2_SIDECAR_EXIT_HISTORY_LIMIT]
+        try:
+            _atomic_json(
+                self.episode / V2_SIDECAR_EXIT_HISTORY_FILENAME,
+                {
+                    "schema_version": 1,
+                    "game_id": self.game_id,
+                    "deaths": list(self.v2_sidecar_exit_history),
+                },
+                mode=0o600,
+            )
+        except Exception:
+            pass
         try:
             _atomic_json(
                 self.episode / V2_SIDECAR_EXIT_DIAGNOSTIC_FILENAME,
-                {
-                    "error_code": health.get("error_code"),
-                    "exit_code": health.get("exit_code"),
-                    "game_id": self.game_id,
-                    "generation": generation,
-                    "last_seen_at": health.get("last_seen_at"),
-                    "place": place_number,
-                    "sidecar_state": health.get("state"),
-                    "stopped_at": health.get("stopped_at"),
-                    "timestamp": time.time(),
-                },
+                record,
                 mode=0o600,
             )
         except Exception:
@@ -1498,16 +1792,25 @@ class Game:
     def _on_sidecar_exit(
         self, place_number: int, generation: int, health: Any,
         *, after_completion_grace: bool = False,
-    ) -> None:
+    ) -> bool:
+        """Handle one seat loss; return true when recovery has taken it over."""
         should_terminate = False
         should_stop = False
         should_defer = False
+        should_recover: dict[str, Any] | None = None
         control_to_close: V2SeatControl | None = None
         clean: dict[str, Any]
         with self.condition:
             if self.sidecar_generations.get(place_number) != generation:
-                return
+                return False
             sidecar = self.sidecars.get(place_number)
+            # The last health the supervisor accepted while the seat was still
+            # working; the failure health below is about to replace it, and it
+            # is the only record of what the native client was doing before it
+            # stopped.
+            last_good_client_state = self.sidecar_health.get(
+                place_number, {},
+            ).get("client_state")
             clean = self._sanitized_sidecar_health(sidecar, generation)
             if isinstance(health, dict):
                 clean.update({
@@ -1523,24 +1826,40 @@ class Game:
             ):
                 self.sidecar_exit_grace_generations.pop(place_number, None)
                 self.condition.notify_all()
-                return
+                return False
+            if self.v2_server_replacing and place_number not in (
+                self.v2_recovery_in_flight
+            ):
+                # A tier-2 rollback is between disowning the old server and
+                # launching its replacement.  Every seat that is not the one
+                # being recovered loses its connection in that window BY
+                # DESIGN.  Treating that as a seat loss starts a competing
+                # recovery per surviving seat, which drains the shared budget
+                # and fails the game in the middle of the rollback that was
+                # saving it.  Keep polling: once the replacement server is up
+                # the latch clears, and this seat then takes its OWN tier-1
+                # re-attach against it -- serialized behind the rollback by
+                # v2_recovery_lock, and charged to its own (turn, place)
+                # ladder rather than to the rollback's.
+                self.condition.notify_all()
+                return True
             # A bootstrap failure is rolled back transactionally by join().
             # Only a generation which was previously READY is an unexpected
             # loss of an established human seat.
             if self.sidecar_ready_generations.get(place_number) != generation:
                 self.condition.notify_all()
-                return
+                return False
             if after_completion_grace:
                 if (
                     self.sidecar_exit_grace_generations.get(place_number)
                     != generation
                 ):
-                    return
+                    return False
                 self.sidecar_exit_grace_generations.pop(place_number, None)
             elif self.sidecar_exit_grace_generations.get(place_number) == generation:
                 # STATUS polling may observe the same failed sidecar while the
                 # exact Freeciv process is still inside its completion grace.
-                return
+                return False
 
             process = self.process
             try:
@@ -1553,7 +1872,7 @@ class Game:
                 # once that process has exited, even if its monitor has not
                 # yet drained output.
                 self.condition.notify_all()
-                return
+                return False
 
             deferrable = clean.get("error_code") in {
                 "disconnected", "unexpected_eof", "process_exited",
@@ -1571,24 +1890,63 @@ class Game:
                     and lock_record[1] is control_to_close
                 ):
                     self.v2_execution_locks.pop(place_number, None)
-                self.error = (
-                    "full-control-v2 sidecar exited; the human-controlled seat "
-                    "was not replaced by Freeciv AI"
+                # Ask the dying sidecar how it died before anything discards
+                # it.  This is the only moment its process, its state and its
+                # logs are all still reachable.
+                forensics = self._collect_v2_sidecar_forensics(sidecar)
+                context = self._v2_death_context_locked(
+                    place_number, last_good_client_state,
                 )
-                if self.start_sent and "sidecar_exited" not in self.invalid_reasons:
-                    self.invalid_reasons.append("sidecar_exited")
-                self.state = "failed"
-                self.finished_at = time.time()
                 self._persist_sidecar_exit_diagnostic(
-                    place_number, generation, clean,
+                    place_number, generation, clean, forensics, context,
                 )
-                self._terminalize_v2_phase_locked("failed")
-                self._write_manifest()
-                self.condition.notify_all()
-                should_terminate = True
-                should_stop = True
+                if self._v2_sidecar_exit_recoverable_locked(place_number):
+                    # A mid-game seat loss on a live server is exactly what
+                    # tier-1 recovery is for: the server still holds the
+                    # authoritative state and its autosaves, so retaking the
+                    # seat on a new generation discards no play at all.  The
+                    # failure counter is not consulted, because a seat whose
+                    # client stopped serving is already a proven fault.
+                    should_recover = {
+                        "trigger": "sidecar_exit",
+                        "turn": self._current_turn_locked() or 1,
+                        "detected_at": time.time(),
+                        "generation": generation,
+                        "forensics": forensics,
+                        "death_context": context,
+                    }
+                    self.v2_wedged_places[place_number] = should_recover
+                    self.v2_wedge_detector.clear(place_number)
+                    self._write_manifest()
+                    self.condition.notify_all()
+                else:
+                    reason_token, prefix = self._v2_seat_loss_attribution(
+                        forensics,
+                    )
+                    self.error = (
+                        prefix + "; the human-controlled "
+                        "seat was not replaced by Freeciv AI ("
+                        + self._v2_forensic_summary(forensics)
+                        + "; lost at "
+                        + self._v2_death_context_summary(context) + ")"
+                    )
+                    if (
+                        self.start_sent
+                        and reason_token not in self.invalid_reasons
+                    ):
+                        self.invalid_reasons.append(reason_token)
+                    self.state = "failed"
+                    self.finished_at = time.time()
+                    self._terminalize_v2_phase_locked("failed")
+                    self._write_manifest()
+                    self.condition.notify_all()
+                    should_terminate = True
+                    should_stop = True
         if control_to_close is not None:
             control_to_close.close()
+        if should_recover is not None:
+            self._start_v2_boundary_recovery(place_number, should_recover)
+            return True
         if should_defer:
             threading.Thread(
                 target=self._finish_sidecar_exit_grace,
@@ -1599,11 +1957,12 @@ class Game:
                 ),
                 daemon=True,
             ).start()
-            return
+            return False
         if should_stop:
             self._stop_all_sidecars()
         if should_terminate:
             self._terminate_child()
+        return False
 
     def _finish_sidecar_exit_grace(
         self, place_number: int, generation: int, health: dict[str, Any],
@@ -1999,6 +2358,78 @@ class Game:
         ledger["progress_started_monotonic"] = None
         ledger["end"] = None
 
+    def _v2_rewind_phase_ledger_locked(self, target_turn: int) -> None:
+        """Move phase consensus back with a game that has been rolled back.
+
+        The ledger's key is the last turn and phase every seat agreed on, and
+        every later sample is checked against it: evidence that goes backwards
+        is corruption and fails the game.  An autosave rollback makes the game
+        itself go backwards, on purpose, so unless the ledger is rewound with
+        it the first honest sample from the reloaded server is read as a phase
+        regression and ends the game recovery just saved.
+
+        Safe only here, in the window where the seat is detached and the
+        server has already been replaced: no sidecar is registered, so no
+        evidence can be sampled against a half-rewound ledger.  The deadline
+        and stall clocks are discarded for the same reason -- they were
+        measuring a phase that no longer exists -- and the in-flight end claim
+        with them, because the phase it would have ended was rewound away and
+        the recovery journal, not a phase event, is the record of that.
+
+        Everything else that describes a rewound turn goes with it.  A
+        monotone per-seat fact recorded in a turn the game is about to replay
+        is not history any more, it is a claim about a turn that no longer
+        happened, and leaving it behind deadlocks the seat the rollback just
+        rescued: a stale surrender keeps the seat parked in ``inactive_done``
+        until the progress-stall clock ends the game.
+        """
+        journal = self.v2_phase_event_journal
+        if journal is not None and not self.v2_phase_event_journal_failed:
+            # The replayed phases have to be journaled under a fresh identity.
+            # Without this the first replayed phase end contradicts the record
+            # of the phase it replaces and fails the game the rollback saved.
+            try:
+                self.v2_incarnation = journal.begin_incarnation()
+            except V2PhaseEventJournalError:
+                self._invalidate_v2_phase_event_journal_locked()
+        else:
+            self.v2_incarnation += 1
+        # Receipt identity has to move with it.  `just retry --batch_id ID` is
+        # the sanctioned response to an unresolved command, and an unresolved
+        # command is exactly what a wedge produces right before a rollback, so
+        # without this the retry is answered from a pre-rollback receipt and
+        # never dispatched against the reloaded server.
+        store = self.v2_receipt_store
+        if store is not None and not self.v2_receipt_store_failed:
+            try:
+                store.begin_incarnation()
+            except V2ReceiptStoreError:
+                self.v2_receipt_store_failed = True
+        # A surrender inside a rewound turn did not happen in the game that is
+        # now running.
+        self.v2_surrendered_places.clear()
+        self.v2_applied_turns = {
+            place: applied
+            for place, applied in self.v2_applied_turns.items()
+            if applied < target_turn
+        }
+        # An end claim that never became receipt-final blocks the sorted
+        # prefix loop forever, silently stopping all later journaling.  The
+        # phase it would have ended was rewound away with everything else.
+        self.v2_pending_phase_ends.clear()
+        ledger = self.v2_phase_ledger
+        ledger["key"] = (target_turn, 0)
+        ledger["evidence"] = {}
+        ledger["active_place"] = None
+        ledger["state"] = "synchronizing"
+        ledger["synchronizing_started_monotonic"] = time.monotonic()
+        ledger["deadline_started_monotonic"] = None
+        ledger["deadline_started_at"] = None
+        ledger["progress_marker"] = None
+        ledger["progress_started_monotonic"] = None
+        ledger["end"] = None
+        self.condition.notify_all()
+
     def _v2_consensus_turn_locked(self) -> int | None:
         key = self.v2_phase_ledger.get("key")
         return key[0] if isinstance(key, tuple) and len(key) == 2 else None
@@ -2153,6 +2584,30 @@ class Game:
             ledger = self.v2_phase_ledger
             ledger["evidence"] = current
             end = ledger.get("end")
+            if self.v2_recovery_in_flight or self.v2_wedged_places:
+                # Recovery tears a seat down and republishes it on a new
+                # generation, so missing and unsynchronized evidence is
+                # expected for as long as it runs.  Hold both stall clocks at
+                # this sample rather than merely skipping the decision, or
+                # they fire the instant recovery finishes.  A recovery that
+                # never finishes is still bounded, by its own attempt caps.
+                # A wedged seat counts even before its recovery thread has
+                # registered itself: detection and registration are two steps,
+                # and a poll landing between them must not start the clock
+                # running against a seat that is already known to be gone.
+                ledger["synchronizing_started_monotonic"] = now
+                if end is not None and end.get(
+                    "reconcile_started_monotonic",
+                ) is not None:
+                    end["reconcile_started_monotonic"] = now
+                # The progress clock is the third one, and it is held for the
+                # same reason: a re-attach that keeps the turn and phase it
+                # started from lands back on the marker it left, so without
+                # this the whole detection-and-recovery window is charged to a
+                # boundary that was being rebuilt and could not make progress
+                # by construction.
+                if ledger.get("progress_started_monotonic") is not None:
+                    ledger["progress_started_monotonic"] = now
             reconcile_started = (
                 end.get("reconcile_started_monotonic")
                 if end is not None else None
@@ -2574,6 +3029,41 @@ class Game:
             daemon=True,
         ).start()
 
+    def _v2_clear_liveness_misses(self, place_number: int) -> None:
+        """Any successful sample proves the client was never gone."""
+        with self.condition:
+            self.v2_liveness_misses.pop(place_number, None)
+
+    def _v2_note_liveness_miss(self, place_number: int, sidecar: Any) -> bool:
+        """Count one unanswered liveness poll; true while it stays 'slow'.
+
+        Returns false only once a timeout has stopped being explainable as
+        latency: several consecutive misses, spanning real time, with no
+        evidence the process is still running.  A live process is always
+        'slow', never 'gone', no matter how many samples it drops -- the seat
+        it owns cannot be retaken from underneath it anyway, and killing it is
+        strictly worse than waiting.
+        """
+        now = time.monotonic()
+        with self.condition:
+            first, count = self.v2_liveness_misses.get(place_number, (now, 0))
+            count += 1
+            self.v2_liveness_misses[place_number] = (first, count)
+            elapsed = now - first
+        if count < V2_LIVENESS_MISS_THRESHOLD or elapsed < V2_LIVENESS_MISS_WINDOW_S:
+            return True
+        try:
+            forensics = sidecar.private_exit_forensics()
+        except Exception:
+            forensics = {}
+        if isinstance(forensics, dict) and forensics.get("process_alive") is True:
+            # The client is running and merely unresponsive.  Say so on health
+            # rather than declaring a death that did not happen.
+            return True
+        with self.condition:
+            self.v2_liveness_misses.pop(place_number, None)
+        return False
+
     def _poll_v2_sidecars_once(self) -> bool:
         """Poll every current seat once; fail closed on ownership loss."""
         with self.condition:
@@ -2601,7 +3091,9 @@ class Game:
                 all_over = False
                 continue
             try:
-                fields = self._parse_sidecar_status(sidecar.status(timeout_s=1.0))
+                fields = self._parse_sidecar_status(
+                    sidecar.status(timeout_s=V2_LIVENESS_POLL_TIMEOUT_S),
+                )
             except SidecarError as exc:
                 if exc.code == "command_in_progress":
                     # STATUS shares the sidecar's single command stream.  An
@@ -2611,28 +3103,38 @@ class Game:
                     # loss.  Restart the whole poll on the next timer tick so
                     # partial phase evidence is never reconciled.
                     return True
-                self._on_sidecar_exit(place_number, generation, {
+                if exc.code == "deadline_exceeded":
+                    # A timeout says the client did not answer in time.  It
+                    # does NOT say the client is gone, and this poll is the
+                    # only place in the system that used to conflate the two:
+                    # one latency tail SIGKILLed a healthy, seat-owning
+                    # client and spent a recovery attempt on it.  Demand
+                    # corroboration instead.
+                    if self._v2_note_liveness_miss(place_number, sidecar):
+                        return True
+                # A loss that entered recovery must keep this poller alive:
+                # nothing restarts the status thread once it returns, and the
+                # recovered generation still needs its phase evidence sampled.
+                return self._on_sidecar_exit(place_number, generation, {
                     "state": "failed",
                     "error_code": "status_unavailable",
                 })
-                return False
             except Exception:
-                self._on_sidecar_exit(place_number, generation, {
+                return self._on_sidecar_exit(place_number, generation, {
                     "state": "failed",
                     "error_code": "status_unavailable",
                 })
-                return False
+            self._v2_clear_liveness_misses(place_number)
             try:
                 with self.condition:
                     self._record_v2_native_identity_locked(
                         self.places[place_number - 1], generation, fields,
                     )
             except SidecarError:
-                self._on_sidecar_exit(place_number, generation, {
+                return self._on_sidecar_exit(place_number, generation, {
                     "state": "failed",
                     "error_code": "wrong_player",
                 })
-                return False
             clean = self._sanitized_sidecar_health(sidecar, generation)
             if "state" in fields:
                 clean["client_state"] = fields["state"]
@@ -2685,8 +3187,7 @@ class Game:
                 "seat_lost" if not owns_seat else "startup_timeout"
             )
             clean.update({"state": "failed", "error_code": failure_code})
-            self._on_sidecar_exit(place_number, generation, clean)
-            return False
+            return self._on_sidecar_exit(place_number, generation, clean)
 
         if all_over:
             # Freeciv reports OVER to every connected client after the game is
@@ -2738,8 +3239,71 @@ class Game:
                 self._start_v2_timeout_phase_end(claim)
         return True
 
+    def _v2_game_live(self) -> bool:
+        """Whether a game is still being played, sampled without the lock held.
+
+        The latches below are the only ways a full-control-v2 game stops
+        needing to be watched: it reached a terminal state, its owner
+        cancelled it, its seats are being torn down, its server has already
+        exited and the monitor owns what happens next, or the whole service is
+        shutting down and nothing may be brought up behind it.
+        """
+        if self.supervisor.shutdown_event.is_set():
+            return False
+        with self.condition:
+            return not (
+                self.state in TERMINAL_STATES
+                or self.cancel_requested
+                or self.sidecars_stopping
+                or self.server_exit_observed
+            )
+
+    def _fail_v2_status_polling(self, exc: BaseException) -> None:
+        """End a game whose seats can no longer be watched, naming why.
+
+        A game nobody polls is not a game: its phase ledger never advances
+        again, its deadlines never fire, and its seats wait on a boundary that
+        has stopped being sampled.  Ending it here is worse than continuing
+        and better than the alternative this replaces, which was a thread that
+        disappeared leaving a live game with no explanation anywhere.  Only
+        the exception's type is published: its text can carry paths.
+        """
+        with self.condition:
+            if self.state in TERMINAL_STATES:
+                return
+            self._fail_v2_phase_locked(
+                "v2_status_poll_failed",
+                "full-control-v2 seat status polling stopped after "
+                f"{V2_STATUS_POLL_FAULT_LIMIT} consecutive faults "
+                f"({type(exc).__name__})",
+            )
+        self._stop_all_sidecars()
+        self._terminate_child()
+
     def _poll_v2_sidecars(self) -> None:
-        while self._poll_v2_sidecars_once():
+        faults = 0
+        while True:
+            try:
+                keep_polling = self._poll_v2_sidecars_once()
+            except Exception as exc:
+                # One fault can be a transient the next sample recovers from;
+                # an uninterrupted run of them is this thread failing, and it
+                # must fail the game rather than vanish from it.
+                faults += 1
+                if faults >= V2_STATUS_POLL_FAULT_LIMIT:
+                    self._fail_v2_status_polling(exc)
+                    return
+                keep_polling = True
+            else:
+                faults = 0
+            # Only the game's own state may end this thread, because nothing
+            # restarts it.  A poll that classified one seat's loss as somebody
+            # else's business -- a retired generation, a completion grace, a
+            # recovery -- must not take the poller with it: the ledger would
+            # freeze with the game still live, no phase would ever advance
+            # again, and nothing anywhere would say why.
+            if not keep_polling and not self._v2_game_live():
+                return
             if self.supervisor.shutdown_event.wait(0.25):
                 return
 
@@ -3870,7 +4434,16 @@ class Game:
                 # wedged rather than repeating their answer.
                 health = dict(health)
                 health["state"] = "wedged"
-                health["error_code"] = "native_boundary_wedged"
+                # Name which fault took the seat.  A projector that refuses
+                # the boundary's observations and a native client that
+                # stopped existing are different bugs with different owners,
+                # and this field is where the loss is read first; one shared
+                # code would make every seat loss look like the same one.
+                health["error_code"] = (
+                    "native_client_exited"
+                    if wedged.get("trigger") == "sidecar_exit"
+                    else "native_boundary_wedged"
+                )
                 health["generation"] = generation
             control = self.v2_controls.get(place_number)
             controller_current = (
@@ -4580,6 +5153,52 @@ class Game:
             return
         with self.condition:
             self.v2_last_recovery[record["place"]] = record
+            # Accumulate only; the manifest is rewritten by whichever thread
+            # next changes game state, and always at termination.  Writing it
+            # from this daemon thread would race an episode directory that is
+            # being finalized.
+            self._note_v2_recovery_in_summary_locked(record)
+            self.condition.notify_all()
+
+    def _note_v2_recovery_in_summary_locked(self, record: dict[str, Any]) -> None:
+        """Carry the fact of a recovery all the way to the scorer.
+
+        A game that discarded real applied turns must never be ranked against
+        one that never faulted.  The journal alone could not say so: nothing
+        in the manifest, the result or the episode summary read it.
+        """
+        summary = self.v2_recovery_summary
+        summary["attempts"] += 1
+        kind = record["kind"]
+        summary["by_kind"][kind] = summary["by_kind"].get(kind, 0) + 1
+        summary["by_outcome"][record["outcome"]] = (
+            summary["by_outcome"].get(record["outcome"], 0) + 1
+        )
+        if record["outcome"] != "recovered":
+            return
+        target = record["recovered_to_turn"]
+        if isinstance(target, int) and target not in summary["recovered_to_turns"]:
+            summary["recovered_to_turns"].append(target)
+            summary["recovered_to_turns"].sort()
+        if record["rewound_applied_actions"]:
+            summary["rewound_applied_actions"] = True
+            # Turns of real play were discarded.  That is not an invalid
+            # harness run, but it is not a clean game either, and a scorer
+            # that cannot see the difference is being lied to.
+            if "v2_game_rewound" not in self.invalid_reasons:
+                self.invalid_reasons.append("v2_game_rewound")
+
+    def _v2_recovery_manifest_locked(self) -> dict[str, Any] | None:
+        summary = self.v2_recovery_summary
+        if not summary["attempts"]:
+            return None
+        return {
+            "attempts": summary["attempts"],
+            "by_kind": dict(summary["by_kind"]),
+            "by_outcome": dict(summary["by_outcome"]),
+            "rewound_applied_actions": summary["rewound_applied_actions"],
+            "recovered_to_turns": list(summary["recovered_to_turns"]),
+        }
 
     def _start_v2_boundary_recovery(
         self, place: int, detected: dict[str, Any],
@@ -4595,6 +5214,14 @@ class Game:
         """End a game whose boundary cannot be recovered, naming why."""
         with self.condition:
             if self.state in TERMINAL_STATES:
+                return
+            # A cancel or a normal game-over teardown latches long before the
+            # monitor classifies it, so "not terminal yet" is not the same as
+            # "still playable".  Overwriting a cancelled game's reason with a
+            # wedge would rewrite an owner's cancel, or a completed game, as a
+            # harness failure -- the exact mis-attribution this campaign is
+            # about.
+            if self.cancel_requested or self.sidecars_stopping:
                 return
             self.error = reason
             if "v2_boundary_wedged" not in self.invalid_reasons:
@@ -4620,13 +5247,30 @@ class Game:
         """
         turn = detected["turn"]
         trigger = detected["trigger"]
+        forensics = detected.get("forensics") or {}
+        # Bounded scalars only: the journal record is size-capped, so the log
+        # tails stay in the owner-private exit diagnostic beside it.
+        exit_evidence = {
+            "exit_code": (
+                forensics.get("exit_code")
+                if isinstance(forensics.get("exit_code"), int) else None
+            ),
+            "exit_signal": (
+                forensics.get("exit_signal")
+                if isinstance(forensics.get("exit_signal"), int) else None
+            ),
+            "client_state": (
+                forensics.get("client_state")
+                if isinstance(forensics.get("client_state"), str) else None
+            ),
+        }
         seat_id = self.places[place - 1].seat_id
         with self.condition:
             if place not in self.v2_wedged_places:
                 return
-            attempt = self.v2_recovery_budget.next_attempt(turn)
+            attempt = self.v2_recovery_budget.next_attempt(turn, place)
             if attempt is None:
-                reason = self.v2_recovery_budget.exhausted_reason(turn)
+                reason = self.v2_recovery_budget.exhausted_reason(turn, place)
             else:
                 reason = None
                 kind = recovery_kind_for_attempt(attempt)
@@ -4641,14 +5285,26 @@ class Game:
         if reason is not None:
             self._record_v2_recovery_event(
                 place=place, seat_id=seat_id, turn=turn,
-                attempt=max(1, self.v2_recovery_budget.attempts_for_turn(turn)),
+                attempt=max(
+                    1, self.v2_recovery_budget.attempts_for_turn(turn, place),
+                ),
                 kind=recovery_kind_for_attempt(2), trigger=trigger,
                 outcome="abandoned",
                 sidecar_generation=max(
                     1, self.sidecar_generations.get(place, 1),
                 ),
                 recovered_to_turn=None, rewound_applied_actions=False,
+                **exit_evidence,
             )
+            if trigger == "sidecar_exit":
+                reason += (
+                    "; the seat's client "
+                    + self._v2_forensic_summary(forensics)
+                    + ", lost at "
+                    + self._v2_death_context_summary(
+                        detected.get("death_context") or {},
+                    )
+                )
             self._fail_v2_wedged_game(place, reason)
             return
 
@@ -4656,41 +5312,18 @@ class Game:
         rewound = False
         outcome = "failed"
         try:
-            if kind != "autosave_rollback":
-                advanced = self._v2_recovery_rebuild_seat(place, kind)
-            else:
-                selected = select_rollback_save(
-                    self.episode / "saves", at_or_before_turn=turn,
+            # One seat at a time.  Two concurrent rebuilds can have one seat
+            # calling start_and_take() against the very server the other is
+            # terminating, and two concurrent rollbacks would each replace the
+            # server the other just launched.
+            with self.v2_recovery_lock:
+                advanced, recovered_to_turn, rewound = (
+                    self._v2_recovery_run_tier(place, kind, turn)
                 )
-                if selected is None:
-                    advanced = False
-                else:
-                    save_path, recovered_to_turn = selected
-                    with self.condition:
-                        in_flight = self.v2_recovery_in_flight.get(place)
-                        if in_flight is not None:
-                            in_flight["target_turn"] = recovered_to_turn
-                        # Freeciv writes each autosave at the start of its
-                        # turn, so reloading the save named for a turn in which
-                        # this seat already applied an action discards that
-                        # action.  Its receipt stays terminal and is never
-                        # replayed, so the divergence has to be recorded.
-                        rewound = self.v2_applied_turns.get(
-                            place, 0,
-                        ) >= recovered_to_turn
-                        self.condition.notify_all()
-                    # The server is replaced between tearing the old seat down
-                    # and taking the new one, so no registered sidecar ever
-                    # outlives the server it was connected to.
-                    advanced = self._v2_recovery_rebuild_seat(
-                        place, kind,
-                        before_attach=lambda: self._v2_recovery_reload_server(
-                            save_path,
-                        ),
-                    )
-                    if advanced:
-                        advanced = self._v2_recovery_start_loaded_game()
-            outcome = "recovered" if advanced else "failed"
+            if advanced is RECOVERY_ABANDONED:
+                outcome = "abandoned"
+            else:
+                outcome = "recovered" if advanced else "failed"
         except Exception:
             outcome = "failed"
         finally:
@@ -4700,6 +5333,11 @@ class Game:
                 if outcome == "recovered":
                     self.v2_wedged_places.pop(place, None)
                     self.v2_wedge_detector.clear(place)
+                # An attempt that discarded no play must not consume a budget
+                # whose whole purpose is to bound discarded play.
+                self.v2_recovery_budget.release(
+                    turn, place, kind=kind, outcome=outcome,
+                )
                 self.condition.notify_all()
             self._record_v2_recovery_event(
                 place=place, seat_id=seat_id, turn=turn, attempt=attempt,
@@ -4707,16 +5345,71 @@ class Game:
                 sidecar_generation=generation,
                 recovered_to_turn=recovered_to_turn,
                 rewound_applied_actions=rewound,
+                **exit_evidence,
             )
         if outcome == "recovered":
+            return
+        if outcome == "abandoned":
+            # The attempt never ran: the game is cancelled, finished, or being
+            # torn down.  Recursing here would burn the turn's attempts in
+            # microseconds and rewrite an owner's cancel -- or a completed
+            # game -- as a wedge failure.  The journal already says so.
             return
         # The seat is still wedged.  Re-arm detection so the next tier runs,
         # and drive it immediately rather than waiting for the agent to
         # rediscover a boundary that has already been proven dead.
         with self.condition:
             still_wedged = place in self.v2_wedged_places
-        if still_wedged:
+        if still_wedged and self._v2_game_live():
             self._run_v2_boundary_recovery(place, detected)
+
+    def _v2_recovery_run_tier(
+        self, place: int, kind: str, turn: int,
+    ) -> tuple[Any, int | None, bool]:
+        """Run one escalation tier; report what it advanced and what it cost."""
+        if kind != "autosave_rollback":
+            return self._v2_recovery_rebuild_seat(place, kind), None, False
+        selected = select_rollback_save(
+            self.episode / "saves", at_or_before_turn=turn,
+        )
+        if selected is None:
+            return False, None, False
+        save_path, recovered_to_turn = selected
+        with self.condition:
+            in_flight = self.v2_recovery_in_flight.get(place)
+            if in_flight is not None:
+                in_flight["target_turn"] = recovered_to_turn
+            # Freeciv writes each autosave at the start of its turn, so
+            # reloading the save named for a turn in which this seat already
+            # applied an action discards that action.  Its receipt stays
+            # terminal and is never replayed, so the divergence has to be
+            # recorded.
+            rewound = self.v2_applied_turns.get(place, 0) >= recovered_to_turn
+            self.condition.notify_all()
+
+        def reload_and_rewind() -> bool:
+            """Replace the server, then rewind the phase ledger.
+
+            Both halves belong to the same window: the game moves back to
+            ``recovered_to_turn`` and the consensus that describes it has to
+            move back at the same time, while no seat is registered to sample
+            anything in between.
+            """
+            if not self._v2_recovery_reload_server(save_path):
+                return False
+            with self.condition:
+                self._v2_rewind_phase_ledger_locked(recovered_to_turn)
+            return True
+
+        # The server is replaced between tearing the old seat down and taking
+        # the new one, so no registered sidecar ever outlives the server it
+        # was connected to.
+        advanced = self._v2_recovery_rebuild_seat(
+            place, kind, before_attach=reload_and_rewind,
+        )
+        if advanced is True:
+            advanced = self._v2_recovery_start_loaded_game()
+        return advanced, recovered_to_turn, rewound
 
     def _v2_recovery_rebuild_seat(
         self,
@@ -4724,7 +5417,7 @@ class Game:
         kind: str,
         *,
         before_attach: Callable[[], bool] | None = None,
-    ) -> bool:
+    ) -> Any:
         """Republish one seat on the next sidecar generation.
 
         Action ids and cursors are generation-scoped, so every handle the agent
@@ -4737,23 +5430,43 @@ class Game:
         status poller as an unexpected seat loss, which fails the whole game.
         """
         generation = self._v2_recovery_detach_seat(place)
+        if generation is RECOVERY_ABANDONED:
+            return RECOVERY_ABANDONED
         if generation is None:
             return False
         if before_attach is not None and not before_attach():
-            return False
+            # A reload that refused because the game is going away is the same
+            # abandonment as a refused detach, only observed one step later.
+            return False if self._v2_game_live() else RECOVERY_ABANDONED
         return self._v2_recovery_attach_seat(place, generation)
 
-    def _v2_recovery_detach_seat(self, place: int) -> int | None:
-        """Retire the wedged generation and reserve the one that replaces it."""
+    def _v2_recovery_detach_seat(self, place: int) -> Any:
+        """Retire the wedged generation and reserve the one that replaces it.
+
+        Returns the new generation, ``RECOVERY_ABANDONED`` when the game is
+        going away and this attempt must not run at all, or ``None`` when the
+        seat itself cannot be detached.
+        """
         with self.condition:
             if (
-                self.config["control_protocol"] != FULL_CONTROL_V2
-                or self.state in TERMINAL_STATES
+                self.state in TERMINAL_STATES
                 or self.cancel_requested
                 # A server that has already exited is being finalized by its
-                # monitor; clearing the stopping latch below would fight it.
+                # monitor, and there is nothing to come back to.
                 or self.server_exit_observed
+                # Neither entry point starts a recovery while the seats are
+                # being torn down, so a latch set here belongs to a teardown
+                # that began after this recovery did.  Taking the seat again
+                # would reconnect a client to a server that is waiting for its
+                # clients to leave before it can exit, and the tear-down
+                # already sampled the sidecars it means to stop.
+                or self.sidecars_stopping
             ):
+                # None of these is a failed recovery.  They are all "there is
+                # no game left to recover", and reporting them as failures is
+                # what turned a normal game-over into a wedged one.
+                return RECOVERY_ABANDONED
+            if self.config["control_protocol"] != FULL_CONTROL_V2:
                 return None
             agent_id = self.place_agents.get(place)
             if agent_id is None or place - 1 >= len(self.places):
@@ -4766,7 +5479,6 @@ class Game:
             generation = self.sidecar_generations.get(place, 0) + 1
             self.sidecar_generations[place] = generation
             self.v2_native_player_identities.pop(place, None)
-            self.sidecars_stopping = False
             self.condition.notify_all()
         if control is not None:
             control.close()
@@ -4777,16 +5489,21 @@ class Game:
                 pass
         return generation
 
-    def _v2_recovery_attach_seat(self, place: int, generation: int) -> bool:
+    def _v2_recovery_attach_seat(self, place: int, generation: int) -> Any:
         """Take the seat again on ``generation`` and republish it."""
         with self.condition:
             agent_id = self.place_agents.get(place)
             if (
+                self.state in TERMINAL_STATES
+                or self.cancel_requested
+                or self.sidecars_stopping
+                or self.server_exit_observed
+            ):
+                return RECOVERY_ABANDONED
+            if (
                 agent_id is None
                 or place - 1 >= len(self.places)
                 or self.sidecar_generations.get(place) != generation
-                or self.state in TERMINAL_STATES
-                or self.cancel_requested
             ):
                 return False
         chosen = self.places[place - 1]
@@ -4813,10 +5530,11 @@ class Game:
         health["server_connected"] = True
         health["seat_state"] = fields["seat"]
         with self.condition:
-            if (
-                self.sidecar_generations.get(place) != generation
-                or self.state in TERMINAL_STATES or self.cancel_requested
-            ):
+            abandoned = (
+                self.state in TERMINAL_STATES or self.cancel_requested
+                or self.sidecars_stopping
+            )
+            if abandoned or self.sidecar_generations.get(place) != generation:
                 stale = True
             else:
                 stale = False
@@ -4837,6 +5555,13 @@ class Game:
                 self.v2_execution_locks[place] = (
                     generation, new_control, threading.Lock(),
                 )
+                if self.state == "starting":
+                    # Without its own grace the new generation is measured
+                    # against the old deadline and trips startup_timeout at
+                    # once, spending a recovery attempt on nothing.
+                    self.sidecar_start_deadline = (
+                        time.monotonic() + V2_SIDECAR_STARTUP_GRACE_S
+                    )
                 # The rebuilt boundary has to re-agree on the current turn and
                 # phase before any seat may act on it again.
                 self.v2_phase_ledger["evidence"].pop(place, None)
@@ -4844,13 +5569,26 @@ class Game:
                 self.v2_phase_ledger["synchronizing_started_monotonic"] = (
                     time.monotonic()
                 )
+                # The reconcile clock has to restart here for the same reason,
+                # and here specifically: a phase end whose seat died mid-
+                # transition has been unreconciled for the whole detection and
+                # recovery window, and the rebuilt boundary deserves the full
+                # allowance to reconcile it rather than whatever is left of an
+                # allowance the dead client spent.  Holding the clock only
+                # while recovery is registered is not enough, because nothing
+                # guarantees a poll lands inside that window.
+                end = self.v2_phase_ledger.get("end")
+                if isinstance(end, dict) and end.get(
+                    "reconcile_started_monotonic",
+                ) is not None:
+                    end["reconcile_started_monotonic"] = time.monotonic()
                 self.condition.notify_all()
         if stale:
             try:
                 sidecar.stop()
             except Exception:
                 pass
-            return False
+            return RECOVERY_ABANDONED if abandoned else False
         return True
 
     def _v2_recovery_start_loaded_game(self) -> bool:
@@ -4913,12 +5651,23 @@ class Game:
             ):
                 return False
             previous = self.process
+            previous_output = self.output_thread
+            # Every OTHER seat's client is about to lose its server.  That is
+            # this recovery working, not a seat loss, so say so explicitly:
+            # `process is None` is an absence that the exit path reads as "the
+            # server already went away on its own", which skips the completion
+            # grace and starts a competing recovery per surviving seat.
+            self.v2_server_replacing = True
             # Disowning the process first makes the running monitor thread
             # recognize its server as intentionally replaced, so the restart
             # cannot be mistaken for the end of the game.
             self.process = None
             self.output_thread = None
             self.monitor_thread = None
+            # The retired server's last prompt is not the new server's prompt.
+            # Leaving the flag set would let the reload's first wait return on
+            # a console that no longer exists.
+            self.at_prompt = False
             self.condition.notify_all()
         if previous is not None:
             try:
@@ -4938,11 +5687,32 @@ class Game:
                     previous.kill()
                 except Exception:
                     pass
+            # Exactly one output pump may own the shared console state.  The
+            # retired pump is still draining whatever the dead server left in
+            # the pipe, and every byte of it would otherwise be recorded as
+            # the new server's output: its prompts, its turn markers, its
+            # timeout acknowledgements.
+            if previous_output is not None:
+                previous_output.join(timeout=5)
         try:
-            self._launch_from_save(save_path)
-        except Exception:
-            return False
-        return True
+            try:
+                self._launch_from_save(save_path)
+            except Exception:
+                return False
+            # The game can be failed by any other thread while a server is
+            # being brought up, and the terminalization that did it ran when
+            # there was no process to terminate.  Nothing would ever reap this
+            # one.
+            if not self._v2_game_live():
+                self._terminate_child()
+                return False
+            return True
+        finally:
+            # Cleared on every path, including failure: leaving the latch set
+            # would suppress a genuine seat loss for the rest of the game.
+            with self.condition:
+                self.v2_server_replacing = False
+                self.condition.notify_all()
 
     def _launch_from_save(self, save_path: Path) -> None:
         """Bring up a Freeciv server on an existing savegame.
@@ -7632,16 +8402,25 @@ class Game:
             # the ledger can still say the phase is this seat's while the
             # boundary that would carry its actions is dead.
             in_flight = self.v2_recovery_in_flight.get(place_number)
+            # Say which fault took the seat, for the same reason health does:
+            # a client that no longer exists and a boundary that answers
+            # unusably are recovered the same way but caused differently.
+            lost = (
+                "its native client exited"
+                if wedged.get("trigger") == "sidecar_exit"
+                else "wedged"
+            )
             if in_flight is None:
                 summary = (
-                    "The native control boundary for this seat stopped "
-                    "answering and is being recovered; no request against it "
+                    "The native control boundary for this seat "
+                    + lost
+                    + " and is being recovered; no request against it "
                     "can succeed until it is republished on a new generation."
                 )
             elif in_flight["kind"] == "autosave_rollback":
                 target = in_flight.get("target_turn")
                 summary = (
-                    "The native control boundary for this seat wedged. The "
+                    f"The native control boundary for this seat {lost}. The "
                     "game is being rolled back to the "
                     + (
                         f"turn {target} autosave"
@@ -7654,7 +8433,7 @@ class Game:
                 )
             else:
                 summary = (
-                    "The native control boundary for this seat wedged and is "
+                    f"The native control boundary for this seat {lost} and is "
                     "being re-attached on sidecar generation "
                     f"{self.sidecar_generations.get(place_number, 0) + 1}. "
                     "Every action id and cursor cached against the previous "

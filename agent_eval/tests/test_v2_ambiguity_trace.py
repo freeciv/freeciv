@@ -142,6 +142,38 @@ class V2AmbiguityTraceTests(unittest.TestCase):
         self.assertEqual(json.loads(lines[0])["batch_id"], "batch_latest")
         self.assertLessEqual(path.stat().st_size, first_size + 1)
 
+    def test_leftover_rotation_temporary_does_not_silence_the_trace(self):
+        """A crash between create and rename used to kill every later rotation."""
+        trace = V2AmbiguityTrace(self.root, game_id="game_one")
+        self.record(trace, batch_id="batch_first")
+        directory = self.root / TRACE_DIRECTORY
+        path = directory / TRACE_FILENAME
+        first_size = path.stat().st_size
+        leftover = directory / ".events.rotate.tmp"
+        leftover.write_text("half a rotation\n", encoding="ascii")
+        leftover.chmod(0o600)
+        with patch.object(trace_module, "MAX_TRACE_BYTES", first_size + 1):
+            self.record(trace, batch_id="batch_second")
+            self.record(trace, batch_id="batch_third")
+        lines = path.read_text(encoding="ascii").splitlines()
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(json.loads(lines[0])["batch_id"], "batch_third")
+        self.assertFalse(leftover.exists())
+        self.assertEqual(
+            sorted(item.name for item in directory.iterdir()), [TRACE_FILENAME],
+        )
+
+    def test_oversize_trace_file_rotates_instead_of_failing_forever(self):
+        trace = V2AmbiguityTrace(self.root, game_id="game_one")
+        path = self.root / TRACE_DIRECTORY / TRACE_FILENAME
+        path.write_text("x" * (trace_module.MAX_TRACE_BYTES + 64), encoding="ascii")
+        path.chmod(0o600)
+        self.record(trace, batch_id="batch_after_overflow")
+        lines = path.read_text(encoding="ascii").splitlines()
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(json.loads(lines[0])["batch_id"], "batch_after_overflow")
+        self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+
     def test_symlink_directory_and_file_fail_closed_without_following(self):
         outside = self.root / "outside"
         outside.mkdir()
