@@ -4959,7 +4959,50 @@ blindly.""")
     return 0
 
 
+def _apply_play_defaults(args: argparse.Namespace) -> None:
+    """Fill omitted join identity from .playconfig.json when present.
+
+    ``just play`` (repository root) pre-configures a per-player workspace
+    with the assigned game and controller name so ``just join`` needs no
+    arguments there. Explicit arguments always win; a malformed config
+    fails closed rather than guessing.
+    """
+    path = ROOT / ".playconfig.json"
+    if not path.is_file():
+        return
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise PlayerError(f"invalid .playconfig.json: {exc}") from exc
+    if (
+        not isinstance(raw, dict)
+        or raw.get("schema_version") != 1
+        or not isinstance(raw.get("game_id"), str)
+        or GAME_ID_RE.fullmatch(raw["game_id"]) is None
+        or not isinstance(raw.get("name"), str)
+        or not raw["name"].strip()
+        or not (
+            raw.get("place") is None
+            or (isinstance(raw["place"], int)
+                and not isinstance(raw["place"], bool)
+                and raw["place"] >= 1)
+        )
+    ):
+        raise PlayerError(
+            "invalid .playconfig.json: expected schema_version 1 with "
+            "game_id, name, and optional place; re-run `just play` from "
+            "the repository root"
+        )
+    if not args.game_id.strip():
+        args.game_id = raw["game_id"]
+    if not args.name.strip():
+        args.name = raw["name"]
+    if not args.place.strip() and raw.get("place") is not None:
+        args.place = str(raw["place"])
+
+
 def command_join(args: argparse.Namespace) -> int:
+    _apply_play_defaults(args)
     args.game_id = _game_id(args.game_id)
     controller = _controller_name(args.name)
     token, base = _invite(args)

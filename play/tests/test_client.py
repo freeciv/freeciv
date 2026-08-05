@@ -3758,6 +3758,52 @@ class PlayerClientTests(unittest.TestCase):
                     "ambiguous",
                 )
 
+    def test_join_identity_defaults_come_from_playconfig(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root):
+                config_path = root / ".playconfig.json"
+                config_path.write_text(json.dumps({
+                    "schema_version": 1,
+                    "game_id": "game_12345678901234567890",
+                    "name": "codex-gpt-5.6-sol",
+                    "place": 2,
+                }), encoding="utf-8")
+                args = type("Args", (), {
+                    "game_id": "", "name": "", "place": "",
+                })()
+                client._apply_play_defaults(args)
+                self.assertEqual(args.game_id, "game_12345678901234567890")
+                self.assertEqual(args.name, "codex-gpt-5.6-sol")
+                self.assertEqual(args.place, "2")
+                explicit = type("Args", (), {
+                    "game_id": "game_09876543210987654321",
+                    "name": "pi-gpt-5.5", "place": "",
+                })()
+                client._apply_play_defaults(explicit)
+                self.assertEqual(
+                    explicit.game_id, "game_09876543210987654321",
+                )
+                self.assertEqual(explicit.name, "pi-gpt-5.5")
+                config_path.write_text(json.dumps({
+                    "schema_version": 1, "game_id": "nope", "name": "x",
+                    "place": None,
+                }), encoding="utf-8")
+                bad = type("Args", (), {
+                    "game_id": "", "name": "", "place": "",
+                })()
+                with self.assertRaisesRegex(
+                    client.PlayerError, "playconfig",
+                ):
+                    client._apply_play_defaults(bad)
+                config_path.unlink()
+                untouched = type("Args", (), {
+                    "game_id": "", "name": "", "place": "",
+                })()
+                client._apply_play_defaults(untouched)
+                self.assertEqual(untouched.game_id, "")
+
     def test_v2_health_accepts_and_renders_standing_and_waiting_on(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "play"

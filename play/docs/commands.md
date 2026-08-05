@@ -21,7 +21,11 @@ just join --game_id GAME_ID --name HARNESS-MODEL
 
 The controller name must truthfully identify the harness and model, such as
 `codex-gpt-5.6-sol`, `pi-gpt-5.6-sol`, or
-`claude-code-claude-opus`. Multiplayer assignments may select a numbered seat:
+`claude-code-claude-opus`. In a workspace materialized by the repository
+root's `play` launcher recipe, a mode-0600 `.playconfig.json` pre-records
+the assigned game ID, controller name, and optional seat, so bare
+`just join` works with no arguments; explicit arguments always override it.
+Multiplayer assignments may select a numbered seat:
 
 ```sh
 just join --game_id GAME_ID --name claude-code-claude-opus --place 2

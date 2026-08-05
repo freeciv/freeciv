@@ -271,6 +271,11 @@ single-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
 multi-v2 mode_or_places="default" places_or_turns="" turns="" max_turns="":
     @just _create-v2 multiplayer "{{ mode_or_places }}" "{{ places_or_turns }}" "{{ turns }}" "{{ max_turns }}"
 
+# Materialize per-player game workspaces under .play/ (interactive picker;
+# also takes --player HARNESS:MODEL, --invite PATH, --force).
+play *args="":
+    python3 -B -m agent_eval.play_setup {{ args }}
+
 # Shared parser for the additive v2 creation conveniences above.
 [private]
 _create-v2 game_mode mode_or_places places_or_turns turns max_turns:
