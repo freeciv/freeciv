@@ -81,7 +81,10 @@ export function sortedGames(games: GameSummary[]): GameSummary[] {
 }
 
 export function visiblePickerGames(games: GameSummary[]): GameSummary[] {
-  return games.filter((game) => !(game.state === 'failed' && (game.current_turn ?? 0) <= 0))
+  return games.filter((game) => !(
+    (game.state === 'failed' || game.state === 'interrupted')
+    && (game.current_turn ?? 0) <= 0
+  ))
 }
 
 export function timingModeLabel(

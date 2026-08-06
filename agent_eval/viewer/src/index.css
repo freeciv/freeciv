@@ -67,7 +67,7 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .state-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px; border: 1px solid #40515b; border-radius: 999px; color: #b6c0c6; background: #0a1116; font: 800 10px/1 ui-monospace, monospace; letter-spacing: .09em; }
 .state-pill i { width: 7px; height: 7px; border-radius: 50%; background: #82919d; }
 .state-running i, .state-starting i { background: var(--acid); box-shadow: 0 0 13px var(--acid); animation: pulse 1.7s infinite; }
-.state-completed i { background: var(--cyan); }.state-invalid i, .state-failed i { background: var(--red); }
+.state-completed i { background: var(--cyan); }.state-invalid i, .state-failed i { background: var(--red); }.state-interrupted i { background: var(--amber); }
 .turn-readout { display: flex; align-items: baseline; gap: 7px; font: 700 30px/1 ui-monospace, SFMono-Regular, monospace; }
 .turn-readout small, .turn-readout em { color: var(--muted); font-size: 9px; font-style: normal; letter-spacing: .14em; }
 .game-code { grid-column: 1 / -1; margin: 0 0 -7px 44px; color: #60707b; font: 10px/1 ui-monospace, monospace; letter-spacing: .08em; }

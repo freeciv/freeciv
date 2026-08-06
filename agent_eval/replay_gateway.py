@@ -1033,6 +1033,70 @@ def _disk_game_row(manifest: Mapping[str, Any]) -> dict[str, Any] | None:
     }
 
 
+def _last_replay_turn(runs_root: Path, game_id: str) -> int | None:
+    """The newest turn in a run's replay telemetry, or None if empty.
+
+    Reads only the tail of replay.jsonl; the final line may be a torn
+    write from an interrupted run, so scan backwards to the first line
+    that parses.
+    """
+    path = runs_root / game_id / "replay.jsonl"
+    try:
+        with path.open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            size = handle.tell()
+            if size <= 0:
+                return None
+            handle.seek(max(0, size - 65536))
+            lines = handle.read().splitlines()
+    except OSError:
+        return None
+    for raw in reversed(lines):
+        if not raw.strip():
+            continue
+        try:
+            row = json.loads(raw)
+        except (UnicodeError, json.JSONDecodeError):
+            continue
+        if isinstance(row, dict):
+            turn = row.get("turn")
+            if isinstance(turn, int) and turn > 0:
+                return turn
+        return None
+    return None
+
+
+def _as_interrupted(
+    runs_root: Path, row: dict[str, Any],
+) -> dict[str, Any] | None:
+    """Reshape an orphaned non-terminal disk row, or drop it.
+
+    A run that exists on disk but is neither live upstream nor terminal
+    was interrupted: the supervisor went away before finalizing its
+    manifest. Its replay is still on disk and watchable, so it must not
+    vanish from the index — but a run with no recorded turns is a lobby
+    husk with nothing to watch, and stays hidden.
+    """
+    turn = _last_replay_turn(runs_root, row["game_id"])
+    if turn is None:
+        return None
+    known = row.get("current_turn")
+    row["current_turn"] = turn if known is None else max(int(known), turn)
+    row["state"] = "interrupted"
+    row["outcome"] = {
+        "status": "interrupted",
+        "summary": (
+            f"Interrupted at turn {row['current_turn']} without a "
+            "terminal result; the replay is available."
+        ),
+        "leaders": [],
+        "margin": None,
+        "score_turn": None,
+        "victory": None,
+    }
+    return row
+
+
 def _disk_games_index(
     runs_root: Path, *, terminal_only: bool = False,
 ) -> dict[str, Any]:
@@ -1371,15 +1435,34 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
         })
         return after_turn, limit, normalized
 
+    def _disk_rows_with_interrupted(
+        self, live_ids: frozenset[str] | set[str],
+    ) -> list[dict[str, Any]]:
+        """Disk rows for the index: terminal archives as-is, orphaned
+        non-terminal runs relabeled ``interrupted``, live games skipped."""
+        runs_root = self.server.gateway_config.runs_root
+        rows: list[dict[str, Any]] = []
+        for row in _disk_games_index(runs_root)["games"]:
+            if row["game_id"] in live_ids:
+                continue
+            if row["state"] not in TERMINAL_STATES:
+                interrupted = _as_interrupted(runs_root, row)
+                if interrupted is None:
+                    continue
+                row = interrupted
+            rows.append(row)
+        return rows
+
     def _games(self) -> None:
         try:
             status, body = self._upstream_json_or_status("/v1/games")
         except UpstreamUnavailable:
             self._json(
                 HTTPStatus.OK,
-                _disk_games_index(
-                    self.server.gateway_config.runs_root, terminal_only=True,
-                ),
+                {
+                    "schema_version": 1,
+                    "games": self._disk_rows_with_interrupted(frozenset()),
+                },
             )
             return
         if 200 <= status < 300:
@@ -1403,14 +1486,11 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
                 and isinstance(row.get("game_id"), str)
                 and GAME_ID_RE.fullmatch(row["game_id"])
             }
-            archived = _disk_games_index(
-                self.server.gateway_config.runs_root, terminal_only=True,
-            )["games"]
             self._bounded_json(HTTPStatus.OK, {
                 "schema_version": 1,
                 "games": [
                     *upstream_rows,
-                    *(row for row in archived if row["game_id"] not in live_ids),
+                    *self._disk_rows_with_interrupted(live_ids),
                 ],
             })
             return
@@ -1457,10 +1537,16 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
             return
 
         if upstream_offline:
-            archive = _terminal_archive(
-                self.server.gateway_config.runs_root, game_id,
-            )
-            manifest = archive.manifest
+            # Terminal games keep their archive validation; an interrupted
+            # run (no terminal archive) still serves its disk replay.
+            try:
+                manifest = _terminal_archive(
+                    self.server.gateway_config.runs_root, game_id,
+                ).manifest
+            except GatewayProblem:
+                manifest = _read_manifest(
+                    self.server.gateway_config.runs_root, game_id,
+                )
         else:
             manifest = _read_manifest(self.server.gateway_config.runs_root, game_id)
         places = _public_places(manifest.get("resolved_places"))
@@ -1540,9 +1626,14 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
             )
             return
         if upstream_offline:
-            manifest = _terminal_archive(
-                self.server.gateway_config.runs_root, game_id,
-            ).manifest
+            try:
+                manifest = _terminal_archive(
+                    self.server.gateway_config.runs_root, game_id,
+                ).manifest
+            except GatewayProblem:
+                manifest = _read_manifest(
+                    self.server.gateway_config.runs_root, game_id,
+                )
         else:
             manifest = _read_manifest(self.server.gateway_config.runs_root, game_id)
         places = _public_places(manifest.get("resolved_places"))

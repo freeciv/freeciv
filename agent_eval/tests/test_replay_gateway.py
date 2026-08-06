@@ -303,6 +303,20 @@ class ReplayGatewayTests(unittest.TestCase):
         (run / "manifest.json").write_text(json.dumps(value), encoding="utf-8")
         return value
 
+    def write_replay_rows(
+        self, game_id=GAME_ID, *, turns=(1, 596), torn_tail=False,
+    ):
+        path = self.runs_root / game_id / "replay.jsonl"
+        rendered = "".join(
+            json.dumps({
+                "schema_version": 1, "game_id": game_id, "turn": turn,
+            }) + "\n"
+            for turn in turns
+        )
+        if torn_tail:
+            rendered += '{"schema_version":1,"turn":9'
+        path.write_text(rendered, encoding="utf-8")
+
     def write_terminal_archive(self):
         manifest = self.write_manifest(state="invalid", created_at=20)
         manifest.update({
@@ -831,6 +845,61 @@ class ReplayGatewayTests(unittest.TestCase):
         deduplicated = json.loads(self.request("/v1/games")[2])
         self.assertEqual(len(deduplicated["games"]), 1)
         self.assertEqual(deduplicated["games"][0]["state"], "running")
+
+    def test_games_lists_orphaned_run_as_interrupted(self):
+        # A run whose supervisor died before finalizing the manifest is
+        # neither live upstream nor terminal on disk. It must appear as
+        # "interrupted" with its turn recovered from the replay tail —
+        # not vanish (the 596-turn game_a8 incident).
+        self.upstream.games_body = b'{"schema_version":1,"games":[]}'
+        self.write_manifest()
+        self.write_replay_rows(turns=(1, 596))
+        husk = "game_" + "k" * 24
+        self.write_manifest(husk, created_at=3)
+
+        value = json.loads(self.request("/v1/games")[2])
+        rows = {row["game_id"]: row for row in value["games"]}
+        self.assertNotIn(husk, rows)
+        row = rows[GAME_ID]
+        self.assertEqual(row["state"], "interrupted")
+        self.assertEqual(row["current_turn"], 596)
+        self.assertEqual(row["outcome"]["status"], "interrupted")
+        self.assertIn("turn 596", row["outcome"]["summary"])
+
+    def test_games_live_upstream_row_is_never_relabeled(self):
+        self.write_manifest()
+        self.write_replay_rows()
+        self.upstream.games_body = json.dumps({
+            "schema_version": 1,
+            "games": [{
+                "game_id": GAME_ID,
+                "state": "running",
+                "watch_path": f"/watch/{GAME_ID}",
+            }],
+        }, separators=(",", ":")).encode()
+        value = json.loads(self.request("/v1/games")[2])
+        self.assertEqual(len(value["games"]), 1)
+        self.assertEqual(value["games"][0]["state"], "running")
+
+    def test_games_offline_fallback_includes_interrupted_runs(self):
+        self.upstream.portless_offline = True
+        self.write_manifest()
+        self.write_replay_rows(turns=(1, 44), torn_tail=True)
+        value = json.loads(self.request("/v1/games")[2])
+        self.assertEqual(len(value["games"]), 1)
+        row = value["games"][0]
+        self.assertEqual(row["state"], "interrupted")
+        self.assertEqual(row["current_turn"], 44)
+
+    def test_replay_offline_serves_interrupted_run_from_disk(self):
+        self.upstream.portless_offline = True
+        self.write_manifest()
+        self.write_replay_rows(turns=(1, 44))
+        status, _, body = self.request(f"/v1/games/{GAME_ID}/replay.json")
+        self.assertEqual(status, 200)
+        self.assertFalse(json.loads(body)["complete"])
+        self.assertEqual(len(self.loader_calls), 1)
+        self.assertFalse(self.loader_calls[0][6])
 
     def test_games_500_never_masks_failure_with_disk_index(self):
         self.upstream.games_status = 500

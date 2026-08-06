@@ -20,6 +20,7 @@ function stateLabel(state: string) {
   if (state === 'running' || state === 'starting') return 'Live'
   if (state === 'lobby') return 'Lobby'
   if (state === 'completed') return 'Complete'
+  if (state === 'interrupted') return 'Interrupted'
   return state.replaceAll('_', ' ')
 }
 
