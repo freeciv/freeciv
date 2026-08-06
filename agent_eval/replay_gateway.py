@@ -41,6 +41,9 @@ PPM_PLAYER_RE = re.compile(
     r':name:"(.*)"\s*$'
 )
 TERMINAL_STATES = {"completed", "invalid", "failed", "cancelled"}
+# Mirrors agent_eval.full_control_v2; kept literal so the gateway never imports
+# supervisor-side modules to read an untrusted archive manifest.
+PUBLIC_CONTROL_PROTOCOLS = {"strategic-v1", "full-control-v2"}
 GATEWAY_KIND = "freeciv-replay-gateway"
 GATEWAY_PROTOCOL_VERSION = 1
 MAX_PROXY_ERROR_BYTES = 64 * 1024
@@ -349,6 +352,18 @@ def _public_timing(config: Mapping[str, Any]) -> dict[str, Any]:
         ):
             return {}
         return {"timing_mode": mode, "action_timeout_s": normalized}
+    return {}
+
+
+def _public_control_protocol(
+    config: Mapping[str, Any], manifest: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Preserve an explicit control protocol; never relabel legacy archives."""
+    for candidate in (
+        config.get("control_protocol"), manifest.get("control_protocol"),
+    ):
+        if candidate in PUBLIC_CONTROL_PROTOCOLS:
+            return {"control_protocol": candidate}
     return {}
 
 
@@ -686,6 +701,7 @@ def _archive_status(
         "state": state,
         "benchmark_valid": archive.benchmark_valid,
         "mode": _public_text(config.get("mode"), "unknown", 32),
+        **_public_control_protocol(config, manifest),
         "places": _public_int(config.get("places")),
         "max_agents": _public_int(config.get("max_agents")),
         "joined_agents": _public_int(manifest.get("joined_agents")),
@@ -998,6 +1014,7 @@ def _disk_game_row(manifest: Mapping[str, Any]) -> dict[str, Any] | None:
         "turns": _public_int(config.get("turns")),
         "benchmark_valid": validity,
         "mode": _public_text(config.get("mode"), "unknown", 32),
+        **_public_control_protocol(config, manifest),
         **_public_timing(config),
         "places": _public_int(config.get("places")),
         "max_agents": _public_int(config.get("max_agents")),

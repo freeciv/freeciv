@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { KeyboardEvent } from 'react'
 import { fetchWatch, fetchWatchWithOptionalReplay } from './api'
 import { ArenaPicker } from './components/ArenaPicker'
 import { ColorMark } from './components/ColorMark'
+import { MapSection } from './components/MapSection'
 import { MetricChart } from './components/MetricChart'
 import { StrategicMap } from './components/StrategicMap'
 import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
-import { placeLabel, timingModeLabel } from './picker-model'
+import { MAP_HASH, mapSectionOpen, rememberMapSection } from './map-preference'
+import { controlProtocolLabel, placeLabel, timingModeLabel } from './picker-model'
 import { frameImageUrl, resolveViewerRoute } from './route'
 import type {
   ReplayPlayer,
@@ -25,7 +26,6 @@ import {
   mapFactions,
   matchHeaderLabel,
   maxKnownTechnologyDepth,
-  matchTabFromKey,
   playerMetric,
   scoreDisplayAtTurn,
   snapshotAtOrBefore,
@@ -82,9 +82,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [selectedSeat, setSelectedSeat] = useState('')
-  const [activeTab, setActiveTab] = useState<'overview' | 'map'>('overview')
-  const overviewTab = useRef<HTMLButtonElement>(null)
-  const mapTab = useRef<HTMLButtonElement>(null)
+  const [mapOpen, setMapOpen] = useState(() => mapSectionOpen(window.location.hash))
   const nextReplayProbeAt = useRef(0)
 
   const latestReplayTurn = snapshots.at(-1)?.turn ?? 0
@@ -230,6 +228,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       : 'validity-pending'
   const historicalComparison = selectedTurn > 0 && lastTurn > 0 && selectedTurn < lastTurn
   const timing = timingModeLabel(game)
+  const protocol = controlProtocolLabel(game.control_protocol)
   const comparisonRows = game.resolved_places.map((place) => {
     const telemetry = playerForPlace(selectedSnapshot?.players ?? [], place.place)
     const authoritative = game.leaderboard.find((entry) => entry.place === place.place)
@@ -267,12 +266,14 @@ function MatchViewer({ route }: { route: RouteContext }) {
     setPlaying(true)
   }
 
-  function handleTabKey(event: KeyboardEvent<HTMLButtonElement>) {
-    const next = matchTabFromKey(activeTab, event.key)
-    if (!next) return
-    event.preventDefault()
-    setActiveTab(next)
-    ;(next === 'overview' ? overviewTab : mapTab).current?.focus()
+  function toggleMap(next: boolean) {
+    setMapOpen(next)
+    rememberMapSection(next)
+    const { pathname, search, hash } = window.location
+    const wanted = next ? MAP_HASH : ''
+    if (hash !== wanted) {
+      window.history.replaceState(null, '', `${pathname}${search}${wanted}`)
+    }
   }
 
   return (
@@ -299,12 +300,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
 
       {error && <div className="refresh-warning" role="status">Live refresh issue: {error}. Showing the latest retained data.</div>}
 
-      <div className="match-tabs" role="tablist" aria-label="Match views">
-        <button aria-controls="match-content" aria-selected={activeTab === 'overview'} id="overview-tab" onClick={() => setActiveTab('overview')} onKeyDown={handleTabKey} ref={overviewTab} role="tab" tabIndex={activeTab === 'overview' ? 0 : -1} type="button">Overview</button>
-        <button aria-controls="match-content" aria-selected={activeTab === 'map'} id="map-tab" onClick={() => setActiveTab('map')} onKeyDown={handleTabKey} ref={mapTab} role="tab" tabIndex={activeTab === 'map' ? 0 : -1} type="button">Map</button>
-      </div>
-
-      <div aria-labelledby={`${activeTab}-tab`} className={`match-content tab-${activeTab}`} id="match-content" role="tabpanel">
+      <div className="match-content" id="match-content">
 
       <section className="result-ribbon" aria-label="Match outcome and validity">
         <div>
@@ -333,6 +329,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
 
       <section className={`match-context${timing ? ' with-timing' : ''}`} aria-label="Match configuration and seat status">
         <div><p className="eyebrow">Mode</p><strong>{game.mode === 'single' ? 'Single player vs native AI' : 'Multiplayer agent match'}</strong><span>{game.places} total places · {game.max_agents} external agent {game.max_agents === 1 ? 'seat' : 'seats'}</span></div>
+        <div><p className="eyebrow">Control protocol</p><strong>{protocol.label}</strong><span>{protocol.detail}{protocol.assumed ? ' · assumed for this archived run' : ''}</span></div>
         <div><p className="eyebrow">Agent lobby</p><strong>{game.joined_agents}/{game.max_agents} joined</strong><span>{game.state === 'lobby' && game.max_agents > game.joined_agents ? `Waiting for ${game.max_agents - game.joined_agents} agent${game.max_agents - game.joined_agents === 1 ? '' : 's'}` : game.state === 'lobby' ? 'All agents joined · preparing match' : 'Roster locked for this match'}</span></div>
         <div><p className="eyebrow">Turn horizon</p><strong>{game.current_turn ?? 0} / {game.turns}</strong><span>{game.state === 'running' ? 'Authoritative turn in progress' : stateLabel(game.state)}</span></div>
         {timing && <div><p className="eyebrow">Turn timing</p><strong>{timing}</strong><span>Harness action deadline</span></div>}
@@ -420,76 +417,6 @@ function MatchViewer({ route }: { route: RouteContext }) {
         </section>
       )}
 
-      <section className="strategy-grid">
-        <article className="panel map-panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Omniscient strategic map</p>
-              <h2>World state at turn {selectedTurn || '—'}</h2>
-            </div>
-            <span className={live ? 'live-indicator' : 'history-indicator'}>{live ? 'LIVE FOLLOW' : 'HISTORICAL'}</span>
-          </div>
-          {selectedTurn > 0 ? (
-            <StrategicMap
-              alt={`Strategic world map for turn ${selectedTurn}`}
-              availableTurns={availableTurns}
-              rawSourceName={exactSelectedFrame?.source_name}
-              rawSrc={exactSelectedFrame ? frameImageUrl(route, exactSelectedFrame) : undefined}
-              route={route}
-              turn={selectedTurn}
-            />
-          ) : (
-            <div className="map-stage"><div className="empty-state"><strong>No map frame yet</strong><span>The first map appears after Freeciv completes a capture turn.</span></div></div>
-          )}
-          <div className="playback-bar">
-            <div className="playback-transport" aria-label="Replay transport controls">
-              <button aria-label="Previous turn" className="step-button" disabled={previousTurn === undefined} onClick={() => stepReplay(previousTurn)} type="button">‹</button>
-              <button aria-label={playing ? 'Pause replay' : 'Play replay'} className="play-button" disabled={availableTurns.length < 2} onClick={togglePlayback} type="button">
-                {playing ? 'Ⅱ' : '▶'}
-              </button>
-              <button aria-label="Next turn" className="step-button" disabled={nextTurn === undefined} onClick={() => stepReplay(nextTurn)} type="button">›</button>
-            </div>
-            <label className="scrubber-label">
-              <span>Turn {selectedTurn || '—'}</span>
-              <input
-                aria-label="Replay turn"
-                disabled={!availableTurns.length}
-                max={Math.max(0, availableTurns.length - 1)}
-                min={0}
-                onChange={(event) => chooseTurn(availableTurns[Number(event.target.value)] ?? selectedTurn)}
-                type="range"
-                value={selectedTurnIndex}
-              />
-            </label>
-            <label className="speed-select">Speed
-              <select aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
-                <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option>
-              </select>
-            </label>
-            <button className="live-button" onClick={() => { setLive(true); setSelectedTurn(lastTurn) }} type="button">Latest</button>
-          </div>
-        </article>
-
-        <aside className="panel faction-panel">
-          <div className="panel-heading compact-heading">
-            <div><p className="eyebrow">Map color key</p><h2>All map factions</h2></div>
-            <span>{factions.length}</span>
-          </div>
-          <p className="section-note">{basicTelemetry
-            ? 'Scored controller colors come from the match roster. Dynamic faction identities were not recorded by this older supervisor.'
-            : 'Scored controllers and Freeciv-created factions are listed separately. Dynamic factions never enter the benchmark leaderboard.'}</p>
-          <div className="faction-list">
-            {factions.length ? factions.map((faction) => (
-              <article className={faction.dynamic ? 'faction-row dynamic-faction' : 'faction-row'} key={`${faction.player_id}-${faction.player_name}`}>
-                <ColorMark color={faction.player_color} label={faction.display_label} />
-                <div><strong>{faction.display_label}</strong><span>{faction.detail}</span></div>
-                <code>{faction.player_color}</code>
-              </article>
-            )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
-          </div>
-        </aside>
-      </section>
-
       {!basicTelemetry && <><section className="turn-stats" aria-label="Selected turn statistics">
         {METRICS.map((metric) => (
           <article className="stat-card" key={metric.key}>
@@ -526,6 +453,74 @@ function MatchViewer({ route }: { route: RouteContext }) {
         snapshots={snapshots.filter((snapshot) => snapshot.turn <= selectedTurn)}
       />
       </>}
+
+      <MapSection
+        expanded={mapOpen}
+        live={live}
+        onToggle={toggleMap}
+        turn={selectedTurn}
+        board={selectedTurn > 0 ? (
+          <StrategicMap
+            alt={`Strategic world map for turn ${selectedTurn}`}
+            availableTurns={availableTurns}
+            rawSourceName={exactSelectedFrame?.source_name}
+            rawSrc={exactSelectedFrame ? frameImageUrl(route, exactSelectedFrame) : undefined}
+            route={route}
+            turn={selectedTurn}
+          />
+        ) : (
+          <div className="map-stage"><div className="empty-state"><strong>No map frame yet</strong><span>The first map appears after Freeciv completes a capture turn.</span></div></div>
+        )}
+        legend={(
+          <aside className="panel faction-panel">
+            <div className="panel-heading compact-heading">
+              <div><p className="eyebrow">Map color key</p><h2>All map factions</h2></div>
+              <span>{factions.length}</span>
+            </div>
+            <p className="section-note">{basicTelemetry
+              ? 'Scored controller colors come from the match roster. Dynamic faction identities were not recorded by this older supervisor.'
+              : 'Scored controllers and Freeciv-created factions are listed separately. Dynamic factions never enter the benchmark leaderboard.'}</p>
+            <div className="faction-list">
+              {factions.length ? factions.map((faction) => (
+                <article className={faction.dynamic ? 'faction-row dynamic-faction' : 'faction-row'} key={`${faction.player_id}-${faction.player_name}`}>
+                  <ColorMark color={faction.player_color} label={faction.display_label} />
+                  <div><strong>{faction.display_label}</strong><span>{faction.detail}</span></div>
+                  <code>{faction.player_color}</code>
+                </article>
+              )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
+            </div>
+          </aside>
+        )}
+        playback={(
+          <div className="playback-bar">
+            <div className="playback-transport" aria-label="Replay transport controls">
+              <button aria-label="Previous turn" className="step-button" disabled={previousTurn === undefined} onClick={() => stepReplay(previousTurn)} type="button">‹</button>
+              <button aria-label={playing ? 'Pause replay' : 'Play replay'} className="play-button" disabled={availableTurns.length < 2} onClick={togglePlayback} type="button">
+                {playing ? 'Ⅱ' : '▶'}
+              </button>
+              <button aria-label="Next turn" className="step-button" disabled={nextTurn === undefined} onClick={() => stepReplay(nextTurn)} type="button">›</button>
+            </div>
+            <label className="scrubber-label">
+              <span>Turn {selectedTurn || '—'}</span>
+              <input
+                aria-label="Replay turn"
+                disabled={!availableTurns.length}
+                max={Math.max(0, availableTurns.length - 1)}
+                min={0}
+                onChange={(event) => chooseTurn(availableTurns[Number(event.target.value)] ?? selectedTurn)}
+                type="range"
+                value={selectedTurnIndex}
+              />
+            </label>
+            <label className="speed-select">Speed
+              <select aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
+                <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option>
+              </select>
+            </label>
+            <button className="live-button" onClick={() => { setLive(true); setSelectedTurn(lastTurn) }} type="button">Latest</button>
+          </div>
+        )}
+      />
 
       <section className="panel event-panel">
         <div className="panel-heading compact-heading">

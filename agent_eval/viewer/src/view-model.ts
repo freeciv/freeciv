@@ -19,16 +19,6 @@ export const METRICS = [
 ] as const
 
 export type MetricKey = (typeof METRICS)[number]['key']
-export type MatchTab = 'overview' | 'map'
-
-export function matchTabFromKey(current: MatchTab, key: string): MatchTab | null {
-  if (key === 'Home') return 'overview'
-  if (key === 'End') return 'map'
-  if (key === 'ArrowLeft' || key === 'ArrowRight') {
-    return current === 'overview' ? 'map' : 'overview'
-  }
-  return null
-}
 
 const TERMINAL_STATES = new Set(['completed', 'invalid', 'failed', 'cancelled'])
 

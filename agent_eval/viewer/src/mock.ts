@@ -34,6 +34,7 @@ export const mockWatch: WatchResponse = {
     state: 'running',
     benchmark_valid: null,
     mode: 'single',
+    control_protocol: 'full-control-v2',
     places: 2,
     max_agents: 1,
     joined_agents: 1,

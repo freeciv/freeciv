@@ -48,6 +48,8 @@ export interface GameStatus {
   state: string
   benchmark_valid: BenchmarkValidity
   mode: string
+  /** Absent on runs recorded before the field existed; those are strategic-v1. */
+  control_protocol?: string | null
   places: number
   max_agents: number
   joined_agents: number
@@ -69,6 +71,7 @@ export type GameSummary = Pick<GameStatus,
   | 'state'
   | 'benchmark_valid'
   | 'mode'
+  | 'control_protocol'
   | 'places'
   | 'max_agents'
   | 'joined_agents'

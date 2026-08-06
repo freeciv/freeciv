@@ -8723,6 +8723,7 @@ class Game:
                     else (False if self.invalid_reasons else None)
                 ),
                 "mode": self.config["mode"],
+                "control_protocol": self.config["control_protocol"],
                 "timing_mode": self.config["timing_mode"],
                 "action_timeout_s": self.config["action_timeout_s"],
                 "places": self.config["places"],

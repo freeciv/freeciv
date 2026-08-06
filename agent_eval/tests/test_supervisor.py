@@ -49,6 +49,7 @@ from agent_eval.watch_room import (
     run_snapshot_watch_room,
     select_stable_snapshot,
 )
+from agent_eval.full_control_v2 import FULL_CONTROL_V2, STRATEGIC_V1
 from agent_eval.replay_gateway import gateway_config
 from agent_eval.scoring import aggregate_leaderboard
 from agent_eval.headless_sidecar import (
@@ -7819,13 +7820,15 @@ data 4 0 0 70
         row = payload["games"][1]
         self.assertEqual(set(row), {
             "game_id", "state", "created_at", "current_turn", "turns",
-            "benchmark_valid", "mode", "timing_mode", "action_timeout_s",
+            "benchmark_valid", "mode", "control_protocol", "timing_mode",
+            "action_timeout_s",
             "places", "max_agents",
             "joined_agents", "resolved_places", "leaderboard", "outcome",
             "watch_path",
         })
         self.assertEqual(row["current_turn"], 7)
         self.assertEqual(row["mode"], "single")
+        self.assertEqual(row["control_protocol"], STRATEGIC_V1)
         self.assertEqual(row["timing_mode"], "custom")
         self.assertEqual(row["action_timeout_s"], 1)
         self.assertEqual(row["places"], 2)
@@ -7858,6 +7861,27 @@ data 4 0 0 70
             self.assertNotIn(secret, public_text)
         self.assertNotIn("controller_metadata", public_text)
         self.assertNotIn("replay", public_text)
+
+    def test_picker_rows_publish_the_control_protocol(self):
+        self.sidecar_factory.status_response = (
+            "STATUS\tstate=preparing\tserver=1\tseat=ready"
+        )
+        strategic = self.supervisor.game(self.create(seed=211)["game_id"])
+        full = self.supervisor.game(
+            self.create(seed=212, control_protocol=FULL_CONTROL_V2)["game_id"],
+        )
+        self.assertEqual(
+            strategic.picker_state()["control_protocol"], STRATEGIC_V1,
+        )
+        self.assertEqual(
+            full.picker_state()["control_protocol"], FULL_CONTROL_V2,
+        )
+        rows = {
+            row["game_id"]: row["control_protocol"]
+            for row in self.supervisor.games_index()["games"]
+        }
+        self.assertEqual(rows[strategic.game_id], STRATEGIC_V1)
+        self.assertEqual(rows[full.game_id], FULL_CONTROL_V2)
 
     def test_games_index_releases_registry_and_turn_locks_before_scores(self):
         created = self.create(seed=203)
