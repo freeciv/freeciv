@@ -156,7 +156,7 @@ describe('technology progression model', () => {
 })
 
 describe('TechnologyProgressChart', () => {
-  it('renders selected and latest completion, pace, future techs, and exact colors', () => {
+  it('renders selected and latest completion, pace, future techs, and display colors', () => {
     const markup = renderToStaticMarkup(
       <TechnologyProgressChart catalog={catalog} selectedTurn={2} snapshots={snapshots} />,
     )
@@ -164,7 +164,9 @@ describe('TechnologyProgressChart', () => {
     expect(markup).toContain('Cumulative classic technologies known by turn')
     expect(markup).toContain('pi-gpt-5.6-sol')
     expect(markup).toContain('In-game Deity AI: Romans')
-    expect(markup).toContain('#0067A5')
+    // The recorded '#0067A5' is remapped for display only; the model keeps it.
+    expect(markup).toContain('#A78BFA')
+    expect(markup).not.toContain('#0067A5')
     expect(markup).toContain('#F38400')
     expect(markup).toContain('2 / 3 known')
     expect(markup).toContain('5.0 new / 10 turns')

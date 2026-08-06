@@ -10,6 +10,7 @@ import {
   terrainColor,
   terrainLift,
 } from '../board-geometry'
+import { displayPlayerColor } from '../display-color'
 import { factionDisplayLabel } from '../faction-label'
 import type { BoardResponse } from '../types'
 
@@ -46,9 +47,12 @@ interface ThreeRuntime {
   scene: THREE.Scene
 }
 
+/** Every painted owner hue on the board goes through here, so the display
+ *  remap is applied once, at the single point the recorded color is read. */
 function ownerColor(board: BoardResponse, playerId: number | null): string | null {
   if (playerId === null) return null
-  return board.players.find((player) => player.player_id === playerId)?.player_color ?? null
+  const player = board.players.find((candidate) => candidate.player_id === playerId)
+  return displayPlayerColor(player?.player_color)
 }
 
 function addInstances(

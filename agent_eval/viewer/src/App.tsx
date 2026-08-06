@@ -7,6 +7,7 @@ import { MetricChart } from './components/MetricChart'
 import { StrategicMap } from './components/StrategicMap'
 import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
+import { displayPlayerColor } from './display-color'
 import { MAP_HASH, mapSectionOpen, rememberMapSection } from './map-preference'
 import { controlProtocolLabel, placeLabel, timingModeLabel } from './picker-model'
 import { frameImageUrl, resolveViewerRoute } from './route'
@@ -377,7 +378,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 <small className="block text-muted text-[8px] leading-none font-readout tracking-[.14em]">{displayedScore.label}</small>
                 <strong className="text-[#ded3c0] font-bold text-[25px] leading-[1.1] font-readout">{displayedScore.value?.toLocaleString() ?? '—'}</strong>
               </div>
-              <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{place.player_color}</span>
+              <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{displayPlayerColor(place.player_color)}</span>
             </article>
           )
         })}
@@ -393,7 +394,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
               : 0
             return (
               <article className="intelligence-card" key={player.seat_id}>
-                <svg aria-hidden="true" className="absolute top-0 right-0 bottom-auto left-0 w-full h-[3px]" preserveAspectRatio="none" viewBox="0 0 100 2"><line stroke={player.player_color || '#82919d'} strokeWidth="2" x1="0" x2="100" y1="1" y2="1" /></svg>
+                <svg aria-hidden="true" className="absolute top-0 right-0 bottom-auto left-0 w-full h-[3px]" preserveAspectRatio="none" viewBox="0 0 100 2"><line stroke={displayPlayerColor(player.player_color) ?? '#82919d'} strokeWidth="2" x1="0" x2="100" y1="1" y2="1" /></svg>
                 <div className="flex gap-3 items-center"><ColorMark color={player.player_color} label={competitorLabel(player)} size="lg" /><div><p className="eyebrow">Scored controller</p><h2 className="m-0 text-[19px] tracking-[-.03em]">{competitorLabel(player)}</h2><span className="block mt-[3px] text-muted text-[10px]">{player.nation || player.player_name} · {player.government || 'Government unknown'}</span></div></div>
                 <div className="empire-metrics">
                   {METRICS.slice(1).map((metric) => <span key={metric.key}><small>{metric.label}</small><strong>{playerMetric(player, metric.key).toLocaleString()}</strong></span>)}
@@ -497,7 +498,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 <article className={faction.dynamic ? `${FACTION_ROW} dynamic-faction` : FACTION_ROW} key={`${faction.player_id}-${faction.player_name}`}>
                   <ColorMark color={faction.player_color} label={faction.display_label} />
                   <div className="min-w-0"><strong className="block [overflow-wrap:anywhere] text-[12px] leading-[1.3]">{faction.display_label}</strong><span className="block mt-[3px] overflow-hidden text-muted text-[10px] text-ellipsis whitespace-nowrap">{faction.detail}</span></div>
-                  <code className="text-[#64727b] text-[9px]">{faction.player_color}</code>
+                  <code className="text-[#64727b] text-[9px]">{displayPlayerColor(faction.player_color)}</code>
                 </article>
               )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
             </div>

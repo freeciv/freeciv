@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import type { ReplayPlayer, ReplaySnapshot, Technology } from '../types'
+import { displayPlayerColor } from '../display-color'
 import { factionDisplayLabel } from '../faction-label'
 import { isScoredPlayer } from '../view-model'
 import { ColorMark } from './ColorMark'
@@ -13,6 +14,7 @@ export interface TechnologyProgressPoint {
 export interface TechnologyProgressSeries {
   key: string
   label: string
+  /** The recorded color. Paint it through `displayPlayerColor`. */
   color: string | null
   values: TechnologyProgressPoint[]
   selected: TechnologyProgressPoint | null
@@ -331,41 +333,44 @@ export function TechnologyProgressChart({
                 y2={CHART.bottom}
               />
             ) : null}
-            {model.series.map((item) => (
-              <g key={item.key}>
-                <title>
-                  {item.label}: {item.latest.knownClassicTechnologies} of {model.catalogTotal}
-                  {' '}classic technologies at turn {item.latest.turn}
-                </title>
-                <polyline
-                  fill="none"
-                  points={polylinePoints(item.values, model.minTurn!, model.maxTurn!, model.catalogTotal)}
-                  stroke={item.color ?? '#65727c'}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="4"
-                  vectorEffect="non-scaling-stroke"
-                />
-                <circle
-                  cx={xPosition(item.latest.turn, model.minTurn!, model.maxTurn!)}
-                  cy={yPosition(item.latest.knownClassicTechnologies, model.catalogTotal)}
-                  fill={item.color ?? '#65727c'}
-                  r="4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                {item.selected ? (
-                  <circle
-                    cx={xPosition(item.selected.turn, model.minTurn!, model.maxTurn!)}
-                    cy={yPosition(item.selected.knownClassicTechnologies, model.catalogTotal)}
-                    fill={item.color ?? '#65727c'}
-                    r="6"
-                    stroke="currentColor"
-                    strokeWidth="2"
+            {model.series.map((item) => {
+              const paint = displayPlayerColor(item.color) ?? '#65727c'
+              return (
+                <g key={item.key}>
+                  <title>
+                    {item.label}: {item.latest.knownClassicTechnologies} of {model.catalogTotal}
+                    {' '}classic technologies at turn {item.latest.turn}
+                  </title>
+                  <polyline
+                    fill="none"
+                    points={polylinePoints(item.values, model.minTurn!, model.maxTurn!, model.catalogTotal)}
+                    stroke={paint}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="4"
+                    vectorEffect="non-scaling-stroke"
                   />
-                ) : null}
-              </g>
-            ))}
+                  <circle
+                    cx={xPosition(item.latest.turn, model.minTurn!, model.maxTurn!)}
+                    cy={yPosition(item.latest.knownClassicTechnologies, model.catalogTotal)}
+                    fill={paint}
+                    r="4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                  {item.selected ? (
+                    <circle
+                      cx={xPosition(item.selected.turn, model.minTurn!, model.maxTurn!)}
+                      cy={yPosition(item.selected.knownClassicTechnologies, model.catalogTotal)}
+                      fill={paint}
+                      r="6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  ) : null}
+                </g>
+              )
+            })}
           </svg>
 
           <div className="technology-progress-summary">
