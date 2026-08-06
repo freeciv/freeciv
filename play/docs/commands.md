@@ -357,6 +357,16 @@ alias (`a7 London`).
 - Orders execute sequentially as one single-command wire batch each — the wire
   rule is unchanged — and print one receipt line each. Execution stops at the
   first order that is not accepted; pass `--continue-on-error` to keep going.
+- **A refused order prints what its actor can do instead**, so fixing it
+  costs no extra command. Under the receipts, each refused actor gets one
+  section — `u24 can (rev41/t18): 12 of 37 shown — all: just legal --actor_id
+  u24 --all`, then the same rows `just legal --actor_id u24 --all` prints,
+  alias first — bounded to 12 rows and the first 3 refused actors. It costs
+  no round trip when the refusal did not move the revision, because the
+  cached catalog still stands; when it did, that one actor's catalog is
+  re-drained. A lookup that fails prints nothing at all: a refusal never
+  reads worse because the help beside it could not be built. `--json` output
+  is unaffected, and in `--json` mode nothing is fetched.
 - A successful `just do` or `just batch` ends its text output with one tail
   line naming what still needs orders, from the same heuristic as
   `just turn --decisions`. With more than one actor left it is the composed

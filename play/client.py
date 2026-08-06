@@ -8076,6 +8076,15 @@ def _batch_command(
                 "resolve this batch by receipt before any retry"
             )
             exit_code = 2
+        # Same bargain as `do`: a refused action prints what its actor can do
+        # instead of costing a whole extra command to find out.
+        options = (
+            _refused_actor_options(path, session, [actor])
+            if actor
+            and not _order_receipt_ok(disposition)
+            and not _json_requested(args)
+            else []
+        )
     if _json_requested(args):
         _print_v2_json(disposition)
     else:
@@ -8087,6 +8096,8 @@ def _batch_command(
             )
             if focus:
                 lines.append(focus)
+        else:
+            lines.extend(options)
         _render(lines)
     if warning:
         print(warning, file=sys.stderr)
@@ -8879,6 +8890,87 @@ def _refresh_orders(
         _drain_legal_unlocked(path, session, actor_id=actor_id)
 
 
+# ---------------------------------------------------------------------------
+# Inline options beside a refusal.
+#
+# A refused order leaves the turn open, and the only thing the agent needs
+# next is the menu it should have chosen from.  Printing it here is what turns
+# a refusal into one command instead of three: the observed loop was `do` →
+# refusal → `legal --actor_id uNN --all` → `do` again, two of which are pure
+# overhead.  The rows are the same rows `just legal --actor_id uNN --all`
+# prints, bounded, and the drill-down is named whenever they are cut short.
+# ---------------------------------------------------------------------------
+
+# One screen of options is a choice; a whole catalog is another problem.
+V2_REFUSAL_LEGAL_ROWS = 12
+# A batch can refuse up to V2_MAX_ORDERS actors, but a refusal that answers
+# with eight menus is no longer an answer.  Beyond this, the remaining actors
+# keep the refusal they always had and the `just legal` command that reads
+# them, which is exactly what this replaced for the first three.
+V2_REFUSAL_LEGAL_ACTORS = 3
+
+
+def _refused_actor_options(
+    path: Path, session: dict[str, Any], actors: list[str],
+) -> list[str]:
+    """Print what each refused actor can still do, inline in the refusal.
+
+    Every failure below degrades to silence.  A refusal already carries its
+    own remedy, and help that could not be built must never make the refusal
+    beside it read worse than it did before this existed.
+    """
+    lines: list[str] = []
+    for actor_id in actors[:V2_REFUSAL_LEGAL_ACTORS]:
+        try:
+            lines.extend(_actor_options_section(path, session, actor_id))
+        except (PlayerError, V2ResponseError, OSError):
+            continue
+    return lines
+
+
+def _actor_options_section(
+    path: Path, session: dict[str, Any], actor_id: str,
+) -> list[str]:
+    """Render one refused actor's bounded catalog, fetching it only if needed.
+
+    A rejected order changes nothing, so the revision usually stands still and
+    this seat still holds the catalog it read -- exactly the condition
+    ``drained_actors`` records.  When it does, this costs no round trip at
+    all; when the refusal moved the game on, the wiped cache is re-drained
+    once, the same way the not-yet-sent orders are.
+    """
+    state = _load_v2_client_state(path, session)
+    if actor_id not in state["drained_actors"]:
+        _drain_legal_unlocked(path, session, actor_id=actor_id)
+        state = _load_v2_client_state(path, session)
+    revision = state["last_revision"]
+    if revision is None:
+        return []
+    descriptors = [
+        descriptor for descriptor in _cached_actor_catalog(state, actor_id)
+        if descriptor.get("state_revision") == revision
+    ]
+    if not descriptors:
+        return []
+    aliases = _alias_map(state)
+    named = aliases.get(actor_id, actor_id)
+    shown = [
+        _compact_legal_action(descriptor)
+        for descriptor in descriptors[:V2_REFUSAL_LEGAL_ROWS]
+    ]
+    header = f"{named} can ({_revision_label(revision)}): "
+    header += (
+        f"{len(shown)} of {len(descriptors)} shown — all: "
+        f"just legal --actor_id {named} --all"
+        if len(shown) < len(descriptors)
+        else f"{len(descriptors)} options"
+    )
+    return [
+        header,
+        *_legal_rows(shown, _requested_scope(actor_id, ""), aliases),
+    ]
+
+
 def _order_receipt_ok(disposition: dict[str, Any]) -> bool:
     receipt = disposition["receipt"]
     return (
@@ -8917,6 +9009,9 @@ def command_do(args: argparse.Namespace) -> int:
     exit_code = 0
     applied = 0
     ordered: set[str] = set()
+    # Every actor whose order the server refused, in the order it was given.
+    refused: list[str] = []
+    options: list[str] = []
     ending: dict[str, Any] | None = None
     wait: dict[str, Any] | None = None
     briefing: dict[str, Any] | None = None
@@ -8985,6 +9080,8 @@ def command_do(args: argparse.Namespace) -> int:
             if _order_receipt_ok(disposition):
                 applied += 1
             else:
+                if resolved["actor_id"] and resolved["actor_id"] not in refused:
+                    refused.append(resolved["actor_id"])
                 exit_code = max(exit_code, code or 2)
                 if not keep_going:
                     stopped = (
@@ -9077,6 +9174,12 @@ def command_do(args: argparse.Namespace) -> int:
                         "next: just wait — or add --await --brief to spend "
                         "one call on the whole turn"
                     )
+        # A refusal that left the turn open is answered in place: the refused
+        # actor's own options print under it, so the next call is the fixed
+        # order and not another enumeration.  `--json` is untouched, and so is
+        # the wire -- this reads catalogs the same way `just legal` does.
+        if refused and not ended and not _json_requested(args):
+            options = _refused_actor_options(path, session, refused)
     summary = f"{applied}/{len(orders)} applied"
     if bound is not None:
         summary += f" {_revision_label(bound)}"
@@ -9106,6 +9209,9 @@ def command_do(args: argparse.Namespace) -> int:
             })
         _print_v2_json(payload)
     else:
+        # The options go above the focus line: the tail is what to run next,
+        # and it stays the last word of the command.
+        lines.extend(options)
         if applied and not ended:
             # One focus line for the whole batch, from local caches only.
             focus = _next_focus_line(

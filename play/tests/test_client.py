@@ -5722,14 +5722,21 @@ client._remember_receipt(path, state, receipt)
                     self.assertEqual(client.command_do(self.do_args(
                         orders, str(session_path),
                     )), 2)
+                # The refused actor's own options print under the refusal, and
+                # the cached catalog answers them: still one request.
                 self.assertEqual(request.call_count, 1)
                 lines = stdout.getvalue().splitlines()
-                self.assertEqual(len(lines), 3)
+                self.assertEqual(len(lines), 6)
                 self.assertIn("rejected", lines[0])
                 self.assertEqual(lines[1], "0/2 applied rev7/t3")
                 self.assertIn("stopped after order 1", lines[2])
                 self.assertIn("1 not sent", lines[2])
                 self.assertIn("--continue-on-error", lines[2])
+                self.assertEqual(lines[3], "u1 can (rev7/t3): 2 options")
+                self.assertTrue(lines[4].startswith("a1  unit.order/move"))
+                self.assertTrue(
+                    lines[5].startswith("a2  unit.found_city/found"), lines[5],
+                )
 
                 stdout = io.StringIO()
                 with patch.object(
@@ -5742,11 +5749,278 @@ client._remember_receipt(path, state, receipt)
                     )), 2)
                 self.assertEqual(request.call_count, 2)
                 lines = stdout.getvalue().splitlines()
-                self.assertEqual(len(lines), 4)
+                self.assertEqual(len(lines), 7)
                 self.assertIn("rejected", lines[0])
                 self.assertIn("applied", lines[1])
                 self.assertEqual(lines[2], "1/2 applied rev7/t3")
-                self.assertTrue(lines[3].startswith("next: "), lines[3])
+                self.assertEqual(lines[3], "u1 can (rev7/t3): 2 options")
+                # The focus tail is still the last word of the command.
+                self.assertTrue(lines[6].startswith("next: "), lines[6])
+
+    def refused_seat(self, session_path: Path, session: dict, revision: dict):
+        """One unit with a two-action catalog, and the order that refuses."""
+        actor = "unit_" + "a" * 32
+        move = self.actor_action(
+            revision, "action_" + "1" * 26, actor, x=32, y=72,
+        )
+        found = self.found_city_action(self.actor_action(
+            revision, "action_" + "2" * 26, actor,
+            kind="unit.found_city", operation="found",
+            label="Found city", x=31, y=72,
+        ))
+        self.cache_actor_catalog(
+            session_path, session, revision, actor, [move, found],
+        )
+        return actor, move, found
+
+    def test_v2_refusal_fetches_and_bounds_the_refused_actor_options(self):
+        """A refusal that moved the game re-reads the menu it hands back."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                moved = self.revision(9)
+                actor, _move, _found = self.refused_seat(
+                    session_path, session, revision,
+                )
+                # Thirty-seven options at the newer revision, over the three
+                # pages the wire bounds them to: far more than the twelve a
+                # refusal is allowed to print.
+                catalog = [
+                    self.actor_action(
+                        moved, "action_" + f"{index:026d}", actor,
+                        x=30 + index, y=72,
+                    )
+                    for index in range(37)
+                ]
+                pages = [catalog[0:16], catalog[16:32], catalog[32:]]
+                reads: list[str] = []
+
+                def responder(method, url, current, **options):
+                    if method == "POST":
+                        payload = json.loads(
+                            options["encoded_body"].decode("utf-8"),
+                        )
+                        # The refusal itself carries the newer revision, so
+                        # every cached capability for this actor is retired.
+                        return client.JSONResponse(200, self.receipt(
+                            session, payload["batch_id"], "rejected",
+                            revision=moved,
+                        ))
+                    index = len(reads)
+                    reads.append(url)
+                    page = self.scoped_legal_page(
+                        session, revision=moved, items=pages[index],
+                        actor_id=actor, catalog="catalog_" + "b" * 32,
+                        cursor=(
+                            "cursor_" + str(index + 1) * 32
+                            if index + 1 < len(pages) else None
+                        ),
+                    )
+                    page["page"]["total_items"] = len(catalog)
+                    return client.JSONResponse(200, page)
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 move 32,72", str(session_path),
+                    )), 2)
+                lines = stdout.getvalue().splitlines()
+                # One drain of exactly the refused actor's catalog, cursors
+                # followed, and nothing else enumerated.
+                self.assertEqual(len(reads), 3, reads)
+                self.assertIn(f"actor_id={actor}", reads[0])
+                self.assertIn("rejected", lines[0])
+                self.assertEqual(lines[1], "0/1 applied rev9/t3")
+                self.assertIn("stopped after order 1", lines[2])
+                self.assertEqual(
+                    lines[3],
+                    "u1 can (rev9/t3): 12 of 37 shown — all: "
+                    "just legal --actor_id u1 --all",
+                )
+                rows = lines[4:]
+                self.assertEqual(len(rows), 12)
+                # The rows are the `just legal` rows, alias first, so the very
+                # next call can name one without another command.
+                self.assertEqual(rows[0], "a1   unit.order/move  Move  T(30,72)")
+                self.assertEqual(
+                    rows[11], "a12  unit.order/move  Move  T(41,72)",
+                )
+
+    def test_v2_refusal_prints_one_options_section_for_each_refused_actor(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                first = "unit_" + "a" * 32
+                second = "unit_" + "b" * 32
+                for index, actor in enumerate((first, second)):
+                    self.cache_actor_catalog(
+                        session_path, session, revision, actor, [
+                            self.actor_action(
+                                revision, "action_" + f"{index:026d}", actor,
+                                x=32, y=72,
+                            ),
+                        ],
+                    )
+
+                def responder(method, url, current, **options):
+                    payload = json.loads(
+                        options["encoded_body"].decode("utf-8"),
+                    )
+                    return client.JSONResponse(200, self.receipt(
+                        session, payload["batch_id"], "rejected",
+                        revision=revision,
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ) as request, redirect_stdout(stdout), redirect_stderr(
+                    io.StringIO(),
+                ):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 move 32,72; u2 move 32,72", str(session_path),
+                        continue_on_error=True,
+                    )), 2)
+                lines = stdout.getvalue().splitlines()
+                # Both refused actors are answered, and the still-valid cached
+                # catalogs mean neither answer cost a round trip.
+                self.assertEqual(request.call_count, 2)
+                self.assertEqual(lines[3], "u1 can (rev7/t3): 1 options")
+                self.assertEqual(lines[5], "u2 can (rev7/t3): 1 options")
+
+    def test_v2_refusal_survives_an_options_lookup_that_fails(self):
+        """Enrichment that cannot run leaves the refusal exactly as it was."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                moved = self.revision(9)
+                self.refused_seat(session_path, session, revision)
+
+                def responder(method, url, current, **options):
+                    if method == "POST":
+                        payload = json.loads(
+                            options["encoded_body"].decode("utf-8"),
+                        )
+                        return client.JSONResponse(200, self.receipt(
+                            session, payload["batch_id"], "rejected",
+                            revision=moved,
+                        ))
+                    # The re-read the enrichment needs is refused outright.
+                    return client.JSONResponse(503, self.error(
+                        code="sidecar_unavailable", retryable=True,
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 move 32,72", str(session_path),
+                    )), 2)
+                lines = stdout.getvalue().splitlines()
+                # The three lines this refusal printed before enrichment
+                # existed, and nothing else.
+                self.assertEqual(len(lines), 3)
+                self.assertIn("rejected", lines[0])
+                self.assertEqual(lines[1], "0/1 applied rev9/t3")
+                self.assertIn("stopped after order 1", lines[2])
+                self.assertNotIn("can (", stdout.getvalue())
+
+    def test_v2_applied_orders_print_no_options_section(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.refused_seat(session_path, session, revision)
+
+                def responder(method, url, current, **options):
+                    payload = json.loads(
+                        options["encoded_body"].decode("utf-8"),
+                    )
+                    return client.JSONResponse(200, self.receipt(
+                        session, payload["batch_id"], "applied",
+                        revision=revision,
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ) as request, redirect_stdout(stdout), redirect_stderr(
+                    io.StringIO(),
+                ):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 move 32,72", str(session_path),
+                    )), 0)
+                printed = stdout.getvalue()
+                self.assertEqual(request.call_count, 1)
+                self.assertIn("1/1 applied rev7/t3", printed)
+                self.assertNotIn("can (", printed)
+
+    def test_v2_batch_refusal_prints_the_actor_options_too(self):
+        """The single-action surface answers a refusal the same way `do` does."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.refused_seat(session_path, session, revision)
+
+                def responder(method, url, current, **options):
+                    payload = json.loads(
+                        options["encoded_body"].decode("utf-8"),
+                    )
+                    return client.JSONResponse(200, self.receipt(
+                        session, payload["batch_id"], "rejected",
+                        revision=revision,
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    # A terminal receipt resolved the batch, so the exit code
+                    # is unchanged; only the rendering gains the options.
+                    self.assertEqual(client.command_batch(self.alias_args(
+                        session=str(session_path), action_id="a1",
+                    )), 0)
+                lines = stdout.getvalue().splitlines()
+                self.assertIn("rejected", lines[0])
+                self.assertEqual(lines[1], "u1 can (rev7/t3): 2 options")
+                self.assertTrue(lines[2].startswith("a1 "), lines[2])
 
     def test_v2_turn_end_await_ends_the_phase_then_blocks_then_heads(self):
         with tempfile.TemporaryDirectory() as directory:
