@@ -1127,6 +1127,10 @@ def _journal_seat_ids(source_directory: Path) -> dict[int, str]:
                 continue
             player_id = player.get("player_id")
             seat_id = player.get("seat_id")
+            # Older journals recorded ids as floats (0.0); an integral
+            # float is the same player.
+            if isinstance(player_id, float) and player_id.is_integer():
+                player_id = int(player_id)
             if isinstance(player_id, int) and not isinstance(player_id, bool) \
                     and isinstance(seat_id, str):
                 mapping[player_id] = seat_id

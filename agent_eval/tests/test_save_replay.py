@@ -379,11 +379,14 @@ class SaveReplayTests(unittest.TestCase):
             encoding="utf-8",
         )
         journal = self.runs / GAME_ID / "replay.jsonl"
+        # Older journals recorded player ids as floats (0.0); the join
+        # must treat an integral float as the same player.
         journal.write_text(
             json.dumps({
                 "schema_version": 1, "game_id": GAME_ID, "turn": 1,
                 "players": [
-                    {"player_id": 0, "seat_id": "seat-1", "player_name": "Ada"},
+                    {"player_id": 0.0, "seat_id": "seat-1",
+                     "player_name": "Ada"},
                     {"player_id": 1, "seat_id": "seat-2",
                      "player_name": "NativePlace2"},
                 ],

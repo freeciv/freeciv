@@ -558,8 +558,13 @@ def _orphan_player_seats(
                 row = json.loads(line)
                 for player in row.get("players") or []:
                     player_id = player.get("player_id")
+                    # Older journals recorded ids as floats (0.0).
+                    if isinstance(player_id, float) and player_id.is_integer():
+                        player_id = int(player_id)
                     seat = by_id.get(player.get("seat_id"))
-                    if isinstance(player_id, int) and seat is not None:
+                    if isinstance(player_id, int) \
+                            and not isinstance(player_id, bool) \
+                            and seat is not None:
                         mapping[player_id] = seat
                 break
     except (OSError, UnicodeError, json.JSONDecodeError):
