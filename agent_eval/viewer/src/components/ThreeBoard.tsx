@@ -10,7 +10,8 @@ import {
   terrainColor,
   terrainLift,
 } from '../board-geometry'
-import { displayPlayerColor } from '../display-color'
+import { displayPlayerColor, type DisplayPalette } from '../display-color'
+import { useDisplayPalette } from '../display-palette'
 import { factionDisplayLabel } from '../faction-label'
 import type { BoardResponse } from '../types'
 
@@ -47,12 +48,16 @@ interface ThreeRuntime {
   scene: THREE.Scene
 }
 
-/** Every painted owner hue on the board goes through here, so the display
- *  remap is applied once, at the single point the recorded color is read. */
-function ownerColor(board: BoardResponse, playerId: number | null): string | null {
+/** Every painted owner hue on the board goes through here, so the game's color
+ *  plan is applied once, at the single point the recorded color is read. */
+function ownerColor(
+  board: BoardResponse,
+  playerId: number | null,
+  palette: DisplayPalette,
+): string | null {
   if (playerId === null) return null
   const player = board.players.find((candidate) => candidate.player_id === playerId)
-  return displayPlayerColor(player?.player_color)
+  return displayPlayerColor(player?.player_color, palette)
 }
 
 function addInstances(
@@ -123,7 +128,11 @@ function labelSprite(text: string, color: string): THREE.Sprite {
   return sprite
 }
 
-function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer {
+function buildBoardLayer(
+  board: BoardResponse,
+  mode: BoardViewMode,
+  palette: DisplayPalette,
+): BoardLayer {
   const tiles = buildBoardTiles(board)
   const group = new THREE.Group()
   group.name = `semantic-board-turn-${board.turn}`
@@ -167,7 +176,7 @@ function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer 
   const territoryByPlayer = new Map<number, THREE.Matrix4[]>()
   const unownedMatrices: THREE.Matrix4[] = []
   for (const tile of tiles) {
-    if (tile.ownerId === null || !ownerColor(board, tile.ownerId)) {
+    if (tile.ownerId === null || !ownerColor(board, tile.ownerId, palette)) {
       if (mode === 'political') {
         unownedMatrices.push(instanceMatrix(
           tile.worldX, topByTile[tile.index] + 0.014, tile.worldZ,
@@ -184,7 +193,7 @@ function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer 
     territoryByPlayer.set(tile.ownerId, matrices)
   }
   for (const [playerId, matrices] of territoryByPlayer) {
-    const color = ownerColor(board, playerId) ?? '#ffffff'
+    const color = ownerColor(board, playerId, palette) ?? '#ffffff'
     const fill = new THREE.CircleGeometry(mode === 'political' ? 0.565 : 0.515, 6)
     fill.rotateX(-Math.PI / 2)
     addInstances(group, fill, new THREE.MeshBasicMaterial({
@@ -219,7 +228,7 @@ function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer 
     const normalX = deltaX / distance
     const normalZ = deltaZ / distance
     const color = edge.neighborOwnerId === null
-      ? ownerColor(board, edge.ownerId) ?? '#f4e7c5'
+      ? ownerColor(board, edge.ownerId, palette) ?? '#f4e7c5'
       : '#fff1c9'
     const matrices = boundaryByColor.get(color) ?? []
     matrices.push(instanceMatrix(
@@ -289,7 +298,7 @@ function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer 
     addInstances(
       group,
       new THREE.CylinderGeometry(0.22, 0.34, 0.48, 8),
-      new THREE.MeshStandardMaterial({ color: ownerColor(board, playerId) ?? '#e7dfce', emissive: '#231c12', emissiveIntensity: 0.32, roughness: 0.46 }),
+      new THREE.MeshStandardMaterial({ color: ownerColor(board, playerId, palette) ?? '#e7dfce', emissive: '#231c12', emissiveIntensity: 0.32, roughness: 0.46 }),
       matrices,
     )
   }
@@ -313,7 +322,7 @@ function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer 
       const top = topByTile[city.y * board.width + city.x] ?? 0.1
       const sprite = labelSprite(
         factionDisplayLabel(player),
-        ownerColor(board, playerId) ?? '#fff1c9',
+        ownerColor(board, playerId, palette) ?? '#fff1c9',
       )
       sprite.position.set(position.x, top + 1.15, position.z)
       group.add(sprite)
@@ -333,7 +342,7 @@ function buildBoardLayer(board: BoardResponse, mode: BoardViewMode): BoardLayer 
     addInstances(
       group,
       new THREE.OctahedronGeometry(0.11, 0),
-      new THREE.MeshStandardMaterial({ color: ownerColor(board, playerId) ?? '#f1ede4', emissive: '#15120f', metalness: 0.12, roughness: 0.38 }),
+      new THREE.MeshStandardMaterial({ color: ownerColor(board, playerId, palette) ?? '#f1ede4', emissive: '#15120f', metalness: 0.12, roughness: 0.38 }),
       matrices,
     )
   }
@@ -364,6 +373,7 @@ export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure }
   const runtimeRef = useRef<ThreeRuntime | null>(null)
   const sceneGeneration = useRef(0)
   const [ready, setReady] = useState(false)
+  const palette = useDisplayPalette()
 
   useEffect(() => {
     const container = containerRef.current
@@ -463,7 +473,7 @@ export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure }
     frame = requestAnimationFrame(() => {
       buildTimer = window.setTimeout(() => {
         try {
-          built = buildBoardLayer(board, mode)
+          built = buildBoardLayer(board, mode, palette)
         } catch {
           onFailure()
           return
@@ -494,7 +504,7 @@ export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure }
       if (buildTimer) window.clearTimeout(buildTimer)
       if (built && runtime.current !== built) disposeLayer(built)
     }
-  }, [board, mode, onCommit, onFailure, ready])
+  }, [board, mode, onCommit, onFailure, palette, ready])
 
   return (
     <div className="three-board" ref={containerRef}>

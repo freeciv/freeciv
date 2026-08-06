@@ -11,6 +11,7 @@ import {
   visiblePickerGames,
   waitingLabel,
 } from '../picker-model'
+import { DisplayPaletteProvider } from '../display-palette'
 import { watchUrl } from '../route'
 import type { ArenaRouteContext, GameSummary } from '../types'
 import { matchHeaderLabel } from '../view-model'
@@ -50,8 +51,15 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
   const timing = timingModeLabel(game)
   const turn = game.current_turn ?? 0
   const turnProgress = Math.min(100, Math.max(0, (turn / Math.max(game.turns, 1)) * 100))
+  // Clearance is decided per match, so every card carries its own plan. The
+  // index knows only the configured places, which is the whole seat roster.
+  const factions = game.resolved_places.map((place) => ({
+    playerId: place.place - 1,
+    color: place.player_color,
+  }))
 
   return (
+    <DisplayPaletteProvider factions={factions}>
     <a className="arena-card group" href={watchUrl(prefix, game.game_id)}>
       <div className="flex justify-between gap-3 items-center">
         <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
@@ -105,6 +113,7 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
       )}
       <code className="mt-auto pt-[14px] text-[#53616a] text-[8px] tracking-[.06em]">{game.game_id}</code>
     </a>
+    </DisplayPaletteProvider>
   )
 }
 

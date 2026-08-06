@@ -1,4 +1,5 @@
 import { displayPlayerColor } from '../display-color'
+import { useDisplayPalette } from '../display-palette'
 
 interface ColorMarkProps {
   color?: string | null
@@ -10,7 +11,7 @@ const dimensions = { sm: 12, md: 16, lg: 22 }
 
 export function ColorMark({ color, label, size = 'md' }: ColorMarkProps) {
   const dimension = dimensions[size]
-  const displayed = displayPlayerColor(color)
+  const displayed = displayPlayerColor(color, useDisplayPalette())
   return (
     <svg
       aria-label={`${label} color ${displayed ?? 'unknown'}`}

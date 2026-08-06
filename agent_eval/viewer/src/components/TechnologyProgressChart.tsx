@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import type { ReplayPlayer, ReplaySnapshot, Technology } from '../types'
 import { displayPlayerColor } from '../display-color'
+import { useDisplayPalette } from '../display-palette'
 import { factionDisplayLabel } from '../faction-label'
 import { isScoredPlayer } from '../view-model'
 import { ColorMark } from './ColorMark'
@@ -277,6 +278,7 @@ export function TechnologyProgressChart({
     [baseModel, selectedTurn],
   )
   const selectedLabel = model.selectedTurn == null ? '—' : `T${model.selectedTurn}`
+  const palette = useDisplayPalette()
 
   return (
     <article className="panel metric-chart technology-progress-chart">
@@ -334,7 +336,7 @@ export function TechnologyProgressChart({
               />
             ) : null}
             {model.series.map((item) => {
-              const paint = displayPlayerColor(item.color) ?? '#65727c'
+              const paint = displayPlayerColor(item.color, palette) ?? '#65727c'
               return (
                 <g key={item.key}>
                   <title>

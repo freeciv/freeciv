@@ -7,11 +7,13 @@ import { MetricChart } from './components/MetricChart'
 import { StrategicMap } from './components/StrategicMap'
 import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
-import { displayPlayerColor } from './display-color'
+import { buildDisplayPalette, displayPlayerColor, type DisplayFaction } from './display-color'
+import { DisplayPaletteProvider } from './display-palette'
 import { MAP_HASH, mapSectionOpen, rememberMapSection } from './map-preference'
 import { controlProtocolLabel, placeLabel, timingModeLabel } from './picker-model'
 import { frameImageUrl, resolveViewerRoute } from './route'
 import type {
+  GamePlace,
   ReplayPlayer,
   ReplaySnapshot,
   RouteContext,
@@ -20,6 +22,7 @@ import type {
 } from './types'
 import {
   METRICS,
+  type MapFaction,
   competitorLabel,
   configuredPlaceFactions,
   frameAtOrBefore,
@@ -62,6 +65,30 @@ function validityLabel(validity: boolean | null) {
 
 function playerForPlace(players: ReplayPlayer[], place: number) {
   return players.find((player) => player.place === place)
+}
+
+/**
+ * The faction set the color plan is decided over: every faction the map knows,
+ * plus the configured places, which carry the seat colors before any replay
+ * telemetry has arrived. Places reuse the `place - 1` identity that
+ * `configuredPlaceFactions` assigns. A color already claimed by a map faction
+ * contributes nothing the second time, so listing both sources cannot disturb
+ * the plan — it only widens it.
+ */
+function paletteFactions(
+  factions: MapFaction[],
+  places: GamePlace[],
+): DisplayFaction[] {
+  return [
+    ...factions.map((faction) => ({
+      playerId: faction.player_id,
+      color: faction.player_color,
+    })),
+    ...places.map((place) => ({
+      playerId: place.place - 1,
+      color: place.player_color,
+    })),
+  ]
 }
 
 function acquisitionHistory(
@@ -230,6 +257,10 @@ function MatchViewer({ route }: { route: RouteContext }) {
   const factions = basicTelemetry && !mappedFactions.length
     ? configuredPlaceFactions(game.resolved_places)
     : mappedFactions
+  // One plan for the whole match, decided over every faction at once, and
+  // handed to the board, the charts, and every swatch below.
+  const paletteInput = paletteFactions(factions, game.resolved_places)
+  const palette = buildDisplayPalette(paletteInput)
   const selectedYear = selectedSnapshot?.year
   const validityClass = game.benchmark_valid === true
     ? 'validity-valid'
@@ -288,6 +319,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
   }
 
   return (
+    <DisplayPaletteProvider factions={paletteInput}>
     <main className="app-shell">
       <nav className="grid grid-cols-[minmax(220px,1fr)_auto_minmax(220px,1fr)] gap-[18px] items-center min-h-[45px] py-0 px-[14px] border border-line border-b-0 text-[#978e80] bg-[#171410] font-bold text-[9px] leading-none font-readout tracking-[.1em] uppercase max-[1000px]:grid-cols-[1fr_auto] max-[650px]:grid-cols-1" aria-label="Freeciv Agent Arena">
         <a className="inline-flex gap-[9px] items-center text-ink no-underline max-[460px]:min-w-0" href={route.prefix ? `${route.prefix}/` : '/'}><span className="grid place-items-center w-[25px] h-[25px] border border-[#8e754c] text-[#d4b77d] text-[8px]" aria-hidden="true">FC</span><strong className="max-[460px]:overflow-hidden max-[460px]:text-ellipsis max-[460px]:whitespace-nowrap">Freeciv Agent Arena</strong></a>
@@ -378,7 +410,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 <small className="block text-muted text-[8px] leading-none font-readout tracking-[.14em]">{displayedScore.label}</small>
                 <strong className="text-[#ded3c0] font-bold text-[25px] leading-[1.1] font-readout">{displayedScore.value?.toLocaleString() ?? '—'}</strong>
               </div>
-              <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{displayPlayerColor(place.player_color)}</span>
+              <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{displayPlayerColor(place.player_color, palette)}</span>
             </article>
           )
         })}
@@ -394,7 +426,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
               : 0
             return (
               <article className="intelligence-card" key={player.seat_id}>
-                <svg aria-hidden="true" className="absolute top-0 right-0 bottom-auto left-0 w-full h-[3px]" preserveAspectRatio="none" viewBox="0 0 100 2"><line stroke={displayPlayerColor(player.player_color) ?? '#82919d'} strokeWidth="2" x1="0" x2="100" y1="1" y2="1" /></svg>
+                <svg aria-hidden="true" className="absolute top-0 right-0 bottom-auto left-0 w-full h-[3px]" preserveAspectRatio="none" viewBox="0 0 100 2"><line stroke={displayPlayerColor(player.player_color, palette) ?? '#82919d'} strokeWidth="2" x1="0" x2="100" y1="1" y2="1" /></svg>
                 <div className="flex gap-3 items-center"><ColorMark color={player.player_color} label={competitorLabel(player)} size="lg" /><div><p className="eyebrow">Scored controller</p><h2 className="m-0 text-[19px] tracking-[-.03em]">{competitorLabel(player)}</h2><span className="block mt-[3px] text-muted text-[10px]">{player.nation || player.player_name} · {player.government || 'Government unknown'}</span></div></div>
                 <div className="empire-metrics">
                   {METRICS.slice(1).map((metric) => <span key={metric.key}><small>{metric.label}</small><strong>{playerMetric(player, metric.key).toLocaleString()}</strong></span>)}
@@ -498,7 +530,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 <article className={faction.dynamic ? `${FACTION_ROW} dynamic-faction` : FACTION_ROW} key={`${faction.player_id}-${faction.player_name}`}>
                   <ColorMark color={faction.player_color} label={faction.display_label} />
                   <div className="min-w-0"><strong className="block [overflow-wrap:anywhere] text-[12px] leading-[1.3]">{faction.display_label}</strong><span className="block mt-[3px] overflow-hidden text-muted text-[10px] text-ellipsis whitespace-nowrap">{faction.detail}</span></div>
-                  <code className="text-[#64727b] text-[9px]">{displayPlayerColor(faction.player_color)}</code>
+                  <code className="text-[#64727b] text-[9px]">{displayPlayerColor(faction.player_color, palette)}</code>
                 </article>
               )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
             </div>
@@ -565,6 +597,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
         <span>Public spectator telemetry · not available to player agents</span>
       </footer>
     </main>
+    </DisplayPaletteProvider>
   )
 }
 

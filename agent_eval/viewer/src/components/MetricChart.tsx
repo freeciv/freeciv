@@ -1,4 +1,5 @@
-import { displayPlayerColor } from '../display-color'
+import { displayPlayerColor, type DisplayPalette } from '../display-color'
+import { useDisplayPalette } from '../display-palette'
 import type { ReplayPlayer, ReplaySnapshot } from '../types'
 import { competitorLabel, isScoredPlayer, playerMetric, type MetricKey } from '../view-model'
 import { ColorMark } from './ColorMark'
@@ -16,7 +17,11 @@ interface Series {
   values: { turn: number; value: number }[]
 }
 
-function chartSeries(snapshots: ReplaySnapshot[], metric: MetricKey): Series[] {
+function chartSeries(
+  snapshots: ReplaySnapshot[],
+  metric: MetricKey,
+  palette: DisplayPalette,
+): Series[] {
   const players = new Map<string, ReplayPlayer>()
   for (const snapshot of snapshots) {
     for (const player of snapshot.players) {
@@ -26,7 +31,7 @@ function chartSeries(snapshots: ReplaySnapshot[], metric: MetricKey): Series[] {
   return [...players.entries()].map(([seatId, player]) => ({
     key: seatId,
     label: competitorLabel(player),
-    color: displayPlayerColor(player.player_color) ?? '#82919d',
+    color: displayPlayerColor(player.player_color, palette) ?? '#82919d',
     values: snapshots.flatMap((snapshot) => {
       const current = snapshot.players.find((candidate) => candidate.seat_id === seatId)
       return current ? [{ turn: snapshot.turn, value: playerMetric(current, metric) }] : []
@@ -46,7 +51,7 @@ function points(values: Series['values'], minTurn: number, maxTurn: number, maxV
 }
 
 export function MetricChart({ label, metric, snapshots }: MetricChartProps) {
-  const series = chartSeries(snapshots, metric)
+  const series = chartSeries(snapshots, metric, useDisplayPalette())
   const turns = snapshots.map((snapshot) => snapshot.turn)
   const minTurn = Math.min(...turns, 0)
   const maxTurn = Math.max(...turns, 1)
