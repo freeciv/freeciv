@@ -9,4 +9,5 @@ EXTRA_DIST = README \
 	patch/04-include-tolua_event.patch \
 	patch/05-gen-code-fix-null-dereferences.patch \
 	patch/06-gen-code-no-trailing-spaces.patch \
-	patch/07-gen-code-nullptr.patch
+	patch/07-gen-code-nullptr.patch \
+	patch/08-gen-code-deterministic.patch
