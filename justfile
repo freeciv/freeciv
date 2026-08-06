@@ -480,9 +480,9 @@ video game_id out="" preset="full": video-install
       ${render_flags[@]+"${render_flags[@]}"}
     echo "wrote $output"
 
-# Typecheck the offline video renderer.
+# Typecheck the offline video renderer and run its unit tests.
 video-check: video-install
-    npm --prefix agent_eval/video run typecheck
+    npm --prefix agent_eval/video run check
 
 # Open the video renderer's studio against an already-exported game.
 video-studio: video-install

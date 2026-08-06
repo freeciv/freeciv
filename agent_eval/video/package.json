@@ -7,7 +7,8 @@
     "studio": "remotion studio",
     "render": "remotion render",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck"
+    "check": "npm run typecheck && npm run test",
+    "test": "vitest run"
   },
   "dependencies": {
     "@remotion/cli": "4.0.506",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "^4.1.10"
   }
 }
