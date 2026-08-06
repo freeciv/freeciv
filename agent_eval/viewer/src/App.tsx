@@ -36,6 +36,9 @@ import {
 const CENTER_STAGE = 'flex flex-col items-center justify-center min-h-screen p-6 text-center'
 const CENTER_TITLE = 'my-0.5 mx-0 text-[length:clamp(25px,5vw,48px)]'
 const CLAMPED_LINE = 'block overflow-hidden text-ellipsis whitespace-nowrap'
+const WARNING_BOX = 'py-2.5 px-[13px] border border-[#705d3c] rounded-[5px] text-[#d0b780] bg-[#211b12] text-[12px]'
+const STAT_ROW = 'grid grid-cols-[auto_minmax(0,1fr)_auto] gap-1.5 items-center mt-[7px]'
+const FACTION_ROW = 'grid grid-cols-[auto_1fr_auto] gap-2.5 items-center py-[11px] px-[9px] border-b border-b-[#332e27] last:border-b-0'
 const CLAMPED_LINE_RAIL = 'block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'
 
 function mergeSnapshots(current: ReplaySnapshot[], incoming: ReplaySnapshot[]) {
@@ -290,22 +293,23 @@ function MatchViewer({ route }: { route: RouteContext }) {
         <span className="text-center max-[1000px]:hidden">{game.mode === 'single' ? 'Single player evaluation' : 'Multiplayer evaluation'}</span>
         <code className="overflow-hidden text-[#756e63] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code>
       </nav>
-      <header className="match-header">
+      <header className="relative grid grid-cols-[minmax(0,1fr)_auto] gap-x-7 gap-y-[18px] items-center py-[22px] px-6 overflow-hidden border border-line bg-[linear-gradient(110deg,#201c17,#181511)] max-[760px]:grid-cols-1 max-[760px]:p-[17px] max-[650px]:p-4">
         <div className="brand-block">
           <div className="brand-mark" aria-hidden="true"><span /><span /><span /></div>
           <div>
             <p className="eyebrow">Freeciv autonomous arena</p>
-            <h1>{matchHeaderLabel(game.resolved_places)}</h1>
+            <h1 className="m-0 overflow-hidden text-[length:clamp(25px,3vw,41px)] font-medium tracking-[-.025em] text-ellipsis whitespace-nowrap [overflow-wrap:anywhere] max-[760px]:whitespace-normal max-[760px]:text-[length:clamp(22px,8vw,34px)] max-[760px]:leading-[1.05]">{matchHeaderLabel(game.resolved_places)}</h1>
           </div>
         </div>
         <div className="flex items-center gap-[14px] z-[1] max-[760px]:justify-between max-[460px]:items-start max-[460px]:flex-col">
           <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
-          <span className="turn-readout"><small>TURN</small>{selectedTurn || '—'}<em>{selectedYear == null ? '' : ` / ${selectedYear}`}</em></span>
+          <span className="flex items-baseline gap-[7px] text-[#e2d7c5] font-bold text-[30px] leading-none font-readout"><small className="text-muted text-[9px] not-italic tracking-[.14em]">TURN</small>{selectedTurn || '—'}<em className="text-muted text-[9px] not-italic tracking-[.14em]">{selectedYear == null ? '' : ` / ${selectedYear}`}</em></span>
         </div>
-        <p className="game-code">{game.game_id}</p>
+        {/* Kept in the DOM but never shown: the editorial skin hides the duplicate id. */}
+        <p className="hidden">{game.game_id}</p>
       </header>
 
-      {error && <div className="refresh-warning" role="status">Live refresh issue: {error}. Showing the latest retained data.</div>}
+      {error && <div className={`mt-2.5 ${WARNING_BOX}`} role="status">Live refresh issue: {error}. Showing the latest retained data.</div>}
 
       <div className="match-content" id="match-content">
 
@@ -365,15 +369,15 @@ function MatchViewer({ route }: { route: RouteContext }) {
           )
           const label = placeLabel(place)
           return (
-            <article className="competitor-card" key={place.seat_id}>
+            <article className="relative grid grid-cols-[auto_minmax(0,1fr)_auto] gap-3 items-center min-h-[72px] py-[15px] px-[17px] overflow-hidden border-0 bg-[#1b1814] max-[460px]:grid-cols-[auto_1fr]" key={place.seat_id}>
               <ColorMark color={place.player_color} label={label} size="lg" />
               <div className="min-w-0">
                 <strong className={`${CLAMPED_LINE} text-[15px]`}>{label}</strong>
                 <span className={`${CLAMPED_LINE} mt-1 text-muted text-[10px] leading-[1.2] font-readout`}>{place.player_name}{telemetry?.nation ? ` · ${telemetry.nation}` : ''}</span>
               </div>
-              <div className="competitor-score">
-                <small>{displayedScore.label}</small>
-                <strong>{displayedScore.value?.toLocaleString() ?? '—'}</strong>
+              <div className="text-right max-[460px]:col-[2] max-[460px]:text-left">
+                <small className="block text-muted text-[8px] leading-none font-readout tracking-[.14em]">{displayedScore.label}</small>
+                <strong className="text-[#ded3c0] font-bold text-[25px] leading-[1.1] font-readout">{displayedScore.value?.toLocaleString() ?? '—'}</strong>
               </div>
               <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{place.player_color}</span>
             </article>
@@ -429,13 +433,13 @@ function MatchViewer({ route }: { route: RouteContext }) {
 
       {!basicTelemetry && <><section className="turn-stats" aria-label="Selected turn statistics">
         {METRICS.map((metric) => (
-          <article className="stat-card" key={metric.key}>
-            <p>{metric.label}</p>
+          <article className="min-w-[150px] py-[13px] px-[14px] border border-line bg-[#1b1814]" key={metric.key}>
+            <p className="mt-0 mx-0 mb-2.5 text-[#98a6af] font-extrabold text-[9px] leading-none font-readout tracking-[.12em] uppercase">{metric.label}</p>
             {scoredPlayers.length ? scoredPlayers.map((player) => (
-              <div key={player.seat_id}>
+              <div className={STAT_ROW} key={player.seat_id}>
                 <ColorMark color={player.player_color} label={competitorLabel(player)} size="sm" />
-                <span>{competitorLabel(player)}</span>
-                <strong>{playerMetric(player, metric.key).toLocaleString()}</strong>
+                <span className="overflow-hidden text-muted text-[9px] text-ellipsis whitespace-nowrap">{competitorLabel(player)}</span>
+                <strong className="font-bold text-[16px] leading-none font-readout">{playerMetric(player, metric.key).toLocaleString()}</strong>
               </div>
             )) : <span className="empty-copy">No telemetry</span>}
           </article>
@@ -487,15 +491,15 @@ function MatchViewer({ route }: { route: RouteContext }) {
               <div><p className="eyebrow">Map color key</p><h2>All map factions</h2></div>
               <span>{factions.length}</span>
             </div>
-            <p className="section-note">{basicTelemetry
+            <p className="m-0 py-[13px] px-4 border-b border-b-[#332e27] text-muted text-[11px] leading-[1.5]">{basicTelemetry
               ? 'Scored controller colors come from the match roster. Dynamic faction identities were not recorded by this older supervisor.'
               : 'Scored controllers and Freeciv-created factions are listed separately. Dynamic factions never enter the benchmark leaderboard.'}</p>
             <div className="p-2 max-[1100px]:grid max-[1100px]:grid-cols-2 max-[760px]:grid-cols-1">
               {factions.length ? factions.map((faction) => (
-                <article className={faction.dynamic ? 'faction-row dynamic-faction' : 'faction-row'} key={`${faction.player_id}-${faction.player_name}`}>
+                <article className={faction.dynamic ? `${FACTION_ROW} dynamic-faction` : FACTION_ROW} key={`${faction.player_id}-${faction.player_name}`}>
                   <ColorMark color={faction.player_color} label={faction.display_label} />
-                  <div><strong>{faction.display_label}</strong><span>{faction.detail}</span></div>
-                  <code>{faction.player_color}</code>
+                  <div className="min-w-0"><strong className="block [overflow-wrap:anywhere] text-[12px] leading-[1.3]">{faction.display_label}</strong><span className="block mt-[3px] overflow-hidden text-muted text-[10px] text-ellipsis whitespace-nowrap">{faction.detail}</span></div>
+                  <code className="text-[#64727b] text-[9px]">{faction.player_color}</code>
                 </article>
               )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
             </div>
@@ -510,7 +514,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
               </button>
               <button aria-label="Next turn" className="step-button" disabled={nextTurn === undefined} onClick={() => stepReplay(nextTurn)} type="button">›</button>
             </div>
-            <label className="scrubber-label">
+            <label className="grid grid-cols-[auto_1fr] gap-2.5 items-center text-muted font-bold text-[9px] leading-none font-readout tracking-[.04em] max-[460px]:grid-cols-1 max-[460px]:gap-[5px]">
               <span>Turn {selectedTurn || '—'}</span>
               <input
                 aria-label="Replay turn"
@@ -518,12 +522,13 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 max={Math.max(0, availableTurns.length - 1)}
                 min={0}
                 onChange={(event) => chooseTurn(availableTurns[Number(event.target.value)] ?? selectedTurn)}
+                className="w-full accent-acid"
                 type="range"
                 value={selectedTurnIndex}
               />
             </label>
-            <label className="speed-select">Speed
-              <select aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
+            <label className="text-muted font-bold text-[9px] leading-none font-readout tracking-[.06em] uppercase max-[760px]:hidden">Speed
+              <select className="ml-[7px] py-[5px] px-1.5 border border-[#34434c] rounded-[3px] text-ink bg-[#0b1217]" aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
                 <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option>
               </select>
             </label>
@@ -548,9 +553,9 @@ function MatchViewer({ route }: { route: RouteContext }) {
           {!watch.timeline.length && <p className="empty-copy">No resolved turns yet.</p>}
         </div>
         {warnings.length > 0 && (
-          <div className="telemetry-warning" role="status">
-            <strong>Replay telemetry warnings</strong>
-            <span>{warnings.map((warning) => warning.turn ? `Turn ${warning.turn}: ${warning.message}` : warning.message).join(' · ')}</span>
+          <div className={`m-3 ${WARNING_BOX}`} role="status">
+            <strong className="block">Replay telemetry warnings</strong>
+            <span className="block mt-1 text-[10px]">{warnings.map((warning) => warning.turn ? `Turn ${warning.turn}: ${warning.message}` : warning.message).join(' · ')}</span>
           </div>
         )}
       </section>
