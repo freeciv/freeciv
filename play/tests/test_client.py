@@ -3908,8 +3908,9 @@ class PlayerClientTests(unittest.TestCase):
                 self.assertIn(
                     "phase ended: the receipt above is authoritative", text,
                 )
-                self.assertIn("do not\nre-run" .replace("\n", " "), text.replace("\n", " ")) if False else None
                 self.assertIn("await failed", text)
+                self.assertIn("do not", text)
+                self.assertIn("re-run `turn --end`", text)
 
     def test_v2_health_accepts_and_renders_standing_and_waiting_on(self):
         with tempfile.TemporaryDirectory() as directory:
