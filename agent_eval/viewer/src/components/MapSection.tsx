@@ -31,12 +31,12 @@ export function MapSection({
             <p className="eyebrow">Omniscient strategic map</p>
             <h2>World state at turn {turn || '—'}</h2>
           </div>
-          <div className="map-heading-actions">
+          <div className="inline-flex flex-wrap gap-2 items-center justify-end">
             <span className={live ? 'live-indicator' : 'history-indicator'}>{live ? 'LIVE FOLLOW' : 'HISTORICAL'}</span>
             <button
               aria-controls={MAP_REGION_ID}
               aria-expanded={expanded}
-              className="map-disclosure"
+              className="py-2 px-3 border border-[#5d4e38] text-[#d4b77d] bg-[#211d17] font-extrabold text-[9px] leading-none font-readout tracking-[.12em] uppercase cursor-pointer hover:text-[#ecd6a5] hover:bg-[#2a251c] focus-visible:outline-2 focus-visible:outline-[#c5a46d] focus-visible:outline-offset-2"
               onClick={() => onToggle(!expanded)}
               type="button"
             >
@@ -46,7 +46,7 @@ export function MapSection({
         </div>
         <div id={MAP_REGION_ID}>
           {expanded ? board : (
-            <p className="map-collapsed-note">
+            <p className="m-0 py-4 px-[15px] text-muted text-[11px] leading-[1.55]">
               The world board renderer stays unloaded until you open it. Turn selection below still drives
               the leaderboard, charts, and technology panels.
             </p>

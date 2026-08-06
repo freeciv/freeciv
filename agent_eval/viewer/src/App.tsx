@@ -33,6 +33,11 @@ import {
   turnsAvailable,
 } from './view-model'
 
+const CENTER_STAGE = 'flex flex-col items-center justify-center min-h-screen p-6 text-center'
+const CENTER_TITLE = 'my-0.5 mx-0 text-[length:clamp(25px,5vw,48px)]'
+const CLAMPED_LINE = 'block overflow-hidden text-ellipsis whitespace-nowrap'
+const CLAMPED_LINE_RAIL = 'block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'
+
 function mergeSnapshots(current: ReplaySnapshot[], incoming: ReplaySnapshot[]) {
   const merged = new Map(current.map((snapshot) => [snapshot.turn, snapshot]))
   for (const snapshot of incoming) merged.set(snapshot.turn, snapshot)
@@ -195,21 +200,21 @@ function MatchViewer({ route }: { route: RouteContext }) {
 
   if (loading) {
     return (
-      <main className="center-stage">
+      <main className={CENTER_STAGE}>
         <div className="loading-orbit" aria-hidden="true"><span /></div>
         <p className="eyebrow">Synchronizing spectator telemetry</p>
-        <h1>Loading Freeciv agent arena</h1>
+        <h1 className={CENTER_TITLE}>Loading Freeciv agent arena</h1>
       </main>
     )
   }
 
   if (!watch) {
     return (
-      <main className="center-stage error-stage">
+      <main className={CENTER_STAGE}>
         <span className="status-glyph">!</span>
         <p className="eyebrow">Replay unavailable</p>
-        <h1>Could not open this match</h1>
-        <p>{error ?? 'No watch data was returned by the supervisor.'}</p>
+        <h1 className={CENTER_TITLE}>Could not open this match</h1>
+        <p className="max-w-[580px] text-muted">{error ?? 'No watch data was returned by the supervisor.'}</p>
       </main>
     )
   }
@@ -280,10 +285,10 @@ function MatchViewer({ route }: { route: RouteContext }) {
 
   return (
     <main className="app-shell">
-      <nav className="product-bar" aria-label="Freeciv Agent Arena">
-        <a href={route.prefix ? `${route.prefix}/` : '/'}><span className="product-sigil" aria-hidden="true">FC</span><strong>Freeciv Agent Arena</strong></a>
-        <span>{game.mode === 'single' ? 'Single player evaluation' : 'Multiplayer evaluation'}</span>
-        <code>{game.game_id}</code>
+      <nav className="grid grid-cols-[minmax(220px,1fr)_auto_minmax(220px,1fr)] gap-[18px] items-center min-h-[45px] py-0 px-[14px] border border-line border-b-0 text-[#978e80] bg-[#171410] font-bold text-[9px] leading-none font-readout tracking-[.1em] uppercase max-[1000px]:grid-cols-[1fr_auto] max-[650px]:grid-cols-1" aria-label="Freeciv Agent Arena">
+        <a className="inline-flex gap-[9px] items-center text-ink no-underline max-[460px]:min-w-0" href={route.prefix ? `${route.prefix}/` : '/'}><span className="grid place-items-center w-[25px] h-[25px] border border-[#8e754c] text-[#d4b77d] text-[8px]" aria-hidden="true">FC</span><strong className="max-[460px]:overflow-hidden max-[460px]:text-ellipsis max-[460px]:whitespace-nowrap">Freeciv Agent Arena</strong></a>
+        <span className="text-center max-[1000px]:hidden">{game.mode === 'single' ? 'Single player evaluation' : 'Multiplayer evaluation'}</span>
+        <code className="overflow-hidden text-[#756e63] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code>
       </nav>
       <header className="match-header">
         <div className="brand-block">
@@ -293,7 +298,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
             <h1>{matchHeaderLabel(game.resolved_places)}</h1>
           </div>
         </div>
-        <div className="header-status">
+        <div className="flex items-center gap-[14px] z-[1] max-[760px]:justify-between max-[460px]:items-start max-[460px]:flex-col">
           <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
           <span className="turn-readout"><small>TURN</small>{selectedTurn || '—'}<em>{selectedYear == null ? '' : ` / ${selectedYear}`}</em></span>
         </div>
@@ -309,7 +314,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
           <p className="eyebrow">Current result</p>
           <strong>{game.outcome.summary}</strong>
           {game.outcome.victory && (
-            <span className="victory-chip" title={`Victory condition: ${game.outcome.victory.code}`}>
+            <span className="inline-block mb-[7px] py-1 px-[9px] border border-[rgba(191,255,0,.34)] rounded-[3px] bg-[rgba(191,255,0,.07)] text-acid font-bold text-[11px] leading-[1.35] font-readout tracking-[.04em]" title={`Victory condition: ${game.outcome.victory.code}`}>
               Game ended: {game.outcome.victory.label}
               {game.outcome.victory.turn ? ` on turn ${game.outcome.victory.turn}` : ''}
               {game.outcome.victory.winners.length > 0
@@ -319,9 +324,11 @@ function MatchViewer({ route }: { route: RouteContext }) {
           )}
           <span>{game.objective}</span>
         </div>
-        <div className={`validity-chip ${validityClass}`}>
-          <span>{validityLabel(game.benchmark_valid)}</span>
-          <small>{game.benchmark_valid === false
+        <div className={`flex flex-col justify-center border-l-4 ${validityClass}`}>
+          {/* No font-size here on purpose: `.result-ribbon > div > span` outranks the
+              old `.validity-chip span` rule, so this has always rendered at 12px. */}
+          <span className="font-extrabold leading-none font-readout tracking-[.08em]">{validityLabel(game.benchmark_valid)}</span>
+          <small className="mt-2 text-[#91a0a9] leading-[1.4]">{game.benchmark_valid === false
             ? game.invalid_reasons.join(' · ') || game.error || 'Run is not benchmark eligible'
             : game.benchmark_valid === true
               ? 'Eligible for model comparison'
@@ -329,7 +336,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
         </div>
       </section>
 
-      <section className={`match-context${timing ? ' with-timing' : ''}`} aria-label="Match configuration and seat status">
+      <section className="match-context" aria-label="Match configuration and seat status">
         <div><p className="eyebrow">Mode</p><strong>{game.mode === 'single' ? 'Single player vs native AI' : 'Multiplayer agent match'}</strong><span>{game.places} total places · {game.max_agents} external agent {game.max_agents === 1 ? 'seat' : 'seats'}</span></div>
         <div><p className="eyebrow">Control protocol</p><strong>{protocol.label}</strong><span>{protocol.detail}{protocol.assumed ? ' · assumed for this archived run' : ''}</span></div>
         <div><p className="eyebrow">Agent lobby</p><strong>{game.joined_agents}/{game.max_agents} joined</strong><span>{game.state === 'lobby' && game.max_agents > game.joined_agents ? `Waiting for ${game.max_agents - game.joined_agents} agent${game.max_agents - game.joined_agents === 1 ? '' : 's'}` : game.state === 'lobby' ? 'All agents joined · preparing match' : 'Roster locked for this match'}</span></div>
@@ -338,11 +345,11 @@ function MatchViewer({ route }: { route: RouteContext }) {
         {timing && <div><p className="eyebrow">Turn timing</p><strong>{timing}</strong><span>Harness action deadline</span></div>}
       </section>
 
-      <aside className="overview-rail-card panel" aria-label="Current score comparison">
+      <aside className="overview-rail-card panel overflow-hidden max-[650px]:overflow-x-auto" aria-label="Current score comparison">
         <div className="panel-heading compact-heading"><div><p className="eyebrow">{historicalComparison ? 'Selected-turn comparison' : 'Current comparison'}</p><h2>Leaderboard</h2></div><span>{historicalComparison ? `T${selectedTurn}` : 'LATEST'}</span></div>
-        <div className="comparison-rows">
+        <div className="grid">
           {comparisonRows.some((row) => row.score !== undefined) ? comparisonRows.map((row, index) => (
-            <div key={row.place.seat_id}><b>{index + 1}</b><ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" /><span><strong>{placeLabel(row.place)}</strong><small>{row.place.model || row.place.player_name}</small></span><em>{row.score?.toLocaleString() ?? '—'}</em></div>
+            <div className="grid grid-cols-[18px_auto_minmax(0,1fr)_auto] gap-2 items-center py-2.5 px-3 border-b border-b-[#332e27] last:border-b-0" key={row.place.seat_id}><b className="text-[#847a6d] font-bold text-[10px] leading-none font-readout">{index + 1}</b><ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" /><span className={CLAMPED_LINE_RAIL}><strong className={`${CLAMPED_LINE_RAIL} text-[10px]`}>{placeLabel(row.place)}</strong><small className={`${CLAMPED_LINE_RAIL} mt-[3px] text-[#786f64] text-[8px]`}>{row.place.model || row.place.player_name}</small></span><em className="text-[#d9c49e] font-bold text-[14px] leading-none font-readout not-italic">{row.score?.toLocaleString() ?? '—'}</em></div>
           )) : <p className="empty-copy">Scores appear after the first resolved turn.</p>}
         </div>
       </aside>
@@ -360,15 +367,15 @@ function MatchViewer({ route }: { route: RouteContext }) {
           return (
             <article className="competitor-card" key={place.seat_id}>
               <ColorMark color={place.player_color} label={label} size="lg" />
-              <div className="competitor-identity">
-                <strong>{label}</strong>
-                <span>{place.player_name}{telemetry?.nation ? ` · ${telemetry.nation}` : ''}</span>
+              <div className="min-w-0">
+                <strong className={`${CLAMPED_LINE} text-[15px]`}>{label}</strong>
+                <span className={`${CLAMPED_LINE} mt-1 text-muted text-[10px] leading-[1.2] font-readout`}>{place.player_name}{telemetry?.nation ? ` · ${telemetry.nation}` : ''}</span>
               </div>
               <div className="competitor-score">
                 <small>{displayedScore.label}</small>
                 <strong>{displayedScore.value?.toLocaleString() ?? '—'}</strong>
               </div>
-              <span className="color-code">{place.player_color}</span>
+              <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{place.player_color}</span>
             </article>
           )
         })}
@@ -384,8 +391,8 @@ function MatchViewer({ route }: { route: RouteContext }) {
               : 0
             return (
               <article className="intelligence-card" key={player.seat_id}>
-                <svg aria-hidden="true" className="intelligence-accent" preserveAspectRatio="none" viewBox="0 0 100 2"><line stroke={player.player_color || '#82919d'} strokeWidth="2" x1="0" x2="100" y1="1" y2="1" /></svg>
-                <div className="intelligence-title"><ColorMark color={player.player_color} label={competitorLabel(player)} size="lg" /><div><p className="eyebrow">Scored controller</p><h2>{competitorLabel(player)}</h2><span>{player.nation || player.player_name} · {player.government || 'Government unknown'}</span></div></div>
+                <svg aria-hidden="true" className="absolute top-0 right-0 bottom-auto left-0 w-full h-[3px]" preserveAspectRatio="none" viewBox="0 0 100 2"><line stroke={player.player_color || '#82919d'} strokeWidth="2" x1="0" x2="100" y1="1" y2="1" /></svg>
+                <div className="flex gap-3 items-center"><ColorMark color={player.player_color} label={competitorLabel(player)} size="lg" /><div><p className="eyebrow">Scored controller</p><h2 className="m-0 text-[19px] tracking-[-.03em]">{competitorLabel(player)}</h2><span className="block mt-[3px] text-muted text-[10px]">{player.nation || player.player_name} · {player.government || 'Government unknown'}</span></div></div>
                 <div className="empire-metrics">
                   {METRICS.slice(1).map((metric) => <span key={metric.key}><small>{metric.label}</small><strong>{playerMetric(player, metric.key).toLocaleString()}</strong></span>)}
                 </div>
@@ -399,9 +406,9 @@ function MatchViewer({ route }: { route: RouteContext }) {
                   <span><strong>{maxKnownTechnologyDepth(player, catalog.technologies) ?? '—'}</strong><small>deepest dependency tier</small></span>
                   <span><strong>{acquisitions.length}</strong><small>verified acquisitions</small></span>
                 </div>
-                <div className="recent-acquisitions">
-                  <small>Acquisition history</small>
-                  <div>{acquisitions.length ? acquisitions.slice(-4).reverse().map((acquisition, index) => <span key={`${acquisition.turn}-${acquisition.name}-${index}`}><b>T{acquisition.turn}</b>{acquisition.name}</span>) : <em>No new technology recorded yet</em>}</div>
+                <div className="mt-[14px] pt-3 border-t border-t-[#26343c]">
+                  <small className="block mb-[7px] text-[#6f7f89] font-bold text-[7px] leading-none font-readout tracking-[.1em] uppercase">Acquisition history</small>
+                  <div className="flex flex-wrap gap-[5px]">{acquisitions.length ? acquisitions.slice(-4).reverse().map((acquisition, index) => <span className="py-[5px] px-[7px] border border-[#31424b] rounded-[3px] text-[#b9c4ca] bg-[#0b1419] text-[8px]" key={`${acquisition.turn}-${acquisition.name}-${index}`}><b className="mr-[5px] text-acid font-bold text-[7px] leading-none font-readout">T{acquisition.turn}</b>{acquisition.name}</span>) : <em className="text-[#677780] text-[9px] not-italic">No new technology recorded yet</em>}</div>
                 </div>
               </article>
             )
@@ -483,7 +490,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
             <p className="section-note">{basicTelemetry
               ? 'Scored controller colors come from the match roster. Dynamic faction identities were not recorded by this older supervisor.'
               : 'Scored controllers and Freeciv-created factions are listed separately. Dynamic factions never enter the benchmark leaderboard.'}</p>
-            <div className="faction-list">
+            <div className="p-2 max-[1100px]:grid max-[1100px]:grid-cols-2 max-[760px]:grid-cols-1">
               {factions.length ? factions.map((faction) => (
                 <article className={faction.dynamic ? 'faction-row dynamic-faction' : 'faction-row'} key={`${faction.player_id}-${faction.player_name}`}>
                   <ColorMark color={faction.player_color} label={faction.display_label} />
@@ -496,7 +503,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
         )}
         playback={(
           <div className="playback-bar">
-            <div className="playback-transport" aria-label="Replay transport controls">
+            <div className="flex items-center gap-[5px]" aria-label="Replay transport controls">
               <button aria-label="Previous turn" className="step-button" disabled={previousTurn === undefined} onClick={() => stepReplay(previousTurn)} type="button">‹</button>
               <button aria-label={playing ? 'Pause replay' : 'Play replay'} className="play-button" disabled={availableTurns.length < 2} onClick={togglePlayback} type="button">
                 {playing ? 'Ⅱ' : '▶'}
@@ -549,7 +556,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       </section>
       </div>
 
-      <footer>
+      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[#53616a] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
         <span>FREECIV AGENT EVALUATION</span>
         <span>Public spectator telemetry · not available to player agents</span>
       </footer>
@@ -562,10 +569,10 @@ function ArenaCanonicalRedirect({ target }: { target: string }) {
     window.location.replace(`${target}${window.location.search}${window.location.hash}`)
   }, [target])
   return (
-    <main className="center-stage">
+    <main className={CENTER_STAGE}>
       <div className="loading-orbit" aria-hidden="true"><span /></div>
       <p className="eyebrow">Canonicalizing arena route</p>
-      <h1>Opening Agent Arena</h1>
+      <h1 className={CENTER_TITLE}>Opening Agent Arena</h1>
     </main>
   )
 }
@@ -576,11 +583,11 @@ export default function App() {
   if (route.kind === 'arena-redirect') return <ArenaCanonicalRedirect target={route.target} />
   if (route.kind === 'watch') return <MatchViewer route={route.context} />
   return (
-    <main className="center-stage error-stage">
+    <main className={CENTER_STAGE}>
       <span className="status-glyph">!</span>
       <p className="eyebrow">Page unavailable</p>
-      <h1>This is not an Agent Arena route</h1>
-      <p>Open the arena index or use a complete /watch/GAME_ID URL.</p>
+      <h1 className={CENTER_TITLE}>This is not an Agent Arena route</h1>
+      <p className="max-w-[580px] text-muted">Open the arena index or use a complete /watch/GAME_ID URL.</p>
     </main>
   )
 }

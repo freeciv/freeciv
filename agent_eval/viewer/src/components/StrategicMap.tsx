@@ -153,7 +153,7 @@ export function StrategicMap({
 
   return (
     <div className="strategic-map strategic-map-board">
-      <div className="map-tools" aria-label="Map presentation controls">
+      <div className="flex flex-wrap justify-between gap-x-4 gap-y-[7px] min-h-[42px] py-[7px] px-2.5 border-b border-b-line bg-[#17140f] max-[760px]:items-start max-[760px]:flex-col" aria-label="Map presentation controls">
         <div className="map-tool-group" aria-label="Map appearance">
           <span>View</span>
           <button aria-pressed={effectiveMode === 'political'} onClick={() => setMode('political')} type="button">Political</button>
@@ -181,9 +181,9 @@ export function StrategicMap({
             />
           </Suspense>
         ) : effectiveMode === 'raw' && rawSrc ? (
-          <div className="map-viewport map-raw-viewport">
-            <div className="map-surface">
-              <img alt={alt} className="map-render map-render-visible" src={rawSrc} />
+          <div className="grid w-full h-full p-[clamp(14px,2.7vw,30px)] overflow-auto place-items-center [scrollbar-color:#6d5b3e_#17140f] [scrollbar-width:thin] max-[760px]:p-2.5">
+            <div className="relative grid place-items-center w-full h-full max-w-full max-h-full [filter:drop-shadow(0_2px_0_rgba(221,194,144,.42))_drop-shadow(0_17px_25px_rgba(0,0,0,.6))]">
+              <img alt={alt} className="[grid-area:1/1] block absolute inset-0 w-full h-full max-w-full max-h-full object-contain" src={rawSrc} />
             </div>
           </div>
         ) : (
@@ -195,23 +195,23 @@ export function StrategicMap({
           </div>
         )}
         {transitionPending && (
-          <div className="map-turn-buffer" role="status">
+          <div className="absolute top-2.5 right-2.5 z-[3] py-1.5 px-2 text-[#d8bf8b] bg-[rgba(23,20,15,.86)] font-bold text-[8px] leading-none font-readout tracking-[.04em] pointer-events-none border border-[rgba(197,164,109,.45)]" role="status">
             Preparing turn {turn} · showing turn {renderedBoard?.turn ?? committedBoard?.turn}
           </div>
         )}
         {transitionFailed && (
-          <div className="map-turn-buffer map-turn-buffer-error" role="status">
+          <div className="absolute top-2.5 right-2.5 z-[3] py-1.5 px-2 bg-[rgba(23,20,15,.86)] font-bold text-[8px] leading-none font-readout tracking-[.04em] pointer-events-none border border-[rgba(192,103,85,.58)] text-[#dea18f]" role="status">
             Turn {turn} board unavailable · showing turn {renderedBoard?.turn ?? committedBoard.turn}
           </div>
         )}
         {rawFallback && (
-          <p className="map-fallback-note" role="status">
+          <p className="absolute right-2.5 bottom-2.5 max-w-[min(360px,calc(100%-20px))] m-0 py-[7px] px-[9px] border border-[#765f3d] text-[#d3b77f] bg-[rgba(30,24,16,.93)] text-[9px]" role="status">
             Semantic WebGL board unavailable{loadError ? `: ${loadError}` : ''}. Showing the raw compatibility frame.
           </p>
         )}
       </div>
 
-      <div className="map-source-note">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-center py-2 px-3 border-t border-t-[#3b352d] text-[#776e61] bg-[#15130f] text-[8px] max-[760px]:grid-cols-[minmax(0,1fr)]">
         {boardMode && displayedBoard && !semanticUnavailable ? (
           <span>
             Native save data · {(displayedBoard.width * displayedBoard.height).toLocaleString()} tiles · {displayedBoard.cities.length.toLocaleString()} cities · {displayedBoard.unit_stacks.length.toLocaleString()} unit stacks
@@ -219,7 +219,7 @@ export function StrategicMap({
         ) : effectiveMode === 'raw'
           ? <span>Raw mapimg compatibility frame. It is loaded only in this view.</span>
           : <span>Semantic board unavailable for this turn.</span>}
-        <code title={boardMode ? `semantic turn ${renderedBoard?.turn ?? committedBoard?.turn ?? turn}` : rawSourceName}>
+        <code className="max-w-[320px] overflow-hidden text-[#61594e] text-[7px] text-ellipsis whitespace-nowrap max-[760px]:max-w-full" title={boardMode ? `semantic turn ${renderedBoard?.turn ?? committedBoard?.turn ?? turn}` : rawSourceName}>
           {boardMode ? `semantic turn ${renderedBoard?.turn ?? committedBoard?.turn ?? turn}` : rawSourceName}
         </code>
       </div>

@@ -2,6 +2,10 @@ import type { ReplayPlayer, ReplaySnapshot, Technology } from '../types'
 import { competitorLabel, technologyState } from '../view-model'
 import { ColorMark } from './ColorMark'
 
+/** Acquisition chips also back the empty-state copy, which keeps its own margin. */
+const ACQUISITION_CHIP = 'py-1.5 px-2 border border-[#30414a] rounded-[3px] text-[#bdc7cc] bg-[#101a20] text-[10px]'
+const RESEARCH_META = 'block text-muted text-[9px] leading-[1.4] font-readout uppercase'
+
 interface TechnologyPanelProps {
   catalog: Technology[]
   player?: ReplayPlayer
@@ -37,9 +41,9 @@ export function TechnologyPanel({
           <p className="eyebrow">Knowledge race</p>
           <h2 id="technology-title">Technology progression</h2>
         </div>
-        <label className="select-label">
+        <label className="text-muted font-bold text-[9px] leading-none font-readout tracking-[.06em] uppercase">
           Controller
-          <select value={selectedSeat} onChange={(event) => setSelectedSeat(event.target.value)}>
+          <select className="ml-[7px] py-[7px] px-2 border border-[#34434c] rounded-[3px] text-ink bg-[#0b1217]" value={selectedSeat} onChange={(event) => setSelectedSeat(event.target.value)}>
             {scoredPlayers.map((candidate) => (
               <option key={candidate.seat_id} value={candidate.seat_id}>
                 {competitorLabel(candidate)}
@@ -55,15 +59,15 @@ export function TechnologyPanel({
         <>
           <div className="research-strip">
             <ColorMark color={player.player_color} label={competitorLabel(player)} size="lg" />
-            <div className="research-copy">
-              <span>Current research</span>
-              <strong>{research?.name || 'No active target'}</strong>
-              <small>{research ? `${research.bulbs.toLocaleString()} / ${research.cost.toLocaleString()} bulbs` : '—'}</small>
+            <div>
+              <span className={RESEARCH_META}>Current research</span>
+              <strong className="block my-0.5 mx-0 text-[16px]">{research?.name || 'No active target'}</strong>
+              <small className={RESEARCH_META}>{research ? `${research.bulbs.toLocaleString()} / ${research.cost.toLocaleString()} bulbs` : '—'}</small>
             </div>
             <progress aria-label="Research progress" max={Math.max(1, research?.cost ?? 1)} value={progress} />
-            <div className="known-count">
-              <strong>{player.known_tech_ids.length}</strong>
-              <span>known</span>
+            <div className="text-right">
+              <strong className="block font-bold text-[27px] leading-none font-readout">{player.known_tech_ids.length}</strong>
+              <span className="block text-muted text-[8px] leading-none font-readout uppercase">known</span>
             </div>
           </div>
 
@@ -87,17 +91,17 @@ export function TechnologyPanel({
             </div>
           </div>
 
-          <div className="acquisition-block">
+          <div className="grid grid-cols-[auto_1fr] gap-[22px] items-start py-[15px] px-[17px] border-t border-t-line max-[760px]:grid-cols-1">
             <div>
               <p className="eyebrow">Verified acquisition log</p>
-              <h3>New technologies by turn</h3>
+              <h3 className="m-0 text-[14px]">New technologies by turn</h3>
             </div>
-            <div className="acquisition-list">
+            <div className="flex flex-wrap gap-[7px]">
               {acquisitions.length ? acquisitions.map(({ turn, id }, index) => (
-                <span key={`${turn}-${id}-${index}`}>
-                  <b>T{turn}</b>{techById.get(id)?.name ?? `Technology ${id}`}
+                <span className={ACQUISITION_CHIP} key={`${turn}-${id}-${index}`}>
+                  <b className="mr-1.5 text-acid font-bold text-[8px] leading-none font-readout">T{turn}</b>{techById.get(id)?.name ?? `Technology ${id}`}
                 </span>
-              )) : <span className="empty-copy">No new technology recorded through this turn.</span>}
+              )) : <span className={`empty-copy ${ACQUISITION_CHIP}`}>No new technology recorded through this turn.</span>}
             </div>
           </div>
         </>

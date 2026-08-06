@@ -61,7 +61,7 @@ export function MetricChart({ label, metric, snapshots }: MetricChartProps) {
           <p className="eyebrow">Comparison telemetry</p>
           <h3>{label}</h3>
         </div>
-        <strong className="metric-peak">{maxValue.toLocaleString()}</strong>
+        <strong className="text-[#75848e] font-bold text-[13px] leading-none font-readout">{maxValue.toLocaleString()}</strong>
       </div>
       {snapshots.length ? (
         <svg aria-label={`${label} by turn`} className="line-chart" role="img" viewBox="0 0 560 170">
@@ -82,9 +82,9 @@ export function MetricChart({ label, metric, snapshots }: MetricChartProps) {
           ))}
         </svg>
       ) : <p className="empty-copy">Waiting for the first replay snapshot.</p>}
-      <div className="mini-legend">
+      <div className="flex flex-wrap gap-x-[13px] gap-y-2 pt-[5px] px-[14px] pb-[13px] text-muted text-[9px]">
         {series.map((item) => (
-          <span key={item.key}><ColorMark color={item.color} label={item.label} size="sm" />{item.label}</span>
+          <span className="inline-flex items-center gap-[5px]" key={item.key}><ColorMark color={item.color} label={item.label} size="sm" />{item.label}</span>
         ))}
       </div>
     </article>

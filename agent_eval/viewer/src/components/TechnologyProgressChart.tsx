@@ -283,7 +283,7 @@ export function TechnologyProgressChart({
           <p className="eyebrow">Knowledge comparison</p>
           <h3>Classic technology progression</h3>
         </div>
-        <strong className="metric-peak">Selected {selectedLabel}</strong>
+        <strong className="text-[#75848e] font-bold text-[13px] leading-none font-readout">Selected {selectedLabel}</strong>
       </div>
 
       {model.status !== 'ready' ? <EmptyTechnologyProgress status={model.status} /> : (

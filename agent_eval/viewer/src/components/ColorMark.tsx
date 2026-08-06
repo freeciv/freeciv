@@ -11,7 +11,7 @@ export function ColorMark({ color, label, size = 'md' }: ColorMarkProps) {
   return (
     <svg
       aria-label={`${label} color ${color ?? 'unknown'}`}
-      className="color-mark"
+      className="flex-none overflow-visible"
       height={dimension}
       role="img"
       viewBox="0 0 20 20"
