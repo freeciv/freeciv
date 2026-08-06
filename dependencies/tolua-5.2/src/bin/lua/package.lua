@@ -125,7 +125,11 @@ function classPackage:preamble ()
 		output('\n')
 		output('/* function to release collected object via destructor */')
 		output('#ifdef __cplusplus\n')
-		for i,v in pairs(_collect) do
+		local sorted = {}
+		for i in pairs(_collect) do tinsert(sorted,i) end
+		sort(sorted)
+		for _,i in ipairs(sorted) do
+		 local v = _collect[i]
 		 output('\nstatic int '..v..' (lua_State* tolua_S)')
 			output('{')
 			output(' '..i..'* self = ('..i..'*) tolua_tousertype(tolua_S,1,0);')
@@ -141,7 +145,10 @@ function classPackage:preamble ()
  output('/* function to register type */')
  output('static void tolua_reg_types (lua_State* tolua_S)')
  output('{')
- foreach(_usertype,function(n,v) output(' tolua_usertype(tolua_S,"',v,'");') end)
+ local sorted = {}
+ foreach(_usertype,function(n,v) tinsert(sorted,v) end)
+ sort(sorted)
+ foreachi(sorted,function(i,v) output(' tolua_usertype(tolua_S,"',v,'");') end)
  output('}')
  output('\n')
 end
@@ -182,7 +189,6 @@ end
 -- write header file
 function classPackage:header ()
  output('/*\n') output('** Lua binding: '..self.name..'\n')
- output('** Generated automatically by '..TOLUA_VERSION..' on '..date()..'.\n')
  output('*/\n\n')
 
  if not flags.h then
