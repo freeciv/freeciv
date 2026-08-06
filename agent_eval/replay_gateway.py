@@ -66,6 +66,7 @@ PUBLIC_SCORE_METRICS = {
 
 ReplayLoader = Callable[..., Mapping[str, Any]]
 BoardLoader = Callable[..., Mapping[str, Any]]
+EventsLoader = Callable[..., Mapping[str, Any]]
 
 
 class GatewayProblem(RuntimeError):
@@ -299,6 +300,25 @@ def _default_board_loader(
     )
 
 
+def _default_events_loader(
+    runs_root: Path,
+    game_id: str,
+    resolved_places: list[dict[str, Any]],
+    *,
+    cache_root: Path,
+    complete: bool,
+) -> Mapping[str, Any]:
+    from .game_events import events_from_autosaves
+
+    return events_from_autosaves(
+        runs_root,
+        game_id,
+        resolved_places,
+        cache_root=cache_root,
+        complete=complete,
+    )
+
+
 def _public_text(value: Any, fallback: str, limit: int = 160) -> str:
     if not isinstance(value, str):
         return fallback
@@ -328,6 +348,91 @@ def _public_number(value: Any, default: float = 0.0) -> float:
     ):
         return default
     return float(value)
+
+
+def _public_event(value: Any) -> dict[str, Any] | None:
+    """One spectator-safe event row, or None when the shape is unusable."""
+    if not isinstance(value, Mapping):
+        return None
+    turn = value.get("turn")
+    kind = value.get("kind")
+    summary = value.get("summary")
+    weight = value.get("weight")
+    if (
+        isinstance(turn, bool) or not isinstance(turn, int) or turn < 0
+        or not isinstance(kind, str) or not kind
+        or not isinstance(summary, str) or not summary
+        or isinstance(weight, bool) or not isinstance(weight, int)
+        or not 1 <= weight <= 100
+    ):
+        return None
+    actors = value.get("actors")
+    data = value.get("data")
+    return {
+        "turn": turn,
+        "kind": _public_text(kind, "event", 40),
+        "summary": _public_text(summary, "", 240),
+        # How much of the match's story this row carries; consumers select
+        # density with it and the cap drops from the bottom.
+        "weight": weight,
+        "actors": [
+            _public_text(actor, "", 80)
+            for actor in (actors if isinstance(actors, list) else [])
+            if isinstance(actor, str)
+        ][:8],
+        "data": data if isinstance(data, dict) else {},
+    }
+
+
+def _public_counts(value: Any) -> dict[str, int]:
+    return {
+        _public_text(kind, "event", 40): _public_int(count)
+        for kind, count in (value.items() if isinstance(value, Mapping) else ())
+        if isinstance(kind, str)
+    }
+
+
+def _public_events(value: Mapping[str, Any], game_id: str) -> dict[str, Any]:
+    """Reshape the derived event log into the public spectator payload.
+
+    Nothing private reaches a spectator: only the turn, the kind, the rendered
+    summary, the public actor ids, and the event's own derived data.
+    """
+    rows = value.get("events")
+    events = [
+        row for row in (
+            _public_event(item)
+            for item in (rows if isinstance(rows, list) else [])
+        ) if row is not None
+    ]
+    warnings = value.get("event_warnings")
+    return {
+        "schema_version": 1,
+        "game_id": game_id,
+        "available": bool(value.get("available")),
+        "events": events,
+        "event_counts": _public_counts(value.get("event_counts")),
+        "total_events": _public_int(value.get("total_events"), len(events)),
+        "truncated": bool(value.get("truncated")),
+        "omitted_counts": _public_counts(value.get("omitted_counts")),
+        "min_included_weight": min(
+            (row["weight"] for row in events),
+            default=_public_int(value.get("min_included_weight")),
+        ),
+        "last_turn": _public_int(value.get("last_turn")),
+        "complete": bool(value.get("complete")),
+        "event_warnings": [
+            {
+                "turn": (
+                    row["turn"] if isinstance(row.get("turn"), int)
+                    and not isinstance(row.get("turn"), bool) else None
+                ),
+                "message": _public_text(row.get("message"), "", 200),
+            }
+            for row in (warnings if isinstance(warnings, list) else [])
+            if isinstance(row, Mapping) and isinstance(row.get("message"), str)
+        ][:100],
+    }
 
 
 def _public_timing(config: Mapping[str, Any]) -> dict[str, Any]:
@@ -1148,12 +1253,14 @@ class ReplayGatewayHTTPServer(ThreadingHTTPServer):
         config: GatewayConfig,
         replay_loader: ReplayLoader | None = None,
         board_loader: BoardLoader | None = None,
+        events_loader: EventsLoader | None = None,
     ):
         if ":" in address[0]:
             self.address_family = socket.AF_INET6
         self.gateway_config = config
         self.replay_loader = replay_loader or _default_replay_loader
         self.board_loader = board_loader or _default_board_loader
+        self.events_loader = events_loader or _default_events_loader
         self.replay_lock = threading.RLock()
         super().__init__(address, ReplayGatewayHandler)
 
@@ -1583,6 +1690,78 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
             )
         self._bounded_json(HTTPStatus.OK, replay)
 
+    def _events(self, game_id: str, query: str) -> None:
+        if query:
+            raise GatewayProblem(
+                HTTPStatus.BAD_REQUEST,
+                "game events do not accept query parameters",
+            )
+        path = f"/v1/games/{game_id}/events.json"
+        upstream_offline = False
+        try:
+            status, body = self._upstream_json_or_status(path)
+        except UpstreamUnavailable:
+            upstream_offline = True
+            status, body = HTTPStatus.BAD_GATEWAY, None
+        if 200 <= status < 300:
+            assert body is not None
+            self._send(status, body, "application/json; charset=utf-8")
+            return
+        if (
+            not upstream_offline
+            and status not in {HTTPStatus.NOT_FOUND, HTTPStatus.METHOD_NOT_ALLOWED}
+        ):
+            downstream = HTTPStatus.BAD_GATEWAY if 300 <= status < 400 else status
+            self._problem(
+                downstream,
+                "upstream redirects are not allowed"
+                if 300 <= status < 400 else
+                f"upstream returned HTTP {status}",
+            )
+            return
+
+        if upstream_offline:
+            # Same rule as the replay route: a terminal run keeps its archive
+            # validation, an interrupted one still serves its disk derivation.
+            try:
+                manifest = _terminal_archive(
+                    self.server.gateway_config.runs_root, game_id,
+                ).manifest
+            except GatewayProblem:
+                manifest = _read_manifest(
+                    self.server.gateway_config.runs_root, game_id,
+                )
+        else:
+            manifest = _read_manifest(self.server.gateway_config.runs_root, game_id)
+        places = _public_places(manifest.get("resolved_places"))
+        state = _public_text(
+            manifest.get("state", manifest.get("status")), "unknown", 32,
+        )
+        try:
+            with self.server.replay_lock:
+                events = self.server.events_loader(
+                    self.server.gateway_config.runs_root,
+                    game_id,
+                    places,
+                    cache_root=self.server.gateway_config.cache_root,
+                    complete=state in TERMINAL_STATES,
+                )
+        except FileNotFoundError as exc:
+            raise GatewayProblem(
+                HTTPStatus.NOT_FOUND, "game event artifacts not found",
+            ) from exc
+        except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+            raise GatewayProblem(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                "game events are temporarily unavailable",
+            ) from exc
+        if not isinstance(events, Mapping):
+            raise GatewayProblem(
+                HTTPStatus.SERVICE_UNAVAILABLE,
+                "game events are temporarily unavailable",
+            )
+        self._bounded_json(HTTPStatus.OK, _public_events(events, game_id))
+
     @staticmethod
     def _board_query(query: str) -> tuple[int, str]:
         values = urllib.parse.parse_qs(query, keep_blank_values=True)
@@ -1786,6 +1965,9 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
             if suffix == ["board.json"]:
                 self._board(game_id, parsed.query)
                 return
+            if suffix == ["events.json"]:
+                self._events(game_id, parsed.query)
+                return
             if parsed.query:
                 raise GatewayProblem(
                     HTTPStatus.BAD_REQUEST,
@@ -1860,6 +2042,7 @@ def make_replay_gateway_server(
     viewer_public_url: str | None = None,
     replay_loader: ReplayLoader | None = None,
     board_loader: BoardLoader | None = None,
+    events_loader: EventsLoader | None = None,
 ) -> ReplayGatewayHTTPServer:
     loopback = _loopback_host(host)
     if isinstance(port, bool) or not isinstance(port, int) or not 0 <= port <= 65535:
@@ -1877,6 +2060,7 @@ def make_replay_gateway_server(
         (loopback, port), config,
         replay_loader=replay_loader,
         board_loader=board_loader,
+        events_loader=events_loader,
     )
 
 
@@ -1906,6 +2090,7 @@ def run_replay_gateway(
     viewer_public_url: str | None = None,
     replay_loader: ReplayLoader | None = None,
     board_loader: BoardLoader | None = None,
+    events_loader: EventsLoader | None = None,
     stop_event: threading.Event | None = None,
     on_ready: Callable[[dict[str, Any]], None] | None = None,
 ) -> int:
@@ -1921,6 +2106,7 @@ def run_replay_gateway(
         viewer_public_url=viewer_public_url,
         replay_loader=replay_loader,
         board_loader=board_loader,
+        events_loader=events_loader,
     )
     ready = server.identity_payload()
     ready_path = (

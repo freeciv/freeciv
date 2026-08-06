@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchBoard, fetchGames, fetchWatchWithOptionalReplay } from './api'
+import { fetchBoard, fetchEvents, fetchGames, fetchWatchWithOptionalReplay } from './api'
 import { mockWatch } from './mock'
 
 afterEach(() => {
@@ -44,6 +44,42 @@ describe('semantic board endpoint', () => {
       '/freeciv/v1/games/game_abcdefghijklmnop/board.json?turn=42',
       { cache: 'no-store', signal: undefined },
     )
+  })
+})
+
+describe('derived game event log endpoint', () => {
+  it('loads the whole log in one same-origin request', async () => {
+    const payload = {
+      schema_version: 1,
+      game_id: 'game_abcdefghijklmnop',
+      available: true,
+      events: [],
+      event_counts: {},
+      total_events: 0,
+      truncated: false,
+      omitted_counts: {},
+      min_included_weight: 0,
+      last_turn: 0,
+    }
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(payload), { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    await expect(fetchEvents({
+      prefix: '/freeciv', gameId: 'game_abcdefghijklmnop',
+    })).resolves.toEqual(payload)
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/freeciv/v1/games/game_abcdefghijklmnop/events.json',
+      { cache: 'no-store', signal: undefined },
+    )
+  })
+
+  it('rejects so the panel can keep its turn timeline on an older gateway', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ error: 'not found' }), { status: 404, statusText: 'Not Found' },
+    )))
+
+    await expect(fetchEvents({ prefix: '', gameId: 'game_abcdefghijklmnop' }))
+      .rejects.toThrow('not found')
   })
 })
 

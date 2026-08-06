@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { fetchWatch, fetchWatchWithOptionalReplay } from './api'
+import { fetchEvents, fetchWatch, fetchWatchWithOptionalReplay } from './api'
 import { ArenaPicker } from './components/ArenaPicker'
 import { ColorMark } from './components/ColorMark'
+import { EventLog, EventLogFootnote } from './components/EventLog'
 import { MapSection } from './components/MapSection'
 import { MetricChart } from './components/MetricChart'
 import { StrategicMap } from './components/StrategicMap'
@@ -9,10 +10,12 @@ import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
 import { buildDisplayPalette, displayPlayerColor, type DisplayFaction } from './display-color'
 import { DisplayPaletteProvider } from './display-palette'
+import { actorColors } from './event-log'
 import { MAP_HASH, mapSectionOpen, rememberMapSection } from './map-preference'
 import { controlProtocolLabel, placeLabel, timingModeLabel } from './picker-model'
 import { frameImageUrl, resolveViewerRoute } from './route'
 import type {
+  GameEventsResponse,
   GamePlace,
   ReplayPlayer,
   ReplaySnapshot,
@@ -120,6 +123,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
   const [speed, setSpeed] = useState(1)
   const [selectedSeat, setSelectedSeat] = useState('')
   const [mapOpen, setMapOpen] = useState(() => mapSectionOpen(window.location.hash))
+  const [eventLog, setEventLog] = useState<GameEventsResponse | null>(null)
   const nextReplayProbeAt = useRef(0)
 
   const latestReplayTurn = snapshots.at(-1)?.turn ?? 0
@@ -216,6 +220,24 @@ function MatchViewer({ route }: { route: RouteContext }) {
     }, 1000 / speed)
     return () => window.clearInterval(timer)
   }, [availableTurns, lastTurn, playing, speed])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetchEvents(route, controller.signal)
+      .then(setEventLog)
+      // A gateway or supervisor without the derived event log simply leaves
+      // the resolution panel on its turn timeline.
+      .catch(() => undefined)
+    return () => controller.abort()
+  }, [lastTurn, route])
+
+  const eventColors = useMemo(
+    () => actorColors(
+      watch?.game.resolved_places ?? [],
+      snapshots.flatMap((snapshot) => snapshot.players),
+    ),
+    [snapshots, watch?.game.resolved_places],
+  )
 
   const selectedSnapshot = snapshotAtOrBefore(snapshots, selectedTurn)
   const selectedFrame = frameAtOrBefore(watch?.frames ?? [], selectedTurn)
@@ -571,18 +593,32 @@ function MatchViewer({ route }: { route: RouteContext }) {
       <section className="panel event-panel">
         <div className="panel-heading compact-heading">
           <div><p className="eyebrow">Resolution log</p><h2>Turn events</h2></div>
-          <span>{watch.timeline.length} resolved</span>
+          <span>{eventLog?.events.length
+            ? `${eventLog.total_events} events`
+            : `${watch.timeline.length} resolved`}</span>
         </div>
-        <div className="event-stream">
-          {watch.timeline.slice(-12).reverse().map((event) => (
-            <article key={event.turn}>
-              <b>T{event.turn}</b>
-              <span>{event.year ?? '—'}</span>
-              <strong>{event.timed_out_seats?.length ? `Timeout: ${event.timed_out_seats.join(', ')}` : 'All submitted'}</strong>
-            </article>
-          ))}
-          {!watch.timeline.length && <p className="empty-copy">No resolved turns yet.</p>}
-        </div>
+        {eventLog?.events.length ? (
+          <>
+            <EventLog
+              colors={eventColors}
+              events={eventLog.events}
+              onSelectTurn={(turn) => { setPlaying(false); chooseTurn(turn) }}
+              selectedTurn={selectedTurn}
+            />
+            <EventLogFootnote omitted={eventLog.truncated ? eventLog.omitted_counts : {}} />
+          </>
+        ) : (
+          <div className="event-stream">
+            {watch.timeline.slice(-12).reverse().map((event) => (
+              <article key={event.turn}>
+                <b>T{event.turn}</b>
+                <span>{event.year ?? '—'}</span>
+                <strong>{event.timed_out_seats?.length ? `Timeout: ${event.timed_out_seats.join(', ')}` : 'All submitted'}</strong>
+              </article>
+            ))}
+            {!watch.timeline.length && <p className="empty-copy">No resolved turns yet.</p>}
+          </div>
+        )}
         {warnings.length > 0 && (
           <div className={`m-3 ${WARNING_BOX}`} role="status">
             <strong className="block">Replay telemetry warnings</strong>

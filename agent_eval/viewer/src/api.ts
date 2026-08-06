@@ -2,6 +2,7 @@ import { apiUrl, arenaApiUrl } from './route'
 import type {
   ArenaRouteContext,
   BoardResponse,
+  GameEventsResponse,
   GamesIndexResponse,
   ReplayResponse,
   ReplaySnapshot,
@@ -53,6 +54,16 @@ export function fetchWatch(
       turn: legacyFrameTurn(frame),
     })),
   }))
+}
+
+export function fetchEvents(
+  route: RouteContext,
+  signal?: AbortSignal,
+): Promise<GameEventsResponse> {
+  return fetchJson<GameEventsResponse>(
+    apiUrl(route, `/v1/games/${encodeURIComponent(route.gameId)}/events.json`),
+    signal,
+  )
 }
 
 export function fetchBoard(

@@ -901,6 +901,147 @@ class ReplayGatewayTests(unittest.TestCase):
         self.assertEqual(len(self.loader_calls), 1)
         self.assertFalse(self.loader_calls[0][6])
 
+    def events_gateway(self, loader, *, offline=False):
+        """A gateway wired to an injected events loader, torn down for me."""
+        if offline:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+                probe.bind(("127.0.0.1", 0))
+                service_url = f"http://127.0.0.1:{probe.getsockname()[1]}"
+        else:
+            service_url = self.upstream_url
+        gateway = make_replay_gateway_server(
+            "127.0.0.1",
+            0,
+            service_url,
+            self.runs_root,
+            self.cache_root / "events",
+            repo_root=self.root,
+            upstream_timeout_s=0.2,
+            events_loader=loader,
+        )
+        worker = threading.Thread(target=gateway.serve_forever, daemon=True)
+        worker.start()
+        self.addCleanup(worker.join, 3)
+        self.addCleanup(gateway.server_close)
+        self.addCleanup(gateway.shutdown)
+        base = f"http://127.0.0.1:{gateway.server_address[1]}"
+
+        def request(path):
+            try:
+                with urllib.request.urlopen(base + path, timeout=5) as response:
+                    return response.status, response.read()
+            except urllib.error.HTTPError as error:
+                with error:
+                    return error.code, error.read()
+
+        return request
+
+    def test_events_upstream_404_falls_back_to_the_disk_derivation(self):
+        calls = []
+
+        def loader(runs_root, game_id, resolved_places, *, cache_root, complete):
+            calls.append((runs_root, game_id, resolved_places, cache_root, complete))
+            return {
+                "schema_version": 1,
+                "game_id": game_id,
+                "available": True,
+                "events": [
+                    {
+                        "turn": 12,
+                        "kind": "city_captured",
+                        "summary": "pi-gpt-5.5 captured London from In-game Deity AI",
+                        "actors": ["place-1", "place-2"],
+                        "weight": 66,
+                        "data": {"cities": ["London"]},
+                        "token": "must-not-leak",
+                    },
+                    {"turn": None, "kind": "broken", "summary": "x", "weight": 10},
+                    {
+                        "turn": 4, "kind": "unweighted", "summary": "no weight",
+                        "actors": [], "data": {},
+                    },
+                ],
+                "event_counts": {"city_captured": 1},
+                "total_events": 1,
+                "truncated": False,
+                "omitted_counts": {},
+                "last_turn": 12,
+                "complete": complete,
+                "event_warnings": [{"turn": 3, "message": "a save was skipped"}],
+                "token": "must-not-leak",
+            }
+
+        self.write_manifest(state="completed")
+        request = self.events_gateway(loader)
+        status, body = request(f"/v1/games/{GAME_ID}/events.json")
+        self.assertEqual(status, 200)
+        self.assertNotIn(b"must-not-leak", body)
+        value = json.loads(body)
+        self.assertEqual(len(value["events"]), 1)
+        self.assertEqual(value["events"][0]["turn"], 12)
+        self.assertEqual(value["events"][0]["weight"], 66)
+        self.assertEqual(value["min_included_weight"], 66)
+        self.assertEqual(value["events"][0]["actors"], ["place-1", "place-2"])
+        self.assertNotIn("token", value["events"][0])
+        self.assertEqual(value["event_counts"], {"city_captured": 1})
+        self.assertEqual(value["last_turn"], 12)
+        self.assertTrue(value["complete"])
+        self.assertEqual(value["event_warnings"][0]["turn"], 3)
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][1], GAME_ID)
+        self.assertEqual(
+            [row["seat_id"] for row in calls[0][2]], ["place-1", "place-2"],
+        )
+
+    def test_events_offline_serves_interrupted_run_and_rejects_queries(self):
+        calls = []
+
+        def loader(runs_root, game_id, resolved_places, *, cache_root, complete):
+            calls.append(complete)
+            return {
+                "schema_version": 1,
+                "game_id": game_id,
+                "available": True,
+                "events": [],
+                "event_counts": {},
+                "total_events": 0,
+                "truncated": True,
+                "omitted_counts": {"city_founded": 4},
+                "min_included_weight": 0,
+                "last_turn": 44,
+                "complete": complete,
+                "event_warnings": [],
+            }
+
+        self.write_manifest()
+        self.write_replay_rows(turns=(1, 44))
+        request = self.events_gateway(loader, offline=True)
+        status, body = request(f"/v1/games/{GAME_ID}/events.json")
+        self.assertEqual(status, 200)
+        value = json.loads(body)
+        self.assertFalse(value["complete"])
+        self.assertTrue(value["truncated"])
+        self.assertEqual(value["omitted_counts"], {"city_founded": 4})
+        self.assertEqual(calls, [False])
+        self.assertEqual(
+            request(f"/v1/games/{GAME_ID}/events.json?turn=1")[0], 400,
+        )
+        self.assertEqual(calls, [False])
+
+    def test_events_loader_failures_stay_public(self):
+        failure = {"value": FileNotFoundError("private path")}
+
+        def loader(runs_root, game_id, resolved_places, *, cache_root, complete):
+            raise failure["value"]
+
+        self.write_manifest(state="completed")
+        request = self.events_gateway(loader)
+        self.assertEqual(request(f"/v1/games/{GAME_ID}/events.json")[0], 404)
+        failure["value"] = ValueError("private corrupt details")
+        status, body = request(f"/v1/games/{GAME_ID}/events.json")
+        self.assertEqual(status, 503)
+        self.assertNotIn(b"private", body)
+
     def test_games_500_never_masks_failure_with_disk_index(self):
         self.upstream.games_status = 500
         self.write_manifest()

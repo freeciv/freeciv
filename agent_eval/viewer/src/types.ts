@@ -207,6 +207,34 @@ export interface ReplayResponse {
   warnings?: ReplayWarning[]
 }
 
+/** One derived match event: what happened, on which turn, to whom. */
+export interface GameEvent {
+  turn: number
+  kind: string
+  summary: string
+  /** Seat ids where the seat resolved, otherwise recorded player names. */
+  actors: string[]
+  /** 1-100. How much of the match's story this event carries. */
+  weight: number
+  data: Record<string, unknown>
+}
+
+export interface GameEventsResponse {
+  schema_version: number
+  game_id: string
+  available: boolean
+  events: GameEvent[]
+  event_counts: Record<string, number>
+  total_events: number
+  truncated: boolean
+  omitted_counts: Record<string, number>
+  /** The lightest weight that survived the response cap. */
+  min_included_weight: number
+  last_turn: number
+  complete?: boolean
+  event_warnings?: ReplayWarning[]
+}
+
 export interface BoardTerrain {
   code: string
   name: string
