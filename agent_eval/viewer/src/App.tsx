@@ -305,8 +305,6 @@ function MatchViewer({ route }: { route: RouteContext }) {
           <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
           <span className="flex items-baseline gap-[7px] text-[#e2d7c5] font-bold text-[30px] leading-none font-readout"><small className="text-muted text-[9px] not-italic tracking-[.14em]">TURN</small>{selectedTurn || '—'}<em className="text-muted text-[9px] not-italic tracking-[.14em]">{selectedYear == null ? '' : ` / ${selectedYear}`}</em></span>
         </div>
-        {/* Kept in the DOM but never shown: the editorial skin hides the duplicate id. */}
-        <p className="hidden">{game.game_id}</p>
       </header>
 
       {error && <div className={`mt-2.5 ${WARNING_BOX}`} role="status">Live refresh issue: {error}. Showing the latest retained data.</div>}
