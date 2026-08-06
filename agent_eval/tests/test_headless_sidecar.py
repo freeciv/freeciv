@@ -683,6 +683,82 @@ class FramedIPCTests(unittest.TestCase):
                     self.ipc.receive(time.monotonic() + 1)
                 self.assertEqual(raised.exception.code, code)
 
+    def test_every_byte_value_is_admitted_or_refused_as_before(self):
+        """The framing control rule, checked exhaustively rather than by sample.
+
+        Both directions now screen forbidden controls with one C-level
+        translate instead of a Python comparison per byte.  That is only safe
+        if it accepts and rejects exactly the same 256 byte values, so this
+        asserts the rule itself: every C0 control except tab, plus DEL.
+        """
+        for value in range(128):
+            forbidden = value == 0 or value in {10, 13, 127} or (
+                value < 32 and value != 9
+            )
+            with self.subTest(byte=value):
+                raw = struct.pack(">I", 1) + bytes([value])
+                self.right.sendall(raw)
+                if forbidden:
+                    with self.assertRaises(SidecarError) as refused:
+                        self.ipc.receive(time.monotonic() + 1)
+                    self.assertEqual(refused.exception.code, "invalid_control")
+                else:
+                    self.assertEqual(
+                        self.ipc.receive(time.monotonic() + 1), chr(value),
+                    )
+                # Outbound framing screens the same set.
+                text = chr(value)
+                if forbidden:
+                    with self.assertRaises(SidecarError) as rejected:
+                        self.ipc.send(text, time.monotonic() + 1)
+                    self.assertEqual(rejected.exception.code, "invalid_control")
+                else:
+                    self.ipc.send(text, time.monotonic() + 1)
+                    self.right.recv(4096)
+
+    def test_a_burst_of_frames_is_delivered_whole_and_in_order(self):
+        """One read of many frames must still yield each frame separately.
+
+        A paged drain arrives as a burst, and the reader now buffers whatever
+        the kernel hands it rather than asking per frame.  Everything about
+        that has to stay invisible: same frames, same order, nothing merged,
+        nothing dropped between reads.
+        """
+        payloads = [f"ROW\treq-burst\ts1-1\t{index}\tvalue" for index in range(200)]
+        burst = b"".join(
+            struct.pack(">I", len(text.encode())) + text.encode()
+            for text in payloads
+        )
+        self.right.sendall(burst)
+        received = [
+            self.ipc.receive(time.monotonic() + 2) for _ in payloads
+        ]
+        self.assertEqual(received, payloads)
+        # Nothing is left over, and the next read blocks as usual.
+        with self.assertRaises(SidecarError) as drained:
+            self.ipc.receive(time.monotonic() + 0.02)
+        self.assertEqual(drained.exception.code, "deadline_exceeded")
+
+    def test_a_frame_split_by_a_deadline_resumes_instead_of_desyncing(self):
+        """Bytes that arrived before a timeout are still there afterwards.
+
+        The reader thread polls with a one-second deadline and retries, so a
+        frame straddling that boundary used to lose whatever had already been
+        read and then parse the rest of it as a length.  Buffering makes the
+        partial frame resumable, which is the only reason a timeout here is
+        survivable rather than a silent stream corruption.
+        """
+        payload = "ROW\treq-split\ts1-1\t0\tvalue".encode()
+        frame = struct.pack(">I", len(payload)) + payload
+        self.right.sendall(frame[:6])
+        with self.assertRaises(SidecarError) as timed_out:
+            self.ipc.receive(time.monotonic() + 0.02)
+        self.assertEqual(timed_out.exception.code, "deadline_exceeded")
+        self.right.sendall(frame[6:])
+        self.assertEqual(
+            self.ipc.receive(time.monotonic() + 2), payload.decode(),
+        )
+
     def test_deadline_and_outgoing_control_rules(self):
         with self.assertRaises(SidecarError) as timed_out:
             self.ipc.receive(time.monotonic() + 0.02)

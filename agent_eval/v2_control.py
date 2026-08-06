@@ -192,6 +192,8 @@ _FNV1A64_DIGEST = re.compile(r"^fnv1a64-[0-9a-f]{16}$")
 _UNRESERVED = frozenset(
     b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._~-"
 )
+# The same set as a pattern, for text that needs no percent-decoding at all.
+_UNRESERVED_TEXT = re.compile(r"[A-Za-z0-9._~-]*")
 
 _ROW_FIELDS: Mapping[str, tuple[str, ...]] = MappingProxyType({
     "meta": (
@@ -2232,6 +2234,16 @@ def _percent_encode(raw: bytes) -> str:
 def _text(
     encoded: str, *, nonempty: bool = True, allow_controls: bool = False,
 ) -> str:
+    # Almost every name, label and identifier a projection decodes carries no
+    # escape at all, and for those the loop below is provably the identity: an
+    # unreserved character decodes to itself, re-encodes to itself (so the
+    # canonicity check passes), is ASCII, is never NUL, and is never in a
+    # control category.  Recognizing that in one C-level match skips a Python
+    # iteration per character plus a full re-encode of the result.
+    if _UNRESERVED_TEXT.fullmatch(encoded) is not None:
+        if nonempty and not encoded:
+            _fail()
+        return encoded
     if not encoded.isascii():
         _fail()
     decoded = bytearray()

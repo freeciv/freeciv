@@ -173,6 +173,21 @@ MAX_UNANSWERED_LIVENESS_REPLIES = 8
 # collision into a short wait instead of a refusal, while still refusing rather
 # than queueing without limit behind a client that has stopped answering.
 COMMAND_QUEUE_WAIT_S = 1.0
+# How much the IPC reader asks the kernel for at once.  Frames are at most
+# MAX_FRAME plus a four-byte header, so this holds several of the largest
+# frames and a page's worth of ordinary rows.
+RECV_CHUNK_BYTES = 65536
+# Control bytes an inbound frame may never carry: every C0 control except tab,
+# and DEL.  Tab is the field separator, and everything from space up is
+# payload.  Held as a byte string so the scan can be one C-level translate
+# rather than a Python comparison per byte.
+_FORBIDDEN_FRAME_BYTES = bytes(
+    value for value in range(32) if value != 9
+) + bytes([127])
+# Compact the receive buffer once this many bytes have been consumed out of
+# it.  Reclaiming after every frame would copy the unread remainder each time;
+# waiting reclaims once per chunk instead.
+COMPACT_BUFFER_BYTES = 32768
 
 
 def _validate_native_caps(message: str) -> None:
@@ -275,11 +290,7 @@ def _payload_bytes(value: str) -> bytes:
         raise SidecarError("invalid_utf8", "IPC payload is not valid UTF-8") from exc
     if not 1 <= len(payload) <= MAX_FRAME:
         raise SidecarError("invalid_frame", "IPC frame length is outside 1..8192")
-    if any(
-        byte == 0 or byte in {10, 13, 127}
-        or (byte < 32 and byte != 9)
-        for byte in payload
-    ):
+    if len(payload.translate(None, delete=_FORBIDDEN_FRAME_BYTES)) != len(payload):
         raise SidecarError("invalid_control", "IPC payload contains a forbidden control")
     return payload
 
@@ -359,6 +370,13 @@ class FramedIPC:
             raise SidecarError("invalid_socket", "IPC must be an AF_UNIX stream socket")
         self.stream = stream
         self._send_lock = threading.Lock()
+        # Receive buffer, owned by whichever thread calls receive().  This
+        # object has exactly one reader for its whole life -- the sidecar's
+        # IPC reader thread, started before the handshake, which is also the
+        # only path that ever touches the socket for reading -- so the buffer
+        # needs no lock and none is taken on the hot path.
+        self._buffer = bytearray()
+        self._consumed = 0
 
     @staticmethod
     def _remaining(deadline: float) -> float:
@@ -367,10 +385,9 @@ class FramedIPC:
             raise SidecarError("deadline_exceeded", "IPC deadline exceeded")
         return remaining
 
-    def _read_exact(self, size: int, deadline: float) -> bytes:
-        chunks: list[bytes] = []
-        remaining_size = size
-        while remaining_size:
+    def _fill(self, deadline: float) -> None:
+        """Block until at least one more byte is buffered."""
+        while True:
             try:
                 readable, _, _ = select.select(
                     [self.stream], [], [], self._remaining(deadline),
@@ -380,28 +397,66 @@ class FramedIPC:
             if not readable:
                 raise SidecarError("deadline_exceeded", "IPC receive deadline exceeded")
             try:
-                chunk = self.stream.recv(remaining_size)
+                chunk = self.stream.recv(RECV_CHUNK_BYTES)
             except InterruptedError:
                 continue
             except OSError as exc:
                 raise SidecarError("ipc_read_failed") from exc
             if not chunk:
                 raise SidecarError("unexpected_eof", "sidecar IPC closed unexpectedly")
-            chunks.append(chunk)
-            remaining_size -= len(chunk)
-        return b"".join(chunks)
+            self._buffer += chunk
+            return
+
+    def _buffer_at_least(self, size: int, deadline: float) -> None:
+        while len(self._buffer) - self._consumed < size:
+            self._fill(deadline)
+
+    def _advance(self, size: int) -> None:
+        """Drop ``size`` bytes that have now been handed to a caller."""
+        self._consumed += size
+        if self._consumed == len(self._buffer):
+            # The common case: the buffer drained exactly, so reset it rather
+            # than let it grow forever behind an ever-advancing offset.
+            self._buffer.clear()
+            self._consumed = 0
+        elif self._consumed >= COMPACT_BUFFER_BYTES:
+            del self._buffer[:self._consumed]
+            self._consumed = 0
 
     def receive(self, deadline: float) -> str:
-        header = self._read_exact(4, deadline)
-        (length,) = struct.unpack(">I", header)
+        """Return the next whole frame, reading the socket in chunks.
+
+        A paged observation arrives as one frame per row, and asking the
+        kernel separately for each frame's four-byte header and then its body
+        cost two select/recv pairs per row.  Buffering keeps the syscalls
+        proportional to bytes rather than to rows, and nothing about the
+        frames a caller sees changes: same order, same boundaries, same
+        refusals.
+
+        A frame is consumed only once all of it is buffered, so bytes that
+        arrived before a deadline expired are still there for the retry.  The
+        reader thread polls with a one-second deadline, and a frame straddling
+        that boundary previously lost whatever had already been read and then
+        parsed the remainder as a length.  An out-of-range length is the one
+        case that still consumes its header: that frame is unreadable, but the
+        stream behind it is not, and the next frame starts where it said it
+        would.
+        """
+        self._buffer_at_least(4, deadline)
+        (length,) = struct.unpack_from(">I", self._buffer, self._consumed)
         if not 1 <= length <= MAX_FRAME:
+            self._advance(4)
             raise SidecarError("invalid_frame", "IPC frame length is outside 1..8192")
-        payload = self._read_exact(length, deadline)
-        if any(
-            byte == 0 or byte in {10, 13, 127}
-            or (byte < 32 and byte != 9)
-            for byte in payload
-        ):
+        self._buffer_at_least(4 + length, deadline)
+        start = self._consumed + 4
+        payload = bytes(self._buffer[start:start + length])
+        self._advance(4 + length)
+        # Exactly the bytes the loop this replaces rejected, checked in C.
+        # Scanning a frame a byte at a time in Python cost more than every
+        # syscall around it: an observation row is a few hundred bytes and a
+        # drain is hundreds of rows, so this ran a Python generator step for
+        # every byte of the whole observation.
+        if len(payload.translate(None, delete=_FORBIDDEN_FRAME_BYTES)) != length:
             raise SidecarError("invalid_control", "IPC payload contains a forbidden control")
         try:
             return payload.decode("utf-8", errors="strict")
