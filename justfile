@@ -434,6 +434,58 @@ watch game_id: build build-viewer
 [no-exit-message]
 replay game_id="":
     python3 -B -m agent_eval.local_stack replay "{{ game_id }}"
+# Install the offline video renderer's pinned dependencies.
+video-install:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd agent_eval/video
+    if [[ ! -d node_modules ]]; then
+      npm ci
+    fi
+    npx remotion browser ensure
+
+# Export one finished run and render it to an MP4. Reads the run read-only.
+# preset: "full" for the 1080p deliverable, "draft" for fast 720p iteration.
+video game_id out="" preset="full": video-install
+    #!/usr/bin/env bash
+    set -euo pipefail
+    repo="$PWD"
+    export_dir="$repo/$AGENT_EVAL_STATE_DIR/video-exports/{{ game_id }}"
+    output="{{ out }}"
+    if [[ -z "$output" ]]; then
+      mkdir -p "$AGENT_EVAL_STATE_DIR/videos"
+      suffix=""
+      [[ "{{ preset }}" == "draft" ]] && suffix="-draft"
+      output="$repo/$AGENT_EVAL_STATE_DIR/videos/{{ game_id }}${suffix}.mp4"
+    fi
+    case "{{ preset }}" in
+      full)  render_flags=() ;;
+      draft) render_flags=(--scale 0.6666667 --jpeg-quality 70) ;;
+      *) echo "unknown preset '{{ preset }}' (use full or draft)" >&2; exit 2 ;;
+    esac
+    python3 -B -m agent_eval.video_export "{{ game_id }}" \
+      --runs-root "$AGENT_EVAL_STATE_DIR/runs" --out "$export_dir"
+    # Remotion serves the dataset from its own public directory, so the run
+    # artifacts themselves are never exposed to the renderer.
+    public_dir="$repo/agent_eval/video/public/exports/{{ game_id }}"
+    mkdir -p "$public_dir"
+    cp "$export_dir/meta.json" "$export_dir/frames.json" "$public_dir/"
+    cd "$repo/agent_eval/video"
+    npx remotion render src/index.ts GameFilm "$output" \
+      --props "{\"gameId\":\"{{ game_id }}\"}" "${render_flags[@]}"
+    echo "wrote $output"
+
+# Typecheck the offline video renderer.
+video-check: video-install
+    npm --prefix agent_eval/video run typecheck
+
+# Open the video renderer's studio against an already-exported game.
+video-studio: video-install
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd agent_eval/video
+    npx remotion studio src/index.ts
+
 # Show current public game state.
 status game_id:
     python3 -B -m agent_eval game status "{{ game_id }}" --service-url "$AGENT_EVAL_SERVICE_URL"

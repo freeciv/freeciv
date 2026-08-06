@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/*
+ * The arena palette as Tailwind theme tokens, so compositions style with
+ * utilities (`bg-panel`, `text-muted`, `border-line`) instead of style objects.
+ *
+ * These are the same values as `SHELL` in `src/theme.ts`, which the canvas
+ * painter needs as plain strings. Change one and change the other.
+ */
+@theme {
+  --color-page: #070b0f;
+  --color-panel: #0c1319;
+  --color-panel-2: #101a21;
+  --color-line: #26333c;
+  --color-ink: #e9f0f3;
+  --color-muted: #82919d;
+  --color-acid: #b8e35f;
+  --color-cyan: #61d3d9;
+  --color-amber: #f4bd4b;
+  --color-red: #ff6b66;
+  --color-board: #0a1c1f;
+  --color-board-edge: #173036;
+
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, "DejaVu Sans Mono", monospace;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+}
+
+/* The arena shell: a faint technical grid under two soft brand glows. */
+.arena-page {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px),
+    radial-gradient(circle at 84% -10%, rgba(97, 211, 217, 0.13), transparent 40rem),
+    radial-gradient(circle at -8% 26%, rgba(184, 227, 95, 0.07), transparent 34rem),
+    var(--color-page);
+  background-size: 46px 46px, 46px 46px, auto, auto, auto;
+}
+
+.board-frame {
+  box-shadow:
+    0 0 0 1px rgba(7, 11, 15, 0.6),
+    0 24px 60px rgba(0, 0, 0, 0.45);
+}
