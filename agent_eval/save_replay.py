@@ -1088,14 +1088,65 @@ def _ppm_players(path: Path | None) -> dict[int, tuple[str, str]]:
         return {}
 
 
+def _journal_seat_ids(source_directory: Path) -> dict[int, str]:
+    """player_id -> seat_id as recorded by the live replay producer.
+
+    The native save renames agent-controlled players to their rulers
+    ("AgentPlace1" becomes "Ada"), so reconstructing identity from the save
+    by name misses exactly the configured seats and demotes them to dynamic
+    factions. The run's replay journal was written by the running
+    supervisor, which knew every player's real seat; its last parseable row
+    (the tail may be a torn write) is the final word.
+    """
+    # source_directory is the validated saves/ subdirectory; the journal
+    # sits beside it in the run root.
+    path = source_directory.parent / "replay.jsonl"
+    try:
+        with path.open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            size = handle.tell()
+            if size <= 0:
+                return {}
+            handle.seek(max(0, size - 262144))
+            lines = handle.read().splitlines()
+    except OSError:
+        return {}
+    for raw in reversed(lines):
+        if not raw.strip():
+            continue
+        try:
+            row = json.loads(raw)
+        except (UnicodeError, json.JSONDecodeError):
+            continue
+        players = row.get("players") if isinstance(row, dict) else None
+        if not isinstance(players, list):
+            return {}
+        mapping: dict[int, str] = {}
+        for player in players:
+            if not isinstance(player, Mapping):
+                continue
+            player_id = player.get("player_id")
+            seat_id = player.get("seat_id")
+            if isinstance(player_id, int) and not isinstance(player_id, bool) \
+                    and isinstance(seat_id, str):
+                mapping[player_id] = seat_id
+        return mapping
+    return {}
+
+
 def _enrich_snapshot(
     raw_snapshot: Mapping[str, Any],
     resolved_places: Sequence[Mapping[str, Any]],
     ppm_players: Mapping[int, tuple[str, str]],
+    journal_seats: Mapping[int, str] | None = None,
 ) -> dict[str, Any]:
     configured = {
         row.get("player_name"): row for row in resolved_places
         if isinstance(row, Mapping) and isinstance(row.get("player_name"), str)
+    }
+    configured_by_seat = {
+        row.get("seat_id"): row for row in resolved_places
+        if isinstance(row, Mapping) and isinstance(row.get("seat_id"), str)
     }
     snapshot = json.loads(json.dumps(raw_snapshot))
     players = []
@@ -1104,6 +1155,10 @@ def _enrich_snapshot(
         if ppm is not None and ppm[0] == player["player_name"]:
             player["player_color"] = ppm[1]
         identity = configured.get(player["player_name"])
+        if identity is None and journal_seats:
+            identity = configured_by_seat.get(
+                journal_seats.get(player["player_id"]),
+            )
         if identity is not None:
             player.update({
                 "seat_id": identity.get("seat_id", f"raw-{player['player_id']}"),
@@ -1221,10 +1276,12 @@ def replay_from_autosaves(
     selected = forward[:limit]
     catalog_source = selected[-1] if selected else predecessor
     previous_known: dict[str, set[int]] = {}
+    journal_seats = _journal_seat_ids(source_directory)
     if predecessor is not None:
         enriched_predecessor = _enrich_snapshot(
             predecessor["snapshot"], resolved_places,
             _ppm_players(ppm_paths.get(predecessor["snapshot"]["turn"])),
+            journal_seats,
         )
         previous_known = {
             player["seat_id"]: set(player["known_tech_ids"])
@@ -1237,6 +1294,7 @@ def replay_from_autosaves(
         snapshot = _enrich_snapshot(
             parsed["snapshot"], resolved_places,
             _ppm_players(ppm_paths.get(turn)),
+            journal_seats,
         )
         for player in snapshot["players"]:
             current = set(player["known_tech_ids"])
@@ -1310,7 +1368,10 @@ def board_from_autosave(
     if parsed is None or not _cached_board_is_valid(parsed.get("board"), game_id):
         raise FileNotFoundError("semantic board unavailable")
 
-    snapshot = _enrich_snapshot(parsed["snapshot"], resolved_places, {})
+    snapshot = _enrich_snapshot(
+        parsed["snapshot"], resolved_places, {},
+        _journal_seat_ids(source_directory),
+    )
     board = json.loads(json.dumps(parsed["board"]))
     board["players"] = [{
         "player_id": player["player_id"],

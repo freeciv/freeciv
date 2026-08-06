@@ -365,6 +365,38 @@ class SaveReplayTests(unittest.TestCase):
             'Agent "One"',
         )
 
+    def test_ruler_renamed_agent_recovers_its_seat_from_the_journal(self):
+        # The native save renames agent players to their rulers, so the
+        # name join misses exactly the configured seats. The run's live
+        # replay journal knows every player's real seat; a renamed agent
+        # must come back scored with its own controller, in replay AND
+        # board, and a torn journal tail must not break the recovery.
+        source = self.write_save(1)
+        source.write_text(
+            source.read_text(encoding="utf-8").replace(
+                'name="AgentPlace1"', 'name="Ada"', 1,
+            ),
+            encoding="utf-8",
+        )
+        journal = self.runs / GAME_ID / "replay.jsonl"
+        journal.write_text(
+            json.dumps({
+                "schema_version": 1, "game_id": GAME_ID, "turn": 1,
+                "players": [
+                    {"player_id": 0, "seat_id": "seat-1", "player_name": "Ada"},
+                    {"player_id": 1, "seat_id": "seat-2",
+                     "player_name": "NativePlace2"},
+                ],
+            }) + "\n" + '{"schema_version":1,"turn":2',
+            encoding="utf-8",
+        )
+        response = self.replay(after_turn=0, limit=1)
+        agent = response["snapshots"][0]["players"][0]
+        self.assertEqual(agent["player_name"], "Ada")
+        self.assertEqual(agent["seat_id"], "seat-1")
+        self.assertEqual(agent["controller_label"], "pi-gpt-test")
+        self.assertTrue(agent["scored"])
+
     def test_cache_is_separate_atomic_and_invalidated_by_source_signature(self):
         source = self.write_save(1, agent_score=12)
         first = self.replay(after_turn=0, limit=1)
