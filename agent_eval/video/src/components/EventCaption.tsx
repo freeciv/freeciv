@@ -15,6 +15,8 @@ interface EventCaptionProps {
 }
 
 const HOLD_SECONDS = 2.6
+/** A guaranteed beat earns more time on screen than a routine one. */
+const LANDMARK_HOLD_SECONDS = 4.2
 const FADE_FRAMES = 9
 
 /** Faction colour for whoever the event names, using the film's render plan. */
@@ -35,6 +37,10 @@ function actorColor(film: Film, event: GameEvent): string {
  */
 function captionText(caption: Caption): string {
   const { event, sameKindInWindow } = caption
+  // A guaranteed beat always keeps its own words. Collapsing "captured the
+  // capital London" into "2 cities captured" throws away the moment the
+  // caption exists to mark.
+  if (caption.mustShow) return event.summary
   if (sameKindInWindow > 1 && event.kind === 'city_captured') {
     return `${sameKindInWindow} cities captured`
   }
@@ -51,58 +57,67 @@ export function EventCaption({
     () => planCaptions(film.events.events, {
       turnsPerSecond: fps / Math.max(1, framesPerTurn),
       holdSeconds: HOLD_SECONDS,
+      landmarkHoldSeconds: LANDMARK_HOLD_SECONDS,
     }),
     [film.events.events, fps, framesPerTurn],
   )
   const firstTurn = film.meta.firstTurn
-  const holdFrames = Math.round(HOLD_SECONDS * fps)
 
-  // The caption whose turn the timeline has most recently passed.
+  // The caption whose display turn the timeline has most recently passed. The
+  // plan already caps each hold so at most one is live at a time.
   const active = useMemo(() => {
-    let found: { caption: Caption; startFrame: number } | null = null
+    let found: { caption: Caption; startFrame: number; holdFrames: number } | null = null
     for (const caption of plan.captions) {
-      const startFrame = (caption.event.turn - firstTurn) * framesPerTurn
+      const startFrame = (caption.displayTurn - firstTurn) * framesPerTurn
+      const holdFrames = Math.round(caption.holdTurns * framesPerTurn)
       if (startFrame > frame) break
-      if (frame < startFrame + holdFrames) found = { caption, startFrame }
+      if (frame < startFrame + holdFrames) found = { caption, startFrame, holdFrames }
     }
     return found
-  }, [firstTurn, frame, framesPerTurn, holdFrames, plan.captions])
+  }, [firstTurn, frame, framesPerTurn, plan.captions])
 
   if (!active) return null
 
+  const { holdFrames } = active
   const local = frame - active.startFrame
+  const fade = Math.min(FADE_FRAMES, Math.floor(holdFrames / 3))
   const opacity = interpolate(
     local,
-    [0, FADE_FRAMES, holdFrames - FADE_FRAMES, holdFrames],
+    [0, fade, holdFrames - fade, holdFrames],
     [0, 1, 1, 0],
     { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
   )
   const rise = interpolate(local, [0, FADE_FRAMES], [10, 0], {
     extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
   })
-  const { event, alsoInWindow } = active.caption
+  const { event, alsoInWindow, mustShow } = active.caption
   const color = actorColor(film, event)
   const tier = weightTier(event.weight)
 
   return (
     <div
-      className="pointer-events-none absolute bottom-[16px] left-[16px] flex items-center gap-[14px] rounded px-[18px] py-[13px]"
+      className={`pointer-events-none absolute bottom-[16px] left-[16px] flex items-stretch rounded ${
+        mustShow ? 'gap-[18px] px-[22px] py-[18px]' : 'gap-[14px] px-[18px] py-[13px]'
+      }`}
       style={{
         // Opaque: the board underneath is busy, and a translucent card turns
         // the summary into grey mush exactly when it matters most.
         background: SHELL.panel,
-        border: `1px solid ${withAlpha(color, tier === 'major' ? 0.85 : 0.45)}`,
-        boxShadow: `0 12px 40px rgba(0,0,0,.62)`,
+        border: `1px solid ${withAlpha(color, mustShow ? 1 : tier === 'major' ? 0.85 : 0.45)}`,
+        boxShadow: mustShow
+          ? `0 14px 48px rgba(0,0,0,.7), 0 0 0 1px ${withAlpha(color, 0.35)}, 0 0 34px ${withAlpha(color, 0.22)}`
+          : `0 12px 40px rgba(0,0,0,.62)`,
         maxWidth: width - 32,
         opacity,
         transform: `translateY(${rise}px)`,
       }}
     >
+      {/* A landmark's accent runs the full height of the card. */}
       <span
-        className="h-[34px] w-[4px] shrink-0 rounded-sm"
+        className={`shrink-0 rounded-sm ${mustShow ? 'w-[6px] self-stretch' : 'h-[34px] w-[4px] self-center'}`}
         style={{ background: color }}
       />
-      <div className="flex min-w-0 flex-col gap-[4px]">
+      <div className={`flex min-w-0 flex-col ${mustShow ? 'gap-[6px]' : 'gap-[4px]'}`}>
         <div className="flex items-center gap-[10px]">
           <span
             className="font-mono text-[10px] tracking-[1.8px] uppercase"
@@ -120,8 +135,8 @@ export function EventCaption({
           )}
         </div>
         <span
-          className={`truncate font-sans ${
-            tier === 'major' ? 'text-[21px] text-ink' : 'text-[18px] text-ink'
+          className={`truncate font-sans text-ink ${
+            mustShow ? 'text-[27px] leading-tight' : tier === 'major' ? 'text-[21px]' : 'text-[18px]'
           }`}
         >
           {captionText(active.caption)}

@@ -75,12 +75,42 @@ export function heaviestPerWindow(
   return [...best.values()].sort((left, right) => left.turn - right.turn)
 }
 
+/** Kinds that are always a beat of the story, whatever else shares their turn. */
+const ALWAYS_SHOW_KINDS: ReadonlySet<string> = new Set([
+  'player_eliminated', 'spaceship_launched', 'spaceship_arrived', 'match_ended',
+])
+
+function hasCapitalCity(event: GameEvent): boolean {
+  const capitals = event.data['capital_cities']
+  return Array.isArray(capitals) && capitals.length > 0
+}
+
+/**
+ * Is this a moment the film must never drop?
+ *
+ * Read from the payload rather than the weight: a captured capital is marked by
+ * `capital_cities` and a pact-breaking war by `broke_pact`, and both keep that
+ * marking even if the extractor retunes its weights.
+ */
+export function isMustShow(event: GameEvent): boolean {
+  if (ALWAYS_SHOW_KINDS.has(event.kind)) return true
+  if (event.kind === 'city_captured') return hasCapitalCity(event)
+  if (event.kind === 'war_declared') return event.data['broke_pact'] !== undefined
+  return false
+}
+
 export interface Caption {
   readonly event: GameEvent
   /** Events the window held besides this one, for the "+N more" chip. */
   readonly alsoInWindow: number
   /** Same-kind events in the window, for collapsing a burst into one line. */
   readonly sameKindInWindow: number
+  /** A guaranteed beat: never floored, never displaced, drawn larger. */
+  readonly mustShow: boolean
+  /** The turn it appears on -- later than the event's own turn if it queued. */
+  readonly displayTurn: number
+  /** How long it stays up, already capped so two captions never overlap. */
+  readonly holdTurns: number
 }
 
 export interface CaptionPlan {
@@ -94,6 +124,8 @@ export interface CaptionPacing {
   readonly turnsPerSecond: number
   /** How long one caption stays legible on screen. */
   readonly holdSeconds: number
+  /** Longer hold for a must-show beat. Defaults to 1.5x the base. */
+  readonly landmarkHoldSeconds?: number
 }
 
 /**
@@ -114,26 +146,67 @@ export function planCaptions(
 ): CaptionPlan {
   const turnsPerSecond = Math.max(0.01, pacing.turnsPerSecond)
   const holdSeconds = Math.max(0.1, pacing.holdSeconds)
+  const landmarkHold = Math.max(holdSeconds, pacing.landmarkHoldSeconds ?? holdSeconds * 1.5)
   // A margin over the hold so two captions can never be on screen at once.
   const windowTurns = Math.max(1, Math.ceil(turnsPerSecond * holdSeconds * 1.15))
   const weightFloor = turnsPerSecond > 3 ? DENSITY_FLOOR.key : DENSITY_FLOOR.all
+  const windowOf = (turn: number): number => Math.floor(turn / windowTurns)
 
-  const eligible = events.filter((event) => event.weight >= weightFloor)
-  const counts = new Map<number, { total: number; byKind: Map<string, number> }>()
-  for (const event of eligible) {
-    const window = Math.floor(event.turn / windowTurns)
-    const entry = counts.get(window) ?? { total: 0, byKind: new Map<string, number>() }
-    entry.total += 1
-    entry.byKind.set(event.kind, (entry.byKind.get(event.kind) ?? 0) + 1)
-    counts.set(window, entry)
+  const mustShow = events.filter(isMustShow)
+  const rest = events.filter(
+    (event) => !isMustShow(event) && event.weight >= weightFloor,
+  )
+
+  // Must-show beats claim their slot first and are never floored. When two
+  // collide, the later one queues into the next free window rather than being
+  // folded into a "+N more" chip: the beat still plays, just a moment late.
+  const slots = new Map<number, { event: GameEvent; sourceWindow: number }>()
+  const placed = new Set<GameEvent>()
+  for (const event of [...mustShow].sort((a, b) => a.turn - b.turn || b.weight - a.weight)) {
+    let window = windowOf(event.turn)
+    while (slots.has(window)) window += 1
+    slots.set(window, { event, sourceWindow: windowOf(event.turn) })
+    placed.add(event)
+  }
+  // Everything else fills whatever windows are still empty, heaviest first --
+  // the viewer's rule, applied to the remainder.
+  for (const event of heaviestPerWindow(rest, windowTurns)) {
+    const window = windowOf(event.turn)
+    if (slots.has(window)) continue
+    slots.set(window, { event, sourceWindow: window })
+    placed.add(event)
   }
 
-  const captions = heaviestPerWindow(eligible, windowTurns).map((event): Caption => {
-    const entry = counts.get(Math.floor(event.turn / windowTurns))
+  // Counts describe what a window held that did NOT get shown in its own right,
+  // so a queued beat is never double-reported as someone else's "+N more".
+  const eligible = events.filter(
+    (event) => isMustShow(event) || event.weight >= weightFloor,
+  )
+  const unshown = eligible.filter((event) => !placed.has(event))
+
+  const ordered = [...slots.entries()].sort(([left], [right]) => left - right)
+  const captions = ordered.map(([window, held], index): Caption => {
+    const sameWindow = unshown.filter(
+      (event) => windowOf(event.turn) === held.sourceWindow,
+    )
+    const displayTurn = Math.max(held.event.turn, window * windowTurns)
+    const nextEntry = ordered[index + 1]
+    const nextDisplay = nextEntry
+      ? Math.max(nextEntry[1].event.turn, nextEntry[0] * windowTurns)
+      : Number.POSITIVE_INFINITY
+    const desired = turnsPerSecond
+      * (isMustShow(held.event) ? landmarkHold : holdSeconds)
     return {
-      event,
-      alsoInWindow: Math.max(0, (entry?.total ?? 1) - 1),
-      sameKindInWindow: entry?.byKind.get(event.kind) ?? 1,
+      event: held.event,
+      alsoInWindow: sameWindow.length,
+      sameKindInWindow: 1 + sameWindow.filter(
+        (event) => event.kind === held.event.kind,
+      ).length,
+      mustShow: isMustShow(held.event),
+      displayTurn,
+      // Capped by the next caption's start: a landmark gets its longer hold
+      // whenever there is room, and never at the cost of overlapping.
+      holdTurns: Math.max(1, Math.min(desired, nextDisplay - displayTurn)),
     }
   })
   return { captions, windowTurns, weightFloor }

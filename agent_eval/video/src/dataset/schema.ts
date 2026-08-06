@@ -83,6 +83,8 @@ export interface GameEvent {
   readonly actors: readonly string[]
   /** The extractor's 1-100 importance scale. */
   readonly weight: number
+  /** The emitter's payload, mirrored as-is; `event-log.ts` owns its meaning. */
+  readonly data: Readonly<Record<string, unknown>>
 }
 
 export interface EventLog {
@@ -282,6 +284,7 @@ export function parseEvents(value: unknown): EventLog {
       actors: array(event['actors'] ?? [], `events[${index}].actors`)
         .filter((actor): actor is string => typeof actor === 'string'),
       weight: integerOr(event['weight'], 0),
+      data: isRecord(event['data']) ? event['data'] : {},
     }
   })
   return {
