@@ -7,7 +7,7 @@ import type {
   Technology,
 } from './types'
 import { placeLabel } from './picker-model'
-import { factionDisplayLabel } from './faction-label'
+import { displayControllerLabel, factionDisplayLabel } from './faction-label'
 
 export const METRICS = [
   { key: 'score', label: 'Score' },
@@ -106,7 +106,7 @@ export function isScoredPlayer(player: ReplayPlayer): boolean {
 
 export function competitorLabel(player: ReplayPlayer): string {
   return (
-    player.controller_label ||
+    displayControllerLabel(player.controller_label) ||
     (isScoredPlayer(player) ? player.player_name : player.nation) ||
     'Freeciv dynamic faction'
   )
@@ -143,7 +143,7 @@ export function configuredPlaceFactions(places: GamePlace[]): MapFaction[] {
 export function matchHeaderLabel(places: GamePlace[]): string {
   const agents = places.filter((place) => place.controller !== 'native_classic_ai').map(placeLabel)
   const nativeCount = places.length - agents.length
-  const nativeLabel = nativeCount > 1 ? `Classic AI ×${nativeCount}` : nativeCount === 1 ? 'Classic AI' : null
+  const nativeLabel = nativeCount > 1 ? `In-game Deity AI ×${nativeCount}` : nativeCount === 1 ? 'In-game Deity AI' : null
   return [...agents, ...(nativeLabel ? [nativeLabel] : [])].join('  vs  ')
 }
 

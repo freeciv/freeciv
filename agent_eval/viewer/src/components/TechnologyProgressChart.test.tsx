@@ -81,8 +81,8 @@ describe('technology progression model', () => {
       ['native', '#F38400'],
     ])
     expect(model.series.map((series) => series.label)).toEqual([
-      'pi-gpt-5.6-sol',
-      'Classic AI · Romans',
+      'pi-gpt-5.6-sol: Romans',
+      'In-game Deity AI: Romans',
     ])
     expect(model.series[0].values).toEqual([
       { turn: 1, knownClassicTechnologies: 1, futureTechs: 0 },
@@ -116,8 +116,8 @@ describe('technology progression model', () => {
     ], catalog)
 
     expect(model.series.map((series) => series.label)).toEqual([
-      'Classic AI · Danish',
-      'Classic AI · Persian',
+      'In-game Deity AI: Danish',
+      'In-game Deity AI: Persian',
     ])
   })
 
@@ -163,7 +163,7 @@ describe('TechnologyProgressChart', () => {
 
     expect(markup).toContain('Cumulative classic technologies known by turn')
     expect(markup).toContain('pi-gpt-5.6-sol')
-    expect(markup).toContain('Classic AI · Romans')
+    expect(markup).toContain('In-game Deity AI: Romans')
     expect(markup).toContain('#0067A5')
     expect(markup).toContain('#F38400')
     expect(markup).toContain('2 / 3 known')

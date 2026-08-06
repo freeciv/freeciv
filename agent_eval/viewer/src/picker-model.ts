@@ -67,7 +67,7 @@ export function gamePrimaryResult(game: GameSummary): string {
 }
 
 export function placeLabel(place: GamePlace): string {
-  if (place.controller === 'native_classic_ai') return 'Freeciv Classic AI'
+  if (place.controller === 'native_classic_ai') return 'In-game Deity AI'
   if (!place.joined) return 'Open agent seat'
   return place.controller_label || place.model || 'Joined agent'
 }

@@ -156,7 +156,7 @@ describe('replay view model', () => {
       mockWatch.frames[0], mockReplay.snapshots[2], mockWatch.game.resolved_places,
     )
     expect(factions.map((faction) => faction.display_label)).toEqual([
-      'codex-gpt-5.6-sol', 'Classic AI · Romans', 'Freeciv dynamic · Pirate',
+      'codex-gpt-5.6-sol: Danish', 'In-game Deity AI: Romans', 'Freeciv dynamic: Pirate',
     ])
     expect(factions[2]).toMatchObject({
       player_name: 'Blackbeard', player_color: '#FF1493',
@@ -170,7 +170,7 @@ describe('replay view model', () => {
       mockWatch.game.resolved_places[0],
       native,
       { ...native, place: 3, seat_id: 'place-3', player_name: 'NativePlace3' },
-    ])).toBe('codex-gpt-5.6-sol  vs  Classic AI ×2')
+    ])).toBe('codex-gpt-5.6-sol  vs  In-game Deity AI ×2')
   })
 
   it('builds the legacy map key from scored roster identities and colors', () => {
@@ -179,7 +179,7 @@ describe('replay view model', () => {
       display_label, player_color,
     }))).toEqual([
       { display_label: 'codex-gpt-5.6-sol', player_color: '#0067A5' },
-      { display_label: 'Classic AI · NativePlace2', player_color: '#F38400' },
+      { display_label: 'In-game Deity AI: NativePlace2', player_color: '#F38400' },
     ])
     expect(factions.every((faction) => !faction.dynamic)).toBe(true)
   })
