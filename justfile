@@ -460,7 +460,9 @@ video game_id out="" preset="full": video-install
     fi
     case "{{ preset }}" in
       full)  render_flags=() ;;
-      draft) render_flags=(--scale 0.6666667 --jpeg-quality 70) ;;
+      # 0.5 keeps both dimensions integral (960x540); Remotion rejects the
+      # fractional height that an exact-720p scale factor produces.
+      draft) render_flags=(--scale 0.5 --jpeg-quality 70) ;;
       *) echo "unknown preset '{{ preset }}' (use full or draft)" >&2; exit 2 ;;
     esac
     python3 -B -m agent_eval.video_export "{{ game_id }}" \
@@ -471,8 +473,11 @@ video game_id out="" preset="full": video-install
     mkdir -p "$public_dir"
     cp "$export_dir/meta.json" "$export_dir/frames.json" "$public_dir/"
     cd "$repo/agent_eval/video"
+    # Bash 3.2 treats an empty array as unset under `set -u`, so the full
+    # preset's empty flag list needs the guarded expansion.
     npx remotion render src/index.ts GameFilm "$output" \
-      --props "{\"gameId\":\"{{ game_id }}\"}" "${render_flags[@]}"
+      --props "{\"gameId\":\"{{ game_id }}\"}" \
+      ${render_flags[@]+"${render_flags[@]}"}
     echo "wrote $output"
 
 # Typecheck the offline video renderer.
