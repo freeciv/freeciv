@@ -699,6 +699,8 @@ def _archive_status(
         "schema_version": 1,
         "game_id": archive.game_id,
         "state": state,
+        "created_at": _public_number(manifest.get("created_at")),
+        "finished_at": _public_number(manifest.get("finished_at")),
         "benchmark_valid": archive.benchmark_valid,
         "mode": _public_text(config.get("mode"), "unknown", 32),
         **_public_control_protocol(config, manifest),
@@ -1007,6 +1009,7 @@ def _disk_game_row(manifest: Mapping[str, Any]) -> dict[str, Any] | None:
         "game_id": game_id,
         "state": state,
         "created_at": _public_number(manifest.get("created_at")),
+        "finished_at": _public_number(manifest.get("finished_at")),
         "current_turn": (
             _public_int(manifest.get("current_turn"))
             if manifest.get("current_turn") is not None else None

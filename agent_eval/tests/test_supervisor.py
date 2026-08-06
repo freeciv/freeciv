@@ -8112,7 +8112,8 @@ data 4 0 0 70
         )
         row = payload["games"][1]
         self.assertEqual(set(row), {
-            "game_id", "state", "created_at", "current_turn", "turns",
+            "game_id", "state", "created_at", "finished_at", "current_turn",
+            "turns",
             "benchmark_valid", "mode", "control_protocol", "timing_mode",
             "action_timeout_s",
             "places", "max_agents",

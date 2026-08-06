@@ -1,5 +1,6 @@
 import type {
   GamePlace,
+  GameStatus,
   MapPlayer,
   ReplayFrame,
   ReplayPlayer,
@@ -138,6 +139,22 @@ export function configuredPlaceFactions(places: GamePlace[]): MapFaction[] {
       : `${place.player_name}${place.model ? ` · ${place.model}` : ''}`,
     dynamic: false,
   }))
+}
+
+export function matchDurationLabel(
+  game: Pick<GameStatus, 'created_at' | 'finished_at'>,
+  nowMs: number = Date.now(),
+): string | null {
+  if (typeof game.created_at !== 'number') return null
+  const end = typeof game.finished_at === 'number' ? game.finished_at : nowMs / 1000
+  const total = Math.max(0, Math.round(end - game.created_at))
+  const days = Math.floor(total / 86_400)
+  const hours = Math.floor((total % 86_400) / 3_600)
+  const minutes = Math.floor((total % 3_600) / 60)
+  if (days > 0) return `${days}d ${hours}h`
+  if (hours > 0) return `${hours}h ${minutes}m`
+  if (minutes > 0) return `${minutes}m`
+  return `${total}s`
 }
 
 export function matchHeaderLabel(places: GamePlace[]): string {

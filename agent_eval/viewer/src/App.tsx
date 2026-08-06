@@ -24,6 +24,7 @@ import {
   frameAtOrBefore,
   isScoredPlayer,
   mapFactions,
+  matchDurationLabel,
   matchHeaderLabel,
   maxKnownTechnologyDepth,
   playerMetric,
@@ -228,6 +229,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       : 'validity-pending'
   const historicalComparison = selectedTurn > 0 && lastTurn > 0 && selectedTurn < lastTurn
   const timing = timingModeLabel(game)
+  const duration = matchDurationLabel(game)
   const protocol = controlProtocolLabel(game.control_protocol)
   const comparisonRows = game.resolved_places.map((place) => {
     const telemetry = playerForPlace(selectedSnapshot?.players ?? [], place.place)
@@ -332,6 +334,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
         <div><p className="eyebrow">Control protocol</p><strong>{protocol.label}</strong><span>{protocol.detail}{protocol.assumed ? ' · assumed for this archived run' : ''}</span></div>
         <div><p className="eyebrow">Agent lobby</p><strong>{game.joined_agents}/{game.max_agents} joined</strong><span>{game.state === 'lobby' && game.max_agents > game.joined_agents ? `Waiting for ${game.max_agents - game.joined_agents} agent${game.max_agents - game.joined_agents === 1 ? '' : 's'}` : game.state === 'lobby' ? 'All agents joined · preparing match' : 'Roster locked for this match'}</span></div>
         <div><p className="eyebrow">Turn horizon</p><strong>{game.current_turn ?? 0} / {game.turns}</strong><span>{game.state === 'running' ? 'Authoritative turn in progress' : stateLabel(game.state)}</span></div>
+        {duration && <div><p className="eyebrow">Duration</p><strong>{duration}</strong><span>{typeof game.finished_at === 'number' ? 'Start to last recorded turn' : 'Running and counting'}</span></div>}
         {timing && <div><p className="eyebrow">Turn timing</p><strong>{timing}</strong><span>Harness action deadline</span></div>}
       </section>
 

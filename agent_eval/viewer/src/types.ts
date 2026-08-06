@@ -64,6 +64,8 @@ export interface GameStatus {
   leaderboard: LeaderboardEntry[]
   outcome: MatchOutcome
   replay_url?: string
+  created_at?: number | null
+  finished_at?: number | null
 }
 
 export type GameSummary = Pick<GameStatus,
@@ -83,7 +85,8 @@ export type GameSummary = Pick<GameStatus,
   | 'timing_mode'
   | 'action_timeout_s'
 > & {
-  created_at?: number
+  created_at?: number | null
+  finished_at?: number | null
   watch_path?: string
 }
 

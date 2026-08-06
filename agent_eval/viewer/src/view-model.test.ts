@@ -18,6 +18,7 @@ import {
 } from './route'
 import {
   configuredPlaceFactions,
+  matchDurationLabel,
   frameAtOrBefore,
   mapFactions,
   matchHeaderLabel,
@@ -200,6 +201,23 @@ describe('replay view model', () => {
       player_name: 'Blackbeard', player_color: '#FF1493',
       detail: 'Blackbeard · Pirate', dynamic: true,
     })
+  })
+
+  it('reports match duration from creation to last recorded turn', () => {
+    // Finished: creation to finished_at, whatever the clock says now.
+    expect(matchDurationLabel(
+      { created_at: 1_000, finished_at: 1_000 + 14 * 3600 + 15 * 60 }, 99e12,
+    )).toBe('14h 15m')
+    expect(matchDurationLabel(
+      { created_at: 1_000, finished_at: 1_000 + 2 * 86_400 + 5 * 3600 }, 0,
+    )).toBe('2d 5h')
+    expect(matchDurationLabel({ created_at: 1_000, finished_at: 1_042 }, 0)).toBe('42s')
+    // Running: creation to now, still counting.
+    expect(matchDurationLabel(
+      { created_at: 1_000, finished_at: null }, (1_000 + 37 * 60) * 1000,
+    )).toBe('37m')
+    // No creation time recorded: no invented duration.
+    expect(matchDurationLabel({ created_at: null, finished_at: 5 })).toBeNull()
   })
 
   it('summarizes duplicate native seats in the match header', () => {

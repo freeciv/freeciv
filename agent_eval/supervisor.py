@@ -8910,6 +8910,7 @@ class Game:
                 "game_id": self.game_id,
                 "state": self.state,
                 "created_at": self.created_at,
+                "finished_at": self.finished_at,
                 "current_turn": current_turn,
                 "turns": self.config["turns"],
                 "benchmark_valid": (
