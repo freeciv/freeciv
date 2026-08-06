@@ -74,6 +74,24 @@ export interface PlayerStat {
   readonly culture: number
 }
 
+/** One derived match event, as written by `agent_eval/game_events.py`. */
+export interface GameEvent {
+  readonly turn: number
+  readonly kind: string
+  readonly summary: string
+  /** Seat ids where the seat resolved, otherwise recorded player names. */
+  readonly actors: readonly string[]
+  /** The extractor's 1-100 importance scale. */
+  readonly weight: number
+}
+
+export interface EventLog {
+  readonly available: boolean
+  readonly events: readonly GameEvent[]
+  readonly totalEvents: number
+  readonly truncated: boolean
+}
+
 export interface RawFrame {
   readonly turn: number
   readonly year: number
@@ -249,6 +267,28 @@ export function parseMeta(value: unknown): DatasetMeta {
     boardTurnCount: integerOr(source['board_turn_count'], 0),
     interpolatedTurnCount: integerOr(source['interpolated_turn_count'], 0),
     boardDensity: integerOr(source['board_density'], 1),
+  }
+}
+
+export function parseEvents(value: unknown): EventLog {
+  const source = record(value, 'events.json')
+  const entries = array(source['events'] ?? [], 'events.events')
+  const events = entries.map((entry, index) => {
+    const event = record(entry, `events[${index}]`)
+    return {
+      turn: integer(event['turn'], `events[${index}].turn`),
+      kind: text(event['kind'], 'unknown'),
+      summary: text(event['summary']),
+      actors: array(event['actors'] ?? [], `events[${index}].actors`)
+        .filter((actor): actor is string => typeof actor === 'string'),
+      weight: integerOr(event['weight'], 0),
+    }
+  })
+  return {
+    available: source['available'] !== false,
+    events,
+    totalEvents: integerOr(source['total_events'], events.length),
+    truncated: source['truncated'] === true,
   }
 }
 

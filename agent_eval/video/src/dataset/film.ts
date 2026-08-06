@@ -10,7 +10,7 @@
 
 import { planFactionColors, type FactionColorPlan } from '../faction-color'
 import type {
-  CityTuple, DatasetMeta, PlayerEntry, PlayerStat, RawFrame, UnitTuple,
+  CityTuple, DatasetMeta, EventLog, PlayerEntry, PlayerStat, RawFrame, UnitTuple,
 } from './schema'
 
 /** Owner id per tile, `-1` for unclaimed. Indexed `y * width + x`. */
@@ -52,6 +52,7 @@ export interface Film {
   readonly tracks: readonly PlayerTrack[]
   readonly seatTracks: readonly PlayerTrack[]
   readonly colors: FactionColorPlan
+  readonly events: EventLog
   readonly maxScore: number
   readonly landTiles: number
 }
@@ -95,7 +96,9 @@ function tallyTerritory(owners: OwnerGrid): ReadonlyMap<number, number> {
 
 const EMPTY_NAMES: ReadonlyMap<string, string> = new Map()
 
-export function buildFilm(meta: DatasetMeta, frames: readonly RawFrame[]): Film {
+export function buildFilm(
+  meta: DatasetMeta, frames: readonly RawFrame[], events: EventLog,
+): Film {
   const { width, height } = meta
   let terrain: readonly string[] = []
   let infrastructure: readonly string[] = []
@@ -199,6 +202,7 @@ export function buildFilm(meta: DatasetMeta, frames: readonly RawFrame[]): Film 
     tracks,
     seatTracks: contenders,
     colors,
+    events,
     maxScore: tracks.reduce((best, track) => Math.max(best, track.peakScore), 1),
     landTiles: Math.max(1, landTiles),
   }

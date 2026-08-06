@@ -13,7 +13,7 @@
 import { useEffect, useState } from 'react'
 import { cancelRender, continueRender, delayRender, staticFile } from 'remotion'
 import { buildFilm, type Film } from './film'
-import { parseFrames, parseMeta, type DatasetMeta } from './schema'
+import { parseEvents, parseFrames, parseMeta, type DatasetMeta } from './schema'
 
 export function datasetPath(gameId: string, file: string): string {
   return staticFile(`exports/${gameId}/${file}`)
@@ -38,11 +38,13 @@ export function loadFilm(gameId: string): Promise<Film> {
   const cached = filmCache.get(gameId)
   if (cached) return cached
   const pending = (async (): Promise<Film> => {
-    const [meta, framesJson] = await Promise.all([
+    const [meta, framesJson, eventsJson] = await Promise.all([
       loadMeta(gameId),
       fetchJson(datasetPath(gameId, 'frames.json')),
+      // An export predating the event log still renders, just without captions.
+      fetchJson(datasetPath(gameId, 'events.json')).catch(() => ({ events: [] })),
     ])
-    return buildFilm(meta, parseFrames(framesJson))
+    return buildFilm(meta, parseFrames(framesJson), parseEvents(eventsJson))
   })()
   filmCache.set(gameId, pending)
   return pending

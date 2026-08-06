@@ -4,8 +4,9 @@
  */
 
 import { useMemo } from 'react'
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from 'remotion'
+import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from 'remotion'
 import { BoardCanvas } from './components/BoardCanvas'
+import { EventCaption } from './components/EventCaption'
 import { Outro } from './components/Outro'
 import { MetricChart } from './components/MetricChart'
 import { ScorePanel } from './components/ScorePanel'
@@ -77,6 +78,7 @@ function PlayStage({
   readonly showCityLabels: boolean
 }) {
   const frame = useCurrentFrame()
+  const { fps } = useVideoConfig()
   // The board is a rotated rectangle; its height follows from the fitted width,
   // so the panel hugs the map instead of letterboxing it.
   const mapHeight = useMemo(() => {
@@ -108,7 +110,7 @@ function PlayStage({
         <div className="flex flex-1 flex-col gap-[18px]">
           <Ticker film={film} turn={turn} turnIndex={turnIndex} width={MAP_WIDTH} />
           <div
-            className="board-frame overflow-hidden rounded border border-board-edge bg-board"
+            className="board-frame relative overflow-hidden rounded border border-board-edge bg-board"
             style={{ height: mapHeight, width: MAP_WIDTH }}
           >
             <BoardCanvas
@@ -119,6 +121,13 @@ function PlayStage({
               showLabels={showCityLabels}
               superSample={superSample}
               turn={turn}
+              width={MAP_WIDTH}
+            />
+            <EventCaption
+              film={film}
+              fps={fps}
+              frame={frame}
+              framesPerTurn={framesPerTurn}
               width={MAP_WIDTH}
             />
           </div>

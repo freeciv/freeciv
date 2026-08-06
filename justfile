@@ -471,7 +471,8 @@ video game_id out="" preset="full": video-install
     # artifacts themselves are never exposed to the renderer.
     public_dir="$repo/agent_eval/video/public/exports/{{ game_id }}"
     mkdir -p "$public_dir"
-    cp "$export_dir/meta.json" "$export_dir/frames.json" "$public_dir/"
+    cp "$export_dir/meta.json" "$export_dir/frames.json" \
+      "$export_dir/events.json" "$public_dir/"
     cd "$repo/agent_eval/video"
     # Bash 3.2 treats an empty array as unset under `set -u`, so the full
     # preset's empty flag list needs the guarded expansion.

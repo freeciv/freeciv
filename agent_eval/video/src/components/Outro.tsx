@@ -3,7 +3,9 @@ import { interpolate, useCurrentFrame } from 'remotion'
 import type { Film, PlayerTrack } from '../dataset/film'
 import { buildBoardLayout } from '../dataset/geometry'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
+import { eventKindLabel, topHighlights, weightTier } from '../event-log'
 import { formatDuration } from '../format'
+import type { GameEvent } from '../dataset/schema'
 import { SHELL, withAlpha } from '../theme'
 import { BoardCanvas } from './BoardCanvas'
 import { MetricChart, type ChartSeries } from './MetricChart'
@@ -19,7 +21,10 @@ const STAGE_WIDTH = 1700
 const PANEL_WIDTH = 620
 const CHART_GAP = 16
 const CHART_WIDTH = Math.round((STAGE_WIDTH - PANEL_WIDTH - CHART_GAP - 2 * CHART_GAP) / 3)
-const BAND_HEIGHT = 308
+const BAND_HEIGHT = 366
+const HIGHLIGHTS_WIDTH = 430
+const BOARD_WIDTH = STAGE_WIDTH - HIGHLIGHTS_WIDTH - CHART_GAP
+const MAX_HIGHLIGHTS = 7
 
 /**
  * How the match ended, in the archive's own words.
@@ -33,6 +38,68 @@ function outcomeLine(film: Film): string {
   if (error) return error
   const state = film.meta.state || 'unknown'
   return `Match ended in state "${state}" with no recorded victory condition.`
+}
+
+/** The match's biggest moments, by the extractor's weight. */
+function Highlights({
+  film, events,
+}: {
+  readonly film: Film
+  readonly events: readonly GameEvent[]
+}) {
+  const colorFor = (event: GameEvent): string => {
+    for (const actor of event.actors) {
+      const track = film.tracks.find(
+        (candidate) => candidate.player.seatId === actor
+          || candidate.player.name === actor,
+      )
+      if (track) return track.renderColor
+    }
+    return SHELL.cyan
+  }
+  return (
+    <div
+      className="flex flex-col gap-[8px] rounded border border-line px-[16px] py-[14px]"
+      style={{ width: HIGHLIGHTS_WIDTH }}
+    >
+      <span className="font-mono text-[10px] tracking-[2px] text-muted">
+        DEFINING MOMENTS
+      </span>
+      {events.length === 0 && (
+        <span className="font-mono text-[11px] text-muted">
+          No events were derived for this run.
+        </span>
+      )}
+      {events.map((event) => {
+        const color = colorFor(event)
+        const major = weightTier(event.weight) === 'major'
+        return (
+          <div
+            className="flex min-w-0 flex-1 flex-col gap-[3px] border-l-[3px] pl-[10px]"
+            key={`${event.turn}-${event.kind}-${event.summary}`}
+            style={{ borderColor: major ? color : withAlpha(color, 0.45) }}
+          >
+            <div className="flex items-baseline gap-[8px]">
+              <span className="font-mono text-[10px] tracking-[1.2px] text-muted">
+                T{event.turn}
+              </span>
+              <span
+                className="font-mono text-[10px] tracking-[1.4px] uppercase"
+                style={{ color }}
+              >
+                {eventKindLabel(event.kind)}
+              </span>
+            </div>
+            <span
+              className={`font-sans leading-snug ${major ? 'text-[14px] text-ink' : 'text-[13px] text-muted'}`}
+            >
+              {event.summary}
+            </span>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 function StandingRow({
@@ -92,12 +159,13 @@ export function Outro({ film, superSample }: OutroProps) {
     const layout = buildBoardLayout(film.meta.width, film.meta.height)
     const aspect = (layout.bounds.maxX - layout.bounds.minX)
       / (layout.bounds.maxY - layout.bounds.minY)
-    return Math.round(STAGE_WIDTH / aspect)
+    return Math.round(BOARD_WIDTH / aspect)
   }, [film.meta.height, film.meta.width])
 
   const wallClock = film.meta.startedAt !== null && film.meta.finishedAt !== null
     ? formatDuration(film.meta.finishedAt - film.meta.startedAt)
     : 'unknown duration'
+  const highlights = topHighlights(film.events.events, MAX_HIGHLIGHTS)
   const lastIndex = film.turns.length - 1
   const lastTurn = film.turns[lastIndex]
   const ranked = [...film.seatTracks].sort(
@@ -129,20 +197,23 @@ export function Outro({ film, superSample }: OutroProps) {
         <span>{film.meta.gameId}</span>
       </div>
 
-      <div
-        className="board-frame overflow-hidden rounded border border-board-edge bg-board"
-        style={{ height: boardHeight, width: STAGE_WIDTH }}
-      >
-        <BoardCanvas
-          colorByPlayer={film.colors.colorByPlayer}
-          height={boardHeight}
-          meta={film.meta}
-          reveal={1}
-          showLabels
-          superSample={superSample}
-          turn={lastTurn}
-          width={STAGE_WIDTH}
-        />
+      <div className="flex gap-[16px]" style={{ width: STAGE_WIDTH }}>
+        <div
+          className="board-frame overflow-hidden rounded border border-board-edge bg-board"
+          style={{ height: boardHeight, width: BOARD_WIDTH }}
+        >
+          <BoardCanvas
+            colorByPlayer={film.colors.colorByPlayer}
+            height={boardHeight}
+            meta={film.meta}
+            reveal={1}
+            showLabels
+            superSample={superSample}
+            turn={lastTurn}
+            width={BOARD_WIDTH}
+          />
+        </div>
+        <Highlights events={highlights} film={film} />
       </div>
 
       <div

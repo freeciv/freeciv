@@ -149,6 +149,46 @@ def _seat_labels(manifest: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     return labels
 
 
+def _derive_events(
+    runs_root: Path,
+    game_id: str,
+    places: Sequence[Mapping[str, Any]],
+    cache_root: Path,
+) -> dict[str, Any]:
+    """Return the derived event log, or an empty-but-valid log if it fails.
+
+    Events are a garnish on the film: a run whose saves cannot be walked should
+    still produce a video, so any extraction failure degrades to `available:
+    false` rather than taking the whole export down with it.
+    """
+    empty: dict[str, Any] = {
+        "available": False, "events": [], "event_counts": {}, "total_events": 0,
+        "truncated": False, "omitted_counts": {}, "last_turn": 0,
+    }
+    try:
+        from .game_events import events_from_autosaves
+
+        payload = events_from_autosaves(
+            runs_root, game_id, list(places), cache_root=cache_root,
+        )
+    except Exception:  # noqa: BLE001 - the film matters more than its captions
+        return empty
+    if not isinstance(payload, Mapping):
+        return empty
+    events = payload.get("events")
+    if not isinstance(events, list):
+        return empty
+    return {
+        "available": payload.get("available") is not False,
+        "events": events,
+        "event_counts": payload.get("event_counts") or {},
+        "total_events": _integer(payload.get("total_events"), len(events)),
+        "truncated": payload.get("truncated") is True,
+        "omitted_counts": payload.get("omitted_counts") or {},
+        "last_turn": _integer(payload.get("last_turn")),
+    }
+
+
 def _board_turns(run_directory: Path) -> list[int]:
     """Return every turn with at least one autosave, ascending."""
     from .save_replay import _discover_saves
@@ -488,6 +528,11 @@ def export_run(
     for frame in frames[:leading_gap]:
         frame["board_turn"] = seed_turn
 
+    # Every derived event ships. The composition decides which ones a given
+    # playback speed has room for, so re-tuning caption density never means
+    # re-exporting a game.
+    events = _derive_events(runs_path, game_id, places, cache_path)
+
     interpolated_turns = [frame["turn"] for frame in frames if frame["interpolated"]]
     config = manifest.get("config") if isinstance(manifest.get("config"), dict) else {}
     players = _player_directory(replay_rows, last_board, seat_labels)
@@ -523,14 +568,23 @@ def export_run(
         "board_density": round(
             (len(frames) - len(interpolated_turns)) / max(1, len(frames)), 6,
         ),
+        "event_counts": events["event_counts"],
+        "total_events": events["total_events"],
+        "events_truncated": events["truncated"],
     }
 
     meta_path = output_path / "meta.json"
     frames_path = output_path / "frames.json"
+    events_path = output_path / "events.json"
     meta_path.write_text(json.dumps(meta, separators=(",", ":")), encoding="utf-8")
     frames_path.write_text(
         json.dumps({"schema_version": SCHEMA_VERSION, "game_id": game_id,
                     "frames": frames}, separators=(",", ":")),
+        encoding="utf-8",
+    )
+    events_path.write_text(
+        json.dumps({"schema_version": SCHEMA_VERSION, "game_id": game_id, **events},
+                   separators=(",", ":")),
         encoding="utf-8",
     )
     return {
@@ -538,8 +592,12 @@ def export_run(
         "output_directory": str(output_path),
         "meta_path": str(meta_path),
         "frames_path": str(frames_path),
+        "events_path": str(events_path),
         "meta_bytes": meta_path.stat().st_size,
         "frames_bytes": frames_path.stat().st_size,
+        "events_bytes": events_path.stat().st_size,
+        "event_count": len(events["events"]),
+        "events_available": events["available"],
         "frame_count": len(frames),
         "board_turn_count": len(board_turns),
         "interpolated_turn_count": len(interpolated_turns),

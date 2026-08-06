@@ -5,6 +5,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from agent_eval.video_export import VideoExportError, export_run
 
@@ -189,6 +190,38 @@ class VideoExportTests(unittest.TestCase):
         frames = self.load("frames.json")["frames"]
         self.assertTrue(frames[0]["interpolated"])
         self.assertEqual(frames[0]["board_turn"], 2)
+
+    def test_an_event_log_is_always_written_even_when_derivation_fails(self):
+        # The fixture saves are minimal, so extraction may find nothing. The
+        # film still has to render, so the log degrades instead of raising.
+        self.write_board(1)
+        self.write_replay([1])
+
+        summary = self.export()
+
+        self.assertTrue(Path(summary["events_path"]).is_file())
+        events = self.load("events.json")
+        self.assertIsInstance(events["events"], list)
+        self.assertIn("available", events)
+        self.assertEqual(events["game_id"], GAME_ID)
+        meta = self.load("meta.json")
+        self.assertIn("event_counts", meta)
+        self.assertIn("total_events", meta)
+
+    def test_a_broken_event_extractor_does_not_take_the_export_down(self):
+        self.write_board(1)
+        self.write_replay([1])
+
+        with patch(
+            "agent_eval.game_events.events_from_autosaves",
+            side_effect=RuntimeError("extractor exploded"),
+        ):
+            summary = self.export()
+
+        self.assertEqual(summary["frame_count"], 1)
+        self.assertEqual(summary["event_count"], 0)
+        self.assertFalse(summary["events_available"])
+        self.assertEqual(self.load("events.json")["events"], [])
 
     def test_a_run_without_any_readable_board_fails_loudly(self):
         self.write_replay([1])
