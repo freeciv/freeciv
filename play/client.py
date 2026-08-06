@@ -89,6 +89,9 @@ V2_SIDECAR_FIELDS = {
     "state", "generation", "player_name", "started_at", "ready_at",
     "last_seen_at", "stopped_at", "exit_code", "error_code",
     "client_state", "server_connected", "seat_state",
+    # Death forensics: these separate "the client crashed" from "the
+    # client is alive and merely slow" on the server side.
+    "exit_signal", "exit_signal_name", "process_alive",
 }
 OPAQUE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 ACTION_KIND_RE = re.compile(r"^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$")
@@ -1746,16 +1749,21 @@ def _safe_number(value: Any, label: str, *, nullable: bool = False) -> Any:
 def _validate_phase_end_event(
     value: Any, session: dict[str, Any], seat: dict[str, Any],
 ) -> dict[str, Any]:
-    raw = _exact(
-        value,
-        {
-            "sequence", "turn", "phase", "place", "seat_id",
-            "player_name", "player_color", "controller_label",
-            "controller_type", "source", "receipt_state", "resolution",
-            "deadline_started_at", "ended_at", "elapsed_s",
-        },
-        "health last phase end",
-    )
+    fields = {
+        "sequence", "turn", "phase", "place", "seat_id",
+        "player_name", "player_color", "controller_label",
+        "controller_type", "source", "receipt_state", "resolution",
+        "deadline_started_at", "ended_at", "elapsed_s",
+    }
+    # Optional-if-present, like seat.standing: the recovery-era supervisor
+    # stamps which receipt incarnation ended the phase.
+    if isinstance(value, dict) and "incarnation" in value:
+        fields = fields | {"incarnation"}
+    raw = _exact(value, fields, "health last phase end")
+    if "incarnation" in raw and (
+        type(raw["incarnation"]) is not int or raw["incarnation"] < 0
+    ):
+        raise PlayerError("invalid v2 health last phase end incarnation")
     if (
         any(
             type(raw[name]) is not int or raw[name] < minimum
@@ -1875,7 +1883,6 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
             "lobby", "starting", "running", *TERMINAL_STATES,
         }
         or not isinstance(raw["sidecar"], dict)
-        or not set(raw["sidecar"]).issubset(V2_SIDECAR_FIELDS)
         or "state" not in raw["sidecar"]
         or "generation" not in raw["sidecar"]
         or any(
@@ -1886,6 +1893,15 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
         or not isinstance(raw["legal_actions_available"], bool)
     ):
         raise PlayerError("invalid v2 health response")
+    unexpected_sidecar = set(raw["sidecar"]) - V2_SIDECAR_FIELDS
+    if unexpected_sidecar:
+        raise PlayerError(
+            "invalid v2 health: unexpected sidecar field(s) "
+            + ", ".join(sorted(unexpected_sidecar))
+            + " — this workspace's client predates the server; "
+            "re-materialize it with the repository root's play launcher "
+            "or refresh client.py"
+        )
     phase = raw["phase"]
     if phase is None:
         if raw["game_state"] in TERMINAL_STATES:
@@ -1912,8 +1928,15 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
             if waiting_on["kind"] not in {
                 "seat_not_ready", "seat_surrendered", "seat_inactive",
                 "other_seat", "native_phase", "phase_synchronization",
-                "phase_end", "termination",
-            } or not isinstance(waiting_on["summary"], str) \
+                "phase_end", "termination", "boundary_recovery",
+            }:
+                raise PlayerError(
+                    "invalid v2 health: unknown waiting_on kind "
+                    f"{waiting_on['kind']!r} — this workspace's client "
+                    "predates the server; re-materialize it with the "
+                    "repository root's play launcher or refresh client.py"
+                )
+            if not isinstance(waiting_on["summary"], str) \
                     or not waiting_on["summary"]:
                 raise PlayerError("invalid v2 health phase waiting_on")
             _safe_number(

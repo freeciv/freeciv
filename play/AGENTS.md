@@ -51,3 +51,13 @@ For `full-control-v2`, `just help` prints the play card (`docs/play.md`) and
 play. `docs/commands.md` and `docs/full-control-v2.md` are the harness-author
 reference, not part of the per-turn budget. For `strategic-v1`, the loop is in
 `docs/gameplay.md`.
+
+## When a command fails
+
+Every refusal names its own remedy: run exactly the command the error
+prints, not a variant you invent. If the SAME error text comes back from
+two different commands, it is not a game state you can play around — stop
+cycling commands and report the exact error to the user. In particular,
+any error naming an "unexpected" field or "unknown" kind means this
+workspace's client is older than the server; that is never fixed by
+retrying, only by re-materializing the workspace.

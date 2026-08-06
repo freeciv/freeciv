@@ -3902,7 +3902,33 @@ class PlayerClientTests(unittest.TestCase):
                     client, "_v2_response",
                     return_value=client.JSONResponse(200, bad_waiting),
                 ), self.assertRaisesRegex(
-                    client.PlayerError, "health phase waiting_on",
+                    client.PlayerError,
+                    "unknown waiting_on kind 'coffee'.*re-materialize",
+                ):
+                    client.command_health(args)
+                recovery_kind = self.health(session)
+                recovery_kind["phase"]["waiting_on"] = {
+                    "kind": "boundary_recovery",
+                    "summary": "tier-1 reattach in progress",
+                    "waiting_s": 3.0,
+                    "seats": [],
+                }
+                recovery_kind["sidecar"]["exit_signal"] = None
+                recovery_kind["sidecar"]["exit_signal_name"] = None
+                recovery_kind["sidecar"]["process_alive"] = True
+                with patch.object(
+                    client, "_v2_response",
+                    return_value=client.JSONResponse(200, recovery_kind),
+                ):
+                    self.assertEqual(client.command_health(args), 0)
+                drifted = self.health(session)
+                drifted["sidecar"]["brand_new_field"] = 1
+                with patch.object(
+                    client, "_v2_response",
+                    return_value=client.JSONResponse(200, drifted),
+                ), self.assertRaisesRegex(
+                    client.PlayerError,
+                    "unexpected sidecar field.*brand_new_field.*re-materialize",
                 ):
                     client.command_health(args)
 
