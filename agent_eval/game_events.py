@@ -33,7 +33,11 @@ from .save_replay import SaveReplayError, _UnreadableSave
 
 
 SCHEMA_VERSION = 1
-CACHE_VERSION = 2
+# Bump whenever the derivation changes — the weights, the taxonomy, the
+# summaries, or the carried state shape.  The cache is keyed on the saves and
+# the seat labels, neither of which notices that this module now reads them
+# differently.
+CACHE_VERSION = 3
 MAX_EVENTS = 2000
 MAX_NAMED_CITIES = 6
 MAX_WARNINGS = 100

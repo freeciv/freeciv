@@ -480,6 +480,27 @@ class GameEventsTests(unittest.TestCase):
             "pi-gpt-test switched from Despotism to Democracy",
         )])
 
+    def test_a_derivation_change_invalidates_the_cache(self):
+        # The cache is keyed on the saves and the seat labels; neither notices
+        # that this module now weights or words them differently, so the
+        # version stamp is the only thing standing between a changed
+        # derivation and a stale log.
+        self.write_journal("place-1", "place-2")
+        self.write_save(1, [agent(), native()])
+        self.write_save(2, [agent(government="Anarchy"), native()])
+        self.events()
+        cache_path = self.cache / GAME_ID / "events.json"
+        stale = json.loads(cache_path.read_text(encoding="utf-8"))
+        stale["cache_version"] = game_events.CACHE_VERSION - 1
+        stale["events"] = [{
+            "turn": 2, "kind": "city_founded", "summary": "stale row",
+            "actors": [], "weight": 8, "data": {},
+        }]
+        cache_path.write_text(json.dumps(stale), encoding="utf-8")
+        self.assertEqual(self.summaries(), [
+            (2, "government_changed", "pi-gpt-test began a revolution"),
+        ])
+
     def test_relabelled_seats_invalidate_the_cached_summaries(self):
         self.write_journal("place-1", "place-2")
         self.write_save(1, [agent(), native()])
