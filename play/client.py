@@ -2100,16 +2100,39 @@ def _v2_url(session: dict[str, Any], suffix: str) -> str:
     )
 
 
+# A busy native sidecar clears in well under a second (it is one event-loop
+# tick), and the server marks the refusal retryable. Retrying a read inside
+# the same command spares the caller a whole model round trip; mutations are
+# never retried here — their contract is receipt-first.
+V2_BUSY_RETRIES = 3
+V2_BUSY_BACKOFF_S = 0.35
+
+
 def _v2_response(
     method: str, url: str, session: dict[str, Any], *,
     body: dict[str, Any] | None = None,
     encoded_body: bytes | None = None,
     timeout: float = 60,
 ) -> JSONResponse:
-    response = request_json_response(
-        method, url, token=session["agent_token"], body=body,
-        encoded_body=encoded_body, timeout=timeout,
-    )
+    attempts = V2_BUSY_RETRIES if method == "GET" else 1
+    for attempt in range(attempts):
+        response = request_json_response(
+            method, url, token=session["agent_token"], body=body,
+            encoded_body=encoded_body, timeout=timeout,
+        )
+        if (
+            attempt + 1 < attempts
+            and response.status == 429
+            and isinstance(response.value, dict)
+            and isinstance(response.value.get("error"), dict)
+            and response.value["error"].get("code") == "rate_limited"
+            and "busy" in str(response.value["error"].get("message", ""))
+            and "retry_after_seconds"
+            not in (response.value["error"].get("details") or {})
+        ):
+            time.sleep(V2_BUSY_BACKOFF_S * (attempt + 1))
+            continue
+        return response
     return response
 
 
@@ -6354,9 +6377,24 @@ def _command_turn_end(
         if warning:
             print(warning, file=sys.stderr)
         if await_next and _order_receipt_ok(disposition):
-            wait, briefing, brief_error, woke = _await_and_brief_locked(
-                args, path, session, brief=brief,
-            )
+            try:
+                wait, briefing, brief_error, woke = _await_and_brief_locked(
+                    args, path, session, brief=brief,
+                )
+            except (PlayerError, V2ResponseError) as exc:
+                # The end already applied; a wait/brief failure must never
+                # swallow that receipt (a validation error here once hid
+                # three consecutive applied phase-ends from a live agent).
+                if _json_requested(args):
+                    raise
+                lines.extend([
+                    "phase ended: the receipt above is authoritative",
+                    f"await failed: {exc}",
+                    "next: just wait — the end already applied; do not "
+                    "re-run `turn --end` for this phase",
+                ])
+                _render(lines)
+                return 2
             lines.extend(woke)
             if brief_error:
                 exit_code = max(exit_code, 2)
@@ -9014,9 +9052,23 @@ def command_do(args: argparse.Namespace) -> int:
                     args, path, session, exit_code,
                 )
                 if ended and await_next:
-                    wait, briefing, brief_error, woke = _await_and_brief_locked(
-                        args, path, session, brief=brief,
-                    )
+                    try:
+                        wait, briefing, brief_error, woke = (
+                            _await_and_brief_locked(
+                                args, path, session, brief=brief,
+                            )
+                        )
+                    except (PlayerError, V2ResponseError) as exc:
+                        if _json_requested(args):
+                            raise
+                        woke = [
+                            "phase ended: the receipts above are "
+                            "authoritative",
+                            f"await failed: {exc}",
+                            "next: just wait — the end already applied; "
+                            "do not re-run `turn --end` for this phase",
+                        ]
+                        brief_error = str(exc)
                     tail.extend(woke)
                     if brief_error:
                         exit_code = max(exit_code, 2)

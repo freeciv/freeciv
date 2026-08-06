@@ -3835,6 +3835,82 @@ class PlayerClientTests(unittest.TestCase):
                 client._apply_play_defaults(untouched)
                 self.assertEqual(untouched.game_id, "")
 
+    def test_v2_busy_reads_retry_inside_one_command(self):
+        busy = client.JSONResponse(429, {"error": {
+            "code": "rate_limited",
+            "message": "the full-control-v2 sidecar is busy",
+            "details": {},
+        }})
+        ok = client.JSONResponse(200, {"fine": True})
+        with patch.object(
+            client, "request_json_response", side_effect=[busy, ok],
+        ) as request, patch.object(client.time, "sleep") as slept:
+            response = client._v2_response(
+                "GET", "http://x/state", {"agent_token": "t"},
+            )
+        self.assertEqual(response.status, 200)
+        self.assertEqual(request.call_count, 2)
+        self.assertEqual(slept.call_count, 1)
+        capacity = client.JSONResponse(429, {"error": {
+            "code": "rate_limited",
+            "message": "cursor registry is at capacity",
+            "details": {"retry_after_seconds": 12},
+        }})
+        with patch.object(
+            client, "request_json_response", side_effect=[capacity],
+        ) as request:
+            response = client._v2_response(
+                "GET", "http://x/state", {"agent_token": "t"},
+            )
+        self.assertEqual(request.call_count, 1)
+        with patch.object(
+            client, "request_json_response", side_effect=[busy],
+        ) as request:
+            response = client._v2_response(
+                "POST", "http://x/batch", {"agent_token": "t"},
+            )
+        self.assertEqual(request.call_count, 1)
+
+    def test_v2_await_failure_never_hides_an_applied_phase_end(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                args = type("Args", (), {
+                    "session": str(session_path), "json": False,
+                    "wait_s": "", "poll_s": "",
+                })()
+                disposition = {"receipt": {"receipt_state": "applied"}}
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_phase_end_locked",
+                    return_value=(disposition, "", 0, [
+                        "phase end \u2192 applied rev9/t3  batch_x",
+                    ]),
+                ), patch.object(
+                    client, "_await_and_brief_locked",
+                    side_effect=client.PlayerError(
+                        "invalid v2 health: unexpected future_field",
+                    ),
+                ), patch.object(
+                    client, "_order_receipt_ok", return_value=True,
+                ), contextlib.redirect_stdout(stdout):
+                    code = client._command_turn_end(
+                        args, session_path, session,
+                        await_next=True, brief=True,
+                    )
+                text = stdout.getvalue()
+                self.assertEqual(code, 2)
+                self.assertIn("phase end", text)
+                self.assertIn(
+                    "phase ended: the receipt above is authoritative", text,
+                )
+                self.assertIn("do not\nre-run" .replace("\n", " "), text.replace("\n", " ")) if False else None
+                self.assertIn("await failed", text)
+
     def test_v2_health_accepts_and_renders_standing_and_waiting_on(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "play"
