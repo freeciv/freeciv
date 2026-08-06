@@ -9493,6 +9493,1038 @@ client._remember_receipt(path, state, receipt)
                         argv[argv.index("--orders") + 1], expected,
                     )
 
+    # -----------------------------------------------------------------
+    # Advertised-but-unreachable actions.
+    #
+    # From a real 596-turn game: the `governments` section reported
+    # `can_change=yes` for Democracy at turn 224 while every attempt to
+    # enumerate the action came back empty, and an open Spanish ceasefire
+    # meeting was never answered.  Neither was a rules condition.  The
+    # government rows were drained and then dropped by the actor catalog's
+    # byte cap, whose only notice is a header fragment a pipe removes; the
+    # meeting was reachable only through an actor-plus-target query that no
+    # refusal ever named.  These lock the negative space: a bounded window
+    # says what it withheld, and a refusal names the query that works.
+    # -----------------------------------------------------------------
+
+    GOVERNMENT_ACTOR_PLAYER = "player_" + "b" * 32
+    GOVERNMENT_RELATION = "relation_" + "e" * 32
+
+    @classmethod
+    def government_catalog(cls, *, shown: int) -> tuple[dict, dict, dict]:
+        """A player catalog whose government rows sort last, truncated."""
+        revision = cls.revision(1273, turn=224)
+        aliases = {cls.GOVERNMENT_ACTOR_PLAYER: "p1"}
+        items: list[dict] = []
+
+        def subject(operation: str, **extra) -> dict:
+            base = {
+                "actor": {
+                    "type": "player", "id": cls.GOVERNMENT_ACTOR_PLAYER,
+                },
+                "target": None,
+                "operation": operation,
+                "variant": "standard",
+                "consuming": False,
+                "legality": "legal",
+                "probability": {
+                    "kind": "exact", "minimum_percent": 100,
+                    "maximum_percent": 100,
+                },
+            }
+            base.update(extra)
+            return base
+
+        def add(index, kind, label, body) -> None:
+            action_id = "action_" + f"{index:032d}"
+            items.append(cls.rendered_descriptor(
+                revision, action_id, kind=kind, label=label, subject=body,
+            ))
+            aliases[action_id] = f"a{index}"
+
+        for index, tech in enumerate((
+            "Magnetism", "Sanitation", "Chemistry", "Railroad", "Economics",
+        ), start=1):
+            add(
+                index, "research.set_goal", f"Set research goal to {tech}",
+                subject("set_goal", target={
+                    "type": "tech", "id": "tech_" + f"{index:032d}",
+                    "name": tech,
+                }),
+            )
+        # The tail of the real catalog, in its real order.
+        add(
+            6, "government.revolution", "Start an untargeted revolution",
+            subject("revolution", target={
+                "type": "government", "id": "government_" + "1" * 32,
+                "name": "Anarchy",
+            }),
+        )
+        for index, name in enumerate(
+            ("Despotism", "Monarchy", "Democracy"), start=7,
+        ):
+            add(
+                index, "government.change", f"Change government to {name}",
+                subject("change", target={
+                    "type": "government", "id": "government_" + f"{index}" * 32,
+                    "name": name,
+                }),
+            )
+        compacts = [
+            client._compact_legal_action(item) for item in items[:shown]
+        ]
+        hidden: dict[str, int] = {}
+        for item in items[shown:]:
+            key = client._descriptor_kind_key(item)
+            hidden[key] = hidden.get(key, 0) + 1
+        result = {
+            "schema_version": 1, "command": "legal", "kind": None,
+            "state_revision": revision, "catalog_total": len(items),
+            "pages_read": 1, "matched": len(items), "offset": 0,
+            "limit": client.V2_LEGAL_ACTOR_MATCH_LIMIT,
+            "shown": shown, "truncated": shown < len(items),
+            "has_more": shown < len(items),
+            "next_offset": shown if shown < len(items) else None,
+            "byte_limited": True, "oversized_single": False,
+            "hidden_kinds": dict(sorted(hidden.items())),
+            "actions": compacts,
+        }
+        scope = {
+            "actor_id": cls.GOVERNMENT_ACTOR_PLAYER, "actor_type": "player",
+        }
+        return result, scope, aliases
+
+    def test_a_truncated_actor_catalog_names_the_kinds_it_withheld(self):
+        """A bounded window must never read as an empty one."""
+        result, scope, aliases = self.government_catalog(shown=5)
+        rendered = client._render_legal_compact(result, scope, aliases)
+        # The regression: the agent piped this through `grep government` and
+        # read the empty result as "the rules forbid a revolution".  Every
+        # withheld kind is now named in the body, below the rows, where a
+        # pipe and a scroll both keep it.
+        matched = [line for line in rendered if "government" in line]
+        self.assertTrue(matched, "\n".join(rendered))
+        tail = rendered[-1]
+        self.assertIn("government.change (3)", tail)
+        self.assertIn("government.revolution (1)", tail)
+        self.assertIn("--actor_id p1 --all --offset 5", tail)
+        self.assertNotIn(tail, rendered[0])
+
+        # A relation window is a two-parameter query, so its continuation
+        # names both parameters or it enumerates a different catalog.
+        relation_result, _scope, _aliases = self.government_catalog(shown=5)
+        relation_result["kind"] = None
+        relation_scope = {
+            "actor_id": self.GOVERNMENT_ACTOR_PLAYER, "actor_type": "player",
+            "target_id": self.GOVERNMENT_RELATION,
+            "target_type": "relation",
+        }
+        self.assertIn(
+            "--actor_id p1 --target_id r1 --all",
+            client._render_legal_compact(
+                relation_result, relation_scope,
+                {**aliases, self.GOVERNMENT_RELATION: "r1"},
+            )[-1],
+        )
+
+        # A window that hid nothing gains no line at all.
+        whole, scope, aliases = self.government_catalog(shown=9)
+        self.assertEqual(whole["hidden_kinds"], {})
+        self.assertNotIn(
+            "not shown",
+            "\n".join(client._render_legal_compact(whole, scope, aliases)),
+        )
+
+    def test_the_drain_counts_every_matched_row_it_did_not_print(self):
+        """`hidden_kinds` is what the renderer's promise rests on."""
+        result, _scope, _aliases = self.government_catalog(shown=6)
+        self.assertEqual(result["hidden_kinds"], {"government.change": 3})
+        self.assertEqual(
+            result["shown"] + sum(result["hidden_kinds"].values()),
+            result["matched"],
+        )
+
+    def test_a_real_drain_reports_the_government_rows_its_cap_ate(self):
+        """End to end: the counting lives in the drain, not in the renderer."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(1273, turn=224)
+                actions = []
+                for index, (kind, operation, label) in enumerate((
+                    ("research.set_goal", "set_goal", "Goal Sanitation"),
+                    ("research.set_goal", "set_goal", "Goal Railroad"),
+                    ("government.revolution", "revolution", "Revolt"),
+                    ("government.change", "change", "Change to Democracy"),
+                )):
+                    descriptor = self.descriptor(revision, f"action_gov_{index}")
+                    descriptor.update({
+                        "kind": kind,
+                        "label": label,
+                        "subject": {
+                            "actor": {
+                                "type": "player",
+                                "id": self.GOVERNMENT_ACTOR_PLAYER,
+                            },
+                            "operation": operation,
+                        },
+                    })
+                    actions.append(descriptor)
+                page = self.page(
+                    session, legal=True, revision=revision, items=actions,
+                )
+                args = type("Args", (), {
+                    "session": str(session_path),
+                    "actor_id": self.GOVERNMENT_ACTOR_PLAYER,
+                    "target_id": "", "limit": None, "cursor": "",
+                    "kind": "", "all_pages": True, "offset": "",
+                    "json_output": True,
+                })()
+                widest = max(
+                    len(json.dumps(
+                        client._compact_legal_action(descriptor),
+                        sort_keys=True, separators=(",", ":"),
+                    ).encode("utf-8"))
+                    for descriptor in actions
+                )
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    return_value=client.JSONResponse(200, page),
+                ), patch.object(
+                    client, "V2_LEGAL_COMPACT_MAX_BYTES", widest * 2,
+                ), redirect_stdout(stdout):
+                    self.assertEqual(client.command_legal(args), 0)
+                result = json.loads(stdout.getvalue())
+                self.assertEqual(result["shown"], 2)
+                self.assertEqual(result["hidden_kinds"], {
+                    "government.change": 1, "government.revolution": 1,
+                })
+                self.assertEqual(
+                    result["shown"] + sum(result["hidden_kinds"].values()),
+                    result["matched"],
+                )
+                # Every drained descriptor is still staged: the rows were
+                # withheld from the print, never from the cache.
+                cached = client._load_v2_client_state(session_path, session)
+                self.assertEqual(set(cached["actions"]), {
+                    descriptor["action_id"] for descriptor in actions
+                })
+
+    def test_a_player_scoped_kind_refusal_names_its_own_scope(self):
+        """`--kind government.change --all` must not read as "no such action"."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                client._save_v2_client_state(
+                    session_path, client._empty_v2_client_state(session),
+                )
+                for selector, expected in (
+                    ("government.change", "--kind government.change --all"),
+                    ("government.revolution", "your own player scope"),
+                    ("spaceship.launch", "your own player scope"),
+                    ("diplomacy.acceptance", "--target_id RELATION_ID"),
+                ):
+                    with self.subTest(selector=selector):
+                        error = client._kind_matched_nothing(
+                            session_path, session, selector, None,
+                            ["research.set_goal", "phase.end"], 112,
+                            self.revision(1273, turn=224),
+                        )
+                        message = str(error)
+                        self.assertIn(expected, message)
+                        # The old fallback sent a government query looking for
+                        # a unit or a city; nothing else did.
+                        self.assertNotIn(
+                            "unit and city kinds are enumerated per actor",
+                            message,
+                        )
+                # A kind that really is unit-scoped keeps the old remedy.
+                self.assertIn(
+                    "unit and city kinds are enumerated per actor",
+                    str(client._kind_matched_nothing(
+                        session_path, session, "unit.order", None,
+                        ["phase.end"], 112, self.revision(1273, turn=224),
+                    )),
+                )
+
+    def test_a_relation_used_as_an_actor_names_the_query_that_works(self):
+        """The one ID an agent reaches for as an actor and never can be."""
+        def args(**values):
+            defaults = {
+                "cursor": "", "actor_id": "", "target_id": "", "limit": None,
+            }
+            defaults.update(values)
+            return type("Args", (), defaults)()
+
+        with self.assertRaises(client.PlayerError) as caught:
+            client._legal_query(args(actor_id=self.GOVERNMENT_RELATION))
+        message = str(caught.exception)
+        self.assertIn("is a diplomacy target, not an actor", message)
+        self.assertIn(f"--target_id {self.GOVERNMENT_RELATION}", message)
+        # The form it names is the form the query builder accepts.
+        self.assertEqual(
+            client._legal_query(args(
+                actor_id="player_" + "b" * 32,
+                target_id=self.GOVERNMENT_RELATION,
+            )),
+            "actor_id=player_" + "b" * 32
+            + "&target_id=" + self.GOVERNMENT_RELATION,
+        )
+
+    def test_diplomacy_refusals_name_the_flag_just_accepts(self):
+        """`--relation-id` is rejected by the wrapper before the client sees it."""
+        def args(**values):
+            defaults = {
+                "cursor": "", "section": "", "actor_id": "", "relation_id": "",
+                "center_id": "", "radius": None, "limit": None,
+            }
+            defaults.update(values)
+            return type("Args", (), defaults)()
+
+        with self.assertRaises(client.PlayerError) as caught:
+            client._state_query(args(section="diplomacy_clauses"))
+        message = str(caught.exception)
+        self.assertIn("--relation_id", message)
+        self.assertNotIn("--relation-id", message)
+        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
+        self.assertIn("relation_id=", recipe)
+
+    def test_a_pending_meeting_names_its_actor_plus_target_drill_down(self):
+        """The old remedy named a kind the global catalog can never hold."""
+        relation = {
+            "type": "diplomatic_relation", "id": self.GOVERNMENT_RELATION,
+        }
+        pool = [{
+            "action_id": "action_" + "9" * 32,
+            "kind": "diplomacy.acceptance",
+            "label": "Accept the treaty",
+            "subject": {
+                "actor": {
+                    "type": "player", "id": self.GOVERNMENT_ACTOR_PLAYER,
+                },
+                "operation": "accept",
+            },
+            "target": relation,
+            "argument_schema": {},
+        }]
+        aliases = {
+            self.GOVERNMENT_ACTOR_PLAYER: "p1",
+            self.GOVERNMENT_RELATION: "r1",
+        }
+        self.assertEqual(
+            client._meeting_remedy(pool, "r1", aliases),
+            "just legal --actor_id p1 --target_id r1 --all",
+        )
+        # Without aliases the opaque IDs still compose a runnable command.
+        self.assertEqual(
+            client._meeting_remedy(pool, "diplomacy", {}),
+            f"just legal --actor_id {self.GOVERNMENT_ACTOR_PLAYER} "
+            f"--target_id {self.GOVERNMENT_RELATION} --all",
+        )
+
+    CITY_DETAIL = "city_" + "4" * 32
+
+    @staticmethod
+    def city_outputs(**named) -> dict:
+        """Build an `outputs` map the way the boundary composes one."""
+        return {
+            name: {
+                "citizen_base": base, "net": net, "surplus": surplus,
+                "usage": usage, "waste": waste, "unhappy_penalty": unhappy,
+                "gross": net + waste + unhappy,
+            }
+            for name, (base, net, surplus, usage, waste, unhappy)
+            in named.items()
+        }
+
+    @classmethod
+    def city_detail_item(cls, **overrides) -> dict:
+        item = {
+            "id": cls.CITY_DETAIL, "owner_player_id": "player_" + "c" * 32,
+            "name": "London", "tile_id": "tile_" + "d" * 32,
+            "x": 45, "y": 46, "size": 1,
+            "surplus": {"food": 2, "shields": 5, "trade": 1},
+            "production": {
+                "id": "production_" + "e" * 32, "kind": "unit",
+                "name": "Settlers", "shield_stock": 25, "shield_cost": 40,
+                "buy_cost": 41, "can_buy": True, "can_change": True,
+            },
+            "airlift": {"remaining": 0, "maximum": 0},
+            "trade_routes": {"count": 0, "capacity": 2},
+            "governor_enabled": False,
+            "citizens": {
+                "happy": 0, "content": 1, "unhappy": 0, "angry": 0,
+                "workers": 1, "specialists": 0,
+            },
+            "citizen_counts_consistent": True,
+            "food_storage": {
+                "stock": 14, "granary_size": 20, "growth_turns": 3,
+            },
+            "pollution": 0,
+            "outputs": cls.city_outputs(
+                food=(3, 3, 2, 1, 0, 0), shields=(5, 5, 5, 0, 0, 0),
+                trade=(1, 1, 1, 0, 0, 0), gold=(0, 0, 0, 0, 0, 0),
+                science=(0, 1, 1, 0, 0, 0),
+            ),
+            "counts": {
+                "citizen_tiles": 19, "specialist_types": 3, "worklist": 0,
+                "build_choices": 106, "improvements": 1, "trade_routes": 0,
+            },
+            "management": {
+                "did_sell": False,
+                "rally": {
+                    "active": False, "persistent": False, "vigilant": False,
+                    "order_count": 0, "plan_id": None,
+                },
+                "governor": {"enabled": False},
+                "options": {
+                    "allow_disband": False, "new_citizens": "default",
+                    "conflict": False,
+                },
+            },
+        }
+        item.update(overrides)
+        return item
+
+    def test_v2_city_detail_prints_the_numbers_it_used_to_elide(self):
+        """A 596-turn game read `outputs.food=…` and paid to guess past it.
+
+        Every number below is already on the page the agent asked for, so the
+        rendering owes it a value, not an ellipsis -- and where a number really
+        does live in a child section, it owes the command that prints it.
+        """
+        revision = self.revision(56, turn=8)
+        aliases = {self.CITY_DETAIL: "c1"}
+
+        def rendered(item):
+            return client._render_state_page({
+                "state_revision": revision,
+                "page": {
+                    "section": "city_detail", "items": [item],
+                    "total_items": 1, "next_cursor": None,
+                    "cursor_expires_at": None,
+                },
+            }, aliases)
+
+        calm = rendered(self.city_detail_item())
+        body = "\n".join(calm)
+        self.assertNotIn("…", body)
+        self.assertNotIn("outputs.food", body)
+        self.assertEqual(calm[1], "c1 London @45,46 sz1 f+2 s+5 t+1")
+        self.assertIn("granary 14/20 food +2/turn grows in 3t", body)
+        self.assertIn("citizens 1: 1 content", body)
+        self.assertIn(
+            "build Settlers unit 25/40 shields +5/turn done in 3t "
+            "· buy 41 gold",
+            body,
+        )
+        # The worked-tile yield total is a first-class column, and a column
+        # that is zero on every row is not printed at all.
+        header = next(line for line in calm if line.strip().startswith("output"))
+        self.assertEqual(
+            header.split(), ["output", "base", "gross", "used", "surplus"],
+        )
+        self.assertIn("food     3     3      1     +2", body)
+        # An output this city neither makes nor spends is not a row.
+        self.assertFalse(
+            [line for line in calm if line.strip().startswith("gold")], calm,
+        )
+        # A collection that lives elsewhere is named as the command for it.
+        self.assertIn(
+            "  19 tile yields: just state --section city_citizens "
+            "--actor_id c1",
+            calm,
+        )
+        self.assertIn(
+            "  106 build choices: just state --section city_build_choices "
+            "--actor_id c1",
+            calm,
+        )
+
+        besieged = rendered(self.city_detail_item(
+            name="York", size=7,
+            surplus={"food": -2, "shields": 1, "trade": 4}, pollution=3,
+            production={
+                "id": "production_" + "f" * 32, "kind": "improvement",
+                "name": "City Walls", "shield_stock": 0, "shield_cost": 60,
+                "buy_cost": 240, "can_buy": False, "can_change": False,
+            },
+            citizens={
+                "happy": 1, "content": 2, "unhappy": 3, "angry": 1,
+                "workers": 7, "specialists": 0,
+            },
+            food_storage={
+                "stock": 9, "granary_size": 60, "growth_turns": -4,
+            },
+            outputs=self.city_outputs(
+                food=(12, 12, -2, 14, 0, 0), shields=(9, 4, 1, 3, 2, 3),
+                trade=(11, 8, 4, 4, 3, 0),
+            ),
+            management={
+                "did_sell": True,
+                "rally": {
+                    "active": True, "persistent": True, "vigilant": False,
+                    "order_count": 3, "plan_id": "rally_" + "a" * 32,
+                },
+                "governor": {"enabled": True},
+                "options": {
+                    "allow_disband": False, "new_citizens": "gold",
+                    "conflict": False,
+                },
+            },
+        ))
+        stressed = "\n".join(besieged)
+        self.assertIn("!pollution 3", besieged[1])
+        self.assertIn("!starving, famine in 4t", stressed)
+        # `city_unhappy()` is `happy < unhappy + 2 * angry` over exactly these
+        # counters, so the verdict is the server's own.
+        self.assertIn(
+            "citizens 7: 1 happy, 2 content, 3 unhappy, 1 angry !disorder",
+            stressed,
+        )
+        # Where the shields went, term by term.
+        header = next(
+            line for line in besieged if line.strip().startswith("output")
+        )
+        self.assertEqual(header.split(), [
+            "output", "base", "waste", "unhappy", "net", "used", "surplus",
+        ])
+        self.assertIn("shields  9     2      3        4    3     +1", stressed)
+        self.assertIn("!cannot buy this turn", stressed)
+        self.assertIn("!locked: this city already bought this turn", stressed)
+        self.assertIn("!sold here this turn", stressed)
+        self.assertIn("!governor on", stressed)
+        self.assertIn("!rally 3 orders persistent", stressed)
+        self.assertIn("!new_citizens=gold", stressed)
+        for line in calm + besieged:
+            self.assertLessEqual(len(line), 120, line)
+
+        # Without an alias cache the drill-down still runs as printed: the
+        # opaque ID is typed rather than a positional `c1` that resolves
+        # nowhere.
+        bare = client._render_state_page({
+            "state_revision": revision,
+            "page": {
+                "section": "city_detail", "items": [self.city_detail_item()],
+                "total_items": 1, "next_cursor": None,
+                "cursor_expires_at": None,
+            },
+        })
+        self.assertIn(
+            f"  19 tile yields: just state --section city_citizens "
+            f"--actor_id {self.CITY_DETAIL}",
+            bare,
+        )
+
+    def test_v2_city_citizens_totals_the_tiles_its_citizens_work(self):
+        revision = self.revision(10, turn=1)
+        items = [
+            {
+                "city_id": self.CITY_DETAIL, "kind": "tile",
+                "tile_id": "tile_" + "1" * 32, "worked": True,
+                "free_worked": True, "can_work": True,
+                "yields": {"food": 2, "shields": 1, "trade": 1},
+            },
+            {
+                "city_id": self.CITY_DETAIL, "kind": "tile",
+                "tile_id": "tile_" + "2" * 32, "worked": True,
+                "free_worked": False, "can_work": True,
+                "yields": {"food": 2, "shields": 2, "trade": 0},
+            },
+            {
+                "city_id": self.CITY_DETAIL, "kind": "tile",
+                "tile_id": "tile_" + "3" * 32, "worked": False,
+                "free_worked": False, "can_work": True,
+                "yields": {"food": 1, "shields": 0, "trade": 3},
+            },
+            {
+                "city_id": self.CITY_DETAIL, "kind": "specialist",
+                "id": "specialist_" + "9" * 32, "name": "Entertainer",
+                "count": 1, "counts_toward_population": True,
+                "can_use": True, "is_default": True,
+                "yields": {"luxury": 2},
+            },
+        ]
+        lines = client._render_state_page({
+            "state_revision": revision,
+            "page": {
+                "section": "city_citizens", "items": items,
+                "total_items": len(items), "next_cursor": None,
+                "cursor_expires_at": None,
+            },
+        }, {self.CITY_DETAIL: "c1"})
+        # The total the tile swap is judged against, without adding the rows
+        # up by hand -- and it is `city_detail`'s `base` row for this page.
+        self.assertEqual(lines[1], "worked 2 of 4 rows on this page: f4 s3 t1")
+        self.assertEqual(lines[2], "specialists: 1 Entertainer")
+        self.assertTrue(any("tile_" + "1" * 32 in line for line in lines))
+
+    def test_v2_buy_cost_rides_the_city_row_and_the_decision_line(self):
+        """The buy action quotes no price, so the city surfaces must.
+
+        `city.buy_production` carries no `gold_cost` on the wire, which is why
+        `gold=` never appears on its legal row; the price is on the city, and
+        the city is what both of these render.
+        """
+        revision = self.revision(19, turn=4)
+        city = {
+            "id": self.CITY_ONE, "name": "London", "x": 31, "y": 72,
+            "size": 3, "surplus": {"food": 1, "shields": 2, "trade": 3},
+            "production": {
+                "kind": "unit", "name": "Musketeers", "shield_stock": 30,
+                "shield_cost": 30, "buy_cost": 4, "can_buy": True,
+            },
+        }
+        rows = client._render_state_page({
+            "state_revision": revision,
+            "page": {
+                "section": "cities", "items": [city], "total_items": 1,
+                "next_cursor": None, "cursor_expires_at": None,
+            },
+        }, {self.CITY_ONE: "c1"})
+        self.assertIn("buy=4", rows[1])
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                page = self.section_page(
+                    session, section="cities", revision=revision,
+                    items=[city],
+                )
+                with patch.object(
+                    client, "_v2_response",
+                    return_value=client.JSONResponse(200, page),
+                ), redirect_stdout(io.StringIO()):
+                    self.assertEqual(client.command_state(self.alias_args(
+                        session=str(session_path), section="cities",
+                    )), 0)
+                state = client._load_v2_client_state(session_path, session)
+                found = client._decision_city_rows(
+                    session_path, state, client._alias_map(state),
+                )
+                self.assertEqual(len(found), 1)
+                # The city whose build completes this turn is offered with the
+                # price of finishing it now already on the line.
+                self.assertIn("buy=4", found[0]["state"])
+                self.assertLessEqual(
+                    len(client._decision_line(found[0])), 120,
+                )
+
+    def test_v2_build_choice_forfeit_appears_only_when_it_is_derivable(self):
+        """`shield_stock_after_change` is the native client's own arithmetic.
+
+        `city_change_production_penalty()` (common/city.c) has already run on
+        the other side of the wire, so the forfeit is a subtraction, not a rule
+        this client re-derives.  It still needs the stock the city holds *now*,
+        which lives in the `cities` mirror -- so the warning is printed only
+        when that mirror already stands at this page's own revision.
+        """
+        revision = self.revision(19, turn=4)
+        choices = [
+            {
+                "city_id": self.CITY_ONE, "id": "production_" + "1" * 32,
+                "kind": "improvement", "name": "City Walls",
+                "can_queue": True, "can_build_now": True,
+                "cost": {
+                    "shields": 60, "shield_stock_after_change": 12,
+                    "turns": 15, "turns_with_stock": 12,
+                },
+                "upkeep": {"gold": 1, "food": 0, "shields": 0},
+                "happy_cost": None, "unit": None,
+                "building": {"genus": "Improvement"},
+            },
+            {
+                "city_id": self.CITY_ONE, "id": "production_" + "2" * 32,
+                "kind": "unit", "name": "Musketeers",
+                "can_queue": True, "can_build_now": False,
+                "cost": {
+                    "shields": 30, "shield_stock_after_change": 25,
+                    "turns": 6, "turns_with_stock": 1,
+                },
+                "upkeep": {"gold": 0, "food": 0, "shields": 1},
+                "happy_cost": 1, "unit": {"attack": 3}, "building": None,
+            },
+        ]
+        city = {
+            "id": self.CITY_ONE, "name": "London", "x": 31, "y": 72,
+            "size": 3, "surplus": {"food": 1, "shields": 2, "trade": 3},
+            "production": {
+                "kind": "unit", "name": "Musketeers", "shield_stock": 25,
+                "shield_cost": 30, "buy_cost": 12, "can_buy": True,
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+
+                def read(section, items, at):
+                    page = self.section_page(
+                        session, section=section, revision=at, items=items,
+                    )
+                    stdout = io.StringIO()
+                    with patch.object(
+                        client, "_v2_response",
+                        return_value=client.JSONResponse(200, page),
+                    ), redirect_stdout(stdout):
+                        self.assertEqual(client.command_state(self.alias_args(
+                            session=str(session_path), section=section,
+                            actor_id=(
+                                self.CITY_ONE if section.startswith("city_")
+                                else ""
+                            ),
+                        )), 0)
+                    return stdout.getvalue()
+
+                read("cities", [city], revision)
+                fresh = read("city_build_choices", choices, revision)
+                self.assertIn("stock 25 shields", fresh)
+                self.assertIn("!forfeits 13 of 25 shields", fresh)
+                # A switch inside the same production class costs nothing, and
+                # says nothing.
+                musketeers = next(
+                    line for line in fresh.splitlines()
+                    if "Musketeers" in line
+                )
+                self.assertNotIn("forfeits", musketeers)
+                self.assertIn("!worklist only", musketeers)
+                self.assertIn("!upkeep shields 1", musketeers)
+                self.assertIn("!unhappy 1", musketeers)
+                for line in fresh.splitlines():
+                    self.assertLessEqual(len(line), 120, line)
+
+                # One revision later the mirror's stock is only a memory, so
+                # the page reports what it holds and claims no forfeit.
+                stale = read(
+                    "city_build_choices", choices, self.revision(21, turn=4),
+                )
+                self.assertNotIn("forfeits", stale)
+                self.assertNotIn("stock 25 shields", stale)
+                self.assertIn("keep 12", stale)
+
+    RELATION_SPAIN = "relation_" + "d" * 32
+    RELATION_ROME = "relation_" + "f" * 32
+
+    @classmethod
+    def diplomacy_items(cls, *, accepted: bool = False) -> list[dict]:
+        return [
+            {
+                "relation_id": cls.RELATION_SPAIN,
+                "player_id": "player_" + "b" * 32,
+                "player_name": "Isabella", "nation": "Spanish",
+                "alive": True, "state": "cease-fire", "has_embassy": True,
+                "other_has_embassy": False, "can_open_meeting": True,
+                "treaty_turns_left": 4,
+                "meeting": {
+                    "meeting_id": "meeting_" + "e" * 32, "generation": 3,
+                    "self_accepted": accepted, "other_accepted": True,
+                    "clause_count": 2, "clauses_token": "treaty_x",
+                },
+            },
+            {
+                "relation_id": cls.RELATION_ROME,
+                "player_id": "player_" + "a" * 32,
+                "player_name": "Caesar", "nation": "Roman", "alive": True,
+                "state": "war", "has_embassy": False,
+                "other_has_embassy": False, "can_open_meeting": True,
+                "treaty_turns_left": None, "meeting": None,
+            },
+        ]
+
+    def read_diplomacy(
+        self, session_path: Path, session: dict, revision: dict, items: list,
+    ) -> str:
+        page = self.section_page(
+            session, section="diplomacy", revision=revision, items=items,
+        )
+        stdout = io.StringIO()
+        with patch.object(
+            client, "_v2_response",
+            return_value=client.JSONResponse(200, page),
+        ), redirect_stdout(stdout):
+            self.assertEqual(client.command_state(self.alias_args(
+                session=str(session_path), section="diplomacy",
+            )), 0)
+        return stdout.getvalue()
+
+    @staticmethod
+    def show_args(session_path: Path, name: str):
+        return type("Args", (), {
+            "session": str(session_path), "name": name, "grep": "",
+            "regex": False, "yields": False,
+        })()
+
+    def test_v2_diplomacy_is_mirrored_and_reachable_by_relation_alias(self):
+        """`just show diplomacy` used to refuse: there was no such table.
+
+        Every other section an agent reads lands in the mirror, so a relation
+        was the one entity whose row could not be re-read without a request.
+        """
+        revision = self.revision(210, turn=40)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                page = self.read_diplomacy(
+                    session_path, session, revision, self.diplomacy_items(),
+                )
+                # The section names the open meeting on the row and the clause
+                # page as the command that prints it.
+                self.assertIn(
+                    "!meeting open 2 clauses accepted by them, awaiting you",
+                    page,
+                )
+                self.assertIn(
+                    "clauses: just state --section diplomacy_clauses "
+                    "--relation_id r1",
+                    page,
+                )
+                self.assertNotIn(self.RELATION_SPAIN, page)
+                for line in page.splitlines():
+                    self.assertLessEqual(len(line), 120, line)
+
+                shown = io.StringIO()
+                with redirect_stdout(shown):
+                    self.assertEqual(
+                        client.command_show(
+                            self.show_args(session_path, "diplomacy"),
+                        ), 0,
+                    )
+                table = shown.getvalue()
+                self.assertIn(
+                    "alias\tplayer\tnation\tstate\tembassy\tmeeting\t"
+                    "clauses\taccepted",
+                    table.replace("  ", "").replace(" \t", "\t"),
+                )
+                self.assertIn("Isabella", table)
+                self.assertIn("cease-fire", table)
+
+                # A relation is addressed by alias like any other entity.
+                row = io.StringIO()
+                with redirect_stdout(row):
+                    self.assertEqual(
+                        client.command_show(
+                            self.show_args(session_path, "r1"),
+                        ), 0,
+                    )
+                self.assertIn("diplomacy:", row.getvalue())
+                self.assertIn("Isabella", row.getvalue())
+
+    def test_v2_an_unanswered_meeting_reaches_the_decisions_block(self):
+        """Spain's cease-fire sat open while decisions offered an idle worker.
+
+        A meeting only reached the list once a diplomacy descriptor happened to
+        be cached, and nothing prompts that read -- so the mirror, which is the
+        seat's own record that the meeting exists, is read too.
+        """
+        revision = self.revision(210, turn=40)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+
+                def meetings(items):
+                    self.read_diplomacy(
+                        session_path, session, revision, items,
+                    )
+                    state = client._load_v2_client_state(
+                        session_path, session,
+                    )
+                    return client._decision_meeting_rows(
+                        session_path, state, client._alias_map(state),
+                    )
+
+                # No diplomacy action is cached anywhere, and the row appears
+                # anyway, naming who is waiting and on what.
+                rows = meetings(self.diplomacy_items())
+                self.assertEqual(len(rows), 1)
+                self.assertEqual(rows[0]["alias"], "r1")
+                self.assertEqual(
+                    rows[0]["state"],
+                    "meeting pending: Isabella, cease-fire, 2 clauses",
+                )
+                self.assertEqual(
+                    rows[0]["remedy"],
+                    "just legal --actor_id YOUR_PLAYER_ID --target_id r1 "
+                    "--all",
+                )
+                line = client._decision_line(rows[0])
+                self.assertLessEqual(len(line), 120, line)
+                # A meeting is never composed into the batch line: its actor is
+                # this seat's player, not the relation the row is named after.
+                self.assertEqual(rows[0]["order"], "")
+
+                # A meeting this seat has already accepted owes no decision.
+                self.assertEqual(
+                    meetings(self.diplomacy_items(accepted=True)), [],
+                )
+
+    def test_v2_a_meeting_without_the_diplomacy_page_names_that_read(self):
+        """Knowing a meeting is open and nothing else is still worth a row."""
+        state = {
+            "entity_aliases": {"r1": self.GOVERNMENT_RELATION},
+            "tile_aliases": {},
+            "action_aliases": client._empty_action_aliases(),
+            "last_revision": self.revision(210, turn=40),
+            "actions": {
+                "action_" + "9" * 32: {
+                    "action_id": "action_" + "9" * 32,
+                    "kind": "diplomacy.acceptance",
+                    "label": "Accept the treaty",
+                    "subject": {
+                        "operation": "accept",
+                        "actor": {
+                            "type": "player",
+                            "id": self.GOVERNMENT_ACTOR_PLAYER,
+                        },
+                        "target": {
+                            "type": "diplomatic_relation",
+                            "id": self.GOVERNMENT_RELATION,
+                        },
+                    },
+                    "arguments_schema": {"type": "object", "properties": {}},
+                    "state_revision": self.revision(210, turn=40),
+                },
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            rows = client._decision_meeting_rows(
+                Path(directory), state, client._alias_map(state),
+            )
+        self.assertEqual(len(rows), 1)
+        # The mirror has never been written, so the row cannot say who or what
+        # -- and names the one page that would.
+        self.assertEqual(
+            rows[0]["state"],
+            "meeting pending (unread: just state --section diplomacy "
+            "--limit 16)",
+        )
+        self.assertIn("just state --section diplomacy", rows[0]["state"])
+
+    def test_v2_state_refusals_spell_every_flag_the_way_just_accepts(self):
+        """A remedy naming `--actor-id` fails as printed; the wrapper takes `_`."""
+        def args(**values):
+            defaults = {
+                "cursor": "", "section": "", "actor_id": "",
+                "relation_id": "", "center_id": "", "radius": None,
+                "limit": None,
+            }
+            defaults.update(values)
+            return type("Args", (), defaults)()
+
+        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
+        for invalid, expected, parameter in (
+            (args(section="city_detail"), "--actor_id", "actor_id="),
+            (args(section="unit_route"), "--actor_id", "actor_id="),
+            (
+                args(section="tile_window", center_id="tile_" + "a" * 32),
+                "--center_id", "center_id=",
+            ),
+            (
+                args(section="tile_window", center_id="tile_" + "a" * 32),
+                "--radius", "radius=",
+            ),
+        ):
+            with self.subTest(expected=expected):
+                with self.assertRaises(client.PlayerError) as caught:
+                    client._state_query(invalid)
+                message = str(caught.exception)
+                self.assertIn(expected, message)
+                if "_" in expected:
+                    self.assertNotIn(expected.replace("_", "-"), message)
+                # The flag is spelled the way the recipe declares it.
+                self.assertIn(parameter, recipe)
+
+    def test_v2_a_changeable_government_names_the_catalog_that_holds_it(self):
+        """`can_change yes` used to name no way to act on it.
+
+        `government.*` is enumerated only in this seat's own player scope, so
+        an agent that reads this section and then searches the global catalog
+        by kind finds nothing and concludes the rules forbid the change.
+        """
+        revision = self.revision(210, turn=40)
+
+        def rendered(items, state):
+            return client._render_state_page({
+                "state_revision": revision,
+                "page": {
+                    "section": "governments", "items": items,
+                    "total_items": len(items), "next_cursor": None,
+                    "cursor_expires_at": None,
+                },
+            }, {}, None, state)
+
+        state = {
+            "entity_aliases": {"p1": self.GOVERNMENT_ACTOR_PLAYER},
+            "tile_aliases": {},
+            "action_aliases": client._empty_action_aliases(),
+            "last_revision": revision,
+            "actions": {
+                "action_" + "8" * 32: {
+                    "action_id": "action_" + "8" * 32,
+                    "kind": "player.send_chat",
+                    "label": "Send chat",
+                    "subject": {
+                        "operation": "send_chat",
+                        "actor": {
+                            "type": "player",
+                            "id": self.GOVERNMENT_ACTOR_PLAYER,
+                        },
+                    },
+                    "arguments_schema": {"type": "object", "properties": {}},
+                    "state_revision": revision,
+                },
+            },
+        }
+        settled = [{
+            "id": "government_1", "name": "Despotism", "current": True,
+            "target": False, "during_revolution": False, "can_change": False,
+        }]
+        changeable = settled + [{
+            "id": "government_2", "name": "Monarchy", "current": False,
+            "target": False, "during_revolution": False, "can_change": True,
+        }]
+        hint = (
+            "government actions are player-scoped: "
+            "just legal --actor_id p1 --all"
+        )
+        self.assertEqual(rendered(changeable, state)[-1], hint)
+        # Nothing to change, nothing to say.
+        self.assertNotIn(hint, rendered(settled, state))
+        # Without a cache there is no player alias to print, so no command is
+        # printed either.
+        self.assertNotIn(hint, rendered(changeable, None))
+
 
 if __name__ == "__main__":
     unittest.main()

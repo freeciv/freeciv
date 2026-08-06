@@ -392,8 +392,21 @@ alias (`a7 London`).
 The freeciv focus loop as a projection: one row per owned actor that can still
 act this phase — a unit with moves left, idle and carrying no standing route; a
 city with an empty or completing build queue; a relation with an unanswered
-diplomacy action — each with its state and its most relevant options as
-aliases, bounded to 120 characters a row.
+meeting — each with its state and its most relevant options as aliases,
+bounded to 120 characters a row.
+
+A meeting row does not wait for a diplomacy action to be cached: an open
+meeting the seat has not accepted is read straight out of the `diplomacy`
+mirror table, so `r1 meeting pending: Isabella, cease-fire, 2 clauses` appears
+whether or not this seat has ever enumerated that relation. Its remedy is the
+only query that reaches a clause — this seat's own player bound to the
+relation, `just legal --actor_id p1 --target_id r1 --all` — because diplomacy
+is never in the global catalog and a relation is never an actor. A meeting is
+never folded into the composed batch line for the same reason: its actor is
+your player, not the relation the row is named after. When the `diplomacy`
+section has never been read the row still appears, saying only what it knows
+and naming the read that would say more:
+`meeting pending (unread: just state --section diplomacy --limit 16)`.
 
 Options are ranked by what a player reaches for: found/build/route/work verbs
 first, then any verb this client does not recognise, then the housekeeping that
@@ -482,9 +495,11 @@ so it costs no request budget and no server load.
 ```sh
 just show                    # header card, what changed, and the file list
 just show units              # one projection: header overview units cities
-                             # map yields delta nations styles governments
+                             # diplomacy map yields delta nations styles
+                             # governments
 just show map --yields       # terrain grid overlaid with food/shields/trade
 just show u1                 # that entity's rows plus its option catalog
+just show r1                 # one relation: counterpart, state, meeting
 just show --grep found_city  # search every mirror file, file:line
 just show --grep 'u[0-9]+ Settlers' --regex
 ```
@@ -515,6 +530,7 @@ of it and is never readable through `just show`.
 ```
 .sessions/GAME_ID/SEAT/
   state/header.txt overview.tsv units.tsv cities.tsv map.txt yields.tsv
+  state/diplomacy.tsv
   state/delta.md
   state/options/<alias>.txt
   cache/nations.tsv styles.tsv governments.tsv
@@ -608,6 +624,77 @@ sections require exactly one current owned `--actor_id`;
 and may include own, visible, or remembered foreign cities without internals.
 `diplomacy_clauses` requires exactly one opaque `--relation_id` copied from the
 matching `diplomacy` row; each relation is paged independently.
+
+`diplomacy` renders one row per relation — counterpart, nation, relation state,
+embassy, treaty turns left — and marks an open meeting on the row itself
+(`!meeting open 2 clauses accepted by them, awaiting you`), then names the one
+page that carries the clauses: `just state --section diplomacy_clauses
+--relation_id r1`. It is also mirrored, so `just show diplomacy` and
+`just show r1` re-read it without a request.
+
+A `governments` row that reports `can_change yes` closes with
+`government actions are player-scoped: just legal --actor_id p1 --all`.
+`government.*` is enumerated only inside this seat's own player scope and
+never in the global catalog, so a `--kind government.` search of the global
+catalog matching nothing is not evidence that the rules forbid the change.
+
+### Reading a city
+
+`city_detail` prints every number it carries rather than eliding the nested
+ones. A city is a head line (alias, name, position, size, `f/s/t` surplus, and
+`!pollution N` when there is any), then:
+
+- `granary 14/20 food +2/turn grows in 3t` — the growth counter verbatim:
+  positive turns to the next citizen, `!full, growth blocked` when the granary
+  is full but the city may not grow, `!starving, famine in Nt` when food is
+  negative, `no growth` when the surplus is exactly zero.
+- `citizens 7: 1 happy, 2 content, 3 unhappy, 1 angry !disorder` — the mood
+  split, and `!disorder` on exactly the server's own test,
+  `happy < unhappy + 2 × angry`, over the same final-feeling counters.
+- `build City Walls improvement 0/60 shields +1/turn done in 60t · buy 240 gold`
+  — what the shields are for and what finishing now costs, plus `!locked` when
+  this city has already bought this turn.
+- an `output base gross waste unhappy net used surplus` table. `base` is what
+  the worked tiles and specialists yield, `gross` what the multipliers make of
+  it, `waste` corruption, `unhappy` the disorder penalty, `used` upkeep, and
+  `surplus` what is left. A column that is zero on every row, or a step that
+  merely repeats the step before it, is dropped, so a calm city prints three
+  columns and a besieged one prints the terms that explain where its shields
+  went.
+- one line per collection that lives in a child section, as the exact command
+  that prints it: `19 tile yields: just state --section city_citizens
+  --actor_id c1`. There is no ellipsis to guess past.
+
+`city_citizens` leads with `worked 2 of 16 rows on this page: f4 s3 t1`, which
+is the `base` row of `city_detail` restricted to this page, and names any
+specialists placed.
+
+### Emergency buys and production switches
+
+These are ruleset mechanics, stated from the rules code rather than from
+experience, because each one is expensive to discover during a siege:
+
+- **A rush buy from an empty shield stock costs double.** The price is
+  `2 × missing shields`, plus `missing² / 20` for a unit, and that total is
+  doubled when the stock is exactly zero. One turn of production, or a single
+  shield, therefore roughly halves the bill. The `city.buy_production` action
+  carries no price, so the price you plan against is `buy=N` on the `cities`
+  row and `buy N gold` in `city_detail`.
+- **One buy per city per turn, and the buy locks that city's build.**
+  Afterwards `production.can_change` is false until next turn, so choose what
+  to build before you rush it; `city_detail` prints `!locked` when it happens.
+- **Selling is also once per city per turn, and it does not block a buy** —
+  what a sale blocks is a second sale in that city. `city_detail` prints
+  `!sold here this turn`.
+- **Changing production class forfeits half the accumulated shields.** The
+  classes are unit, ordinary improvement, and wonder; a change within a class
+  is free, and so is a change made on the turn right after the city produced
+  something. `city_build_choices` prices each switch against this city's real
+  stock and marks it `!forfeits 13 of 25 shields` — and prints nothing of the
+  sort unless the stock is known at this page's own revision.
+- A city founded this turn cannot buy, `Coinage` cannot be bought, and a unit
+  cannot be bought while the city is in disorder — which is the `!disorder`
+  flag above, from the same counters the server tests.
 
 ## Full-control-v2: enumerate and execute
 
