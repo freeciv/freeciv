@@ -438,3 +438,78 @@ class V2ReplayGameTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class V2ReplayKeepWarmTests(unittest.TestCase):
+    """The background keep-warm loop converges and respects game state."""
+
+    class _Stub:
+        def __init__(self, refresh_returns):
+            import threading as _threading
+
+            from agent_eval import supervisor as _supervisor
+
+            self.condition = _threading.Condition()
+            self.replay_lock = _threading.Lock()
+            self.state = "running"
+            self.cancel_requested = False
+            self.game_id = "game_" + "k" * 24
+            self.v2_replay_keepwarm_thread = None
+            self._supervisor = _supervisor
+            stub = self
+
+            class _Producer:
+                def __init__(self):
+                    self.calls = 0
+
+                def refresh(self):
+                    self.calls += 1
+                    if refresh_returns:
+                        return refresh_returns.pop(0)
+                    # Backlog exhausted: flip the game terminal so the
+                    # loop's next state check exits instead of sleeping.
+                    stub.state = "completed"
+                    return 0
+
+            self.v2_replay_producer = _Producer()
+
+    def test_keepwarm_converges_on_backlog_then_exits_at_terminal(self):
+        from agent_eval import supervisor as supervisor_module
+
+        stub = self._Stub(refresh_returns=[12, 12, 7])
+        with patch.object(
+            supervisor_module.time, "sleep",
+            side_effect=AssertionError(
+                "keep-warm slept before converging on the backlog"
+            ),
+        ):
+            supervisor_module.Game._keep_v2_replay_warm(stub)
+        # Three backlog batches plus the final zero-append probe.
+        self.assertEqual(stub.v2_replay_producer.calls, 4)
+
+    def test_keepwarm_never_refreshes_a_terminal_game(self):
+        from agent_eval import supervisor as supervisor_module
+
+        stub = self._Stub(refresh_returns=[1])
+        stub.state = "failed"
+        supervisor_module.Game._keep_v2_replay_warm(stub)
+        self.assertEqual(stub.v2_replay_producer.calls, 0)
+
+    def test_start_keepwarm_is_idempotent_and_needs_a_producer(self):
+        from agent_eval import supervisor as supervisor_module
+
+        stub = self._Stub(refresh_returns=[])
+        stub._keep_v2_replay_warm = lambda: None
+        started = []
+        with patch.object(supervisor_module.threading, "Thread") as thread:
+            thread.side_effect = lambda **kw: started.append(kw) or type(
+                "T", (), {"start": lambda self: None},
+            )()
+            supervisor_module.Game._start_v2_replay_keepwarm(stub)
+            supervisor_module.Game._start_v2_replay_keepwarm(stub)
+        self.assertEqual(len(started), 1)
+        bare = self._Stub(refresh_returns=[])
+        bare.v2_replay_producer = None
+        with patch.object(supervisor_module.threading, "Thread") as thread:
+            supervisor_module.Game._start_v2_replay_keepwarm(bare)
+            thread.assert_not_called()

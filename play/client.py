@@ -725,6 +725,43 @@ def _seat_binding_line(
     )
 
 
+def _preconfigured_game_id() -> str | None:
+    """The game `just play` pinned this workspace to, if it did.
+
+    Read defensively: this only sharpens an error message, so a workspace
+    with an unreadable config still gets the generic remedy rather than a
+    second failure stacked on the first.
+    """
+    try:
+        raw = json.loads(
+            (ROOT / ".playconfig.json").read_text(encoding="utf-8"),
+        )
+    except (OSError, ValueError):
+        return None
+    game_id = raw.get("game_id") if isinstance(raw, dict) else None
+    if not isinstance(game_id, str) or GAME_ID_RE.fullmatch(game_id) is None:
+        return None
+    return game_id
+
+
+def _no_session_error() -> PlayerError:
+    """One remedy for every command that runs before the seat exists.
+
+    In a pre-configured workspace `just join` takes no arguments, so the
+    generic form teaches the wrong command at the exact moment the agent has
+    nothing else to go on.
+    """
+    game_id = _preconfigured_game_id()
+    if game_id is not None:
+        return PlayerError(
+            f"run `just join` first — this workspace is pre-configured for "
+            f"{game_id}, and every other command needs the seat it creates"
+        )
+    return PlayerError(
+        "no current session; run `just join --game_id ... --name ...` first"
+    )
+
+
 def _session_path(explicit: str) -> Path:
     """Resolve the session file every command works against.
 
@@ -767,9 +804,7 @@ def _session_path(explicit: str) -> Path:
     try:
         relative = pointer.read_text(encoding="utf-8").strip()
     except OSError as exc:
-        raise PlayerError(
-            "no current session; run `just join --game_id ... --name ...` first"
-        ) from exc
+        raise _no_session_error() from exc
     path = Path(relative)
     if path.is_absolute() or ".." in path.parts:
         raise PlayerError("the current-session pointer is invalid")
@@ -1024,9 +1059,26 @@ def _save_v2_client_state(session_path: Path, value: dict[str, Any]) -> None:
 
 
 def _exact(value: Any, fields: set[str], label: str) -> dict[str, Any]:
-    if not isinstance(value, dict) or set(value) != fields:
+    if not isinstance(value, dict):
         raise PlayerError(
-            f"invalid {label}: expected exactly {', '.join(sorted(fields))}"
+            f"invalid {label}: expected a JSON object with exactly "
+            f"{', '.join(sorted(fields))}"
+        )
+    if set(value) != fields:
+        # Naming the drift is the whole diagnosis: a server that gained one
+        # field otherwise fails every command with a wall of field names and
+        # no way to tell which of them is the problem.
+        drift = "; ".join(
+            part for part in (
+                f"missing {', '.join(sorted(fields - set(value)))}"
+                if fields - set(value) else "",
+                f"unexpected {', '.join(sorted(set(value) - fields))}"
+                if set(value) - fields else "",
+            ) if part
+        )
+        raise PlayerError(
+            f"invalid {label}: {drift}. Expected exactly "
+            f"{', '.join(sorted(fields))}"
         )
     return value
 
@@ -1732,12 +1784,48 @@ def _validate_phase_end_event(
     return dict(raw)
 
 
+V2_RECOVERY_FIELDS = {
+    "attempt", "client_state", "exit_code", "exit_signal", "format",
+    "game_id", "kind", "outcome", "place", "recovered_to_turn",
+    "rewound_applied_actions", "schema_version", "seat_id",
+    "sidecar_generation", "timestamp", "trigger", "turn",
+}
+V2_RECOVERY_KINDS = {"sidecar_reattach", "autosave_rollback"}
+V2_RECOVERY_OUTCOMES = {"recovered", "failed", "abandoned"}
+
+
+def _validate_recovery_event(
+    value: Any, session: dict[str, Any], seat: dict[str, Any],
+) -> dict[str, Any]:
+    raw = _exact(value, V2_RECOVERY_FIELDS, "v2 health last recovery")
+    if (
+        raw["game_id"] != session["game_id"]
+        or raw["seat_id"] != seat["seat_id"]
+        or raw["place"] != seat["place"]
+    ):
+        raise PlayerError("invalid v2 health last recovery seat")
+    if (
+        raw["kind"] not in V2_RECOVERY_KINDS
+        or raw["outcome"] not in V2_RECOVERY_OUTCOMES
+        or not isinstance(raw["trigger"], str) or not raw["trigger"]
+        or not isinstance(raw["rewound_applied_actions"], bool)
+        or not isinstance(raw["timestamp"], str) or not raw["timestamp"]
+    ):
+        raise PlayerError("invalid v2 health last recovery")
+    return _json_value(dict(raw), "v2 health last recovery")
+
+
 def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
     base_fields = {
         "schema_version", "control_protocol", "game_id", "agent",
         "game_state", "seat", "sidecar", "observation_available",
         "legal_actions_available", "phase", "last_phase_end",
     }
+    # Optional-if-present, like seat.standing: a supervisor that reports
+    # rollbacks and one that does not are both valid peers, and an additive
+    # server field must never take the whole play surface down.
+    if isinstance(value, dict) and "last_recovery" in value:
+        base_fields = base_fields | {"last_recovery"}
     present = (
         set(value).intersection(V2_EVALUATION_FIELDS)
         if isinstance(value, dict) else set()
@@ -1911,6 +1999,11 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
         "phase": clean_phase,
         "last_phase_end": last_phase_end,
     }
+    if "last_recovery" in raw:
+        result["last_recovery"] = (
+            None if raw["last_recovery"] is None
+            else _validate_recovery_event(raw["last_recovery"], session, seat)
+        )
     if evaluation is not None:
         result.update(evaluation)
     return result
@@ -2563,7 +2656,11 @@ V2_PROTOCOL_CARD = (
     "just turn                                 one briefing, one revision",
     "just turn --decisions                     one row per actor that can act",
     'just do "u1 VERB ARGS; c1 VERB ARGS"      1..8 orders, one receipt each',
-    "just turn --end --await                   end the phase, block, next header",
+    'ONE CALL PER TURN — just do "u1 VERB ARGS; c1 VERB ARGS" --end --await '
+    "--brief orders every actor, ends the phase, blocks, and prints the next "
+    "briefing. Batch every actor into one line; the `next N actors:` tail "
+    "writes that line for you.",
+    "just turn --end --await --brief           end, block, next full briefing",
     "just show [ALIAS|--grep PATTERN]          read local files, zero network",
     "just state --section SECTION              one bounded state page; "
     "section chat is the typed event feed (tech learned, growth, huts)",
@@ -3704,12 +3801,63 @@ def _render_legal_compact(
         lines.extend(_equivalence_lines(
             result, scope, aliases, equivalence,
         ))
-        return lines
-    if scope is None and kind is None and not full:
+    elif scope is None and kind is None and not full:
         lines.extend(_grouped_legal_lines(result["actions"], aliases))
-        return lines
-    lines.extend(_legal_rows(result["actions"], scope, aliases))
+    else:
+        lines.extend(_legal_rows(result["actions"], scope, aliases))
+    lines.extend(_hidden_kind_lines(result, scope, aliases))
     return lines
+
+
+V2_HIDDEN_KIND_MAX = 8
+
+
+def _hidden_kind_lines(
+    result: dict[str, Any],
+    scope: dict[str, Any] | None,
+    aliases: dict[str, str] | None,
+) -> list[str]:
+    """Name, by kind, what a bounded window matched but did not print.
+
+    A window that stops at the byte cap is silent about the tail, and silence
+    reads as absence: the government controls sort last in this seat's largest
+    catalog, so an agent that greps a truncated `--actor_id ... --all` for
+    `government` concludes the rules forbid a revolution.  The header's `more:`
+    hint is one line at the top and does not survive a pipe.  This line prints
+    below the rows, names the withheld kinds in full, and carries the command
+    that prints them.
+    """
+    hidden = result.get("hidden_kinds")
+    if not isinstance(hidden, dict) or not hidden:
+        return []
+    shown = [
+        f"{name} ({count})"
+        for name, count in list(hidden.items())[:V2_HIDDEN_KIND_MAX]
+    ]
+    if len(hidden) > V2_HIDDEN_KIND_MAX:
+        shown.append("…")
+    lookup = aliases or {}
+    named = lookup.get(scope["actor_id"], scope["actor_id"]) if scope else ""
+    # A relation window is a two-parameter query; naming only the actor would
+    # print a command that enumerates a different catalog than the one that
+    # withheld these rows.
+    target = scope.get("target_id", "") if scope else ""
+    kind = result["kind"]
+    command = "just legal" + (
+        f" --kind {kind}" if kind else ""
+    ) + (
+        f" --actor_id {named}" if named else ""
+    ) + (
+        f" --target_id {lookup.get(target, target)}" if target else ""
+    ) + " --all"
+    if result["has_more"]:
+        return [
+            f"not shown: {' '.join(shown)} — {command} "
+            f"--offset {result['next_offset']}"
+        ]
+    # Nothing follows this window, so what it withheld sits before it: the
+    # remedy is the same query without the offset, never a later one.
+    return [f"not shown (earlier in this catalog): {' '.join(shown)} — {command}"]
 
 
 def _alias_span(aliases: list[str]) -> str:
@@ -3868,6 +4016,11 @@ def _city_row(
             and not isinstance(value, bool) else f"{key[0]}{_scalar(value)}"
             for key, value in surplus.items()
         ))
+    # The rush-buy price rides the city row because it rides nothing else: the
+    # `city.buy_production` action carries no gold cost, so a seat that has not
+    # read this row is quoting from memory when the emergency starts.
+    if isinstance(production, dict) and production.get("can_buy") is True:
+        detail.append(f"buy={_scalar(production.get('buy_cost'))}")
     row = [alias, _need_text(item, "name", "city"), " ".join(detail)]
     if show_id:
         row.append(_need_text(item, "id", "city"))
@@ -4165,6 +4318,419 @@ def _render_overview(
     return lines
 
 
+# ---------------------------------------------------------------------------
+# City detail (redesign doc §9.4).
+#
+# `city_detail` used to fall through to the generic flattener, which renders a
+# nested object as `…`: a whole 596-turn game was played against
+# `outputs.food=… outputs.shields=…`, so deciding whether a tile swap paid for
+# itself cost several more reads and some experimental citizen assignments.
+# Every one of those numbers is already in the page.  This renders them.
+# ---------------------------------------------------------------------------
+
+V2_CITY_OUTPUTS = ("food", "shields", "trade", "gold", "luxury", "science")
+# The wire's own derivation chain, left to right: the citizens' raw tile and
+# specialist yield, the multiplied gross, what waste and disorder take off it,
+# and what upkeep leaves as the surplus.
+V2_CITY_OUTPUT_COLUMNS = (
+    ("base", "citizen_base"),
+    ("gross", "gross"),
+    ("waste", "waste"),
+    ("unhappy", "unhappy_penalty"),
+    ("net", "net"),
+    ("used", "usage"),
+    ("surplus", "surplus"),
+)
+V2_CITY_OUTPUT_CHAIN = ("base", "gross", "net", "surplus")
+V2_CITY_DRILLDOWNS = (
+    ("citizen_tiles", "tile yields", "city_citizens"),
+    ("build_choices", "build choices", "city_build_choices"),
+    ("improvements", "improvements", "city_improvements"),
+    ("worklist", "worklist entries", "city_worklist"),
+    ("trade_routes", "trade routes", "city_trade_routes"),
+)
+
+
+V2_CITY_ROW_MAX = 118
+
+
+def _signed(value: Any) -> str:
+    """Render a surplus with its sign, so `+2` and `-2` never read alike."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        return _scalar(value)
+    return f"{value:+d}"
+
+
+def _packed_lines(parts: list[str], limit: int = V2_CITY_ROW_MAX) -> list[str]:
+    """Fill lines to the row budget rather than emitting one fact per line."""
+    lines: list[str] = []
+    for part in parts:
+        if lines and len(lines[-1]) + 1 + len(part) <= limit:
+            lines[-1] += " " + part
+        else:
+            lines.append(part)
+    return lines
+
+
+def _city_output_rows(outputs: Any) -> list[list[str]]:
+    """Tabulate the per-output arithmetic the city page already carries.
+
+    A column that is zero on every row carries no decision and is dropped, and
+    so is a step of the base/gross/net/surplus chain that merely repeats the
+    step before it.  An unstressed city therefore prints `base used surplus`,
+    and a city bleeding shields to corruption and disorder prints the `waste`
+    and `unhappy` terms that explain exactly where they went.
+    """
+    if not isinstance(outputs, dict) or not outputs:
+        return []
+    names = [name for name in V2_CITY_OUTPUTS if name in outputs]
+    names.extend(sorted(set(outputs) - set(V2_CITY_OUTPUTS)))
+    values: list[tuple[str, dict[str, int]]] = []
+    for name in names:
+        metrics = outputs[name]
+        if not isinstance(metrics, dict):
+            raise _drift("city output")
+        row: dict[str, int] = {}
+        for column, key in V2_CITY_OUTPUT_COLUMNS:
+            number = metrics.get(key)
+            if number is None:
+                continue
+            if isinstance(number, bool) or not isinstance(number, int):
+                raise _drift("city output")
+            row[column] = number
+        # An output this city neither makes nor spends is a row of zeroes.
+        if any(row.values()):
+            values.append((name, row))
+    if not values:
+        return []
+    columns = [
+        column for column, _key in V2_CITY_OUTPUT_COLUMNS
+        if all(column in row for _name, row in values)
+        and (column == "surplus" or any(row[column] for _name, row in values))
+    ]
+    chain = [column for column in V2_CITY_OUTPUT_CHAIN if column in columns]
+    for position in range(len(chain) - 1, 0, -1):
+        column, previous = chain[position], chain[position - 1]
+        if column != "surplus" and all(
+            row[column] == row[previous] for _name, row in values
+        ):
+            columns.remove(column)
+            chain.pop(position)
+    if not columns:
+        return []
+    rows = [["output", *columns]]
+    for name, row in values:
+        rows.append([name, *[
+            _signed(row[column]) if column == "surplus" else _scalar(row[column])
+            for column in columns
+        ]])
+    return rows
+
+
+def _city_granary_text(item: dict[str, Any], surplus: Any) -> str:
+    """Say where the food is going, in the words the growth counter means.
+
+    `growth_turns` is `city_turns_to_grow()`: positive turns to the next
+    citizen, `0` when the granary is full but the city may not grow, negative
+    turns until famine, and absent when the food surplus is exactly zero.
+    """
+    storage = item.get("food_storage")
+    if not isinstance(storage, dict):
+        return ""
+    parts = [
+        "granary "
+        f"{_scalar(storage.get('stock'))}/{_scalar(storage.get('granary_size'))}"
+    ]
+    food = surplus.get("food") if isinstance(surplus, dict) else None
+    if isinstance(food, int) and not isinstance(food, bool):
+        parts.append(f"food {food:+d}/turn")
+    turns = storage.get("growth_turns")
+    if turns is None:
+        parts.append("no growth")
+    elif isinstance(turns, bool) or not isinstance(turns, int):
+        raise _drift("city growth turns")
+    elif turns > 0:
+        parts.append(f"grows in {turns}t")
+    elif turns == 0:
+        parts.append("!full, growth blocked")
+    else:
+        parts.append(f"!starving, famine in {-turns}t")
+    return " ".join(parts)
+
+
+def _city_citizens_text(item: dict[str, Any]) -> str:
+    """Split the citizens by mood and name disorder when the counts prove it.
+
+    `city_unhappy()` (common/city.c) is exactly
+    `happy < unhappy + 2 * angry` over these same final-feeling counters, so
+    the verdict is the server's own, not an estimate.
+    """
+    citizens = item.get("citizens")
+    if not isinstance(citizens, dict):
+        return ""
+    moods = {
+        name: citizens.get(name)
+        for name in ("happy", "content", "unhappy", "angry")
+    }
+    if any(
+        isinstance(value, bool) or not isinstance(value, int)
+        for value in moods.values()
+    ):
+        raise _drift("city citizens")
+    parts = [f"citizens {_scalar(item.get('size'))}:"]
+    named = [f"{value} {name}" for name, value in moods.items() if value]
+    parts.append(", ".join(named) if named else "none placed")
+    specialists = citizens.get("specialists")
+    if isinstance(specialists, int) and not isinstance(specialists, bool) \
+            and specialists:
+        parts.append(f"+ {specialists} specialist")
+    if moods["happy"] < moods["unhappy"] + 2 * moods["angry"]:
+        parts.append("!disorder")
+    if item.get("citizen_counts_consistent") is False:
+        parts.append("!counts self-healed by the server, not a partition")
+    return " ".join(parts)
+
+
+def _city_production_lines(item: dict[str, Any], surplus: Any) -> list[str]:
+    """Price the current build in both currencies: shields and gold.
+
+    The buy cost is on the city page and nowhere on the `city.buy_production`
+    action, so this is the one surface that can quote it before the emergency.
+    `can_change` is `city_can_change_build()` -- `!did_buy || stock <= 0` --
+    so a locked build is proof this city already bought this turn.
+    """
+    production = item.get("production")
+    if not isinstance(production, dict):
+        return []
+    head = [
+        "build", _named(production), _scalar(production.get("kind")),
+    ]
+    stock = production.get("shield_stock")
+    cost = production.get("shield_cost")
+    if (
+        isinstance(stock, int) and not isinstance(stock, bool)
+        and isinstance(cost, int) and not isinstance(cost, bool)
+    ):
+        head.append(f"{stock}/{cost} shields")
+        shields = surplus.get("shields") if isinstance(surplus, dict) else None
+        if stock >= cost:
+            head.append("done next turn")
+        elif isinstance(shields, int) and not isinstance(shields, bool) \
+                and shields > 0:
+            head.append(
+                f"{shields:+d}/turn done in {-((stock - cost) // shields)}t"
+            )
+        else:
+            head.append("!no shield surplus, never completes")
+    parts = [" ".join(head)]
+    if production.get("can_buy") is True:
+        parts.append(f"· buy {_scalar(production.get('buy_cost'))} gold")
+    else:
+        parts.append("· !cannot buy this turn")
+    if production.get("can_change") is False:
+        parts.append("!locked: this city already bought this turn")
+    return _packed_lines(parts)
+
+
+def _city_management_lines(item: dict[str, Any]) -> list[str]:
+    """Print only what is set away from its default, each marked `!`."""
+    management = item.get("management")
+    if not isinstance(management, dict):
+        return []
+    parts: list[str] = []
+    if management.get("did_sell") is True:
+        parts.append("!sold here this turn: no second sale until next turn")
+    governor = management.get("governor")
+    if isinstance(governor, dict) and governor.get("enabled") is True:
+        parts.append("!governor on: tiles are assigned for you")
+    rally = management.get("rally")
+    if isinstance(rally, dict) and rally.get("active") is True:
+        rally_text = f"!rally {_scalar(rally.get('order_count'))} orders"
+        for flag in ("persistent", "vigilant"):
+            if rally.get(flag) is True:
+                rally_text += f" {flag}"
+        parts.append(rally_text)
+    options = management.get("options")
+    if isinstance(options, dict):
+        if options.get("allow_disband") is True:
+            parts.append("!allow_disband")
+        citizens = options.get("new_citizens")
+        if isinstance(citizens, str) and citizens not in ("", "default"):
+            parts.append(f"!new_citizens={citizens}")
+        if options.get("conflict") is True:
+            parts.append("!options_conflict")
+    return _packed_lines(parts)
+
+
+def _city_drilldown_lines(item: dict[str, Any], handle: str) -> list[str]:
+    """Name the exact command that holds each number this page does not.
+
+    A collection that lives in a child section is named once, as the command
+    that prints it -- never as an ellipsis the agent has to guess a way past.
+    """
+    counts = item.get("counts")
+    if not isinstance(counts, dict) or not handle:
+        return []
+    lines: list[str] = []
+    for key, label, section in V2_CITY_DRILLDOWNS:
+        total = counts.get(key)
+        if isinstance(total, bool) or not isinstance(total, int) or total <= 0:
+            continue
+        lines.append(
+            f"{total} {label}: just state --section {section} "
+            f"--actor_id {handle}"
+        )
+    return lines
+
+
+def _render_city_detail(
+    items: list[dict[str, Any]], aliases: dict[str, str] | None = None,
+) -> list[str]:
+    lines: list[str] = []
+    for index, item in enumerate(items, start=1):
+        alias = _row_alias(aliases, item, "id", "c", index)
+        # Only a resolvable handle may be printed inside a command: without an
+        # alias cache the positional `c1` names nothing, so the ID is typed.
+        handle = alias if aliases is not None else _scalar(item.get("id"))
+        surplus = item.get("surplus")
+        head = [alias, _need_text(item, "name", "city")]
+        coordinates = _coordinates(item)
+        if coordinates is not None:
+            head.append(coordinates)
+        head.append(f"sz{_need_int(item, 'size', 'city')}")
+        if isinstance(surplus, dict):
+            head.append(" ".join(
+                f"{key[0]}{_signed(value)}" for key, value in surplus.items()
+            ))
+        pollution = item.get("pollution")
+        if isinstance(pollution, int) and not isinstance(pollution, bool) \
+                and pollution:
+            head.append(f"!pollution {pollution}")
+        lines.append(" ".join(head))
+        lines.extend("  " + text for text in (
+            _city_granary_text(item, surplus),
+            _city_citizens_text(item),
+            *_city_production_lines(item, surplus),
+            *_city_management_lines(item),
+        ) if text)
+        rows = _city_output_rows(item.get("outputs"))
+        lines.extend("  " + line for line in _table(rows))
+        lines.extend(
+            "  " + line for line in _city_drilldown_lines(item, handle)
+        )
+    return lines
+
+
+def _meeting_summary(meeting: Any) -> str:
+    """Say what an open meeting is waiting on, in the words the seat needs."""
+    if not isinstance(meeting, dict):
+        return ""
+    text = "!meeting open"
+    count = meeting.get("clause_count")
+    if isinstance(count, int) and not isinstance(count, bool):
+        text += f" {count} clauses"
+    accepted = [
+        side for side, key in (
+            ("you", "self_accepted"), ("them", "other_accepted"),
+        ) if meeting.get(key) is True
+    ]
+    if accepted:
+        text += " accepted by " + "+".join(accepted)
+    if meeting.get("self_accepted") is not True:
+        text += ", awaiting you"
+    return text
+
+
+def _render_diplomacy(
+    items: list[dict[str, Any]], aliases: dict[str, str] | None = None,
+) -> list[str]:
+    """Render one row per relation, and name the clause page for open ones.
+
+    A relation whose meeting is open is the one row that carries a decision,
+    so it says so on the row rather than in a `meeting.clauses_token` column
+    the generic flattener would print beside four opaque IDs.  The clause list
+    is the only thing this page does not carry, so it is named as the command.
+    """
+    rows: list[list[str]] = []
+    drilldowns: list[str] = []
+    for index, item in enumerate(items, start=1):
+        alias = _row_alias(aliases, item, "relation_id", "r", index)
+        detail: list[str] = []
+        nation = item.get("nation")
+        if isinstance(nation, str) and nation:
+            detail.append(f"({nation})")
+        detail.append(_scalar(item.get("state")))
+        if item.get("has_embassy") is True:
+            detail.append("embassy")
+        turns = item.get("treaty_turns_left")
+        if isinstance(turns, int) and not isinstance(turns, bool):
+            detail.append(f"{turns}t left")
+        if item.get("alive") is False:
+            detail.append("!dead")
+        summary = _meeting_summary(item.get("meeting"))
+        if summary:
+            detail.append("· " + summary)
+        row = [alias, _need_text(item, "player_name", "relation")]
+        row.append(" ".join(detail))
+        if aliases is None:
+            row.append(_need_text(item, "relation_id", "relation"))
+        rows.append(row)
+        if summary:
+            handle = (
+                alias if aliases is not None
+                else _scalar(item.get("relation_id"))
+            )
+            drilldowns.append(
+                "clauses: just state --section diplomacy_clauses "
+                f"--relation_id {handle}"
+            )
+    return _table(rows) + drilldowns
+
+
+def _render_city_citizens(
+    items: list[dict[str, Any]], aliases: dict[str, str] | None = None,
+) -> list[str]:
+    """Total the worked rows before listing them.
+
+    The per-tile table was already legible; what it never said is what the
+    citizens currently on those tiles add up to -- the one number a tile swap
+    is judged against, and the number `city_detail` reports as `base`.
+    """
+    worked = [
+        item for item in items
+        if item.get("kind") == "tile" and item.get("worked") is True
+    ]
+    totals: dict[str, int] = {}
+    for item in worked:
+        yields = item.get("yields")
+        if not isinstance(yields, dict):
+            raise _drift("city citizen yields")
+        for key, value in yields.items():
+            if isinstance(value, bool) or not isinstance(value, int):
+                raise _drift("city citizen yields")
+            totals[key] = totals.get(key, 0) + value
+    lines: list[str] = []
+    if worked:
+        named = " ".join(
+            f"{key[0]}{value}" for key, value in totals.items() if value
+        )
+        lines.append(
+            f"worked {len(worked)} of {len(items)} rows on this page: "
+            + (named or "nothing")
+        )
+    placed = [
+        item for item in items
+        if item.get("kind") == "specialist"
+        and isinstance(item.get("count"), int)
+        and not isinstance(item.get("count"), bool) and item["count"] > 0
+    ]
+    if placed:
+        lines.append("specialists: " + ", ".join(
+            f"{item['count']} {_scalar(item.get('name'))}" for item in placed
+        ))
+    return lines + _render_generic_items(items)
+
+
 _STATE_RENDERERS: dict[str, tuple[tuple[str, ...], Any]] = {
     "units": (("id", "type", "x", "y"), _render_units),
     "cities": (("id", "name", "x", "y", "size"), _render_cities),
@@ -4173,6 +4739,14 @@ _STATE_RENDERERS: dict[str, tuple[tuple[str, ...], Any]] = {
     "known_tiles": (("id", "x", "y", "visibility"), _render_tiles),
     "map_tiles": (("id", "x", "y", "visibility"), _render_tiles),
     "overview": (("turn", "player", "research", "counts"), _render_overview),
+    "city_detail": (
+        ("id", "name", "size", "citizens", "food_storage", "outputs"),
+        _render_city_detail,
+    ),
+    "city_citizens": (("city_id", "kind", "yields"), _render_city_citizens),
+    "diplomacy": (
+        ("relation_id", "player_name", "state"), _render_diplomacy,
+    ),
 }
 
 
@@ -4260,8 +4834,143 @@ def _render_section_items(
     return _render_generic_items(items)
 
 
+# ---------------------------------------------------------------------------
+# Build choices and the change-production forfeit.
+#
+# `city_change_production_penalty()` (common/city.c) halves the accumulated
+# shields when the new target is a different production class -- unit, ordinary
+# improvement, wonder -- and the native client has already run it: every build
+# choice carries `cost.shield_stock_after_change`, the stock this city would
+# have *after* switching to that exact target.  Subtracting it from the stock
+# the city holds now gives the forfeit as a fact, so no rule is re-derived here
+# and no warning is printed unless both numbers are in hand at one revision.
+# ---------------------------------------------------------------------------
+
+V2_BUILD_CHOICE_KEYS = ("id", "city_id", "kind", "name", "cost")
+
+
+def _city_build_stock(
+    session_path: Path | None,
+    value: dict[str, Any],
+    items: list[Any],
+    aliases: dict[str, str] | None,
+) -> int | None:
+    """Read this city's shield stock from the mirror, at this exact revision.
+
+    The mirror is only ever as fresh as the last read, and a forfeit computed
+    against a stale stock would be a wrong number stated confidently.  So the
+    stock is used only when the cities table already stands at the revision
+    this page was served at; otherwise the rendering says nothing.  Reading
+    the mirror opens no socket.
+    """
+    if session_path is None or aliases is None:
+        return None
+    city_id = items[0].get("city_id") if isinstance(items[0], dict) else None
+    if not isinstance(city_id, str) or not city_id or any(
+        not isinstance(item, dict) or item.get("city_id") != city_id
+        for item in items
+    ):
+        return None
+    alias = aliases.get(city_id)
+    if not alias:
+        return None
+    try:
+        if not _mirror_is_fresh(
+            session_path, V2_SHOW_FILES["cities"], value["state_revision"],
+        ):
+            return None
+        _revision, columns, rows = _mirror_table(
+            session_path, V2_SHOW_FILES["cities"],
+        )
+    except PlayerError:
+        return None
+    for row in rows:
+        if _mirror_cell(columns, row, "alias") == alias:
+            return _mirror_number(_mirror_cell(columns, row, "shields"))
+    return None
+
+
+def _build_choice_note(
+    item: dict[str, Any], cost: dict[str, Any], stock: int | None,
+) -> str:
+    keep = cost.get("shield_stock_after_change")
+    integral = isinstance(keep, int) and not isinstance(keep, bool)
+    parts: list[str] = []
+    if integral and stock is not None and stock > keep:
+        parts.append(f"!forfeits {stock - keep} of {stock} shields")
+    elif integral and stock is None:
+        parts.append(f"keep {keep}")
+    if item.get("can_build_now") is False:
+        parts.append("!worklist only")
+    upkeep = item.get("upkeep")
+    if isinstance(upkeep, dict):
+        parts.extend(
+            f"!upkeep {key} {_scalar(number)}"
+            for key, number in upkeep.items()
+            if isinstance(number, int) and not isinstance(number, bool)
+            and number
+        )
+    unhappy = item.get("happy_cost")
+    if isinstance(unhappy, int) and not isinstance(unhappy, bool) and unhappy:
+        parts.append(f"!unhappy {unhappy}")
+    return " ".join(parts)
+
+
+def _render_city_build_choices(
+    items: list[dict[str, Any]],
+    aliases: dict[str, str] | None = None,
+    stock: int | None = None,
+) -> list[str]:
+    lines: list[str] = []
+    if stock is not None:
+        lines.append(
+            f"stock {stock} shields; a switch to another production class "
+            "forfeits half of it"
+        )
+    rows = [["#", "name", "kind", "shields", "turns", "note"]]
+    for index, item in enumerate(items, start=1):
+        cost = item.get("cost")
+        if not isinstance(cost, dict):
+            raise _drift("city build choice cost")
+        rows.append([
+            str(index),
+            _need_text(item, "name", "city build choice"),
+            _scalar(item.get("kind")),
+            _scalar(cost.get("shields")),
+            _scalar(cost.get("turns_with_stock")),
+            _build_choice_note(item, cost, stock),
+        ])
+    lines.extend(_table(rows))
+    return lines
+
+
+def _government_scope_lines(
+    items: list[Any], state: dict[str, Any] | None,
+) -> list[str]:
+    """Point a `can_change=yes` government row at the catalog that proves it.
+
+    The section reports that a change is possible and then names no way to make
+    one, because `government.*` is enumerated only inside this seat's own
+    player scope and never in the global catalog -- so an agent that reads
+    `can_change yes` and searches for the action by kind finds nothing and
+    concludes the rules forbid it.  This line closes that loop.
+    """
+    if state is None or not any(
+        isinstance(item, dict) and item.get("can_change") is True
+        for item in items
+    ):
+        return []
+    return [
+        "government actions are player-scoped: "
+        f"just legal --actor_id {_player_scope_alias(state)} --all"
+    ]
+
+
 def _render_state_page(
-    value: dict[str, Any], aliases: dict[str, str] | None = None,
+    value: dict[str, Any],
+    aliases: dict[str, str] | None = None,
+    session_path: Path | None = None,
+    state: dict[str, Any] | None = None,
 ) -> list[str]:
     page = value["page"]
     section = page["section"]
@@ -4269,10 +4978,23 @@ def _render_state_page(
         f"{_revision_label(value['state_revision'])} {section} "
         f"{_page_status(page)}"
     ]
-    if not page["items"]:
+    items = page["items"]
+    if not items:
         lines.append(f"(no {section} items on this page)")
         return lines
-    lines.extend(_render_section_items(section, page["items"], aliases))
+    if section == "city_build_choices" and all(
+        isinstance(item, dict)
+        and all(key in item for key in V2_BUILD_CHOICE_KEYS)
+        for item in items
+    ):
+        lines.extend(_render_city_build_choices(
+            items, aliases,
+            _city_build_stock(session_path, value, items, aliases),
+        ))
+        return lines
+    lines.extend(_render_section_items(section, items, aliases))
+    if section == "governments":
+        lines.extend(_government_scope_lines(items, state))
     return lines
 
 
@@ -4330,6 +5052,18 @@ def _render_health(health: dict[str, Any]) -> list[str]:
             f"source={event['source']} {event['receipt_state']} "
             f"{event['resolution']} {_scalar(event['elapsed_s'])}s"
         )
+    recovery = health.get("last_recovery")
+    if recovery is not None:
+        line = (
+            f"last recovery t{_scalar(recovery['turn'])} "
+            f"{recovery['kind']} {recovery['outcome']} "
+            f"trigger={recovery['trigger']}"
+        )
+        if recovery["recovered_to_turn"] is not None:
+            line += f" rewound to t{_scalar(recovery['recovered_to_turn'])}"
+        if recovery["rewound_applied_actions"]:
+            line += " — applied actions were rolled back; re-read `just turn`"
+        lines.append(line)
     return lines
 
 
@@ -4417,7 +5151,7 @@ def _briefing_needs_decision(
         if isinstance(item, dict) and item.get("production") is None:
             notes.append(f"{_named(item)} has no production")
     if not notes:
-        notes.append("nothing idle; end the phase when ready")
+        notes.append(f"nothing idle; {V2_ONE_CALL_END}")
     return (
         "needs decision: " + ", ".join(notes)
         # The count is honest about its own window: a truncated briefing has
@@ -5239,6 +5973,13 @@ def command_use(args: argparse.Namespace) -> int:
     if not target:
         binding = _read_seat_binding()
         if binding is None:
+            game_id = _preconfigured_game_id()
+            if game_id is not None:
+                raise PlayerError(
+                    f"run `just join` first — this workspace is "
+                    f"pre-configured for {game_id}, and joining binds the "
+                    "seat this command reports"
+                )
             raise PlayerError(
                 "this workspace is not bound to a seat. Join one with "
                 "`just join --game_id GAME_ID --name HARNESS-MODEL`, or bind "
@@ -5462,8 +6203,13 @@ def _resolve_kind_action(
     return compact, state
 
 
-def _await_line(wait: dict[str, Any]) -> str:
-    """Render the next briefing header from one validated wake."""
+def _await_line(wait: dict[str, Any], *, follow: str = "just turn") -> str:
+    """Render the next briefing header from one validated wake.
+
+    `follow` names what the agent should run next.  It is empty exactly when
+    this command is about to print that next thing itself (`--brief`), because
+    a header that points at a briefing printed three lines below it is noise.
+    """
     health = wait["health"]
     phase = health["phase"]
     turn = None if phase is None else phase["turn"]
@@ -5471,10 +6217,99 @@ def _await_line(wait: dict[str, Any]) -> str:
     revision = wait["state_revision"]
     if revision is not None:
         header += " " + _revision_label(revision)
-    return (
+    line = (
         f"{header} | woke {wait['wake_reason']} | {health['game_state']} | "
-        f"{_phase_text(phase)} | next: just turn"
+        f"{_phase_text(phase)}"
     )
+    return line + (f" | next: {follow}" if follow else "")
+
+
+def _wait_args(args: argparse.Namespace) -> argparse.Namespace:
+    """Normalise the three blocking knobs, whichever command carried them.
+
+    A knob the caller did give is passed through untouched -- `--wait-s 0` is
+    a legal non-blocking poll, so only a missing value takes the default.
+    """
+    wait_s = getattr(args, "wait_s", None)
+    poll_s = getattr(args, "poll_s", None)
+    until = getattr(args, "until", None)
+    return argparse.Namespace(
+        wait_s=float(120 if wait_s is None else wait_s),
+        poll_s=float(1 if poll_s is None else poll_s),
+        until="phase" if until is None else until,
+    )
+
+
+PHASE_END_REMEDY = (
+    "the phase may not be yours to end yet -- run `just turn` and "
+    "check that the phase is active"
+)
+
+
+def _phase_end_locked(
+    path: Path, session: dict[str, Any],
+) -> tuple[dict[str, Any], str, int, list[str]]:
+    """Execute phase.end from the cached capability; the caller holds the lock.
+
+    This is the one path that ends a phase.  `turn --end` and `do --end` both
+    run it, so the capability is resolved, enumerated when cold, and submitted
+    identically no matter which command composed it.
+    """
+    compact, _state = _resolve_kind_action(
+        path, session, "phase.end", PHASE_END_REMEDY,
+    )
+    arguments = _default_arguments(compact)
+    if arguments is None:
+        raise PlayerError(
+            "this phase.end action takes arguments; run "
+            "`just legal --kind phase.end --all` and submit it with "
+            "`just batch`"
+        )
+    batch_id = _persist_batch_for_action(
+        path, session, compact["action_id"], arguments,
+    )
+    disposition, warning, exit_code = _submit_persisted_batch(
+        path, session, batch_id,
+    )
+    return (
+        disposition, warning, exit_code,
+        _render_disposition(disposition, "phase end"),
+    )
+
+
+def _await_and_brief_locked(
+    args: argparse.Namespace,
+    path: Path,
+    session: dict[str, Any],
+    *,
+    brief: bool,
+) -> tuple[dict[str, Any], dict[str, Any] | None, str, list[str]]:
+    """Block for the next phase and, with `--brief`, render its whole briefing.
+
+    One command, two logical steps: the extra state reads the briefing costs
+    are the same reads `just turn` would have made, and the round trip they
+    save is the model's, which is the expensive one.  A briefing that cannot
+    be built never swallows the wake -- it is reported as one more line with
+    the command that retries it.
+    """
+    wait = _wait_value(path, session, _wait_args(args))
+    lines = [_await_line(wait, follow="" if brief else "just turn")]
+    if not brief:
+        return wait, None, "", lines
+    try:
+        result, aliases, decisions, events = _turn_briefing_locked(
+            path, session,
+        )
+    except (PlayerError, V2ResponseError) as exc:
+        return wait, None, str(exc), [
+            *lines,
+            f"briefing failed: {exc}",
+            "next: just turn",
+        ]
+    lines.extend(_render_turn(
+        result, aliases=aliases, decisions=decisions, events=events,
+    ))
+    return wait, result, "", lines
 
 
 def _command_turn_end(
@@ -5483,48 +6318,56 @@ def _command_turn_end(
     session: dict[str, Any],
     *,
     await_next: bool,
+    brief: bool = False,
 ) -> int:
     """End this phase from the cached capability, optionally blocking after."""
-    lines: list[str] = []
     wait: dict[str, Any] | None = None
+    briefing: dict[str, Any] | None = None
+    brief_error = ""
     with _v2_request_lock(path):
-        compact, _state = _resolve_kind_action(
-            path, session, "phase.end",
-            "the phase may not be yours to end yet -- run `just turn` and "
-            "check that the phase is active",
+        disposition, warning, exit_code, lines = _phase_end_locked(
+            path, session,
         )
-        arguments = _default_arguments(compact)
-        if arguments is None:
-            raise PlayerError(
-                "this phase.end action takes arguments; run "
-                "`just legal --kind phase.end --all` and submit it with "
-                "`just batch`"
-            )
-        batch_id = _persist_batch_for_action(
-            path, session, compact["action_id"], arguments,
-        )
-        disposition, warning, exit_code = _submit_persisted_batch(
-            path, session, batch_id,
-        )
-        lines.extend(_render_disposition(disposition, "phase end"))
         if warning:
             print(warning, file=sys.stderr)
         if await_next and _order_receipt_ok(disposition):
-            wait = _wait_value(path, session, args)
-            lines.append(_await_line(wait))
+            wait, briefing, brief_error, woke = _await_and_brief_locked(
+                args, path, session, brief=brief,
+            )
+            lines.extend(woke)
+            if brief_error:
+                exit_code = max(exit_code, 2)
         elif await_next:
             lines.append("not awaited: the phase end was not accepted")
     if _json_requested(args):
-        _print_v2_json({
-            "schema_version": 1,
-            "command": "turn",
-            "status": "ended",
-            "disposition": disposition,
-            "wait": wait,
-        })
+        if brief:
+            _print_v2_json(_composite_json("turn", {
+                "end": disposition,
+                "wait": wait,
+                "turn": briefing,
+                "turn_error": brief_error or None,
+            }))
+        else:
+            _print_v2_json({
+                "schema_version": 1,
+                "command": "turn",
+                "status": "ended",
+                "disposition": disposition,
+                "wait": wait,
+            })
     else:
         _render(lines)
     return exit_code
+
+
+def _composite_json(command: str, parts: dict[str, Any]) -> dict[str, Any]:
+    """Shape the one-call composite: the parts, each exactly as it was."""
+    return {
+        "schema_version": 1,
+        "command": command,
+        "status": "briefed",
+        **parts,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -5673,6 +6516,68 @@ def _decision_options(
     return options, len(by_verb)
 
 
+def _tier1_word(compact: dict[str, Any], verb: str) -> str:
+    """Prefer the short word `just do` documents over the wire operation.
+
+    Only the tier-1 verbs that add no arguments of their own are substituted:
+    `route` means `set_route mode=goto` and would silently pick a mode the
+    enumerated action may not have, so it is left alone.
+    """
+    for word, tier1 in V2_TIER1_VERBS.items():
+        if tier1["arguments"]:
+            continue
+        if (
+            compact["kind"] == tier1["kind"]
+            and _order_operation(compact) == tier1["operation"]
+        ):
+            return word
+    return verb
+
+
+def _decision_order(
+    pool: list[dict[str, Any]], alias: str,
+) -> str:
+    """Compose one runnable order from this actor's best cached option.
+
+    The order is written the way `just do` reads it -- `ALIAS VERB [TARGET]` --
+    and is only offered when it resolves to exactly one cached action *and*
+    binds that action's whole argument schema, so the batch line runs exactly
+    as printed. An option that cannot meet both (a target no single word can
+    name, or an argument only the player can choose, like a new city's name)
+    yields to the next-ranked option rather than printing a command that would
+    refuse; the actor's full menu is one `just legal` away either way.
+    """
+    if not alias or not pool:
+        return ""
+    by_verb: dict[str, list[dict[str, Any]]] = {}
+    for compact in pool:
+        by_verb.setdefault(_decision_verb(compact), []).append(compact)
+    ranked = sorted(
+        by_verb.items(), key=lambda item: _decision_option_rank(item[1][0]),
+    )
+    for verb, rows in ranked:
+        word = _tier1_word(rows[0], verb)
+        tier1 = V2_TIER1_VERBS.get(word)
+        defaults = dict(tier1["arguments"]) if tier1 else {}
+        keys = [_action_target_key(compact) for compact in rows]
+        single = [key for key in keys if key and len(key.split()) == 1]
+        unique = {key for key in single if single.count(key) == 1}
+        for compact, key in zip(rows, keys):
+            if key not in unique:
+                if len(rows) > 1:
+                    # Nothing one word long picks this action out of its
+                    # siblings, so the printed line could not select it.
+                    continue
+                key = ""
+            # A coordinate word is eaten by the target selector; any other
+            # target word goes on to the argument schema.
+            values = [] if _order_target_keys(key) else ([key] if key else [])
+            if _order_match(compact, values, defaults, None) is None:
+                continue
+            return " ".join(part for part in (alias, word, key) if part)
+    return ""
+
+
 def _decision_actor_row(
     alias: str,
     actor_id: str,
@@ -5691,6 +6596,7 @@ def _decision_actor_row(
         "state": description,
         "options": options,
         "option_count": total,
+        "order": _decision_order(pool, alias),
         "remedy": f"just legal --actor_id {alias} --all",
     }
 
@@ -5753,10 +6659,14 @@ def _decision_city_rows(
         if not empty and not completing:
             continue
         position = _mirror_cell(columns, row, "pos")
+        buy = _mirror_cell(columns, row, "buy")
         description = " ".join(part for part in (
             _mirror_cell(columns, row, "city"),
             f"@{position}" if position not in {"-", ""} else "",
             "no production" if empty else f"{building} {shields} done",
+            # The price of finishing it now, from the mirror this briefing
+            # just wrote -- the buy action itself never quotes one.
+            f"buy={buy}" if _mirror_number(buy) is not None else "",
         ) if part)
         found.append((int(alias[1:]), _decision_actor_row(
             alias, state["entity_aliases"].get(alias, ""), description,
@@ -5765,10 +6675,86 @@ def _decision_city_rows(
     return [row for _number, row in sorted(found, key=lambda item: item[0])]
 
 
+def _meeting_remedy(
+    pool: list[dict[str, Any]], name: str, aliases: dict[str, str],
+    player: str = "",
+) -> str:
+    """Name the query that re-enumerates one meeting.
+
+    Diplomacy is never in the global catalog and a relation is never an actor,
+    so the only command that reaches a clause is this seat's own player bound
+    to the relation.  A remedy that names any other form sends an agent that
+    already knows a meeting is open around the one loop it cannot exit.
+
+    A meeting known only from the diplomacy mirror has no cached descriptor to
+    read the actor off, which is exactly the case this remedy exists for: the
+    caller supplies the seat's own player alias instead.
+    """
+    actor = pool[0]["subject"].get("actor") if pool else None
+    actor_id = actor.get("id") if isinstance(actor, dict) else None
+    actor_name = (
+        aliases.get(actor_id, actor_id)
+        if isinstance(actor_id, str) else (player or "YOUR_PLAYER_ID")
+    )
+    target = pool[0]["target"] if pool else None
+    target_id = target.get("id") if isinstance(target, dict) else None
+    target_name = name if ENTITY_ALIAS_RE.fullmatch(name) else (
+        target_id if isinstance(target_id, str) else "RELATION_ID"
+    )
+    return (
+        f"just legal --actor_id {actor_name} --target_id {target_name} --all"
+    )
+
+
+V2_DIPLOMACY_READ = "just state --section diplomacy --limit 16"
+
+
+def _open_meetings(session_path: Path) -> dict[str, str]:
+    """Describe every relation the diplomacy mirror shows a meeting open on.
+
+    Reads one local table and opens no socket.  A meeting this seat has already
+    accepted is not a decision it still owes, so only the relations still
+    waiting on the seat are returned -- keyed by relation alias, valued as the
+    sentence the decisions row prints.
+    """
+    try:
+        _revision, columns, rows = _mirror_table(
+            session_path, V2_SHOW_FILES["diplomacy"],
+        )
+    except PlayerError:
+        return {}
+    found: dict[str, str] = {}
+    for row in rows:
+        alias = _mirror_cell(columns, row, "alias")
+        if (
+            ENTITY_ALIAS_RE.fullmatch(alias) is None or alias[0] != "r"
+            or _mirror_cell(columns, row, "meeting") != "open"
+        ):
+            continue
+        accepted = _mirror_cell(columns, row, "accepted")
+        if "you" in accepted.split("+"):
+            continue
+        clauses = _mirror_cell(columns, row, "clauses")
+        detail = ", ".join(part for part in (
+            _mirror_cell(columns, row, "player"),
+            _mirror_cell(columns, row, "state"),
+            f"{clauses} clauses" if _mirror_number(clauses) is not None else "",
+        ) if part not in {"-", ""})
+        found[alias] = "meeting pending" + (f": {detail}" if detail else "")
+    return found
+
+
 def _decision_meeting_rows(
-    state: dict[str, Any], aliases: dict[str, str],
+    session_path: Path, state: dict[str, Any], aliases: dict[str, str],
 ) -> list[dict[str, Any]]:
-    """One row per relation this seat holds an unanswered diplomacy action for."""
+    """One row per relation with a meeting this seat has not answered.
+
+    A meeting used to reach this list only once a diplomacy descriptor happened
+    to be cached, which meant an unopened one was invisible: a real game left
+    Spain's cease-fire sitting open while the decisions block offered an idle
+    worker.  The diplomacy mirror is the seat's own record that the meeting
+    exists, so it is read too, and a relation named by either source gets a row.
+    """
     groups: dict[str, list[dict[str, Any]]] = {}
     for compact in _order_pool(state):
         if compact["kind"].split(".", 1)[0] != "diplomacy":
@@ -5780,16 +6766,30 @@ def _decision_meeting_rows(
             else ""
         )
         groups.setdefault(name or "diplomacy", []).append(compact)
+    pending = _open_meetings(session_path)
+    player = _player_scope_alias(state)
     rows: list[dict[str, Any]] = []
-    for name, pool in groups.items():
+    for name in list(groups) + [
+        alias for alias in pending if alias not in groups
+    ]:
+        pool = groups.get(name, [])
         options, total = _decision_options(pool, aliases)
         rows.append({
             "alias": name,
             "actor_id": "",
-            "state": "meeting pending",
+            # Without the diplomacy table this row knows a meeting is open and
+            # nothing else about it, so it names the read that would say who
+            # and what -- the one page it is missing.
+            "state": pending.get(
+                name, f"meeting pending (unread: {V2_DIPLOMACY_READ})",
+            ),
             "options": options,
             "option_count": total,
-            "remedy": "just legal --kind diplomacy.accept --all",
+            # A meeting's actor is this seat's own player, not the relation the
+            # row is named after, so no `ALIAS VERB` order can be composed for
+            # it; the batch line leaves it to its own drill-down.
+            "order": "",
+            "remedy": _meeting_remedy(pool, name, aliases, player),
         })
     return rows
 
@@ -5805,7 +6805,7 @@ def _decision_rows(
     rows = (
         _decision_unit_rows(session_path, state, aliases)
         + _decision_city_rows(session_path, state, aliases)
-        + _decision_meeting_rows(state, aliases)
+        + _decision_meeting_rows(session_path, state, aliases)
     )
     # An actor this command has just ordered is never offered back: the focus
     # loop moves on, exactly as clicking through the native client does.
@@ -5832,10 +6832,40 @@ def _decision_line(row: dict[str, Any]) -> str:
     return line
 
 
+V2_FOCUS_LINE_MAX = 200
+V2_ONE_CALL_END = "just turn --end --await --brief"
+
+
+def _batch_focus_command(rows: list[dict[str, Any]]) -> str:
+    """Compose the whole remaining turn as one `just do` line.
+
+    The focus loop used to name one actor at a time, and a seat that reads one
+    actor plays one actor: the shipped agent batched in 8% of its calls.  So
+    when more than one actor needs orders the tail is the composed command
+    itself -- every actor's top option, ready to edit and ready to run -- and
+    the single-actor form is kept only for the case where it is the truth.
+    """
+    orders = [row["order"] for row in rows[:V2_MAX_ORDERS] if row["order"]]
+    if len(orders) < 2:
+        # One composable actor is not a batch, and an actor whose catalog this
+        # seat cannot read is better served by the single-actor form below.
+        return ""
+    total = len(rows)
+    while len(orders) > 1:
+        head = f"next {total} actors"
+        if len(orders) != total:
+            head += f", top {len(orders)}"
+        line = f'{head}: just do "{"; ".join(orders)}"'
+        if len(line) <= V2_FOCUS_LINE_MAX:
+            return line
+        orders.pop()
+    return f"next {total} actors need orders — just turn --decisions"
+
+
 def _next_focus_line(
     session_path: Path, state: dict[str, Any], done: frozenset[str],
 ) -> str:
-    """Name the next actor that needs a decision, from local caches only.
+    """Name what still needs orders, from local caches only.
 
     This runs on the receipt path, so it must never fetch and never fail: a
     cache too stale to name options degrades to the actor and its enumeration
@@ -5847,7 +6877,10 @@ def _next_focus_line(
     except PlayerError:
         return ""
     if not rows:
-        return "next: no actors need orders — just turn --end --await"
+        return f"next: no actors need orders — {V2_ONE_CALL_END}"
+    batched = _batch_focus_command(rows)
+    if batched:
+        return batched
     return "next: " + _decision_line(rows[0])
 
 
@@ -5876,6 +6909,10 @@ def _briefing_decision_lines(
             f"+{len(rows) - V2_BRIEFING_DECISION_ROWS} more actors — "
             "just turn --decisions"
         )
+    # The briefing is where the next `do` is chosen, so it closes with that
+    # `do` already written: reading the menu and composing the batch are the
+    # same act, not two calls.
+    lines.extend(line for line in (_batch_focus_command(rows),) if line)
     return lines
 
 
@@ -5942,11 +6979,14 @@ def _command_turn_decisions(
     if not rows:
         _render([
             f"{label} decisions 0 — no actors need orders; "
-            "just turn --end --await"
+            + V2_ONE_CALL_END
         ])
         return 0
     lines = [f"{label} decisions {len(rows)}"]
     lines.extend(_decision_line(row) for row in rows)
+    # The list closes with the batch it implies, so reading who needs orders
+    # and writing the one command that orders them is a single call.
+    lines.extend(line for line in (_batch_focus_command(rows),) if line)
     _render(lines)
     return 0
 
@@ -5956,10 +6996,16 @@ def command_turn(args: argparse.Namespace) -> int:
     end_phase = bool(getattr(args, "end_phase", False))
     await_next = bool(getattr(args, "await_phase", False))
     decisions = bool(getattr(args, "decisions", False))
+    brief = bool(getattr(args, "brief", False))
     if await_next and not end_phase:
         raise PlayerError(
             "just turn --await blocks after ending the phase; use "
             "`just turn --end --await`, or `just wait` on its own"
+        )
+    if brief and not (end_phase and await_next):
+        raise PlayerError(
+            "just turn --brief prints the briefing of the phase it just woke "
+            "into, so it needs the wake: use `just turn --end --await --brief`"
         )
     if decisions and end_phase:
         raise PlayerError(
@@ -5969,106 +7015,122 @@ def command_turn(args: argparse.Namespace) -> int:
     if decisions:
         return _command_turn_decisions(args, path, session)
     if end_phase:
-        return _command_turn_end(args, path, session, await_next=await_next)
+        return _command_turn_end(
+            args, path, session, await_next=await_next, brief=brief,
+        )
     with _v2_request_lock(path):
-        for attempt in range(2):
-            health = _turn_health(session)
-            if health["game_state"] in TERMINAL_STATES:
-                _emit_turn(args, {
-                    "schema_version": 1,
-                    "command": "turn",
-                    "status": "terminal",
-                    "context": _turn_health_context(health),
-                    "next_commands": [
-                        f"just result {session['game_id']}",
-                    ],
-                })
-                return 0
-            phase = health["phase"]
-            actionable = (
-                health["game_state"] == "running"
-                and health["observation_available"]
-                and isinstance(phase, dict)
-                and phase["active"] is True
-                and phase["state"] == "awaiting_agent"
-            )
-            if not actionable:
-                if health["game_state"] == "lobby":
-                    next_commands = [
-                        "just state --section overview",
-                        "just state --section pregame_nations",
-                        "just state --section pregame_styles",
-                        "just state --section pregame_teams",
-                        "just legal",
-                    ]
-                    status = "lobby"
-                else:
-                    next_commands = ["just wait"]
-                    status = "not_ready"
-                _emit_turn(args, {
-                    "schema_version": 1,
-                    "command": "turn",
-                    "status": status,
-                    "context": _turn_health_context(health),
-                    "next_commands": next_commands,
-                })
-                return 0
+        result, aliases, decision_lines, events = _turn_briefing_locked(
+            path, session,
+        )
+    _emit_turn(args, result, aliases, decisions=decision_lines, events=events)
+    return 0
 
-            pages = {
-                section: _turn_page(session, section)
-                for section in V2_TURN_SECTIONS
-            }
-            final_health = _turn_health(session)
-            revisions = [
-                pages[section]["state_revision"]
-                for section in V2_TURN_SECTIONS
-            ]
-            consistent = all(value == revisions[0] for value in revisions[1:])
-            consistent = consistent and (
-                _turn_health_epoch(health) == _turn_health_epoch(final_health)
-            )
-            phase = final_health["phase"]
-            if phase is not None and phase["turn"] is not None:
-                consistent = consistent and phase["turn"] == revisions[0]["turn"]
-            if not consistent:
-                if attempt == 0:
-                    continue
-                raise PlayerError(
-                    "the game changed twice while building the turn briefing; "
-                    "run `just turn` again"
-                )
 
-            state = _load_v2_client_state(path, session)
-            # Read before the mirror is overwritten: the event total it still
-            # holds is the one this seat has already been shown.
-            seen_events = _mirror_event_count(path)
-            for section in V2_TURN_SECTIONS:
-                _remember_page(path, state, pages[section], legal=False)
-            for section in V2_TURN_SECTIONS:
-                _mirror_page(path, state, pages[section], "turn")
-            _mirror_health(path, final_health, "turn", revisions[0])
-            overview_items = pages["overview"]["page"]["items"]
-            if len(overview_items) != 1:
-                raise PlayerError("the turn briefing has no current overview")
-            result = {
+def _turn_briefing_locked(
+    path: Path, session: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, str] | None, list[str], str]:
+    """Build one turn briefing; the caller already holds this seat's lock.
+
+    Returning the parts instead of printing them is what lets `--brief`
+    compose: the same fetch, the same consistency retry and the same rendering
+    serve `just turn` and the tail of a one-call turn alike.
+    """
+    for attempt in range(2):
+        health = _turn_health(session)
+        if health["game_state"] in TERMINAL_STATES:
+            return {
                 "schema_version": 1,
                 "command": "turn",
-                "status": "ready",
-                "context": _turn_health_context(final_health),
-                "state_revision": revisions[0],
-                "overview": overview_items[0],
-                "cities": _turn_compact_page(pages["cities"]),
-                "units": _turn_compact_page(pages["units"]),
-                "research": _turn_compact_page(pages["research"]),
-                "next_commands": _turn_next_commands(pages),
-            }
-            state = _load_v2_client_state(path, session)
-            _emit_turn(
-                args, result, _alias_map(state),
-                decisions=_briefing_decision_lines(path, state),
-                events=_briefing_events_line(overview_items[0], seen_events),
+                "status": "terminal",
+                "context": _turn_health_context(health),
+                "next_commands": [
+                    f"just result {session['game_id']}",
+                ],
+            }, None, [], ""
+        phase = health["phase"]
+        actionable = (
+            health["game_state"] == "running"
+            and health["observation_available"]
+            and isinstance(phase, dict)
+            and phase["active"] is True
+            and phase["state"] == "awaiting_agent"
+        )
+        if not actionable:
+            if health["game_state"] == "lobby":
+                next_commands = [
+                    "just state --section overview",
+                    "just state --section pregame_nations",
+                    "just state --section pregame_styles",
+                    "just state --section pregame_teams",
+                    "just legal",
+                ]
+                status = "lobby"
+            else:
+                next_commands = ["just wait"]
+                status = "not_ready"
+            return {
+                "schema_version": 1,
+                "command": "turn",
+                "status": status,
+                "context": _turn_health_context(health),
+                "next_commands": next_commands,
+            }, None, [], ""
+
+        pages = {
+            section: _turn_page(session, section)
+            for section in V2_TURN_SECTIONS
+        }
+        final_health = _turn_health(session)
+        revisions = [
+            pages[section]["state_revision"]
+            for section in V2_TURN_SECTIONS
+        ]
+        consistent = all(value == revisions[0] for value in revisions[1:])
+        consistent = consistent and (
+            _turn_health_epoch(health) == _turn_health_epoch(final_health)
+        )
+        phase = final_health["phase"]
+        if phase is not None and phase["turn"] is not None:
+            consistent = consistent and phase["turn"] == revisions[0]["turn"]
+        if not consistent:
+            if attempt == 0:
+                continue
+            raise PlayerError(
+                "the game changed twice while building the turn briefing; "
+                "run `just turn` again"
             )
-            return 0
+
+        state = _load_v2_client_state(path, session)
+        # Read before the mirror is overwritten: the event total it still
+        # holds is the one this seat has already been shown.
+        seen_events = _mirror_event_count(path)
+        for section in V2_TURN_SECTIONS:
+            _remember_page(path, state, pages[section], legal=False)
+        for section in V2_TURN_SECTIONS:
+            _mirror_page(path, state, pages[section], "turn")
+        _mirror_health(path, final_health, "turn", revisions[0])
+        overview_items = pages["overview"]["page"]["items"]
+        if len(overview_items) != 1:
+            raise PlayerError("the turn briefing has no current overview")
+        result = {
+            "schema_version": 1,
+            "command": "turn",
+            "status": "ready",
+            "context": _turn_health_context(final_health),
+            "state_revision": revisions[0],
+            "overview": overview_items[0],
+            "cities": _turn_compact_page(pages["cities"]),
+            "units": _turn_compact_page(pages["units"]),
+            "research": _turn_compact_page(pages["research"]),
+            "next_commands": _turn_next_commands(pages),
+        }
+        state = _load_v2_client_state(path, session)
+        return (
+            result,
+            _alias_map(state),
+            _briefing_decision_lines(path, state),
+            _briefing_events_line(overview_items[0], seen_events),
+        )
     raise AssertionError("unreachable turn briefing state")
 
 
@@ -6106,8 +7168,13 @@ def _state_query(args: argparse.Namespace) -> str:
             CITY_ID_RE.fullmatch(actor_id) is None
             or relation_id or center_id or radius is not None
         ):
+            # Every flag named in a refusal is spelled the way `just`
+            # accepts it: the wrapper takes only the underscore form, so a
+            # hyphenated remedy fails as printed, at the moment the agent
+            # is already lost.
             raise PlayerError(
-                "city state sections require exactly one opaque --actor-id"
+                "city state sections require exactly one opaque "
+                "--actor_id"
             )
         params["actor_id"] = actor_id
     elif section == "diplomacy_clauses":
@@ -6115,8 +7182,12 @@ def _state_query(args: argparse.Namespace) -> str:
             actor_id or RELATION_ID_RE.fullmatch(relation_id) is None
             or center_id or radius is not None
         ):
+            # The spelling here is the one `just` accepts.  An error that names
+            # a flag the wrapper rejects costs a round trip per guess, and it
+            # costs it at the moment an agent is already lost.
             raise PlayerError(
-                "diplomacy_clauses requires exactly one opaque --relation-id"
+                "diplomacy_clauses requires exactly one opaque --relation_id "
+                "from a `just state --section diplomacy` row"
             )
         params["relation_id"] = relation_id
     elif section == "tile_window":
@@ -6126,7 +7197,8 @@ def _state_query(args: argparse.Namespace) -> str:
             or not 0 <= radius <= 8
         ):
             raise PlayerError(
-                "tile_window requires --center-id and --radius from 0 through 8"
+                "tile_window requires --center_id and --radius from 0 "
+                "through 8"
             )
         params["center_id"] = center_id
         params["radius"] = radius
@@ -6137,7 +7209,7 @@ def _state_query(args: argparse.Namespace) -> str:
             or relation_id or center_id or radius is not None
         ):
             raise PlayerError(
-                "unit_route requires exactly one opaque unit --actor-id"
+                "unit_route requires exactly one opaque unit --actor_id"
             )
         params["actor_id"] = actor_id
     elif actor_id or relation_id or center_id or radius is not None:
@@ -6168,7 +7240,7 @@ def command_state(args: argparse.Namespace) -> int:
     if _json_requested(args):
         _print_v2_json(value)
     else:
-        _render(_render_state_page(value, _alias_map(state)))
+        _render(_render_state_page(value, _alias_map(state), path, state))
     return 0
 
 
@@ -6198,6 +7270,17 @@ def _legal_query(
             params["limit"] = _limit(limit)
         return urllib.parse.urlencode(params)
     if actor and ACTOR_ID_RE.fullmatch(actor) is None:
+        if RELATION_ID_RE.fullmatch(actor) is not None:
+            # A relation is the one ID an agent reaches for as an actor and
+            # never can be: diplomacy is enumerated by this seat's own player
+            # bound to the relation.  Refusing without naming that form is how
+            # an open meeting reads as an unreachable one.
+            raise PlayerError(
+                "a relation ID is a diplomacy target, not an actor; enumerate "
+                "the meeting with `just legal --actor_id YOUR_PLAYER_ID "
+                f"--target_id {actor} --all`, taking YOUR_PLAYER_ID from "
+                "`just state --section overview`"
+            )
         raise PlayerError("actor ID has the wrong v2 ID type")
     params: dict[str, Any] = {}
     if actor:
@@ -6361,6 +7444,31 @@ def _cached_kind_scopes(
     return found
 
 
+# Kinds the native protocol enumerates only inside this seat's own player
+# scope.  They are absent from the global catalog by construction, so a global
+# `--kind` search for one of them is never evidence that the rules forbid it —
+# and the government controls in particular are the ones a player goes looking
+# for by name after a report says a change is possible.
+V2_PLAYER_SCOPED_KIND_PREFIXES = (
+    "government.", "spaceship.", "player.set_multiplier",
+)
+# Kinds enumerated only against a relation, as this seat's player plus a
+# `--target_id`.  No actor-only query reaches them.
+V2_RELATION_SCOPED_KIND_PREFIX = "diplomacy."
+
+
+def _player_scope_alias(state: dict[str, Any]) -> str:
+    """Name this seat's own player actor from whatever the cache already holds."""
+    aliases = _alias_map(state)
+    for descriptor in _cached_descriptors(state):
+        subject = descriptor["subject"]
+        actor = subject.get("actor") if isinstance(subject, dict) else None
+        actor_id = actor.get("id") if isinstance(actor, dict) else None
+        if isinstance(actor_id, str) and actor_id.startswith("player_"):
+            return aliases.get(actor_id, actor_id)
+    return "YOUR_PLAYER_ID"
+
+
 def _kind_matched_nothing(
     path: Path,
     session: dict[str, Any],
@@ -6395,6 +7503,24 @@ def _kind_matched_nothing(
             f"{selector} is an actor-scoped kind; this seat holds it for "
             f"{' '.join(scopes[:8])} — read one with "
             f"`just legal --actor_id {scopes[0]} --all`"
+        )
+    elif not scope and selector.startswith(V2_PLAYER_SCOPED_KIND_PREFIXES):
+        # The cache knowing nothing about this kind is exactly the state an
+        # agent is in the first time it looks for it, so the scope is named
+        # from the taxonomy rather than from what happens to be cached.
+        named = _player_scope_alias(_load_v2_client_state(path, session))
+        lines.append(
+            f"{selector} is enumerated only in your own player scope, never "
+            f"in the global catalog — read it with `just legal --actor_id "
+            f"{named} --kind {selector} --all`"
+        )
+    elif not scope and selector.startswith(V2_RELATION_SCOPED_KIND_PREFIX):
+        named = _player_scope_alias(_load_v2_client_state(path, session))
+        lines.append(
+            f"{selector} is enumerated only against one relation — read it "
+            f"with `just legal --actor_id {named} --target_id RELATION_ID "
+            "--all`, taking RELATION_ID from a `just state --section "
+            "diplomacy` row"
         )
     elif not scope:
         lines.append(
@@ -6469,6 +7595,12 @@ def _command_legal_all(
     # Every kind selector this drain actually printed, so a zero-match filter
     # can name the taxonomy that exists instead of asserting an empty catalog.
     present: list[str] = []
+    # Every kind this drain matched but did not print, counted.  A window that
+    # ends early is indistinguishable from a catalog that ends early unless it
+    # says what it kept back, and the government, multiplier, and spaceship
+    # controls sort last in the largest catalog in the game — they are the
+    # first rows any cap eats and the ones a player goes looking for by name.
+    hidden: dict[str, int] = {}
     with _v2_request_lock(path):
         for pages_read in range(1, V2_LEGAL_DRAIN_MAX_PAGES + 1):
             value = _read_legal_page(
@@ -6495,8 +7627,10 @@ def _command_legal_all(
                 match_offset = matched
                 matched += 1
                 if match_offset < offset or byte_limited:
+                    hidden[present_kind] = hidden.get(present_kind, 0) + 1
                     continue
                 if len(compact_actions) >= compact_limit:
+                    hidden[present_kind] = hidden.get(present_kind, 0) + 1
                     continue
                 compact = _compact_legal_action(descriptor)
                 encoded_size = len(json.dumps(
@@ -6504,6 +7638,7 @@ def _command_legal_all(
                 ).encode("utf-8"))
                 if compact_bytes + encoded_size > V2_LEGAL_COMPACT_MAX_BYTES:
                     byte_limited = True
+                    hidden[present_kind] = hidden.get(present_kind, 0) + 1
                     if not compact_actions:
                         if encoded_size > V2_LEGAL_SINGLE_ACTION_MAX_BYTES:
                             raise PlayerError(
@@ -6513,6 +7648,11 @@ def _command_legal_all(
                         compact_actions.append(compact)
                         compact_bytes += encoded_size
                         oversized_single = True
+                        # The bounded fallback printed it after all, so it is
+                        # not one of the rows this window kept back.
+                        hidden[present_kind] -= 1
+                        if not hidden[present_kind]:
+                            del hidden[present_kind]
                     continue
                 compact_actions.append(compact)
                 compact_bytes += encoded_size
@@ -6550,6 +7690,7 @@ def _command_legal_all(
         "next_offset": next_offset if has_more else None,
         "byte_limited": byte_limited,
         "oversized_single": oversized_single,
+        "hidden_kinds": dict(sorted(hidden.items())),
         "actions": compact_actions,
     }
     if _json_requested(args):
@@ -7687,13 +8828,39 @@ def _order_receipt_ok(disposition: dict[str, Any]) -> bool:
 
 def command_do(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
-    orders = _parse_orders(getattr(args, "orders", ""))
+    written = (getattr(args, "orders", "") or "").strip()
+    positional = " ".join(getattr(args, "positional_orders", None) or []).strip()
+    if written and positional:
+        raise PlayerError(
+            "orders were given twice; pass them once, either as "
+            '`just do "u1 found_city London"` or as --orders'
+        )
+    orders = _parse_orders(written or positional)
     keep_going = bool(getattr(args, "continue_on_error", False))
+    end_phase = bool(getattr(args, "end_phase", False))
+    await_next = bool(getattr(args, "await_phase", False))
+    brief = bool(getattr(args, "brief", False))
+    if await_next and not end_phase:
+        raise PlayerError(
+            'just do --await blocks after ending the phase; use `just do "…" '
+            "--end --await`, or `just wait` on its own"
+        )
+    if brief and not (end_phase and await_next):
+        raise PlayerError(
+            "just do --brief prints the briefing of the phase it just woke "
+            'into, so it needs the wake: use `just do "…" --end --await '
+            "--brief`"
+        )
     lines: list[str] = []
     records: list[dict[str, Any]] = []
     exit_code = 0
     applied = 0
     ordered: set[str] = set()
+    ending: dict[str, Any] | None = None
+    wait: dict[str, Any] | None = None
+    briefing: dict[str, Any] | None = None
+    brief_error = ""
+    ended = False
     with _v2_request_lock(path):
         state = _load_v2_client_state(path, session)
         if bool(getattr(args, "no_refresh", False)):
@@ -7803,14 +8970,47 @@ def command_do(args: argparse.Namespace) -> int:
                 exit_code = max(exit_code, 2)
                 break
             pending = [item for item in rebound if item is not None]
+        # The phase end is composed onto the batch, never fused into it: the
+        # orders' receipts are already recorded above, and everything below
+        # only ever adds lines to them.  A batch that did not finish leaves
+        # the phase open and says so -- ending a phase whose orders were
+        # refused would spend the turn on an empire the agent never gave.
+        tail: list[str] = []
+        if end_phase:
+            finished = applied == len(orders) or (keep_going and not stopped)
+            if not finished:
+                tail.append(
+                    f"phase NOT ended: {applied}/{len(orders)} orders "
+                    "applied, so the turn is still yours; fix the refused "
+                    "order and re-issue it, or end anyway with "
+                    f"`{V2_ONE_CALL_END}`"
+                )
+                exit_code = max(exit_code, 2)
+            else:
+                tail, ending, ended, exit_code = _do_phase_end(
+                    args, path, session, exit_code,
+                )
+                if ended and await_next:
+                    wait, briefing, brief_error, woke = _await_and_brief_locked(
+                        args, path, session, brief=brief,
+                    )
+                    tail.extend(woke)
+                    if brief_error:
+                        exit_code = max(exit_code, 2)
+                elif ended:
+                    tail.append(
+                        "next: just wait — or add --await --brief to spend "
+                        "one call on the whole turn"
+                    )
     summary = f"{applied}/{len(orders)} applied"
     if bound is not None:
         summary += f" {_revision_label(bound)}"
     lines.append(summary)
     if stopped:
         lines.append(stopped)
+    lines.extend(tail)
     if _json_requested(args):
-        _print_v2_json({
+        payload = {
             "schema_version": 1,
             "command": "do",
             "orders": records,
@@ -7818,9 +9018,20 @@ def command_do(args: argparse.Namespace) -> int:
             "applied": applied,
             "state_revision": bound,
             "stopped": stopped or None,
-        })
+        }
+        if end_phase:
+            # A new surface: the composite only ever appears when the new flag
+            # asked for it, so the shape `just do --json` has always returned
+            # is untouched.
+            payload.update({
+                "end": ending,
+                "wait": wait,
+                "turn": briefing,
+                "turn_error": brief_error or None,
+            })
+        _print_v2_json(payload)
     else:
-        if applied:
+        if applied and not ended:
             # One focus line for the whole batch, from local caches only.
             focus = _next_focus_line(
                 path, _load_v2_client_state(path, session), frozenset(ordered),
@@ -7829,6 +9040,38 @@ def command_do(args: argparse.Namespace) -> int:
                 lines.append(focus)
         _render(lines)
     return exit_code
+
+
+def _do_phase_end(
+    args: argparse.Namespace,
+    path: Path,
+    session: dict[str, Any],
+    exit_code: int,
+) -> tuple[list[str], dict[str, Any] | None, bool, int]:
+    """Run `do --end`'s phase end, turning any failure into printable lines.
+
+    The applied orders are already receipted, so an end that cannot run must
+    never leave as an exception: it becomes one more line, with the command
+    that finishes the turn by hand.
+    """
+    try:
+        disposition, warning, code, lines = _phase_end_locked(path, session)
+    except (PlayerError, V2ResponseError) as exc:
+        # The refusal carries its own remedy, and the focus tail below still
+        # names what the turn has left; nothing more is added here.
+        return [f"phase NOT ended: {exc}"], None, False, max(exit_code, 2)
+    if warning:
+        print(warning, file=sys.stderr)
+    ended = _order_receipt_ok(disposition)
+    if not ended:
+        lines.append(
+            "phase NOT ended: the phase end above was not accepted"
+            + (
+                "; not awaited"
+                if bool(getattr(args, "await_phase", False)) else ""
+            )
+        )
+    return lines, disposition, ended, max(exit_code, code)
 
 
 def _get_receipt_response(
@@ -8563,12 +9806,15 @@ V2_SHOW_FILES: dict[str, tuple[str, ...]] = {
     "cities": ("state", "cities.tsv"),
     "map": ("state", "map.txt"),
     "yields": ("state", "yields.tsv"),
+    "diplomacy": ("state", "diplomacy.tsv"),
     "delta": ("state", "delta.md"),
     "nations": ("cache", "nations.tsv"),
     "styles": ("cache", "styles.tsv"),
     "governments": ("cache", "governments.tsv"),
 }
-V2_SHOW_ROW_FILES = ("units", "cities")
+# A relation is addressed by alias exactly like a unit or a city, so `just show
+# r1` reaches the row that names the counterpart and its open meeting.
+V2_SHOW_ROW_FILES = ("units", "cities", "diplomacy")
 V2_SHOW_MAX_MATCHES = 200
 SHOW_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 
@@ -9043,6 +10289,10 @@ def parser() -> argparse.ArgumentParser:
         help="with --end: block until the next phase, then print its header",
     )
     turn.add_argument(
+        "--brief", action="store_true",
+        help="with --end --await: print the whole next briefing on waking",
+    )
+    turn.add_argument(
         "--decisions", action="store_true",
         help="one row per actor that can still act, with its best options",
     )
@@ -9068,6 +10318,9 @@ def parser() -> argparse.ArgumentParser:
         "--orders", default="",
         help='1..8 semicolon-separated orders, e.g. "u1 found_city London"',
     )
+    # `just do "…"` passes the orders positionally, so `./play do "…"` must
+    # too, or the two spellings are not one command.
+    do.add_argument("positional_orders", nargs="*", default=[])
     do.add_argument(
         "--continue-on-error", dest="continue_on_error", action="store_true",
         help="keep issuing later orders after one is rejected",
@@ -9076,6 +10329,21 @@ def parser() -> argparse.ArgumentParser:
         "--no-refresh", dest="no_refresh", action="store_true",
         help="refuse a stale action alias instead of re-binding it",
     )
+    do.add_argument(
+        "--end", dest="end_phase", action="store_true",
+        help="end this phase once every order in the batch has applied",
+    )
+    do.add_argument(
+        "--await", dest="await_phase", action="store_true",
+        help="with --end: block until the next phase, then print its header",
+    )
+    do.add_argument(
+        "--brief", action="store_true",
+        help="with --end --await: print the whole next briefing on waking",
+    )
+    do.add_argument("--wait-s", type=float, default=120)
+    do.add_argument("--poll-s", type=float, default=1)
+    do.add_argument("--until", choices=("phase", "revision"), default="phase")
     json_escape_hatch(do)
     do.set_defaults(handler=command_do)
 

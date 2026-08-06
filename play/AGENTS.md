@@ -2,6 +2,24 @@
 
 This directory is the complete workspace for an autonomous Freeciv player.
 
+`just join` is always the first command. It creates the seat every other
+command reads and writes, so `start`, `turn`, `do`, `show`, `state`, `legal`
+and the rest all refuse until it has run. For `full-control-v2` the order is:
+
+    1. just join                 binds this workspace to its seat
+    2. just start                leave the lobby: configure + set ready
+    3. just turn                 the briefing
+    4. just do "u1 found_city London; u2 route 32,73" --end --await --brief
+
+then repeat step 4 until the game is terminal. Step 4 is a whole turn in one
+call: it orders every actor, ends the phase, blocks for the next phase and
+prints its full briefing. Order every actor that needs orders in that one
+line rather than one call each -- the briefing and every receipt end with the
+`next N actors: just do "..."` line that writes it. With nothing left to
+order, step 4 is `just turn --end --await --brief`. Step 2 is this
+workspace's lobby command; it is unrelated to the repository stack's
+`just start`.
+
 - Do not read, search, execute, or modify anything outside this directory.
 - Use only the commands in this directory's `justfile` and the negotiated
   protocol's authenticated private observations.
@@ -14,8 +32,8 @@ This directory is the complete workspace for an autonomous Freeciv player.
   seat and `just use GAME_ID` rebinds it.
 - For `strategic-v1`, use only `next`/`act`, and advance `LAST_TURN` only
   after `act` returns `accepted: true`.
-- For `full-control-v2`, play with `start`, `turn`, `do`, `turn --end --await`
-  and `show`, and reach anything they do not cover with `state`, `legal`,
+- For `full-control-v2`, play with `start`, `turn`, `do … --end --await
+  --brief` and `show`, and reach anything they do not cover with `state`, `legal`,
   `batch`, `receipt`, `retry`, `health` and `wait`.
 - The `full-control-v2` invariants: execute an enumerated action only at its
   exact state revision, resolve an uncertain POST by receipt first, and never

@@ -123,6 +123,44 @@ def load_jsonl(path: Path) -> Iterable[dict[str, Any]]:
     return events
 
 
+def summarize_recovery(episode: Path) -> dict[str, Any]:
+    """Read what this episode had to recover from, from the durable journal.
+
+    A game that rewound real applied turns is not comparable to one that never
+    faulted, and until this existed nothing a scorer read said which it was:
+    the recovery journal was written, published on private per-agent health,
+    and then never looked at again.
+    """
+    summary: dict[str, Any] = {
+        "attempts": 0,
+        "by_kind": {},
+        "by_outcome": {},
+        "rewound_applied_actions": False,
+        "recovered_to_turns": [],
+    }
+    try:
+        events = load_jsonl(episode / "v2-recovery" / "events.jsonl")
+    except (OSError, ValueError):
+        return summary
+    for event in events:
+        summary["attempts"] += 1
+        for field in ("kind", "outcome"):
+            value = event.get(field)
+            if isinstance(value, str):
+                bucket = summary[f"by_{field}"]
+                bucket[value] = bucket.get(value, 0) + 1
+        if event.get("outcome") != "recovered":
+            continue
+        turn = event.get("recovered_to_turn")
+        if isinstance(turn, int) and not isinstance(turn, bool):
+            if turn not in summary["recovered_to_turns"]:
+                summary["recovered_to_turns"].append(turn)
+        if event.get("rewound_applied_actions") is True:
+            summary["rewound_applied_actions"] = True
+    summary["recovered_to_turns"].sort()
+    return summary
+
+
 def summarize_episode(
     directory: str | Path,
     *,
@@ -221,7 +259,20 @@ def summarize_episode(
     for current in per_seat.values():
         count = current["decisions"]
         current["mean_latency_ms"] = round(current.pop("latency_ms") / count, 3) if count else 0
-    return {"episode": str(episode), "manifest": manifest, "score": score, "seat_stats": per_seat}
+    recovery = summarize_recovery(episode)
+    if recovery["rewound_applied_actions"]:
+        # A rewound game cannot be silently ranked against clean ones, even if
+        # the supervisor that ran it never got to write its own manifest.
+        reasons = manifest.setdefault("invalid_reasons", [])
+        if isinstance(reasons, list) and "v2_game_rewound" not in reasons:
+            reasons.append("v2_game_rewound")
+    return {
+        "episode": str(episode),
+        "manifest": manifest,
+        "score": score,
+        "seat_stats": per_seat,
+        "recovery": recovery,
+    }
 
 
 def aggregate_leaderboard(summaries: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:

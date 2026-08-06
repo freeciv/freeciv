@@ -741,9 +741,18 @@ static int agent_event_loop(void)
     }
 
     /* Read first when both directions are signalled. This lets a closed peer
-     * terminate cleanly instead of attempting to write the queued greeting. */
+     * terminate cleanly instead of attempting to write the queued greeting.
+     *
+     * Deliberately NOT gated on FD_ISSET(agent_ipc.fd, &writefds): writefds
+     * is only armed when a write was already pending BEFORE the select, so
+     * a reply queued by agent_handle_command() in this iteration would wait
+     * for the NEXT iteration -- behind a full fc_agent_v2_tick() state
+     * rebuild including per-unit pathfinding.  That one-tick delay is what
+     * let a 1s liveness deadline expire during a turn change and killed a
+     * healthy client (turn-66 incident).  The fd is O_NONBLOCK and
+     * fc_agent_ipc_flush() treats EAGAIN as success, so the ungated call's
+     * worst case is one wasted send() returning EAGAIN. */
     if (fc_agent_ipc_wants_write(&agent_ipc)
-        && FD_ISSET(agent_ipc.fd, &writefds)
         && !fc_agent_ipc_flush(&agent_ipc)) {
       log_error("The private agent IPC descriptor failed while writing.");
       agent_exit_failure = TRUE;

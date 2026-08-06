@@ -37,6 +37,26 @@ RECEIPT_DIRECTORY = "v2-receipts"
 MAX_RECORD_BYTES = 64 * 1024
 MAX_RECORD_FILES = 100_000
 
+# Why one record name is unusable for the rest of the game.  A quarantine is
+# always scoped to a single record name, never to the store: the batch that
+# owns that name keeps failing closed, and every other batch is unaffected.
+QUARANTINE_REASONS = frozenset({
+    # The durable record exists but cannot be trusted (torn, tampered with,
+    # written by a future format version, or carrying an enum this build does
+    # not know).  Its batch must never be replayed, so the name stays poisoned.
+    "unreadable_record",
+    # Crash recovery could not durably promote a reserved/accepted record to
+    # its terminal ambiguous receipt.  Serving the un-promoted record could let
+    # the batch be dispatched twice, so the name is poisoned instead.
+    "recovery_not_durable",
+    # A directory entry that is not a record and not one of our temporaries.
+    # It can never collide with a record name we derive, so it is only noted.
+    "foreign_entry",
+    # A leftover write temporary that could not be removed.  Harmless, noted so
+    # a full or read-only filesystem is attributable rather than invisible.
+    "temporary_retained",
+})
+
 _FORMAT = "freeciv-full-control-v2-receipt"
 _FORMAT_VERSION = 1
 _PHASES = frozenset({"reserved", "accepted", "applied", "rejected", "ambiguous"})
@@ -59,6 +79,14 @@ _RECORD_FIELDS = frozenset({
     "state_revision",
     "receipt",
 })
+# Which run of the game a record belongs to.  An autosave rollback replaces
+# the world, and the documented response to an unresolved command is to resend
+# the exact same batch id -- so without this a post-rollback retry is answered
+# from the receipt of a dispatch the current game has never seen, and the agent
+# is told "applied" for an action that did not happen.  Written only when
+# non-zero, so a store from a game that never rolled back is unchanged.
+_RECORD_OPTIONAL_FIELDS = frozenset({"incarnation"})
+MAX_INCARNATION = (1 << 31) - 1
 
 
 class V2ReceiptStoreError(RuntimeError):
@@ -118,8 +146,10 @@ def _validate_opaque_id(value: Any) -> str:
     return value
 
 
-def _record_filename(agent_id: str, batch_id: str) -> str:
+def _record_filename(agent_id: str, batch_id: str, incarnation: int = 0) -> str:
     identity = agent_id.encode("utf-8") + b"\0" + batch_id.encode("utf-8")
+    if incarnation:
+        identity += b"\0" + str(incarnation).encode("ascii")
     return hashlib.sha256(identity).hexdigest() + ".json"
 
 
@@ -221,6 +251,13 @@ class V2ReceiptStore:
     ``accepted`` record becomes a durable, terminal ``ambiguous`` receipt.
     Such an action must never be replayed after ownership of the native outcome
     was lost.
+
+    Recovery is per record, never all-or-nothing.  A record that cannot be
+    read, validated, or durably promoted quarantines *its own name* and leaves
+    the file exactly where it is; the store still opens, every other batch
+    still works, and the quarantined name keeps failing closed for the rest of
+    the game.  A store that refused to open would take the whole seat with it,
+    which is the one outcome the durable-receipt contract does not require.
     """
 
     def __init__(self, episode_root: str | os.PathLike[str], *, game_id: str):
@@ -229,6 +266,8 @@ class V2ReceiptStore:
         self._closed = False
         self._dir_fd = -1
         self._recovered_receipts: tuple[dict[str, Any], ...] = ()
+        self._quarantine: dict[str, str] = {}
+        self._incarnation = 0
 
         root_flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0)
         root_flags |= getattr(os, "O_DIRECTORY", 0)
@@ -286,6 +325,36 @@ class V2ReceiptStore:
             self._require_open()
             return tuple(copy.deepcopy(value) for value in self._recovered_receipts)
 
+    @property
+    def quarantined_records(self) -> tuple[dict[str, str], ...]:
+        """Every directory entry this store refuses to serve, and why.
+
+        A record entry's name is a digest of ``agent_id`` and ``batch_id``, so
+        it carries no caller text; the reason is one closed server-authored
+        token.  A *foreign* entry's name is whatever landed in the directory,
+        so it is replaced by its own digest rather than echoed.  Everything
+        returned here is therefore safe to log and to publish as attribution.
+        """
+        with self._lock:
+            return tuple(
+                {
+                    "record": (
+                        name if _RECORD_NAME.fullmatch(name)
+                        or _TEMP_NAME.fullmatch(name)
+                        else hashlib.sha256(
+                            name.encode("utf-8", "surrogatepass"),
+                        ).hexdigest()
+                    ),
+                    "reason": reason,
+                }
+                for name, reason in sorted(self._quarantine.items())
+            )
+
+    def _check_quarantine_locked(self, name: str) -> None:
+        """Fail one record name closed without touching any other batch."""
+        if name in self._quarantine:
+            raise V2ReceiptCorrupt()
+
     def close(self) -> None:
         lock = getattr(self, "_lock", None)
         if lock is None:
@@ -302,24 +371,52 @@ class V2ReceiptStore:
                 except OSError:
                     pass
 
+    @property
+    def incarnation(self) -> int:
+        """Which run of the game new records belong to."""
+        with self._lock:
+            return self._incarnation
+
+    def begin_incarnation(self) -> int:
+        """Start a new record namespace because the game was rolled back.
+
+        Every pre-rollback receipt stays exactly where it is: it is durable
+        evidence of a dispatch that really happened, and it must stay
+        unreplayable.  What changes is that a batch id resent against the
+        reloaded game -- the sanctioned response to an unresolved command --
+        reserves fresh instead of being answered from the old terminal record.
+        """
+        with self._lock:
+            self._require_open()
+            if self._incarnation >= MAX_INCARNATION:
+                raise V2ReceiptStoreError()
+            self._incarnation += 1
+            return self._incarnation
+
     def reserve(self, batch: Any) -> ReceiptReservation:
         """Durably reserve a validated public batch before native dispatch."""
         clean, request_hash = self._validated_batch(batch)
-        record = {
-            "format": _FORMAT,
-            "version": _FORMAT_VERSION,
-            "phase": "reserved",
-            "request_hash": request_hash,
-            "game_id": clean["game_id"],
-            "agent_id": clean["agent_id"],
-            "batch_id": clean["batch_id"],
-            "state_revision": clean["state_revision"],
-            "receipt": None,
-        }
-        name = _record_filename(clean["agent_id"], clean["batch_id"])
-        encoded = _canonical_json(record)
         with self._lock:
             self._require_open()
+            incarnation = self._incarnation
+            record = {
+                "format": _FORMAT,
+                "version": _FORMAT_VERSION,
+                "phase": "reserved",
+                "request_hash": request_hash,
+                "game_id": clean["game_id"],
+                "agent_id": clean["agent_id"],
+                "batch_id": clean["batch_id"],
+                "state_revision": clean["state_revision"],
+                "receipt": None,
+            }
+            if incarnation:
+                record["incarnation"] = incarnation
+            name = _record_filename(
+                clean["agent_id"], clean["batch_id"], incarnation,
+            )
+            encoded = _canonical_json(record)
+            self._check_quarantine_locked(name)
             try:
                 self._create_record_locked(name, encoded)
             except FileExistsError:
@@ -348,9 +445,12 @@ class V2ReceiptStore:
         record disappears after that check, the race fails closed as corrupt.
         """
         clean, request_hash = self._validated_batch(batch)
-        name = _record_filename(clean["agent_id"], clean["batch_id"])
         with self._lock:
             self._require_open()
+            name = _record_filename(
+                clean["agent_id"], clean["batch_id"], self._incarnation,
+            )
+            self._check_quarantine_locked(name)
             if not self._record_exists_locked(name):
                 return None
             existing = self._read_record_locked(name)
@@ -371,7 +471,11 @@ class V2ReceiptStore:
             raise V2ReceiptInvalidTransition()
         try:
             clean = _safe_public_receipt(receipt)
-        except FullControlSchemaError:
+        except (FullControlSchemaError, TypeError, KeyError, ValueError):
+            # Any malformed receipt refuses this one transition.  Widened past
+            # the schema error on purpose: a vocabulary that drifts out from
+            # under the validators must still fail as a sanitized, attributed
+            # refusal rather than escape as an unhandled 500.
             raise V2ReceiptInvalidTransition() from None
         if clean["idempotent"]:
             raise V2ReceiptInvalidTransition()
@@ -382,10 +486,13 @@ class V2ReceiptStore:
             or reservation.game_id != self.game_id
         ):
             raise V2ReceiptInvalidTransition()
-        name = _record_filename(reservation.agent_id, reservation.batch_id)
         target = clean["receipt_state"]
         with self._lock:
             self._require_open()
+            name = _record_filename(
+                reservation.agent_id, reservation.batch_id, self._incarnation,
+            )
+            self._check_quarantine_locked(name)
             record = self._read_record_locked(name)
             self._check_reservation(record, reservation)
             current = record["phase"]
@@ -407,9 +514,10 @@ class V2ReceiptStore:
         """Return a copy of a durable public receipt, if one exists yet."""
         agent = _validate_opaque_id(agent_id)
         batch = _validate_opaque_id(batch_id)
-        name = _record_filename(agent, batch)
         with self._lock:
             self._require_open()
+            name = _record_filename(agent, batch, self._incarnation)
+            self._check_quarantine_locked(name)
             if not self._record_exists_locked(name):
                 return None
             record = self._read_record_locked(name)
@@ -595,7 +703,13 @@ class V2ReceiptStore:
 
     def _validate_record(self, value: Any, name: str) -> dict[str, Any]:
         try:
-            if not isinstance(value, dict) or set(value) != _RECORD_FIELDS:
+            if (
+                not isinstance(value, dict)
+                or set(value) - _RECORD_OPTIONAL_FIELDS != _RECORD_FIELDS
+            ):
+                raise V2ReceiptCorrupt()
+            incarnation = value.get("incarnation", 0)
+            if type(incarnation) is not int or not 0 <= incarnation <= MAX_INCARNATION:
                 raise V2ReceiptCorrupt()
             if (
                 value["format"] != _FORMAT
@@ -614,7 +728,7 @@ class V2ReceiptStore:
             batch_id = _validate_opaque_id(value["batch_id"])
             if game_id != self.game_id:
                 raise V2ReceiptCorrupt()
-            if name != _record_filename(agent_id, batch_id):
+            if name != _record_filename(agent_id, batch_id, incarnation):
                 raise V2ReceiptCorrupt()
             state_revision = validate_state_revision(value["state_revision"])
             receipt = value["receipt"]
@@ -642,6 +756,8 @@ class V2ReceiptStore:
                 "state_revision": state_revision,
                 "receipt": receipt,
             }
+            if incarnation:
+                clean["incarnation"] = incarnation
             if value != clean:
                 raise V2ReceiptCorrupt()
             return clean
@@ -680,17 +796,34 @@ class V2ReceiptStore:
                 try:
                     os.unlink(name, dir_fd=self._dir_fd)
                     removed_temporary = True
+                except FileNotFoundError:
+                    pass
                 except OSError:
-                    raise V2ReceiptStoreError() from None
+                    # A temporary is never a record name and is never served,
+                    # so failing to reap one is a note, not a dead store.
+                    self._quarantine[name] = "temporary_retained"
                 continue
             if _RECORD_NAME.fullmatch(name) is None:
-                raise V2ReceiptCorrupt()
-            records.append((name, self._read_record_locked(name)))
+                # A foreign entry cannot collide with any name we derive (they
+                # are all SHA-256 digests), so it can only be noted.
+                self._quarantine[name] = "foreign_entry"
+                continue
+            try:
+                records.append((name, self._read_record_locked(name)))
+            except V2ReceiptCorrupt:
+                # Leave the file exactly where it is.  It is the forensic
+                # evidence, and leaving it makes the quarantine durable and
+                # identical on every later restart.
+                self._quarantine[name] = "unreadable_record"
         if removed_temporary:
             try:
                 os.fsync(self._dir_fd)
             except OSError:
-                raise V2ReceiptStoreError() from None
+                # Only the reaping of stale temporaries is unsynced; nothing
+                # durable depends on it (a temporary that survives a crash is
+                # simply reaped again).  Every write that *is* load-bearing
+                # still fsyncs and still fails its own operation closed.
+                pass
 
         recovered: list[dict[str, Any]] = []
         for name, record in records:
@@ -701,33 +834,43 @@ class V2ReceiptStore:
                 if record["receipt"] is None
                 else record["receipt"]["state_revision"]
             )
-            receipt = _safe_public_receipt({
-                "schema_version": FULL_CONTROL_SCHEMA_VERSION,
-                "control_protocol": FULL_CONTROL_V2,
-                "game_id": record["game_id"],
-                "agent_id": record["agent_id"],
-                "batch_id": record["batch_id"],
-                "receipt_state": "ambiguous",
-                "idempotent": False,
-                "state_revision": revision,
-                "error": structured_error(
-                    "action_outcome_ambiguous",
-                    "The action outcome is unknown after recovery and will not be replayed.",
-                    retryable=False,
-                    state_revision=revision,
-                ),
-                "observation": None,
-            })
-            updated = dict(record)
-            updated["phase"] = "ambiguous"
-            updated["receipt"] = receipt
-            self._replace_record_locked(name, _canonical_json(updated))
+            try:
+                receipt = _safe_public_receipt({
+                    "schema_version": FULL_CONTROL_SCHEMA_VERSION,
+                    "control_protocol": FULL_CONTROL_V2,
+                    "game_id": record["game_id"],
+                    "agent_id": record["agent_id"],
+                    "batch_id": record["batch_id"],
+                    "receipt_state": "ambiguous",
+                    "idempotent": False,
+                    "state_revision": revision,
+                    "error": structured_error(
+                        "action_outcome_ambiguous",
+                        "The action outcome is unknown after recovery and will "
+                        "not be replayed.",
+                        retryable=False,
+                        state_revision=revision,
+                    ),
+                    "observation": None,
+                })
+                updated = dict(record)
+                updated["phase"] = "ambiguous"
+                updated["receipt"] = receipt
+                self._replace_record_locked(name, _canonical_json(updated))
+            except (V2ReceiptStoreError, FullControlSchemaError, TypeError, KeyError):
+                # The terminal receipt is not durable, so this batch may not be
+                # served at all: an un-promoted `reserved` record would let the
+                # same command be dispatched a second time.  Poison the one
+                # name; every other seat and batch keeps working.
+                self._quarantine[name] = "recovery_not_durable"
+                continue
             recovered.append(copy.deepcopy(receipt))
         return tuple(recovered)
 
 
 __all__ = [
     "MAX_RECORD_BYTES",
+    "QUARANTINE_REASONS",
     "RECEIPT_DIRECTORY",
     "ReceiptReservation",
     "V2ReceiptConflict",

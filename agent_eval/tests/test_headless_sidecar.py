@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import json
 import os
+import resource
+import signal
 import socket
 import stat
 import struct
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -191,12 +195,27 @@ state_scope_views = {}
 state_scope_serial = 0
 relation_views = {}
 relation_serial = 0
+slow_statuses = 0
+if player == "NoisyClient":
+    for index in range(200):
+        sys.stderr.write("2: native diagnostic line %d\n" % index)
+    sys.stderr.flush()
 while True:
     try:
         command = receive(sock)
     except EOFError:
         sys.exit(10)
     if command == "STATUS":
+        if player == "StatusHang":
+            # A client that is alive, connected and seat-owning but busy: the
+            # single-threaded real client cannot answer while it rebuilds its
+            # state, which is what a turn change makes it do.
+            while True:
+                time.sleep(1)
+        if player == "SlowStatus":
+            slow_statuses += 1
+            if slow_statuses <= 2:
+                time.sleep(.35)
         if player == "PhaseNotificationFlood":
             for value in range(revision + 1, revision + 301):
                 send(sock, "PHASE_AVAILABLE\t%d\t%d\t0\tteams_alternate\t1\t1\t1\t0\t1" % (
@@ -673,7 +692,9 @@ class FramedIPCTests(unittest.TestCase):
                 self.ipc.send(text, time.monotonic() + 1)
 
 
-class HeadlessSidecarTests(unittest.TestCase):
+class SidecarFixture:
+    """One temporary root, one fake client binary, and cleaned-up sidecars."""
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary.name)
@@ -709,6 +730,8 @@ class HeadlessSidecarTests(unittest.TestCase):
         self.sidecars.append(sidecar)
         return sidecar, callbacks
 
+
+class HeadlessSidecarTests(SidecarFixture, unittest.TestCase):
     def test_native_errors_have_deterministic_detail_free_mapping(self):
         expected = {
             "BAD_REQUEST": "native_bad_request",
@@ -2143,6 +2166,393 @@ class HeadlessSidecarTests(unittest.TestCase):
         self.assertGreater(process.kill_count, first_kills)
         self.assertEqual(sidecar.public_health()["state"], "failed")
         self.assertEqual(len(callbacks), 1)
+
+
+class SidecarDeathContainmentTests(SidecarFixture, unittest.TestCase):
+    """A missed reply is a latency observation; a death must leave evidence.
+
+    Both halves of the turn-66 class live here.  One healthy client was killed
+    because a single 1.0 s liveness poll went unanswered during a turn-change
+    refresh, and the resulting record said "sidecar exited" about a process
+    that was still running -- so these tests pin the two things that were
+    wrong: what a timeout is allowed to mean, and what a death must record.
+    """
+
+    def forensics_file(self, sidecar):
+        return json.loads(
+            (sidecar.run_directory / "exit-forensics.json").read_text("utf-8"),
+        )
+
+    def test_a_deadline_is_never_evidence_that_the_client_is_broken(self):
+        for code in ("deadline_exceeded", "command_in_progress"):
+            with self.subTest(code=code):
+                self.assertFalse(
+                    HeadlessSidecar._command_error_is_terminal(
+                        SidecarError(code),
+                    ),
+                )
+        for code in (
+            "unexpected_eof", "disconnected", "process_exited",
+            "protocol_error", "wrong_player", "take_failed",
+        ):
+            with self.subTest(code=code):
+                self.assertTrue(
+                    HeadlessSidecar._command_error_is_terminal(
+                        SidecarError(code),
+                    ),
+                )
+
+    def test_a_slow_liveness_sample_leaves_the_seat_alive_and_usable(self):
+        # The incident, inverted: the client answers late, twice, and the
+        # sidecar must still be the same working sidecar afterwards.
+        sidecar, callbacks = self.make("SlowStatus")
+        sidecar.start_and_take()
+        for attempt in range(2):
+            with self.subTest(attempt=attempt), self.assertRaises(
+                SidecarError,
+            ) as timed_out:
+                sidecar.status(timeout_s=0.05)
+            self.assertEqual(timed_out.exception.code, "deadline_exceeded")
+            self.assertEqual(sidecar.public_health()["state"], "ready")
+        self.assertEqual(callbacks, [])
+        self.assertEqual(len(sidecar._stale_replies), 2)
+        self.assertFalse(
+            (sidecar.run_directory / "exit-forensics.json").exists(),
+        )
+
+        # The late answers are recognized and discarded in order, so the next
+        # poll reads its own reply instead of the abandoned ones.
+        self.assertIn("state=running", sidecar.status(timeout_s=5))
+        self.assertEqual(len(sidecar._stale_replies), 0)
+        forensics = sidecar.private_exit_forensics()
+        self.assertEqual(forensics["unanswered_replies"], 2)
+        self.assertEqual(forensics["discarded_late_replies"], 2)
+        self.assertIs(forensics["process_alive"], True)
+        self.assertIsNone(forensics["exit_code"])
+        self.assertEqual(sidecar.public_health()["state"], "ready")
+
+    def test_a_half_written_request_is_never_treated_as_merely_slow(self):
+        # A frame that may be partly on the wire leaves the client's parser
+        # unrecoverable, so unlike a missed reply it is not survivable: there
+        # is no answer to wait for and nothing to discard later.
+        sidecar, callbacks = self.make("PhaseInitial")
+        sidecar.start_and_take()
+
+        def half_written(value, deadline):
+            raise SidecarError("deadline_exceeded", "IPC send deadline exceeded")
+
+        with patch.object(sidecar, "_send", half_written):
+            with self.assertRaises(SidecarError) as timed_out:
+                sidecar.status(timeout_s=1)
+        self.assertEqual(timed_out.exception.code, "deadline_exceeded")
+        self.assertEqual(sidecar.public_health()["state"], "failed")
+        self.assertEqual(len(sidecar._stale_replies), 0)
+        self.assertEqual(len(callbacks), 1)
+
+    def test_endless_silence_is_still_eventually_fail_closed(self):
+        sidecar, callbacks = self.make("StatusHang")
+        sidecar.start_and_take()
+        limit = headless_sidecar.MAX_UNANSWERED_LIVENESS_REPLIES
+        for attempt in range(limit):
+            with self.assertRaises(SidecarError) as timed_out:
+                sidecar.status(timeout_s=0.02)
+            self.assertEqual(timed_out.exception.code, "deadline_exceeded")
+            self.assertEqual(
+                sidecar.public_health()["state"], "ready",
+                f"poll {attempt} must not terminalize a running client",
+            )
+        with self.assertRaises(SidecarError) as exhausted:
+            sidecar.status(timeout_s=0.02)
+        self.assertEqual(exhausted.exception.code, "deadline_exceeded")
+        health = sidecar.public_health()
+        self.assertEqual(health["state"], "failed")
+        # Fail-closed, but never mis-attributed: the client is still running.
+        self.assertIs(health["process_alive"], True)
+        self.assertIsNone(health["exit_code"])
+        self.assertEqual(len(callbacks), 1)
+        self.assertIs(callbacks[0][1]["process_alive"], True)
+        self.assertIs(self.forensics_file(sidecar)["process_alive"], True)
+
+    def test_a_mutating_command_timeout_still_replaces_the_sidecar(self):
+        # An action's reply is the only evidence of whether the game applied
+        # it, so unlike a liveness sample it may never be abandoned and
+        # silently discarded later.
+        sidecar, callbacks = self.make("ActionAckDelay")
+        sidecar.start_and_take()
+        with self.assertRaises(SidecarActionAmbiguous) as timed_out:
+            sidecar.execute_action(
+                "req-slow-act", "a0123456789ABCDEF", timeout_s=0.02,
+                expected_revision=2,
+            )
+        self.assertEqual(timed_out.exception.code, "action_delivery_ambiguous")
+        self.assertEqual(sidecar.public_health()["state"], "failed")
+        self.assertEqual(len(callbacks), 1)
+        self.assertEqual(len(sidecar._stale_replies), 0)
+        record = self.forensics_file(sidecar)
+        # "Stopped answering while still running" -- never "exited".
+        self.assertIs(record["process_alive"], True)
+        self.assertIsNone(record["exit_code"])
+        self.assertEqual(record["error_code"], "action_delivery_ambiguous")
+
+    def test_killing_the_client_mid_status_reports_the_death(self):
+        sidecar, callbacks = self.make("StatusHang")
+        sidecar.start_and_take()
+        raised: list[SidecarError] = []
+        elapsed: list[float] = []
+
+        def poll():
+            started = time.monotonic()
+            try:
+                sidecar.status(timeout_s=5)
+            except SidecarError as exc:
+                raised.append(exc)
+            finally:
+                elapsed.append(time.monotonic() - started)
+
+        prober = threading.Thread(target=poll)
+        prober.start()
+        time.sleep(0.2)
+        os.kill(sidecar._process.pid, signal.SIGKILL)
+        prober.join(5)
+        self.assertFalse(prober.is_alive())
+        # The exit callback carries the evidence, so it is published after the
+        # evidence is collected; both lifecycle threads run it to completion.
+        sidecar._reader_thread.join(5)
+        sidecar._monitor_thread.join(5)
+        # Neither a hang until the deadline nor an opaque failure: the loss is
+        # named as the client going away.
+        self.assertLess(elapsed[0], 4)
+        self.assertEqual(len(raised), 1)
+        self.assertIn(
+            raised[0].code,
+            {"unexpected_eof", "disconnected", "process_exited"},
+        )
+        self.assertEqual(len(callbacks), 1)
+        self.assertEqual(callbacks[0][1]["state"], "failed")
+
+        forensics = sidecar.private_exit_forensics()
+        self.assertEqual(forensics["exit_code"], -signal.SIGKILL)
+        self.assertEqual(forensics["exit_signal"], int(signal.SIGKILL))
+        self.assertEqual(forensics["exit_signal_name"], "SIGKILL")
+        self.assertIs(forensics["process_alive"], False)
+        self.assertIsNotNone(forensics["exit_observed_at"])
+        record = self.forensics_file(sidecar)
+        self.assertEqual(record["exit_signal_name"], "SIGKILL")
+        self.assertEqual(record["generation"], sidecar.generation)
+        self.assertEqual(record["seat_id"], sidecar.seat_id)
+
+        # Restart tolerance: the death is contained to its own generation, so
+        # the seat can be retaken immediately by a new one.
+        successor, _ = self.make("PhaseInitial")
+        successor.start_and_take()
+        self.assertEqual(successor.public_health()["state"], "ready")
+
+    def test_a_death_after_the_seat_was_given_up_is_still_recorded(self):
+        # The most misleading case there is: the harness decides the seat is
+        # lost, and only afterwards does the client actually die.  Without the
+        # second record, a real native fault would be invisible and a harness
+        # timeout would keep the last word.
+        sidecar, _ = self.make("ActionAckDelay")
+        sidecar.start_and_take()
+        with self.assertRaises(SidecarError):
+            sidecar.execute_action(
+                "req-give-up", "a0123456789ABCDEF", timeout_s=0.02,
+                expected_revision=2,
+            )
+        first = self.forensics_file(sidecar)
+        self.assertIs(first["process_alive"], True)
+        self.assertIsNone(first["exit_code"])
+        self.assertIs(first["exit_observed_after_terminal"], False)
+
+        os.kill(sidecar._process.pid, signal.SIGABRT)
+        sidecar._monitor_thread.join(5)
+        second = self.forensics_file(sidecar)
+        self.assertEqual(second["exit_signal_name"], "SIGABRT")
+        self.assertIs(second["process_alive"], False)
+        self.assertIs(second["exit_observed_after_terminal"], True)
+        # The original attribution is preserved beside the late exit status.
+        self.assertEqual(second["error_code"], "action_delivery_ambiguous")
+
+    def test_every_stop_records_how_the_client_actually_ended(self):
+        clean, _ = self.make("PhaseInitial")
+        clean.start_and_take()
+        clean.stop()
+        record = self.forensics_file(clean)
+        self.assertEqual(record["exit_code"], 0)
+        self.assertIsNone(record["exit_signal"])
+        self.assertIs(record["process_alive"], False)
+        self.assertEqual(record["sidecar_state"], "stopped")
+        self.assertIs(record["stop_requested"], True)
+
+        # A client the harness had to kill must say so in its own record.
+        # Reading a harness SIGKILL as a native fault is precisely the
+        # mis-attribution that turned a one-line bug into a day-long hunt.
+        # exit_signal_name and process_alive alone cannot say it: an external
+        # SIGKILL produces byte-identical values.  `stop_requested` is the
+        # only field that distinguishes them, so assert it explicitly rather
+        # than leaning on the implicit sidecar_state/error_code pair.
+        forced, _ = self.make("KillOnly", stop_timeout_s=0.2)
+        forced.start_and_take()
+        forced.stop()
+        killed = self.forensics_file(forced)
+        self.assertEqual(killed["exit_signal_name"], "SIGKILL")
+        self.assertIs(killed["process_alive"], False)
+        self.assertIs(killed["stop_requested"], True)
+        self.assertEqual(killed["sidecar_state"], "stopped")
+        self.assertIsNone(killed["error_code"])
+
+    def test_a_death_the_harness_did_not_ask_for_says_so(self):
+        # The other half of the discrimination: an unrequested death must
+        # report stop_requested False, or the field proves nothing.
+        # An EXTERNAL SIGKILL on an established seat produces the same
+        # exit_signal_name and process_alive as the harness kill above; only
+        # stop_requested tells them apart.
+        sidecar, _ = self.make("PhaseInitial")
+        sidecar.start_and_take()
+        os.kill(sidecar._process.pid, signal.SIGKILL)
+        sidecar._reader_thread.join(5)
+        sidecar._monitor_thread.join(5)
+        forensics = sidecar.private_exit_forensics()
+        self.assertEqual(forensics["exit_signal_name"], "SIGKILL")
+        self.assertIs(forensics["process_alive"], False)
+        self.assertIs(forensics["stop_requested"], False)
+
+    def test_client_output_is_captured_bounded_and_survives_the_file(self):
+        sidecar, _ = self.make("NoisyClient")
+        sidecar.start_and_take()
+        self.assertIn("state=running", sidecar.status(timeout_s=5))
+        sidecar._sample_logs(force=True)
+        forensics = sidecar.private_exit_forensics()
+        self.assertGreater(forensics["stderr_bytes"], 0)
+        self.assertIsNotNone(forensics["stderr_last_output_at"])
+        self.assertEqual(
+            forensics["stderr_tail"][-1], "2: native diagnostic line 199",
+        )
+        self.assertLessEqual(
+            len(forensics["stderr_tail"]), headless_sidecar.LOG_TAIL_LINES,
+        )
+
+        # The ring is the copy of last resort: evidence must not depend on the
+        # log file still being there when someone finally asks.
+        sidecar.stderr_path.unlink()
+        self.assertEqual(
+            sidecar.private_exit_forensics()["stderr_tail"][-1],
+            "2: native diagnostic line 199",
+        )
+
+    def test_a_silent_client_is_recorded_as_silent(self):
+        # "The client wrote nothing at all" is itself the evidence that
+        # distinguishes a killed-while-healthy client from a crashed one.
+        sidecar, _ = self.make("PhaseInitial")
+        sidecar.start_and_take()
+        sidecar._sample_logs(force=True)
+        forensics = sidecar.private_exit_forensics()
+        self.assertEqual(forensics["stderr_bytes"], 0)
+        self.assertIsNone(forensics["stderr_last_output_at"])
+        self.assertEqual(forensics["stderr_tail"], ())
+        self.assertEqual(forensics["native_log_level"], "n")
+
+    def test_the_log_cap_bounds_disk_and_keeps_the_tail(self):
+        sidecar, _ = self.make("PhaseInitial")
+        sidecar.run_directory.mkdir(parents=True, exist_ok=True)
+        sidecar.stdout_path.write_text("", encoding="utf-8")
+        lines = [f"line {index}\n".encode() for index in range(4000)]
+        sidecar.stderr_path.write_bytes(b"".join(lines))
+        written = sidecar.stderr_path.stat().st_size
+        with patch.object(headless_sidecar, "LOG_ROTATE_BYTES", 4096), \
+                patch.object(headless_sidecar, "LOG_ROTATE_KEEP_BYTES", 1024):
+            sidecar._sample_logs(force=True)
+        capped = sidecar.stderr_path.stat().st_size
+        self.assertLess(capped, written)
+        self.assertLess(capped, 4096)
+        forensics = sidecar.private_exit_forensics()
+        # The end of the stream is what a postmortem needs; the beginning is
+        # what a disk-exhaustion bug is made of.
+        self.assertEqual(forensics["stderr_tail"][-1], "line 3999")
+        self.assertGreater(forensics["stderr_dropped_bytes"], 0)
+        # Everything the client ever wrote is still accounted for, even though
+        # most of it is no longer on disk.
+        self.assertGreaterEqual(forensics["stderr_bytes"], written)
+
+    def test_the_client_is_launched_so_a_postmortem_is_possible(self):
+        captured: dict[str, object] = {}
+
+        def launch(argv, **options):
+            captured["argv"] = list(argv)
+            captured["options"] = options
+            return subprocess.Popen(argv, **options)
+
+        sidecar, _ = self.make("PhaseInitial", process_factory=launch)
+        sidecar.start_and_take()
+        argv = captured["argv"]
+        self.assertIn("--debug", argv)
+        # Normal by default: verbose is per-packet in the client's own IPC
+        # thread, so it is a knob for a hunt and never the standing cost.
+        self.assertEqual(argv[argv.index("--debug") + 1], "n")
+        # Freeciv options must precede the delimiter; the client rejects the
+        # launch outright otherwise.
+        self.assertLess(argv.index("--debug"), argv.index("--"))
+        self.assertTrue(callable(captured["options"].get("preexec_fn")))
+
+        quiet, _ = self.make(
+            "PhaseInitial", process_factory=launch,
+            native_log_level=None, core_dump_limit_bytes=None,
+        )
+        quiet.start_and_take()
+        self.assertNotIn("--debug", captured["argv"])
+        self.assertIsNone(captured["options"].get("preexec_fn"))
+
+        loud, _ = self.make(
+            "PhaseInitial", process_factory=launch, native_log_level="v",
+        )
+        loud.start_and_take()
+        argv = captured["argv"]
+        self.assertEqual(argv[argv.index("--debug") + 1], "v")
+
+    def test_the_core_limit_is_applied_in_the_child_only(self):
+        sidecar, _ = self.make(
+            "PhaseInitial", core_dump_limit_bytes=1 << 20,
+        )
+        before = resource.getrlimit(resource.RLIMIT_CORE)
+        preexec = sidecar._core_dump_preexec()
+        if preexec is None:
+            self.skipTest("the ambient core limit is already permissive")
+        child = subprocess.run(
+            [
+                sys.executable, "-c",
+                "import resource;print(resource.getrlimit(resource.RLIMIT_CORE)[0])",
+            ],
+            preexec_fn=preexec, capture_output=True, text=True, timeout=30,
+        )
+        self.assertEqual(child.returncode, 0, child.stderr)
+        self.assertEqual(int(child.stdout.strip()), 1 << 20)
+        self.assertEqual(resource.getrlimit(resource.RLIMIT_CORE), before)
+
+    def test_an_unusable_launch_configuration_is_refused(self):
+        for field, value in (
+            ("native_log_level", "3"),
+            ("native_log_level", "verbose"),
+            ("core_dump_limit_bytes", -1),
+            ("core_dump_limit_bytes", True),
+        ):
+            with self.subTest(field=field, value=value), self.assertRaises(
+                SidecarError,
+            ) as refused:
+                HeadlessSidecar(
+                    binary=self.child,
+                    run_root=self.root / f"refused-{field}-{value}",
+                    game_id="game_test-sidecar-1234567890",
+                    seat_id="place-1",
+                    player_name="Refused",
+                    host="127.0.0.1",
+                    port=5555,
+                    generation=1,
+                    **{field: value},
+                )
+            self.assertIn(
+                refused.exception.code,
+                {"invalid_log_level", "invalid_core_limit"},
+            )
 
 
 if __name__ == "__main__":

@@ -391,6 +391,68 @@ class ReplayGatewayTests(unittest.TestCase):
         self.assertEqual(value["port"], self.gateway.server_address[1])
         self.assertRegex(value["identity"], r"^[0-9a-f]{20}$")
 
+    def test_archive_projections_publish_the_recorded_control_protocol(self):
+        def archive(manifest):
+            return TerminalArchive(
+                game_id=GAME_ID,
+                run_root=self.runs_root / GAME_ID,
+                manifest=manifest,
+                report={},
+                state="completed",
+                benchmark_valid=True,
+                places=[],
+                leaderboard=[],
+                outcome={"status": "complete"},
+            )
+
+        def manifest(config_protocol=None, top_level=None):
+            config = {
+                "mode": "single", "places": 2, "max_agents": 1, "turns": 10,
+            }
+            if config_protocol is not None:
+                config["control_protocol"] = config_protocol
+            value = {
+                "game_id": GAME_ID,
+                "state": "completed",
+                "benchmark_valid": True,
+                "created_at": 1,
+                "current_turn": 2,
+                "joined_agents": 1,
+                "config": config,
+                "resolved_places": [],
+            }
+            if top_level is not None:
+                value["control_protocol"] = top_level
+            return value
+
+        for protocol in ("full-control-v2", "strategic-v1"):
+            with self.subTest(protocol=protocol):
+                value = manifest(protocol)
+                self.assertEqual(
+                    _disk_game_row(value)["control_protocol"], protocol,
+                )
+                self.assertEqual(
+                    _archive_status(archive(value), "")["control_protocol"],
+                    protocol,
+                )
+
+        # Older manifests recorded the protocol only at the top level.
+        top_only = manifest(top_level="full-control-v2")
+        self.assertEqual(
+            _disk_game_row(top_only)["control_protocol"], "full-control-v2",
+        )
+        self.assertEqual(
+            _archive_status(archive(top_only), "")["control_protocol"],
+            "full-control-v2",
+        )
+
+        # Runs predating the field stay unlabeled; the viewer names the default.
+        for legacy in (manifest(), manifest("full-control-v9")):
+            self.assertNotIn("control_protocol", _disk_game_row(legacy))
+            self.assertNotIn(
+                "control_protocol", _archive_status(archive(legacy), ""),
+            )
+
     def test_archive_projections_preserve_explicit_timing_but_not_legacy(self):
         def manifest(config):
             return {

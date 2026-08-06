@@ -42,6 +42,12 @@ MAX_CACHED_REVISIONS = 2
 MAX_PROJECTED_BYTES = 16 * 1024 * 1024
 MAX_CURSORS = 8192
 CURSOR_TTL_SECONDS = 300.0
+# How long a scoped reservation may stay in flight before it is treated as
+# abandoned.  One reservation covers a single bounded native page read (five
+# seconds) plus its projection, so this is more than an order of magnitude of
+# headroom; it exists only so a reservation whose caller never returned cannot
+# hold a registry slot until the seat generation ends.
+CURSOR_IN_FLIGHT_LEASE_SECONDS = 60.0
 RETIRED_CURSOR_TTL_SECONDS = 900.0
 MAX_RETIRED_CURSORS = 8192
 MAX_CURSOR_RECORDS = MAX_CURSORS + MAX_RETIRED_CURSORS
@@ -2365,12 +2371,26 @@ class V2SeatControl:
         self._snapshots: OrderedDict[int, _ProjectedSnapshot] = OrderedDict()
         self._highest_native_revision = 0
         self._projected_bytes = 0
+        # Native-state anomalies this seat observed and kept playing through,
+        # by kind.  These are faults the native client itself treats as
+        # recoverable -- rejecting them would brick the seat forever -- so
+        # they are counted and attributed here instead of being either silent
+        # or fatal.
+        self.native_anomalies: dict[str, int] = {}
         self._cursors: OrderedDict[
             str,
             _Cursor | _StateScopeCursor | _ActorScopeCursor
             | _RelationScopeCursor,
         ] = OrderedDict()
         self._retired_cursors: OrderedDict[str, _RetiredCursor] = OrderedDict()
+        # cursor -> the deadline by which the caller that reserved it must
+        # commit or abort.  A reservation is released by its own completion,
+        # so without this a caller that never completes (a killed request
+        # thread, a `BaseException` past the abort handler) would hold the
+        # slot until the seat generation ended.  Enough of those and the
+        # registry is permanently full: legal-action enumeration stops for the
+        # rest of the game, which is the wedge shape this bounds.
+        self._cursor_leases: dict[str, float] = {}
         self._page_chains: OrderedDict[bytes, _PageChain] = OrderedDict()
         self._retired_page_chains: OrderedDict[
             bytes, _RetiredPageChain
@@ -2429,6 +2449,7 @@ class V2SeatControl:
             # never describe both blocked and executable readiness catalogs.
             self._snapshots.clear()
             self._cursors.clear()
+            self._cursor_leases.clear()
             self._retired_cursors.clear()
             self._page_chains.clear()
             self._retired_page_chains.clear()
@@ -2463,6 +2484,7 @@ class V2SeatControl:
                 self._secret[index] = 0
             self._snapshots.clear()
             self._cursors.clear()
+            self._cursor_leases.clear()
             self._retired_cursors.clear()
             self._page_chains.clear()
             self._retired_page_chains.clear()
@@ -3550,6 +3572,9 @@ class V2SeatControl:
                 # malformed; callers can safely restart the actor query.
                 raise V2ControlError("stale_revision")
             self._cursors[cursor] = replace(record, in_flight=True)
+            self._cursor_leases[cursor] = (
+                time.monotonic() + CURSOR_IN_FLIGHT_LEASE_SECONDS
+            )
             return V2ActorScopeRequest(
                 actor_id=record.actor_id,
                 actor_kind=record.actor_kind,
@@ -3586,6 +3611,9 @@ class V2SeatControl:
                 self._retire_cursor(cursor, record, "stale_revision")
                 raise V2ControlError("stale_revision")
             self._cursors[cursor] = replace(record, in_flight=True)
+            self._cursor_leases[cursor] = (
+                time.monotonic() + CURSOR_IN_FLIGHT_LEASE_SECONDS
+            )
             return V2RelationScopeRequest(
                 actor_id=record.actor_id,
                 native_actor_ref=record.native_actor_ref,
@@ -3707,11 +3735,13 @@ class V2SeatControl:
             )
             self._cursors[cursor] = committed
             self._cursors.move_to_end(cursor)
+            self._cursor_leases.pop(cursor, None)
             return _thaw(committed.response)
 
     def abort_scope_cursor(self, cursor: str) -> None:
         """Release a scoped reservation after a fallible continuation fails."""
         with self._lock:
+            self._cursor_leases.pop(cursor, None)
             record = self._cursors.get(cursor)
             if isinstance(record, (_ActorScopeCursor, _RelationScopeCursor)):
                 if record.in_flight and record.response is None:
@@ -4535,6 +4565,16 @@ class V2SeatControl:
             return projected
         except _ObservationError as exc:
             raise V2ControlError("internal_error") from exc
+        except V2ControlError:
+            raise
+        except Exception as exc:
+            # Anything the projector raises that is not an _ObservationError --
+            # a KeyError from a scope migration, an arithmetic fault on a
+            # field that changed shape -- used to escape state_page entirely:
+            # no public envelope, no error code, nothing naming the row family.
+            # Failing closed with a code is the contract; failing open with a
+            # traceback is not a fail-closed at all.
+            raise V2ControlError("internal_error") from exc
 
     def _parse_rows(self, rows: Sequence[str]) -> _ParsedObservation:
         buckets: dict[str, list[dict[str, Any]]] = {
@@ -4882,6 +4922,20 @@ class V2SeatControl:
                 _fail()
             max_rate = _integer(raw["max_rate"], unsigned=True, maximum=100)
             changeable_tax = _boolean(raw["changeable_tax"])
+            # `max(...) > max_rate` is safe only because of a ruleset-wide
+            # property, not because the server enforces it continuously.
+            # player_limit_to_max_rates() (server/plrhand.c) is called ONLY on
+            # government transitions, never when an EFT_MAX_RATES effect's
+            # requirements change for any other reason, and v2_player_max_rate
+            # (protocol_v2.c) mirrors get_player_maxrate and reports the live
+            # effect value.  Every shipped ruleset (civ2civ3, classic, sandbox,
+            # civ1, civ2, multiplayer, alien, granularity, goldkeep, stub)
+            # scopes Max_Rates on "Gov"/"Player" alone, so the invariant holds.
+            # A ruleset that tied Max_Rates to a building, wonder or tech could
+            # drop the effect below a rate already set -- and this would then
+            # reject every observation for the rest of the game.  If custom
+            # rulesets are ever admitted, weaken this to a recorded anomaly the
+            # same way the city citizen-count identity was.
             if max_rate < 34 or max(tax, science, luxury) > max_rate:
                 _fail()
             return {
@@ -5486,22 +5540,32 @@ class V2SeatControl:
             size = _integer(
                 raw["size"], unsigned=True, maximum=_I32_MAX,
             )
+            # Freeciv's mood counters describe only the citizens who are not
+            # specialists: ``citizen_base_mood`` subtracts ``city_specialists``
+            # before it distributes content, angry and unhappy, and the client
+            # reassembles size as the mood total plus the normal specialists.
+            # The native row reports ``workers`` as exactly
+            # ``size - specialists``, so the mood counters total the workers,
+            # not the size.  (Asserting ``size`` is what bricked turn 52: it
+            # holds only while a city has no specialist at all.)
+            #
+            # Deliberately NOT bundle-fatal.  handle_city_info()
+            # (client/packhand.c) treats a server/client citizen disagreement
+            # as recoverable: it logs "%d citizens not equal %d city size" and
+            # OVERRIDES with city_size_set(pcity, packet->size), leaving feel[]
+            # and specialists[] alone.  After that self-heal this identity is
+            # permanently false, and the city row is in every OBS bundle -- so
+            # rejecting on it would fail the seat closed forever over a state
+            # the native client explicitly keeps playing through.  Record it,
+            # name it, and keep the seat usable.
+            citizen_counts_consistent = sum(
+                citizen_counts[name] for name in (
+                    "happy", "content", "unhappy", "angry",
+                )
+            ) == citizen_counts["workers"]
             if (
                 size == 0 or granary_size == 0
                 or growth_turns > _FC_INFINITY
-                # Freeciv's mood counters describe only the citizens who are
-                # not specialists: ``citizen_base_mood`` subtracts
-                # ``city_specialists`` before it distributes content, angry and
-                # unhappy, and the client reassembles size as the mood total
-                # plus the normal specialists.  The native row reports
-                # ``workers`` as exactly ``size - specialists``, so the mood
-                # counters must total the workers, not the size.  Asserting
-                # ``size`` here holds only while a city has no specialist at
-                # all, and permanently rejects every later observation once one
-                # appears.
-                or sum(citizen_counts[name] for name in (
-                    "happy", "content", "unhappy", "angry",
-                )) != citizen_counts["workers"]
                 or citizen_counts["workers"]
                    + citizen_counts["specialists"] != size
                 or (food, shields, trade) != (
@@ -5576,6 +5640,7 @@ class V2SeatControl:
                 ),
                 "governor_enabled": _boolean(raw["governor_enabled"]),
                 "citizen_counts": citizen_counts,
+                "citizen_counts_consistent": citizen_counts_consistent,
                 "food_storage": {
                     "stock": food_stock,
                     "granary_size": granary_size,
@@ -7359,10 +7424,21 @@ class V2SeatControl:
             city = city_by_ref.get(item["city_ref"])
             tile = tile_by_index.get(item["native_tile"])
             if (
-                city is None or tile is None or tile["known"] == 0
-                or item["can_work"] and tile["known"] != 2
-                or tile["known"] == 1
-                   and not item["worked"] and not item["free_worked"]
+                city is None
+                # Citizen tiles are exported by the "city_citizens" scope
+                # (protocol_v2.c v2_build_state_scope_rows) while map tiles
+                # come from the separate "known_tiles"/"map_tiles"/
+                # "tile_window" scopes, so a bundle can legitimately carry the
+                # citizen rows without any tile row.  Demanding the map tile
+                # unconditionally would reject that bundle forever, exactly
+                # like the worker-task check below; the tile facts are only
+                # cross-checkable at full catalog.
+                or full_tile_catalog and (
+                    tile is None or tile["known"] == 0
+                    or item["can_work"] and tile["known"] != 2
+                    or tile["known"] == 1
+                       and not item["worked"] and not item["free_worked"]
+                )
             ):
                 _fail()
             city_tiles_by_ref[item["city_ref"]].append(item)
@@ -7370,12 +7446,6 @@ class V2SeatControl:
         for item in buckets["city_worker_task"]:
             city = city_by_ref.get(item["city_ref"])
             tile = tile_by_index.get(item["native_tile"])
-            city_tile = next((
-                value for value in city_tiles_by_ref.get(
-                    item["city_ref"], []
-                )
-                if value["native_tile"] == item["native_tile"]
-            ), None)
             if (
                 city is None
                 # Worker tasks travel with the cities catalog and so reach a
@@ -7386,10 +7456,20 @@ class V2SeatControl:
                 # neighbouring city and city-site checks would without their
                 # own catalog guard.
                 or full_tile_catalog and (tile is None or tile["known"] != 2)
-                or (
-                    city_tiles_by_ref[item["city_ref"]]
-                    and city_tile is None
-                )
+                # No citizen-row requirement.  The C promises nothing here:
+                # worker_task_is_sane() (common/workertask.c) checks only that
+                # the tile is non-null with a bounded activity and consistent
+                # extra -- it never constrains the task tile to the city work
+                # radius -- while the city_citizens section emits a city_tile
+                # row only when the tile is TILE_KNOWN_SEEN, worked by this
+                # city, or free-worked (protocol_v2.c).  So a task on a fogged
+                # in-radius tile (any ruleset with
+                # vision_radius_sq < city_radius_sq) or on an out-of-radius
+                # tile legitimately has no citizen row, and demanding one is
+                # the same unreachable-until-it-wasn't shape that produced the
+                # original worker-task wedge.  `city_tile` is looked up BY
+                # (city_ref, native_tile), so its presence carries no further
+                # fact to cross-check.
             ):
                 _fail()
             if item["native_target_extra"] >= 0:
@@ -7418,10 +7498,29 @@ class V2SeatControl:
                 _fail()
             city_specialists_by_ref[item["city_ref"]].append(item)
         production_names: dict[tuple[str, int], str] = {}
-        have_city_children = any(buckets[name] for name in (
-            "city_tile", "city_specialist", "city_worklist",
-            "city_build_choice", "city_improvement",
-        ))
+        # Every city child catalog is an independent STATE_SCOPE section in the
+        # native client: protocol_v2.c v2_build_state_scope_rows dispatches
+        # "city_citizens", "city_build_choices", "city_worklist" and
+        # "city_improvements" separately, and only "city_citizens" emits both
+        # city_tile and city_specialist rows.  A bundle therefore routinely
+        # carries one of them without the others, so a single "any child row is
+        # present" flag makes the citizens catalog demand a worklist catalog
+        # that was never requested -- the worker-task wedge one level up.
+        # Guard each family by its own catalog, exactly like
+        # ``full_tile_catalog`` above.  The strict per-section count identities
+        # still run in ``_validate_state_scope_catalog``, which is where these
+        # rows actually arrive today.
+        # Evaluated PER CITY, not per bundle.  Every city_citizens page is
+        # single-city by construction (_validate_state_scope_catalog rejects
+        # any row whose city_ref is not the selector, and protocol_v2.c
+        # resolves one pcity from that selector), so a bundle-global flag went
+        # true for the whole bundle the moment one city's page was merged into
+        # it -- and then every OTHER city failed "not city_tiles or not
+        # specialists".  That is precisely the failure mode splitting the old
+        # single have_city_children flag was meant to eliminate, one level up.
+        # The strict per-section count identity in
+        # _validate_state_scope_catalog is unaffected and remains the real
+        # enforcement point for the single-city page.
         for city in buckets["city"]:
             key = (city["production_kind"], city["production_native_id"])
             prior = production_names.setdefault(key, city["production_name"])
@@ -7484,7 +7583,12 @@ class V2SeatControl:
                 (item["production_kind"], item["production_native_id"])
                 for item in worklist
             }
-            if have_city_children and (
+            if city["options_conflict"] and city["new_citizens"] != "science":
+                # protocol_v2.c v2_new_citizens_name() resolves the legacy
+                # conflicting option bits science-first, so the conflict flag
+                # can only accompany "science".
+                _fail()
+            if (city_tiles or specialists) and (
                 not city_tiles or not specialists
                 or len(city_tiles) != city["citizen_tile_count"]
                 or len(specialists) != city["specialist_type_count"]
@@ -7500,6 +7604,11 @@ class V2SeatControl:
                     item["free_worked"] and not item["worked"]
                     for item in city_tiles
                 )
+                # common/city.c city_specialists() sums only
+                # ``normal_specialist_type_iterate``, and client/packhand.c
+                # handle_city_info() rebuilds size from the mood counters plus
+                # exactly the normal specialists, so superspecialists are
+                # outside "size" and must be excluded here.
                 or sum(
                     item["worked"] and not item["free_worked"]
                     for item in city_tiles
@@ -7522,38 +7631,63 @@ class V2SeatControl:
                     and not item["counts_toward_population"]
                     for item in specialists
                 )
-                or len(worklist) != city["worklist_length"]
+            ):
+                _fail()
+            if worklist and (
+                len(worklist) != city["worklist_length"]
                 or {item["position"] for item in worklist}
                    != set(range(city["worklist_length"]))
-                or len(build_choices) != city["build_choice_count"]
-                or len(improvements) != city["improvement_count"]
-                or len(rallies) != 1
-                or any(
-                    (
-                        item["production_kind"],
-                        item["production_native_id"],
-                    ) not in choices_by_key
-                    for item in worklist
-                )
-                or any(
-                    not item["can_queue"]
-                    and (
-                        item["production_kind"],
-                        item["production_native_id"],
-                    ) not in worklist_keys
-                    for item in build_choices
-                )
+            ):
+                _fail()
+            if build_choices and (
+                len(build_choices) != city["build_choice_count"]
+            ):
+                _fail()
+            if improvements and (
+                len(improvements) != city["improvement_count"]
                 or city["did_sell"] and any(
                     item["sellable"] for item in improvements
                 )
-                or city["options_conflict"]
-                   and city["new_citizens"] != "science"
             ):
                 _fail()
-            if expected_specialist_ids is None:
-                expected_specialist_ids = ids
-            elif ids != expected_specialist_ids:
+            # The cities catalog emits one FC_AGENT_V2_ROW_CITY_RALLY next to
+            # every FC_AGENT_V2_ROW_CITY, back to back inside the same encode
+            # branch (protocol_v2.c v2_build_city_state_rows), and `city` rows
+            # reach a bundle only through the `cities` catalog, which carries
+            # city_rally with them.  So the rally row travels with the city row
+            # itself: it is not an independent scope and needs no catalog
+            # guard.  Guarding on the bucket let a bundle with city rows and no
+            # rally rows through here, and _project then indexed
+            # native_city_rallies[ref] unguarded -- a bare KeyError out of
+            # state_page, with no envelope, no code and no attribution, which
+            # is strictly worse than a rejection.
+            if len(rallies) != 1:
                 _fail()
+            # Cross-catalog identities need both catalogs in the bundle.
+            if worklist and build_choices \
+                    and (
+                        any(
+                            (
+                                item["production_kind"],
+                                item["production_native_id"],
+                            ) not in choices_by_key
+                            for item in worklist
+                        )
+                        or any(
+                            not item["can_queue"]
+                            and (
+                                item["production_kind"],
+                                item["production_native_id"],
+                            ) not in worklist_keys
+                            for item in build_choices
+                        )
+                    ):
+                _fail()
+            if specialists:
+                if expected_specialist_ids is None:
+                    expected_specialist_ids = ids
+                elif ids != expected_specialist_ids:
+                    _fail()
         own_units: dict[str, dict[str, Any]] = {}
         city_refs = {city["ref"] for city in buckets["city"]}
         unit_type_names: dict[int, str] = {}
@@ -8020,12 +8154,46 @@ class V2SeatControl:
                 if tech["can_goal"]
                 and tech["native_id"] != research["goal_native_id"]
             }
-        if (
+        expected_rates = (
+            1 if action_eligible and player is not None
+            and player["changeable_tax"] else 0
+        )
+        # Freeciv gates the phase-scoped player catalog on
+        # ``v2_actions_ready`` (protocol_v2.c), i.e.
+        # ``fc_agent_v2_action_phase_ready`` in protocol_v2_codec.c, which is
+        # strictly stronger than anything these rows expose: it also demands
+        # ``can_client_issue_orders()`` and ``!is_server_busy()``.
+        # ``server_busy`` is latched by handle_end_turn() and only cleared by
+        # handle_start_phase() for phase 0 (client/packhand.c), so across every
+        # turn change -- and for every non-zero phase of an alternating-phase
+        # game -- the native client legitimately emits an empty research and
+        # rates catalog while this seat still looks eligible in the rows.
+        # Demanding the full catalog there rejects every observation taken at a
+        # turn boundary.  Accept the complete catalog or the wholly withheld
+        # one; a partial catalog, or any of these actions once the seat is
+        # ineligible, is still a genuine contract fault.
+        #
+        # The withheld case has an exact discriminator already in the bundle,
+        # and it must be used rather than accepting emptiness unconditionally.
+        # ``meta.phase_ready`` is ``can_end_turn()``
+        # (client/mapctrl_common.c), which also requires ``!is_server_busy()``
+        # -- so at exactly the turn boundary this relaxation exists for,
+        # ``phase_ready`` is 0.  Conversely ``can_end_turn()`` implies every
+        # conjunct of ``v2_actions_ready()`` that gates the catalog, and
+        # ``v2_refresh()`` publishes no rows at all unless the seat is
+        # authorized and the cache coherent -- so whenever an observation
+        # exists AND ``phase_ready`` is 1, the native MUST have emitted the
+        # complete catalog.  Accepting an empty one there would silently brick
+        # research and taxation for the rest of the game, with no rejection
+        # receipt and no attribution.
+        catalog_withheld = (
+            not research_target_actions and not research_goal_actions
+            and rates_action_count == 0
+        )
+        if not (catalog_withheld and not meta["phase_ready"]) and (
             research_target_actions != expected_targets
             or research_goal_actions != expected_goals
-            or rates_action_count
-            != (1 if action_eligible and player is not None
-                 and player["changeable_tax"] else 0)
+            or rates_action_count != expected_rates
         ):
             _fail()
 
@@ -8590,6 +8758,7 @@ class V2SeatControl:
             native_city_rallies[item["city_ref"]] = item
         city_items = []
         city_detail_items = []
+        citizen_anomalies: list[str] = []
         city_citizen_items = []
         city_worker_task_items = []
         city_worklist_items = []
@@ -8662,9 +8831,18 @@ class V2SeatControl:
                 "governor_enabled": item["governor_enabled"],
             }
             city_items.append(summary)
+            if not item["citizen_counts_consistent"]:
+                # Named, counted and visible rather than silent -- and rather
+                # than fatal.  The seat keeps playing; the fault has an owner.
+                citizen_anomalies.append(city_id)
             city_detail_items.append({
                 **summary,
                 "citizens": dict(item["citizen_counts"]),
+                # False only after a server/client citizen desync that the
+                # native client self-healed by overriding city size.  The
+                # mood breakdown below is then not a partition of the
+                # non-specialist citizens and must not be arithmetic on.
+                "citizen_counts_consistent": item["citizen_counts_consistent"],
                 "food_storage": dict(item["food_storage"]),
                 "pollution": item["pollution"],
                 "outputs": {
@@ -8780,6 +8958,11 @@ class V2SeatControl:
                 "sellable": value["sellable"],
                 "sell_price": value["sell_price"],
             } for value in improvements)
+        if citizen_anomalies:
+            self.native_anomalies["city_citizen_counts"] = (
+                self.native_anomalies.get("city_citizen_counts", 0)
+                + len(citizen_anomalies)
+            )
         route_summaries = {
             item["unit_ref"]: item for item in parsed.unit_routes
         }
@@ -15378,6 +15561,7 @@ class V2SeatControl:
         code: str,
     ) -> None:
         self._cursors.pop(cursor, None)
+        self._cursor_leases.pop(cursor, None)
         details = MappingProxyType({
             "restart": self._cursor_restart(record),
         })
@@ -15455,8 +15639,22 @@ class V2SeatControl:
     def _expire_cursors(self) -> None:
         now = time.monotonic()
         for cursor, record in tuple(self._cursors.items()):
-            if record.expires_at <= now and not record.in_flight:
+            if record.in_flight:
+                # An abandoned reservation is released to the clock rather
+                # than held forever.  Releasing (not retiring) is the weakest
+                # thing that works: `take_*_scope_cursor` is non-destructive,
+                # so the exact cursor stays usable and a late commit fails
+                # only its own request.
+                if self._cursor_leases.get(cursor, now) <= now:
+                    self._cursor_leases.pop(cursor, None)
+                    self._cursors[cursor] = replace(record, in_flight=False)
+                continue
+            self._cursor_leases.pop(cursor, None)
+            if record.expires_at <= now:
                 self._retire_cursor(cursor, record, "cursor_expired")
+        for cursor in tuple(self._cursor_leases):
+            if cursor not in self._cursors:
+                self._cursor_leases.pop(cursor, None)
         for cursor, record in tuple(self._retired_cursors.items()):
             if record.forget_at <= now:
                 self._retired_cursors.pop(cursor, None)

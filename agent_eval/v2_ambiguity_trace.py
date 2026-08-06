@@ -12,6 +12,7 @@ import errno
 import json
 import os
 import re
+import secrets
 import stat
 import threading
 from datetime import datetime, timezone
@@ -24,9 +25,12 @@ TRACE_FILENAME = "events.jsonl"
 MAX_TRACE_BYTES = 256 * 1024
 MAX_TRACE_RECORD_BYTES = 1024
 
+MAX_ROTATION_TEMPORARIES = 4096
+
 _FORMAT = "freeciv-full-control-v2-ambiguity"
 _FORMAT_VERSION = 1
 _OPAQUE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
+_ROTATION_TEMP = re.compile(r"^\.events\.rotate(\.[0-9a-f]{16})?\.tmp$")
 _TIMESTAMP = re.compile(
     r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}"
     r"\.[0-9]{3}Z$"
@@ -224,6 +228,10 @@ class V2AmbiguityTrace:
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_APPEND
         flags |= getattr(os, "O_CLOEXEC", 0)
         flags |= getattr(os, "O_NOFOLLOW", 0)
+        # Never let opening the trace block on a device or a reader-less FIFO
+        # that replaced it: this call runs under the trace lock, and a blocking
+        # open would strand every later ambiguity record behind it.
+        flags |= getattr(os, "O_NONBLOCK", 0)
         created = False
         try:
             fd = os.open(TRACE_FILENAME, flags, 0o600, dir_fd=self._dir_fd)
@@ -239,8 +247,10 @@ class V2AmbiguityTrace:
                 not stat.S_ISREG(metadata.st_mode)
                 or stat.S_IMODE(metadata.st_mode) != 0o600
                 or metadata.st_size < 0
-                or metadata.st_size > MAX_TRACE_BYTES
             ):
+                # Still terminal: a trace that is not a private regular file is
+                # a safety question, not a capacity one, and this stream must
+                # never append private diagnostics to it.
                 raise OSError(errno.EPERM, "unsafe private trace")
             if metadata.st_size + len(encoded) > MAX_TRACE_BYTES:
                 os.close(fd)
@@ -255,7 +265,11 @@ class V2AmbiguityTrace:
         os.fsync(self._dir_fd)
 
     def _replace_with_locked(self, encoded: bytes) -> None:
-        temporary = ".events.rotate.tmp"
+        # A unique name per rotation.  A fixed one turned a single crash
+        # between create and rename into a permanent failure: every later
+        # rotation hit the leftover with O_EXCL and the trace stopped
+        # recording for the rest of the game.  Leftovers are reaped below.
+        temporary = f".events.rotate.{secrets.token_hex(8)}.tmp"
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
         flags |= getattr(os, "O_CLOEXEC", 0)
         flags |= getattr(os, "O_NOFOLLOW", 0)
@@ -285,6 +299,21 @@ class V2AmbiguityTrace:
                     os.unlink(temporary, dir_fd=self._dir_fd)
                 except OSError:
                     pass
+            self._reap_rotation_temporaries(keep=temporary)
+
+    def _reap_rotation_temporaries(self, *, keep: str) -> None:
+        """Drop rotation temporaries a previous crash left behind."""
+        try:
+            names = os.listdir(self._dir_fd)
+        except OSError:
+            return
+        for name in names[:MAX_ROTATION_TEMPORARIES]:
+            if name == keep or _ROTATION_TEMP.fullmatch(name) is None:
+                continue
+            try:
+                os.unlink(name, dir_fd=self._dir_fd)
+            except OSError:
+                pass
 
 
 __all__ = [

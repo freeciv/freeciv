@@ -262,9 +262,20 @@ class PlayerClientTests(unittest.TestCase):
                 "start", "--nation", "English", "--leader", "Ada",
                 "--female", "--style", "European",
             ),
+            ("turn", "--end", "--await", "--brief"),
             ("do", "u1 found_city London; u2 move 32,73"),
             ("do", "u1 fortify", "--continue-on-error"),
             ("do", "u1 fortify", "--json"),
+            # The one-call turn.
+            ("do", "u1 route 40,60; c2 build Temple", "--end"),
+            (
+                "do", "u1 route 40,60; c2 build Temple",
+                "--end", "--await", "--brief",
+            ),
+            (
+                "do", "u1 fortify", "--end", "--await", "--brief",
+                "--wait_s", "60", "--poll_s", "2",
+            ),
             ("show",),
             ("show", "units"),
             ("show", "u1"),
@@ -318,6 +329,26 @@ class PlayerClientTests(unittest.TestCase):
             )
             argv = capture.read_text(encoding="utf-8").splitlines()
             self.assertEqual(argv[-2:], ["--arguments", payload])
+
+            # The one-call turn: the variadic order words still arrive as one
+            # exact argument once the three new flags have taken their slots.
+            orders = "u1 route 40,60; c2 build Temple"
+            environment["V2_CAPTURE"] = str(root / "one-call")
+            completed = subprocess.run(
+                ("just", "do", orders, "--end", "--await", "--brief"),
+                cwd=client.ROOT, env=environment, check=False,
+                capture_output=True, text=True,
+            )
+            self.assertEqual(
+                completed.returncode, 0,
+                completed.stdout + completed.stderr,
+            )
+            argv = (root / "one-call").read_text(
+                encoding="utf-8",
+            ).splitlines()
+            self.assertEqual(
+                argv[-4:], [orders, "--end", "--await", "--brief"],
+            )
 
     def test_v2_turn_restarts_once_and_returns_one_compact_revision(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -6508,9 +6539,10 @@ client._remember_receipt(path, state, receipt)
             )
 
         # The bare `just` menu is the short workflow and never re-types a path.
+        # Steps may be numbered ("  1. just join"), so accept both spellings.
         menu = [
             line.strip() for line in source.splitlines()
-            if line.strip().startswith(("@echo \"  just ", "@echo '  just "))
+            if re.match(r"@echo [\"']  (?:\d+\. )?just ", line.strip())
         ]
         self.assertNotIn("--session", "\n".join(menu))
         for fast_path in (
@@ -6557,6 +6589,184 @@ client._remember_receipt(path, state, receipt)
             "ambiguous",
         ):
             self.assertIn(invariant, agents)
+
+    def test_every_taught_surface_numbers_join_as_the_first_step(self):
+        """A live agent ran `just start` blind because nothing said join ran first.
+
+        The bare menu, AGENTS.md and the play card are the only three places
+        it can read before the first command, so all three must open with the
+        same numbered order and agree on which step comes second.
+        """
+        order = ("just join", "just start", "just turn", "just do")
+        surfaces = {
+            "justfile": (client.ROOT / "justfile").read_text(encoding="utf-8"),
+            "AGENTS.md": (
+                client.ROOT / "AGENTS.md"
+            ).read_text(encoding="utf-8"),
+            "docs/play.md": (
+                client.ROOT / "docs" / "play.md"
+            ).read_text(encoding="utf-8"),
+        }
+        for name, text in surfaces.items():
+            positions = [text.find(step) for step in order]
+            for step, position in zip(order, positions):
+                self.assertNotEqual(position, -1, f"{name} never names {step}")
+            self.assertEqual(
+                positions, sorted(positions),
+                f"{name} teaches the loop out of order: "
+                f"{dict(zip(order, positions))}",
+            )
+            # The steps are numbered, not just ordered: an agent that skims
+            # reads "1." and runs it.
+            self.assertRegex(
+                text, r"1\.\s+just join",
+                f"{name} does not number `just join` as step 1",
+            )
+            self.assertRegex(
+                text, r"2\.\s+just start",
+                f"{name} does not number `just start` as step 2",
+            )
+        # `just start` collides with the repository stack command by name, so
+        # every surface that teaches it must disambiguate.
+        for name in ("justfile", "AGENTS.md", "docs/play.md"):
+            self.assertIn(
+                "repository stack", surfaces[name],
+                f"{name} never distinguishes `just start` from the stack's",
+            )
+
+    def test_a_preconfigured_workspace_answers_every_v2_command_with_join(self):
+        """`just play` workspaces need `just join`, not the generic join form.
+
+        Printing `just join --game_id ... --name ...` here teaches a command
+        line the agent cannot fill in, at the one moment it has no other
+        source of truth.
+        """
+        commands = (
+            "start", "turn", "show", "state", "legal", "health", "wait", "do",
+            "batch", "receipt", "retry", "use",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            (root / ".sessions").mkdir(parents=True)
+            (root / ".playconfig.json").write_text(
+                json.dumps({
+                    "schema_version": 1, "game_id": self.GAME_ID,
+                    "name": "codex-test-model", "place": None,
+                    "control_protocol": "full-control-v2",
+                }),
+                encoding="utf-8",
+            )
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                for name in commands:
+                    with self.subTest(command=name):
+                        with self.assertRaises(client.PlayerError) as caught:
+                            client._session_path("") if name != "use" else (
+                                client.command_use(
+                                    argparse.Namespace(target="", json=False),
+                                )
+                            )
+                        message = str(caught.exception)
+                        self.assertIn("`just join`", message)
+                        self.assertIn(self.GAME_ID, message)
+                        self.assertNotIn("--game_id", message)
+                        self.assertNotIn("multiple private sessions", message)
+                # Without the config the generic remedy is still correct.
+                (root / ".playconfig.json").unlink()
+                with self.assertRaises(client.PlayerError) as caught:
+                    client._session_path("")
+                self.assertIn("--game_id", str(caught.exception))
+
+    def test_v2_health_survives_an_additive_server_field(self):
+        """The supervisor gained `last_recovery`; every command died on it.
+
+        A closed schema that fails the whole surface on one unknown key is a
+        worse failure than the drift it detects, so an optional field is
+        accepted and any drift names itself.
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                _path, session = self.v2_session(root)
+        recovery = {
+            "attempt": 1,
+            "client_state": "running",
+            "exit_code": None,
+            "exit_signal": None,
+            "format": "freeciv-full-control-v2-recovery",
+            "game_id": self.GAME_ID,
+            "kind": "sidecar_reattach",
+            "outcome": "recovered",
+            "place": 1,
+            "recovered_to_turn": 51,
+            "rewound_applied_actions": True,
+            "schema_version": 1,
+            "seat_id": "place-1",
+            "sidecar_generation": 2,
+            "timestamp": "2026-08-05T09:49:19.508Z",
+            "trigger": "sidecar_exit",
+            "turn": 52,
+        }
+        absent = self.health(session, active=True)
+        self.assertNotIn("last_recovery", client._validate_health(
+            absent, session,
+        ))
+
+        null = dict(absent, last_recovery=None)
+        self.assertIsNone(
+            client._validate_health(null, session)["last_recovery"],
+        )
+
+        populated = dict(absent, last_recovery=recovery)
+        clean = client._validate_health(populated, session)
+        self.assertEqual(clean["last_recovery"], recovery)
+        rendered = "\n".join(client._render_health(clean))
+        self.assertIn("last recovery t52 sidecar_reattach recovered", rendered)
+        self.assertIn("rolled back", rendered)
+
+        for broken in (
+            dict(recovery, kind="teleport"),
+            dict(recovery, outcome="fine"),
+            dict(recovery, place=2),
+            {key: value for key, value in recovery.items() if key != "turn"},
+        ):
+            with self.assertRaises(client.PlayerError):
+                client._validate_health(
+                    dict(absent, last_recovery=broken), session,
+                )
+
+    def test_a_drifted_schema_names_the_field_that_drifted(self):
+        """Listing the expected fields alone leaves nothing to act on."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                _path, session = self.v2_session(root)
+        drifted = dict(self.health(session, active=True), invented_field=1)
+        with self.assertRaises(client.PlayerError) as caught:
+            client._validate_health(drifted, session)
+        self.assertIn("unexpected invented_field", str(caught.exception))
+
+        truncated = self.health(session, active=True)
+        del truncated["sidecar"]
+        with self.assertRaises(client.PlayerError) as caught:
+            client._validate_health(truncated, session)
+        self.assertIn("missing sidecar", str(caught.exception))
+
+    def test_play_do_takes_its_orders_positionally_like_just_do(self):
+        """`./play do "…"` is advertised by the wrapper and must parse."""
+        parsed = client.parser()
+        positional = parsed.parse_args(["do", "u1 found_city London"])
+        self.assertEqual(positional.positional_orders, ["u1 found_city London"])
+        flagged = parsed.parse_args(["do", "--orders", "u1 found_city London"])
+        self.assertEqual(flagged.orders, "u1 found_city London")
+        self.assertEqual(flagged.positional_orders, [])
 
     def test_v2_join_card_and_state_header_carry_the_same_contract(self):
         """Join teaches the protocol once; header.txt repeats it for free."""
@@ -7092,6 +7302,541 @@ client._remember_receipt(path, state, receipt)
                             "await_phase": False, "decisions": True,
                             "wait_s": 120, "poll_s": 1, "until": "phase",
                         })())
+                blocked.assert_not_called()
+
+    # ------------------------------------------------------------------
+    # The one-call turn: a steady-state turn is `do … --end --await
+    # --brief`, and the focus loop teaches the batch that fills it.
+    # ------------------------------------------------------------------
+
+    def stage_batch_seat(
+        self, session_path: Path, session: dict, revision: dict,
+    ) -> None:
+        """The focus seat, plus the city catalog that makes c1 composable."""
+        self.stage_focus_seat(session_path, session, revision)
+        self.cache_actor_catalog(
+            session_path, session, revision, self.CITY_ONE, [
+                self.city_action(
+                    revision, "action_prod01" + "0" * 19,
+                    kind="city.set_production", operation="set_production",
+                    label="Build Warriors",
+                    target=self.production_target("Warriors", "a"),
+                ),
+                self.city_action(
+                    revision, "action_prod02" + "0" * 19,
+                    kind="city.set_production", operation="set_production",
+                    label="Build Granary",
+                    target=self.production_target("Granary", "b"),
+                ),
+            ],
+        )
+
+    def test_v2_focus_tail_composes_every_actor_into_one_do(self):
+        """Three actors need orders, so the tail is the batch that gives them."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=AssertionError("the tail opened a socket"),
+                ), redirect_stdout(stdout):
+                    self.assertEqual(client.command_turn(self.turn_args(
+                        str(session_path), decisions=True,
+                    )), 0)
+                lines = stdout.getvalue().splitlines()
+                self.assertEqual(lines[0], "rev7/t3 decisions 3")
+                # One command, every actor, each with its top-ranked option
+                # written the way `just do` reads it.
+                self.assertEqual(
+                    lines[-1],
+                    'next 3 actors: just do "u1 found_city T(31,72); '
+                    'u2 road T(31,72); c1 build Warriors"',
+                )
+                self.assertLessEqual(len(lines[-1]), 200)
+
+                # And the composed command runs exactly as printed.
+                composed = lines[-1].split('just do "', 1)[1].rstrip('"')
+                state = client._load_v2_client_state(session_path, session)
+                resolved = client._resolve_orders(
+                    state, session_path, client._parse_orders(composed),
+                )
+                self.assertEqual(
+                    [item["action_id"] for item in resolved],
+                    [
+                        "action_found" + "0" * 20,
+                        "action_road0" + "0" * 20,
+                        "action_prod01" + "0" * 19,
+                    ],
+                )
+
+                # On the receipt path the same tail costs no round trip, and
+                # the actor just ordered is never offered back.
+                sent = 0
+
+                def responder(method, url, current, **options):
+                    nonlocal sent
+                    sent += 1
+                    body = json.loads(options["encoded_body"].decode("utf-8"))
+                    return client.JSONResponse(200, self.receipt(
+                        session, body["batch_id"], "applied",
+                        revision=revision,
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=responder,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72)", str(session_path),
+                    )), 0)
+                self.assertEqual(sent, 1)
+                receipted = stdout.getvalue().splitlines()
+                self.assertEqual(
+                    receipted[-1],
+                    'next 2 actors: just do "u2 road T(31,72); '
+                    'c1 build Warriors"',
+                )
+
+    def test_v2_composed_order_never_prints_a_command_that_would_refuse(self):
+        """Only orders that resolve *and* bind their whole schema are offered."""
+        revision = self.revision(7)
+        founding = self.found_city_action(self.actor_action(
+            revision, "action_found" + "0" * 20, self.UNIT_ONE,
+            kind="unit.found_city", operation="found_city",
+            label="Found city",
+        ))
+        moving = self.actor_action(
+            revision, "action_move1" + "0" * 20, self.UNIT_ONE, x=31, y=72,
+        )
+        pool = [
+            client._compact_legal_action(item) for item in (founding, moving)
+        ]
+        # `found_city` outranks `move`, but its city name is the player's to
+        # choose, so `u1 found_city T(31,72)` would refuse. The tail yields to
+        # the next option rather than printing it.
+        self.assertEqual(client._decision_order(pool, "u1"), "u1 move T(31,72)")
+
+        # With no schema to fill it is offered first, as its rank says.
+        plain = [client._compact_legal_action(item) for item in (
+            self.actor_action(
+                revision, "action_found" + "0" * 20, self.UNIT_ONE,
+                kind="unit.found_city", operation="found_city",
+                label="Found city",
+            ),
+            moving,
+        )]
+        self.assertEqual(
+            client._decision_order(plain, "u1"), "u1 found_city T(31,72)",
+        )
+
+        # Two actions sharing one verb and one target key cannot be told
+        # apart by the printed line, so neither is offered.
+        twins = [client._compact_legal_action(item) for item in (
+            self.actor_action(
+                revision, "action_twin1" + "0" * 20, self.UNIT_ONE,
+                kind="unit.start_activity", operation="road", label="Road",
+            ),
+            self.actor_action(
+                revision, "action_twin2" + "0" * 20, self.UNIT_ONE,
+                kind="unit.start_activity", operation="road", label="Road",
+            ),
+        )]
+        self.assertEqual(client._decision_order(twins, "u1"), "")
+        self.assertEqual(client._decision_order(pool, ""), "")
+        self.assertEqual(client._decision_order([], "u1"), "")
+
+    def test_v2_focus_tail_falls_back_when_the_composed_line_overflows(self):
+        rows = [
+            {
+                "alias": f"u{number}",
+                "actor_id": f"unit_{number}",
+                "state": "idle",
+                "options": [],
+                "option_count": 1,
+                "order": f"u{number} connect_route T(100,{number:03d})",
+                "remedy": f"just legal --actor_id u{number} --all",
+            }
+            for number in range(1, 9)
+        ]
+        # Eight orders of this width do not fit, so the line trims to the
+        # actors it can name while the count stays honest.
+        trimmed = client._batch_focus_command(rows)
+        self.assertTrue(trimmed.startswith("next 8 actors, top "), trimmed)
+        self.assertLessEqual(len(trimmed), 200)
+
+        # Widen every order past the point where even two fit, and the tail
+        # stops composing rather than printing a truncated command.
+        for row in rows:
+            row["order"] = row["order"] + " " + "x" * 90
+        self.assertEqual(
+            client._batch_focus_command(rows),
+            "next 8 actors need orders — just turn --decisions",
+        )
+
+    def test_v2_focus_tail_keeps_one_actor_and_teaches_the_one_call_ending(self):
+        one = [{
+            "alias": "u2", "actor_id": "unit_2", "state": "Workers idle",
+            "options": ["a4 road"], "option_count": 1,
+            "order": "u2 road T(31,72)",
+            "remedy": "just legal --actor_id u2 --all",
+        }]
+        # One actor is not a batch: the single-actor row is still the truth.
+        self.assertEqual(client._batch_focus_command(one), "")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                state = client._load_v2_client_state(session_path, session)
+                # No actor needs orders, so the tail names the one call that
+                # ends the turn and starts the next one.
+                self.assertEqual(
+                    client._next_focus_line(
+                        session_path, state, frozenset(),
+                    ),
+                    "next: no actors need orders — "
+                    "just turn --end --await --brief",
+                )
+
+    def one_call_responder(
+        self, session: dict, revision: dict, phase_end: dict,
+        log: list[str], *, order_receipt: str = "applied",
+    ):
+        """Answer every request one `do … --end --await --brief` call makes."""
+        briefing = self.briefing_responder(session, revision)
+
+        def responder(method, url, current, **options):
+            if method == "POST":
+                payload = json.loads(options["encoded_body"].decode("utf-8"))
+                action_id = payload["commands"][0]["action_id"]
+                ending = action_id == phase_end["action_id"]
+                log.append("end" if ending else "order")
+                return client.JSONResponse(200, self.receipt(
+                    session, payload["batch_id"],
+                    "applied" if ending else order_receipt,
+                    revision=revision,
+                ))
+            if "/legal" in url:
+                log.append("legal")
+                return client.JSONResponse(200, self.page(
+                    session, legal=True, revision=revision,
+                    items=[phase_end],
+                ))
+            log.append("brief")
+            return briefing(method, url, current, **options)
+
+        return responder
+
+    def test_v2_one_call_turn_orders_ends_wakes_and_briefs(self):
+        """`do "…" --end --await --brief` is the whole steady-state turn."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+                phase_end = self.pregame_action(
+                    revision, "action_" + "e" * 26, "phase.end", "end",
+                    "End phase", {"type": "object"}, None,
+                )
+                log: list[str] = []
+                waking = self.wait_response(
+                    session, "phase_active", active=True,
+                    revision=self.revision(9),
+                )
+
+                def wait(path, current, args):
+                    log.append("wait")
+                    return waking
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, log,
+                    ),
+                ), patch.object(
+                    client, "_wait_value", side_effect=wait,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72); c1 build Warriors",
+                        str(session_path), end_phase=True, await_phase=True,
+                        brief=True,
+                    )), 0)
+
+                # Two orders, one phase end (enumerated first), one wake, then
+                # the briefing -- in that order, in one call.
+                self.assertEqual(
+                    log[:5], ["order", "order", "legal", "end", "wait"],
+                )
+                self.assertIn("brief", log)
+                printed = stdout.getvalue()
+                lines = printed.splitlines()
+                self.assertTrue(lines[0].startswith("u1 found_city T(31,72) →"))
+                self.assertTrue(lines[1].startswith("c1 build Warriors →"))
+                self.assertEqual(lines[2], "2/2 applied rev7/t3")
+                self.assertTrue(lines[3].startswith("phase end → applied"))
+                # The wake header does not point at the briefing it prints.
+                self.assertIn("woke phase_active", lines[4])
+                self.assertNotIn("next: just turn", lines[4])
+                # The next turn's whole briefing, decisions line and all.
+                self.assertIn("T3 rev7/t3 | running", printed)
+                self.assertIn("units 3/3", printed)
+                self.assertIn("cities 1/1", printed)
+                self.assertIn("needs decision:", printed)
+                self.assertNotIn("phase NOT ended", printed)
+
+    def test_v2_one_call_turn_composite_json_carries_each_part_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+                phase_end = self.pregame_action(
+                    revision, "action_" + "e" * 26, "phase.end", "end",
+                    "End phase", {"type": "object"}, None,
+                )
+                waking = self.wait_response(
+                    session, "phase_active", active=True,
+                    revision=self.revision(9),
+                )
+                log: list[str] = []
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, log,
+                    ),
+                ), patch.object(
+                    client, "_wait_value", return_value=waking,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72)", str(session_path),
+                        end_phase=True, await_phase=True, brief=True,
+                        json_output=True,
+                    )), 0)
+                payload = json.loads(stdout.getvalue())
+                # The `do` shape is untouched; the composite is added beside it.
+                self.assertEqual(set(payload), {
+                    "schema_version", "command", "orders", "requested",
+                    "applied", "state_revision", "stopped",
+                    "end", "wait", "turn", "turn_error",
+                })
+                self.assertEqual(payload["applied"], 1)
+                self.assertEqual(payload["end"]["receipt"]["receipt_state"], "applied")
+                self.assertEqual(payload["wait"]["wake_reason"], "phase_active")
+                self.assertEqual(payload["turn"]["command"], "turn")
+                self.assertEqual(payload["turn"]["status"], "ready")
+                self.assertIsNone(payload["turn_error"])
+
+                # `turn --end --await --brief --json` returns the same three
+                # parts, and no `do` fields it never had.
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, [],
+                    ),
+                ), patch.object(
+                    client, "_wait_value", return_value=waking,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_turn(self.turn_args(
+                        str(session_path), end_phase=True, await_phase=True,
+                        brief=True, json_output=True,
+                    )), 0)
+                composite = json.loads(stdout.getvalue())
+                self.assertEqual(set(composite), {
+                    "schema_version", "command", "status",
+                    "end", "wait", "turn", "turn_error",
+                })
+                self.assertEqual(composite["command"], "turn")
+                self.assertEqual(composite["status"], "briefed")
+                self.assertEqual(composite["turn"]["status"], "ready")
+
+                # Without --brief the shape `turn --end --await --json` has
+                # always returned is untouched.
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, [],
+                    ),
+                ), patch.object(
+                    client, "_wait_value", return_value=waking,
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_turn(self.turn_args(
+                        str(session_path), end_phase=True, await_phase=True,
+                        json_output=True,
+                    )), 0)
+                ended = json.loads(stdout.getvalue())
+                self.assertEqual(set(ended), {
+                    "schema_version", "command", "status", "disposition",
+                    "wait",
+                })
+                self.assertEqual(ended["status"], "ended")
+
+    def test_v2_do_end_never_ends_a_phase_whose_batch_stopped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+                phase_end = self.pregame_action(
+                    revision, "action_" + "e" * 26, "phase.end", "end",
+                    "End phase", {"type": "object"}, None,
+                )
+                log: list[str] = []
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    side_effect=self.one_call_responder(
+                        session, revision, phase_end, log,
+                        order_receipt="rejected",
+                    ),
+                ), patch.object(
+                    client, "_wait_value",
+                    side_effect=AssertionError("a stopped batch awaited"),
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72); c1 build Warriors",
+                        str(session_path), end_phase=True, await_phase=True,
+                        brief=True,
+                    )), 2)
+                printed = stdout.getvalue()
+                # The first order was refused, so the batch stopped, nothing
+                # enumerated phase.end, and the turn is still the agent's.
+                self.assertEqual(log, ["order"])
+                self.assertIn("phase NOT ended", printed)
+                self.assertIn("0/2 orders applied", printed)
+                self.assertIn("0/2 applied", printed)
+                self.assertIn("just turn --end --await --brief", printed)
+
+    def test_v2_do_end_prints_the_receipts_then_the_end_failure(self):
+        """An end that cannot run never takes the applied orders with it."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(7)
+                self.stage_batch_seat(session_path, session, revision)
+
+                def no_phase_end(method, url, current, **options):
+                    if method == "POST":
+                        payload = json.loads(
+                            options["encoded_body"].decode("utf-8"),
+                        )
+                        return client.JSONResponse(200, self.receipt(
+                            session, payload["batch_id"], "applied",
+                            revision=revision,
+                        ))
+                    # This seat holds no phase.end at this revision.
+                    return client.JSONResponse(200, self.page(
+                        session, legal=True, revision=revision, items=[],
+                    ))
+
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response", side_effect=no_phase_end,
+                ), patch.object(
+                    client, "_wait_value",
+                    side_effect=AssertionError("awaited an unended phase"),
+                ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                    self.assertEqual(client.command_do(self.do_args(
+                        "u1 found_city T(31,72)", str(session_path),
+                        end_phase=True, await_phase=True, brief=True,
+                    )), 2)
+                lines = stdout.getvalue().splitlines()
+                # Receipt, summary, then the failure with its own remedy --
+                # in that order, never swallowed.
+                self.assertTrue(lines[0].startswith("u1 found_city T(31,72) →"))
+                self.assertIn("applied", lines[0])
+                self.assertEqual(lines[1], "1/1 applied rev7/t3")
+                self.assertTrue(
+                    lines[2].startswith("phase NOT ended: "), lines[2],
+                )
+                self.assertIn("just turn", lines[2])
+                # The turn is still the agent's, so the tail still names it.
+                self.assertEqual(
+                    lines[3],
+                    'next 2 actors: just do "u2 road T(31,72); '
+                    'c1 build Warriors"',
+                )
+
+    def test_v2_brief_without_a_wake_is_refused_with_the_form_that_works(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, _session = self.v2_session(root)
+                with patch.object(client, "_v2_response") as blocked:
+                    for args, pattern in (
+                        (
+                            self.turn_args(
+                                str(session_path), end_phase=True, brief=True,
+                            ),
+                            r"just turn --end --await --brief",
+                        ),
+                        (
+                            self.turn_args(str(session_path), brief=True),
+                            r"just turn --end --await --brief",
+                        ),
+                    ):
+                        with self.assertRaisesRegex(
+                            client.PlayerError, pattern,
+                        ):
+                            client.command_turn(args)
+                    for values, pattern in (
+                        ({"end_phase": True, "brief": True}, r"--end --await"),
+                        ({"brief": True}, r"--end --await"),
+                        ({"await_phase": True}, r"just do --await"),
+                    ):
+                        with self.assertRaisesRegex(
+                            client.PlayerError, pattern,
+                        ):
+                            client.command_do(self.do_args(
+                                "u1 fortify", str(session_path), **values,
+                            ))
                 blocked.assert_not_called()
 
     def stage_stale_aliases(
@@ -8747,6 +9492,1038 @@ client._remember_receipt(path, state, receipt)
                     self.assertEqual(
                         argv[argv.index("--orders") + 1], expected,
                     )
+
+    # -----------------------------------------------------------------
+    # Advertised-but-unreachable actions.
+    #
+    # From a real 596-turn game: the `governments` section reported
+    # `can_change=yes` for Democracy at turn 224 while every attempt to
+    # enumerate the action came back empty, and an open Spanish ceasefire
+    # meeting was never answered.  Neither was a rules condition.  The
+    # government rows were drained and then dropped by the actor catalog's
+    # byte cap, whose only notice is a header fragment a pipe removes; the
+    # meeting was reachable only through an actor-plus-target query that no
+    # refusal ever named.  These lock the negative space: a bounded window
+    # says what it withheld, and a refusal names the query that works.
+    # -----------------------------------------------------------------
+
+    GOVERNMENT_ACTOR_PLAYER = "player_" + "b" * 32
+    GOVERNMENT_RELATION = "relation_" + "e" * 32
+
+    @classmethod
+    def government_catalog(cls, *, shown: int) -> tuple[dict, dict, dict]:
+        """A player catalog whose government rows sort last, truncated."""
+        revision = cls.revision(1273, turn=224)
+        aliases = {cls.GOVERNMENT_ACTOR_PLAYER: "p1"}
+        items: list[dict] = []
+
+        def subject(operation: str, **extra) -> dict:
+            base = {
+                "actor": {
+                    "type": "player", "id": cls.GOVERNMENT_ACTOR_PLAYER,
+                },
+                "target": None,
+                "operation": operation,
+                "variant": "standard",
+                "consuming": False,
+                "legality": "legal",
+                "probability": {
+                    "kind": "exact", "minimum_percent": 100,
+                    "maximum_percent": 100,
+                },
+            }
+            base.update(extra)
+            return base
+
+        def add(index, kind, label, body) -> None:
+            action_id = "action_" + f"{index:032d}"
+            items.append(cls.rendered_descriptor(
+                revision, action_id, kind=kind, label=label, subject=body,
+            ))
+            aliases[action_id] = f"a{index}"
+
+        for index, tech in enumerate((
+            "Magnetism", "Sanitation", "Chemistry", "Railroad", "Economics",
+        ), start=1):
+            add(
+                index, "research.set_goal", f"Set research goal to {tech}",
+                subject("set_goal", target={
+                    "type": "tech", "id": "tech_" + f"{index:032d}",
+                    "name": tech,
+                }),
+            )
+        # The tail of the real catalog, in its real order.
+        add(
+            6, "government.revolution", "Start an untargeted revolution",
+            subject("revolution", target={
+                "type": "government", "id": "government_" + "1" * 32,
+                "name": "Anarchy",
+            }),
+        )
+        for index, name in enumerate(
+            ("Despotism", "Monarchy", "Democracy"), start=7,
+        ):
+            add(
+                index, "government.change", f"Change government to {name}",
+                subject("change", target={
+                    "type": "government", "id": "government_" + f"{index}" * 32,
+                    "name": name,
+                }),
+            )
+        compacts = [
+            client._compact_legal_action(item) for item in items[:shown]
+        ]
+        hidden: dict[str, int] = {}
+        for item in items[shown:]:
+            key = client._descriptor_kind_key(item)
+            hidden[key] = hidden.get(key, 0) + 1
+        result = {
+            "schema_version": 1, "command": "legal", "kind": None,
+            "state_revision": revision, "catalog_total": len(items),
+            "pages_read": 1, "matched": len(items), "offset": 0,
+            "limit": client.V2_LEGAL_ACTOR_MATCH_LIMIT,
+            "shown": shown, "truncated": shown < len(items),
+            "has_more": shown < len(items),
+            "next_offset": shown if shown < len(items) else None,
+            "byte_limited": True, "oversized_single": False,
+            "hidden_kinds": dict(sorted(hidden.items())),
+            "actions": compacts,
+        }
+        scope = {
+            "actor_id": cls.GOVERNMENT_ACTOR_PLAYER, "actor_type": "player",
+        }
+        return result, scope, aliases
+
+    def test_a_truncated_actor_catalog_names_the_kinds_it_withheld(self):
+        """A bounded window must never read as an empty one."""
+        result, scope, aliases = self.government_catalog(shown=5)
+        rendered = client._render_legal_compact(result, scope, aliases)
+        # The regression: the agent piped this through `grep government` and
+        # read the empty result as "the rules forbid a revolution".  Every
+        # withheld kind is now named in the body, below the rows, where a
+        # pipe and a scroll both keep it.
+        matched = [line for line in rendered if "government" in line]
+        self.assertTrue(matched, "\n".join(rendered))
+        tail = rendered[-1]
+        self.assertIn("government.change (3)", tail)
+        self.assertIn("government.revolution (1)", tail)
+        self.assertIn("--actor_id p1 --all --offset 5", tail)
+        self.assertNotIn(tail, rendered[0])
+
+        # A relation window is a two-parameter query, so its continuation
+        # names both parameters or it enumerates a different catalog.
+        relation_result, _scope, _aliases = self.government_catalog(shown=5)
+        relation_result["kind"] = None
+        relation_scope = {
+            "actor_id": self.GOVERNMENT_ACTOR_PLAYER, "actor_type": "player",
+            "target_id": self.GOVERNMENT_RELATION,
+            "target_type": "relation",
+        }
+        self.assertIn(
+            "--actor_id p1 --target_id r1 --all",
+            client._render_legal_compact(
+                relation_result, relation_scope,
+                {**aliases, self.GOVERNMENT_RELATION: "r1"},
+            )[-1],
+        )
+
+        # A window that hid nothing gains no line at all.
+        whole, scope, aliases = self.government_catalog(shown=9)
+        self.assertEqual(whole["hidden_kinds"], {})
+        self.assertNotIn(
+            "not shown",
+            "\n".join(client._render_legal_compact(whole, scope, aliases)),
+        )
+
+    def test_the_drain_counts_every_matched_row_it_did_not_print(self):
+        """`hidden_kinds` is what the renderer's promise rests on."""
+        result, _scope, _aliases = self.government_catalog(shown=6)
+        self.assertEqual(result["hidden_kinds"], {"government.change": 3})
+        self.assertEqual(
+            result["shown"] + sum(result["hidden_kinds"].values()),
+            result["matched"],
+        )
+
+    def test_a_real_drain_reports_the_government_rows_its_cap_ate(self):
+        """End to end: the counting lives in the drain, not in the renderer."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                revision = self.revision(1273, turn=224)
+                actions = []
+                for index, (kind, operation, label) in enumerate((
+                    ("research.set_goal", "set_goal", "Goal Sanitation"),
+                    ("research.set_goal", "set_goal", "Goal Railroad"),
+                    ("government.revolution", "revolution", "Revolt"),
+                    ("government.change", "change", "Change to Democracy"),
+                )):
+                    descriptor = self.descriptor(revision, f"action_gov_{index}")
+                    descriptor.update({
+                        "kind": kind,
+                        "label": label,
+                        "subject": {
+                            "actor": {
+                                "type": "player",
+                                "id": self.GOVERNMENT_ACTOR_PLAYER,
+                            },
+                            "operation": operation,
+                        },
+                    })
+                    actions.append(descriptor)
+                page = self.page(
+                    session, legal=True, revision=revision, items=actions,
+                )
+                args = type("Args", (), {
+                    "session": str(session_path),
+                    "actor_id": self.GOVERNMENT_ACTOR_PLAYER,
+                    "target_id": "", "limit": None, "cursor": "",
+                    "kind": "", "all_pages": True, "offset": "",
+                    "json_output": True,
+                })()
+                widest = max(
+                    len(json.dumps(
+                        client._compact_legal_action(descriptor),
+                        sort_keys=True, separators=(",", ":"),
+                    ).encode("utf-8"))
+                    for descriptor in actions
+                )
+                stdout = io.StringIO()
+                with patch.object(
+                    client, "_v2_response",
+                    return_value=client.JSONResponse(200, page),
+                ), patch.object(
+                    client, "V2_LEGAL_COMPACT_MAX_BYTES", widest * 2,
+                ), redirect_stdout(stdout):
+                    self.assertEqual(client.command_legal(args), 0)
+                result = json.loads(stdout.getvalue())
+                self.assertEqual(result["shown"], 2)
+                self.assertEqual(result["hidden_kinds"], {
+                    "government.change": 1, "government.revolution": 1,
+                })
+                self.assertEqual(
+                    result["shown"] + sum(result["hidden_kinds"].values()),
+                    result["matched"],
+                )
+                # Every drained descriptor is still staged: the rows were
+                # withheld from the print, never from the cache.
+                cached = client._load_v2_client_state(session_path, session)
+                self.assertEqual(set(cached["actions"]), {
+                    descriptor["action_id"] for descriptor in actions
+                })
+
+    def test_a_player_scoped_kind_refusal_names_its_own_scope(self):
+        """`--kind government.change --all` must not read as "no such action"."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ, {"PLAY_STATE_DIR": ".sessions"}, clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                client._save_v2_client_state(
+                    session_path, client._empty_v2_client_state(session),
+                )
+                for selector, expected in (
+                    ("government.change", "--kind government.change --all"),
+                    ("government.revolution", "your own player scope"),
+                    ("spaceship.launch", "your own player scope"),
+                    ("diplomacy.acceptance", "--target_id RELATION_ID"),
+                ):
+                    with self.subTest(selector=selector):
+                        error = client._kind_matched_nothing(
+                            session_path, session, selector, None,
+                            ["research.set_goal", "phase.end"], 112,
+                            self.revision(1273, turn=224),
+                        )
+                        message = str(error)
+                        self.assertIn(expected, message)
+                        # The old fallback sent a government query looking for
+                        # a unit or a city; nothing else did.
+                        self.assertNotIn(
+                            "unit and city kinds are enumerated per actor",
+                            message,
+                        )
+                # A kind that really is unit-scoped keeps the old remedy.
+                self.assertIn(
+                    "unit and city kinds are enumerated per actor",
+                    str(client._kind_matched_nothing(
+                        session_path, session, "unit.order", None,
+                        ["phase.end"], 112, self.revision(1273, turn=224),
+                    )),
+                )
+
+    def test_a_relation_used_as_an_actor_names_the_query_that_works(self):
+        """The one ID an agent reaches for as an actor and never can be."""
+        def args(**values):
+            defaults = {
+                "cursor": "", "actor_id": "", "target_id": "", "limit": None,
+            }
+            defaults.update(values)
+            return type("Args", (), defaults)()
+
+        with self.assertRaises(client.PlayerError) as caught:
+            client._legal_query(args(actor_id=self.GOVERNMENT_RELATION))
+        message = str(caught.exception)
+        self.assertIn("is a diplomacy target, not an actor", message)
+        self.assertIn(f"--target_id {self.GOVERNMENT_RELATION}", message)
+        # The form it names is the form the query builder accepts.
+        self.assertEqual(
+            client._legal_query(args(
+                actor_id="player_" + "b" * 32,
+                target_id=self.GOVERNMENT_RELATION,
+            )),
+            "actor_id=player_" + "b" * 32
+            + "&target_id=" + self.GOVERNMENT_RELATION,
+        )
+
+    def test_diplomacy_refusals_name_the_flag_just_accepts(self):
+        """`--relation-id` is rejected by the wrapper before the client sees it."""
+        def args(**values):
+            defaults = {
+                "cursor": "", "section": "", "actor_id": "", "relation_id": "",
+                "center_id": "", "radius": None, "limit": None,
+            }
+            defaults.update(values)
+            return type("Args", (), defaults)()
+
+        with self.assertRaises(client.PlayerError) as caught:
+            client._state_query(args(section="diplomacy_clauses"))
+        message = str(caught.exception)
+        self.assertIn("--relation_id", message)
+        self.assertNotIn("--relation-id", message)
+        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
+        self.assertIn("relation_id=", recipe)
+
+    def test_a_pending_meeting_names_its_actor_plus_target_drill_down(self):
+        """The old remedy named a kind the global catalog can never hold."""
+        relation = {
+            "type": "diplomatic_relation", "id": self.GOVERNMENT_RELATION,
+        }
+        pool = [{
+            "action_id": "action_" + "9" * 32,
+            "kind": "diplomacy.acceptance",
+            "label": "Accept the treaty",
+            "subject": {
+                "actor": {
+                    "type": "player", "id": self.GOVERNMENT_ACTOR_PLAYER,
+                },
+                "operation": "accept",
+            },
+            "target": relation,
+            "argument_schema": {},
+        }]
+        aliases = {
+            self.GOVERNMENT_ACTOR_PLAYER: "p1",
+            self.GOVERNMENT_RELATION: "r1",
+        }
+        self.assertEqual(
+            client._meeting_remedy(pool, "r1", aliases),
+            "just legal --actor_id p1 --target_id r1 --all",
+        )
+        # Without aliases the opaque IDs still compose a runnable command.
+        self.assertEqual(
+            client._meeting_remedy(pool, "diplomacy", {}),
+            f"just legal --actor_id {self.GOVERNMENT_ACTOR_PLAYER} "
+            f"--target_id {self.GOVERNMENT_RELATION} --all",
+        )
+
+    CITY_DETAIL = "city_" + "4" * 32
+
+    @staticmethod
+    def city_outputs(**named) -> dict:
+        """Build an `outputs` map the way the boundary composes one."""
+        return {
+            name: {
+                "citizen_base": base, "net": net, "surplus": surplus,
+                "usage": usage, "waste": waste, "unhappy_penalty": unhappy,
+                "gross": net + waste + unhappy,
+            }
+            for name, (base, net, surplus, usage, waste, unhappy)
+            in named.items()
+        }
+
+    @classmethod
+    def city_detail_item(cls, **overrides) -> dict:
+        item = {
+            "id": cls.CITY_DETAIL, "owner_player_id": "player_" + "c" * 32,
+            "name": "London", "tile_id": "tile_" + "d" * 32,
+            "x": 45, "y": 46, "size": 1,
+            "surplus": {"food": 2, "shields": 5, "trade": 1},
+            "production": {
+                "id": "production_" + "e" * 32, "kind": "unit",
+                "name": "Settlers", "shield_stock": 25, "shield_cost": 40,
+                "buy_cost": 41, "can_buy": True, "can_change": True,
+            },
+            "airlift": {"remaining": 0, "maximum": 0},
+            "trade_routes": {"count": 0, "capacity": 2},
+            "governor_enabled": False,
+            "citizens": {
+                "happy": 0, "content": 1, "unhappy": 0, "angry": 0,
+                "workers": 1, "specialists": 0,
+            },
+            "citizen_counts_consistent": True,
+            "food_storage": {
+                "stock": 14, "granary_size": 20, "growth_turns": 3,
+            },
+            "pollution": 0,
+            "outputs": cls.city_outputs(
+                food=(3, 3, 2, 1, 0, 0), shields=(5, 5, 5, 0, 0, 0),
+                trade=(1, 1, 1, 0, 0, 0), gold=(0, 0, 0, 0, 0, 0),
+                science=(0, 1, 1, 0, 0, 0),
+            ),
+            "counts": {
+                "citizen_tiles": 19, "specialist_types": 3, "worklist": 0,
+                "build_choices": 106, "improvements": 1, "trade_routes": 0,
+            },
+            "management": {
+                "did_sell": False,
+                "rally": {
+                    "active": False, "persistent": False, "vigilant": False,
+                    "order_count": 0, "plan_id": None,
+                },
+                "governor": {"enabled": False},
+                "options": {
+                    "allow_disband": False, "new_citizens": "default",
+                    "conflict": False,
+                },
+            },
+        }
+        item.update(overrides)
+        return item
+
+    def test_v2_city_detail_prints_the_numbers_it_used_to_elide(self):
+        """A 596-turn game read `outputs.food=…` and paid to guess past it.
+
+        Every number below is already on the page the agent asked for, so the
+        rendering owes it a value, not an ellipsis -- and where a number really
+        does live in a child section, it owes the command that prints it.
+        """
+        revision = self.revision(56, turn=8)
+        aliases = {self.CITY_DETAIL: "c1"}
+
+        def rendered(item):
+            return client._render_state_page({
+                "state_revision": revision,
+                "page": {
+                    "section": "city_detail", "items": [item],
+                    "total_items": 1, "next_cursor": None,
+                    "cursor_expires_at": None,
+                },
+            }, aliases)
+
+        calm = rendered(self.city_detail_item())
+        body = "\n".join(calm)
+        self.assertNotIn("…", body)
+        self.assertNotIn("outputs.food", body)
+        self.assertEqual(calm[1], "c1 London @45,46 sz1 f+2 s+5 t+1")
+        self.assertIn("granary 14/20 food +2/turn grows in 3t", body)
+        self.assertIn("citizens 1: 1 content", body)
+        self.assertIn(
+            "build Settlers unit 25/40 shields +5/turn done in 3t "
+            "· buy 41 gold",
+            body,
+        )
+        # The worked-tile yield total is a first-class column, and a column
+        # that is zero on every row is not printed at all.
+        header = next(line for line in calm if line.strip().startswith("output"))
+        self.assertEqual(
+            header.split(), ["output", "base", "gross", "used", "surplus"],
+        )
+        self.assertIn("food     3     3      1     +2", body)
+        # An output this city neither makes nor spends is not a row.
+        self.assertFalse(
+            [line for line in calm if line.strip().startswith("gold")], calm,
+        )
+        # A collection that lives elsewhere is named as the command for it.
+        self.assertIn(
+            "  19 tile yields: just state --section city_citizens "
+            "--actor_id c1",
+            calm,
+        )
+        self.assertIn(
+            "  106 build choices: just state --section city_build_choices "
+            "--actor_id c1",
+            calm,
+        )
+
+        besieged = rendered(self.city_detail_item(
+            name="York", size=7,
+            surplus={"food": -2, "shields": 1, "trade": 4}, pollution=3,
+            production={
+                "id": "production_" + "f" * 32, "kind": "improvement",
+                "name": "City Walls", "shield_stock": 0, "shield_cost": 60,
+                "buy_cost": 240, "can_buy": False, "can_change": False,
+            },
+            citizens={
+                "happy": 1, "content": 2, "unhappy": 3, "angry": 1,
+                "workers": 7, "specialists": 0,
+            },
+            food_storage={
+                "stock": 9, "granary_size": 60, "growth_turns": -4,
+            },
+            outputs=self.city_outputs(
+                food=(12, 12, -2, 14, 0, 0), shields=(9, 4, 1, 3, 2, 3),
+                trade=(11, 8, 4, 4, 3, 0),
+            ),
+            management={
+                "did_sell": True,
+                "rally": {
+                    "active": True, "persistent": True, "vigilant": False,
+                    "order_count": 3, "plan_id": "rally_" + "a" * 32,
+                },
+                "governor": {"enabled": True},
+                "options": {
+                    "allow_disband": False, "new_citizens": "gold",
+                    "conflict": False,
+                },
+            },
+        ))
+        stressed = "\n".join(besieged)
+        self.assertIn("!pollution 3", besieged[1])
+        self.assertIn("!starving, famine in 4t", stressed)
+        # `city_unhappy()` is `happy < unhappy + 2 * angry` over exactly these
+        # counters, so the verdict is the server's own.
+        self.assertIn(
+            "citizens 7: 1 happy, 2 content, 3 unhappy, 1 angry !disorder",
+            stressed,
+        )
+        # Where the shields went, term by term.
+        header = next(
+            line for line in besieged if line.strip().startswith("output")
+        )
+        self.assertEqual(header.split(), [
+            "output", "base", "waste", "unhappy", "net", "used", "surplus",
+        ])
+        self.assertIn("shields  9     2      3        4    3     +1", stressed)
+        self.assertIn("!cannot buy this turn", stressed)
+        self.assertIn("!locked: this city already bought this turn", stressed)
+        self.assertIn("!sold here this turn", stressed)
+        self.assertIn("!governor on", stressed)
+        self.assertIn("!rally 3 orders persistent", stressed)
+        self.assertIn("!new_citizens=gold", stressed)
+        for line in calm + besieged:
+            self.assertLessEqual(len(line), 120, line)
+
+        # Without an alias cache the drill-down still runs as printed: the
+        # opaque ID is typed rather than a positional `c1` that resolves
+        # nowhere.
+        bare = client._render_state_page({
+            "state_revision": revision,
+            "page": {
+                "section": "city_detail", "items": [self.city_detail_item()],
+                "total_items": 1, "next_cursor": None,
+                "cursor_expires_at": None,
+            },
+        })
+        self.assertIn(
+            f"  19 tile yields: just state --section city_citizens "
+            f"--actor_id {self.CITY_DETAIL}",
+            bare,
+        )
+
+    def test_v2_city_citizens_totals_the_tiles_its_citizens_work(self):
+        revision = self.revision(10, turn=1)
+        items = [
+            {
+                "city_id": self.CITY_DETAIL, "kind": "tile",
+                "tile_id": "tile_" + "1" * 32, "worked": True,
+                "free_worked": True, "can_work": True,
+                "yields": {"food": 2, "shields": 1, "trade": 1},
+            },
+            {
+                "city_id": self.CITY_DETAIL, "kind": "tile",
+                "tile_id": "tile_" + "2" * 32, "worked": True,
+                "free_worked": False, "can_work": True,
+                "yields": {"food": 2, "shields": 2, "trade": 0},
+            },
+            {
+                "city_id": self.CITY_DETAIL, "kind": "tile",
+                "tile_id": "tile_" + "3" * 32, "worked": False,
+                "free_worked": False, "can_work": True,
+                "yields": {"food": 1, "shields": 0, "trade": 3},
+            },
+            {
+                "city_id": self.CITY_DETAIL, "kind": "specialist",
+                "id": "specialist_" + "9" * 32, "name": "Entertainer",
+                "count": 1, "counts_toward_population": True,
+                "can_use": True, "is_default": True,
+                "yields": {"luxury": 2},
+            },
+        ]
+        lines = client._render_state_page({
+            "state_revision": revision,
+            "page": {
+                "section": "city_citizens", "items": items,
+                "total_items": len(items), "next_cursor": None,
+                "cursor_expires_at": None,
+            },
+        }, {self.CITY_DETAIL: "c1"})
+        # The total the tile swap is judged against, without adding the rows
+        # up by hand -- and it is `city_detail`'s `base` row for this page.
+        self.assertEqual(lines[1], "worked 2 of 4 rows on this page: f4 s3 t1")
+        self.assertEqual(lines[2], "specialists: 1 Entertainer")
+        self.assertTrue(any("tile_" + "1" * 32 in line for line in lines))
+
+    def test_v2_buy_cost_rides_the_city_row_and_the_decision_line(self):
+        """The buy action quotes no price, so the city surfaces must.
+
+        `city.buy_production` carries no `gold_cost` on the wire, which is why
+        `gold=` never appears on its legal row; the price is on the city, and
+        the city is what both of these render.
+        """
+        revision = self.revision(19, turn=4)
+        city = {
+            "id": self.CITY_ONE, "name": "London", "x": 31, "y": 72,
+            "size": 3, "surplus": {"food": 1, "shields": 2, "trade": 3},
+            "production": {
+                "kind": "unit", "name": "Musketeers", "shield_stock": 30,
+                "shield_cost": 30, "buy_cost": 4, "can_buy": True,
+            },
+        }
+        rows = client._render_state_page({
+            "state_revision": revision,
+            "page": {
+                "section": "cities", "items": [city], "total_items": 1,
+                "next_cursor": None, "cursor_expires_at": None,
+            },
+        }, {self.CITY_ONE: "c1"})
+        self.assertIn("buy=4", rows[1])
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                page = self.section_page(
+                    session, section="cities", revision=revision,
+                    items=[city],
+                )
+                with patch.object(
+                    client, "_v2_response",
+                    return_value=client.JSONResponse(200, page),
+                ), redirect_stdout(io.StringIO()):
+                    self.assertEqual(client.command_state(self.alias_args(
+                        session=str(session_path), section="cities",
+                    )), 0)
+                state = client._load_v2_client_state(session_path, session)
+                found = client._decision_city_rows(
+                    session_path, state, client._alias_map(state),
+                )
+                self.assertEqual(len(found), 1)
+                # The city whose build completes this turn is offered with the
+                # price of finishing it now already on the line.
+                self.assertIn("buy=4", found[0]["state"])
+                self.assertLessEqual(
+                    len(client._decision_line(found[0])), 120,
+                )
+
+    def test_v2_build_choice_forfeit_appears_only_when_it_is_derivable(self):
+        """`shield_stock_after_change` is the native client's own arithmetic.
+
+        `city_change_production_penalty()` (common/city.c) has already run on
+        the other side of the wire, so the forfeit is a subtraction, not a rule
+        this client re-derives.  It still needs the stock the city holds *now*,
+        which lives in the `cities` mirror -- so the warning is printed only
+        when that mirror already stands at this page's own revision.
+        """
+        revision = self.revision(19, turn=4)
+        choices = [
+            {
+                "city_id": self.CITY_ONE, "id": "production_" + "1" * 32,
+                "kind": "improvement", "name": "City Walls",
+                "can_queue": True, "can_build_now": True,
+                "cost": {
+                    "shields": 60, "shield_stock_after_change": 12,
+                    "turns": 15, "turns_with_stock": 12,
+                },
+                "upkeep": {"gold": 1, "food": 0, "shields": 0},
+                "happy_cost": None, "unit": None,
+                "building": {"genus": "Improvement"},
+            },
+            {
+                "city_id": self.CITY_ONE, "id": "production_" + "2" * 32,
+                "kind": "unit", "name": "Musketeers",
+                "can_queue": True, "can_build_now": False,
+                "cost": {
+                    "shields": 30, "shield_stock_after_change": 25,
+                    "turns": 6, "turns_with_stock": 1,
+                },
+                "upkeep": {"gold": 0, "food": 0, "shields": 1},
+                "happy_cost": 1, "unit": {"attack": 3}, "building": None,
+            },
+        ]
+        city = {
+            "id": self.CITY_ONE, "name": "London", "x": 31, "y": 72,
+            "size": 3, "surplus": {"food": 1, "shields": 2, "trade": 3},
+            "production": {
+                "kind": "unit", "name": "Musketeers", "shield_stock": 25,
+                "shield_cost": 30, "buy_cost": 12, "can_buy": True,
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+
+                def read(section, items, at):
+                    page = self.section_page(
+                        session, section=section, revision=at, items=items,
+                    )
+                    stdout = io.StringIO()
+                    with patch.object(
+                        client, "_v2_response",
+                        return_value=client.JSONResponse(200, page),
+                    ), redirect_stdout(stdout):
+                        self.assertEqual(client.command_state(self.alias_args(
+                            session=str(session_path), section=section,
+                            actor_id=(
+                                self.CITY_ONE if section.startswith("city_")
+                                else ""
+                            ),
+                        )), 0)
+                    return stdout.getvalue()
+
+                read("cities", [city], revision)
+                fresh = read("city_build_choices", choices, revision)
+                self.assertIn("stock 25 shields", fresh)
+                self.assertIn("!forfeits 13 of 25 shields", fresh)
+                # A switch inside the same production class costs nothing, and
+                # says nothing.
+                musketeers = next(
+                    line for line in fresh.splitlines()
+                    if "Musketeers" in line
+                )
+                self.assertNotIn("forfeits", musketeers)
+                self.assertIn("!worklist only", musketeers)
+                self.assertIn("!upkeep shields 1", musketeers)
+                self.assertIn("!unhappy 1", musketeers)
+                for line in fresh.splitlines():
+                    self.assertLessEqual(len(line), 120, line)
+
+                # One revision later the mirror's stock is only a memory, so
+                # the page reports what it holds and claims no forfeit.
+                stale = read(
+                    "city_build_choices", choices, self.revision(21, turn=4),
+                )
+                self.assertNotIn("forfeits", stale)
+                self.assertNotIn("stock 25 shields", stale)
+                self.assertIn("keep 12", stale)
+
+    RELATION_SPAIN = "relation_" + "d" * 32
+    RELATION_ROME = "relation_" + "f" * 32
+
+    @classmethod
+    def diplomacy_items(cls, *, accepted: bool = False) -> list[dict]:
+        return [
+            {
+                "relation_id": cls.RELATION_SPAIN,
+                "player_id": "player_" + "b" * 32,
+                "player_name": "Isabella", "nation": "Spanish",
+                "alive": True, "state": "cease-fire", "has_embassy": True,
+                "other_has_embassy": False, "can_open_meeting": True,
+                "treaty_turns_left": 4,
+                "meeting": {
+                    "meeting_id": "meeting_" + "e" * 32, "generation": 3,
+                    "self_accepted": accepted, "other_accepted": True,
+                    "clause_count": 2, "clauses_token": "treaty_x",
+                },
+            },
+            {
+                "relation_id": cls.RELATION_ROME,
+                "player_id": "player_" + "a" * 32,
+                "player_name": "Caesar", "nation": "Roman", "alive": True,
+                "state": "war", "has_embassy": False,
+                "other_has_embassy": False, "can_open_meeting": True,
+                "treaty_turns_left": None, "meeting": None,
+            },
+        ]
+
+    def read_diplomacy(
+        self, session_path: Path, session: dict, revision: dict, items: list,
+    ) -> str:
+        page = self.section_page(
+            session, section="diplomacy", revision=revision, items=items,
+        )
+        stdout = io.StringIO()
+        with patch.object(
+            client, "_v2_response",
+            return_value=client.JSONResponse(200, page),
+        ), redirect_stdout(stdout):
+            self.assertEqual(client.command_state(self.alias_args(
+                session=str(session_path), section="diplomacy",
+            )), 0)
+        return stdout.getvalue()
+
+    @staticmethod
+    def show_args(session_path: Path, name: str):
+        return type("Args", (), {
+            "session": str(session_path), "name": name, "grep": "",
+            "regex": False, "yields": False,
+        })()
+
+    def test_v2_diplomacy_is_mirrored_and_reachable_by_relation_alias(self):
+        """`just show diplomacy` used to refuse: there was no such table.
+
+        Every other section an agent reads lands in the mirror, so a relation
+        was the one entity whose row could not be re-read without a request.
+        """
+        revision = self.revision(210, turn=40)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+                page = self.read_diplomacy(
+                    session_path, session, revision, self.diplomacy_items(),
+                )
+                # The section names the open meeting on the row and the clause
+                # page as the command that prints it.
+                self.assertIn(
+                    "!meeting open 2 clauses accepted by them, awaiting you",
+                    page,
+                )
+                self.assertIn(
+                    "clauses: just state --section diplomacy_clauses "
+                    "--relation_id r1",
+                    page,
+                )
+                self.assertNotIn(self.RELATION_SPAIN, page)
+                for line in page.splitlines():
+                    self.assertLessEqual(len(line), 120, line)
+
+                shown = io.StringIO()
+                with redirect_stdout(shown):
+                    self.assertEqual(
+                        client.command_show(
+                            self.show_args(session_path, "diplomacy"),
+                        ), 0,
+                    )
+                table = shown.getvalue()
+                self.assertIn(
+                    "alias\tplayer\tnation\tstate\tembassy\tmeeting\t"
+                    "clauses\taccepted",
+                    table.replace("  ", "").replace(" \t", "\t"),
+                )
+                self.assertIn("Isabella", table)
+                self.assertIn("cease-fire", table)
+
+                # A relation is addressed by alias like any other entity.
+                row = io.StringIO()
+                with redirect_stdout(row):
+                    self.assertEqual(
+                        client.command_show(
+                            self.show_args(session_path, "r1"),
+                        ), 0,
+                    )
+                self.assertIn("diplomacy:", row.getvalue())
+                self.assertIn("Isabella", row.getvalue())
+
+    def test_v2_an_unanswered_meeting_reaches_the_decisions_block(self):
+        """Spain's cease-fire sat open while decisions offered an idle worker.
+
+        A meeting only reached the list once a diplomacy descriptor happened to
+        be cached, and nothing prompts that read -- so the mirror, which is the
+        seat's own record that the meeting exists, is read too.
+        """
+        revision = self.revision(210, turn=40)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                session_path, session = self.v2_session(root)
+
+                def meetings(items):
+                    self.read_diplomacy(
+                        session_path, session, revision, items,
+                    )
+                    state = client._load_v2_client_state(
+                        session_path, session,
+                    )
+                    return client._decision_meeting_rows(
+                        session_path, state, client._alias_map(state),
+                    )
+
+                # No diplomacy action is cached anywhere, and the row appears
+                # anyway, naming who is waiting and on what.
+                rows = meetings(self.diplomacy_items())
+                self.assertEqual(len(rows), 1)
+                self.assertEqual(rows[0]["alias"], "r1")
+                self.assertEqual(
+                    rows[0]["state"],
+                    "meeting pending: Isabella, cease-fire, 2 clauses",
+                )
+                self.assertEqual(
+                    rows[0]["remedy"],
+                    "just legal --actor_id YOUR_PLAYER_ID --target_id r1 "
+                    "--all",
+                )
+                line = client._decision_line(rows[0])
+                self.assertLessEqual(len(line), 120, line)
+                # A meeting is never composed into the batch line: its actor is
+                # this seat's player, not the relation the row is named after.
+                self.assertEqual(rows[0]["order"], "")
+
+                # A meeting this seat has already accepted owes no decision.
+                self.assertEqual(
+                    meetings(self.diplomacy_items(accepted=True)), [],
+                )
+
+    def test_v2_a_meeting_without_the_diplomacy_page_names_that_read(self):
+        """Knowing a meeting is open and nothing else is still worth a row."""
+        state = {
+            "entity_aliases": {"r1": self.GOVERNMENT_RELATION},
+            "tile_aliases": {},
+            "action_aliases": client._empty_action_aliases(),
+            "last_revision": self.revision(210, turn=40),
+            "actions": {
+                "action_" + "9" * 32: {
+                    "action_id": "action_" + "9" * 32,
+                    "kind": "diplomacy.acceptance",
+                    "label": "Accept the treaty",
+                    "subject": {
+                        "operation": "accept",
+                        "actor": {
+                            "type": "player",
+                            "id": self.GOVERNMENT_ACTOR_PLAYER,
+                        },
+                        "target": {
+                            "type": "diplomatic_relation",
+                            "id": self.GOVERNMENT_RELATION,
+                        },
+                    },
+                    "arguments_schema": {"type": "object", "properties": {}},
+                    "state_revision": self.revision(210, turn=40),
+                },
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            rows = client._decision_meeting_rows(
+                Path(directory), state, client._alias_map(state),
+            )
+        self.assertEqual(len(rows), 1)
+        # The mirror has never been written, so the row cannot say who or what
+        # -- and names the one page that would.
+        self.assertEqual(
+            rows[0]["state"],
+            "meeting pending (unread: just state --section diplomacy "
+            "--limit 16)",
+        )
+        self.assertIn("just state --section diplomacy", rows[0]["state"])
+
+    def test_v2_state_refusals_spell_every_flag_the_way_just_accepts(self):
+        """A remedy naming `--actor-id` fails as printed; the wrapper takes `_`."""
+        def args(**values):
+            defaults = {
+                "cursor": "", "section": "", "actor_id": "",
+                "relation_id": "", "center_id": "", "radius": None,
+                "limit": None,
+            }
+            defaults.update(values)
+            return type("Args", (), defaults)()
+
+        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
+        for invalid, expected, parameter in (
+            (args(section="city_detail"), "--actor_id", "actor_id="),
+            (args(section="unit_route"), "--actor_id", "actor_id="),
+            (
+                args(section="tile_window", center_id="tile_" + "a" * 32),
+                "--center_id", "center_id=",
+            ),
+            (
+                args(section="tile_window", center_id="tile_" + "a" * 32),
+                "--radius", "radius=",
+            ),
+        ):
+            with self.subTest(expected=expected):
+                with self.assertRaises(client.PlayerError) as caught:
+                    client._state_query(invalid)
+                message = str(caught.exception)
+                self.assertIn(expected, message)
+                if "_" in expected:
+                    self.assertNotIn(expected.replace("_", "-"), message)
+                # The flag is spelled the way the recipe declares it.
+                self.assertIn(parameter, recipe)
+
+    def test_v2_a_changeable_government_names_the_catalog_that_holds_it(self):
+        """`can_change yes` used to name no way to act on it.
+
+        `government.*` is enumerated only in this seat's own player scope, so
+        an agent that reads this section and then searches the global catalog
+        by kind finds nothing and concludes the rules forbid the change.
+        """
+        revision = self.revision(210, turn=40)
+
+        def rendered(items, state):
+            return client._render_state_page({
+                "state_revision": revision,
+                "page": {
+                    "section": "governments", "items": items,
+                    "total_items": len(items), "next_cursor": None,
+                    "cursor_expires_at": None,
+                },
+            }, {}, None, state)
+
+        state = {
+            "entity_aliases": {"p1": self.GOVERNMENT_ACTOR_PLAYER},
+            "tile_aliases": {},
+            "action_aliases": client._empty_action_aliases(),
+            "last_revision": revision,
+            "actions": {
+                "action_" + "8" * 32: {
+                    "action_id": "action_" + "8" * 32,
+                    "kind": "player.send_chat",
+                    "label": "Send chat",
+                    "subject": {
+                        "operation": "send_chat",
+                        "actor": {
+                            "type": "player",
+                            "id": self.GOVERNMENT_ACTOR_PLAYER,
+                        },
+                    },
+                    "arguments_schema": {"type": "object", "properties": {}},
+                    "state_revision": revision,
+                },
+            },
+        }
+        settled = [{
+            "id": "government_1", "name": "Despotism", "current": True,
+            "target": False, "during_revolution": False, "can_change": False,
+        }]
+        changeable = settled + [{
+            "id": "government_2", "name": "Monarchy", "current": False,
+            "target": False, "during_revolution": False, "can_change": True,
+        }]
+        hint = (
+            "government actions are player-scoped: "
+            "just legal --actor_id p1 --all"
+        )
+        self.assertEqual(rendered(changeable, state)[-1], hint)
+        # Nothing to change, nothing to say.
+        self.assertNotIn(hint, rendered(settled, state))
+        # Without a cache there is no player alias to print, so no command is
+        # printed either.
+        self.assertNotIn(hint, rendered(changeable, None))
 
 
 if __name__ == "__main__":

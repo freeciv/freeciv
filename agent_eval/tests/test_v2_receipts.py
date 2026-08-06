@@ -487,6 +487,7 @@ class V2ReceiptStoreTests(unittest.TestCase):
             self.assertNotIn(forbidden, unsafe_raw)
 
     def test_corrupt_noncanonical_contradictory_and_oversize_records_fail_sanitized(self):
+        """One unreadable record poisons its own batch, never the store."""
         cases = (b"not-json", b'{"unexpected":true}\n', b"x" * (MAX_RECORD_BYTES + 1))
         for index, contents in enumerate(cases):
             with self.subTest(index=index):
@@ -497,9 +498,54 @@ class V2ReceiptStoreTests(unittest.TestCase):
                 path = directory / record_name(AGENT_ID, "batch_corrupt")
                 path.write_bytes(contents)
                 path.chmod(0o600)
-                with self.assertRaises(V2ReceiptCorrupt) as caught:
-                    V2ReceiptStore(episode, game_id=GAME_ID)
-                self.assertNotIn(str(episode), str(caught.exception))
+                with V2ReceiptStore(episode, game_id=GAME_ID) as store:
+                    self.assertEqual(
+                        store.quarantined_records,
+                        ({
+                            "record": record_name(AGENT_ID, "batch_corrupt"),
+                            "reason": "unreadable_record",
+                        },),
+                    )
+                    for operation in (
+                        lambda: store.reserve(batch("batch_corrupt")),
+                        lambda: store.probe(batch("batch_corrupt")),
+                        lambda: store.lookup(AGENT_ID, "batch_corrupt"),
+                    ):
+                        with self.assertRaises(V2ReceiptCorrupt) as caught:
+                            operation()
+                        self.assertNotIn(str(episode), str(caught.exception))
+                    # Every other batch is untouched.
+                    healthy = store.reserve(batch("batch_healthy"))
+                    self.assertTrue(healthy.created)
+                    self.assertEqual(
+                        store.transition(
+                            healthy, receipt("batch_healthy", "accepted"),
+                        )["receipt_state"],
+                        "accepted",
+                    )
+                # The evidence stays where it was, so the quarantine is
+                # identical on every later restart.
+                self.assertEqual(path.read_bytes(), contents)
+                with V2ReceiptStore(episode, game_id=GAME_ID) as reopened:
+                    self.assertEqual(
+                        [item["reason"] for item in reopened.quarantined_records],
+                        ["unreadable_record"],
+                    )
+                    # An accepted record crash-recovers to a terminal
+                    # ambiguous receipt: the contract the store owes a batch
+                    # whose outcome it stopped owning, unchanged by the
+                    # quarantine next to it.
+                    self.assertEqual(
+                        reopened.lookup(AGENT_ID, "batch_healthy")["receipt_state"],
+                        "ambiguous",
+                    )
+                    self.assertEqual(
+                        [
+                            item["batch_id"]
+                            for item in reopened.recovered_receipts
+                        ],
+                        ["batch_healthy"],
+                    )
 
         with self.open_store() as store:
             reservation = store.reserve(batch("batch_contradiction"))
@@ -513,8 +559,9 @@ class V2ReceiptStoreTests(unittest.TestCase):
         value["phase"] = "applied"
         path.write_text(json.dumps(value, sort_keys=True, separators=(",", ":")))
         path.chmod(0o600)
-        with self.assertRaises(V2ReceiptCorrupt):
-            self.open_store()
+        with self.open_store() as store:
+            with self.assertRaises(V2ReceiptCorrupt):
+                store.lookup(AGENT_ID, "batch_contradiction")
 
     def test_symlink_record_and_symlink_episode_root_are_rejected(self):
         directory = self.episode / RECEIPT_DIRECTORY
@@ -522,8 +569,17 @@ class V2ReceiptStoreTests(unittest.TestCase):
         outside = self.episode / "outside"
         outside.write_text("secret")
         (directory / record_name(AGENT_ID, "batch_link")).symlink_to(outside)
-        with self.assertRaises(V2ReceiptCorrupt):
-            self.open_store()
+        with self.open_store() as store:
+            with self.assertRaises(V2ReceiptCorrupt):
+                store.lookup(AGENT_ID, "batch_link")
+            self.assertEqual(
+                store.quarantined_records,
+                ({
+                    "record": record_name(AGENT_ID, "batch_link"),
+                    "reason": "unreadable_record",
+                },),
+            )
+        self.assertEqual(outside.read_text(), "secret")
 
         other = Path(tempfile.mkdtemp())
         self.addCleanup(lambda: other.rmdir())
@@ -531,6 +587,88 @@ class V2ReceiptStoreTests(unittest.TestCase):
         link.symlink_to(other, target_is_directory=True)
         with self.assertRaises(V2ReceiptStoreError):
             V2ReceiptStore(link, game_id=GAME_ID)
+
+    def test_foreign_entry_is_noted_without_taking_the_store_down(self):
+        directory = self.episode / RECEIPT_DIRECTORY
+        directory.mkdir(mode=0o700)
+        (directory / ".DS_Store").write_bytes(b"\x00\x01")
+        (directory / "notes.txt").write_text("left by a human")
+        with self.open_store() as store:
+            reasons = [item["reason"] for item in store.quarantined_records]
+            self.assertEqual(reasons, ["foreign_entry", "foreign_entry"])
+            # A foreign name is never echoed back; it is published as a digest.
+            for item in store.quarantined_records:
+                self.assertRegex(item["record"], r"^[0-9a-f]{64}$")
+                self.assertNotIn("notes", item["record"])
+            reservation = store.reserve(batch("batch_after_foreign"))
+            self.assertTrue(reservation.created)
+            self.assertEqual(
+                store.transition(
+                    reservation, receipt("batch_after_foreign", "accepted"),
+                )["receipt_state"],
+                "accepted",
+            )
+
+    def test_unreapable_temporary_is_noted_and_the_store_still_opens(self):
+        directory = self.episode / RECEIPT_DIRECTORY
+        directory.mkdir(mode=0o700)
+        temporary = directory / ("." + "c" * 64 + "." + "d" * 32 + ".tmp")
+        temporary.write_text("partial")
+        temporary.chmod(0o600)
+        with mock.patch(
+            "agent_eval.v2_receipts.os.unlink",
+            side_effect=OSError("injected private path"),
+        ):
+            store = self.open_store()
+        with store:
+            self.assertEqual(
+                [item["reason"] for item in store.quarantined_records],
+                ["temporary_retained"],
+            )
+            reservation = store.reserve(batch("batch_after_temp"))
+            self.assertTrue(reservation.created)
+
+    def test_undurable_recovery_poisons_only_that_batch(self):
+        """A reserved record that cannot be promoted is never served again."""
+        with self.open_store() as store:
+            store.reserve(batch("batch_unpromotable"))
+            healthy = store.reserve(batch("batch_promotable"))
+            store.transition(healthy, receipt("batch_promotable", "accepted"))
+        poisoned = record_name(AGENT_ID, "batch_unpromotable")
+        real_replace = os.replace
+
+        def replace(source, target, **kwargs):
+            if isinstance(target, str) and target == poisoned:
+                raise OSError("injected private path")
+            return real_replace(source, target, **kwargs)
+
+        with mock.patch("agent_eval.v2_receipts.os.replace", replace):
+            store = self.open_store()
+        with store:
+            self.assertEqual(
+                store.quarantined_records,
+                ({"record": poisoned, "reason": "recovery_not_durable"},),
+            )
+            # The un-promoted reservation is unusable, so the command behind
+            # it can never be dispatched a second time.
+            for operation in (
+                lambda: store.reserve(batch("batch_unpromotable")),
+                lambda: store.probe(batch("batch_unpromotable")),
+                lambda: store.lookup(AGENT_ID, "batch_unpromotable"),
+            ):
+                with self.assertRaises(V2ReceiptCorrupt) as caught:
+                    operation()
+                self.assertNotIn("private path", str(caught.exception))
+            # The batch beside it still recovered to its terminal receipt.
+            self.assertEqual(
+                store.lookup(AGENT_ID, "batch_promotable")["receipt_state"],
+                "ambiguous",
+            )
+            self.assertEqual(
+                [item["batch_id"] for item in store.recovered_receipts],
+                ["batch_promotable"],
+            )
+            self.assertTrue(store.reserve(batch("batch_fresh")).created)
 
     def test_orphan_temp_is_removed_and_replace_failure_cleans_temp(self):
         directory = self.episode / RECEIPT_DIRECTORY

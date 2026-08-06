@@ -54,6 +54,9 @@ RECOVERY_OUTCOMES = frozenset({"recovered", "failed", "abandoned"})
 RECOVERY_TRIGGERS = frozenset({
     "boundary_internal_error",
     "post_result_observation_unavailable",
+    # A sidecar that died or stopped answering is already a proven fault; it
+    # enters recovery directly rather than through the failure counter.
+    "sidecar_exit",
 })
 
 _FORMAT = "freeciv-full-control-v2-recovery"
@@ -67,6 +70,9 @@ _SAVE_NAME = re.compile(r"^turn-([0-9]{4,6})-auto\.sav(?:\.gz|\.bz2|\.xz|\.zst)?
 _MAX_SAVE_CANDIDATES = 4096
 _FIELDS = frozenset({
     "attempt",
+    "client_state",
+    "exit_code",
+    "exit_signal",
     "format",
     "game_id",
     "kind",
@@ -162,34 +168,63 @@ class RecoveryBudget:
     ):
         self.per_turn = per_turn
         self.per_game = per_game
-        self._by_turn: dict[int, int] = {}
+        # Keyed by (turn, place): the escalation ladder describes ONE seat's
+        # evidence.  Sharing it across seats would let a second seat's first
+        # ever fault skip the free re-attach and rewind the whole game, and a
+        # third seat get no recovery at all.
+        self._by_turn: dict[tuple[int, int], int] = {}
         self._total = 0
 
     @property
     def total(self) -> int:
         return self._total
 
-    def attempts_for_turn(self, turn: int) -> int:
-        return self._by_turn.get(turn, 0)
+    def attempts_for_turn(self, turn: int, place: int) -> int:
+        return self._by_turn.get((turn, place), 0)
 
-    def next_attempt(self, turn: int) -> int | None:
-        """Reserve the next attempt for ``turn``, or ``None`` when exhausted.
+    def next_attempt(self, turn: int, place: int) -> int | None:
+        """Reserve the next attempt for ``place`` in ``turn``, or ``None``.
 
-        The returned attempt number is 1-based within the turn and selects the
-        escalation tier: attempt 1 re-attaches the boundary, attempt 2 rewinds
-        to an autosave.
+        The returned attempt number is 1-based within the seat's turn and
+        selects the escalation tier: attempt 1 re-attaches the boundary,
+        attempt 2 rewinds to an autosave.
         """
         if self._total >= self.per_game:
             return None
-        used = self._by_turn.get(turn, 0)
+        used = self._by_turn.get((turn, place), 0)
         if used >= self.per_turn:
             return None
         attempt = used + 1
-        self._by_turn[turn] = attempt
+        self._by_turn[(turn, place)] = attempt
         self._total += 1
         return attempt
 
-    def exhausted_reason(self, turn: int) -> str:
+    def release(self, turn: int, place: int, *, kind: str, outcome: str) -> bool:
+        """Give back an attempt that cost the game nothing.
+
+        The per-game cap exists to bound how much real play a game may discard,
+        so only what actually discards play may consume it.  A successful
+        ``sidecar_reattach`` rewinds no turns and drops no applied action -- it
+        replaces a client against the same live server -- and an attempt that
+        was abandoned before it ran did not even do that.  Charging those
+        identically to a rollback is what let four successful recoveries kill
+        a game on its fifth latency blip.
+        """
+        if outcome == "recovered" and kind != "sidecar_reattach":
+            return False
+        if outcome not in {"recovered", "abandoned"}:
+            return False
+        used = self._by_turn.get((turn, place), 0)
+        if used <= 0 or self._total <= 0:
+            return False
+        if used <= 1:
+            self._by_turn.pop((turn, place), None)
+        else:
+            self._by_turn[(turn, place)] = used - 1
+        self._total -= 1
+        return True
+
+    def exhausted_reason(self, turn: int, place: int) -> str:
         if self._total >= self.per_game:
             return (
                 "the full-control-v2 native boundary wedged and the game's "
@@ -336,6 +371,9 @@ class V2RecoveryJournal:
         sidecar_generation: int,
         recovered_to_turn: int | None,
         rewound_applied_actions: bool,
+        exit_code: int | None = None,
+        exit_signal: int | None = None,
+        client_state: str | None = None,
         timestamp: str | None = None,
     ) -> dict[str, Any]:
         if (
@@ -347,6 +385,19 @@ class V2RecoveryJournal:
             raise V2RecoveryError()
         if recovered_to_turn is not None:
             _bounded_int(recovered_to_turn, minimum=1, maximum=(1 << 31) - 1)
+        # Exit forensics are best-effort: a sidecar that was never reaped has
+        # no code, and one that stopped answering without dying has neither.
+        # They are recorded as null rather than omitted so the schema stays
+        # closed and a silent death is visibly distinct from a clean one.
+        if exit_code is not None:
+            _bounded_int(exit_code, minimum=-255, maximum=255)
+        if exit_signal is not None:
+            _bounded_int(exit_signal, minimum=1, maximum=64)
+        if client_state is not None and (
+            not isinstance(client_state, str)
+            or _OPAQUE_ID.fullmatch(client_state) is None
+        ):
+            raise V2RecoveryError()
         if timestamp is None:
             timestamp = datetime.now(timezone.utc).isoformat(
                 timespec="milliseconds",
@@ -358,6 +409,9 @@ class V2RecoveryJournal:
             raise V2RecoveryError()
         record = {
             "attempt": _bounded_int(attempt, minimum=1, maximum=1024),
+            "client_state": client_state,
+            "exit_code": exit_code,
+            "exit_signal": exit_signal,
             "format": _FORMAT,
             "game_id": self.game_id,
             "kind": kind,

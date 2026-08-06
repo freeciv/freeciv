@@ -8,8 +8,43 @@ export function normalizeGameId(value: string): string | null {
   return GAME_ID_RE.test(gameId) ? gameId : null
 }
 
-export function gameModeLabel(game: GameSummary): string {
+export function gameModeLabel(game: Pick<GameSummary, 'mode'>): string {
   return game.mode === 'single' ? 'Single player vs native AI' : 'Multiplayer agent match'
+}
+
+export type ControlProtocol = 'full-control-v2' | 'strategic-v1'
+
+export interface ControlProtocolLabel {
+  protocol: ControlProtocol
+  label: string
+  detail: string
+  /** True when the run predates the field and falls back to the server default. */
+  assumed: boolean
+}
+
+export function controlProtocolLabel(
+  protocol: string | null | undefined,
+): ControlProtocolLabel {
+  if (protocol === 'full-control-v2') {
+    return {
+      protocol: 'full-control-v2',
+      label: 'Full control',
+      detail: 'Agents drive every unit',
+      assumed: false,
+    }
+  }
+  return {
+    protocol: 'strategic-v1',
+    label: 'Strategic traits',
+    detail: 'Agents steer the classic AI',
+    assumed: protocol !== 'strategic-v1',
+  }
+}
+
+export function matchModeLabel(
+  game: Pick<GameSummary, 'control_protocol' | 'mode'>,
+): string {
+  return `${gameModeLabel(game)} · ${controlProtocolLabel(game.control_protocol).label}`
 }
 
 export function openAgentSeats(game: GameSummary): number {

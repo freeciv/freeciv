@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { fetchGames } from '../api'
 import {
-  gameModeLabel,
   gamePrimaryResult,
+  matchModeLabel,
   normalizeGameId,
   openAgentSeats,
   placeLabel,
@@ -45,7 +45,7 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
       </div>
       <div className="arena-card-title">
         <div>
-          <p className="eyebrow">{gameModeLabel(game)}</p>
+          <p className="eyebrow">{matchModeLabel(game)}</p>
           <h2>{matchHeaderLabel(game.resolved_places)}</h2>
         </div>
         <span aria-hidden="true">↗</span>

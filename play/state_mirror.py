@@ -12,6 +12,7 @@ Files written under `mirror_dir(session_path)`::
     state/overview.tsv      economy, research, government - one row per fact
     state/units.tsv         one row per unit
     state/cities.tsv        one row per city
+    state/diplomacy.tsv     one row per relation, meetings included
     state/map.txt           ASCII terrain grid, fog as '?'
     state/options/<a>.txt   rendered legal-action catalog for one actor
     state/delta.md          short prose digest of what changed
@@ -115,6 +116,7 @@ _SECTION_TARGETS: dict[str, tuple[str, ...]] = {
     "overview": (_STATE_DIR, "overview.tsv"),
     "units": (_STATE_DIR, "units.tsv"),
     "cities": (_STATE_DIR, "cities.tsv"),
+    "diplomacy": (_STATE_DIR, "diplomacy.tsv"),
     "known_tiles": (_STATE_DIR, "map.txt"),
     "map_tiles": (_STATE_DIR, "map.txt"),
     "tile_window": (_STATE_DIR, "map.txt"),
@@ -133,6 +135,7 @@ _SECTION_TITLES = {
     "overview": "overview",
     "units": "units",
     "cities": "cities",
+    "diplomacy": "diplomacy",
     "known_tiles": "map",
     "map_tiles": "map",
     "tile_window": "map",
@@ -609,6 +612,50 @@ def _render_styles(
     return columns, rows
 
 
+def _render_diplomacy(
+    items: Sequence[Any], aliases: Mapping[str, str] | None,
+) -> tuple[tuple[str, ...], list[list[str]]]:
+    """Project one row per relation, with any open meeting spelled out.
+
+    The meeting columns are separate and literal rather than one prose cell
+    because the decisions projection reads them back: `open` plus a clause
+    count plus who has accepted is exactly what decides whether this relation
+    is still waiting on the seat.
+    """
+    columns = (
+        "alias", "player", "nation", "state", "embassy",
+        "meeting", "clauses", "accepted",
+    )
+    names = _alias_map(
+        "r", [_dig(item, "relation_id") for item in items], aliases,
+    )
+    rows: list[list[str]] = []
+    for item in items:
+        if not isinstance(item, Mapping):
+            raise _error("diplomacy item is not an object")
+        meeting = _dig(item, "meeting")
+        open_meeting = isinstance(meeting, Mapping)
+        accepted = "-"
+        if open_meeting:
+            sides = [
+                side for side, key in (
+                    ("you", "self_accepted"), ("them", "other_accepted"),
+                ) if _dig(meeting, key) is True
+            ]
+            accepted = "+".join(sides) if sides else "neither"
+        rows.append([
+            names[_cell(_dig(item, "relation_id"))],
+            _cell(_dig(item, "player_name")),
+            _cell(_dig(item, "nation")),
+            _cell(_dig(item, "state")),
+            _cell(_dig(item, "has_embassy")),
+            "open" if open_meeting else "-",
+            _cell(_dig(meeting, "clause_count")) if open_meeting else "-",
+            accepted,
+        ])
+    return columns, rows
+
+
 def _render_governments(
     items: Sequence[Any], aliases: Mapping[str, str] | None,
 ) -> tuple[tuple[str, ...], list[list[str]]]:
@@ -631,6 +678,7 @@ _RENDERERS = {
     "overview": _render_overview,
     "units": _render_units,
     "cities": _render_cities,
+    "diplomacy": _render_diplomacy,
     "pregame_nations": _render_nations,
     "pregame_styles": _render_styles,
     "governments": _render_governments,

@@ -443,5 +443,54 @@ class FullControlV2SchemaTests(unittest.TestCase):
                 validate_command_receipt(invalid)
 
 
+class RejectionVocabularyDriftTests(unittest.TestCase):
+    """The drift guard exists to survive a flag no other suite passes."""
+
+    def test_drift_is_refused_even_under_optimized_python(self):
+        # The guard was deliberately written as `raise RuntimeError` rather
+        # than `assert`, because `-O` deletes an assert and the drift would
+        # then surface as a KeyError inside receipt validation -- an
+        # unattributed 500.  Nothing exercised either the guard or the flag.
+        # Run the module's REAL source, one message deleted, under `-O`.
+        import subprocess
+        import sys
+        import tempfile
+
+        source = (
+            Path(__file__).resolve().parents[1] / "full_control_v2.py"
+        ).read_text(encoding="utf-8")
+        drifted = source.replace(
+            '    "internal_failure":\n'
+            '        "The command could not be completed by the control '
+            'server.",\n',
+            "",
+            1,
+        )
+        self.assertNotEqual(drifted, source, "the drift probe matched nothing")
+        with tempfile.TemporaryDirectory() as directory:
+            module = Path(directory) / "drifted_full_control_v2.py"
+            module.write_text(drifted, encoding="utf-8")
+            completed = subprocess.run(
+                [sys.executable, "-O", str(module)],
+                capture_output=True, text=True,
+            )
+        self.assertNotEqual(
+            completed.returncode, 0,
+            "the drift guard vanished under -O; it must not be an assert",
+        )
+        self.assertIn("rejection vocabulary drift", completed.stderr)
+        self.assertIn("internal_failure", completed.stderr)
+
+    def test_every_reason_has_a_message_and_no_message_is_orphaned(self):
+        from agent_eval.full_control_v2 import (
+            REJECTION_REASONS as reasons,
+            _REJECTION_MESSAGES as messages,
+        )
+
+        self.assertEqual(set(messages), set(reasons))
+        for reason in sorted(reasons):
+            self.assertTrue(messages[reason].strip())
+
+
 if __name__ == "__main__":
     unittest.main()

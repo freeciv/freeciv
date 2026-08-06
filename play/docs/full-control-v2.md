@@ -23,11 +23,11 @@ materialized; the client never sends an alias, a verb, or a coordinate it
 invented. What changed is what you read and type.
 
 - **Compact text by default, `--json` for the wire.** `join`, `health`,
-  `turn`, `state`, `legal`, `batch`, `receipt`, `retry`, `start`, `do`, and
-  `show` print aligned text; add `--json` to any of them for the
+  `turn`, `state`, `legal`, `batch`, `receipt`, `retry`, `start`, `do`,
+  `show`, and `wait` print aligned text; add `--json` to any of them for the
   full-fidelity JSON payload, which for every command that predates the text
-  renderer is byte-identical to what it used to print. `wait` has no text
-  form and always prints JSON. The text is a projection of the same validated
+  renderer is byte-identical to what it used to print.
+  The text is a projection of the same validated
   page, never a different capability. The envelope — revision, turn, scope,
   pagination — prints once in a header line, and only *default* values are
   omitted: `probability` only at exactly 100/100, `legality` only at `legal`,
@@ -48,8 +48,10 @@ invented. What changed is what you read and type.
   opaque ID it stands for, naming the `just legal` command that re-enumerates
   it; `--no-refresh` keeps that refusal without the extra request.
 - **Fast paths.** `just start`, `just turn`, `just do "…"`, and
-  `just turn --end --await` cover an ordinary turn in four commands. Each is
-  sugar over the same enumerated capabilities and resolves entirely against
+  `just turn --end --await` cover an ordinary turn, and `--end --await
+  --brief` composes the whole of one onto `just do`, so a steady-state turn is
+  a single command: orders, phase end, the block, and the next briefing. Each
+  is sugar over the same enumerated capabilities and resolves entirely against
   the local cache; none is a separate channel and none is a ceiling. Anything
   they do not cover stays reachable with `just legal` plus `just batch`,
   unrestrained.
@@ -123,9 +125,11 @@ because an identical re-vote has no reliable server update to acknowledge.
 
 ### Running game
 
-The short form of one turn is `just turn`, then `just do "…"` for the orders
-it made obvious, then `just turn --end --await`. `just show` answers a
-follow-up question without a request. The numbered steps below are the same
+The short form of one turn is one command:
+`just do "…" --end --await --brief`, which orders every actor the last
+briefing named, ends the phase, blocks, and prints the next briefing.
+`just turn`, `just do "…"` and `just turn --end --await` are the same steps
+apart. `just show` answers a follow-up question without a request. The numbered steps below are the same
 loop written out in full; use them whenever the short form is not enough, and
 for every capability the fast paths do not name.
 
@@ -262,8 +266,10 @@ for every capability the fast paths do not name.
 
 End your active player phase only with the currently enumerated `phase.end`
 action. `just turn --end --await` is that action plus the wait plus the next
-phase's header line; it enumerates `phase.end` itself when the capability is
-not already cached, and `--await` without `--end` is refused. Do not end the
+phase's header line (`--brief` prints the next briefing in full instead);
+`just do "…" --end` composes the same action onto a batch, and never runs it
+when the batch did not finish. It enumerates `phase.end` itself when the
+capability is not already cached, and `--await` without `--end` is refused. Do not end the
 phase while owned cities or units still need deliberate work.
 If the supervisor ends your phase at its configured deadline, the next health
 response reports a caller-scoped `last_phase_end` with `source: "timeout"`.

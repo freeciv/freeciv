@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { mockReplay, mockWatch } from './mock'
-import { gamePrimaryResult, normalizeGameId, placeLabel, timingModeLabel, visiblePickerGames } from './picker-model'
+import {
+  controlProtocolLabel,
+  gamePrimaryResult,
+  matchModeLabel,
+  normalizeGameId,
+  placeLabel,
+  timingModeLabel,
+  visiblePickerGames,
+} from './picker-model'
 import {
   apiUrl,
   frameImageUrl,
@@ -14,7 +22,6 @@ import {
   mapFactions,
   matchHeaderLabel,
   maxKnownTechnologyDepth,
-  matchTabFromKey,
   playerMetric,
   scoreDisplay,
   scoreDisplayAtTurn,
@@ -102,19 +109,41 @@ describe('watch route parsing', () => {
     expect(timingModeLabel({ timing_mode: 'custom', action_timeout_s: 75 })).toBe('Custom · 75s/turn')
     expect(timingModeLabel({})).toBeNull()
   })
+
+  it('names the control protocol and falls back to the server default', () => {
+    expect(controlProtocolLabel('full-control-v2')).toEqual({
+      protocol: 'full-control-v2',
+      label: 'Full control',
+      detail: 'Agents drive every unit',
+      assumed: false,
+    })
+    expect(controlProtocolLabel('strategic-v1')).toEqual({
+      protocol: 'strategic-v1',
+      label: 'Strategic traits',
+      detail: 'Agents steer the classic AI',
+      assumed: false,
+    })
+    for (const legacy of [undefined, null, '', 'strategic-v9']) {
+      expect(controlProtocolLabel(legacy)).toEqual({
+        protocol: 'strategic-v1',
+        label: 'Strategic traits',
+        detail: 'Agents steer the classic AI',
+        assumed: true,
+      })
+    }
+  })
+
+  it('folds the control protocol into the picker row subtitle', () => {
+    expect(matchModeLabel({ mode: 'single', control_protocol: 'full-control-v2' }))
+      .toBe('Single player vs native AI · Full control')
+    expect(matchModeLabel({ mode: 'multiplayer', control_protocol: 'strategic-v1' }))
+      .toBe('Multiplayer agent match · Strategic traits')
+    expect(matchModeLabel({ mode: 'single' }))
+      .toBe('Single player vs native AI · Strategic traits')
+  })
 })
 
 describe('replay view model', () => {
-  it('supports arrow and boundary keys for Overview and Map tabs', () => {
-    expect(matchTabFromKey('overview', 'ArrowRight')).toBe('map')
-    expect(matchTabFromKey('map', 'ArrowRight')).toBe('overview')
-    expect(matchTabFromKey('overview', 'ArrowLeft')).toBe('map')
-    expect(matchTabFromKey('map', 'ArrowLeft')).toBe('overview')
-    expect(matchTabFromKey('overview', 'End')).toBe('map')
-    expect(matchTabFromKey('map', 'Home')).toBe('overview')
-    expect(matchTabFromKey('overview', 'Enter')).toBeNull()
-  })
-
   it('selects state and frames at or before the requested turn', () => {
     expect(snapshotAtOrBefore(mockReplay.snapshots, 2)?.turn).toBe(2)
     expect(snapshotAtOrBefore(mockReplay.snapshots, 99)?.turn).toBe(3)

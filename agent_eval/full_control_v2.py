@@ -240,7 +240,16 @@ _REJECTION_MESSAGES = {
     "internal_failure":
         "The command could not be completed by the control server.",
 }
-assert set(_REJECTION_MESSAGES) == REJECTION_REASONS
+if set(_REJECTION_MESSAGES) != REJECTION_REASONS:
+    # Not an `assert`: under `python -O` an assert vanishes, and the drift it
+    # was guarding would surface as a `KeyError` out of `rejection_message` —
+    # inside receipt validation, where an unexpected exception type escapes
+    # the sanitizing handlers and fails a command with an unattributed 500.
+    raise RuntimeError(
+        "full-control-v2 rejection vocabulary drift: "
+        f"unmessaged={sorted(REJECTION_REASONS - set(_REJECTION_MESSAGES))!r} "
+        f"unknown={sorted(set(_REJECTION_MESSAGES) - REJECTION_REASONS)!r}"
+    )
 
 _OPAQUE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 _ACTION_KIND = re.compile(r"^([a-z][a-z0-9_]*)\.([a-z][a-z0-9_]*)$")

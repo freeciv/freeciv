@@ -131,6 +131,69 @@ class V2CursorCapacityTests(unittest.TestCase):
             "known_tiles",
         )
 
+    def test_abandoned_reservation_is_released_by_its_lease(self):
+        """A reservation whose caller never returns must not hold a slot forever.
+
+        `take_*_scope_cursor` is released by completion, not by the clock, so
+        a caller killed between reserving and committing used to leave the
+        cursor in flight for the rest of the seat generation: never expired,
+        never counted as reclaimable capacity, and answering every retry with
+        `cursor_in_progress`.  Enough of those and the registry is full and
+        the seat can no longer enumerate the catalog that carries `phase.end`.
+        """
+        cursor = self._abandoned_scope_cursor(observation(revision=11))
+        with mock.patch.object(v2_control.time, "monotonic", return_value=100.0):
+            reserved = self.control.take_actor_scope_cursor(
+                cursor, endpoint="legal_actions",
+            )
+            self.assertIsNotNone(reserved)
+            # The caller now vanishes: no commit, no abort.
+            with self.assertRaisesRegex(V2ControlError, "cursor_in_progress"):
+                self.control.take_actor_scope_cursor(
+                    cursor, endpoint="legal_actions",
+                )
+            self.assertTrue(self.control._cursors[cursor].in_flight)
+        released = 100.0 + v2_control.CURSOR_IN_FLIGHT_LEASE_SECONDS + 1.0
+        with mock.patch.object(
+            v2_control.time, "monotonic", return_value=released,
+        ):
+            self.assertFalse(self.control.is_relation_scope_cursor(
+                cursor, endpoint="legal_actions",
+            ))
+            self.assertFalse(self.control._cursors[cursor].in_flight)
+            # The exact cursor is usable again, at the same offset.
+            retaken = self.control.take_actor_scope_cursor(
+                cursor, endpoint="legal_actions",
+            )
+            self.assertEqual(retaken.offset, reserved.offset)
+
+    def test_abandoned_reservation_stops_hiding_reclaimable_capacity(self):
+        cursor = self._abandoned_scope_cursor(observation(revision=11))
+        with mock.patch.object(v2_control.time, "monotonic", return_value=100.0):
+            self.control.take_actor_scope_cursor(cursor, endpoint="legal_actions")
+            # While the reservation is honestly in flight, nothing it holds can
+            # date a retry, so a refusal stays honest about that.
+            self.assertEqual(self.control._capacity_retry_details(), {})
+        # Pin the probe strictly BETWEEN the lease and the ordinary TTL.  The
+        # old probe was `100.0 + CURSOR_IN_FLIGHT_LEASE_SECONDS + 1.0`, which
+        # scales with the constant under test: with the lease mechanism
+        # disabled entirely the cursor still became reclaimable at that
+        # timestamp through the 300s TTL, so the test passed while asserting
+        # nothing about the lease it names.
+        self.assertLess(
+            v2_control.CURSOR_IN_FLIGHT_LEASE_SECONDS,
+            v2_control.CURSOR_TTL_SECONDS,
+        )
+        expired = 100.0 + v2_control.CURSOR_IN_FLIGHT_LEASE_SECONDS + 1.0
+        self.assertLess(expired, 100.0 + v2_control.CURSOR_TTL_SECONDS)
+        with mock.patch.object(
+            v2_control.time, "monotonic", return_value=expired,
+        ), mock.patch.object(v2_control.time, "time", return_value=1_000.0):
+            self.control._expire_cursors()
+            self.assertIn(
+                "retry_after_seconds", self.control._capacity_retry_details(),
+            )
+
     def test_capacity_refusal_says_when_a_retry_can_succeed(self):
         with chain_budget(1, 1), mock.patch.object(
             v2_control.time, "monotonic", return_value=100.0,
