@@ -1186,7 +1186,15 @@ class HeadlessSidecarTests(SidecarFixture, unittest.TestCase):
         self.assertNotIn("pinned", str(expired.exception))
         self.assertEqual(sidecar.public_health()["state"], "ready")
 
-    def test_public_observation_one_deadline_includes_lock_and_all_pages(self):
+    def test_public_observation_deadline_starts_after_the_queue_wait(self):
+        """A queued read gets its whole budget, and it covers every page.
+
+        Time spent waiting for the command ahead is not the client's latency
+        and must not be charged to it: a read that inherited a half-spent
+        deadline could time out having never been sent, which terminalizes an
+        entirely healthy sidecar.  The budget therefore starts at the send,
+        and from there still covers the open and all pages as one deadline.
+        """
         sidecar, _ = self.make("ObservationSlowMultiPage")
         sidecar.start_and_take()
         lock_held = threading.Event()
@@ -1205,8 +1213,126 @@ class HeadlessSidecarTests(SidecarFixture, unittest.TestCase):
         elapsed = time.monotonic() - started
         holder.join(1)
         self.assertEqual(timed_out.exception.code, "deadline_exceeded")
-        self.assertLess(elapsed, .18)
+        # The queue wait is on top of the budget, not inside it.
+        self.assertGreaterEqual(elapsed, .19)
+        self.assertLess(elapsed, .32)
         self.assertEqual(sidecar.public_health()["state"], "failed")
+
+    def test_public_observation_waits_for_the_command_ahead_of_it(self):
+        """A collision costs the queue wait, not a refusal."""
+        sidecar, _ = self.make("ObservationMultiPage")
+        sidecar.start_and_take()
+        lock_held = threading.Event()
+
+        def briefly_hold_command_lock():
+            with sidecar._command_lock:
+                lock_held.set()
+                time.sleep(.08)
+
+        holder = threading.Thread(target=briefly_hold_command_lock)
+        holder.start()
+        self.assertTrue(lock_held.wait(1))
+        started = time.monotonic()
+        observed = sidecar.read_observation("req-queued", timeout_s=2)
+        elapsed = time.monotonic() - started
+        holder.join(1)
+        self.assertGreaterEqual(elapsed, .07)
+        self.assertEqual(len(observed["rows"]), 35)
+        self.assertEqual(sidecar.public_health()["state"], "ready")
+
+    def test_command_queue_wait_expiry_is_a_busy_refusal(self):
+        """Only a wait that outlives its bound is busy, and nothing was sent."""
+        sidecar, _ = self.make("ObservationMultiPage")
+        sidecar.start_and_take()
+        lock_held = threading.Event()
+        release_lock = threading.Event()
+        sends = []
+        original_send = sidecar._send
+
+        def count_send(value, deadline):
+            sends.append(value)
+            return original_send(value, deadline)
+
+        def hold_lock():
+            with sidecar._command_lock:
+                lock_held.set()
+                release_lock.wait(2)
+
+        holder = threading.Thread(target=hold_lock)
+        holder.start()
+        self.assertTrue(lock_held.wait(1))
+        try:
+            with (
+                patch.object(sidecar, "_send", count_send),
+                patch.object(headless_sidecar, "COMMAND_QUEUE_WAIT_S", .05),
+            ):
+                started = time.monotonic()
+                with self.assertRaises(SidecarError) as busy:
+                    sidecar.read_observation("req-busy", timeout_s=5)
+                elapsed = time.monotonic() - started
+            self.assertEqual(busy.exception.code, "native_busy")
+            self.assertGreaterEqual(elapsed, .05)
+            self.assertLess(elapsed, 1.0)
+            self.assertEqual(sends, [])
+            # A refusal that never reached the wire is not evidence about the
+            # client, so the sidecar stays usable.
+            self.assertEqual(sidecar.public_health()["state"], "ready")
+        finally:
+            release_lock.set()
+            holder.join(2)
+        self.assertEqual(len(sidecar.read_observation("req-after")["rows"]), 35)
+
+    def test_queued_mutation_follows_the_read_ahead_of_it_intact(self):
+        """Queueing changes when a command is sent, never in what order.
+
+        The native stream is one ordered channel of untagged frames, so an
+        action that slipped between an observation's pages would be read as
+        that observation's answer.  Waiting for the stream is what keeps the
+        ordering the boundary already promised.
+        """
+        sidecar, _ = self.make("ObservationSlowMultiPage")
+        sidecar.start_and_take()
+        sends: list[str] = []
+        sends_lock = threading.Lock()
+        original_send = sidecar._send
+
+        def record_send(value, deadline):
+            with sends_lock:
+                sends.append(value)
+            return original_send(value, deadline)
+
+        read_result: list[object] = []
+
+        def read():
+            try:
+                read_result.append(sidecar.read_observation(
+                    "req-ordering-read", timeout_s=5,
+                ))
+            except Exception as exc:
+                read_result.append(exc)
+
+        with patch.object(sidecar, "_send", record_send):
+            reader = threading.Thread(target=read)
+            reader.start()
+            deadline = time.monotonic() + 2
+            while not sends:
+                self.assertLess(time.monotonic(), deadline)
+                time.sleep(.002)
+            result = sidecar.execute_action(
+                "req-ordering-action", "a0123456789ABCDEF", timeout_s=5,
+            )
+            reader.join(5)
+        self.assertFalse(reader.is_alive())
+        self.assertEqual(len(read_result), 1)
+        self.assertNotIsInstance(read_result[0], Exception)
+        self.assertEqual(len(read_result[0]["rows"]), 35)
+        self.assertTrue(result["applied"])
+        kinds = [value.split("\t", 1)[0] for value in sends]
+        self.assertEqual(kinds[-1], "ACT")
+        self.assertEqual(kinds.count("ACT"), 1)
+        self.assertEqual(kinds[0], "OBS_OPEN")
+        self.assertEqual(kinds.count("OBS_PAGE"), 3)
+        self.assertEqual(sidecar.public_health()["state"], "ready")
 
     def test_public_observation_survives_async_notification_flood(self):
         sidecar, _ = self.make("ObservationNotificationFlood")
@@ -1640,7 +1766,7 @@ class HeadlessSidecarTests(SidecarFixture, unittest.TestCase):
         self.assertNotIn("private receive exception", str(raised.exception))
         self.assertEqual(sidecar.public_health()["state"], "failed")
 
-    def test_validation_unavailable_and_lock_deadline_are_pre_send_errors(self):
+    def test_validation_unavailable_and_lock_busy_are_pre_send_errors(self):
         sidecar, _ = self.make("PreSendValidation")
         sidecar.start_and_take()
         original_send = sidecar._send
@@ -1684,15 +1810,23 @@ class HeadlessSidecarTests(SidecarFixture, unittest.TestCase):
             holder.start()
             self.assertTrue(lock_held.wait(1))
             try:
-                with self.assertRaises(SidecarError) as deadline:
+                # A mutation that could not reach the stream inside the queue
+                # bound is busy, never ambiguous: refusing before the send is
+                # the only way to say an action definitely did not happen.
+                with (
+                    patch.object(
+                        headless_sidecar, "COMMAND_QUEUE_WAIT_S", .05,
+                    ),
+                    self.assertRaises(SidecarError) as busy,
+                ):
                     sidecar.execute_action(
-                        "req-lock-deadline", "a0123456789ABCDEF",
+                        "req-lock-busy", "a0123456789ABCDEF",
                         timeout_s=0.02, expected_revision=2,
                     )
                 self.assertNotIsInstance(
-                    deadline.exception, SidecarActionAmbiguous,
+                    busy.exception, SidecarActionAmbiguous,
                 )
-                self.assertEqual(deadline.exception.code, "deadline_exceeded")
+                self.assertEqual(busy.exception.code, "native_busy")
                 self.assertEqual(sends, [])
                 self.assertEqual(sidecar.public_health()["state"], "ready")
             finally:

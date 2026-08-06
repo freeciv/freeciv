@@ -229,6 +229,25 @@ V2_POST_RESULT_OBSERVATION_RETRY_INTERVAL_S = 0.02
 V2_SCOPE_MATERIALIZATION_TIMEOUT_S = 30.0
 V2_ACTION_TIMEOUT_S = 20.0
 V2_EXECUTION_LOCK_TIMEOUT_S = 30.0
+# How long a read may wait for the seat work already in flight before the agent
+# is told the boundary is busy.  Reads used to be refused the instant the seat
+# was occupied, which turned every overlap -- including this service's own
+# background liveness probe -- into a 429 the agent had to retry.  The native
+# client answers in well under a millisecond at the median and inside ~200 ms at
+# a turn-change tick, so a bound comfortably above that converts nearly every
+# collision into a few milliseconds of waiting.  It stays far below the
+# mutation lock's budget because a queued read is only worth waiting for while
+# its answer is still fresh.
+V2_READ_LOCK_WAIT_S = 1.0
+# A boundary command that the agent completed is itself proof the client is
+# answering, so the liveness poller stands down for this long afterwards rather
+# than contending with the agent for the one command stream.
+V2_LIVENESS_AGENT_ACTIVITY_YIELD_S = 1.5
+# ...but never for longer than this since the seat's last real probe.  Agent
+# traffic is continuous during play and would otherwise suppress sampling
+# indefinitely, and only a real probe can observe a seat that was lost, a
+# client that went OVER, or a boundary that wedged.
+V2_LIVENESS_MAX_PROBE_GAP_S = 2.0
 V2_PHASE_RECONCILE_STALL_S = 30.0
 V2_PHASE_SYNCHRONIZE_STALL_S = 30.0
 # Independent control-plane guard for a coherent native phase that makes no
@@ -674,6 +693,14 @@ class Game:
         # polls that timed out.  A timeout is evidence of slowness; only a run
         # of them, over real time, with a dead process, is evidence of loss.
         self.v2_liveness_misses: dict[int, tuple[float, int]] = {}
+        # place -> monotonic time of the last boundary command the seat's agent
+        # completed, and of the last STATUS the poller actually issued.  A
+        # command the client answered is liveness evidence the poller does not
+        # need to duplicate, so it stands down for a moment afterwards instead
+        # of competing with the agent for the single command stream.  The probe
+        # clock bounds that: no amount of agent traffic may stop real sampling.
+        self.v2_last_agent_command: dict[int, tuple[float, int]] = {}
+        self.v2_last_liveness_probe: dict[int, tuple[float, int]] = {}
         # place -> the last recorded rollback event, published on health.
         self.v2_last_recovery: dict[int, dict[str, Any]] = {}
         # Game-wide recovery facts, published on the manifest so a scorer can
@@ -3039,6 +3066,59 @@ class Game:
         with self.condition:
             self.v2_liveness_misses.pop(place_number, None)
 
+    def _v2_liveness_probe_may_yield(
+        self, place_number: int, generation: int, now: float,
+    ) -> bool:
+        """Whether the agent's own traffic already answered this probe.
+
+        The poller and the agent share one command stream per seat, and the
+        poller used to walk into it every 250 ms whether or not the seat was
+        busy playing.  A command the agent completed proves precisely what a
+        STATUS would have asked -- the client is up, connected and answering --
+        so during active play the probe is a duplicate that costs the agent
+        contention.
+
+        Yielding is bounded three ways over.  It lasts only while the agent's
+        proof is fresh, and never past a hard ceiling on the gap between real
+        samples, because a skipped probe observes nothing: seat loss, a client
+        reporting OVER and a wedged boundary are all only ever seen by an
+        actual probe, and continuous agent traffic must not be able to hide
+        them.  And it happens only while the phase ledger is quietly waiting
+        on the agent to act.  The moment the boundary owes a transition --
+        an end that has not reconciled, evidence still being synchronized --
+        the poll stops being a duplicate of the agent's traffic and becomes
+        the only thing watching the turn change, which is exactly where a
+        client is most likely to die.  That window is short and rare compared
+        with the body of a turn, where this yield does its work.
+
+        A skipped probe is not a failed one: it counts toward no miss total
+        and clears none, so wedge detection sees exactly the sequence of real
+        samples it would have seen anyway, just sparser.
+        """
+        with self.condition:
+            if (
+                self.v2_phase_ledger.get("end") is not None
+                or self.v2_phase_ledger.get("state") != "awaiting_agent"
+            ):
+                return False
+            command = self.v2_last_agent_command.get(place_number)
+            probe = self.v2_last_liveness_probe.get(place_number)
+        if command is None or command[1] != generation:
+            return False
+        if now - command[0] > V2_LIVENESS_AGENT_ACTIVITY_YIELD_S:
+            return False
+        if probe is None or probe[1] != generation:
+            # This generation has never been sampled directly.  Nothing may
+            # stand in for its first real probe.
+            return False
+        return now - probe[0] < V2_LIVENESS_MAX_PROBE_GAP_S
+
+    def _v2_note_liveness_probe(
+        self, place_number: int, generation: int, now: float,
+    ) -> None:
+        with self.condition:
+            self.v2_last_liveness_probe[place_number] = (now, generation)
+
     def _v2_note_liveness_miss(self, place_number: int, sidecar: Any) -> bool:
         """Count one unanswered liveness poll; true while it stays 'slow'.
 
@@ -3095,18 +3175,37 @@ class Game:
                 all_running = False
                 all_over = False
                 continue
+            now = time.monotonic()
+            if game_state == "running" and self._v2_liveness_probe_may_yield(
+                place_number, generation, now,
+            ):
+                # The agent is playing this seat and its commands are being
+                # answered.  Take the free evidence and leave the command
+                # stream to it.  ``all_over`` cannot be concluded from a
+                # sample that was never taken, so this seat withholds it; the
+                # probe-gap ceiling bounds how long that can delay the verdict.
+                all_over = False
+                evidence = self._collect_v2_phase_evidence(
+                    place_number, generation, sidecar,
+                )
+                if evidence is not None:
+                    phase_evidence.append(evidence)
+                continue
+            self._v2_note_liveness_probe(place_number, generation, now)
             try:
                 fields = self._parse_sidecar_status(
                     sidecar.status(timeout_s=V2_LIVENESS_POLL_TIMEOUT_S),
                 )
             except SidecarError as exc:
-                if exc.code == "command_in_progress":
+                if exc.code in {"command_in_progress", "native_busy"}:
                     # STATUS shares the sidecar's single command stream.  An
                     # accepted action temporarily opens a callback barrier so
                     # its durable receipt can be recorded without deadlock;
                     # polling that exact window is a skipped sample, not seat
-                    # loss.  Restart the whole poll on the next timer tick so
-                    # partial phase evidence is never reconciled.
+                    # loss.  A stream still busy with somebody else's command
+                    # says the same thing and no more.  Restart the whole poll
+                    # on the next timer tick so partial phase evidence is
+                    # never reconciled.
                     return True
                 if exc.code == "deadline_exceeded":
                     # A timeout says the client did not answer in time.  It
@@ -5047,8 +5146,20 @@ class Game:
 
     @staticmethod
     def _acquire_v2_read_lock(execution_lock: threading.Lock) -> None:
-        """Fail concurrent reads retryably instead of queueing stale work."""
-        if not execution_lock.acquire(blocking=False):
+        """Wait briefly for the seat, and only then refuse retryably.
+
+        Reads and mutations are both strictly serialized through this lock
+        already, so a read arriving second has to wait either way; the only
+        question is whether it waits or is turned away.  Refusing on sight
+        made every overlap -- an agent's own follow-up call, a background
+        probe, a receipt being finished -- a 429 the agent had to notice and
+        retry, and the work it was refused for typically completed in single
+        milliseconds.  Waiting a bounded moment for it is strictly cheaper
+        than a round trip.  The bound is what keeps this from queueing stale
+        work behind a seat that has genuinely stopped answering: past it, the
+        answer would be too old to be worth the wait, so say busy.
+        """
+        if not execution_lock.acquire(timeout=V2_READ_LOCK_WAIT_S):
             raise SidecarError("native_busy")
 
     @staticmethod
@@ -5087,6 +5198,12 @@ class Game:
             ):
                 return
             if ok:
+                # A command the client answered is the same liveness fact a
+                # STATUS probe would have gone to fetch, sampled at no cost.
+                # It is evidence about this generation of the seat only.
+                self.v2_last_agent_command[place] = (
+                    time.monotonic(), self.sidecar_generations.get(place, 0),
+                )
                 self.v2_wedge_detector.note_success(place)
                 return
             if (

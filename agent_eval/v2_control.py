@@ -21,7 +21,13 @@ import secrets
 import threading
 import time
 from types import MappingProxyType
-from typing import Any, Mapping, Sequence
+# Mapping and Sequence come from collections.abc rather than typing because
+# they are used for runtime isinstance checks on every projected row -- about
+# 113k of them per known-tiles page -- and typing's deprecated aliases route
+# each check through the generic-alias machinery.  Measured at 3-5% of every
+# request shape; small, but paid on literally every page the boundary serves.
+from collections.abc import Mapping, Sequence
+from typing import Any
 import unicodedata
 
 from .full_control_v2 import (
@@ -2329,7 +2335,17 @@ def _entity_ref(raw: str, expected_kind: str | None = None) -> tuple[str, int, i
     return match.group("kind"), number, incarnation
 
 
+# Every projected value that is already immutable ends the recursion below.
+# Freezing a snapshot visits far more leaves than containers -- a parsed row is
+# a couple of dozen scalars -- so recognizing a leaf by its exact class in one
+# lookup, before asking whether it is any kind of container, is what keeps the
+# per-revision projection off the critical path.
+_ATOMIC_TYPES = frozenset({str, int, float, bool, type(None)})
+
+
 def _freeze(value: Any) -> Any:
+    if value.__class__ in _ATOMIC_TYPES:
+        return value
     if isinstance(value, dict):
         return MappingProxyType({key: _freeze(item) for key, item in value.items()})
     if isinstance(value, list):
@@ -2340,6 +2356,8 @@ def _freeze(value: Any) -> Any:
 
 
 def _thaw(value: Any) -> Any:
+    if value.__class__ in _ATOMIC_TYPES:
+        return value
     if isinstance(value, Mapping):
         return {key: _thaw(item) for key, item in value.items()}
     if isinstance(value, tuple):
@@ -15135,19 +15153,54 @@ class V2SeatControl:
         next_cursor: str | None,
         expires_at: str | None,
     ) -> dict[str, Any]:
+        return self._public_page_from_thawed(
+            _thaw(state_revision),
+            section,
+            [_thaw(item) for item in values[start:end]],
+            len(values),
+            next_cursor,
+            expires_at,
+        )
+
+    def _public_page_from_thawed(
+        self,
+        state_revision: Mapping[str, Any],
+        section: str,
+        items: list[Any],
+        total_items: int,
+        next_cursor: str | None,
+        expires_at: str | None,
+        *,
+        scope: Mapping[str, Any] | None = None,
+        catalog_id: str | None = None,
+        catalog_complete: bool = False,
+    ) -> dict[str, Any]:
+        """Assemble one public page whose parts are already mutable copies.
+
+        Every public page has exactly this shape, and the size planner builds
+        hundreds of throwaway copies of it to find where pages must split.
+        Taking the thawed parts as arguments is what lets the planner deep-copy
+        the catalog once instead of once per candidate page size.
+        """
+        page: dict[str, Any] = {"section": section}
+        if scope is not None:
+            page["scope"] = dict(scope)
+        page.update({
+            "items": items,
+            "total_items": total_items,
+            "next_cursor": next_cursor,
+            "cursor_expires_at": expires_at,
+        })
+        if scope is not None:
+            page["catalog_id"] = catalog_id
+            page["catalog_complete"] = catalog_complete
         return {
             "schema_version": FULL_CONTROL_SCHEMA_VERSION,
             "control_protocol": FULL_CONTROL_V2,
             "game_id": self.game_id,
             "agent_id": self.agent_id,
-            "state_revision": _thaw(state_revision),
-            "page": {
-                "section": section,
-                "items": [_thaw(item) for item in values[start:end]],
-                "total_items": len(values),
-                "next_cursor": next_cursor,
-                "cursor_expires_at": expires_at,
-            },
+            "state_revision": state_revision,
+            "page": page,
         }
 
     def _chain_public_page(
@@ -15170,23 +15223,17 @@ class V2SeatControl:
             )
         if catalog_id is None:
             raise V2ControlError("internal_error")
-        return {
-            "schema_version": FULL_CONTROL_SCHEMA_VERSION,
-            "control_protocol": FULL_CONTROL_V2,
-            "game_id": self.game_id,
-            "agent_id": self.agent_id,
-            "state_revision": _thaw(state_revision),
-            "page": {
-                "section": section,
-                "scope": dict(scope),
-                "items": [_thaw(item) for item in values[start:end]],
-                "total_items": len(values),
-                "next_cursor": next_cursor,
-                "cursor_expires_at": expires_at,
-                "catalog_id": catalog_id,
-                "catalog_complete": end == len(values),
-            },
-        }
+        return self._public_page_from_thawed(
+            _thaw(state_revision),
+            section,
+            [_thaw(item) for item in values[start:end]],
+            len(values),
+            next_cursor,
+            expires_at,
+            scope=scope,
+            catalog_id=catalog_id,
+            catalog_complete=end == len(values),
+        )
 
     def _page_chain_token(
         self, nonce: bytes, page_index: int, endpoint: str,
@@ -15237,43 +15284,46 @@ class V2SeatControl:
         placeholder_expiry = "2000-01-01T00:00:00.000Z"
         ranges: list[tuple[int, int]] = []
         start = 0
-        charge = self._canonical_public_bytes({
-            "values": [_thaw(item) for item in values],
-        })
-        while start < len(values):
+        total = len(values)
+        # Planning asks the same question of every candidate page size -- how
+        # many bytes would this page be -- and the answer used to be paid for
+        # with a fresh deep copy of every item in the candidate.  Copying the
+        # catalog once here makes the planner linear in the catalog rather
+        # than in catalog times page limit; the copies are private to this
+        # call and are only ever measured, never published.
+        thawed_values = [_thaw(item) for item in values]
+        thawed_revision = _thaw(snapshot.state_revision)
+        charge = self._canonical_public_bytes({"values": thawed_values})
+
+        def probe_page(first: int, last: int) -> dict[str, Any]:
+            more = last < total
+            return self._public_page_from_thawed(
+                thawed_revision,
+                section,
+                thawed_values[first:last],
+                total,
+                placeholder_cursor if more else None,
+                placeholder_expiry if more else None,
+                scope=scope,
+                catalog_id=catalog_id,
+                catalog_complete=not more,
+            )
+
+        if scope is not None and catalog_id is None:
+            raise V2ControlError("internal_error")
+        while start < total:
             end = start
-            maximum = min(start + limit, len(values))
+            maximum = min(start + limit, total)
             for candidate in range(start + 1, maximum + 1):
-                more = candidate < len(values)
-                probe = self._chain_public_page(
-                    snapshot.state_revision,
-                    section,
-                    values,
-                    start,
-                    candidate,
-                    placeholder_cursor if more else None,
-                    placeholder_expiry if more else None,
-                    scope=scope,
-                    catalog_id=catalog_id,
-                )
-                if self._canonical_public_bytes(probe) > MAX_PUBLIC_PAGE_BYTES:
+                if self._canonical_public_bytes(
+                    probe_page(start, candidate),
+                ) > MAX_PUBLIC_PAGE_BYTES:
                     break
                 end = candidate
             if end == start:
                 raise V2ControlError("scope_too_large")
             ranges.append((start, end))
-            probe = self._chain_public_page(
-                snapshot.state_revision,
-                section,
-                values,
-                start,
-                end,
-                placeholder_cursor if end < len(values) else None,
-                placeholder_expiry if end < len(values) else None,
-                scope=scope,
-                catalog_id=catalog_id,
-            )
-            charge += self._canonical_public_bytes(probe)
+            charge += self._canonical_public_bytes(probe_page(start, end))
             start = end
         if not ranges:
             empty = self._chain_public_page(

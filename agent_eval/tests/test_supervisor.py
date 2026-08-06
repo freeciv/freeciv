@@ -64,6 +64,8 @@ from agent_eval.supervisor import (
     Supervisor,
     SupervisorError,
     SupervisorHTTPServer,
+    V2_LIVENESS_AGENT_ACTIVITY_YIELD_S,
+    V2_LIVENESS_MAX_PROBE_GAP_S,
     VIEWER_DIST_ROOT,
     _classic_tech_requirements,
     _classic_technology_catalog,
@@ -826,6 +828,7 @@ class FakeSidecar:
         self.start_count = 0
         self.error_code = None
         self.read_count = 0
+        self.status_count = 0
         self.client_state = "running"
 
     def public_health(self):
@@ -862,6 +865,7 @@ class FakeSidecar:
         return self.public_health()
 
     def status(self, timeout_s=1):
+        self.status_count += 1
         if self.factory.status_error is not None:
             raise self.factory.status_error
         if self.state != "ready":
@@ -3529,6 +3533,214 @@ class SupervisorTests(unittest.TestCase):
         self.assertNotIn("sidecar_exited", game.invalid_reasons)
         self.assertEqual(sidecar.stop_count, 0)
 
+    def test_v2_status_poll_busy_stream_is_a_skipped_sample(self):
+        created = self.create(
+            mode="multiplayer", places=2,
+            control_protocol="full-control-v2",
+        )
+        game = self.supervisor.game(created["game_id"])
+        place = game.joinable_places[0]
+        sidecar = game._make_sidecar(place, 1)
+        sidecar.state = "ready"
+        with game.condition:
+            game.sidecars[place.number] = sidecar
+            game.sidecar_generations[place.number] = 1
+            game.sidecar_ready_generations[place.number] = 1
+            game.state = "running"
+            game.start_sent = True
+
+        self.sidecar_factory.status_error = SidecarError("native_busy")
+        self.assertTrue(game._poll_v2_sidecars_once())
+
+        self.assertEqual(game.state, "running")
+        self.assertEqual(game.sidecar_ready_generations[place.number], 1)
+        self.assertNotIn("sidecar_exited", game.invalid_reasons)
+        self.assertEqual(sidecar.stop_count, 0)
+        self.assertNotIn(place.number, game.v2_liveness_misses)
+
+    def _running_v2_seat(self, places=2):
+        created = self.create(
+            mode="multiplayer", places=places,
+            control_protocol="full-control-v2",
+        )
+        game = self.supervisor.game(created["game_id"])
+        place = game.joinable_places[0]
+        sidecar = game._make_sidecar(place, 1)
+        sidecar.state = "ready"
+        with game.condition:
+            game.sidecars[place.number] = sidecar
+            game.sidecar_generations[place.number] = 1
+            game.sidecar_ready_generations[place.number] = 1
+            game.state = "running"
+            game.start_sent = True
+        self._await_agent_phase(game)
+        return game, place, sidecar
+
+    @staticmethod
+    def _await_agent_phase(game):
+        """Put the ledger in the one state the poller is allowed to yield in.
+
+        This is the body of a turn: a coherent phase, no transition owed, the
+        agent free to act.  A seat with no agent joined reports no phase
+        evidence, so every poll here drives the ledger back to synchronizing;
+        real play holds it in this state for most of every turn.
+        """
+        with game.condition:
+            game.v2_phase_ledger["state"] = "awaiting_agent"
+            game.v2_phase_ledger["end"] = None
+
+    def test_v2_status_poll_yields_to_a_seat_the_agent_is_driving(self):
+        """An answered agent command stands in for the probe it duplicates."""
+        game, place, sidecar = self._running_v2_seat()
+
+        # The first sample of a generation is always taken for real.
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 1)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 2)
+
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 2)
+        self.assertEqual(game.state, "running")
+        self.assertEqual(game.sidecar_ready_generations[place.number], 1)
+        # A skipped probe is not a failed one.
+        self.assertNotIn(place.number, game.v2_liveness_misses)
+
+        # Once the agent's proof goes stale, sampling resumes on its own.
+        with game.condition:
+            when, generation = game.v2_last_agent_command[place.number]
+            game.v2_last_agent_command[place.number] = (
+                when - V2_LIVENESS_AGENT_ACTIVITY_YIELD_S - .01,
+                generation,
+            )
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 3)
+
+    def test_v2_status_poll_never_yields_while_a_transition_is_owed(self):
+        """The turn change is watched by the poll and nothing else."""
+        game, place, sidecar = self._running_v2_seat()
+        self.assertTrue(game._poll_v2_sidecars_once())
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 1)
+
+        for ledger in (
+            {"state": "awaiting_agent", "end": {"claim_id": "c"}},
+            {"state": "synchronizing", "end": None},
+            {"state": "reconciling", "end": None},
+        ):
+            with self.subTest(ledger=ledger["state"], end=ledger["end"]):
+                before = sidecar.status_count
+                with game.condition:
+                    game.v2_phase_ledger.update(ledger)
+                game._note_v2_boundary_outcome(place.number, ok=True)
+                self.assertTrue(game._poll_v2_sidecars_once())
+                self.assertEqual(sidecar.status_count, before + 1)
+        with game.condition:
+            game.v2_phase_ledger.update({
+                "state": "awaiting_agent", "end": None,
+            })
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        before = sidecar.status_count
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, before)
+
+    def test_v2_status_poll_never_yields_past_the_probe_gap_ceiling(self):
+        """Continuous agent traffic may not suppress sampling indefinitely."""
+        game, place, sidecar = self._running_v2_seat()
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 1)
+
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 1)
+
+        with game.condition:
+            when, generation = game.v2_last_liveness_probe[place.number]
+            game.v2_last_liveness_probe[place.number] = (
+                when - V2_LIVENESS_MAX_PROBE_GAP_S, generation,
+            )
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 2)
+
+    def test_v2_status_poll_never_yields_on_a_generation_it_never_sampled(self):
+        """Evidence about one client says nothing about the one replacing it."""
+        game, place, sidecar = self._running_v2_seat()
+        self.assertTrue(game._poll_v2_sidecars_once())
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 1)
+
+        replacement = game._make_sidecar(place, 2)
+        replacement.state = "ready"
+        with game.condition:
+            game.sidecars[place.number] = replacement
+            game.sidecar_generations[place.number] = 2
+            game.sidecar_ready_generations[place.number] = 2
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        game._poll_v2_sidecars_once()
+        self.assertEqual(replacement.status_count, 1)
+
+    def test_v2_status_poll_yield_still_fails_a_seat_that_was_lost(self):
+        """Yielding delays a sample; it never changes what one concludes."""
+        game, place, sidecar = self._running_v2_seat()
+        self.assertTrue(game._poll_v2_sidecars_once())
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 1)
+
+        self.sidecar_factory.status_response = (
+            "STATUS\tstate=preparing\tserver=0\tseat=idle"
+        )
+        with game.condition:
+            when, generation = game.v2_last_agent_command[place.number]
+            game.v2_last_agent_command[place.number] = (
+                when - V2_LIVENESS_AGENT_ACTIVITY_YIELD_S - .01,
+                generation,
+            )
+        self.assertFalse(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 2)
+        self.assertEqual(game.state, "failed")
+        self.assertNotIn(place.number, game.sidecar_ready_generations)
+        self.assertIn("sidecar_exited", game.invalid_reasons)
+
+    def test_v2_status_poll_yield_leaves_the_liveness_miss_run_intact(self):
+        """Skipped probes neither corroborate a miss run nor clear one."""
+        game, place, sidecar = self._running_v2_seat()
+        self.assertTrue(game._poll_v2_sidecars_once())
+
+        self.sidecar_factory.status_error = SidecarError("deadline_exceeded")
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(game.v2_liveness_misses[place.number][1], 1)
+
+        self.sidecar_factory.status_error = None
+        game._note_v2_boundary_outcome(place.number, ok=True)
+        self._await_agent_phase(game)
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 2)
+        self.assertEqual(game.v2_liveness_misses[place.number][1], 1)
+
+        with game.condition:
+            when, generation = game.v2_last_agent_command[place.number]
+            game.v2_last_agent_command[place.number] = (
+                when - V2_LIVENESS_AGENT_ACTIVITY_YIELD_S - .01,
+                generation,
+            )
+        self.assertTrue(game._poll_v2_sidecars_once())
+        self.assertEqual(sidecar.status_count, 3)
+        self.assertNotIn(place.number, game.v2_liveness_misses)
+
     def test_v2_normal_server_exit_ignores_sidecar_disconnect_during_drain(self):
         created = self.create(control_protocol="full-control-v2")
         game = self.supervisor.game(created["game_id"])
@@ -4496,6 +4708,8 @@ class SupervisorTests(unittest.TestCase):
         try:
             with patch(
                 "agent_eval.supervisor.V2_EXECUTION_LOCK_TIMEOUT_S", .01,
+            ), patch(
+                "agent_eval.supervisor.V2_READ_LOCK_WAIT_S", .01,
             ), self.assertRaises(APIProblem) as blocked:
                 game.v2_get_page(
                     joined["agent_id"], "legal_actions", query,
@@ -4590,6 +4804,84 @@ class SupervisorTests(unittest.TestCase):
                 "invalid_request",
             )
         self.assertEqual(self.sidecar_factory.target_count, before_invalid)
+
+    def test_v2_read_waits_for_the_seat_instead_of_refusing_on_sight(self):
+        """A read arriving during other seat work queues; it is not refused.
+
+        The work ahead of a read is measured in milliseconds, so making the
+        agent absorb a 429 and a round trip for it cost far more than waiting.
+        """
+        self.sidecar_factory.observation_rows = native_v2_rows(
+            tile_count=2, action_count=6,
+        )
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-read-queue",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        execution_lock = game.v2_execution_locks[joined["place"]][2]
+        self.assertTrue(execution_lock.acquire(timeout=.1))
+        released = threading.Event()
+
+        def release_soon():
+            time.sleep(.05)
+            released.set()
+            execution_lock.release()
+
+        holder = threading.Thread(target=release_soon)
+        holder.start()
+        try:
+            started = time.monotonic()
+            page = game.v2_get_page(
+                joined["agent_id"], "state", "section=known_tiles&limit=1",
+            )
+            elapsed = time.monotonic() - started
+        finally:
+            holder.join(2)
+        self.assertTrue(released.is_set())
+        self.assertGreaterEqual(elapsed, .04)
+        self.assertEqual(page["page"]["section"], "known_tiles")
+        self.assertEqual(len(page["page"]["items"]), 1)
+
+    def test_v2_read_reports_busy_only_after_the_wait_expires(self):
+        """Past the bound the answer would be stale, so say busy and mean it."""
+        self.sidecar_factory.observation_rows = native_v2_rows(
+            tile_count=2, action_count=6,
+        )
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-read-busy",
+            supported_control_protocols=["full-control-v2"],
+        )
+        self._mark_v2_running(game)
+        execution_lock = game.v2_execution_locks[joined["place"]][2]
+        self.assertTrue(execution_lock.acquire(timeout=.1))
+        try:
+            started = time.monotonic()
+            with patch(
+                "agent_eval.supervisor.V2_READ_LOCK_WAIT_S", .05,
+            ), self.assertRaises(APIProblem) as busy:
+                game.v2_get_page(
+                    joined["agent_id"], "state",
+                    "section=known_tiles&limit=1",
+                )
+            elapsed = time.monotonic() - started
+        finally:
+            execution_lock.release()
+        self.assertGreaterEqual(elapsed, .05)
+        self.assertEqual(busy.exception.status, HTTPStatus.TOO_MANY_REQUESTS)
+        self.assertEqual(
+            busy.exception.payload["error"]["code"], "rate_limited",
+        )
+        self.assertTrue(busy.exception.payload["error"]["retryable"])
+        # The seat is untouched by a refusal it never reached.
+        page = game.v2_get_page(
+            joined["agent_id"], "state", "section=known_tiles&limit=1",
+        )
+        self.assertEqual(len(page["page"]["items"]), 1)
 
     def test_v2_infrastructure_target_hydrates_exact_tile_before_discovery(self):
         rows = [

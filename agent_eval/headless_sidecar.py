@@ -166,6 +166,13 @@ EXIT_FORENSICS_FILENAME = "exit-forensics.json"
 # order.  The cap exists so an endlessly unanswering client is still eventually
 # fail-closed rather than accumulating expectations forever.
 MAX_UNANSWERED_LIVENESS_REPLIES = 8
+# How long a command may wait for the one in flight ahead of it before the
+# caller is told the boundary is busy.  The native client resolves a command in
+# well under a millisecond at the median and inside ~200 ms at its worst, which
+# is the turn-change tick; a bound comfortably above that turns nearly every
+# collision into a short wait instead of a refusal, while still refusing rather
+# than queueing without limit behind a client that has stopped answering.
+COMMAND_QUEUE_WAIT_S = 1.0
 
 
 def _validate_native_caps(message: str) -> None:
@@ -1425,6 +1432,34 @@ class HeadlessSidecar:
                 revision, reject_regression=False,
             )
 
+    def _acquire_command_slot(
+        self, timeout_s: float, *, queue_wait_s: float | None = None,
+    ) -> float:
+        """Take the single command stream, then start the caller's deadline.
+
+        Two things happen here that used to be conflated.  A command arriving
+        while another is in flight now *waits* for the reply ahead of it
+        instead of being refused on sight: the client answers in under a
+        millisecond at the median, so the collision an agent used to see as a
+        429 is a few milliseconds of queueing.  Only a wait that outlives
+        ``queue_wait_s`` is busy, and it says so as ``native_busy`` -- a
+        retryable, non-terminal refusal that never happened on the wire.
+
+        The deadline then starts *here*, after the stream is owned, rather than
+        when the caller began waiting.  A queued command that inherited a
+        half-spent budget would fail as ``deadline_exceeded`` -- reported to
+        the agent as an unavailable sidecar -- for no reason other than having
+        been second in line.
+        """
+        wait_s = (
+            COMMAND_QUEUE_WAIT_S if queue_wait_s is None else queue_wait_s
+        )
+        if not self._command_lock.acquire(timeout=wait_s):
+            raise SidecarError(
+                "native_busy", "sidecar command stream is busy",
+            )
+        return time.monotonic() + timeout_s
+
     def _obs_open_locked(
         self, request: str, deadline: float,
     ) -> dict[str, Any]:
@@ -1464,13 +1499,18 @@ class HeadlessSidecar:
         self, request_id: str, timeout_s: float = 2.0,
     ) -> dict[str, Any]:
         request = self._request_token(request_id)
+        acquired = False
         try:
-            with self._command_lock:
-                deadline = time.monotonic() + timeout_s
-                return self._obs_open_locked(request, deadline)
+            deadline = self._acquire_command_slot(timeout_s)
+            acquired = True
+            return self._obs_open_locked(request, deadline)
         except SidecarError as exc:
-            self._handle_command_failure(exc)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
+        finally:
+            if acquired:
+                self._command_lock.release()
 
     def _obs_page_locked(
         self,
@@ -1585,16 +1625,21 @@ class HeadlessSidecar:
             or not 1 <= limit <= MAX_OBSERVATION_PAGE
         ):
             raise SidecarError("invalid_page")
+        acquired = False
         try:
-            with self._command_lock:
-                deadline = time.monotonic() + timeout_s
-                return self._obs_page_locked(
-                    request, snapshot, revision, total_count, offset, limit,
-                    deadline,
-                )
+            deadline = self._acquire_command_slot(timeout_s)
+            acquired = True
+            return self._obs_page_locked(
+                request, snapshot, revision, total_count, offset, limit,
+                deadline,
+            )
         except SidecarError as exc:
-            self._handle_command_failure(exc)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
+        finally:
+            if acquired:
+                self._command_lock.release()
 
     def read_observation(
         self,
@@ -1619,14 +1664,9 @@ class HeadlessSidecar:
             raise SidecarError("invalid_request")
         if on_terminal_error is not None and not callable(on_terminal_error):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(
-                timeout=remaining,
-            ):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             for attempt in range(2):
                 try:
@@ -1838,12 +1878,9 @@ class HeadlessSidecar:
             or not math.isfinite(timeout_s) or timeout_s <= 0
         ):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             opened = self._scope_open_locked(
                 request, expected_revision, actor, deadline,
@@ -1886,16 +1923,21 @@ class HeadlessSidecar:
             or not 1 <= limit <= MAX_OBSERVATION_PAGE
         ):
             raise SidecarError("invalid_page")
-        deadline = time.monotonic() + timeout_s
+        acquired = False
         try:
-            with self._command_lock:
-                return self._scope_page_locked(
-                    request, view, revision, actor, total_count, offset,
-                    limit, deadline,
-                )
+            deadline = self._acquire_command_slot(timeout_s)
+            acquired = True
+            return self._scope_page_locked(
+                request, view, revision, actor, total_count, offset,
+                limit, deadline,
+            )
         except SidecarError as exc:
-            self._handle_command_failure(exc)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
+        finally:
+            if acquired:
+                self._command_lock.release()
 
     def read_actor_scope_catalog(
         self,
@@ -1916,12 +1958,9 @@ class HeadlessSidecar:
             or not math.isfinite(timeout_s) or timeout_s <= 0
         ):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             opened = self._scope_open_locked(
                 request, expected_revision, actor, deadline,
@@ -2127,8 +2166,8 @@ class HeadlessSidecar:
             or not math.isfinite(timeout_s) or timeout_s <= 0
         ):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
-        with self._command_lock:
+        deadline = self._acquire_command_slot(timeout_s)
+        try:
             opened = self._state_scope_open_locked(
                 request, expected_revision, section, selector, deadline,
             )
@@ -2136,6 +2175,8 @@ class HeadlessSidecar:
                 request, opened["view_id"], opened["revision"], section,
                 selector, opened["total_count"], 0, limit, deadline,
             )
+        finally:
+            self._command_lock.release()
 
     def read_state_scope_page(
         self,
@@ -2166,12 +2207,14 @@ class HeadlessSidecar:
             or not 1 <= limit <= MAX_OBSERVATION_PAGE
         ):
             raise SidecarError("invalid_page")
-        deadline = time.monotonic() + timeout_s
-        with self._command_lock:
+        deadline = self._acquire_command_slot(timeout_s)
+        try:
             return self._state_scope_page_locked(
                 request, view, revision, section, selector, total_count,
                 offset, limit, deadline,
             )
+        finally:
+            self._command_lock.release()
 
     def read_state_scope_catalog(
         self,
@@ -2195,12 +2238,9 @@ class HeadlessSidecar:
             or not math.isfinite(timeout_s) or timeout_s <= 0
         ):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             opened = self._state_scope_open_locked(
                 request, expected_revision, section, selector, deadline,
@@ -2432,12 +2472,9 @@ class HeadlessSidecar:
             or not math.isfinite(timeout_s) or timeout_s <= 0
         ):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             opened = self._relation_scope_open_locked(
                 request, expected_revision, actor, counterpart, deadline,
@@ -2483,16 +2520,21 @@ class HeadlessSidecar:
             or not 1 <= limit <= MAX_OBSERVATION_PAGE
         ):
             raise SidecarError("invalid_page")
-        deadline = time.monotonic() + timeout_s
+        acquired = False
         try:
-            with self._command_lock:
-                return self._relation_scope_page_locked(
-                    request, view, revision, actor, counterpart, total_count,
-                    offset, limit, deadline,
-                )
+            deadline = self._acquire_command_slot(timeout_s)
+            acquired = True
+            return self._relation_scope_page_locked(
+                request, view, revision, actor, counterpart, total_count,
+                offset, limit, deadline,
+            )
         except SidecarError as exc:
-            self._handle_command_failure(exc)
+            if acquired:
+                self._handle_command_failure(exc)
             raise
+        finally:
+            if acquired:
+                self._command_lock.release()
 
     def read_relation_scope_catalog(
         self,
@@ -2516,12 +2558,9 @@ class HeadlessSidecar:
             or not math.isfinite(timeout_s) or timeout_s <= 0
         ):
             raise SidecarError("invalid_request")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(timeout=remaining):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             opened = self._relation_scope_open_locked(
                 request, expected_revision, actor, counterpart, deadline,
@@ -2587,14 +2626,9 @@ class HeadlessSidecar:
             f"TARGET_ACTION\t{request}\t{expected_revision}\t"
             f"{_percent_encode(actor)}\t{native_tile}"
         )
-        deadline = time.monotonic() + timeout_s
         acquired = False
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(
-                timeout=remaining,
-            ):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             with self._lock:
                 self._require_protocol_two_locked()
@@ -2735,7 +2769,6 @@ class HeadlessSidecar:
                 )
         if len(command.encode("utf-8")) > MAX_FRAME:
             raise SidecarError("invalid_argument")
-        deadline = time.monotonic() + timeout_s
         acquired = False
         send_may_have_begun = False
         deferred_exit: tuple[
@@ -2743,11 +2776,7 @@ class HeadlessSidecar:
             dict[str, Any] | None,
         ] = (None, None)
         try:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not self._command_lock.acquire(
-                timeout=remaining,
-            ):
-                raise SidecarError("deadline_exceeded")
+            deadline = self._acquire_command_slot(timeout_s)
             acquired = True
             with self._lock:
                 self._require_protocol_two_locked()
@@ -3045,6 +3074,12 @@ class HeadlessSidecar:
         here leaves the sidecar usable and merely owes one STATUS reply.  The
         caller decides what a missed sample means; this object refuses to
         decide that a slow client is a dead one.
+
+        Unlike an agent's command this one waits without a bound for the stream,
+        because it is issued from a background poller with nobody to answer
+        ``busy`` to, and because yielding the stream to real agent work is the
+        point: a probe that waits costs a background thread nothing, while a
+        probe that jumped the queue costs the agent a turn.
         """
         sent = False
         asked = False
@@ -3475,6 +3510,14 @@ class HeadlessSidecar:
         supervisor can itself be gone, restarted or blocked when a client dies.
         A death that is only ever reported in memory is a death that can be
         lost, so it is also recorded in the sidecar's own private directory.
+
+        The record is staged and renamed into place rather than written over
+        the live file.  Both lifecycle threads reach a death independently --
+        the reader sees the stream end, the monitor reaps the process -- and
+        two writers truncating and filling the same path can leave one record
+        with the tail of another after it, which is not JSON and not evidence.
+        A rename is atomic, so every reader sees one whole record and the last
+        writer wins outright.
         """
         record = {
             "game_id": self.game_id,
@@ -3488,22 +3531,33 @@ class HeadlessSidecar:
             },
         }
         descriptor = None
+        final_path = self.run_directory / EXIT_FORENSICS_FILENAME
+        staged_path = self.run_directory / (
+            f"{EXIT_FORENSICS_FILENAME}.{os.getpid()}."
+            f"{threading.get_ident()}.tmp"
+        )
+        staged = False
         try:
             payload = json.dumps(
                 record, ensure_ascii=False, allow_nan=False, sort_keys=True,
                 separators=(",", ":"),
             ).encode("utf-8")
             descriptor = os.open(
-                self.run_directory / EXIT_FORENSICS_FILENAME,
+                staged_path,
                 os.O_WRONLY | os.O_CREAT | os.O_TRUNC,
                 0o600,
             )
+            staged = True
             view = memoryview(payload)
             while view:
                 written = os.write(descriptor, view)
                 if written <= 0:
                     break
                 view = view[written:]
+            os.close(descriptor)
+            descriptor = None
+            os.replace(staged_path, final_path)
+            staged = False
         except (OSError, TypeError, ValueError):
             # Evidence is subordinate to the failure it describes.
             pass
@@ -3511,6 +3565,11 @@ class HeadlessSidecar:
             if descriptor is not None:
                 try:
                     os.close(descriptor)
+                except OSError:
+                    pass
+            if staged:
+                try:
+                    os.unlink(staged_path)
                 except OSError:
                     pass
 
