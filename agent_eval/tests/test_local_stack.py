@@ -123,13 +123,24 @@ class PortlessAliasTests(unittest.TestCase):
             "https://freeciv.localhost",
         )
 
-    def test_unknown_alias_fails_closed_without_mutation(self):
+    def test_a_route_with_a_live_foreign_listener_fails_closed(self):
         self.write_routes(("freeciv.localhost", 7001, 0))
-        manager = self.manager()
+        manager = self.manager(
+            listener_commands=lambda port: ["node /somebody/elses/app.js"],
+        )
         with self.assertRaisesRegex(StackError, "belongs to another service"):
             manager.install({"freeciv.localhost": 4111})
         self.assertEqual(self.fake.commands, [])
         self.assertEqual(_read_routes(self.routes)["freeciv.localhost"].port, 7001)
+
+    def test_an_orphaned_route_with_no_listener_is_reclaimed(self):
+        # A crashed or rebooted stack leaves aliases pointing at dead
+        # ports, often without ever writing the private record. Nothing
+        # listens there, so replacing them steals nothing.
+        self.write_routes(("freeciv.localhost", 53681, 0))
+        manager = self.manager(listener_commands=lambda port: [])
+        manager.install({"freeciv.localhost": 4111})
+        self.assertEqual(_read_routes(self.routes)["freeciv.localhost"].port, 4111)
 
     def test_known_legacy_aliases_are_restored_and_never_forced(self):
         self.write_routes(

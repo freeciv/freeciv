@@ -234,6 +234,16 @@ class PortlessAliases:
         marker = expected[1]
         return all(root in command and marker in command for command in commands)
 
+    def _orphan_allows(self, route: Route) -> bool:
+        """A route whose port has no listener at all is reclaimable.
+
+        A crashed or rebooted stack leaves its aliases behind (and may
+        never have written the private record). Replacing a route that
+        points at a provably dead port steals nothing from anyone; a
+        route with any live listener we cannot attribute stays refused.
+        """
+        return not self.listener_commands(route.port)
+
     def preflight(self) -> None:
         record = _private_record(self.record_path)
         if record is not None and record.get("repo_root") == str(self.repo_root):
@@ -246,7 +256,11 @@ class PortlessAliases:
             current = routes.get(hostname)
             if current is None:
                 continue
-            if not self._record_allows(current) and not self._legacy_allows(current):
+            if (
+                not self._record_allows(current)
+                and not self._legacy_allows(current)
+                and not self._orphan_allows(current)
+            ):
                 raise StackError(
                     f"Portless route https://{hostname} belongs to another "
                     f"service on port {current.port}; it was not changed"
@@ -283,6 +297,7 @@ class PortlessAliases:
                 if current is not None and (
                     not self._record_allows(current)
                     and not self._legacy_allows(current)
+                    and not self._orphan_allows(current)
                 ):
                     raise StackError(
                         f"Portless route https://{hostname} changed during startup; "
