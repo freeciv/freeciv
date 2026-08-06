@@ -61,6 +61,7 @@ from agent_eval.supervisor import (
     APIProblem,
     Game,
     NATIVE_VIEWER_SIGNAL_GUARD_S,
+    ORPHAN_RUN_QUIET_S,
     Supervisor,
     SupervisorError,
     SupervisorHTTPServer,
@@ -10788,6 +10789,135 @@ class LaunchFailureTests(unittest.TestCase):
             manifest = json.loads(manifests[0].read_text())
             self.assertEqual(manifest["state"], "failed")
             self.assertIn("prompt failure", manifest["error"])
+
+
+class OrphanFinalizeTests(unittest.TestCase):
+    """A dead supervisor's mid-game leftovers get terminal records."""
+
+    GAME_ID = "game_" + "o" * 24
+
+    def setUp(self):
+        self.directory = tempfile.TemporaryDirectory()
+        self.runs_root = Path(self.directory.name)
+
+    def tearDown(self):
+        self.directory.cleanup()
+
+    def make_supervisor(self):
+        return Supervisor(
+            self.runs_root, "admin-secret",
+            binary="/unused/freeciv-server",
+            process_factory=lambda *a, **k: None,
+            sidecar_factory=FakeSidecarFactory(),
+        )
+
+    def write_orphan(self, game_id=GAME_ID, *, state="running",
+                     stale=True, replay_turns=(1, 44), torn_tail=False):
+        run = self.runs_root / game_id
+        run.mkdir()
+        manifest = {
+            "schema_version": 1,
+            "game_id": game_id,
+            "state": state,
+            "status": state,
+            "created_at": 10,
+            "current_turn": None,
+            "finished_at": None,
+            "error": None,
+            "joined_agents": 1,
+            "config": {
+                "mode": "single",
+                "places": 2,
+                "turns": 5000,
+                "seats": [
+                    {"id": "place-1", "name": "AgentPlace1",
+                     "type": "external", "controller_label": "pi-test"},
+                    {"id": "place-2", "name": "NativePlace2",
+                     "type": "native"},
+                ],
+            },
+            "resolved_places": [],
+        }
+        (run / "manifest.json").write_text(
+            json.dumps(manifest), encoding="utf-8",
+        )
+        rendered = "".join(
+            json.dumps({
+                "schema_version": 1, "game_id": game_id, "turn": turn,
+                "players": [
+                    {"seat_id": "place-1", "player_id": 0, "name": "Ada"},
+                    {"seat_id": "place-2", "player_id": 1,
+                     "name": "NativePlace2"},
+                ],
+            }) + "\n"
+            for turn in replay_turns
+        )
+        if torn_tail:
+            rendered += '{"schema_version":1,"turn":9'
+        (run / "replay.jsonl").write_text(rendered, encoding="utf-8")
+        if stale:
+            old = time.time() - ORPHAN_RUN_QUIET_S - 60
+            for name in ("manifest.json", "replay.jsonl"):
+                os.utime(run / name, (old, old))
+        return run
+
+    def test_a_stale_running_run_is_finalized_with_a_report(self):
+        run = self.write_orphan(torn_tail=True)
+        supervisor = self.make_supervisor()
+        try:
+            manifest = json.loads((run / "manifest.json").read_text())
+            self.assertEqual(manifest["state"], "cancelled")
+            self.assertEqual(manifest["status"], "cancelled")
+            self.assertEqual(manifest["current_turn"], 44)
+            self.assertIsNotNone(manifest["finished_at"])
+            self.assertIn("before this game finished", manifest["error"])
+            report = json.loads((run / "report.json").read_text())
+            self.assertEqual(report["manifest"]["game_id"], self.GAME_ID)
+            self.assertEqual(report["manifest"]["state"], "cancelled")
+        finally:
+            supervisor.close()
+
+    def test_a_recently_active_run_is_left_alone(self):
+        run = self.write_orphan(stale=False)
+        supervisor = self.make_supervisor()
+        try:
+            manifest = json.loads((run / "manifest.json").read_text())
+            self.assertEqual(manifest["state"], "running")
+            self.assertFalse((run / "report.json").exists())
+        finally:
+            supervisor.close()
+
+    def test_terminal_and_corrupt_runs_are_left_alone(self):
+        done = self.write_orphan("game_" + "d" * 24, state="completed")
+        broken = self.runs_root / ("game_" + "b" * 24)
+        broken.mkdir()
+        (broken / "manifest.json").write_text("{torn", encoding="utf-8")
+        old = time.time() - ORPHAN_RUN_QUIET_S - 60
+        os.utime(broken / "manifest.json", (old, old))
+        supervisor = self.make_supervisor()
+        try:
+            manifest = json.loads((done / "manifest.json").read_text())
+            self.assertEqual(manifest["state"], "completed")
+            self.assertFalse((done / "report.json").exists())
+            self.assertEqual(
+                (broken / "manifest.json").read_text(), "{torn",
+            )
+        finally:
+            supervisor.close()
+
+    def test_a_registered_live_game_is_never_finalized(self):
+        supervisor = self.make_supervisor()
+        try:
+            run = self.write_orphan()
+            with supervisor.lock:
+                supervisor.games[self.GAME_ID] = object()
+            self.assertEqual(supervisor.finalize_orphaned_runs(), [])
+            manifest = json.loads((run / "manifest.json").read_text())
+            self.assertEqual(manifest["state"], "running")
+        finally:
+            with supervisor.lock:
+                supervisor.games.pop(self.GAME_ID, None)
+            supervisor.close()
 
 
 if __name__ == "__main__":

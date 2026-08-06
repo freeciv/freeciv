@@ -108,6 +108,11 @@ NATIVE_VIEWER_PROTOCOL = {
     "release_during_activation": True,
 }
 TERMINAL_STATES = {"completed", "invalid", "failed", "cancelled"}
+# A non-terminal run this quiet is a dead supervisor's leftover, not a live
+# game: live games write replay/phase telemetry many times a minute. The
+# margin also keeps a second supervisor sharing a runs root from finalizing
+# a neighbour's game that is merely between writes.
+ORPHAN_RUN_QUIET_S = 300.0
 TIMING_MODE_TIMEOUTS: dict[str, float | None] = {
     "default": 180.0,
     "blitz": 60.0,
@@ -492,6 +497,79 @@ def _validate_metadata(value: Any) -> Any:
 
     inspect(value)
     return value
+
+
+def _last_recorded_turn(run: Path) -> int | None:
+    """The newest turn in a run's replay telemetry, or None.
+
+    Reads only the file tail; the final line may be a torn write from the
+    interrupted run being finalized, so scan back to the first line that
+    parses.
+    """
+    try:
+        with (run / "replay.jsonl").open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            size = handle.tell()
+            if size <= 0:
+                return None
+            handle.seek(max(0, size - 65536))
+            lines = handle.read().splitlines()
+    except OSError:
+        return None
+    for raw in reversed(lines):
+        if not raw.strip():
+            continue
+        try:
+            row = json.loads(raw)
+        except (UnicodeError, json.JSONDecodeError):
+            continue
+        if isinstance(row, dict):
+            turn = row.get("turn")
+            if isinstance(turn, int) and turn > 0:
+                return turn
+        return None
+    return None
+
+
+def _orphan_player_seats(
+    run: Path, manifest: Mapping[str, Any],
+) -> dict[int, dict[str, Any]] | None:
+    """player_id -> configured seat, for finalizing a run offline.
+
+    A live game knows this mapping; for an orphan it is recovered from the
+    first replay row, which records each player's seat_id. Without replay
+    rows, seats are assumed in player order — the shape every launcher here
+    produces.
+    """
+    config = manifest.get("config")
+    seats = config.get("seats") if isinstance(config, dict) else None
+    if not isinstance(seats, list) or not seats:
+        return None
+    by_id = {
+        seat["id"]: seat for seat in seats
+        if isinstance(seat, dict) and isinstance(seat.get("id"), str)
+    }
+    mapping: dict[int, dict[str, Any]] = {}
+    try:
+        with (run / "replay.jsonl").open("r", encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                for player in row.get("players") or []:
+                    player_id = player.get("player_id")
+                    seat = by_id.get(player.get("seat_id"))
+                    if isinstance(player_id, int) and seat is not None:
+                        mapping[player_id] = seat
+                break
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        mapping = {}
+    if not mapping:
+        mapping = {
+            index: seat for index, seat in enumerate(seats)
+            if isinstance(seat, dict)
+        }
+    return mapping or None
 
 
 def _atomic_json(path: Path, value: Any, mode: int = 0o644) -> None:
@@ -9666,6 +9744,86 @@ class Supervisor:
         self.closing = False
         self.shutdown_event = threading.Event()
         self.started_at = time.time()
+        self.finalize_orphaned_runs()
+
+    def finalize_orphaned_runs(self) -> list[str]:
+        """Give a terminal record to runs a dead supervisor left mid-game.
+
+        A supervisor that exits without finalizing leaves a run whose
+        manifest still says ``running``: not live anywhere, not terminal on
+        disk, so the 596-turn game_a8 replay vanished from every index while
+        sitting complete in its run directory. On startup, any run that is
+        non-terminal, not one of this process's games, and quiet for
+        ``ORPHAN_RUN_QUIET_S`` (a live game writes telemetry constantly, so
+        stale means dead — and the margin keeps a second supervisor sharing
+        this runs root from finalizing its neighbour's game) is closed out as
+        ``cancelled`` with a real report, exactly as if it had been ended on
+        purpose.
+        """
+        finalized: list[str] = []
+        try:
+            candidates = sorted(self.runs_root.iterdir())
+        except OSError:
+            return finalized
+        now = time.time()
+        for run in candidates:
+            if run.is_symlink() or not run.is_dir():
+                continue
+            game_id = run.name
+            if not GAME_ID_RE.fullmatch(game_id):
+                continue
+            with self.lock:
+                if game_id in self.games or game_id in self.reserved_game_ids:
+                    continue
+            try:
+                manifest = json.loads(
+                    (run / "manifest.json").read_text(encoding="utf-8"),
+                )
+            except (OSError, UnicodeError, json.JSONDecodeError):
+                continue
+            if not isinstance(manifest, dict):
+                continue
+            if manifest.get("game_id") != game_id:
+                continue
+            state = manifest.get("state", manifest.get("status"))
+            if state in TERMINAL_STATES:
+                continue
+            newest = 0.0
+            for name in ("replay.jsonl", "phase-events.jsonl",
+                         "score.log", "manifest.json"):
+                try:
+                    newest = max(newest, (run / name).stat().st_mtime)
+                except OSError:
+                    continue
+            if now - newest < ORPHAN_RUN_QUIET_S:
+                continue
+            manifest["state"] = manifest["status"] = "cancelled"
+            manifest["finished_at"] = newest or now
+            if manifest.get("error") is None:
+                manifest["error"] = (
+                    "supervisor exited before this game finished; "
+                    "finalized at startup from the last recorded state"
+                )
+            turn = _last_recorded_turn(run)
+            if turn is not None:
+                manifest["current_turn"] = turn
+            # The manifest lands first: summarize_episode reads it back from
+            # disk, and a run with a broken scorelog must still end up
+            # terminal rather than vanish again.
+            try:
+                _atomic_json(run / "manifest.json", manifest)
+            except OSError:
+                continue
+            try:
+                summary = summarize_episode(
+                    run,
+                    private_player_seats=_orphan_player_seats(run, manifest),
+                )
+                _atomic_json(run / "report.json", summary)
+            except Exception:
+                pass
+            finalized.append(game_id)
+        return finalized
 
     def reserve_game_port(self) -> int:
         """Reserve an explicit loopback port until a child has bound it."""
