@@ -169,14 +169,23 @@ export function mapFactions(
   const replayByName = new Map(
     (snapshot?.players ?? []).map((player) => [player.player_name, player]),
   )
+  // The native save renames an agent-controlled player to its ruler
+  // ("Elizabeth" for the seat configured as "AgentPlace1"), so a name join
+  // misses exactly the seats that matter. player_id is stable across the
+  // save and the replay telemetry, and the telemetry rows carry seat_id.
+  const replayByPlayerId = new Map(
+    (snapshot?.players ?? []).map((player) => [player.player_id, player]),
+  )
   const placeByName = new Map(places.map((place) => [place.player_name, place]))
   const placeBySeat = new Map(places.map((place) => [place.seat_id, place]))
   const placeByNumber = new Map(places.map((place) => [place.place, place]))
   return sourcePlayers.map((mapPlayer) => {
+    const replayPlayer = replayByName.get(mapPlayer.player_name)
+      ?? replayByPlayerId.get(mapPlayer.player_id)
     const place = placeByName.get(mapPlayer.player_name)
       ?? (mapPlayer.seat_id ? placeBySeat.get(mapPlayer.seat_id) : undefined)
       ?? (mapPlayer.place ? placeByNumber.get(mapPlayer.place) : undefined)
-    const replayPlayer = replayByName.get(mapPlayer.player_name)
+      ?? (replayPlayer?.seat_id ? placeBySeat.get(replayPlayer.seat_id) : undefined)
     if (place || mapPlayer.scored || replayPlayer?.scored) {
       const label = place?.controller_label || mapPlayer.controller_label
         || replayPlayer?.controller_label

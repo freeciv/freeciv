@@ -151,6 +151,44 @@ describe('replay view model', () => {
     expect(frameAtOrBefore(mockWatch.frames, 2)).toBeUndefined()
   })
 
+  it('attributes ruler-renamed seats through player_id, not names', () => {
+    // The native save renames agent players to their rulers ("Elizabeth"
+    // for AgentPlace1), so a name join misclassifies exactly the agent
+    // seats as dynamic factions. In multiplayer, each renamed ruler must
+    // still resolve to its own harness-model.
+    const places = [
+      { place: 1, seat_id: 'place-1', player_name: 'AgentPlace1',
+        player_color: '#0067A5', controller: 'agent', joined: true,
+        controller_label: 'pi-gpt-5.6-sol', controller_type: 'external',
+        model: 'gpt-5.6-sol' },
+      { place: 2, seat_id: 'place-2', player_name: 'AgentPlace2',
+        player_color: '#F38400', controller: 'agent', joined: true,
+        controller_label: 'claude-fable-5', controller_type: 'external',
+        model: 'fable-5' },
+    ] as typeof mockWatch.game.resolved_places
+    const snapshot = {
+      turn: 10, year: -3000,
+      players: [
+        { ...mockReplay.snapshots[0].players[0], player_id: 0,
+          seat_id: 'place-1', player_name: 'Elizabeth', nation: 'English' },
+        { ...mockReplay.snapshots[0].players[0], player_id: 1,
+          seat_id: 'place-2', player_name: 'Isabella', nation: 'Spanish' },
+      ],
+    }
+    const frame = {
+      ...mockWatch.frames[0],
+      map_players: [
+        { player_id: 0, player_name: 'Elizabeth', player_color: '#0067A5' },
+        { player_id: 1, player_name: 'Isabella', player_color: '#F38400' },
+      ],
+    }
+    const factions = mapFactions(frame, snapshot, places)
+    expect(factions.map((faction) => faction.display_label)).toEqual([
+      'pi-gpt-5.6-sol: English', 'claude-fable-5: Spanish',
+    ])
+    expect(factions.every((faction) => !faction.dynamic)).toBe(true)
+  })
+
   it('keeps dynamic map factions distinct from scored competitors', () => {
     const factions = mapFactions(
       mockWatch.frames[0], mockReplay.snapshots[2], mockWatch.game.resolved_places,
