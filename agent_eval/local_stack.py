@@ -171,6 +171,41 @@ class PortlessAliases:
             detail = (result.stderr or result.stdout).strip()
             raise StackError(detail or f"portless {' '.join(arguments)} failed")
 
+    def ensure_proxy(self) -> None:
+        """Start the Portless proxy daemon if it is not already running.
+
+        Static aliases do not auto-start the proxy (only Portless's
+        supervised `portless <name> <cmd>` mode does), so a reboot or a
+        crashed daemon used to fail `just start` at the readiness check
+        with a bare connection refusal. `portless proxy start` is
+        idempotent: it reports "already running" and exits zero.
+        """
+        result = self.runner(("portless", "proxy", "start"))
+        if result.returncode != 0:
+            detail = (result.stderr or result.stdout).strip()
+            raise StackError(
+                "the Portless proxy could not be started"
+                + (f": {detail}" if detail else "")
+                + "\nrun `portless doctor` to diagnose"
+            )
+
+    def resolve_url(self, hostname: str) -> str:
+        """Ask Portless for a hostname's canonical public URL.
+
+        The proxy is not always on 443 (this machine has run it on 1355),
+        and `portless get` is the authority on the port suffix. Falls back
+        to the bare https form if the CLI misbehaves.
+        """
+        fallback = f"https://{hostname}"
+        result = self.runner(("portless", "get", self._name(hostname)))
+        if result.returncode != 0:
+            return fallback
+        url = (result.stdout or "").strip().splitlines()[-1].strip() \
+            if (result.stdout or "").strip() else ""
+        if url.startswith("https://") and hostname in url:
+            return url
+        return fallback
+
     def _record_allows(self, route: Route) -> bool:
         record = _private_record(self.record_path)
         if record is None or record.get("repo_root") != str(self.repo_root):
@@ -419,6 +454,9 @@ def start_stack(args: argparse.Namespace) -> int:
     aliases = PortlessAliases(
         repo_root, portless_state, stack_root / "portless-routes.json",
     )
+    aliases.ensure_proxy()
+    viewer_public_url = aliases.resolve_url("freeciv.localhost")
+    api_public_url = aliases.resolve_url("freeciv-api.localhost")
     aliases.preflight()
 
     python = sys.executable
@@ -462,7 +500,7 @@ def start_stack(args: argparse.Namespace) -> int:
             [
                 python, "-B", "-m", "agent_eval", "supervisor",
                 "--host", "127.0.0.1", "--port", "0",
-                "--public-url", API_PUBLIC_URL,
+                "--public-url", api_public_url,
                 "--runs-root", str((state_root / "runs").resolve()),
                 "--ready-file", str(ready_supervisor),
                 "--agent-binary", str(agent_binary),
@@ -474,7 +512,7 @@ def start_stack(args: argparse.Namespace) -> int:
         supervisor_ready = _wait_private_ready(ready_supervisor, supervisor)
         supervisor_raw = supervisor_ready.get("internal_service_url")
         if (
-            supervisor_ready.get("service_url") != API_PUBLIC_URL
+            supervisor_ready.get("service_url") != api_public_url
             or not isinstance(supervisor_raw, str)
             or not supervisor_raw.startswith("http://127.0.0.1:")
         ):
@@ -487,7 +525,7 @@ def start_stack(args: argparse.Namespace) -> int:
                 python, "-B", "-m", "agent_eval.replay_gateway",
                 "--host", "127.0.0.1", "--port", "0",
                 "--service-url", supervisor_raw,
-                "--viewer-public-url", VIEWER_PUBLIC_URL,
+                "--viewer-public-url", viewer_public_url,
                 "--runs-root", str((state_root / "runs").resolve()),
                 "--cache-root", str((state_root / "replay-cache").resolve()),
                 "--repo-root", str(repo_root),
@@ -498,7 +536,7 @@ def start_stack(args: argparse.Namespace) -> int:
         gateway_ready = _wait_private_ready(ready_gateway, gateway)
         gateway_raw = gateway_ready.get("url")
         if (
-            gateway_ready.get("viewer_public_url") != VIEWER_PUBLIC_URL
+            gateway_ready.get("viewer_public_url") != viewer_public_url
             or not isinstance(gateway_raw, str)
             or not gateway_raw.startswith("http://127.0.0.1:")
         ):
@@ -528,20 +566,20 @@ def start_stack(args: argparse.Namespace) -> int:
         })
         routes_installed = True
         _wait_public_route(
-            VIEWER_PUBLIC_URL + "/", b"Freeciv Agent Arena",
+            viewer_public_url + "/", b"Freeciv Agent Arena",
         )
         json.loads(_wait_public_route(
-            VIEWER_PUBLIC_URL + "/v1/games", b'"games"',
+            viewer_public_url + "/v1/games", b'"games"',
         ))
         health = json.loads(_wait_public_route(
-            API_PUBLIC_URL + "/health", b'"ok":true',
+            api_public_url + "/health", b'"ok":true',
         ))
         if not isinstance(health, dict) or health.get("ok") is not True:
             raise StackError("Portless API route returned an invalid health response")
 
         print("Freeciv agent stack is ready", flush=True)
-        print(f"  arena: {VIEWER_PUBLIC_URL}", flush=True)
-        print(f"  api:   {API_PUBLIC_URL}", flush=True)
+        print(f"  arena: {viewer_public_url}", flush=True)
+        print(f"  api:   {api_public_url}", flush=True)
         print("Ctrl-C stops only the three services started by this command.", flush=True)
         while True:
             for label, process, _, _ in children:
@@ -563,18 +601,35 @@ def start_stack(args: argparse.Namespace) -> int:
         ready_gateway.unlink(missing_ok=True)
 
 
+def _resolved_viewer_url() -> str:
+    """The arena's canonical URL, per Portless; constant on failure."""
+    try:
+        result = subprocess.run(
+            ["portless", "get", "freeciv"],
+            capture_output=True, text=True, check=False, timeout=5,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return VIEWER_PUBLIC_URL
+    url = (result.stdout or "").strip()
+    if result.returncode == 0 and url.startswith("https://") \
+            and "freeciv.localhost" in url:
+        return url
+    return VIEWER_PUBLIC_URL
+
+
 def replay(args: argparse.Namespace) -> int:
     game_id = args.game_id.strip()
     if game_id and GAME_ID_RE.fullmatch(game_id) is None:
         raise StackError("a valid game ID is required")
+    viewer_url = _resolved_viewer_url()
     try:
-        root = _public_curl(VIEWER_PUBLIC_URL + "/")
+        root = _public_curl(viewer_url + "/")
         if b"<title>Freeciv Agent Arena</title>" not in root:
             raise StackError("wrong application")
         path = "/v1/games"
         if game_id:
             path += f"/{game_id}/status"
-        value = json.loads(_public_curl(VIEWER_PUBLIC_URL + path))
+        value = json.loads(_public_curl(viewer_url + path))
         if game_id:
             if not isinstance(value, dict) or value.get("game_id") != game_id:
                 raise StackError("game not found")
@@ -585,7 +640,7 @@ def replay(args: argparse.Namespace) -> int:
             "the Freeciv arena is not running or the game is unknown; "
             "run `just start` and try again"
         ) from exc
-    url = VIEWER_PUBLIC_URL + (f"/watch/{game_id}" if game_id else "")
+    url = viewer_url + (f"/watch/{game_id}" if game_id else "")
     print(url, flush=True)
     if not args.no_open and not os.environ.get("AGENT_EVAL_NO_OPEN"):
         opener = "open" if sys.platform == "darwin" else "xdg-open"

@@ -35,9 +35,20 @@ class FakePortless:
         self.routes_path.parent.mkdir(parents=True, exist_ok=True)
         self.routes_path.write_text(json.dumps(routes), encoding="utf-8")
 
+    proxy_start_result = (0, "Proxy started on port 443.", "")
+    get_urls: dict = {}
+
     def __call__(self, command):
         self.commands.append(tuple(command))
         arguments = list(command)[1:]
+        if arguments[:2] == ["proxy", "start"]:
+            code, out, err = self.proxy_start_result
+            return subprocess.CompletedProcess(command, code, out, err)
+        if arguments and arguments[0] == "get":
+            url = self.get_urls.get(
+                arguments[1], f"https://{arguments[1]}.localhost",
+            )
+            return subprocess.CompletedProcess(command, 0, url + "\n", "")
         routes = self._read()
         if arguments[:2] == ["alias", "--remove"]:
             hostname = arguments[2] + ".localhost"
@@ -83,6 +94,33 @@ class PortlessAliasTests(unittest.TestCase):
             self.record,
             runner=self.fake,
             listener_commands=listener_commands,
+        )
+
+    def test_ensure_proxy_starts_the_daemon_and_fails_with_a_remedy(self):
+        manager = self.manager()
+        manager.ensure_proxy()
+        self.assertIn(("portless", "proxy", "start"), self.fake.commands)
+        self.fake.proxy_start_result = (1, "", "port 443 in use")
+        with self.assertRaises(StackError) as refused:
+            manager.ensure_proxy()
+        self.assertIn("portless doctor", str(refused.exception))
+        self.assertIn("port 443 in use", str(refused.exception))
+
+    def test_resolve_url_follows_portless_and_falls_back(self):
+        manager = self.manager()
+        self.fake.get_urls = {"freeciv": "https://freeciv.localhost:1355"}
+        self.assertEqual(
+            manager.resolve_url("freeciv.localhost"),
+            "https://freeciv.localhost:1355",
+        )
+        self.assertEqual(
+            manager.resolve_url("freeciv-api.localhost"),
+            "https://freeciv-api.localhost",
+        )
+        self.fake.get_urls = {"freeciv": "not a url"}
+        self.assertEqual(
+            manager.resolve_url("freeciv.localhost"),
+            "https://freeciv.localhost",
         )
 
     def test_unknown_alias_fails_closed_without_mutation(self):
@@ -186,11 +224,42 @@ class ReplayCommandTests(unittest.TestCase):
             return_value=subprocess.CompletedProcess([], 0, "", ""),
         ) as run:
             self.assertEqual(replay(Namespace(game_id=game_id, no_open=False)), 0)
-        run.assert_called_once_with(
+        # First call resolves the canonical URL through Portless (an empty
+        # stdout falls back to the constant), the second opens the browser.
+        self.assertEqual(
+            run.call_args_list[0].args[0], ["portless", "get", "freeciv"],
+        )
+        run.assert_called_with(
             ["open", f"https://freeciv.localhost/watch/{game_id}"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             check=False,
+        )
+
+    def test_replay_follows_portless_canonical_url(self):
+        game_id = "game_" + "b" * 24
+        base = "https://freeciv.localhost:1355"
+        responses = {
+            f"{base}/": b"<title>Freeciv Agent Arena</title>",
+            f"{base}/v1/games/{game_id}/status": json.dumps({
+                "game_id": game_id,
+            }).encode(),
+        }
+
+        def fake_run(argv, **kwargs):
+            if argv[:2] == ["portless", "get"]:
+                return subprocess.CompletedProcess(argv, 0, base + "\n", "")
+            return subprocess.CompletedProcess(argv, 0, "", "")
+
+        with patch(
+            "agent_eval.local_stack._public_curl",
+            side_effect=lambda url: responses[url],
+        ), patch(
+            "agent_eval.local_stack.subprocess.run", side_effect=fake_run,
+        ) as run:
+            self.assertEqual(replay(Namespace(game_id=game_id, no_open=False)), 0)
+        self.assertEqual(
+            run.call_args_list[-1].args[0], ["open", f"{base}/watch/{game_id}"],
         )
 
     def test_replay_failure_tells_user_to_start_stack(self):
