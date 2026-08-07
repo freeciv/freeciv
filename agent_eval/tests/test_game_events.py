@@ -243,23 +243,17 @@ class GameEventsTests(unittest.TestCase):
         self.assertEqual(event["kind"], "war_declared")
         self.assertEqual(
             event["summary"],
-            "pi-gpt-test met Italian CPU — no treaty, at war",
+            "pi-gpt-test met Italian (CPU) — no treaty, at war",
         )
         self.assertEqual(event["actors"], ["place-1", "place-2"])
         self.assertTrue(event["data"]["first_contact"])
 
     def test_the_native_side_is_named_by_nation_in_prose(self):
-        # Prose cannot hold the viewer's "Italian (CPU: Hard)" -- these
-        # summaries put the label in the possessive and at the head of a
-        # clause -- so it keeps the vocabulary in a sentence-shaped form.
-        self.assertEqual(game_events._native_ai_label("Italian"), "Italian CPU")
-        # It has to survive a possessive, which is what ruled out the
-        # parenthetical and the bare nation ("the Italian's cities").
-        self.assertEqual(
-            f"2 of {game_events._native_ai_label('Italian')}'s cities",
-            "2 of Italian CPU's cities",
-        )
-        # A save that records no nation still reads as a sentence.
+        # The same nation-first shape every other surface uses, minus the
+        # difficulty: an event log is read many times, so "(CPU: Hard)" is
+        # left to the title card and the standings.
+        self.assertEqual(game_events._native_ai_label("Italian"), "Italian (CPU)")
+        # With no nation recorded a summary must not open on a parenthesis.
         self.assertEqual(game_events._native_ai_label(""), "CPU")
         # And the derivation really does emit it, with the old name gone.
         self.write_journal("place-1", "place-2")
@@ -272,7 +266,7 @@ class GameEventsTests(unittest.TestCase):
             native(diplomacy=("War", "Never met")),
         ])
         prose = " ".join(summary for _, _, summary in self.summaries())
-        self.assertIn("Italian CPU", prose)
+        self.assertIn("Italian (CPU)", prose)
         self.assertNotIn("Deity", prose)
 
     def test_diplomacy_transitions_are_named_and_first_contact_is_honest(self):
@@ -285,13 +279,13 @@ class GameEventsTests(unittest.TestCase):
                 native(diplomacy=(mirror, "Never met")),
             ])
         self.assertEqual(self.summaries(), [
-            (2, "first_contact", "pi-gpt-test and Italian CPU made first contact"),
+            (2, "first_contact", "pi-gpt-test and Italian (CPU) made first contact"),
             (
                 3, "war_declared",
-                "pi-gpt-test and Italian CPU broke their peace — war",
+                "pi-gpt-test and Italian (CPU) broke their peace — war",
             ),
-            (4, "ceasefire_agreed", "pi-gpt-test and Italian CPU agreed a cease-fire"),
-            (5, "alliance_formed", "pi-gpt-test and Italian CPU formed an alliance"),
+            (4, "ceasefire_agreed", "pi-gpt-test and Italian (CPU) agreed a cease-fire"),
+            (5, "alliance_formed", "pi-gpt-test and Italian (CPU) formed an alliance"),
         ])
         broken = next(
             row for row in self.events()["events"] if row["kind"] == "war_declared"
@@ -315,11 +309,11 @@ class GameEventsTests(unittest.TestCase):
             (2, "city_founded", "pi-gpt-test founded 2 cities: London, York"),
             (
                 3, "city_captured",
-                "Italian CPU captured 2 cities from pi-gpt-test: London, York",
+                "Italian (CPU) captured 2 cities from pi-gpt-test: London, York",
             ),
             (
                 4, "city_destroyed",
-                "2 of Italian CPU's cities were destroyed: London, York",
+                "2 of Italian (CPU)'s cities were destroyed: London, York",
             ),
         ])
         captured = next(
@@ -336,7 +330,7 @@ class GameEventsTests(unittest.TestCase):
         self.write_save(2, [agent(cities=()), native(cities=(london,))])
         self.assertEqual(self.summaries("city_captured"), [(
             2, "city_captured",
-            "Italian CPU captured the capital London from pi-gpt-test",
+            "Italian (CPU) captured the capital London from pi-gpt-test",
         )])
 
     def test_governments_revolutions_and_adoptions_read_as_prose(self):
@@ -649,11 +643,11 @@ class GameEventsTests(unittest.TestCase):
             [
                 (
                     2, "wonder_captured",
-                    "Italian CPU took Pyramids in London from pi-gpt-test",
+                    "Italian (CPU) took Pyramids in London from pi-gpt-test",
                 ),
                 (
                     3, "wonder_destroyed",
-                    "Pyramids was destroyed with Italian CPU's London",
+                    "Pyramids was destroyed with Italian (CPU)'s London",
                 ),
             ],
         )
@@ -682,7 +676,7 @@ class GameEventsTests(unittest.TestCase):
         turn(40, 100, 400)
         self.assertEqual(self.summaries("lead_changed"), [(
             40, "lead_changed",
-            "Italian CPU took the score lead from pi-gpt-test (400 to 100)",
+            "Italian (CPU) took the score lead from pi-gpt-test (400 to 100)",
         )])
 
     def test_a_score_surge_marks_a_step_change(self):

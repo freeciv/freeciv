@@ -37,7 +37,7 @@ SCHEMA_VERSION = 1
 # summaries, or the carried state shape.  The cache is keyed on the saves and
 # the seat labels, neither of which notices that this module now reads them
 # differently.
-CACHE_VERSION = 4
+CACHE_VERSION = 5
 MAX_EVENTS = 2000
 MAX_NAMED_CITIES = 6
 MAX_WARNINGS = 100
@@ -164,19 +164,17 @@ class _Faction:
 
 
 def _native_ai_label(nation: str) -> str:
-    """What prose calls the built-in AI: "Spanish CPU".
+    """What prose calls the built-in AI: "Spanish (CPU)".
 
-    The viewer and the film label the native side "Spanish (CPU: Hard)", but a
-    parenthetical cannot sit inside a sentence -- and these summaries put the
-    label in the possessive ("... destroyed with Spanish CPU's London") and at
-    the head of a clause, where "Spanish (CPU)'s London" is unreadable. So
-    prose keeps the same vocabulary in a shape a sentence can hold, mirroring
-    the barbarian form ("Pirate raiders") this module already uses.
+    The same nation-first shape the viewer and the film use, so one side is
+    named one way everywhere. The difficulty is the only part dropped: an
+    event log is a short surface read many times, and "Spanish (CPU: Hard)"
+    belongs where it is read once -- the title card and the standings.
 
-    The difficulty is deliberately left out: it belongs on the standings and
-    the title card, where it is read once, not repeated in every caption.
+    With no nation recorded this is a bare "CPU", never "(CPU)", so a summary
+    cannot open on a parenthesis.
     """
-    return f"{nation} CPU" if nation else "CPU"
+    return f"{nation} (CPU)" if nation else "CPU"
 
 
 def _faction_label(player: Mapping[str, Any], barbarian: bool) -> str:
