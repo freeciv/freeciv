@@ -141,6 +141,40 @@ export function splitControllerLabel(label: string): ControllerParts {
   return { harness: null, model: bare }
 }
 
+/**
+ * The vendor prefix a harness lets its models leave off.
+ *
+ * A self-branded harness already says whose model it runs, so the label may
+ * write `claude-code-opus-5` instead of `claude-code-claude-opus-5`. That is a
+ * saving in the *label*, not in the name: on screen the model should still be
+ * called what it is called everywhere else, so the prefix is restored for
+ * display. The two directions are deliberate inverses -- shorten the key,
+ * expand the name.
+ */
+const HARNESS_MODEL_PREFIX: Readonly<Partial<Record<Harness, string>>> = {
+  'claude-code': 'claude-',
+  codex: 'gpt-',
+}
+
+/**
+ * What to call a model on screen: its recorded name, with the vendor prefix
+ * its harness allowed it to omit put back.
+ *
+ * Only ever adds the prefix its own harness implies, so nothing is invented --
+ * a model under `pi` is printed exactly as recorded, because there is no
+ * harness vendor to borrow from.
+ */
+export function displayModelName(
+  harness: Harness | null | undefined,
+  model: string | null | undefined,
+): string | null {
+  const trimmed = model?.trim()
+  if (!trimmed) return null
+  const prefix = harness == null ? undefined : HARNESS_MODEL_PREFIX[harness]
+  if (prefix === undefined) return trimmed
+  return trimmed.toLowerCase().startsWith(prefix) ? trimmed : `${prefix}${trimmed}`
+}
+
 export interface ControllerMarks extends ControllerParts {
   readonly provider: Provider | null
 }

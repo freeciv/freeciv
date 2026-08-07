@@ -10,6 +10,7 @@ import {
   isHarness,
   isProvider,
   providerForModel,
+  displayModelName,
   splitControllerLabel,
 } from './logos'
 
@@ -241,5 +242,25 @@ describe('codex short forms', () => {
       expect(harness).toBe('codex')
       expect(provider).toBeNull()
     }
+  })
+})
+
+describe('displayModelName', () => {
+  it('restores the prefix the harness let the label drop', () => {
+    expect(displayModelName('claude-code', 'opus-5')).toBe('claude-opus-5')
+    expect(displayModelName('codex', '5.6-sol')).toBe('gpt-5.6-sol')
+  })
+
+  it('leaves a model that already carries its prefix alone', () => {
+    expect(displayModelName('claude-code', 'claude-opus-5')).toBe('claude-opus-5')
+    expect(displayModelName('codex', 'gpt-5.6-sol')).toBe('gpt-5.6-sol')
+  })
+
+  it('invents nothing under a harness with no vendor of its own', () => {
+    // pi and opencode borrow no prefix, so the recorded name is printed as-is.
+    expect(displayModelName('pi', 'gpt-5.6-sol')).toBe('gpt-5.6-sol')
+    expect(displayModelName('pi', 'opus-5')).toBe('opus-5')
+    expect(displayModelName(null, 'opus-5')).toBe('opus-5')
+    expect(displayModelName('claude-code', null)).toBeNull()
   })
 })

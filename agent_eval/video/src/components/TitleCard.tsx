@@ -3,7 +3,7 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { Film, PlayerTrack } from '../dataset/film'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
 import { formatDuration } from '../format'
-import { HarnessLogo, ProviderLogo, controllerMarks } from '../logos'
+import { HarnessLogo, ProviderLogo, controllerMarks, displayModelName } from '../logos'
 import { NationFlag } from '../nation-flag'
 import { SHELL } from '../theme'
 
@@ -74,11 +74,12 @@ const ROWS: readonly {
       // controller label. The harness is already stated by the mark below, so
       // "claude-code-claude-opus-5" wraps to two lines in order to say
       // "claude" three times. The model alone is what is being compared.
-      const { model } = controllerMarks(track.player.controllerLabel)
+      const { harness, model } = controllerMarks(track.player.controllerLabel)
+      const name = displayModelName(harness, model)
       return (
         <span className="font-display text-[72px] font-normal leading-[0.98] tracking-[-0.03em] text-ink [overflow-wrap:anywhere]">
           {isAgent
-            ? (soloAgent ? 'Agent' : model ?? controllerDisplayName(track.player))
+            ? (soloAgent ? 'Agent' : name ?? controllerDisplayName(track.player))
             : controllerDisplayName(track.player)}
         </span>
       )
