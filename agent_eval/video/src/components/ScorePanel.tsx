@@ -1,14 +1,9 @@
-import { countNoun } from '../format'
 import type { Film, PlayerTrack, TurnState } from '../dataset/film'
 import { sampleTrack } from '../dataset/film'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
 import { HarnessLogo, ProviderLogo, controllerMarks } from '../logos'
 import { NationFlag } from '../nation-flag'
 import { SHELL, mixColors, withAlpha } from '../theme'
-import { MetricChart, type ChartSeries } from './MetricChart'
-
-/** Cities and technologies ride in the rail the match dossier used to occupy. */
-const CHART_HEIGHT = 178
 
 interface ScorePanelProps {
   readonly film: Film
@@ -63,6 +58,49 @@ function StatCell({ label, value }: { readonly label: string; readonly value: st
     <div className="flex flex-col gap-[5px]">
       <span className="label">{label}</span>
       <span className="font-mono text-[19px] font-medium text-ink tabular-nums">{value}</span>
+    </div>
+  )
+}
+
+/**
+ * A faction at a glance: flag, name in its own colour, and three numbers.
+ *
+ * Everything that is not the agent renders like this. In a two-handed match
+ * the CPU still earns a full card, but past that the rail cannot give ten
+ * seats two hundred pixels each -- and it should not, because in a
+ * one-agent-against-many game the other nine are the weather, not the story.
+ * Third parties have always been read this way; this is the same treatment,
+ * applied to anyone who is not the subject of the film.
+ */
+function CompactFaction({
+  track, turn,
+}: {
+  readonly track: PlayerTrack
+  readonly turn: TurnState
+}) {
+  const stat = turn.statsByPlayer.get(track.player.playerId)
+  const alive = stat?.alive !== false
+  return (
+    <div className="flex items-center gap-[10px]" style={{ opacity: alive ? 1 : 0.5 }}>
+      <NationFlag nation={track.player.nation} size={24} />
+      <span
+        className="min-w-0 flex-1 truncate font-mono text-[14px] font-medium"
+        style={{ color: track.renderColor }}
+      >
+        {nationDisplayName(track.player)}
+      </span>
+      <span className="shrink-0 font-mono text-[12px] text-muted tabular-nums">
+        {(stat?.cities ?? 0).toLocaleString('en-US')}c
+      </span>
+      <span className="shrink-0 font-mono text-[12px] text-muted tabular-nums">
+        {(stat?.units ?? 0).toLocaleString('en-US')}u
+      </span>
+      {/* An em-dash, not a zero. Freeciv does not score barbarians, and "0"
+          beside thirteen cities reads as a measured result rather than an
+          absent one. */}
+      <span className="w-[62px] shrink-0 text-right font-mono text-[17px] font-medium text-ink tabular-nums">
+        {stat?.score ? stat.score.toLocaleString('en-US') : '—'}
+      </span>
     </div>
   )
 }
@@ -207,18 +245,25 @@ export function ScorePanel({
   const leaderScore = Math.max(
     1, ...film.seatTracks.map((track) => track.scores[turnIndex] ?? 0),
   )
-  const series = (pick: (track: PlayerTrack) => readonly number[]): ChartSeries[] =>
-    film.seatTracks.map((track) => ({
-      key: track.player.playerId,
-      color: track.renderColor,
-      values: pick(track),
-    }))
+  /*
+   * Who gets a card, and who gets a row.
+   *
+   * Two-handed, both sides get a card -- the CPU is half of that match. Past
+   * two, only the agents do: the rail cannot give ten seats two hundred pixels
+   * each, and in one-agent-against-many the other nine are the weather, not
+   * the story. Everyone demoted joins the third parties in the compact list,
+   * which is the same reading they already had.
+   */
+  const heroes = ranked.length > 2
+    ? ranked.filter((track) => track.player.controllerType !== 'native')
+    : ranked
+  const heroIds = new Set(heroes.map((track) => track.player.playerId))
+  const demoted = ranked.filter((track) => !heroIds.has(track.player.playerId))
   const thirdParties = film.tracks.filter(
     (track) => !track.player.seat
       && (turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0) > 0,
   )
-  // The rail is one bordered instrument, so its contents are inset by the border.
-  const inner = width - 2
+  const others = [...demoted, ...thirdParties]
 
   return (
     <div className="flex h-full flex-col gap-[13px]" style={{ width }}>
@@ -234,7 +279,7 @@ export function ScorePanel({
        * keep the collapsed frame, because they genuinely are one instrument.
        */}
       <div className="flex flex-col gap-[13px]">
-        {ranked.map((track, index) => (
+        {heroes.map((track, index) => (
           <div className="border border-line" key={track.player.playerId}>
             <PlayerCard
               leaderScore={leaderScore}
@@ -247,45 +292,26 @@ export function ScorePanel({
           </div>
         ))}
       </div>
-      <div className="hair-grid flex flex-col border border-line">
-        <MetricChart
-          firstTurn={film.meta.firstTurn}
-          height={CHART_HEIGHT}
-          label="Cities"
-          progress={progress}
-          series={series((track) => track.cities)}
-          showTurnAxis={false}
-          totalTurns={film.turns.length}
-          turnIndex={turnIndex}
-          width={inner}
-        />
-        <MetricChart
-          firstTurn={film.meta.firstTurn}
-          height={CHART_HEIGHT}
-          label="Technologies"
-          progress={progress}
-          series={series((track) => track.techs)}
-          showTurnAxis={false}
-          totalTurns={film.turns.length}
-          turnIndex={turnIndex}
-          width={inner}
-        />
-      </div>
-      <div className="flex-1" />
-      {thirdParties.length > 0 && (
-        <div className="flex items-center gap-[12px] border border-line bg-panel px-[14px] py-[10px]">
-          <span className="label">Third party</span>
-          {/* A raiding third party can hold more ground than a contender, so
-              this reads at the size of a real standing rather than a footnote. */}
-          {thirdParties.map((track) => (
-            <span
-              className="font-mono text-[15px] font-medium"
-              key={track.player.playerId}
-              style={{ color: track.renderColor }}
-            >
-              {nationDisplayName(track.player)} ·{' '}
-              {countNoun(turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0, 'city', 'cities')}
-            </span>
+      {/* A raiding third party is a faction on the board, so it sits with
+          the other factions rather than past both charts. It used to trail
+          the rail behind a flex spacer, and once the two score cards grew
+          borders and a gap it was pushed off the bottom edge entirely --
+          invisible, while holding more ground than a contender. */}
+      {others.length > 0 && (
+        /*
+         * The space the two rail charts used to take. A raiding faction can
+         * hold more ground and more cities than a contender -- and when it
+         * does, the board is a third of its colour while the rail says
+         * nothing. This is the room to say it, and the room later things can
+         * grow into.
+         */
+        <div className="flex flex-1 flex-col gap-[13px] border border-line bg-panel px-[16px] py-[14px]">
+          <div className="flex items-baseline justify-between">
+            <span className="label">Also on the board</span>
+            <span className="label">Cities · units · score</span>
+          </div>
+          {others.map((track) => (
+            <CompactFaction key={track.player.playerId} track={track} turn={turn} />
           ))}
         </div>
       )}

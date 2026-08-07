@@ -13,7 +13,7 @@ import { MetricChart } from './components/MetricChart'
 import { ScorePanel } from './components/ScorePanel'
 import { Ticker } from './components/Ticker'
 import { TitleCard } from './components/TitleCard'
-import type { Film } from './dataset/film'
+import type { Film, PlayerTrack } from './dataset/film'
 import { buildBoardLayout } from './dataset/geometry'
 import { useFilm } from './dataset/load'
 // Registers Archivo and JetBrains Mono from `public/fonts` and holds the first
@@ -52,6 +52,17 @@ export function filmDurationInFrames(
 const MAP_WIDTH = 1316
 const PANEL_WIDTH = 500
 const CHART_HEIGHT = 236
+// Three charts abreast inside the map's width, separated by 1px shared rules.
+const CHART_WIDTH = Math.floor((MAP_WIDTH - 2 - 2) / 3)
+
+const CHARTS: readonly {
+  readonly label: string
+  readonly pick: (track: PlayerTrack) => readonly number[]
+}[] = [
+  { label: 'Score history', pick: (track) => track.scores },
+  { label: 'Cities', pick: (track) => track.cities },
+  { label: 'Technologies', pick: (track) => track.techs },
+]
 
 function TopBar({ film }: { readonly film: Film }) {
   // The match dossier is gone; its one durable fact rides here instead.
@@ -145,24 +156,34 @@ function PlayStage({
             </span>
             <span className="label ml-auto">board turn {turn.boardTurn ?? '—'}</span>
           </div>
-          {/* Opaque. The ground behind the page is a dithered bitmap now, and
-              a transparent panel puts that texture directly under the chart's
-              own gridlines. It shows through the gutters, never under content. */}
-          <div className="border border-line bg-panel" style={{ width: MAP_WIDTH }}>
-            <MetricChart
-              firstTurn={film.meta.firstTurn}
-              height={CHART_HEIGHT}
-              label="Score history"
-              progress={progress}
-              series={film.seatTracks.map((track) => ({
-                key: track.player.playerId,
-                color: track.renderColor,
-                values: track.scores,
-              }))}
-              totalTurns={film.turns.length}
-              turnIndex={turnIndex}
-              width={MAP_WIDTH - 2}
-            />
+          {/*
+           * Score, cities and technologies in one row. Opaque, because the
+           * ground behind the page is a dithered bitmap and a transparent
+           * panel puts that texture directly under a chart's own gridlines --
+           * it shows through the gutters, never under content. The 1px seams
+           * between the three are shared rules, not gutters.
+           */}
+          <div
+            className="hair-grid grid grid-cols-3 border border-line"
+            style={{ width: MAP_WIDTH }}
+          >
+            {CHARTS.map((chart) => (
+              <MetricChart
+                firstTurn={film.meta.firstTurn}
+                height={CHART_HEIGHT}
+                key={chart.label}
+                label={chart.label}
+                progress={progress}
+                series={film.seatTracks.map((track) => ({
+                  key: track.player.playerId,
+                  color: track.renderColor,
+                  values: chart.pick(track),
+                }))}
+                totalTurns={film.turns.length}
+                turnIndex={turnIndex}
+                width={CHART_WIDTH}
+              />
+            ))}
           </div>
         </div>
         <ScorePanel
