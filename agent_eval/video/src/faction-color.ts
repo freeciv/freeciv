@@ -37,16 +37,31 @@ const BOARD_COLORS: readonly string[] = [
  * Periwinkle clears every terrain by a wide margin (0.181 to its nearest,
  * tundra) and sits at least 0.23 from every other faction colour in use.
  *
- * The barbarian/pirate salmon is pinned for a different reason. It fails the
- * faction clearance below against the default orange (0.087, see
- * FACTION_CLEARANCE) and so fell through to the first substitute, aqua mint --
- * which made a raiding third party read as a cool, calm fourth empire. Crimson
- * says what they are and holds up: 0.213 from its nearest terrain and 0.185
- * from the orange it used to collide with, both comfortably over threshold.
  */
 const PINNED: ReadonlyMap<string, string> = new Map([
   ['#0067a5', '#A78BFA'], // agent blue -> periwinkle violet
-  ['#fa8072', '#E01B24'], // barbarian salmon -> crimson
+])
+
+/**
+ * Factions pinned by who they are rather than by the colour they were dealt.
+ *
+ * Raiders read as a fourth empire when the algorithm gets hold of them: their
+ * recorded colour usually fails the faction clearance against the native
+ * orange, so it fell through to the first substitute -- aqua mint, a cool calm
+ * colour for the one faction on the board that is neither.
+ *
+ * Keyed on the nation, because Freeciv deals the Pirate nation a different
+ * colour in every match -- #FA8072 in one export, #FF4F00 in another. Pinning
+ * the hex fixed exactly the game it was read off and left every other one
+ * mint, which is how this was found. Who they are is stable; what they were
+ * dealt is not.
+ *
+ * Crimson clears its nearest terrain by 0.213 and the native orange by 0.185,
+ * both comfortably over threshold. It goes into `taken` like any other claim,
+ * so a barbarian dealt a nearby red is still moved off it.
+ */
+const PINNED_NATIONS: ReadonlyMap<string, string> = new Map([
+  ['pirate', '#E01B24'],
 ])
 
 /**
@@ -147,7 +162,8 @@ export function planFactionColors(players: readonly PlayerEntry[]): FactionColor
     const original = player.color
     // A pinned colour wins outright: it is a contract with the viewer, not a
     // preference, so it is never displaced by a clearance check.
-    const pinned = PINNED.get(original.toLowerCase())
+    const pinned = PINNED_NATIONS.get(player.nation.trim().toLowerCase())
+      ?? PINNED.get(original.toLowerCase())
     if (pinned !== undefined) {
       colorByPlayer.set(player.playerId, pinned)
       taken.push(pinned)
