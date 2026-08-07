@@ -69,13 +69,20 @@ const ROWS: readonly {
     // against agent, both would read "Agent", which compares nothing; there
     // the names are the story and they take the headline.
     key: 'role',
-    render: ({ track, isAgent, soloAgent }) => (
-      <span className="font-display text-[72px] font-normal leading-[0.98] tracking-[-0.03em] text-ink [overflow-wrap:anywhere]">
-        {isAgent
-          ? (soloAgent ? 'Agent' : controllerDisplayName(track.player))
-          : controllerDisplayName(track.player)}
-      </span>
-    ),
+    render: ({ track, isAgent, soloAgent }) => {
+      // Agent against agent the headline is the *model*, not the whole
+      // controller label. The harness is already stated by the mark below, so
+      // "claude-code-claude-opus-5" wraps to two lines in order to say
+      // "claude" three times. The model alone is what is being compared.
+      const { model } = controllerMarks(track.player.controllerLabel)
+      return (
+        <span className="font-display text-[72px] font-normal leading-[0.98] tracking-[-0.03em] text-ink [overflow-wrap:anywhere]">
+          {isAgent
+            ? (soloAgent ? 'Agent' : model ?? controllerDisplayName(track.player))
+            : controllerDisplayName(track.player)}
+        </span>
+      )
+    },
   },
   {
     key: 'nation',
