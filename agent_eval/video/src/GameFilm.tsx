@@ -16,6 +16,7 @@ import { TitleCard } from './components/TitleCard'
 import type { Film, PlayerTrack } from './dataset/film'
 import { buildBoardLayout } from './dataset/geometry'
 import { useFilm } from './dataset/load'
+import { MATCH_BOARD_WIDTH as MAP_WIDTH } from './stage'
 // Registers Archivo and JetBrains Mono from `public/fonts` and holds the first
 // frame until both are resolved.
 import './fonts'
@@ -49,7 +50,6 @@ export function filmDurationInFrames(
     + timing.outroFrames
 }
 
-const MAP_WIDTH = 1316
 const PANEL_WIDTH = 500
 const CHART_HEIGHT = 236
 // Three charts abreast inside the map's width, separated by 1px shared rules.

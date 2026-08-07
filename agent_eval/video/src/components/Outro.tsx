@@ -1,11 +1,14 @@
 import { useMemo } from 'react'
-import { interpolate, useCurrentFrame } from 'remotion'
+import { Easing, interpolate, useCurrentFrame } from 'remotion'
 import type { Film, PlayerTrack } from '../dataset/film'
 import { buildBoardLayout } from '../dataset/geometry'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
 import { eventKindLabel, topHighlights, weightTier } from '../event-log'
 import { countNoun, formatDuration } from '../format'
 import type { GameEvent } from '../dataset/schema'
+import {
+  BOARD_HANDOFF_RISE, MATCH_BOARD_WIDTH, OUTRO_BOARD_WIDTH, OUTRO_SETTLE_FRAMES,
+} from '../stage'
 import { SHELL, mixColors, withAlpha } from '../theme'
 import { BoardCanvas } from './BoardCanvas'
 import { MetricChart, type ChartSeries } from './MetricChart'
@@ -22,7 +25,6 @@ const PANEL_WIDTH = 620
 const CHART_GAP = 16
 const BAND_HEIGHT = 434
 const HIGHLIGHTS_WIDTH = 430
-const BOARD_WIDTH = STAGE_WIDTH - HIGHLIGHTS_WIDTH - CHART_GAP
 const MAX_HIGHLIGHTS = 7
 // The three histories share one frame, so their widths have to account for the
 // frame's border and the two hairlines between them.
@@ -154,15 +156,37 @@ function StandingRow({
 
 export function Outro({ film, superSample }: OutroProps) {
   const frame = useCurrentFrame()
-  const fadeIn = interpolate(frame, [0, 20], [0, 1], {
-    extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
+  /*
+   * The end screen settles out of the match rather than dissolving over it.
+   *
+   * The board is the one thing both acts draw, and both draw it at the same
+   * aspect -- so the end screen opens at the match's board width and eases to
+   * its own, and the cut lands on two identical frames. What the viewer sees
+   * is the map shrinking into place while the summaries arrive around it,
+   * which is a camera move; a crossfade of two whole layouts is a slide
+   * change. Everything that is *not* shared still fades, but staggered behind
+   * the board and with a little travel, so it reads as arriving rather than
+   * resolving out of nothing.
+   */
+  const settle = interpolate(frame, [0, OUTRO_SETTLE_FRAMES], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+    easing: Easing.out(Easing.cubic),
+  })
+  const boardWidth = Math.round(
+    interpolate(settle, [0, 1], [MATCH_BOARD_WIDTH, OUTRO_BOARD_WIDTH]),
+  )
+  const arrive = interpolate(frame, [8, OUTRO_SETTLE_FRAMES + 8], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+    easing: Easing.out(Easing.cubic),
   })
   const boardHeight = useMemo(() => {
     const layout = buildBoardLayout(film.meta.width, film.meta.height)
     const aspect = (layout.bounds.maxX - layout.bounds.minX)
       / (layout.bounds.maxY - layout.bounds.minY)
-    return Math.round(BOARD_WIDTH / aspect)
-  }, [film.meta.height, film.meta.width])
+    return Math.round(boardWidth / aspect)
+  }, [boardWidth, film.meta.height, film.meta.width])
 
   const wallClock = film.meta.startedAt !== null && film.meta.finishedAt !== null
     ? formatDuration(film.meta.finishedAt - film.meta.startedAt)
@@ -189,11 +213,10 @@ export function Outro({ film, superSample }: OutroProps) {
   return (
     <div
       className="flex h-full w-full flex-col items-center justify-center gap-[18px] px-[30px] py-[24px]"
-      style={{ opacity: fadeIn }}
     >
       <div
         className="flex items-center justify-between border-b border-line pb-[11px]"
-        style={{ width: STAGE_WIDTH }}
+        style={{ opacity: arrive, transform: `translateY(${(1 - arrive) * -10}px)`, width: STAGE_WIDTH }}
       >
         <span className="label">Final standings · turn {lastTurn.turn}</span>
         <span className="label">{film.meta.gameId}</span>
@@ -202,7 +225,11 @@ export function Outro({ film, superSample }: OutroProps) {
       <div className="flex gap-[16px]" style={{ width: STAGE_WIDTH }}>
         <div
           className="board-frame overflow-hidden border border-board-edge bg-board"
-          style={{ height: boardHeight, width: BOARD_WIDTH }}
+          style={{
+            height: boardHeight,
+            transform: `translateY(${(1 - settle) * BOARD_HANDOFF_RISE}px)`,
+            width: boardWidth,
+          }}
         >
           <BoardCanvas
             colorByPlayer={film.colors.colorByPlayer}
@@ -212,17 +239,22 @@ export function Outro({ film, superSample }: OutroProps) {
             showLabels
             superSample={superSample}
             turn={lastTurn}
-            width={BOARD_WIDTH}
+            width={boardWidth}
           />
         </div>
-        <Highlights events={highlights} film={film} />
+        <div style={{ opacity: arrive, transform: `translateX(${(1 - arrive) * 22}px)` }}>
+          <Highlights events={highlights} film={film} />
+        </div>
       </div>
 
       <div
         className="flex gap-[16px]"
         style={{ height: BAND_HEIGHT, width: STAGE_WIDTH }}
       >
-        <div className="hair-grid flex border border-line" style={{ width: CHARTS_WIDTH }}>
+        <div
+          className="hair-grid flex border border-line"
+          style={{ opacity: arrive, transform: `translateY(${(1 - arrive) * 14}px)`, width: CHARTS_WIDTH }}
+        >
           <MetricChart
             ceiling={peak((track) => track.scores)}
             firstTurn={film.meta.firstTurn}
@@ -259,7 +291,7 @@ export function Outro({ film, superSample }: OutroProps) {
         </div>
         <div
           className="hair-grid flex flex-col border border-line"
-          style={{ width: PANEL_WIDTH }}
+          style={{ opacity: arrive, transform: `translateY(${(1 - arrive) * 14}px)`, width: PANEL_WIDTH }}
         >
           {ranked.map((track, index) => (
             <StandingRow
