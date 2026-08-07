@@ -9,6 +9,8 @@ export interface GamePlace {
   controller_label?: string | null
   controller_type?: string | null
   model?: string | null
+  /** The server AI level driving this place; absent on older payloads. */
+  ai_difficulty?: string | null
   player_color: string
 }
 
@@ -163,6 +165,8 @@ export interface ReplayPlayer {
   controller_label?: string | null
   controller_type?: string | null
   model?: string | null
+  /** The server AI level driving this player; absent on older payloads. */
+  ai_difficulty?: string | null
   nation: string
   government: string
   alive: boolean

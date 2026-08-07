@@ -9,7 +9,9 @@ import type {
 } from './types'
 import { placeLabel } from './picker-model'
 import { agentFirst, agentFirstBy, isNativeController } from './agent-order'
-import { displayControllerLabel, factionDisplayLabel } from './faction-label'
+import {
+  displayControllerLabel, factionDisplayLabel, nativeAiSummaryLabel,
+} from './faction-label'
 
 export const METRICS = [
   { key: 'score', label: 'Score' },
@@ -108,7 +110,7 @@ export function isScoredPlayer(player: ReplayPlayer): boolean {
 
 export function competitorLabel(player: ReplayPlayer): string {
   return (
-    displayControllerLabel(player.controller_label) ||
+    displayControllerLabel(player.controller_label, player.ai_difficulty) ||
     (isScoredPlayer(player) ? player.player_name : player.nation) ||
     'Freeciv dynamic faction'
   )
@@ -134,6 +136,7 @@ export function configuredPlaceFactions(places: GamePlace[]): MapFaction[] {
       controller_label: placeLabel(place),
       controller_type: place.controller === 'native_classic_ai' ? 'native' : place.controller_type,
       player_name: place.player_name,
+      ai_difficulty: place.ai_difficulty,
     }),
     detail: place.controller === 'native_classic_ai'
       ? `${place.player_name} · native controller`
@@ -161,8 +164,11 @@ export function matchDurationLabel(
 /** "A vs B", agents first: the model names the match, never the built-in AI. */
 export function matchHeaderLabel(places: GamePlace[]): string {
   const agents = places.filter((place) => !isNativeController(place)).map(placeLabel)
-  const nativeCount = places.length - agents.length
-  const nativeLabel = nativeCount > 1 ? `In-game Deity AI ×${nativeCount}` : nativeCount === 1 ? 'In-game Deity AI' : null
+  const natives = places.filter((place) => isNativeController(place))
+  // The AI level is one game-wide setting, so any native place answers for all.
+  const nativeLabel = nativeAiSummaryLabel(
+    natives.length, natives[0]?.ai_difficulty,
+  )
   return [...agents, ...(nativeLabel ? [nativeLabel] : [])].join('  vs  ')
 }
 
@@ -228,6 +234,7 @@ export function mapFactions(
             controller_type: controllerType,
             nation: mapPlayer.nation ?? replayPlayer?.nation,
             player_name: place?.player_name ?? mapPlayer.player_name,
+            ai_difficulty: place?.ai_difficulty ?? replayPlayer?.ai_difficulty,
           }),
           detail: `${place?.player_name ?? mapPlayer.player_name}${replayPlayer?.nation ? ` · ${replayPlayer.nation}` : ''}`,
           dynamic: false,

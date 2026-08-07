@@ -195,7 +195,7 @@ describe('replay view model', () => {
       mockWatch.frames[0], mockReplay.snapshots[2], mockWatch.game.resolved_places,
     )
     expect(factions.map((faction) => faction.display_label)).toEqual([
-      'codex-gpt-5.6-sol: Danish', 'In-game Deity AI: Romans', 'Freeciv dynamic: Pirate',
+      'codex-gpt-5.6-sol: Danish', 'Romans (CPU)', 'Freeciv dynamic: Pirate',
     ])
     expect(factions[2]).toMatchObject({
       player_name: 'Blackbeard', player_color: '#FF1493',
@@ -226,7 +226,25 @@ describe('replay view model', () => {
       mockWatch.game.resolved_places[0],
       native,
       { ...native, place: 3, seat_id: 'place-3', player_name: 'NativePlace3' },
-    ])).toBe('codex-gpt-5.6-sol  vs  In-game Deity AI ×2')
+    ])).toBe('codex-gpt-5.6-sol  vs  CPU ×2')
+  })
+
+  it('names the difficulty in the header and the place label', () => {
+    // The header and the place label used to hardcode the AI's name; they now
+    // read it from `faction-label`, so a recorded level reaches both.
+    const [agent, native] = mockWatch.game.resolved_places
+    const deity = { ...native, ai_difficulty: 'cheating' }
+    expect(matchHeaderLabel([agent, deity]))
+      .toBe('codex-gpt-5.6-sol  vs  CPU: Deity')
+    expect(matchHeaderLabel([agent, deity, { ...deity, place: 3, seat_id: 'place-3' }]))
+      .toBe('codex-gpt-5.6-sol  vs  CPU: Deity ×2')
+    expect(placeLabel(deity)).toBe('CPU: Deity')
+    expect(placeLabel({ ...native, ai_difficulty: 'hard' })).toBe('CPU: Hard')
+    // An unnamed level, and a payload with none at all, stay unqualified.
+    expect(placeLabel({ ...native, ai_difficulty: 'normal' })).toBe('CPU')
+    expect(placeLabel(native)).toBe('CPU')
+    expect(configuredPlaceFactions([deity])[0].display_label)
+      .toBe('NativePlace2 (CPU: Deity)')
   })
 
   it('builds the legacy map key from scored roster identities and colors', () => {
@@ -235,7 +253,7 @@ describe('replay view model', () => {
       display_label, player_color,
     }))).toEqual([
       { display_label: 'codex-gpt-5.6-sol', player_color: '#0067A5' },
-      { display_label: 'In-game Deity AI: NativePlace2', player_color: '#F38400' },
+      { display_label: 'NativePlace2 (CPU)', player_color: '#F38400' },
     ])
     expect(factions.every((faction) => !faction.dynamic)).toBe(true)
   })

@@ -82,7 +82,7 @@ describe('technology progression model', () => {
     ])
     expect(model.series.map((series) => series.label)).toEqual([
       'pi-gpt-5.6-sol: Romans',
-      'In-game Deity AI: Romans',
+      'Romans (CPU)',
     ])
     expect(model.series[0].values).toEqual([
       { turn: 1, knownClassicTechnologies: 1, futureTechs: 0 },
@@ -116,8 +116,8 @@ describe('technology progression model', () => {
     ], catalog)
 
     expect(model.series.map((series) => series.label)).toEqual([
-      'In-game Deity AI: Danish',
-      'In-game Deity AI: Persian',
+      'Danish (CPU)',
+      'Persian (CPU)',
     ])
   })
 
@@ -163,7 +163,7 @@ describe('TechnologyProgressChart', () => {
 
     expect(markup).toContain('Cumulative classic technologies known by turn')
     expect(markup).toContain('pi-gpt-5.6-sol')
-    expect(markup).toContain('In-game Deity AI: Romans')
+    expect(markup).toContain('Romans (CPU)')
     // The recorded '#0067A5' is remapped for display only; the model keeps it.
     expect(markup).toContain('#A78BFA')
     expect(markup).not.toContain('#0067A5')

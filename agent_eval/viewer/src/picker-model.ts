@@ -1,3 +1,4 @@
+import { nativeAiLabel } from './faction-label'
 import type { GamePlace, GameSummary } from './types'
 
 const GAME_ID_RE = /^[A-Za-z0-9_-]{20,80}$/
@@ -67,7 +68,12 @@ export function gamePrimaryResult(game: GameSummary): string {
 }
 
 export function placeLabel(place: GamePlace): string {
-  if (place.controller === 'native_classic_ai') return 'In-game Deity AI'
+  // `faction-label` owns what the built-in AI is called. Spelling it out here
+  // is how the name drifts: this file had its own copy of the old label and
+  // kept it through the rename.
+  if (place.controller === 'native_classic_ai') {
+    return nativeAiLabel(place.ai_difficulty)
+  }
   if (!place.joined) return 'Open agent seat'
   return place.controller_label || place.model || 'Joined agent'
 }
