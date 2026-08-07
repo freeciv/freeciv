@@ -1,0 +1,6 @@
+[test]
+root = "./test"
+coverageSkipTestFiles = true
+
+[install]
+exact = false

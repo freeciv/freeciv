@@ -1,0 +1,5 @@
+node_modules/
+
+# `bun build --compile` output (PLAN gate 5).  61 MB of embedded runtime — it
+# is reproducible from source in under a second and must not enter the repo.
+dist/
