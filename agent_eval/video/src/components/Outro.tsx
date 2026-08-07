@@ -4,7 +4,7 @@ import type { Film, PlayerTrack } from '../dataset/film'
 import { buildBoardLayout } from '../dataset/geometry'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
 import { eventKindLabel, topHighlights, weightTier } from '../event-log'
-import { formatDuration } from '../format'
+import { countNoun, formatDuration } from '../format'
 import type { GameEvent } from '../dataset/schema'
 import { SHELL, mixColors, withAlpha } from '../theme'
 import { BoardCanvas } from './BoardCanvas'
@@ -140,7 +140,7 @@ function StandingRow({
             </span>
           </span>
           <span className="font-mono text-[11px] text-muted">
-            peak {track.peakScore.toLocaleString('en-US')} · {stat?.cities ?? 0} cities ·{' '}
+            peak {track.peakScore.toLocaleString('en-US')} · {countNoun(stat?.cities ?? 0, 'city', 'cities')} ·{' '}
             {stat?.techs ?? 0} techs
           </span>
         </div>
@@ -277,7 +277,7 @@ export function Outro({ film, superSample }: OutroProps) {
             <span className="font-mono text-[10px] leading-relaxed text-dim">
               recorded state: {film.meta.state} · {film.meta.controlProtocol} ·{' '}
               {wallClock} of play ·{' '}
-              {lastTurn.cities.length.toLocaleString('en-US')} cities ·{' '}
+              {countNoun(lastTurn.cities.length, 'city', 'cities')} ·{' '}
               {lastTurn.units
                 .reduce((total, stack) => total + (stack[3] ?? 0), 0)
                 .toLocaleString('en-US')}{' '}

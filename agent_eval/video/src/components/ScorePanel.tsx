@@ -1,3 +1,4 @@
+import { countNoun } from '../format'
 import type { Film, PlayerTrack, TurnState } from '../dataset/film'
 import { sampleTrack } from '../dataset/film'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
@@ -232,7 +233,7 @@ export function ScorePanel({
               style={{ color: track.renderColor }}
             >
               {nationDisplayName(track.player)} ·{' '}
-              {turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0} cities
+              {countNoun(turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0, 'city', 'cities')}
             </span>
           ))}
         </div>
