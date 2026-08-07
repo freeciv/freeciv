@@ -34,6 +34,14 @@ interface ThreeBoardProps {
   mode: BoardViewMode
   onCommit: (board: BoardResponse) => void
   onFailure: () => void
+  /**
+   * Width/height of the board's own footprint, so the stage can take the
+   * board's shape instead of a fixed height. A contain-fit into a stage of the
+   * wrong aspect letterboxes -- a 2.6:1 world in a 1.85:1 stage left ~90px of
+   * dead ground above and below the map. Depends only on the board, so it
+   * fires on board change, not on resize.
+   */
+  onAspect?: (aspect: number) => void
 }
 
 interface BoardLayer {
@@ -404,7 +412,9 @@ function disposeLayer(layer: BoardLayer | null): void {
   })
 }
 
-export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure }: ThreeBoardProps) {
+export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure, onAspect }: ThreeBoardProps) {
+  const aspectRef = useRef<{ reported: number; notify: ThreeBoardProps['onAspect'] }>({ reported: 0, notify: onAspect })
+  aspectRef.current.notify = onAspect
   const containerRef = useRef<HTMLDivElement>(null)
   const runtimeRef = useRef<ThreeRuntime | null>(null)
   const sceneGeneration = useRef(0)
@@ -481,6 +491,11 @@ export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure }
       camera.updateProjectionMatrix()
       controls.target.set(center.x, 0, center.y)
       controls.update()
+      const footprintAspect = size.y > 0 ? size.x / size.y : 0
+      if (footprintAspect > 0 && Math.abs(footprintAspect - aspectRef.current.reported) > 0.01) {
+        aspectRef.current.reported = footprintAspect
+        aspectRef.current.notify?.(footprintAspect)
+      }
       render()
     }
     const resize = () => {

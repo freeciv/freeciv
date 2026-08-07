@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { fetchBoard } from '../api'
 import { LatestRequestGate, LruCache, priorAvailableTurns } from '../board-loader'
 import type { BoardResponse, RouteContext } from '../types'
@@ -50,6 +50,42 @@ export function StrategicMap({
   const [renderedBoard, setRenderedBoard] = useState<BoardResponse | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [webglFailed, setWebglFailed] = useState(false)
+  // Shape of the rendered world, so the stage can be the map's own rectangle
+  // rather than a fixed slab the map is letterboxed into. Null until a board
+  // reports, and only meaningful for the WebGL board -- the raw-source image
+  // and the loading states keep the default stage.
+  const [boardAspect, setBoardAspect] = useState<number | null>(null)
+
+  // Fullscreen promotes the whole app shell, not the stage alone.
+  //
+  // Fullscreen renders only the target's subtree, and the transport -- prev,
+  // play, next, scrub, scores -- is a sibling of the map, fixed to the bottom
+  // of the page. Fullscreening the stage produced a board you could not drive.
+  // The shell contains both, and a `position: fixed` bar inside a fullscreen
+  // ancestor pins to the screen edge, so the real transport comes along with
+  // its real state rather than a second copy that has to be kept in sync.
+  // CSS hides everything else in the shell for the duration.
+  //
+  // The board reframes itself for free: ThreeBoard watches its container with
+  // a ResizeObserver, so entering and leaving both land on a correct fit.
+  const stageRef = useRef<HTMLDivElement | null>(null)
+  const [fullscreen, setFullscreen] = useState(false)
+  useEffect(() => {
+    const sync = () => setFullscreen(
+      document.fullscreenElement != null
+      && document.fullscreenElement === stageRef.current?.closest('.app-shell'),
+    )
+    document.addEventListener('fullscreenchange', sync)
+    return () => document.removeEventListener('fullscreenchange', sync)
+  }, [])
+  const toggleFullscreen = useCallback(() => {
+    const shell = stageRef.current?.closest('.app-shell')
+    if (!(shell instanceof HTMLElement)) return
+    if (document.fullscreenElement === shell) void document.exitFullscreen()
+    // A rejected request is not an error worth surfacing -- the browser refuses
+    // it outside a user gesture, and the map is still perfectly usable inline.
+    else void shell.requestFullscreen?.().catch(() => undefined)
+  }, [])
   const key = useMemo(() => cacheKey(route, turn), [route, turn])
 
   useEffect(() => {
@@ -165,10 +201,33 @@ export function StrategicMap({
           <button disabled={!boardMode || semanticUnavailable} onClick={() => actionsRef.current?.fit()} type="button">Fit</button>
           <button aria-label="Zoom in" disabled={!boardMode || semanticUnavailable} onClick={() => actionsRef.current?.zoomIn()} type="button">+</button>
           <button aria-label="Zoom out" disabled={!boardMode || semanticUnavailable} onClick={() => actionsRef.current?.zoomOut()} type="button">−</button>
+          <button
+            aria-pressed={fullscreen}
+            disabled={!boardMode || semanticUnavailable}
+            onClick={toggleFullscreen}
+            type="button"
+          >{fullscreen ? 'Exit full screen' : 'Full screen'}</button>
         </div>
       </div>
 
-      <div className="map-stage">
+      <div
+        className="map-stage"
+        ref={stageRef}
+        style={boardMode && boardAspect && !semanticUnavailable && !fullscreen
+          ? ({
+            // Inline, because the stylesheet sets an explicit height twice and
+            // this has to beat both. Width stays the definite axis -- given
+            // both dimensions free, aspect-ratio is entitled to satisfy itself
+            // by growing the width, which once pushed the stage out of its
+            // grid column and over the rail.
+            width: '100%',
+            height: 'auto',
+            aspectRatio: String(boardAspect),
+            minHeight: '300px',
+            maxHeight: '76vh',
+          } satisfies CSSProperties)
+          : undefined}
+      >
         {boardMode && committedBoard && !semanticUnavailable ? (
           <Suspense fallback={<div className="map-board-loading" role="status"><strong>Loading board renderer</strong><span>Preparing the local Three.js scene.</span></div>}>
             <ThreeBoard
@@ -176,6 +235,7 @@ export function StrategicMap({
               alt={alt}
               board={committedBoard}
               mode={effectiveMode === 'terrain' ? 'terrain' : 'political'}
+              onAspect={setBoardAspect}
               onCommit={handleCommit}
               onFailure={handleWebglFailure}
             />

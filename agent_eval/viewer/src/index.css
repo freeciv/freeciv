@@ -192,14 +192,53 @@
 
 .competitor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1px; margin: 14px 0; border: 1px solid var(--color-line); background: var(--color-line); }
 
-.strategy-grid { display: grid; grid-template-columns: minmax(0, 2.3fr) minmax(290px, .7fr); gap: 14px; }
+/* `align-items: start` matters now that the stage takes the board's own shape
+   rather than a fixed slab: stretched, the map panel grew to whatever the rail
+   beside it needed and carried the difference as blank ground inside its own
+   border, which reads as a broken panel. Unstretched, the slack falls beside
+   the panel instead of inside it. */
+.strategy-grid { display: grid; grid-template-columns: minmax(0, 2.3fr) minmax(290px, .7fr); gap: 14px; align-items: start; }
 .panel { border: 1px solid var(--color-line); background: var(--color-panel); }
 .panel-heading { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 16px 18px; border-bottom: 1px solid var(--color-line); background: var(--color-panel-2); }
 .panel-heading h2, .panel-heading h3 { margin: 0; font-size: 17px; font-weight: 500; letter-spacing: -.025em; }.compact-heading { padding: 14px 16px; }.compact-heading h2, .compact-heading h3 { font-size: 15px; }
 .compact-heading > span { color: var(--color-muted); font: 500 11px/1 var(--font-readout); }
 .live-indicator, .history-indicator { padding: 5px 8px; font: 600 9px/1 var(--font-readout); letter-spacing: .12em; }
 .live-indicator { color: var(--color-page); background: var(--color-ink); }.history-indicator { color: var(--color-ink-2); background: var(--color-line); }
+/* The stage is the map's own rectangle. `--board-aspect` is set from the
+   rendered world's footprint; without it (raw source, loading, WebGL failure)
+   the old fixed slab still applies. The bounds matter: a contain-fit into a
+   stage of the wrong shape letterboxes, but an unbounded aspect would let a
+   near-square world grow taller than the screen. */
 .map-stage { position: relative; display: grid; place-items: center; min-height: clamp(440px, 64vw, 820px); overflow: hidden; background: var(--color-page); }
+/* The board-shaped stage is sized inline from `--board-aspect`, not here: two
+   later `.strategic-map .map-stage` rules set an explicit height, and an
+   inline style is the one thing that beats both without a specificity war. */
+
+/* Fullscreen. The shell is the fullscreen element so the fixed transport bar
+   comes with it; everything else in the shell is hidden for the duration, and
+   the map section is stretched to whatever is left above the transport.
+   `--transport-height` is what the bar actually occupies at this size.
+   `!important` earns its place: two later `.strategic-map .map-stage` rules
+   pin an explicit height, and the stage has to fill instead. */
+.app-shell:fullscreen { --transport-height: 58px; display: flex; flex-direction: column; width: 100vw; height: 100vh; padding: 0 0 var(--transport-height); overflow: hidden; background: var(--color-page); }
+/* The header stays -- who is playing and what turn it is, which is exactly the
+   context you want over a full-screen board. The site nav, the telemetry
+   panels and the footer go. `!important` is required, not defensive: nav and
+   footer carry Tailwind `grid`/`flex` display utilities that otherwise win. */
+.app-shell:fullscreen > *:not(.strategy-grid):not(.transport-bar):not(header) { display: none !important; }
+/* `align-items: stretch` undoes the `start` the inline layout needs: there the
+   slack must fall beside the panel, here the panel must consume it. */
+.app-shell:fullscreen > .strategy-grid { flex: 1; grid-template-columns: minmax(0, 1fr); gap: 0; min-height: 0; margin: 0; align-items: stretch; }
+.app-shell:fullscreen .fold-rail { display: none; }
+.app-shell:fullscreen .map-panel { display: flex; flex-direction: column; min-height: 0; border: 0; }
+/* Two plain block wrappers sit between the panel and the stage -- the map
+   region and .strategic-map -- and a block parent swallows the child's
+   `flex: 1`. Both have to grow for the height to reach the board. */
+.app-shell:fullscreen #strategic-map-region,
+.app-shell:fullscreen .strategic-map { display: flex; flex: 1; flex-direction: column; min-height: 0; }
+.app-shell:fullscreen .map-stage { flex: 1; width: auto !important; height: auto !important; min-height: 0 !important; max-height: none !important; aspect-ratio: auto !important; }
+/* The graph-paper overlay turns into visible banding at screen size. */
+.app-shell:fullscreen .map-stage::before { display: none; }
 .map-stage::before { content: ""; position: absolute; inset: 0; opacity: .25; pointer-events: none; background: linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px); background-size: 30px 30px; }
 .playback-bar { display: grid; grid-template-columns: auto minmax(140px, 1fr) auto auto; gap: 12px; align-items: center; padding: 13px 16px; border-top: 1px solid var(--color-line); background: var(--color-page); }
 .play-button, .step-button, .live-button { border: 1px solid var(--color-line-2); color: var(--color-ink); background: var(--color-panel-2); cursor: pointer; }

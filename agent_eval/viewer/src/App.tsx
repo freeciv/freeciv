@@ -348,13 +348,14 @@ function MatchViewer({ route }: { route: RouteContext }) {
         <span className="text-center max-[1000px]:hidden">{game.mode === 'single' ? 'Single player evaluation' : 'Multiplayer evaluation'}</span>
         <code className="overflow-hidden text-[var(--color-muted)] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code>
       </nav>
-      <header className="relative grid grid-cols-[minmax(0,1fr)_auto] gap-x-7 gap-y-[18px] items-center py-[22px] px-6 overflow-hidden border border-line bg-[linear-gradient(110deg,var(--color-panel-2),var(--color-panel))] max-[760px]:grid-cols-1 max-[760px]:p-[17px] max-[650px]:p-4">
+      {/* One band, not two. The nav above already says "Freeciv Agent Arena"
+          and carries the FC mark, so the eyebrow and the second brand mark
+          restated the same fact 40px apart and cost ~85px of page for it. The
+          gradient went with them: the reference surfaces keep gradients out of
+          app chrome entirely and separate blocks by hairline instead. */}
+      <header className="relative grid grid-cols-[minmax(0,1fr)_auto] gap-x-7 gap-y-3 items-center py-[15px] px-6 overflow-hidden border border-line bg-[var(--color-panel)] max-[760px]:grid-cols-1 max-[760px]:p-[14px] max-[650px]:p-4">
         <div className="brand-block">
-          <div className="brand-mark" aria-hidden="true"><span /><span /><span /></div>
-          <div>
-            <p className="eyebrow">Freeciv autonomous arena</p>
-            <h1 className="m-0 overflow-hidden text-[length:clamp(25px,3vw,41px)] font-medium tracking-[-.025em] text-ellipsis whitespace-nowrap [overflow-wrap:anywhere] max-[760px]:whitespace-normal max-[760px]:text-[length:clamp(22px,8vw,34px)] max-[760px]:leading-[1.05]">{matchHeaderLabel(game.resolved_places)}</h1>
-          </div>
+          <h1 className="m-0 overflow-hidden text-[length:clamp(25px,3vw,41px)] font-medium tracking-[-.025em] text-ellipsis whitespace-nowrap [overflow-wrap:anywhere] max-[760px]:whitespace-normal max-[760px]:text-[length:clamp(22px,8vw,34px)] max-[760px]:leading-[1.05]">{matchHeaderLabel(game.resolved_places)}</h1>
         </div>
         <div className="flex items-center gap-[14px] z-[1] max-[760px]:justify-between max-[460px]:items-start max-[460px]:flex-col">
           <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
