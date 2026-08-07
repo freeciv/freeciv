@@ -17,6 +17,7 @@ import os
 import random
 import re
 import secrets
+import signal
 import stat
 import subprocess
 import sys
@@ -489,6 +490,44 @@ def _load_private_object(path: Path, label: str) -> dict[str, Any]:
     return value
 
 
+def _append_private_text(path: Path, text: str) -> Path:
+    """Append to a private file through the same sandbox every write uses.
+
+    Append rather than replace because the caller is a log: a monitor that
+    rewrote it would lose the history that makes it worth keeping.  `O_APPEND`
+    makes each write atomic against other appenders on both platforms this
+    runs on, so two monitors cannot interleave half-lines.
+    """
+    destination, relative = _state_relative_path(path)
+    parent_descriptor = _open_state_directory(
+        relative.parts[:-1], create=True,
+    )
+    flags = (
+        os.O_WRONLY | os.O_CREAT | os.O_APPEND
+        | getattr(os, "O_NOFOLLOW", 0)
+        | getattr(os, "O_CLOEXEC", 0)
+    )
+    try:
+        descriptor = os.open(
+            relative.parts[-1], flags, 0o600, dir_fd=parent_descriptor,
+        )
+        try:
+            metadata = os.fstat(descriptor)
+            if not stat.S_ISREG(metadata.st_mode):
+                raise PlayerError("a private log must be a regular file")
+            os.fchmod(descriptor, 0o600)
+            os.write(descriptor, text.encode("utf-8"))
+        finally:
+            os.close(descriptor)
+    except PlayerError:
+        raise
+    except OSError as exc:
+        raise PlayerError("cannot safely append to private state") from exc
+    finally:
+        os.close(parent_descriptor)
+    return destination
+
+
 @contextmanager
 def _private_advisory_lock(path: Path, *, timeout_s: float):
     """Hold a persistent sibling lock safely on macOS and Linux."""
@@ -548,6 +587,128 @@ def _v2_state_lock_path(session_path: Path) -> Path:
 
 def _v2_request_lock_path(session_path: Path) -> Path:
     return session_path.with_suffix(".v2-request.lock")
+
+
+def _monitor_lock_path(session_path: Path) -> Path:
+    return session_path.with_suffix(".monitor.lock")
+
+
+@contextmanager
+def _monitor_lock(session_path: Path, holder: dict[str, Any]):
+    """Hold the persistent monitor's singleton lock, or report who does.
+
+    Yields the lock file's recorded holder when the lock is already taken, and
+    `None` when this process now owns it.  Two properties come free from the
+    kernel rather than from bookkeeping, and both matter for a process meant
+    to outlive individual turns:
+
+    * idempotency by construction -- a second `just monitor` cannot start, so
+      no PID file, no liveness heuristic and no reaping;
+    * crash recovery by construction -- an `flock` is released when the holder
+      dies, so a monitor killed by `kill -9`, a crash or a laptop shutdown
+      leaves nothing stale behind and the next one simply acquires.
+
+    The lock file doubles as the holder record, written after the lock is
+    won, so `--status` and `--stop` read it without a second file to keep in
+    step with it.
+    """
+    _destination, relative = _state_relative_path(_monitor_lock_path(session_path))
+    parent_descriptor = _open_state_directory(
+        relative.parts[:-1], create=True,
+    )
+    flags = (
+        os.O_RDWR | os.O_CREAT
+        | getattr(os, "O_NOFOLLOW", 0)
+        | getattr(os, "O_CLOEXEC", 0)
+    )
+    descriptor = -1
+    try:
+        descriptor = os.open(
+            relative.parts[-1], flags, 0o600, dir_fd=parent_descriptor,
+        )
+        metadata = os.fstat(descriptor)
+        if (
+            not stat.S_ISREG(metadata.st_mode)
+            or metadata.st_mode & 0o777 != 0o600
+        ):
+            raise PlayerError("the monitor lock must be a mode-0600 file")
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            yield _read_monitor_holder(descriptor)
+            return
+        try:
+            os.ftruncate(descriptor, 0)
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            os.write(
+                descriptor,
+                json.dumps(holder, sort_keys=True).encode("utf-8"),
+            )
+            os.fsync(descriptor)
+            yield None
+        finally:
+            try:
+                os.ftruncate(descriptor, 0)
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+            except OSError:
+                pass
+    except PlayerError:
+        raise
+    except OSError as exc:
+        raise PlayerError("cannot safely lock the monitor") from exc
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+        os.close(parent_descriptor)
+
+
+def _read_monitor_holder(descriptor: int) -> dict[str, Any]:
+    """Read the running monitor's own record of itself, or an empty one."""
+    try:
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        raw = os.read(descriptor, 4096).decode("utf-8")
+        value = json.loads(raw)
+    except (OSError, UnicodeDecodeError, ValueError):
+        return {}
+    return value if isinstance(value, dict) else {}
+
+
+def _monitor_holder(session_path: Path) -> dict[str, Any] | None:
+    """Report the running monitor, or None when the lock is free.
+
+    Probing is the same non-blocking `flock`: if it can be taken then nobody
+    holds it, which is a stronger answer than any PID file could give.
+    """
+    _destination, relative = _state_relative_path(_monitor_lock_path(session_path))
+    try:
+        parent_descriptor = _open_state_directory(
+            relative.parts[:-1], create=False,
+        )
+    except PlayerError:
+        return None
+    descriptor = -1
+    try:
+        try:
+            descriptor = os.open(
+                relative.parts[-1],
+                os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+                | getattr(os, "O_CLOEXEC", 0),
+                dir_fd=parent_descriptor,
+            )
+        except FileNotFoundError:
+            return None
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_SH | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return _read_monitor_holder(descriptor)
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
+        return None
+    except OSError:
+        return None
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+        os.close(parent_descriptor)
 
 
 def _v2_state_lock(session_path: Path):
@@ -1781,7 +1942,17 @@ def _validate_phase_end_event(
     # stamps which receipt incarnation ended the phase.
     if isinstance(value, dict) and "incarnation" in value:
         fields = fields | {"incarnation"}
+    # Optional-if-present, like `incarnation`: how many batches this seat
+    # submitted in the phase that ended.  `None` means the supervisor was not
+    # watching that phase, which is not the same claim as zero.
+    if isinstance(value, dict) and "orders_submitted" in value:
+        fields = fields | {"orders_submitted"}
     raw = _exact(value, fields, "health last phase end")
+    if raw.get("orders_submitted") is not None and (
+        type(raw["orders_submitted"]) is not int
+        or raw["orders_submitted"] < 0
+    ):
+        raise PlayerError("invalid v2 health last phase end orders_submitted")
     if "incarnation" in raw and (
         type(raw["incarnation"]) is not int or raw["incarnation"] < 0
     ):
@@ -2808,12 +2979,20 @@ V2_PROTOCOL_CARD = (
     "just receipt --batch_id ID | just retry --batch_id ID | just wait",
     "MULTIPLAYER — seats alternate; one phase is open at a time and nothing "
     "shortens another seat's. Health says NOT YOUR TURN and names who holds "
-    "it, for how long, and how long is left. Step 4 still carries the whole "
-    "turn: --await blocks to that seat's own deadline.",
+    "it, for how long, and how long is left.",
+    "WHICH BINDING: if you can hold one command open for up to 10m, step 4 "
+    "(--end --await --brief) is one call per turn and needs nothing else. If "
+    "your harness backgrounds long calls instead, use `just do \"...\" --end` "
+    "and `just monitor --once` in the background — its exit is your wake-up. "
+    "Either way a persistent `just monitor` is the safety net, and starting "
+    "one is expected.",
     "just wait --for-turn                      block until the phase is "
     "yours. exit 0 yours, 75 still theirs (call again), 66 game over",
-    "just monitor                              that loop; one line when it is "
-    "yours, then exit 0. state/phase.json says whose turn it is",
+    "just monitor                              sanctioned read-only watcher: "
+    "announces every turn you are given, and is the only thing that will tell "
+    "you a turn opened and died unplayed. It watches and notifies, it never "
+    "acts — --exec may notify your harness, never issue game commands (that "
+    "is the automated bot the rules forbid). --once blocks, announces, exits.",
     "just use GAME_ID                          rebind this workspace's seat",
     "add --json to any of these for the full wire payload; join bound this "
     "workspace to your seat, so no command takes a session argument",
@@ -9830,19 +10009,31 @@ V2_FOR_TURN_GRACE_S = 15.0
 
 def _wait_value(
     path: Path, session: dict[str, Any], args: argparse.Namespace,
+    *, stateless: bool = False,
 ) -> dict[str, Any]:
     """Block until the seat is wanted again, returning the validated wake.
 
     This is the whole of `just wait` minus its printing, so `turn --end
     --await` blocks on exactly the same contract the standalone command does.
+
+    `stateless` skips the `.v2-state` read entirely.  It is legal only in
+    phase mode, where the baseline is never sent and never checked -- the
+    server answers from this seat's own phase and an opponent's revision
+    cannot wake it.  The monitor uses it so that a process which may be alive
+    for the whole game never takes the state lock a real command needs, and
+    so it is structurally incapable of racing one over the revision cursor.
     """
     if not 0 <= args.wait_s <= V2_WAIT_S_MAX:
         raise PlayerError(f"wait-s must be in [0, {V2_WAIT_S_MAX:g}]")
     if not 0.05 <= args.poll_s <= 30:
         raise PlayerError("poll-s must be in [0.05, 30]")
-    state = _load_v2_client_state(path, session)
-    baseline = state["last_revision"]
     until = getattr(args, "until", "phase")
+    if stateless and until != "phase":
+        raise PlayerError("a stateless wait is phase-mode only")
+    baseline = (
+        None if stateless
+        else _load_v2_client_state(path, session)["last_revision"]
+    )
     if until not in {"phase", "revision"}:
         raise PlayerError("wait --until must be phase or revision")
     if until == "revision" and baseline is None:
@@ -9926,6 +10117,8 @@ def _wait_until_turn(
     for_turn: bool,
     cap_s: float | None = None,
     echo: Callable[[str], None] | None = None,
+    stateless: bool = False,
+    mirror: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """Block until the phase is genuinely this seat's, or its holder's time is up.
 
@@ -9967,11 +10160,15 @@ def _wait_until_turn(
         )
         wait = _wait_value(
             path, session, _wait_args(args, wait_s=tick),
+            stateless=stateless,
         )
         # P3: the marker is written on every tick, not only on the wake, so a
         # watcher reading `state/phase.json` sees a live file rather than one
         # frozen for the whole of somebody else's ten-minute phase.
-        _mirror_health(path, wait["health"], "wait")
+        if mirror is None:
+            _mirror_health(path, wait["health"], "wait")
+        else:
+            mirror(wait["health"])
         first = False
         if wait["wake_reason"] != "timeout" or _phase_is_mine(wait["health"]):
             return wait
@@ -10042,104 +10239,470 @@ def _wait_command_value(
     )
 
 
-def _monitor_line(wait: dict[str, Any]) -> str:
-    """The one line a monitor exists to print, in the one shape it prints it."""
+# ---------------------------------------------------------------------------
+# `just monitor` — the notification component the workspace should have shipped.
+#
+# Two harnesses in one match independently hand-rolled this and both got it
+# wrong: one burned ~10 client calls a turn looping `just wait` against a 120 s
+# cap, the other wired `just wait` into a background monitor configured to
+# escalate on non-zero exit, which `just wait` never produced.  That seat then
+# issued zero orders on nine of thirteen turns and nothing anywhere said so.
+#
+# It is a strictly read-only observer: it never ends a phase, never submits a
+# batch, and never touches `.v2-state`.  Everything it can do is notify.
+# ---------------------------------------------------------------------------
+
+# Transport failure is the monitor's problem, not the agent's.  A laptop sleep
+# kills the long-poll socket; `just wait` raises, and the join card pushes that
+# back on the agent as a harness error to correct.  A component that exists to
+# be left running must absorb it instead, and back off so a genuinely dead
+# service is not hammered.
+V2_MONITOR_BACKOFF_START_S = 1.0
+V2_MONITOR_BACKOFF_MAX_S = 30.0
+# `--exec` reaches a shell.  These are this workspace's own mutating verbs, and
+# a hook that invokes one is an autoplay bot in a single flag, reachable by
+# accident.  Refusing them is deliberately imperfect -- a wrapper script gets
+# past it -- but it converts a silent contract violation into a deliberate
+# bypass, and for a benchmark that difference is the whole point.
+V2_MONITOR_FORBIDDEN_VERBS = ("do", "batch", "turn", "start", "retry")
+V2_MONITOR_MAX_EXIT_CODE = 255
+
+
+def _monitor_announce_line(wait: dict[str, Any]) -> str:
+    """The wake line, in the shape two harnesses already parse.
+
+    Deliberately byte-compatible with the header `just wait` printed before
+    the PvP legibility work, because one harness converged on parsing exactly
+    this and a notification channel is the wrong place to break a parser.  The
+    enrichment from the study's §4 lives on the waiting and missed lines,
+    where nothing was parsing anything.
+    """
+    health = wait["health"]
+    phase = health["phase"]
+    turn = None if phase is None else phase["turn"]
+    header = "T?" if turn is None else f"T{_scalar(turn)}"
+    revision = wait["state_revision"]
+    if revision is not None:
+        header += " " + _revision_label(revision)
+    return (
+        f"{header} | woke {wait['wake_reason']} | {health['game_state']} | "
+        f"{_phase_text(phase)} | next: just turn"
+    )
+
+
+def _monitor_terminal_line(wait: dict[str, Any]) -> str:
     phase = wait["health"].get("phase")
     turn = None if not isinstance(phase, dict) else phase["turn"]
     header = "T?" if turn is None else f"T{_scalar(turn)}"
-    if wait["wake_reason"] == "game_terminal":
-        return f"{header} | GAME OVER | {wait['health']['game_state']}"
-    return f"{header} | YOUR TURN | next: just turn"
+    return (
+        f"{header} | GAME OVER | {wait['health']['game_state']} | "
+        "next: just result"
+    )
+
+
+def _announced_tuple(health: dict[str, Any]) -> list[int] | None:
+    """The `[incarnation, turn, phase]` identity of the phase now open."""
+    phase = health.get("phase")
+    if not isinstance(phase, dict):
+        return None
+    turn, number = phase["turn"], phase["phase"]
+    if not isinstance(turn, int) or not isinstance(number, int):
+        return None
+    event = health.get("last_phase_end")
+    incarnation = 0
+    if isinstance(event, dict) and isinstance(event.get("incarnation"), int):
+        incarnation = event["incarnation"]
+    return [incarnation, turn, number]
+
+
+def _missed_phase(
+    health: dict[str, Any], announced: list[int] | None,
+) -> dict[str, Any] | None:
+    """A phase of this seat's that ended without the monitor announcing it.
+
+    The one thing a monitor can see that nothing else can.  A phase this seat
+    itself ended (`source=agent`) is never a miss however it was noticed --
+    the agent plainly knew about it, and `--await` opening a turn the monitor
+    never announced is normal composition, not an alarm.
+    """
+    event = health.get("last_phase_end")
+    if not isinstance(event, dict) or event["source"] == "agent":
+        return None
+    ended = [
+        event.get("incarnation", 0) or 0, event["turn"], event["phase"],
+    ]
+    if announced is not None and ended <= announced:
+        return None
+    return event
+
+
+def _missed_line(event: dict[str, Any], consecutive: int, since: Any) -> str:
+    """Say that a turn was lost, and after the second one say it louder."""
+    orders = event.get("orders_submitted")
+    if event["source"] == "auto_idle":
+        cause = (
+            f"ended for you after {_scalar(event['elapsed_s'])}s — nothing "
+            "was idle and no decision was pending"
+        )
+    elif orders == 0:
+        cause = (
+            f"was ended by timeout after {_scalar(event['elapsed_s'])}s — "
+            "you issued no orders"
+        )
+    elif isinstance(orders, int) and not isinstance(orders, bool):
+        cause = (
+            f"was ended by timeout after {_scalar(event['elapsed_s'])}s — "
+            f"you issued {orders} order{'' if orders == 1 else 's'} but never "
+            "ended the phase"
+        )
+    else:
+        cause = f"was ended by timeout after {_scalar(event['elapsed_s'])}s"
+    head = (
+        f"T{_scalar(event['turn'])} | MISSED"
+        + (f" ×{consecutive}" if consecutive > 1 else "")
+    )
+    line = (
+        f"{head} | your phase t{_scalar(event['turn'])}"
+        f"/p{_scalar(event['phase'])} opened and {cause}"
+    )
+    if consecutive > 1:
+        line += (
+            " | "
+            + (
+                f"you have not issued an order since t{_scalar(since)}. "
+                if isinstance(since, int) else ""
+            )
+            + "Your monitor is not reaching you — check it now; the game is "
+            "advancing without you."
+        )
+    return line
+
+
+def _monitor_exec_refusal(command: str) -> str:
+    """Name the mutating verb a hook must not invoke, or return empty.
+
+    The workspace contract is that the assigned model chooses every action
+    itself.  `--exec 'just do "u1 fortify" --end'` is a bot in one flag.
+    """
+    for verb in V2_MONITOR_FORBIDDEN_VERBS:
+        if re.search(rf"(?:^|[;&|(\s]){re.escape(verb)}(?:\s|$)", command):
+            return verb
+    return ""
+
+
+def _run_monitor_hook(
+    session_path: Path, command: str, wait: dict[str, Any],
+) -> None:
+    """Run `--exec` for one wake; its failure is reported, never fatal.
+
+    A monitor that died because a hook exited non-zero would lose the turn it
+    was watching for, which is precisely the failure this exists to prevent.
+    Every invocation is logged with its command string: the log is the record
+    that makes a contract violation auditable after the fact.
+    """
+    health = wait["health"]
+    phase = health.get("phase")
+    holder = _holder_seat(phase)
+    timing = phase["timing"] if isinstance(phase, dict) else {}
+    environment = dict(os.environ)
+    environment.update({
+        "FREECIV_GAME_ID": str(health["game_id"]),
+        "FREECIV_TURN": (
+            "" if not isinstance(phase, dict) or phase["turn"] is None
+            else str(phase["turn"])
+        ),
+        "FREECIV_PHASE": (
+            "" if not isinstance(phase, dict) or phase["phase"] is None
+            else str(phase["phase"])
+        ),
+        "FREECIV_YOUR_TURN": "1" if _phase_is_mine(health) else "0",
+        "FREECIV_DEADLINE_S": (
+            "" if timing.get("remaining_s") is None
+            else f"{timing['remaining_s']:g}"
+        ),
+        "FREECIV_HOLDER_LABEL": (
+            "" if holder is None else str(holder.get("controller_label") or "")
+        ),
+    })
+    _monitor_log(session_path, f"exec {command}")
+    try:
+        completed = subprocess.run(command, shell=True, env=environment)
+    except OSError as exc:
+        print(f"monitor: --exec did not run: {exc}", file=sys.stderr)
+        _monitor_log(session_path, f"exec failed to start: {exc}")
+        return
+    if completed.returncode != 0:
+        print(
+            f"monitor: --exec exited {completed.returncode}", file=sys.stderr,
+        )
+        _monitor_log(session_path, f"exec exited {completed.returncode}")
+
+
+def _monitor_log(session_path: Path, line: str) -> None:
+    _mirror(state_mirror.append_monitor_log, _mirror_path(session_path), line)
+
+
+def _monitor_mirror(session_path: Path, announced: Any = None):
+    """The monitor's only write: `state/phase.json`, and nothing else."""
+
+    def write(health: dict[str, Any]) -> None:
+        _mirror(
+            state_mirror.update_phase_marker,
+            _mirror_path(session_path), health, announced=announced,
+        )
+
+    return write
+
+
+def _monitor_status(session_path: Path) -> int:
+    holder = _monitor_holder(session_path)
+    if holder is None:
+        _render(["monitor not running", "next: just monitor"])
+        return V2_WAIT_EXIT_RETRY
+    marker = state_mirror.read_phase_marker(_mirror_path(session_path)) or {}
+    watching = (
+        f"t{_scalar(marker.get('turn'))}/p{_scalar(marker.get('phase'))}"
+        if marker.get("turn") is not None else "no phase yet"
+    )
+    whose = (
+        "your phase is open" if marker.get("active")
+        else f"seat {_scalar((marker.get('holder') or {}).get('place'))} holds it"
+        if marker.get("holder") else "waiting"
+    )
+    _render([
+        f"monitor running (pid {_scalar(holder.get('pid'))}, since "
+        f"{_scalar(holder.get('since'))}, watching {watching} · {whose})",
+    ])
+    return 0
+
+
+def _monitor_stop(session_path: Path) -> int:
+    """Ask the running monitor to exit, and confirm that it did."""
+    holder = _monitor_holder(session_path)
+    if holder is None:
+        _render(["monitor not running"])
+        return 0
+    pid = holder.get("pid")
+    if not isinstance(pid, int) or isinstance(pid, bool) or pid <= 1:
+        raise PlayerError(
+            "the monitor lock does not name a process to stop; if a monitor "
+            "is still running, stop it where it was started"
+        )
+    try:
+        os.kill(pid, signal.SIGTERM)
+    except ProcessLookupError:
+        # The kernel released the flock when it died; nothing to stop.
+        _render(["monitor not running"])
+        return 0
+    except PermissionError as exc:
+        raise PlayerError(
+            f"the monitor (pid {pid}) belongs to another user"
+        ) from exc
+    deadline = time.monotonic() + 5.0
+    while time.monotonic() < deadline:
+        if _monitor_holder(session_path) is None:
+            _render([f"monitor stopped (pid {pid})"])
+            return 0
+        time.sleep(0.1)
+    raise PlayerError(
+        f"the monitor (pid {pid}) did not stop within 5s; it is mid-request "
+        "and will exit at the end of it — re-run `just monitor --stop`"
+    )
 
 
 def command_monitor(args: argparse.Namespace) -> int:
-    """Block until it is this seat's turn, say so once, and get out of the way.
+    """Watch this seat's phase and say, once, every time it opens.
 
-    This is sugar over `wait --for-turn` and nothing else: no daemon, no
-    state, no pidfile, nothing to clean up if it is killed.  Two harness
-    bindings, and the default is the right one for both of the harnesses this
-    was written for -- run it, get one line and exit 0, act, run it again.
-    `--forever` is for a daemon-style loop that wants a line per turn on one
-    long-lived stdout.
+    Two bindings, and the choice between them is mechanical rather than a
+    matter of taste.  `--once` blocks, announces and exits: started in the
+    background by a harness that re-invokes on process exit, it is a wake-up
+    call with no tool timeout over it and no polling loop.  Persistent mode
+    is one long-lived process for a harness, a cron agent or a human that
+    wants a line per turn instead.
 
-    stdout carries exactly the signal: one line per turn it hands over.  The
-    per-tick progress goes to stderr, so `just monitor` is greppable and a
-    ten-minute block is still never a silent one.
+    Neither is required.  `do "…" --end --await --brief` remains one call per
+    turn for any harness that can hold a block, and nothing in the turn loop
+    depends on a monitor being alive -- it is an ergonomic layer over the same
+    bounded wait, and a safety net under `--await` when it is running.
     """
-    forever = bool(getattr(args, "forever", False))
-    if forever and bool(getattr(args, "once", False)):
+    once = bool(getattr(args, "once", False))
+    if once and bool(getattr(args, "forever", False)):
         raise PlayerError(
-            "just monitor --once and --forever are the two bindings; pass one"
+            "just monitor --once and the persistent default are the two "
+            "bindings; pass --once or nothing"
+        )
+    exit_code = int(getattr(args, "exit_code", 0) or 0)
+    if not 0 <= exit_code <= V2_MONITOR_MAX_EXIT_CODE:
+        raise PlayerError(
+            f"--exit-code must be in [0, {V2_MONITOR_MAX_EXIT_CODE}]"
+        )
+    hook = (getattr(args, "exec_command", "") or "").strip()
+    refused = _monitor_exec_refusal(hook) if hook else ""
+    if refused:
+        raise PlayerError(
+            f"just monitor --exec must not run `{refused}`: the monitor "
+            "watches and notifies, it never plays. You choose every action "
+            "yourself; a hook that issues game commands is an automated bot "
+            "and a contract violation. Notify your harness instead and let it "
+            "decide."
         )
     path, session = _v2_session(args.session)
-    hook = (getattr(args, "exec_command", "") or "").strip()
+    if getattr(args, "status", False):
+        return _monitor_status(path)
+    if getattr(args, "stop", False):
+        return _monitor_stop(path)
+    if once:
+        return _monitor_loop(
+            args, path, session, once=True, hook=hook, exit_code=exit_code,
+        )
+    holder: dict[str, Any] = {
+        "pid": os.getpid(),
+        "since": datetime.now().strftime("%H:%M:%S"),
+        "game_id": session["game_id"],
+        "seat_id": session.get("seat_id"),
+    }
+    with _monitor_lock(path, holder) as running:
+        if running is not None:
+            marker = state_mirror.read_phase_marker(_mirror_path(path)) or {}
+            watching = (
+                f"t{_scalar(marker.get('turn'))}/p{_scalar(marker.get('phase'))}"
+                if marker.get("turn") is not None else "no phase yet"
+            )
+            named = marker.get("holder") or {}
+            whose = (
+                "your phase is open" if marker.get("active")
+                else f"seat {_scalar(named.get('place'))} holds it"
+                if named else "waiting"
+            )
+            # Idempotent by construction: starting a second one is not an
+            # error, it is a no-op that reports the first.
+            _render([
+                f"monitor already running (pid {_scalar(running.get('pid'))}, "
+                f"since {_scalar(running.get('since'))}, watching "
+                f"{watching} · {whose})",
+            ])
+            return 0
+        return _monitor_loop(
+            args, path, session, once=False, hook=hook, exit_code=exit_code,
+        )
+
+
+def _monitor_loop(
+    args: argparse.Namespace,
+    path: Path,
+    session: dict[str, Any],
+    *,
+    once: bool,
+    hook: str,
+    exit_code: int,
+) -> int:
+    """The watch itself: absorb transport faults, announce each activation."""
+    json_output = _json_requested(args)
+    mirror_root = _mirror_path(path)
+    marker = state_mirror.read_phase_marker(mirror_root) or {}
+    announced = marker.get("announced")
+    backoff = V2_MONITOR_BACKOFF_START_S
+    misses = 0
+    played_turn: Any = None
     deadline = (
         None if getattr(args, "max_s", None) is None
         else time.monotonic() + float(args.max_s)
     )
     turn_args = _wait_args(args)
+    _monitor_log(path, "monitor started" + (" --once" if once else ""))
     while True:
-        # `--max-s` is a ceiling on the whole monitor, so it is also the
-        # ceiling on the wait inside it: checking it only between iterations
-        # would let one holder's deadline carry the caller well past it.
+        if _seat_rebound(path):
+            # `just use` pointed this workspace at another game. A monitor
+            # must never keep watching a seat the workspace has left.
+            _render(["monitor stopping: this workspace was rebound to "
+                     "another seat"])
+            _monitor_log(path, "stopped: workspace rebound")
+            return exit_code if once else 0
         cap = None if deadline is None else deadline - time.monotonic()
         if cap is not None and cap <= 0:
             print(
                 "monitor: --max-s elapsed and the phase is still not yours",
                 file=sys.stderr,
             )
+            _monitor_log(path, "stopped: --max-s elapsed")
             return V2_WAIT_EXIT_RETRY
-        wait = _wait_until_turn(
-            path, session, turn_args, for_turn=True, cap_s=cap,
-            echo=lambda line: print(line, file=sys.stderr, flush=True),
-        )
-        code = _wait_exit_code(wait)
-        if code == V2_WAIT_EXIT_RETRY:
-            # Their deadline passed and the phase did not move. Nothing to
-            # report and nothing to do but ask again -- which is the whole
-            # job, so it is not an outcome the caller has to handle.
+        try:
+            wait = _wait_until_turn(
+                path, session, turn_args, for_turn=True, cap_s=cap,
+                stateless=True, mirror=_monitor_mirror(path, announced),
+                echo=lambda line: print(line, file=sys.stderr, flush=True),
+            )
+        except (PlayerError, V2ResponseError) as exc:
+            # Absorbed, never raised: a dropped socket is exactly what this
+            # component exists to survive.  Backoff so a service that is
+            # genuinely down is not hammered.
+            print(f"monitor: retrying after {exc}", file=sys.stderr)
+            _monitor_log(path, f"transport error, retrying in {backoff:g}s: {exc}")
+            time.sleep(backoff)
+            backoff = min(backoff * 2, V2_MONITOR_BACKOFF_MAX_S)
             continue
-        if _json_requested(args):
-            _print_v2_json(wait)
-        else:
-            print(_monitor_line(wait), flush=True)
-        if hook:
-            _run_monitor_hook(hook, wait)
-        if code == V2_WAIT_EXIT_TERMINAL or not forever:
-            return code
-
-
-def _run_monitor_hook(command: str, wait: dict[str, Any]) -> None:
-    """Run `--exec` for one wake; its failure is reported, never fatal.
-
-    A monitor that dies because a hook exited non-zero would lose the turn it
-    was watching for, which is precisely the failure this whole surface
-    exists to prevent.
-    """
-    phase = wait["health"].get("phase")
-    environment = dict(os.environ)
-    environment.update({
-        "PLAY_WAKE_REASON": str(wait["wake_reason"]),
-        "PLAY_GAME_STATE": str(wait["health"]["game_state"]),
-        "PLAY_TURN": (
-            "" if not isinstance(phase, dict) or phase["turn"] is None
-            else str(phase["turn"])
-        ),
-        "PLAY_PHASE": (
-            "" if not isinstance(phase, dict) or phase["phase"] is None
-            else str(phase["phase"])
-        ),
-    })
-    try:
-        completed = subprocess.run(command, shell=True, env=environment)
-    except OSError as exc:
-        print(f"monitor: --exec did not run: {exc}", file=sys.stderr)
-        return
-    if completed.returncode != 0:
-        print(
-            f"monitor: --exec exited {completed.returncode}",
-            file=sys.stderr,
+        backoff = V2_MONITOR_BACKOFF_START_S
+        health = wait["health"]
+        missed = _missed_phase(health, announced)
+        if missed is not None:
+            misses += 1
+            line = _missed_line(missed, misses, played_turn)
+            _render([line])
+            _monitor_log(path, line)
+            announced = [
+                missed.get("incarnation", 0) or 0,
+                missed["turn"], missed["phase"],
+            ]
+            _mirror(
+                state_mirror.update_phase_marker, mirror_root, health,
+                announced=announced,
+            )
+        event = health.get("last_phase_end")
+        if isinstance(event, dict) and event["source"] == "agent":
+            played_turn = event["turn"]
+            misses = 0
+        if wait["wake_reason"] == "game_terminal":
+            line = _monitor_terminal_line(wait)
+            _print_v2_json(wait) if json_output else _render([line])
+            _monitor_log(path, line)
+            if hook:
+                _run_monitor_hook(path, hook, wait)
+            return V2_WAIT_EXIT_TERMINAL
+        if not _phase_is_mine(health):
+            # Their deadline passed and the phase did not move: nothing to
+            # announce and nothing to do but ask again, which is the job.
+            continue
+        current = _announced_tuple(health)
+        if current is not None and current == announced and not once:
+            # A persistent monitor restarted mid-phase must not re-announce
+            # the turn the one before it already announced.  `--once` is
+            # exempt: it is a bounded question from a caller that wants an
+            # answer now, and staying silent would hang a wake-up call
+            # forever on a phase that is already open.  That is also what
+            # lets the two bindings run side by side.
+            continue
+        announced = current
+        line = _monitor_announce_line(wait)
+        _print_v2_json(wait) if json_output else _render([line])
+        _monitor_log(path, line)
+        _mirror(
+            state_mirror.update_phase_marker, mirror_root, health,
+            announced=announced,
         )
+        if hook:
+            _run_monitor_hook(path, hook, wait)
+        if once:
+            return exit_code
+
+
+def _seat_rebound(session_path: Path) -> bool:
+    """Whether `just use` has pointed this workspace at a different seat."""
+    try:
+        current, _session = _load_session("")
+    except PlayerError:
+        return False
+    return current.resolve() != session_path.resolve()
+
 
 
 def command_wait(args: argparse.Namespace) -> int:
@@ -11261,10 +11824,14 @@ def parser() -> argparse.ArgumentParser:
     monitor = commands.add_parser(
         "monitor",
         description=(
-            "Loop `wait --for-turn` and print one line the moment the phase "
-            "is yours. Exits 0 on that line (or 66 when the game ends), so a "
-            "harness can bind it either way: run it, act, run it again; or "
-            "run it once with --forever and read one line per turn."
+            "Watch this seat's phase and announce every time it opens. A "
+            "read-only observer: it never ends a phase, submits a batch or "
+            "touches cached state. Bare `just monitor` is persistent (one "
+            "process for the game, singleton by lock); --once blocks, "
+            "announces and exits, which is the binding for a harness that "
+            "re-invokes when a background command finishes. It also raises "
+            "the alarm no other command can: a phase of yours that opened "
+            "and was ended by timeout while nothing reached you."
         ),
     )
     monitor.add_argument("--session", default="")
@@ -11272,15 +11839,34 @@ def parser() -> argparse.ArgumentParser:
     monitor.add_argument("--poll-s", type=float, default=1)
     monitor.add_argument(
         "--once", action="store_true",
-        help="print one line and exit (the default; accepted for symmetry)",
+        help=(
+            "block until your phase opens, announce it, and exit; takes no "
+            "lock, so any number may run alongside a persistent monitor"
+        ),
     )
     monitor.add_argument(
-        "--forever", action="store_true",
-        help="keep looping, one line per turn, until the game is terminal",
+        "--stop", action="store_true",
+        help="ask the persistent monitor to exit",
+    )
+    monitor.add_argument(
+        "--status", action="store_true",
+        help="report whether a monitor is running, since when, and on what",
     )
     monitor.add_argument(
         "--exec", dest="exec_command", default="",
-        help="run this shell command on every wake, before looping on",
+        help=(
+            "run this shell command on every announcement, with "
+            "FREECIV_GAME_ID/TURN/PHASE/YOUR_TURN/DEADLINE_S/HOLDER_LABEL in "
+            "its environment. It may notify your harness; it may never issue "
+            "game commands"
+        ),
+    )
+    monitor.add_argument(
+        "--exit-code", dest="exit_code", type=int, default=0,
+        help=(
+            "exit with this status on an announcement (default 0), for a "
+            "harness that only escalates on a particular status"
+        ),
     )
     monitor.add_argument(
         "--max-s", dest="max_s", type=float,
@@ -11289,7 +11875,7 @@ def parser() -> argparse.ArgumentParser:
     # The escape hatch every text command carries: one wake object per line,
     # byte-identical to what `just wait --json` prints for the same wake.
     json_escape_hatch(monitor)
-    monitor.set_defaults(handler=command_monitor)
+    monitor.set_defaults(handler=command_monitor, forever=False)
 
     result = commands.add_parser("result")
     result.add_argument("game_id_positional", nargs="?")

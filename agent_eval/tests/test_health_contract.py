@@ -392,6 +392,55 @@ class MultiplayerHealthContractTests(unittest.TestCase):
             client._wait_exit_code(wake), client.V2_WAIT_EXIT_ACTIVE,
         )
 
+    def test_your_own_order_count_passes_the_play_validator(self):
+        """The sixth additive health field, and the one an alarm depends on.
+
+        `last_phase_end.orders_submitted` is what lets the monitor say "your
+        phase opened and died with no orders in it" as a fact rather than an
+        inference from `source=timeout`.
+        """
+        client = _load_play_client()
+        _created, game, joined = self.pvp_game()
+        self.end_seat_one_phase(game, joined)
+        cleaned = self._validate(game, joined[0])
+        event = cleaned["last_phase_end"]
+        self.assertIsNotNone(event)
+        self.assertEqual(event["orders_submitted"], 1)
+        # And a payload from a supervisor that predates the field still
+        # validates, which is the drift that broke this repo four times.
+        payload = game.v2_health(joined[0]["agent_id"])
+        payload["last_phase_end"] = {
+            key: value for key, value in payload["last_phase_end"].items()
+            if key != "orders_submitted"
+        }
+        older = client._validate_health(
+            payload, self._session_for(None, game, joined[0]),
+        )
+        self.assertNotIn("orders_submitted", older["last_phase_end"])
+
+    def test_the_missed_turn_alarm_reads_a_real_supervisor_payload(self):
+        """End to end: a real timed-out phase becomes the monitor's alarm."""
+        client = _load_play_client()
+        _created, game, joined = self.pvp_game()
+        game.v2_health(joined[0]["agent_id"])
+        game.v2_phase_event_journal.append({
+            "sequence": 1, "turn": 7, "phase": 1, "place": 1,
+            "seat_id": "place-1", "player_name": "AgentPlace1",
+            "player_color": "#0067A5", "controller_label": "controller-1",
+            "controller_type": "external", "source": "timeout",
+            "receipt_state": "applied", "resolution": "advanced",
+            "deadline_started_at": 1000.0, "ended_at": 1600.0,
+            "elapsed_s": 600.0,
+        })
+        cleaned = self._validate(game, joined[0])
+        missed = client._missed_phase(cleaned, None)
+        self.assertIsNotNone(missed, "an unannounced timeout is a missed turn")
+        self.assertEqual(
+            client._missed_line(missed, 1, None),
+            "T7 | MISSED | your phase t7/p1 opened and was ended by timeout "
+            "after 600s — you issued no orders",
+        )
+
     def test_the_marker_file_is_written_from_a_real_health_payload(self):
         """P3's projection is a renderer over validated health; a supervisor
         field it cannot read would blank a value rather than fail loudly."""
@@ -429,6 +478,7 @@ class MultiplayerHealthContractTests(unittest.TestCase):
         self.assertEqual(set(value), {
             "schema_version", "updated_at", "game_state", "turn", "phase",
             "state", "active", "held_s", "deadline_s_left", "holder",
+            "announced",
         })
         self.assertEqual(client.V2_SHOW_FILES["phase"], ("state", "phase.json"))
 

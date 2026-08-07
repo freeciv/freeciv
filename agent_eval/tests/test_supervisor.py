@@ -1345,6 +1345,19 @@ class FakeSidecar:
         self.callback(self.generation, self.public_health())
 
 
+def _journal_fields(event):
+    """The durable phase-event record inside a health projection of it.
+
+    `v2_health` adds `orders_submitted` -- bookkeeping about the phase, not a
+    field of the journal -- so a test comparing health against the journal
+    strips it rather than pretending the two are the same object.
+    """
+    return {
+        key: value for key, value in event.items()
+        if key != "orders_submitted"
+    }
+
+
 class FakeSidecarFactory:
     def __init__(self):
         self.created = []
@@ -2793,7 +2806,10 @@ class SupervisorTests(unittest.TestCase):
         game._terminalize_v2_phase_locked("completed")
         self.assertEqual(len(game.phase_events(0, 100)["phase_events"]), 1)
         health = game.v2_health(joined["agent_id"])
-        self.assertEqual(health["last_phase_end"], event)
+        # Health projects the journal record and adds this seat's own order
+        # count for the phase; the durable record itself gains nothing.
+        self.assertEqual(_journal_fields(health["last_phase_end"]), event)
+        self.assertIn("orders_submitted", health["last_phase_end"])
         self.assertNotIn("agent_id", json.dumps(event))
 
     def test_v2_phase_event_waits_for_terminal_receipt_after_advance_race(self):
@@ -2991,7 +3007,9 @@ class SupervisorTests(unittest.TestCase):
         timeout_event = game.phase_events(0, 100)["phase_events"][0]
         self.assertEqual(timeout_event["source"], "timeout")
         self.assertEqual(
-            game.v2_health(joined[0]["agent_id"])["last_phase_end"],
+            _journal_fields(
+                game.v2_health(joined[0]["agent_id"])["last_phase_end"],
+            ),
             timeout_event,
         )
 
@@ -3021,8 +3039,12 @@ class SupervisorTests(unittest.TestCase):
             }))
         first_health = game.v2_health(joined[0]["agent_id"])
         second_health = game.v2_health(joined[1]["agent_id"])
-        self.assertEqual(first_health["last_phase_end"], events[0])
-        self.assertEqual(second_health["last_phase_end"], events[1])
+        self.assertEqual(
+            _journal_fields(first_health["last_phase_end"]), events[0],
+        )
+        self.assertEqual(
+            _journal_fields(second_health["last_phase_end"]), events[1],
+        )
         self.assertNotEqual(
             first_health["last_phase_end"]["place"],
             second_health["last_phase_end"]["place"],
@@ -11733,6 +11755,39 @@ class V2PvPWaitSurfaceTests(unittest.TestCase):
         counts = game.v2_phase_order_counts[joined[0]["place"]]
         self.assertEqual(len(counts), V2_PHASE_ORDER_HISTORY)
         self.assertEqual(max(counts), (11, 0))
+
+    def test_your_own_last_phase_end_carries_your_order_count(self):
+        """The monitor's missed-turn alarm needs this to be a fact.
+
+        `source=timeout` alone cannot tell "thought for ten minutes" from
+        "was not there"; without the count the alarm would be an inference.
+        """
+        _created, game, joined = self.pvp_game()
+        self.end_seat_one_phase(game, joined)
+        own = game.v2_health(joined[0]["agent_id"])["last_phase_end"]
+        self.assertEqual((own["turn"], own["phase"]), (7, 1))
+        self.assertEqual(own["source"], "agent")
+        self.assertEqual(own["orders_submitted"], 1)
+        # It is a projection: the durable journal record never gains it.
+        self.assertNotIn(
+            "orders_submitted",
+            game.v2_phase_event_journal.last_for_place(1),
+        )
+
+    def test_an_unwatched_phase_reports_unknown_on_your_own_end_too(self):
+        _created, game, joined = self.pvp_game()
+        game.v2_health(joined[0]["agent_id"])
+        game.v2_phase_event_journal.append({
+            "sequence": 1, "turn": 2, "phase": 0, "place": 1,
+            "seat_id": "place-1", "player_name": "AgentPlace1",
+            "player_color": "#0067A5", "controller_label": "controller-1",
+            "controller_type": "external", "source": "timeout",
+            "receipt_state": "applied", "resolution": "advanced",
+            "deadline_started_at": 1000.0, "ended_at": 1600.0,
+            "elapsed_s": 600.0,
+        })
+        own = game.v2_health(joined[0]["agent_id"])["last_phase_end"]
+        self.assertIsNone(own["orders_submitted"])
 
     def test_internal_phase_ends_are_never_counted_as_orders(self):
         """A timeout end and an auto-idle end are the supervisor's batches, not

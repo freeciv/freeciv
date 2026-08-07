@@ -117,11 +117,14 @@ from pathlib import Path
 from typing import Any
 
 __all__ = [
+    "append_monitor_log",
     "mirror_dir",
+    "read_phase_marker",
     "render_map_yields",
     "update_from_page",
     "update_from_receipt",
     "update_from_health",
+    "update_phase_marker",
 ]
 
 _MAX_CELL = 64
@@ -148,6 +151,8 @@ _SECTION_TARGETS: dict[str, tuple[str, ...]] = {
 _HEADER_FILE = (_STATE_DIR, "header.txt")
 _PHASE_FILE = (_STATE_DIR, "phase.json")
 _PHASE_SCHEMA_VERSION = 1
+_MONITOR_LOG_FILE = (_STATE_DIR, "monitor.log")
+_MAX_LOG_LINE = 512
 _DELTA_FILE = (_STATE_DIR, "delta.md")
 _OVERVIEW_FILE = (_STATE_DIR, "overview.tsv")
 _MAP_FILE = (_STATE_DIR, "map.txt")
@@ -1509,13 +1514,23 @@ def update_from_receipt(
     return (delta,) if delta is not None else ()
 
 
-def _phase_marker(health: Mapping[str, Any]) -> str:
+def _phase_marker(
+    health: Mapping[str, Any], announced: Any = None,
+) -> str:
     """Render `state/phase.json` from one validated health payload.
 
     Closed shape, closed value types: every field is copied from a payload
     the client already validated, or is `None`.  A watcher may therefore
     branch on `active` without a schema check, and `schema_version` tells it
     when it may not.
+
+    `announced` is the monitor's `[incarnation, turn, phase]` record of the
+    last phase it told anybody about.  It lives here rather than in a file of
+    its own so that a monitor restarted mid-phase can read one file and know
+    it has nothing to say -- process-singleton stops two monitors running, but
+    only this stops a restarted one from re-announcing a turn already
+    announced.  `incarnation` is in the tuple because the supervisor bumps it
+    on a rollback, and a replayed turn is genuinely a new turn.
     """
     phase = _dig(health, "phase")
     timing = phase.get("timing") if isinstance(phase, Mapping) else None
@@ -1552,8 +1567,83 @@ def _phase_marker(health: Mapping[str, Any]) -> str:
             timing.get("remaining_s") if isinstance(timing, Mapping) else None
         ),
         "holder": holder,
+        "announced": _announced(announced),
     }
     return json.dumps(value, sort_keys=True, indent=2)
+
+
+def _announced(value: Any) -> list[int] | None:
+    """Accept only a well-formed [incarnation, turn, phase], else nothing."""
+    if not isinstance(value, (list, tuple)) or len(value) != 3:
+        return None
+    if any(
+        isinstance(item, bool) or not isinstance(item, int) or item < 0
+        for item in value
+    ):
+        return None
+    return [int(item) for item in value]
+
+
+def read_phase_marker(session_dir: Path | str) -> dict[str, Any] | None:
+    """Read `state/phase.json` back, or None when it is absent or unusable.
+
+    A marker this module cannot parse is treated as absent rather than as an
+    error: it is a projection, and a watcher's own bad file must never stop
+    the client that writes it.
+    """
+    text = _read(Path(session_dir), _PHASE_FILE)
+    if text is None:
+        return None
+    try:
+        value = json.loads(text)
+    except (ValueError, TypeError):
+        return None
+    if (
+        not isinstance(value, dict)
+        or value.get("schema_version") != _PHASE_SCHEMA_VERSION
+    ):
+        return None
+    return value
+
+
+def update_phase_marker(
+    session_dir: Path | str,
+    health: Mapping[str, Any],
+    *,
+    announced: Any = None,
+) -> tuple[Path, ...]:
+    """Write `state/phase.json` alone, touching no other projection.
+
+    This is the monitor's write.  It deliberately does *not* rewrite
+    `state/header.txt`: the monitor is a read-only observer that may be
+    running for the whole game, and a long-lived process rewriting the
+    projections a real command owns would be a second writer for no gain.
+    """
+    session_dir = Path(session_dir)
+    if announced is None:
+        current = read_phase_marker(session_dir)
+        announced = current.get("announced") if current is not None else None
+    return (
+        _write(session_dir, _PHASE_FILE, _phase_marker(health, announced)),
+    )
+
+
+def append_monitor_log(session_dir: Path | str, line: str) -> Path:
+    """Append one sanitized line to `state/monitor.log`.
+
+    A backgrounded monitor's stdout is lost to log rotation, to a closed pane,
+    or to the agent's own context being compacted.  This is what lets a
+    harness answer "when did my turns actually open" after the fact -- and it
+    is the record of every `--exec` string this workspace ran.
+    """
+    session_dir = Path(session_dir)
+    stamped = "{} {}".format(
+        time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime()),
+        _CONTROL_RE.sub(" ", str(line))[:_MAX_LOG_LINE],
+    )
+    return _client()._append_private_text(
+        session_dir.joinpath(*_MONITOR_LOG_FILE), stamped + "\n",
+    )
 
 
 def _number(value: Any) -> int | float | None:
@@ -1651,7 +1741,17 @@ def update_from_health(
     lines.append("")
     for entry in (commands if commands is not None else _DEFAULT_COMMAND_CARD):
         lines.append(_CONTROL_RE.sub(" ", str(entry)))
+    # The marker is a read-modify-write like every other file here: the
+    # monitor's `announced` tuple must survive an unrelated `just health`,
+    # or a restarted monitor would re-announce a turn already announced.
+    current = read_phase_marker(session_dir)
     return (
         _write(session_dir, _HEADER_FILE, "\n".join(lines)),
-        _write(session_dir, _PHASE_FILE, _phase_marker(health)),
+        _write(
+            session_dir, _PHASE_FILE,
+            _phase_marker(
+                health,
+                current.get("announced") if current is not None else None,
+            ),
+        ),
     )

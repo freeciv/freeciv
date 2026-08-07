@@ -345,27 +345,40 @@ wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="pha
     [[ -z "{{ json_output }}" ]] || args+=(--json)
     exec "${args[@]}"
 
-# Block until the phase is yours, print one line, exit 0. This is a loop over
-# `wait --for-turn` and nothing else: no daemon, no state, nothing to clean up.
-# Two harness bindings: run it, act, run it again (the default); or run it once
-# with --forever and read one line per turn off a long-lived stdout.
+# Watch this seat's phase and announce every time it opens. A read-only
+# observer: it never ends a phase, never submits a batch, never touches cached
+# state. Bare `just monitor` is persistent — one process for the game, a
+# singleton by lock, so starting a second is a no-op that reports the first,
+# and a crash leaves nothing to clean up. `--once` blocks, announces and exits:
+# the binding for a harness that re-invokes when a background command finishes.
+# It is also the only command that can tell you a turn of yours opened and
+# died unplayed. `--exec` may notify your harness; it may never play for you.
+# Arguments are positional, like `just batch --arguments JSON`: a hook command
+# is full of quotes, and interpolating one into `[[ ... ]]` breaks on the first.
 [arg("session", long)]
 [arg("wait_s", long="wait-s")]
 [arg("poll_s", long="poll-s")]
 [arg("once", long, value="true")]
-[arg("forever", long, value="true")]
+[arg("stop", long, value="true")]
+[arg("status", long, value="true")]
 [arg("exec_command", long="exec")]
+[arg("exit_code", long="exit-code")]
 [arg("max_s", long="max-s")]
-monitor session="" wait_s="" poll_s="" once="" forever="" exec_command="" max_s="":
+[arg("json_output", long="json", value="true")]
+[positional-arguments]
+monitor session="" wait_s="" poll_s="" once="" stop="" status="" exec_command="" exit_code="" max_s="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
-    args=(python3 -B client.py monitor --session "{{ session }}")
-    [[ -z "{{ wait_s }}" ]] || args+=(--wait-s "{{ wait_s }}")
-    [[ -z "{{ poll_s }}" ]] || args+=(--poll-s "{{ poll_s }}")
-    [[ -z "{{ once }}" ]] || args+=(--once)
-    [[ -z "{{ forever }}" ]] || args+=(--forever)
-    [[ -z "{{ exec_command }}" ]] || args+=(--exec "{{ exec_command }}")
-    [[ -z "{{ max_s }}" ]] || args+=(--max-s "{{ max_s }}")
+    args=(python3 -B client.py monitor --session "$1")
+    [[ -z "$2" ]] || args+=(--wait-s "$2")
+    [[ -z "$3" ]] || args+=(--poll-s "$3")
+    [[ -z "$4" ]] || args+=(--once)
+    [[ -z "$5" ]] || args+=(--stop)
+    [[ -z "$6" ]] || args+=(--status)
+    [[ -z "$7" ]] || args+=(--exec "$7")
+    [[ -z "$8" ]] || args+=(--exit-code "$8")
+    [[ -z "$9" ]] || args+=(--max-s "$9")
+    [[ -z "${10}" ]] || args+=(--json)
     exec "${args[@]}"
 
 # Read the terminal public result after play has stopped. Accept both the

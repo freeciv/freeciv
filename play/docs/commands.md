@@ -903,28 +903,103 @@ so it stays resumable, refreshes `state/phase.json` as it goes, and prints one
 silent for ten minutes. `--max SECONDS` caps the whole wait; `wait_s` is
 bounded to `[0, 615]` on both sides of the wire.
 
-### `just monitor [--forever] [--exec 'CMD'] [--max-s SECONDS]`
+### `just monitor`
 
-A loop over `wait --for-turn` and nothing else — no daemon, no state file,
-nothing to clean up if it is killed. It blocks until the phase is this seat's,
-prints exactly one line on stdout, and exits `0`:
+The notification component. Two harnesses in the match this came from each
+hand-rolled one and each got it wrong — one burned ten calls a turn looping
+`just wait`, the other wired it to a background monitor that escalated on
+non-zero exit, which `just wait` never produced. It is a strictly **read-only
+observer**: it never ends a phase, never submits a batch, and never touches
+cached state.
+
+```sh
+just monitor            # persistent: announce every activation, for the game
+just monitor --once     # block until your phase opens, announce, exit
+just monitor --stop     # release the persistent monitor
+just monitor --status   # is one running, since when, watching what
+```
+
+**`--once`** is the binding for a harness that re-invokes when a background
+command exits: started in the background it is a wake-up call with no tool
+timeout over it and no polling loop. It takes no lock, so any number may run
+alongside a persistent monitor, and it always answers — even on a phase
+another monitor already announced, because a wake-up call that stayed silent
+would hang forever.
+
+**Persistent** mode is one long-lived process for a cron agent, a job monitor
+or a human watching a pane. It is a singleton by `flock`, so starting a second
+is a no-op that reports the first:
 
 ```
-T12 | YOUR TURN | next: just turn
+monitor already running (pid 41207, since 16:21:04, watching t12/p0 · seat 1 holds it)
 ```
 
-Two harness bindings, both supported:
+That also means crash recovery is free — the kernel releases the lock when the
+holder dies, so a `kill -9`, a crash or a shutdown leaves nothing stale and the
+next `just monitor` simply acquires. Nothing reaps, and there is no PID file.
 
-* **Default (`--once`).** Run it, get one line, exit `0`, take the turn, run
-  it again. This is the right binding for a harness that re-invokes on
-  background-job completion, and for `until just monitor; do :; done`.
-* **`--forever`.** Keep looping and print one line per turn on a long-lived
-  stdout, for a daemon-style harness that tails it.
+#### Four channels, on every activation
 
-`--exec 'CMD'` runs a shell hook on every wake with `PLAY_TURN`, `PLAY_PHASE`,
-`PLAY_WAKE_REASON` and `PLAY_GAME_STATE` in its environment; a hook that fails
-is reported on stderr and never stops the monitor. Exit `66` means the game
-ended. Per-tick progress goes to stderr, so stdout carries only the signal.
+1. **One line on stdout**, in the shape harnesses already parse:
+   ```
+   T12 | woke phase_active | running | phase awaiting_agent t12/p1 active 600s left | next: just turn
+   ```
+   This line is deliberately *not* the enriched PvP rendering `just wait` uses;
+   a notification channel is the wrong place to break a parser.
+2. **`state/phase.json`**, atomically rewritten (below). The monitor writes
+   this file and nothing else.
+3. **`--exec 'CMD'`**, a shell hook with `FREECIV_GAME_ID`, `FREECIV_TURN`,
+   `FREECIV_PHASE`, `FREECIV_YOUR_TURN`, `FREECIV_DEADLINE_S` and
+   `FREECIV_HOLDER_LABEL` in its environment. A hook that fails is reported on
+   stderr and never stops the monitor.
+4. **`state/monitor.log`**, append-only. A backgrounded monitor's stdout is
+   lost to log rotation or to a compacted context; this is what answers "when
+   did my turns actually open" after the fact. Every `--exec` string and every
+   invocation is recorded in it.
+
+#### The missed-turn alarm
+
+This is what the monitor is for. Transport errors are absorbed with capped
+backoff (1 s → 30 s) and never raised — a laptop sleep that kills the long-poll
+is the monitor's problem, not the agent's. On reconnect it compares health's
+last phase end against what it actually announced, and says so when a turn
+opened and died unseen:
+
+```
+T5 | MISSED | your phase t5/p1 opened and was ended by timeout after 600s — you issued no orders
+```
+
+Two in a row means the notification path itself is broken, and the wording
+escalates:
+
+```
+T7 | MISSED ×2 | your phase t7/p1 opened and was ended by timeout after 600s — you issued no orders | you have not issued an order since t3. Your monitor is not reaching you — check it now; the game is advancing without you.
+```
+
+A phase this seat ended itself is never a miss, however it was noticed —
+`--await` opening a turn the monitor never announced is normal composition. A
+turn that *was* announced and then timed out is not a miss either: the alarm
+is "nothing reached you", not "you played badly".
+
+#### Exit codes and the rest
+
+`--exit-code N` (default `0`) sets the status used for an announcement, so a
+harness that only escalates on a particular status can say which. `66` means
+the game ended; `75` means `--max-s` elapsed with the phase still not yours.
+A terminal game and a workspace rebound by `just use` both stop the monitor,
+so one never outlives the game it watches. Per-tick progress goes to stderr,
+leaving stdout as pure signal.
+
+#### What `--exec` may not do
+
+The workspace contract is that the assigned model chooses every action itself.
+A hook pointed at this workspace's own order-issuing command is an autoplay
+bot in a single flag, reachable by accident, so hooks invoking any of its
+mutating verbs (`do`, `batch`, `turn`, `start`, `retry`) are refused. The
+refusal names the verb, and the check is imperfect
+by design — a wrapper script defeats it — but it turns a silent contract
+violation into a deliberate bypass, and every hook invocation is recorded in
+`state/monitor.log`. **A hook may notify your harness. It may never play.**
 
 ### `state/phase.json`
 

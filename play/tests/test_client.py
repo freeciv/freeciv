@@ -11,6 +11,7 @@ import stat
 import subprocess
 import sys
 import tempfile
+import textwrap
 import threading
 import time
 import unittest
@@ -255,6 +256,14 @@ class PlayerClientTests(unittest.TestCase):
             ("receipt", "--batch_id", "batch_opaque"),
             ("retry", "--batch_id", "batch_opaque"),
             ("wait",),
+            ("wait", "--for-turn"),
+            ("wait", "--for-turn", "--max", "600"),
+            ("monitor",),
+            ("monitor", "--once"),
+            ("monitor", "--once", "--exit-code", "75"),
+            ("monitor", "--status"),
+            ("monitor", "--stop"),
+            ("monitor", "--max-s", "900", "--json"),
             # The P2 fast paths.
             ("turn", "--end", "--await"),
             ("turn", "--end", "--await", "--wait_s", "60", "--poll_s", "2"),
@@ -349,6 +358,31 @@ class PlayerClientTests(unittest.TestCase):
             ).splitlines()
             self.assertEqual(
                 argv[-4:], [orders, "--end", "--await", "--brief"],
+            )
+
+            # A monitor hook is full of quotes by nature, and interpolating
+            # one into the recipe's `[[ ... ]]` guards broke the recipe in
+            # bash before any of it reached the client.
+            hook = 'curl -X POST https://h/x -d "turn=$FREECIV_TURN"'
+            environment["V2_CAPTURE"] = str(root / "monitor")
+            completed = subprocess.run(
+                (
+                    "just", "monitor", "--once", "--exec", hook,
+                    "--exit-code", "75",
+                ),
+                cwd=client.ROOT, env=environment, check=False,
+                capture_output=True, text=True,
+            )
+            self.assertEqual(
+                completed.returncode, 0,
+                completed.stdout + completed.stderr,
+            )
+            argv = (root / "monitor").read_text(
+                encoding="utf-8",
+            ).splitlines()
+            self.assertEqual(
+                argv[-5:],
+                ["--once", "--exec", hook, "--exit-code", "75"],
             )
 
     def test_v2_turn_restarts_once_and_returns_one_compact_revision(self):
@@ -6082,7 +6116,7 @@ client._remember_receipt(path, state, receipt)
                     session, "phase_active", active=True, revision=woke,
                 )
 
-                def wait(path, current, args):
+                def wait(path, current, args, **options):
                     order.append("wait")
                     return waking
 
@@ -7954,7 +7988,7 @@ client._remember_receipt(path, state, receipt)
                     revision=self.revision(9),
                 )
 
-                def wait(path, current, args):
+                def wait(path, current, args, **options):
                     log.append("wait")
                     return waking
 
@@ -10915,6 +10949,13 @@ client._remember_receipt(path, state, receipt)
         self.assertNotIn(hint, rendered(changeable, None))
 
 
+
+def _monitor_holder_pid(session_path):
+    """The pid recorded by whichever process currently holds the lock."""
+    holder = client._monitor_holder(session_path)
+    return None if holder is None else holder.get("pid")
+
+
 class PvPWaitInteropTests(unittest.TestCase):
     """The multiplayer wait surface, end to end.
 
@@ -10943,7 +10984,7 @@ class PvPWaitInteropTests(unittest.TestCase):
     def health(
         cls, session: dict, *, mine: bool, remaining_s: float = 587.0,
         elapsed_s: float = 13.0, game_state: str = "running",
-        prior_end: dict | None = None,
+        prior_end: dict | None = None, turn: int | None = None,
     ) -> dict:
         value = PlayerClientTests.health(
             session, active=mine, game_state=game_state,
@@ -10951,6 +10992,9 @@ class PvPWaitInteropTests(unittest.TestCase):
         phase = value["phase"]
         if phase is None:
             return value
+        if turn is not None:
+            phase["turn"] = turn
+            value["turns_remaining"] = session["max_turns"] - turn
         phase["state"] = "awaiting_agent"
         phase["timing"] = {
             "mode": "default", "timeout_s": 600.0,
@@ -11296,7 +11340,9 @@ class PvPWaitInteropTests(unittest.TestCase):
             self.assertEqual(set(value), {
                 "schema_version", "updated_at", "game_state", "turn", "phase",
                 "state", "active", "held_s", "deadline_s_left", "holder",
+                "announced",
             })
+            self.assertIsNone(value["announced"])
             self.assertEqual(value["schema_version"], 1)
             self.assertFalse(value["active"])
             self.assertEqual(value["turn"], 3)
@@ -11558,147 +11604,763 @@ class PvPWaitInteropTests(unittest.TestCase):
     def monitor_args(session_path: Path, **overrides):
         values = {
             "session": str(session_path), "wait_s": 120.0, "poll_s": 1.0,
-            "once": False, "forever": False, "exec_command": "",
-            "max_s": None, "json_output": False,
+            "once": False, "stop": False, "status": False,
+            "exec_command": "", "exit_code": 0, "max_s": None,
+            "json_output": False,
         }
         values.update(overrides)
         return argparse.Namespace(**values)
 
-    def test_monitor_prints_one_line_per_turn_and_exits_by_default(self):
-        with self.workspace() as (session_path, session):
-            wakes = [
-                self.wake(session, "timeout", mine=False),
-                self.wake(session, "phase_active", mine=True),
-            ]
-            stdout = io.StringIO()
-            with patch.object(
-                client, "_wait_until_turn", side_effect=wakes,
-            ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
-                code = client.command_monitor(self.monitor_args(session_path))
-            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
-            # A "still theirs" outcome is the monitor's own business: it is
-            # never reported, it is retried.
-            self.assertEqual(
-                stdout.getvalue().splitlines(),
-                ["T3 | YOUR TURN | next: just turn"],
-            )
+    def scripted_monitor(self, wakes):
+        """Feed `_monitor_loop` a fixed sequence of wakes, then stop it.
 
-    def test_monitor_forever_keeps_going_until_the_game_is_terminal(self):
+        The loop is unbounded by design, so the script ends with a terminal
+        wake; a test that runs out of wakes fails loudly instead of hanging.
+        """
+        remaining = list(wakes)
+
+        def blocked(_path, _session, _args, **_options):
+            if not remaining:
+                raise AssertionError("the monitor asked for one wake too many")
+            value = remaining.pop(0)
+            if isinstance(value, Exception):
+                raise value
+            return value
+
+        return patch.object(client, "_wait_until_turn", side_effect=blocked)
+
+    def test_monitor_once_announces_the_open_phase_and_exits(self):
         with self.workspace() as (session_path, session):
-            wakes = [
+            with self.scripted_monitor([
                 self.wake(session, "phase_active", mine=True),
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
+                code = client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertEqual(code, 0)
+            self.assertEqual(len(stdout.getvalue().splitlines()), 1)
+
+    def test_the_announce_line_keeps_the_shape_harnesses_already_parse(self):
+        """Two harnesses parse this line; a notifier must not break a parser.
+
+        It is byte-identical to the header `just wait` printed before the PvP
+        legibility work, which redesigned the *waiting* line, not this one.
+        """
+        with self.workspace() as (session_path, session):
+            wake = self.wake(session, "phase_active", mine=True)
+            with self.scripted_monitor([wake]), redirect_stdout(
+                io.StringIO(),
+            ) as stdout, redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            line = stdout.getvalue().splitlines()[0]
+            self.assertEqual(line, (
+                "T3 | woke phase_active | running | "
+                "phase awaiting_agent t3/p1 active 587s left | next: just turn"
+            ))
+            # The legacy shape, reconstructed from the same payload.
+            health = wake["health"]
+            self.assertEqual(line, (
+                f"T{health['phase']['turn']} | woke {wake['wake_reason']} | "
+                f"{health['game_state']} | "
+                f"{client._phase_text(health['phase'])} | next: just turn"
+            ))
+
+    def test_a_still_theirs_wake_is_the_monitors_business_not_the_agents(self):
+        with self.workspace() as (session_path, session):
+            with self.scripted_monitor([
+                self.wake(session, "timeout", mine=False),
                 self.wake(session, "timeout", mine=False),
                 self.wake(session, "phase_active", mine=True),
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
+                code = client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertEqual(code, 0)
+            self.assertEqual(len(stdout.getvalue().splitlines()), 1)
+
+    def test_exit_code_lets_a_harness_declare_how_to_be_told(self):
+        """pi escalates on non-zero exit; guessing which status is not a plan."""
+        with self.workspace() as (session_path, session):
+            with self.scripted_monitor([
+                self.wake(session, "phase_active", mine=True),
+            ]), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                code = client.command_monitor(self.monitor_args(
+                    session_path, once=True, exit_code=75,
+                ))
+            self.assertEqual(code, 75)
+            with self.assertRaisesRegex(client.PlayerError, "--exit-code"):
+                client.command_monitor(self.monitor_args(
+                    session_path, once=True, exit_code=300,
+                ))
+
+    def test_persistent_monitor_announces_every_turn_until_terminal(self):
+        with self.workspace() as (session_path, session):
+            with self.scripted_monitor([
+                self.wake(session, "phase_active", mine=True),
+                self.wake(session, "timeout", mine=False),
+                self.wake(session, "phase_active", mine=True, turn=4),
                 self.wake(
                     session, "game_terminal", mine=False,
                     game_state="completed",
                 ),
-            ]
-            stdout = io.StringIO()
-            with patch.object(
-                client, "_wait_until_turn", side_effect=wakes,
-            ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
                 code = client.command_monitor(
-                    self.monitor_args(session_path, forever=True),
+                    self.monitor_args(session_path),
                 )
             self.assertEqual(code, client.V2_WAIT_EXIT_TERMINAL)
-            self.assertEqual(stdout.getvalue().splitlines(), [
-                "T3 | YOUR TURN | next: just turn",
-                "T3 | YOUR TURN | next: just turn",
-                "T? | GAME OVER | completed",
-            ])
+            lines = stdout.getvalue().splitlines()
+            self.assertEqual(len(lines), 3)
+            self.assertIn("T3 | woke phase_active", lines[0])
+            self.assertIn("T4 | woke phase_active", lines[1])
+            self.assertIn("GAME OVER", lines[2])
 
-    def test_monitor_exec_runs_a_hook_with_the_turn_in_its_environment(self):
+    # ---- idempotency ------------------------------------------------------
+
+    def test_a_second_persistent_monitor_is_a_no_op_that_reports_the_first(self):
+        """Singleton by kernel lock, not by bookkeeping."""
+        with self.workspace() as (session_path, session):
+            holder = {"pid": 41207, "since": "16:21:04", "game_id": "g"}
+            stdout = io.StringIO()
+            with client._monitor_lock(session_path, holder) as first:
+                self.assertIsNone(first, "the first monitor must acquire")
+                # From this process, a second acquire sees the lock held.
+                self.assertEqual(
+                    client._monitor_holder(session_path)["pid"], 41207,
+                )
+                with self.scripted_monitor([]), redirect_stdout(stdout):
+                    code = client.command_monitor(
+                        self.monitor_args(session_path),
+                    )
+            self.assertEqual(code, 0)
+            self.assertIn("monitor already running", stdout.getvalue())
+            self.assertIn("pid 41207", stdout.getvalue())
+            self.assertIn("since 16:21:04", stdout.getvalue())
+
+    def test_the_singleton_holds_against_a_second_process_not_just_a_thread(self):
+        """`flock` is per-open-file-description, so in-process agreement
+        proves nothing about the case that matters: two `just monitor`
+        invocations from a shell."""
+        with self.workspace() as (session_path, _session):
+            holder = textwrap.dedent(f"""
+                import os, sys, time
+                sys.path.insert(0, {str(client.ROOT.parent)!r})
+                sys.path.insert(0, {str(Path(client.__file__).parent)!r})
+                os.environ["PLAY_STATE_DIR"] = ".sessions"
+                import client
+                from pathlib import Path
+                from unittest.mock import patch
+                with patch.object(client, "ROOT", Path({str(client.ROOT)!r})):
+                    with client._monitor_lock(
+                        Path({str(session_path)!r}), {{"pid": os.getpid()}},
+                    ) as running:
+                        print("blocked" if running else "acquired", flush=True)
+                        time.sleep(float(sys.argv[1]))
+            """)
+            first = subprocess.Popen(
+                [sys.executable, "-c", holder, "5"],
+                stdout=subprocess.PIPE, text=True,
+            )
+            try:
+                self.assertEqual(first.stdout.readline().strip(), "acquired")
+                # A second process is refused while the first lives, and can
+                # say who has it.
+                second = subprocess.run(
+                    [sys.executable, "-c", holder, "0"],
+                    capture_output=True, text=True, timeout=30,
+                )
+                self.assertEqual(second.stdout.strip(), "blocked", second.stderr)
+                self.assertEqual(
+                    _monitor_holder_pid(session_path), first.pid,
+                )
+            finally:
+                first.terminate()
+                first.wait(timeout=30)
+                first.stdout.close()
+            # The kernel released it when the holder died: nothing to reap.
+            self.assertIsNone(client._monitor_holder(session_path))
+            third = subprocess.run(
+                [sys.executable, "-c", holder, "0"],
+                capture_output=True, text=True, timeout=30,
+            )
+            self.assertEqual(third.stdout.strip(), "acquired", third.stderr)
+
+    def test_a_released_lock_leaves_nothing_for_the_next_monitor_to_reap(self):
+        """Crash recovery is the kernel's job, so there is no stale state."""
+        with self.workspace() as (session_path, _session):
+            with client._monitor_lock(session_path, {"pid": 1234}):
+                self.assertIsNotNone(client._monitor_holder(session_path))
+            self.assertIsNone(client._monitor_holder(session_path))
+            self.assertEqual(
+                stat.S_IMODE(
+                    client._monitor_lock_path(session_path).stat().st_mode,
+                ),
+                0o600,
+            )
+
+    def test_once_takes_no_lock_so_the_two_bindings_compose(self):
+        with self.workspace() as (session_path, session):
+            with client._monitor_lock(session_path, {"pid": 4242}):
+                with self.scripted_monitor([
+                    self.wake(session, "phase_active", mine=True),
+                ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                    io.StringIO(),
+                ):
+                    code = client.command_monitor(
+                        self.monitor_args(session_path, once=True),
+                    )
+            self.assertEqual(code, 0)
+            self.assertNotIn("already running", stdout.getvalue())
+
+    def test_a_restarted_persistent_monitor_does_not_repeat_a_turn(self):
+        """Process-singleton is not enough; the announcement must dedupe too."""
+        with self.workspace() as (session_path, session):
+            open_phase = self.wake(session, "phase_active", mine=True)
+            with self.scripted_monitor([
+                open_phase,
+                self.wake(
+                    session, "game_terminal", mine=False,
+                    game_state="completed",
+                ),
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
+                client.command_monitor(self.monitor_args(session_path))
+            self.assertIn("T3 | woke phase_active", stdout.getvalue())
+            marker = state_mirror.read_phase_marker(
+                client._mirror_path(session_path),
+            )
+            self.assertEqual(marker["announced"], [0, 3, 1])
+            # Restarted onto the same still-open phase, it says nothing about
+            # it and waits for the next one.
+            with self.scripted_monitor([
+                open_phase,
+                self.wake(
+                    session, "game_terminal", mine=False,
+                    game_state="completed",
+                ),
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
+                client.command_monitor(self.monitor_args(session_path))
+            self.assertNotIn("woke phase_active", stdout.getvalue())
+            self.assertIn("GAME OVER", stdout.getvalue())
+
+    def test_once_always_answers_even_on_an_already_announced_phase(self):
+        """A wake-up call that stayed silent would hang the harness for ever."""
+        with self.workspace() as (session_path, session):
+            wake = self.wake(session, "phase_active", mine=True)
+            state_mirror.update_phase_marker(
+                client._mirror_path(session_path), wake["health"],
+                announced=[0, 3, 1],
+            )
+            with self.scripted_monitor([wake]), redirect_stdout(
+                io.StringIO(),
+            ) as stdout, redirect_stderr(io.StringIO()):
+                code = client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertEqual(code, 0)
+            self.assertIn("woke phase_active", stdout.getvalue())
+
+    def test_an_unrelated_command_never_clears_the_announced_tuple(self):
+        """`just health` must not make a restarted monitor repeat itself."""
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            health = self.health(session, mine=True)
+            state_mirror.update_phase_marker(
+                mirror, health, announced=[0, 3, 1],
+            )
+            state_mirror.update_from_health(mirror, "health", health)
+            self.assertEqual(
+                state_mirror.read_phase_marker(mirror)["announced"], [0, 3, 1],
+            )
+
+    def test_a_rollback_replays_the_turn_and_is_announced_again(self):
+        """The incarnation is in the tuple because a replayed turn is new."""
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            state_mirror.update_phase_marker(
+                mirror, self.health(session, mine=True), announced=[0, 3, 1],
+            )
+            replayed = self.wake(session, "phase_active", mine=True)
+            replayed["health"]["last_phase_end"] = self.own_end(
+                incarnation=1, turn=2, phase=1, source="agent",
+            )
+            with self.scripted_monitor([replayed]), redirect_stdout(
+                io.StringIO(),
+            ) as stdout, redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertIn("woke phase_active", stdout.getvalue())
+            self.assertEqual(
+                state_mirror.read_phase_marker(mirror)["announced"],
+                [1, 3, 1],
+            )
+
+    # ---- the missed-turn alarm --------------------------------------------
+
+    @staticmethod
+    def own_end(
+        *, incarnation=0, turn=3, phase=1, source="timeout",
+        orders=0, elapsed_s=600.0,
+    ):
+        return {
+            "sequence": 4, "incarnation": incarnation, "turn": turn,
+            "phase": phase, "place": 1, "seat_id": "place-1",
+            "player_name": "AgentPlace1", "player_color": "#0067A5",
+            "controller_label": "codex-test-model",
+            "controller_type": "external", "source": source,
+            "receipt_state": "applied", "resolution": "advanced",
+            "deadline_started_at": 1000.0, "ended_at": 1600.0,
+            "elapsed_s": elapsed_s, "orders_submitted": orders,
+        }
+
+    def test_a_turn_that_opened_and_died_unplayed_raises_the_alarm(self):
+        """The exact failure this whole surface exists for.
+
+        A machine that slept through a phase gets told so; nothing else in
+        the workspace is positioned to notice.
+        """
+        with self.workspace() as (session_path, session):
+            missed = self.wake(session, "phase_active", mine=True, turn=6)
+            missed["health"]["last_phase_end"] = self.own_end(
+                turn=5, phase=1, source="timeout", orders=0,
+            )
+            with self.scripted_monitor([missed]), redirect_stdout(
+                io.StringIO(),
+            ) as stdout, redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            lines = stdout.getvalue().splitlines()
+            self.assertEqual(lines[0], (
+                "T5 | MISSED | your phase t5/p1 opened and was ended by "
+                "timeout after 600s — you issued no orders"
+            ))
+            # The alarm never swallows the announcement of the open phase.
+            self.assertIn("T6 | woke phase_active", lines[1])
+
+    def test_a_second_consecutive_miss_escalates_its_wording(self):
+        """Two phases lost in a row means the notification path itself is
+        broken, and the wording stops being a note and becomes an alarm."""
+        with self.workspace() as (session_path, session):
+            def reconnect(open_turn, ended_turn, source="timeout"):
+                wake = self.wake(
+                    session, "phase_active", mine=True, turn=open_turn,
+                )
+                wake["health"]["last_phase_end"] = self.own_end(
+                    turn=ended_turn, phase=1, source=source,
+                    orders=4 if source == "agent" else 0,
+                )
+                return wake
+
+            with self.scripted_monitor([
+                # A turn this seat played itself: no alarm, and it is the
+                # last turn we can honestly say an order was issued on.
+                reconnect(4, 3, source="agent"),
+                # Slept through t5 entirely; woke into t6.
+                reconnect(6, 5),
+                # Slept again: t7 opened and died without ever being seen.
+                reconnect(8, 7),
+                self.wake(
+                    session, "game_terminal", mine=False,
+                    game_state="completed",
+                ),
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
+                client.command_monitor(self.monitor_args(session_path))
+            text = stdout.getvalue()
+            self.assertIn("T5 | MISSED | your phase t5/p1", text)
+            self.assertNotIn("MISSED ×2 | your phase t5", text)
+            self.assertIn("T7 | MISSED ×2 | your phase t7/p1", text)
+            self.assertIn("you have not issued an order since t3.", text)
+            self.assertIn(
+                "Your monitor is not reaching you — check it now; the game "
+                "is advancing without you.",
+                text,
+            )
+
+    def test_a_turn_the_agent_was_told_about_and_ignored_is_not_a_miss(self):
+        """The alarm is "nothing reached you", not "you played badly"."""
+        with self.workspace() as (session_path, session):
+            open_phase = self.wake(session, "phase_active", mine=True, turn=6)
+            ignored = self.wake(session, "phase_active", mine=True, turn=7)
+            ignored["health"]["last_phase_end"] = self.own_end(
+                turn=6, phase=1, source="timeout", orders=0,
+            )
+            with self.scripted_monitor([
+                open_phase, ignored,
+                self.wake(
+                    session, "game_terminal", mine=False,
+                    game_state="completed",
+                ),
+            ]), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ):
+                client.command_monitor(self.monitor_args(session_path))
+            self.assertNotIn("MISSED", stdout.getvalue())
+
+    def test_a_phase_this_seat_ended_itself_is_never_a_missed_turn(self):
+        """`--await` opening a turn the monitor never announced is normal."""
+        with self.workspace() as (session_path, session):
+            played = self.wake(session, "phase_active", mine=True, turn=6)
+            played["health"]["last_phase_end"] = self.own_end(
+                turn=5, phase=1, source="agent", orders=4, elapsed_s=32.0,
+            )
+            with self.scripted_monitor([played]), redirect_stdout(
+                io.StringIO(),
+            ) as stdout, redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertNotIn("MISSED", stdout.getvalue())
+
+    def test_orders_issued_without_a_phase_end_are_reported_as_such(self):
+        with self.workspace() as (_session_path, _session):
+            line = client._missed_line(
+                self.own_end(turn=5, source="timeout", orders=3), 1, None,
+            )
+            self.assertIn(
+                "you issued 3 orders but never ended the phase", line,
+            )
+            unknown = client._missed_line(
+                {**self.own_end(turn=5), "orders_submitted": None}, 1, None,
+            )
+            self.assertIn("was ended by timeout after 600s", unknown)
+            self.assertNotIn("no orders", unknown)
+
+    # ---- transport faults are absorbed, never raised ----------------------
+
+    def test_a_dropped_socket_is_retried_with_backoff_not_raised(self):
+        """A laptop sleep is what a left-running monitor exists to survive."""
+        with self.workspace() as (session_path, session):
+            slept: list[float] = []
+            with self.scripted_monitor([
+                client.PlayerError("connection reset"),
+                client.PlayerError("connection reset"),
+                self.wake(session, "phase_active", mine=True),
+            ]), patch.object(
+                client.time, "sleep", side_effect=slept.append,
+            ), redirect_stdout(io.StringIO()) as stdout, redirect_stderr(
+                io.StringIO(),
+            ) as stderr:
+                code = client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertEqual(code, 0)
+            self.assertEqual(slept, [
+                client.V2_MONITOR_BACKOFF_START_S,
+                client.V2_MONITOR_BACKOFF_START_S * 2,
+            ])
+            self.assertIn("retrying after connection reset", stderr.getvalue())
+            self.assertIn("woke phase_active", stdout.getvalue())
+
+    def test_the_backoff_is_capped_so_a_dead_service_is_not_hammered(self):
+        with self.workspace() as (session_path, session):
+            slept: list[float] = []
+            faults = [client.PlayerError("down")] * 8
+            with self.scripted_monitor([
+                *faults, self.wake(session, "phase_active", mine=True),
+            ]), patch.object(
+                client.time, "sleep", side_effect=slept.append,
+            ), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertEqual(max(slept), client.V2_MONITOR_BACKOFF_MAX_S)
+            self.assertEqual(slept[-1], client.V2_MONITOR_BACKOFF_MAX_S)
+
+    def test_a_rebound_workspace_stops_the_monitor(self):
+        """A monitor must never watch a game the workspace has left."""
+        with self.workspace() as (session_path, session):
+            other = session_path.with_name("other-seat.json")
+            # `just use` rewrote the binding under a monitor already watching
+            # the seat it resolved at startup.
+            with patch.object(
+                client, "_load_session", return_value=(other, session),
+            ), self.scripted_monitor([]), redirect_stdout(
+                io.StringIO(),
+            ) as stdout:
+                code = client._monitor_loop(
+                    self.monitor_args(session_path), session_path, session,
+                    once=True, hook="", exit_code=0,
+                )
+            self.assertEqual(code, 0)
+            self.assertIn("rebound to another seat", stdout.getvalue())
+
+    # ---- the four channels ------------------------------------------------
+
+    def test_every_announcement_reaches_the_marker_and_the_log(self):
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            with self.scripted_monitor([
+                self.wake(session, "phase_active", mine=True),
+            ]), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            marker = state_mirror.read_phase_marker(mirror)
+            self.assertTrue(marker["active"])
+            self.assertEqual(marker["announced"], [0, 3, 1])
+            log = (mirror / "state" / "monitor.log").read_text(
+                encoding="utf-8",
+            )
+            self.assertIn("monitor started --once", log)
+            self.assertIn("woke phase_active", log)
+            # Append-only: a second run adds to it rather than replacing it.
+            with self.scripted_monitor([
+                self.wake(session, "game_terminal", mine=False,
+                          game_state="completed"),
+            ]), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            grown = (mirror / "state" / "monitor.log").read_text(
+                encoding="utf-8",
+            )
+            self.assertTrue(grown.startswith(log), grown)
+            self.assertIn("GAME OVER", grown)
+
+    def test_the_monitor_writes_the_marker_and_nothing_else(self):
+        """A process alive for the whole game is not a second writer of the
+        projections a real command owns."""
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            with self.scripted_monitor([
+                self.wake(session, "phase_active", mine=True),
+            ]), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            self.assertEqual(
+                sorted(item.name for item in (mirror / "state").iterdir()),
+                ["monitor.log", "phase.json"],
+            )
+
+    def test_the_monitor_never_reads_or_writes_the_revision_cursor(self):
+        """Staying in phase mode is what makes it incapable of racing."""
+        with self.workspace() as (session_path, session):
+            with patch.object(
+                client, "_v2_response",
+                return_value=client.JSONResponse(
+                    200, self.wake(session, "phase_active", mine=True),
+                ),
+            ) as request, patch.object(
+                client, "_load_v2_client_state",
+            ) as cached, redirect_stdout(io.StringIO()), redirect_stderr(
+                io.StringIO(),
+            ):
+                client.command_monitor(
+                    self.monitor_args(session_path, once=True),
+                )
+            cached.assert_not_called()
+            self.assertIn("until=phase", request.call_args.args[1])
+            self.assertNotIn("after_state_token", request.call_args.args[1])
+            self.assertFalse(
+                client._v2_state_path(session_path).exists(),
+            )
+
+    def test_a_stateless_wait_is_refused_outside_phase_mode(self):
+        with self.workspace() as (session_path, session):
+            with self.assertRaisesRegex(
+                client.PlayerError, "phase-mode only",
+            ):
+                client._wait_value(
+                    session_path, session,
+                    self.args(session_path, until="revision"),
+                    stateless=True,
+                )
+
+    def test_monitor_exec_runs_a_hook_with_the_game_in_its_environment(self):
         with self.workspace() as (session_path, session):
             recorded: list[dict] = []
 
             def fake_run(command, shell, env):
                 recorded.append({"command": command, "shell": shell, **{
                     key: env[key] for key in (
-                        "PLAY_TURN", "PLAY_PHASE", "PLAY_WAKE_REASON",
-                        "PLAY_GAME_STATE",
+                        "FREECIV_GAME_ID", "FREECIV_TURN", "FREECIV_PHASE",
+                        "FREECIV_YOUR_TURN", "FREECIV_DEADLINE_S",
+                        "FREECIV_HOLDER_LABEL",
                     )
                 }})
                 return subprocess.CompletedProcess(command, 0)
 
-            with patch.object(
-                client, "_wait_until_turn",
-                return_value=self.wake(session, "phase_active", mine=True),
-            ), patch.object(
+            with self.scripted_monitor([
+                self.wake(session, "phase_active", mine=True),
+            ]), patch.object(
                 client.subprocess, "run", side_effect=fake_run,
-            ), redirect_stdout(io.StringIO()):
+            ), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
                 code = client.command_monitor(self.monitor_args(
-                    session_path, exec_command="echo woken",
+                    session_path, once=True, exec_command="notify-me",
                 ))
-            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
+            self.assertEqual(code, 0)
             self.assertEqual(recorded, [{
-                "command": "echo woken", "shell": True,
-                "PLAY_TURN": "3", "PLAY_PHASE": "1",
-                "PLAY_WAKE_REASON": "phase_active",
-                "PLAY_GAME_STATE": "running",
+                "command": "notify-me", "shell": True,
+                "FREECIV_GAME_ID": session["game_id"],
+                "FREECIV_TURN": "3", "FREECIV_PHASE": "1",
+                "FREECIV_YOUR_TURN": "1", "FREECIV_DEADLINE_S": "587",
+                "FREECIV_HOLDER_LABEL": "",
             }])
+            log = (
+                client._mirror_path(session_path) / "state" / "monitor.log"
+            ).read_text(encoding="utf-8")
+            # Every hook invocation is recorded with its string: the log is
+            # what makes a contract violation auditable after the fact.
+            self.assertIn("exec notify-me", log)
 
     def test_a_failing_hook_is_reported_and_never_stops_the_monitor(self):
         with self.workspace() as (session_path, session):
-            stderr = io.StringIO()
-            with patch.object(
-                client, "_wait_until_turn",
-                return_value=self.wake(session, "phase_active", mine=True),
-            ), patch.object(
+            with self.scripted_monitor([
+                self.wake(session, "phase_active", mine=True),
+            ]), patch.object(
                 client.subprocess, "run",
                 return_value=subprocess.CompletedProcess("boom", 3),
-            ), redirect_stdout(io.StringIO()), redirect_stderr(stderr):
-                code = client.command_monitor(self.monitor_args(
-                    session_path, exec_command="boom",
-                ))
-            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
-            self.assertIn("--exec exited 3", stderr.getvalue())
-
-    def test_monitor_refuses_both_bindings_at_once(self):
-        with self.workspace() as (session_path, _session):
-            with self.assertRaisesRegex(client.PlayerError, "pass one"):
-                client.command_monitor(self.monitor_args(
-                    session_path, once=True, forever=True,
-                ))
-
-    def test_monitor_gives_up_on_max_s_with_the_retry_status(self):
-        """And --max-s bounds the wait inside the loop, not only the loop."""
-        with self.workspace() as (session_path, session):
-            now = [0.0]
-            caps: list[float | None] = []
-
-            def blocked(_path, _session, _args, *, for_turn, cap_s=None,
-                        echo=None):
-                caps.append(cap_s)
-                now[0] += 20.0
-                return self.wake(session, "timeout", mine=False)
-
-            with patch.object(
-                client, "_wait_until_turn", side_effect=blocked,
-            ), patch.object(
-                client.time, "monotonic", side_effect=lambda: now[0],
             ), redirect_stdout(io.StringIO()), redirect_stderr(
                 io.StringIO(),
             ) as stderr:
-                code = client.command_monitor(
-                    self.monitor_args(session_path, max_s=30.0),
+                code = client.command_monitor(self.monitor_args(
+                    session_path, once=True, exec_command="boom",
+                ))
+            self.assertEqual(code, 0)
+            self.assertIn("--exec exited 3", stderr.getvalue())
+            self.assertIn(
+                "exec exited 3",
+                (
+                    client._mirror_path(session_path)
+                    / "state" / "monitor.log"
+                ).read_text(encoding="utf-8"),
+            )
+
+    def test_a_hook_that_plays_the_game_is_refused(self):
+        """`--exec 'just do ... --end'` is an autoplay bot in one flag.
+
+        Imperfect by design -- a wrapper script defeats it -- but it turns a
+        silent contract violation into a deliberate bypass.
+        """
+        with self.workspace() as (session_path, _session):
+            for hook in (
+                'just do "u1 fortify" --end',
+                "just turn --end --await",
+                "./play batch --action-id a1",
+                "sleep 1; just retry --batch-id b",
+                "notify && just start",
+            ):
+                with self.subTest(hook=hook), self.assertRaisesRegex(
+                    client.PlayerError, "never plays",
+                ):
+                    client.command_monitor(self.monitor_args(
+                        session_path, once=True, exec_command=hook,
+                    ))
+
+    def test_a_hook_that_only_notifies_is_allowed(self):
+        with self.workspace() as (session_path, _session):
+            for hook in (
+                "curl -X POST https://hooks.example/notify",
+                "osascript -e 'display notification \"your turn\"'",
+                "echo done >> /tmp/turns.log",
+                "cat state/phase.json | jq .turn",
+            ):
+                with self.subTest(hook=hook):
+                    self.assertEqual(client._monitor_exec_refusal(hook), "")
+
+    # ---- --status and --stop ----------------------------------------------
+
+    def test_status_reports_the_running_monitor_and_what_it_watches(self):
+        with self.workspace() as (session_path, session):
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                self.assertEqual(
+                    client.command_monitor(
+                        self.monitor_args(session_path, status=True),
+                    ),
+                    client.V2_WAIT_EXIT_RETRY,
                 )
-            self.assertEqual(code, client.V2_WAIT_EXIT_RETRY)
-            # The first wait is capped at the whole budget, the second at what
-            # is left of it, and the third never runs.
-            self.assertEqual(caps, [30.0, 10.0])
-            self.assertIn("--max-s elapsed", stderr.getvalue())
+            self.assertIn("monitor not running", stdout.getvalue())
+            state_mirror.update_phase_marker(
+                client._mirror_path(session_path),
+                self.health(session, mine=False),
+            )
+            stdout = io.StringIO()
+            with client._monitor_lock(
+                session_path, {"pid": 41207, "since": "16:21:04"},
+            ), redirect_stdout(stdout):
+                self.assertEqual(
+                    client.command_monitor(
+                        self.monitor_args(session_path, status=True),
+                    ),
+                    0,
+                )
+            text = stdout.getvalue()
+            self.assertIn("monitor running (pid 41207", text)
+            self.assertIn("since 16:21:04", text)
+            self.assertIn("watching t3/p1", text)
+            self.assertIn("seat 2 holds it", text)
+
+    def test_stop_signals_the_monitor_and_confirms_it_released(self):
+        with self.workspace() as (session_path, _session):
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                self.assertEqual(
+                    client.command_monitor(
+                        self.monitor_args(session_path, stop=True),
+                    ),
+                    0,
+                )
+            self.assertIn("monitor not running", stdout.getvalue())
+
+            released: list[int] = []
+            lock = client._monitor_lock(session_path, {"pid": 4242})
+            lock.__enter__()
+
+            def fake_kill(pid, signal_number):
+                released.append(pid)
+                self.assertEqual(signal_number, client.signal.SIGTERM)
+                lock.__exit__(None, None, None)
+
+            stdout = io.StringIO()
+            with patch.object(
+                client.os, "kill", side_effect=fake_kill,
+            ), redirect_stdout(stdout):
+                code = client.command_monitor(
+                    self.monitor_args(session_path, stop=True),
+                )
+            self.assertEqual(code, 0)
+            self.assertEqual(released, [4242])
+            self.assertIn("monitor stopped (pid 4242)", stdout.getvalue())
+
+    def test_stopping_an_already_dead_monitor_is_not_an_error(self):
+        with self.workspace() as (session_path, _session):
+            with client._monitor_lock(session_path, {"pid": 4242}):
+                stdout = io.StringIO()
+                with patch.object(
+                    client.os, "kill", side_effect=ProcessLookupError,
+                ), redirect_stdout(stdout):
+                    code = client.command_monitor(
+                        self.monitor_args(session_path, stop=True),
+                    )
+            self.assertEqual(code, 0)
+            self.assertIn("monitor not running", stdout.getvalue())
 
     def test_monitor_keeps_the_same_json_escape_hatch_as_wait(self):
         with self.workspace() as (session_path, session):
             wake = self.wake(session, "phase_active", mine=True)
             stdout = io.StringIO()
-            with patch.object(
-                client, "_wait_until_turn", return_value=wake,
-            ), redirect_stdout(stdout):
-                client.command_monitor(
-                    self.monitor_args(session_path, json_output=True),
-                )
+            with self.scripted_monitor([wake]), redirect_stdout(
+                stdout,
+            ), redirect_stderr(io.StringIO()):
+                client.command_monitor(self.monitor_args(
+                    session_path, once=True, json_output=True,
+                ))
             self.assertEqual(json.loads(stdout.getvalue()), wake)
 
 

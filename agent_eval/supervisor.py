@@ -5172,6 +5172,17 @@ class Game:
             except V2PhaseEventJournalError:
                 self._invalidate_v2_phase_event_journal_locked()
                 last_phase_end = None
+            if last_phase_end is not None:
+                # A projection onto the caller's own last phase end, never a
+                # journal field: the durable record is a wire contract and
+                # this is bookkeeping.  It is what lets a monitor say "your
+                # phase opened and died with no orders in it" as a fact
+                # rather than as an inference from `source=timeout`.
+                last_phase_end = dict(last_phase_end)
+                last_phase_end["orders_submitted"] = self._v2_phase_orders(
+                    place_number,
+                    last_phase_end["turn"], last_phase_end["phase"],
+                )
             return {
                 "schema_version": 2,
                 "control_protocol": FULL_CONTROL_V2,
@@ -9112,6 +9123,21 @@ class Game:
         )
         return "termination_pending" if terminating else "surrendered"
 
+    def _v2_phase_orders(
+        self, place_number: int, turn: int, phase: int,
+    ) -> int | None:
+        """How many batches a seat submitted in one phase, or None if unknown.
+
+        `None` rather than `0` for any phase earlier than the first this
+        process watched: claiming a seat issued no orders in a phase nobody
+        was counting would be the same confident-wrong-answer this reporting
+        exists to remove.
+        """
+        floor = self.v2_phase_order_floor
+        counts = self.v2_phase_order_counts.get(place_number, {})
+        watched = floor is not None and (turn, phase) >= floor
+        return counts.get((turn, phase), 0 if watched else None)
+
     def _v2_note_phase_key_locked(self) -> tuple[int, int] | None:
         """Return the ledger's current phase key, remembering the first seen."""
         key = self.v2_phase_ledger.get("key")
@@ -9155,10 +9181,6 @@ class Game:
                 best = event
         if best is None:
             return None
-        counts = self.v2_phase_order_counts.get(best["place"], {})
-        ended = (best["turn"], best["phase"])
-        floor = self.v2_phase_order_floor
-        watched = floor is not None and ended >= floor
         return {
             "place": best["place"],
             "seat_id": best["seat_id"],
@@ -9170,7 +9192,9 @@ class Game:
             "receipt_state": best["receipt_state"],
             "resolution": best["resolution"],
             "elapsed_s": best["elapsed_s"],
-            "orders_submitted": counts.get(ended, 0 if watched else None),
+            "orders_submitted": self._v2_phase_orders(
+                best["place"], best["turn"], best["phase"],
+            ),
         }
 
     @staticmethod
