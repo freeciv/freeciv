@@ -55,11 +55,11 @@ function Contender({
             these identify the contender rather than announce it. */}
         {marks && (
           <div
-            className={`flex items-center gap-[14px] ${rightAligned ? 'flex-row-reverse' : ''}`}
-            style={{ color: SHELL.muted }}
+            className={`flex items-center gap-[24px] ${rightAligned ? 'flex-row-reverse' : ''}`}
+            style={{ color: SHELL.ink }}
           >
-            <HarnessLogo harness={harness} size={hero ? 30 : 22} />
-            <ProviderLogo provider={provider} size={hero ? 30 : 22} />
+            <HarnessLogo harness={harness} size={hero ? 68 : 46} />
+            <ProviderLogo provider={provider} size={hero ? 68 : 46} />
           </div>
         )}
         <span
@@ -83,14 +83,14 @@ function Contender({
          * reads "English" as the interesting half of "GPT-5.6: English".
          */}
         <div
-          className={`flex items-center gap-[12px] ${rightAligned ? 'flex-row-reverse' : ''}`}
+          className={`flex items-center gap-[18px] ${rightAligned ? 'flex-row-reverse' : ''}`}
         >
           {/* The raw ruleset nation, not the display label: the flag lookup is
               an exact match on Freeciv's own nation name, so a decorated
               string ("Spanish (CPU: Hard)") would silently resolve to null. */}
-          <NationFlag nation={track.player.nation} size={hero ? 40 : 30} />
+          <NationFlag nation={track.player.nation} size={hero ? 92 : 64} />
           <span
-            className={`font-mono ${hero ? 'text-[17px]' : 'text-[14px]'}`}
+            className={`font-mono ${hero ? 'text-[26px]' : 'text-[19px]'}`}
             style={{ color: track.renderColor }}
           >
             {nationDisplayName(track.player)}
