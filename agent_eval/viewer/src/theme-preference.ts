@@ -15,9 +15,9 @@ function safeStore(): PreferenceStore | null {
   }
 }
 
-function systemPrefersLight(): boolean {
+function systemPrefersDark(): boolean {
   try {
-    return window.matchMedia('(prefers-color-scheme: light)').matches
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
   } catch {
     return false
   }
@@ -25,11 +25,11 @@ function systemPrefersLight(): boolean {
 
 /**
  * An explicit choice wins; absent one the arena follows the operating system;
- * absent that it is dark, which is the surface the match films are cut on.
+ * absent that it is light, which is the arena's default surface.
  */
 export function resolveTheme(
   store: PreferenceStore | null = safeStore(),
-  prefersLight: boolean = systemPrefersLight(),
+  prefersDark: boolean = systemPrefersDark(),
 ): Theme {
   try {
     const stored = store?.getItem(THEME_PREFERENCE_KEY)
@@ -37,7 +37,7 @@ export function resolveTheme(
   } catch {
     // Fall through to the system preference.
   }
-  return prefersLight ? 'light' : 'dark'
+  return prefersDark ? 'dark' : 'light'
 }
 
 export function rememberTheme(
@@ -59,10 +59,10 @@ export interface ThemeTarget {
 
 /**
  * The tokens key off `<html data-theme>`, so the attribute is the single place
- * the choice becomes visible. Dark is the default skin and carries no
- * attribute, which keeps the default path free of a flash-of-wrong-theme.
+ * the choice becomes visible. It is always written explicitly -- `index.html`
+ * ships `data-theme="light"` so the default surface is painted before any
+ * script runs, and there is no frame of the wrong theme on load.
  */
 export function applyTheme(theme: Theme, root: ThemeTarget = document.documentElement): void {
-  if (theme === 'light') root.setAttribute('data-theme', 'light')
-  else root.removeAttribute('data-theme')
+  root.setAttribute('data-theme', theme)
 }

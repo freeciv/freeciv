@@ -76,6 +76,9 @@
      shadow on the light one, so it is a token rather than a baked-in white. */
   --color-grid: rgba(255,255,255,.025);
 
+  /* The terminal wash: one muted grey, pixelated and bottom-anchored. */
+  --color-wash: #5d5963;
+
   /* Archivo speaks and JetBrains Mono reads out; there is no third face and no
      display face. Headings separate from body by size, tracking and case --
      never by weight, which is why nothing here is ever set bolder than 500. */
@@ -106,31 +109,40 @@
  * on near-black and go chalky on white, so each is replaced by a darker, more
  * saturated sibling of the same hue that clears 4.5:1 as text on the panel.
  *
- * Opt in with <html data-theme="light">; absent that, the arena is dark. */
+ * This is the default surface -- `index.html` ships `data-theme="light"` -- and
+ * dark is the opt-in. There is no pure white anywhere in it on purpose: a
+ * full-page #ffffff at this density is genuinely tiring, so the page is a warm
+ * grey and even the "white" card stops at #f6f5f3. The whole ladder is pulled
+ * a few degrees warm, off the same desaturated grey the terminal wash is built
+ * from, so the wash reads as the page's own material rather than a tint laid
+ * over a colder one. */
 :root[data-theme="light"] {
-  /* Four surfaces. The page is grey, the panel is white. */
-  --color-page: #f1f3f4;
-  --color-panel: #ffffff;
-  --color-panel-2: #f7f8f9;
-  --color-panel-3: #eaedef;
+  /* Four surfaces. None of them is white. */
+  --color-page: #eceae8;
+  --color-panel: #f6f5f3;
+  --color-panel-2: #f0eeec;
+  --color-panel-3: #e4e1dd;
 
   /* Two rules, same jobs: the hairline, and the divider that has to be seen. */
-  --color-line: #e2e6e8;
-  --color-line-2: #c8cfd3;
+  --color-line: #dcd8d4;
+  --color-line-2: #c2bcb5;
 
   /* Four text steps: reading, supporting, labelling, receding. */
-  --color-ink: #10161a;
-  --color-ink-2: #3b464d;
-  --color-muted: #666f76;
-  --color-dim: #8d979d;
+  --color-ink: #1a1917;
+  --color-ink-2: #45423e;
+  --color-muted: #6d6862;
+  --color-dim: #97918a;
 
-  /* Semantics, re-tuned for a white ground rather than a black one. */
-  --color-green: #1c7a4f;
-  --color-amber: #8a6100;
-  --color-red: #c4362b;
-  --color-violet: #6d3fd4;
+  /* Semantics, re-tuned for a warm light ground rather than a black one. */
+  --color-green: #226e4a;
+  --color-amber: #855e05;
+  --color-red: #bd382c;
+  --color-violet: #6144c4;
 
-  --color-grid: rgba(0,0,0,.05);
+  --color-grid: rgba(40,34,28,.055);
+
+  /* The terminal wash: one muted grey, pixelated and bottom-anchored. */
+  --color-wash: #5d5963;
 }
 
 @layer base {
