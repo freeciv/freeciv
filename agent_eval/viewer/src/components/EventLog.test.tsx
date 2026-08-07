@@ -16,7 +16,7 @@ const events: GameEvent[] = [
   {
     turn: 181,
     kind: 'war_declared',
-    summary: 'pi-gpt-5.6-sol met In-game Deity AI — no treaty, at war',
+    summary: 'pi-gpt-5.6-sol met Spanish CPU — no treaty, at war',
     actors: ['place-1', 'place-2'],
     weight: 80,
     data: {},
@@ -24,7 +24,7 @@ const events: GameEvent[] = [
   {
     turn: 349,
     kind: 'city_captured',
-    summary: 'In-game Deity AI captured the capital London from pi-gpt-5.6-sol',
+    summary: 'Spanish CPU captured the capital London from pi-gpt-5.6-sol',
     actors: ['place-2', 'place-1'],
     weight: 66,
     data: { cities: ['London'] },

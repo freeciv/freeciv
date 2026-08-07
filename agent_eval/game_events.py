@@ -37,13 +37,12 @@ SCHEMA_VERSION = 1
 # summaries, or the carried state shape.  The cache is keyed on the saves and
 # the seat labels, neither of which notices that this module now reads them
 # differently.
-CACHE_VERSION = 3
+CACHE_VERSION = 4
 MAX_EVENTS = 2000
 MAX_NAMED_CITIES = 6
 MAX_WARNINGS = 100
 MIN_WEIGHT = 1
 MAX_WEIGHT = 100
-NATIVE_AI_LABEL = "In-game Deity AI"
 
 # How much of the match's story one event carries, on a 1-100 scale.  This is
 # the field consumers select density with: a 4x film that wants one beat every
@@ -164,13 +163,29 @@ class _Faction:
         )
 
 
+def _native_ai_label(nation: str) -> str:
+    """What prose calls the built-in AI: "Spanish CPU".
+
+    The viewer and the film label the native side "Spanish (CPU: Hard)", but a
+    parenthetical cannot sit inside a sentence -- and these summaries put the
+    label in the possessive ("... destroyed with Spanish CPU's London") and at
+    the head of a clause, where "Spanish (CPU)'s London" is unreadable. So
+    prose keeps the same vocabulary in a shape a sentence can hold, mirroring
+    the barbarian form ("Pirate raiders") this module already uses.
+
+    The difficulty is deliberately left out: it belongs on the standings and
+    the title card, where it is read once, not repeated in every caption.
+    """
+    return f"{nation} CPU" if nation else "CPU"
+
+
 def _faction_label(player: Mapping[str, Any], barbarian: bool) -> str:
     """The name a spectator should read, matching the viewer's naming."""
     controller = save_replay._public_text(player.get("controller_label"), 80).strip()
     nation = save_replay._public_text(player.get("nation"), 80).strip()
     name = save_replay._public_text(player.get("player_name"), 80).strip()
     if re.search(r"classic ai|deity ai", controller, re.IGNORECASE):
-        return NATIVE_AI_LABEL
+        return _native_ai_label(nation)
     if controller and not re.search(r"dynamic faction", controller, re.IGNORECASE):
         return controller
     if barbarian:

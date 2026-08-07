@@ -1015,7 +1015,7 @@ class ReplayGatewayTests(unittest.TestCase):
                     {
                         "turn": 12,
                         "kind": "city_captured",
-                        "summary": "pi-gpt-5.5 captured London from In-game Deity AI",
+                        "summary": "pi-gpt-5.5 captured London from Spanish CPU",
                         "actors": ["place-1", "place-2"],
                         "weight": 66,
                         "data": {"cities": ["London"]},
