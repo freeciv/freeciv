@@ -287,7 +287,7 @@ export function TechnologyProgressChart({
           <p className="eyebrow">Knowledge comparison</p>
           <h3>Classic technology progression</h3>
         </div>
-        <strong className="text-[#75848e] font-bold text-[13px] leading-none font-readout">Selected {selectedLabel}</strong>
+        <strong className="text-[var(--color-muted)] font-bold text-[13px] leading-none font-readout">Selected {selectedLabel}</strong>
       </div>
 
       {model.status !== 'ready' ? <EmptyTechnologyProgress status={model.status} /> : (
@@ -336,7 +336,7 @@ export function TechnologyProgressChart({
               />
             ) : null}
             {model.series.map((item) => {
-              const paint = displayPlayerColor(item.color, palette) ?? '#65727c'
+              const paint = displayPlayerColor(item.color, palette) ?? 'var(--color-muted)'
               return (
                 <g key={item.key}>
                   <title>

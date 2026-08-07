@@ -21,8 +21,8 @@ export function ColorMark({ color, label, size = 'md' }: ColorMarkProps) {
       viewBox="0 0 20 20"
       width={dimension}
     >
-      <circle cx="10" cy="10" fill={displayed ?? '#65727c'} r="8" />
-      <circle cx="10" cy="10" fill="none" r="8" stroke="#f4f7f8" strokeOpacity="0.62" />
+      <circle cx="10" cy="10" fill={displayed ?? 'var(--color-muted)'} r="8" />
+      <circle cx="10" cy="10" fill="none" r="8" stroke="var(--color-ink)" strokeOpacity="0.62" />
     </svg>
   )
 }

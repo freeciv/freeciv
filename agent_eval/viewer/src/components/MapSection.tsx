@@ -36,7 +36,7 @@ export function MapSection({
             <button
               aria-controls={MAP_REGION_ID}
               aria-expanded={expanded}
-              className="py-2 px-3 border border-[#5d4e38] text-[#d4b77d] bg-[#211d17] font-extrabold text-[9px] leading-none font-readout tracking-[.12em] uppercase cursor-pointer hover:text-[#ecd6a5] hover:bg-[#2a251c] focus-visible:outline-2 focus-visible:outline-[#c5a46d] focus-visible:outline-offset-2"
+              className="py-2 px-3 border border-[var(--color-line-2)] text-[var(--color-ink)] bg-[var(--color-panel-2)] font-extrabold text-[9px] leading-none font-readout tracking-[.12em] uppercase cursor-pointer hover:text-[var(--color-amber)] hover:bg-[var(--color-panel-3)] focus-visible:outline-2 focus-visible:outline-[var(--color-ink)] focus-visible:outline-offset-2"
               onClick={() => onToggle(!expanded)}
               type="button"
             >

@@ -13,8 +13,8 @@ import { displayPlayerColor } from '../display-color'
 import { useDisplayPalette } from '../display-palette'
 import type { GameEvent } from '../types'
 
-const ROW = 'grid grid-cols-[auto_auto_minmax(0,1fr)_auto] gap-2.5 items-baseline w-full border-b border-b-[#272320] border-l-2 text-left bg-transparent cursor-pointer last:border-b-0 hover:bg-[#221e19] focus-visible:outline-2 focus-visible:outline-[#c5a46d] focus-visible:outline-offset-[-2px]'
-const CURRENT_ROW = 'border-l-acid bg-[#211d16]'
+const ROW = 'grid grid-cols-[auto_auto_minmax(0,1fr)_auto] gap-2.5 items-baseline w-full border-b border-b-[var(--color-panel-3)] border-l-2 text-left bg-transparent cursor-pointer last:border-b-0 hover:bg-[var(--color-panel-2)] focus-visible:outline-2 focus-visible:outline-[var(--color-ink)] focus-visible:outline-offset-[-2px]'
+const CURRENT_ROW = 'border-l-acid bg-[var(--color-panel-2)]'
 const PAST_ROW = 'border-l-transparent'
 const UPCOMING_ROW = 'border-l-transparent opacity-45'
 
@@ -25,9 +25,9 @@ const TIER_ROW: Readonly<Record<WeightTier, string>> = {
   routine: 'py-1.5 px-3',
 }
 const TIER_TEXT: Readonly<Record<WeightTier, string>> = {
-  major: 'text-[#f0e6d4] text-[12px] font-semibold',
-  notable: 'text-[#ded3c0] text-[11px]',
-  routine: 'text-[#a89e8f] text-[10px]',
+  major: 'text-[var(--color-ink)] text-[12px] font-semibold',
+  notable: 'text-[var(--color-ink)] text-[11px]',
+  routine: 'text-[var(--color-ink-2)] text-[10px]',
 }
 const TIER_DOT: Readonly<Record<WeightTier, string>> = {
   major: 'w-2.5 h-2.5',
@@ -35,9 +35,9 @@ const TIER_DOT: Readonly<Record<WeightTier, string>> = {
   routine: 'w-[5px] h-[5px]',
 }
 
-const DENSITY_BUTTON = 'py-1.5 px-2.5 border border-[#3b352d] text-[8px] leading-none font-readout font-extrabold tracking-[.12em] uppercase cursor-pointer focus-visible:outline-2 focus-visible:outline-[#c5a46d] focus-visible:outline-offset-2'
-const DENSITY_ON = 'text-[#e6d5b1] bg-[#2a251c] border-[#5d4e38]'
-const DENSITY_OFF = 'text-[#8b8073] bg-transparent hover:text-[#c3b69f]'
+const DENSITY_BUTTON = 'py-1.5 px-2.5 border border-[var(--color-line)] text-[8px] leading-none font-readout font-extrabold tracking-[.12em] uppercase cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--color-ink)] focus-visible:outline-offset-2'
+const DENSITY_ON = 'text-[var(--color-ink)] bg-[var(--color-panel-3)] border-[var(--color-line-2)]'
+const DENSITY_OFF = 'text-[var(--color-muted)] bg-transparent hover:text-[var(--color-ink-2)]'
 
 interface EventLogProps {
   events: GameEvent[]
@@ -75,7 +75,7 @@ export function EventLog({ colors, events, onSelectTurn, selectedTurn }: EventLo
 
   return (
     <>
-      <div className="flex flex-wrap gap-1.5 items-center py-2 px-3 border-b border-b-[#332e27]" role="group" aria-label="Event log density">
+      <div className="flex flex-wrap gap-1.5 items-center py-2 px-3 border-b border-b-[var(--color-line)]" role="group" aria-label="Event log density">
         {DENSITY_ORDER.map((option) => (
           <button
             aria-pressed={density === option}
@@ -87,7 +87,7 @@ export function EventLog({ colors, events, onSelectTurn, selectedTurn }: EventLo
             {DENSITY_LABEL[option]}
           </button>
         ))}
-        <span className="ml-auto text-[#6f665b] text-[8px] leading-none font-readout tracking-[.1em] uppercase">
+        <span className="ml-auto text-[var(--color-muted)] text-[8px] leading-none font-readout tracking-[.1em] uppercase">
           {visible.length} of {events.length}
         </span>
       </div>
@@ -105,14 +105,14 @@ export function EventLog({ colors, events, onSelectTurn, selectedTurn }: EventLo
             type="button"
             ref={row.current ? currentRow : undefined}
           >
-            <b className="text-[#cdb17d] font-bold text-[10px] leading-none font-readout tabular-nums">T{row.event.turn}</b>
+            <b className="text-[var(--color-ink)] font-bold text-[10px] leading-none font-readout tabular-nums">T{row.event.turn}</b>
             <span
               aria-hidden="true"
-              className={`${TIER_DOT[row.tier]} rounded-full border border-[#0000004d]`}
-              style={{ background: displayPlayerColor(row.color, palette) ?? '#5b544a' }}
+              className={`${TIER_DOT[row.tier]} rounded-full border border-[var(--color-page)4d]`}
+              style={{ background: displayPlayerColor(row.color, palette) ?? 'var(--color-line-2)' }}
             />
             <span className={`min-w-0 leading-[1.45] [overflow-wrap:anywhere] ${TIER_TEXT[row.tier]}`}>{row.event.summary}</span>
-            <em className="text-[#8b8073] text-[8px] leading-none font-readout tracking-[.1em] uppercase not-italic max-[460px]:hidden">{row.label}</em>
+            <em className="text-[var(--color-muted)] text-[8px] leading-none font-readout tracking-[.1em] uppercase not-italic max-[460px]:hidden">{row.label}</em>
           </button>
         ))}
         {!rows.length && <p className="empty-copy">Nothing at this density yet.</p>}
@@ -125,7 +125,7 @@ export function EventLogFootnote({ omitted }: { omitted: Record<string, number> 
   const summary = omittedSummary(omitted)
   if (!summary) return null
   return (
-    <p className="m-0 py-2.5 px-3 border-t border-t-[#332e27] text-muted text-[10px] leading-[1.5]">
+    <p className="m-0 py-2.5 px-3 border-t border-t-[var(--color-line)] text-muted text-[10px] leading-[1.5]">
       The log is capped for this match: {summary} not shown.
     </p>
   )

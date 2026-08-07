@@ -67,7 +67,7 @@ export function MetricChart({ label, metric, snapshots }: MetricChartProps) {
           <p className="eyebrow">Comparison telemetry</p>
           <h3>{label}</h3>
         </div>
-        <strong className="text-[#75848e] font-bold text-[13px] leading-none font-readout">{maxValue.toLocaleString()}</strong>
+        <strong className="text-[var(--color-muted)] font-bold text-[13px] leading-none font-readout">{maxValue.toLocaleString()}</strong>
       </div>
       {snapshots.length ? (
         <svg aria-label={`${label} by turn`} className="line-chart" role="img" viewBox="0 0 560 170">
