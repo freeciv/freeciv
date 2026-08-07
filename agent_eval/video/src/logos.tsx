@@ -81,6 +81,15 @@ const PROVIDER_PREFIXES: readonly (readonly [string, Provider])[] = [
   ['o3-', 'openai'],
   ['o4-', 'openai'],
   ['claude-', 'anthropic'],
+  // Anthropic model families named without their `claude-` prefix, so
+  // `claude-code-opus-5` is a legal label. Writing "claude" twice to say which
+  // Claude model Claude Code ran is noise, and the harness already carries the
+  // vendor -- but the model still has to resolve on its own, because that is
+  // what decides the mark for any harness that is not Anthropic's.
+  ['opus-', 'anthropic'],
+  ['sonnet-', 'anthropic'],
+  ['haiku-', 'anthropic'],
+  ['fable-', 'anthropic'],
   ['gemini-', 'google'],
   ['gemma-', 'google'],
 ]

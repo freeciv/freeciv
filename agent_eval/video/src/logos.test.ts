@@ -200,3 +200,26 @@ describe('marks collapse when the harness is its own vendor', () => {
       .toEqual({ harness: 'opencode', model: 'gemini-3-pro', provider: 'google' })
   })
 })
+
+describe('a model may drop a vendor prefix its harness already carries', () => {
+  it('reads claude-code-opus-5 the same as claude-code-claude-opus-5', () => {
+    // Saying "claude" twice to name which Claude model Claude Code ran is
+    // noise. Both spellings have to land on the same harness and the same
+    // vendor, and the vendor still has to resolve from the model alone --
+    // that is what decides the mark under a harness that is not Anthropic's.
+    expect(splitControllerLabel('claude-code-opus-5'))
+      .toEqual({ harness: 'claude-code', model: 'opus-5' })
+    expect(controllerMarks('claude-code-opus-5'))
+      .toEqual({ harness: 'claude-code', model: 'opus-5', provider: null })
+    expect(controllerMarks('claude-code-claude-opus-5'))
+      .toEqual({ harness: 'claude-code', model: 'claude-opus-5', provider: null })
+  })
+
+  it('places a bare Anthropic family name under a third-party harness', () => {
+    expect(controllerMarks('pi-opus-5'))
+      .toEqual({ harness: 'pi', model: 'opus-5', provider: 'anthropic' })
+    expect(providerForModel('sonnet-5')).toBe('anthropic')
+    expect(providerForModel('haiku-4-5')).toBe('anthropic')
+    expect(providerForModel('fable-5')).toBe('anthropic')
+  })
+})
