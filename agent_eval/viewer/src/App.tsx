@@ -43,7 +43,7 @@ import {
 const CENTER_STAGE = 'flex flex-col items-center justify-center min-h-screen p-6 text-center'
 const CENTER_TITLE = 'my-0.5 mx-0 text-[length:clamp(25px,5vw,48px)]'
 const CLAMPED_LINE = 'block overflow-hidden text-ellipsis whitespace-nowrap'
-const WARNING_BOX = 'py-2.5 px-[13px] border border-[#705d3c] rounded-[5px] text-[#d0b780] bg-[#211b12] text-[12px]'
+const WARNING_BOX = 'py-2.5 px-[13px] border border-[#705d3c] text-[#d0b780] bg-[#211b12] text-[12px]'
 const STAT_ROW = 'grid grid-cols-[auto_minmax(0,1fr)_auto] gap-1.5 items-center mt-[7px]'
 const FACTION_ROW = 'grid grid-cols-[auto_1fr_auto] gap-2.5 items-center py-[11px] px-[9px] border-b border-b-[#332e27] last:border-b-0'
 const CLAMPED_LINE_RAIL = 'block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'
@@ -371,7 +371,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
           <p className="eyebrow">Current result</p>
           <strong>{game.outcome.summary}</strong>
           {game.outcome.victory && (
-            <span className="inline-block mb-[7px] py-1 px-[9px] border border-[rgba(191,255,0,.34)] rounded-[3px] bg-[rgba(191,255,0,.07)] text-acid font-bold text-[11px] leading-[1.35] font-readout tracking-[.04em]" title={`Victory condition: ${game.outcome.victory.code}`}>
+            <span className="inline-block mb-[7px] py-1 px-[9px] border border-[#6f5c3d] bg-[#211b12] text-acid font-bold text-[11px] leading-[1.35] font-readout tracking-[.04em]" title={`Victory condition: ${game.outcome.victory.code}`}>
               Game ended: {game.outcome.victory.label}
               {game.outcome.victory.turn ? ` on turn ${game.outcome.victory.turn}` : ''}
               {game.outcome.victory.winners.length > 0
@@ -385,7 +385,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
           {/* No font-size here on purpose: `.result-ribbon > div > span` outranks the
               old `.validity-chip span` rule, so this has always rendered at 12px. */}
           <span className="font-extrabold leading-none font-readout tracking-[.08em]">{validityLabel(game.benchmark_valid)}</span>
-          <small className="mt-2 text-[#91a0a9] leading-[1.4]">{game.benchmark_valid === false
+          <small className="mt-2 text-[#a89e8e] leading-[1.4]">{game.benchmark_valid === false
             ? game.invalid_reasons.join(' · ') || game.error || 'Run is not benchmark eligible'
             : game.benchmark_valid === true
               ? 'Eligible for model comparison'
@@ -432,7 +432,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 <small className="block text-muted text-[8px] leading-none font-readout tracking-[.14em]">{displayedScore.label}</small>
                 <strong className="text-[#ded3c0] font-bold text-[25px] leading-[1.1] font-readout">{displayedScore.value?.toLocaleString() ?? '—'}</strong>
               </div>
-              <span className="absolute right-[9px] bottom-[5px] text-[#4d5b64] text-[8px] leading-none font-readout">{displayPlayerColor(place.player_color, palette)}</span>
+              <span className="absolute right-[9px] bottom-[5px] text-[#6a6154] text-[8px] leading-none font-readout">{displayPlayerColor(place.player_color, palette)}</span>
             </article>
           )
         })}
@@ -463,9 +463,9 @@ function MatchViewer({ route }: { route: RouteContext }) {
                   <span><strong>{maxKnownTechnologyDepth(player, catalog.technologies) ?? '—'}</strong><small>deepest dependency tier</small></span>
                   <span><strong>{acquisitions.length}</strong><small>verified acquisitions</small></span>
                 </div>
-                <div className="mt-[14px] pt-3 border-t border-t-[#26343c]">
-                  <small className="block mb-[7px] text-[#6f7f89] font-bold text-[7px] leading-none font-readout tracking-[.1em] uppercase">Acquisition history</small>
-                  <div className="flex flex-wrap gap-[5px]">{acquisitions.length ? acquisitions.slice(-4).reverse().map((acquisition, index) => <span className="py-[5px] px-[7px] border border-[#31424b] rounded-[3px] text-[#b9c4ca] bg-[#0b1419] text-[8px]" key={`${acquisition.turn}-${acquisition.name}-${index}`}><b className="mr-[5px] text-acid font-bold text-[7px] leading-none font-readout">T{acquisition.turn}</b>{acquisition.name}</span>) : <em className="text-[#677780] text-[9px] not-italic">No new technology recorded yet</em>}</div>
+                <div className="mt-[14px] pt-3 border-t border-t-[#2f2a23]">
+                  <small className="block mb-[7px] text-[#8b8273] font-bold text-[7px] leading-none font-readout tracking-[.1em] uppercase">Acquisition history</small>
+                  <div className="flex flex-wrap gap-[5px]">{acquisitions.length ? acquisitions.slice(-4).reverse().map((acquisition, index) => <span className="py-[5px] px-[7px] border border-line text-muted bg-[#17140f] text-[8px]" key={`${acquisition.turn}-${acquisition.name}-${index}`}><b className="mr-[5px] text-acid font-bold text-[7px] leading-none font-readout">T{acquisition.turn}</b>{acquisition.name}</span>) : <em className="text-[#7d7466] text-[9px] not-italic">No new technology recorded yet</em>}</div>
                 </div>
               </article>
             )
@@ -487,7 +487,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       {!basicTelemetry && <><section className="turn-stats" aria-label="Selected turn statistics">
         {METRICS.map((metric) => (
           <article className="min-w-[150px] py-[13px] px-[14px] border border-line bg-[#1b1814]" key={metric.key}>
-            <p className="mt-0 mx-0 mb-2.5 text-[#98a6af] font-extrabold text-[9px] leading-none font-readout tracking-[.12em] uppercase">{metric.label}</p>
+            <p className="mt-0 mx-0 mb-2.5 text-[#b2a898] font-extrabold text-[9px] leading-none font-readout tracking-[.12em] uppercase">{metric.label}</p>
             {scoredPlayers.length ? scoredPlayers.map((player) => (
               <div className={STAT_ROW} key={player.seat_id}>
                 <ColorMark color={player.player_color} label={competitorLabel(player)} size="sm" />
@@ -552,7 +552,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 <article className={faction.dynamic ? `${FACTION_ROW} dynamic-faction` : FACTION_ROW} key={`${faction.player_id}-${faction.player_name}`}>
                   <ColorMark color={faction.player_color} label={faction.display_label} />
                   <div className="min-w-0"><strong className="block [overflow-wrap:anywhere] text-[12px] leading-[1.3]">{faction.display_label}</strong><span className="block mt-[3px] overflow-hidden text-muted text-[10px] text-ellipsis whitespace-nowrap">{faction.detail}</span></div>
-                  <code className="text-[#64727b] text-[9px]">{displayPlayerColor(faction.player_color, palette)}</code>
+                  <code className="text-[#7d7466] text-[9px]">{displayPlayerColor(faction.player_color, palette)}</code>
                 </article>
               )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
             </div>
@@ -581,7 +581,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
               />
             </label>
             <label className="text-muted font-bold text-[9px] leading-none font-readout tracking-[.06em] uppercase max-[760px]:hidden">Speed
-              <select className="ml-[7px] py-[5px] px-1.5 border border-[#34434c] rounded-[3px] text-ink bg-[#0b1217]" aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
+              <select className="ml-[7px] py-[5px] px-1.5 border border-line text-ink bg-[#17140f]" aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
                 <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option>
               </select>
             </label>
@@ -628,7 +628,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       </section>
       </div>
 
-      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[#53616a] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
+      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[#6a6154] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
         <span>FREECIV AGENT EVALUATION</span>
         <span>Public spectator telemetry · not available to player agents</span>
       </footer>

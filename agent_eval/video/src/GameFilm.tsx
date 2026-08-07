@@ -15,6 +15,9 @@ import { TitleCard } from './components/TitleCard'
 import type { Film } from './dataset/film'
 import { buildBoardLayout } from './dataset/geometry'
 import { useFilm } from './dataset/load'
+// Registers Archivo and JetBrains Mono from `public/fonts` and holds the first
+// frame until both are resolved.
+import './fonts'
 import { formatDuration } from './format'
 
 // A type alias, not an interface: Remotion constrains composition props to
@@ -55,15 +58,14 @@ function TopBar({ film }: { readonly film: Film }) {
     ? formatDuration(film.meta.finishedAt - film.meta.startedAt)
     : null
   return (
-    <div className="flex items-center justify-between border-b border-line pb-[12px] font-mono text-[10px] tracking-[2.6px] text-muted">
-      <span className="text-cyan">FREECIV AGENT ARENA</span>
-      <span>
+    <div className="flex items-center justify-between border-b border-line pb-[13px]">
+      <span className="label">Freeciv Agent Arena</span>
+      <span className="label">
         {film.meta.gameId}
-        {wallClock && <span className="text-muted"> · {wallClock} OF PLAY</span>}
+        {wallClock && ` · ${wallClock} of play`}
       </span>
-      <span>
-        {film.meta.ruleset.toUpperCase()} · {film.meta.width}x{film.meta.height} ·{' '}
-        {film.meta.topology}
+      <span className="label">
+        {film.meta.ruleset} · {film.meta.width}x{film.meta.height} · {film.meta.topology}
       </span>
     </div>
   )
@@ -110,7 +112,7 @@ function PlayStage({
         <div className="flex flex-1 flex-col gap-[18px]">
           <Ticker film={film} turn={turn} turnIndex={turnIndex} width={MAP_WIDTH} />
           <div
-            className="board-frame relative overflow-hidden rounded border border-board-edge bg-board"
+            className="board-frame relative overflow-hidden border border-board-edge bg-board"
             style={{ height: mapHeight, width: MAP_WIDTH }}
           >
             <BoardCanvas
@@ -131,29 +133,33 @@ function PlayStage({
               width={MAP_WIDTH}
             />
           </div>
-          <div className="flex gap-[26px] font-mono text-[11px] tracking-[1.2px] text-muted">
-            <span>SYNTHETIC BOARD · NATIVE SAVE DATA</span>
-            <span>
+          <div className="flex gap-[28px]">
+            <span className="label">Synthetic board · native save data</span>
+            <span className="label">
               {(film.meta.width * film.meta.height).toLocaleString('en-US')} tiles
             </span>
-            <span>{turn.cities.length.toLocaleString('en-US')} cities</span>
-            <span>{turn.units.length.toLocaleString('en-US')} unit stacks</span>
-            <span className="ml-auto">board turn {turn.boardTurn ?? '—'}</span>
+            <span className="label">{turn.cities.length.toLocaleString('en-US')} cities</span>
+            <span className="label">
+              {turn.units.length.toLocaleString('en-US')} unit stacks
+            </span>
+            <span className="label ml-auto">board turn {turn.boardTurn ?? '—'}</span>
           </div>
-          <MetricChart
-            firstTurn={film.meta.firstTurn}
-            height={CHART_HEIGHT}
-            label="Score history"
-            progress={progress}
-            series={film.seatTracks.map((track) => ({
-              key: track.player.playerId,
-              color: track.renderColor,
-              values: track.scores,
-            }))}
-            totalTurns={film.turns.length}
-            turnIndex={turnIndex}
-            width={MAP_WIDTH}
-          />
+          <div className="border border-line" style={{ width: MAP_WIDTH }}>
+            <MetricChart
+              firstTurn={film.meta.firstTurn}
+              height={CHART_HEIGHT}
+              label="Score history"
+              progress={progress}
+              series={film.seatTracks.map((track) => ({
+                key: track.player.playerId,
+                color: track.renderColor,
+                values: track.scores,
+              }))}
+              totalTurns={film.turns.length}
+              turnIndex={turnIndex}
+              width={MAP_WIDTH - 2}
+            />
+          </div>
         </div>
         <ScorePanel
           film={film}

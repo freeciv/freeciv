@@ -8,19 +8,26 @@
  * film and a live viewer tab read as one product.
  */
 
+/**
+ * A four-step achromatic ladder plus two text steps. The chrome is deliberately
+ * colourless: the only saturation in a frame belongs to the factions and to the
+ * board, so a faction colour never has to compete with the furniture for
+ * attention. `amber` and `red` survive as semantics -- a held board, a dead
+ * empire -- and are never spent on decoration.
+ */
 export const SHELL = {
-  page: '#070b0f',
-  panel: '#0c1319',
-  panelRaised: '#101a21',
-  line: '#26333c',
-  ink: '#e9f0f3',
-  muted: '#82919d',
-  acid: '#b8e35f',
-  cyan: '#61d3d9',
-  amber: '#f4bd4b',
-  red: '#ff6b66',
+  page: '#0a0c0d',
+  panel: '#101416',
+  panelRaised: '#171b1e',
+  line: '#272d31',
+  ink: '#eef2f3',
+  muted: '#7e888f',
+  /** The quietest legible step: axis ticks, secondary chrome. */
+  dim: '#565f66',
+  amber: '#dfa53f',
+  red: '#e0665d',
   board: '#0a1c1f',
-  boardEdge: '#173036',
+  boardEdge: '#1e3a41',
 } as const
 
 /** Terrain fill, matching the viewer's `terrainColor`. */

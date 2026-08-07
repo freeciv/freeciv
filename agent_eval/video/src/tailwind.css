@@ -6,39 +6,63 @@
  *
  * These are the same values as `SHELL` in `src/theme.ts`, which the canvas
  * painter needs as plain strings. Change one and change the other.
+ *
+ * Two faces and no more. `--font-display` (Archivo) speaks; `--font-mono`
+ * (JetBrains Mono) reads out. The faces themselves are registered from
+ * `src/fonts.ts` against files in `public/fonts/`, never from a CDN.
  */
 @theme {
-  --color-page: #070b0f;
-  --color-panel: #0c1319;
-  --color-panel-2: #101a21;
-  --color-line: #26333c;
-  --color-ink: #e9f0f3;
-  --color-muted: #82919d;
-  --color-acid: #b8e35f;
-  --color-cyan: #61d3d9;
-  --color-amber: #f4bd4b;
-  --color-red: #ff6b66;
+  --color-page: #0a0c0d;
+  --color-panel: #101416;
+  --color-panel-2: #171b1e;
+  --color-line: #272d31;
+  --color-ink: #eef2f3;
+  --color-muted: #7e888f;
+  --color-dim: #565f66;
+  --color-amber: #dfa53f;
+  --color-red: #e0665d;
   --color-board: #0a1c1f;
-  --color-board-edge: #173036;
+  --color-board-edge: #1e3a41;
 
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, "DejaVu Sans Mono", monospace;
-  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: Archivo, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: Archivo, ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
-/* The arena shell: a faint technical grid under two soft brand glows. */
+/*
+ * The stage: graph paper, and nothing else. There were two radial brand glows
+ * here; they lit the corners of every frame for no reason a viewer could read,
+ * so the atmosphere now comes from a ruled grid that tells you the surface is
+ * an instrument.
+ */
 .arena-page {
   background:
-    linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px),
-    radial-gradient(circle at 84% -10%, rgba(97, 211, 217, 0.13), transparent 40rem),
-    radial-gradient(circle at -8% 26%, rgba(184, 227, 95, 0.07), transparent 34rem),
+    linear-gradient(rgba(255, 255, 255, 0.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px),
     var(--color-page);
-  background-size: 46px 46px, 46px 46px, auto, auto, auto;
+  background-size: 32px 32px, 32px 32px, auto;
 }
 
+/* The board is inlaid in the page, not floating above it: a hairline, no lift. */
 .board-frame {
-  box-shadow:
-    0 0 0 1px rgba(7, 11, 15, 0.6),
-    0 24px 60px rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/*
+ * A collapsed grid: children butt against a tinted parent so the 1px gaps read
+ * as shared rules instead of as gutters between floating cards.
+ */
+.hair-grid {
+  background: var(--color-line);
+  gap: 1px;
+}
+
+/* Chrome labels are set by case and tracking, never by size or weight alone. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }

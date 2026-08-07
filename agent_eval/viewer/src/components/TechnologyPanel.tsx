@@ -3,7 +3,7 @@ import { competitorLabel, technologyState } from '../view-model'
 import { ColorMark } from './ColorMark'
 
 /** Acquisition chips also back the empty-state copy, which keeps its own margin. */
-const ACQUISITION_CHIP = 'py-1.5 px-2 border border-[#30414a] rounded-[3px] text-[#bdc7cc] bg-[#101a20] text-[10px]'
+const ACQUISITION_CHIP = 'py-1.5 px-2 border border-line text-muted bg-[#17140f] text-[10px]'
 const RESEARCH_META = 'block text-muted text-[9px] leading-[1.4] font-readout uppercase'
 
 interface TechnologyPanelProps {
@@ -43,7 +43,7 @@ export function TechnologyPanel({
         </div>
         <label className="text-muted font-bold text-[9px] leading-none font-readout tracking-[.06em] uppercase">
           Controller
-          <select className="ml-[7px] py-[7px] px-2 border border-[#34434c] rounded-[3px] text-ink bg-[#0b1217]" value={selectedSeat} onChange={(event) => setSelectedSeat(event.target.value)}>
+          <select className="ml-[7px] py-[7px] px-2 border border-line text-ink bg-[#17140f]" value={selectedSeat} onChange={(event) => setSelectedSeat(event.target.value)}>
             {scoredPlayers.map((candidate) => (
               <option key={candidate.seat_id} value={candidate.seat_id}>
                 {competitorLabel(candidate)}

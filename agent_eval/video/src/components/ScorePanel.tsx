@@ -1,7 +1,7 @@
 import type { Film, PlayerTrack, TurnState } from '../dataset/film'
 import { sampleTrack } from '../dataset/film'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
-import { SHELL, withAlpha } from '../theme'
+import { SHELL, mixColors, withAlpha } from '../theme'
 import { MetricChart, type ChartSeries } from './MetricChart'
 
 /** Cities and technologies ride in the rail the match dossier used to occupy. */
@@ -35,7 +35,7 @@ function Sparkline({
   return (
     <svg className="block" height={height} width={width}>
       <line
-        stroke={withAlpha(SHELL.line, 0.9)}
+        stroke={withAlpha(SHELL.ink, 0.08)}
         strokeWidth={1}
         x1={0}
         x2={width}
@@ -47,8 +47,8 @@ function Sparkline({
           fill="none"
           points={points.join(' ')}
           stroke={track.renderColor}
-          strokeLinecap="round"
-          strokeWidth={1.8}
+          strokeLinecap="square"
+          strokeWidth={1.6}
         />
       )}
     </svg>
@@ -57,11 +57,9 @@ function Sparkline({
 
 function StatCell({ label, value }: { readonly label: string; readonly value: string }) {
   return (
-    <div className="flex flex-col gap-[3px]">
-      <span className="font-mono text-[10px] tracking-[1.4px] text-muted uppercase">
-        {label}
-      </span>
-      <span className="font-mono text-[19px] font-semibold text-ink">{value}</span>
+    <div className="flex flex-col gap-[5px]">
+      <span className="label">{label}</span>
+      <span className="font-mono text-[19px] font-medium text-ink tabular-nums">{value}</span>
     </div>
   )
 }
@@ -86,66 +84,71 @@ function PlayerCard({
   const share = leaderScore > 0 ? Math.min(1, score / leaderScore) : 0
 
   return (
+    /*
+     * The leader is marked by a faint wash of its own colour rather than a lit
+     * border. A tinted fill reads at a glance and never competes with the
+     * faction rail, which is the one place the colour is at full strength.
+     */
     <div
-      className="relative flex flex-col gap-[10px] rounded bg-panel-2 px-[16px] pt-[14px] pb-[12px]"
+      className="flex items-stretch gap-[16px]"
       style={{
-        border: `1px solid ${rank === 1 ? withAlpha(track.renderColor, 0.55) : SHELL.line}`,
-        opacity: alive ? 1 : 0.55,
+        background: rank === 1
+          ? mixColors(SHELL.panelRaised, track.renderColor, 0.055)
+          : SHELL.panelRaised,
+        opacity: alive ? 1 : 0.5,
       }}
     >
-      <span
-        className="absolute top-0 bottom-0 left-0 w-[4px] rounded-l"
-        style={{ background: track.renderColor }}
-      />
-      <div className="flex items-baseline gap-[8px]">
-        <span className="font-mono text-[13px] font-bold tracking-[1.2px] text-ink">
-          {controllerDisplayName(track.player)}
-          <span className="text-muted">: </span>
-          <span style={{ color: track.renderColor }}>
-            {nationDisplayName(track.player)}
+      <span className="w-[4px] shrink-0" style={{ background: track.renderColor }} />
+      <div className="flex min-w-0 flex-1 flex-col gap-[11px] pt-[15px] pr-[17px] pb-[13px]">
+        <div className="flex items-baseline gap-[10px]">
+          <span className="min-w-0 truncate font-mono text-[13px] font-medium tracking-[0.01em] text-ink">
+            {controllerDisplayName(track.player)}
+            <span className="text-dim">: </span>
+            <span style={{ color: track.renderColor }}>
+              {nationDisplayName(track.player)}
+            </span>
           </span>
-        </span>
-        <span className="ml-auto font-mono text-[10px] tracking-[1.2px] text-muted">
-          #{rank}
-        </span>
-      </div>
-      <div className="flex items-end gap-[12px]">
-        <span className="font-mono text-[46px] leading-[0.95] font-bold tracking-[-1px] text-ink tabular-nums">
-          {Math.round(score).toLocaleString('en-US')}
-        </span>
-        <span className="pb-[6px] font-mono text-[10px] tracking-[1.4px] text-muted">
-          SCORE
-        </span>
-        <div className="ml-auto pb-[4px]">
-          <Sparkline height={26} track={track} turnIndex={turnIndex} width={110} />
+          <span className="label ml-auto shrink-0">#{rank}</span>
         </div>
-      </div>
-      <div className="h-[4px] rounded-sm" style={{ background: withAlpha(SHELL.line, 0.7) }}>
+        <div className="flex items-end gap-[13px]">
+          <span className="font-mono text-[46px] leading-[0.86] font-medium tracking-[-0.045em] text-ink tabular-nums">
+            {Math.round(score).toLocaleString('en-US')}
+          </span>
+          <span className="label pb-[6px]">Score</span>
+          <div className="ml-auto pb-[4px]">
+            <Sparkline height={26} track={track} turnIndex={turnIndex} width={110} />
+          </div>
+        </div>
+        <div className="h-[3px]" style={{ background: withAlpha(SHELL.ink, 0.07) }}>
+          <div
+            className="h-[3px]"
+            style={{ background: track.renderColor, width: `${(share * 100).toFixed(2)}%` }}
+          />
+        </div>
+        <div className="grid grid-cols-4 gap-[8px] pt-[3px]">
+          <StatCell label="Cities" value={Math.round(cities).toLocaleString('en-US')} />
+          <StatCell label="Units" value={Math.round(units).toLocaleString('en-US')} />
+          <StatCell label="Techs" value={String(stat?.techs ?? 0)} />
+          <StatCell label="Gold" value={String(stat?.gold ?? 0)} />
+        </div>
         <div
-          className="h-[4px] rounded-sm"
-          style={{ background: track.renderColor, width: `${(share * 100).toFixed(2)}%` }}
-        />
-      </div>
-      <div className="grid grid-cols-4 gap-[8px] pt-[2px]">
-        <StatCell label="Cities" value={Math.round(cities).toLocaleString('en-US')} />
-        <StatCell label="Units" value={Math.round(units).toLocaleString('en-US')} />
-        <StatCell label="Techs" value={String(stat?.techs ?? 0)} />
-        <StatCell label="Gold" value={String(stat?.gold ?? 0)} />
-      </div>
-      <div className="flex items-baseline justify-between gap-[10px] border-t border-line pt-[8px]">
-        <span className="font-mono text-[10px] tracking-[1.4px] text-muted uppercase">
-          Researching
-        </span>
-        <span className="min-w-0 flex-1 truncate text-right font-mono text-[12px] text-ink">
-          {researching || '—'}
-        </span>
-        <span className="font-mono text-[11px] text-muted tabular-nums">
-          {bulbs > 0 ? `${Math.round(bulbs).toLocaleString('en-US')} bulbs` : ''}
-        </span>
-      </div>
-      <div className="flex justify-between gap-[10px] font-mono text-[10px] tracking-[1px] text-muted uppercase">
-        <span>{alive ? stat?.government || 'anarchy' : 'eliminated'}</span>
-        <span>{alive ? `${stat?.citizens ?? 0} citizens` : 'no cities remain'}</span>
+          className="flex items-baseline justify-between gap-[10px] pt-[10px]"
+          style={{ borderTop: `1px solid ${withAlpha(SHELL.ink, 0.07)}` }}
+        >
+          <span className="label">Researching</span>
+          <span className="min-w-0 flex-1 truncate text-right font-mono text-[12px] text-ink">
+            {researching || '—'}
+          </span>
+          <span className="font-mono text-[11px] text-dim tabular-nums">
+            {bulbs > 0 ? `${Math.round(bulbs).toLocaleString('en-US')} bulbs` : ''}
+          </span>
+        </div>
+        <div className="flex justify-between gap-[10px]">
+          <span className="label">{alive ? stat?.government || 'anarchy' : 'eliminated'}</span>
+          <span className="label">
+            {alive ? `${stat?.citizens ?? 0} citizens` : 'no cities remain'}
+          </span>
+        </div>
       </div>
     </div>
   )
@@ -172,52 +175,62 @@ export function ScorePanel({
     (track) => !track.player.seat
       && (turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0) > 0,
   )
+  // The rail is one bordered instrument, so its contents are inset by the border.
+  const inner = width - 2
 
   return (
-    <div className="flex h-full flex-col gap-[12px]" style={{ width }}>
-      <div className="flex items-center justify-between border-b border-line pb-[8px] font-mono text-[10px] tracking-[2px] text-muted">
-        <span>STANDINGS</span>
-        <span>{film.meta.controlProtocol.toUpperCase()}</span>
+    <div className="flex h-full flex-col gap-[13px]" style={{ width }}>
+      <div className="flex items-center justify-between border-b border-line pb-[10px]">
+        <span className="label">Standings</span>
+        <span className="label">{film.meta.controlProtocol}</span>
       </div>
-      {ranked.map((track, index) => (
-        <PlayerCard
-          key={track.player.playerId}
-          leaderScore={leaderScore}
+      {/* Standings and their two histories share one frame: the 1px lines
+          between them are rules, not gutters between floating cards. */}
+      <div className="hair-grid flex flex-col border border-line">
+        {ranked.map((track, index) => (
+          <PlayerCard
+            key={track.player.playerId}
+            leaderScore={leaderScore}
+            progress={progress}
+            rank={index + 1}
+            track={track}
+            turn={turn}
+            turnIndex={turnIndex}
+          />
+        ))}
+        <MetricChart
+          firstTurn={film.meta.firstTurn}
+          height={CHART_HEIGHT}
+          label="Cities"
           progress={progress}
-          rank={index + 1}
-          track={track}
-          turn={turn}
+          series={series((track) => track.cities)}
+          showTurnAxis={false}
+          totalTurns={film.turns.length}
           turnIndex={turnIndex}
+          width={inner}
         />
-      ))}
-      <MetricChart
-        firstTurn={film.meta.firstTurn}
-        height={CHART_HEIGHT}
-        label="Cities"
-        progress={progress}
-        series={series((track) => track.cities)}
-        showTurnAxis={false}
-        totalTurns={film.turns.length}
-        turnIndex={turnIndex}
-        width={width}
-      />
-      <MetricChart
-        firstTurn={film.meta.firstTurn}
-        height={CHART_HEIGHT}
-        label="Technologies"
-        progress={progress}
-        series={series((track) => track.techs)}
-        showTurnAxis={false}
-        totalTurns={film.turns.length}
-        turnIndex={turnIndex}
-        width={width}
-      />
+        <MetricChart
+          firstTurn={film.meta.firstTurn}
+          height={CHART_HEIGHT}
+          label="Technologies"
+          progress={progress}
+          series={series((track) => track.techs)}
+          showTurnAxis={false}
+          totalTurns={film.turns.length}
+          turnIndex={turnIndex}
+          width={inner}
+        />
+      </div>
       <div className="flex-1" />
       {thirdParties.length > 0 && (
-        <div className="flex items-center gap-[10px] rounded border border-line px-[12px] py-[8px] font-mono text-[11px] tracking-[1px] text-muted">
-          <span className="tracking-[1.6px]">THIRD PARTY</span>
+        <div className="flex items-center gap-[12px] border border-line px-[14px] py-[10px]">
+          <span className="label">Third party</span>
           {thirdParties.map((track) => (
-            <span key={track.player.playerId} style={{ color: track.renderColor }}>
+            <span
+              className="font-mono text-[11px]"
+              key={track.player.playerId}
+              style={{ color: track.renderColor }}
+            >
               {nationDisplayName(track.player)} ·{' '}
               {turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0} cities
             </span>

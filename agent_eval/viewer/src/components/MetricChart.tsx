@@ -80,9 +80,9 @@ export function MetricChart({ label, metric, snapshots }: MetricChartProps) {
               key={item.key}
               points={points(item.values, minTurn, maxTurn, maxValue)}
               stroke={item.color}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="4"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+              strokeWidth="1.75"
               vectorEffect="non-scaling-stroke"
             />
           ))}

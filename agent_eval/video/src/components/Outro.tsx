@@ -6,7 +6,7 @@ import { controllerDisplayName, nationDisplayName } from '../faction-label'
 import { eventKindLabel, topHighlights, weightTier } from '../event-log'
 import { formatDuration } from '../format'
 import type { GameEvent } from '../dataset/schema'
-import { SHELL, withAlpha } from '../theme'
+import { SHELL, mixColors, withAlpha } from '../theme'
 import { BoardCanvas } from './BoardCanvas'
 import { MetricChart, type ChartSeries } from './MetricChart'
 
@@ -20,11 +20,15 @@ interface OutroProps {
 const STAGE_WIDTH = 1700
 const PANEL_WIDTH = 620
 const CHART_GAP = 16
-const CHART_WIDTH = Math.round((STAGE_WIDTH - PANEL_WIDTH - CHART_GAP - 2 * CHART_GAP) / 3)
-const BAND_HEIGHT = 366
+const BAND_HEIGHT = 434
 const HIGHLIGHTS_WIDTH = 430
 const BOARD_WIDTH = STAGE_WIDTH - HIGHLIGHTS_WIDTH - CHART_GAP
 const MAX_HIGHLIGHTS = 7
+// The three histories share one frame, so their widths have to account for the
+// frame's border and the two hairlines between them.
+const CHARTS_WIDTH = STAGE_WIDTH - PANEL_WIDTH - CHART_GAP
+const CHART_WIDTH = Math.floor((CHARTS_WIDTH - 4) / 3)
+const LAST_CHART_WIDTH = CHARTS_WIDTH - 4 - 2 * CHART_WIDTH
 
 /**
  * How the match ended, in the archive's own words.
@@ -55,16 +59,14 @@ function Highlights({
       )
       if (track) return track.renderColor
     }
-    return SHELL.cyan
+    return SHELL.muted
   }
   return (
     <div
-      className="flex flex-col gap-[8px] rounded border border-line px-[16px] py-[14px]"
+      className="flex flex-col gap-[10px] border border-line px-[18px] py-[15px]"
       style={{ width: HIGHLIGHTS_WIDTH }}
     >
-      <span className="font-mono text-[10px] tracking-[2px] text-muted">
-        DEFINING MOMENTS
-      </span>
+      <span className="label">Defining moments</span>
       {events.length === 0 && (
         <span className="font-mono text-[11px] text-muted">
           No events were derived for this run.
@@ -75,23 +77,24 @@ function Highlights({
         const major = weightTier(event.weight) === 'major'
         return (
           <div
-            className="flex min-w-0 flex-1 flex-col gap-[3px] border-l-[3px] pl-[10px]"
+            className="flex min-w-0 flex-1 flex-col gap-[4px] pl-[12px]"
             key={`${event.turn}-${event.kind}-${event.summary}`}
-            style={{ borderColor: major ? color : withAlpha(color, 0.45) }}
+            // Rail weight is the beat's weight; a major moment holds more edge.
+            style={{ borderLeft: `${major ? 3 : 2}px solid ${major ? color : withAlpha(color, 0.4)}` }}
           >
-            <div className="flex items-baseline gap-[8px]">
-              <span className="font-mono text-[10px] tracking-[1.2px] text-muted">
-                T{event.turn}
-              </span>
+            <div className="flex items-baseline gap-[10px]">
+              <span className="label">T{event.turn}</span>
               <span
-                className="font-mono text-[10px] tracking-[1.4px] uppercase"
+                className="font-mono text-[10px] font-medium tracking-[0.16em] uppercase"
                 style={{ color }}
               >
                 {eventKindLabel(event.kind)}
               </span>
             </div>
             <span
-              className={`font-sans leading-snug ${major ? 'text-[14px] text-ink' : 'text-[13px] text-muted'}`}
+              className={`font-display leading-snug tracking-[-0.01em] ${
+                major ? 'text-[15px] text-ink' : 'text-[14px] text-muted'
+              }`}
             >
               {event.summary}
             </span>
@@ -113,39 +116,38 @@ function StandingRow({
   const stat = lastTurn?.statsByPlayer.get(track.player.playerId)
   return (
     <div
-      className="flex items-center gap-[16px] rounded bg-panel px-[18px] py-[14px]"
+      className="flex flex-1 items-stretch gap-[16px]"
       style={{
-        border: `1px solid ${
-          rank === 1 ? withAlpha(track.renderColor, 0.6) : SHELL.line
-        }`,
+        background: rank === 1
+          ? mixColors(SHELL.panel, track.renderColor, 0.055)
+          : SHELL.panel,
       }}
     >
-      <span
-        className="w-[30px] font-mono text-[22px] font-bold"
-        style={{ color: rank === 1 ? SHELL.amber : SHELL.muted }}
-      >
-        {rank}
-      </span>
-      <span
-        className="h-[30px] w-[5px] rounded-sm"
-        style={{ background: track.renderColor }}
-      />
-      <div className="flex min-w-0 flex-col gap-[3px]">
-        <span className="truncate font-serif text-[22px] text-ink">
-          {controllerDisplayName(track.player)}
-          <span className="text-muted">: </span>
-          <span style={{ color: track.renderColor }}>
-            {nationDisplayName(track.player)}
-          </span>
+      <span className="w-[5px] shrink-0" style={{ background: track.renderColor }} />
+      <div className="flex flex-1 items-center gap-[16px] py-[15px] pr-[20px]">
+        <span
+          className="w-[26px] font-mono text-[22px] font-medium tabular-nums"
+          style={{ color: rank === 1 ? SHELL.ink : SHELL.dim }}
+        >
+          {rank}
         </span>
-        <span className="font-mono text-[11px] text-muted">
-          peak {track.peakScore.toLocaleString('en-US')} · {stat?.cities ?? 0} cities ·{' '}
-          {stat?.techs ?? 0} techs
+        <div className="flex min-w-0 flex-col gap-[5px]">
+          <span className="truncate font-display text-[24px] leading-tight tracking-[-0.025em] text-ink">
+            {controllerDisplayName(track.player)}
+            <span className="text-dim">: </span>
+            <span style={{ color: track.renderColor }}>
+              {nationDisplayName(track.player)}
+            </span>
+          </span>
+          <span className="font-mono text-[11px] text-muted">
+            peak {track.peakScore.toLocaleString('en-US')} · {stat?.cities ?? 0} cities ·{' '}
+            {stat?.techs ?? 0} techs
+          </span>
+        </div>
+        <span className="ml-auto font-mono text-[36px] leading-none font-medium tracking-[-0.04em] text-ink tabular-nums">
+          {track.finalScore.toLocaleString('en-US')}
         </span>
       </div>
-      <span className="ml-auto font-mono text-[34px] font-bold text-ink tabular-nums">
-        {track.finalScore.toLocaleString('en-US')}
-      </span>
     </div>
   )
 }
@@ -186,20 +188,20 @@ export function Outro({ film, superSample }: OutroProps) {
 
   return (
     <div
-      className="flex h-full w-full flex-col items-center gap-[16px] px-[30px] py-[24px]"
+      className="flex h-full w-full flex-col items-center justify-center gap-[18px] px-[30px] py-[24px]"
       style={{ opacity: fadeIn }}
     >
       <div
-        className="flex items-center justify-between border-b border-line pb-[10px] font-mono text-[11px] tracking-[3px] text-muted"
+        className="flex items-center justify-between border-b border-line pb-[11px]"
         style={{ width: STAGE_WIDTH }}
       >
-        <span className="text-cyan">FINAL STANDINGS · TURN {lastTurn.turn}</span>
-        <span>{film.meta.gameId}</span>
+        <span className="label">Final standings · turn {lastTurn.turn}</span>
+        <span className="label">{film.meta.gameId}</span>
       </div>
 
       <div className="flex gap-[16px]" style={{ width: STAGE_WIDTH }}>
         <div
-          className="board-frame overflow-hidden rounded border border-board-edge bg-board"
+          className="board-frame overflow-hidden border border-board-edge bg-board"
           style={{ height: boardHeight, width: BOARD_WIDTH }}
         >
           <BoardCanvas
@@ -220,41 +222,43 @@ export function Outro({ film, superSample }: OutroProps) {
         className="flex gap-[16px]"
         style={{ height: BAND_HEIGHT, width: STAGE_WIDTH }}
       >
-        <MetricChart
-          ceiling={peak((track) => track.scores)}
-          firstTurn={film.meta.firstTurn}
-          height={BAND_HEIGHT}
-          label="Score"
-          progress={0}
-          series={series((track) => track.scores)}
-          totalTurns={film.turns.length}
-          turnIndex={lastIndex}
-          width={CHART_WIDTH}
-        />
-        <MetricChart
-          ceiling={peak((track) => track.cities)}
-          firstTurn={film.meta.firstTurn}
-          height={BAND_HEIGHT}
-          label="Cities"
-          progress={0}
-          series={series((track) => track.cities)}
-          totalTurns={film.turns.length}
-          turnIndex={lastIndex}
-          width={CHART_WIDTH}
-        />
-        <MetricChart
-          ceiling={peak((track) => track.techs)}
-          firstTurn={film.meta.firstTurn}
-          height={BAND_HEIGHT}
-          label="Technologies"
-          progress={0}
-          series={series((track) => track.techs)}
-          totalTurns={film.turns.length}
-          turnIndex={lastIndex}
-          width={CHART_WIDTH}
-        />
+        <div className="hair-grid flex border border-line" style={{ width: CHARTS_WIDTH }}>
+          <MetricChart
+            ceiling={peak((track) => track.scores)}
+            firstTurn={film.meta.firstTurn}
+            height={BAND_HEIGHT}
+            label="Score"
+            progress={0}
+            series={series((track) => track.scores)}
+            totalTurns={film.turns.length}
+            turnIndex={lastIndex}
+            width={CHART_WIDTH}
+          />
+          <MetricChart
+            ceiling={peak((track) => track.cities)}
+            firstTurn={film.meta.firstTurn}
+            height={BAND_HEIGHT}
+            label="Cities"
+            progress={0}
+            series={series((track) => track.cities)}
+            totalTurns={film.turns.length}
+            turnIndex={lastIndex}
+            width={CHART_WIDTH}
+          />
+          <MetricChart
+            ceiling={peak((track) => track.techs)}
+            firstTurn={film.meta.firstTurn}
+            height={BAND_HEIGHT}
+            label="Technologies"
+            progress={0}
+            series={series((track) => track.techs)}
+            totalTurns={film.turns.length}
+            turnIndex={lastIndex}
+            width={LAST_CHART_WIDTH}
+          />
+        </div>
         <div
-          className="flex flex-col gap-[10px]"
+          className="hair-grid flex flex-col border border-line"
           style={{ width: PANEL_WIDTH }}
         >
           {ranked.map((track, index) => (
@@ -265,12 +269,12 @@ export function Outro({ film, superSample }: OutroProps) {
               track={track}
             />
           ))}
-          <div className="flex flex-1 flex-col justify-center gap-[6px] rounded border border-line px-[18px] py-[12px]">
-            <span className="font-mono text-[10px] tracking-[2px] text-muted">OUTCOME</span>
-            <span className="font-sans text-[15px] leading-snug text-ink">
+          <div className="flex flex-col gap-[8px] bg-panel px-[20px] py-[18px]">
+            <span className="label">Outcome</span>
+            <span className="font-display text-[16px] leading-snug tracking-[-0.01em] text-ink">
               {outcomeLine(film)}
             </span>
-            <span className="font-mono text-[10px] text-muted">
+            <span className="font-mono text-[10px] leading-relaxed text-dim">
               recorded state: {film.meta.state} · {film.meta.controlProtocol} ·{' '}
               {wallClock} of play ·{' '}
               {lastTurn.cities.length.toLocaleString('en-US')} cities ·{' '}

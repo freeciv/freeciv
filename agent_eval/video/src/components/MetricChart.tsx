@@ -34,13 +34,19 @@ function niceCeiling(value: number): number {
  * One shared line chart for every per-turn metric the dataset carries. The
  * match panel reveals it up to the current turn; the end screen passes the
  * final turn and a fixed ceiling to draw the whole history at once.
+ *
+ * Two seats means two lines crossing constantly, so there is no area fill: two
+ * translucent wedges overlapping turned every chart in the film into the same
+ * brown smear and buried the lines that carry the reading. Weight and colour
+ * carry the series instead. The value axis sits in the right margin so the
+ * lines start flush with the left edge and the plot keeps its full width.
  */
 export function MetricChart({
   series, turnIndex, progress, width, height, totalTurns, firstTurn, label,
   ceiling, showTurnAxis = true,
 }: MetricChartProps) {
   const padding = {
-    top: 22, right: 14, bottom: showTurnAxis ? 24 : 10, left: 46,
+    top: 26, right: 44, bottom: showTurnAxis ? 22 : 12, left: 14,
   }
   const plotWidth = width - padding.left - padding.right
   const plotHeight = height - padding.top - padding.bottom
@@ -65,21 +71,14 @@ export function MetricChart({
 
   return (
     <svg className="block" height={height} width={width}>
-      <rect
-        fill={SHELL.panelRaised}
-        height={height}
-        rx={4}
-        stroke={SHELL.line}
-        width={width}
-        x={0}
-        y={0}
-      />
-      {[0, 0.25, 0.5, 0.75, 1].map((fraction) => {
+      <rect fill={SHELL.panelRaised} height={height} width={width} x={0} y={0} />
+      {[0, 0.5, 1].map((fraction) => {
         const y = padding.top + plotHeight - fraction * plotHeight
         return (
           <g key={fraction}>
             <line
-              stroke={withAlpha(SHELL.line, 0.85)}
+              stroke={withAlpha(SHELL.ink, fraction === 0 ? 0.1 : 0.055)}
+              strokeDasharray={fraction === 0 ? undefined : '2 4'}
               strokeWidth={1}
               x1={padding.left}
               x2={width - padding.right}
@@ -88,11 +87,10 @@ export function MetricChart({
             />
             <text
               className="font-mono"
-              fill={SHELL.muted}
-              fontSize={11}
-              textAnchor="end"
-              x={padding.left - 8}
-              y={y + 4}
+              fill={SHELL.dim}
+              fontSize={10}
+              x={width - padding.right + 9}
+              y={y + 3.5}
             >
               {Math.round(axisMax * fraction).toLocaleString('en-US')}
             </text>
@@ -102,10 +100,11 @@ export function MetricChart({
       <text
         className="font-mono"
         fill={SHELL.muted}
-        fontSize={11}
+        fontSize={10}
+        fontWeight={500}
         letterSpacing={1.6}
         x={padding.left}
-        y={14}
+        y={15}
       >
         {label.toUpperCase()}
       </text>
@@ -128,35 +127,29 @@ export function MetricChart({
         const headY = Number(head[1] ?? 0)
         return (
           <g key={line.key}>
-            <polygon
-              fill={line.color}
-              opacity={0.14}
-              points={`${padding.left},${toY(0)} ${points.join(' ')} ${headX},${toY(0)}`}
-            />
             <polyline
               fill="none"
               points={points.join(' ')}
               stroke={line.color}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2.4}
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+              strokeWidth={2.1}
             />
-            <circle cx={headX} cy={headY} fill={line.color} r={4} />
-            <circle
-              cx={headX}
-              cy={headY}
-              fill="none"
-              opacity={0.45}
-              r={8}
-              stroke={line.color}
-              strokeWidth={1.5}
+            {/* A flat marker, not a lit one: the head is where the reading is,
+                and a halo ring around it only added light. */}
+            <rect
+              fill={line.color}
+              height={7}
+              width={7}
+              x={headX - 3.5}
+              y={headY - 3.5}
             />
           </g>
         )
       })}
       <line
-        stroke={withAlpha(SHELL.cyan, 0.35)}
-        strokeDasharray="3 4"
+        stroke={withAlpha(SHELL.ink, 0.16)}
+        strokeDasharray="2 4"
         strokeWidth={1}
         x1={toX(revealed)}
         x2={toX(revealed)}
@@ -167,20 +160,20 @@ export function MetricChart({
         <>
           <text
             className="font-mono"
-            fill={SHELL.muted}
-            fontSize={11}
+            fill={SHELL.dim}
+            fontSize={10}
             x={padding.left}
-            y={height - 8}
+            y={height - 7}
           >
             T{firstTurn}
           </text>
           <text
             className="font-mono"
-            fill={SHELL.muted}
-            fontSize={11}
+            fill={SHELL.dim}
+            fontSize={10}
             textAnchor="end"
             x={width - padding.right}
-            y={height - 8}
+            y={height - 7}
           >
             T{firstTurn + totalTurns - 1}
           </text>

@@ -2,37 +2,35 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { Film, PlayerTrack } from '../dataset/film'
 import { controllerDisplayName, factionDisplayLabel, nationDisplayName } from '../faction-label'
 import { formatDuration } from '../format'
-import { withAlpha } from '../theme'
 
 interface TitleCardProps {
   readonly film: Film
   readonly durationInFrames: number
 }
 
-function MetaRow({ label, value }: { readonly label: string; readonly value: string }) {
+/** One cell of the collapsed metadata grid: a chrome label over its reading. */
+function MetaCell({ label, value }: { readonly label: string; readonly value: string }) {
   return (
-    <div className="flex gap-[18px]">
-      <span className="min-w-[168px] font-mono text-[12px] tracking-[2px] text-muted uppercase">
-        {label}
-      </span>
-      <span className="font-mono text-[14px] text-ink">{value}</span>
+    <div className="flex flex-col gap-[7px] bg-page px-[22px] py-[16px]">
+      <span className="label">{label}</span>
+      <span className="truncate font-mono text-[14px] text-ink">{value}</span>
     </div>
   )
 }
 
-/** "pi-gpt-5.6-sol: English", the civilization tinted with its faction colour. */
+/** "pi-gpt-5.6-sol: Babylonian", the civilization tinted with its faction colour. */
 function Contender({ track }: { readonly track: PlayerTrack }) {
   return (
-    <div className="flex items-center gap-[14px]">
-      <span
-        className="h-[46px] w-[6px] shrink-0 rounded-sm"
-        style={{ background: track.renderColor }}
-      />
-      <span className="font-serif text-[54px] leading-tight text-ink">
-        {controllerDisplayName(track.player)}
-        <span className="text-muted">: </span>
-        <span style={{ color: track.renderColor }}>{nationDisplayName(track.player)}</span>
-      </span>
+    <div className="flex items-stretch gap-[26px]">
+      <span className="w-[6px] shrink-0" style={{ background: track.renderColor }} />
+      <div className="flex min-w-0 flex-1 flex-col gap-[14px]">
+        <span className="font-display text-[92px] leading-[0.94] font-normal tracking-[-0.035em] text-ink">
+          {controllerDisplayName(track.player)}
+          <span className="text-muted">: </span>
+          <span style={{ color: track.renderColor }}>{nationDisplayName(track.player)}</span>
+        </span>
+        <span className="label">seat {track.player.seatId ?? '—'}</span>
+      </div>
     </div>
   )
 }
@@ -52,70 +50,72 @@ export function TitleCard({ film, durationInFrames }: TitleCardProps) {
     : 'unknown'
 
   return (
-    <div className="flex h-full w-full items-center justify-center" style={{ opacity: fadeOut }}>
+    /*
+     * Three bands anchored to the frame -- masthead, card, dossier -- rather
+     * than one small block floating in the middle of 1080 lines of black. The
+     * empty space between them is measured, which is what makes it read as
+     * composition instead of as a gap.
+     */
+    <div
+      className="flex h-full w-full flex-col justify-between px-[110px] pt-[74px] pb-[66px]"
+      style={{ opacity: fadeOut }}
+    >
+      <div style={{ opacity: rise, transform: `translateY(${(1 - rise) * 20}px)` }}>
+        <div className="flex items-baseline justify-between border-b border-line pb-[16px]">
+          <span className="label">Freeciv Agent Arena</span>
+          <span className="label">{film.meta.gameId}</span>
+        </div>
+      </div>
+
+      {/* Each side owns a full-width band, so the card reads as ruled sheet
+          rather than as a short line of type adrift in the middle of the frame. */}
       <div
-        className="flex w-[1280px] flex-col gap-[28px]"
-        style={{ opacity: rise, transform: `translateY(${(1 - rise) * 22}px)` }}
+        className="flex flex-col"
+        style={{ opacity: rise, transform: `translateY(${(1 - rise) * 20}px)` }}
       >
-        <span className="font-mono text-[13px] tracking-[6px] text-cyan">
-          FREECIV AGENT ARENA
-        </span>
-        <div className="flex flex-col gap-[8px]">
-          {seats.map((track, index) => (
-            <div className="flex flex-col gap-[8px]" key={track.player.playerId}>
-              {index > 0 && (
-                <span className="pl-[22px] font-mono text-[17px] font-bold tracking-[5px] text-cyan">
+        {seats.map((track, index) => (
+          <div className="flex flex-col" key={track.player.playerId}>
+            {index > 0 && (
+              <div className="flex items-center gap-[22px] py-[46px]">
+                <span className="h-px w-[46px] bg-line" />
+                <span className="font-mono text-[12px] font-medium tracking-[0.42em] text-muted">
                   VS
                 </span>
-              )}
-              <Contender track={track} />
-            </div>
-          ))}
-        </div>
-        <div className="flex gap-[18px] pt-[4px]">
-          {seats.map((track) => (
-            <div
-              className="flex flex-1 flex-col gap-[6px] rounded bg-panel px-[20px] py-[16px]"
-              key={track.player.playerId}
-              style={{ border: `1px solid ${withAlpha(track.renderColor, 0.5)}` }}
-            >
-              <span
-                className="font-mono text-[13px] font-bold tracking-[2px]"
-                style={{ color: track.renderColor }}
-              >
-                {nationDisplayName(track.player).toUpperCase()}
-              </span>
-              <span className="font-sans text-[18px] text-ink">
-                {controllerDisplayName(track.player)}
-              </span>
-              <span className="font-mono text-[12px] text-muted">
-                seat {track.player.seatId ?? '—'}
-              </span>
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col gap-[9px] border-t border-line pt-[20px]">
-          <MetaRow label="Game" value={film.meta.gameId} />
-          <MetaRow
-            label="Protocol"
-            value={`${film.meta.controlProtocol} · ruleset ${film.meta.ruleset}`}
-          />
-          <MetaRow
-            label="World"
-            value={`${film.meta.width} x ${film.meta.height} ${film.meta.topology} · seed ${film.meta.seeds[0] ?? 'n/a'}`}
-          />
-          <MetaRow
-            label="Match"
-            value={`${film.turns.length} turns · board snapshots on ${(film.meta.boardDensity * 100).toFixed(0)}% of turns`}
-          />
-          <MetaRow label="Outcome" value={`${film.meta.state} after ${wallClock} of wall clock`} />
-          {winner && (
-            <MetaRow
-              label="Final"
-              value={`${factionDisplayLabel(winner.player)} — ${winner.finalScore.toLocaleString('en-US')} points`}
-            />
-          )}
-        </div>
+                <span className="h-px flex-1 bg-line" />
+              </div>
+            )}
+            <Contender track={track} />
+          </div>
+        ))}
+        <span className="mt-[46px] h-px bg-line" />
+      </div>
+
+      {/* One tinted parent, 1px gaps: the rules between readings are shared,
+          not a gutter between floating cards. */}
+      <div
+        className="hair-grid grid grid-cols-3 border border-line"
+        style={{ opacity: rise, transform: `translateY(${(1 - rise) * 20}px)` }}
+      >
+        <MetaCell label="Game" value={film.meta.gameId} />
+        <MetaCell
+          label="World"
+          value={`${film.meta.width} x ${film.meta.height} ${film.meta.topology} · seed ${film.meta.seeds[0] ?? 'n/a'}`}
+        />
+        <MetaCell
+          label="Match"
+          value={`${film.turns.length} turns · board on ${(film.meta.boardDensity * 100).toFixed(0)}% of turns`}
+        />
+        <MetaCell
+          label="Protocol"
+          value={`${film.meta.controlProtocol} · ruleset ${film.meta.ruleset}`}
+        />
+        <MetaCell label="Outcome" value={`${film.meta.state} after ${wallClock} of wall clock`} />
+        <MetaCell
+          label="Final"
+          value={winner
+            ? `${factionDisplayLabel(winner.player)} — ${winner.finalScore.toLocaleString('en-US')} points`
+            : '—'}
+        />
       </div>
     </div>
   )

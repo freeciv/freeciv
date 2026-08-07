@@ -3,7 +3,7 @@ import { interpolate } from 'remotion'
 import type { Film } from '../dataset/film'
 import type { GameEvent } from '../dataset/schema'
 import { eventKindLabel, planCaptions, weightTier, type Caption } from '../event-log'
-import { SHELL, withAlpha } from '../theme'
+import { SHELL, mixColors, withAlpha } from '../theme'
 
 interface EventCaptionProps {
   readonly film: Film
@@ -28,7 +28,9 @@ function actorColor(film: Film, event: GameEvent): string {
     )
     if (track) return track.renderColor
   }
-  return SHELL.cyan
+  // Nobody the film tracks owns this beat, so it gets chrome rather than a
+  // colour that would read as a faction it does not belong to.
+  return SHELL.muted
 }
 
 /**
@@ -95,48 +97,56 @@ export function EventCaption({
   const tier = weightTier(event.weight)
 
   return (
+    /*
+     * A lower third seated in the board's own corner, not a card hovering over
+     * it. Sitting flush means the frame's edges hold it in place and it needs
+     * no drop shadow to separate; the faction glow that used to do that work is
+     * gone, and rank now reads from rail width, type size and padding.
+     */
     <div
-      className={`pointer-events-none absolute bottom-[16px] left-[16px] flex items-stretch rounded ${
-        mustShow ? 'gap-[18px] px-[22px] py-[18px]' : 'gap-[14px] px-[18px] py-[13px]'
+      className={`pointer-events-none absolute bottom-0 left-0 flex items-stretch ${
+        mustShow ? 'gap-[20px] pr-[28px]' : 'gap-[16px] pr-[22px]'
       }`}
       style={{
         // Opaque: the board underneath is busy, and a translucent card turns
         // the summary into grey mush exactly when it matters most.
-        background: SHELL.panel,
-        border: `1px solid ${withAlpha(color, mustShow ? 1 : tier === 'major' ? 0.85 : 0.45)}`,
-        boxShadow: mustShow
-          ? `0 14px 48px rgba(0,0,0,.7), 0 0 0 1px ${withAlpha(color, 0.35)}, 0 0 34px ${withAlpha(color, 0.22)}`
-          : `0 12px 40px rgba(0,0,0,.62)`,
-        maxWidth: width - 32,
+        background: mustShow ? mixColors(SHELL.panel, color, 0.045) : SHELL.panel,
+        borderTop: `1px solid ${withAlpha(color, mustShow ? 0.5 : tier === 'major' ? 0.34 : 0.2)}`,
+        borderRight: `1px solid ${withAlpha(color, mustShow ? 0.5 : tier === 'major' ? 0.34 : 0.2)}`,
+        maxWidth: width - 40,
         opacity,
         transform: `translateY(${rise}px)`,
       }}
     >
-      {/* A landmark's accent runs the full height of the card. */}
+      {/* Rail width is the rank: a landmark owns more of the edge. */}
       <span
-        className={`shrink-0 rounded-sm ${mustShow ? 'w-[6px] self-stretch' : 'h-[34px] w-[4px] self-center'}`}
+        className={`shrink-0 self-stretch ${mustShow ? 'w-[9px]' : 'w-[4px]'}`}
         style={{ background: color }}
       />
-      <div className={`flex min-w-0 flex-col ${mustShow ? 'gap-[6px]' : 'gap-[4px]'}`}>
-        <div className="flex items-center gap-[10px]">
+      <div
+        className={`flex min-w-0 flex-col ${
+          mustShow ? 'gap-[9px] py-[20px]' : 'gap-[6px] py-[14px]'
+        }`}
+      >
+        <div className="flex items-center gap-[14px]">
           <span
-            className="font-mono text-[10px] tracking-[1.8px] uppercase"
+            className="font-mono text-[10px] font-medium tracking-[0.16em] uppercase"
             style={{ color }}
           >
             {eventKindLabel(event.kind)}
           </span>
-          <span className="font-mono text-[10px] tracking-[1.2px] text-muted">
-            TURN {event.turn}
-          </span>
+          <span className="label">turn {event.turn}</span>
           {alsoInWindow > 0 && (
-            <span className="font-mono text-[10px] tracking-[1.2px] text-muted">
-              +{alsoInWindow} more
-            </span>
+            <span className="label">+{alsoInWindow} more</span>
           )}
         </div>
         <span
-          className={`truncate font-sans text-ink ${
-            mustShow ? 'text-[27px] leading-tight' : tier === 'major' ? 'text-[21px]' : 'text-[18px]'
+          className={`truncate font-display text-ink ${
+            mustShow
+              ? 'text-[33px] leading-[1.1] tracking-[-0.02em]'
+              : tier === 'major'
+                ? 'text-[23px] tracking-[-0.015em]'
+                : 'text-[20px] tracking-[-0.01em]'
           }`}
         >
           {captionText(active.caption)}

@@ -347,27 +347,26 @@ export function TechnologyProgressChart({
                     fill="none"
                     points={polylinePoints(item.values, model.minTurn!, model.maxTurn!, model.catalogTotal)}
                     stroke={paint}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="4"
+                    strokeLinecap="square"
+                    strokeLinejoin="miter"
+                    strokeWidth="1.75"
                     vectorEffect="non-scaling-stroke"
                   />
-                  <circle
-                    cx={xPosition(item.latest.turn, model.minTurn!, model.maxTurn!)}
-                    cy={yPosition(item.latest.knownClassicTechnologies, model.catalogTotal)}
+                  <rect
                     fill={paint}
-                    r="4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
+                    height={6}
+                    width={6}
+                    x={xPosition(item.latest.turn, model.minTurn!, model.maxTurn!) - 3}
+                    y={yPosition(item.latest.knownClassicTechnologies, model.catalogTotal) - 3}
                   />
                   {item.selected ? (
                     <circle
                       cx={xPosition(item.selected.turn, model.minTurn!, model.maxTurn!)}
                       cy={yPosition(item.selected.knownClassicTechnologies, model.catalogTotal)}
                       fill={paint}
-                      r="6"
+                      r="5"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth="1.5"
                     />
                   ) : null}
                 </g>

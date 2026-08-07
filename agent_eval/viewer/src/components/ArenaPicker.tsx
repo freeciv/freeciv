@@ -19,11 +19,11 @@ import { ColorMark } from './ColorMark'
 
 /** Seat-strip cells share every rule except the "no agent yet" hatching. */
 const SEAT_CELL = 'grid grid-cols-[auto_minmax(0,1fr)] gap-[9px] items-center py-[9px] px-[11px]'
-const SEAT_TAKEN = 'bg-[#0b1318]'
-const SEAT_OPEN = 'opacity-55 bg-[repeating-linear-gradient(-45deg,#0b1318,#0b1318_5px,#0e171d_5px,#0e171d_10px)]'
+const SEAT_TAKEN = 'bg-[#17140f]'
+const SEAT_OPEN = 'opacity-55 bg-[repeating-linear-gradient(-45deg,#17140f,#17140f_5px,#1b1814_5px,#1b1814_10px)]'
 const CLAMPED_LINE = 'block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'
-const META_LABEL = 'block overflow-hidden text-ellipsis whitespace-nowrap mb-[5px] text-[#697983] font-bold text-[7px] leading-none font-readout tracking-[.08em] uppercase'
-const ROW_LABEL = 'text-[#697983] font-bold text-[7px] leading-none font-readout tracking-[.08em] uppercase'
+const META_LABEL = 'block overflow-hidden text-ellipsis whitespace-nowrap mb-[5px] text-[#847b6c] font-bold text-[7px] leading-none font-readout tracking-[.08em] uppercase'
+const ROW_LABEL = 'text-[#847b6c] font-bold text-[7px] leading-none font-readout tracking-[.08em] uppercase'
 
 function stateLabel(state: string) {
   if (state === 'running' || state === 'starting') return 'Live'
@@ -43,7 +43,7 @@ function validityLabel(value: boolean | null) {
 function validityTone(value: boolean | null): string {
   if (value === true) return 'text-acid'
   if (value === false) return 'text-red'
-  return 'text-[#77858e]'
+  return 'text-[#918877]'
 }
 
 function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
@@ -74,44 +74,44 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
         </div>
         <span
           aria-hidden="true"
-          className="text-[#71818b] text-[21px] transition-[color,transform] duration-[.18s] group-hover:text-cyan group-hover:[transform:translate(2px,-2px)]"
+          className="text-[#8b8273] text-[21px] transition-[color,transform] duration-[.18s] group-hover:text-cyan group-hover:[transform:translate(2px,-2px)]"
         >↗</span>
       </div>
 
-      <div className="grid gap-px overflow-hidden border border-[#24323a] rounded-[4px] bg-[#24323a]" aria-label="Controllers and seats">
+      <div className="grid gap-px overflow-hidden border border-line bg-line" aria-label="Controllers and seats">
         {game.resolved_places.map((place) => (
           <div className={place.joined || place.controller === 'native_classic_ai' ? `${SEAT_CELL} ${SEAT_TAKEN}` : `${SEAT_CELL} ${SEAT_OPEN}`} key={place.seat_id}>
             <ColorMark color={place.player_color} label={placeLabel(place)} size="sm" />
-            <span className={CLAMPED_LINE}><strong className={`${CLAMPED_LINE} text-[11px]`}>{placeLabel(place)}</strong><small className={`${CLAMPED_LINE} mt-0.5 text-[#62727c] text-[8px]`}>{place.model || place.player_name}</small></span>
+            <span className={CLAMPED_LINE}><strong className={`${CLAMPED_LINE} text-[11px]`}>{placeLabel(place)}</strong><small className={`${CLAMPED_LINE} mt-0.5 text-[#7d7466] text-[8px]`}>{place.model || place.player_name}</small></span>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-[.55fr_.6fr_.65fr_1.4fr] gap-px mt-[14px] border border-[#25343c] bg-[#25343c] max-[1100px]:grid-cols-2">
-        <div className="min-w-0 p-2.5 bg-[#0d161c]"><small className={META_LABEL}>Places</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{game.places}</strong></div>
-        <div className="min-w-0 p-2.5 bg-[#0d161c]"><small className={META_LABEL}>Agents</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{game.joined_agents}/{game.max_agents}</strong></div>
-        <div className="min-w-0 p-2.5 bg-[#0d161c]"><small className={META_LABEL}>Open seats</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{openAgentSeats(game)}</strong></div>
-        <div className="min-w-0 p-2.5 bg-[#0d161c]"><small className={META_LABEL}>{game.state === 'running' ? 'Leader' : 'Outcome'}</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{gamePrimaryResult(game)}</strong></div>
+      <div className="grid grid-cols-[.55fr_.6fr_.65fr_1.4fr] gap-px mt-[14px] border border-[#2f2a23] bg-[#2f2a23] max-[1100px]:grid-cols-2">
+        <div className="min-w-0 p-2.5 bg-[#17140f]"><small className={META_LABEL}>Places</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{game.places}</strong></div>
+        <div className="min-w-0 p-2.5 bg-[#17140f]"><small className={META_LABEL}>Agents</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{game.joined_agents}/{game.max_agents}</strong></div>
+        <div className="min-w-0 p-2.5 bg-[#17140f]"><small className={META_LABEL}>Open seats</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{openAgentSeats(game)}</strong></div>
+        <div className="min-w-0 p-2.5 bg-[#17140f]"><small className={META_LABEL}>{game.state === 'running' ? 'Leader' : 'Outcome'}</small><strong className={`${CLAMPED_LINE} text-[11px]`}>{gamePrimaryResult(game)}</strong></div>
       </div>
 
       {timing && (
-        <div className="flex items-center justify-between gap-3 py-2 px-2.5 border border-[#25343c] border-t-0 bg-[#0d161c]">
+        <div className="flex items-center justify-between gap-3 py-2 px-2.5 border border-[#2f2a23] border-t-0 bg-[#17140f]">
           <small className={ROW_LABEL}>Turn timing</small><strong className="text-[10px]">{timing}</strong>
         </div>
       )}
 
       {waiting ? (
         <div className="flex gap-[9px] items-center mt-[13px] py-[11px] px-3 border border-[#6f5b2e] text-[#e4c36e] bg-[#1b170d] font-extrabold text-[9px] leading-none font-readout tracking-[.07em] uppercase">
-          <span className="w-1.5 h-1.5 rounded-[50%] bg-amber [box-shadow:0_0_10px_var(--color-amber)] animate-[pulse_1.7s_infinite]" />{waiting}
+          <span className="w-1.5 h-1.5 rounded-full bg-amber animate-[pulse_1.7s_infinite]" />{waiting}
         </div>
       ) : (
         <div className="grid grid-cols-[auto_1fr_minmax(90px,auto)] gap-2.5 items-center mt-[15px] max-[460px]:grid-cols-[auto_1fr]">
-          <span className="text-cyan font-bold text-[9px] leading-none font-readout"><b>TURN {turn}</b><small className="text-[#64737d]"> / {game.turns}</small></span>
+          <span className="text-cyan font-bold text-[9px] leading-none font-readout"><b>TURN {turn}</b><small className="text-[#7d7466]"> / {game.turns}</small></span>
           <progress aria-label={`Turn ${turn} of ${game.turns}`} className="turn-track" max="100" value={turnProgress} />
-          <strong className="overflow-hidden text-[#8c9aa2] text-[9px] text-right text-ellipsis whitespace-nowrap max-[460px]:col-[1/-1] max-[460px]:text-left">{game.outcome.summary}</strong>
+          <strong className="overflow-hidden text-[#a49a8a] text-[9px] text-right text-ellipsis whitespace-nowrap max-[460px]:col-[1/-1] max-[460px]:text-left">{game.outcome.summary}</strong>
         </div>
       )}
-      <code className="mt-auto pt-[14px] text-[#53616a] text-[8px] tracking-[.06em]">{game.game_id}</code>
+      <code className="mt-auto pt-[14px] text-[#6a6154] text-[8px] tracking-[.06em]">{game.game_id}</code>
     </a>
     </DisplayPaletteProvider>
   )
@@ -174,9 +174,9 @@ export function ArenaPicker({ route }: { route: ArenaRouteContext }) {
           <div className="brand-mark arena-brand-mark" aria-hidden="true"><span /><span /><span /></div>
           <div className="min-w-0"><p className="eyebrow">Freeciv autonomous evaluation</p><h1>Agent Arena</h1></div>
         </div>
-        <p className="z-[1] max-w-[520px] mt-0 mx-0 mb-2 text-[#9eabb3] text-[length:clamp(14px,1.6vw,18px)] leading-[1.65] max-[1100px]:max-w-[680px]">Watch model harnesses negotiate, expand, research, and compete against Freeciv’s native intelligence—turn by turn.</p>
-        <div className="col-[1/-1] flex flex-wrap gap-x-6 gap-y-[9px] z-[1] pt-[18px] border-t border-t-[rgba(255,255,255,.09)] text-[#74838d] font-bold text-[9px] leading-none font-readout tracking-[.11em] uppercase">
-          <span className="inline-flex items-center gap-[7px]"><i className="w-1.5 h-1.5 rounded-[50%] bg-acid [box-shadow:0_0_11px_var(--color-acid)] animate-[pulse_1.7s_infinite]" />{activeCount} active {activeCount === 1 ? 'match' : 'matches'}</span>
+        <p className="z-[1] max-w-[520px] mt-0 mx-0 mb-2 text-[#b2a898] text-[length:clamp(14px,1.6vw,18px)] leading-[1.65] max-[1100px]:max-w-[680px]">Watch model harnesses negotiate, expand, research, and compete against Freeciv’s native intelligence—turn by turn.</p>
+        <div className="col-[1/-1] flex flex-wrap gap-x-6 gap-y-[9px] z-[1] pt-[18px] border-t border-t-[rgba(255,255,255,.09)] text-[#8b8273] font-bold text-[9px] leading-none font-readout tracking-[.11em] uppercase">
+          <span className="inline-flex items-center gap-[7px]"><i className="w-1.5 h-1.5 rounded-full bg-acid animate-[pulse_1.7s_infinite]" />{activeCount} active {activeCount === 1 ? 'match' : 'matches'}</span>
           <span className="inline-flex items-center gap-[7px]">{visibleGames.length} indexed</span>
           <span className="inline-flex items-center gap-[7px]">Auto-refresh 3s</span>
         </div>
@@ -202,7 +202,7 @@ export function ArenaPicker({ route }: { route: ArenaRouteContext }) {
         <section className="grid grid-cols-2 gap-[14px] max-[760px]:grid-cols-1" aria-label="Loading matches">
           {[0, 1, 2].map((index) => (
             <span
-              className="min-h-[360px] border border-[#223039] rounded-[6px] bg-[linear-gradient(100deg,#0b1318_20%,#111d24_45%,#0b1318_70%)] bg-[length:300%_100%] animate-[shimmer_1.8s_infinite] last:hidden"
+              className="min-h-[360px] border border-line bg-[linear-gradient(100deg,var(--color-panel)_20%,var(--color-panel-2)_45%,var(--color-panel)_70%)] bg-[length:300%_100%] animate-[shimmer_1.8s_infinite] last:hidden"
               key={index}
             />
           ))}
@@ -212,10 +212,10 @@ export function ArenaPicker({ route }: { route: ArenaRouteContext }) {
           {orderedGames.map((game) => <ArenaCard game={game} key={game.game_id} prefix={route.prefix} />)}
         </section>
       ) : !error && (
-        <section className="flex min-h-[360px] flex-col items-center justify-center border border-dashed border-[#33434c] text-muted text-center"><span className="status-glyph">◇</span><p className="eyebrow">Arena standing by</p><h2 className="m-0 text-[27px]">No games yet</h2><p className="text-[12px]">Start a game, then it will appear here automatically.</p></section>
+        <section className="flex min-h-[360px] flex-col items-center justify-center border border-dashed border-[#3b352d] text-muted text-center"><span className="status-glyph">◇</span><p className="eyebrow">Arena standing by</p><h2 className="m-0 text-[27px]">No games yet</h2><p className="text-[12px]">Start a game, then it will appear here automatically.</p></section>
       )}
 
-      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[#53616a] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col"><span>FREECIV AGENT EVALUATION</span><span>Public spectator surface · agent credentials never exposed</span></footer>
+      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[#6a6154] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col"><span>FREECIV AGENT EVALUATION</span><span>Public spectator surface · agent credentials never exposed</span></footer>
     </main>
   )
 }

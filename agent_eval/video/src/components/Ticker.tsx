@@ -21,18 +21,18 @@ function TerritoryBar({ film, turn, width }: Omit<TickerProps, 'turnIndex'>) {
     .filter((segment) => segment.tiles > 0)
 
   return (
-    <div className="flex flex-col gap-[6px]" style={{ width }}>
-      <div className="flex justify-between font-mono text-[10px] tracking-[1.8px] text-muted">
-        <span>TERRITORY</span>
-        <span>
+    <div className="flex flex-col gap-[7px]" style={{ width }}>
+      <div className="flex justify-between">
+        <span className="label">Territory</span>
+        <span className="label">
           {segments
             .map((segment) => `${segment.label} ${formatCount(segment.tiles)}`)
-            .join('  ·  ') || 'UNCLAIMED WORLD'}
+            .join('  ·  ') || 'unclaimed world'}
         </span>
       </div>
       <div
-        className="flex h-[6px] overflow-hidden rounded-sm"
-        style={{ background: withAlpha(SHELL.line, 0.8), width }}
+        className="flex h-[6px] overflow-hidden"
+        style={{ background: SHELL.panelRaised, width }}
       >
         {segments.map((segment) => (
           <div
@@ -43,7 +43,7 @@ function TerritoryBar({ film, turn, width }: Omit<TickerProps, 'turnIndex'>) {
             }}
           />
         ))}
-        <div className="flex-1" style={{ background: withAlpha('#445156', 0.5) }} />
+        <div className="flex-1" style={{ background: withAlpha(SHELL.ink, 0.05) }} />
       </div>
     </div>
   )
@@ -55,18 +55,23 @@ export function Ticker({ film, turn, turnIndex, width }: TickerProps) {
   const totalUnits = turn.units.reduce((total, stack) => total + (stack[3] ?? 0), 0)
 
   return (
-    <div className="flex flex-col gap-[14px]" style={{ width }}>
-      <div className="flex items-end gap-[26px]">
-        <div className="flex flex-col">
-          <span className="font-mono text-[11px] tracking-[2.4px] text-muted">TURN</span>
-          <span className="font-mono text-[62px] leading-[0.92] font-bold tracking-[-2px] text-ink tabular-nums">
+    <div className="flex flex-col gap-[15px]" style={{ width }}>
+      {/* Two readings of the same axis, given the same shape: the turn counter
+          the harness drives, and the in-fiction year it produced. */}
+      <div className="flex items-end gap-[40px]">
+        <div className="flex flex-col gap-[5px]">
+          <span className="label">Turn</span>
+          <span className="font-mono text-[58px] leading-[0.86] font-medium tracking-[-0.045em] text-ink tabular-nums">
             {turn.turn}
           </span>
         </div>
-        <span className="pb-[6px] font-serif text-[34px] text-amber">
-          {formatYear(turn.year)}
-        </span>
-        <div className="ml-auto flex flex-col gap-[4px] pb-[6px] text-right font-mono text-[12px] text-muted">
+        <div className="flex flex-col gap-[5px]">
+          <span className="label">Year</span>
+          <span className="font-display text-[40px] leading-[0.86] font-normal tracking-[-0.03em] text-muted">
+            {formatYear(turn.year)}
+          </span>
+        </div>
+        <div className="ml-auto flex flex-col gap-[5px] pb-[3px] text-right font-mono text-[12px] text-muted">
           <span>{formatCount(totalCities)} cities on the map</span>
           <span>{formatCount(totalUnits)} units afield</span>
           {turn.interpolated && (
@@ -76,9 +81,11 @@ export function Ticker({ film, turn, turnIndex, width }: TickerProps) {
           )}
         </div>
       </div>
-      <div className="h-[3px]" style={{ background: withAlpha(SHELL.line, 0.8), width }}>
+      {/* The match clock. Maximum contrast rather than a brand accent: the only
+          saturation in the shell belongs to the factions. */}
+      <div className="h-[2px]" style={{ background: withAlpha(SHELL.ink, 0.09), width }}>
         <div
-          className="h-[3px] bg-cyan"
+          className="h-[2px] bg-ink"
           style={{ width: `${(progress * 100).toFixed(3)}%` }}
         />
       </div>
