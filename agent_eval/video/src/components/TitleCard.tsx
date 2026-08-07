@@ -152,9 +152,9 @@ export function TitleCard({ film, durationInFrames }: TitleCardProps) {
    * the control-protocol version, the ruleset name, board density) is gone.
    */
   const facts = [
-    `${film.turns.length.toLocaleString('en-US')} turns`,
-    wallClock,
     singlePlayer ? 'Single player' : 'Agent vs agent',
+    wallClock,
+    `${film.turns.length.toLocaleString('en-US')} turns`,
   ].filter((fact): fact is string => fact !== null)
 
   return (

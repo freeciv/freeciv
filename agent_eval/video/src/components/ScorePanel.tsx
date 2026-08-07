@@ -2,6 +2,8 @@ import { countNoun } from '../format'
 import type { Film, PlayerTrack, TurnState } from '../dataset/film'
 import { sampleTrack } from '../dataset/film'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
+import { HarnessLogo, ProviderLogo, controllerMarks } from '../logos'
+import { NationFlag } from '../nation-flag'
 import { SHELL, mixColors, withAlpha } from '../theme'
 import { MetricChart, type ChartSeries } from './MetricChart'
 
@@ -83,6 +85,11 @@ function PlayerCard({
   const researching = stat?.researching ?? ''
   const bulbs = stat?.bulbs ?? 0
   const share = leaderScore > 0 ? Math.min(1, score / leaderScore) : 0
+  const isAgent = track.player.controllerType !== 'native'
+  // Both return null for anything unregistered, so a native seat draws no
+  // marks rather than a gap where they would be.
+  const { harness, provider } = controllerMarks(track.player.controllerLabel)
+  const marks = harness !== null || provider !== null
 
   return (
     /*
@@ -101,15 +108,39 @@ function PlayerCard({
     >
       <span className="w-[4px] shrink-0" style={{ background: track.renderColor }} />
       <div className="flex min-w-0 flex-1 flex-col gap-[11px] pt-[15px] pr-[17px] pb-[13px]">
-        <div className="flex items-baseline gap-[10px]">
+        {/*
+         * Role, then identity -- the same reading order the title card uses,
+         * so a viewer who has just watched the title knows what these rows
+         * are. "Agent" is the useful word here: which model it is sits on the
+         * line below, under its own marks.
+         */}
+        <div className="flex items-center gap-[10px]">
+          {marks && (
+            <div className="flex shrink-0 items-center gap-[7px]" style={{ color: SHELL.ink }}>
+              <HarnessLogo harness={harness} size={16} />
+              <ProviderLogo provider={provider} size={16} />
+            </div>
+          )}
           <span className="min-w-0 truncate font-mono text-[13px] font-medium tracking-[0.01em] text-ink">
-            {controllerDisplayName(track.player)}
-            <span className="text-dim">: </span>
-            <span style={{ color: track.renderColor }}>
-              {nationDisplayName(track.player)}
-            </span>
+            {isAgent ? 'Agent' : controllerDisplayName(track.player)}
           </span>
           <span className="label ml-auto shrink-0">#{rank}</span>
+        </div>
+        <div className="flex items-center gap-[9px]">
+          {/* Raw ruleset nation: the flag lookup is an exact match on
+              Freeciv's own name, so a decorated label resolves to null. */}
+          <NationFlag nation={track.player.nation} size={26} />
+          <span
+            className="min-w-0 truncate font-mono text-[12px]"
+            style={{ color: track.renderColor }}
+          >
+            {nationDisplayName(track.player)}
+          </span>
+          {isAgent && (
+            <span className="ml-auto min-w-0 truncate font-mono text-[11px] text-muted">
+              {controllerDisplayName(track.player)}
+            </span>
+          )}
         </div>
         <div className="flex items-end gap-[13px]">
           <span className="font-mono text-[46px] leading-[0.86] font-medium tracking-[-0.045em] text-ink tabular-nums">
@@ -158,11 +189,22 @@ function PlayerCard({
 export function ScorePanel({
   film, turn, turnIndex, progress, width,
 }: ScorePanelProps) {
-  const ranked = [...film.seatTracks].sort((left, right) => {
-    const leftScore = left.scores[turnIndex] ?? 0
-    const rightScore = right.scores[turnIndex] ?? 0
-    return rightScore - leftScore
-  })
+  const scoreOf = (track: PlayerTrack): number => track.scores[turnIndex] ?? 0
+  const byScore = [...film.seatTracks].sort((left, right) => scoreOf(right) - scoreOf(left))
+  /*
+   * Rank is always the standing; the row *order* is not.
+   *
+   * In a single-player match the rail is seated in film order, which puts the
+   * agent on top and keeps it there. Ordering by score made the two rows swap
+   * places whenever the lead changed, so the number you were tracking moved
+   * under your eye mid-film -- and it buried the model under the built-in AI
+   * for most of a losing run, which is the opposite of what the film is about.
+   * Agent-vs-agent still sorts by score: there, the standing is the story.
+   */
+  const agents = film.seatTracks.filter((track) => track.player.controllerType !== 'native')
+  const singlePlayer = agents.length === 1 && film.seatTracks.length > 1
+  const ranked = singlePlayer ? film.seatTracks : byScore
+  const rankOf = new Map(byScore.map((track, index) => [track.player.playerId, index + 1]))
   const leaderScore = Math.max(
     1, ...film.seatTracks.map((track) => track.scores[turnIndex] ?? 0),
   )
@@ -193,7 +235,7 @@ export function ScorePanel({
             key={track.player.playerId}
             leaderScore={leaderScore}
             progress={progress}
-            rank={index + 1}
+            rank={rankOf.get(track.player.playerId) ?? index + 1}
             track={track}
             turn={turn}
             turnIndex={turnIndex}
