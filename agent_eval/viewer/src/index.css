@@ -72,6 +72,10 @@
   --color-red: #e0665d;
   --color-violet: #a78bfa;
 
+  /* The graph-paper tint behind an unopened map: a lift on the dark surface, a
+     shadow on the light one, so it is a token rather than a baked-in white. */
+  --color-grid: rgba(255,255,255,.025);
+
   /* Archivo speaks and JetBrains Mono reads out; there is no third face and no
      display face. Headings separate from body by size, tracking and case --
      never by weight, which is why nothing here is ever set bolder than 500. */
@@ -87,7 +91,51 @@
   --font-readout: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* The light surface. Same ladder, same jobs, same number of steps -- read it
+ * against the dark block above and every line has a counterpart.
+ *
+ * It is modelled on the light ("FOR YOU") surface of the Composio landing,
+ * which the dark skin already borrowed its discipline from: a page that is a
+ * shade of grey, cards that are pure white lifting off it, and headings and
+ * controls recessed back into grey rather than lifted further. So the two
+ * skins invert the *direction* of the lift but not its size -- panel-2 is a
+ * step toward the page, panel-3 a step past it, exactly as they are steps away
+ * from it in the dark.
+ *
+ * The semantics are not the dark values: #6bbf90 and friends are tuned to sit
+ * on near-black and go chalky on white, so each is replaced by a darker, more
+ * saturated sibling of the same hue that clears 4.5:1 as text on the panel.
+ *
+ * Opt in with <html data-theme="light">; absent that, the arena is dark. */
+:root[data-theme="light"] {
+  /* Four surfaces. The page is grey, the panel is white. */
+  --color-page: #f1f3f4;
+  --color-panel: #ffffff;
+  --color-panel-2: #f7f8f9;
+  --color-panel-3: #eaedef;
+
+  /* Two rules, same jobs: the hairline, and the divider that has to be seen. */
+  --color-line: #e2e6e8;
+  --color-line-2: #c8cfd3;
+
+  /* Four text steps: reading, supporting, labelling, receding. */
+  --color-ink: #10161a;
+  --color-ink-2: #3b464d;
+  --color-muted: #666f76;
+  --color-dim: #8d979d;
+
+  /* Semantics, re-tuned for a white ground rather than a black one. */
+  --color-green: #1c7a4f;
+  --color-amber: #8a6100;
+  --color-red: #c4362b;
+  --color-violet: #6d3fd4;
+
+  --color-grid: rgba(0,0,0,.05);
+}
+
 @layer base {
+  :root[data-theme="light"] { color-scheme: light; }
+
   :root {
     color-scheme: dark;
     font-family: var(--font-sans);
@@ -148,7 +196,7 @@
 .live-indicator, .history-indicator { padding: 5px 8px; font: 600 9px/1 var(--font-readout); letter-spacing: .12em; }
 .live-indicator { color: var(--color-page); background: var(--color-ink); }.history-indicator { color: var(--color-ink-2); background: var(--color-line); }
 .map-stage { position: relative; display: grid; place-items: center; min-height: clamp(440px, 64vw, 820px); overflow: hidden; background: var(--color-page); }
-.map-stage::before { content: ""; position: absolute; inset: 0; opacity: .25; pointer-events: none; background: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 30px 30px; }
+.map-stage::before { content: ""; position: absolute; inset: 0; opacity: .25; pointer-events: none; background: linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px); background-size: 30px 30px; }
 .playback-bar { display: grid; grid-template-columns: auto minmax(140px, 1fr) auto auto; gap: 12px; align-items: center; padding: 13px 16px; border-top: 1px solid var(--color-line); background: var(--color-page); }
 .play-button, .step-button, .live-button { border: 1px solid var(--color-line-2); color: var(--color-ink); background: var(--color-panel-2); cursor: pointer; }
 .play-button { width: 37px; height: 34px; }.live-button { padding: 8px 12px; font: 500 10px/1 var(--font-readout); text-transform: uppercase; }
@@ -220,14 +268,41 @@
 
 /* Editorial shell: match layout scaffolding. */
 h1, h2, h3, .result-ribbon strong { font-family: var(--font-serif); font-weight: 500; }
-.match-content { display: grid; grid-template-columns: minmax(0,1fr) minmax(285px,330px); gap: 12px; align-items: start; margin-top: 12px; }.match-content > .result-ribbon,.match-content > .match-context,.match-content > .competitor-grid,.match-content > .intelligence-grid,.match-content > .legacy-telemetry-notice,.match-content > .turn-stats,.match-content > .technology-progress-chart,.match-content > .technology-panel { grid-column: 1; margin-top: 0; margin-bottom: 0; }.match-content > .strategy-grid,.match-content > .event-panel { grid-column: 1 / -1; margin: 0; }.match-content > .overview-rail-card { grid-column: 2; grid-row: 1; }.match-content > .charts-grid { grid-column: 2; grid-row: 2 / span 7; grid-template-columns: 1fr; margin: 0; }
+/* The match body is two real columns -- a reading column and a telemetry rail --
+   plus full-width sections beneath them.
+ *
+ * They used to be simulated inside a single grid: every reading section was
+ * pinned to `grid-column: 1` and auto-placed into its own row, and the rail was
+ * pinned across them with `grid-row: 2 / span 7`. That span is a count of the
+ * reading sections, and it was only ever right for one match shape. It is wrong
+ * whenever `.intelligence-grid` is absent (any match with telemetry but no
+ * scored controllers), and the rail's max-content contribution could overflow
+ * the tracks it shared regardless -- either way the surplus landed in a phantom
+ * row past the end of the reading column, and the page grew a ~220px empty band
+ * between the technology panel and the map.
+ *
+ * Real columns hold their own children, so there is no row count to get wrong
+ * and no phantom row to leak into. */
+.match-content { display: grid; grid-template-columns: minmax(0,1fr) minmax(285px,330px); gap: 12px; align-items: start; margin-top: 12px; }
+.match-main,.match-rail { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.match-main > *,.match-rail > * { margin-top: 0; margin-bottom: 0; }
+.match-content > .strategy-grid,.match-content > .event-panel { grid-column: 1 / -1; margin: 0; }
+.match-rail > .charts-grid { grid-template-columns: 1fr; }
 .match-content > .strategy-grid { grid-template-columns: minmax(0,4fr) minmax(260px,1fr); gap: 10px; }.match-content > .strategy-grid.map-collapsed { grid-template-columns: minmax(0,1fr); }
 
 @media (max-width: 1000px) {
-  .match-content { grid-template-columns: 1fr; }.match-content > .overview-rail-card,.match-content > .charts-grid { grid-column: 1; grid-row: auto; position: static; }.match-content > .charts-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }.match-content > .strategy-grid { grid-template-columns: 1fr; }
+  /* One column, so the two wrappers dissolve and their sections flow as one
+     sequence. `display: contents` keeps every `.match-main >` / `.match-rail >`
+     selector matching -- the elements stay in the tree, only their boxes go. */
+  .match-content { grid-template-columns: 1fr; }.match-main,.match-rail { display: contents; }
+  /* Flattened, the leaderboard reads as part of the match summary, so it stays
+     with the summary rather than sinking below the technology panels it happens
+     to follow in source order. */
+  .match-main > .result-ribbon,.match-main > .match-context { order: -2; }.match-rail > .overview-rail-card { order: -1; }
+  .match-rail > .charts-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }.match-content > .strategy-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 650px) {
-  .app-shell { padding: 8px; }.match-content > .charts-grid { grid-template-columns: 1fr; }.result-ribbon { grid-template-columns: 1fr; }.map-stage { min-height: 360px; }
+  .app-shell { padding: 8px; }.match-rail > .charts-grid { grid-template-columns: 1fr; }.result-ribbon { grid-template-columns: 1fr; }.map-stage { min-height: 360px; }
   .technology-progress-summary,.technology-progress-controller dl { grid-template-columns: 1fr; }
 }
 

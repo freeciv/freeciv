@@ -5,6 +5,7 @@ import { ColorMark } from './components/ColorMark'
 import { EventLog, EventLogFootnote } from './components/EventLog'
 import { MapSection } from './components/MapSection'
 import { MetricChart } from './components/MetricChart'
+import { ThemeToggle } from './components/ThemeToggle'
 import { StrategicMap } from './components/StrategicMap'
 import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
@@ -346,7 +347,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       <nav className="grid grid-cols-[minmax(220px,1fr)_auto_minmax(220px,1fr)] gap-[18px] items-center min-h-[45px] py-0 px-[14px] border border-line border-b-0 text-[var(--color-muted)] bg-[var(--color-page)] font-bold text-[9px] leading-none font-readout tracking-[.1em] uppercase max-[1000px]:grid-cols-[1fr_auto] max-[650px]:grid-cols-1" aria-label="Freeciv Agent Arena">
         <a className="inline-flex gap-[9px] items-center text-ink no-underline max-[460px]:min-w-0" href={route.prefix ? `${route.prefix}/` : '/'}><span className="grid place-items-center w-[25px] h-[25px] border border-[var(--color-line-2)] text-[var(--color-ink)] text-[8px]" aria-hidden="true">FC</span><strong className="max-[460px]:overflow-hidden max-[460px]:text-ellipsis max-[460px]:whitespace-nowrap">Freeciv Agent Arena</strong></a>
         <span className="text-center max-[1000px]:hidden">{game.mode === 'single' ? 'Single player evaluation' : 'Multiplayer evaluation'}</span>
-        <code className="overflow-hidden text-[var(--color-muted)] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code>
+        <span className="flex gap-3 items-center justify-end min-w-0"><code className="overflow-hidden text-[var(--color-muted)] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code><ThemeToggle /></span>
       </nav>
       <header className="relative grid grid-cols-[minmax(0,1fr)_auto] gap-x-7 gap-y-[18px] items-center py-[22px] px-6 overflow-hidden border border-line bg-[linear-gradient(110deg,var(--color-panel-2),var(--color-panel))] max-[760px]:grid-cols-1 max-[760px]:p-[17px] max-[650px]:p-4">
         <div className="brand-block">
@@ -365,6 +366,8 @@ function MatchViewer({ route }: { route: RouteContext }) {
       {error && <div className={`mt-2.5 ${WARNING_BOX}`} role="status">Live refresh issue: {error}. Showing the latest retained data.</div>}
 
       <div className="match-content" id="match-content">
+
+      <div className="match-main">
 
       <section className="result-ribbon" aria-label="Match outcome and validity">
         <div>
@@ -401,15 +404,6 @@ function MatchViewer({ route }: { route: RouteContext }) {
         {duration && <div><p className="eyebrow">Duration</p><strong>{duration}</strong><span>{typeof game.finished_at === 'number' ? 'Start to last recorded turn' : 'Running and counting'}</span></div>}
         {timing && <div><p className="eyebrow">Turn timing</p><strong>{timing}</strong><span>Harness action deadline</span></div>}
       </section>
-
-      <aside className="overview-rail-card panel overflow-hidden max-[650px]:overflow-x-auto" aria-label="Current score comparison">
-        <div className="panel-heading compact-heading"><div><p className="eyebrow">{historicalComparison ? 'Selected-turn comparison' : 'Current comparison'}</p><h2>Leaderboard</h2></div><span>{historicalComparison ? `T${selectedTurn}` : 'LATEST'}</span></div>
-        <div className="grid">
-          {comparisonRows.some((row) => row.score !== undefined) ? comparisonRows.map((row, index) => (
-            <div className="grid grid-cols-[18px_auto_minmax(0,1fr)_auto] gap-2 items-center py-2.5 px-3 border-b border-b-[var(--color-line)] last:border-b-0" key={row.place.seat_id}><b className="text-[var(--color-muted)] font-bold text-[10px] leading-none font-readout">{index + 1}</b><ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" /><span className={CLAMPED_LINE_RAIL}><strong className={`${CLAMPED_LINE_RAIL} text-[10px]`}>{placeLabel(row.place)}</strong><small className={`${CLAMPED_LINE_RAIL} mt-[3px] text-[var(--color-muted)] text-[8px]`}>{row.place.model || row.place.player_name}</small></span><em className="text-[var(--color-ink-2)] font-bold text-[14px] leading-none font-readout not-italic">{row.score?.toLocaleString() ?? '—'}</em></div>
-          )) : <p className="empty-copy">Scores appear after the first resolved turn.</p>}
-        </div>
-      </aside>
 
       <section className="competitor-grid" aria-label="Scored competitors">
         {game.resolved_places.map((place) => {
@@ -499,12 +493,6 @@ function MatchViewer({ route }: { route: RouteContext }) {
         ))}
       </section>
 
-      <section className="charts-grid" aria-label="Metric comparison charts">
-        {METRICS.map((metric) => (
-          <MetricChart key={metric.key} label={metric.label} metric={metric.key} snapshots={snapshots.filter((snapshot) => snapshot.turn <= selectedTurn)} />
-        ))}
-      </section>
-
       <TechnologyProgressChart
         catalog={catalog.technologies.length ? catalog.technologies : null}
         selectedTurn={selectedTurn}
@@ -520,6 +508,27 @@ function MatchViewer({ route }: { route: RouteContext }) {
         snapshots={snapshots.filter((snapshot) => snapshot.turn <= selectedTurn)}
       />
       </>}
+
+      </div>
+
+      <div className="match-rail">
+        <aside className="overview-rail-card panel overflow-hidden max-[650px]:overflow-x-auto" aria-label="Current score comparison">
+          <div className="panel-heading compact-heading"><div><p className="eyebrow">{historicalComparison ? 'Selected-turn comparison' : 'Current comparison'}</p><h2>Leaderboard</h2></div><span>{historicalComparison ? `T${selectedTurn}` : 'LATEST'}</span></div>
+          <div className="grid">
+            {comparisonRows.some((row) => row.score !== undefined) ? comparisonRows.map((row, index) => (
+              <div className="grid grid-cols-[18px_auto_minmax(0,1fr)_auto] gap-2 items-center py-2.5 px-3 border-b border-b-[var(--color-line)] last:border-b-0" key={row.place.seat_id}><b className="text-[var(--color-muted)] font-bold text-[10px] leading-none font-readout">{index + 1}</b><ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" /><span className={CLAMPED_LINE_RAIL}><strong className={`${CLAMPED_LINE_RAIL} text-[10px]`}>{placeLabel(row.place)}</strong><small className={`${CLAMPED_LINE_RAIL} mt-[3px] text-[var(--color-muted)] text-[8px]`}>{row.place.model || row.place.player_name}</small></span><em className="text-[var(--color-ink-2)] font-bold text-[14px] leading-none font-readout not-italic">{row.score?.toLocaleString() ?? '—'}</em></div>
+            )) : <p className="empty-copy">Scores appear after the first resolved turn.</p>}
+          </div>
+        </aside>
+
+        {!basicTelemetry && (
+          <section className="charts-grid" aria-label="Metric comparison charts">
+            {METRICS.map((metric) => (
+              <MetricChart key={metric.key} label={metric.label} metric={metric.key} snapshots={snapshots.filter((snapshot) => snapshot.turn <= selectedTurn)} />
+            ))}
+          </section>
+        )}
+      </div>
 
       <MapSection
         expanded={mapOpen}
@@ -575,7 +584,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
                 max={Math.max(0, availableTurns.length - 1)}
                 min={0}
                 onChange={(event) => chooseTurn(availableTurns[Number(event.target.value)] ?? selectedTurn)}
-                className="w-full accent-acid"
+                className="w-full accent-[var(--color-ink-2)]"
                 type="range"
                 value={selectedTurnIndex}
               />

@@ -17,6 +17,7 @@ import { watchUrl } from '../route'
 import type { ArenaRouteContext, GameSummary } from '../types'
 import { matchHeaderLabel } from '../view-model'
 import { ColorMark } from './ColorMark'
+import { ThemeToggle } from './ThemeToggle'
 
 /** Seat-strip cells share every rule except the "no agent yet" hatching. */
 const SEAT_CELL = 'grid grid-cols-[auto_minmax(0,1fr)] gap-[9px] items-center py-[9px] px-[11px]'
@@ -202,10 +203,11 @@ export function ArenaPicker({ route }: { route: ArenaRouteContext }) {
           <div className="min-w-0"><p className="eyebrow">Freeciv autonomous evaluation</p><h1>Agent Arena</h1></div>
         </div>
         <p className="z-[1] max-w-[520px] mt-0 mx-0 mb-2 text-[var(--color-ink-2)] text-[length:clamp(14px,1.6vw,18px)] leading-[1.65] max-[1100px]:max-w-[680px]">Watch model harnesses negotiate, expand, research, and compete against Freeciv’s native intelligence—turn by turn.</p>
-        <div className="col-[1/-1] flex flex-wrap gap-x-6 gap-y-[9px] z-[1] pt-[18px] border-t border-t-[rgba(255,255,255,.09)] text-[var(--color-muted)] font-bold text-[9px] leading-none font-readout tracking-[.11em] uppercase">
+        <div className="col-[1/-1] flex flex-wrap gap-x-6 gap-y-[9px] items-center z-[1] pt-[18px] border-t border-t-[var(--color-line)] text-[var(--color-muted)] font-bold text-[9px] leading-none font-readout tracking-[.11em] uppercase">
           <span className="inline-flex items-center gap-[7px]"><i className="w-1.5 h-1.5 rounded-full bg-[var(--color-green)] animate-[pulse_1.7s_infinite]" />{activeCount} active {activeCount === 1 ? 'match' : 'matches'}</span>
           <span className="inline-flex items-center gap-[7px]">{visibleGames.length} indexed</span>
           <span className="inline-flex items-center gap-[7px]">Auto-refresh 3s</span>
+          <span className="ml-auto"><ThemeToggle /></span>
         </div>
       </header>
 
