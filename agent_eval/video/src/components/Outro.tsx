@@ -11,6 +11,8 @@ import {
 } from '../stage'
 import { SHELL, mixColors, withAlpha } from '../theme'
 import { BoardCanvas } from './BoardCanvas'
+import { HarnessLogo, ProviderLogo, controllerMarks } from '../logos'
+import { NationFlag } from '../nation-flag'
 import { MetricChart, type ChartSeries } from './MetricChart'
 
 interface OutroProps {
@@ -116,6 +118,10 @@ function StandingRow({
 }) {
   const lastTurn = film.turns[film.turns.length - 1]
   const stat = lastTurn?.statsByPlayer.get(track.player.playerId)
+  const isAgent = track.player.controllerType !== 'native'
+  // Null for anything unregistered, so a native seat draws no marks at all.
+  const { harness, provider } = controllerMarks(track.player.controllerLabel)
+  const marks = harness !== null || provider !== null
   return (
     <div
       className="flex flex-1 items-stretch gap-[16px]"
@@ -133,14 +139,32 @@ function StandingRow({
         >
           {rank}
         </span>
-        <div className="flex min-w-0 flex-col gap-[5px]">
+        {/* Role, flag and marks, matching the title card and the score card,
+            so the same side is named the same way in all three acts. */}
+        {marks && (
+          <div className="flex shrink-0 items-center gap-[10px]" style={{ color: SHELL.ink }}>
+            <HarnessLogo harness={harness} size={26} />
+            <ProviderLogo provider={provider} size={26} />
+          </div>
+        )}
+        <div className="flex min-w-0 flex-col gap-[6px]">
           <span className="truncate font-display text-[24px] leading-tight tracking-[-0.025em] text-ink">
-            {controllerDisplayName(track.player)}
-            <span className="text-dim">: </span>
-            <span style={{ color: track.renderColor }}>
+            {isAgent ? 'Agent' : controllerDisplayName(track.player)}
+          </span>
+          <div className="flex items-center gap-[9px]">
+            <NationFlag nation={track.player.nation} size={26} />
+            <span
+              className="truncate font-mono text-[13px]"
+              style={{ color: track.renderColor }}
+            >
               {nationDisplayName(track.player)}
             </span>
-          </span>
+            {isAgent && (
+              <span className="truncate font-mono text-[12px] text-muted">
+                {controllerDisplayName(track.player)}
+              </span>
+            )}
+          </div>
           <span className="font-mono text-[11px] text-muted">
             peak {track.peakScore.toLocaleString('en-US')} · {countNoun(stat?.cities ?? 0, 'city', 'cities')} ·{' '}
             {stat?.techs ?? 0} techs
