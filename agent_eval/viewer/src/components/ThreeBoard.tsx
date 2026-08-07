@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { MapControls } from 'three/addons/controls/MapControls.js'
 import {
   buildBoardTiles,
+  FIT_ROTATION,
   isoHexNeighborCoordinates,
   isWaterTerrain,
   nativeTilePosition,
@@ -16,6 +17,9 @@ import { factionDisplayLabel } from '../faction-label'
 import type { BoardResponse } from '../types'
 
 export type BoardViewMode = 'political' | 'terrain'
+
+/** Circumradius of the terrain prisms, so the fit clears the outermost hexes. */
+const HEX_RADIUS = 0.585
 
 export interface BoardActions {
   fit: () => void
@@ -36,6 +40,17 @@ interface BoardLayer {
   group: THREE.Group
   shapeSignature: string
   topByTile: number[]
+  /**
+   * Footprint of the tiles alone, in world space, after the group's rotation.
+   *
+   * The camera fits to this rather than to `Box3.setFromObject(group)`, because
+   * the group also holds billboarded name labels whose bounds are far larger
+   * than the plate they sit on -- fitting the whole object framed a 93x36 board
+   * as if it were 125x117 and left it swimming in its stage. The film has the
+   * same rule for the same reason: `fitBoard` measures tile centres plus one
+   * hex radius and nothing else.
+   */
+  footprint: THREE.Box2
 }
 
 interface ThreeRuntime {
@@ -136,6 +151,13 @@ function buildBoardLayer(
   const tiles = buildBoardTiles(board)
   const group = new THREE.Group()
   group.name = `semantic-board-turn-${board.turn}`
+  // The film rotates the board in-plane by pi/6 before fitting it
+  // (video/src/dataset/geometry.ts, FIT_ROTATION) so the diamond-shaped native
+  // map fills a landscape frame. The board is the one thing a viewer compares
+  // across the two surfaces, so it has to be the same shape in both: same
+  // rotation here, negated because a three.js Y-rotation turns (x, z) the
+  // opposite way from the film's 2D rotatePoint.
+  group.rotation.y = -FIT_ROTATION
   let minAltitude = Number.POSITIVE_INFINITY
   let maxAltitude = Number.NEGATIVE_INFINITY
   for (const tile of tiles) {
@@ -347,10 +369,24 @@ function buildBoardLayer(
     )
   }
 
+  // Tile centres carried through the group's own rotation, plus one hex radius
+  // of margin -- the same measure the film's `buildBoardLayout` takes.
+  const cos = Math.cos(-FIT_ROTATION)
+  const sin = Math.sin(-FIT_ROTATION)
+  const footprint = new THREE.Box2()
+  for (const tile of tiles) {
+    footprint.expandByPoint(new THREE.Vector2(
+      tile.worldX * cos + tile.worldZ * sin,
+      -tile.worldX * sin + tile.worldZ * cos,
+    ))
+  }
+  footprint.expandByScalar(HEX_RADIUS)
+
   return {
     group,
     shapeSignature: `${board.width}x${board.height}:${board.topology}:${board.wrap}`,
     topByTile,
+    footprint,
   }
 }
 
@@ -413,21 +449,37 @@ export function ThreeBoard({ actionsRef, alt, board, mode, onCommit, onFailure }
       const width = Math.max(1, container.clientWidth)
       const height = Math.max(1, container.clientHeight)
       const aspect = width / height
-      const box = current ? new THREE.Box3().setFromObject(current.group) : new THREE.Box3(
-        new THREE.Vector3(-5, 0, -5), new THREE.Vector3(5, 1, 5),
+      const box = current?.footprint ?? new THREE.Box2(
+        new THREE.Vector2(-5, -5), new THREE.Vector2(5, 5),
       )
-      const size = box.getSize(new THREE.Vector3())
-      const center = box.getCenter(new THREE.Vector3())
-      const span = Math.max(size.z + size.y * 1.2, size.x / aspect, 8) * 1.12
+      const size = box.getSize(new THREE.Vector2())
+      const center = box.getCenter(new THREE.Vector2())
+      // Straight down, matching the film's flat contain-fit. The camera used to
+      // sit back and above (y = span*1.25, z = span*0.72 -- about 60 degrees off
+      // horizontal), and an oblique view of the board read as a skewed
+      // parallelogram rather than a map. Overhead, terrain height still reads
+      // through the lighting, but a tile's shape on screen is its shape.
+      //
+      // `up = -Z` puts world +Z down the screen, so the footprint's x is the
+      // horizontal measure and its y (world Z) the vertical one. Contain-fit on
+      // whichever axis binds, with 3% of air so the coastline is not flush
+      // against the frame -- the film uses the same rule in `fitBoard`.
+      const MARGIN = 1.03
+      const span = Math.max(size.y, size.x / aspect, 8) * MARGIN
       camera.left = -span * aspect / 2
       camera.right = span * aspect / 2
       camera.top = span / 2
       camera.bottom = -span / 2
-      camera.position.set(center.x, Math.max(18, span * 1.25), center.z + span * 0.72)
-      camera.zoom = 1.32
-      camera.lookAt(center.x, 0, center.z)
+      camera.up.set(0, 0, -1)
+      // Orthographic scale is independent of distance, so the only thing height
+      // buys is clearance -- and it costs: the scene's FogExp2 is distance-based,
+      // and parking the camera at 400 buried the board under 96% fog. Sit just
+      // clear of the tallest terrain prism instead.
+      camera.position.set(center.x, 30, center.y)
+      camera.zoom = 1
+      camera.lookAt(center.x, 0, center.y)
       camera.updateProjectionMatrix()
-      controls.target.set(center.x, 0, center.z)
+      controls.target.set(center.x, 0, center.y)
       controls.update()
       render()
     }

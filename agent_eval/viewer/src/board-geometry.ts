@@ -37,6 +37,20 @@ const ISO_HEX_NEIGHBORS = [
   { x: -1, y: -1 },
 ] as const
 
+/**
+ * In-plane rotation applied to the whole board before it is fitted to its
+ * frame. `nativeTilePosition` lays the map out as a diamond, which wastes both
+ * corners of a landscape box; a sixth-turn stands it up so the long axis runs
+ * across the frame.
+ *
+ * This is a shared contract with the film, not a local styling choice --
+ * `agent_eval/video/src/dataset/geometry.ts` exports the same constant under
+ * the same name and applies it the same way. The board is the one thing a
+ * viewer compares across the two surfaces, so it has to be the same shape in
+ * both. Change it here and you must change it there.
+ */
+export const FIT_ROTATION = Math.PI / 6
+
 export function nativeTilePosition(x: number, y: number, width: number): BoardPosition {
   const mapX = x + Math.ceil(y / 2)
   const mapY = y - mapX + width
