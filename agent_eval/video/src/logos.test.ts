@@ -223,3 +223,23 @@ describe('a model may drop a vendor prefix its harness already carries', () => {
     expect(providerForModel('fable-5')).toBe('anthropic')
   })
 })
+
+describe('codex short forms', () => {
+  it('accepts a model named without its gpt- prefix', () => {
+    // Same argument as claude-code-opus-5: Codex is OpenAI's and runs GPT, so
+    // spelling gpt- again inside the label says nothing the harness has not
+    // already said.
+    expect(splitControllerLabel('codex-5.6-sol'))
+      .toEqual({ harness: 'codex', model: '5.6-sol' })
+    expect(splitControllerLabel('codex-sol'))
+      .toEqual({ harness: 'codex', model: 'sol' })
+  })
+
+  it('gives all three spellings the same single mark', () => {
+    for (const label of ['codex-gpt-5.6-sol', 'codex-5.6-sol', 'codex-sol']) {
+      const { harness, provider } = controllerMarks(label)
+      expect(harness).toBe('codex')
+      expect(provider).toBeNull()
+    }
+  })
+})
