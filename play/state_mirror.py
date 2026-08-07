@@ -9,6 +9,7 @@ context cost until it chooses to look.
 Files written under `mirror_dir(session_path)`::
 
     state/header.txt        objective, budget, timing, protocol card
+    state/phase.json        whose turn it is, machine-readable (see below)
     state/overview.tsv      economy, research, government - one row per fact
     state/units.tsv         one row per unit
     state/cities.tsv        one row per city
@@ -85,12 +86,32 @@ action failure the opaque IDs exist to kill.  A fallback entity handle is a
 fails closed exactly like a stale alias.  Supply either a complete alias map
 for a page or none at all; a partial map mixes the two naming schemes in one
 file.
+
+`state/phase.json`.  Every other file here is prose or a table, which means a
+watcher has to regex it.  The one question a multiplayer harness asks most --
+"is it my turn yet, and if not, whose is it and how long have they had it" --
+gets a sanctioned JSON answer instead, written by `update_from_health` on
+every command that reads health *and* on every internal poll of a blocking
+wait, so it stays fresh while the client is blocked rather than freezing for
+the whole ten minutes.  Its shape is closed and versioned::
+
+    {"schema_version": 1, "updated_at": 1786058960.4, "turn": 5, "phase": 0,
+     "active": false, "game_state": "running", "state": "awaiting_agent",
+     "held_s": 587.0, "deadline_s_left": 13.0,
+     "holder": {"seat_id": "place-1", "player_name": "AgentPlace1",
+                "controller_label": "pi-gpt-5.6-sol", "place": 1}}
+
+`holder` is null when this seat holds the phase or when no seat does.  Like
+every file here the write is atomic, so a watcher polling it never reads a
+half-written object.
 """
 
 from __future__ import annotations
 
+import json
 import re
 import sys
+import time
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -125,6 +146,8 @@ _SECTION_TARGETS: dict[str, tuple[str, ...]] = {
     "governments": (_CACHE_DIR, "governments.tsv"),
 }
 _HEADER_FILE = (_STATE_DIR, "header.txt")
+_PHASE_FILE = (_STATE_DIR, "phase.json")
+_PHASE_SCHEMA_VERSION = 1
 _DELTA_FILE = (_STATE_DIR, "delta.md")
 _OVERVIEW_FILE = (_STATE_DIR, "overview.tsv")
 _MAP_FILE = (_STATE_DIR, "map.txt")
@@ -1486,6 +1509,66 @@ def update_from_receipt(
     return (delta,) if delta is not None else ()
 
 
+def _phase_marker(health: Mapping[str, Any]) -> str:
+    """Render `state/phase.json` from one validated health payload.
+
+    Closed shape, closed value types: every field is copied from a payload
+    the client already validated, or is `None`.  A watcher may therefore
+    branch on `active` without a schema check, and `schema_version` tells it
+    when it may not.
+    """
+    phase = _dig(health, "phase")
+    timing = phase.get("timing") if isinstance(phase, Mapping) else None
+    holder = None
+    if isinstance(phase, Mapping):
+        rows = phase.get("waiting_on")
+        seats = rows.get("seats") if isinstance(rows, Mapping) else None
+        others = [
+            row for row in seats or ()
+            if isinstance(row, Mapping) and row.get("is_self") is False
+        ]
+        if len(others) == 1 and phase.get("active") is not True:
+            row = others[0]
+            holder = {
+                "place": _number(row.get("place")),
+                "seat_id": _text(row.get("seat_id")),
+                "player_name": _text(row.get("player_name")),
+                "controller_label": _text(row.get("controller_label")),
+            }
+    value = {
+        "schema_version": _PHASE_SCHEMA_VERSION,
+        "updated_at": round(time.time(), 3),
+        "game_state": _text(_dig(health, "game_state")),
+        "turn": _number(phase.get("turn") if isinstance(phase, Mapping) else None),
+        "phase": _number(phase.get("phase") if isinstance(phase, Mapping) else None),
+        "state": _text(phase.get("state") if isinstance(phase, Mapping) else None),
+        "active": bool(
+            isinstance(phase, Mapping) and phase.get("active") is True
+        ),
+        "held_s": _number(
+            timing.get("elapsed_s") if isinstance(timing, Mapping) else None
+        ),
+        "deadline_s_left": _number(
+            timing.get("remaining_s") if isinstance(timing, Mapping) else None
+        ),
+        "holder": holder,
+    }
+    return json.dumps(value, sort_keys=True, indent=2)
+
+
+def _number(value: Any) -> int | float | None:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return value
+
+
+def _text(value: Any) -> str | None:
+    if not isinstance(value, str):
+        return None
+    rendered = _cell(value)
+    return None if rendered == "-" else rendered
+
+
 def update_from_health(
     session_dir: Path | str,
     command: str,
@@ -1494,7 +1577,7 @@ def update_from_health(
     revision: Mapping[str, Any] | None = None,
     commands: Sequence[str] | None = None,
 ) -> tuple[Path, ...]:
-    """Write `state/header.txt` from one validated health payload.
+    """Write `state/header.txt` and `state/phase.json` from one health payload.
 
     `health` is the object returned by `client._validate_health`.  Health
     carries no state revision, so pass `revision` (the page revision the same
@@ -1568,4 +1651,7 @@ def update_from_health(
     lines.append("")
     for entry in (commands if commands is not None else _DEFAULT_COMMAND_CARD):
         lines.append(_CONTROL_RE.sub(" ", str(entry)))
-    return (_write(session_dir, _HEADER_FILE, "\n".join(lines)),)
+    return (
+        _write(session_dir, _HEADER_FILE, "\n".join(lines)),
+        _write(session_dir, _PHASE_FILE, _phase_marker(health)),
+    )

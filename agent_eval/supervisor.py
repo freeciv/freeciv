@@ -62,6 +62,7 @@ from .v2_receipts import (
     V2ReceiptStoreError,
 )
 from .v2_phase_events import (
+    PHASE_END_SOURCES,
     V2PhaseEventJournal,
     V2PhaseEventJournalError,
 )
@@ -133,6 +134,16 @@ V2_WAIT_REASONS = frozenset({
 # How long a caller's own wait may block while its seat is being recovered
 # before the wait answers with a plain timeout instead.
 V2_RECOVERY_WAIT_GRACE_S = 120.0
+# The longest single `/me/wait` long-poll.  This is the authority; the
+# workspace client validates against its own copy of the same number.  It was
+# 300 s while an agent phase may run for 600 s, so the longest possible wait
+# was half the longest possible opponent phase and no caller could ever cover
+# one opponent turn in one blocking call.  615 covers a full phase plus the
+# boundary either side of it.
+V2_WAIT_S_MAX = 615.0
+# How many recent phases of per-seat order counts to keep. Only the phase that
+# just ended is ever read; the rest is slack for a boundary in flight.
+V2_PHASE_ORDER_HISTORY = 4
 _NATIVE_CODE_TOKEN = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
 # Sidecar native error tokens mapped onto the closed public refusal
 # vocabulary.  Anything absent falls back to ``native_refused``, which still
@@ -265,6 +276,20 @@ V2_PHASE_PROGRESS_STALL_S = 300.0
 # recover from; a run of three, a quarter second apart, is the thread itself
 # failing, and a game nobody polls never advances another phase.
 V2_STATUS_POLL_FAULT_LIMIT = 3
+# How long a phase with nothing left to decide waits before it is ended for the
+# agent.  The window has one job: give an agent that is awake, and simply
+# between calls, room to prove it by making one.  A model turn's think time
+# between two boundary calls is seconds, and the longest gap seen inside a
+# played phase is a few of them; twenty is comfortably past that and still two
+# orders of magnitude short of the six hundred second action deadline this
+# exists to stop wasting.  It is deliberately not tunable per game: the opt-out
+# is the whole knob, because a grace short enough to be worth tuning down is
+# short enough to race an agent that was about to act.
+V2_AUTO_END_IDLE_GRACE_S = 20.0
+# The provenance stamped on a phase end nobody asked for, distinct from the
+# agent's own end and from the deadline's, so that a replay, a phase-event feed
+# and the next briefing can all tell the three apart.
+V2_PHASE_END_SOURCE_AUTO_IDLE = "auto_idle"
 # Cadence of the background replay keep-warm thread. Turns take tens of
 # seconds, a no-op refresh is a single scandir, and the thread converges on
 # any backlog in bounded batches before sleeping.
@@ -776,6 +801,22 @@ class Game:
         # polls that timed out.  A timeout is evidence of slowness; only a run
         # of them, over real time, with a dead process, is evidence of loss.
         self.v2_liveness_misses: dict[int, tuple[float, int]] = {}
+        # place -> {(turn, phase): batches its own agent submitted}.  A phase
+        # the supervisor ended by timeout looks identical from the board's
+        # side whether the seat spent ten minutes thinking or was not there at
+        # all; this counter is the only record of which it was, and in the run
+        # that motivated it one seat submitted nothing on nine of thirteen
+        # turns while every surface reported a played turn.  Bounded to the
+        # last few phases per seat -- it answers one question about the phase
+        # that just ended, and is not a ledger.
+        self.v2_phase_order_counts: dict[int, dict[tuple[int, int], int]] = {}
+        # The earliest (turn, phase) this process has seen on the ledger. A
+        # phase at or after it that carries no count provably carried no
+        # orders; one before it was never watched, and is reported as unknown
+        # rather than as zero. Reporting "they issued no orders" about a phase
+        # this supervisor did not observe would be the same class of confident
+        # wrong answer the whole change exists to remove.
+        self.v2_phase_order_floor: tuple[int, int] | None = None
         # place -> monotonic time of the last boundary command the seat's agent
         # completed, and of the last STATUS the poller actually issued.  A
         # command the client answered is liveness evidence the poller does not
@@ -784,6 +825,15 @@ class Game:
         # clock bounds that: no amount of agent traffic may stop real sampling.
         self.v2_last_agent_command: dict[int, tuple[float, int]] = {}
         self.v2_last_liveness_probe: dict[int, tuple[float, int]] = {}
+        # place -> when this seat's agent last deliberately asked this service
+        # for something, and on which generation.  Deliberately is the whole
+        # point, so this is stamped by state reads, capability reads, receipt
+        # reads and batches, and never by health or wait: those two are the
+        # polling plumbing a client runs on its own, and an agent that is
+        # merely being polled for has not decided anything.  It is also never
+        # stamped by this service's own background reads.  Only the auto-end
+        # of an idle phase consults it, as its proof that an agent is awake.
+        self.v2_last_agent_activity: dict[int, tuple[float, int]] = {}
         # place -> the last recorded rollback event, published on health.
         self.v2_last_recovery: dict[int, dict[str, Any]] = {}
         # Game-wide recovery facts, published on the manifest so a scorer can
@@ -828,6 +878,12 @@ class Game:
             "progress_marker": None,
             "progress_started_monotonic": None,
             "end": None,
+            # The auto-end of a provably idle phase, scoped to one phase key
+            # and cleared whenever that key changes.  ``None`` means the
+            # current phase has never been considered; a dict whose ``stage``
+            # is ``declined`` or ``cancelled`` means it has been, and will not
+            # be again until the phase advances.
+            "auto_end": None,
         }
         self.sidecar_exit_grace_generations: dict[int, int] = {}
         self.sidecars_stopping = False
@@ -2387,7 +2443,10 @@ class Game:
         resolution = claim.get("resolution")
         if (
             agent is None
-            or source not in {"agent", "timeout"}
+            # The journal's own enum, not a copy of it: this guard is
+            # fail-closed, so a source the two sides disagree about
+            # quarantines the journal and fails the game.
+            or source not in PHASE_END_SOURCES
             or not self._v2_phase_receipt_final(receipt_state)
             or resolution not in {"advanced", "terminal", "failed"}
             or receipt_state == "rejected" and resolution != "failed"
@@ -2456,6 +2515,7 @@ class Game:
             ledger["synchronizing_started_monotonic"] = None
             ledger["progress_marker"] = None
             ledger["progress_started_monotonic"] = None
+            ledger["auto_end"] = None
             return
         end = ledger.get("end")
         resolution = "failed" if state == "failed" else "terminal"
@@ -2472,6 +2532,7 @@ class Game:
         ledger["progress_marker"] = None
         ledger["progress_started_monotonic"] = None
         ledger["end"] = None
+        ledger["auto_end"] = None
 
     def _v2_rewind_phase_ledger_locked(self, target_turn: int) -> None:
         """Move phase consensus back with a game that has been rolled back.
@@ -2543,6 +2604,8 @@ class Game:
         ledger["progress_marker"] = None
         ledger["progress_started_monotonic"] = None
         ledger["end"] = None
+        # An idle verdict about a turn that no longer happened.
+        ledger["auto_end"] = None
         self.condition.notify_all()
 
     def _v2_consensus_turn_locked(self) -> int | None:
@@ -2822,6 +2885,9 @@ class Game:
                 ledger["progress_marker"] = None
                 ledger["progress_started_monotonic"] = None
                 ledger["end"] = None
+                # Every auto-end verdict is about one phase only; the next
+                # phase gets a fresh consideration.
+                ledger["auto_end"] = None
 
             active_row = active[0] if active else None
             ledger["active_place"] = (
@@ -3066,7 +3132,14 @@ class Game:
                 or self.v2_phase_ledger.get("key") != claim.get("key")
             ):
                 return False
-            if current.get("source") == "agent":
+            # A rejected deadline end is fatal: the deadline had to be
+            # enforced and could not be.  A rejected agent end is retryable,
+            # and so is a rejected auto-end, which was never owed at all --
+            # the boundary declining it means the seat still has something to
+            # do, which is precisely the answer this defers to.
+            if current.get("source") in {
+                "agent", V2_PHASE_END_SOURCE_AUTO_IDLE,
+            }:
                 self.v2_phase_ledger["end"] = None
                 self.v2_phase_ledger["state"] = "awaiting_agent"
                 self.condition.notify_all()
@@ -3143,6 +3216,426 @@ class Game:
             ),
             daemon=True,
         ).start()
+
+    # ------------------------------------------------------------------
+    # Auto-end of a provably idle phase.
+    #
+    # The platform rule is that agents choose every action, and nothing here
+    # chooses one.  This ends phases in which there is nothing left to choose:
+    # no unit awaiting orders, no city asking what to build, no research
+    # target to set, no treaty waiting on an answer, and an agent that has not
+    # said a word for a full grace window.  That is dead air, and the only
+    # thing that used to end it was the six hundred second action deadline.
+    #
+    # Everything below is written to be refused rather than fired.  It reaches
+    # the boundary through the one code path an agent's own ``turn --end``
+    # takes, it mints its claim into the single ledger slot under the same
+    # condition an agent claim is minted under -- so a race resolves to
+    # exactly one end, by construction rather than by timing -- and it can
+    # never terminalize a game: every failure releases the claim and leaves
+    # the phase exactly as it found it, still owed to the agent, with the real
+    # deadline still running.
+    # ------------------------------------------------------------------
+
+    def _v2_note_agent_activity(self, agent_id: str) -> None:
+        """Record that this seat's agent asked for something of its own will."""
+        with self.condition:
+            agent = self.agents.get(agent_id)
+            if agent is None or self.config["control_protocol"] != FULL_CONTROL_V2:
+                return
+            place = agent["place"]
+            self.v2_last_agent_activity[place] = (
+                time.monotonic(), self.sidecar_generations.get(place, 0),
+            )
+
+    def _v2_auto_end_blocker_locked(
+        self, record: dict[str, Any] | None,
+    ) -> str | None:
+        """Name the reason this phase may not auto-end, or None if it may.
+
+        Every clause is a refusal, and the set is deliberately larger than the
+        one an agent's phase end has to satisfy.  An agent ending its own
+        phase knows what it is doing; this does not, so it declines on
+        anything it cannot positively account for -- a boundary being rebuilt,
+        a phase-end event not yet on disk, evidence from a generation that no
+        longer exists, a seat whose sidecar is not ready.
+        """
+        ledger = self.v2_phase_ledger
+        if not self.config["auto_end_idle_phase"]:
+            return "disabled"
+        if not self._v2_runtime_active_locked():
+            return "game_not_running"
+        if self.v2_recovery_in_flight or self.v2_wedged_places:
+            # A seat being rebuilt republishes on a new generation. Nothing
+            # observed across that window describes the seat that comes back.
+            return "recovery"
+        if ledger.get("state") != "awaiting_agent":
+            # Covers every transition and wait state there is: synchronizing,
+            # native_phase, phase_not_ready, inactive_done, ending,
+            # ambiguous_ending, terminalizing, failed.
+            return "phase_not_awaiting"
+        if ledger.get("end") is not None:
+            return "phase_end_in_flight"
+        if self.v2_pending_phase_ends:
+            # The ledger still owes an end its journal record.
+            return "phase_end_unjournaled"
+        if self.v2_phase_event_journal_failed:
+            return "journal_unavailable"
+        key = ledger.get("key")
+        place = ledger.get("active_place")
+        if key is None or place is None:
+            return "no_active_seat"
+        if place in self.v2_surrendered_places:
+            return "seat_surrendered"
+        generation = self.sidecar_generations.get(place)
+        agent_id = self.place_agents.get(place)
+        sidecar = self.sidecars.get(place)
+        control = self.v2_controls.get(place)
+        if sidecar is None or control is None or agent_id is None:
+            return "seat_unavailable"
+        if not self._v2_seat_runtime_active_locked(
+            place, generation, sidecar, agent_id=agent_id, control=control,
+        ):
+            return "seat_unavailable"
+        evidence = ledger.get("evidence", {}).get(place)
+        if (
+            evidence is None
+            or evidence.get("generation") != generation
+            or evidence.get("agent_id") != agent_id
+            or evidence.get("turn") != key[0]
+            or evidence.get("phase") != key[1]
+            or not evidence.get("active")
+            or not evidence.get("ready")
+            or not evidence.get("alive")
+            or evidence.get("done")
+        ):
+            return "evidence_stale"
+        if record is not None:
+            if (
+                record["key"] != key
+                or record["place"] != place
+                or record["generation"] != generation
+            ):
+                return "phase_changed"
+            activity = self.v2_last_agent_activity.get(place)
+            if (
+                activity is not None
+                and activity[1] == generation
+                and activity[0] >= record["armed_monotonic"]
+            ):
+                # The agent is awake and playing. An awake agent decides for
+                # itself, including deciding to sit on a quiet phase.
+                return "agent_active"
+        return None
+
+    def _service_v2_auto_end_idle_phase(self) -> None:
+        """Advance the idle-phase auto-end by one poll tick, off the boundary.
+
+        This runs on the seat poller's thread and must never block it, so the
+        two steps that need the native client -- proving the seat idle, and
+        proving it again before ending -- are handed to one-shot workers.  The
+        tick itself only ever touches the ledger under the condition.
+        """
+        now = time.monotonic()
+        worker: Callable[[dict[str, Any]], None] | None = None
+        with self.condition:
+            ledger = self.v2_phase_ledger
+            record = ledger.get("auto_end")
+            if isinstance(record, dict) and record["stage"] in {
+                "evaluating", "firing", "ended",
+            }:
+                # A worker owns this record, or it has already been spent.
+                return
+            # Re-arming is allowed, and only after a full further window of
+            # silence.  A phase whose agent acted once is not a phase that has
+            # an agent watching it for the next ten minutes; the incident this
+            # exists for is precisely an agent that played its turn and then
+            # stopped hearing from us.  What is never allowed is ending on a
+            # stale idle verdict, and the fire-time recheck forbids that.  A
+            # re-arming tick is judged as the fresh attempt it is about to
+            # become, not against the attempt it is replacing.
+            rearming = record is None or (
+                record["stage"] == "cancelled"
+                and now >= (record["retry_after"] or 0.0)
+            )
+            blocker = self._v2_auto_end_blocker_locked(
+                None if rearming else record,
+            )
+            if blocker is not None:
+                if isinstance(record, dict):
+                    record["stage"] = "cancelled"
+                    record["blocker"] = blocker
+                    record["retry_after"] = now + V2_AUTO_END_IDLE_GRACE_S
+                return
+            if rearming:
+                record = {
+                    "token": secrets.token_urlsafe(12),
+                    "stage": "evaluating",
+                    "key": ledger.get("key"),
+                    "place": ledger.get("active_place"),
+                    "generation": self.sidecar_generations.get(
+                        ledger.get("active_place"),
+                    ),
+                    "armed_monotonic": now,
+                    "grace_until": None,
+                    "retry_after": None,
+                    "blocker": None,
+                    "load": None,
+                }
+                ledger["auto_end"] = record
+                worker = self._run_v2_auto_end_evaluation
+            elif (
+                record["stage"] == "grace"
+                and now >= record["grace_until"]
+            ):
+                record["stage"] = "firing"
+                worker = self._run_v2_auto_end_fire
+            if worker is None:
+                return
+            plan = dict(record)
+        self._start_v2_auto_end_worker(worker, plan)
+
+    def _start_v2_auto_end_worker(
+        self, worker: Callable[[dict[str, Any]], None], plan: dict[str, Any],
+    ) -> None:
+        threading.Thread(
+            target=self._run_v2_auto_end_worker,
+            args=(worker, plan),
+            name=(
+                f"freeciv-agent-phase-auto-end-{self.game_id}-"
+                f"{plan['place']}-{plan['generation']}"
+            ),
+            daemon=True,
+        ).start()
+
+    def _run_v2_auto_end_worker(
+        self, worker: Callable[[dict[str, Any]], None], plan: dict[str, Any],
+    ) -> None:
+        try:
+            worker(plan)
+        except Exception:
+            # Nothing this convenience does may end a game, and nothing it
+            # fails at may leave a record a later tick will not retry.  The
+            # phase is exactly where it was: owed to the agent, deadline
+            # running.
+            self._settle_v2_auto_end(plan, "worker_failed")
+        except BaseException:
+            self._settle_v2_auto_end(plan, "worker_failed")
+            raise
+
+    def _settle_v2_auto_end(self, plan: dict[str, Any], blocker: str) -> None:
+        """Park this attempt and let a later tick arm a fresh one."""
+        with self.condition:
+            record = self.v2_phase_ledger.get("auto_end")
+            if not isinstance(record, dict) or record["token"] != plan["token"]:
+                return
+            if record["stage"] == "ended":
+                return
+            record["stage"] = "cancelled"
+            record["blocker"] = blocker
+            record["retry_after"] = time.monotonic() + V2_AUTO_END_IDLE_GRACE_S
+
+    def _v2_auto_end_decision_load(
+        self, plan: dict[str, Any],
+    ) -> dict[str, Any] | None:
+        """Ask the seat's own projection what it still has to decide.
+
+        The read is taken through the same bounded lock an agent read uses, so
+        a seat that is busy answering its agent says so instead of queueing
+        behind it, and a busy seat is by definition one whose agent is awake.
+        Nothing here is reported to the wedge detector or the liveness clock:
+        this is a background convenience, and a convenience must not be able
+        to contribute to a verdict that a seat is gone.
+        """
+        with self.condition:
+            if self._v2_auto_end_blocker_locked(plan):
+                return None
+            agent_id = self.place_agents.get(plan["place"])
+        if agent_id is None:
+            return None
+        try:
+            context = self._resolve_v2_batch_context(agent_id)
+        except Exception:
+            return None
+        place, generation, sidecar, control, execution_lock = context
+        if place != plan["place"] or generation != plan["generation"]:
+            return None
+        try:
+            self._acquire_v2_read_lock(execution_lock)
+        except SidecarError:
+            return None
+        try:
+            observation = self._read_v2_observation_bundle(sidecar, control)
+            return control.decision_load(observation)
+        except Exception:
+            return None
+        finally:
+            execution_lock.release()
+
+    def _run_v2_auto_end_evaluation(self, plan: dict[str, Any]) -> None:
+        load = self._v2_auto_end_decision_load(plan)
+        if load is None or load["pending"] or not load["phase_ready"]:
+            self._settle_v2_auto_end(
+                plan, "not_idle" if load is not None else "unreadable",
+            )
+            return
+        with self.condition:
+            record = self.v2_phase_ledger.get("auto_end")
+            if (
+                not isinstance(record, dict)
+                or record["token"] != plan["token"]
+                or record["stage"] != "evaluating"
+            ):
+                return
+            blocker = self._v2_auto_end_blocker_locked(plan)
+            if blocker is not None:
+                record["stage"] = "cancelled"
+                record["blocker"] = blocker
+                record["retry_after"] = (
+                    time.monotonic() + V2_AUTO_END_IDLE_GRACE_S
+                )
+                return
+            record["load"] = dict(load)
+            record["stage"] = "grace"
+            record["grace_until"] = (
+                record["armed_monotonic"] + V2_AUTO_END_IDLE_GRACE_S
+            )
+            self.condition.notify_all()
+
+    def _run_v2_auto_end_fire(self, plan: dict[str, Any]) -> None:
+        # The verdict that started the grace window is by now a whole window
+        # old, and the native side moves without asking us: an AI turn can
+        # hand a unit back, a city can finish what it was building, a
+        # counterpart can open a treaty meeting.  Ending on the old verdict
+        # would be ending a phase that had acquired something to decide.
+        load = self._v2_auto_end_decision_load(plan)
+        if load is None or load["pending"] or not load["phase_ready"]:
+            self._settle_v2_auto_end(
+                plan, "not_idle" if load is not None else "unreadable",
+            )
+            return
+        claim = self._claim_v2_auto_end(plan, load)
+        if claim is None:
+            return
+        self._run_v2_auto_idle_phase_end(claim)
+
+    def _claim_v2_auto_end(
+        self, plan: dict[str, Any], load: dict[str, Any],
+    ) -> dict[str, Any] | None:
+        """Take the ledger's one end slot, or find an agent already in it.
+
+        This is the whole double-end argument.  The slot is ``ledger["end"]``,
+        there is exactly one of it, and both claimants take it under this
+        condition: an agent's ``turn --end`` through
+        ``_phase_end_claim_for_action``, which refuses with 429 while a claim
+        is in flight, and this, which refuses while one is.  Whichever arrives
+        second finds the slot full and does nothing.
+        """
+        with self.condition:
+            ledger = self.v2_phase_ledger
+            record = ledger.get("auto_end")
+            if (
+                not isinstance(record, dict)
+                or record["token"] != plan["token"]
+                or record["stage"] != "firing"
+            ):
+                return None
+            blocker = self._v2_auto_end_blocker_locked(plan)
+            if blocker is not None:
+                record["stage"] = "cancelled"
+                record["blocker"] = blocker
+                record["retry_after"] = (
+                    time.monotonic() + V2_AUTO_END_IDLE_GRACE_S
+                )
+                return None
+            key = ledger["key"]
+            place = plan["place"]
+            claim = {
+                "claim_id": secrets.token_urlsafe(18),
+                "key": key,
+                "place": place,
+                "agent_id": self.place_agents.get(place),
+                "generation": plan["generation"],
+                "source": V2_PHASE_END_SOURCE_AUTO_IDLE,
+                "receipt_state": "claiming",
+                "claimed_monotonic": time.monotonic(),
+                "deadline_started_monotonic": ledger[
+                    "deadline_started_monotonic"
+                ],
+                "deadline_started_at": ledger["deadline_started_at"],
+                "reconcile_started_monotonic": None,
+                "batch_id": (
+                    f"auto_idle.t{key[0]}.p{key[1]}."
+                    f"seat{place}.g{plan['generation']}"
+                ),
+            }
+            ledger["end"] = claim
+            ledger["state"] = "ending"
+            record["stage"] = "ended"
+            record["load"] = dict(load)
+            self.condition.notify_all()
+            return dict(claim)
+
+    def _run_v2_auto_idle_phase_end(self, claim: dict[str, Any]) -> None:
+        """Dispatch the claim down the agent's own phase-end path.
+
+        The timeout dispatcher fails the game when its claim cannot be
+        delivered, because a deadline that cannot be enforced is a broken
+        deadline.  This is the opposite: the phase was never owed to us, so a
+        claim that cannot be delivered is simply released, and the phase goes
+        back to waiting for its agent with its real deadline untouched.
+        """
+        try:
+            self._begin_v2_receipt_operation()
+            try:
+                self._v2_submit_batch_active(
+                    claim["agent_id"], None, internal_phase_claim=claim,
+                )
+            finally:
+                self._end_v2_receipt_operation()
+        except Exception:
+            self._abandon_v2_auto_idle_claim(claim)
+
+    def _abandon_v2_auto_idle_claim(self, claim: dict[str, Any]) -> None:
+        """Release an auto-idle claim that never reached the boundary.
+
+        Only a claim still in ``claiming`` is provably undelivered: past that
+        the receipt store has reserved it and the existing reconcile
+        machinery, not this, owns what happens next.  Releasing matters
+        because a claim left in the slot would block the ledger's own timeout
+        from ever being minted -- the phase would wait forever on an end that
+        was never sent.
+        """
+        with self.condition:
+            current = self.v2_phase_ledger.get("end")
+            if (
+                not isinstance(current, dict)
+                or current.get("claim_id") != claim.get("claim_id")
+                or current.get("receipt_state") != "claiming"
+            ):
+                return
+            self._note_phase_end_receipt(claim, "rejected")
+            self._handle_rejected_phase_end(claim)
+
+    def _v2_auto_end_status_locked(self, place_number: int) -> dict[str, Any]:
+        """Publish what the seat's own agent may need to know about this."""
+        record = self.v2_phase_ledger.get("auto_end")
+        armed = bool(
+            self.config["auto_end_idle_phase"]
+            and isinstance(record, dict)
+            and record.get("place") == place_number
+            and record["stage"] in {"grace", "firing", "ended"}
+        )
+        grace_until = record["grace_until"] if armed else None
+        return {
+            "enabled": bool(self.config["auto_end_idle_phase"]),
+            "armed": armed,
+            "grace_s": V2_AUTO_END_IDLE_GRACE_S,
+            "remaining_s": (
+                max(0.0, grace_until - time.monotonic())
+                if grace_until is not None else None
+            ),
+        }
 
     def _v2_clear_liveness_misses(self, place_number: int) -> None:
         """Any successful sample proves the client was never gone."""
@@ -3483,6 +3976,14 @@ class Game:
                 keep_polling = True
             else:
                 faults = 0
+            try:
+                self._service_v2_auto_end_idle_phase()
+            except Exception:
+                # This is a convenience bolted onto the seat poller, and the
+                # seat poller is what watches every boundary in the game.  A
+                # fault in the convenience may not count toward the poller's
+                # fault budget, and must never be able to end the game.
+                pass
             # Only the game's own state may end this thread, because nothing
             # restarts it.  A poll that classified one seat's loss as somebody
             # else's business -- a retired generation, a completion grace, a
@@ -4660,6 +5161,8 @@ class Game:
                     == place_number,
                     "timing": public_phase["timing"],
                     "waiting_on": self._v2_waiting_on_locked(place_number),
+                    "auto_end": self._v2_auto_end_status_locked(place_number),
+                    "prior_end": self._v2_prior_phase_end_locked(place_number),
                 }
             try:
                 last_phase_end = (
@@ -4732,7 +5235,7 @@ class Game:
             isinstance(wait_s, bool)
             or not isinstance(wait_s, (int, float))
             or not math.isfinite(wait_s)
-            or not 0 <= wait_s <= 300
+            or not 0 <= wait_s <= V2_WAIT_S_MAX
             or until not in {"phase", "revision"}
             or until == "phase" and after_state_token is not None
             or until == "revision" and (
@@ -5987,6 +6490,7 @@ class Game:
         self, agent_id: str, endpoint: str, raw_query: str,
     ) -> dict[str, Any]:
         """Return one authenticated public page without leaking native state."""
+        self._v2_note_agent_activity(agent_id)
         try:
             if endpoint not in {"state", "legal_actions"}:
                 raise V2ControlError("invalid_request")
@@ -6867,9 +7371,28 @@ class Game:
             self.v2_active_receipt_operations -= 1
             self.condition.notify_all()
 
+    def _v2_note_phase_order(self, agent_id: str) -> None:
+        """Record that this seat's own agent submitted a batch in this phase.
+
+        Counted on submission, not on acceptance: a refused order still proves
+        the seat was present and playing, which is the only question this
+        answers.  Internal batches -- a timeout end, an auto-idle end -- never
+        reach here, so a phase nobody played still counts zero.
+        """
+        with self.condition:
+            agent = self.agents.get(agent_id)
+            key = self._v2_note_phase_key_locked()
+            if agent is None or key is None:
+                return
+            counts = self.v2_phase_order_counts.setdefault(agent["place"], {})
+            counts[key] = counts.get(key, 0) + 1
+            for stale in sorted(counts)[:-V2_PHASE_ORDER_HISTORY]:
+                counts.pop(stale, None)
+
     def v2_submit_batch(
         self, agent_id: str, batch: Any,
     ) -> tuple[int, dict[str, Any]]:
+        self._v2_note_agent_activity(agent_id)
         try:
             clean_batch = validate_initial_command_batch(batch)
         except FullControlSchemaError as exc:
@@ -6892,6 +7415,7 @@ class Game:
                 details={"rejection": rejection("schema", "batch_malformed")},
             )
         batch_id = clean_batch["batch_id"]
+        self._v2_note_phase_order(agent_id)
         try:
             self._begin_v2_receipt_operation()
         except APIProblem as problem:
@@ -7664,6 +8188,7 @@ class Game:
     def v2_get_receipt(
         self, agent_id: str, batch_id: str,
     ) -> tuple[int, dict[str, Any]]:
+        self._v2_note_agent_activity(agent_id)
         self._begin_v2_receipt_operation()
         try:
             return self._v2_get_receipt_active(agent_id, batch_id)
@@ -8587,6 +9112,104 @@ class Game:
         )
         return "termination_pending" if terminating else "surrendered"
 
+    def _v2_note_phase_key_locked(self) -> tuple[int, int] | None:
+        """Return the ledger's current phase key, remembering the first seen."""
+        key = self.v2_phase_ledger.get("key")
+        if not isinstance(key, tuple) or len(key) != 2:
+            return None
+        if (
+            self.v2_phase_order_floor is None
+            or key < self.v2_phase_order_floor
+        ):
+            self.v2_phase_order_floor = key
+        return key
+
+    def _v2_prior_phase_end_locked(
+        self, place_number: int,
+    ) -> dict[str, Any] | None:
+        """How the last phase held by a seat other than this one ended.
+
+        `last_phase_end` has always reported only the caller's own seat, so an
+        agent could play a whole match without ever being told what its
+        opponent did with its turns -- including that it did nothing with
+        them.  `orders_submitted` is the count this supervisor kept while that
+        phase was open; `None` means it was never recorded (a phase that
+        predates the counter, or one whose seat rejoined).
+        """
+        journal = self.v2_phase_event_journal
+        if journal is None:
+            return None
+        self._v2_note_phase_key_locked()
+        best: dict[str, Any] | None = None
+        for place in self.joinable_places:
+            if place.number == place_number:
+                continue
+            try:
+                event = journal.last_for_place(place.number)
+            except V2PhaseEventJournalError:
+                self._invalidate_v2_phase_event_journal_locked()
+                return None
+            if event is None:
+                continue
+            if best is None or event["sequence"] > best["sequence"]:
+                best = event
+        if best is None:
+            return None
+        counts = self.v2_phase_order_counts.get(best["place"], {})
+        ended = (best["turn"], best["phase"])
+        floor = self.v2_phase_order_floor
+        watched = floor is not None and ended >= floor
+        return {
+            "place": best["place"],
+            "seat_id": best["seat_id"],
+            "player_name": best["player_name"],
+            "controller_label": best["controller_label"],
+            "turn": best["turn"],
+            "phase": best["phase"],
+            "source": best["source"],
+            "receipt_state": best["receipt_state"],
+            "resolution": best["resolution"],
+            "elapsed_s": best["elapsed_s"],
+            "orders_submitted": counts.get(ended, 0 if watched else None),
+        }
+
+    @staticmethod
+    def _v2_seat_phrase_locked(
+        seats: list[dict[str, Any]], place_number: int,
+    ) -> str:
+        """Name one seat the way a person would, from the row already built."""
+        row = next(
+            (item for item in seats if item.get("place") == place_number),
+            None,
+        )
+        if row is None:
+            return f"Seat {place_number}"
+        label = row.get("controller_label")
+        return (
+            f"Seat {row['place']} {row['player_name']}"
+            + (f" ({label})" if isinstance(label, str) and label else "")
+        )
+
+    def _v2_hold_phrase_locked(self) -> str:
+        """Say how long the phase has been held and how long is left of it.
+
+        `waiting_s` beside the summary was unlabelled, and the deadline was
+        published on a line that read `inactive`, so the two numbers a blocked
+        caller most needs were both available and both unreadable.
+        """
+        started = self.v2_phase_ledger.get("deadline_started_monotonic")
+        timeout = self.config["action_timeout_s"]
+        if started is None:
+            return "."
+        held = max(0.0, time.monotonic() - started)
+        if timeout is None:
+            return f"; it has held it for {held:.0f}s and has no deadline."
+        return (
+            f"; it has held it for {held:.0f}s of {timeout:.0f}s and has "
+            f"{max(0.0, timeout - held):.0f}s left before the supervisor "
+            "ends it automatically."
+        )
+
     def _v2_waiting_on_locked(self, place_number: int) -> dict[str, Any] | None:
         """Name what the phase loop is blocked on, from this seat's view.
 
@@ -8597,6 +9220,7 @@ class Game:
         """
         ledger = self.v2_phase_ledger
         state = ledger["state"]
+        key = ledger.get("key")
         active_place = ledger.get("active_place")
         evidence = ledger.get("evidence", {})
         terminalized = bool(
@@ -8721,12 +9345,18 @@ class Game:
             seats = seat_rows({active_place})
             active_standing = self._v2_seat_standing_locked(active_place)
             mine = active_place == place_number
+            # Name whoever it is.  Every one of these summaries used to say
+            # "the seat" or "another seat" while the row two lines above
+            # already carried the player and controller -- so the caller's
+            # only route to the opponent's identity was `--json`, and the
+            # sentence a blocked agent actually read disclosed nothing.
+            named = self._v2_seat_phrase_locked(seats, active_place)
             if state == "inactive_done" and active_standing in {
                 "surrendered", "termination_pending",
             }:
                 kind = "seat_surrendered"
                 summary = (
-                    "The seat holding the phase has surrendered and is "
+                    f"{named} holds the phase, has surrendered and is "
                     "waiting for the server to reap it; it will not end its "
                     "phase."
                     if not mine else
@@ -8736,7 +9366,7 @@ class Game:
             elif state == "inactive_done":
                 kind = "seat_inactive"
                 summary = (
-                    "The seat holding the phase is finished or no longer "
+                    f"{named} holds the phase and is finished or no longer "
                     "alive; the native server advances next."
                 )
             elif state == "phase_not_ready":
@@ -8748,12 +9378,17 @@ class Game:
                     "server is busy, and until a phase-timing setting change "
                     "takes effect at the next turn boundary."
                     if mine else
-                    "The native client has not announced that the seat "
-                    "holding the phase may end it."
+                    "The native client has not announced that "
+                    f"{named}, which holds the phase, may end it."
                 )
             else:
                 kind = "other_seat"
-                summary = "Another seat holds the phase and has not ended it."
+                summary = (
+                    f"{named} holds turn {key[0]} phase {key[1]} and has not "
+                    "ended it"
+                    if isinstance(key, tuple) and len(key) == 2
+                    else f"{named} holds the phase and has not ended it"
+                ) + self._v2_hold_phrase_locked()
         started = ledger.get("progress_started_monotonic")
         return {
             "kind": kind,
@@ -9860,6 +10495,7 @@ class Supervisor:
             "mode", "places", "turns", "seed", "ruleset", "objective",
             "timing_mode", "action_timeout_s", "lobby_timeout_s", "frame_interval",
             "frame_zoom", "control_protocol", "difficulty",
+            "auto_end_idle_phase",
         }
         unknown = sorted(set(payload) - known)
         if unknown:
@@ -9981,6 +10617,30 @@ class Supervisor:
                 "difficulty must be one of "
                 + ", ".join(AI_DIFFICULTY_LEVELS),
             )
+        # A full-control-v2 phase in which the seat has nothing left to decide
+        # is dead air, and a harness that misses its wake notification burns
+        # the whole action timeout on it.  Ending that phase is not choosing
+        # actions on the agent's behalf -- there are none left to choose --
+        # and it is opt-outable per game for anyone who wants the deadline to
+        # be the only thing that ever ends a phase.  strategic-v1 has no phase
+        # ledger and no idle projection, so the option is meaningless there
+        # and is refused rather than silently ignored.
+        raw_auto_end = payload.get("auto_end_idle_phase")
+        if raw_auto_end is not None and not isinstance(raw_auto_end, bool):
+            raise APIProblem(
+                HTTPStatus.BAD_REQUEST,
+                "auto_end_idle_phase must be a boolean",
+            )
+        if control_protocol != FULL_CONTROL_V2:
+            if raw_auto_end:
+                raise APIProblem(
+                    HTTPStatus.BAD_REQUEST,
+                    "auto_end_idle_phase requires control_protocol "
+                    f"{FULL_CONTROL_V2}",
+                )
+            auto_end_idle_phase = False
+        else:
+            auto_end_idle_phase = True if raw_auto_end is None else raw_auto_end
         return {
             "mode": mode,
             "places": places,
@@ -9990,6 +10650,7 @@ class Supervisor:
             "objective": objective.strip(),
             "control_protocol": control_protocol,
             "difficulty": difficulty,
+            "auto_end_idle_phase": auto_end_idle_phase,
             "timing_mode": timing_mode,
             "action_timeout_s": action_timeout_s,
             "lobby_timeout_s": lobby_timeout_s,
@@ -10509,7 +11170,7 @@ class SupervisorHandler(BaseHTTPRequestHandler):
                         )
                     wait_s = float(wait_text)
                     if (
-                        wait_s > 300
+                        wait_s > V2_WAIT_S_MAX
                         or until not in {"phase", "revision"}
                         or until == "phase" and "after_state_token" in query
                         or until == "revision"

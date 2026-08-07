@@ -28,7 +28,13 @@ MAX_QUARANTINE_BYTES = 1024 * 1024
 
 _OPAQUE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 _COLOR = re.compile(r"^#[0-9A-F]{6}$")
-_SOURCES = frozenset({"agent", "timeout"})
+# Who ended the phase.  ``agent`` is the controller's own call, ``timeout`` is
+# the action deadline being enforced against it, and ``auto_idle`` is a phase
+# that was ended for a seat which had provably nothing left to decide and had
+# gone quiet.  The three are kept apart here because a replay, a forensic read
+# and a scorer all need to know which of them a turn ended by: a timeout is a
+# controller failing to act, and an auto-idle end is emphatically not.
+PHASE_END_SOURCES = frozenset({"agent", "timeout", "auto_idle"})
 _RECEIPT_STATES = frozenset({"applied", "ambiguous", "rejected"})
 _RESOLUTIONS = frozenset({"advanced", "terminal", "failed"})
 _CONTROLLER_TYPES = frozenset({"external", "native"})
@@ -109,7 +115,7 @@ def validate_phase_event(value: Any, *, expected_sequence: int | None = None) ->
             raise V2PhaseEventJournalError()
     if expected_sequence is not None and value["sequence"] != expected_sequence:
         raise V2PhaseEventJournalError()
-    if value["source"] not in _SOURCES:
+    if value["source"] not in PHASE_END_SOURCES:
         raise V2PhaseEventJournalError()
     if value["receipt_state"] not in _RECEIPT_STATES:
         raise V2PhaseEventJournalError()

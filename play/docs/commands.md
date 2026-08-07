@@ -436,9 +436,11 @@ With no actor left it prints `no actors need orders; just turn --end --await
 
 Ends this phase with the cached `phase.end` capability (enumerating it
 internally when it is not cached), blocks exactly as `just wait` does, then
-prints the next phase's header line. `--wait_s` and `--poll_s` behave as they
-do on `just wait`. Plain `just turn` is unchanged. `--await` without `--end`
-is refused: use `just wait` to block without ending.
+prints the next phase's header line. `--wait_s` behaves as it does on
+`just wait`, except that the block runs to the holder's deadline when another
+seat holds the phase, so one call carries one turn in multiplayer. Plain
+`just turn` is unchanged. `--await` without `--end` is refused: use
+`just wait` to block without ending.
 
 `--brief` renders the whole next-turn briefing after the wake — byte for byte
 what plain `just turn` would print, decisions lines and events line included —
@@ -851,18 +853,121 @@ persistence, `batch` emits exactly one compact disposition with its batch ID:
 `receipt_terminal`, `receipt_poll`, `receipt_first`, `retry_exact`, or
 `refresh`.
 
-`wait` prints the same compact header `turn --end --await` does — wake reason,
-game state, phase, then the `health` one-liners — and carries the full wake
-envelope under `--json`. It defaults to the caller's actionable phase and
-returns a `wake_reason`;
-an opponent revision cannot wake it. Use `--until revision` only when
-deliberately following any private state change. The machine-readable contract
-is [`full-control-v2.openapi.json`](full-control-v2.openapi.json), with custom
+`wait` prints the same compact header `turn --end --await` does — whose phase
+it is, the game state, then the `health` one-liners — and carries the full
+wake envelope under `--json`. It defaults to the caller's actionable phase and
+returns a `wake_reason`; an opponent revision cannot wake it. Use
+`--until revision` only when deliberately following any private state change.
+The machine-readable contract is
+[`full-control-v2.openapi.json`](full-control-v2.openapi.json), with custom
 harness guidance in [`custom-harness-v2.md`](custom-harness-v2.md).
-The Just recipe accepts both agent-friendly underscore options (`--wait_s`,
-`--poll_s`) and their dashed spellings (`--wait-s`, `--poll-s`). Pass only one
-spelling of each option. A local wait-command error does not end the game;
-correct it and continue the same play loop until the game is terminal.
+The Just recipe accepts both agent-friendly underscore options (`--wait_s`)
+and their dashed spellings (`--wait-s`). Pass only one spelling of each
+option. A local wait-command error does not end the game; correct it and
+continue the same play loop until the game is terminal.
+
+`--poll_s` is accepted and forwarded, but it does not reach the server: the
+long-poll ticks on the supervisor's own schedule and only `wait_s`, `until`
+and `after_state_token` are sent. It survives solely for the pre-`/wait`
+fallback path. Do not tune it.
+
+### `just wait` exit codes
+
+The wake reason is on the exit status, which is the one channel every job
+supervisor, `&&` chain, cron loop and CI runner can already read without
+parsing prose:
+
+| exit | meaning | what to do |
+|---|---|---|
+| `0` | your phase is active | act now |
+| `75` | woke, still another seat's phase (`EX_TEMPFAIL`) | call `wait` again |
+| `66` | the game is terminal (`EX_NOINPUT`) | stop looping, read `just result` |
+
+Text output is unchanged apart from naming the seat that holds the phase, and
+`--json` is byte-identical. Only the bare `just wait` command carries these
+codes. Every composite that embeds a wait — `turn --end --await`,
+`do "…" --end --await` — keeps its own exit contract for the work it applied:
+an applied phase end never exits non-zero because of how the wait after it
+turned out.
+
+### `just wait --for-turn [--max SECONDS]`
+
+Blocks until the phase is genuinely this seat's, bounded by the deadline of
+whichever seat currently holds it (plus a short grace) rather than by a fixed
+`--wait_s`. Because an agent phase is at most `action_timeout_s`, and the
+*remaining* budget is by construction less than that, one `--for-turn` call
+covers one opponent turn — which is what makes "one call per turn" true in
+multiplayer instead of aspirational. Internally it long-polls in short ticks,
+so it stays resumable, refreshes `state/phase.json` as it goes, and prints one
+`… waiting on seat N NAME · held … · … left` line per tick rather than going
+silent for ten minutes. `--max SECONDS` caps the whole wait; `wait_s` is
+bounded to `[0, 615]` on both sides of the wire.
+
+### `just monitor [--forever] [--exec 'CMD'] [--max-s SECONDS]`
+
+A loop over `wait --for-turn` and nothing else — no daemon, no state file,
+nothing to clean up if it is killed. It blocks until the phase is this seat's,
+prints exactly one line on stdout, and exits `0`:
+
+```
+T12 | YOUR TURN | next: just turn
+```
+
+Two harness bindings, both supported:
+
+* **Default (`--once`).** Run it, get one line, exit `0`, take the turn, run
+  it again. This is the right binding for a harness that re-invokes on
+  background-job completion, and for `until just monitor; do :; done`.
+* **`--forever`.** Keep looping and print one line per turn on a long-lived
+  stdout, for a daemon-style harness that tails it.
+
+`--exec 'CMD'` runs a shell hook on every wake with `PLAY_TURN`, `PLAY_PHASE`,
+`PLAY_WAKE_REASON` and `PLAY_GAME_STATE` in its environment; a hook that fails
+is reported on stderr and never stops the monitor. Exit `66` means the game
+ended. Per-tick progress goes to stderr, so stdout carries only the signal.
+
+### `state/phase.json`
+
+A sanctioned machine-readable projection, written next to `state/header.txt`
+by every command that reads health *and* by every internal tick of a blocking
+wait, so it stays fresh while the client is blocked:
+
+```json
+{"schema_version": 1, "updated_at": 1786058960.4, "turn": 5, "phase": 0,
+ "active": false, "state": "awaiting_agent", "game_state": "running",
+ "held_s": 587.0, "deadline_s_left": 13.0,
+ "holder": {"place": 1, "seat_id": "place-1", "player_name": "AgentPlace1",
+            "controller_label": "pi-gpt-5.6-sol"}}
+```
+
+`holder` is `null` when this seat holds the phase or no seat does. The write
+is atomic, so a watcher polling the file never reads a half-written object.
+
+## Multiplayer: alternating phases
+
+When another agent seat shares the game, seats alternate: exactly one phase is
+open at a time, and while it is not yours nothing you can do shortens it. The
+whole steady-state loop is one command:
+
+```sh
+just do "u1 VERB ARGS; c1 VERB ARGS" --end --await --brief
+```
+
+`--await` blocks to the holder's deadline rather than to a fixed 120 s, and
+when it comes back with the phase still theirs it says so and prints no
+briefing — a briefing for a phase you do not hold, tailed `next: just turn`,
+only invites an action that will be refused. A harness that would rather split
+the block out uses the monitorable primitive instead:
+
+```sh
+until just monitor; do :; done      # or: just wait --for-turn; echo $?
+```
+
+`just health` leads with `NOT YOUR TURN · seat 1 NAME (LABEL) holds t5/p0 ·
+held 9m47s of 10m0s · 13s left` while you are blocked, and on your own turn
+reports how the previous phase ended — including
+`(timeout — they issued no orders)` when the seat before you submitted
+nothing at all, which is not the same event as thinking for ten minutes.
 
 ## Terminal result
 

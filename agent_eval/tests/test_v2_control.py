@@ -11493,5 +11493,147 @@ class V2ProjectorInvariantScopeTests(unittest.TestCase):
         self.assertInternal(rows)
 
 
+class V2DecisionLoadTests(unittest.TestCase):
+    """The authoritative "does this seat still have to decide anything".
+
+    Only one caller exists -- the auto-end of a provably idle phase -- and it
+    ends a real turn on a zero here, so every case below is really asking
+    whether a zero can be produced by something the seat had not in fact
+    finished.
+    """
+
+    revision = 600
+
+    def load(self, rows: tuple[str, ...]) -> dict[str, object]:
+        # A fresh control and a fresh revision per fixture: the projector
+        # caches per revision and mints state tokens per control.
+        V2DecisionLoadTests.revision += 1
+        control = V2SeatControl(
+            "game_decision_load", f"agent_load_{self.revision}", 1,
+        )
+        return control.decision_load(
+            observation(rows, revision=self.revision),
+        )
+
+    @staticmethod
+    def rows() -> tuple[str, ...]:
+        return complete_v2_rows(valid_rows())
+
+    def test_an_untouched_seat_has_its_idle_unit_counted(self):
+        load = self.load(self.rows())
+        self.assertEqual(load["idle_units"], 1)
+        self.assertEqual(load["pending"], 1)
+        self.assertTrue(load["phase_ready"])
+
+    def test_a_seat_with_nothing_left_to_decide_reports_zero(self):
+        load = self.load(
+            replace_row(self.rows(), "activity=idle", "activity=fortifying"),
+        )
+        self.assertEqual(load["pending"], 0)
+        self.assertEqual(
+            (load["idle_units"], load["action_decisions"],
+             load["completed_production"], load["research_unset"],
+             load["open_meetings"]),
+            (0, 0, 0, 0, 0),
+        )
+        # Zero pending is not zero actors: the seat is fully projected.
+        self.assertEqual((load["own_units"], load["cities"]), (1, 1))
+
+    def test_an_automated_unit_is_not_awaiting_orders(self):
+        load = self.load(replace_row(
+            self.rows(),
+            "controller=none has_orders=0", "controller=auto_explore has_orders=0",
+        ))
+        self.assertEqual(load["idle_units"], 0)
+        self.assertEqual(load["pending"], 0)
+
+    def test_a_unit_that_has_spent_its_moves_is_not_awaiting_orders(self):
+        # Without this the count could never reach zero: a seat that played
+        # its whole turn leaves every unit idle, orderless and out of moves,
+        # and the phase would always burn to the deadline it exists to save.
+        spent = tuple(sorted(
+            row.replace("moves=3 activity=idle", "moves=0 activity=idle")
+            for row in valid_rows()
+            if not (row.startswith("action ") and " actor=u:10:100 " in row)
+        ))
+        load = self.load(complete_v2_rows(spent))
+        self.assertEqual(load["own_units"], 1)
+        self.assertEqual(load["idle_units"], 0)
+        self.assertEqual(load["pending"], 0)
+
+    def test_a_pending_action_decision_is_a_pending_decision(self):
+        load = self.load(replace_row(
+            self.rows(),
+            "action_decision_want=nothing action_decision_tile=-1",
+            "action_decision_want=passive action_decision_tile=6",
+        ))
+        self.assertEqual(load["action_decisions"], 1)
+        self.assertGreaterEqual(load["pending"], 1)
+
+    def test_a_full_shield_box_is_a_build_decision(self):
+        load = self.load(replace_row(
+            self.rows(),
+            "shield_stock=10 shield_cost=40", "shield_stock=40 shield_cost=40",
+        ))
+        self.assertEqual(load["completed_production"], 1)
+        self.assertGreaterEqual(load["pending"], 1)
+
+    def test_an_unset_research_target_is_a_pending_decision(self):
+        # ``v2_research_choice_name`` in protocol_v2.c names A_UNSET "Unset";
+        # the field is never empty, so only the name identifies it.  Moving
+        # the target off Writing also makes Writing targetable again, which
+        # the native would publish as one more research.set_target.
+        rows = self.rows()
+        targeting = next(
+            row for row in rows if "kind=research.set_target" in row
+        )
+        load = self.load(tuple(sorted(
+            [
+                row.replace(
+                    "target=Writing target_id=4", "target=Unset target_id=1000",
+                )
+                for row in rows
+            ]
+            + [
+                targeting
+                .replace("slot=a000000000000000A", "slot=a000000000000001A")
+                .replace("target_tech=6", "target_tech=4")
+            ]
+        )))
+        self.assertEqual(load["research_unset"], 1)
+        self.assertGreaterEqual(load["pending"], 1)
+
+    def test_an_unanswered_treaty_meeting_is_a_pending_decision(self):
+        gold = ("p:1:10", 1, "Gold", "gold", 17, "gold")
+        open_meeting = self.load(
+            complete_v2_rows(treaty_rows((gold,), self_accepted=0)),
+        )
+        answered = self.load(
+            complete_v2_rows(treaty_rows((gold,), self_accepted=1)),
+        )
+        self.assertEqual(open_meeting["open_meetings"], 1)
+        self.assertEqual(answered["open_meetings"], 0)
+
+    def test_idle_actors_are_counted_past_the_end_of_any_page(self):
+        # The whole reason this lives in the projector.  A briefing counts
+        # what it printed and says so; a phase ended on that verdict is a
+        # phase ended with actors waiting on the next page.
+        rows = complete_v2_rows(transport_state_rows())
+        load = self.load(rows)
+        self.assertEqual(load["own_units"], 4)
+        self.assertEqual(load["idle_units"], 4)
+        page = V2SeatControl(
+            "game_decision_load", "agent_load_page", 1,
+        ).state_page(
+            observation(rows, revision=self.revision + 500), "units", 2,
+        )["page"]
+        self.assertEqual(len(page["items"]), 2)
+        self.assertIsNotNone(page["next_cursor"])
+
+    def test_a_pregame_projection_never_looks_idle(self):
+        load = self.load(complete_v2_rows(pregame_rows()))
+        self.assertFalse(load["phase_ready"])
+
+
 if __name__ == "__main__":
     unittest.main()

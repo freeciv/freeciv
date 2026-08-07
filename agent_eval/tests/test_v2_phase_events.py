@@ -9,6 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from agent_eval.v2_phase_events import (
+    PHASE_END_SOURCES,
     PHASE_EVENT_FILENAME,
     PHASE_EVENT_QUARANTINE_FILENAME,
     V2PhaseEventJournal,
@@ -57,6 +58,31 @@ class V2PhaseEventJournalTests(unittest.TestCase):
                 page = reloaded.page(1, 100)
                 self.assertEqual(page["items"], [second])
                 self.assertEqual(reloaded.last_for_place(1), first)
+
+    def test_every_phase_end_source_round_trips_and_others_are_refused(self):
+        # ``source`` is the only thing that distinguishes a controller that
+        # ended its own turn from one that ran out of deadline and from a
+        # phase that had nothing left to decide.  Journals written before
+        # auto_idle existed carry only the first two and must still reload.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with V2PhaseEventJournal(root) as journal:
+                for phase, source in enumerate(
+                    sorted(PHASE_END_SOURCES),
+                ):
+                    record = journal.append(
+                        {**self.event(turn=4, phase=phase), "source": source},
+                    )
+                    self.assertEqual(record["source"], source)
+                with self.assertRaises(V2PhaseEventJournalError):
+                    journal.append(
+                        {**self.event(turn=9), "source": "supervisor"},
+                    )
+            with V2PhaseEventJournal(root) as reloaded:
+                self.assertEqual(
+                    [item["source"] for item in reloaded.page(0, 100)["items"]],
+                    sorted(PHASE_END_SOURCES),
+                )
 
     def test_duplicate_identity_is_exact_once_and_conflict_fails(self):
         with tempfile.TemporaryDirectory() as directory:

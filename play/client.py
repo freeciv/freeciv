@@ -18,6 +18,7 @@ import random
 import re
 import secrets
 import stat
+import subprocess
 import sys
 import time
 import urllib.error
@@ -25,7 +26,7 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 # Layer L1 of the context redesign: a sanctioned, file-based projection of the
 # pages this seat already received.  It lives beside this module inside the
@@ -137,8 +138,29 @@ V2_DISPOSITIONS = {
     "refresh",
 }
 V2_WAKE_REASONS = {
+    # `boundary_recovered` is one the server has always been able to send: it
+    # is in the supervisor's own `V2_WAIT_REASONS`, and it answers any wait
+    # that lands while this seat's native boundary is being republished.  It
+    # was missing here, so such a wait raised instead -- and on the
+    # `--end --await` path that surfaced as `await failed:` *after* the phase
+    # end had already applied, which is the worst possible moment to be told
+    # the client does not understand the server.
     "phase_active", "game_terminal", "revision_changed", "timeout",
+    "boundary_recovered",
 }
+# The wake reasons that mean the wait got what it was asked for.  Everything
+# else is either the game ending or the caller being told to come back.
+V2_SATISFIED_WAKE_REASONS = frozenset({
+    "phase_active", "revision_changed", "boundary_recovered",
+})
+# `just wait` exit codes.  The wake reason has always been readable only as
+# English on stdout, which meant every harness needed a bespoke parser and the
+# one channel every job supervisor, `&&` chain and cron loop can already
+# observe carried nothing.  These are the sysexits spellings: 75 EX_TEMPFAIL
+# ("call me again"), 66 EX_NOINPUT ("there is nothing left to wait for").
+V2_WAIT_EXIT_ACTIVE = 0
+V2_WAIT_EXIT_RETRY = 75
+V2_WAIT_EXIT_TERMINAL = 66
 V2_EVALUATION_FIELDS = {"objective", "max_turns", "turns_remaining"}
 
 
@@ -1778,7 +1800,9 @@ def _validate_phase_end_event(
         or PLAYER_COLOR_RE.fullmatch(raw["player_color"]) is None
         or raw["controller_label"] != session["controller_label"]
         or raw["controller_type"] != "external"
-        or raw["source"] not in {"agent", "timeout"}
+        # auto_idle: the service ended a phase in which this seat had no idle
+        # actor and no pending decision, and had gone quiet.
+        or raw["source"] not in {"agent", "timeout", "auto_idle"}
         or raw["receipt_state"] not in V2_TERMINAL_RECEIPTS
         or raw["resolution"] not in {"advanced", "terminal", "failed"}
         or raw["receipt_state"] == "rejected"
@@ -1917,7 +1941,71 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
         phase_fields = {"state", "turn", "phase", "active", "timing"}
         if isinstance(phase, dict) and "waiting_on" in phase:
             phase_fields = phase_fields | {"waiting_on"}
+        # Optional-if-present, like waiting_on: a supervisor that can end a
+        # provably idle phase for this seat says so here, in time for the seat
+        # to act instead if it would rather.
+        if isinstance(phase, dict) and "auto_end" in phase:
+            phase_fields = phase_fields | {"auto_end"}
+        # Optional-if-present, like the two above: how the phase before this
+        # one ended, and whether the seat that held it played it at all.
+        if isinstance(phase, dict) and "prior_end" in phase:
+            phase_fields = phase_fields | {"prior_end"}
         phase = _exact(phase, phase_fields, "health phase")
+        auto_end = phase.get("auto_end")
+        if auto_end is not None:
+            auto_end = _exact(
+                auto_end,
+                {"enabled", "armed", "grace_s", "remaining_s"},
+                "health phase auto_end",
+            )
+            if (
+                not isinstance(auto_end["enabled"], bool)
+                or not isinstance(auto_end["armed"], bool)
+            ):
+                raise PlayerError("invalid v2 health phase auto_end")
+            for name in ("grace_s", "remaining_s"):
+                _safe_number(
+                    auto_end[name], f"health phase auto_end {name}",
+                    nullable=True,
+                )
+            auto_end = dict(auto_end)
+        prior_end = phase.get("prior_end")
+        if prior_end is not None:
+            prior_end = _exact(
+                prior_end,
+                {
+                    "place", "seat_id", "player_name", "controller_label",
+                    "turn", "phase", "source", "receipt_state", "resolution",
+                    "elapsed_s", "orders_submitted",
+                },
+                "health phase prior_end",
+            )
+            if (
+                prior_end["source"] not in {"agent", "timeout", "auto_idle"}
+                or prior_end["receipt_state"] not in V2_TERMINAL_RECEIPTS
+                or prior_end["resolution"] not in {
+                    "advanced", "terminal", "failed",
+                }
+                or any(
+                    type(prior_end[name]) is not int or prior_end[name] < low
+                    for name, low in (
+                        ("place", 1), ("turn", 0), ("phase", 0),
+                    )
+                )
+                or prior_end["place"] == seat["place"]
+                or not isinstance(prior_end["player_name"], str)
+                or not isinstance(prior_end["seat_id"], str)
+                or prior_end["controller_label"] is not None
+                and not isinstance(prior_end["controller_label"], str)
+                or prior_end["orders_submitted"] is not None
+                and (
+                    type(prior_end["orders_submitted"]) is not int
+                    or prior_end["orders_submitted"] < 0
+                )
+            ):
+                raise PlayerError("invalid v2 health phase prior_end")
+            _safe_number(prior_end["elapsed_s"], "health prior_end elapsed_s")
+            prior_end = dict(prior_end)
         waiting_on = phase.get("waiting_on")
         if waiting_on is not None:
             waiting_on = _exact(
@@ -1996,6 +2084,10 @@ def _validate_health(value: Any, session: dict[str, Any]) -> dict[str, Any]:
         }
         if "waiting_on" in phase:
             clean_phase["waiting_on"] = waiting_on
+        if "auto_end" in phase:
+            clean_phase["auto_end"] = auto_end
+        if "prior_end" in phase:
+            clean_phase["prior_end"] = prior_end
     if (
         evaluation is not None
         and clean_phase is not None
@@ -2714,6 +2806,14 @@ V2_PROTOCOL_CARD = (
     "just legal --kind KIND --all              one class of action",
     "just batch --action_id ID --arguments JSON",
     "just receipt --batch_id ID | just retry --batch_id ID | just wait",
+    "MULTIPLAYER — seats alternate; one phase is open at a time and nothing "
+    "shortens another seat's. Health says NOT YOUR TURN and names who holds "
+    "it, for how long, and how long is left. Step 4 still carries the whole "
+    "turn: --await blocks to that seat's own deadline.",
+    "just wait --for-turn                      block until the phase is "
+    "yours. exit 0 yours, 75 still theirs (call again), 66 game over",
+    "just monitor                              that loop; one line when it is "
+    "yours, then exit 0. state/phase.json says whose turn it is",
     "just use GAME_ID                          rebind this workspace's seat",
     "add --json to any of these for the full wire payload; join bound this "
     "workspace to your seat, so no command takes a session argument",
@@ -3122,6 +3222,15 @@ def _resolve_alias_arguments(
 def _render(lines: list[str]) -> None:
     for line in lines:
         print(line)
+
+
+def _echo(line: str) -> None:
+    """Print one progress line now, not whenever the buffer happens to flush.
+
+    A blocking command that produces nothing for ten minutes is read as a
+    hang -- it was, three times, by a human watching a live match.
+    """
+    print(line, flush=True)
 
 
 def _drift(label: str) -> PlayerError:
@@ -5044,6 +5153,97 @@ def _render_state_page(
     return lines
 
 
+def _duration(seconds: Any) -> str:
+    """Render a phase-scale duration the way a person says it out loud.
+
+    `587.004s` is three digits of precision on a number whose meaning is
+    "about ten minutes", and a reader has to do the division before the fact
+    lands.  Nothing here is a new fact; it is the same number, legible.
+    """
+    if not isinstance(seconds, (int, float)) or isinstance(seconds, bool):
+        return "?"
+    whole = int(round(max(0.0, float(seconds))))
+    if whole < 60:
+        return f"{whole}s"
+    return f"{whole // 60}m{whole % 60}s"
+
+
+def _holder_seat(phase: Any) -> dict[str, Any] | None:
+    """Name the other seat this phase is waiting on, when there is exactly one.
+
+    `waiting_on.seats[]` has carried `player_name` and `controller_label`
+    since the field existed; it was simply never rendered, so "another seat"
+    was the whole disclosure a blocked agent got.
+    """
+    if not isinstance(phase, dict) or phase.get("active") is True:
+        return None
+    waiting_on = phase.get("waiting_on")
+    if not isinstance(waiting_on, dict):
+        return None
+    others = [
+        row for row in waiting_on.get("seats") or ()
+        if isinstance(row, dict) and row.get("is_self") is False
+    ]
+    return others[0] if len(others) == 1 else None
+
+
+def _seat_label(row: dict[str, Any]) -> str:
+    label = row.get("controller_label")
+    return (
+        f"seat {_scalar(row.get('place'))} {_scalar(row.get('player_name'))}"
+        + (f" ({label})" if isinstance(label, str) and label else "")
+    )
+
+
+def _phase_headline(phase: dict[str, Any] | None) -> str:
+    """Answer "is it my turn" first, and name whoever holds it if it is not.
+
+    The old line read `phase awaiting_agent t5/p0 inactive 12.9s left`, which
+    invites exactly one misreading: `awaiting_agent` sounds like *awaiting
+    me*, and the deadline printed beside it belongs to the seat that is
+    actually playing.  Both readings cost a live match nine turns.
+    """
+    if phase is None:
+        return "phase none"
+    key = f"t{_scalar(phase['turn'])}/p{_scalar(phase['phase'])}"
+    timing = phase["timing"]
+    held = _duration(timing["elapsed_s"])
+    budget = (
+        f" of {_duration(timing['timeout_s'])}"
+        if timing["timeout_s"] is not None else ""
+    )
+    left = (
+        f" · {_duration(timing['remaining_s'])} left"
+        if timing["remaining_s"] is not None
+        else " · no deadline" if timing["mode"] == "infinite" else ""
+    )
+    # A phase can be *this seat's* and still not be actionable -- the ledger
+    # names the place while the native client withholds permission to end it.
+    # Only `awaiting_agent` earns the unqualified promise; every other state
+    # keeps its own name so the waiting_on line below explains a fact the
+    # headline already admitted.
+    state = "" if phase["state"] == "awaiting_agent" else (
+        f" {_scalar(phase['state'])}"
+    )
+    if phase["active"]:
+        # On your own turn the deadline is yours, so it is the whole story:
+        # how long you have, out of how long the phase gets.
+        return (
+            f"{'YOUR TURN' if not state else 'YOUR PHASE'} ·{state} {key}"
+            f"{left}"
+            + (budget if timing["remaining_s"] is not None else "")
+        )
+    holder = _holder_seat(phase)
+    if holder is not None:
+        return (
+            f"NOT YOUR TURN · {_seat_label(holder)} holds{state} {key}"
+            + (f" · held {held}{budget}" if timing["elapsed_s"] is not None
+               else "")
+            + left
+        )
+    return f"NOT YOUR TURN ·{state or ' waiting'} {key}{left}"
+
+
 def _phase_text(phase: dict[str, Any] | None) -> str:
     if phase is None:
         return "phase none"
@@ -5060,10 +5260,47 @@ def _phase_text(phase: dict[str, Any] | None) -> str:
     return text
 
 
+def _prior_end_line(phase: Any) -> str:
+    """Say how the phase before this one ended, and whether anyone played it.
+
+    A seat that thought for its whole ten minutes and a seat that was not
+    there at all end their phase identically as far as the board is
+    concerned: `source=timeout`, the supervisor advances, the game goes on.
+    They are not the same event, and the difference is the single most
+    decision-relevant fact an opponent can be told -- in the run this came
+    from, one seat issued zero orders on nine of thirteen turns and nothing
+    anywhere said so.
+    """
+    if not isinstance(phase, dict):
+        return ""
+    prior = phase.get("prior_end")
+    if not isinstance(prior, dict):
+        return ""
+    orders = prior.get("orders_submitted")
+    if prior["source"] == "timeout":
+        cause = (
+            "timeout — they issued no orders" if orders == 0
+            else "timeout — their deadline passed"
+        )
+    elif prior["source"] == "auto_idle":
+        cause = "auto_idle — the service ended their idle phase"
+    else:
+        cause = "agent" + (
+            f", {orders} order{'' if orders == 1 else 's'}"
+            if isinstance(orders, int) and not isinstance(orders, bool) else ""
+        )
+    return (
+        f"opponent {_seat_label(prior)} ended "
+        f"t{_scalar(prior['turn'])}/p{_scalar(prior['phase'])} in "
+        f"{_duration(prior['elapsed_s'])} ({cause})"
+    )
+
+
 def _render_health(health: dict[str, Any]) -> list[str]:
     sidecar = health["sidecar"]
     lines = [
-        f"health {health['game_state']} | {_phase_text(health['phase'])} | "
+        f"health {health['game_state']} | "
+        f"{_phase_headline(health['phase'])} | "
         f"obs {'yes' if health['observation_available'] else 'no'} "
         f"legal {'yes' if health['legal_actions_available'] else 'no'} | "
         f"sidecar {_scalar(sidecar.get('state'))} "
@@ -5088,16 +5325,36 @@ def _render_health(health: dict[str, Any]) -> list[str]:
         blocked = phase["waiting_on"]
         waiting = f"waiting on {blocked['kind']}: {blocked['summary']}"
         if blocked.get("waiting_s") is not None:
-            waiting += f" ({_scalar(blocked['waiting_s'])}s)"
+            # Labelled. Unlabelled, `(587.004s)` was read as anything from a
+            # timeout to a latency, and three digits of precision on a number
+            # meaning "about ten minutes" helped nobody.
+            waiting += f" (blocked {_duration(blocked['waiting_s'])})"
         lines.append(waiting)
+    if isinstance(phase, dict) and isinstance(phase.get("auto_end"), dict) \
+            and phase["auto_end"]["armed"]:
+        remaining = phase["auto_end"]["remaining_s"]
+        lines.append(
+            "auto-end armed: nothing idle and no decision pending"
+            + (
+                f", this phase ends in {_scalar(remaining)}s"
+                if remaining is not None else ""
+            )
+            + " unless you act"
+        )
     event = health["last_phase_end"]
     if event is not None:
-        lines.append(
+        line = (
             f"last phase end t{_scalar(event['turn'])}"
             f"/p{_scalar(event['phase'])} "
             f"source={event['source']} {event['receipt_state']} "
             f"{event['resolution']} {_scalar(event['elapsed_s'])}s"
         )
+        if event["source"] == "auto_idle":
+            line += " (ended for you: nothing idle, no decision pending)"
+        lines.append(line)
+    prior = _prior_end_line(phase)
+    if prior:
+        lines.append(prior)
     recovery = health.get("last_recovery")
     if recovery is not None:
         line = (
@@ -6117,7 +6374,17 @@ def command_health(args: argparse.Namespace) -> int:
     if _json_requested(args):
         _print_v2_json(value)
     else:
-        _render(_render_health(value))
+        lines = _render_health(value)
+        # A blocked seat has exactly one useful next command, and until now
+        # health did not name it -- the agent that inspired this work looped
+        # `wait; turn` fourteen times a turn because nothing ever said there
+        # was a bounded, monitorable way to block.
+        if _holder_seat(value.get("phase")) is not None:
+            lines.append(
+                "next: just wait --for-turn        blocks until your phase "
+                "opens (exit 0 = go, 75 = still theirs, 66 = game over)"
+            )
+        _render(lines)
     return 0
 
 
@@ -6263,24 +6530,54 @@ def _await_line(wait: dict[str, Any], *, follow: str = "just turn") -> str:
     revision = wait["state_revision"]
     if revision is not None:
         header += " " + _revision_label(revision)
+    holder = _holder_seat(phase)
+    if holder is not None:
+        # This is not a wake at all, and calling it one is how a timeout came
+        # to print a full briefing for a phase the caller did not hold, under
+        # the tail `next: just turn` -- a command that can only be refused.
+        timing = phase["timing"]
+        follow = follow and (
+            f"just wait --for-turn        [exit {V2_WAIT_EXIT_RETRY}]"
+        )
+        return (
+            f"{header} | still {_seat_label(holder)} · "
+            f"t{_scalar(phase['turn'])}/p{_scalar(phase['phase'])}"
+            + (
+                f" · held {_duration(timing['elapsed_s'])}"
+                if timing["elapsed_s"] is not None else ""
+            )
+            + (
+                f" · {_duration(timing['remaining_s'])} left"
+                if timing["remaining_s"] is not None else ""
+            )
+            + (f" | next: {follow}" if follow else "")
+        )
     line = (
-        f"{header} | woke {wait['wake_reason']} | {health['game_state']} | "
-        f"{_phase_text(phase)}"
+        f"{header} | {_phase_headline(phase)} | {health['game_state']}"
+        + (
+            f" | woke {wait['wake_reason']}"
+            if wait["wake_reason"] != "phase_active" else ""
+        )
     )
     return line + (f" | next: {follow}" if follow else "")
 
 
-def _wait_args(args: argparse.Namespace) -> argparse.Namespace:
+def _wait_args(
+    args: argparse.Namespace, *, wait_s: float | None = None,
+) -> argparse.Namespace:
     """Normalise the three blocking knobs, whichever command carried them.
 
     A knob the caller did give is passed through untouched -- `--wait-s 0` is
     a legal non-blocking poll, so only a missing value takes the default.
+    `wait_s` overrides it for one internal poll of a deadline-bounded wait.
     """
-    wait_s = getattr(args, "wait_s", None)
     poll_s = getattr(args, "poll_s", None)
     until = getattr(args, "until", None)
+    if wait_s is None:
+        given = getattr(args, "wait_s", None)
+        wait_s = float(120 if given is None else given)
     return argparse.Namespace(
-        wait_s=float(120 if wait_s is None else wait_s),
+        wait_s=float(wait_s),
         poll_s=float(1 if poll_s is None else poll_s),
         until="phase" if until is None else until,
     )
@@ -6329,6 +6626,7 @@ def _await_and_brief_locked(
     session: dict[str, Any],
     *,
     brief: bool,
+    prelude: list[str] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any] | None, str, list[str]]:
     """Block for the next phase and, with `--brief`, render its whole briefing.
 
@@ -6337,11 +6635,42 @@ def _await_and_brief_locked(
     save is the model's, which is the expensive one.  A briefing that cannot
     be built never swallows the wake -- it is reported as one more line with
     the command that retries it.
+
+    `--await` means what it says: the wait runs to the *holder's* deadline
+    rather than to a fixed 120 s, so in multiplayer one call really does
+    carry one turn.  And when it does come back with the phase still someone
+    else's, no briefing is printed -- a full briefing for a phase the caller
+    does not hold, tailed `next: just turn`, invites an out-of-turn action
+    that can only be refused.  It is reported as whose phase it is instead.
+
+    `prelude` is the receipt this command already produced.  It is flushed
+    ahead of the first progress line and removed from the caller's buffer, so
+    a transcript never shows a phase end arriving after the ten minutes spent
+    waiting for the phase that end opened.  `None` (every `--json` caller)
+    keeps the whole rendering for one atomic payload at the end.
     """
-    wait = _wait_value(path, session, _wait_args(args))
+
+    def tick(line: str) -> None:
+        if prelude:
+            for text in list(prelude):
+                print(text, flush=True)
+            prelude.clear()
+        print(line, flush=True)
+
+    wait = _wait_until_turn(
+        path, session, _wait_args(args), for_turn=False,
+        echo=None if prelude is None else tick,
+    )
     lines = [_await_line(wait, follow="" if brief else "just turn")]
     if not brief:
         return wait, None, "", lines
+    if not _phase_is_mine(wait["health"]):
+        return wait, None, "", [
+            *lines,
+            "not briefed: the phase is not yours yet, so there is nothing "
+            "to order in it",
+            "next: just wait --for-turn",
+        ]
     try:
         result, aliases, decisions, events = _turn_briefing_locked(
             path, session,
@@ -6380,6 +6709,7 @@ def _command_turn_end(
             try:
                 wait, briefing, brief_error, woke = _await_and_brief_locked(
                     args, path, session, brief=brief,
+                    prelude=None if _json_requested(args) else lines,
                 )
             except (PlayerError, V2ResponseError) as exc:
                 # The end already applied; a wait/brief failure must never
@@ -9133,6 +9463,16 @@ def command_do(args: argparse.Namespace) -> int:
         # only ever adds lines to them.  A batch that did not finish leaves
         # the phase open and says so -- ending a phase whose orders were
         # refused would spend the turn on an empire the agent never gave.
+        # The batch summary is complete the moment the order loop is: nothing
+        # below changes what applied.  Appending it here rather than after the
+        # phase end keeps the rendering in the order it always had while
+        # letting a blocking `--await` flush everything above it first.
+        summary = f"{applied}/{len(orders)} applied"
+        if bound is not None:
+            summary += f" {_revision_label(bound)}"
+        lines.append(summary)
+        if stopped:
+            lines.append(stopped)
         tail: list[str] = []
         if end_phase:
             finished = applied == len(orders) or (keep_going and not stopped)
@@ -9149,10 +9489,16 @@ def command_do(args: argparse.Namespace) -> int:
                     args, path, session, exit_code,
                 )
                 if ended and await_next:
+                    prelude: list[str] | None = None
+                    if not _json_requested(args):
+                        lines.extend(tail)
+                        tail.clear()
+                        prelude = lines
                     try:
                         wait, briefing, brief_error, woke = (
                             _await_and_brief_locked(
                                 args, path, session, brief=brief,
+                                prelude=prelude,
                             )
                         )
                     except (PlayerError, V2ResponseError) as exc:
@@ -9180,12 +9526,6 @@ def command_do(args: argparse.Namespace) -> int:
         # the wire -- this reads catalogs the same way `just legal` does.
         if refused and not ended and not _json_requested(args):
             options = _refused_actor_options(path, session, refused)
-    summary = f"{applied}/{len(orders)} applied"
-    if bound is not None:
-        summary += f" {_revision_label(bound)}"
-    lines.append(summary)
-    if stopped:
-        lines.append(stopped)
     lines.extend(tail)
     if _json_requested(args):
         payload = {
@@ -9472,6 +9812,22 @@ def _legacy_wait_value(
         time.sleep(min(args.poll_s, remaining))
 
 
+# The longest single blocking wait, on both sides of the wire.  It used to be
+# 300 s against a 600 s agent phase, which made "one call per turn" arithmetic
+# impossible in multiplayer: the maximum wait was half the maximum opponent
+# phase, so every harness had to loop and one of them looped wrong for nine
+# turns.  615 covers a full 600 s phase plus the boundary either side of it.
+# The supervisor is the authority; this is the client's copy of its bound.
+V2_WAIT_S_MAX = 615.0
+# How long one internal long-poll of a `--for-turn` wait blocks.  Short enough
+# that the marker file and the transcript stay fresh, long enough that a whole
+# opponent phase costs tens of requests rather than hundreds.
+V2_WAIT_TICK_S = 15.0
+# Slack added to the holder's own deadline before a `--for-turn` wait gives
+# up: the supervisor still has to notice the deadline and end the phase.
+V2_FOR_TURN_GRACE_S = 15.0
+
+
 def _wait_value(
     path: Path, session: dict[str, Any], args: argparse.Namespace,
 ) -> dict[str, Any]:
@@ -9480,8 +9836,8 @@ def _wait_value(
     This is the whole of `just wait` minus its printing, so `turn --end
     --await` blocks on exactly the same contract the standalone command does.
     """
-    if not 0 <= args.wait_s <= 300:
-        raise PlayerError("wait-s must be in [0, 300]")
+    if not 0 <= args.wait_s <= V2_WAIT_S_MAX:
+        raise PlayerError(f"wait-s must be in [0, {V2_WAIT_S_MAX:g}]")
     if not 0.05 <= args.poll_s <= 30:
         raise PlayerError("poll-s must be in [0.05, 30]")
     state = _load_v2_client_state(path, session)
@@ -9524,6 +9880,135 @@ def _wait_value(
     )
 
 
+def _phase_is_mine(health: dict[str, Any]) -> bool:
+    """Whether this seat may act right now, by the same test the server uses."""
+    phase = health.get("phase")
+    return bool(
+        isinstance(phase, dict)
+        and phase.get("active") is True
+        and phase.get("state") == "awaiting_agent"
+        and health.get("observation_available") is True
+    )
+
+
+def _wait_exit_code(wait: dict[str, Any]) -> int:
+    """Map one wake onto the exit status a job supervisor can act on.
+
+    This is the whole of P1.  Every outcome used to exit 0, so a harness whose
+    monitor escalates on non-zero exit -- the correct configuration, and the
+    one a live opponent already had -- was never told its turn had started.
+    """
+    if wait["wake_reason"] == "game_terminal":
+        return V2_WAIT_EXIT_TERMINAL
+    if _phase_is_mine(wait["health"]):
+        return V2_WAIT_EXIT_ACTIVE
+    if wait["wake_reason"] in V2_SATISFIED_WAKE_REASONS:
+        return V2_WAIT_EXIT_ACTIVE
+    return V2_WAIT_EXIT_RETRY
+
+
+def _holder_remaining_s(health: dict[str, Any]) -> float | None:
+    """How long the seat that holds this phase has left, when one does."""
+    phase = health.get("phase")
+    if _holder_seat(phase) is None or not isinstance(phase, dict):
+        return None
+    remaining = phase["timing"]["remaining_s"]
+    if not isinstance(remaining, (int, float)) or isinstance(remaining, bool):
+        return None
+    return max(0.0, float(remaining))
+
+
+def _wait_until_turn(
+    path: Path,
+    session: dict[str, Any],
+    args: argparse.Namespace,
+    *,
+    for_turn: bool,
+    cap_s: float | None = None,
+    echo: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
+    """Block until the phase is genuinely this seat's, or its holder's time is up.
+
+    The bound is the game's, not a constant: whoever holds the phase has a
+    deadline the server already computes and publishes, so a wait that covers
+    it is exactly one call per opponent turn.  Inside that bound this loops
+    short server long-polls, which keeps it resumable, keeps `state/phase.json`
+    fresh while it blocks, and gives the transcript a line per tick instead of
+    an unexplained ten-minute silence.
+
+    Three bounds, in order of authority.  `cap_s` (`--max`) is the caller's
+    hard ceiling and is never exceeded.  Under it, once the server names a
+    seat that holds the phase, the bound becomes that seat's own remaining
+    deadline plus a grace -- the supervisor still has to notice the deadline
+    and end the phase, and that grace is granted once, when the deadline is
+    still in the future, so a holder pinned at zero cannot roll it forward for
+    ever.  With no holder named at all, the bound is the caller's `--wait-s`.
+
+    `for_turn` is the caller's request to wait out a holder that has not
+    appeared yet.  Without it -- the `--await` composites -- the first poll is
+    the caller's own `--wait-s`, and the loop continues only once the server
+    has named a seat that holds the phase and said how long it has left.  A
+    single-seat game therefore behaves exactly as it always did.
+    """
+    started = time.monotonic()
+    budget = float(args.wait_s) if cap_s is None else min(
+        float(args.wait_s), float(cap_s),
+    )
+    wait: dict[str, Any] | None = None
+    first = True
+    while True:
+        elapsed = time.monotonic() - started
+        remaining = budget - elapsed
+        if wait is not None and remaining <= 0:
+            return wait
+        tick = min(
+            max(remaining, 0.0),
+            args.wait_s if first and not for_turn else V2_WAIT_TICK_S,
+        )
+        wait = _wait_value(
+            path, session, _wait_args(args, wait_s=tick),
+        )
+        # P3: the marker is written on every tick, not only on the wake, so a
+        # watcher reading `state/phase.json` sees a live file rather than one
+        # frozen for the whole of somebody else's ten-minute phase.
+        _mirror_health(path, wait["health"], "wait")
+        first = False
+        if wait["wake_reason"] != "timeout" or _phase_is_mine(wait["health"]):
+            return wait
+        hold = _holder_remaining_s(wait["health"])
+        if hold is None:
+            if not for_turn:
+                return wait
+        elif hold > 0:
+            budget = (time.monotonic() - started) + hold + V2_FOR_TURN_GRACE_S
+            if cap_s is not None:
+                budget = min(budget, float(cap_s))
+        if budget - (time.monotonic() - started) <= 0:
+            return wait
+        if echo is not None:
+            echo(_waiting_tick_line(wait["health"]))
+
+
+def _waiting_tick_line(health: dict[str, Any]) -> str:
+    """One line per internal poll, so a long block is never a silent gap."""
+    phase = health.get("phase")
+    holder = _holder_seat(phase)
+    if holder is None or not isinstance(phase, dict):
+        return "… waiting for this seat's phase to open"
+    timing = phase["timing"]
+    return (
+        f"… waiting on {_seat_label(holder)}"
+        + (
+            f" · held {_duration(timing['elapsed_s'])}"
+            if timing["elapsed_s"] is not None else ""
+        )
+        + (
+            f" · {_duration(timing['remaining_s'])} left"
+            if timing["remaining_s"] is not None else ""
+        )
+    )
+
+
 def _render_wait(wait: dict[str, Any]) -> list[str]:
     """Render one wake the way every other v2 command renders: compactly.
 
@@ -9535,14 +10020,144 @@ def _render_wait(wait: dict[str, Any]) -> list[str]:
     return [_await_line(wait), *_render_health(wait["health"])]
 
 
+def _wait_command_value(
+    path: Path,
+    session: dict[str, Any],
+    args: argparse.Namespace,
+    *,
+    echo: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
+    """Run one `wait` the way its flags asked for it, and return the wake."""
+    for_turn = bool(getattr(args, "for_turn", False))
+    maximum = getattr(args, "max_s", None)
+    if maximum is not None and not for_turn:
+        raise PlayerError("wait --max bounds --for-turn; pass both or neither")
+    if not for_turn:
+        return _wait_value(path, session, args)
+    if maximum is not None and not 0 <= float(maximum) <= V2_WAIT_S_MAX:
+        raise PlayerError(f"max must be in [0, {V2_WAIT_S_MAX:g}]")
+    return _wait_until_turn(
+        path, session, _wait_args(args), for_turn=True,
+        cap_s=None if maximum is None else float(maximum), echo=echo,
+    )
+
+
+def _monitor_line(wait: dict[str, Any]) -> str:
+    """The one line a monitor exists to print, in the one shape it prints it."""
+    phase = wait["health"].get("phase")
+    turn = None if not isinstance(phase, dict) else phase["turn"]
+    header = "T?" if turn is None else f"T{_scalar(turn)}"
+    if wait["wake_reason"] == "game_terminal":
+        return f"{header} | GAME OVER | {wait['health']['game_state']}"
+    return f"{header} | YOUR TURN | next: just turn"
+
+
+def command_monitor(args: argparse.Namespace) -> int:
+    """Block until it is this seat's turn, say so once, and get out of the way.
+
+    This is sugar over `wait --for-turn` and nothing else: no daemon, no
+    state, no pidfile, nothing to clean up if it is killed.  Two harness
+    bindings, and the default is the right one for both of the harnesses this
+    was written for -- run it, get one line and exit 0, act, run it again.
+    `--forever` is for a daemon-style loop that wants a line per turn on one
+    long-lived stdout.
+
+    stdout carries exactly the signal: one line per turn it hands over.  The
+    per-tick progress goes to stderr, so `just monitor` is greppable and a
+    ten-minute block is still never a silent one.
+    """
+    forever = bool(getattr(args, "forever", False))
+    if forever and bool(getattr(args, "once", False)):
+        raise PlayerError(
+            "just monitor --once and --forever are the two bindings; pass one"
+        )
+    path, session = _v2_session(args.session)
+    hook = (getattr(args, "exec_command", "") or "").strip()
+    deadline = (
+        None if getattr(args, "max_s", None) is None
+        else time.monotonic() + float(args.max_s)
+    )
+    turn_args = _wait_args(args)
+    while True:
+        # `--max-s` is a ceiling on the whole monitor, so it is also the
+        # ceiling on the wait inside it: checking it only between iterations
+        # would let one holder's deadline carry the caller well past it.
+        cap = None if deadline is None else deadline - time.monotonic()
+        if cap is not None and cap <= 0:
+            print(
+                "monitor: --max-s elapsed and the phase is still not yours",
+                file=sys.stderr,
+            )
+            return V2_WAIT_EXIT_RETRY
+        wait = _wait_until_turn(
+            path, session, turn_args, for_turn=True, cap_s=cap,
+            echo=lambda line: print(line, file=sys.stderr, flush=True),
+        )
+        code = _wait_exit_code(wait)
+        if code == V2_WAIT_EXIT_RETRY:
+            # Their deadline passed and the phase did not move. Nothing to
+            # report and nothing to do but ask again -- which is the whole
+            # job, so it is not an outcome the caller has to handle.
+            continue
+        if _json_requested(args):
+            _print_v2_json(wait)
+        else:
+            print(_monitor_line(wait), flush=True)
+        if hook:
+            _run_monitor_hook(hook, wait)
+        if code == V2_WAIT_EXIT_TERMINAL or not forever:
+            return code
+
+
+def _run_monitor_hook(command: str, wait: dict[str, Any]) -> None:
+    """Run `--exec` for one wake; its failure is reported, never fatal.
+
+    A monitor that dies because a hook exited non-zero would lose the turn it
+    was watching for, which is precisely the failure this whole surface
+    exists to prevent.
+    """
+    phase = wait["health"].get("phase")
+    environment = dict(os.environ)
+    environment.update({
+        "PLAY_WAKE_REASON": str(wait["wake_reason"]),
+        "PLAY_GAME_STATE": str(wait["health"]["game_state"]),
+        "PLAY_TURN": (
+            "" if not isinstance(phase, dict) or phase["turn"] is None
+            else str(phase["turn"])
+        ),
+        "PLAY_PHASE": (
+            "" if not isinstance(phase, dict) or phase["phase"] is None
+            else str(phase["phase"])
+        ),
+    })
+    try:
+        completed = subprocess.run(command, shell=True, env=environment)
+    except OSError as exc:
+        print(f"monitor: --exec did not run: {exc}", file=sys.stderr)
+        return
+    if completed.returncode != 0:
+        print(
+            f"monitor: --exec exited {completed.returncode}",
+            file=sys.stderr,
+        )
+
+
 def command_wait(args: argparse.Namespace) -> int:
     path, session = _v2_session(args.session)
-    value = _wait_value(path, session, args)
-    if _json_requested(args):
+    json_output = _json_requested(args)
+    value = _wait_command_value(
+        path, session, args,
+        # The tick lines are prose, and `--json` is a byte-identical wire
+        # payload: a JSON consumer gets the same single object it always got.
+        echo=None if json_output else _echo,
+    )
+    if json_output:
         _print_v2_json(value)
     else:
         _render(_render_wait(value))
-    return 0
+    # P1: the wake reason is now readable from the exit status, which is the
+    # one channel every harness's job supervisor already watches.
+    return _wait_exit_code(value)
 
 
 # ---------------------------------------------------------------------------
@@ -9590,6 +10205,8 @@ def _mirror_text(session_path: Path, parts: tuple[str, ...]) -> str | None:
 MIRROR_PHASE_RE = re.compile(
     r"^phase\s+(\S+) · turn \S+ phase \S+ · active (\S+)\s*$", re.MULTILINE,
 )
+# How `state/header.txt` spells "this seat's phase is not active".
+V2_MIRROR_INACTIVE = frozenset({"no", "false"})
 # Phase states in which an order cannot land because this seat's own turn is
 # over or has not begun on the board.  `synchronizing` is deliberately absent:
 # that is the lobby, where the remedy is `just start`, not `just wait`.
@@ -9606,8 +10223,14 @@ def _cached_phase_note(session_path: Path) -> str:
     if match is None:
         return ""
     state, active = match.group(1), match.group(2)
+    # `state_mirror` renders booleans through `_cell`, which writes `yes`/`no`
+    # -- never `True`/`False`.  Testing for `False` here made this whole
+    # branch dead code, and the case it covers is exactly the multiplayer one:
+    # the phase is `awaiting_agent` because another seat is being awaited.
+    # `false` is accepted too so a mirror written by any older client still
+    # resolves rather than silently going quiet again.
     if state in V2_PHASE_STALLED or (
-        active == "False" and state == "awaiting_agent"
+        active.casefold() in V2_MIRROR_INACTIVE and state == "awaiting_agent"
     ):
         return f"your phase is not active (state {state}) — just wait"
     return ""
@@ -9982,6 +10605,8 @@ def command_start(args: argparse.Namespace) -> int:
 
 V2_SHOW_FILES: dict[str, tuple[str, ...]] = {
     "header": ("state", "header.txt"),
+    # The machine-readable half of the header: whose turn it is, right now.
+    "phase": ("state", "phase.json"),
     "overview": ("state", "overview.tsv"),
     "units": ("state", "units.tsv"),
     "cities": ("state", "cities.tsv"),
@@ -10603,13 +11228,68 @@ def parser() -> argparse.ArgumentParser:
     json_escape_hatch(retry)
     retry.set_defaults(handler=command_retry)
 
-    wait = commands.add_parser("wait")
+    wait = commands.add_parser(
+        "wait",
+        description=(
+            "Block until this seat is wanted again. The exit status carries "
+            f"the outcome: {V2_WAIT_EXIT_ACTIVE} your phase is active, "
+            f"{V2_WAIT_EXIT_RETRY} another seat still holds it (call wait "
+            f"again), {V2_WAIT_EXIT_TERMINAL} the game is over (stop looping)."
+        ),
+    )
     wait.add_argument("--session", default="")
     wait.add_argument("--wait-s", type=float, default=120)
     wait.add_argument("--poll-s", type=float, default=1)
     wait.add_argument("--until", choices=("phase", "revision"), default="phase")
+    wait.add_argument(
+        "--for-turn", dest="for_turn", action="store_true",
+        help=(
+            "block until the phase is genuinely yours or the seat holding it "
+            "runs out of deadline, instead of for a fixed --wait-s"
+        ),
+    )
+    wait.add_argument(
+        "--max", dest="max_s", type=float,
+        help=(
+            f"with --for-turn: cap the whole wait at SECONDS (0..{V2_WAIT_S_MAX:g}); "
+            "the default cap is the current holder's remaining deadline"
+        ),
+    )
     json_escape_hatch(wait)
     wait.set_defaults(handler=command_wait)
+
+    monitor = commands.add_parser(
+        "monitor",
+        description=(
+            "Loop `wait --for-turn` and print one line the moment the phase "
+            "is yours. Exits 0 on that line (or 66 when the game ends), so a "
+            "harness can bind it either way: run it, act, run it again; or "
+            "run it once with --forever and read one line per turn."
+        ),
+    )
+    monitor.add_argument("--session", default="")
+    monitor.add_argument("--wait-s", type=float, default=120)
+    monitor.add_argument("--poll-s", type=float, default=1)
+    monitor.add_argument(
+        "--once", action="store_true",
+        help="print one line and exit (the default; accepted for symmetry)",
+    )
+    monitor.add_argument(
+        "--forever", action="store_true",
+        help="keep looping, one line per turn, until the game is terminal",
+    )
+    monitor.add_argument(
+        "--exec", dest="exec_command", default="",
+        help="run this shell command on every wake, before looping on",
+    )
+    monitor.add_argument(
+        "--max-s", dest="max_s", type=float,
+        help="give up after SECONDS of not being handed the phase (exit 75)",
+    )
+    # The escape hatch every text command carries: one wake object per line,
+    # byte-identical to what `just wait --json` prints for the same wake.
+    json_escape_hatch(monitor)
+    monitor.set_defaults(handler=command_monitor)
 
     result = commands.add_parser("result")
     result.add_argument("game_id_positional", nargs="?")

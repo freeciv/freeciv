@@ -65,8 +65,14 @@ from agent_eval.supervisor import (
     Supervisor,
     SupervisorError,
     SupervisorHTTPServer,
+    V2_AUTO_END_IDLE_GRACE_S,
     V2_LIVENESS_AGENT_ACTIVITY_YIELD_S,
     V2_LIVENESS_MAX_PROBE_GAP_S,
+    V2_OPENAPI_PATH,
+    V2_PHASE_END_SOURCE_AUTO_IDLE,
+    V2_PHASE_ORDER_HISTORY,
+    V2_WAIT_REASONS,
+    V2_WAIT_S_MAX,
     VIEWER_DIST_ROOT,
     _classic_tech_requirements,
     _classic_technology_catalog,
@@ -10919,6 +10925,822 @@ class OrphanFinalizeTests(unittest.TestCase):
             with supervisor.lock:
                 supervisor.games.pop(self.GAME_ID, None)
             supervisor.close()
+
+
+class _Clock:
+    """A monotonic clock the test drives by hand."""
+
+    def __init__(self, now: float = 10_000.0) -> None:
+        self.now = now
+
+    def __call__(self) -> float:
+        return self.now
+
+    def advance(self, seconds: float) -> float:
+        self.now += seconds
+        return self.now
+
+
+class V2AutoEndIdlePhaseTests(unittest.TestCase):
+    """Ending a phase in which the seat has provably nothing to decide.
+
+    Every test here is really one question: can this end a phase the agent
+    still owned?  The fire path is deliberately the narrowest one in the
+    file -- an idle verdict over the whole projection, a full window of
+    silence, a second verdict at the moment of firing, and the single ledger
+    end slot taken under the same condition an agent's own end takes it.
+    """
+
+    setUp = SupervisorTests.setUp
+    tearDown = SupervisorTests.tearDown
+    create = SupervisorTests.create
+    ready_v2_phase_game = SupervisorTests.ready_v2_phase_game
+    _mark_v2_running = vars(SupervisorTests)["_mark_v2_running"]
+    phase_evidence = vars(SupervisorTests)["phase_evidence"]
+    v2_batch = vars(SupervisorTests)["v2_batch"]
+
+    def running_phase(self, clock, **overrides):
+        """A v2 game whose seat 1 holds a phase nobody has spoken for.
+
+        The default native fixture has no units and no cities, so the seat is
+        genuinely idle by the real projection rather than by a stub.
+        """
+        with patch.object(Game, "_poll_v2_sidecars", autospec=True):
+            created = self.create(
+                mode="multiplayer", places=2,
+                control_protocol="full-control-v2",
+                timing_mode="default", action_timeout_s=600,
+                **overrides,
+            )
+            game = self.supervisor.game(created["game_id"])
+            joined = [
+                game.join(
+                    created["join_token"], place.number,
+                    f"controller-{place.number}",
+                    supported_control_protocols=["full-control-v2"],
+                )
+                for place in game.joinable_places
+            ]
+        self._mark_v2_running(game)
+        evidence = self.phase_evidence(game, turn=7, phase=1, active_place=1)
+        game._update_v2_phase_ledger(evidence, clock.now)
+        self.assertEqual(game.v2_phase_ledger["state"], "awaiting_agent")
+        # Joining and reading capabilities are agent traffic; the phase under
+        # test starts from silence.
+        game.v2_last_agent_activity.clear()
+        return created, game, joined, evidence
+
+    @staticmethod
+    def inline_workers():
+        """Run auto-end workers on the calling thread."""
+        return patch.object(
+            Game, "_start_v2_auto_end_worker",
+            lambda self, worker, plan: self._run_v2_auto_end_worker(
+                worker, plan,
+            ),
+        )
+
+    @staticmethod
+    def stub_load(**overrides):
+        load = {
+            "phase_ready": True, "turn": 7, "phase": 1, "own_units": 0,
+            "cities": 0, "idle_units": 0, "action_decisions": 0,
+            "completed_production": 0, "research_unset": 0,
+            "open_meetings": 0, "pending": 0,
+        }
+        load.update(overrides)
+        return load
+
+    def tick(self, game, clock, seconds=0.0):
+        clock.advance(seconds)
+        with self.inline_workers():
+            game._service_v2_auto_end_idle_phase()
+        return game.v2_phase_ledger.get("auto_end")
+
+    def firing_plan(self, game, clock):
+        """Arm a window and walk it to the instant before the claim is made."""
+        record = self.tick(game, clock)
+        self.assertEqual(record["stage"], "grace")
+        clock.advance(V2_AUTO_END_IDLE_GRACE_S)
+        with game.condition:
+            game.v2_phase_ledger["auto_end"]["stage"] = "firing"
+        return {**record, "stage": "firing"}
+
+    def phase_end_action(self, game, joined):
+        legal = game.v2_get_page(joined["agent_id"], "legal_actions", "")
+        action = next(
+            item for item in legal["page"]["items"]
+            if item["kind"] == "phase.end"
+        )
+        game.v2_last_agent_activity.clear()
+        return action
+
+    # -- the happy path ------------------------------------------------
+
+    def test_a_provably_idle_phase_ends_itself_after_the_grace_window(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            record = self.tick(game, clock)
+            self.assertEqual(record["stage"], "grace")
+            self.assertEqual(
+                record["grace_until"],
+                record["armed_monotonic"] + V2_AUTO_END_IDLE_GRACE_S,
+            )
+            # The verdict came from the real projection over the whole seat.
+            self.assertEqual(record["load"]["pending"], 0)
+            self.assertTrue(record["load"]["phase_ready"])
+
+            # One tick short of the window ends nothing.
+            self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S - 0.1)
+            self.assertIsNone(game.v2_phase_ledger["end"])
+            self.assertEqual(self.sidecar_factory.action_count, 0)
+
+            self.tick(game, clock, 0.1)
+            claim = game.v2_phase_ledger["end"]
+            self.assertIsNotNone(claim)
+            self.assertEqual(claim["source"], V2_PHASE_END_SOURCE_AUTO_IDLE)
+            self.assertEqual(claim["receipt_state"], "applied")
+            self.assertEqual(self.sidecar_factory.action_count, 1)
+            self.assertEqual(game.v2_phase_ledger["auto_end"]["stage"], "ended")
+
+            status, receipt = game.v2_get_receipt(
+                claim["agent_id"], claim["batch_id"],
+            )
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(receipt["receipt_state"], "applied")
+            self.assertEqual(game.state, "running")
+            self.assertEqual(game.invalid_reasons, [])
+
+    def test_the_phase_event_records_the_auto_idle_source_distinctly(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            self.tick(game, clock)
+            self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertIsNotNone(game.v2_phase_ledger["end"])
+            # Journaling happens when the phase advances past the claim.
+            _claim, failed = game._update_v2_phase_ledger(
+                self.phase_evidence(game, turn=8, phase=0, active_place=1),
+                clock.advance(1.0),
+            )
+            self.assertFalse(failed)
+        events = game.phase_events(0, 100)["phase_events"]
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["source"], V2_PHASE_END_SOURCE_AUTO_IDLE)
+        self.assertEqual(events[0]["receipt_state"], "applied")
+        self.assertEqual(events[0]["resolution"], "advanced")
+        self.assertEqual(
+            game.v2_health(joined[0]["agent_id"])["last_phase_end"]["source"],
+            V2_PHASE_END_SOURCE_AUTO_IDLE,
+        )
+
+    def test_health_publishes_the_armed_window_to_the_seat_that_owns_it(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            before = game.v2_health(joined[0]["agent_id"])["phase"]["auto_end"]
+            self.assertEqual(before["enabled"], True)
+            self.assertEqual(before["armed"], False)
+            self.assertEqual(before["grace_s"], V2_AUTO_END_IDLE_GRACE_S)
+            self.assertIsNone(before["remaining_s"])
+
+            self.tick(game, clock)
+            clock.advance(5.0)
+            armed = game.v2_health(joined[0]["agent_id"])["phase"]["auto_end"]
+            self.assertTrue(armed["armed"])
+            self.assertAlmostEqual(
+                armed["remaining_s"], V2_AUTO_END_IDLE_GRACE_S - 5.0,
+            )
+            # The other seat is not the one about to be ended.
+            other = game.v2_health(joined[1]["agent_id"])["phase"]["auto_end"]
+            self.assertFalse(other["armed"])
+
+    # -- refusals ------------------------------------------------------
+
+    def test_agent_activity_during_the_grace_window_cancels_the_end(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            armed = self.tick(game, clock)
+            self.assertEqual(armed["stage"], "grace")
+
+            clock.advance(1.0)
+            game._v2_note_agent_activity(joined[0]["agent_id"])
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertEqual(record["stage"], "cancelled")
+            self.assertEqual(record["blocker"], "agent_active")
+            self.assertIsNone(game.v2_phase_ledger["end"])
+            self.assertEqual(self.sidecar_factory.action_count, 0)
+            # Still the agent's phase, still on its original deadline.
+            self.assertEqual(
+                game.v2_phase_ledger["state"], "awaiting_agent",
+            )
+
+            # A further full window of silence re-arms: the incident this
+            # exists for is an agent that played its turn and then stopped
+            # hearing from us.
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertEqual(record["stage"], "grace")
+
+    def test_a_seat_with_anything_to_decide_never_reaches_the_window(self):
+        clock = _Clock()
+        for label, load in (
+            ("idle unit", self.stub_load(idle_units=1, pending=1)),
+            ("action decision", self.stub_load(action_decisions=1, pending=1)),
+            ("build choice", self.stub_load(completed_production=1, pending=1)),
+            ("research", self.stub_load(research_unset=1, pending=1)),
+            ("treaty", self.stub_load(open_meetings=1, pending=1)),
+            ("not phase ready", self.stub_load(phase_ready=False)),
+        ):
+            with self.subTest(label), patch(
+                "agent_eval.supervisor.time.monotonic", clock,
+            ), patch.object(
+                V2SeatControl, "decision_load", return_value=load,
+            ):
+                _c, game, _j, _e = self.running_phase(clock)
+                record = self.tick(game, clock)
+                self.assertEqual(record["stage"], "cancelled")
+                self.assertEqual(record["blocker"], "not_idle")
+                self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S * 3)
+                self.assertIsNone(game.v2_phase_ledger["end"])
+                self.assertEqual(self.sidecar_factory.action_count, 0)
+            clock.advance(1_000.0)
+
+    def test_the_idle_verdict_is_taken_again_before_the_phase_is_ended(self):
+        # The window is twenty seconds long and the native side moves without
+        # asking: an AI turn can hand a unit back, a city can finish what it
+        # was building.  Ending on the verdict that opened the window would
+        # end a phase that had since acquired something to decide.
+        clock = _Clock()
+        loads = [self.stub_load(), self.stub_load(idle_units=2, pending=2)]
+        with patch("agent_eval.supervisor.time.monotonic", clock), \
+                patch.object(
+                    V2SeatControl, "decision_load",
+                    side_effect=lambda *_a, **_k: loads.pop(0),
+                ):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            self.assertEqual(self.tick(game, clock)["stage"], "grace")
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+        self.assertEqual(loads, [])
+        self.assertEqual(record["stage"], "cancelled")
+        self.assertEqual(record["blocker"], "not_idle")
+        self.assertIsNone(game.v2_phase_ledger["end"])
+        self.assertEqual(self.sidecar_factory.action_count, 0)
+
+    def test_a_seat_under_recovery_is_never_auto_ended(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            self.assertEqual(self.tick(game, clock)["stage"], "grace")
+            with game.condition:
+                game.v2_wedged_places[1] = {
+                    "trigger": "sidecar_exit", "detected_at": 0.0,
+                    "generation": 1, "forensics": {}, "death_context": {},
+                }
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertEqual(record["blocker"], "recovery")
+            self.assertIsNone(game.v2_phase_ledger["end"])
+
+            with game.condition:
+                game.v2_wedged_places.clear()
+                game.v2_recovery_in_flight[1] = {"attempt": 1}
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertEqual(record["blocker"], "recovery")
+            self.assertIsNone(game.v2_phase_ledger["end"])
+            self.assertEqual(self.sidecar_factory.action_count, 0)
+
+    def test_a_phase_that_is_not_awaiting_its_agent_is_never_auto_ended(self):
+        clock = _Clock()
+        for state in (
+            "synchronizing", "native_phase", "phase_not_ready",
+            "inactive_done", "ending", "terminalizing", "failed",
+        ):
+            with self.subTest(state), patch(
+                "agent_eval.supervisor.time.monotonic", clock,
+            ):
+                _c, game, _j, _e = self.running_phase(clock)
+                with game.condition:
+                    game.v2_phase_ledger["state"] = state
+                self.assertIsNone(self.tick(game, clock))
+                self.assertIsNone(game.v2_phase_ledger["end"])
+                self.assertEqual(self.sidecar_factory.action_count, 0)
+            clock.advance(1_000.0)
+
+    def test_a_ledger_that_already_owes_an_end_is_never_auto_ended(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            with game.condition:
+                game.v2_pending_phase_ends["claim_pending"] = {
+                    "claim_id": "claim_pending", "key": (7, 1),
+                }
+            self.assertIsNone(self.tick(game, clock))
+            with game.condition:
+                game.v2_pending_phase_ends.clear()
+            self.assertEqual(self.tick(game, clock)["stage"], "grace")
+            with game.condition:
+                game.v2_phase_ledger["end"] = {
+                    "claim_id": "claim_other", "key": (7, 1), "place": 1,
+                    "source": "agent", "receipt_state": "reserved",
+                }
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertEqual(record["blocker"], "phase_end_in_flight")
+            self.assertEqual(
+                game.v2_phase_ledger["end"]["claim_id"], "claim_other",
+            )
+            self.assertEqual(self.sidecar_factory.action_count, 0)
+
+    def test_a_seat_whose_sidecar_is_not_ready_is_never_auto_ended(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            with game.condition:
+                game.sidecar_ready_generations[1] = 99
+            # Nothing is even armed: the seat could not be accounted for.
+            self.assertIsNone(self.tick(game, clock))
+            self.assertIsNone(game.v2_phase_ledger["end"])
+            with game.condition:
+                game.sidecar_ready_generations[1] = 1
+            self.assertEqual(self.tick(game, clock)["stage"], "grace")
+
+    def test_a_surrendered_seat_is_never_auto_ended(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            with game.condition:
+                game.v2_surrendered_places.add(1)
+            self.assertIsNone(self.tick(game, clock))
+            self.assertIsNone(game.v2_phase_ledger["end"])
+
+    def test_a_phase_advance_discards_the_verdict_taken_before_it(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            self.assertEqual(self.tick(game, clock)["stage"], "grace")
+            game._update_v2_phase_ledger(
+                self.phase_evidence(game, turn=8, phase=1, active_place=1),
+                clock.advance(1.0),
+            )
+            self.assertIsNone(game.v2_phase_ledger["auto_end"])
+            # The new phase gets its own window, timed from its own arming.
+            record = self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S)
+            self.assertEqual(record["stage"], "grace")
+            self.assertEqual(record["key"], (8, 1))
+            self.assertIsNone(game.v2_phase_ledger["end"])
+
+    # -- the double-end argument ---------------------------------------
+
+    def test_an_auto_end_claim_blocks_a_concurrent_agent_end(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            action = self.phase_end_action(game, joined[0])
+            plan = self.firing_plan(game, clock)
+            claim = game._claim_v2_auto_end(plan, self.stub_load())
+            self.assertIsNotNone(claim)
+            with self.assertRaises(APIProblem) as raised:
+                game.v2_submit_batch(
+                    joined[0]["agent_id"],
+                    self.v2_batch(game, joined[0], action, "agent_after_auto"),
+                )
+            # The ledger is no longer awaiting its agent, so the agent's own
+            # claim path refuses before it reaches the one-claim guard.
+            self.assertIn(
+                raised.exception.status,
+                {HTTPStatus.CONFLICT, HTTPStatus.TOO_MANY_REQUESTS},
+            )
+            self.assertEqual(
+                game.v2_phase_ledger["end"]["claim_id"], claim["claim_id"],
+            )
+            self.assertEqual(self.sidecar_factory.action_count, 0)
+
+    def test_an_agent_end_blocks_a_concurrent_auto_end_claim(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            action = self.phase_end_action(game, joined[0])
+            plan = self.firing_plan(game, clock)
+            status, _receipt = game.v2_submit_batch(
+                joined[0]["agent_id"],
+                self.v2_batch(game, joined[0], action, "agent_first"),
+            )
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertIsNone(game._claim_v2_auto_end(plan, self.stub_load()))
+            self.assertEqual(game.v2_phase_ledger["end"]["source"], "agent")
+            self.assertEqual(self.sidecar_factory.action_count, 1)
+
+    def test_a_racing_agent_end_and_auto_end_apply_exactly_once(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            action = self.phase_end_action(game, joined[0])
+            agent_batch = self.v2_batch(
+                game, joined[0], action, batch_id="agent_auto_race",
+            )
+            plan = self.firing_plan(game, clock)
+            entered = threading.Event()
+            release = threading.Event()
+
+            def blocked_action(
+                _sidecar, request_id, _slot, _arguments, _timeout,
+                expected_revision, on_accepted,
+            ):
+                entered.set()
+                release.wait(2)
+                on_accepted({
+                    "request_id": request_id,
+                    "accepted": True,
+                    "accepted_revision": expected_revision,
+                })
+                result_revision = expected_revision + 1
+                self.sidecar_factory.native_revision = result_revision
+                return {
+                    "request_id": request_id,
+                    "accepted": True,
+                    "applied": True,
+                    "status": "applied",
+                    "reason": "POSTCONDITION_VERIFIED",
+                    "accepted_revision": expected_revision,
+                    "result_revision": result_revision,
+                    "observation_selector": None,
+                }
+
+            self.sidecar_factory.action_hook = blocked_action
+            auto_worker = threading.Thread(
+                target=game._run_v2_auto_end_fire, args=(plan,),
+            )
+            agent_result = []
+
+            def submit_agent():
+                try:
+                    agent_result.append(game.v2_submit_batch(
+                        joined[0]["agent_id"], agent_batch,
+                    ))
+                except APIProblem as exc:
+                    agent_result.append(exc)
+
+            auto_worker.start()
+            self.assertTrue(entered.wait(2))
+            agent_worker = threading.Thread(target=submit_agent)
+            agent_worker.start()
+            release.set()
+            auto_worker.join(5)
+            agent_worker.join(5)
+            self.assertFalse(auto_worker.is_alive())
+            self.assertFalse(agent_worker.is_alive())
+            # One native phase end, one claim, one applied receipt.
+            self.assertEqual(self.sidecar_factory.action_count, 1)
+            self.assertEqual(
+                game.v2_phase_ledger["end"]["source"],
+                V2_PHASE_END_SOURCE_AUTO_IDLE,
+            )
+            self.assertEqual(
+                game.v2_phase_ledger["end"]["receipt_state"], "applied",
+            )
+            self.assertEqual(len(agent_result), 1)
+            self.assertIsInstance(agent_result[0], APIProblem)
+            self.assertEqual(game.state, "running")
+
+    # -- failure is never fatal ----------------------------------------
+
+    def test_a_failed_auto_end_releases_the_phase_without_failing_the_game(
+        self,
+    ):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, joined, _evidence = self.running_phase(clock)
+            plan = self.firing_plan(game, clock)
+            self.sidecar_factory.action_error = SidecarError("native_busy")
+            game._run_v2_auto_end_fire(plan)
+        # A timed-out phase end that cannot be dispatched fails the game,
+        # because the deadline had to be enforced.  This one was never owed.
+        self.assertIsNone(game.v2_phase_ledger["end"])
+        self.assertEqual(game.v2_phase_ledger["state"], "awaiting_agent")
+        self.assertEqual(game.state, "running")
+        self.assertEqual(game.invalid_reasons, [])
+        self.assertIsNone(game.error)
+
+    def test_a_worker_that_raises_parks_the_attempt_and_leaves_the_game(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            with patch.object(
+                V2SeatControl, "decision_load", side_effect=RuntimeError("no"),
+            ):
+                record = self.tick(game, clock)
+            self.assertEqual(record["stage"], "cancelled")
+            self.assertIsNone(game.v2_phase_ledger["end"])
+            self.assertEqual(game.state, "running")
+            self.assertEqual(game.invalid_reasons, [])
+
+    def test_the_background_read_is_never_evidence_about_the_seat(self):
+        # A convenience read must not be able to contribute to a verdict that
+        # a client is alive, gone or wedged: those belong to the poller.
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            game.v2_last_agent_command.clear()
+            self.tick(game, clock)
+            self.assertEqual(game.v2_last_agent_command, {})
+            self.assertEqual(game.v2_last_agent_activity, {})
+
+    # -- the option ----------------------------------------------------
+
+    def test_the_option_is_on_by_default_and_can_be_turned_off(self):
+        clock = _Clock()
+        with patch("agent_eval.supervisor.time.monotonic", clock):
+            _created, game, _joined, _evidence = self.running_phase(clock)
+            self.assertTrue(game.config["auto_end_idle_phase"])
+            clock.advance(1_000.0)
+            _created, game, joined, _evidence = self.running_phase(
+                clock, auto_end_idle_phase=False,
+            )
+            self.assertFalse(game.config["auto_end_idle_phase"])
+            for _ in range(4):
+                self.assertIsNone(
+                    self.tick(game, clock, V2_AUTO_END_IDLE_GRACE_S),
+                )
+            self.assertIsNone(game.v2_phase_ledger["end"])
+            self.assertEqual(self.sidecar_factory.action_count, 0)
+            health = game.v2_health(joined[0]["agent_id"])
+            self.assertEqual(
+                health["phase"]["auto_end"],
+                {
+                    "enabled": False, "armed": False,
+                    "grace_s": V2_AUTO_END_IDLE_GRACE_S, "remaining_s": None,
+                },
+            )
+
+    def test_strategic_v1_has_no_idle_auto_end(self):
+        created = self.create()
+        game = self.supervisor.game(created["game_id"])
+        self.assertEqual(game.config["control_protocol"], STRATEGIC_V1)
+        self.assertFalse(game.config["auto_end_idle_phase"])
+        with self.assertRaises(APIProblem) as raised:
+            self.create(auto_end_idle_phase=True)
+        self.assertEqual(raised.exception.status, HTTPStatus.BAD_REQUEST)
+        self.assertIn("auto_end_idle_phase", str(raised.exception))
+        # Explicitly off is fine on a protocol that never had it.
+        off = self.create(auto_end_idle_phase=False)
+        self.assertFalse(
+            self.supervisor.game(off["game_id"]).config["auto_end_idle_phase"],
+        )
+
+    def test_the_option_must_be_a_boolean(self):
+        with self.assertRaises(APIProblem) as raised:
+            self.create(
+                control_protocol="full-control-v2", auto_end_idle_phase="yes",
+            )
+        self.assertEqual(raised.exception.status, HTTPStatus.BAD_REQUEST)
+        self.assertIn("boolean", str(raised.exception))
+
+
+class V2PvPWaitSurfaceTests(unittest.TestCase):
+    """The multiplayer wait surface on the supervisor side.
+
+    A live two-agent match spent 94.7% of its wall clock blocked, and one
+    seat issued zero orders on nine of thirteen turns without any surface
+    saying so. These cover the three server-side facts that made that
+    invisible: a wait bound that could not span an opponent phase, summaries
+    that named nobody, and a phase-end record that reported only the caller.
+    """
+
+    setUp = SupervisorTests.setUp
+    tearDown = SupervisorTests.tearDown
+    create = SupervisorTests.create
+    ready_v2_phase_game = SupervisorTests.ready_v2_phase_game
+    _seed_v2_phase = SupervisorTests._seed_v2_phase
+    _mark_v2_running = vars(SupervisorTests)["_mark_v2_running"]
+    phase_evidence = vars(SupervisorTests)["phase_evidence"]
+    v2_batch = vars(SupervisorTests)["v2_batch"]
+
+    def pvp_game(self):
+        """A two-seat game with seat 1 holding a real, current phase."""
+        created, game, joined = self.ready_v2_phase_game(
+            multiplayer=True, places=2,
+        )
+        self._seed_v2_phase(game)
+        return created, game, joined
+
+    def end_seat_one_phase(self, game, joined):
+        """Seat 1 ends its own phase for real, then seat 2's opens."""
+        legal = game.v2_get_page(joined[0]["agent_id"], "legal_actions", "")
+        action = legal["page"]["items"][0]
+        self.assertEqual(action["kind"], "phase.end")
+        status, receipt = game.v2_submit_batch(
+            joined[0]["agent_id"],
+            self.v2_batch(game, joined[0], action, "pvp_seat_one_end"),
+        )
+        self.assertEqual(status, 200)
+        self.assertEqual(receipt["receipt_state"], "applied")
+        claim, failed = game._update_v2_phase_ledger(
+            self.phase_evidence(game, turn=8, phase=0, active_place=2), 20.0,
+        )
+        self.assertFalse(failed)
+        self.assertIsNone(claim)
+
+    # ---- P2: the bound ----------------------------------------------------
+
+    def test_a_single_wait_can_span_a_whole_opponent_phase(self):
+        """300 s against a 600 s phase made one call per turn arithmetically
+        impossible: the longest wait was half the longest opponent phase."""
+        self.assertGreaterEqual(V2_WAIT_S_MAX, 615.0)
+        _created, game, joined = self.pvp_game()
+        self.assertGreater(V2_WAIT_S_MAX, game.config["action_timeout_s"])
+        # The bound is checked before anything blocks, so a zero-length wait
+        # at the ceiling proves the validator without waiting for it.
+        with patch.object(game, "v2_health", return_value={
+            "game_state": "completed", "phase": None, "sidecar": {},
+        }):
+            accepted = game.v2_wait(joined[0]["agent_id"], V2_WAIT_S_MAX)
+        self.assertEqual(accepted["wake_reason"], "game_terminal")
+        with self.assertRaises(APIProblem) as refused:
+            game.v2_wait(joined[0]["agent_id"], V2_WAIT_S_MAX + 1)
+        self.assertEqual(
+            refused.exception.payload["error"]["code"], "invalid_request",
+        )
+
+    def test_the_http_route_accepts_the_same_bound_the_game_does(self):
+        """Client, route and game validator must agree, or the raised ceiling
+        is unreachable from the only surface an agent has."""
+        created = self.create(control_protocol="full-control-v2")
+        game = self.supervisor.game(created["game_id"])
+        joined = game.join(
+            created["join_token"], controller_label="codex-pvp-bound-model",
+            supported_control_protocols=["full-control-v2"],
+        )
+        response = {
+            "schema_version": 2,
+            "control_protocol": "full-control-v2",
+            "game_id": game.game_id,
+            "agent_id": joined["agent_id"],
+            "wake_reason": "timeout",
+            "health": {"game_state": "running"},
+            "state_revision": None,
+        }
+        server = make_supervisor_server(self.supervisor, "127.0.0.1", 0)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        host, port = server.server_address
+        base = f"http://{host}:{port}"
+        try:
+            with patch.object(game, "v2_wait", return_value=response) as wait:
+                status, value = raw_json_request(
+                    f"{base}/v2/games/{game.game_id}/me/wait?wait_s=615",
+                    joined["agent_token"],
+                )
+            self.assertEqual(status, HTTPStatus.OK)
+            self.assertEqual(value, response)
+            wait.assert_called_once_with(
+                joined["agent_id"], 615.0, until="phase",
+                after_state_token=None,
+            )
+            status, refused = raw_json_request(
+                f"{base}/v2/games/{game.game_id}/me/wait?wait_s=616",
+                joined["agent_token"],
+            )
+            self.assertEqual(status, HTTPStatus.BAD_REQUEST)
+            self.assertEqual(refused["error"]["code"], "invalid_request")
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(2)
+
+    def test_the_published_openapi_bound_matches_the_validators(self):
+        contract = json.loads(V2_OPENAPI_PATH.read_text(encoding="utf-8"))
+        parameters = contract["paths"]["/v2/games/{game_id}/me/wait"]["get"][
+            "parameters"
+        ]
+        bound = next(
+            item for item in parameters if item.get("name") == "wait_s"
+        )
+        self.assertEqual(bound["schema"]["maximum"], V2_WAIT_S_MAX)
+        enum = contract["components"]["schemas"]["WaitEnvelope"][
+            "properties"
+        ]["wake_reason"]["enum"]
+        self.assertEqual(set(enum), set(V2_WAIT_REASONS))
+
+    # ---- P4a: the summaries name whoever it is ----------------------------
+
+    def test_the_blocked_seats_summary_names_the_seat_that_holds_the_phase(self):
+        """"Another seat holds the phase" was the entire disclosure, while the
+        row beside it already carried the player and the controller."""
+        _created, game, joined = self.pvp_game()
+        health = game.v2_health(joined[1]["agent_id"])
+        waiting = health["phase"]["waiting_on"]
+        self.assertEqual(waiting["kind"], "other_seat")
+        self.assertIn("Seat 1 AgentPlace1 (controller-1)", waiting["summary"])
+        self.assertIn("turn 7 phase 1", waiting["summary"])
+        self.assertIn("before the supervisor ends it automatically",
+                      waiting["summary"])
+        self.assertEqual(
+            [row["place"] for row in waiting["seats"]], [1],
+        )
+        # The seat that holds it is told nothing is blocking it.
+        self.assertIsNone(game.v2_health(joined[0]["agent_id"])[
+            "phase"
+        ]["waiting_on"])
+
+    def test_an_infinite_deadline_is_said_rather_than_invented(self):
+        created, game, joined = self.ready_v2_phase_game(
+            timing_mode="infinite", multiplayer=True, places=2,
+        )
+        self._seed_v2_phase(game)
+        summary = game.v2_health(joined[1]["agent_id"])["phase"][
+            "waiting_on"
+        ]["summary"]
+        self.assertIn("no deadline", summary)
+        self.assertNotIn("ends it automatically", summary)
+
+    # ---- P4a: how the previous phase ended --------------------------------
+
+    def test_prior_end_reports_the_other_seats_phase_and_its_orders(self):
+        _created, game, joined = self.pvp_game()
+        # Nothing has ended yet, so there is nothing to report.
+        self.assertIsNone(
+            game.v2_health(joined[1]["agent_id"])["phase"]["prior_end"],
+        )
+        self.end_seat_one_phase(game, joined)
+        prior = game.v2_health(joined[1]["agent_id"])["phase"]["prior_end"]
+        self.assertEqual(prior["place"], 1)
+        self.assertEqual(prior["player_name"], "AgentPlace1")
+        self.assertEqual(prior["controller_label"], "controller-1")
+        self.assertEqual((prior["turn"], prior["phase"]), (7, 1))
+        self.assertEqual(prior["source"], "agent")
+        self.assertEqual(prior["receipt_state"], "applied")
+        # The seat's own phase.end is one submitted batch.
+        self.assertEqual(prior["orders_submitted"], 1)
+        # It reports the *other* seat: seat 1 has no other seat to report on.
+        self.assertIsNone(
+            game.v2_health(joined[0]["agent_id"])["phase"]["prior_end"],
+        )
+        # Nothing opaque rides along.
+        self.assertNotIn("batch_id", prior)
+        self.assertNotIn("player_color", prior)
+
+    def test_a_phase_nobody_played_reports_zero_orders_not_unknown(self):
+        """The difference between thinking for ten minutes and not being there.
+
+        Both end `source=timeout` and both advance the game; only the order
+        count tells them apart, and it is the only record that a benchmark
+        scored a no-op as a played turn.
+        """
+        _created, game, joined = self.pvp_game()
+        # Observing the phase at all is what makes "zero" provable later.
+        game.v2_health(joined[1]["agent_id"])
+        self.assertEqual(game.v2_phase_order_floor, (7, 1))
+        journal = game.v2_phase_event_journal
+        journal.append({
+            # `append` owns the sequence; the journal is the authority.
+            "sequence": 1,
+            "turn": 7, "phase": 1, "place": 1, "seat_id": "place-1",
+            "player_name": "AgentPlace1", "player_color": "#0067A5",
+            "controller_label": "controller-1", "controller_type": "external",
+            "source": "timeout", "receipt_state": "applied",
+            "resolution": "advanced", "deadline_started_at": 1000.0,
+            "ended_at": 1600.0, "elapsed_s": 600.0,
+        })
+        prior = game.v2_health(joined[1]["agent_id"])["phase"]["prior_end"]
+        self.assertEqual(prior["source"], "timeout")
+        self.assertEqual(prior["elapsed_s"], 600.0)
+        self.assertEqual(prior["orders_submitted"], 0)
+
+    def test_a_phase_this_process_never_watched_reports_unknown(self):
+        """Never answer "they issued no orders" about a phase we did not see."""
+        _created, game, joined = self.pvp_game()
+        game.v2_health(joined[1]["agent_id"])
+        journal = game.v2_phase_event_journal
+        journal.append({
+            "sequence": 1, "turn": 2, "phase": 0, "place": 1,
+            "seat_id": "place-1", "player_name": "AgentPlace1",
+            "player_color": "#0067A5", "controller_label": "controller-1",
+            "controller_type": "external", "source": "timeout",
+            "receipt_state": "applied", "resolution": "advanced",
+            "deadline_started_at": 1000.0, "ended_at": 1600.0,
+            "elapsed_s": 600.0,
+        })
+        prior = game.v2_health(joined[1]["agent_id"])["phase"]["prior_end"]
+        self.assertEqual((prior["turn"], prior["phase"]), (2, 0))
+        self.assertIsNone(prior["orders_submitted"])
+
+    def test_the_order_counter_is_bounded_and_never_grows_unbounded(self):
+        _created, game, joined = self.pvp_game()
+        for turn in range(1, 12):
+            with game.condition:
+                game.v2_phase_ledger["key"] = (turn, 0)
+            game._v2_note_phase_order(joined[0]["agent_id"])
+        counts = game.v2_phase_order_counts[joined[0]["place"]]
+        self.assertEqual(len(counts), V2_PHASE_ORDER_HISTORY)
+        self.assertEqual(max(counts), (11, 0))
+
+    def test_internal_phase_ends_are_never_counted_as_orders(self):
+        """A timeout end and an auto-idle end are the supervisor's batches, not
+        the agent's; counting them would make every dead phase look played."""
+        _created, game, joined = self.pvp_game()
+        self.assertEqual(game.v2_phase_order_counts, {})
+        game._v2_note_phase_order("agent_that_does_not_exist")
+        self.assertEqual(game.v2_phase_order_counts, {})
 
 
 if __name__ == "__main__":

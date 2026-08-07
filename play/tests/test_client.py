@@ -14,8 +14,9 @@ import tempfile
 import threading
 import time
 import unittest
+import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from contextlib import redirect_stderr, redirect_stdout
+from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -1542,8 +1543,8 @@ class PlayerClientTests(unittest.TestCase):
                 lines = stdout.getvalue().splitlines()
                 self.assertEqual(len(lines), 2)
                 self.assertIn("health running", lines[0])
-                self.assertIn("phase awaiting_agent t3/p1 active", lines[0])
-                self.assertIn("179s left", lines[0])
+                self.assertIn("YOUR TURN · t3/p1", lines[0])
+                self.assertIn("2m59s left of 3m0s", lines[0])
                 self.assertIn("sidecar ready gen 1", lines[0])
                 self.assertIn("seat 1 AgentPlace1 (codex-test-model)", lines[1])
                 self.assertIn("turns 4997/5000 remaining", lines[1])
@@ -2909,7 +2910,11 @@ class PlayerClientTests(unittest.TestCase):
                     stdout,
                 )
                 # The path an agent would otherwise re-type is not printed.
-                self.assertNotIn(".json", stdout)
+                # (The card names `state/phase.json`, a workspace projection
+                # with no path to re-type, so the session file is what this
+                # actually forbids.)
+                self.assertNotIn(".sessions", stdout)
+                self.assertNotIn(str(root), stdout)
                 self.assertNotIn("Session file:", stderr)
 
                 binding = client._state_root() / client.SEAT_BINDING_NAME
@@ -3946,7 +3951,7 @@ class PlayerClientTests(unittest.TestCase):
                 self.assertIn("standing surrendered", text)
                 self.assertIn(
                     "waiting on seat_not_ready: "
-                    "fixedlength holds native turn-done (12.5s)",
+                    "fixedlength holds native turn-done (blocked 12s)",
                     text,
                 )
 
@@ -4136,7 +4141,11 @@ class PlayerClientTests(unittest.TestCase):
                         ),
                     ),
                 ), redirect_stdout(io.StringIO()):
-                    self.assertEqual(client.command_wait(args), 0)
+                    # P1: the wake reason is the exit status. A terminal game
+                    # is 66 so a `until just wait; do :; done` loop stops.
+                    self.assertEqual(
+                        client.command_wait(args), client.V2_WAIT_EXIT_TERMINAL,
+                    )
 
     def test_v2_health_strictly_validates_caller_phase_end_feedback(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -4249,7 +4258,11 @@ class PlayerClientTests(unittest.TestCase):
                     ),
                 ) as request, redirect_stdout(io.StringIO()), \
                         redirect_stderr(stderr):
-                    self.assertEqual(client.command_wait(args), 0)
+                    # P1: a timeout means "still not yours, call me again",
+                    # which is EX_TEMPFAIL and not success.
+                    self.assertEqual(
+                        client.command_wait(args), client.V2_WAIT_EXIT_RETRY,
+                    )
                 self.assertEqual(request.call_count, 1)
                 self.assertIn("/me/wait?", request.call_args.args[1])
                 self.assertEqual(stderr.getvalue(), "")
@@ -6093,8 +6106,7 @@ client._remember_receipt(path, state, receipt)
                 self.assertTrue(lines[0].startswith("phase end → applied"))
                 self.assertIn("rev8/t3", lines[0])
                 self.assertIn("T3 rev9/t3", lines[1])
-                self.assertIn("woke phase_active", lines[1])
-                self.assertIn("awaiting_agent", lines[1])
+                self.assertIn("YOUR TURN · t3/p1", lines[1])
                 self.assertIn("next: just turn", lines[1])
 
                 # --await alone never ends a phase.
@@ -7974,7 +7986,7 @@ client._remember_receipt(path, state, receipt)
                 self.assertEqual(lines[2], "2/2 applied rev7/t3")
                 self.assertTrue(lines[3].startswith("phase end → applied"))
                 # The wake header does not point at the briefing it prints.
-                self.assertIn("woke phase_active", lines[4])
+                self.assertIn("YOUR TURN · t3/p1", lines[4])
                 self.assertNotIn("next: just turn", lines[4])
                 # The next turn's whole briefing, decisions line and all.
                 self.assertIn("T3 rev7/t3 | running", printed)
@@ -9711,7 +9723,7 @@ client._remember_receipt(path, state, receipt)
                 text = stdout.getvalue()
                 self.assertFalse(text.startswith("{"), text)
                 lines = text.splitlines()
-                self.assertIn("woke phase_active", lines[0])
+                self.assertIn("YOUR TURN · t3/p1", lines[0])
                 self.assertIn("next: just turn", lines[0])
                 self.assertTrue(lines[1].startswith("health running"), lines[1])
                 # Nothing the JSON carries is invented and nothing raw leaks.
@@ -10901,6 +10913,793 @@ client._remember_receipt(path, state, receipt)
         # Without a cache there is no player alias to print, so no command is
         # printed either.
         self.assertNotIn(hint, rendered(changeable, None))
+
+
+class PvPWaitInteropTests(unittest.TestCase):
+    """The multiplayer wait surface, end to end.
+
+    Every case here reproduces something a live two-agent match actually did:
+    a wake reason the client could not parse, an exit status that said
+    "success" for "still not your turn", a briefing printed for a phase the
+    caller did not hold, and a marker file frozen for the whole of somebody
+    else's ten minutes.
+    """
+
+    GAME_ID = PlayerClientTests.GAME_ID
+    AGENT_ID = PlayerClientTests.AGENT_ID
+
+    @staticmethod
+    def opponent(place: int = 2) -> dict:
+        return {
+            "place": place,
+            "seat_id": f"place-{place}",
+            "player_name": "AgentPlace2",
+            "controller_label": "pi-gpt-5.6-sol",
+            "standing": "active",
+            "is_self": False,
+        }
+
+    @classmethod
+    def health(
+        cls, session: dict, *, mine: bool, remaining_s: float = 587.0,
+        elapsed_s: float = 13.0, game_state: str = "running",
+        prior_end: dict | None = None,
+    ) -> dict:
+        value = PlayerClientTests.health(
+            session, active=mine, game_state=game_state,
+        )
+        phase = value["phase"]
+        if phase is None:
+            return value
+        phase["state"] = "awaiting_agent"
+        phase["timing"] = {
+            "mode": "default", "timeout_s": 600.0,
+            "deadline_started_at": 1000.0, "deadline_at": 1600.0,
+            "elapsed_s": elapsed_s, "remaining_s": remaining_s,
+        }
+        if not mine:
+            phase["waiting_on"] = {
+                "kind": "other_seat",
+                "summary": (
+                    "Seat 2 AgentPlace2 (pi-gpt-5.6-sol) holds turn 3 phase 1 "
+                    "and has not ended it."
+                ),
+                "waiting_s": elapsed_s,
+                "seats": [cls.opponent()],
+            }
+        if prior_end is not None:
+            phase["prior_end"] = prior_end
+        return value
+
+    @classmethod
+    def wake(
+        cls, session: dict, reason: str, **options,
+    ) -> dict:
+        return {
+            "schema_version": 2,
+            "control_protocol": "full-control-v2",
+            "game_id": session["game_id"],
+            "agent_id": session["agent_id"],
+            "wake_reason": reason,
+            "health": cls.health(session, **options),
+            "state_revision": None,
+        }
+
+    @contextmanager
+    def workspace(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "play"
+            root.mkdir()
+            with patch.object(client, "ROOT", root), patch.dict(
+                os.environ,
+                {"PLAY_STATE_DIR": ".sessions", "PLAY_SESSION": ""},
+                clear=False,
+            ):
+                yield PlayerClientTests.v2_session(root)
+
+    @staticmethod
+    def args(session_path: Path, **overrides):
+        values = {
+            "session": str(session_path), "wait_s": 120.0, "poll_s": 1.0,
+            "until": "phase", "for_turn": False, "max_s": None,
+            "json_output": False,
+        }
+        values.update(overrides)
+        return argparse.Namespace(**values)
+
+    # ---- P0a: the wake reason the server could always send ----------------
+
+    def test_boundary_recovered_is_a_wake_reason_the_client_accepts(self):
+        """The supervisor has always been able to send it; we could not read it.
+
+        It arrives when this seat's native boundary was republished under a
+        wait -- and on the `--end --await` path it surfaced as `await failed:`
+        *after* the phase end had applied, which is the one moment a client
+        must not be telling the agent it does not understand the server.
+        """
+        self.assertIn("boundary_recovered", client.V2_WAKE_REASONS)
+        with self.workspace() as (session_path, session):
+            raw = self.wake(session, "boundary_recovered", mine=True)
+            clean = client._validate_wait_response(
+                raw, session, until="phase", after_state_token=None,
+            )
+            self.assertEqual(clean["wake_reason"], "boundary_recovered")
+            # It is a satisfied wake, not a "come back later" one.
+            self.assertEqual(
+                client._wait_exit_code(clean), client.V2_WAIT_EXIT_ACTIVE,
+            )
+
+    def test_the_served_openapi_lists_every_wake_reason_the_client_takes(self):
+        contract = json.loads(
+            (client.ROOT / "docs" / "full-control-v2.openapi.json").read_text(
+                encoding="utf-8",
+            ),
+        )
+        enum = contract["components"]["schemas"]["WaitEnvelope"][
+            "properties"
+        ]["wake_reason"]["enum"]
+        self.assertEqual(set(enum), client.V2_WAKE_REASONS)
+
+    # ---- P0b: the hint that could never fire ------------------------------
+
+    def test_the_mirror_phase_hint_reads_the_yes_no_the_mirror_writes(self):
+        """`state_mirror` writes `active no`; this tested for `active False`."""
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            state_mirror.update_from_health(
+                mirror, "health", self.health(session, mine=False),
+            )
+            header = (mirror / "state" / "header.txt").read_text(
+                encoding="utf-8",
+            )
+            self.assertIn("active no", header)
+            self.assertNotIn("active False", header)
+            self.assertIn(
+                "your phase is not active",
+                client._cached_phase_note(session_path),
+            )
+            state_mirror.update_from_health(
+                mirror, "health", self.health(session, mine=True),
+            )
+            self.assertEqual(client._cached_phase_note(session_path), "")
+
+    # ---- P1: the exit status carries the wake reason ----------------------
+
+    def test_wait_exit_codes_come_from_real_wait_outcomes(self):
+        cases = (
+            ("phase_active", {"mine": True}, client.V2_WAIT_EXIT_ACTIVE),
+            ("boundary_recovered", {"mine": True},
+             client.V2_WAIT_EXIT_ACTIVE),
+            ("timeout", {"mine": False}, client.V2_WAIT_EXIT_RETRY),
+            ("game_terminal", {"mine": False, "game_state": "completed"},
+             client.V2_WAIT_EXIT_TERMINAL),
+        )
+        with self.workspace() as (session_path, session):
+            for reason, options, expected in cases:
+                wake = self.wake(session, reason, **options)
+                with self.subTest(reason=reason), patch.object(
+                    client, "_wait_value", return_value=wake,
+                ), redirect_stdout(io.StringIO()):
+                    self.assertEqual(
+                        client.command_wait(self.args(session_path)),
+                        expected,
+                    )
+
+    def test_the_json_payload_is_unchanged_by_the_new_exit_status(self):
+        with self.workspace() as (session_path, session):
+            wake = self.wake(session, "timeout", mine=False)
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_wait_value", return_value=wake,
+            ), redirect_stdout(stdout):
+                code = client.command_wait(
+                    self.args(session_path, json_output=True),
+                )
+            self.assertEqual(code, client.V2_WAIT_EXIT_RETRY)
+            self.assertEqual(json.loads(stdout.getvalue()), wake)
+
+    def test_a_timeout_wake_names_the_holder_instead_of_calling_it_a_wake(self):
+        with self.workspace() as (session_path, session):
+            wake = self.wake(session, "timeout", mine=False)
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_wait_value", return_value=wake,
+            ), redirect_stdout(stdout):
+                client.command_wait(self.args(session_path))
+            lines = stdout.getvalue().splitlines()
+            self.assertIn("still seat 2 AgentPlace2 (pi-gpt-5.6-sol)", lines[0])
+            self.assertIn("held 13s", lines[0])
+            self.assertIn("9m47s left", lines[0])
+            # The old tail pointed at a command that can only be refused.
+            self.assertNotIn("next: just turn", lines[0])
+            self.assertIn("just wait --for-turn", lines[0])
+            self.assertIn(f"[exit {client.V2_WAIT_EXIT_RETRY}]", lines[0])
+            self.assertIn("NOT YOUR TURN · seat 2 AgentPlace2", lines[1])
+
+    # ---- P2: bounds and --for-turn ---------------------------------------
+
+    def test_the_wait_ceiling_covers_a_whole_opponent_phase(self):
+        self.assertEqual(client.V2_WAIT_S_MAX, 615.0)
+        with self.workspace() as (session_path, session):
+            args = self.args(session_path, wait_s=615.0)
+            with patch.object(
+                client, "_v2_response",
+                return_value=client.JSONResponse(
+                    200, self.wake(session, "phase_active", mine=True),
+                ),
+            ) as request, redirect_stdout(io.StringIO()):
+                client._wait_value(session_path, session, args)
+            self.assertIn("wait_s=615", request.call_args.args[1])
+            with self.assertRaisesRegex(client.PlayerError, r"\[0, 615\]"):
+                client._wait_value(
+                    session_path, session,
+                    self.args(session_path, wait_s=616.0),
+                )
+
+    @contextmanager
+    def clocked(self, script):
+        """Run a fake `/wait` on a clock that only advances by what it blocked.
+
+        Wall-clock time is the thing under test here -- the whole point of a
+        deadline-bounded wait is how long it blocks for -- so the test owns
+        the clock rather than sleeping through it.
+        """
+        now = [0.0]
+        blocked: list[float] = []
+
+        def responder(_method, url, _session, **_options):
+            query = urllib.parse.parse_qs(urllib.parse.urlsplit(url).query)
+            waited = float(query["wait_s"][0])
+            blocked.append(waited)
+            now[0] += waited
+            return client.JSONResponse(200, script(now[0]))
+
+        with patch.object(
+            client.time, "monotonic", side_effect=lambda: now[0],
+        ), patch.object(client, "_v2_response", side_effect=responder):
+            yield now, blocked
+
+    def test_for_turn_is_bounded_by_the_holders_remaining_deadline(self):
+        """One call covers one opponent turn, and not a second longer.
+
+        The bound is the holder's own deadline plus one grace window, so a
+        holder whose clock has run out cannot keep the caller blocked by
+        reporting zero for ever.
+        """
+        with self.workspace() as (session_path, session):
+            def script(elapsed):
+                return self.wake(
+                    session, "timeout", mine=False,
+                    remaining_s=max(0.0, 40.0 - elapsed),
+                    elapsed_s=min(600.0, 560.0 + elapsed),
+                )
+
+            stdout = io.StringIO()
+            with self.clocked(script) as (now, blocked), \
+                    redirect_stdout(stdout):
+                code = client.command_wait(
+                    self.args(session_path, for_turn=True),
+                )
+            self.assertEqual(code, client.V2_WAIT_EXIT_RETRY)
+            # Short internal polls, never one 120 s block.
+            self.assertTrue(
+                all(item <= client.V2_WAIT_TICK_S for item in blocked), blocked,
+            )
+            # It waited out the 40 s deadline plus one 15 s grace, and stopped
+            # rather than rolling the grace forward against a pinned zero.
+            self.assertGreaterEqual(now[0], 40.0)
+            self.assertLessEqual(now[0], 40.0 + client.V2_FOR_TURN_GRACE_S)
+            # Every tick said what it was waiting on.
+            ticks = [
+                line for line in stdout.getvalue().splitlines()
+                if line.startswith("… waiting on")
+            ]
+            self.assertEqual(len(ticks), len(blocked) - 1)
+            self.assertIn("seat 2 AgentPlace2 (pi-gpt-5.6-sol)", ticks[0])
+
+    def test_for_turn_returns_the_moment_the_phase_is_ours(self):
+        with self.workspace() as (session_path, session):
+            def script(elapsed):
+                return self.wake(
+                    session,
+                    "phase_active" if elapsed >= 30.0 else "timeout",
+                    mine=elapsed >= 30.0,
+                    remaining_s=max(0.0, 300.0 - elapsed),
+                )
+
+            with self.clocked(script) as (now, _blocked), \
+                    redirect_stdout(io.StringIO()):
+                code = client.command_wait(
+                    self.args(session_path, for_turn=True),
+                )
+            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
+            self.assertEqual(now[0], 30.0)
+
+    def test_for_turn_max_is_a_hard_ceiling_over_the_holders_deadline(self):
+        with self.workspace() as (session_path, session):
+            def script(elapsed):
+                return self.wake(
+                    session, "timeout", mine=False,
+                    remaining_s=max(0.0, 600.0 - elapsed),
+                )
+
+            with self.clocked(script) as (now, _blocked), \
+                    redirect_stdout(io.StringIO()):
+                code = client.command_wait(
+                    self.args(session_path, for_turn=True, max_s=45.0),
+                )
+            self.assertEqual(code, client.V2_WAIT_EXIT_RETRY)
+            self.assertEqual(now[0], 45.0)
+
+    def test_max_without_for_turn_is_refused_rather_than_ignored(self):
+        with self.workspace() as (session_path, _session):
+            with self.assertRaisesRegex(client.PlayerError, "--for-turn"):
+                client.command_wait(self.args(session_path, max_s=30.0))
+
+    def test_a_plain_wait_still_makes_exactly_one_request(self):
+        """Without --for-turn nothing loops: the old shape is untouched."""
+        with self.workspace() as (session_path, session):
+            with patch.object(
+                client, "_v2_response",
+                return_value=client.JSONResponse(
+                    200, self.wake(session, "timeout", mine=False),
+                ),
+            ) as request, redirect_stdout(io.StringIO()):
+                client.command_wait(self.args(session_path))
+            self.assertEqual(request.call_count, 1)
+            self.assertIn("wait_s=120", request.call_args.args[1])
+
+    # ---- P3: the marker file ---------------------------------------------
+
+    def test_the_phase_marker_is_written_on_every_tick_of_a_wait(self):
+        """The mirror used to freeze for the whole of a blocking wait."""
+        with self.workspace() as (session_path, session):
+            marker = (
+                client._mirror_path(session_path) / "state" / "phase.json"
+            )
+            seen: list[dict] = []
+
+            def script(elapsed):
+                if marker.exists():
+                    seen.append(json.loads(marker.read_text(encoding="utf-8")))
+                return self.wake(
+                    session,
+                    "phase_active" if elapsed >= 45.0 else "timeout",
+                    mine=elapsed >= 45.0,
+                    remaining_s=max(0.0, 300.0 - elapsed),
+                    elapsed_s=min(600.0, 300.0 + elapsed),
+                )
+
+            with self.clocked(script) as (_now, blocked), \
+                    redirect_stdout(io.StringIO()):
+                client.command_wait(self.args(session_path, for_turn=True))
+            # One marker read per request after the first: it was refreshed
+            # between every pair of polls, not once at the end.
+            self.assertEqual(len(seen), len(blocked) - 1)
+            self.assertEqual(
+                [item["deadline_s_left"] for item in seen],
+                [285.0, 270.0][: len(seen)],
+            )
+            final = json.loads(marker.read_text(encoding="utf-8"))
+            self.assertTrue(final["active"])
+            self.assertIsNone(final["holder"])
+
+    def test_the_phase_marker_is_a_closed_schema_a_watcher_can_branch_on(self):
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            state_mirror.update_from_health(
+                mirror, "health", self.health(session, mine=False),
+            )
+            value = json.loads(
+                (mirror / "state" / "phase.json").read_text(encoding="utf-8"),
+            )
+            self.assertEqual(set(value), {
+                "schema_version", "updated_at", "game_state", "turn", "phase",
+                "state", "active", "held_s", "deadline_s_left", "holder",
+            })
+            self.assertEqual(value["schema_version"], 1)
+            self.assertFalse(value["active"])
+            self.assertEqual(value["turn"], 3)
+            self.assertEqual(value["held_s"], 13.0)
+            self.assertEqual(value["deadline_s_left"], 587.0)
+            self.assertEqual(value["holder"], {
+                "place": 2, "seat_id": "place-2",
+                "player_name": "AgentPlace2",
+                "controller_label": "pi-gpt-5.6-sol",
+            })
+            # No token, no cursor, nothing opaque ever reaches the file.
+            self.assertNotIn("state_", (mirror / "state" / "phase.json")
+                             .read_text(encoding="utf-8"))
+            # On this seat's own turn there is no holder to name.
+            state_mirror.update_from_health(
+                mirror, "health", self.health(session, mine=True),
+            )
+            mine = json.loads(
+                (mirror / "state" / "phase.json").read_text(encoding="utf-8"),
+            )
+            self.assertTrue(mine["active"])
+            self.assertIsNone(mine["holder"])
+
+    def test_the_phase_marker_is_written_atomically_and_privately(self):
+        with self.workspace() as (session_path, session):
+            mirror = client._mirror_path(session_path)
+            written = state_mirror.update_from_health(
+                mirror, "health", self.health(session, mine=False),
+            )
+            marker = mirror / "state" / "phase.json"
+            self.assertIn(
+                marker.resolve(), {item.resolve() for item in written},
+            )
+            self.assertEqual(stat.S_IMODE(marker.stat().st_mode), 0o600)
+            # No temp file survives the write.
+            self.assertEqual(
+                sorted(
+                    item.name for item in marker.parent.iterdir()
+                ),
+                ["header.txt", "phase.json"],
+            )
+
+    # ---- P4a: the strings -------------------------------------------------
+
+    @staticmethod
+    def prior_end(source: str, orders: int | None, elapsed_s: float = 600.0):
+        return {
+            "place": 2, "seat_id": "place-2", "player_name": "AgentPlace2",
+            "controller_label": "pi-gpt-5.6-sol",
+            "turn": 3, "phase": 0, "source": source,
+            "receipt_state": "applied", "resolution": "advanced",
+            "elapsed_s": elapsed_s, "orders_submitted": orders,
+        }
+
+    def test_a_timeout_with_no_orders_says_they_issued_no_orders(self):
+        """The difference between thinking for ten minutes and not being there.
+
+        In the match this came from one seat submitted nothing on nine of
+        thirteen turns and every surface reported a played turn.
+        """
+        with self.workspace() as (_session_path, session):
+            cases = (
+                (self.prior_end("timeout", 0),
+                 "timeout — they issued no orders"),
+                (self.prior_end("timeout", 6),
+                 "timeout — their deadline passed"),
+                (self.prior_end("agent", 7, elapsed_s=32.0), "agent, 7 orders"),
+                (self.prior_end("agent", 1, elapsed_s=32.0), "agent, 1 order"),
+                (self.prior_end("timeout", None),
+                 "timeout — their deadline passed"),
+                (self.prior_end("auto_idle", 0),
+                 "auto_idle — the service ended their idle phase"),
+            )
+            for prior, expected in cases:
+                health = self.health(session, mine=True, prior_end=prior)
+                clean = client._validate_health(health, session)
+                line = client._prior_end_line(clean["phase"])
+                with self.subTest(expected=expected):
+                    self.assertIn(expected, line)
+                    self.assertIn(
+                        "opponent seat 2 AgentPlace2 (pi-gpt-5.6-sol) ended "
+                        "t3/p0 in",
+                        line,
+                    )
+                    self.assertIn(line, "\n".join(client._render_health(clean)))
+
+    def test_health_leads_with_whose_turn_it_is_and_names_them(self):
+        with self.workspace() as (session_path, session):
+            payload = self.health(
+                session, mine=False, remaining_s=13.0, elapsed_s=587.0,
+            )
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_v2_response",
+                return_value=client.JSONResponse(200, payload),
+            ), redirect_stdout(stdout):
+                client.command_health(self.args(session_path))
+            lines = stdout.getvalue().splitlines()
+            self.assertIn(
+                "NOT YOUR TURN · seat 2 AgentPlace2 (pi-gpt-5.6-sol) holds "
+                "t3/p1 · held 9m47s of 10m0s · 13s left",
+                lines[0],
+            )
+            self.assertIn("just wait --for-turn", lines[-1])
+            self.assertIn("exit 0 = go, 75 = still theirs", lines[-1])
+
+    def test_health_on_your_own_turn_says_so_without_a_holder(self):
+        with self.workspace() as (_session_path, session):
+            clean = client._validate_health(
+                self.health(session, mine=True, remaining_s=592.0,
+                            elapsed_s=8.0),
+                session,
+            )
+            first = client._render_health(clean)[0]
+            self.assertIn("YOUR TURN · t3/p1 · 9m52s left of 10m0s", first)
+            self.assertNotIn("NOT YOUR TURN", first)
+
+    def test_an_active_phase_that_cannot_be_ended_is_not_called_your_turn(self):
+        """`active` and `actionable` are not the same fact, and never were."""
+        with self.workspace() as (_session_path, session):
+            payload = self.health(session, mine=True)
+            payload["phase"]["state"] = "phase_not_ready"
+            clean = client._validate_health(payload, session)
+            first = client._render_health(clean)[0]
+            self.assertIn("YOUR PHASE · phase_not_ready t3/p1", first)
+            self.assertNotIn("YOUR TURN", first)
+
+    def test_prior_end_is_optional_and_strictly_validated_when_present(self):
+        with self.workspace() as (_session_path, session):
+            without = client._validate_health(
+                self.health(session, mine=True), session,
+            )
+            self.assertNotIn("prior_end", without["phase"])
+            self.assertEqual(client._prior_end_line(without["phase"]), "")
+            for name, value in (
+                ("place", 1),          # never this seat
+                ("source", "native"),
+                ("receipt_state", "reserved"),
+                ("resolution", "queued"),
+                ("orders_submitted", -1),
+                ("turn", -1),
+            ):
+                broken = self.prior_end("timeout", 0)
+                broken[name] = value
+                with self.subTest(field=name), self.assertRaises(
+                    client.PlayerError,
+                ):
+                    client._validate_health(
+                        self.health(session, mine=True, prior_end=broken),
+                        session,
+                    )
+            leaked = self.prior_end("timeout", 0)
+            leaked["batch_id"] = "must-not-cross-health"
+            with self.assertRaises(client.PlayerError):
+                client._validate_health(
+                    self.health(session, mine=True, prior_end=leaked), session,
+                )
+
+    # ---- composites: applied work is never masked by a wait outcome -------
+
+    def test_a_composite_await_never_masks_applied_work(self):
+        """An applied phase end must not exit non-zero for a wait outcome.
+
+        And it must not print a briefing for a phase the caller does not
+        hold: that briefing's `next: just turn` tail is an invitation to an
+        out-of-turn action that can only be refused.
+        """
+        with self.workspace() as (session_path, session):
+            revision = PlayerClientTests.revision(7)
+            ended = PlayerClientTests.revision(8)
+            phase_end = PlayerClientTests.pregame_action(
+                revision, "action_" + "e" * 26, "phase.end", "end",
+                "End phase", {"type": "object"}, None,
+            )
+            page = PlayerClientTests.page(
+                session, legal=True, revision=revision, items=[phase_end],
+            )
+
+            def responder(method, url, _session, **options):
+                if method == "POST":
+                    payload = json.loads(
+                        options["encoded_body"].decode("utf-8"),
+                    )
+                    return client.JSONResponse(200, PlayerClientTests.receipt(
+                        session, payload["batch_id"], "applied",
+                        revision=ended,
+                    ))
+                return client.JSONResponse(200, page)
+
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_v2_response", side_effect=responder,
+            ), patch.object(
+                client, "_wait_until_turn",
+                return_value=self.wake(session, "timeout", mine=False),
+            ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                code = client.command_turn(self.args(
+                    session_path, end_phase=True, await_phase=True, brief=True,
+                    decisions=False,
+                ))
+            text = stdout.getvalue()
+            # The applied end is authoritative and its exit code survives.
+            self.assertEqual(code, 0)
+            self.assertIn("phase end → applied", text)
+            # No briefing, and no invitation to act out of turn.
+            self.assertIn("not briefed: the phase is not yours yet", text)
+            self.assertIn("next: just wait --for-turn", text)
+            self.assertNotIn("next: just turn", text)
+
+    def test_a_composite_await_blocks_to_the_holders_deadline(self):
+        """`--await` means what it says; 120 s against a 600 s phase did not."""
+        with self.workspace() as (session_path, session):
+            def script(elapsed):
+                return self.wake(
+                    session,
+                    "phase_active" if elapsed >= 200.0 else "timeout",
+                    mine=elapsed >= 200.0,
+                    remaining_s=max(0.0, 200.0 - elapsed),
+                )
+
+            with self.clocked(script) as (now, blocked), \
+                    redirect_stdout(io.StringIO()):
+                wake = client._wait_until_turn(
+                    session_path, session,
+                    client._wait_args(self.args(session_path)),
+                    for_turn=False,
+                )
+            self.assertEqual(wake["wake_reason"], "phase_active")
+            # 120 s of the caller's own budget, then 15 s ticks: the first
+            # tick past the opponent's 200 s lands at 210.
+            self.assertEqual(now[0], 210.0)
+            # The first poll is the caller's own --wait-s; the rest are ticks.
+            self.assertEqual(blocked[0], 120.0)
+            self.assertTrue(
+                all(item <= client.V2_WAIT_TICK_S for item in blocked[1:]),
+                blocked,
+            )
+
+    def test_a_composite_await_in_a_single_seat_game_is_unchanged(self):
+        """No holder named, no loop: one poll of exactly --wait-s, as before."""
+        with self.workspace() as (session_path, session):
+            plain = PlayerClientTests.wait_response(session, "timeout")
+            with patch.object(
+                client, "_v2_response",
+                return_value=client.JSONResponse(200, plain),
+            ) as request:
+                wake = client._wait_until_turn(
+                    session_path, session,
+                    client._wait_args(self.args(session_path)),
+                    for_turn=False,
+                )
+            self.assertEqual(wake["wake_reason"], "timeout")
+            self.assertEqual(request.call_count, 1)
+            self.assertIn("wait_s=120", request.call_args.args[1])
+
+    # ---- the monitor ------------------------------------------------------
+
+    @staticmethod
+    def monitor_args(session_path: Path, **overrides):
+        values = {
+            "session": str(session_path), "wait_s": 120.0, "poll_s": 1.0,
+            "once": False, "forever": False, "exec_command": "",
+            "max_s": None, "json_output": False,
+        }
+        values.update(overrides)
+        return argparse.Namespace(**values)
+
+    def test_monitor_prints_one_line_per_turn_and_exits_by_default(self):
+        with self.workspace() as (session_path, session):
+            wakes = [
+                self.wake(session, "timeout", mine=False),
+                self.wake(session, "phase_active", mine=True),
+            ]
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_wait_until_turn", side_effect=wakes,
+            ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                code = client.command_monitor(self.monitor_args(session_path))
+            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
+            # A "still theirs" outcome is the monitor's own business: it is
+            # never reported, it is retried.
+            self.assertEqual(
+                stdout.getvalue().splitlines(),
+                ["T3 | YOUR TURN | next: just turn"],
+            )
+
+    def test_monitor_forever_keeps_going_until_the_game_is_terminal(self):
+        with self.workspace() as (session_path, session):
+            wakes = [
+                self.wake(session, "phase_active", mine=True),
+                self.wake(session, "timeout", mine=False),
+                self.wake(session, "phase_active", mine=True),
+                self.wake(
+                    session, "game_terminal", mine=False,
+                    game_state="completed",
+                ),
+            ]
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_wait_until_turn", side_effect=wakes,
+            ), redirect_stdout(stdout), redirect_stderr(io.StringIO()):
+                code = client.command_monitor(
+                    self.monitor_args(session_path, forever=True),
+                )
+            self.assertEqual(code, client.V2_WAIT_EXIT_TERMINAL)
+            self.assertEqual(stdout.getvalue().splitlines(), [
+                "T3 | YOUR TURN | next: just turn",
+                "T3 | YOUR TURN | next: just turn",
+                "T? | GAME OVER | completed",
+            ])
+
+    def test_monitor_exec_runs_a_hook_with_the_turn_in_its_environment(self):
+        with self.workspace() as (session_path, session):
+            recorded: list[dict] = []
+
+            def fake_run(command, shell, env):
+                recorded.append({"command": command, "shell": shell, **{
+                    key: env[key] for key in (
+                        "PLAY_TURN", "PLAY_PHASE", "PLAY_WAKE_REASON",
+                        "PLAY_GAME_STATE",
+                    )
+                }})
+                return subprocess.CompletedProcess(command, 0)
+
+            with patch.object(
+                client, "_wait_until_turn",
+                return_value=self.wake(session, "phase_active", mine=True),
+            ), patch.object(
+                client.subprocess, "run", side_effect=fake_run,
+            ), redirect_stdout(io.StringIO()):
+                code = client.command_monitor(self.monitor_args(
+                    session_path, exec_command="echo woken",
+                ))
+            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
+            self.assertEqual(recorded, [{
+                "command": "echo woken", "shell": True,
+                "PLAY_TURN": "3", "PLAY_PHASE": "1",
+                "PLAY_WAKE_REASON": "phase_active",
+                "PLAY_GAME_STATE": "running",
+            }])
+
+    def test_a_failing_hook_is_reported_and_never_stops_the_monitor(self):
+        with self.workspace() as (session_path, session):
+            stderr = io.StringIO()
+            with patch.object(
+                client, "_wait_until_turn",
+                return_value=self.wake(session, "phase_active", mine=True),
+            ), patch.object(
+                client.subprocess, "run",
+                return_value=subprocess.CompletedProcess("boom", 3),
+            ), redirect_stdout(io.StringIO()), redirect_stderr(stderr):
+                code = client.command_monitor(self.monitor_args(
+                    session_path, exec_command="boom",
+                ))
+            self.assertEqual(code, client.V2_WAIT_EXIT_ACTIVE)
+            self.assertIn("--exec exited 3", stderr.getvalue())
+
+    def test_monitor_refuses_both_bindings_at_once(self):
+        with self.workspace() as (session_path, _session):
+            with self.assertRaisesRegex(client.PlayerError, "pass one"):
+                client.command_monitor(self.monitor_args(
+                    session_path, once=True, forever=True,
+                ))
+
+    def test_monitor_gives_up_on_max_s_with_the_retry_status(self):
+        """And --max-s bounds the wait inside the loop, not only the loop."""
+        with self.workspace() as (session_path, session):
+            now = [0.0]
+            caps: list[float | None] = []
+
+            def blocked(_path, _session, _args, *, for_turn, cap_s=None,
+                        echo=None):
+                caps.append(cap_s)
+                now[0] += 20.0
+                return self.wake(session, "timeout", mine=False)
+
+            with patch.object(
+                client, "_wait_until_turn", side_effect=blocked,
+            ), patch.object(
+                client.time, "monotonic", side_effect=lambda: now[0],
+            ), redirect_stdout(io.StringIO()), redirect_stderr(
+                io.StringIO(),
+            ) as stderr:
+                code = client.command_monitor(
+                    self.monitor_args(session_path, max_s=30.0),
+                )
+            self.assertEqual(code, client.V2_WAIT_EXIT_RETRY)
+            # The first wait is capped at the whole budget, the second at what
+            # is left of it, and the third never runs.
+            self.assertEqual(caps, [30.0, 10.0])
+            self.assertIn("--max-s elapsed", stderr.getvalue())
+
+    def test_monitor_keeps_the_same_json_escape_hatch_as_wait(self):
+        with self.workspace() as (session_path, session):
+            wake = self.wake(session, "phase_active", mine=True)
+            stdout = io.StringIO()
+            with patch.object(
+                client, "_wait_until_turn", return_value=wake,
+            ), redirect_stdout(stdout):
+                client.command_monitor(
+                    self.monitor_args(session_path, json_output=True),
+                )
+            self.assertEqual(json.loads(stdout.getvalue()), wake)
 
 
 if __name__ == "__main__":

@@ -41,6 +41,16 @@ default:
     @echo "  just receipt --batch_id ID | just retry --batch_id ID"
     @echo "  just health | just wait | just result GAME_ID"
     @echo
+    @echo "multiplayer (another agent seat shares this game):"
+    @echo "  seats alternate; while health says NOT YOUR TURN it names the"
+    @echo "  seat that holds the phase and how long it has left. Step 4 is"
+    @echo "  still the whole turn — --await now blocks to that seat's own"
+    @echo "  deadline rather than a fixed two minutes. To split the block out:"
+    @echo "  just wait --for-turn                   0 yours, 75 theirs, 66 over"
+    @echo "  just monitor                           that loop; one line, exit 0"
+    @echo "  just show phase                        state/phase.json, for a"
+    @echo "                                         watcher that reads files"
+    @echo
     @echo "strategic-v1 seats instead use:"
     @echo "  just next --after_turn 0"
     @echo "  just act --turn TURN --observation_id ID --action JSON"
@@ -295,15 +305,20 @@ retry session="" batch_id="" json_output="":
       --session "{{ session }}" \
       --batch-id "{{ batch_id }}" {{ json_output }}
 
-# Wait on authenticated v2 health/state only.
+# Wait on authenticated v2 health/state only. The exit status carries the
+# outcome: 0 the phase is yours, 75 another seat still holds it (call again),
+# 66 the game is over. --for-turn blocks to the holder's own deadline instead
+# of a fixed --wait-s, so one call covers one opponent turn.
 [arg("session", long)]
 [arg("wait_s", long="wait-s")]
 [arg("wait_s_compat", long="wait_s")]
 [arg("poll_s", long="poll-s")]
 [arg("poll_s_compat", long="poll_s")]
 [arg("until", long)]
+[arg("for_turn", long="for-turn", value="true")]
+[arg("max_s", long="max")]
 [arg("json_output", long="json", value="true")]
-wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="phase" json_output="":
+wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="phase" for_turn="" max_s="" json_output="":
     #!/usr/bin/env bash
     set -euo pipefail
     if [[ -n "{{ wait_s }}" && -n "{{ wait_s_compat }}" ]]; then
@@ -325,7 +340,32 @@ wait session="" wait_s="" wait_s_compat="" poll_s="" poll_s_compat="" until="pha
       --wait-s "$wait_value"
       --poll-s "$poll_value"
       --until "{{ until }}")
+    [[ -z "{{ for_turn }}" ]] || args+=(--for-turn)
+    [[ -z "{{ max_s }}" ]] || args+=(--max "{{ max_s }}")
     [[ -z "{{ json_output }}" ]] || args+=(--json)
+    exec "${args[@]}"
+
+# Block until the phase is yours, print one line, exit 0. This is a loop over
+# `wait --for-turn` and nothing else: no daemon, no state, nothing to clean up.
+# Two harness bindings: run it, act, run it again (the default); or run it once
+# with --forever and read one line per turn off a long-lived stdout.
+[arg("session", long)]
+[arg("wait_s", long="wait-s")]
+[arg("poll_s", long="poll-s")]
+[arg("once", long, value="true")]
+[arg("forever", long, value="true")]
+[arg("exec_command", long="exec")]
+[arg("max_s", long="max-s")]
+monitor session="" wait_s="" poll_s="" once="" forever="" exec_command="" max_s="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    args=(python3 -B client.py monitor --session "{{ session }}")
+    [[ -z "{{ wait_s }}" ]] || args+=(--wait-s "{{ wait_s }}")
+    [[ -z "{{ poll_s }}" ]] || args+=(--poll-s "{{ poll_s }}")
+    [[ -z "{{ once }}" ]] || args+=(--once)
+    [[ -z "{{ forever }}" ]] || args+=(--forever)
+    [[ -z "{{ exec_command }}" ]] || args+=(--exec "{{ exec_command }}")
+    [[ -z "{{ max_s }}" ]] || args+=(--max-s "{{ max_s }}")
     exec "${args[@]}"
 
 # Read the terminal public result after play has stopped. Accept both the

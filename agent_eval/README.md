@@ -379,6 +379,23 @@ and infinite (no agent deadline, represented by a null action timeout). An
 explicit positive action timeout remains available to advanced callers as a
 custom mode. A lobby timeout of 0 disables automatic lobby expiry.
 
+`auto_end_idle_phase` (boolean, default true for full-control-v2, rejected for
+strategic-v1) ends a phase in which the seat has provably nothing left to
+decide. The service asks the seat's own projection — over every unit and city,
+not a page of them — for the number of actors still owing a decision: units
+awaiting orders that can still move, pending action decisions, cities whose
+shield box is full, an unset research target, and unanswered treaty meetings.
+Only a zero arms a 20-second grace window, and any state read, capability read,
+receipt read or batch from that seat cancels it; health polling and waits do
+not. The verdict is taken again at the moment of firing, and the end travels
+the same durable path an agent's own `turn --end` takes, recorded with
+`source: "auto_idle"` so replays and phase-event feeds can tell it from an
+agent's end and from a deadline. It never fires during recovery, during a phase
+transition, while a phase end is in flight or unjournaled, or for a seat whose
+sidecar is not ready, and a failed auto-end releases the phase back to its agent
+rather than ending the game. Set it to false to make the action deadline the
+only thing that ever ends a phase.
+
 ## Artifacts, results, and security
 
 Every game gets an isolated directory containing:

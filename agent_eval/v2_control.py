@@ -2676,6 +2676,106 @@ class V2SeatControl:
                 center_id=center_id, radius=radius,
             )
 
+    def decision_load(
+        self, observation: Mapping[str, Any],
+    ) -> dict[str, Any]:
+        """Count every actor of this seat that still owes the agent a decision.
+
+        This exists so that a phase can be ended for an agent that has nothing
+        to decide, and it therefore has to be answered from the whole
+        projection rather than from anything an agent reads.  Every agent-
+        facing view of this question is a page: the briefing counts idle units
+        over the sixteen rows it printed and says so, and the decision rows cap
+        at forty.  A phase ended because one page looked quiet is a phase
+        ended with actors still waiting on the second page, which is exactly
+        the autopilot this must never become.  The sections walked below are
+        the fully drained projection -- every own unit, every city.
+
+        ``pending`` is the sum, and zero is the only value that means
+        anything: a caller may end a phase on zero and must never act on any
+        other number.  Each contributing count is reported separately so a
+        refusal to auto-end can name what the seat still had to decide.
+        """
+        with self._lock:
+            self._require_open()
+            snapshot = self._snapshot(observation)
+            return self._decision_load(snapshot)
+
+    @staticmethod
+    def _decision_load(snapshot: _ProjectedSnapshot) -> dict[str, Any]:
+        sections = snapshot.sections
+        overview = next(iter(sections.get("overview", ())), None)
+        units = sections.get("units", ())
+        idle_units = 0
+        action_decisions = 0
+        for unit in units:
+            if unit.get("scope") != "own":
+                continue
+            if unit.get("action_decision", {}).get("pending"):
+                # The native client is holding a popup question open against
+                # this unit.  Nothing is more literally a pending decision.
+                action_decisions += 1
+            automation = unit.get("automation") or {}
+            # A unit awaits orders only if it could still carry one out.  A
+            # unit that spent its moves this phase reports the same idle
+            # activity and empty order queue as one that has not been touched,
+            # and counting those would mean a seat that played its whole turn
+            # still looks undecided -- the check would never pass and the
+            # phase would always burn to the deadline.  ``moves <= 0`` is the
+            # same exhaustion test the action rules already apply.
+            if (
+                unit.get("activity", {}).get("name") == "idle"
+                and not automation.get("has_orders")
+                and automation.get("controller") == "none"
+                and unit.get("moves", 0) > 0
+            ):
+                idle_units += 1
+        # A city whose shield box is full is choosing what to build next, and
+        # that choice is the agent's.  Freeciv would pick for it; that is the
+        # autopilot this refuses to be.
+        completed_production = sum(
+            1 for city in sections.get("cities", ())
+            if city.get("production", {}).get("shield_stock", 0)
+            >= city.get("production", {}).get("shield_cost", 0)
+        )
+        # ``v2_research_choice_name`` in protocol_v2.c names A_UNSET "Unset"
+        # and an absent research "Unavailable"; the row's name field is never
+        # empty, so a falsiness test on it would never fire.
+        research = (overview or {}).get("research")
+        target = (research or {}).get("target")
+        research_unset = int(
+            research is None
+            or not target
+            or str(target) in {"Unset", "Unavailable"}
+        )
+        # An open treaty meeting this seat has not accepted is a counterpart
+        # waiting on an answer.  Ending the phase under it answers for them.
+        open_meetings = sum(
+            1 for relation in sections.get("diplomacy", ())
+            if isinstance(relation.get("meeting"), Mapping)
+            and not relation["meeting"].get("self_accepted")
+        )
+        counts = {
+            "idle_units": idle_units,
+            "action_decisions": action_decisions,
+            "completed_production": completed_production,
+            "research_unset": research_unset,
+            "open_meetings": open_meetings,
+        }
+        return {
+            # ``can_end_turn()`` in the native client.  The seat cannot hand
+            # the phase back without it, so a caller must not try.
+            "phase_ready": bool((overview or {}).get("phase_ready")),
+            "turn": (overview or {}).get("turn"),
+            "phase": (overview or {}).get("phase"),
+            "own_units": sum(
+                1 for unit in units if unit.get("scope") == "own"
+            ),
+            "cities": len(sections.get("cities", ())),
+            **counts,
+            "pending": sum(counts.values()),
+        }
+
     def prepare_state_scope(
         self,
         observation: Mapping[str, Any],

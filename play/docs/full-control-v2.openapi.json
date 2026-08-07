@@ -94,7 +94,7 @@
         "x-freeciv-query-forms": [[], ["wait_s"], ["until"], ["wait_s", "until"], ["until", "after_state_token"], ["wait_s", "until", "after_state_token"]],
         "parameters": [
           {"$ref": "#/components/parameters/GameId"},
-          {"name": "wait_s", "in": "query", "required": false, "schema": {"type": "number", "minimum": 0, "maximum": 300, "default": 120}},
+          {"name": "wait_s", "in": "query", "required": false, "schema": {"type": "number", "minimum": 0, "maximum": 615, "default": 120}},
           {"name": "until", "in": "query", "required": false, "schema": {"type": "string", "enum": ["phase", "revision"], "default": "phase"}},
           {"name": "after_state_token", "in": "query", "required": false, "schema": {"$ref": "#/components/schemas/OpaqueId"}}
         ],
@@ -386,7 +386,7 @@
       },
       "WaitEnvelope": {
         "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "wake_reason", "health", "state_revision"],
-        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "wake_reason": {"type": "string", "enum": ["phase_active", "game_terminal", "revision_changed", "timeout"]}, "health": {"$ref": "#/components/schemas/HealthEnvelope"}, "state_revision": {"oneOf": [{"$ref": "#/components/schemas/StateRevision"}, {"type": "null"}]}}
+        "properties": {"schema_version": {"const": 2}, "control_protocol": {"const": "full-control-v2"}, "game_id": {"type": "string"}, "agent_id": {"$ref": "#/components/schemas/OpaqueId"}, "wake_reason": {"type": "string", "enum": ["phase_active", "game_terminal", "revision_changed", "timeout", "boundary_recovered"]}, "health": {"$ref": "#/components/schemas/HealthEnvelope"}, "state_revision": {"oneOf": [{"$ref": "#/components/schemas/StateRevision"}, {"type": "null"}]}}
       },
       "CliBatchDisposition": {
         "type": "object", "additionalProperties": false, "required": ["schema_version", "control_protocol", "game_id", "agent_id", "batch_id", "disposition", "receipt", "error"],

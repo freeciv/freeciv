@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import json
 import re
 import tempfile
 import unittest
@@ -332,9 +333,19 @@ class RevisionStampTests(unittest.TestCase):
                 "cache/nations.tsv",
                 "cache/styles.tsv",
                 "cache/governments.tsv",
+                # The one file that is not a rendering: a closed JSON object
+                # a watcher parses, so it carries `schema_version` instead of
+                # a `# rev` comment it could not legally hold.
+                "state/phase.json",
             })
             for item in written:
                 text = item.read_text(encoding="utf-8")
+                if item.name == "phase.json":
+                    self.assertEqual(
+                        json.loads(text)["schema_version"],
+                        state_mirror._PHASE_SCHEMA_VERSION,
+                    )
+                    continue
                 self.assertTrue(
                     text.startswith("# rev 9 turn 3"),
                     f"{item.name} is not revision-stamped: {text[:40]!r}",
