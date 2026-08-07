@@ -296,11 +296,9 @@ AC_DEFUN([gl_COMMON_BODY], [
    we cannot omit the storage-class specifier.  Therefore, the following rule
    applies:
      * The macros
-         _GL_ATTRIBUTE_CONST
          _GL_ATTRIBUTE_DEPRECATED
          _GL_ATTRIBUTE_MAYBE_UNUSED
          _GL_ATTRIBUTE_NODISCARD
-         _GL_ATTRIBUTE_PURE
          _GL_ATTRIBUTE_REPRODUCIBLE
          _GL_ATTRIBUTE_UNSEQUENCED
        which may expand to bracket syntax [[...]], must come first, before the
