@@ -5,6 +5,20 @@ import { HarnessLogo, ProviderLogo, controllerMarks } from '../logos'
 import { NationFlag } from '../nation-flag'
 import { SHELL, mixColors, withAlpha } from '../theme'
 
+/*
+ * How many full cards the rail can actually hold.
+ *
+ * The cut is a fit budget, not a headcount. Two seats fit, five do not, and
+ * the number in between depends on the card's height rather than on a rule
+ * someone picked -- so it is measured here and the demotion falls out of it.
+ * The rail is the composition height less the stage's padding, the top bar
+ * and the row gap; a card block is the card plus the gap under it; and the
+ * compact list keeps a floor so it can never be squeezed to nothing.
+ */
+const RAIL_HEIGHT = 1080 - 52 - 40 - 18
+const CARD_BLOCK = 275
+const COMPACT_MIN = 132
+
 interface ScorePanelProps {
   readonly film: Film
   readonly turn: TurnState
@@ -254,16 +268,20 @@ export function ScorePanel({
    * the story. Everyone demoted joins the third parties in the compact list,
    * which is the same reading they already had.
    */
-  const heroes = ranked.length > 2
-    ? ranked.filter((track) => track.player.controllerType !== 'native')
-    : ranked
-  const heroIds = new Set(heroes.map((track) => track.player.playerId))
-  const demoted = ranked.filter((track) => !heroIds.has(track.player.playerId))
-  const thirdParties = film.tracks.filter(
+  const others0 = film.tracks.filter(
     (track) => !track.player.seat
       && (turn.statsByPlayer.get(track.player.playerId)?.cities ?? 0) > 0,
   )
-  const others = [...demoted, ...thirdParties]
+  // Everyone fits, or as many as fit do -- agents first, since film order
+  // already puts them there.
+  const budget = RAIL_HEIGHT - (others0.length > 0 ? COMPACT_MIN : 0)
+  const fits = Math.max(1, Math.floor(budget / CARD_BLOCK))
+  const heroes = ranked.length <= fits && others0.length === 0
+    ? ranked
+    : ranked.slice(0, Math.max(1, Math.min(fits, ranked.length)))
+  const heroIds = new Set(heroes.map((track) => track.player.playerId))
+  const demoted = ranked.filter((track) => !heroIds.has(track.player.playerId))
+  const others = [...demoted, ...others0]
 
   return (
     <div className="flex h-full flex-col gap-[13px]" style={{ width }}>
