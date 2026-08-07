@@ -49,6 +49,8 @@ function Cell({
 interface Side {
   readonly track: PlayerTrack
   readonly isAgent: boolean
+  /** True only when this agent is facing a CPU, never agent against agent. */
+  readonly soloAgent: boolean
 }
 
 /**
@@ -61,13 +63,17 @@ const ROWS: readonly {
   readonly render: (side: Side) => ReactNode
 }[] = [
   {
-    // What each side *is*, which is the comparison the card exists to make.
-    // The agent's own name moves down to the combo row; up here it would put
-    // a product name opposite a category and flatter neither.
+    // What each side *is*, which is the comparison the card exists to make --
+    // but only when the sides differ in kind. Against a CPU, "Agent" is the
+    // useful word and the model name moves down to the combo row. Agent
+    // against agent, both would read "Agent", which compares nothing; there
+    // the names are the story and they take the headline.
     key: 'role',
-    render: ({ track, isAgent }) => (
-      <span className="font-display text-[72px] font-normal leading-[0.98] tracking-[-0.03em] text-ink">
-        {isAgent ? 'Agent' : controllerDisplayName(track.player)}
+    render: ({ track, isAgent, soloAgent }) => (
+      <span className="font-display text-[72px] font-normal leading-[0.98] tracking-[-0.03em] text-ink [overflow-wrap:anywhere]">
+        {isAgent
+          ? (soloAgent ? 'Agent' : controllerDisplayName(track.player))
+          : controllerDisplayName(track.player)}
       </span>
     ),
   },
@@ -86,8 +92,9 @@ const ROWS: readonly {
     ),
   },
   {
+    // Only where the headline is the role; otherwise it would repeat it.
     key: 'combo',
-    render: ({ track, isAgent }) => isAgent
+    render: ({ track, isAgent, soloAgent }) => isAgent && soloAgent
       ? (
         <span className="font-mono text-[30px] text-ink [overflow-wrap:anywhere]">
           {controllerDisplayName(track.player)}
@@ -136,6 +143,7 @@ export function TitleCard({ film, durationInFrames }: TitleCardProps) {
   const sides: Side[] = seats.slice(0, 2).map((track) => ({
     track,
     isAgent: track.player.controllerType !== 'native',
+    soloAgent: singlePlayer,
   }))
 
   const wallClock = film.meta.startedAt !== null && film.meta.finishedAt !== null

@@ -140,11 +140,30 @@ export interface ControllerMarks extends ControllerParts {
  * Everything a contender card needs from one label, nulls included. Takes the
  * nullable label straight off a `PlayerEntry` so the caller never has to guard.
  */
+/**
+ * Harnesses whose mark already says who made the model.
+ *
+ * Claude Code is Anthropic's and runs Claude; Codex is OpenAI's and runs GPT.
+ * Showing the harness mark beside its own vendor's mark states the same fact
+ * twice and reads as two competitors rather than one product. A harness from
+ * neither vendor -- pi, opencode -- genuinely needs both, because the harness
+ * and the model come from different places and which model ran is the point.
+ *
+ * Keyed on the harness, not on the pair: if Claude Code is ever pointed at a
+ * GPT model the collapse would be wrong, but so would the assumption behind
+ * the whole label, and a silent second mark is not how we would want to find
+ * out.
+ */
+const SELF_BRANDED: ReadonlySet<Harness> = new Set<Harness>(['claude-code', 'codex'])
+
 export function controllerMarks(label: string | null | undefined): ControllerMarks {
   if (label === null || label === undefined) {
     return { harness: null, model: null, provider: null }
   }
   const { harness, model } = splitControllerLabel(label)
+  if (harness !== null && SELF_BRANDED.has(harness)) {
+    return { harness, model, provider: null }
+  }
   return { harness, model, provider: model === null ? null : providerForModel(model) }
 }
 

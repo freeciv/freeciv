@@ -117,9 +117,10 @@ describe('providerForModel', () => {
 })
 
 describe('controllerMarks', () => {
-  it('carries a label all the way to its two marks', () => {
+  it('carries a label all the way to its marks', () => {
+    // Claude Code moved to a single mark -- see the collapse cases below.
     expect(controllerMarks('claude-code-claude-opus-5'))
-      .toEqual({ harness: 'claude-code', model: 'claude-opus-5', provider: 'anthropic' })
+      .toEqual({ harness: 'claude-code', model: 'claude-opus-5', provider: null })
     expect(controllerMarks('pi-gpt-5.6-sol'))
       .toEqual({ harness: 'pi', model: 'gpt-5.6-sol', provider: 'openai' })
     expect(controllerMarks('opencode-gemini-3-pro'))
@@ -176,5 +177,26 @@ describe('the guards', () => {
     expect(isHarness('cursor')).toBe(false)
     expect(isHarness('Claude-Code')).toBe(false)
     expect(isProvider('meta')).toBe(false)
+  })
+})
+
+describe('marks collapse when the harness is its own vendor', () => {
+  it('shows only the harness for Claude Code and Codex', () => {
+    // Both marks would say Anthropic twice, or OpenAI twice.
+    expect(controllerMarks('claude-code-claude-opus-5'))
+      .toEqual({ harness: 'claude-code', model: 'claude-opus-5', provider: null })
+    expect(controllerMarks('codex-gpt-5.6-sol'))
+      .toEqual({ harness: 'codex', model: 'gpt-5.6-sol', provider: null })
+  })
+
+  it('keeps both marks when the harness and the vendor differ', () => {
+    // pi and opencode are neither Anthropic nor OpenAI, so which model ran is
+    // a fact the harness mark cannot carry.
+    expect(controllerMarks('pi-gpt-5.6-sol'))
+      .toEqual({ harness: 'pi', model: 'gpt-5.6-sol', provider: 'openai' })
+    expect(controllerMarks('pi-claude-opus-5'))
+      .toEqual({ harness: 'pi', model: 'claude-opus-5', provider: 'anthropic' })
+    expect(controllerMarks('opencode-gemini-3-pro'))
+      .toEqual({ harness: 'opencode', model: 'gemini-3-pro', provider: 'google' })
   })
 })
