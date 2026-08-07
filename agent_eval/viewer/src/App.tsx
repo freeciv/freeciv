@@ -11,6 +11,7 @@ import { TechnologyProgressChart } from './components/TechnologyProgressChart'
 import { buildDisplayPalette, displayPlayerColor, type DisplayFaction } from './display-color'
 import { DisplayPaletteProvider } from './display-palette'
 import { actorColors } from './event-log'
+import { formatYear } from './game-year'
 import { MAP_HASH, mapSectionOpen, rememberMapSection } from './map-preference'
 import { controlProtocolLabel, placeLabel, timingModeLabel } from './picker-model'
 import { frameImageUrl, resolveViewerRoute } from './route'
@@ -359,7 +360,11 @@ function MatchViewer({ route }: { route: RouteContext }) {
         </div>
         <div className="flex items-center gap-[14px] z-[1] max-[760px]:justify-between max-[460px]:items-start max-[460px]:flex-col">
           <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
-          <span className="flex items-baseline gap-[7px] text-[var(--color-ink)] font-bold text-[30px] leading-none font-readout"><small className="text-muted text-[9px] not-italic tracking-[.14em]">TURN</small>{selectedTurn || '—'}<em className="text-muted text-[9px] not-italic tracking-[.14em]">{selectedYear == null ? '' : ` / ${selectedYear}`}</em></span>
+          {/* Two readings of the same axis, the way the film states them: the
+              turn the harness drives, and the in-fiction year it produced.
+              The year used to trail as a bare signed integer ("/ -300"),
+              which read as a delta rather than a date. */}
+          <span className="flex items-baseline gap-[7px] whitespace-nowrap text-[var(--color-ink)] font-bold text-[30px] leading-none font-readout"><small className="text-muted text-[9px] not-italic tracking-[.14em]">TURN</small>{selectedTurn || '—'}{selectedYear != null && (<><small className="text-muted text-[9px] not-italic tracking-[.14em] ml-[5px]">YEAR</small><span className="text-[21px] max-[460px]:text-[19px]">{formatYear(selectedYear)}</span></>)}</span>
         </div>
       </header>
 
