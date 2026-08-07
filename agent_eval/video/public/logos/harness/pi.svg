@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- pi. Supplied verbatim by the user; path data untouched. The two `fill="#fff"`
+     became currentColor: the original was authored for a dark ground, and the film
+     is a light surface, so a hardcoded white mark is an invisible mark. Both shapes
+     are one tone, so one colour drives the whole thing. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <path fill="currentColor" fill-rule="evenodd" d="
+    M165.29 165.29
+    H517.36
+    V400
+    H400
+    V517.36
+    H282.65
+    V634.72
+    H165.29
+    Z
+    M282.65 282.65
+    V400
+    H400
+    V282.65
+    Z
+  "/>
+  <path fill="currentColor" d="M517.36 400 H634.72 V634.72 H517.36 Z"/>
+</svg>

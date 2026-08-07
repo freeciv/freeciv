@@ -1,0 +1,13 @@
+<!-- opencode, second-tone layer (the inner block). Supplied verbatim by the user; this
+     is the first path of that file, path data untouched, with `fill="#4B4646"`
+     replaced by currentColor.
+
+     In the original this block sat a step *towards* the dark background from the
+     near-white frame. On a light surface the same relationship is a step towards the
+     page from the ink, which the renderer gets by drawing this layer at partial
+     opacity over `opencode-frame.svg`. The block is flush against the frame's inner
+     edge on three sides, so drawing both at full strength welds them into one slab:
+     the tone difference is what keeps the mark readable.
+     (No double hyphens in this comment: XML forbids them, and an unparseable SVG
+     masks to nothing at all, silently.) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="40" viewBox="0 0 32 40"><path fill="currentColor" d="M24 32H8V16H24V32Z"/></svg>

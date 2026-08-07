@@ -1,0 +1,16 @@
+<!-- opencode, ink layer (the pierced outer frame). Supplied verbatim by the user; this
+     is the second path of that file, path data untouched, with `fill="#F1ECEC"`
+     replaced by currentColor.
+
+     The supplied mark is genuinely two-tone and was authored for a dark ground: a
+     near-white frame with a mid-grey block inside it. On a light surface both tones
+     have to invert, so the mark ships as two files that stack in register (identical
+     viewBox). This one carries the ink, `opencode-block.svg` carries the softer
+     second tone. Together they are exactly the supplied geometry.
+
+     The two subpaths wind in opposite directions, so nonzero fill cuts the inner
+     rect out of the 32x40 outer rect. Leave the fill-rule alone: evenodd changes
+     nothing here, but the winding is the mechanism.
+     (No double hyphens in this comment: XML forbids them, and an unparseable SVG
+     masks to nothing at all, silently.) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="40" viewBox="0 0 32 40"><path fill="currentColor" d="M24 8H8V32H24V8ZM32 40H0V0H32V40Z"/></svg>
