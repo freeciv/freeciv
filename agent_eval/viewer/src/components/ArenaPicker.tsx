@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { agentFirst } from '../agent-order'
 import { fetchGames } from '../api'
 import {
   gamePrimaryResult,
@@ -72,9 +73,12 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
   const timing = timingModeLabel(game)
   const turn = game.current_turn ?? 0
   const turnProgress = Math.min(100, Math.max(0, (turn / Math.max(game.turns, 1)) * 100))
+  // The card names and lists its sides agent-first, the same way the match page
+  // does; Freeciv's seat order decides neither.
+  const places = agentFirst(game.resolved_places)
   // Clearance is decided per match, so every card carries its own plan. The
   // index knows only the configured places, which is the whole seat roster.
-  const factions = game.resolved_places.map((place) => ({
+  const factions = places.map((place) => ({
     playerId: place.place - 1,
     color: place.player_color,
   }))
@@ -82,7 +86,7 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
   return (
     <DisplayPaletteProvider factions={factions}>
     <a className="arena-card group" href={watchUrl(prefix, game.game_id)}>
-      <FactionRail places={game.resolved_places} />
+      <FactionRail places={places} />
       <div className="flex justify-between gap-3 items-center">
         <span className={`state-pill state-${game.state}`}><i />{stateLabel(game.state)}</span>
         <span className={`font-bold text-[8px] leading-none font-readout tracking-[.08em] uppercase ${validityTone(game.benchmark_valid)}`}>
@@ -101,7 +105,7 @@ function ArenaCard({ game, prefix }: { game: GameSummary; prefix: string }) {
       </div>
 
       <div className="grid gap-px overflow-hidden border border-line bg-line" aria-label="Controllers and seats">
-        {game.resolved_places.map((place) => (
+        {places.map((place) => (
           <div className={place.joined || place.controller === 'native_classic_ai' ? `${SEAT_CELL} ${SEAT_TAKEN}` : `${SEAT_CELL} ${SEAT_OPEN}`} key={place.seat_id}>
             <ColorMark color={place.player_color} label={placeLabel(place)} size="sm" />
             <span className={CLAMPED_LINE}><strong className={`${CLAMPED_LINE} text-[11px]`}>{placeLabel(place)}</strong><small className={`${CLAMPED_LINE} mt-0.5 text-[var(--color-muted)] text-[8px]`}>{place.model || place.player_name}</small></span>

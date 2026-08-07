@@ -1,3 +1,4 @@
+import { agentFirstBy, isAgentController } from '../agent-order'
 import { displayPlayerColor, type DisplayPalette } from '../display-color'
 import { useDisplayPalette } from '../display-palette'
 import type { ReplayPlayer, ReplaySnapshot } from '../types'
@@ -28,7 +29,10 @@ function chartSeries(
       if (isScoredPlayer(player)) players.set(player.seat_id, player)
     }
   }
-  return [...players.entries()].map(([seatId, player]) => ({
+  // The legend reads in the page's order, agent first, not in seat order.
+  return agentFirstBy(
+    [...players.entries()], ([, player]) => isAgentController(player),
+  ).map(([seatId, player]) => ({
     key: seatId,
     label: competitorLabel(player),
     color: displayPlayerColor(player.player_color, palette) ?? '#82919d',

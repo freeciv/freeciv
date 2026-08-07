@@ -8,6 +8,7 @@ import type {
   Technology,
 } from './types'
 import { placeLabel } from './picker-model'
+import { agentFirst, agentFirstBy, isNativeController } from './agent-order'
 import { displayControllerLabel, factionDisplayLabel } from './faction-label'
 
 export const METRICS = [
@@ -120,7 +121,7 @@ export interface MapFaction extends MapPlayer {
 }
 
 export function configuredPlaceFactions(places: GamePlace[]): MapFaction[] {
-  return places.map((place) => ({
+  return agentFirst(places).map((place) => ({
     player_id: place.place - 1,
     player_name: place.player_name,
     player_color: place.player_color,
@@ -157,8 +158,9 @@ export function matchDurationLabel(
   return `${total}s`
 }
 
+/** "A vs B", agents first: the model names the match, never the built-in AI. */
 export function matchHeaderLabel(places: GamePlace[]): string {
-  const agents = places.filter((place) => place.controller !== 'native_classic_ai').map(placeLabel)
+  const agents = places.filter((place) => !isNativeController(place)).map(placeLabel)
   const nativeCount = places.length - agents.length
   const nativeLabel = nativeCount > 1 ? `In-game Deity AI ×${nativeCount}` : nativeCount === 1 ? 'In-game Deity AI' : null
   return [...agents, ...(nativeLabel ? [nativeLabel] : [])].join('  vs  ')
@@ -196,7 +198,10 @@ export function mapFactions(
   const placeByName = new Map(places.map((place) => [place.player_name, place]))
   const placeBySeat = new Map(places.map((place) => [place.seat_id, place]))
   const placeByNumber = new Map(places.map((place) => [place.place, place]))
-  return sourcePlayers.map((mapPlayer) => {
+  // A map faction's controller is only known once the frame, the replay row and
+  // the configured place have been joined, so nativeness is decided here and
+  // the agent-first partition is applied to the joined result.
+  const joined = sourcePlayers.map((mapPlayer) => {
     const replayPlayer = replayByName.get(mapPlayer.player_name)
       ?? replayByPlayerId.get(mapPlayer.player_id)
     const place = placeByName.get(mapPlayer.player_name)
@@ -209,33 +214,43 @@ export function mapFactions(
         || (place?.controller === 'native_classic_ai'
           ? 'Freeciv Classic AI'
           : 'Unclaimed agent place')
+      const controllerType = place?.controller === 'native_classic_ai'
+        ? 'native'
+        : mapPlayer.controller_type ?? replayPlayer?.controller_type
       return {
-        ...mapPlayer,
-        display_label: factionDisplayLabel({
-          controller_label: label,
-          controller_type: place?.controller === 'native_classic_ai'
-            ? 'native'
-            : mapPlayer.controller_type ?? replayPlayer?.controller_type,
-          nation: mapPlayer.nation ?? replayPlayer?.nation,
-          player_name: place?.player_name ?? mapPlayer.player_name,
+        agent: !isNativeController({
+          controller_label: label, controller_type: controllerType,
         }),
-        detail: `${place?.player_name ?? mapPlayer.player_name}${replayPlayer?.nation ? ` · ${replayPlayer.nation}` : ''}`,
-        dynamic: false,
+        faction: {
+          ...mapPlayer,
+          display_label: factionDisplayLabel({
+            controller_label: label,
+            controller_type: controllerType,
+            nation: mapPlayer.nation ?? replayPlayer?.nation,
+            player_name: place?.player_name ?? mapPlayer.player_name,
+          }),
+          detail: `${place?.player_name ?? mapPlayer.player_name}${replayPlayer?.nation ? ` · ${replayPlayer.nation}` : ''}`,
+          dynamic: false,
+        },
       }
     }
     const nation = mapPlayer.nation || replayPlayer?.nation
     return {
-      ...mapPlayer,
-      display_label: factionDisplayLabel({
-        controller_label: 'Freeciv dynamic faction',
-        controller_type: 'dynamic',
-        nation,
-        player_name: mapPlayer.player_name,
-      }),
-      detail: `${mapPlayer.player_name}${nation ? ` · ${nation}` : ''}`,
-      dynamic: true,
+      agent: false,
+      faction: {
+        ...mapPlayer,
+        display_label: factionDisplayLabel({
+          controller_label: 'Freeciv dynamic faction',
+          controller_type: 'dynamic',
+          nation,
+          player_name: mapPlayer.player_name,
+        }),
+        detail: `${mapPlayer.player_name}${nation ? ` · ${nation}` : ''}`,
+        dynamic: true,
+      },
     }
   })
+  return agentFirstBy(joined, (entry) => entry.agent).map((entry) => entry.faction)
 }
 
 export type TechnologyState = 'known' | 'current' | 'available' | 'locked'

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { agentFirst } from './agent-order'
 import { fetchEvents, fetchWatch, fetchWatchWithOptionalReplay } from './api'
 import { ArenaPicker } from './components/ArenaPicker'
 import { ColorMark } from './components/ColorMark'
@@ -244,7 +245,9 @@ function MatchViewer({ route }: { route: RouteContext }) {
   const selectedFrame = frameAtOrBefore(watch?.frames ?? [], selectedTurn)
   const exactSelectedFrame = selectedFrame?.turn === selectedTurn ? selectedFrame : undefined
   const selectedTurnIndex = Math.max(0, availableTurns.indexOf(selectedTurn))
-  const scoredPlayers = (selectedSnapshot?.players ?? []).filter(isScoredPlayer)
+  const scoredPlayers = agentFirst(
+    (selectedSnapshot?.players ?? []).filter(isScoredPlayer),
+  )
   const selectedTechPlayer = scoredPlayers.find((player) => player.seat_id === selectedSeat)
     ?? scoredPlayers[0]
 
@@ -274,6 +277,9 @@ function MatchViewer({ route }: { route: RouteContext }) {
   }
 
   const game = watch.game
+  // Every roster on this page reads in the same order, and it starts with the
+  // model: the match is about the agent, not about the seat Freeciv dealt it.
+  const orderedPlaces = agentFirst(game.resolved_places)
   const mappedFactions = mapFactions(
     selectedFrame, selectedSnapshot, game.resolved_places,
   )
@@ -294,7 +300,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
   const timing = timingModeLabel(game)
   const duration = matchDurationLabel(game)
   const protocol = controlProtocolLabel(game.control_protocol)
-  const comparisonRows = game.resolved_places.map((place) => {
+  const comparisonRows = orderedPlaces.map((place) => {
     const telemetry = playerForPlace(selectedSnapshot?.players ?? [], place.place)
     const authoritative = game.leaderboard.find((entry) => entry.place === place.place)
     return {
@@ -455,7 +461,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       </section>
 
       <section className="competitor-grid" aria-label="Scored competitors">
-        {game.resolved_places.map((place) => {
+        {orderedPlaces.map((place) => {
           const telemetry = playerForPlace(selectedSnapshot?.players ?? [], place.place)
           const authoritativeScore = game.leaderboard.find(
             (entry) => entry.place === place.place,

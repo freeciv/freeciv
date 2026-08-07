@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import type { ReplayPlayer, ReplaySnapshot, Technology } from '../types'
+import { agentFirstBy, isAgentController } from '../agent-order'
 import { displayPlayerColor } from '../display-color'
 import { useDisplayPalette } from '../display-palette'
 import { factionDisplayLabel } from '../faction-label'
@@ -170,7 +171,10 @@ export function buildTechnologyProgressSeries(
   const maxTurn = Math.max(
     ...[...builders.values()].flatMap((builder) => [...builder.valuesByTurn.keys()]),
   )
-  const series = [...builders.entries()].map(([seatId, builder]) => {
+  // Agent first, the same order the rest of the page states the sides in.
+  const series = agentFirstBy(
+    [...builders.entries()], ([, builder]) => isAgentController(builder.player),
+  ).map(([seatId, builder]) => {
     const values = [...builder.valuesByTurn.values()].sort((left, right) => left.turn - right.turn)
     const first = values[0]
     const latest = values.at(-1)!
