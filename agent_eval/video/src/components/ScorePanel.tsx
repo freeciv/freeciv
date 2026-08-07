@@ -124,7 +124,6 @@ function PlayerCard({
           <span className="min-w-0 truncate font-mono text-[13px] font-medium tracking-[0.01em] text-ink">
             {isAgent ? 'Agent' : controllerDisplayName(track.player)}
           </span>
-          <span className="label ml-auto shrink-0">#{rank}</span>
         </div>
         <div className="flex items-center gap-[9px]">
           {/* Raw ruleset nation: the flag lookup is an exact match on
@@ -224,23 +223,31 @@ export function ScorePanel({
   return (
     <div className="flex h-full flex-col gap-[13px]" style={{ width }}>
       <div className="flex items-center justify-between border-b border-line pb-[10px]">
-        <span className="label">Standings</span>
+        <span className="label">Score card</span>
         <span className="label">{film.meta.controlProtocol}</span>
       </div>
-      {/* Standings and their two histories share one frame: the 1px lines
-          between them are rules, not gutters between floating cards. */}
-      <div className="hair-grid flex flex-col border border-line">
+      {/*
+       * Each side is its own bordered card with real space around it, rather
+       * than two rows sharing a collapsed 1px rule. A shared seam says "these
+       * are two entries in one list"; a gap says "these are two players", and
+       * the score card is a comparison of two players. The histories below
+       * keep the collapsed frame, because they genuinely are one instrument.
+       */}
+      <div className="flex flex-col gap-[13px]">
         {ranked.map((track, index) => (
-          <PlayerCard
-            key={track.player.playerId}
-            leaderScore={leaderScore}
-            progress={progress}
-            rank={rankOf.get(track.player.playerId) ?? index + 1}
-            track={track}
-            turn={turn}
-            turnIndex={turnIndex}
-          />
+          <div className="border border-line" key={track.player.playerId}>
+            <PlayerCard
+              leaderScore={leaderScore}
+              progress={progress}
+              rank={rankOf.get(track.player.playerId) ?? index + 1}
+              track={track}
+              turn={turn}
+              turnIndex={turnIndex}
+            />
+          </div>
         ))}
+      </div>
+      <div className="hair-grid flex flex-col border border-line">
         <MetricChart
           firstTurn={film.meta.firstTurn}
           height={CHART_HEIGHT}
