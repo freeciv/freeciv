@@ -6,6 +6,7 @@
 import { useMemo } from 'react'
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from 'remotion'
 import { BoardCanvas } from './components/BoardCanvas'
+import { DitherWave } from './components/DitherWave'
 import { EventCaption } from './components/EventCaption'
 import { Outro } from './components/Outro'
 import { MetricChart } from './components/MetricChart'
@@ -144,7 +145,10 @@ function PlayStage({
             </span>
             <span className="label ml-auto">board turn {turn.boardTurn ?? '—'}</span>
           </div>
-          <div className="border border-line" style={{ width: MAP_WIDTH }}>
+          {/* Opaque. The ground behind the page is a dithered bitmap now, and
+              a transparent panel puts that texture directly under the chart's
+              own gridlines. It shows through the gutters, never under content. */}
+          <div className="border border-line bg-panel" style={{ width: MAP_WIDTH }}>
             <MetricChart
               firstTurn={film.meta.firstTurn}
               height={CHART_HEIGHT}
@@ -180,6 +184,11 @@ export function GameFilm({
 
   return (
     <AbsoluteFill className="arena-page">
+      {/* The ground, under every sequence: a dithered sine band that drifts for
+          the length of the film. It sits behind the title, the board and the
+          standings alike, so the three acts read as one surface rather than as
+          three cards that happen to follow each other. */}
+      <DitherWave />
       {film && (
         <>
           <Sequence durationInFrames={titleFrames} name="Title">

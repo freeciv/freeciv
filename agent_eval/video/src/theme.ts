@@ -9,25 +9,44 @@
  */
 
 /**
- * A four-step achromatic ladder plus two text steps. The chrome is deliberately
- * colourless: the only saturation in a frame belongs to the factions and to the
- * board, so a faction colour never has to compete with the furniture for
- * attention. `amber` and `red` survive as semantics -- a held board, a dead
- * empire -- and are never spent on decoration.
+ * A four-step near-achromatic ladder plus two text steps. The chrome is
+ * deliberately colourless: the only saturation in a frame belongs to the
+ * factions and to the board, so a faction colour never has to compete with the
+ * furniture for attention. `amber` and `red` survive as semantics -- a held
+ * board, a dead empire -- and are never spent on decoration.
+ *
+ * The film is a light surface, matching the viewer: the page is a warm grey
+ * and even the raised panel stops short of white, because the one thing on
+ * screen that is allowed to be dark is the board. `amber` and `red` are the
+ * viewer's light-tuned pair, not the dark ones -- the dark values are mixed
+ * for near-black and go chalky on paper.
  */
 export const SHELL = {
-  page: '#0a0c0d',
-  panel: '#101416',
-  panelRaised: '#171b1e',
-  line: '#272d31',
-  ink: '#eef2f3',
-  muted: '#7e888f',
+  page: '#eceae8',
+  panel: '#f6f5f3',
+  panelRaised: '#e4e1dd',
+  line: '#dcd8d4',
+  ink: '#1a1917',
+  muted: '#6d6862',
   /** The quietest legible step: axis ticks, secondary chrome. */
-  dim: '#565f66',
-  amber: '#dfa53f',
-  red: '#e0665d',
+  dim: '#97918a',
+  amber: '#855e05',
+  red: '#bd382c',
+  /** The ink of the dithered ground -- one step under the page, no more. */
+  ditherInk: '#d7d3ce',
   board: '#0a1c1f',
   boardEdge: '#1e3a41',
+
+  /*
+   * The board's own surface palette. Anything drawn ON the map -- the event
+   * caption, city labels -- belongs to the board, not to the page, and has to
+   * stay dark however light the page gets. When the film flipped to a light
+   * ladder the caption followed the page and became a bright slab punched
+   * through the middle of a dark map; these exist so it cannot happen again.
+   */
+  boardPanel: '#0e262b',
+  boardInk: '#eef2f3',
+  boardMuted: '#8ea3a7',
 } as const
 
 /** Terrain fill, matching the viewer's `terrainColor`. */

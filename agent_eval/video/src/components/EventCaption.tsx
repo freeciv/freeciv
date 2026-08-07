@@ -109,8 +109,10 @@ export function EventCaption({
       }`}
       style={{
         // Opaque: the board underneath is busy, and a translucent card turns
-        // the summary into grey mush exactly when it matters most.
-        background: mustShow ? mixColors(SHELL.panel, color, 0.045) : SHELL.panel,
+        // the summary into grey mush exactly when it matters most. Board
+        // palette, not page palette -- the caption's backdrop is the map, so
+        // it stays dark even though the film's page is paper.
+        background: mustShow ? mixColors(SHELL.boardPanel, color, 0.045) : SHELL.boardPanel,
         borderTop: `1px solid ${withAlpha(color, mustShow ? 0.5 : tier === 'major' ? 0.34 : 0.2)}`,
         borderRight: `1px solid ${withAlpha(color, mustShow ? 0.5 : tier === 'major' ? 0.34 : 0.2)}`,
         maxWidth: width - 40,
@@ -135,13 +137,16 @@ export function EventCaption({
           >
             {eventKindLabel(event.kind)}
           </span>
-          <span className="label">turn {event.turn}</span>
+          {/* Board palette, so these read against the caption's dark ground
+              rather than inheriting the page's dark-on-paper muted step. */}
+          <span className="label" style={{ color: SHELL.boardMuted }}>turn {event.turn}</span>
           {alsoInWindow > 0 && (
-            <span className="label">+{alsoInWindow} more</span>
+            <span className="label" style={{ color: SHELL.boardMuted }}>+{alsoInWindow} more</span>
           )}
         </div>
         <span
-          className={`truncate font-display text-ink ${
+          style={{ color: SHELL.boardInk }}
+          className={`truncate font-display ${
             mustShow
               ? 'text-[33px] leading-[1.1] tracking-[-0.02em]'
               : tier === 'major'

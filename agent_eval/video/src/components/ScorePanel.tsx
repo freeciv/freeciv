@@ -224,7 +224,7 @@ export function ScorePanel({
       </div>
       <div className="flex-1" />
       {thirdParties.length > 0 && (
-        <div className="flex items-center gap-[12px] border border-line px-[14px] py-[10px]">
+        <div className="flex items-center gap-[12px] border border-line bg-panel px-[14px] py-[10px]">
           <span className="label">Third party</span>
           {thirdParties.map((track) => (
             <span

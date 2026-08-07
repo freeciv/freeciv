@@ -12,15 +12,15 @@
  * `src/fonts.ts` against files in `public/fonts/`, never from a CDN.
  */
 @theme {
-  --color-page: #0a0c0d;
-  --color-panel: #101416;
-  --color-panel-2: #171b1e;
-  --color-line: #272d31;
-  --color-ink: #eef2f3;
-  --color-muted: #7e888f;
-  --color-dim: #565f66;
-  --color-amber: #dfa53f;
-  --color-red: #e0665d;
+  --color-page: #eceae8;
+  --color-panel: #f6f5f3;
+  --color-panel-2: #e4e1dd;
+  --color-line: #dcd8d4;
+  --color-ink: #1a1917;
+  --color-muted: #6d6862;
+  --color-dim: #97918a;
+  --color-amber: #855e05;
+  --color-red: #bd382c;
   --color-board: #0a1c1f;
   --color-board-edge: #1e3a41;
 
@@ -30,22 +30,19 @@
 }
 
 /*
- * The stage: graph paper, and nothing else. There were two radial brand glows
- * here; they lit the corners of every frame for no reason a viewer could read,
- * so the atmosphere now comes from a ruled grid that tells you the surface is
- * an instrument.
+ * The stage. The ruled graph paper that used to live here is gone: the ground
+ * is now a painted layer (`DitherWave`), so this only has to be the floor
+ * colour underneath it for the frames where the ground is not drawn.
  */
 .arena-page {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.014) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px),
-    var(--color-page);
-  background-size: 32px 32px, 32px 32px, auto;
+  background: var(--color-page);
 }
 
-/* The board is inlaid in the page, not floating above it: a hairline, no lift. */
+/* The board is inlaid in the page, not floating above it: a hairline, no lift.
+   Dark ink now -- the old white inset was a lift for a dark page and does
+   nothing against paper. */
 .board-frame {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(26, 25, 23, 0.1);
 }
 
 /*
@@ -55,6 +52,17 @@
 .hair-grid {
   background: var(--color-line);
   gap: 1px;
+}
+
+/*
+ * Cells are opaque. The pattern only works because each child covers the tinted
+ * parent and leaves exactly the 1px gaps showing as rules -- which was true for
+ * free when the page was one flat colour and every panel was transparent, and
+ * stopped being true the moment the ground became a dithered bitmap. A child
+ * that sets its own background still wins.
+ */
+.hair-grid > * {
+  background: var(--color-panel);
 }
 
 /* Chrome labels are set by case and tracking, never by size or weight alone. */
