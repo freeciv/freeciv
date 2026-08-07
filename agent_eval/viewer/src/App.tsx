@@ -5,7 +5,6 @@ import { ColorMark } from './components/ColorMark'
 import { EventLog, EventLogFootnote } from './components/EventLog'
 import { MapSection } from './components/MapSection'
 import { MetricChart } from './components/MetricChart'
-import { PlasmaWash } from './components/PlasmaWash'
 import { StrategicMap } from './components/StrategicMap'
 import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
@@ -603,9 +602,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       </section>
       </div>
 
-      <PlasmaWash live={game.state === 'running' || game.state === 'starting'} />
-
-      <footer className="relative z-[1] flex justify-between gap-5 pt-3 px-1 pb-0 text-[var(--color-line-2)] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
+      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[var(--color-line-2)] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
         <span>FREECIV AGENT EVALUATION</span>
         <span>Public spectator telemetry · not available to player agents</span>
       </footer>

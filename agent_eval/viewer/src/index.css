@@ -76,9 +76,6 @@
      shadow on the light one, so it is a token rather than a baked-in white. */
   --color-grid: rgba(255,255,255,.025);
 
-  /* The terminal wash: one muted grey, pixelated and bottom-anchored. */
-  --color-wash: #5d5963;
-
   /* Archivo speaks and JetBrains Mono reads out; there is no third face and no
      display face. Headings separate from body by size, tracking and case --
      never by weight, which is why nothing here is ever set bolder than 500. */
@@ -113,9 +110,7 @@
  * dark is the opt-in. There is no pure white anywhere in it on purpose: a
  * full-page #ffffff at this density is genuinely tiring, so the page is a warm
  * grey and even the "white" card stops at #f6f5f3. The whole ladder is pulled
- * a few degrees warm, off the same desaturated grey the terminal wash is built
- * from, so the wash reads as the page's own material rather than a tint laid
- * over a colder one. */
+ * a few degrees warm so the surface reads as paper rather than as a screen. */
 :root[data-theme="light"] {
   /* Four surfaces. None of them is white. */
   --color-page: #eceae8;
@@ -140,9 +135,6 @@
   --color-violet: #6144c4;
 
   --color-grid: rgba(40,34,28,.055);
-
-  /* The terminal wash: one muted grey, pixelated and bottom-anchored. */
-  --color-wash: #5d5963;
 }
 
 @layer base {
@@ -357,15 +349,6 @@ h1, h2, h3, .result-ribbon strong { font-family: var(--font-serif); font-weight:
 .transport-scores b { color: var(--color-ink); font: 500 14px/1 var(--font-readout); font-variant-numeric: tabular-nums; }
 .transport-speed { display: flex; gap: 10px; align-items: center; }
 .transport-speed label { color: var(--color-muted); font: 500 9px/1 var(--font-readout); letter-spacing: .06em; text-transform: uppercase; }
-
-/* The terminal wash. It ends the page rather than decorating it, so it sits
-   under the footer and never over content. */
-/* The wash is the page's ground, not an ornament stuck to the bottom edge: it
-   sits behind every panel and shows through the gutters and the gaps between
-   them, which is what keeps a full page of light surface from reading as a
-   flat sheet of white. Panels stay opaque, so it never sits under text. */
-.app-shell { position: relative; z-index: 0; }
-.plasma-wash { position: fixed; z-index: -1; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
 
 @media (max-width: 1100px) {
   .transport-bar { grid-template-columns: auto minmax(120px, 1fr) auto; }
