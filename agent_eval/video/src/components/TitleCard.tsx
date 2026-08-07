@@ -2,6 +2,9 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion'
 import type { Film, PlayerTrack } from '../dataset/film'
 import { controllerDisplayName, nationDisplayName } from '../faction-label'
 import { formatDuration } from '../format'
+import { HarnessLogo, ProviderLogo, controllerMarks } from '../logos'
+import { NationFlag } from '../nation-flag'
+import { SHELL } from '../theme'
 
 interface TitleCardProps {
   readonly film: Film
@@ -27,6 +30,10 @@ function Contender({
 }) {
   const hero = scale === 'hero'
   const rightAligned = align === 'right'
+  // Both return null for anything unregistered, so the native seat -- which
+  // has no harness and no vendor -- simply renders no marks rather than a gap.
+  const { harness, provider } = controllerMarks(track.player.controllerLabel)
+  const marks = harness !== null || provider !== null
   return (
     <div
       className={`flex min-w-0 items-stretch ${hero ? 'gap-[22px]' : 'gap-[16px]'} ${
@@ -44,6 +51,17 @@ function Contender({
           rightAligned ? 'items-end text-right' : 'items-start'
         }`}
       >
+        {/* Who built it and who trained it, above the name. Muted, because
+            these identify the contender rather than announce it. */}
+        {marks && (
+          <div
+            className={`flex items-center gap-[14px] ${rightAligned ? 'flex-row-reverse' : ''}`}
+            style={{ color: SHELL.muted }}
+          >
+            <HarnessLogo harness={harness} size={hero ? 30 : 22} />
+            <ProviderLogo provider={provider} size={hero ? 30 : 22} />
+          </div>
+        )}
         <span
           className={`font-display font-normal text-ink [overflow-wrap:anywhere] ${
             hero
@@ -64,12 +82,20 @@ function Contender({
          * about to watch move across the map -- but nobody outside the game
          * reads "English" as the interesting half of "GPT-5.6: English".
          */}
-        <span
-          className={`font-mono ${hero ? 'text-[17px]' : 'text-[14px]'}`}
-          style={{ color: track.renderColor }}
+        <div
+          className={`flex items-center gap-[12px] ${rightAligned ? 'flex-row-reverse' : ''}`}
         >
-          {nationDisplayName(track.player)}
-        </span>
+          {/* The raw ruleset nation, not the display label: the flag lookup is
+              an exact match on Freeciv's own nation name, so a decorated
+              string ("Spanish (CPU: Hard)") would silently resolve to null. */}
+          <NationFlag nation={track.player.nation} size={hero ? 40 : 30} />
+          <span
+            className={`font-mono ${hero ? 'text-[17px]' : 'text-[14px]'}`}
+            style={{ color: track.renderColor }}
+          >
+            {nationDisplayName(track.player)}
+          </span>
+        </div>
       </div>
     </div>
   )

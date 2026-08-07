@@ -216,5 +216,5 @@ export function GameFilm({
         </>
       )}
     </AbsoluteFill>
-  )
+  );
 }

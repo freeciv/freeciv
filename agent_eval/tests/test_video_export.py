@@ -128,6 +128,40 @@ class VideoExportTests(unittest.TestCase):
             [("Alphabet", 0), ("Bronze Working", 0)],
         )
 
+    def test_ai_difficulty_reaches_the_native_player_and_the_meta(self):
+        self.write_board(1)
+        self.write_replay([1])
+        manifest_path = self.run / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["config"]["difficulty"] = "cheating"
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+        self.export()
+
+        meta = self.load("meta.json")
+        self.assertEqual(meta["ai_difficulty"], "cheating")
+        # The level is the server's, so only the seat the server drives
+        # carries it -- the agent seat and the dynamic faction do not.
+        self.assertEqual(
+            [player["ai_difficulty"] for player in meta["players"]],
+            [None, "cheating", None],
+        )
+
+    def test_a_manifest_without_a_difficulty_exports_a_null_one(self):
+        # Every run archived before the field existed takes this path; it must
+        # export a null rather than inventing a level or failing the export.
+        self.write_board(1)
+        self.write_replay([1])
+
+        self.export()
+
+        meta = self.load("meta.json")
+        self.assertIsNone(meta["ai_difficulty"])
+        self.assertEqual(
+            [player["ai_difficulty"] for player in meta["players"]],
+            [None, None, None],
+        )
+
     def test_terrain_and_infrastructure_ship_only_when_they_change(self):
         self.write_board(1)
         self.write_board(2)

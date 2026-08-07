@@ -44,6 +44,11 @@ TERMINAL_STATES = {"completed", "invalid", "failed", "cancelled"}
 # Mirrors agent_eval.full_control_v2; kept literal so the gateway never imports
 # supervisor-side modules to read an untrusted archive manifest.
 PUBLIC_CONTROL_PROTOCOLS = {"strategic-v1", "full-control-v2"}
+# Mirrors agent_eval.supervisor.AI_DIFFICULTY_LEVELS, kept literal for the
+# same reason as the protocol set above.
+PUBLIC_AI_DIFFICULTY_LEVELS = {
+    "novice", "easy", "normal", "hard", "cheating",
+}
 GATEWAY_KIND = "freeciv-replay-gateway"
 GATEWAY_PROTOCOL_VERSION = 1
 MAX_PROXY_ERROR_BYTES = 64 * 1024
@@ -472,9 +477,27 @@ def _public_control_protocol(
     return {}
 
 
-def _public_places(value: Any) -> list[dict[str, Any]]:
+def _public_ai_difficulty(level: Any) -> str | None:
+    """Narrow an archived server AI level, or None for archives predating it.
+
+    Archives written before the field existed carry no level at all, and a
+    guess would be worse than silence: the reader shows an unqualified "CPU"
+    rather than inventing a difficulty the match may not have been played at.
+    """
+    if not isinstance(level, str):
+        return None
+    return level if level in PUBLIC_AI_DIFFICULTY_LEVELS else None
+
+
+def _public_places(
+    value: Any, manifest: Mapping[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     if not isinstance(value, list):
         return []
+    config = manifest.get("config") if isinstance(manifest, Mapping) else None
+    game_difficulty = _public_ai_difficulty(
+        config.get("difficulty") if isinstance(config, Mapping) else None,
+    )
     places: list[dict[str, Any]] = []
     for raw in value:
         if not isinstance(raw, dict):
@@ -502,6 +525,14 @@ def _public_places(value: Any) -> list[dict[str, Any]]:
             label = label or "Freeciv Classic AI"
             controller_type = controller_type or "native"
             model = model or "classic"
+            # Rows archived before the per-place field existed still name a
+            # difficulty if the game config recorded one.
+            difficulty = (
+                _public_ai_difficulty(raw.get("ai_difficulty"))
+                or game_difficulty
+            )
+            if difficulty is not None:
+                result["ai_difficulty"] = difficulty
         elif joined:
             controller_type = controller_type or "external"
             metadata = raw.get("controller_metadata")
@@ -620,6 +651,7 @@ def _archive_leaderboard(
             ),
             "controller_type": place.get("controller_type", "external"),
             "model": place.get("model"),
+            "ai_difficulty": place.get("ai_difficulty"),
         })
     rows.sort(key=lambda row: (-row["score"], row["place"], row["seat_id"]))
     previous_score: int | None = None
@@ -753,7 +785,7 @@ def _terminal_archive(runs_root: Path, game_id: str) -> TerminalArchive:
         or report_manifest.get("game_id") != game_id
     ):
         raise GatewayProblem(HTTPStatus.NOT_FOUND, "terminal archive not found")
-    places = _public_places(manifest.get("resolved_places"))
+    places = _public_places(manifest.get("resolved_places"), manifest)
     leaderboard = _archive_leaderboard(report, places)
     benchmark_valid = state == "completed" and manifest.get(
         "benchmark_valid",
@@ -809,6 +841,7 @@ def _archive_status(
         "benchmark_valid": archive.benchmark_valid,
         "mode": _public_text(config.get("mode"), "unknown", 32),
         **_public_control_protocol(config, manifest),
+        "ai_difficulty": _public_ai_difficulty(config.get("difficulty")),
         "places": _public_int(config.get("places")),
         "max_agents": _public_int(config.get("max_agents")),
         "joined_agents": _public_int(manifest.get("joined_agents")),
@@ -921,7 +954,7 @@ def _archive_ppm_players(
                     row.update({
                         key: place.get(key) for key in (
                             "seat_id", "place", "controller_label",
-                            "controller_type", "model",
+                            "controller_type", "model", "ai_difficulty",
                         )
                     })
                     row["scored"] = True
@@ -1109,7 +1142,7 @@ def _disk_game_row(manifest: Mapping[str, Any]) -> dict[str, Any] | None:
     else:
         outcome_summary = "Match in progress."
         outcome_status = "pending"
-    places = _public_places(manifest.get("resolved_places"))
+    places = _public_places(manifest.get("resolved_places"), manifest)
     return {
         "game_id": game_id,
         "state": state,
@@ -1123,6 +1156,7 @@ def _disk_game_row(manifest: Mapping[str, Any]) -> dict[str, Any] | None:
         "benchmark_valid": validity,
         "mode": _public_text(config.get("mode"), "unknown", 32),
         **_public_control_protocol(config, manifest),
+        "ai_difficulty": _public_ai_difficulty(config.get("difficulty")),
         **_public_timing(config),
         "places": _public_int(config.get("places")),
         "max_agents": _public_int(config.get("max_agents")),
@@ -1659,7 +1693,7 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
                 )
         else:
             manifest = _read_manifest(self.server.gateway_config.runs_root, game_id)
-        places = _public_places(manifest.get("resolved_places"))
+        places = _public_places(manifest.get("resolved_places"), manifest)
         state = _public_text(
             manifest.get("state", manifest.get("status")), "unknown", 32,
         )
@@ -1733,7 +1767,7 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
                 )
         else:
             manifest = _read_manifest(self.server.gateway_config.runs_root, game_id)
-        places = _public_places(manifest.get("resolved_places"))
+        places = _public_places(manifest.get("resolved_places"), manifest)
         state = _public_text(
             manifest.get("state", manifest.get("status")), "unknown", 32,
         )
@@ -1818,7 +1852,7 @@ class ReplayGatewayHandler(BaseHTTPRequestHandler):
                 )
         else:
             manifest = _read_manifest(self.server.gateway_config.runs_root, game_id)
-        places = _public_places(manifest.get("resolved_places"))
+        places = _public_places(manifest.get("resolved_places"), manifest)
         try:
             with self.server.replay_lock:
                 board = self.server.board_loader(

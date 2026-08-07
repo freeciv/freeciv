@@ -99,16 +99,22 @@ replay viewer's data is touched.
 
 ## Naming the contenders
 
-Every side is credited as **"<harness or model>: <Civilization>"**, with the
+An agent side is credited as **"<harness or model>: <Civilization>"**, with the
 civilization read from the game's own data (`replay.jsonl` `players[].nation`)
-rather than hardcoded. The a8 match therefore reads:
+rather than hardcoded. The native side has no name to credit, so it reads
+nation-first with its difficulty in a parenthetical:
 
-> pi-gpt-5.6-sol: English **vs** In-game Deity AI: Spanish
+> pi-gpt-5.6-sol: English **vs** Spanish (CPU: Hard)
 
-The native opponent is always "In-game Deity AI" — never its wire name
-("Freeciv Classic AI") and never its raw player name ("NativePlace2"). The rule
-lives in `src/faction-label.ts`, a port of the viewer's `faction-label.ts`, so a
-film and a viewer tab credit a match identically.
+The difficulty comes from the game's `ai_difficulty`, and only `hard` ("Hard")
+and `cheating` ("Deity") are named — freeciv's `cheating` level *is*
+Civilization's Deity. Any other level, and every dataset exported before the
+field existed, reads as a plain "Spanish (CPU)".
+
+The native opponent is never called by its wire name ("Freeciv Classic AI") and
+never by its raw player name ("NativePlace2"). The rule lives in
+`src/faction-label.ts`, a port of the viewer's `faction-label.ts`, so a film and
+a viewer tab credit a match identically.
 
 ## Styling
 

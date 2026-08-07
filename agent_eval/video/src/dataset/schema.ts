@@ -23,6 +23,12 @@ export interface PlayerEntry {
   readonly controllerLabel: string | null
   readonly controllerType: string | null
   readonly model: string | null
+  /**
+   * The freeciv server AI level driving this faction (`hard`, `cheating`, …),
+   * or null for an agent seat and for every dataset exported before the
+   * exporter carried the field.
+   */
+  readonly aiDifficulty: string | null
 }
 
 export interface DatasetMeta {
@@ -33,6 +39,8 @@ export interface DatasetMeta {
   readonly objective: string
   readonly state: string
   readonly status: string
+  /** The game-wide server AI level; null for a run archived without one. */
+  readonly aiDifficulty: string | null
   readonly error: string | null
   readonly seeds: readonly number[]
   readonly startedAt: number | null
@@ -226,6 +234,7 @@ function parsePlayer(value: unknown, where: string): PlayerEntry {
     controllerLabel: nullableText(source['controller_label']),
     controllerType: nullableText(source['controller_type']),
     model: nullableText(source['model']),
+    aiDifficulty: nullableText(source['ai_difficulty']),
   }
 }
 
@@ -246,6 +255,7 @@ export function parseMeta(value: unknown): DatasetMeta {
     objective: text(source['objective']),
     state: text(source['state'], 'unknown'),
     status: text(source['status'], 'unknown'),
+    aiDifficulty: nullableText(source['ai_difficulty']),
     error: nullableText(source['error']),
     seeds: array(source['seeds'] ?? [], 'meta.seeds')
       .filter((seed): seed is number => typeof seed === 'number'),

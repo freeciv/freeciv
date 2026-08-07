@@ -467,6 +467,72 @@ class ReplayGatewayTests(unittest.TestCase):
                 "control_protocol", _archive_status(archive(legacy), ""),
             )
 
+    def test_archive_projections_publish_the_recorded_ai_difficulty(self):
+        def archive(manifest):
+            return TerminalArchive(
+                game_id=GAME_ID,
+                run_root=self.runs_root / GAME_ID,
+                manifest=manifest,
+                report={},
+                state="completed",
+                benchmark_valid=True,
+                places=[],
+                leaderboard=[],
+                outcome={"status": "complete"},
+            )
+
+        def manifest(difficulty=None):
+            config = {
+                "mode": "single", "places": 2, "max_agents": 1, "turns": 10,
+            }
+            if difficulty is not None:
+                config["difficulty"] = difficulty
+            return {
+                "game_id": GAME_ID,
+                "state": "completed",
+                "benchmark_valid": True,
+                "created_at": 1,
+                "current_turn": 2,
+                "joined_agents": 1,
+                "config": config,
+                "resolved_places": [{
+                    "place": 2,
+                    "seat_id": "place-2",
+                    "player_name": "NativePlace2",
+                    "player_color": "#F38400",
+                    "controller": "native_classic_ai",
+                    "joined": False,
+                }],
+            }
+
+        for level in ("hard", "cheating"):
+            with self.subTest(level=level):
+                value = manifest(level)
+                self.assertEqual(
+                    _disk_game_row(value)["ai_difficulty"], level,
+                )
+                self.assertEqual(
+                    _archive_status(archive(value), "")["ai_difficulty"], level,
+                )
+                # A native place inherits the game's level even when the row
+                # itself predates the per-place field.
+                self.assertEqual(
+                    _disk_game_row(value)["resolved_places"][0]["ai_difficulty"],
+                    level,
+                )
+
+        # Archives predating the field publish a null, never a guessed level,
+        # and never omit the key -- the viewer then names an unqualified CPU.
+        for legacy in (manifest(), manifest("deity")):
+            self.assertIsNone(_disk_game_row(legacy)["ai_difficulty"])
+            self.assertIsNone(
+                _archive_status(archive(legacy), "")["ai_difficulty"],
+            )
+            self.assertNotIn(
+                "ai_difficulty",
+                _disk_game_row(legacy)["resolved_places"][0],
+            )
+
     def test_archive_projections_preserve_explicit_timing_but_not_legacy(self):
         def manifest(config):
             return {

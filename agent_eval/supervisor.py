@@ -975,6 +975,13 @@ class Game:
             "controller_metadata": (
                 agent["metadata"] if agent else {}
             ),
+            # The server's AI level, carried only on the seats it actually
+            # governs, so a viewer can name the opponent's difficulty without
+            # reading the game config.  It is deliberately outside the
+            # fingerprint identity keys and so cannot move a fingerprint.
+            "ai_difficulty": (
+                None if place.joinable else self.config["difficulty"]
+            ),
         }
         seat["controller_fingerprint"] = (
             agent["controller_fingerprint"] if agent
@@ -1012,6 +1019,7 @@ class Game:
                     "controller_label": "Freeciv Classic AI",
                     "controller_type": "native",
                     "model": "classic",
+                    "ai_difficulty": self.config["difficulty"],
                 })
             rows.append(row)
         return rows
@@ -1038,6 +1046,7 @@ class Game:
             "controller_label": "Freeciv Classic AI",
             "controller_type": "native",
             "model": "classic",
+            "ai_difficulty": self.config["difficulty"],
         }
 
     def _private_player_seats_locked(self) -> dict[int, dict[str, Any]]:
@@ -1097,6 +1106,7 @@ class Game:
                 "ruleset": self.config["ruleset"],
                 "objective": self.config["objective"],
                 "control_protocol": self.config["control_protocol"],
+                "difficulty": self.config["difficulty"],
                 "timing_mode": self.config["timing_mode"],
                 "action_timeout_s": self.config["action_timeout_s"],
                 "lobby_timeout_s": self.config["lobby_timeout_s"],
@@ -9536,6 +9546,10 @@ class Game:
                     self._current_turn_locked()
                 ),
                 "objective": self.config["objective"],
+                # The request field is `difficulty`; every public payload
+                # names it `ai_difficulty`, because from the outside it is
+                # the native opponent's level and nothing else.
+                "ai_difficulty": self.config["difficulty"],
                 "timing_mode": self.config["timing_mode"],
                 "action_timeout_s": self.config["action_timeout_s"],
                 "error": self.error,
@@ -9563,7 +9577,7 @@ class Game:
                     for key in (
                         "place", "seat_id", "player_name", "player_color",
                         "controller", "joined", "controller_label",
-                        "controller_type", "model",
+                        "controller_type", "model", "ai_difficulty",
                     )
                 })
             current_turn = self._current_turn_locked()
@@ -9584,6 +9598,7 @@ class Game:
                 ),
                 "mode": self.config["mode"],
                 "control_protocol": self.config["control_protocol"],
+                "ai_difficulty": self.config["difficulty"],
                 "timing_mode": self.config["timing_mode"],
                 "action_timeout_s": self.config["action_timeout_s"],
                 "places": self.config["places"],

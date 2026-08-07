@@ -117,6 +117,13 @@ def _resolved_places(manifest: Mapping[str, Any]) -> list[dict[str, Any]]:
     return [place for place in places if isinstance(place, dict)]
 
 
+def _ai_difficulty(manifest: Mapping[str, Any]) -> str | None:
+    """The game's server AI level, or None for a run archived without one."""
+    config = manifest.get("config")
+    level = config.get("difficulty") if isinstance(config, Mapping) else None
+    return level if isinstance(level, str) and level else None
+
+
 def _seat_labels(manifest: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     """Map seat id to the controller identity the title card should credit."""
     labels: dict[str, dict[str, Any]] = {}
@@ -132,6 +139,7 @@ def _seat_labels(manifest: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
             "controller_label": _text(seat.get("controller_label")) or None,
             "controller_type": _text(seat.get("type")) or None,
             "model": _text(seat.get("model")) or None,
+            "ai_difficulty": _text(seat.get("ai_difficulty")) or None,
         }
     for place in _resolved_places(manifest):
         place_number = _integer(place.get("place"), -1)
@@ -139,13 +147,23 @@ def _seat_labels(manifest: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         if not seat_id:
             continue
         entry = labels.setdefault(seat_id, {})
-        for key in ("controller_label", "controller_type", "model"):
+        for key in (
+            "controller_label", "controller_type", "model", "ai_difficulty",
+        ):
             value = _text(place.get(key)) or None
             if value is not None:
                 entry[key] = value
         color = _text(place.get("player_color"))
         if color:
             entry["player_color"] = color
+    # The AI level is one game-wide server setting, so a seat the server drives
+    # inherits it even when only the top-level config recorded it -- which is
+    # every run archived before the per-seat field existed.
+    game_level = _ai_difficulty(manifest)
+    if game_level:
+        for entry in labels.values():
+            if entry.get("controller_type") == "native":
+                entry["ai_difficulty"] = entry.get("ai_difficulty") or game_level
     return labels
 
 
@@ -357,6 +375,8 @@ def _player_directory(
                 "controller_type": labels.get("controller_type")
                 or existing.get("controller_type"),
                 "model": labels.get("model") or existing.get("model"),
+                "ai_difficulty": labels.get("ai_difficulty")
+                or existing.get("ai_difficulty"),
                 "scored": True,
             }
     for player_id, entry in board_players.items():
@@ -372,6 +392,7 @@ def _player_directory(
             "controller_label": _text(entry.get("controller_label")) or None,
             "controller_type": _text(entry.get("controller_type")) or None,
             "model": _text(entry.get("model")) or None,
+            "ai_difficulty": _text(entry.get("ai_difficulty")) or None,
             "scored": False,
         }
     return [players[player_id] for player_id in sorted(players)]
@@ -543,6 +564,7 @@ def export_run(
         "control_protocol": _text(manifest.get("control_protocol")),
         "ruleset": _text(config.get("ruleset")),
         "objective": _text(config.get("objective")),
+        "ai_difficulty": _ai_difficulty(manifest),
         "timing_mode": _text(config.get("timing_mode")),
         "state": _text(manifest.get("state")),
         "status": _text(manifest.get("status")),

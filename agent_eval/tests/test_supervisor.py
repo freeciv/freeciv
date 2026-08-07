@@ -1722,6 +1722,35 @@ class SupervisorTests(unittest.TestCase):
         ))
         self.assertEqual(self.send_mock.call_args_list[-1].args[1], ["start"])
 
+    def test_ai_difficulty_is_published_on_the_game_and_its_native_places(self):
+        for level in ("hard", "cheating"):
+            with self.subTest(level=level):
+                created = self.create(difficulty=level, seed=11)
+                game = self.supervisor.game(created["game_id"])
+                self.assertEqual(game.status()["ai_difficulty"], level)
+                self.assertEqual(game.picker_state()["ai_difficulty"], level)
+                manifest = json.loads(
+                    (game.episode / "manifest.json").read_text(),
+                )
+                self.assertEqual(manifest["config"]["difficulty"], level)
+                # Only the seats the server drives carry the level; an agent
+                # place is not played by the freeciv AI at any difficulty.
+                self.assertEqual(
+                    [
+                        (place["controller_type"], place.get("ai_difficulty"))
+                        for place in game.status()["resolved_places"]
+                        if "controller_type" in place
+                    ],
+                    [("native", level)],
+                )
+                self.assertEqual(
+                    [
+                        seat["ai_difficulty"]
+                        for seat in manifest["config"]["seats"]
+                    ],
+                    [None, level],
+                )
+
     def test_full_control_v2_negotiates_and_waits_for_native_player_ready(self):
         with self.assertRaises(APIProblem) as invalid:
             self.supervisor._config({"control_protocol": "full-control-v3"})
@@ -8142,7 +8171,8 @@ data 4 0 0 70
         self.assertEqual(set(row), {
             "game_id", "state", "created_at", "finished_at", "current_turn",
             "turns",
-            "benchmark_valid", "mode", "control_protocol", "timing_mode",
+            "benchmark_valid", "mode", "control_protocol", "ai_difficulty",
+            "timing_mode",
             "action_timeout_s",
             "places", "max_agents",
             "joined_agents", "resolved_places", "leaderboard", "outcome",
@@ -8151,6 +8181,7 @@ data 4 0 0 70
         self.assertEqual(row["current_turn"], 7)
         self.assertEqual(row["mode"], "single")
         self.assertEqual(row["control_protocol"], STRATEGIC_V1)
+        self.assertEqual(row["ai_difficulty"], "hard")
         self.assertEqual(row["timing_mode"], "custom")
         self.assertEqual(row["action_timeout_s"], 1)
         self.assertEqual(row["places"], 2)
