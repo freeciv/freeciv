@@ -101,7 +101,7 @@ export function EventCaption({
      * A lower third seated in the board's own corner, not a card hovering over
      * it. Sitting flush means the frame's edges hold it in place and it needs
      * no drop shadow to separate; the faction glow that used to do that work is
-     * gone, and rank now reads from rail width, type size and padding.
+     * gone, and rank now reads from rail width and padding.
      */
     <div
       className={`pointer-events-none absolute bottom-0 left-0 flex items-stretch ${
@@ -144,15 +144,22 @@ export function EventCaption({
             <span className="label" style={{ color: SHELL.boardMuted }}>+{alsoInWindow} more</span>
           )}
         </div>
+        {/*
+         * One size for every caption, whatever its rank.
+         *
+         * Rank used to set type size too -- 33px for a landmark, 23px for a
+         * major, 20px for the rest. The trouble is that rank correlates with
+         * length in exactly the wrong direction: landmarks summarise ("6
+         * cities captured") and majors narrate ("Pirate raiders captured
+         * Oviedo from the Spanish"), so the short line was the big one and the
+         * long line the small one. Read at speed that does not look like rank,
+         * it looks like the type is being scaled to fit the width, which is
+         * the one thing it must never look like. Rank is still carried, by the
+         * rail width and the padding.
+         */}
         <span
           style={{ color: SHELL.boardInk }}
-          className={`truncate font-display ${
-            mustShow
-              ? 'text-[33px] leading-[1.1] tracking-[-0.02em]'
-              : tier === 'major'
-                ? 'text-[23px] tracking-[-0.015em]'
-                : 'text-[20px] tracking-[-0.01em]'
-          }`}
+          className="truncate font-display text-[27px] leading-[1.15] tracking-[-0.018em]"
         >
           {captionText(active.caption)}
         </span>

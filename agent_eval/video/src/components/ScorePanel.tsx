@@ -226,9 +226,11 @@ export function ScorePanel({
       {thirdParties.length > 0 && (
         <div className="flex items-center gap-[12px] border border-line bg-panel px-[14px] py-[10px]">
           <span className="label">Third party</span>
+          {/* A raiding third party can hold more ground than a contender, so
+              this reads at the size of a real standing rather than a footnote. */}
           {thirdParties.map((track) => (
             <span
-              className="font-mono text-[11px]"
+              className="font-mono text-[15px] font-medium"
               key={track.player.playerId}
               style={{ color: track.renderColor }}
             >

@@ -192,9 +192,23 @@ export function buildFilm(
   // An export whose manifest never named its seats would otherwise leave the
   // standings panel empty; fall back to every faction that actually scored.
   const seatTracks = tracks.filter((track) => track.player.seat)
-  const contenders = seatTracks.length > 0
+  const seated = seatTracks.length > 0
     ? seatTracks
     : tracks.filter((track) => track.peakScore > 0)
+
+  /*
+   * The agent is player one. Seat order comes from Freeciv, which has no
+   * opinion about who the match is about, so a single-player run could open on
+   * the built-in AI and introduce the model second -- as the opponent in its
+   * own film. Agents are stably moved ahead of native seats; among themselves
+   * and among the natives the original seat order is untouched, so an
+   * agent-vs-agent match is completely unaffected.
+   */
+  const contenders = [...seated].sort((left, right) => {
+    const leftNative = left.player.controllerType === 'native' ? 1 : 0
+    const rightNative = right.player.controllerType === 'native' ? 1 : 0
+    return leftNative - rightNative
+  })
 
   return {
     meta,

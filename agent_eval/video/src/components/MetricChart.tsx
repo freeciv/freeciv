@@ -71,7 +71,12 @@ export function MetricChart({
 
   return (
     <svg className="block" height={height} width={width}>
-      <rect fill={SHELL.panelRaised} height={height} width={width} x={0} y={0} />
+      {/* The plot sits ON the card, not in a recessed well. On the dark ladder
+          `panelRaised` was a lift and a filled plot read as an inset
+          instrument; on the light one the same token is a step *darker* than
+          the panel, and at chart size that turned every graph into a slab of
+          flat grey. The gridlines carry the structure instead. */}
+      <rect fill={SHELL.panel} height={height} width={width} x={0} y={0} />
       {[0, 0.5, 1].map((fraction) => {
         const y = padding.top + plotHeight - fraction * plotHeight
         return (

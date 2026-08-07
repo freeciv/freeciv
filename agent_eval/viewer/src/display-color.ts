@@ -40,9 +40,16 @@ const BOARD_COLORS: readonly string[] = [
  * entry here that is missing there means a match reads differently in the two
  * surfaces. Periwinkle clears every terrain by a wide margin (0.181 to its
  * nearest, tundra) and sits at least 0.23 from every other faction color in use.
+ *
+ * The barbarian/pirate salmon is pinned for a different reason: it sits only
+ * 0.087 from the default orange, fails the film's faction clearance, and so
+ * fell through to the first substitute -- aqua mint, which made a raiding
+ * third party read as a cool, calm fourth empire. Crimson says what they are
+ * and holds up: 0.213 from its nearest terrain, 0.185 from that orange.
  */
 const PINNED: ReadonlyMap<string, string> = new Map([
   ['#0067a5', '#A78BFA'], // agent blue -> periwinkle violet
+  ['#fa8072', '#E01B24'], // barbarian salmon -> crimson
 ])
 
 /**
