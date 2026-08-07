@@ -9,18 +9,20 @@ interface MapSectionProps {
   legend: ReactNode
   live: boolean
   onToggle: (next: boolean) => void
-  /** Turn transport, always rendered: it drives every other overview panel. */
-  playback: ReactNode
   turn: number
 }
 
+/**
+ * Turn transport is deliberately not here. It drives every panel on the page,
+ * not just the board, so it lives in the page's own transport bar and stays
+ * reachable whether or not the map is open.
+ */
 export function MapSection({
   board,
   expanded,
   legend,
   live,
   onToggle,
-  playback,
   turn,
 }: MapSectionProps) {
   return (
@@ -52,7 +54,6 @@ export function MapSection({
             </p>
           )}
         </div>
-        {playback}
       </article>
       {expanded && legend}
     </section>

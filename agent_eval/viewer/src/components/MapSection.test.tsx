@@ -11,7 +11,6 @@ const props = {
   legend: <aside className="panel faction-panel">legend</aside>,
   live: true,
   onToggle: () => undefined,
-  playback: <div className="playback-bar">transport</div>,
   turn: 12,
 }
 
@@ -25,10 +24,16 @@ describe('deferred strategic map section', () => {
     expect(markup).not.toContain('faction-panel')
   })
 
-  it('keeps turn transport available while the map stays collapsed', () => {
+  it('still names the selected turn while the map stays collapsed', () => {
     const markup = renderToStaticMarkup(<MapSection {...props} expanded={false} />)
-    expect(markup).toContain('playback-bar')
     expect(markup).toContain('World state at turn 12')
+  })
+
+  it('leaves turn transport to the page, which drives more than the board', () => {
+    const markup = renderToStaticMarkup(
+      <MapSection {...props} board={<div className="strategic-map">board</div>} expanded />,
+    )
+    expect(markup).not.toContain('playback-bar')
   })
 
   it('mounts the board and legend once expanded', () => {
@@ -39,7 +44,6 @@ describe('deferred strategic map section', () => {
     expect(markup).toContain('aria-expanded="true"')
     expect(markup).toContain('strategic-map')
     expect(markup).toContain('faction-panel')
-    expect(markup).toContain('playback-bar')
   })
 
   it('exposes the disclosure as a real button, not a tab', () => {

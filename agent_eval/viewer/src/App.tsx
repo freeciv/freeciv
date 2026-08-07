@@ -5,7 +5,7 @@ import { ColorMark } from './components/ColorMark'
 import { EventLog, EventLogFootnote } from './components/EventLog'
 import { MapSection } from './components/MapSection'
 import { MetricChart } from './components/MetricChart'
-import { ThemeToggle } from './components/ThemeToggle'
+import { PlasmaWash } from './components/PlasmaWash'
 import { StrategicMap } from './components/StrategicMap'
 import { TechnologyPanel } from './components/TechnologyPanel'
 import { TechnologyProgressChart } from './components/TechnologyProgressChart'
@@ -347,7 +347,7 @@ function MatchViewer({ route }: { route: RouteContext }) {
       <nav className="grid grid-cols-[minmax(220px,1fr)_auto_minmax(220px,1fr)] gap-[18px] items-center min-h-[45px] py-0 px-[14px] border border-line border-b-0 text-[var(--color-muted)] bg-[var(--color-page)] font-bold text-[9px] leading-none font-readout tracking-[.1em] uppercase max-[1000px]:grid-cols-[1fr_auto] max-[650px]:grid-cols-1" aria-label="Freeciv Agent Arena">
         <a className="inline-flex gap-[9px] items-center text-ink no-underline max-[460px]:min-w-0" href={route.prefix ? `${route.prefix}/` : '/'}><span className="grid place-items-center w-[25px] h-[25px] border border-[var(--color-line-2)] text-[var(--color-ink)] text-[8px]" aria-hidden="true">FC</span><strong className="max-[460px]:overflow-hidden max-[460px]:text-ellipsis max-[460px]:whitespace-nowrap">Freeciv Agent Arena</strong></a>
         <span className="text-center max-[1000px]:hidden">{game.mode === 'single' ? 'Single player evaluation' : 'Multiplayer evaluation'}</span>
-        <span className="flex gap-3 items-center justify-end min-w-0"><code className="overflow-hidden text-[var(--color-muted)] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code><ThemeToggle /></span>
+        <code className="overflow-hidden text-[var(--color-muted)] text-[8px] text-right text-ellipsis whitespace-nowrap max-[650px]:hidden">{game.game_id}</code>
       </nav>
       <header className="relative grid grid-cols-[minmax(0,1fr)_auto] gap-x-7 gap-y-[18px] items-center py-[22px] px-6 overflow-hidden border border-line bg-[linear-gradient(110deg,var(--color-panel-2),var(--color-panel))] max-[760px]:grid-cols-1 max-[760px]:p-[17px] max-[650px]:p-4">
         <div className="brand-block">
@@ -365,44 +365,88 @@ function MatchViewer({ route }: { route: RouteContext }) {
 
       {error && <div className={`mt-2.5 ${WARNING_BOX}`} role="status">Live refresh issue: {error}. Showing the latest retained data.</div>}
 
+      <MapSection
+        expanded={mapOpen}
+        live={live}
+        onToggle={toggleMap}
+        turn={selectedTurn}
+        board={selectedTurn > 0 ? (
+          <StrategicMap
+            alt={`Strategic world map for turn ${selectedTurn}`}
+            availableTurns={availableTurns}
+            rawSourceName={exactSelectedFrame?.source_name}
+            rawSrc={exactSelectedFrame ? frameImageUrl(route, exactSelectedFrame) : undefined}
+            route={route}
+            turn={selectedTurn}
+          />
+        ) : (
+          <div className="map-stage"><div className="empty-state"><strong>No map frame yet</strong><span>The first map appears after Freeciv completes a capture turn.</span></div></div>
+        )}
+        legend={(
+          <div className="fold-rail">
+            <aside className={`panel result-card ${validityClass}`} aria-label="Match outcome and validity">
+              <div className="panel-heading compact-heading"><div><p className="eyebrow">Current result</p><h2>{validityLabel(game.benchmark_valid)}</h2></div></div>
+              <div className="result-card-body">
+                <strong>{game.outcome.summary}</strong>
+                {game.outcome.victory && (
+                  <span className="victory-chip" title={`Victory condition: ${game.outcome.victory.code}`}>
+                    {game.outcome.victory.label}
+                    {game.outcome.victory.turn ? ` on turn ${game.outcome.victory.turn}` : ''}
+                    {game.outcome.victory.winners.length > 0 ? ` \u00b7 ${game.outcome.victory.winners.join(', ')}` : ''}
+                  </span>
+                )}
+                <small>{game.benchmark_valid === false
+                  ? game.invalid_reasons.join(' \u00b7 ') || game.error || 'Run is not benchmark eligible'
+                  : game.benchmark_valid === true
+                    ? 'Eligible for model comparison'
+                    : 'Final validity is decided when the match ends'}</small>
+                <em>{game.objective}</em>
+              </div>
+            </aside>
+
+            <aside className="overview-rail-card panel overflow-hidden" aria-label="Current score comparison">
+              <div className="panel-heading compact-heading"><div><p className="eyebrow">{historicalComparison ? 'Selected-turn comparison' : 'Current comparison'}</p><h2>Leaderboard</h2></div><span>{historicalComparison ? `T${selectedTurn}` : 'LATEST'}</span></div>
+              <div className="grid">
+                {comparisonRows.some((row) => row.score !== undefined) ? comparisonRows.map((row, index) => (
+                  <div className="grid grid-cols-[18px_auto_minmax(0,1fr)_auto] gap-2 items-center py-2.5 px-3 border-b border-b-[var(--color-line)] last:border-b-0" key={row.place.seat_id}><b className="text-[var(--color-muted)] font-bold text-[10px] leading-none font-readout">{index + 1}</b><ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" /><span className={CLAMPED_LINE_RAIL}><strong className={`${CLAMPED_LINE_RAIL} text-[10px]`}>{placeLabel(row.place)}</strong><small className={`${CLAMPED_LINE_RAIL} mt-[3px] text-[var(--color-muted)] text-[8px]`}>{row.place.model || row.place.player_name}</small></span><em className="text-[var(--color-ink-2)] font-bold text-[14px] leading-none font-readout not-italic">{row.score?.toLocaleString() ?? '—'}</em></div>
+                )) : <p className="empty-copy">Scores appear after the first resolved turn.</p>}
+              </div>
+            </aside>
+            <aside className="panel faction-panel">
+              <div className="panel-heading compact-heading">
+                <div><p className="eyebrow">Map color key</p><h2>All map factions</h2></div>
+                <span>{factions.length}</span>
+              </div>
+              <div className="p-2 max-[1100px]:grid max-[1100px]:grid-cols-2 max-[760px]:grid-cols-1">
+                {factions.length ? factions.map((faction) => (
+                  <article className={faction.dynamic ? `${FACTION_ROW} dynamic-faction` : FACTION_ROW} key={`${faction.player_id}-${faction.player_name}`}>
+                    <ColorMark color={faction.player_color} label={faction.display_label} />
+                    <div className="min-w-0"><strong className="block [overflow-wrap:anywhere] text-[12px] leading-[1.3]">{faction.display_label}</strong><span className="block mt-[3px] overflow-hidden text-muted text-[10px] text-ellipsis whitespace-nowrap">{faction.detail}</span></div>
+                    <code className="text-[var(--color-muted)] text-[9px]">{displayPlayerColor(faction.player_color, palette)}</code>
+                  </article>
+                )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
+              </div>
+            </aside>
+          </div>
+        )}
+      />
+
       <div className="match-content" id="match-content">
 
       <div className="match-main">
 
-      <section className="result-ribbon" aria-label="Match outcome and validity">
-        <div>
-          <p className="eyebrow">Current result</p>
-          <strong>{game.outcome.summary}</strong>
-          {game.outcome.victory && (
-            <span className="inline-block mb-[7px] py-1 px-[9px] border border-[var(--color-line-2)] bg-[var(--color-panel-2)] text-[var(--color-green)] font-medium text-[11px] leading-[1.35] font-readout tracking-[.04em]" title={`Victory condition: ${game.outcome.victory.code}`}>
-              Game ended: {game.outcome.victory.label}
-              {game.outcome.victory.turn ? ` on turn ${game.outcome.victory.turn}` : ''}
-              {game.outcome.victory.winners.length > 0
-                ? ` · ${game.outcome.victory.winners.join(', ')}`
-                : ''}
-            </span>
-          )}
-          <span>{game.objective}</span>
-        </div>
-        <div className={`flex flex-col justify-center border-l-4 ${validityClass}`}>
-          {/* No font-size here on purpose: `.result-ribbon > div > span` outranks the
-              old `.validity-chip span` rule, so this has always rendered at 12px. */}
-          <span className="font-extrabold leading-none font-readout tracking-[.08em]">{validityLabel(game.benchmark_valid)}</span>
-          <small className="mt-2 text-[var(--color-ink-2)] leading-[1.4]">{game.benchmark_valid === false
-            ? game.invalid_reasons.join(' · ') || game.error || 'Run is not benchmark eligible'
-            : game.benchmark_valid === true
-              ? 'Eligible for model comparison'
-              : 'Final validity is decided when the match ends'}</small>
-        </div>
-      </section>
-
+      {/* One dense readout line, not six cards. This is match metadata -- the
+          settings the run was launched under -- and it was taking a full band
+          of the page to say things like "Full control" and "1/1 joined", each
+          with a line of secondary text underneath that mostly restated the
+          value or said nothing. Label and value, one row, done. */}
       <section className="match-context" aria-label="Match configuration and seat status">
-        <div><p className="eyebrow">Mode</p><strong>{game.mode === 'single' ? 'Single player vs native AI' : 'Multiplayer agent match'}</strong><span>{game.places} total places · {game.max_agents} external agent {game.max_agents === 1 ? 'seat' : 'seats'}</span></div>
-        <div><p className="eyebrow">Control protocol</p><strong>{protocol.label}</strong><span>{protocol.detail}{protocol.assumed ? ' · assumed for this archived run' : ''}</span></div>
-        <div><p className="eyebrow">Agent lobby</p><strong>{game.joined_agents}/{game.max_agents} joined</strong><span>{game.state === 'lobby' && game.max_agents > game.joined_agents ? `Waiting for ${game.max_agents - game.joined_agents} agent${game.max_agents - game.joined_agents === 1 ? '' : 's'}` : game.state === 'lobby' ? 'All agents joined · preparing match' : 'Roster locked for this match'}</span></div>
-        <div><p className="eyebrow">Turn horizon</p><strong>{game.current_turn ?? 0} / {game.turns}</strong><span>{game.state === 'running' ? 'Authoritative turn in progress' : stateLabel(game.state)}</span></div>
-        {duration && <div><p className="eyebrow">Duration</p><strong>{duration}</strong><span>{typeof game.finished_at === 'number' ? 'Start to last recorded turn' : 'Running and counting'}</span></div>}
-        {timing && <div><p className="eyebrow">Turn timing</p><strong>{timing}</strong><span>Harness action deadline</span></div>}
+        <div><small>Mode</small><span>{game.mode === 'single' ? 'Single player vs native AI' : 'Multiplayer agent match'}</span></div>
+        <div><small>Protocol</small><span>{protocol.label}{protocol.assumed ? ' (assumed)' : ''}</span></div>
+        <div><small>Lobby</small><span>{game.joined_agents}/{game.max_agents} joined</span></div>
+        <div><small>Horizon</small><span>{game.current_turn ?? 0} / {game.turns}</span></div>
+        {duration && <div><small>Duration</small><span>{duration}</span></div>}
+        {timing && <div><small>Timing</small><span>{timing}</span></div>}
       </section>
 
       <section className="competitor-grid" aria-label="Scored competitors">
@@ -512,15 +556,6 @@ function MatchViewer({ route }: { route: RouteContext }) {
       </div>
 
       <div className="match-rail">
-        <aside className="overview-rail-card panel overflow-hidden max-[650px]:overflow-x-auto" aria-label="Current score comparison">
-          <div className="panel-heading compact-heading"><div><p className="eyebrow">{historicalComparison ? 'Selected-turn comparison' : 'Current comparison'}</p><h2>Leaderboard</h2></div><span>{historicalComparison ? `T${selectedTurn}` : 'LATEST'}</span></div>
-          <div className="grid">
-            {comparisonRows.some((row) => row.score !== undefined) ? comparisonRows.map((row, index) => (
-              <div className="grid grid-cols-[18px_auto_minmax(0,1fr)_auto] gap-2 items-center py-2.5 px-3 border-b border-b-[var(--color-line)] last:border-b-0" key={row.place.seat_id}><b className="text-[var(--color-muted)] font-bold text-[10px] leading-none font-readout">{index + 1}</b><ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" /><span className={CLAMPED_LINE_RAIL}><strong className={`${CLAMPED_LINE_RAIL} text-[10px]`}>{placeLabel(row.place)}</strong><small className={`${CLAMPED_LINE_RAIL} mt-[3px] text-[var(--color-muted)] text-[8px]`}>{row.place.model || row.place.player_name}</small></span><em className="text-[var(--color-ink-2)] font-bold text-[14px] leading-none font-readout not-italic">{row.score?.toLocaleString() ?? '—'}</em></div>
-            )) : <p className="empty-copy">Scores appear after the first resolved turn.</p>}
-          </div>
-        </aside>
-
         {!basicTelemetry && (
           <section className="charts-grid" aria-label="Metric comparison charts">
             {METRICS.map((metric) => (
@@ -529,75 +564,6 @@ function MatchViewer({ route }: { route: RouteContext }) {
           </section>
         )}
       </div>
-
-      <MapSection
-        expanded={mapOpen}
-        live={live}
-        onToggle={toggleMap}
-        turn={selectedTurn}
-        board={selectedTurn > 0 ? (
-          <StrategicMap
-            alt={`Strategic world map for turn ${selectedTurn}`}
-            availableTurns={availableTurns}
-            rawSourceName={exactSelectedFrame?.source_name}
-            rawSrc={exactSelectedFrame ? frameImageUrl(route, exactSelectedFrame) : undefined}
-            route={route}
-            turn={selectedTurn}
-          />
-        ) : (
-          <div className="map-stage"><div className="empty-state"><strong>No map frame yet</strong><span>The first map appears after Freeciv completes a capture turn.</span></div></div>
-        )}
-        legend={(
-          <aside className="panel faction-panel">
-            <div className="panel-heading compact-heading">
-              <div><p className="eyebrow">Map color key</p><h2>All map factions</h2></div>
-              <span>{factions.length}</span>
-            </div>
-            <p className="m-0 py-[13px] px-4 border-b border-b-[var(--color-line)] text-muted text-[11px] leading-[1.5]">{basicTelemetry
-              ? 'Scored controller colors come from the match roster. Dynamic faction identities were not recorded by this older supervisor.'
-              : 'Scored controllers and Freeciv-created factions are listed separately. Dynamic factions never enter the benchmark leaderboard.'}</p>
-            <div className="p-2 max-[1100px]:grid max-[1100px]:grid-cols-2 max-[760px]:grid-cols-1">
-              {factions.length ? factions.map((faction) => (
-                <article className={faction.dynamic ? `${FACTION_ROW} dynamic-faction` : FACTION_ROW} key={`${faction.player_id}-${faction.player_name}`}>
-                  <ColorMark color={faction.player_color} label={faction.display_label} />
-                  <div className="min-w-0"><strong className="block [overflow-wrap:anywhere] text-[12px] leading-[1.3]">{faction.display_label}</strong><span className="block mt-[3px] overflow-hidden text-muted text-[10px] text-ellipsis whitespace-nowrap">{faction.detail}</span></div>
-                  <code className="text-[var(--color-muted)] text-[9px]">{displayPlayerColor(faction.player_color, palette)}</code>
-                </article>
-              )) : <div className="empty-state small-empty"><strong>Legend pending</strong><span>Waiting for map header metadata.</span></div>}
-            </div>
-          </aside>
-        )}
-        playback={(
-          <div className="playback-bar">
-            <div className="flex items-center gap-[5px]" aria-label="Replay transport controls">
-              <button aria-label="Previous turn" className="step-button" disabled={previousTurn === undefined} onClick={() => stepReplay(previousTurn)} type="button">‹</button>
-              <button aria-label={playing ? 'Pause replay' : 'Play replay'} className="play-button" disabled={availableTurns.length < 2} onClick={togglePlayback} type="button">
-                {playing ? 'Ⅱ' : '▶'}
-              </button>
-              <button aria-label="Next turn" className="step-button" disabled={nextTurn === undefined} onClick={() => stepReplay(nextTurn)} type="button">›</button>
-            </div>
-            <label className="grid grid-cols-[auto_1fr] gap-2.5 items-center text-muted font-bold text-[9px] leading-none font-readout tracking-[.04em] max-[460px]:grid-cols-1 max-[460px]:gap-[5px]">
-              <span>Turn {selectedTurn || '—'}</span>
-              <input
-                aria-label="Replay turn"
-                disabled={!availableTurns.length}
-                max={Math.max(0, availableTurns.length - 1)}
-                min={0}
-                onChange={(event) => chooseTurn(availableTurns[Number(event.target.value)] ?? selectedTurn)}
-                className="w-full accent-[var(--color-ink-2)]"
-                type="range"
-                value={selectedTurnIndex}
-              />
-            </label>
-            <label className="text-muted font-bold text-[9px] leading-none font-readout tracking-[.06em] uppercase max-[760px]:hidden">Speed
-              <select className="ml-[7px] py-[5px] px-1.5 border border-line text-ink bg-[var(--color-page)]" aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
-                <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option>
-              </select>
-            </label>
-            <button className="live-button" onClick={() => { setLive(true); setSelectedTurn(lastTurn) }} type="button">Latest</button>
-          </div>
-        )}
-      />
 
       <section className="panel event-panel">
         <div className="panel-heading compact-heading">
@@ -637,10 +603,58 @@ function MatchViewer({ route }: { route: RouteContext }) {
       </section>
       </div>
 
-      <footer className="flex justify-between gap-5 pt-3 px-1 pb-0 text-[var(--color-line-2)] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
+      <PlasmaWash live={game.state === 'running' || game.state === 'starting'} />
+
+      <footer className="relative z-[1] flex justify-between gap-5 pt-3 px-1 pb-0 text-[var(--color-line-2)] text-[8px] leading-[1.4] font-readout tracking-[.1em] uppercase max-[760px]:flex-col">
         <span>FREECIV AGENT EVALUATION</span>
         <span>Public spectator telemetry · not available to player agents</span>
       </footer>
+
+      <div className="transport-bar" aria-label="Replay transport">
+        <div className="transport-controls" aria-label="Replay transport controls">
+          <button aria-label="Previous turn" className="step-button" disabled={previousTurn === undefined} onClick={() => stepReplay(previousTurn)} type="button">‹</button>
+          <button aria-label={playing ? 'Pause replay' : 'Play replay'} className="play-button" disabled={availableTurns.length < 2} onClick={togglePlayback} type="button">
+            {playing ? 'Ⅱ' : '▶'}
+          </button>
+          <button aria-label="Next turn" className="step-button" disabled={nextTurn === undefined} onClick={() => stepReplay(nextTurn)} type="button">›</button>
+        </div>
+
+        <label className="transport-scrub">
+          <span>T{selectedTurn || '—'}</span>
+          <input
+            aria-label="Replay turn"
+            disabled={!availableTurns.length}
+            max={Math.max(0, availableTurns.length - 1)}
+            min={0}
+            onChange={(event) => chooseTurn(availableTurns[Number(event.target.value)] ?? selectedTurn)}
+            className="w-full accent-[var(--color-ink-2)]"
+            type="range"
+            value={selectedTurnIndex}
+          />
+        </label>
+
+        {/* The scores travel with the transport: scrubbing is the one moment
+            the numbers have to answer back, and they used to be a full page
+            away from the slider that changed them. */}
+        <div className="transport-scores">
+          {comparisonRows.slice(0, 4).map((row) => (
+            <span key={row.place.seat_id}>
+              <ColorMark color={row.place.player_color} label={placeLabel(row.place)} size="sm" />
+              <small className={CLAMPED_LINE_RAIL}>{placeLabel(row.place)}</small>
+              <b>{row.score?.toLocaleString() ?? '—'}</b>
+            </span>
+          ))}
+        </div>
+
+        <div className="transport-speed">
+          <label>Speed
+            <select className="ml-[7px] py-[5px] px-1.5 border border-line text-ink bg-[var(--color-page)]" aria-label="Playback speed" onChange={(event) => setSpeed(Number(event.target.value))} value={speed}>
+              <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option>
+            </select>
+          </label>
+          <button className="live-button" onClick={() => { setLive(true); setSelectedTurn(lastTurn) }} type="button">Latest</button>
+        </div>
+      </div>
     </main>
     </DisplayPaletteProvider>
   )

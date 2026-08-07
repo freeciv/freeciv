@@ -17,7 +17,6 @@ import { watchUrl } from '../route'
 import type { ArenaRouteContext, GameSummary } from '../types'
 import { matchHeaderLabel } from '../view-model'
 import { ColorMark } from './ColorMark'
-import { ThemeToggle } from './ThemeToggle'
 
 /** Seat-strip cells share every rule except the "no agent yet" hatching. */
 const SEAT_CELL = 'grid grid-cols-[auto_minmax(0,1fr)] gap-[9px] items-center py-[9px] px-[11px]'
@@ -207,7 +206,6 @@ export function ArenaPicker({ route }: { route: ArenaRouteContext }) {
           <span className="inline-flex items-center gap-[7px]"><i className="w-1.5 h-1.5 rounded-full bg-[var(--color-green)] animate-[pulse_1.7s_infinite]" />{activeCount} active {activeCount === 1 ? 'match' : 'matches'}</span>
           <span className="inline-flex items-center gap-[7px]">{visibleGames.length} indexed</span>
           <span className="inline-flex items-center gap-[7px]">Auto-refresh 3s</span>
-          <span className="ml-auto"><ThemeToggle /></span>
         </div>
       </header>
 

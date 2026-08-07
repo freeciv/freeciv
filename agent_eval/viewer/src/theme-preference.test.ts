@@ -22,32 +22,31 @@ const failingStore: PreferenceStore = {
 }
 
 describe('arena theme preference', () => {
-  it('is light by default, and follows the operating system into dark', () => {
-    expect(resolveTheme(memoryStore(), false)).toBe('light')
-    expect(resolveTheme(memoryStore(), true)).toBe('dark')
+  it('is light until someone chooses otherwise', () => {
+    expect(resolveTheme(memoryStore())).toBe('light')
   })
 
-  it('lets an explicit choice outrank the operating system', () => {
-    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: 'dark' }), false)).toBe('dark')
-    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: 'light' }), true)).toBe('light')
+  it('lets an explicit choice move off the default surface', () => {
+    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: 'dark' }))).toBe('dark')
+    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: 'light' }))).toBe('light')
   })
 
   it('ignores a stored value that is not a theme', () => {
-    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: 'sepia' }), false)).toBe('light')
-    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: '' }), true)).toBe('dark')
+    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: 'sepia' }))).toBe('light')
+    expect(resolveTheme(memoryStore({ [THEME_PREFERENCE_KEY]: '' }))).toBe('light')
   })
 
   it('round-trips the remembered choice across a reload', () => {
     const store = memoryStore()
-    rememberTheme('light', store)
-    expect(resolveTheme(store, true)).toBe('light')
     rememberTheme('dark', store)
-    expect(resolveTheme(store, false)).toBe('dark')
+    expect(resolveTheme(store)).toBe('dark')
+    rememberTheme('light', store)
+    expect(resolveTheme(store)).toBe('light')
   })
 
-  it('falls back to the system preference when storage is unavailable', () => {
-    expect(resolveTheme(failingStore, true)).toBe('dark')
-    expect(resolveTheme(null, false)).toBe('light')
+  it('stays on the default surface when storage is unavailable', () => {
+    expect(resolveTheme(failingStore)).toBe('light')
+    expect(resolveTheme(null)).toBe('light')
     expect(() => rememberTheme('light', failingStore)).not.toThrow()
   })
 

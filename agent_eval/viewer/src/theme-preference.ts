@@ -15,29 +15,22 @@ function safeStore(): PreferenceStore | null {
   }
 }
 
-function systemPrefersDark(): boolean {
-  try {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-  } catch {
-    return false
-  }
-}
-
 /**
- * An explicit choice wins; absent one the arena follows the operating system;
- * absent that it is light, which is the arena's default surface.
+ * Light is the arena's surface. Only an explicit choice moves off it.
+ *
+ * Deliberately NOT `prefers-color-scheme`: the arena is a presentation surface
+ * with one intended look, the way a film has one grade, and most people run
+ * their OS dark without wanting every page they open to be dark. Dark stays a
+ * click away for anyone who wants it, and that choice is what persists.
  */
-export function resolveTheme(
-  store: PreferenceStore | null = safeStore(),
-  prefersDark: boolean = systemPrefersDark(),
-): Theme {
+export function resolveTheme(store: PreferenceStore | null = safeStore()): Theme {
   try {
     const stored = store?.getItem(THEME_PREFERENCE_KEY)
     if (stored === 'light' || stored === 'dark') return stored
   } catch {
-    // Fall through to the system preference.
+    // Storage is blocked; the default surface still stands.
   }
-  return prefersDark ? 'dark' : 'light'
+  return 'light'
 }
 
 export function rememberTheme(

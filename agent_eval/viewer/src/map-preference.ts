@@ -17,16 +17,21 @@ function safeStore(): PreferenceStore | null {
   }
 }
 
-/** The map stays closed unless a hash or a stored preference asks for it. */
+/**
+ * The map leads the page now, so it opens unless the viewer has closed it.
+ * That costs the board chunk on first paint, which is the deliberate trade:
+ * the world state is the thing people come to watch, and a match that opens
+ * on a "Show map" button buries its own subject.
+ */
 export function mapSectionOpen(
   hash: string,
   store: PreferenceStore | null = safeStore(),
 ): boolean {
   if (hash === MAP_HASH) return true
   try {
-    return store?.getItem(MAP_PREFERENCE_KEY) === 'open'
+    return store?.getItem(MAP_PREFERENCE_KEY) !== 'closed'
   } catch {
-    return false
+    return true
   }
 }
 

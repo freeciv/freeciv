@@ -21,12 +21,12 @@ const failingStore: PreferenceStore = {
 }
 
 describe('strategic map preference', () => {
-  it('defaults to collapsed with no hash and no stored choice', () => {
-    expect(mapSectionOpen('', memoryStore())).toBe(false)
-    expect(mapSectionOpen('#overview', memoryStore())).toBe(false)
+  it('leads with the map when nothing has been chosen', () => {
+    expect(mapSectionOpen('', memoryStore())).toBe(true)
+    expect(mapSectionOpen('#overview', memoryStore())).toBe(true)
   })
 
-  it('opens from the URL hash or a remembered choice', () => {
+  it('opens from the URL hash and closes only on an explicit choice', () => {
     expect(mapSectionOpen(MAP_HASH, memoryStore())).toBe(true)
     expect(mapSectionOpen('', memoryStore({ [MAP_PREFERENCE_KEY]: 'open' }))).toBe(true)
     expect(mapSectionOpen('', memoryStore({ [MAP_PREFERENCE_KEY]: 'closed' }))).toBe(false)
@@ -34,15 +34,15 @@ describe('strategic map preference', () => {
 
   it('round-trips the remembered choice across a reload', () => {
     const store = memoryStore()
-    rememberMapSection(true, store)
-    expect(mapSectionOpen('', store)).toBe(true)
     rememberMapSection(false, store)
     expect(mapSectionOpen('', store)).toBe(false)
+    rememberMapSection(true, store)
+    expect(mapSectionOpen('', store)).toBe(true)
   })
 
-  it('stays collapsed instead of throwing when storage is unavailable', () => {
-    expect(mapSectionOpen('', failingStore)).toBe(false)
-    expect(mapSectionOpen('', null)).toBe(false)
+  it('still leads with the map when storage is unavailable', () => {
+    expect(mapSectionOpen('', failingStore)).toBe(true)
+    expect(mapSectionOpen('', null)).toBe(true)
     expect(() => rememberMapSection(true, failingStore)).not.toThrow()
     expect(mapSectionOpen(MAP_HASH, failingStore)).toBe(true)
   })
