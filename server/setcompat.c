@@ -34,7 +34,7 @@ struct set_name_compat {
 static struct set_name_compat set_name_compat_S3_1_to_S3_2[] =
 {
   { "spaceship_travel_time", "spaceship_travel_pct" },
-  { NULL, NULL }
+  { nullptr, nullptr }
 };
 
 
@@ -47,7 +47,7 @@ static const char *setcompat_name_generic(const char *old_name,
 {
   int i;
 
-  for (i = 0; compats[i].old_name != NULL; i++) {
+  for (i = 0; compats[i].old_name != nullptr; i++) {
     if (!fc_strcasecmp(old_name, compats[i].old_name)) {
       return compats[i].new_name;
     }
@@ -83,5 +83,5 @@ const char *setcompat_S3_2_val_from_S3_1(struct setting *pset,
 #endif
   }
 
-  return NULL;
+  return nullptr;
 }
