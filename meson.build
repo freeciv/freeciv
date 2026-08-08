@@ -951,6 +951,7 @@ if get_option('audio') != 'none'
   else
     audio_sdl2_dep = dependency('SDL2_mixer')
     audio_dep = [sdl2main_dep, audio_sdl2_dep]
+    priv_conf_data.set('AUDIO_SDL2', 1)
   endif
 
   audio_sdl_src = 'client/audio_sdl.c'

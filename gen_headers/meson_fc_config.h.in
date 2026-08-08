@@ -68,7 +68,10 @@
 /* Enable audio */
 #mesondefine AUDIO_SDL
 
-/* Use SDL3_mixer */
+/* Use SDL2_mixer */
+#mesondefine AUDIO_SDL2
+
+/* Use sdl3-mixer */
 #mesondefine AUDIO_SDL3
 
 /* Native language support enabled */
