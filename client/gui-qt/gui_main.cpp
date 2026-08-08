@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#ifdef AUDIO_SDL
+#ifdef AUDIO_SDL2
 /* Though it would happily compile without this include,
  * it is needed for sound to work.
  * It defines "main" macro to rename our main() so that
@@ -25,7 +25,7 @@
 #else  // PLAIN_INCLUDE
 #include <SDL2/SDL.h>
 #endif // PLAIN_INCLUDE
-#endif // AUDIO_SDL
+#endif // AUDIO_SDL2
 
 #include <stdio.h>
 
