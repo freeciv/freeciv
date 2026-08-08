@@ -813,7 +813,7 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 }
 
 /**********************************************************************//**
-  Creates spy's building sabotaging dialog
+  Creates building destruction dialog
 **************************************************************************/
 static void create_improvements_list(struct player *pplayer,
 				     struct city *pcity,
@@ -824,22 +824,35 @@ static void create_improvements_list(struct player *pplayer,
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
   GtkTreeIter it;
-
+  struct action *paction = action_by_number(args->act_id);
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
-  
-  spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
-                                                   NULL, 0,
-                                                   _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                                   _("_Sabotage"), GTK_RESPONSE_ACCEPT,
-                                                   NULL);
+
+  if (paction->result == ACTRES_STRIKE_BUILDING) {
+    spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Strike Improvements"),
+                                                     NULL, 0,
+                                                     _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                                     _("_Strike"), GTK_RESPONSE_ACCEPT,
+                                                     NULL);
+  } else {
+    spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
+                                                     NULL, 0,
+                                                     _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                                     _("_Sabotage"), GTK_RESPONSE_ACCEPT,
+                                                     NULL);
+  }
   setup_dialog(spy_sabotage_shell, toplevel);
   gtk_window_set_position(GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_sabotage_shell),
 				  GTK_RESPONSE_ACCEPT);
 
-  label = gtk_frame_new(_("Select Improvement to Sabotage"));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
+  if (paction->result == ACTRES_STRIKE_BUILDING) {
+    label = gtk_frame_new(_("Select Improvement to Strike"));
+  } else {
+    label = gtk_frame_new(_("Select Improvement to Sabotage"));
+  }
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))),
+                    label);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
