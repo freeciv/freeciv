@@ -26,6 +26,7 @@ GUI="$2"
 if test "${GUI}" != "gtk3.22" &&
    test "${GUI}" != "gtk4" &&
    test "${GUI}" != "sdl2" &&
+   test "${GUI}" != "sdl3" &&
    test "${GUI}" != "qt6" &&
    test "${GUI}" != "qt6x" &&
    test "${GUI}" != "ruledit" ; then
@@ -85,6 +86,8 @@ case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;
   gtk4) FCMP="gtk4" ;;
   sdl2) FCMP="gtk4" ;;
+  sdl3) FCMP="gtk4"
+        AUDIO="sdl3" ;;
   qt6) CLIENT="qt"
        FCMP="qt"
        TOOLS="${TOOLS},ruledit"
