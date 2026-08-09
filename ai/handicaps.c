@@ -28,7 +28,7 @@
 **************************************************************************/
 void handicaps_init(struct player *pplayer)
 {
-  if (pplayer->ai_common.handicaps != NULL) {
+  if (pplayer->ai_common.handicaps != nullptr) {
     return;
   }
 
@@ -41,12 +41,12 @@ void handicaps_init(struct player *pplayer)
 **************************************************************************/
 void handicaps_close(struct player *pplayer)
 {
-  if (pplayer->ai_common.handicaps == NULL) {
+  if (pplayer->ai_common.handicaps == nullptr) {
     return;
   }
 
   free(pplayer->ai_common.handicaps);
-  pplayer->ai_common.handicaps = NULL;
+  pplayer->ai_common.handicaps = nullptr;
 }
 
 /**********************************************************************//**
@@ -59,8 +59,8 @@ void handicaps_set(struct player *pplayer, bv_handicap handicaps)
 
 /**********************************************************************//**
   AI players may have handicaps - allowing them to cheat or preventing
-  them from using certain algorithms.  This function returns whether the
-  player has the given handicap.  Human players are assumed to have no
+  them from using certain algorithms. This function returns whether the
+  player has the given handicap. Human players are assumed to have no
   handicaps.
 **************************************************************************/
 bool has_handicap(const struct player *pplayer, enum handicap_type htype)
@@ -85,7 +85,7 @@ const char *handicap_desc(enum handicap_type htype, bool *inverted)
   case H_DIPLOMAT:
     return _("Doesn't build offensive diplomatic units.");
   case H_AWAY:
-    return NULL; /* AI_LEVEL_AWAY has its own description */
+    return nullptr; /* AI_LEVEL_AWAY has its own description */
   case H_LIMITEDHUTS:
     return _("Gets reduced bonuses from huts.");
   case H_DEFENSIVE:
@@ -136,5 +136,5 @@ const char *handicap_desc(enum handicap_type htype, bool *inverted)
   /* Should never reach here */
   fc_assert(FALSE);
 
-  return NULL;
+  return nullptr;
 }
