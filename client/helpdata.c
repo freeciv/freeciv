@@ -3164,14 +3164,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: indented unit action property, preserve
                       * leading spaces. */
-                     _("  %s if a suitable hut is at the targetet tile it"
+                     _("  %s if a suitable hut is at the targeted tile it"
                        " will be entered.\n"), BULLET);
       }
       if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN)) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: indented unit action property, preserve
                       * leading spaces. */
-                     _("  %s if a suitable hut is at the targetet tile it"
+                     _("  %s if a suitable hut is at the targeted tile it"
                        " will be frightened.\n"), BULLET);
       }
       if (BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)) {
