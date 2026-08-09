@@ -37,8 +37,6 @@ enum tile_special_type {
   /* internal values not saved */
   S_LAST,
 
-  S_OLD_FORTRESS,
-  S_OLD_AIRBASE,
   S_OLD_ROAD,
   S_OLD_RAILROAD,
   S_OLD_RIVER
