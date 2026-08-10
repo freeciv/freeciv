@@ -55,6 +55,8 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
     packet.player = player_number(plr);
 
     city_list_iterate(plr->cities, pcity) {
+      struct packet_city_access_area caarea_packet;
+
       if (pcity->aarea == nullptr) {
         struct access_area *aarea = fc_malloc(sizeof(struct access_area));
         struct pf_parameter parameter;
@@ -112,6 +114,11 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
 
         lsend_packet_access_area(plr->connections, &packet);
       }
+
+      caarea_packet.city = pcity->id;
+      caarea_packet.aarea = pcity->aarea->index;
+
+      lsend_packet_city_access_area(plr->connections, &caarea_packet);
     } city_list_iterate_end;
 
     unit_virtual_destroy(access_unit);

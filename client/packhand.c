@@ -5878,3 +5878,33 @@ void handle_access_area(const struct packet_access_area *packet)
 
   aarea_list_append(alist, aarea);
 }
+
+/**********************************************************************//**
+  Handle city access area packet.
+**************************************************************************/
+void handle_city_access_area(const struct packet_city_access_area *packet)
+{
+  struct city *pcity = game_city_by_number(packet->city);
+  struct player *plr;
+  struct aarea_list *alist;
+
+  if (pcity == nullptr) {
+    log_warn("handle_city_access_area() received illegal city");
+    return;
+  }
+
+  plr = city_owner(pcity);
+
+  /* Currently we support only packets about our own cities. */
+  fc_assert(plr == client_player());
+
+  alist = area_list_for_player(plr);
+  aarea_list_iterate(alist, aarea) {
+    if (aarea->index == packet->aarea) {
+      fc_assert(pcity->aarea == nullptr);
+
+      pcity->aarea = aarea;
+      break;
+    }
+  } aarea_list_iterate_end;
+}

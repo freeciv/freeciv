@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 521
+Max id: 522
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -2443,6 +2443,11 @@ PACKET_ACCESS_AREA = 521; sc, lsend
   UINT16 index;
   BOOL capital;
   BV_TILEDEFS tiledefs;
+end
+
+PACKET_CITY_ACCESS_AREA = 522; sc, lsend
+  CITY city;
+  UINT16 aarea;
 end
 
 /*************** Webclient specific packets ****************/
