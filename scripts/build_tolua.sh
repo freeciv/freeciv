@@ -31,7 +31,8 @@ fi
 
 if ! meson setup -Dserver=disabled -Dclients=[] -Dfcmp=[] -Dtools=[] \
      -Daudio=none "${top_srcdir}" ||
-   ! ninja ; then
+   ! ninja tolua
+then
   echo "Tolua build failed!" >&2
   exit 1
 fi
