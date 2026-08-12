@@ -19,7 +19,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { Command, Options } from '@effect/cli';
-import { Console, Effect } from 'effect';
+import { Console, Effect, Either } from 'effect';
 import { PlayerError, playerError } from 'src/errors';
 import { FULL_CONTROL_V2, GAME_ID_RE, STRATEGIC_V1, TERMINAL_STATES } from 'src/constants';
 import { dualText, resolveDual } from 'src/options';
@@ -84,32 +84,30 @@ export const applyPlayDefaults = (
 ): Effect.Effect<PlayIdentity, PlayerError> =>
   Effect.suspend(() => {
     const target = path.join(workspace.root, '.playconfig.json');
-    const present = ((): boolean => {
-      try {
-        return fs.statSync(target).isFile();
-      } catch {
-        return false;
-      }
-    })();
+    const present = Either.getOrElse(
+      Either.try(() => fs.statSync(target).isFile()),
+      () => false
+    );
     if (!present) return Effect.succeed(args);
-    const raw = ((): { readonly value: unknown } | { readonly failure: string } => {
-      try {
-        // `read_text(encoding="utf-8")` is strict, and `except ValueError`
-        // catches the `UnicodeDecodeError` it raises.  Node's `'utf8'` reader
-        // would substitute U+FFFD instead and accept a config CPython refuses,
-        // so the decode is `fatal` here too (NOTES §12.8).
-        const decoded = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(
-          fs.readFileSync(target)
-        );
-        return { value: JSON.parse(decoded) as unknown };
-      } catch (cause) {
-        return { failure: cause instanceof Error ? cause.message : String(cause) };
-      }
-    })();
-    if ('failure' in raw) {
-      return Effect.fail(playerError(`invalid .playconfig.json: ${raw.failure}`));
+    // `read_text(encoding="utf-8")` is strict, and `except ValueError` catches
+    // the `UnicodeDecodeError` it raises.  Node's `'utf8'` reader would
+    // substitute U+FFFD and accept a config CPython refuses, so the decode is
+    // `fatal` here too (NOTES §12.8).
+    const raw = Either.mapLeft(
+      Either.try(
+        (): unknown =>
+          JSON.parse(
+            new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(
+              fs.readFileSync(target)
+            )
+          )
+      ),
+      (cause) => (cause instanceof Error ? cause.message : String(cause))
+    );
+    if (Either.isLeft(raw)) {
+      return Effect.fail(playerError(`invalid .playconfig.json: ${raw.left}`));
     }
-    const value = raw.value;
+    const value = raw.right;
     if (!isJsonObject(value)) return Effect.fail(playerError(PLAYCONFIG_INVALID));
     const configuredGame = value['game_id'];
     const configuredName = value['name'];

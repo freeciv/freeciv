@@ -29,7 +29,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { Effect } from 'effect';
-import { PlayerError, playerError } from 'src/errors';
+import { PlayerError, playerError, attemptOr } from 'src/errors';
 import { serviceUrl } from 'src/services/http';
 import { expandUser, type WorkspacePaths } from 'src/services/private-fs';
 import { isJsonObject, type JsonObject } from 'src/schema/primitives';
@@ -142,28 +142,25 @@ const isInside = (parent: string, child: string): boolean =>
   child === parent || child.startsWith(parent + path.sep);
 
 const lstatOrNull = (target: string): fs.Stats | null => {
-  try {
-    return fs.lstatSync(target);
-  } catch {
-    return null;
-  }
+  return attemptOr(
+      () => fs.lstatSync(target),
+      () => null
+  );
 };
 
 /** `Path.is_file()` / `Path.stat()` — follows symlinks, on an already-resolved path. */
 const statOrNull = (target: string): fs.Stats | null => {
-  try {
-    return fs.statSync(target);
-  } catch {
-    return null;
-  }
+  return attemptOr(
+      () => fs.statSync(target),
+      () => null
+  );
 };
 
 const readlinkOrNull = (target: string): string | null => {
-  try {
-    return fs.readlinkSync(target);
-  } catch {
-    return null;
-  }
+  return attemptOr(
+      () => fs.readlinkSync(target),
+      () => null
+  );
 };
 
 // ---------------------------------------------------------------------------
@@ -326,26 +323,24 @@ const readInviteFile = (
       return Effect.fail(playerError(notPrivate(gameId)));
     }
 
-    const parsed = ((): unknown => {
-      try {
-        // `Path.read_text(encoding="utf-8")`, and it is STRICT.  Node's
-        // `'utf8'` reader silently substitutes U+FFFD for an invalid byte, so
-        // an invitation whose `join_token` is the bytes `to\xffk` would decode
-        // to `"to�k"`, pass every check, and be sent as a bearer that is
-        // not what is on disk.  CPython raises `UnicodeDecodeError`, which
-        // `_load_object` turns into the "unreadable" refusal — a credential
-        // loader has to fail closed on a malformed credential file.
-        //
-        // `ignoreBOM: true` means "do not strip a leading U+FEFF": the utf-8
-        // codec keeps it, and `json.loads` then rejects it, exactly as
-        // `JSON.parse` does here.
-        const bytes = fs.readFileSync(resolved);
-        const decoded = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes);
-        return JSON.parse(decoded) as unknown;
-      } catch {
-        return undefined;
-      }
-    })();
+    // `Path.read_text(encoding="utf-8")`, and it is STRICT: Node's `'utf8'`
+    // reader silently substitutes U+FFFD for an invalid byte, so an invitation
+    // whose `join_token` carries an invalid byte would decode to a lookalike,
+    // pass every check, and be sent as a bearer that is not what is on disk.
+    // CPython raises `UnicodeDecodeError`, which `_load_object` turns into the
+    // "unreadable" refusal: a credential loader fails closed on a malformed
+    // credential file.  `ignoreBOM: true` means "do not strip a leading
+    // U+FEFF": the utf-8 codec keeps it, and `json.loads` then rejects it,
+    // exactly as `JSON.parse` does here.
+    const parsed = attemptOr(
+      (): unknown =>
+        JSON.parse(
+          new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(
+            fs.readFileSync(resolved)
+          )
+        ),
+      () => undefined
+    );
     if (!isJsonObject(parsed)) {
       return Effect.fail(playerError(unreadable(gameId)));
     }

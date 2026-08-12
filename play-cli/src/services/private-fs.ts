@@ -20,7 +20,7 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { Context, Effect, Layer } from 'effect';
-import { PlayerError, playerError } from 'src/errors';
+import { PlayerError, playerError, attemptOr } from 'src/errors';
 import { isJsonObject, type JsonObject } from 'src/schema/primitives';
 import { indentedJson } from 'src/services/json-output';
 
@@ -46,18 +46,15 @@ export const expandUser = (value: string): string =>
  */
 export const resolveExisting = (target: string): string => {
   const absolute = path.resolve(expandUser(target));
-  const tail: string[] = [];
-  let head = absolute;
-  for (;;) {
-    try {
-      return path.join(fs.realpathSync.native(head), ...tail.reverse());
-    } catch {
-      const parent = path.dirname(head);
-      if (parent === head) return absolute;
-      tail.push(path.basename(head));
-      head = parent;
-    }
-  }
+  const walk = (head: string, tail: ReadonlyArray<string>): string =>
+    attemptOr(
+      () => path.join(fs.realpathSync.native(head), ...[...tail].reverse()),
+      () => {
+        const parent = path.dirname(head);
+        return parent === head ? absolute : walk(parent, [...tail, path.basename(head)]);
+      }
+    );
+  return walk(absolute, []);
 };
 
 const isInside = (parent: string, child: string): boolean =>
@@ -160,54 +157,51 @@ export const openStateDirectory = (
     if (!isInside(workspace.root, workspace.stateRoot)) {
       return Effect.fail(playerError('PLAY_STATE_DIR must stay inside the player workspace'));
     }
-    let current = workspace.root;
-    try {
-      const rootStat = fs.lstatSync(current);
-      if (!rootStat.isDirectory()) {
-        return Effect.fail(playerError('the player workspace is not a safe directory'));
-      }
-    } catch {
+    const rootIsDirectory = attemptOr(
+      () => fs.lstatSync(workspace.root).isDirectory(),
+      () => false
+    );
+    if (!rootIsDirectory) {
       return Effect.fail(playerError('the player workspace is not a safe directory'));
     }
-    for (const part of [...rootParts, ...parts]) {
+    // Each component is proved (no symlink, a real directory) before the walk
+    // descends into it; the fold carries the proven prefix.
+    const descend = (parent: string, part: string): Effect.Effect<string, PlayerError> => {
       if (BAD_PARTS.has(part)) {
         return Effect.fail(playerError('private state path is invalid'));
       }
-      const child = path.join(current, part);
-      const stat = ((): fs.Stats | null => {
-        try {
-          return fs.lstatSync(child);
-        } catch {
-          return null;
-        }
-      })();
-      if (stat === null) {
-        if (!options.create) {
-          return Effect.fail(playerError('private state directory does not exist'));
-        }
-        try {
-          fs.mkdirSync(child, { mode: 0o700 });
-        } catch (cause) {
-          const code = (cause as NodeJS.ErrnoException).code;
-          if (code !== 'EEXIST') {
-            return Effect.fail(playerError(REAL_DIR_ERROR));
-          }
-        }
-        let created: fs.Stats;
-        try {
-          created = fs.lstatSync(child);
-        } catch {
-          return Effect.fail(playerError(REAL_DIR_ERROR));
-        }
-        if (created.isSymbolicLink() || !created.isDirectory()) {
-          return Effect.fail(playerError(REAL_DIR_ERROR));
-        }
-      } else if (stat.isSymbolicLink() || !stat.isDirectory()) {
-        return Effect.fail(playerError(REAL_DIR_ERROR));
+      const child = path.join(parent, part);
+      const stat = attemptOr(
+        (): fs.Stats | null => fs.lstatSync(child),
+        () => null
+      );
+      if (stat !== null) {
+        return stat.isSymbolicLink() || !stat.isDirectory()
+          ? Effect.fail(playerError(REAL_DIR_ERROR))
+          : Effect.succeed(child);
       }
-      current = child;
-    }
-    return Effect.succeed(current);
+      if (!options.create) {
+        return Effect.fail(playerError('private state directory does not exist'));
+      }
+      const made = attemptOr(
+        () => {
+          fs.mkdirSync(child, { mode: 0o700 });
+          return true;
+        },
+        (cause) => (cause as NodeJS.ErrnoException).code === 'EEXIST'
+      );
+      if (!made) return Effect.fail(playerError(REAL_DIR_ERROR));
+      const created = attemptOr(
+        (): fs.Stats | null => fs.lstatSync(child),
+        () => null
+      );
+      return created === null || created.isSymbolicLink() || !created.isDirectory()
+        ? Effect.fail(playerError(REAL_DIR_ERROR))
+        : Effect.succeed(child);
+    };
+    return Effect.reduce([...rootParts, ...parts], workspace.root, (parent, part) =>
+      descend(parent, part)
+    );
   });
 
 // ---------------------------------------------------------------------------
@@ -272,13 +266,17 @@ const makeApi = (workspace: WorkspacePaths): PrivateFsApi => {
             fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | NOFOLLOW | CLOEXEC,
             0o600
           );
-          try {
-            fs.fchmodSync(descriptor, 0o600);
-            fs.writeFileSync(descriptor, text, { encoding: 'utf8' });
-            fs.fsyncSync(descriptor);
-          } finally {
-            fs.closeSync(descriptor);
-          }
+          const written = attemptOr(
+            () => {
+              fs.fchmodSync(descriptor, 0o600);
+              fs.writeFileSync(descriptor, text, { encoding: 'utf8' });
+              fs.fsyncSync(descriptor);
+              return null;
+            },
+            (cause) => cause
+          );
+          fs.closeSync(descriptor);
+          if (written !== null) throw written;
           fs.renameSync(temporary, path.join(parent, name));
           return destination;
         },
@@ -286,13 +284,12 @@ const makeApi = (workspace: WorkspacePaths): PrivateFsApi => {
           playerError('cannot safely write private state inside PLAY_STATE_DIR'),
       });
       return yield* Effect.onError(write, () =>
-        Effect.sync(() => {
-          try {
-            fs.unlinkSync(temporary);
-          } catch {
-            /* the rename already consumed it */
-          }
-        })
+        Effect.sync(() =>
+          attemptOr(
+            () => fs.unlinkSync(temporary),
+            () => undefined /* the rename already consumed it */
+          )
+        )
       );
     });
 
@@ -305,17 +302,23 @@ const makeApi = (workspace: WorkspacePaths): PrivateFsApi => {
         try: () => fs.openSync(file, fs.constants.O_RDONLY | NOFOLLOW | CLOEXEC),
         catch: () => playerError(`cannot safely read private ${label}`),
       });
-      try {
-        const stat = fs.fstatSync(opened);
-        if (!stat.isFile() || (stat.mode & 0o777) !== 0o600) {
-          return yield* Effect.fail(
-            playerError(`private ${label} must be a mode-0600 file`)
-          );
-        }
-        return fs.readFileSync(opened, { encoding: 'utf8' });
-      } finally {
-        fs.closeSync(opened);
-      }
+      return yield* Effect.try({
+        try: () => {
+          const stat = fs.fstatSync(opened);
+          if (!stat.isFile() || (stat.mode & 0o777) !== 0o600) {
+            return null;
+          }
+          return fs.readFileSync(opened, { encoding: 'utf8' });
+        },
+        catch: () => playerError(`cannot safely read private ${label}`),
+      }).pipe(
+        Effect.ensuring(Effect.sync(() => fs.closeSync(opened))),
+        Effect.flatMap((text) =>
+          text === null
+            ? Effect.fail(playerError(`private ${label} must be a mode-0600 file`))
+            : Effect.succeed(text)
+        )
+      );
     });
 
   const appendText = (target: string, text: string): Effect.Effect<string, PlayerError> =>
@@ -332,17 +335,23 @@ const makeApi = (workspace: WorkspacePaths): PrivateFsApi => {
           ),
         catch: () => playerError('cannot safely append to private state'),
       });
-      try {
-        const stat = fs.fstatSync(opened);
-        if (!stat.isFile()) {
-          return yield* Effect.fail(playerError('a private log must be a regular file'));
-        }
-        fs.fchmodSync(opened, 0o600);
-        fs.writeSync(opened, Buffer.from(text, 'utf8'));
-        return destination;
-      } finally {
-        fs.closeSync(opened);
-      }
+      return yield* Effect.try({
+        try: () => {
+          const stat = fs.fstatSync(opened);
+          if (!stat.isFile()) return null;
+          fs.fchmodSync(opened, 0o600);
+          fs.writeSync(opened, Buffer.from(text, 'utf8'));
+          return destination;
+        },
+        catch: () => playerError('cannot safely append to private state'),
+      }).pipe(
+        Effect.ensuring(Effect.sync(() => fs.closeSync(opened))),
+        Effect.flatMap((appended) =>
+          appended === null
+            ? Effect.fail(playerError('a private log must be a regular file'))
+            : Effect.succeed(appended)
+        )
+      );
     });
 
   return {
@@ -368,14 +377,9 @@ const makeApi = (workspace: WorkspacePaths): PrivateFsApi => {
         const { relative } = yield* resolve(target);
         const parent = yield* parentOf(relative, false);
         const file = path.join(parent, leafOf(relative));
-        const ok = yield* Effect.sync(() => {
-          try {
-            const stat = fs.lstatSync(file);
-            return stat.isFile();
-          } catch {
-            return false;
-          }
-        });
+        const ok = yield* Effect.sync(() =>
+          attemptOr(() => fs.lstatSync(file).isFile(), () => false)
+        );
         return ok
           ? relative.join(path.sep)
           : yield* Effect.fail(
@@ -384,12 +388,10 @@ const makeApi = (workspace: WorkspacePaths): PrivateFsApi => {
       }),
     exists: (target) =>
       Effect.sync(() => {
-        try {
-          const lexical = path.resolve(expandUser(target));
-          return fs.lstatSync(lexical).isFile();
-        } catch {
-          return false;
-        }
+        return attemptOr(
+          () => fs.lstatSync(path.resolve(expandUser(target))).isFile(),
+          () => false
+        );
       }),
     openDirectory: (parts, options) => openStateDirectory(workspace, parts, options),
   };

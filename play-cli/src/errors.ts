@@ -7,7 +7,7 @@
  * travels in the Effect error channel and is mapped to stderr text and an exit
  * code in exactly one place, `src/cli-main.ts`.
  */
-import { Data } from 'effect';
+import { Data, Either } from 'effect';
 
 /** A stable, user-facing player client failure. Python: `PlayerError`. */
 export class PlayerError extends Data.TaggedError('PlayerError')<{
@@ -82,3 +82,16 @@ export const playerError = (message: string): PlayerError => new PlayerError({ m
 
 /** The user-facing sentence any of the mapped failures prints after `error: `. */
 export const errorMessage = (error: PlayError): string => error.message;
+
+// ---------------------------------------------------------------------------
+// Sync boundary runners — the codebase writes no bare try/catch
+// ---------------------------------------------------------------------------
+
+/**
+ * Run a synchronous boundary thunk (fs, URL, JSON.parse); a throw becomes the
+ * fallback.  Errors stay values everywhere above this line.
+ */
+export const attemptOr = <A, B>(thunk: () => A, orElse: (cause: unknown) => B): A | B => {
+  const outcome = Either.try(thunk);
+  return Either.isLeft(outcome) ? orElse(outcome.left) : outcome.right;
+};

@@ -15,7 +15,7 @@
  */
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { Context, Effect, Layer } from 'effect';
+import { Context, Effect, Either, Layer } from 'effect';
 import { PlayerError, playerError } from 'src/errors';
 import { DEFAULT_SERVICE_URL } from 'src/constants';
 import { compactJson, pyJsonDumps } from 'src/services/json-output';
@@ -40,13 +40,10 @@ export const serviceUrl = (
 ): Effect.Effect<string, PlayerError> =>
   Effect.suspend(() => {
     const raw = (value || environment['AGENT_EVAL_SERVICE_URL'] || DEFAULT_SERVICE_URL).trim();
-    const parsed = ((): URL | null => {
-      try {
-        return new URL(raw);
-      } catch {
-        return null;
-      }
-    })();
+    const parsed = Either.getOrElse(
+      Either.try((): URL | null => new URL(raw)),
+      () => null
+    );
     if (parsed === null) return Effect.fail(playerError(SERVICE_URL_ERROR));
     const scheme = parsed.protocol.replace(/:$/, '').toLowerCase();
     // `URL` drops a default port (`https://h:443` → host `h`); CPython's
@@ -111,14 +108,14 @@ export class Http extends Context.Tag('Http')<Http, HttpApi>() {}
 
 const DEFAULT_TIMEOUT_S = 60;
 
-const originOf = (url: string): string => {
-  try {
-    const parsed = new URL(url);
-    return `${parsed.protocol}//${parsed.host}`;
-  } catch {
-    return url;
-  }
-};
+const originOf = (url: string): string =>
+  Either.getOrElse(
+    Either.map(
+      Either.try(() => new URL(url)),
+      (parsed) => `${parsed.protocol}//${parsed.host}`
+    ),
+    () => url
+  );
 
 const unreachable = (url: string, reason: string): PlayerError =>
   playerError(
@@ -253,13 +250,12 @@ const configuredCaPath = (): string | undefined => {
     return trimmed === '' ? undefined : trimmed;
   }
   const root = workspaceRoot();
-  const parsed: unknown = (() => {
-    try {
-      return JSON.parse(fs.readFileSync(path.join(root, '.playconfig.json'), 'utf8')) as unknown;
-    } catch {
-      return undefined;
-    }
-  })();
+  const parsed: unknown = Either.getOrElse(
+    Either.try(
+      (): unknown => JSON.parse(fs.readFileSync(path.join(root, '.playconfig.json'), 'utf8'))
+    ),
+    () => undefined
+  );
   if (!isJsonObject(parsed)) return undefined;
   const configured = parsed['tls_ca'];
   if (typeof configured !== 'string' || configured === '') return undefined;
@@ -276,17 +272,15 @@ export const caTrustedFetch = (fetchImpl: typeof fetch): typeof fetch =>
     (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
       const caPath = configuredCaPath();
       if (caPath === undefined) return fetchImpl(input, init);
-      const ca = (() => {
-        try {
-          return fs.readFileSync(caPath, 'utf8');
-        } catch (cause) {
-          throw new Error(
+      const ca = Either.getOrThrowWith(
+        Either.try(() => fs.readFileSync(caPath, 'utf8')),
+        (cause: unknown) =>
+          new Error(
             `the configured TLS CA ${caPath} is unreadable ` +
               `(${cause instanceof Error ? cause.message : String(cause)}); ` +
               'fix PLAY_TLS_CA or the workspace .playconfig.json tls_ca entry'
-          );
-        }
-      })();
+          )
+      );
       return fetchImpl(input, { ...init, tls: { ca } });
     },
     { preconnect: fetch.preconnect }

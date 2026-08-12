@@ -114,24 +114,47 @@ export const drainLegal = (
   actorId = ''
 ): Effect.Effect<DrainedCatalog, DrainError, SessionStore | PrivateFs | V2Client> =>
   Effect.gen(function* () {
-    let query = actorId === '' ? '' : new URLSearchParams({ actor_id: actorId }).toString();
-    let cursor = '';
     const seen = new Set<string>();
-    let revision: Revision | null = null;
     const actions: CompactAction[] = [];
-    for (let page = 0; page < V2_LEGAL_DRAIN_MAX_PAGES; page += 1) {
-      const value = yield* readLegalPage(ctx, { query, cursor, actorId, targetId: '' });
-      revision = value.state_revision;
-      for (const item of value.page.items) {
-        actions.push(yield* compactLegalAction(descriptorToJson(item)));
-      }
-      cursor = value.page.next_cursor ?? '';
-      if (cursor === '') return { revision, actions };
-      if (seen.has(cursor)) return yield* Effect.fail(playerError(REPEATED_CURSOR));
-      seen.add(cursor);
-      query = cursorQuery(cursor);
+
+    interface Drain {
+      readonly query: string;
+      readonly cursor: string;
+      readonly page: number;
+      readonly done: DrainedCatalog | null;
     }
-    return yield* Effect.fail(playerError(DRAIN_LIMIT));
+    const turnPage = (state: Drain) =>
+      Effect.gen(function* () {
+        if (state.page >= V2_LEGAL_DRAIN_MAX_PAGES) {
+          return yield* Effect.fail(playerError(DRAIN_LIMIT));
+        }
+        const value = yield* readLegalPage(ctx, {
+          query: state.query,
+          cursor: state.cursor,
+          actorId,
+          targetId: '',
+        });
+        for (const item of value.page.items) {
+          actions.push(yield* compactLegalAction(descriptorToJson(item)));
+        }
+        const cursor = value.page.next_cursor ?? '';
+        if (cursor === '') {
+          return { ...state, done: { revision: value.state_revision, actions } };
+        }
+        if (seen.has(cursor)) return yield* Effect.fail(playerError(REPEATED_CURSOR));
+        seen.add(cursor);
+        return { query: cursorQuery(cursor), cursor, page: state.page + 1, done: null };
+      });
+    const drained = yield* Effect.iterate(
+      {
+        query: actorId === '' ? '' : new URLSearchParams({ actor_id: actorId }).toString(),
+        cursor: '',
+        page: 0,
+        done: null,
+      } satisfies Drain as Drain,
+      { while: (state) => state.done === null, body: turnPage }
+    );
+    return drained.done ?? (yield* Effect.dieMessage('unreachable: drain settled without a catalog'));
   });
 
 /**
@@ -243,92 +266,164 @@ export const drainLegalAll = (
     const actorId = args.actorId.trim();
     const targetId = args.targetId.trim();
 
-    let query = encoded;
-    let cursor = '';
-    let revision: Revision | null = null;
-    let catalogTotal: number | null = null;
-    const seenCursors = new Set<string>();
-    let matched = 0;
-    const compactActions: CompactAction[] = [];
-    let compactBytes = 0;
-    let byteLimited = false;
-    let oversizedSingle = false;
-    let pagesRead = 0;
-    // Every kind selector this drain actually printed, so a zero-match filter
-    // can name the taxonomy that exists instead of asserting an empty catalog.
-    const present: string[] = [];
-    // Every kind this drain matched but did not print, counted.  A window that
-    // ends early is indistinguishable from a catalog that ends early unless it
-    // says what it kept back, and the government, multiplier and spaceship
-    // controls sort last in the largest catalog in the game — they are the
-    // first rows any cap eats and the ones a player goes looking for by name.
-    const hidden = new Map<string, number>();
-    const hide = (name: string): void => {
-      hidden.set(name, (hidden.get(name) ?? 0) + 1);
+    // The scan state, carried immutably across pages.  The per-item pass is a
+    // reduce over the same record; `hidden` counts the kinds a window kept
+    // back, keyed exactly as `present` spells them.
+    interface Scan {
+      readonly query: string;
+      readonly cursor: string;
+      readonly revision: Revision | null;
+      readonly catalogTotal: number | null;
+      readonly matched: number;
+      readonly compactActions: ReadonlyArray<CompactAction>;
+      readonly compactBytes: number;
+      readonly byteLimited: boolean;
+      readonly oversizedSingle: boolean;
+      readonly pagesRead: number;
+      readonly present: ReadonlyArray<string>;
+      readonly hidden: ReadonlyMap<string, number>;
+      readonly exhausted: boolean;
+      readonly done: boolean;
+    }
+    const hide = (hidden: ReadonlyMap<string, number>, name: string): ReadonlyMap<string, number> =>
+      new Map(hidden).set(name, (hidden.get(name) ?? 0) + 1);
+    const unhide = (hidden: ReadonlyMap<string, number>, name: string): ReadonlyMap<string, number> => {
+      const remaining = (hidden.get(name) ?? 0) - 1;
+      const next = new Map(hidden);
+      if (remaining === 0) next.delete(name);
+      else next.set(name, remaining);
+      return next;
     };
 
-    let exhausted = true;
-    for (let page = 1; page <= V2_LEGAL_DRAIN_MAX_PAGES; page += 1) {
-      pagesRead = page;
-      const request: LegalQuery = { query, cursor, actorId, targetId };
-      const value = yield* readLegalPage(ctx, request);
-      if (revision === null || catalogTotal === null) {
-        revision = value.state_revision;
-        catalogTotal = value.page.total_items;
-      } else if (
-        !revisionsEqual(value.state_revision, revision) ||
-        value.page.total_items !== catalogTotal
-      ) {
-        return yield* Effect.fail(playerError(CATALOG_CHANGED));
-      }
-      for (const item of value.page.items) {
-        const descriptor: JsonObject = descriptorToJson(item);
+    const takeItem = (
+      state: Scan,
+      descriptor: JsonObject
+    ): Effect.Effect<Scan, PlayerError, SessionStore> =>
+      Effect.gen(function* () {
         const presentKind = descriptorKindKey(descriptor);
-        if (!present.includes(presentKind)) present.push(presentKind);
-        if (kind !== '' && !kindSelectorMatches(descriptor, kind)) continue;
-        const matchOffset = matched;
-        matched += 1;
-        if (matchOffset < offset || byteLimited) {
-          hide(presentKind);
-          continue;
+        const present = state.present.includes(presentKind)
+          ? state.present
+          : [...state.present, presentKind];
+        if (kind !== '' && !kindSelectorMatches(descriptor, kind)) {
+          return { ...state, present };
         }
-        if (compactActions.length >= compactLimit) {
-          hide(presentKind);
-          continue;
+        const matchOffset = state.matched;
+        const matched = state.matched + 1;
+        if (matchOffset < offset || state.byteLimited) {
+          return { ...state, present, matched, hidden: hide(state.hidden, presentKind) };
+        }
+        if (state.compactActions.length >= compactLimit) {
+          return { ...state, present, matched, hidden: hide(state.hidden, presentKind) };
         }
         const compact = yield* compactLegalAction(descriptor);
         const encodedSize = compactActionBytes(compact);
-        if (compactBytes + encodedSize > V2_LEGAL_COMPACT_MAX_BYTES) {
-          byteLimited = true;
-          hide(presentKind);
-          if (compactActions.length === 0) {
+        if (state.compactBytes + encodedSize > V2_LEGAL_COMPACT_MAX_BYTES) {
+          if (state.compactActions.length === 0) {
             if (encodedSize > V2_LEGAL_SINGLE_ACTION_MAX_BYTES) {
               return yield* Effect.fail(playerError(OVERSIZED_SINGLE));
             }
-            compactActions.push(compact);
-            compactBytes += encodedSize;
-            oversizedSingle = true;
             // The bounded fallback printed it after all, so it is not one of
             // the rows this window kept back.
-            const remaining = (hidden.get(presentKind) ?? 0) - 1;
-            if (remaining === 0) hidden.delete(presentKind);
-            else hidden.set(presentKind, remaining);
+            return {
+              ...state,
+              present,
+              matched,
+              byteLimited: true,
+              oversizedSingle: true,
+              compactActions: [compact],
+              compactBytes: state.compactBytes + encodedSize,
+            };
           }
-          continue;
+          return {
+            ...state,
+            present,
+            matched,
+            byteLimited: true,
+            hidden: hide(state.hidden, presentKind),
+          };
         }
-        compactActions.push(compact);
-        compactBytes += encodedSize;
-      }
-      cursor = value.page.next_cursor ?? '';
-      if (cursor === '') {
-        exhausted = false;
-        break;
-      }
-      if (seenCursors.has(cursor)) return yield* Effect.fail(playerError(REPEATED_CURSOR));
-      seenCursors.add(cursor);
-      query = cursorQuery(cursor);
-    }
-    if (exhausted) return yield* Effect.fail(playerError(DRAIN_LIMIT));
+        return {
+          ...state,
+          present,
+          matched,
+          compactActions: [...state.compactActions, compact],
+          compactBytes: state.compactBytes + encodedSize,
+        };
+      });
+
+    const seenCursors = new Set<string>();
+    const takePage = (
+      state: Scan
+    ): Effect.Effect<Scan, DrainError, SessionStore | PrivateFs | V2Client> =>
+      Effect.gen(function* () {
+        if (state.pagesRead >= V2_LEGAL_DRAIN_MAX_PAGES) {
+          return yield* Effect.fail(playerError(DRAIN_LIMIT));
+        }
+        const request: LegalQuery = {
+          query: state.query,
+          cursor: state.cursor,
+          actorId,
+          targetId,
+        };
+        const value = yield* readLegalPage(ctx, request);
+        if (
+          state.revision !== null &&
+          state.catalogTotal !== null &&
+          (!revisionsEqual(value.state_revision, state.revision) ||
+            value.page.total_items !== state.catalogTotal)
+        ) {
+          return yield* Effect.fail(playerError(CATALOG_CHANGED));
+        }
+        const paged: Scan = {
+          ...state,
+          revision: state.revision ?? value.state_revision,
+          catalogTotal: state.catalogTotal ?? value.page.total_items,
+          pagesRead: state.pagesRead + 1,
+        };
+        const scanned = yield* Effect.reduce(
+          value.page.items.map((item) => descriptorToJson(item)),
+          paged,
+          (accumulated, descriptor) => takeItem(accumulated, descriptor)
+        );
+        const nextCursor = value.page.next_cursor ?? '';
+        if (nextCursor === '') return { ...scanned, exhausted: false, done: true };
+        if (seenCursors.has(nextCursor)) {
+          return yield* Effect.fail(playerError(REPEATED_CURSOR));
+        }
+        seenCursors.add(nextCursor);
+        return { ...scanned, query: cursorQuery(nextCursor), cursor: nextCursor };
+      });
+
+    const scan = yield* Effect.iterate(
+      {
+        query: encoded,
+        cursor: '',
+        revision: null,
+        catalogTotal: null,
+        matched: 0,
+        compactActions: [],
+        compactBytes: 0,
+        byteLimited: false,
+        oversizedSingle: false,
+        pagesRead: 0,
+        present: [],
+        hidden: new Map<string, number>(),
+        exhausted: true,
+        done: false,
+      } satisfies Scan as Scan,
+      { while: (state) => !state.done, body: takePage }
+    );
+    const {
+      revision,
+      catalogTotal,
+      matched,
+      compactActions,
+      byteLimited,
+      oversizedSingle,
+      pagesRead,
+      present,
+      hidden,
+    } = scan;
 
     if (kind !== '' && matched === 0) {
       return {

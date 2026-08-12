@@ -25,7 +25,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { Effect } from 'effect';
-import { PlayerError, playerError } from 'src/errors';
+import { PlayerError, playerError, attemptOr } from 'src/errors';
 import { isJsonObject, type JsonObject } from 'src/schema/primitives';
 import { pyJsonDumps } from 'src/services/json-output';
 import { monitorLockPath } from 'src/services/locks';
@@ -50,27 +50,27 @@ const flockBinding = ((): (() => FlockFn | null) => {
   return () => {
     if (cache.resolved) return cache.value;
     cache.resolved = true;
-    for (const candidate of LIBC_CANDIDATES) {
-      try {
-        const ffi = require('bun:ffi') as {
-          readonly dlopen: (
-            name: string,
-            symbols: Record<string, { args: ReadonlyArray<unknown>; returns: unknown }>
-          ) => { readonly symbols: Record<string, FlockFn> };
-          readonly FFIType: Record<string, unknown>;
-        };
-        const library = ffi.dlopen(candidate, {
-          flock: { args: [ffi.FFIType['i32'], ffi.FFIType['i32']], returns: ffi.FFIType['i32'] },
-        });
-        const symbol = library.symbols['flock'];
-        if (typeof symbol === 'function') {
-          cache.value = symbol;
-          return cache.value;
-        }
-      } catch {
-        /* try the next candidate */
-      }
-    }
+    const bound = LIBC_CANDIDATES.flatMap((candidate) =>
+      attemptOr(
+        (): ReadonlyArray<FlockFn> => {
+          const ffi = require('bun:ffi') as {
+            readonly dlopen: (
+              name: string,
+              symbols: Record<string, { args: ReadonlyArray<unknown>; returns: unknown }>
+            ) => { readonly symbols: Record<string, FlockFn> };
+            readonly FFIType: Record<string, unknown>;
+          };
+          const library = ffi.dlopen(candidate, {
+            flock: { args: [ffi.FFIType['i32'], ffi.FFIType['i32']], returns: ffi.FFIType['i32'] },
+          });
+          const symbol = library.symbols['flock'];
+          return typeof symbol === 'function' ? [symbol] : [];
+        },
+        (): ReadonlyArray<FlockFn> => [] /* this libc spelling is absent here */
+      )
+    );
+    cache.value = bound[0] ?? null;
+    if (cache.value !== null) return cache.value;
     return cache.value;
   };
 })();
@@ -94,16 +94,16 @@ const CLOEXEC = openFlag('O_CLOEXEC');
  * for `--status`, and a monitor that is demonstrably alive must not be reported
  * as absent because its own JSON was truncated by a crash mid-write.
  */
-export const readMonitorHolder = (descriptor: number): JsonObject => {
-  try {
-    const buffer = Buffer.alloc(HOLDER_BYTES);
-    const read = fs.readSync(descriptor, buffer, 0, HOLDER_BYTES, 0);
-    const value = JSON.parse(buffer.subarray(0, read).toString('utf8')) as unknown;
-    return isJsonObject(value) ? value : {};
-  } catch {
-    return {};
-  }
-};
+export const readMonitorHolder = (descriptor: number): JsonObject =>
+  attemptOr(
+    () => {
+      const buffer = Buffer.alloc(HOLDER_BYTES);
+      const read = fs.readSync(descriptor, buffer, 0, HOLDER_BYTES, 0);
+      const value = JSON.parse(buffer.subarray(0, read).toString('utf8')) as unknown;
+      return isJsonObject(value) ? value : {};
+    },
+    (): JsonObject => ({})
+  );
 
 // ---------------------------------------------------------------------------
 // The lock file, as a path inside the private-state sandbox
@@ -129,14 +129,14 @@ const lockFile = (
 
 const sentinelOf = (file: string): string => `${file}.held`;
 
-const isLive = (pid: number): boolean => {
-  try {
-    process.kill(pid, 0);
-    return true;
-  } catch (cause) {
-    return (cause as NodeJS.ErrnoException).code === 'EPERM';
-  }
-};
+const isLive = (pid: number): boolean =>
+  attemptOr(
+    () => {
+      process.kill(pid, 0);
+      return true;
+    },
+    (cause) => (cause as NodeJS.ErrnoException).code === 'EPERM'
+  );
 
 // ---------------------------------------------------------------------------
 // _monitor_lock
@@ -165,11 +165,10 @@ const acquireNative = (
 ): Effect.Effect<HeldMonitorLock, PlayerError> =>
   Effect.suspend<HeldMonitorLock, PlayerError, never>(() => {
     const opened = ((): number | PlayerError => {
-      try {
-        return openLockFile(file);
-      } catch {
-        return playerError('cannot safely lock the monitor');
-      }
+      return attemptOr(
+          () => openLockFile(file),
+          () => playerError('cannot safely lock the monitor')
+      );
     })();
     if (typeof opened !== 'number') return Effect.fail(opened);
     const stat = fs.fstatSync(opened);
@@ -187,26 +186,31 @@ const acquireNative = (
         },
       });
     }
-    try {
-      writeHolder(opened, holder);
-    } catch {
-      try {
-        flock(opened, LOCK_UN);
-      } catch {
-        /* the close below releases it anyway */
-      }
+    const held = attemptOr(
+      () => {
+        writeHolder(opened, holder);
+        return true;
+      },
+      () => false
+    );
+    if (!held) {
+      attemptOr(
+        () => flock(opened, LOCK_UN),
+        () => undefined /* the close below releases it anyway */
+      );
       fs.closeSync(opened);
       return Effect.fail(playerError('cannot safely lock the monitor'));
     }
     return Effect.succeed({
       running: null,
       release: () => {
-        try {
-          fs.ftruncateSync(opened, 0);
-          flock(opened, LOCK_UN);
-        } catch {
-          /* the kernel releases on close anyway */
-        }
+        attemptOr(
+          () => {
+            fs.ftruncateSync(opened, 0);
+            flock(opened, LOCK_UN);
+          },
+          () => undefined /* the kernel releases on close anyway */
+        );
         fs.closeSync(opened);
       },
     });
@@ -223,11 +227,10 @@ const acquireSentinel = (file: string, holder: JsonObject): Effect.Effect<HeldMo
   Effect.suspend<HeldMonitorLock, PlayerError, never>(() => {
     const sentinel = sentinelOf(file);
     const opened = ((): number | PlayerError => {
-      try {
-        return openLockFile(file);
-      } catch {
-        return playerError('cannot safely lock the monitor');
-      }
+      return attemptOr(
+          () => openLockFile(file),
+          () => playerError('cannot safely lock the monitor')
+      );
     })();
     if (typeof opened !== 'number') return Effect.fail(opened);
     const stat = fs.fstatSync(opened);
@@ -235,45 +238,52 @@ const acquireSentinel = (file: string, holder: JsonObject): Effect.Effect<HeldMo
       fs.closeSync(opened);
       return Effect.fail(playerError('the monitor lock must be a mode-0600 file'));
     }
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-      try {
-        const guard = fs.openSync(
-          sentinel,
-          fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | NOFOLLOW | CLOEXEC,
-          0o600
-        );
-        fs.writeSync(guard, Buffer.from(`${process.pid}\n`, 'utf8'));
-        fs.closeSync(guard);
-        writeHolder(opened, holder);
-        return Effect.succeed({
-          running: null,
-          release: () => {
-            try {
-              fs.ftruncateSync(opened, 0);
-              fs.unlinkSync(sentinel);
-            } catch {
-              /* already gone */
-            }
-            fs.closeSync(opened);
-          },
-        });
-      } catch {
-        const stale = ((): boolean => {
-          try {
-            const pid = Number.parseInt(fs.readFileSync(sentinel, 'utf8').trim(), 10);
-            return Number.isInteger(pid) && !isLive(pid);
-          } catch {
-            return false;
-          }
-        })();
-        if (!stale) break;
-        try {
-          fs.unlinkSync(sentinel);
-        } catch {
-          /* another process reaped it first */
-        }
-      }
-    }
+    const acquireSentinel = (): HeldMonitorLock | null =>
+      attemptOr(
+        (): HeldMonitorLock => {
+          const guard = fs.openSync(
+            sentinel,
+            fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | NOFOLLOW | CLOEXEC,
+            0o600
+          );
+          fs.writeSync(guard, Buffer.from(`${process.pid}\n`, 'utf8'));
+          fs.closeSync(guard);
+          writeHolder(opened, holder);
+          return {
+            running: null,
+            release: () => {
+              attemptOr(
+                () => {
+                  fs.ftruncateSync(opened, 0);
+                  fs.unlinkSync(sentinel);
+                },
+                () => undefined /* already gone */
+              );
+              fs.closeSync(opened);
+            },
+          };
+        },
+        () => null
+      );
+    const sentinelIsStale = (): boolean =>
+      attemptOr(
+        () => {
+          const pid = Number.parseInt(fs.readFileSync(sentinel, 'utf8').trim(), 10);
+          return Number.isInteger(pid) && !isLive(pid);
+        },
+        () => false
+      );
+    // Two attempts at most: the retry only exists to reap one stale sentinel.
+    const acquired =
+      acquireSentinel() ??
+      (sentinelIsStale()
+        ? (attemptOr(
+            () => fs.unlinkSync(sentinel),
+            () => undefined /* another process reaped it first */
+          ),
+          acquireSentinel())
+        : null);
+    if (acquired !== null) return Effect.succeed(acquired);
     const running = readMonitorHolder(opened);
     return Effect.succeed({
       running,
@@ -326,36 +336,31 @@ export const monitorHolder = (
     if (resolved._tag === 'Left') return null;
     const file = resolved.right;
     return yield* Effect.sync(() => {
-      const opened = ((): number | null => {
-        try {
-          return fs.openSync(file, fs.constants.O_RDONLY | NOFOLLOW | CLOEXEC);
-        } catch {
-          return null;
-        }
-      })();
+      const opened = attemptOr(
+        () => fs.openSync(file, fs.constants.O_RDONLY | NOFOLLOW | CLOEXEC),
+        () => null
+      );
       if (opened === null) return null;
-      try {
+      const probe = (): JsonObject | null => {
         const flock = flockBinding();
         if (flock === null) {
           const sentinel = sentinelOf(file);
-          const pid = ((): number | null => {
-            try {
+          const pid = attemptOr(
+            () => {
               const value = Number.parseInt(fs.readFileSync(sentinel, 'utf8').trim(), 10);
               return Number.isInteger(value) ? value : null;
-            } catch {
-              return null;
-            }
-          })();
+            },
+            () => null
+          );
           if (pid === null || !isLive(pid)) return null;
           return readMonitorHolder(opened);
         }
         if (flock(opened, LOCK_SH | LOCK_NB) !== 0) return readMonitorHolder(opened);
         flock(opened, LOCK_UN);
         return null;
-      } catch {
-        return null;
-      } finally {
-        fs.closeSync(opened);
-      }
+      };
+      const holder = attemptOr(probe, () => null);
+      fs.closeSync(opened);
+      return holder;
     });
   });

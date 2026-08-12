@@ -39,7 +39,7 @@
  * drift on anything but the number model.  See NOTES §11.9.
  */
 import { Console, Context, Effect, Layer, Option } from 'effect';
-import { PlayerError, playerError } from 'src/errors';
+import { PlayerError, attemptOr, playerError } from 'src/errors';
 import {
   PyFloat,
   PyInt,
@@ -186,16 +186,15 @@ const decodeMessage = (failure: { readonly _tag: string; readonly message?: stri
 export const parsePyArgument = (text: string): PyArgument => {
   const parsed = parsePython(text);
   if (parsed.failure === null) return { ok: true, value: parsed.value };
-  try {
-    return { ok: true, value: jsonToPy(JSON.parse(text) as unknown) };
-  } catch (cause) {
-    return {
+  return attemptOr(
+    (): PyArgument => ({ ok: true, value: jsonToPy(JSON.parse(text) as unknown) }),
+    (cause): PyArgument => ({
       ok: false,
       message:
-        decodeMessage(parsed.failure) ??
+        (parsed.failure === null ? null : decodeMessage(parsed.failure)) ??
         (cause instanceof Error ? cause.message : String(cause)),
-    };
-  }
+    })
+  );
 };
 
 /** The response-body form: the caller has already proved the text is JSON. */
@@ -250,14 +249,14 @@ export class V1Json extends Context.Tag('V1Json')<V1Json, V1JsonApi>() {}
 const DEFAULT_TIMEOUT_S = 60;
 
 /** `urlunsplit((scheme, netloc, "", "", ""))`, for the unreachable sentence. */
-const originOf = (url: string): string => {
-  try {
-    const parsed = new URL(url);
-    return `${parsed.protocol}//${parsed.host}`;
-  } catch {
-    return url;
-  }
-};
+const originOf = (url: string): string =>
+  attemptOr(
+    () => {
+      const parsed = new URL(url);
+      return `${parsed.protocol}//${parsed.host}`;
+    },
+    () => url
+  );
 
 /** The same sentence `src/services/http.ts` raises, deliberately verbatim. */
 const unreachable = (url: string, reason: string): PlayerError =>

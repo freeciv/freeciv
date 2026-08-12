@@ -18,7 +18,7 @@
  */
 import { Command, Options } from '@effect/cli';
 import { Effect, Option } from 'effect';
-import { playerError, type PlayerError, type SessionMissingError } from 'src/errors';
+import { playerError, type PlayerError, type SessionMissingError , attemptOr } from 'src/errors';
 import { exitWith, isExitCode, V2_WAIT_EXIT_RETRY } from 'src/exit';
 import { dualFloat, resolveDual } from 'src/options';
 import {
@@ -48,17 +48,20 @@ import { systemWaitClock, waitArgs, type WaitClock } from 'src/services/wait';
 export type KillOutcome = 'signalled' | 'gone' | 'forbidden';
 
 export const systemKill = (pid: number): Effect.Effect<KillOutcome> =>
-  Effect.sync(() => {
-    try {
-      process.kill(pid, 'SIGTERM');
-      return 'signalled';
-    } catch (cause) {
-      const code = (cause as NodeJS.ErrnoException).code;
-      if (code === 'ESRCH') return 'gone';
-      if (code === 'EPERM') return 'forbidden';
-      return 'signalled';
-    }
-  });
+  Effect.sync(() =>
+    attemptOr(
+      () => {
+        process.kill(pid, 'SIGTERM');
+        return 'signalled';
+      },
+      (cause) => {
+        const code = (cause as NodeJS.ErrnoException).code;
+        if (code === 'ESRCH') return 'gone';
+        if (code === 'EPERM') return 'forbidden';
+        return 'signalled';
+      }
+    )
+  );
 
 /**
  * `sys.exit(status)` for a status the 0/2/75/66 contract cannot carry.
@@ -165,13 +168,26 @@ export const monitorStop = (
       return yield* Effect.fail(playerError(`the monitor (pid ${pid}) belongs to another user`));
     }
     const deadline = (yield* harness.clock.monotonic()) + MONITOR_STOP_TIMEOUT_S;
-    for (;;) {
-      if ((yield* harness.clock.monotonic()) >= deadline) break;
-      if ((yield* monitorHolder(sessionPath)) === null) {
-        yield* render([monitorStoppedLine(pid)]);
-        return 0;
+    const stopped = yield* Effect.iterate(
+      { done: false, released: false },
+      {
+        while: (state) => !state.done,
+        body: () =>
+          Effect.gen(function* () {
+            if ((yield* harness.clock.monotonic()) >= deadline) {
+              return { done: true, released: false };
+            }
+            if ((yield* monitorHolder(sessionPath)) === null) {
+              return { done: true, released: true };
+            }
+            yield* harness.clock.sleep(MONITOR_STOP_POLL_S);
+            return { done: false, released: false };
+          }),
       }
-      yield* harness.clock.sleep(MONITOR_STOP_POLL_S);
+    );
+    if (stopped.released) {
+      yield* render([monitorStoppedLine(pid)]);
+      return 0;
     }
     return yield* Effect.fail(
       playerError(

@@ -398,44 +398,67 @@ const configureAndReady = (
     // (Live finding, game_Dn9l…: without this, two seats retrying by hand
     // livelock each other out of the lobby entirely.)
     const CONFIGURE_ATTEMPTS = 3;
-    let seat = yield* resolveSeat(ctx, request);
     const lines: string[] = [];
     const records: BatchDisposition[] = [];
-    let configured: Submitted;
-    for (let attempt = 1; ; attempt += 1) {
-      lines.push(startingLine(seat.nation.name, seat.leader, seat.male, seat.styleName));
-      const argumentValues: JsonObject = {
-        nation_id: seat.nation.id,
-        leader_name: seat.leader,
-        is_male: seat.male,
-        style_id: seat.styleId,
-      };
-      const configure = yield* ctx.hooks.resolveKindAction(
-        'pregame.configure',
-        CONFIGURE_REMEDY
-      );
-      yield* checkPregameArguments(configure, argumentValues);
-      configured = yield* submit(
-        ctx,
-        configure.action_id,
-        argumentValues,
-        configureIntent(seat.nation.name, seat.leader, seat.male)
-      );
-      lines.push(...configured.lines);
-      records.push(configured.disposition);
-      if (
-        ctx.hooks.receiptOk(configured.disposition) ||
-        attempt >= CONFIGURE_ATTEMPTS ||
-        !isCatalogFreshnessRefusal(configured.disposition)
-      ) {
-        break;
-      }
-      lines.push(
-        'the lobby catalog moved under the configure; re-reading and ' +
-          `retrying (attempt ${attempt + 1} of ${CONFIGURE_ATTEMPTS})`
-      );
-      seat = yield* resolveSeat(ctx, request);
+
+    const configureOnce = (
+      seat: ResolvedSeat
+    ): Effect.Effect<Submitted, PlayError, V2Client | SessionStore | PrivateFs> =>
+      Effect.gen(function* () {
+        lines.push(startingLine(seat.nation.name, seat.leader, seat.male, seat.styleName));
+        const argumentValues: JsonObject = {
+          nation_id: seat.nation.id,
+          leader_name: seat.leader,
+          is_male: seat.male,
+          style_id: seat.styleId,
+        };
+        const configure = yield* ctx.hooks.resolveKindAction(
+          'pregame.configure',
+          CONFIGURE_REMEDY
+        );
+        yield* checkPregameArguments(configure, argumentValues);
+        const configured = yield* submit(
+          ctx,
+          configure.action_id,
+          argumentValues,
+          configureIntent(seat.nation.name, seat.leader, seat.male)
+        );
+        lines.push(...configured.lines);
+        records.push(configured.disposition);
+        return configured;
+      });
+
+    interface Attempt {
+      readonly attempt: number;
+      readonly seat: ResolvedSeat;
+      readonly configured: Submitted | null;
     }
+    const settled = yield* Effect.iterate(
+      { attempt: 1, seat: yield* resolveSeat(ctx, request), configured: null } satisfies Attempt as Attempt,
+      {
+        while: (state) =>
+          state.configured === null ||
+          (!ctx.hooks.receiptOk(state.configured.disposition) &&
+            state.attempt < CONFIGURE_ATTEMPTS &&
+            isCatalogFreshnessRefusal(state.configured.disposition)),
+        body: (state) =>
+          Effect.gen(function* () {
+            if (state.configured !== null) {
+              lines.push(
+                'the lobby catalog moved under the configure; re-reading and ' +
+                  `retrying (attempt ${state.attempt + 1} of ${CONFIGURE_ATTEMPTS})`
+              );
+              const seat = yield* resolveSeat(ctx, request);
+              return { attempt: state.attempt + 1, seat, configured: yield* configureOnce(seat) };
+            }
+            return { ...state, configured: yield* configureOnce(state.seat) };
+          }),
+      }
+    );
+    const seat = settled.seat;
+    const configured =
+      settled.configured ??
+      (yield* Effect.dieMessage('unreachable: configure settled without a submission'));
 
     if (!ctx.hooks.receiptOk(configured.disposition)) {
       lines.push(NOT_READIED_LINE);

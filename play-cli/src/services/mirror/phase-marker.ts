@@ -13,6 +13,7 @@
  * every file here the write is atomic, so a watcher polling it never reads a
  * half-written object.
  */
+import { attemptOr } from 'src/errors';
 import { Effect } from 'effect';
 import type { PlayerError } from 'src/errors';
 import { isJsonObject, type JsonObject } from 'src/schema/primitives';
@@ -122,11 +123,10 @@ export const readPhaseMarker = (
   Effect.map(readMirror(dir, PHASE_FILE), (text) => {
     if (text === null) return null;
     const parsed = ((): unknown => {
-      try {
-        return JSON.parse(text) as unknown;
-      } catch {
-        return null;
-      }
+      return attemptOr(
+          () => JSON.parse(text) as unknown,
+          () => null
+      );
     })();
     return isJsonObject(parsed) && parsed['schema_version'] === PHASE_SCHEMA_VERSION
       ? parsed

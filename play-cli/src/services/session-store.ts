@@ -23,6 +23,7 @@ import {
   PlayerError,
   SessionMissingError,
   playerError,
+  attemptOr,
 } from 'src/errors';
 import {
   CONTROLLER_RE,
@@ -329,36 +330,36 @@ const makeApi = (
     Effect.sync(() => {
       const directories = ((): ReadonlyArray<string> => {
         if (game !== '') return [game];
-        try {
-          return fs
-            .readdirSync(workspace.stateRoot, { withFileTypes: true })
-            .filter((entry) => entry.isDirectory() && entry.name.startsWith('game_'))
-            .map((entry) => entry.name);
-        } catch {
-          return [];
-        }
+        return attemptOr(
+          (): ReadonlyArray<string> =>
+            fs
+              .readdirSync(workspace.stateRoot, { withFileTypes: true })
+              .filter((entry) => entry.isDirectory() && entry.name.startsWith('game_'))
+              .map((entry) => entry.name),
+          (): ReadonlyArray<string> => []
+        );
       })();
-      const found: string[] = [];
-      for (const directory of directories) {
+      const found = directories.flatMap((directory) => {
         const absolute = path.join(workspace.stateRoot, directory);
-        let names: ReadonlyArray<string>;
-        try {
-          names = fs.readdirSync(absolute);
-        } catch {
-          continue;
-        }
-        for (const name of names) {
-          if (!name.endsWith('.json')) continue;
-          const candidate = path.join(absolute, name);
-          try {
-            const stat = fs.lstatSync(candidate);
-            if (stat.isFile() && (stat.mode & 0o777) === 0o600) found.push(candidate);
-          } catch {
-            /* a session that vanished mid-scan is simply not a session */
-          }
-        }
-      }
-      return found.sort();
+        const names = attemptOr(
+          (): ReadonlyArray<string> => fs.readdirSync(absolute),
+          (): ReadonlyArray<string> => []
+        );
+        return names
+          .filter((name) => name.endsWith('.json'))
+          .map((name) => path.join(absolute, name))
+          .filter((candidate) =>
+            attemptOr(
+              () => {
+                const stat = fs.lstatSync(candidate);
+                return stat.isFile() && (stat.mode & 0o777) === 0o600;
+              },
+              // A session that vanished mid-scan is simply not a session.
+              () => false
+            )
+          );
+      });
+      return [...found].sort();
     });
 
   const readSeatBinding = (): Effect.Effect<Option.Option<SeatBinding>, PlayerError> =>
@@ -397,19 +398,20 @@ const makeApi = (
     });
 
   const preconfiguredGameId = (): Effect.Effect<Option.Option<string>> =>
-    Effect.sync(() => {
-      try {
-        const raw: unknown = JSON.parse(
-          fs.readFileSync(path.join(workspace.root, '.playconfig.json'), 'utf8')
-        );
-        const value = isJsonObject(raw) ? raw['game_id'] : null;
-        return typeof value === 'string' && GAME_ID_RE.test(value)
-          ? Option.some(value)
-          : Option.none<string>();
-      } catch {
-        return Option.none<string>();
-      }
-    });
+    Effect.sync(() =>
+      attemptOr(
+        () => {
+          const raw: unknown = JSON.parse(
+            fs.readFileSync(path.join(workspace.root, '.playconfig.json'), 'utf8')
+          );
+          const value = isJsonObject(raw) ? raw['game_id'] : null;
+          return typeof value === 'string' && GAME_ID_RE.test(value)
+            ? Option.some(value)
+            : Option.none<string>();
+        },
+        () => Option.none<string>()
+      )
+    );
 
   const noSessionError = (): Effect.Effect<never, SessionMissingError> =>
     Effect.flatMap(preconfiguredGameId(), (game) =>
@@ -447,11 +449,10 @@ const makeApi = (
       }
       if (sessions.length === 1) return sessions[0] as string;
       const pointer = yield* Effect.sync(() => {
-        try {
-          return fs.readFileSync(currentPointerPath, 'utf8').trim();
-        } catch {
-          return null;
-        }
+        return attemptOr(
+            () => fs.readFileSync(currentPointerPath, 'utf8').trim(),
+            () => null
+        );
       });
       if (pointer === null) return yield* noSessionError();
       if (path.isAbsolute(pointer) || pointer.split(/[\\/]/).includes('..')) {

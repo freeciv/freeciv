@@ -24,6 +24,7 @@
  * error channel.  `_render_disposition`'s lines remain the authority the agent
  * reads; this is the authority a supervisor reads afterwards.
  */
+import { attemptOr } from 'src/errors';
 import { Effect } from 'effect';
 import type { PlayerError } from 'src/errors';
 import type { BatchDisposition, Disposition } from 'src/schema/batch';
@@ -214,12 +215,8 @@ export const readLedger = (
       const rows: Array<JsonObject> = [];
       for (const line of text.split('\n')) {
         if (line.trim() === '') continue;
-        try {
-          const value: unknown = JSON.parse(line);
-          if (isJsonObject(value)) rows.push(value);
-        } catch {
-          continue;
-        }
+        const value = attemptOr((): unknown => JSON.parse(line), () => null);
+        if (isJsonObject(value)) rows.push(value);
       }
       return rows;
     })

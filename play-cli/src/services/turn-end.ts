@@ -156,19 +156,22 @@ export const resolveKindAction = (
 ): TurnEffect<ResolvedKindAction> =>
   Effect.gen(function* () {
     const store = yield* SessionStore;
-    let state = yield* store.readState(ctx.sessionPath, ctx.session);
-    let compact = yield* cachedKindAction(state, kind, ctx.decisions);
-    if (compact === null) {
-      yield* ctx.phaseEnd.drainLegal;
-      state = yield* store.readState(ctx.sessionPath, ctx.session);
-      compact = yield* cachedKindAction(state, kind, ctx.decisions);
-    }
-    if (compact === null) {
+    const lookup = Effect.gen(function* () {
+      const state = yield* store.readState(ctx.sessionPath, ctx.session);
+      const compact = yield* cachedKindAction(state, kind, ctx.decisions);
+      return { compact, state };
+    });
+    const cached = yield* lookup;
+    const found =
+      cached.compact !== null
+        ? cached
+        : yield* Effect.zipRight(ctx.phaseEnd.drainLegal, lookup);
+    if (found.compact === null) {
       return yield* Effect.fail(
         playerError(`no ${kind} action is enumerable for this seat right now; ${remedy}`)
       );
     }
-    return { compact, state };
+    return { compact: found.compact, state: found.state };
   });
 
 // ---------------------------------------------------------------------------
@@ -264,7 +267,11 @@ const statusBriefing = (
 export const turnBriefingLocked = (ctx: TurnCtx): TurnEffect<TurnBriefing> =>
   Effect.gen(function* () {
     const store = yield* SessionStore;
-    for (let attempt = 0; attempt < 2; attempt += 1) {
+    // Two attempts at most: the retry only absorbs one revision bump landing
+    // mid-briefing; `null` means "the pages moved, try once more".
+    const attemptBriefing = (
+      attempt: number
+    ): TurnEffect<TurnBriefing | null> => Effect.gen(function* () {
       const health = yield* turnHealth(ctx.session);
       if (TERMINAL_STATES.has(health.game_state)) {
         return statusBriefing(health, 'terminal', [`just result ${ctx.session.gameId}`]);
@@ -290,18 +297,16 @@ export const turnBriefingLocked = (ctx: TurnCtx): TurnEffect<TurnBriefing> =>
       const first = pages[V2_TURN_SECTIONS[0]];
       if (first === undefined) return yield* Effect.fail(playerError('the turn briefing lost a page'));
       const baseline = first.state_revision;
-      let consistent = V2_TURN_SECTIONS.every((section) => {
-        const page = pages[section];
-        return page !== undefined && revisionsEqual(page.state_revision, baseline);
-      });
-      consistent =
-        consistent && turnHealthEpochsEqual(turnHealthEpoch(health), turnHealthEpoch(finalHealth));
       const finalPhase = finalHealth.phase;
-      if (finalPhase !== null && finalPhase.turn !== null) {
-        consistent = consistent && finalPhase.turn === baseline.turn;
-      }
+      const consistent =
+        V2_TURN_SECTIONS.every((section) => {
+          const page = pages[section];
+          return page !== undefined && revisionsEqual(page.state_revision, baseline);
+        }) &&
+        turnHealthEpochsEqual(turnHealthEpoch(health), turnHealthEpoch(finalHealth)) &&
+        (finalPhase === null || finalPhase.turn === null || finalPhase.turn === baseline.turn);
       if (!consistent) {
-        if (attempt === 0) continue;
+        if (attempt === 0) return null;
         return yield* Effect.fail(
           playerError(
             'the game changed twice while building the turn briefing; run `just turn` again'
@@ -359,8 +364,10 @@ export const turnBriefingLocked = (ctx: TurnCtx): TurnEffect<TurnBriefing> =>
         decisions: yield* briefingDecisionLines(ctx.sessionPath, state, ctx.decisions),
         events: briefingEventsLine(overview, seenEvents),
       };
-    }
-    return yield* Effect.fail(playerError('unreachable turn briefing state'));
+    });
+    const first = yield* attemptBriefing(0);
+    return first ?? (yield* attemptBriefing(1)) ??
+      (yield* Effect.fail(playerError('unreachable turn briefing state')));
   });
 
 // ---------------------------------------------------------------------------
@@ -533,59 +540,52 @@ export const commandTurnEnd = (
     const inLock: TurnEffect<TurnEndState> = Effect.gen(function* () {
       const ended = yield* phaseEnd(ctx);
       const lines: string[] = [...ended.lines];
-      let exitCode = ended.exitCode;
-      let wait: WaitEnvelope | null = null;
-      let briefing: TurnResult | null = null;
-      let briefError = '';
+      const unawaited: TurnEndState = {
+        disposition: ended.disposition,
+        lines,
+        exitCode: ended.exitCode,
+        wait: null,
+        briefing: null,
+        briefError: '',
+        rendered: false,
+      };
 
       if (ended.warning !== '') yield* Console.error(ended.warning);
 
-      if (options.awaitNext && ctx.phaseEnd.orderReceiptOk(ended.disposition)) {
-        const woke = yield* Effect.either(
-          awaitAndBrief(ctx, {
-            brief,
-            prelude: options.json ? null : lines,
-            ...(options.wait === undefined ? {} : { wait: options.wait }),
-          })
-        );
-        if (woke._tag === 'Left') {
-          // The end already applied; a wait/brief failure must never swallow
-          // that receipt (a validation error here once hid three consecutive
-          // applied phase-ends from a live agent).
-          if (options.json) return yield* Effect.fail(woke.left);
-          lines.push(
-            'phase ended: the receipt above is authoritative',
-            `await failed: ${woke.left.message}`,
-            'next: just wait — the end already applied; do not ' +
-              're-run `turn --end` for this phase'
-          );
-          yield* render(lines);
-          return {
-            disposition: ended.disposition,
-            lines,
-            exitCode,
-            wait,
-            briefing,
-            briefError,
-            rendered: true,
-          };
-        }
-        wait = woke.right.wait;
-        briefing = woke.right.briefing;
-        briefError = woke.right.briefError;
-        lines.push(...woke.right.lines);
-        if (briefError !== '') exitCode = Math.max(exitCode, 2);
-      } else if (options.awaitNext) {
+      if (!options.awaitNext) return unawaited;
+      if (!ctx.phaseEnd.orderReceiptOk(ended.disposition)) {
         lines.push('not awaited: the phase end was not accepted');
+        return unawaited;
       }
+      const woke = yield* Effect.either(
+        awaitAndBrief(ctx, {
+          brief,
+          prelude: options.json ? null : lines,
+          ...(options.wait === undefined ? {} : { wait: options.wait }),
+        })
+      );
+      if (woke._tag === 'Left') {
+        // The end already applied; a wait/brief failure must never swallow
+        // that receipt (a validation error here once hid three consecutive
+        // applied phase-ends from a live agent).
+        if (options.json) return yield* Effect.fail(woke.left);
+        lines.push(
+          'phase ended: the receipt above is authoritative',
+          `await failed: ${woke.left.message}`,
+          'next: just wait — the end already applied; do not ' +
+            're-run `turn --end` for this phase'
+        );
+        yield* render(lines);
+        return { ...unawaited, rendered: true };
+      }
+      lines.push(...woke.right.lines);
       return {
-        disposition: ended.disposition,
-        lines,
-        exitCode,
-        wait,
-        briefing,
-        briefError,
-        rendered: false,
+        ...unawaited,
+        exitCode:
+          woke.right.briefError !== '' ? Math.max(ended.exitCode, 2) : ended.exitCode,
+        wait: woke.right.wait,
+        briefing: woke.right.briefing,
+        briefError: woke.right.briefError,
       };
     });
 

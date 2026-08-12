@@ -50,6 +50,7 @@
  * times over) is refused rather than answered — as a returned `Either.left`,
  * never a throw.
  */
+import { attemptOr } from 'src/errors';
 import { Either } from 'effect';
 import {
   ASCII_CASED_CODE_POINTS,
@@ -1628,52 +1629,58 @@ export const compilePythonRegex = (
   pattern: string,
   flags: number = 0
 ): Either.Either<RegExp, PyRegexFailure> => {
-  try {
-    const source = new Tokenizer(pattern);
-    const state = new ParserState();
-    state.flags = flags;
-    const parsed = parseSub(source, state, (flags & PY_VERBOSE) !== 0, 0);
+  // The recursive descent signals refusals by throwing `ParseSignal` (the
+  // exact shape CPython's sre parser uses); this boundary is where every
+  // throw becomes a value.
+  return attemptOr(
+    (): Either.Either<RegExp, PyRegexFailure> => {
+      const source = new Tokenizer(pattern);
+      const state = new ParserState();
+      state.flags = flags;
+      const parsed = parseSub(source, state, (flags & PY_VERBOSE) !== 0, 0);
 
-    // `fix_flags` for a `str` pattern: UNICODE unless ASCII was asked for.
-    if ((state.flags & PY_LOCALE) !== 0) {
-      return Either.left(failure('uncaught', 'cannot use LOCALE flag with a str pattern'));
-    }
-    if ((state.flags & PY_ASCII) === 0) state.flags |= PY_UNICODE;
-    else if ((state.flags & PY_UNICODE) !== 0) {
-      return Either.left(failure('uncaught', 'ASCII and UNICODE flags are incompatible'));
-    }
-
-    if (source.next !== null) throw source.error('unbalanced parenthesis');
-
-    for (const [group, position] of state.grouprefpos) {
-      if (group >= state.groups) {
-        return Either.left(
-          failure(
-            'error',
-            formatPatternError(`invalid group reference ${group}`, [...pattern], position)
-          )
-        );
+      // `fix_flags` for a `str` pattern: UNICODE unless ASCII was asked for.
+      if ((state.flags & PY_LOCALE) !== 0) {
+        return Either.left(failure('uncaught', 'cannot use LOCALE flag with a str pattern'));
       }
-    }
+      if ((state.flags & PY_ASCII) === 0) state.flags |= PY_UNICODE;
+      else if ((state.flags & PY_UNICODE) !== 0) {
+        return Either.left(failure('uncaught', 'ASCII and UNICODE flags are incompatible'));
+      }
 
-    const emitter: Emitter = { helpers: 0, guaranteed: new Set<number>() };
-    const emitted = emitSub(parsed, state.flags, emitter);
-    const prefilter = charsetPrefilter(parsed, state.flags, state);
-    return Either.right(new RegExp(CODE_POINT_START + prefilter + emitted, ''));
-  } catch (caught) {
-    if (caught instanceof ParseSignal) return Either.left(caught.failure);
-    // Everything that is not a `ParseSignal` comes from the two host calls this
-    // function makes — `new RegExp` on the emitted source, and the recursive
-    // descent through a deeply nested pattern.  Both fail on *size*, not on
-    // syntax: a class emitted as explicit code point ranges is ~10 KB and one
-    // `\b` is ~50 KB, so `\w` a hundred times over — 200 characters, the most
-    // `_show_grep` accepts — emits past JavaScriptCore's ~1 MB regex ceiling
-    // and `new RegExp` raises `SyntaxError: regular expression too large`.
-    // CPython compiles all of those, so this is a divergence either way; making
-    // it a value keeps it a printed refusal with a runnable remedy instead of a
-    // stack trace out of the defect channel (NOTES.md §19.3, residue 4).
-    return Either.left(
-      failure('unsupported', 'the emitted pattern is too large for this engine')
-    );
-  }
+      if (source.next !== null) throw source.error('unbalanced parenthesis');
+
+      for (const [group, position] of state.grouprefpos) {
+        if (group >= state.groups) {
+          return Either.left(
+            failure(
+              'error',
+              formatPatternError(`invalid group reference ${group}`, [...pattern], position)
+            )
+          );
+        }
+      }
+
+      const emitter: Emitter = { helpers: 0, guaranteed: new Set<number>() };
+      const emitted = emitSub(parsed, state.flags, emitter);
+      const prefilter = charsetPrefilter(parsed, state.flags, state);
+      return Either.right(new RegExp(CODE_POINT_START + prefilter + emitted, ''));
+    },
+    (caught) => {
+      if (caught instanceof ParseSignal) return Either.left(caught.failure);
+      // Everything that is not a `ParseSignal` comes from the two host calls
+      // above — `new RegExp` on the emitted source, and the recursive descent
+      // through a deeply nested pattern.  Both fail on *size*, not on syntax:
+      // a class emitted as explicit code point ranges is ~10 KB and one `\b`
+      // is ~50 KB, so `\w` a hundred times over — 200 characters, the most
+      // `_show_grep` accepts — emits past JavaScriptCore's ~1 MB regex ceiling
+      // and `new RegExp` raises `SyntaxError: regular expression too large`.
+      // CPython compiles all of those, so this is a divergence either way;
+      // making it a value keeps it a printed refusal with a runnable remedy
+      // instead of a stack trace out of the defect channel (NOTES.md §19.3).
+      return Either.left(
+        failure('unsupported', 'the emitted pattern is too large for this engine')
+      );
+    }
+  );
 };

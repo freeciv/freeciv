@@ -25,7 +25,7 @@
  * the *health envelope* rather than the finished string precisely so this file
  * never reaches into a renderer (and so it never has to import U06).
  */
-import { Effect } from 'effect';
+import { Effect, Either } from 'effect';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { FULL_CONTROL_V2, TERMINAL_STATES, V2_SATISFIED_WAKE_REASONS } from 'src/constants';
@@ -248,9 +248,46 @@ export const legacyWaitValue = (
     const healthUrl = yield* client.url(credentials, '/health');
     const stateUrl = `${yield* client.url(credentials, '/state')}?section=overview&limit=16`;
 
-    // A `while (true)` with an explicit return is the honest shape of the
-    // Python loop; `Effect.loop` would need the whole body as a fold.
-    for (;;) {
+    // One poll: a wake ends the loop with its envelope, `null` polls again.
+    const revisionProbe = (
+      health: HealthEnvelope
+    ): Effect.Effect<
+      { readonly wake: WaitEnvelope | null; readonly revision: Revision | null },
+      PlayError,
+      V2Client
+    > =>
+      Effect.gen(function* () {
+        if (options.until !== 'revision' || health.observation_available !== true) {
+          return { wake: null, revision: null };
+        }
+        const stateResponse = yield* client.response('GET', stateUrl, credentials, {
+          timeout: 10,
+        });
+        if (notOk(stateResponse.status)) {
+          return yield* client.raiseValidated(stateResponse);
+        }
+        const overview = yield* decodePage(stateResponse.value, ctx.session);
+        const revision = overview.state_revision;
+        yield* ctx.hooks.rememberPage(overview);
+        yield* ctx.hooks.mirrorPage(overview, 'wait');
+        if (options.baseline === null) {
+          // `_legacy_wait_value` asserts this; the assertion is a real
+          // invariant (`_wait_value` refuses `--until revision` without a
+          // baseline), so a value error here is a client bug, not a refusal.
+          return yield* Effect.fail(
+            playerError('wait --until revision requires a previously validated state page')
+          );
+        }
+        return {
+          wake:
+            revision.state_token !== options.baseline.state_token
+              ? localWaitResponse(ctx.session, 'revision_changed', health, revision)
+              : null,
+          revision,
+        };
+      });
+
+    const poll = Effect.gen(function* () {
       const healthResponse = yield* client.response('GET', healthUrl, credentials, {
         timeout: 10,
       });
@@ -269,37 +306,23 @@ export const legacyWaitValue = (
       ) {
         return localWaitResponse(ctx.session, 'phase_active', health, null);
       }
-
-      let revision: Revision | null = null;
-      if (options.until === 'revision' && health.observation_available === true) {
-        const stateResponse = yield* client.response('GET', stateUrl, credentials, {
-          timeout: 10,
-        });
-        if (notOk(stateResponse.status)) return yield* client.raiseValidated(stateResponse);
-        const overview = yield* decodePage(stateResponse.value, ctx.session);
-        revision = overview.state_revision;
-        yield* ctx.hooks.rememberPage(overview);
-        yield* ctx.hooks.mirrorPage(overview, 'wait');
-        const baseline = options.baseline;
-        if (baseline === null) {
-          // `_legacy_wait_value` asserts this; the assertion is a real
-          // invariant (`_wait_value` refuses `--until revision` without a
-          // baseline), so a value error here is a client bug, not a refusal.
-          return yield* Effect.fail(
-            playerError('wait --until revision requires a previously validated state page')
-          );
-        }
-        if (revision.state_token !== baseline.state_token) {
-          return localWaitResponse(ctx.session, 'revision_changed', health, revision);
-        }
-      }
-
+      const probed = yield* revisionProbe(health);
+      if (probed.wake !== null) return probed.wake;
       const remaining = deadline - (yield* ctx.clock.monotonic());
       if (remaining <= 0) {
-        return localWaitResponse(ctx.session, 'timeout', health, revision);
+        return localWaitResponse(ctx.session, 'timeout', health, probed.revision);
       }
       yield* ctx.clock.sleep(Math.min(args.pollS, remaining));
-    }
+      return null;
+    });
+
+    return yield* Effect.repeat(poll, { until: (wake) => wake !== null }).pipe(
+      Effect.flatMap((wake) =>
+        wake === null
+          ? Effect.dieMessage('unreachable: the poll loop ended without a wake')
+          : Effect.succeed(wake)
+      )
+    );
   });
 
 // ---------------------------------------------------------------------------
@@ -441,45 +464,68 @@ export const waitUntilTurn = (
     const capS = options.capS ?? null;
     const forTurn = options.forTurn;
     const started = yield* ctx.clock.monotonic();
-    let budget = capS === null ? args.waitS : Math.min(args.waitS, capS);
-    let wait: WaitEnvelope | null = null;
-    let first = true;
 
-    for (;;) {
-      const elapsed = (yield* ctx.clock.monotonic()) - started;
-      const remaining = budget - elapsed;
-      if (wait !== null && remaining <= 0) return wait;
-      // An interactive composite (options.echo set) keeps every poll short so
-      // its "… waiting on seat N" lines actually tick while the opponent
-      // thinks; a silent wait spends the whole budget on one long poll.  The
-      // first long poll used to swallow the entire wait either way, so a
-      // 49-second `do --end --await --brief` printed nothing until the wake.
-      const tick = Math.min(
-        Math.max(remaining, 0),
-        first && !forTurn && options.echo === undefined ? args.waitS : V2_WAIT_TICK_S
-      );
-      wait = yield* waitValue(ctx, waitArgs(args, tick), {
-        stateless: options.stateless === true,
-      });
-      // P3: the marker is written on every tick, not only on the wake, so a
-      // watcher reading `state/phase.json` sees a live file rather than one
-      // frozen for the whole of somebody else's ten-minute phase.
-      yield* options.mirror === undefined
-        ? ctx.hooks.mirrorHealth(wait.health, 'wait')
-        : options.mirror(wait.health);
-      first = false;
-      if (wait.wake_reason !== 'timeout' || phaseIsMine(wait.health)) return wait;
-
-      const hold = holderRemainingS(wait.health, ctx.hooks.holderSeat);
-      if (hold === null) {
-        if (!forTurn) return wait;
-      } else if (hold > 0) {
-        budget = (yield* ctx.clock.monotonic()) - started + hold + V2_FOR_TURN_GRACE_S;
-        if (capS !== null) budget = Math.min(budget, capS);
-      }
-      if (budget - ((yield* ctx.clock.monotonic()) - started) <= 0) return wait;
-      if (options.echo !== undefined) yield* options.echo(wait.health);
+    interface Cycle {
+      readonly budget: number;
+      readonly wait: WaitEnvelope | null;
+      readonly first: boolean;
+      readonly done: boolean;
     }
+
+    const cycle = (state: Cycle): Effect.Effect<Cycle, PlayError, V2Client | SessionStore> =>
+      Effect.gen(function* () {
+        const elapsed = (yield* ctx.clock.monotonic()) - started;
+        const remaining = state.budget - elapsed;
+        if (state.wait !== null && remaining <= 0) return { ...state, done: true };
+        // An interactive composite (options.echo set) keeps every poll short
+        // so its "… waiting on seat N" lines actually tick while the opponent
+        // thinks; a silent wait spends the whole budget on one long poll.
+        // The first long poll used to swallow the entire wait either way, so
+        // a 49-second `do --end --await --brief` printed nothing until the
+        // wake.
+        const tick = Math.min(
+          Math.max(remaining, 0),
+          state.first && !forTurn && options.echo === undefined ? args.waitS : V2_WAIT_TICK_S
+        );
+        const wait = yield* waitValue(ctx, waitArgs(args, tick), {
+          stateless: options.stateless === true,
+        });
+        // P3: the marker is written on every tick, not only on the wake, so a
+        // watcher reading `state/phase.json` sees a live file rather than one
+        // frozen for the whole of somebody else's ten-minute phase.
+        yield* options.mirror === undefined
+          ? ctx.hooks.mirrorHealth(wait.health, 'wait')
+          : options.mirror(wait.health);
+        if (wait.wake_reason !== 'timeout' || phaseIsMine(wait.health)) {
+          return { ...state, wait, first: false, done: true };
+        }
+
+        const hold = holderRemainingS(wait.health, ctx.hooks.holderSeat);
+        if (hold === null && !forTurn) return { ...state, wait, first: false, done: true };
+        const stretched =
+          hold !== null && hold > 0
+            ? (yield* ctx.clock.monotonic()) - started + hold + V2_FOR_TURN_GRACE_S
+            : state.budget;
+        const budget = capS === null ? stretched : Math.min(stretched, capS);
+        if (budget - ((yield* ctx.clock.monotonic()) - started) <= 0) {
+          return { budget, wait, first: false, done: true };
+        }
+        if (options.echo !== undefined) yield* options.echo(wait.health);
+        return { budget, wait, first: false, done: false };
+      });
+
+    const settled = yield* Effect.iterate(
+      {
+        budget: capS === null ? args.waitS : Math.min(args.waitS, capS),
+        wait: null,
+        first: true,
+        done: false,
+      } satisfies Cycle as Cycle,
+      { while: (state) => !state.done, body: cycle }
+    );
+    return settled.wait === null
+      ? yield* Effect.dieMessage('unreachable: the wait cycle settled without an envelope')
+      : settled.wait;
   });
 
 // ---------------------------------------------------------------------------
@@ -521,13 +567,11 @@ export const waitCommandValue = (
 // _seat_rebound (client.py:10698-10705)
 // ---------------------------------------------------------------------------
 
-const realPath = (target: string): string => {
-  try {
-    return fs.realpathSync.native(target);
-  } catch {
-    return path.resolve(target);
-  }
-};
+const realPath = (target: string): string =>
+  Either.getOrElse(
+    Either.try(() => fs.realpathSync.native(target)),
+    () => path.resolve(target)
+  );
 
 /** Whether `just use` has pointed this workspace at a different seat. */
 export const seatRebound = (

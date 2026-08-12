@@ -18,6 +18,7 @@
  * with its command string — the log is what makes a violation auditable after
  * the fact.
  */
+import { attemptOr } from 'src/errors';
 import { constants as osConstants } from 'node:os';
 import { Console, Effect } from 'effect';
 import { formatG } from 'src/render/primitives';
@@ -173,27 +174,29 @@ export type HookRunner = (
  * process's stdio, so a hook that prints goes where the monitor's output goes.
  */
 export const shellHookRunner: HookRunner = (command, environment) =>
-  Effect.sync(() => {
-    try {
-      const result = Bun.spawnSync({
-        cmd: ['/bin/sh', '-c', command],
-        env: environment,
-        stdin: 'inherit',
-        stdout: 'inherit',
-        stderr: 'inherit',
-      });
-      const exitCode: number | null = result.exitCode;
-      return {
-        _tag: 'exited',
-        status: completedProcessStatus(exitCode, result.signalCode),
-      } as const;
-    } catch (cause) {
-      return {
-        _tag: 'unstarted',
-        message: cause instanceof Error ? cause.message : String(cause),
-      } as const;
-    }
-  });
+  Effect.sync(() =>
+    attemptOr(
+      () => {
+        const result = Bun.spawnSync({
+          cmd: ['/bin/sh', '-c', command],
+          env: environment,
+          stdin: 'inherit',
+          stdout: 'inherit',
+          stderr: 'inherit',
+        });
+        const exitCode: number | null = result.exitCode;
+        return {
+          _tag: 'exited',
+          status: completedProcessStatus(exitCode, result.signalCode),
+        } as const;
+      },
+      (cause) =>
+        ({
+          _tag: 'unstarted',
+          message: cause instanceof Error ? cause.message : String(cause),
+        }) as const
+    )
+  );
 
 /**
  * `_run_monitor_hook` — run `--exec` for one wake; its failure is reported,

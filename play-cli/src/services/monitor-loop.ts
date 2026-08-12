@@ -211,17 +211,30 @@ export const monitorLoop = (
     const files: PrivateFsApi = yield* PrivateFs;
     const mirrorRoot = yield* mirrorPath(sessionPath);
     const marker = yield* readPhaseMarker(mirrorRoot);
-    let announced: JsonValue | undefined = marker === null ? undefined : marker['announced'];
-    let backoff = V2_MONITOR_BACKOFF_START_S;
-    let misses = 0;
-    let playedTurn: JsonValue | undefined = undefined;
+    interface LoopState {
+      readonly announced: JsonValue | undefined;
+      readonly backoff: number;
+      readonly misses: number;
+      readonly playedTurn: JsonValue | undefined;
+      readonly exit: number | null;
+    }
+    const initial: LoopState = {
+      announced: marker === null ? undefined : marker['announced'],
+      backoff: V2_MONITOR_BACKOFF_START_S,
+      misses: 0,
+      playedTurn: undefined,
+      exit: null,
+    };
     const started = yield* seams.clock.monotonic();
     const deadline = options.maxS === null ? null : started + options.maxS;
 
     const log = (line: string): Effect.Effect<void, never, PrivateFs> =>
       mirrorMonitorLog(sessionPath, line);
     /** `_monitor_mirror` — the monitor's only write, with the current tuple. */
-    const writeMarker = (health: HealthEnvelope): Effect.Effect<void> =>
+    const writeMarker = (
+      health: HealthEnvelope,
+      announced: JsonValue | undefined
+    ): Effect.Effect<void> =>
       Effect.provideService(
         mirrorPhaseMarker(sessionPath, health, announced ?? null),
         PrivateFs,
@@ -230,94 +243,113 @@ export const monitorLoop = (
 
     yield* log(`monitor started${options.once ? ' --once' : ''}`);
 
-    for (;;) {
-      if (yield* seatRebound(sessionPath)) {
-        // `just use` pointed this workspace at another game.  A monitor must
-        // never keep watching a seat the workspace has left.
-        yield* render([MONITOR_REBOUND_LINE]);
-        yield* log('stopped: workspace rebound');
-        return options.once ? options.exitCode : 0;
-      }
-      const cap = deadline === null ? null : deadline - (yield* seams.clock.monotonic());
-      if (cap !== null && cap <= 0) {
-        yield* Console.error(MONITOR_MAX_S_LINE);
-        yield* log('stopped: --max-s elapsed');
-        return V2_WAIT_EXIT_RETRY;
-      }
+    const iteration = (
+      state: LoopState
+    ): Effect.Effect<LoopState, PlayerError, PrivateFs | SessionStore | V2Client> =>
+      Effect.gen(function* () {
+        if (yield* seatRebound(sessionPath)) {
+          // `just use` pointed this workspace at another game.  A monitor must
+          // never keep watching a seat the workspace has left.
+          yield* render([MONITOR_REBOUND_LINE]);
+          yield* log('stopped: workspace rebound');
+          return { ...state, exit: options.once ? options.exitCode : 0 };
+        }
+        const cap = deadline === null ? null : deadline - (yield* seams.clock.monotonic());
+        if (cap !== null && cap <= 0) {
+          yield* Console.error(MONITOR_MAX_S_LINE);
+          yield* log('stopped: --max-s elapsed');
+          return { ...state, exit: V2_WAIT_EXIT_RETRY };
+        }
 
-      const waitOptions: WaitUntilTurnOptions = {
-        forTurn: true,
-        capS: cap,
-        stateless: true,
-        mirror: writeMarker,
-        echo: (health) => Console.error(waitingTickLine(health)),
-      };
-      const outcome = yield* Effect.either(seams.waitUntilTurn(options.waitArgs, waitOptions));
-      if (outcome._tag === 'Left') {
-        // Absorbed, never raised: a dropped socket is exactly what this
-        // component exists to survive.  Backoff so a service that is genuinely
-        // down is not hammered.
-        const message = outcome.left.message;
-        yield* Console.error(`monitor: retrying after ${message}`);
-        yield* log(`transport error, retrying in ${formatG(backoff)}s: ${message}`);
-        yield* seams.clock.sleep(backoff);
-        backoff = Math.min(backoff * 2, V2_MONITOR_BACKOFF_MAX_S);
-        continue;
-      }
-      backoff = V2_MONITOR_BACKOFF_START_S;
-      const wait = outcome.right;
-      const health = wait.health;
+        const waitOptions: WaitUntilTurnOptions = {
+          forTurn: true,
+          capS: cap,
+          stateless: true,
+          mirror: (health) => writeMarker(health, state.announced),
+          echo: (health) => Console.error(waitingTickLine(health)),
+        };
+        const outcome = yield* Effect.either(seams.waitUntilTurn(options.waitArgs, waitOptions));
+        if (outcome._tag === 'Left') {
+          // Absorbed, never raised: a dropped socket is exactly what this
+          // component exists to survive.  Backoff so a service that is
+          // genuinely down is not hammered.
+          const message = outcome.left.message;
+          yield* Console.error(`monitor: retrying after ${message}`);
+          yield* log(`transport error, retrying in ${formatG(state.backoff)}s: ${message}`);
+          yield* seams.clock.sleep(state.backoff);
+          return {
+            ...state,
+            backoff: Math.min(state.backoff * 2, V2_MONITOR_BACKOFF_MAX_S),
+          };
+        }
+        const wait = outcome.right;
+        const health = wait.health;
 
-      const missed = missedPhase(health, announced);
-      if (missed !== null) {
-        misses += 1;
-        const line = missedLine(missed, misses, playedTurn);
-        yield* render([line]);
-        yield* log(line);
-        announced = [...endedTuple(missed)];
-        yield* writeMarker(health);
-      }
+        const missed = missedPhase(health, state.announced);
+        const afterMiss = yield* Effect.gen(function* () {
+          if (missed === null) return { ...state, backoff: V2_MONITOR_BACKOFF_START_S };
+          const misses = state.misses + 1;
+          const line = missedLine(missed, misses, state.playedTurn);
+          yield* render([line]);
+          yield* log(line);
+          const announced: JsonValue = [...endedTuple(missed)];
+          yield* writeMarker(health, announced);
+          return {
+            ...state,
+            backoff: V2_MONITOR_BACKOFF_START_S,
+            misses,
+            announced,
+          };
+        });
 
-      const event = health.last_phase_end;
-      if (event !== null && isJsonObject(event) && event['source'] === 'agent') {
-        playedTurn = event['turn'];
-        misses = 0;
-      }
+        const event = health.last_phase_end;
+        const played =
+          event !== null && isJsonObject(event) && event['source'] === 'agent'
+            ? { ...afterMiss, playedTurn: event['turn'], misses: 0 }
+            : afterMiss;
 
-      if (wait.wake_reason === 'game_terminal') {
-        const line = monitorTerminalLine(wait);
+        if (wait.wake_reason === 'game_terminal') {
+          const line = monitorTerminalLine(wait);
+          yield* (options.json ? printV2Json(wait) : render([line]));
+          yield* log(line);
+          if (options.hook !== '') {
+            yield* runMonitorHook(sessionPath, options.hook, wait, seams.runHook);
+          }
+          return { ...played, exit: V2_WAIT_EXIT_TERMINAL };
+        }
+
+        if (!phaseIsMine(health)) {
+          // Their deadline passed and the phase did not move: nothing to
+          // announce and nothing to do but ask again, which is the job.
+          return played;
+        }
+
+        const current = announcedTuple(health);
+        if (current !== null && sameAnnouncement(current, played.announced) && !options.once) {
+          // A persistent monitor restarted mid-phase must not re-announce the
+          // turn the one before it already announced.  `--once` is exempt: it
+          // is a bounded question from a caller that wants an answer now, and
+          // staying silent would hang a wake-up call for ever on a phase that
+          // is already open.  That is also what lets the two bindings run side
+          // by side.
+          return played;
+        }
+        const announced: JsonValue | undefined = current === null ? undefined : [...current];
+        const line = monitorAnnounceLine(wait);
         yield* (options.json ? printV2Json(wait) : render([line]));
         yield* log(line);
+        yield* writeMarker(health, announced);
         if (options.hook !== '') {
           yield* runMonitorHook(sessionPath, options.hook, wait, seams.runHook);
         }
-        return V2_WAIT_EXIT_TERMINAL;
-      }
+        return options.once
+          ? { ...played, announced, exit: options.exitCode }
+          : { ...played, announced };
+      });
 
-      if (!phaseIsMine(health)) {
-        // Their deadline passed and the phase did not move: nothing to
-        // announce and nothing to do but ask again, which is the job.
-        continue;
-      }
-
-      const current = announcedTuple(health);
-      if (current !== null && sameAnnouncement(current, announced) && !options.once) {
-        // A persistent monitor restarted mid-phase must not re-announce the
-        // turn the one before it already announced.  `--once` is exempt: it is
-        // a bounded question from a caller that wants an answer now, and
-        // staying silent would hang a wake-up call for ever on a phase that is
-        // already open.  That is also what lets the two bindings run side by
-        // side.
-        continue;
-      }
-      announced = current === null ? null : [...current];
-      const line = monitorAnnounceLine(wait);
-      yield* (options.json ? printV2Json(wait) : render([line]));
-      yield* log(line);
-      yield* writeMarker(health);
-      if (options.hook !== '') {
-        yield* runMonitorHook(sessionPath, options.hook, wait, seams.runHook);
-      }
-      if (options.once) return options.exitCode;
-    }
+    const finished = yield* Effect.iterate(initial, {
+      while: (state) => state.exit === null,
+      body: iteration,
+    });
+    return finished.exit ?? 0;
   });
