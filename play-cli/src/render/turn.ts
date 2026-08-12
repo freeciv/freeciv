@@ -347,7 +347,7 @@ export const renderTurn = (
     const lines: string[] = [header.join(' | ')];
     lines.push(
       `${yield* deps.economyText(overview['player'] ?? null)} | ` +
-        `${yield* deps.researchText(overview['research'] ?? null)}`
+        (yield* deps.researchText(overview['research'] ?? null))
     );
 
     const cities = result.cities;

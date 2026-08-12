@@ -16,6 +16,7 @@ import { Effect, Either, Layer } from 'effect';
 import { FULL_CONTROL_V2 } from 'src/constants';
 import { decodeLegalPage, type LegalActionPageEnvelope, type PageScope } from 'src/schema/page';
 import { field, isJsonObject, type JsonObject, type JsonValue } from 'src/schema/primitives';
+import { scalar } from 'src/render/primitives';
 import { PrivateFs } from 'src/services/private-fs';
 import {
   SessionStore,
@@ -206,7 +207,7 @@ const deps: CatalogRenderDeps = {
     if (isJsonObject(target)) {
       const x = field(target, 'x');
       const y = field(target, 'y');
-      detail.push(`T(${String(x)},${String(y)})`);
+      detail.push(`T(${scalar(x)},${scalar(y)})`);
     }
     const actor = isJsonObject(subject) ? field(subject, 'actor') : null;
     const actorId = isJsonObject(actor) ? field(actor, 'id') : null;

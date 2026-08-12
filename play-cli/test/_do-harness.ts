@@ -19,14 +19,14 @@
 import * as path from 'node:path';
 import { Effect, Layer } from 'effect';
 import { FULL_CONTROL_V2, V2_PAGE_MAX_ITEMS } from 'src/constants';
-import { playerError, type PlayError, type PlayerError } from 'src/errors';
+import { playerError, type PlayError } from 'src/errors';
 import type { BatchDisposition } from 'src/schema/batch';
 import { decodeLegalPage } from 'src/schema/legal-page';
 import type { PageScope } from 'src/schema/page';
 import { field, isJsonObject, type JsonObject, type JsonValue } from 'src/schema/primitives';
 import type { ReceiptState } from 'src/schema/receipt';
 import type { Revision } from 'src/schema/revision';
-import { revisionLabel, table } from 'src/render/primitives';
+import { revisionLabel, scalar, table } from 'src/render/primitives';
 import {
   runDo,
   type AwaitBriefOutcome,
@@ -484,7 +484,7 @@ const targetTextOf = (descriptor: JsonObject): string => {
   const subject = field(descriptor, 'subject');
   const target = isJsonObject(subject) ? field(subject, 'target') : null;
   if (!isJsonObject(target)) return '';
-  return `${String(field(target, 'x'))},${String(field(target, 'y'))}`;
+  return `${scalar(field(target, 'x'))},${scalar(field(target, 'y'))}`;
 };
 
 const requiredArgument = (descriptor: JsonObject): string => {
@@ -511,34 +511,6 @@ const resolutionOf = (descriptor: JsonObject, order: string, args: JsonObject): 
 const expandActor = (state: V2ClientState, token: string): string => {
   const identifier = state.entity_aliases[token];
   return typeof identifier === 'string' ? identifier : '';
-};
-
-const V2_MAX_ORDERS = 8;
-const V2_MAX_ORDER_WORDS = 12;
-
-const parseOrders = (text: string): Effect.Effect<ReadonlyArray<string>, PlayerError> => {
-  const orders = text
-    .split(';')
-    .map((part) => part.trim())
-    .filter((part) => part !== '');
-  if (orders.length === 0) {
-    return Effect.fail(
-      playerError(
-        'just do needs at least one order, for example `just do "u1 found_city London"`'
-      )
-    );
-  }
-  if (orders.length > V2_MAX_ORDERS) {
-    return Effect.fail(
-      playerError(`just do accepts 1 through ${V2_MAX_ORDERS} orders; this line has ${orders.length}`)
-    );
-  }
-  for (const order of orders) {
-    if (order.split(/\s+/).length > V2_MAX_ORDER_WORDS) {
-      return Effect.fail(playerError(`order '${order}' has more than ${V2_MAX_ORDER_WORDS} words`));
-    }
-  }
-  return Effect.succeed(orders);
 };
 
 const makeHooks =
@@ -625,7 +597,7 @@ const makeHooks =
           pool.length > 1 && rest.length > 0
             ? pool.filter((descriptor) => targetTextOf(descriptor) === rest[0])
             : pool;
-        const chosen = (narrowed.length === 1 ? narrowed[0] : pool[0]) as JsonObject | undefined;
+        const chosen = (narrowed.length === 1 ? narrowed[0] : pool[0]);
         if (chosen === undefined) {
           return { text, resolved: null, reason: `${verb} is ambiguous`, actor: actorId };
         }
@@ -640,7 +612,7 @@ const makeHooks =
           Effect.succeed(orders.map((text) => outcomeOf(current, text))),
 
         orderFetchTargets: (current, outcomes) => {
-          const drained = new Set(current.drained_actors.map((value) => String(value)));
+          const drained = new Set(current.drained_actors.map((value) => scalar(value)));
           const wanted: Array<string> = [];
           for (const outcome of outcomes) {
             if (outcome.resolved !== null) continue;

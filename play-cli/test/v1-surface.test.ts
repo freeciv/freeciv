@@ -374,8 +374,8 @@ describe('play next', () => {
     // One `Console.log` call, so exactly one trailing newline reaches stdout.
     expect(out).toHaveLength(1);
     expect(out[0]).toBe(indentedJson(body));
-    const keys = [...(out[0] ?? '').matchAll(/^ {2}"([^"]+)"/gm)].map((match) => match[1]);
-    expect(keys).toEqual([...keys].sort());
+    const keys = [...(out[0] ?? '').matchAll(/^ {2}"([^"]+)"/gm)].map((match) => match[1] ?? '');
+    expect(keys).toEqual([...keys].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)));
   });
 
   test('the printed payload ends in exactly one newline, like print() does', async () => {

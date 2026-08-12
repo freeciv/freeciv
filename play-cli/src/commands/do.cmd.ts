@@ -35,7 +35,7 @@ import { playerError, type PlayError, type PlayerError } from 'src/errors';
 import { exitWith, passThroughExit, type ExitCodeSignal } from 'src/exit';
 import { dualFloat, resolveDual } from 'src/options';
 import type { BatchDisposition } from 'src/schema/batch';
-import type { JsonObject, JsonValue } from 'src/schema/primitives';
+import type { JsonObject } from 'src/schema/primitives';
 import { compareRevisions, revisionsEqual, type Revision } from 'src/schema/revision';
 import { render, revisionLabel } from 'src/render/primitives';
 import {
@@ -781,7 +781,7 @@ export const doPhaseEnd = (
   hooks: DoHooks,
   awaitNext: boolean,
   exitCode: number
-): Effect.Effect<DoPhaseEndResult, never> =>
+): Effect.Effect<DoPhaseEndResult> =>
   Effect.gen(function* () {
     const attempt = yield* Effect.either(hooks.phaseEndLocked());
     if (Either.isLeft(attempt)) {

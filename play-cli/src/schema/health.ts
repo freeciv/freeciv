@@ -465,7 +465,7 @@ const decodePriorEnd = (
       receipt_state: receiptState,
       resolution,
       elapsed_s: elapsed as number,
-      orders_submitted: orders as number | null,
+      orders_submitted: orders,
     };
   });
 
@@ -573,8 +573,8 @@ const decodePhaseBlock = (
 
     const block: { -readonly [K in keyof PhaseBlock]: PhaseBlock[K] } = {
       state,
-      turn: turn as number | null,
-      phase: phaseNumber as number | null,
+      turn: turn,
+      phase: phaseNumber,
       active,
       timing: {
         mode,

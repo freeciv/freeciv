@@ -35,7 +35,7 @@ export interface SeatLabelSource {
  * whole disclosure a blocked agent got.
  */
 export const holderSeat = (phase: PhaseBlock | null | undefined): WaitingOnSeat | null => {
-  if (phase === null || phase === undefined || phase.active === true) return null;
+  if (phase === null || phase === undefined ||  phase.active) return null;
   const waitingOn = phase.waiting_on;
   if (waitingOn === null || waitingOn === undefined) return null;
   // `is_self is False`, not "falsy": a row that omits the flag is not a claim

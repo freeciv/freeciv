@@ -24,6 +24,7 @@ import { Console, Effect } from 'effect';
 import { formatG } from 'src/render/primitives';
 import { holderSeat } from 'src/render/phase';
 import { isJsonObject, type JsonValue } from 'src/schema/primitives';
+import { compactJson } from 'src/services/json-output';
 import type { WaitEnvelope } from 'src/schema/wait';
 import { mirrorMonitorLog } from 'src/services/mirror';
 import type { PrivateFs } from 'src/services/private-fs';
@@ -50,7 +51,9 @@ const orEmpty = (value: JsonValue | undefined): string => {
   }
   if (Array.isArray(value) && value.length === 0) return '';
   if (isJsonObject(value) && Object.keys(value).length === 0) return '';
-  return typeof value === 'string' ? value : String(value);
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return compactJson(value);
 };
 
 /**

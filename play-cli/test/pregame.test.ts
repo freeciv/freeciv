@@ -214,8 +214,8 @@ describe('pregameDefaultNation', () => {
 // _mirror_pregame_catalog
 // ---------------------------------------------------------------------------
 
-const withMirror = async (
-  write: (dir: string) => Effect.Effect<unknown, unknown, PrivateFs>,
+const withMirror = async <E>(
+  write: (dir: string) => Effect.Effect<unknown, E, PrivateFs>,
   read: (sessionPath: string) => Effect.Effect<unknown, never, PrivateFs>
 ): Promise<unknown> => {
   const scratch = scratchWorkspace();
@@ -224,7 +224,7 @@ const withMirror = async (
   const dir = Effect.runSync(mirrorDir(sessionPath));
   await Effect.runPromise(
     Effect.provideService(
-      Effect.orDie(write(dir) as Effect.Effect<unknown, never, PrivateFs>),
+      Effect.orDie(write(dir)),
       PrivateFs,
       scratch.files
     )

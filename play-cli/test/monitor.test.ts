@@ -22,13 +22,12 @@ import { BunContext } from '@effect/platform-bun';
 import { afterEach, describe, expect, test } from 'bun:test';
 import { Cause, Effect, Either, Exit, Layer, Option } from 'effect';
 import { V2_WAIT_EXIT_RETRY, V2_WAIT_EXIT_TERMINAL } from 'src/exit';
-import { playerError, type PlayError, type PlayerError } from 'src/errors';
+import { playerError, type PlayerError } from 'src/errors';
 import {
   commandMonitor,
   holderSince,
   monitorCommandWith,
   monitorDefaults,
-  type KillOutcome,
   type MonitorHarness,
   type MonitorOptions,
 } from 'src/commands/monitor.cmd';
@@ -223,7 +222,7 @@ const scripted = (
           }
           now.seconds += options.advanceS ?? 0;
           return '_tag' in next && next._tag === 'PlayerError'
-            ? Effect.fail(next as PlayError)
+            ? Effect.fail(next)
             : Effect.succeed(next as WaitEnvelope);
         }),
       runHook: (command, environment) =>
@@ -264,7 +263,7 @@ const isExitDefect = (value: unknown): value is ProcessExitDefect =>
 
 const harnessFor = (seams: MonitorSeams, overrides: Partial<MonitorHarness> = {}): MonitorHarness => ({
   seams: () => seams,
-  kill: () => Effect.succeed('signalled' as KillOutcome),
+  kill: () => Effect.succeed('signalled'),
   clock: seams.clock,
   pid: () => 41207,
   since: () => '16:21:04',
@@ -849,7 +848,7 @@ describe('read-only', () => {
             { ...options({ once: true }), session: seat.sessionPath },
             {
               seams: (sessionPath, session) => liveMonitorSeams(sessionPath, session, systemWaitClock),
-              kill: () => Effect.succeed('signalled' as KillOutcome),
+              kill: () => Effect.succeed('signalled'),
               clock: systemWaitClock,
               pid: () => 1,
               since: () => holderSince(new Date(0)),
@@ -1103,7 +1102,7 @@ describe('--stop', () => {
             kill: (pid) =>
               Effect.sync(() => {
                 released.push(pid);
-                return 'signalled' as KillOutcome;
+                return 'signalled';
               }),
           })
         )
@@ -1128,7 +1127,7 @@ describe('--stop', () => {
         withMonitorLock(seat.sessionPath, { pid: 4242 }, () =>
           Effect.promise(async () =>
             runMonitor(seat, scripted([]).seams, options({ stop: true }), {
-              kill: () => Effect.succeed('gone' as KillOutcome),
+              kill: () => Effect.succeed('gone'),
             })
           )
         ),
@@ -1159,7 +1158,7 @@ describe('--stop', () => {
         withMonitorLock(seat.sessionPath, { pid: 4242 }, () =>
           Effect.promise(async () =>
             runMonitor(seat, scripted([]).seams, options({ stop: true }), {
-              kill: () => Effect.succeed('forbidden' as KillOutcome),
+              kill: () => Effect.succeed('forbidden'),
             })
           )
         ),

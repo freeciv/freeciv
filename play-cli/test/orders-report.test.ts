@@ -65,19 +65,19 @@ const compactLegalAction = (descriptor: JsonObject): Effect.Effect<JsonObject, P
           .split(/[^a-z0-9]+/)
           .filter((part) => part !== '')
           .some((part) => RESERVED_SUBJECT_TERMS.has(part));
-      compactSubject[key] = withheld ? V2_WITHHELD : (value as JsonValue);
+      compactSubject[key] = withheld ? V2_WITHHELD : (value);
     }
     const result: Record<string, JsonValue> = {
-      action_id: (descriptor['action_id'] ?? null) as JsonValue,
-      kind: (descriptor['kind'] ?? null) as JsonValue,
-      label: (descriptor['label'] ?? null) as JsonValue,
+      action_id: (descriptor['action_id'] ?? null),
+      kind: (descriptor['kind'] ?? null),
+      label: (descriptor['label'] ?? null),
       subject: compactSubject,
-      target: (subject['target'] ?? null) as JsonValue,
-      argument_schema: (descriptor['arguments_schema'] ?? null) as JsonValue,
+      target: (subject['target'] ?? null),
+      argument_schema: (descriptor['arguments_schema'] ?? null),
     };
     const probability = subject['probability'];
     if (probability !== undefined && JSON.stringify(probability) !== CERTAIN) {
-      result['probability'] = probability as JsonValue;
+      result['probability'] = probability;
     }
     return result;
   });

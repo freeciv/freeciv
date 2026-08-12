@@ -342,7 +342,8 @@ export const commandJoin = (
       }
       const state = pick(result, 'state');
       if (
-        available !== true ||
+        !
+        available ||
         (typeof state === 'string' && TERMINAL_STATES.has(state)) ||
         pick(result, 'error') !== null
       ) {

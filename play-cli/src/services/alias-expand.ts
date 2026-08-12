@@ -148,8 +148,7 @@ export const expandActionAlias = (
         playerError(
           `action alias ${alias} was enumerated at ` +
             `${revisionLabel(recorded)} but this seat now ` +
-            `knows ` +
-            `${current === null ? 'no revision' : revisionLabel(current)}` +
+            `knows ${current === null ? 'no revision' : revisionLabel(current)}` +
             '; action aliases die with their revision. Re-enumerate with ' +
             `\`${remedy}\` and use the new a1..aN`
         )
@@ -177,7 +176,7 @@ export const expandEntityAlias = (
     return yield* Effect.fail(
       playerError(
         `unknown ${kind} alias ${alias}; known ${kind} aliases: ` +
-          `${closestAliases(known, alias)}`
+          closestAliases(known, alias)
       )
     );
   });

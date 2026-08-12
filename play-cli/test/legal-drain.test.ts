@@ -18,6 +18,7 @@ import { FULL_CONTROL_V2, V2_LEGAL_COMPACT_MAX_BYTES } from 'src/constants';
 import type { DualSpelling } from 'src/options';
 import { runLegal, type LegalOptions } from 'src/commands/legal.cmd';
 import type { JsonObject, JsonValue } from 'src/schema/primitives';
+import { scalar } from 'src/render/primitives';
 import { httpFor } from 'src/services/http';
 import { v2StateSchema } from 'src/services/aliases';
 import { drainLegal, drainLegalActors } from 'src/services/legal-drain';
@@ -765,7 +766,7 @@ describe('determinism', () => {
       );
       orders.push(
         drained
-          .map((catalog) => catalog.actions.map((action) => action['action_id']).join(','))
+          .map((catalog) => catalog.actions.map((action) => scalar(action['action_id'] ?? null)).join(','))
           .join('|')
       );
       expect(drained).toHaveLength(4);

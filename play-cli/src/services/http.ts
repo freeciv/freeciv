@@ -35,7 +35,7 @@ const SERVICE_URL_ERROR =
  * to `.port`; both end at the same refusal.
  */
 export const serviceUrl = (
-  value?: string | undefined,
+  value?: string  ,
   environment: Readonly<Record<string, string | undefined>> = process.env
 ): Effect.Effect<string, PlayerError> =>
   Effect.suspend(() => {
@@ -128,7 +128,8 @@ export const v1ErrorMessage = (status: number, value: JsonObject): string => {
   const error = value['error'];
   if (isJsonObject(error)) {
     const message = error['message'] ?? error['code'];
-    return `HTTP ${status}: ${message === null || message === undefined ? 'None' : String(message)}`;
+    if (message === null || message === undefined) return `HTTP ${status}: None`;
+    return `HTTP ${status}: ${typeof message === 'string' ? message : compactJson(message)}`;
   }
   if (error === undefined || error === null) {
     return `HTTP ${status}: HTTP ${status}`;

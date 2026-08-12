@@ -216,7 +216,7 @@ describe('--end --await', () => {
         const prelude = options.prelude;
         expect(prelude).not.toBeNull();
         if (prelude !== null) {
-          for (const line of [...prelude]) yield* Effect.sync(() => console.log(line));
+          for (const line of prelude.slice()) yield* Effect.sync(() => console.log(line));
           prelude.length = 0;
         }
         yield* Effect.sync(() => console.log('waiting… 15s'));

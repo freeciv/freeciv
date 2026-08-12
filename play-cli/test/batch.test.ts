@@ -451,7 +451,7 @@ describe('batchIntent', () => {
       entity_aliases: {},
       tile_aliases: {},
       drained_actors: [],
-    }) as V2ClientState;
+    });
 
   const body = (command: JsonValue): string =>
     JSON.stringify({ batch_id: 'batch_x', commands: [command] });
@@ -1009,7 +1009,7 @@ describe('play batch', () => {
           'action_outcome_ambiguous',
           {},
           false,
-          ambiguousRevision as unknown as JsonValue
+          ambiguousRevision
         ),
       }),
     }));

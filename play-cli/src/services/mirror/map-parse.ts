@@ -96,7 +96,7 @@ export const terrainChars = (
       .split(/[^A-Za-z]+/)
       .filter((part) => part !== '')
       .map((part) => (part[0] ?? '').toUpperCase());
-    const candidate = [...initials, ...TERRAIN_FALLBACK].find((char) => !used.has(char));
+    const candidate = [...initials, ...TERRAIN_FALLBACK.split('')].find((char) => !used.has(char));
     // The alphabet outlasts a ruleset, so the '*' branch is unreachable.
     assigned.set(name, candidate ?? '*');
     used.add(candidate ?? '*');

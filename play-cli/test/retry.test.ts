@@ -72,7 +72,7 @@ const submitting = (
     Layer.succeed(PrivateFs, fixture.scratch.files)
   );
   const hooks = recordingHooks({
-    submitPersistedBatch: (batchId: string): Effect.Effect<SubmitOutcome, never> =>
+    submitPersistedBatch: (batchId: string): Effect.Effect<SubmitOutcome> =>
       Effect.gen(function* () {
         const state = yield* fixture.store.readState(fixture.sessionPath, fixture.session);
         const encoded = state.batches[batchId];

@@ -160,7 +160,7 @@ export const isArrayProperty = (specification: JsonValue): boolean =>
 export const poolIsListed = (pool: ReadonlyArray<JsonObject>): boolean =>
   pool.every((item) =>
     Object.values(orderProperties(item).properties).some((specification) =>
-      isArrayProperty(specification as JsonValue)
+      isArrayProperty(specification)
     )
   );
 

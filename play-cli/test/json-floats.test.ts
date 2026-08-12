@@ -134,7 +134,7 @@ const turnResult = (): TurnResult =>
     status: 'not_ready',
     context: contextBlock as unknown as TurnResult['context'],
     next_commands: ['just wait --for-turn'],
-  }) as TurnResult;
+  });
 
 describe('turn --json', () => {
   test('the context prints the supervisor floats, not their integer spellings', async () => {

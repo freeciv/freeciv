@@ -34,6 +34,7 @@ export const MAX_ROWS = 4096;
 export const MAX_LOG_LINE = 512;
 
 /** `_CONTROL_RE` — what may never reach a projection file. */
+// oxlint-disable-next-line no-control-regex -- control characters are exactly what this strips
 export const CONTROL_RE = /[\x00-\x1f\x7f]/g;
 
 /** `_HANDLE_WIDTHS` — the id-suffix widths a fallback handle tries in order. */
@@ -220,7 +221,7 @@ const pyStr = (value: unknown): string => {
   if (value === undefined) return 'None';
   // Containers never reach `_cell` on any tested path; JSON is the closest
   // stable rendering, and it stays sanitized by the caller below.
-  return JSON.stringify(value) ?? String(value);
+  return JSON.stringify(value) ?? '[unserializable]';
 };
 
 /**
@@ -580,6 +581,7 @@ export const cachedPhaseNote = (
  * `state/units.tsv` into a single row on read, which then rewrites the file.
  */
 export const splitLines = (text: string): ReadonlyArray<string> => {
+  // oxlint-disable-next-line no-control-regex -- CPython splitlines() boundary set includes FS/GS/RS
   const parts = text.split(/\r\n|[\n\r\v\f\x1c\x1d\x1e\u0085\u2028\u2029]/u);
   return parts.length > 0 && parts[parts.length - 1] === '' ? parts.slice(0, -1) : parts;
 };

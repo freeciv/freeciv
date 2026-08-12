@@ -364,7 +364,7 @@ describe('entity and tile aliases are assigned once, in first-seen order', () =>
     });
     // Entity aliases are game-stable: the revision bump that wiped the action
     // cache left them untouched.
-    expect(after.last_revision).toEqual({ turn: 3, revision: 9, state_token: revision(9)['state_token'] as string });
+    expect(after.last_revision).toEqual({ turn: 3, revision: 9, state_token: revision(9)['state_token'] });
     expect(after.actions).toEqual({});
 
     // Re-reading the same unit at the newer revision re-points nothing.

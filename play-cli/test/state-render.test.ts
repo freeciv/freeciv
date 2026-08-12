@@ -74,7 +74,7 @@ const refusal = (value: StatePageValue, aliases: AliasMap | null = null): Player
     )
   );
   if (Either.isRight(outcome)) throw new Error(`expected a refusal, got ${outcome.right.join('\n')}`);
-  return outcome.left as PlayerError;
+  return outcome.left;
 };
 
 const TILE = `tile_${'b'.repeat(32)}`;
@@ -177,7 +177,7 @@ describe('routeSummary', () => {
 
   test('no route at all says nothing about one', () => {
     expect(summary(null)).toBe('');
-    expect(Effect.runSync(unitRow('u3', { ...UNITS[0], route: null } as JsonValue)).join(' ')).not.toContain('→');
+    expect(Effect.runSync(unitRow('u3', { ...UNITS[0], route: null })).join(' ')).not.toContain('→');
   });
 });
 
@@ -329,7 +329,7 @@ describe('tiles', () => {
 
   test('a genuine collision is broken over the colliding names alone', () => {
     const codes = terrainCodes(new Set(['Slime', 'Sludge', 'Slag']));
-    expect([...codes.entries()].sort()).toEqual([
+    expect([...codes.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))).toEqual([
       ['Slag', 'Sl'],
       ['Slime', 'S0'],
       ['Sludge', 'S1'],

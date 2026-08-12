@@ -24,7 +24,7 @@ import { playerError, type PlayError } from 'src/errors';
 import { exitWith, type ExitCodeSignal } from 'src/exit';
 import { dualFloat, resolveDual } from 'src/options';
 import { batchFocusCommand, decisionLine } from 'src/render/decisions';
-import { render, revisionLabel, type JsonValue } from 'src/render/primitives';
+import { render, revisionLabel } from 'src/render/primitives';
 import { V2_ONE_CALL_END, renderTurn, type RenderTurnDeps, type TurnResult } from 'src/render/turn';
 import { holderSeat } from 'src/render/wait';
 import { economyText, researchText, scoreText } from 'src/render/state/overview';

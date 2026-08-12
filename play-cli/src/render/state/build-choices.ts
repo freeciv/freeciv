@@ -106,10 +106,10 @@ export const buildChoiceNote = (
   const keep = isJsonObject(cost) ? (cost['shield_stock_after_change'] ?? null) : null;
   const integral = typeof keep === 'number' && Number.isInteger(keep);
   const parts: string[] = [];
-  if (integral && stock !== null && stock > (keep as number)) {
-    parts.push(`!forfeits ${stock - (keep as number)} of ${stock} shields`);
+  if (integral && stock !== null && stock > (keep)) {
+    parts.push(`!forfeits ${stock - (keep)} of ${stock} shields`);
   } else if (integral && stock === null) {
-    parts.push(`keep ${keep as number}`);
+    parts.push(`keep ${keep}`);
   }
   if (fields['can_build_now'] === false) parts.push('!worklist only');
   const upkeep = fields['upkeep'] ?? null;

@@ -50,7 +50,7 @@ const deps: RenderTurnDeps = {
   renderTiles,
 };
 
-const run = <A>(effect: Effect.Effect<A, unknown>): A => Effect.runSync(effect as Effect.Effect<A>);
+const run = <A, E>(effect: Effect.Effect<A, E>): A => Effect.runSync(Effect.orDie(effect));
 
 const revision = (value: number, turn = 3): Revision => ({
   turn,

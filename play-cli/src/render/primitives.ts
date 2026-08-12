@@ -142,7 +142,7 @@ export const flat = (value: JsonValue): string => {
   if (isJsonObject(value)) {
     const plain = plainName(value);
     if (plain !== null) return plain;
-    return 'type' in value ? scalar(value['type'] as JsonValue) : '…';
+    return 'type' in value ? scalar(value['type']) : '…';
   }
   return scalar(value);
 };
@@ -155,7 +155,7 @@ export const flat = (value: JsonValue): string => {
  * `json.dumps` of the whole payload, which would put more bytes in the row than
  * the field it replaced.
  */
-export const named = (value: JsonValue, aliases?: AliasMap | undefined): string => {
+export const named = (value: JsonValue, aliases?: AliasMap  ): string => {
   if (!isJsonObject(value)) return scalar(value);
   const identifier = value['id'];
   if (typeof identifier === 'string' && identifier !== '' && aliases !== undefined) {
@@ -255,7 +255,7 @@ export const requestedScope = (actorId: string, targetId: string): PageScope | n
 
 export const scopeText = (
   scope: PageScope | null | undefined,
-  aliases?: AliasMap | undefined
+  aliases?: AliasMap  
 ): string => {
   if (scope == null) return 'scope=all';
   const table_ = aliases ?? {};

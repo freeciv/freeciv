@@ -183,9 +183,11 @@ export const phaseIsMine = (health: HealthEnvelope): boolean => {
   const phase = health.phase;
   return (
     phase !== null &&
-    phase.active === true &&
+    
+    phase.active &&
     phase.state === 'awaiting_agent' &&
-    health.observation_available === true
+    
+    health.observation_available
   );
 };
 
@@ -257,7 +259,7 @@ export const legacyWaitValue = (
       V2Client
     > =>
       Effect.gen(function* () {
-        if (options.until !== 'revision' || health.observation_available !== true) {
+        if (options.until !== 'revision' || ! health.observation_available) {
           return { wake: null, revision: null };
         }
         const stateResponse = yield* client.response('GET', stateUrl, credentials, {
@@ -300,9 +302,11 @@ export const legacyWaitValue = (
       if (
         options.until === 'phase' &&
         phase !== null &&
-        phase.active === true &&
+        
+        phase.active &&
         phase.state === 'awaiting_agent' &&
-        health.observation_available === true
+        
+        health.observation_available
       ) {
         return localWaitResponse(ctx.session, 'phase_active', health, null);
       }

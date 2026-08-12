@@ -396,8 +396,8 @@ const commandFixture = (payload: JsonObject, status = 200): Fixture => {
   };
 };
 
-const capture = async (
-  effect: Effect.Effect<void, unknown, PrivateFs | SessionStore | V2Client>,
+const capture = async <E>(
+  effect: Effect.Effect<void, E, PrivateFs | SessionStore | V2Client>,
   fixture: Fixture
 ): Promise<ReadonlyArray<string>> => {
   const out: string[] = [];

@@ -44,7 +44,7 @@ const unicodeEscape = (code: number): string => `\\u${code.toString(16).padStart
 /** `json.encoder.py_encode_basestring_ascii` (and its non-ASCII sibling). */
 export const encodeStringAscii = (value: string, ensureAscii = true): string => {
   let out = '"';
-  for (const character of [...value]) {
+  for (const character of value) {
     const point = character.codePointAt(0) ?? 0;
     const known = ESCAPES.get(character);
     if (known !== undefined) {

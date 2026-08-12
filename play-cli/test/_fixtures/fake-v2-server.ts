@@ -60,7 +60,7 @@ export const fakeFetch = (
 ): typeof fetch => {
   const queue = Array.isArray(plan) ? [...(plan as ReadonlyArray<FakeRoute>)] : null;
   const routes = queue === null ? (plan as ReadonlyMap<string, FakeRoute>) : null;
-  return (async (input: FetchInput, init?: RequestInit): Promise<Response> => {
+  return (async (input: FetchInput, _init?: RequestInit): Promise<Response> => {
     const url = urlOf(input);
     const route =
       queue !== null
@@ -75,7 +75,7 @@ export const fakeFetch = (
     }
     return new Response(JSON.stringify(route.body), {
       status: route.status ?? 200,
-      headers: { 'content-type': 'application/json', ...(route.headers ?? {}) },
+      headers: { 'content-type': 'application/json', ...route.headers },
     });
   }) as typeof fetch;
 };

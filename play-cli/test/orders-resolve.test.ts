@@ -80,23 +80,23 @@ const compactLegalAction = (descriptor: JsonObject): Effect.Effect<JsonObject, P
           .split(/[^a-z0-9]+/)
           .filter((part) => part !== '')
           .some((part) => RESERVED_SUBJECT_TERMS.has(part));
-      compactSubject[key] = withheld ? V2_WITHHELD : (value as JsonValue);
+      compactSubject[key] = withheld ? V2_WITHHELD : (value);
     }
-    const schema = (descriptor['arguments_schema'] ?? null) as JsonValue;
-    const target = (subject['target'] ?? null) as JsonValue;
+    const schema = (descriptor['arguments_schema'] ?? null);
+    const target = (subject['target'] ?? null);
     const result: Record<string, JsonValue> = {
-      action_id: (descriptor['action_id'] ?? null) as JsonValue,
-      kind: (descriptor['kind'] ?? null) as JsonValue,
-      label: (descriptor['label'] ?? null) as JsonValue,
+      action_id: (descriptor['action_id'] ?? null),
+      kind: (descriptor['kind'] ?? null),
+      label: (descriptor['label'] ?? null),
       subject: compactSubject,
       target,
       argument_schema: schema,
     };
     const probability = subject['probability'];
-    if (probability !== undefined && !sameJson(probability as JsonValue, CERTAIN)) {
-      result['probability'] = probability as JsonValue;
+    if (probability !== undefined && !sameJson(probability, CERTAIN)) {
+      result['probability'] = probability;
     }
-    let goldCost = (subject['gold_cost'] ?? null) as JsonValue;
+    let goldCost = (subject['gold_cost'] ?? null);
     if (goldCost === null && isJsonObject(target)) goldCost = target['gold_cost'] ?? null;
     if (goldCost !== null) result['gold_cost'] = goldCost;
     const properties = isJsonObject(schema) ? schema['properties'] : null;

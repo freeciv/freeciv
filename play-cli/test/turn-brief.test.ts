@@ -165,7 +165,7 @@ interface Log {
 }
 
 interface PhaseEndOverrides {
-  readonly submit?: (batchId: string) => Effect.Effect<never, never> | undefined;
+  readonly submit?: (batchId: string) => Effect.Effect<never> | undefined;
   readonly receiptOk?: boolean;
   readonly defaultArguments?: JsonObject | null;
 }

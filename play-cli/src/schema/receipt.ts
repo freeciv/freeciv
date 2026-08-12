@@ -220,7 +220,7 @@ export const decodeInvestigation = (
       }
       const [happy, content, unhappy, angry] = moods as [number, number, number, number];
       feelings.push({
-        stage: FEELING_STAGES[index] as string,
+        stage: FEELING_STAGES[index],
         happy,
         content,
         unhappy,

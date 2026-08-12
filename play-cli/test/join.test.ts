@@ -23,6 +23,7 @@ import { Command } from '@effect/cli';
 import { BunContext } from '@effect/platform-bun';
 import { Effect, Either, Layer, Option } from 'effect';
 import { FULL_CONTROL_V2, SEAT_BINDING_NAME } from 'src/constants';
+import { compactJson } from 'src/services/json-output';
 import {
   V2_PROTOCOL_CARD,
   deadlineText,
@@ -910,7 +911,7 @@ describe('the flag surface', () => {
       return {
         failure:
           outcome._tag === 'Left'
-            ? ((outcome.left as { readonly message?: string }).message ?? String(outcome.left))
+            ? ((outcome.left as { readonly message?: string }).message ?? compactJson(outcome.left))
             : null,
         out: out.join('\n'),
       };

@@ -72,7 +72,7 @@ export const V2_LEADER_MAX_BYTES = 47;
  * Everything outside letters, digits, spaces, apostrophes, periods and hyphens
  * becomes a hyphen, so a harness label like `pi-gpt-5.5` survives as itself.
  */
-export const LEADER_STRIP_RE = /[^0-9A-Za-z '.\-]+/g;
+export const LEADER_STRIP_RE = /[^0-9A-Za-z '.-]+/g;
 
 /** The characters CPython's `strip(" -.'")` takes off both ends. */
 const LEADER_EDGE_RE = /^[ \-.']+|[ \-.']+$/g;

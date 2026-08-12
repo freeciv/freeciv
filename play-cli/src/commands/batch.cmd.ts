@@ -233,9 +233,7 @@ const issue = (
 ): Effect.Effect<Issued, PlayerError | DriftError | LockTimeoutError, BatchEnv> =>
   Effect.gen(function* () {
     const store = yield* SessionStore;
-    const batchId = yield* persistBatchForAction(sessionPath, session, actionId, args, {
-      ...(hooks.token === undefined ? {} : { token: hooks.token }),
-    });
+    const batchId = yield* persistBatchForAction(sessionPath, session, actionId, args, (hooks.token === undefined ? {} : { token: hooks.token }));
     const cached = yield* store.readState(sessionPath, session);
     const intent = batchIntent(cached, batchId);
     // Read the actor before the send: applying the action bumps the revision,

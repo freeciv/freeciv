@@ -97,7 +97,7 @@ describe('writeMirror', () => {
     const scratch = scratchWorkspace();
     try {
       return withProg(prog, () => {
-        const written = Effect.runSync(
+        Effect.runSync(
           Effect.provide(
             writeMirror(scratch.workspace.stateRoot, ['header.txt'], 'NOT YOUR TURN — next: just wait'),
             scratch.layer
@@ -120,7 +120,7 @@ describe('the spawned CLI', () => {
   const spawnHelp = (env: Record<string, string | undefined>): string => {
     const result = Bun.spawnSync({
       cmd: ['bun', 'run', path.join(import.meta.dir, '..', 'src', 'bin.ts'), 'help'],
-      env: { ...process.env, ...env } as Record<string, string>,
+      env: { ...process.env, ...env },
       stdout: 'pipe',
       stderr: 'pipe',
     });

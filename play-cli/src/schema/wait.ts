@@ -74,9 +74,11 @@ export const decodeWait = (
         !(
           until === 'phase' &&
           phase !== null &&
-          phase.active === true &&
+          
+          phase.active &&
           phase.state === 'awaiting_agent' &&
-          health.observation_available === true
+          
+          health.observation_available
         )) ||
       (wakeReason === 'game_terminal' && !TERMINAL_STATES.has(health.game_state)) ||
       (wakeReason === 'revision_changed' &&

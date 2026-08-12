@@ -92,7 +92,7 @@ const unit = (identifier: string = UNIT_A, options: UnitOptions = {}): JsonObjec
   type_stats: { max_hp: 20, move_rate: 3 },
   activity: { name: 'idle', progress: 0, target: null },
   route: null,
-  ...(options.extra ?? {}),
+  ...options.extra,
 });
 
 const city = (name = 'London', size = 1): JsonObject => ({
@@ -188,7 +188,7 @@ const right = <A, E>(either: Either.Either<A, E>): A => {
     const failure: unknown = either.left;
     const message =
       typeof failure === 'object' && failure !== null && 'message' in failure
-        ? String((failure as { message: unknown }).message)
+        ? String((failure).message)
         : String(failure);
     throw new Error(`expected success, got: ${message}`);
   }
@@ -200,7 +200,7 @@ const leftMessage = <A, E>(either: Either.Either<A, E>): string => {
   if (!Either.isLeft(either)) return '';
   const failure: unknown = either.left;
   return typeof failure === 'object' && failure !== null && 'message' in failure
-    ? String((failure as { message: unknown }).message)
+    ? String((failure).message)
     : String(failure);
 };
 

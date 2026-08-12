@@ -18,7 +18,6 @@ import {
   field,
   isJsonObject,
   type JsonObject,
-  type JsonValue,
 } from 'src/schema/primitives';
 import { actionTargetKey } from 'src/services/aliases';
 import { cachedDescriptors } from 'src/services/catalog-cache';
@@ -198,7 +197,7 @@ export const orderDiscriminators = (
     if (isJsonObject(subject)) {
       for (const [key, value] of Object.entries(subject)) {
         if (LEGAL_SUBJECT_RESERVED.has(key)) continue;
-        words.add(casefold(named(value as JsonValue)));
+        words.add(casefold(named(value)));
       }
     }
     return words;

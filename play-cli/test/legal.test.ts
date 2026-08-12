@@ -155,7 +155,7 @@ const playerAction = (
     actor: { id: PLAYER, type: 'player' },
     target: spec.target ?? null,
     probability: spec.probability ?? EXACT,
-    ...(spec.subjectExtra ?? {}),
+    ...spec.subjectExtra,
   },
   arguments_schema: { type: 'object' },
   state_revision: rev,

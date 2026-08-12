@@ -267,7 +267,7 @@ export const decodeEvaluationContext = (
   return Effect.succeed({
     objective,
     max_turns: maxTurns,
-    turns_remaining: turnsRemaining as number | null,
+    turns_remaining: turnsRemaining,
   });
 };
 

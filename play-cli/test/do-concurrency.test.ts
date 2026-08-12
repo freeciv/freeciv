@@ -192,7 +192,7 @@ describe('do-drain — the ordering primitives', () => {
     );
     expect(committed).toEqual(['b', 'c']);
     expect(outcomes[0]?.failure?.message).toBe('a is unreadable');
-    expect(outcomes.every((outcome) => outcome.skipped === false)).toBe(true);
+    expect(outcomes.every((outcome) => ! outcome.skipped)).toBe(true);
   });
 
   test('a genuine defect out of a drain is never captured as a row', async () => {

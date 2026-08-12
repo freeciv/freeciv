@@ -42,6 +42,9 @@ const TILE_C = `tile_${'3'.repeat(32)}`;
 
 const rev = (revision: number, turn = 3): MirrorRevision => ({ turn, revision });
 
+const byKey = (a: readonly [string, string], b: readonly [string, string]): number =>
+  a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0;
+
 const scratches: Scratch[] = [];
 afterEach(() => {
   while (scratches.length > 0) scratches.pop()?.cleanup();
@@ -381,11 +384,11 @@ describe('state/map.txt', () => {
     ]));
     const parsed = parseMap(mirror.read(MAP_FILE));
     expect(parsed.revision).toEqual({ turn: 7, revision: 12 });
-    expect([...parsed.grid.entries()].sort()).toEqual([
+    expect([...parsed.grid.entries()].sort(byKey)).toEqual([
       ['-2,-1', 'T'],
       ['0,0', 'L'],
     ]);
-    expect([...parsed.legend.entries()].sort()).toEqual([
+    expect([...parsed.legend.entries()].sort(byKey)).toEqual([
       ['Lake', 'L'],
       ['Tundra', 'T'],
     ]);

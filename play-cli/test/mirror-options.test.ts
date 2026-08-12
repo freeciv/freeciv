@@ -132,7 +132,7 @@ const right = <A, E>(either: Either.Either<A, E>): A => {
     throw new Error(
       `expected success, got: ${
         typeof failure === 'object' && failure !== null && 'message' in failure
-          ? String((failure as { message: unknown }).message)
+          ? String((failure).message)
           : String(failure)
       }`
     );

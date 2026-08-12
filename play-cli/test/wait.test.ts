@@ -101,7 +101,7 @@ const bench = (): Bench => {
  * without it, and this restatement is the hook these tests inject.
  */
 const holderSeat: HolderSeatFn = (phase) => {
-  if (phase === null || phase.active === true) return null;
+  if (phase === null ||  phase.active) return null;
   const waitingOn = phase.waiting_on;
   if (waitingOn === undefined || waitingOn === null) return null;
   const others = waitingOn.seats.filter((row) => row.is_self === false);

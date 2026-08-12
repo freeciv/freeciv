@@ -287,14 +287,6 @@ export const drainLegalAll = (
     }
     const hide = (hidden: ReadonlyMap<string, number>, name: string): ReadonlyMap<string, number> =>
       new Map(hidden).set(name, (hidden.get(name) ?? 0) + 1);
-    const unhide = (hidden: ReadonlyMap<string, number>, name: string): ReadonlyMap<string, number> => {
-      const remaining = (hidden.get(name) ?? 0) - 1;
-      const next = new Map(hidden);
-      if (remaining === 0) next.delete(name);
-      else next.set(name, remaining);
-      return next;
-    };
-
     const takeItem = (
       state: Scan,
       descriptor: JsonObject

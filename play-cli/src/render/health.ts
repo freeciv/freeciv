@@ -105,8 +105,8 @@ const phaseEndLine = (event: PhaseEndEvent): string => {
   let line =
     `last phase end t${scalar(field(event, 'turn'))}` +
     `/p${scalar(field(event, 'phase'))} ` +
-    `source=${String(field(event, 'source'))} ${String(field(event, 'receipt_state'))} ` +
-    `${String(field(event, 'resolution'))} ${scalar(field(event, 'elapsed_s'))}s`;
+    `source=${scalar(field(event, 'source'))} ${scalar(field(event, 'receipt_state'))} ` +
+    `${scalar(field(event, 'resolution'))} ${scalar(field(event, 'elapsed_s'))}s`;
   if (field(event, 'source') === 'auto_idle') {
     line += ' (ended for you: nothing idle, no decision pending)';
   }
@@ -116,8 +116,8 @@ const phaseEndLine = (event: PhaseEndEvent): string => {
 const recoveryLine = (recovery: JsonObject): string => {
   let line =
     `last recovery t${scalar(field(recovery, 'turn'))} ` +
-    `${String(field(recovery, 'kind'))} ${String(field(recovery, 'outcome'))} ` +
-    `trigger=${String(field(recovery, 'trigger'))}`;
+    `${scalar(field(recovery, 'kind'))} ${scalar(field(recovery, 'outcome'))} ` +
+    `trigger=${scalar(field(recovery, 'trigger'))}`;
   const rewoundTo: JsonValue = field(recovery, 'recovered_to_turn');
   if (rewoundTo !== null) {
     line += ` rewound to t${scalar(rewoundTo)}`;

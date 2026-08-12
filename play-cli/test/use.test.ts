@@ -40,6 +40,8 @@ import {
   type SessionStoreApi,
 } from 'src/services/session-store';
 import type { JsonObject } from 'src/schema/primitives';
+import { scalar } from 'src/render/primitives';
+import { compactJson } from 'src/services/json-output';
 
 const FIRST = 'game_Hsit9YEuBjKdJPPouFoGVYlk';
 const SECOND = 'game_9SecondBoundGame00000000';
@@ -150,7 +152,7 @@ const boundGame = (fixture: Bench): string => {
   const value = JSON.parse(
     fs.readFileSync(path.join(fixture.workspace.stateRoot, SEAT_BINDING_NAME), 'utf8')
   ) as JsonObject;
-  return String(value['game_id']);
+  return scalar(value['game_id'] ?? null);
 };
 
 // ---------------------------------------------------------------------------
@@ -302,7 +304,7 @@ describe('bare `use`', () => {
     expect(payload['game_id']).toBe(FIRST);
     expect(payload['session_file']).toBe(seat);
     expect(payload['rebound_from']).toBeNull();
-    expect(String(payload['bound_at'])).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
+    expect(scalar(payload['bound_at'] ?? null)).toMatch(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
     expect(report.out).not.toContain('agent-v2-secret');
   });
 });
@@ -440,7 +442,7 @@ describe('the CLI surface', () => {
       return {
         failure:
           outcome._tag === 'Left'
-            ? ((outcome.left as { readonly message?: string }).message ?? String(outcome.left))
+            ? ((outcome.left as { readonly message?: string }).message ?? compactJson(outcome.left))
             : null,
         out: lines.join('\n'),
       };

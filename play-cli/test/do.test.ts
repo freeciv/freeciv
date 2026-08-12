@@ -444,7 +444,7 @@ describe('do — resolution', () => {
 
     const many = await runDoCaptured(
       kit,
-      doArgs(new Array(9).fill('u1 move 32,72').join('; '))
+      doArgs(Array.from({ length: 9 }, () => 'u1 move 32,72').join('; '))
     );
     expect(many.code).toBe(2);
     expect(many.error).toContain('1 through 8 orders');

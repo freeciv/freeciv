@@ -218,7 +218,7 @@ export const drainActors = <R>(
       gate: DrainGate
     ): Effect.Effect<DrainOutcome, never, R> =>
       Effect.matchCauseEffect(drainOne(actorId, gate), {
-        onFailure: (cause): Effect.Effect<DrainOutcome, never> => {
+        onFailure: (cause): Effect.Effect<DrainOutcome> => {
           if (wasSkipped(cause)) return Effect.succeed(skipped(actorId));
           const failure = Cause.failureOption(cause);
           return Option.isSome(failure)
@@ -227,7 +227,7 @@ export const drainActors = <R>(
               // interruption.  `stripFailures` keeps both and drops nothing.
               Effect.failCause(Cause.stripFailures(cause));
         },
-        onSuccess: (revision): Effect.Effect<DrainOutcome, never> =>
+        onSuccess: (revision): Effect.Effect<DrainOutcome> =>
           Effect.succeed(succeeded(actorId, revision)),
       });
 

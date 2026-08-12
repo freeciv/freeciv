@@ -124,7 +124,7 @@ export const renderOverview = (
       if (isJsonObject(gameMap)) {
         lines.push(
           `map ${scalar(gameMap['width'] ?? null)}x${scalar(gameMap['height'] ?? null)} ` +
-            `${scalar(gameMap['topology'] ?? null)}`
+            scalar(gameMap['topology'] ?? null)
         );
       }
       const counts = fields['counts'] ?? null;

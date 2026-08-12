@@ -27,6 +27,7 @@ import { liveStartHooks, runStart, type StartHooksFor, type StartOptions } from 
 import { isJsonObject, type JsonObject, type JsonValue } from 'src/schema/primitives';
 import { httpFor } from 'src/services/http';
 import { V2_PROTOCOL_CARD } from 'src/render/join';
+import { scalar } from 'src/render/primitives';
 import { NOT_READIED_LINE } from 'src/render/pregame';
 import { DEFAULT_COMMAND_CARD, mirrorDir } from 'src/services/mirror';
 import { orderReceiptOk, type PregameAction, type PregameItem, type StartHooks } from 'src/services/pregame';
@@ -266,7 +267,7 @@ const startResponder = (options: ResponderOptions = {}): Recorded => {
         control_protocol: FULL_CONTROL_V2,
         game_id: FIXTURE_GAME_ID,
         agent_id: FIXTURE_AGENT_ID,
-        batch_id: String(raw['batch_id']),
+        batch_id: scalar(raw['batch_id'] ?? null),
         receipt_state: 'rejected',
         idempotent: false,
         state_revision: LOBBY,
@@ -297,7 +298,7 @@ const startResponder = (options: ResponderOptions = {}): Recorded => {
       control_protocol: FULL_CONTROL_V2,
       game_id: FIXTURE_GAME_ID,
       agent_id: FIXTURE_AGENT_ID,
-      batch_id: String(raw['batch_id']),
+      batch_id: scalar(raw['batch_id'] ?? null),
       receipt_state: 'applied',
       idempotent: true,
       state_revision: sameRevision ? CONFIGURED : READIED,
@@ -319,9 +320,9 @@ const objectsAt = (page: JsonObject): ReadonlyArray<JsonObject> => {
 };
 
 const asAction = (descriptor: JsonObject): PregameAction => ({
-  action_id: String(descriptor['action_id']),
-  kind: String(descriptor['kind']),
-  argument_schema: (descriptor['arguments_schema'] ?? null) as JsonValue,
+  action_id: scalar(descriptor['action_id'] ?? null),
+  kind: scalar(descriptor['kind'] ?? null),
+  argument_schema: (descriptor['arguments_schema'] ?? null),
 });
 
 /**
@@ -374,7 +375,7 @@ const hooksFor = (
           game_id: credentials.gameId,
           agent_id: FIXTURE_AGENT_ID,
           batch_id: batchId,
-          state_revision: (descriptor?.['state_revision'] ?? null) as JsonValue,
+          state_revision: (descriptor?.['state_revision'] ?? null),
           commands: [{ action_id: actionId, arguments: argumentValues }],
         });
         return batchId;
@@ -532,7 +533,7 @@ const refuse = async (
 const argumentsOf = (body: JsonObject): JsonValue => {
   const commands = body['commands'];
   const first = Array.isArray(commands) ? commands[0] : undefined;
-  return isJsonObject(first) ? ((first['arguments'] ?? null) as JsonValue) : null;
+  return isJsonObject(first) ? ((first['arguments'] ?? null)) : null;
 };
 
 const commandOf = (body: JsonObject): JsonValue => {
@@ -563,7 +564,7 @@ describe('play start', () => {
       'batch',
     ]);
     expect(commandOf(recorded.bodies[0] ?? {})).toEqual({
-      action_id: String(CONFIGURE['action_id']),
+      action_id: scalar(CONFIGURE['action_id'] ?? null),
       arguments: {
         nation_id: NATION_ENGLISH,
         leader_name: 'Ada',
@@ -572,7 +573,7 @@ describe('play start', () => {
       },
     });
     expect(commandOf(recorded.bodies[1] ?? {})).toEqual({
-      action_id: String(SET_READY['action_id']),
+      action_id: scalar(SET_READY['action_id'] ?? null),
       arguments: { ready: true },
     });
     expect(recorded.bodies[1]?.['state_revision']).toEqual(CONFIGURED);
@@ -844,7 +845,7 @@ describe('play start', () => {
       'batch',
     ]);
     expect(commandOf(recorded.bodies[0] ?? {})).toEqual({
-      action_id: String(CONFIGURE['action_id']),
+      action_id: scalar(CONFIGURE['action_id'] ?? null),
       arguments: {
         nation_id: NATION_ENGLISH,
         leader_name: 'Ada',
@@ -853,7 +854,7 @@ describe('play start', () => {
       },
     });
     expect(commandOf(recorded.bodies[1] ?? {})).toEqual({
-      action_id: String(SET_READY['action_id']),
+      action_id: scalar(SET_READY['action_id'] ?? null),
       arguments: { ready: true },
     });
     // U14's real `_render_disposition`, not the fixture's one-line stand-in.

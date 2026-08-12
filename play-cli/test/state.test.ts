@@ -31,7 +31,6 @@ import { V2Client, v2ClientFor } from 'src/services/v2-client';
 import {
   FIXTURE_GAME_ID,
   errorPayload,
-  fakeFetch,
   recordingFetch,
   scratchWorkspace,
   sessionFile,
@@ -271,8 +270,8 @@ const fixture = (routes: Plan): Fixture => {
   };
 };
 
-const capture = async (
-  effect: Effect.Effect<void, unknown, SessionStore | V2Client | PrivateFs>,
+const capture = async <E>(
+  effect: Effect.Effect<void, E, SessionStore | V2Client | PrivateFs>,
   active: Fixture
 ): Promise<ReadonlyArray<string>> => {
   const out: string[] = [];

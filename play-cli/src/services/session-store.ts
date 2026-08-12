@@ -567,7 +567,7 @@ const makeApi = (
       }
       // Persisted request bodies are strings specifically so retry can send the
       // exact bytes written before the first POST.
-      const batches = value['batches'] as JsonObject;
+      const batches = value['batches'];
       const badBatch = Object.entries(batches).some(
         ([batchId, body]) => !OPAQUE_ID_RE.test(batchId) || typeof body !== 'string'
       );
@@ -581,7 +581,7 @@ const makeApi = (
           ...schema.empty(session),
           last_revision: (value['last_revision'] ?? null) as Revision | null,
           batches: { ...batches },
-          receipts: { ...(value['receipts'] as JsonObject) },
+          receipts: { ...(value['receipts']) },
         };
         yield* files.writeJson(file, migrated);
         return migrated;

@@ -93,7 +93,7 @@ const bench = (): Bench => {
 
 /** `_holder_seat`; U06 owns the real one, the engine takes it as a hook. */
 const holderSeat: HolderSeatFn = (phase) => {
-  if (phase === null || phase.active === true) return null;
+  if (phase === null ||  phase.active) return null;
   const waitingOn = phase.waiting_on;
   if (waitingOn === undefined || waitingOn === null) return null;
   const others = waitingOn.seats.filter((row) => row.is_self === false);

@@ -29,7 +29,7 @@ import {
   passThroughExit,
   type ExitCode,
 } from 'src/exit';
-import { COMMAND_NAMES, type CommandName } from 'src/constants';
+import { type CommandName } from 'src/constants';
 import { HttpLive } from 'src/services/http';
 import { V2ClientLive } from 'src/services/v2-client';
 import { PrivateFsLive, WorkspaceLive } from 'src/services/private-fs';
@@ -281,13 +281,13 @@ export const handleError = (
 
 export const runCli = (
   argv: ReadonlyArray<string> = process.argv
-): Effect.Effect<ExitCode, never, never> =>
+): Effect.Effect<ExitCode, never> =>
   Command.run(rootCommand, {
     name: 'play',
     version: '0.1.0',
   })(argv).pipe(
     Effect.map((): ExitCode => EXIT_OK),
-    Effect.catchAll((error) => handleError(error as MappedError, argv)),
+    Effect.catchAll((error) => handleError(error, argv)),
     Effect.provide(AppLayer),
     Effect.catchAllCause((cause): Effect.Effect<ExitCode> =>
       Effect.map(stderr(`error: ${Cause.pretty(cause)}`), (): ExitCode => EXIT_REFUSED)

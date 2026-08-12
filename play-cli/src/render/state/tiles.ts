@@ -97,7 +97,7 @@ export const tileCells = (
       const x = yield* needInt(item, 'x', 'tile');
       const y = yield* needInt(item, 'y', 'tile');
       const visibility = yield* needText(item, 'visibility', 'tile');
-      const terrain = (isJsonObject(item) ? (item['terrain'] ?? null) : null) as JsonValue;
+      const terrain = (isJsonObject(item) ? (item['terrain'] ?? null) : null);
       xs.push(x);
       ys.push(y);
       if (terrain === null) {

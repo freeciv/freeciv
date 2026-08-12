@@ -134,7 +134,7 @@ export const renderJoin = (
       ? [
           `objective ${scalar(at(session, 'objective'))} | max_turns ` +
             `${scalar(at(session, 'max_turns'))} | turns_remaining ` +
-            `${scalar(at(session, 'turns_remaining'))}`,
+            scalar(at(session, 'turns_remaining')),
         ]
       : [];
   const protocolLines =
@@ -275,7 +275,7 @@ export const joinGuidance = (
     '\nJoined a full-control-v2 session.\n' +
     `${capitalized(binding)}.\n` +
     `Timing mode: ${timingMode}; ${deadline}.\n` +
-    `${evaluationLine}` +
+    evaluationLine +
     'Do not use strategic `just next` or `just act`. The command ' +
     'contract is the protocol card printed on stdout above; it is ' +
     'also saved in state/header.txt, so `just show header` re-reads ' +

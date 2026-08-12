@@ -23,7 +23,7 @@ import { Console, Effect } from 'effect';
 import { PHASE_END_REMEDY, TERMINAL_STATES, V2_TURN_SECTIONS } from 'src/constants';
 import { playerError, type PlayError, type PlayerError } from 'src/errors';
 import { V2_PROTOCOL_CARD } from 'src/render/join';
-import { echo, render, type AliasMap, type JsonObject, type JsonValue } from 'src/render/primitives';
+import { echo, render, type AliasMap, type JsonObject } from 'src/render/primitives';
 import {
   renderTurn,
   type RenderTurnDeps,
@@ -279,9 +279,11 @@ export const turnBriefingLocked = (ctx: TurnCtx): TurnEffect<TurnBriefing> =>
       const phase = health.phase;
       const actionable =
         health.game_state === 'running' &&
-        health.observation_available === true &&
+        
+        health.observation_available &&
         phase !== null &&
-        phase.active === true &&
+        
+        phase.active &&
         phase.state === 'awaiting_agent';
       if (!actionable) {
         return health.game_state === 'lobby'
@@ -421,13 +423,13 @@ export const awaitAndBrief = (
     // not on its first tick: execution is done, and the transcript should say
     // so while the opponent is still thinking.
     if (prelude !== null && prelude.length > 0) {
-      for (const text of [...prelude]) yield* echo(text);
+      for (const text of prelude.slice()) yield* echo(text);
       prelude.length = 0;
     }
     const tick = (health: HealthEnvelope): Effect.Effect<void> =>
       Effect.gen(function* () {
         if (prelude !== null && prelude.length > 0) {
-          for (const text of [...prelude]) yield* echo(text);
+          for (const text of prelude.slice()) yield* echo(text);
           prelude.length = 0;
         }
         yield* echo(waitingTickLine(health));

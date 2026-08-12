@@ -179,7 +179,7 @@ const NO_LINES: ReadonlyArray<string> = [];
 export const refusedActorOptions = (
   actors: ReadonlyArray<string>,
   io: RefusedActorOptionsIo
-): Effect.Effect<ReadonlyArray<string>, never> =>
+): Effect.Effect<ReadonlyArray<string>> =>
   Effect.gen(function* () {
     const wanted = actors.slice(0, V2_REFUSAL_LEGAL_ACTORS);
     if (wanted.length === 0) return NO_LINES;

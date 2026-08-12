@@ -38,7 +38,7 @@ interface Captured {
 }
 
 /** Run an effect with stdout/stderr collected instead of printed. */
-const capture = async <A>(effect: Effect.Effect<A, never, never>): Promise<{
+const capture = async <A>(effect: Effect.Effect<A, never>): Promise<{
   readonly value: A;
   readonly captured: Captured;
 }> => {
@@ -57,7 +57,7 @@ const capture = async <A>(effect: Effect.Effect<A, never, never>): Promise<{
   }
 };
 
-const withRenderer = <A>(effect: Effect.Effect<A, never, never>): Effect.Effect<A> => effect;
+const withRenderer = <A>(effect: Effect.Effect<A, never>): Effect.Effect<A> => effect;
 
 describe('exit codes', () => {
   test('the contract is exactly four statuses', () => {

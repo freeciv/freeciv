@@ -72,7 +72,7 @@ export const unresolvedReport = (
       if (outcome.resolved !== null) {
         lines.push(
           `  ${position} resolved    ${outcome.text}  ->  ${outcome.resolved.kind} ` +
-            `${outcome.resolved.label}`
+            outcome.resolved.label
         );
         continue;
       }

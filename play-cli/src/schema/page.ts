@@ -21,7 +21,6 @@ import {
   isJsonObject,
   isWholeNumber,
   jsonValue,
-  type JsonObject,
   type JsonValue,
   type SessionIdentity,
 } from 'src/schema/primitives';
@@ -134,7 +133,7 @@ const decodeScope = (raw: JsonValue): Effect.Effect<PageScope, DriftError> =>
       if (!valid) {
         return yield* Effect.fail(invalid('legal-actions page scope'));
       }
-      return { actor_id: actorId as string, actor_type: actorType as ActorType };
+      return { actor_id: actorId, actor_type: actorType };
     }
     if (setsEqual(present, SCOPE_TARGET_FIELDS)) {
       const scope = yield* exact(raw, SCOPE_TARGET_FIELDS, 'page scope');
@@ -156,10 +155,10 @@ const decodeScope = (raw: JsonValue): Effect.Effect<PageScope, DriftError> =>
         return yield* Effect.fail(invalid('legal-actions page scope'));
       }
       return {
-        actor_id: actorId as string,
-        actor_type: actorType as ActorType,
-        target_id: targetId as string,
-        target_type: targetType as string,
+        actor_id: actorId,
+        actor_type: actorType,
+        target_id: targetId,
+        target_type: targetType,
       };
     }
     return yield* Effect.fail(invalid('legal-actions page scope'));
@@ -249,10 +248,10 @@ const decodePageShape = <Item>(
     const body: {
       -readonly [K in keyof PageBody<Item>]: PageBody<Item>[K];
     } = {
-      section: section as string,
+      section: section,
       items: cleanItems,
       total_items: total,
-      next_cursor: cursor as string | null,
+      next_cursor: cursor,
       cursor_expires_at: expiry,
     };
 
