@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/@effect/tsgo/oxlint-schema.json",
+  "extends": ["./node_modules/@effect/tsgo/oxlint-presets/recommended.json"],
+  "ignorePatterns": ["dist", "node_modules"],
+  "categories": {
+    "correctness": "deny",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "typescript/no-explicit-any": "deny",
+    "eslint/no-underscore-dangle": "off",
+    "typescript/no-misused-spread": [
+      "deny",
+      { "allow": [{ "from": "lib", "name": "string" }] }
+    ],
+    "typescript/require-array-sort-compare": [
+      "deny",
+      { "ignoreStringArrays": true }
+    ]
+  }
+}

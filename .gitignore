@@ -20,3 +20,5 @@
 /agent_eval/viewer/dist/
 
 .claude/settings.local.json
+
+/node_modules/

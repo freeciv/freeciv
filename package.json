@@ -1,0 +1,23 @@
+{
+  "name": "freeciv-arena",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Root workspace for the arena TypeScript port (play-cli keeps its own lockfile and is deliberately excluded)",
+  "workspaces": ["arena/*"],
+  "scripts": {
+    "prepare": "effect-tsgo patch --oxlint",
+    "typecheck": "bun run --filter '@arena/*' typecheck",
+    "lint": "bun run --filter '@arena/*' lint",
+    "test": "bun run --filter '@arena/*' test",
+    "check": "bun run typecheck && bun run lint && bun run test"
+  },
+  "devDependencies": {
+    "@effect/language-service": "^0.87.2",
+    "@effect/tsgo": "^0.36.4",
+    "@types/bun": "^1.3.14",
+    "oxlint": "1.77.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "typescript": "^7"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@arena/telemetry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Arena telemetry: wide-event logging and run traces on top of evlog",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "check": "bun run typecheck && bun run lint",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "effect": "^3.22.1",
+    "evlog": "^2.26.0"
+  },
+  "devDependencies": {
+    "@effect/language-service": "^0.87.2",
+    "@effect/tsgo": "^0.36.4",
+    "@types/bun": "^1.3.14",
+    "oxlint": "1.77.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "typescript": "^7"
+  }
+}
