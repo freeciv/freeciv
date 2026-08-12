@@ -6,6 +6,12 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "types": ["bun"],
+    "plugins": [
+      {
+        "name": "@effect/language-service",
+        "diagnostics": false
+      }
+    ],
 
     "strict": true,
     "noUncheckedIndexedAccess": true,
@@ -26,7 +32,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
 
-    "baseUrl": ".",
     "paths": {
       "src/*": ["./src/*"],
       "test/*": ["./test/*"]

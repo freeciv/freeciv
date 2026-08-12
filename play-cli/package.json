@@ -8,7 +8,10 @@
     "play": "./src/bin.ts"
   },
   "scripts": {
+    "prepare": "effect-tsgo patch --oxlint",
     "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "check": "bun run typecheck && bun run lint",
     "test": "bun test",
     "play": "bun run src/bin.ts"
   },
@@ -19,7 +22,11 @@
     "effect": "^3.22.1"
   },
   "devDependencies": {
+    "@effect/language-service": "^0.87.2",
+    "@effect/tsgo": "^0.36.4",
     "@types/bun": "^1.3.14",
-    "typescript": "^5.9.2"
+    "oxlint": "1.77.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "typescript": "^7"
   }
 }
