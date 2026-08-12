@@ -190,7 +190,7 @@ The players run in herdr as agents named {player_names}. Your tools:
     -H "Authorization: Bearer $AGENT_EVAL_ADMIN_TOKEN" \
     {status_url}   # match state (admin token is in your environment)
 
-Loop: check every few minutes. If a player is idle or blocked without having finished the match, read its terminal to see why, then nudge it with a short, specific prompt (for example: the exact error it printed and the remedy the error names). If a player keeps failing on the same command three times, stop nudging and report the pattern loudly in your final message instead. Never work around a player by acting in its place."""
+Loop: check every few minutes. Your own turn ends the moment you go idle, so never end a turn while the match is not yet underway — between checks, run `sleep 180` in your shell and check again, repeating until the match is running past turn 3. If a player is idle or blocked without having finished the match, read its terminal to see why, then nudge it with a short, specific prompt (for example: the exact error it printed and the remedy the error names). A player can wander into the wrong directory — its harness may resume an old session elsewhere — so every nudge should lead with the absolute workspace path to cd into. If a player keeps failing on the same command three times, stop nudging and report the pattern loudly instead. Never work around a player by acting in its place."""
 
 
 def _spawn_herdr_babysitter(
