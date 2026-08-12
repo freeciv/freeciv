@@ -8,7 +8,7 @@ player workspace per player:
 
 Each workspace is a copy of ``play/`` with the game invitation staged, a
 ``.playconfig.json`` recording the pre-selected game and controller name
-(so ``just join`` inside the workspace needs no arguments), and an
+(so ``./play join`` inside the workspace needs no arguments), and an
 AGENTS.md/CLAUDE.md note telling the playing agent the folder is also its
 private scratchpad. The workspace never receives owner or admin
 credentials — only the game-scoped join invitation.
@@ -35,6 +35,36 @@ COPY_IGNORE = (
     ".sessions", ".invites", ".play", ".playconfig.json",
 )
 
+# The compiled Effect/Bun client (play-cli).  Workspaces are provisioned with
+# this binary as `./play` — the justfile is gone, and the Python client stays
+# in the copy only as the byte-diff oracle's reference implementation.
+PLAY_BINARY = REPO_ROOT / "play-cli" / "dist" / "play"
+
+# Command mentions in the copied docs say `just <verb>`; the workspace has no
+# justfile, so provisioning respells them.  Mirrors VERBS/MENTION_RE in
+# play-cli/src/services/prog-prefix.ts.
+_PROG_VERBS = (
+    "prompt", "join", "use", "next", "act", "health", "turn", "start", "do",
+    "show", "state", "legal", "batch", "receipt", "retry", "wait", "monitor",
+    "result", "help", "rules",
+)
+_PROG_MENTION_RE = re.compile(r"\bjust (" + "|".join(_PROG_VERBS) + r")\b")
+_BOTH_SPELLINGS = "Every `just X` is also `./play X`"
+
+
+def _respell_workspace_docs(workspace: Path) -> None:
+    """Rewrite `just <verb>` mentions to `./play <verb>` in the copied docs."""
+    targets = [workspace / "README.md", *sorted((workspace / "docs").glob("*.md"))]
+    for target in targets:
+        if not target.is_file():
+            continue
+        text = target.read_text(encoding="utf-8")
+        respelled = _PROG_MENTION_RE.sub(
+            r"./play \1", text.replace(_BOTH_SPELLINGS, "Every command is `./play X`"),
+        )
+        if respelled != text:
+            target.write_text(respelled, encoding="utf-8")
+
 HARNESS_CHOICES = ("codex", "pi", "claude-code", "opencode")
 MODEL_CHOICES = (
     "gpt-5.6-sol",
@@ -46,29 +76,29 @@ MODEL_CHOICES = (
 
 V2_LOOP_NOTE = """This is a `full-control-v2` game. Run these in order:
 
-    1. just join                 # FIRST. binds this workspace to its seat
-    2. just start                # lobby: configure + ready (no arguments needed)
-    3. just turn                 # the briefing: options and needs-decision list
-    4. just do "u1 found_city London; u2 route 32,73" --end --await --brief
+    1. ./play join                 # FIRST. binds this workspace to its seat
+    2. ./play start                # lobby: configure + ready (no arguments needed)
+    3. ./play turn                 # the briefing: options and needs-decision list
+    4. ./play do "u1 found_city London; u2 route 32,73" --end --await --brief
 
 Step 4 is the whole turn in ONE call: it orders every actor, ends the phase,
 blocks for the next phase, and prints its full briefing. Repeat step 4 until
 the game is terminal, and order every actor that needs orders in that one
 line rather than one call each -- the briefing and every receipt end with a
-`next N actors: just do "..."` line that writes it for you. With nothing left
-to order, step 4 is `just turn --end --await --brief`.
+`next N actors: ./play do "..."` line that writes it for you. With nothing left
+to order, step 4 is `./play turn --end --await --brief`.
 
-Nothing but `just join` works before `just join`, and step 2 is this
-workspace's lobby command, not the repository stack's `just start`.
+Nothing but `./play join` works before `./play join`, and step 2 is this
+workspace's lobby command, not the repository stack's `./play start`.
 
-`just show` reads your local state mirror at zero network cost, and every
+`./play show` reads your local state mirror at zero network cost, and every
 error names the exact command that fixes it."""
 
 V1_LOOP_NOTE = """This is a `strategic-v1` game. Run these in order:
 
-    1. just join                 # FIRST. binds this workspace to its seat
-    2. just next --after_turn 0  # then pass the last observed turn each time
-    3. just act --turn T --observation_id ID \\
+    1. ./play join                 # FIRST. binds this workspace to its seat
+    2. ./play next --after_turn 0  # then pass the last observed turn each time
+    3. ./play act --turn T --observation_id ID \\
          --action '{"type":"set_traits","traits":{"aggressive":0,"builder":20,"expansionist":30,"trader":10}}'
 
 Read `docs/gameplay.md` for the trait contract before your first `act`."""
@@ -83,14 +113,14 @@ scripts anywhere inside it (for example `notes.md`, `plan.md`, or a
 everything you create inside this folder; never read or write parent
 directories or sibling player folders.
 
-The game and your controller name are pre-configured, so `just join`
+The game and your controller name are pre-configured, so `./play join`
 needs no arguments — run it first, before anything else. {loop_note}
 """
 
 CLAUDE_NOTE = """# Playing Freeciv from this workspace
 
 Read `AGENTS.md` first — it is the workspace contract. This folder is
-pre-configured for `{game_id}` as `{name}`, so `just join` takes no
+pre-configured for `{game_id}` as `{name}`, so `./play join` takes no
 arguments; run it before any other command. Bare `just` reprints the
 numbered workflow at any time.
 
@@ -261,6 +291,15 @@ def _materialize(
         repo_root / "play", workspace,
         ignore=shutil.ignore_patterns(*COPY_IGNORE),
     )
+    if not PLAY_BINARY.is_file():
+        raise SetupError(
+            "the compiled play client is missing; build it first:\n"
+            "  cd play-cli && bun install && "
+            "bun build --compile src/bin.ts --outfile dist/play"
+        )
+    shutil.copy2(PLAY_BINARY, workspace / "play")
+    (workspace / "play").chmod(0o755)
+    _respell_workspace_docs(workspace)
     (workspace / ".sessions").mkdir(mode=0o700)
     (workspace / ".invites").mkdir(mode=0o700)
     staged_invite = workspace / ".invites" / f"{game_id}.json"
@@ -347,7 +386,7 @@ def main(argv: list[str] | None = None) -> int:
         print()
         print("Point each model at its folder and say go, for example:")
         for workspace in workspaces:
-            print(f"  cd {workspace.relative_to(repo_root)} && just join")
+            print(f"  cd {workspace.relative_to(repo_root)} && ./play join")
         return 0
     except SetupError as exc:
         print(f"error: {exc}", file=sys.stderr)

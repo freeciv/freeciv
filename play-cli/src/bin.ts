@@ -7,6 +7,8 @@
  * else — parsing, the Layer stack, the single error → exit-code mapping — lives
  * in `src/cli-main.ts`.
  */
+import { installProgRewrite } from 'src/services/prog-prefix';
 import { runMain } from 'src/cli-main';
 
+installProgRewrite();
 runMain();

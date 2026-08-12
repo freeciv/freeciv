@@ -30,6 +30,11 @@ HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 CLI_ROOT="$(cd -- "$HERE/.." && pwd)"
 REPO_ROOT="$(cd -- "$CLI_ROOT/.." && pwd)"
 
+# Parity mode: the Python side spells command mentions `just <verb>`, so the
+# port must too for the byte diff to mean anything.  The `./play` spelling is
+# covered by test/prog-prefix.test.ts, not by this oracle.
+export PLAY_PROG=just
+
 WORKSPACE="${WORKSPACE:-$REPO_ROOT/.play/game_Hsit9YEuBjKdJPPouFoGVYlk_pi_gpt-5.6-sol}"
 PY_CLIENT="$REPO_ROOT/play/client.py"
 PY_MIRROR="$REPO_ROOT/play/state_mirror.py"

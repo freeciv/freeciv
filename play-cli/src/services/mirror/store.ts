@@ -22,6 +22,7 @@ import { Console, Effect } from 'effect';
 import { PlayerError, playerError } from 'src/errors';
 import { isJsonObject } from 'src/schema/primitives';
 import { PrivateFs } from 'src/services/private-fs';
+import { rewriteProgMentions } from 'src/services/prog-prefix';
 
 // ---------------------------------------------------------------------------
 // Constants — the mirror's directory layout and cell limits
@@ -461,9 +462,14 @@ export const writeMirror = (
   relative: ReadonlyArray<string>,
   text: string
 ): Effect.Effect<string, PlayerError, PrivateFs> =>
-  Effect.flatMap(PrivateFs, (files) =>
-    files.writeText(mirrorFile(dir, relative), text.endsWith('\n') ? text : `${text}\n`)
-  );
+  Effect.flatMap(PrivateFs, (files) => {
+    // Mirror files are agent-facing guidance, so command mentions follow
+    // PLAY_PROG like stdout does (src/services/prog-prefix.ts).  Canonical
+    // bodies and persisted receipts go through PrivateFs directly and are
+    // never rewritten.
+    const spelled = rewriteProgMentions(text);
+    return files.writeText(mirrorFile(dir, relative), spelled.endsWith('\n') ? spelled : `${spelled}\n`);
+  });
 
 /** `_read` — a projection's text, or `null` when absent or unreadable. */
 export const readMirror = (

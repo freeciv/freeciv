@@ -190,201 +190,6 @@ class PlayerClientTests(unittest.TestCase):
             "state_revision": revision,
         }
 
-    def test_player_just_join_never_expands_a_bearer_into_argv(self):
-        source = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        self.assertNotIn("join_token", source)
-        self.assertNotIn("--join-token", source)
-        self.assertIn('--invite "{{ invite }}"', source)
-
-    def test_v2_just_options_parse_and_batch_json_is_one_exact_argument(self):
-        dry_run_commands = (
-            (
-                "legal", "--session", "/tmp/session", "--actor_id",
-                "actor_opaque", "--target_id", "tile_opaque",
-            ),
-            (
-                "legal", "--session", "/tmp/session", "--kind",
-                "unit.order", "--all", "--offset", "2", "--limit", "3",
-            ),
-            (
-                "batch", "--session", "/tmp/session", "--action_id",
-                "action_opaque", "--arguments", "{}",
-            ),
-            (
-                "receipt", "--session", "/tmp/session", "--batch_id",
-                "batch_opaque",
-            ),
-            (
-                "retry", "--session", "/tmp/session", "--batch_id",
-                "batch_opaque",
-            ),
-            (
-                "wait", "--session", "/tmp/session", "--wait_s", "120",
-                "--poll_s", "1",
-            ),
-            (
-                "wait", "--session", "/tmp/session", "--wait-s", "120",
-                "--poll-s", "1",
-            ),
-            ("health", "--session", "/tmp/session", "--json"),
-            ("turn", "--session", "/tmp/session", "--json"),
-            (
-                "state", "--session", "/tmp/session", "--section", "units",
-                "--json",
-            ),
-            ("legal", "--session", "/tmp/session", "--json"),
-            (
-                "batch", "--session", "/tmp/session", "--action_id",
-                "action_opaque", "--arguments", "{}", "--json",
-            ),
-            (
-                "receipt", "--session", "/tmp/session", "--batch_id",
-                "batch_opaque", "--json",
-            ),
-            (
-                "retry", "--session", "/tmp/session", "--batch_id",
-                "batch_opaque", "--json",
-            ),
-            # --session is optional on every recipe.
-            ("health",),
-            ("turn",),
-            ("state", "--section", "units"),
-            ("legal", "--actor_id", "u1", "--all"),
-            ("legal", "--actor_id", "u1", "--target_id", "T(31,72)", "--all"),
-            ("legal", "--kind", "phase.end", "--all"),
-            ("batch", "--action_id", "a1", "--arguments", "{}"),
-            ("receipt", "--batch_id", "batch_opaque"),
-            ("retry", "--batch_id", "batch_opaque"),
-            ("wait",),
-            ("wait", "--for-turn"),
-            ("wait", "--for-turn", "--max", "600"),
-            ("monitor",),
-            ("monitor", "--once"),
-            ("monitor", "--once", "--exit-code", "75"),
-            ("monitor", "--status"),
-            ("monitor", "--stop"),
-            ("monitor", "--max-s", "900", "--json"),
-            # The P2 fast paths.
-            ("turn", "--end", "--await"),
-            ("turn", "--end", "--await", "--wait_s", "60", "--poll_s", "2"),
-            ("turn", "--json"),
-            (
-                "start", "--nation", "English", "--leader", "Ada",
-                "--female", "--style", "European",
-            ),
-            ("turn", "--end", "--await", "--brief"),
-            ("do", "u1 found_city London; u2 move 32,73"),
-            ("do", "u1 fortify", "--continue-on-error"),
-            ("do", "u1 fortify", "--json"),
-            # The one-call turn.
-            ("do", "u1 route 40,60; c2 build Temple", "--end"),
-            (
-                "do", "u1 route 40,60; c2 build Temple",
-                "--end", "--await", "--brief",
-            ),
-            (
-                "do", "u1 fortify", "--end", "--await", "--brief",
-                "--wait_s", "60", "--poll_s", "2",
-            ),
-            ("show",),
-            ("show", "units"),
-            ("show", "u1"),
-            ("show", "--grep", "found_city"),
-            ("show", "--grep", "u[0-9]+ Settlers", "--regex"),
-            # The workspace binding.
-            ("use",),
-            ("use", "game_12345678901234567890"),
-            ("use", ".sessions/game_12345678901234567890/seat.json"),
-            ("use", "--json"),
-        )
-        for command in dry_run_commands:
-            with self.subTest(command=command[0]):
-                completed = subprocess.run(
-                    ("just", "--dry-run", *command), cwd=client.ROOT,
-                    check=False, capture_output=True, text=True,
-                )
-                self.assertEqual(
-                    completed.returncode, 0,
-                    completed.stdout + completed.stderr,
-                )
-
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            bin_dir = root / "bin"
-            bin_dir.mkdir()
-            capture = root / "argv"
-            fake_python = bin_dir / "python3"
-            fake_python.write_text(
-                "#!/bin/sh\n"
-                ": \"${V2_CAPTURE:?}\"\n"
-                "printf '%s\\n' \"$@\" >\"$V2_CAPTURE\"\n",
-                encoding="utf-8",
-            )
-            fake_python.chmod(0o700)
-            payload = '{"city_name":"O\'Brien"}'
-            environment = dict(os.environ)
-            environment["PATH"] = f"{bin_dir}:{environment['PATH']}"
-            environment["V2_CAPTURE"] = str(capture)
-            completed = subprocess.run(
-                (
-                    "just", "batch", "--session", "/tmp/session",
-                    "--action_id", "action_opaque", "--arguments", payload,
-                ),
-                cwd=client.ROOT, env=environment, check=False,
-                capture_output=True, text=True,
-            )
-            self.assertEqual(
-                completed.returncode, 0,
-                completed.stdout + completed.stderr,
-            )
-            argv = capture.read_text(encoding="utf-8").splitlines()
-            self.assertEqual(argv[-2:], ["--arguments", payload])
-
-            # The one-call turn: the variadic order words still arrive as one
-            # exact argument once the three new flags have taken their slots.
-            orders = "u1 route 40,60; c2 build Temple"
-            environment["V2_CAPTURE"] = str(root / "one-call")
-            completed = subprocess.run(
-                ("just", "do", orders, "--end", "--await", "--brief"),
-                cwd=client.ROOT, env=environment, check=False,
-                capture_output=True, text=True,
-            )
-            self.assertEqual(
-                completed.returncode, 0,
-                completed.stdout + completed.stderr,
-            )
-            argv = (root / "one-call").read_text(
-                encoding="utf-8",
-            ).splitlines()
-            self.assertEqual(
-                argv[-4:], [orders, "--end", "--await", "--brief"],
-            )
-
-            # A monitor hook is full of quotes by nature, and interpolating
-            # one into the recipe's `[[ ... ]]` guards broke the recipe in
-            # bash before any of it reached the client.
-            hook = 'curl -X POST https://h/x -d "turn=$FREECIV_TURN"'
-            environment["V2_CAPTURE"] = str(root / "monitor")
-            completed = subprocess.run(
-                (
-                    "just", "monitor", "--once", "--exec", hook,
-                    "--exit-code", "75",
-                ),
-                cwd=client.ROOT, env=environment, check=False,
-                capture_output=True, text=True,
-            )
-            self.assertEqual(
-                completed.returncode, 0,
-                completed.stdout + completed.stderr,
-            )
-            argv = (root / "monitor").read_text(
-                encoding="utf-8",
-            ).splitlines()
-            self.assertEqual(
-                argv[-5:],
-                ["--once", "--exec", hook, "--exit-code", "75"],
-            )
-
     def test_v2_turn_restarts_once_and_returns_one_compact_revision(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "play"
@@ -472,20 +277,6 @@ class PlayerClientTests(unittest.TestCase):
                 self.assertEqual(state["last_revision"], stable)
 
     def test_v2_result_accepts_positional_or_named_id_and_state_hints(self):
-        for command in (
-            ("result", self.GAME_ID),
-            ("result", "--game_id", self.GAME_ID),
-        ):
-            with self.subTest(command=command):
-                completed = subprocess.run(
-                    ("just", "--dry-run", *command), cwd=client.ROOT,
-                    check=False, capture_output=True, text=True,
-                )
-                self.assertEqual(
-                    completed.returncode, 0,
-                    completed.stdout + completed.stderr,
-                )
-
         parser = client.parser()
         self.assertEqual(
             parser.parse_args(["result", self.GAME_ID]).game_id_positional,
@@ -4822,13 +4613,6 @@ client._remember_receipt(path, state, receipt)
         })
         self.assertNotIn("--session", " ".join(commands))
         self.assertIn("just legal --actor_id ACTOR_ID --all", commands)
-        justfile = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        menu = [
-            line for line in justfile.splitlines()
-            if line.strip().startswith('@echo "  just ')
-        ]
-        self.assertTrue(menu)
-        self.assertNotIn("--session", "\n".join(menu))
 
     def test_v2_legal_all_drains_one_actor_catalog_without_a_kind(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -6490,28 +6274,33 @@ client._remember_receipt(path, state, receipt)
     OWNER_RECIPES = frozenset({"invite", "single", "multi"})
 
     @staticmethod
-    def just_recipes(source: str) -> dict[str, frozenset[str]]:
-        """Map each player recipe to the exact long options it declares."""
-        recipes: dict[str, frozenset[str]] = {}
-        pending: set[str] = set()
-        for line in source.splitlines():
-            if not line or line[0].isspace() or ":=" in line:
-                continue
-            attribute = re.fullmatch(
-                r'\[arg\("([A-Za-z_0-9]+)"'
-                r'(?:,\s*long(?:="([^"]+)")?)?'
-                r'(?:,\s*value="[^"]*")?\)\]',
-                line.strip(),
+    def client_recipes() -> dict[str, frozenset[str]]:
+        """Map each subcommand to its argparse long options.
+
+        The justfile veneer died in the play-cli cutover; the client's own
+        argparse tree (which accepts both `--wait_s` and `--wait-s`) is now the
+        one vocabulary the agent-facing docs may draw from.  `help` and
+        `rules` survive as workspace commands on the shipped `./play` binary.
+        """
+        subcommands = next(
+            action for action in client.parser()._actions
+            if isinstance(action, argparse._SubParsersAction)
+        ).choices
+        recipes = {
+            name: frozenset(
+                spelling
+                for action in command._actions
+                for string in action.option_strings
+                # The shipped `./play` binary accepts both spellings of every
+                # long option (the veneer's underscore translation moved into
+                # it), so the docs may use either.
+                for spelling in (string, "--" + string[2:].replace("-", "_")
+                                 if string.startswith("--") else string)
             )
-            if attribute is not None:
-                pending.add("--" + (attribute.group(2) or attribute.group(1)))
-                continue
-            if line.startswith("["):
-                continue
-            head = re.match(r"([a-z][a-z_0-9]*)(?:\s+\S.*)?:\s*$", line)
-            if head is not None:
-                recipes[head.group(1)] = frozenset(pending)
-                pending = set()
+            for name, command in subcommands.items()
+        }
+        recipes["help"] = frozenset()
+        recipes["rules"] = frozenset()
         return recipes
 
     @staticmethod
@@ -6861,28 +6650,21 @@ client._remember_receipt(path, state, receipt)
     def test_the_agent_facing_doc_surface_stays_inside_its_budget(self):
         """§6: every doc char an agent reads each game is a per-turn cost.
 
-        `just help` is the one document an agent is told to read, so it is
-        budgeted like a payload.  The full reference stays available for
-        harness authors and is deliberately not what `just help` prints.
+        `help` prints `docs/play.md` and `rules` prints `docs/gameplay.md`
+        (the shipped `./play` binary and the Python client agree), so both
+        documents are budgeted like payloads.  The full reference stays
+        available for harness authors and is deliberately not what `help`
+        prints.
         """
-        source = (client.ROOT / "justfile").read_text(encoding="utf-8")
-
-        # A hard-coded `sed -n '1,Np'` window silently truncates the moment the
-        # file grows past N, with no test and no error.  Print whole files.
-        self.assertNotRegex(source, r"sed -n '1,\d+p'")
-        printed = dict(re.findall(r"\n(help|rules):\n\s+@cat (\S+)\n", source))
-        self.assertEqual(set(printed), {"help", "rules"})
-        self.assertEqual(printed["help"], "docs/play.md")
-
         budgets = {"docs/play.md": 4096, "docs/gameplay.md": 8192}
-        for recipe, relative in printed.items():
+        for relative, budget in budgets.items():
             document = client.ROOT / relative
             self.assertTrue(document.is_file(), relative)
             text = document.read_text(encoding="utf-8")
             self.assertLessEqual(
-                len(text), budgets[relative],
-                f"just {recipe} prints {len(text)} chars of {relative}; "
-                f"the agent-facing budget is {budgets[relative]}",
+                len(text), budget,
+                f"help/rules prints {len(text)} chars of {relative}; "
+                f"the agent-facing budget is {budget}",
             )
 
         card = client.ROOT / "docs" / "play.md"
@@ -6902,8 +6684,7 @@ client._remember_receipt(path, state, receipt)
 
     def test_documented_commands_and_flags_all_exist(self):
         """Nothing the agent reads may name a command or flag we do not have."""
-        source = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        recipes = self.just_recipes(source)
+        recipes = self.client_recipes()
         self.assertLessEqual(
             {
                 "join", "start", "turn", "do", "show", "state", "legal",
@@ -6912,45 +6693,14 @@ client._remember_receipt(path, state, receipt)
             set(recipes),
         )
 
-        # Every recipe forwards only options its own argparse subcommand has.
-        subcommands = next(
-            action for action in client.parser()._actions
-            if isinstance(action, argparse._SubParsersAction)
-        ).choices
-        options = {
-            name: {
-                string for action in command._actions
-                for string in action.option_strings
-            }
-            for name, command in subcommands.items()
-        }
-        forwarded = set()
-        for chunk in source.split("\n\n"):
-            invocation = re.search(r"client\.py (\w+)", chunk)
-            if invocation is None:
-                continue
-            name = invocation.group(1)
-            forwarded.add(name)
-            self.assertIn(name, options)
-            for flag in sorted(set(re.findall(
-                r"(?<![\w-])--[a-z][a-z0-9-]*", chunk[invocation.end():],
-            ))):
-                self.assertIn(
-                    flag, options[name], f"just {name} forwards {flag}",
-                )
-        self.assertEqual(forwarded, set(options))
-
-        # The join protocol card, the `just` menu, and both agent-facing docs
-        # name only commands and options that exist.
+        # The join protocol card and both agent-facing docs name only commands
+        # and options that exist.
         self.assertGreaterEqual(
             self.assert_documented_commands_exist(
                 "protocol card", "\n".join(client.V2_PROTOCOL_CARD), recipes,
                 markdown=False,
             ),
             8,
-        )
-        self.assert_documented_commands_exist(
-            "justfile", source, recipes, markdown=False,
         )
         for name in (
             "play.md", "commands.md", "full-control-v2.md", "gameplay.md",
@@ -6961,21 +6711,6 @@ client._remember_receipt(path, state, receipt)
                 0,
             )
 
-        # The bare `just` menu is the short workflow and never re-types a path.
-        # Steps may be numbered ("  1. just join"), so accept both spellings.
-        menu = [
-            line.strip() for line in source.splitlines()
-            if re.match(r"@echo [\"']  (?:\d+\. )?just ", line.strip())
-        ]
-        self.assertNotIn("--session", "\n".join(menu))
-        for fast_path in (
-            "just turn", "just do ", "just turn --end --await", "just start ",
-            "just show ",
-        ):
-            self.assertTrue(
-                any(fast_path in line for line in menu), fast_path,
-            )
-
     def test_workspace_boundary_docs_teach_the_v2_fast_paths(self):
         """AGENTS.md/README.md are read before join and must not contradict it.
 
@@ -6983,8 +6718,7 @@ client._remember_receipt(path, state, receipt)
         protocol contract that forbade the fast paths outright and sent the
         agent to the 28k-char harness-author reference.
         """
-        source = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        recipes = self.just_recipes(source)
+        recipes = self.client_recipes()
         for name in ("AGENTS.md", "README.md"):
             document = (client.ROOT / name).read_text(encoding="utf-8")
             self.assert_documented_commands_exist(name, document, recipes)
@@ -7022,7 +6756,6 @@ client._remember_receipt(path, state, receipt)
         """
         order = ("just join", "just start", "just turn", "just do")
         surfaces = {
-            "justfile": (client.ROOT / "justfile").read_text(encoding="utf-8"),
             "AGENTS.md": (
                 client.ROOT / "AGENTS.md"
             ).read_text(encoding="utf-8"),
@@ -7051,7 +6784,7 @@ client._remember_receipt(path, state, receipt)
             )
         # `just start` collides with the repository stack command by name, so
         # every surface that teaches it must disambiguate.
-        for name in ("justfile", "AGENTS.md", "docs/play.md"):
+        for name in ("AGENTS.md", "docs/play.md"):
             self.assertIn(
                 "repository stack", surfaces[name],
                 f"{name} never distinguishes `just start` from the stack's",
@@ -9872,50 +9605,6 @@ client._remember_receipt(path, state, receipt)
             unknown,
         )
 
-    def test_just_do_joins_unquoted_order_words_into_one_argument(self):
-        """`just do u1 fortify` is the likeliest typo; it must simply work."""
-        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        self.assertIn("*orders", recipe)
-        if shutil.which("just") is None:
-            self.skipTest("just is not installed")
-        with tempfile.TemporaryDirectory() as directory:
-            shim = Path(directory)
-            record = shim / "argv.txt"
-            # A stand-in `python3` records the argument vector the recipe
-            # builds, so the assertion is about `just`'s own parsing.
-            interpreter = shim / "python3"
-            interpreter.write_text(
-                '#!/usr/bin/env bash\nprintf "%s\\n" "$@" > "$RECORD_TO"\n',
-                encoding="utf-8",
-            )
-            interpreter.chmod(0o755)
-            for command, expected in (
-                (["do", "u1", "fortify"], "u1 fortify"),
-                (
-                    ["do", "u1", "found_city", "Memphis"],
-                    "u1 found_city Memphis",
-                ),
-                (["do", "u1 fortify; u2 sentry"], "u1 fortify; u2 sentry"),
-                (["do", "--continue-on-error", "u1", "fortify"], "u1 fortify"),
-            ):
-                with self.subTest(command=command):
-                    result = subprocess.run(
-                        ["just", *command],
-                        cwd=client.ROOT,
-                        env={
-                            **os.environ,
-                            "PATH": f"{shim}:{os.environ['PATH']}",
-                            "RECORD_TO": str(record),
-                        },
-                        capture_output=True, text=True, timeout=60,
-                    )
-                    self.assertEqual(result.returncode, 0, result.stderr)
-                    argv = record.read_text(encoding="utf-8").splitlines()
-                    self.assertIn("--orders", argv)
-                    self.assertEqual(
-                        argv[argv.index("--orders") + 1], expected,
-                    )
-
     # -----------------------------------------------------------------
     # Advertised-but-unreachable actions.
     #
@@ -10218,8 +9907,6 @@ client._remember_receipt(path, state, receipt)
         message = str(caught.exception)
         self.assertIn("--relation_id", message)
         self.assertNotIn("--relation-id", message)
-        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        self.assertIn("relation_id=", recipe)
 
     def test_a_pending_meeting_names_its_actor_plus_target_drill_down(self):
         """The old remedy named a kind the global catalog can never hold."""
@@ -10865,17 +10552,16 @@ client._remember_receipt(path, state, receipt)
             defaults.update(values)
             return type("Args", (), defaults)()
 
-        recipe = (client.ROOT / "justfile").read_text(encoding="utf-8")
-        for invalid, expected, parameter in (
-            (args(section="city_detail"), "--actor_id", "actor_id="),
-            (args(section="unit_route"), "--actor_id", "actor_id="),
+        for invalid, expected in (
+            (args(section="city_detail"), "--actor_id"),
+            (args(section="unit_route"), "--actor_id"),
             (
                 args(section="tile_window", center_id="tile_" + "a" * 32),
-                "--center_id", "center_id=",
+                "--center_id",
             ),
             (
                 args(section="tile_window", center_id="tile_" + "a" * 32),
-                "--radius", "radius=",
+                "--radius",
             ),
         ):
             with self.subTest(expected=expected):
@@ -10885,8 +10571,6 @@ client._remember_receipt(path, state, receipt)
                 self.assertIn(expected, message)
                 if "_" in expected:
                     self.assertNotIn(expected.replace("_", "-"), message)
-                # The flag is spelled the way the recipe declares it.
-                self.assertIn(parameter, recipe)
 
     def test_v2_a_changeable_government_names_the_catalog_that_holds_it(self):
         """`can_change yes` used to name no way to act on it.

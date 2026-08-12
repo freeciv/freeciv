@@ -1,5 +1,6 @@
 [test]
 root = "./test"
+preload = ["./test/_preload.ts"]
 coverageSkipTestFiles = true
 
 [install]
