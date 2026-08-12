@@ -561,6 +561,27 @@ describe('turn --until is a choice', () => {
 });
 
 describe('_await_and_brief_locked', () => {
+  test('the prelude flushes before the wait begins, even on an instant wake', async () => {
+    // "Execution is done" prints while the opponent is still thinking: the
+    // receipts flush ahead of the first poll, not on the first unwoken tick
+    // -- a wait that wakes immediately used to keep them buffered to the end.
+    const kit = bench(wakeFetch(activeWake()));
+    const captured: string[] = [];
+    const original = console.log;
+    console.log = (...parts: ReadonlyArray<unknown>) => captured.push(parts.join(' '));
+    try {
+      const prelude = ['u1 found_city London → applied rev7/t3'];
+      const outcome = await kit.run(
+        awaitAndBrief(kit.ctx, { brief: false, wait: { waitS: 0 }, prelude })
+      );
+      expect(outcome._tag).toBe('Right');
+      expect(prelude).toHaveLength(0);
+      expect(captured).toContain('u1 found_city London → applied rev7/t3');
+    } finally {
+      console.log = original;
+    }
+  });
+
   test('without --brief the header carries the follow-up command', async () => {
     const kit = bench(wakeFetch(activeWake()));
     const outcome = await kit.run(

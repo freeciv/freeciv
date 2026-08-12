@@ -410,6 +410,13 @@ export const awaitAndBrief = (
 ): TurnEffect<AwaitAndBriefResult> =>
   Effect.gen(function* () {
     const prelude = options.prelude ?? null;
+    // The receipts this command already earned print BEFORE the wait begins,
+    // not on its first tick: execution is done, and the transcript should say
+    // so while the opponent is still thinking.
+    if (prelude !== null && prelude.length > 0) {
+      for (const text of [...prelude]) yield* echo(text);
+      prelude.length = 0;
+    }
     const tick = (health: HealthEnvelope): Effect.Effect<void> =>
       Effect.gen(function* () {
         if (prelude !== null && prelude.length > 0) {

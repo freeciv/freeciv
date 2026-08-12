@@ -449,9 +449,14 @@ export const waitUntilTurn = (
       const elapsed = (yield* ctx.clock.monotonic()) - started;
       const remaining = budget - elapsed;
       if (wait !== null && remaining <= 0) return wait;
+      // An interactive composite (options.echo set) keeps every poll short so
+      // its "… waiting on seat N" lines actually tick while the opponent
+      // thinks; a silent wait spends the whole budget on one long poll.  The
+      // first long poll used to swallow the entire wait either way, so a
+      // 49-second `do --end --await --brief` printed nothing until the wake.
       const tick = Math.min(
         Math.max(remaining, 0),
-        first && !forTurn ? args.waitS : V2_WAIT_TICK_S
+        first && !forTurn && options.echo === undefined ? args.waitS : V2_WAIT_TICK_S
       );
       wait = yield* waitValue(ctx, waitArgs(args, tick), {
         stateless: options.stateless === true,

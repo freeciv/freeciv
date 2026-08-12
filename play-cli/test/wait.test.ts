@@ -628,6 +628,50 @@ const clockedCtx = (kit: Kit, fake: Clocked, seat: Bench): WaitCtx =>
   });
 
 describe('waitUntilTurn', () => {
+  test('an interactive await keeps even the FIRST poll short', async () => {
+    // The 49-second silence: with echo defined, the first poll used to run
+    // for the whole waitS budget, so no tick line ever printed before the
+    // wake.  Interactive composites now poll at V2_WAIT_TICK_S from the
+    // first request.
+    const seat = bench();
+    const kit = recorder();
+    const fake = clocked((elapsed) =>
+      pvpWake(elapsed >= 45 ? 'phase_active' : 'timeout', {
+        mine: elapsed >= 45,
+        remainingS: Math.max(0, 300 - elapsed),
+        elapsedS: Math.min(600, 300 + elapsed),
+      })
+    );
+    right(
+      await run(
+        waitUntilTurn(clockedCtx(kit, fake, seat), waitArgs({ waitS: 120 }), {
+          forTurn: false,
+          echo: kit.echo,
+        }),
+        fake.fetch,
+        seat.store
+      )
+    );
+    expect(fake.blocked[0]).toBeLessThanOrEqual(V2_WAIT_TICK_S);
+    expect(kit.log.echoed.length).toBeGreaterThan(0);
+  });
+
+  test('a silent await still spends its budget on one long first poll', async () => {
+    const seat = bench();
+    const kit = recorder();
+    const fake = clocked(() => pvpWake('phase_active', { mine: true }));
+    right(
+      await run(
+        waitUntilTurn(clockedCtx(kit, fake, seat), waitArgs({ waitS: 120 }), {
+          forTurn: false,
+        }),
+        fake.fetch,
+        seat.store
+      )
+    );
+    expect(fake.blocked[0]).toBe(120);
+  });
+
   test('is bounded by the holder deadline plus exactly one grace window', async () => {
     const seat = bench();
     const kit = recorder();
