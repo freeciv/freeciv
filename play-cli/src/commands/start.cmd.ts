@@ -236,9 +236,16 @@ const resolveStyle = (
         )
       );
     }
-    // The label is a mirror read or nothing at all: naming a style is never
-    // worth a round trip when the id is already what goes on the wire.
-    return { styleId, styleName: yield* cachedStyleName(ctx.sessionPath, styleId) };
+    // The id is already what goes on the wire, but the SERVER only honours it
+    // when this seat has read pregame_styles at the validating revision — the
+    // fresh drain plants that overlay (see pregameCatalog).  The read also
+    // resolves the label, with the mirror as the fallback.
+    const styles = yield* pregameCatalog(ctx, 'pregame_styles');
+    const fresh = styles.find((item) => item.id === styleId);
+    return {
+      styleId,
+      styleName: fresh?.name ?? (yield* cachedStyleName(ctx.sessionPath, styleId)),
+    };
   });
 
 const resolveLeaderAndSex = (
@@ -310,6 +317,21 @@ interface Submitted {
   readonly lines: ReadonlyArray<string>;
 }
 
+/**
+ * A refusal in the catalog-freshness class: the submitted nation/style id was
+ * read at a revision the server no longer validates against.  Only this class
+ * retries — every other refusal keeps its own remedy.
+ */
+const isCatalogFreshnessRefusal = (disposition: BatchDisposition): boolean => {
+  const spelled = JSON.stringify([disposition.error, disposition.receipt]);
+  return (
+    spelled.includes('pregame_nation_unknown') ||
+    spelled.includes('pregame_style_unknown') ||
+    spelled.includes('is not one the pregame_nations section offers') ||
+    spelled.includes('is not one of the IDs the pregame_styles section')
+  );
+};
+
 /** Persist, submit, render — and let the warning reach stderr, never stdout. */
 const submit = (
   ctx: PregameCtx,
@@ -369,29 +391,51 @@ const configureAndReady = (
         )
       );
     }
-    const seat = yield* resolveSeat(ctx, request);
-    const lines: string[] = [
-      startingLine(seat.nation.name, seat.leader, seat.male, seat.styleName),
-    ];
-    const argumentValues: JsonObject = {
-      nation_id: seat.nation.id,
-      leader_name: seat.leader,
-      is_male: seat.male,
-      style_id: seat.styleId,
-    };
-    const configure = yield* ctx.hooks.resolveKindAction(
-      'pregame.configure',
-      CONFIGURE_REMEDY
-    );
-    yield* checkPregameArguments(configure, argumentValues);
-    const configured = yield* submit(
-      ctx,
-      configure.action_id,
-      argumentValues,
-      configureIntent(seat.nation.name, seat.leader, seat.male)
-    );
-    lines.push(...configured.lines);
-    const records: BatchDisposition[] = [configured.disposition];
+    // The lobby's native revision advances in the background, and the server
+    // honours configure ids only when their sections were read at the
+    // validating revision — so a refused configure whose refusal names that
+    // freshness class is re-resolved from fresh catalogs and retried, bounded.
+    // (Live finding, game_Dn9l…: without this, two seats retrying by hand
+    // livelock each other out of the lobby entirely.)
+    const CONFIGURE_ATTEMPTS = 3;
+    let seat = yield* resolveSeat(ctx, request);
+    const lines: string[] = [];
+    const records: BatchDisposition[] = [];
+    let configured: Submitted;
+    for (let attempt = 1; ; attempt += 1) {
+      lines.push(startingLine(seat.nation.name, seat.leader, seat.male, seat.styleName));
+      const argumentValues: JsonObject = {
+        nation_id: seat.nation.id,
+        leader_name: seat.leader,
+        is_male: seat.male,
+        style_id: seat.styleId,
+      };
+      const configure = yield* ctx.hooks.resolveKindAction(
+        'pregame.configure',
+        CONFIGURE_REMEDY
+      );
+      yield* checkPregameArguments(configure, argumentValues);
+      configured = yield* submit(
+        ctx,
+        configure.action_id,
+        argumentValues,
+        configureIntent(seat.nation.name, seat.leader, seat.male)
+      );
+      lines.push(...configured.lines);
+      records.push(configured.disposition);
+      if (
+        ctx.hooks.receiptOk(configured.disposition) ||
+        attempt >= CONFIGURE_ATTEMPTS ||
+        !isCatalogFreshnessRefusal(configured.disposition)
+      ) {
+        break;
+      }
+      lines.push(
+        'the lobby catalog moved under the configure; re-reading and ' +
+          `retrying (attempt ${attempt + 1} of ${CONFIGURE_ATTEMPTS})`
+      );
+      seat = yield* resolveSeat(ctx, request);
+    }
 
     if (!ctx.hooks.receiptOk(configured.disposition)) {
       lines.push(NOT_READIED_LINE);

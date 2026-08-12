@@ -180,6 +180,70 @@ def _spawn_herdr_agent(
     return herdr_workspace, herdr_name, state
 
 
+BABYSITTER_KICKOFF = """You are the babysitter for Freeciv match {game_id}. You are NOT a player: never run ./play, never join, never issue game actions, and never make strategic suggestions. Your job is to keep the match moving until it is clearly underway (game running and past turn 3 with both players cycling turns), then post a one-line summary and go idle.
+
+The players run in herdr as agents named {player_names}. Your tools:
+  herdr agent list                       # states: working, blocked, idle
+  herdr agent read NAME                  # read a player's terminal
+  herdr agent prompt NAME "TEXT"         # nudge a player
+  curl -s --cacert ~/.portless/ca.pem \
+    -H "Authorization: Bearer $AGENT_EVAL_ADMIN_TOKEN" \
+    {status_url}   # match state (admin token is in your environment)
+
+Loop: check every few minutes. If a player is idle or blocked without having finished the match, read its terminal to see why, then nudge it with a short, specific prompt (for example: the exact error it printed and the remedy the error names). If a player keeps failing on the same command three times, stop nudging and report the pattern loudly in your final message instead. Never work around a player by acting in its place."""
+
+
+def _spawn_herdr_babysitter(
+    repo_root: Path, game_id: str, player_names: list[str], status_url: str,
+) -> tuple[str, str]:
+    """A claude agent at the repository root that shepherds the match."""
+    suffix = game_id.removeprefix("game_")[:8].lower()
+    herdr_name = f"babysit-{re.sub(r'[^a-z0-9_-]+', '-', suffix)}"[:32]
+    created = _herdr(
+        "workspace", "create", "--cwd", str(repo_root),
+        "--label", f"babysit {suffix}",
+    )
+    result = created.get("result", {})
+    pane = result.get("root_pane", {}).get("pane_id")
+    herdr_workspace = result.get("workspace", {}).get("workspace_id", "?")
+    if not isinstance(pane, str) or not pane:
+        raise SetupError("herdr workspace create returned no root pane")
+    try:
+        last_error: SetupError | None = None
+        for _attempt in range(10):
+            try:
+                _herdr(
+                    "agent", "start", herdr_name, "--kind", "claude",
+                    "--pane", pane, "--timeout", "90000", timeout_s=120.0,
+                )
+                last_error = None
+                break
+            except SetupError as exc:
+                if "agent_pane_busy" not in str(exc):
+                    raise
+                last_error = exc
+                time.sleep(1.5)
+        if last_error is not None:
+            raise last_error
+    except SetupError:
+        try:
+            _herdr("workspace", "close", herdr_workspace, timeout_s=15.0)
+        except SetupError:
+            pass
+        raise
+    _herdr(
+        "agent", "prompt", herdr_name,
+        BABYSITTER_KICKOFF.format(
+            game_id=game_id,
+            player_names=", ".join(player_names),
+            status_url=status_url,
+        ),
+        "--wait", "--until", "working", "--until", "blocked",
+        "--timeout", "60000", timeout_s=90.0,
+    )
+    return herdr_workspace, herdr_name
+
+
 def _respell_workspace_docs(workspace: Path) -> None:
     """Rewrite `just <verb>` mentions to `./play <verb>` in the copied docs."""
     targets = [workspace / "README.md", *sorted((workspace / "docs").glob("*.md"))]
@@ -500,6 +564,11 @@ def main(argv: list[str] | None = None) -> int:
              "submit the kickoff prompt; the agent joins from inside",
     )
     parser.add_argument(
+        "--no-babysitter", action="store_true",
+        help="with --herdr: skip the babysitter agent that shepherds the "
+             "match until it is underway",
+    )
+    parser.add_argument(
         "--repo-root", default=str(REPO_ROOT), help=argparse.SUPPRESS,
     )
     args = parser.parse_args(argv)
@@ -526,16 +595,31 @@ def main(argv: list[str] | None = None) -> int:
         print()
         if args.herdr:
             print("Spawning the players in herdr:")
+            spawned_names: list[str] = []
             for workspace, (harness, model) in zip(workspaces, players):
                 name = f"{harness}-{model}"
                 herdr_workspace, herdr_name, state = _spawn_herdr_agent(
                     workspace, harness, name, game_id,
                 )
+                spawned_names.append(herdr_name)
                 print(
                     f"  {name}: herdr workspace {herdr_workspace} "
                     f"({state}) — attach with `herdr agent attach {herdr_name}`"
                 )
             print("Both agents were told to run ./play join themselves.")
+            if not args.no_babysitter:
+                service = os.environ.get(
+                    "AGENT_EVAL_SERVICE_URL", "https://freeciv-api.localhost",
+                )
+                sitter_ws, sitter = _spawn_herdr_babysitter(
+                    repo_root, game_id,
+                    [n for n in spawned_names],
+                    f"{service}/v1/games/{game_id}/status",
+                )
+                print(
+                    f"  babysitter: herdr workspace {sitter_ws} — attach "
+                    f"with `herdr agent attach {sitter}`"
+                )
         else:
             print("Point each model at its folder and say go, for example:")
             for workspace in workspaces:

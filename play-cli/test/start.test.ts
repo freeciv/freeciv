@@ -195,6 +195,8 @@ interface ResponderOptions {
   readonly sex?: string;
   readonly gameState?: string;
   readonly controller?: string;
+  /** Refuse the first N configure batches in the catalog-freshness class. */
+  readonly staleConfigures?: number;
 }
 
 interface Recorded {
@@ -254,6 +256,36 @@ const startResponder = (options: ResponderOptions = {}): Recorded => {
     const raw: unknown = JSON.parse(typeof init?.body === 'string' ? init.body : '{}');
     if (!isJsonObject(raw)) throw new Error('the batch body was not an object');
     bodies.push(raw);
+    const staleBudget = options.staleConfigures ?? 0;
+    const batchesSeen = steps.filter((step) => step === 'batch').length;
+    if (batchesSeen <= staleBudget) {
+      // The live shape from game_Dn9l…: the section was not read at the
+      // validating revision, so the id refuses as pregame_style_unknown.
+      return json({
+        schema_version: 2,
+        control_protocol: FULL_CONTROL_V2,
+        game_id: FIXTURE_GAME_ID,
+        agent_id: FIXTURE_AGENT_ID,
+        batch_id: String(raw['batch_id']),
+        receipt_state: 'rejected',
+        idempotent: false,
+        state_revision: LOBBY,
+        error: {
+          schema_version: 2,
+          control_protocol: FULL_CONTROL_V2,
+          error: {
+            code: 'illegal_action',
+            message:
+              'The style_id field is not one of the IDs the pregame_styles ' +
+              'section advertises at this revision; only that field is wrong.',
+            retryable: false,
+            details: { rejection_reason: 'pregame_style_unknown' },
+          },
+          state_revision: LOBBY,
+        },
+        observation: null,
+      });
+    }
     // Compared field by field, not by `JSON.stringify`: `_persist_batch_for_action`
     // writes the *canonical* body, whose keys are sorted, so a whole-object
     // string compare against this file's literal would answer "different" for
@@ -524,6 +556,7 @@ describe('play start', () => {
     expect(recorded.steps).toEqual([
       'health',
       'nations',
+      'styles',
       'legal',
       'batch',
       'legal',
@@ -544,9 +577,47 @@ describe('play start', () => {
     });
     expect(recorded.bodies[1]?.['state_revision']).toEqual(CONFIGURED);
     expect(lines).toHaveLength(3);
-    expect(lines[0]).toBe('starting as English — Ada (female), style the nation default');
+    expect(lines[0]).toBe('starting as English — Ada (female), style European');
     expect(lines[1]?.startsWith('configure English Ada female →')).toBe(true);
     expect(lines[2]?.startsWith('set ready → applied')).toBe(true);
+  });
+
+  test('a catalog-freshness refusal re-reads and retries, bounded', async () => {
+    // game_Dn9l…: the lobby revision advances in the background, so a
+    // configure whose sections were read a revision ago refuses as
+    // pregame_style_unknown.  One fresh re-read wins; unrelated refusals
+    // must not retry.
+    const recorded = startResponder({ staleConfigures: 1 });
+    const fix = fixture(recorded);
+    const lines = await run(fix, { nation: 'English', leader: 'Ada', female: true });
+
+    // Two configure submissions, with a fresh nations+styles read between.
+    expect(recorded.steps).toEqual([
+      'health',
+      'nations',
+      'styles',
+      'legal',
+      'batch',
+      'nations',
+      'styles',
+      'batch',
+      'legal',
+      'batch',
+    ]);
+    expect(lines.some((line) => line.includes('re-reading and retrying (attempt 2 of 3)'))).toBe(
+      true
+    );
+    expect(lines.some((line) => line.startsWith('set ready → applied'))).toBe(true);
+  });
+
+  test('three stale configures exhaust the retry budget and stop', async () => {
+    const recorded = startResponder({ staleConfigures: 99 });
+    const fix = fixture(recorded);
+    const lines = await run(fix, { nation: 'English', leader: 'Ada', female: true });
+    expect(recorded.steps.filter((step) => step === 'batch')).toHaveLength(3);
+    expect(lines.some((line) => line.includes('attempt 3 of 3'))).toBe(true);
+    // The seat was never readied; the final line is the not-readied refusal.
+    expect(lines.some((line) => line.startsWith('set ready'))).toBe(false);
   });
 
   test('a nation that is not on the catalog is refused by name', async () => {
@@ -598,6 +669,7 @@ describe('play start', () => {
     expect(recorded.steps).toEqual([
       'health',
       'nations',
+      'styles',
       'overview',
       'legal',
       'batch',
@@ -613,7 +685,7 @@ describe('play start', () => {
       style_id: STYLE_EUROPEAN,
     });
     expect(lines[0]).toBe(
-      'starting as Zulu — codex-test-model (female), style the nation default'
+      'starting as Zulu — codex-test-model (female), style European'
     );
   });
 
@@ -765,6 +837,7 @@ describe('play start', () => {
     expect(recorded.steps).toEqual([
       'health',
       'nations',
+      'styles',
       'legal',
       'batch',
       'legal',
@@ -784,7 +857,7 @@ describe('play start', () => {
       arguments: { ready: true },
     });
     // U14's real `_render_disposition`, not the fixture's one-line stand-in.
-    expect(out[0]).toBe('starting as English — Ada (male), style the nation default');
+    expect(out[0]).toBe('starting as English — Ada (male), style European');
     expect(out[1]?.startsWith('configure English Ada male → applied')).toBe(true);
     expect(out[2]?.startsWith('set ready → applied')).toBe(true);
   });

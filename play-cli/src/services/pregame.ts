@@ -288,14 +288,22 @@ export const fetchStateSection = (
     );
   });
 
-/** The mirror first; only a cold or damaged projection costs a request. */
+/**
+ * Always a fresh drain — a cached read is never sufficient here.
+ *
+ * The server validates configure ids against the overlay recorded when THIS
+ * seat read the section at the CURRENT native revision: the ids themselves
+ * are MAC-stable, but an id read at an older revision has no overlay under
+ * the validating revision and refuses as `pregame_*_unknown` (live finding,
+ * game_Dn9l…: the lobby revision advances in the background, so the
+ * join-time mirror is already stale by the first `start`; both seats
+ * livelocked).  The mirror still receives every page as a side effect.
+ */
 export const pregameCatalog = (
   ctx: PregameCtx,
   section: string
 ): Effect.Effect<ReadonlyArray<PregameItem>, PlayError, V2Client | SessionStore | PrivateFs> =>
   Effect.gen(function* () {
-    const cached = yield* mirrorPregameCatalog(ctx.sessionPath, section);
-    if (cached.length > 0) return cached;
     const items = yield* fetchStateSection(ctx, section);
     // CPython's resolvers key off `isinstance(item["name"], str)`: a row whose
     // name is not a string is invisible to both the match and the near-miss
