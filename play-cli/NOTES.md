@@ -3387,6 +3387,17 @@ bundle the CLI trusts is an operator decision with a security consequence, so it
 rather than hardcoded. **Whoever deploys this must export `NODE_EXTRA_CA_CERTS` (or a
 `--tls-ca`-shaped option someone adds deliberately) wherever the supervisor uses a private CA.**
 
+**RESOLVED (justfile-cutover follow-up).** The operator decision is now made at provisioning:
+`play_setup.py` records the local stack's CA (env `AGENT_EVAL_TLS_CA`, else `~/.portless/ca.pem`
+when the service URL is https) as `tls_ca` in the workspace `.playconfig.json`, and
+`caTrustedFetch` (`src/services/http.ts`) resolves it per request — `PLAY_TLS_CA=<path>` overrides,
+`PLAY_TLS_CA=` (empty) opts out, `.playconfig.json` `tls_ca` is the provisioned default, and a
+configured-but-unreadable CA fails the request naming the path rather than degrading to the
+untrusted default. Both `HttpLive` (v2) and `V1JsonLive`/`v1Json` (join/next/act/result) go
+through the wrapper — the first live run only patched v2, and `result` still failed the
+handshake until the v1 transport was wrapped too. Proven against the live supervisor through
+both configuration paths, source and compiled. Covered by `test/http-tls.test.ts`.
+
 ### I.3.2 The permanent float repair is still core's, and still not done
 
 NOTES §2, §10.5 and §11.9 all converge on one line of intent: have `src/services/http.ts` decode

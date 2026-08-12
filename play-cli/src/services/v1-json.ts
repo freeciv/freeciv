@@ -51,7 +51,7 @@ import {
   type PyValue,
 } from 'src/services/canonical-body';
 import { encodeStringAscii } from 'src/services/json-output';
-import { v1ErrorMessage } from 'src/services/http';
+import { caTrustedFetch, v1ErrorMessage } from 'src/services/http';
 import { isJsonObject, type JsonObject, type JsonValue } from 'src/schema/primitives';
 
 // ---------------------------------------------------------------------------
@@ -322,12 +322,16 @@ export const v1JsonFor = (fetchImpl: typeof fetch): V1JsonApi => ({
 });
 
 /**
- * The live transport, over the global `fetch`.
+ * The live transport, over the global `fetch` behind the private-CA wrapper —
+ * v1 requests (`join`, `next`, `act`, `result`) reach the same supervisor
+ * behind the same certificate as v2's `HttpLive` (NOTES §I.3.1).
  *
  * `Layer.sync`, not `Layer.succeed`: reading `fetch` at module-evaluation time
  * would freeze whatever was global then.
  */
-export const V1JsonLive: Layer.Layer<V1Json> = Layer.sync(V1Json, () => v1JsonFor(fetch));
+export const V1JsonLive: Layer.Layer<V1Json> = Layer.sync(V1Json, () =>
+  v1JsonFor(caTrustedFetch(fetch))
+);
 
 /** Inject a fake transport, the same seam `httpLayer(fake)` gives core. */
 export const v1JsonLayer = (fetchImpl: typeof fetch): Layer.Layer<V1Json> =>
@@ -343,5 +347,5 @@ export const v1JsonLayer = (fetchImpl: typeof fetch): Layer.Layer<V1Json> =>
  */
 export const v1Json: Effect.Effect<V1JsonApi> = Effect.map(
   Effect.serviceOption(V1Json),
-  Option.getOrElse((): V1JsonApi => v1JsonFor(fetch))
+  Option.getOrElse((): V1JsonApi => v1JsonFor(caTrustedFetch(fetch)))
 );

@@ -52,6 +52,23 @@ _PROG_MENTION_RE = re.compile(r"\bjust (" + "|".join(_PROG_VERBS) + r")\b")
 _BOTH_SPELLINGS = "Every `just X` is also `./play X`"
 
 
+def _tls_ca() -> str | None:
+    """The CA file the workspace's play binary should trust, if any.
+
+    ``AGENT_EVAL_TLS_CA`` names it explicitly; otherwise the local Portless
+    proxy's CA is the one terminating TLS for ``https://freeciv-api.localhost``
+    and is used when present.  A plain-http supervisor needs none.
+    """
+    service = os.environ.get("AGENT_EVAL_SERVICE_URL", "https://freeciv-api.localhost")
+    if not service.startswith("https://"):
+        return None
+    override = os.environ.get("AGENT_EVAL_TLS_CA", "").strip()
+    if override:
+        return override
+    portless_ca = Path.home() / ".portless" / "ca.pem"
+    return str(portless_ca) if portless_ca.is_file() else None
+
+
 def _respell_workspace_docs(workspace: Path) -> None:
     """Rewrite `just <verb>` mentions to `./play <verb>` in the copied docs."""
     targets = [workspace / "README.md", *sorted((workspace / "docs").glob("*.md"))]
@@ -316,6 +333,13 @@ def _materialize(
         "place": place,
         "control_protocol": protocol,
     }
+    tls_ca = _tls_ca()
+    if tls_ca is not None:
+        # The compiled play binary (Bun) does not share CPython's OpenSSL
+        # trust store, so a supervisor behind a private CA needs the CA named
+        # explicitly.  Provisioning is where the operator decision is made;
+        # the client reads it back per request (play-cli NOTES §I.3.1).
+        config["tls_ca"] = tls_ca
     config_path = workspace / ".playconfig.json"
     config_path.write_text(
         json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8",

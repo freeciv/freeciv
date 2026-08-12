@@ -13,6 +13,8 @@
  *   destroyed by the HTTP status.  `requestJson` is the v1 wrapper that does
  *   raise, with the Python's exact message shape.
  */
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { Context, Effect, Layer } from 'effect';
 import { PlayerError, playerError } from 'src/errors';
 import { DEFAULT_SERVICE_URL } from 'src/constants';
@@ -220,7 +222,77 @@ const makeApi = (fetchImpl: typeof fetch): HttpApi => {
   };
 };
 
-export const HttpLive: Layer.Layer<Http> = Layer.succeed(Http, makeApi(fetch));
+// ---------------------------------------------------------------------------
+// Private-CA trust (NOTES §I.3.1)
+// ---------------------------------------------------------------------------
+//
+// CPython trusts whatever OpenSSL's default verify paths trust, which on a dev
+// machine carries the local supervisor's private CA; Bun ships its own Mozilla
+// bundle and reads only NODE_EXTRA_CA_CERTS.  The operator decision NOTES
+// §I.3.1 deferred is made here, explicitly and per workspace:
+//
+//   PLAY_TLS_CA=<path>   trust this CA file (highest priority)
+//   PLAY_TLS_CA=         explicitly trust nothing extra (opt out)
+//   .playconfig.json     `tls_ca` — written by provisioning (`just play`),
+//                        which knows the local stack's CA
+//   neither              runtime defaults (NODE_EXTRA_CA_CERTS still works)
+//
+// A configured-but-unreadable CA fails the request with the path in the
+// message rather than silently degrading to the untrusted default — the
+// resulting certificate error would point everywhere but the actual cause.
+
+const workspaceRoot = (): string => {
+  const configured = process.env['PLAY_ROOT']?.trim();
+  return configured !== undefined && configured !== '' ? configured : process.cwd();
+};
+
+const configuredCaPath = (): string | undefined => {
+  const explicit = process.env['PLAY_TLS_CA'];
+  if (explicit !== undefined) {
+    const trimmed = explicit.trim();
+    return trimmed === '' ? undefined : trimmed;
+  }
+  const root = workspaceRoot();
+  const parsed: unknown = (() => {
+    try {
+      return JSON.parse(fs.readFileSync(path.join(root, '.playconfig.json'), 'utf8')) as unknown;
+    } catch {
+      return undefined;
+    }
+  })();
+  if (!isJsonObject(parsed)) return undefined;
+  const configured = parsed['tls_ca'];
+  if (typeof configured !== 'string' || configured === '') return undefined;
+  return path.isAbsolute(configured) ? configured : path.join(root, configured);
+};
+
+/**
+ * Wrap a fetch so every request trusts the configured private CA.  The CA is
+ * re-resolved per request — the reads are two small local files, and it keeps
+ * the spelling toggleable in tests exactly like PLAY_PROG.
+ */
+export const caTrustedFetch = (fetchImpl: typeof fetch): typeof fetch =>
+  Object.assign(
+    (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
+      const caPath = configuredCaPath();
+      if (caPath === undefined) return fetchImpl(input, init);
+      const ca = (() => {
+        try {
+          return fs.readFileSync(caPath, 'utf8');
+        } catch (cause) {
+          throw new Error(
+            `the configured TLS CA ${caPath} is unreadable ` +
+              `(${cause instanceof Error ? cause.message : String(cause)}); ` +
+              'fix PLAY_TLS_CA or the workspace .playconfig.json tls_ca entry'
+          );
+        }
+      })();
+      return fetchImpl(input, { ...init, tls: { ca } });
+    },
+    { preconnect: fetch.preconnect }
+  );
+
+export const HttpLive: Layer.Layer<Http> = Layer.succeed(Http, makeApi(caTrustedFetch(fetch)));
 
 /** Build the API over an injected `fetch`, for the fake-server test harness. */
 export const httpLayer = (fetchImpl: typeof fetch): Layer.Layer<Http> =>
