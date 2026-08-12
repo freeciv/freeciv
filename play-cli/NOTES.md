@@ -942,6 +942,22 @@ observed wire.
 
 ## 13. U03 — v2 client state: aliases, pending catalogs, catalog cache
 
+### 12.13 `join` is idempotent per workspace (deliberate divergence, post-cutover)
+
+CPython re-claimed on every `join`. The session filename is deterministic
+(`sessionKey(controller)`), so a re-join whose first response was lost claimed a **second**
+seat server-side and silently overwrote the local session with it — one workspace holding two
+places, the opponent's join refused with `HTTP 409: all agent places are claimed`, and the
+orphaned seat unreachable by anyone (the live `game_vkNE6LdubmOd4dBm73whb4NM` incident; the
+supervisor has no release endpoint). The class is exactly what the receipts protocol exists to
+prevent on batches, and `join` had no equivalent.
+
+The port now guards: a workspace already holding a session for the assigned game re-binds it,
+prints `already joined …`, and makes **zero** network requests; a held-but-unreadable session
+refuses with the deletion remedy instead of silently claiming over it. Claiming a fresh seat is
+a deliberate act: `delete .sessions/<game>/` first. Covered in `test/join.test.ts`
+("a second join re-binds…", "a held-but-corrupt session refuses…").
+
 ### 13.1 Two wave-2 seams, because two wave-2 units own the row renderers
 
 `_action_semantics`, `_catalog_signature`, `_catalog_equivalence` and `_cached_kind_scopes` are

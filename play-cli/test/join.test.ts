@@ -604,6 +604,43 @@ describe('a full-control-v2 join', () => {
     join: { body: v2Result(GAME_ID, CONTROLLER, overrides) },
   });
 
+  test('a second join re-binds the held seat instead of claiming again', async () => {
+    // The game_vkNE incident: a re-join whose first response was lost claimed
+    // a SECOND seat under the same controller and silently overwrote the
+    // local session.  Join is idempotent per workspace now (NOTES §12.13).
+    const fixture = bench();
+    fixture.stage(GAME_ID);
+    const first = await join(fixture, v2Plan());
+    ok(first.result);
+    expect(first.captured.requests.filter((r) => r.method === 'POST')).toHaveLength(1);
+
+    const second = await join(fixture, v2Plan());
+    ok(second.result);
+    // No network at all: not the claim POST, not even the preflight.
+    expect(second.captured.requests).toHaveLength(0);
+    expect(second.captured.out).toContain(`already joined ${GAME_ID} as ${CONTROLLER}`);
+    expect(second.captured.out).toContain('seat 1 AgentPlace1');
+    expect(second.captured.err).toContain('joining again would claim a second seat');
+    expect(second.captured.err).toContain(`delete .sessions/${GAME_ID}/`);
+    // The one session file is untouched, still holding the first claim.
+    expect(sessionFilesOf(fixture, GAME_ID)).toHaveLength(1);
+  });
+
+  test('a held-but-corrupt session refuses rather than silently re-claiming', async () => {
+    const fixture = bench();
+    fixture.stage(GAME_ID);
+    const first = await join(fixture, v2Plan());
+    ok(first.result);
+    const file = sessionFilesOf(fixture, GAME_ID)[0] as string;
+    fs.writeFileSync(file, 'not json');
+    const second = await join(fixture, v2Plan());
+    expect(Either.isLeft(second.result)).toBe(true);
+    const message = Either.isLeft(second.result) ? second.result.left.message : '';
+    expect(message).toContain(`already holds a session for ${GAME_ID}`);
+    expect(message).toContain(`delete .sessions/${GAME_ID}/`);
+    expect(second.captured.requests).toHaveLength(0);
+  });
+
   test('it advertises the capability and never prints the v1 loop', async () => {
     const fixture = bench();
     fixture.stage(GAME_ID);

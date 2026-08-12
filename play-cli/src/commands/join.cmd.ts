@@ -179,6 +179,44 @@ export const commandJoin = (
     const identity = yield* applyPlayDefaults(workspace, args);
     const game = yield* validGameId(identity.gameId);
     const controller = yield* controllerName(identity.name);
+
+    // DIVERGENCE (NOTES §12.13, deliberate): `join` is idempotent per
+    // workspace.  CPython re-claimed on every call — the session filename is
+    // deterministic, so a re-join whose first response was lost claimed a
+    // SECOND seat server-side and silently overwrote the local session with
+    // it, leaving one workspace holding two places (the game_vkNE incident:
+    // seat 1 orphaned, opponent's join refused with 409).  A workspace that
+    // already holds a session for the assigned game re-binds it and reports,
+    // rather than claiming again; claiming fresh is a deliberate act.
+    const held = yield* store.listSessions(game);
+    const first = held[0];
+    if (first !== undefined) {
+      // A held-but-unreadable session still refuses: silently claiming a
+      // fresh seat over a corrupt file is the same double-claim in disguise.
+      const loaded = yield* Effect.mapError(store.resolve(first), (cause) =>
+        playerError(
+          `this workspace already holds a session for ${game} but it cannot ` +
+            `be read (${cause.message}); delete .sessions/${game}/ to claim ` +
+            'a fresh seat'
+        )
+      );
+      yield* store.setCurrentSession(loaded.path);
+      yield* store.bindWorkspaceSeat(loaded.path, game);
+      const seat =
+        loaded.session.place === null
+          ? ''
+          : ` | seat ${loaded.session.place} ${loaded.session.playerName ?? ''}`.trimEnd();
+      yield* Console.log(
+        `already joined ${game} as ${loaded.session.controllerLabel}${seat} — ` +
+          'this workspace holds its seat; run `just turn`'
+      );
+      yield* Console.error(
+        'joining again would claim a second seat. To claim a fresh seat ' +
+          `deliberately, delete .sessions/${game}/ first.`
+      );
+      return;
+    }
+
     const invitation = yield* loadInvitation(
       workspace,
       { gameId: game, invite: args.invite, joinToken: args.joinToken },

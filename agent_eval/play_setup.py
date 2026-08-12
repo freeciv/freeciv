@@ -23,6 +23,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -67,6 +68,116 @@ def _tls_ca() -> str | None:
         return override
     portless_ca = Path.home() / ".portless" / "ca.pem"
     return str(portless_ca) if portless_ca.is_file() else None
+
+
+# herdr (https://herdr.dev) — persistent terminal workspaces for the agents.
+# `--herdr` provisions as usual, then gives each player its own herdr
+# workspace, starts the harness in it, and submits the kickoff prompt; the
+# agent runs `./play join` itself from inside its workspace.
+HERDR_KINDS = {
+    "pi": "pi",
+    "claude-code": "claude",
+    "codex": "codex",
+    "opencode": "opencode",
+}
+
+HERDR_KICKOFF = """You are playing a competitive PvP Freeciv match as {name} \
+in {game_id}. This directory is your private player workspace and scratchpad \
+— read AGENTS.md first; it is the workspace contract. Then run `./play join` \
+(once — a second join is refused), `./play start`, and keep playing one full \
+turn per call with `./play do "..." --end --await --brief` until the game is \
+terminal. Choose every action yourself: no bots, no delegating to the game's \
+AI. Your opponent is live; play to win."""
+
+
+def _herdr(*cli_args: str, timeout_s: float = 120.0) -> dict:
+    """One herdr CLI call; every subcommand prints one JSON envelope."""
+    try:
+        completed = subprocess.run(
+            ("herdr", *cli_args),
+            capture_output=True, text=True, timeout=timeout_s, check=False,
+        )
+    except FileNotFoundError as exc:
+        raise SetupError(
+            "herdr is not installed; install it from https://herdr.dev "
+            "or rerun without --herdr"
+        ) from exc
+    except subprocess.TimeoutExpired as exc:
+        raise SetupError(f"herdr {' '.join(cli_args[:2])} timed out") from exc
+    if completed.returncode != 0:
+        detail = (completed.stderr or completed.stdout).strip()
+        raise SetupError(f"herdr {' '.join(cli_args[:2])} failed: {detail}")
+    try:
+        return json.loads(completed.stdout)
+    except ValueError as exc:
+        raise SetupError(
+            f"herdr {' '.join(cli_args[:2])} printed non-JSON output"
+        ) from exc
+
+
+def _spawn_herdr_agent(
+    workspace: Path, harness: str, name: str, game_id: str,
+) -> tuple[str, str]:
+    """Give one player a herdr workspace, start its harness, say go.
+
+    Returns ``(herdr_workspace_id, herdr_name, agent_state)``.
+    """
+    kind = HERDR_KINDS.get(harness)
+    if kind is None:
+        raise SetupError(
+            f"--herdr does not know how to start {harness!r}; known: "
+            + ", ".join(sorted(HERDR_KINDS))
+        )
+    # herdr agent names: lowercase letters, digits, '-', '_', 1-32 chars,
+    # leading lowercase letter.  `pi-gpt-5.6-sol` has a dot, so the herdr
+    # address is a sanitized twin of the controller name.
+    herdr_name = re.sub(r"[^a-z0-9_-]+", "-", name.lower()).strip("-_")[:32]
+    if not herdr_name or not herdr_name[0].isalpha():
+        herdr_name = f"seat-{herdr_name}".strip("-_")[:32]
+    created = _herdr(
+        "workspace", "create", "--cwd", str(workspace), "--label", name,
+    )
+    result = created.get("result", {})
+    pane = result.get("root_pane", {}).get("pane_id")
+    herdr_workspace = result.get("workspace", {}).get("workspace_id", "?")
+    if not isinstance(pane, str) or not pane:
+        raise SetupError("herdr workspace create returned no root pane")
+    try:
+        # The fresh pane's shell takes a moment to reach its prompt, and
+        # `agent start` refuses a pane that is not an available shell yet.
+        last_error: SetupError | None = None
+        for _attempt in range(10):
+            try:
+                _herdr(
+                    "agent", "start", herdr_name, "--kind", kind,
+                    "--pane", pane, "--timeout", "90000", timeout_s=120.0,
+                )
+                last_error = None
+                break
+            except SetupError as exc:
+                if "agent_pane_busy" not in str(exc):
+                    raise
+                last_error = exc
+                time.sleep(1.5)
+        if last_error is not None:
+            raise last_error
+    except SetupError:
+        # A workspace whose agent never started is clutter, not state.
+        try:
+            _herdr("workspace", "close", herdr_workspace, timeout_s=15.0)
+        except SetupError:
+            pass
+        raise
+    prompted = _herdr(
+        "agent", "prompt", herdr_name,
+        HERDR_KICKOFF.format(name=name, game_id=game_id),
+        "--wait", "--until", "working", "--until", "blocked",
+        "--timeout", "60000", timeout_s=90.0,
+    )
+    state = prompted.get("result", {}).get("status", "unknown")
+    if not isinstance(state, str):
+        state = "unknown"
+    return herdr_workspace, herdr_name, state
 
 
 def _respell_workspace_docs(workspace: Path) -> None:
@@ -384,6 +495,11 @@ def main(argv: list[str] | None = None) -> int:
         help="replace an existing workspace for the same player",
     )
     parser.add_argument(
+        "--herdr", action="store_true",
+        help="spawn each player's harness in its own herdr workspace and "
+             "submit the kickoff prompt; the agent joins from inside",
+    )
+    parser.add_argument(
         "--repo-root", default=str(REPO_ROOT), help=argparse.SUPPRESS,
     )
     args = parser.parse_args(argv)
@@ -408,9 +524,22 @@ def main(argv: list[str] | None = None) -> int:
                 protocol_cache=protocol_cache,
             ))
         print()
-        print("Point each model at its folder and say go, for example:")
-        for workspace in workspaces:
-            print(f"  cd {workspace.relative_to(repo_root)} && ./play join")
+        if args.herdr:
+            print("Spawning the players in herdr:")
+            for workspace, (harness, model) in zip(workspaces, players):
+                name = f"{harness}-{model}"
+                herdr_workspace, herdr_name, state = _spawn_herdr_agent(
+                    workspace, harness, name, game_id,
+                )
+                print(
+                    f"  {name}: herdr workspace {herdr_workspace} "
+                    f"({state}) — attach with `herdr agent attach {herdr_name}`"
+                )
+            print("Both agents were told to run ./play join themselves.")
+        else:
+            print("Point each model at its folder and say go, for example:")
+            for workspace in workspaces:
+                print(f"  cd {workspace.relative_to(repo_root)} && ./play join")
         return 0
     except SetupError as exc:
         print(f"error: {exc}", file=sys.stderr)
