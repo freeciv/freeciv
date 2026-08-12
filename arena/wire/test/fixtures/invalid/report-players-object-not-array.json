@@ -1,0 +1,143 @@
+{
+ "episode": "/Users/cryogenicplanet/general/game_eval/freeciv/.agent-eval/runs/game_ssp8cKCX7WHao84FuVTVkmuQ",
+ "manifest": {
+  "benchmark_valid": false,
+  "bridge_status_file": "bridge-status.jsonl",
+  "checkpoints": 0,
+  "commands_file": "server.commands",
+  "config": {
+   "action_timeout_s": 60.0,
+   "lobby_timeout_s": 300.0,
+   "max_agents": 1,
+   "mode": "single",
+   "name": "session-game_ssp8cKC",
+   "objective": "Maximize final Freeciv civilization score.",
+   "places": 3,
+   "ruleset": "classic",
+   "schema_version": 1,
+   "seats": [
+    {
+     "base_url": null,
+     "controller_fingerprint": null,
+     "controller_label": null,
+     "controller_metadata": {},
+     "id": "place-1",
+     "instructions": "Maximize final Freeciv civilization score.",
+     "model": null,
+     "name": "AgentPlace1",
+     "options": {},
+     "type": "external"
+    },
+    {
+     "base_url": null,
+     "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+     "controller_label": null,
+     "controller_metadata": {},
+     "id": "place-2",
+     "instructions": null,
+     "model": null,
+     "name": "NativePlace2",
+     "options": {},
+     "type": "native"
+    },
+    {
+     "base_url": null,
+     "controller_fingerprint": "d3ebf980190ffded2a060dd8287ad855845c9ec31173616411f6ef7288c346f2",
+     "controller_label": null,
+     "controller_metadata": {},
+     "id": "place-3",
+     "instructions": null,
+     "model": null,
+     "name": "NativePlace3",
+     "options": {},
+     "type": "native"
+    }
+   ],
+   "seeds": [
+    1379066555
+   ],
+   "server": {
+    "frame_interval": 1,
+    "frame_zoom": 1
+   },
+   "turns": 500
+  },
+  "created_at": 1785657547.3936388,
+  "current_turn": null,
+  "error": "lobby timed out before all agent places joined",
+  "finished_at": 1785657848.383507,
+  "frames": 0,
+  "game_id": "game_ssp8cKCX7WHao84FuVTVkmuQ",
+  "invalid_reasons": [],
+  "joined_agents": 0,
+  "resolved_places": [
+   {
+    "controller": "agent",
+    "joined": false,
+    "place": 1,
+    "player_color": "#0067A5",
+    "player_name": "AgentPlace1",
+    "seat_id": "place-1"
+   },
+   {
+    "controller": "native_classic_ai",
+    "controller_label": "Freeciv Classic AI",
+    "controller_type": "native",
+    "joined": false,
+    "model": "classic",
+    "place": 2,
+    "player_color": "#F38400",
+    "player_name": "NativePlace2",
+    "seat_id": "place-2"
+   },
+   {
+    "controller": "native_classic_ai",
+    "controller_label": "Freeciv Classic AI",
+    "controller_type": "native",
+    "joined": false,
+    "model": "classic",
+    "place": 3,
+    "player_color": "#008856",
+    "player_name": "NativePlace3",
+    "seat_id": "place-3"
+   }
+  ],
+  "returncode": 0,
+  "schema_version": 1,
+  "scorelog_file": "score.log",
+  "start_count": 0,
+  "started_at": null,
+  "state": "failed",
+  "status": "failed",
+  "trace_file": "decisions.jsonl",
+  "video_file": null
+ },
+ "score": {
+  "final_turn": null,
+  "players": {
+   "place-1": []
+  }
+ },
+ "seat_stats": {
+  "place-2": {
+   "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+   "decisions": 0,
+   "fallbacks": 0,
+   "input_tokens": 0,
+   "latency_ms": 0.0,
+   "mean_latency_ms": 0,
+   "output_tokens": 0,
+   "turns": 0
+  },
+  "place-3": {
+   "controller_fingerprint": "d3ebf980190ffded2a060dd8287ad855845c9ec31173616411f6ef7288c346f2",
+   "decisions": 0,
+   "fallbacks": 0,
+   "input_tokens": 0,
+   "latency_ms": 0.0,
+   "mean_latency_ms": 0,
+   "output_tokens": 0,
+   "turns": 0
+  }
+ }
+}

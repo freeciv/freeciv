@@ -1,0 +1,102 @@
+{
+  "benchmark_valid": false,
+  "bridge_status_file": "bridge-status.jsonl",
+  "checkpoints": 194,
+  "commands_file": "server.commands",
+  "config": {
+    "action_timeout_s": 600.0,
+    "control_protocol": "full-control-v2",
+    "lobby_timeout_s": 0.0,
+    "max_agents": 2,
+    "mode": "multiplayer",
+    "name": "session-game_Hsit9YE",
+    "objective": "Maximize final Freeciv civilization score.",
+    "places": 2,
+    "ruleset": "classic",
+    "schema_version": 1,
+    "seats": [
+      {
+        "base_url": null,
+        "controller_fingerprint": "c13b2ded092a7e60c2d94f9b6b701e8940144b53f518b9ff7f945af20bdd201f",
+        "controller_label": "pi-gpt-5.6-sol",
+        "controller_metadata": {},
+        "id": "place-1",
+        "instructions": "Maximize final Freeciv civilization score.",
+        "model": null,
+        "name": "AgentPlace1",
+        "options": {},
+        "type": "external"
+      },
+      {
+        "base_url": null,
+        "controller_fingerprint": "552ff12cb67a1116035949e71f1f1d96ca815a8a215e35faec8ec0dd38e1da0c",
+        "controller_label": "claude-code-claude-opus-5",
+        "controller_metadata": {},
+        "id": "place-2",
+        "instructions": "Maximize final Freeciv civilization score.",
+        "model": null,
+        "name": "AgentPlace2",
+        "options": {},
+        "type": "external"
+      }
+    ],
+    "seeds": [
+      325112582
+    ],
+    "server": {
+      "frame_interval": 1,
+      "frame_zoom": 1
+    },
+    "timing_mode": "default",
+    "turns": 5000
+  },
+  "control_protocol": "full-control-v2",
+  "created_at": 1786058210.7962298,
+  "current_turn": 193,
+  "error": null,
+  "finished_at": 1786421292.868581,
+  "frames": 194,
+  "game_id": "game_Hsit9YEuBjKdJPPouFoGVYlk",
+  "invalid_reasons": [
+    "score_snapshot_incomplete"
+  ],
+  "joined_agents": 2,
+  "recovery": null,
+  "resolved_places": [
+    {
+      "controller": "agent",
+      "controller_fingerprint": "c13b2ded092a7e60c2d94f9b6b701e8940144b53f518b9ff7f945af20bdd201f",
+      "controller_label": "pi-gpt-5.6-sol",
+      "controller_metadata": {},
+      "controller_type": "external",
+      "joined": true,
+      "model": null,
+      "place": 1,
+      "player_color": "#0067A5",
+      "player_name": "AgentPlace1",
+      "seat_id": "place-1"
+    },
+    {
+      "controller": "agent",
+      "controller_fingerprint": "552ff12cb67a1116035949e71f1f1d96ca815a8a215e35faec8ec0dd38e1da0c",
+      "controller_label": "claude-code-claude-opus-5",
+      "controller_metadata": {},
+      "controller_type": "external",
+      "joined": true,
+      "model": null,
+      "place": 2,
+      "player_color": "#F38400",
+      "player_name": "AgentPlace2",
+      "seat_id": "place-2"
+    }
+  ],
+  "returncode": 0,
+  "schema_version": 1,
+  "scorelog_file": "score.log",
+  "start_count": 1,
+  "started_at": 1786058397.7757509,
+  "state": "invalid",
+  "status": "invalid",
+  "trace_file": "decisions.jsonl",
+  "video_file": "game.mp4"
+}

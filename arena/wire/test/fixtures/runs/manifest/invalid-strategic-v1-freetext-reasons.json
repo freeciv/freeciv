@@ -1,0 +1,89 @@
+{
+  "benchmark_valid": false,
+  "bridge_status_file": "bridge-status.jsonl",
+  "checkpoints": 101,
+  "commands_file": "server.commands",
+  "config": {
+    "action_timeout_s": 60.0,
+    "lobby_timeout_s": 300.0,
+    "max_agents": 1,
+    "mode": "single",
+    "name": "session-game_apkXzUz",
+    "objective": "Maximize final Freeciv civilization score.",
+    "places": 2,
+    "ruleset": "classic",
+    "schema_version": 1,
+    "seats": [
+      {
+        "base_url": null,
+        "controller_fingerprint": "a2b17fda22b79d51431c7cb0345ae1808ebc63e5664852b0b5f44e28070bdecf",
+        "controller_label": "Agent",
+        "controller_metadata": {},
+        "id": "place-1",
+        "instructions": "Maximize final Freeciv civilization score.",
+        "model": null,
+        "name": "AgentPlace1",
+        "options": {},
+        "type": "external"
+      },
+      {
+        "base_url": null,
+        "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+        "controller_label": null,
+        "controller_metadata": {},
+        "id": "place-2",
+        "instructions": null,
+        "model": null,
+        "name": "NativePlace2",
+        "options": {},
+        "type": "native"
+      }
+    ],
+    "seeds": [
+      331428323
+    ],
+    "server": {
+      "frame_interval": 1,
+      "frame_zoom": 1
+    },
+    "turns": 100
+  },
+  "created_at": 1785473090.606925,
+  "current_turn": 100,
+  "error": null,
+  "finished_at": 1785473341.014703,
+  "frames": 101,
+  "game_id": "game_apkXzUzsDDA_zJ2DjuUD72iG",
+  "invalid_reasons": [
+    "turn 2 timed out waiting for agent_EgNOm0eqzjQvS8vF"
+  ],
+  "joined_agents": 1,
+  "resolved_places": [
+    {
+      "controller": "agent",
+      "controller_fingerprint": "a2b17fda22b79d51431c7cb0345ae1808ebc63e5664852b0b5f44e28070bdecf",
+      "controller_label": "Agent",
+      "controller_metadata": {},
+      "joined": true,
+      "place": 1,
+      "player_name": "AgentPlace1",
+      "seat_id": "place-1"
+    },
+    {
+      "controller": "native_classic_ai",
+      "joined": false,
+      "place": 2,
+      "player_name": "NativePlace2",
+      "seat_id": "place-2"
+    }
+  ],
+  "returncode": 0,
+  "schema_version": 1,
+  "scorelog_file": "score.log",
+  "start_count": 1,
+  "started_at": 1785473122.5444758,
+  "state": "invalid",
+  "status": "invalid",
+  "trace_file": "decisions.jsonl",
+  "video_file": "game.mp4"
+}

@@ -1,0 +1,530 @@
+{
+ "schema_version": 1,
+ "technologies": [
+  {
+   "cost_base": 4303.405628104328,
+   "id": 1.0,
+   "name": "Advanced Flight",
+   "requires": [
+    "Alphabet"
+   ],
+   "rule_name": "Advanced Flight"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 2.0,
+   "name": "Alphabet",
+   "rule_name": "Alphabet"
+  },
+  {
+   "cost_base": 2342.477321128211,
+   "id": 3.0,
+   "name": "Amphibious Warfare",
+   "rule_name": "Amphibious Warfare"
+  },
+  {
+   "cost_base": 185.20259177452135,
+   "id": 4.0,
+   "name": "Astronomy",
+   "rule_name": "Astronomy"
+  },
+  {
+   "cost_base": 828.1907992727281,
+   "id": 5.0,
+   "name": "Atomic Theory",
+   "rule_name": "Atomic Theory"
+  },
+  {
+   "cost_base": 3119.871792237623,
+   "id": 6.0,
+   "name": "Automobile",
+   "rule_name": "Automobile"
+  },
+  {
+   "cost_base": 316.22776601683796,
+   "id": 7.0,
+   "name": "Banking",
+   "rule_name": "Banking"
+  },
+  {
+   "cost_base": 226.27416997969522,
+   "id": 8.0,
+   "name": "Bridge Building",
+   "rule_name": "Bridge Building"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 9.0,
+   "name": "Bronze Working",
+   "rule_name": "Bronze Working"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 10.0,
+   "name": "Ceremonial Burial",
+   "rule_name": "Ceremonial Burial"
+  },
+  {
+   "cost_base": 640.0,
+   "id": 11.0,
+   "name": "Chemistry",
+   "rule_name": "Chemistry"
+  },
+  {
+   "cost_base": 270.0,
+   "id": 12.0,
+   "name": "Chivalry",
+   "rule_name": "Chivalry"
+  },
+  {
+   "cost_base": 51.96152422706631,
+   "id": 13.0,
+   "name": "Code of Laws",
+   "rule_name": "Code of Laws"
+  },
+  {
+   "cost_base": 4647.580015448901,
+   "id": 14.0,
+   "name": "Combined Arms",
+   "rule_name": "Combined Arms"
+  },
+  {
+   "cost_base": 2625.280937347468,
+   "id": 15.0,
+   "name": "Combustion",
+   "rule_name": "Combustion"
+  },
+  {
+   "cost_base": 1895.7056733575494,
+   "id": 16.0,
+   "name": "Communism",
+   "rule_name": "Communism"
+  },
+  {
+   "cost_base": 4417.148401401067,
+   "id": 17.0,
+   "name": "Computers",
+   "rule_name": "Computers"
+  },
+  {
+   "cost_base": 1402.9611541307906,
+   "id": 18.0,
+   "name": "Conscription",
+   "rule_name": "Conscription"
+  },
+  {
+   "cost_base": 111.80339887498948,
+   "id": 19.0,
+   "name": "Construction",
+   "rule_name": "Construction"
+  },
+  {
+   "cost_base": 51.96152422706631,
+   "id": 20.0,
+   "name": "Currency",
+   "rule_name": "Currency"
+  },
+  {
+   "cost_base": 700.9279563550023,
+   "id": 21.0,
+   "name": "Democracy",
+   "rule_name": "Democracy"
+  },
+  {
+   "cost_base": 700.9279563550023,
+   "id": 22.0,
+   "name": "Economics",
+   "rule_name": "Economics"
+  },
+  {
+   "cost_base": 1643.1676725154985,
+   "id": 23.0,
+   "name": "Electricity",
+   "rule_name": "Electricity"
+  },
+  {
+   "cost_base": 2529.8221281347037,
+   "id": 24.0,
+   "name": "Electronics",
+   "rule_name": "Electronics"
+  },
+  {
+   "cost_base": 226.27416997969522,
+   "id": 25.0,
+   "name": "Engineering",
+   "rule_name": "Engineering"
+  },
+  {
+   "cost_base": 5361.865347059734,
+   "id": 26.0,
+   "name": "Environmentalism",
+   "rule_name": "Environmentalism"
+  },
+  {
+   "cost_base": 2070.6279240848658,
+   "id": 27.0,
+   "name": "Espionage",
+   "rule_name": "Espionage"
+  },
+  {
+   "cost_base": 1250.0,
+   "id": 28.0,
+   "name": "Explosives",
+   "rule_name": "Explosives"
+  },
+  {
+   "cost_base": 185.20259177452135,
+   "id": 29.0,
+   "name": "Feudalism",
+   "rule_name": "Feudalism"
+  },
+  {
+   "cost_base": 2819.6985654498603,
+   "id": 30.0,
+   "name": "Flight",
+   "rule_name": "Flight"
+  },
+  {
+   "cost_base": 4078.9091679026146,
+   "id": 31.0,
+   "name": "Fusion Power",
+   "rule_name": "Fusion Power"
+  },
+  {
+   "cost_base": 2250.622136210341,
+   "id": 32.0,
+   "name": "Genetic Engineering",
+   "rule_name": "Genetic Engineering"
+  },
+  {
+   "cost_base": 2918.629815512752,
+   "id": 33.0,
+   "name": "Guerilla Warfare",
+   "rule_name": "Guerilla Warfare"
+  },
+  {
+   "cost_base": 640.0,
+   "id": 34.0,
+   "name": "Gunpowder",
+   "rule_name": "Gunpowder"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 35.0,
+   "name": "Horseback Riding",
+   "rule_name": "Horseback Riding"
+  },
+  {
+   "cost_base": 1726.0069524773066,
+   "id": 36.0,
+   "name": "Industrialization",
+   "rule_name": "Industrialization"
+  },
+  {
+   "cost_base": 468.7216658103186,
+   "id": 37.0,
+   "name": "Invention",
+   "rule_name": "Invention"
+  },
+  {
+   "cost_base": 80.0,
+   "id": 38.0,
+   "name": "Iron Working",
+   "rule_name": "Iron Working"
+  },
+  {
+   "cost_base": 4303.405628104328,
+   "id": 39.0,
+   "name": "Labor Union",
+   "rule_name": "Labor Union"
+  },
+  {
+   "cost_base": 3858.4582413186745,
+   "id": 40.0,
+   "name": "Laser",
+   "rule_name": "Laser"
+  },
+  {
+   "cost_base": 962.3408959407263,
+   "id": 41.0,
+   "name": "Leadership",
+   "rule_name": "Leadership"
+  },
+  {
+   "cost_base": 111.80339887498948,
+   "id": 42.0,
+   "name": "Literacy",
+   "rule_name": "Literacy"
+  },
+  {
+   "cost_base": 3119.871792237623,
+   "id": 43.0,
+   "name": "Machine Tools",
+   "rule_name": "Machine Tools"
+  },
+  {
+   "cost_base": 828.1907992727281,
+   "id": 44.0,
+   "name": "Magnetism",
+   "rule_name": "Magnetism"
+  },
+  {
+   "cost_base": 51.96152422706631,
+   "id": 45.0,
+   "name": "Map Making",
+   "rule_name": "Map Making"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 46.0,
+   "name": "Masonry",
+   "rule_name": "Masonry"
+  },
+  {
+   "cost_base": 3222.1576621884906,
+   "id": 47.0,
+   "name": "Mass Production",
+   "rule_name": "Mass Production"
+  },
+  {
+   "cost_base": 80.0,
+   "id": 48.0,
+   "name": "Mathematics",
+   "rule_name": "Mathematics"
+  },
+  {
+   "cost_base": 415.6921938165305,
+   "id": 49.0,
+   "name": "Medicine",
+   "rule_name": "Medicine"
+  },
+  {
+   "cost_base": 1031.8914671611547,
+   "id": 50.0,
+   "name": "Metallurgy",
+   "rule_name": "Metallurgy"
+  },
+  {
+   "cost_base": 3535.533905932738,
+   "id": 51.0,
+   "name": "Miniaturization",
+   "rule_name": "Miniaturization"
+  },
+  {
+   "cost_base": 3968.1733833087487,
+   "id": 52.0,
+   "name": "Mobile Warfare",
+   "rule_name": "Mobile Warfare"
+  },
+  {
+   "cost_base": 111.80339887498948,
+   "id": 53.0,
+   "name": "Monarchy",
+   "rule_name": "Monarchy"
+  },
+  {
+   "cost_base": 364.828726939094,
+   "id": 54.0,
+   "name": "Monotheism",
+   "rule_name": "Monotheism"
+  },
+  {
+   "cost_base": 51.96152422706631,
+   "id": 55.0,
+   "name": "Mysticism",
+   "rule_name": "Mysticism"
+  },
+  {
+   "cost_base": 364.828726939094,
+   "id": 56.0,
+   "name": "Navigation",
+   "rule_name": "Navigation"
+  },
+  {
+   "cost_base": 3535.533905932738,
+   "id": 57.0,
+   "name": "Nuclear Fission",
+   "rule_name": "Nuclear Fission"
+  },
+  {
+   "cost_base": 3749.773326482549,
+   "id": 58.0,
+   "name": "Nuclear Power",
+   "rule_name": "Nuclear Power"
+  },
+  {
+   "cost_base": 226.27416997969522,
+   "id": 59.0,
+   "name": "Philosophy",
+   "rule_name": "Philosophy"
+  },
+  {
+   "cost_base": 580.9475019311126,
+   "id": 60.0,
+   "name": "Physics",
+   "rule_name": "Physics"
+  },
+  {
+   "cost_base": 5240.467536394057,
+   "id": 61.0,
+   "name": "Plastics",
+   "rule_name": "Plastics"
+  },
+  {
+   "cost_base": 80.0,
+   "id": 62.0,
+   "name": "Polytheism",
+   "rule_name": "Polytheism"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 63.0,
+   "name": "Pottery",
+   "rule_name": "Pottery"
+  },
+  {
+   "cost_base": 3222.1576621884906,
+   "id": 64.0,
+   "name": "Radio",
+   "rule_name": "Radio"
+  },
+  {
+   "cost_base": 1402.9611541307906,
+   "id": 65.0,
+   "name": "Railroad",
+   "rule_name": "Railroad"
+  },
+  {
+   "cost_base": 3430.0,
+   "id": 66.0,
+   "name": "Recycling",
+   "rule_name": "Recycling"
+  },
+  {
+   "cost_base": 2342.477321128211,
+   "id": 67.0,
+   "name": "Refining",
+   "rule_name": "Refining"
+  },
+  {
+   "cost_base": 1982.5236442474022,
+   "id": 68.0,
+   "name": "Refrigeration",
+   "rule_name": "Refrigeration"
+  },
+  {
+   "cost_base": 4647.580015448901,
+   "id": 69.0,
+   "name": "Robotics",
+   "rule_name": "Robotics"
+  },
+  {
+   "cost_base": 4531.875991242478,
+   "id": 70.0,
+   "name": "Rocketry",
+   "rule_name": "Rocketry"
+  },
+  {
+   "cost_base": 763.6753236814712,
+   "id": 71.0,
+   "name": "Sanitation",
+   "rule_name": "Sanitation"
+  },
+  {
+   "cost_base": 111.80339887498948,
+   "id": 72.0,
+   "name": "Seafaring",
+   "rule_name": "Seafaring"
+  },
+  {
+   "cost_base": 5120.0,
+   "id": 73.0,
+   "name": "Space Flight",
+   "rule_name": "Space Flight"
+  },
+  {
+   "cost_base": 5361.865347059734,
+   "id": 74.0,
+   "name": "Stealth",
+   "rule_name": "Stealth"
+  },
+  {
+   "cost_base": 1103.0412503619254,
+   "id": 75.0,
+   "name": "Steam Engine",
+   "rule_name": "Steam Engine"
+  },
+  {
+   "cost_base": 2342.477321128211,
+   "id": 76.0,
+   "name": "Steel",
+   "rule_name": "Steel"
+  },
+  {
+   "cost_base": 3968.1733833087487,
+   "id": 77.0,
+   "name": "Superconductors",
+   "rule_name": "Superconductors"
+  },
+  {
+   "cost_base": 1810.1933598375617,
+   "id": 78.0,
+   "name": "Tactics",
+   "rule_name": "Tactics"
+  },
+  {
+   "cost_base": 2070.6279240848658,
+   "id": 79.0,
+   "name": "The Corporation",
+   "rule_name": "The Corporation"
+  },
+  {
+   "cost_base": 146.96938456699067,
+   "id": 80.0,
+   "name": "The Republic",
+   "rule_name": "The Republic"
+  },
+  {
+   "cost_base": 51.96152422706631,
+   "id": 81.0,
+   "name": "The Wheel",
+   "rule_name": "The Wheel"
+  },
+  {
+   "cost_base": 580.9475019311126,
+   "id": 82.0,
+   "name": "Theology",
+   "rule_name": "Theology"
+  },
+  {
+   "cost_base": 468.7216658103186,
+   "id": 83.0,
+   "name": "Theory of Gravity",
+   "rule_name": "Theory of Gravity"
+  },
+  {
+   "cost_base": 146.96938456699067,
+   "id": 84.0,
+   "name": "Trade",
+   "rule_name": "Trade"
+  },
+  {
+   "cost_base": 364.828726939094,
+   "id": 85.0,
+   "name": "University",
+   "rule_name": "University"
+  },
+  {
+   "cost_base": 28.284271247461902,
+   "id": 86.0,
+   "name": "Warrior Code",
+   "rule_name": "Warrior Code"
+  },
+  {
+   "cost_base": 51.96152422706631,
+   "id": 87.0,
+   "name": "Writing",
+   "rule_name": "Writing"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+  "died_at": {
+    "last_status_client_state": "running",
+    "phase": 0,
+    "phase_ledger_state": "synchronizing",
+    "seat_local_revision": null,
+    "turn": 26
+  },
+  "error_code": "status_unavailable",
+  "exit_code": 1,
+  "forensics": {
+    "client_state": "running",
+    "error_code": "disconnected",
+    "exit_code": 1,
+    "exit_signal": null,
+    "exit_signal_name": null,
+    "last_seen_at": 1786502711.041951,
+    "process_alive": false,
+    "sidecar_state": "failed",
+    "stderr_tail": [
+      "3: Saved settings to file /Users/cryogenicplanet/general/game_eval/freeciv/.agent-eval/runs/game_Dn9lOXuTgVaNzhDP3FAKmiDz/sidecars/place-2-generation-1/freeciv-client.rc",
+      "1: Lost connection to server: server disconnected."
+    ],
+    "stdout_tail": []
+  },
+  "game_id": "game_Dn9lOXuTgVaNzhDP3FAKmiDz",
+  "generation": 1,
+  "last_seen_at": 1786502711.041951,
+  "place": 2,
+  "sidecar_state": "failed",
+  "stopped_at": 1786502711.0419729,
+  "timestamp": 1786502712.011746
+}

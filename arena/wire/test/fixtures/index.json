@@ -1,0 +1,454 @@
+{
+  "fixtures": [
+    {
+      "bytes": 1890,
+      "note": "current_turn is fractional where the wire only ever carries an integer",
+      "origin": "synthetic-negative",
+      "path": "invalid/manifest-current-turn-fractional.json",
+      "sha256": "77ea0d7750197dea5fada0fbc39459c01c8489119246a7f1eeebe1724427cb7a",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 1907,
+      "note": "invalid_reasons is a bare string instead of an array of strings",
+      "origin": "synthetic-negative",
+      "path": "invalid/manifest-invalid-reasons-string.json",
+      "sha256": "0af71e523bf038acb3a87cbec325626a93f2c4e8ce983b373d12ba7fd6cb067a",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 1846,
+      "note": "required key game_id removed",
+      "origin": "synthetic-negative",
+      "path": "invalid/manifest-missing-game-id.json",
+      "sha256": "30b5eecf3287526da4fdc071ffa7f68006e57c5732e60f4e78751368675d95d1",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 1893,
+      "note": "schema_version is the string \"1\" instead of the number 1",
+      "origin": "synthetic-negative",
+      "path": "invalid/manifest-schema-version-string.json",
+      "sha256": "80b392b4f96e0ef58e0bd4397abec71b466a1e701dd54108635b5d2e9034e97e",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 1576,
+      "note": "config.seats is an object keyed by seat id instead of an array",
+      "origin": "synthetic-negative",
+      "path": "invalid/manifest-seats-object-not-array.json",
+      "sha256": "ec9dc77224f7d9b27f4ed0569714d498d537256d08e1bdd99d184ca55e60360c",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 1889,
+      "note": "status is a slug outside the known literal union",
+      "origin": "synthetic-negative",
+      "path": "invalid/manifest-status-unknown.json",
+      "sha256": "789fb2db6c21513723645d5b75df19e3b2676f14742262558fadfece195414c1",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 42,
+      "note": "truncated mid-object: exercises the parse-failure branch, not the schema branch",
+      "origin": "synthetic-negative",
+      "path": "invalid/not-json.txt",
+      "sha256": "71cf3e9e17fbbfb9c1d8afa70e9256b3eff7f91c31e3cefb9ecef54fa6031223",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 9940,
+      "note": "requires holds technology names instead of numeric ids",
+      "origin": "synthetic-negative",
+      "path": "invalid/replay-catalog-requires-names-not-ids.json",
+      "sha256": "7b43e2423047f344d7ac47203c67836ccfda978bf0cb16d731fae9dd87185076",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 9888,
+      "note": "the first technology entry has no id",
+      "origin": "synthetic-negative",
+      "path": "invalid/replay-catalog-tech-missing-id.json",
+      "sha256": "176b4546625b35d60ae2edd23392c0f654996abc9dfddfd644d2078f077a312c",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 3507,
+      "note": "score.final_turn is the string \"none\" instead of a number or null",
+      "origin": "synthetic-negative",
+      "path": "invalid/report-final-turn-string.json",
+      "sha256": "2ed53c337e80597501bd29a495d13835e036336180a0fcc68f7735af2fd9cd4c",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 2963,
+      "note": "required key seat_stats removed",
+      "origin": "synthetic-negative",
+      "path": "invalid/report-missing-seat-stats.json",
+      "sha256": "354f4ae07bc2120f8006764708080b73818fdb0841bb64d8a90451848d0af55f",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 3525,
+      "note": "score.players is an object instead of an array",
+      "origin": "synthetic-negative",
+      "path": "invalid/report-players-object-not-array.json",
+      "sha256": "a9fc9ac9a6bbac300c196b9f5f834e60b385361254f4e69a02591638f09f2051",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 3402,
+      "note": "outcome.status is outside the known won/tied/invalid/pending union",
+      "origin": "synthetic-negative",
+      "path": "invalid/status-outcome-status-unknown.json",
+      "sha256": "76882b414a6b3081122b364808fd36322de75b4414908955b2eb29174600acba",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 2638,
+      "note": "resolved_places is null instead of an array",
+      "origin": "synthetic-negative",
+      "path": "invalid/status-resolved-places-null.json",
+      "sha256": "10e2304768f3a4ced8170b362e94062772cdbdc8e8796874f616aecb602436f5",
+      "source": "derived in-repo from a captured fixture"
+    },
+    {
+      "bytes": 49,
+      "note": "GET /v1/games/{id}/board.json with no turn -> 400",
+      "origin": "live-capture",
+      "path": "live/gateway-board-400.json",
+      "sha256": "918c2299f1de0e368fce64f47674664e0e470035b13be6d13b742e3dda27077c",
+      "source": "GET /v1/games/{id}/board.json with no turn -> 400"
+    },
+    {
+      "bytes": 59111,
+      "note": "GET /v1/games/{id}/board.json?turn=1: terrain/owner/altitude row arrays plus catalogs",
+      "origin": "live-capture",
+      "path": "live/gateway-board-turn1.json",
+      "sha256": "0acca8337c7c1f541d6f815d3e95c88d7bf94f90f2492abb6ea44466be986892",
+      "source": "GET /v1/games/{id}/board.json?turn=1"
+    },
+    {
+      "bytes": 54,
+      "note": "GET /v1/games/{id}/events.json?limit=5 -> 400: the route rejects any query string",
+      "origin": "live-capture",
+      "path": "live/gateway-events-400.json",
+      "sha256": "c13e3df058c7b0d1f95a7a40b0e519dfdf5382c2292cd6a3d14b045638f20ab8",
+      "source": "GET /v1/games/{id}/events.json?limit=5 -> 400"
+    },
+    {
+      "bytes": 4139,
+      "note": "GET /v1/games/{id}/events.json: event_counts / omitted_counts maps, truncation flags",
+      "origin": "live-capture",
+      "path": "live/gateway-events.json",
+      "sha256": "8dabe2fc3fb48e013953c383d8933b324786abfd5aedfcd7b41af9b5975a5dca",
+      "source": "GET /v1/games/{id}/events.json"
+    },
+    {
+      "bytes": 40568,
+      "note": "GET /v1/games on the gateway: all 31 runs on disk, including outcome.status won and tied",
+      "origin": "live-capture",
+      "path": "live/gateway-games-index.json",
+      "sha256": "f6669098d76d06c4a28cf01c884abf151882928d8b59cb545dc2eb89d4fce22f",
+      "source": "GET /v1/games on the gateway"
+    },
+    {
+      "bytes": 520,
+      "note": "GET /health on the replay gateway",
+      "origin": "live-capture",
+      "path": "live/gateway-health.json",
+      "sha256": "e40a8d6fea31c80f82248e96db888c2047cb8af9accf672da27089b2a58a3095",
+      "source": "GET /health on the replay gateway"
+    },
+    {
+      "bytes": 21,
+      "note": "GET /v1/games/{unknown}/replay.json -> 404",
+      "origin": "live-capture",
+      "path": "live/gateway-replay-404.json",
+      "sha256": "51d0a9e3bd9ffc25483790aaffe7a3597e642edd040dddb16aafc324e6e922ed",
+      "source": "GET /v1/games/{unknown}/replay.json -> 404"
+    },
+    {
+      "bytes": 14075,
+      "note": "GET /v1/games/{id}/replay.json?limit=5 for the live game: has_more true",
+      "origin": "live-capture",
+      "path": "live/gateway-replay-running-limit5.json",
+      "sha256": "97c67d309a527d241375cc1af83bd7896d0c86fe837b93c6b314ae9f24711aca",
+      "source": "GET /v1/games/{id}/replay.json?limit=5 for the live game"
+    },
+    {
+      "bytes": 14334,
+      "note": "GET /v1/games/{id}/replay.json?limit=5 for a terminal archived game",
+      "origin": "live-capture",
+      "path": "live/gateway-replay-terminal-limit5.json",
+      "sha256": "808c93810519fc1f540d05ddb5e34e95e970f927cb6b2db622a4357d25bf955c",
+      "source": "GET /v1/games/{id}/replay.json?limit=5 for a terminal archived game"
+    },
+    {
+      "bytes": 49801,
+      "note": "GET /v1/games/{id}/watch.json through the gateway for the live game",
+      "origin": "live-capture",
+      "path": "live/gateway-watch-running.json",
+      "sha256": "2a19af7c9f9924fc963085adae7f04d40a6d8ff161fcbf155040a230dfc60383",
+      "source": "GET /v1/games/{id}/watch.json through the gateway for the live game"
+    },
+    {
+      "bytes": 4096,
+      "note": "GET /v1/games/{id}/watch.json for a terminal game: video.available true, two-entry timeline",
+      "origin": "live-capture",
+      "path": "live/gateway-watch-terminal.json",
+      "sha256": "235b125ecd486ac004b0b277bbc755907c13f21cd563a810274a0616fa125f44",
+      "source": "GET /v1/games/{id}/watch.json for a terminal game"
+    },
+    {
+      "bytes": 5243,
+      "note": "GET /v1/games on the supervisor: only the five games this process still holds",
+      "origin": "live-capture",
+      "path": "live/supervisor-games-index.json",
+      "sha256": "6ee404d6eccc4386dc9d2b9316f27b3c13be99b65aa4461320b01dd116b5d755",
+      "source": "GET /v1/games on the supervisor"
+    },
+    {
+      "bytes": 161,
+      "note": "GET /health on the supervisor",
+      "origin": "live-capture",
+      "path": "live/supervisor-health.json",
+      "sha256": "d6554657b2555e263f9761fd0cbdf4bf20b2b0239b8ecf78ca4cb21f6060b01d",
+      "source": "GET /health on the supervisor"
+    },
+    {
+      "bytes": 1243,
+      "note": "GET /v1/games/{id}/phase-events?limit=3: has_more true, next_after_sequence cursor",
+      "origin": "live-capture",
+      "path": "live/supervisor-phase-events.json",
+      "sha256": "71cd1acab598ec19bb319b9ae27d909297c3a1aa0cb13d294777b4860dd55c75",
+      "source": "GET /v1/games/{id}/phase-events?limit=3"
+    },
+    {
+      "bytes": 26,
+      "note": "GET /v1/games/{unknown}/status -> 404 {\"error\": ...}",
+      "origin": "live-capture",
+      "path": "live/supervisor-status-404.json",
+      "sha256": "345e583003947f796d6f16c9be9f8ecbdd4233ef30b97166957a46cd7c41b56b",
+      "source": "GET /v1/games/{unknown}/status -> 404 {\"error\""
+    },
+    {
+      "bytes": 2836,
+      "note": "GET /v1/games/{id}/status for a live full-control-v2 game: phase block populated, outcome.status pending",
+      "origin": "live-capture",
+      "path": "live/supervisor-status-running.json",
+      "sha256": "37765fde4a8b2ef1e81d282f835bc2cd0ec6942582b238a9433acc642218c86b",
+      "source": "GET /v1/games/{id}/status for a live full-control-v2 game"
+    },
+    {
+      "bytes": 2981,
+      "note": "GET /v1/games/{id}/status for a terminal failed game: outcome.status invalid, empty leaderboard",
+      "origin": "live-capture",
+      "path": "live/supervisor-status-terminal.json",
+      "sha256": "3c28d1f90a86bdfcaf71c11365187a70b887e3f162e2837b0408e91b00ba78a0",
+      "source": "GET /v1/games/{id}/status for a terminal failed game"
+    },
+    {
+      "bytes": 49801,
+      "note": "GET /v1/games/{id}/watch.json for the live game: 77 frame descriptors, empty timeline",
+      "origin": "live-capture",
+      "path": "live/supervisor-watch.json",
+      "sha256": "582fe1f25139d294f1569755bbefe01ff81ffa47f853a0172a7884272377c1c0",
+      "source": "GET /v1/games/{id}/watch.json for the live game"
+    },
+    {
+      "bytes": 3898,
+      "note": "status=cancelled; places=3; ten free-text invalid_reasons (per-turn agent timeouts)",
+      "origin": "run-dir",
+      "path": "runs/manifest/cancelled-strategic-v1-many-freetext-reasons.json",
+      "sha256": "0ef01f68d1336491d613cb076eb5e82df18874b1ea9861c374ea9e3b5db84edf",
+      "source": ".agent-eval/runs/game_ZpZ7pkuWmi__HVqsPqHxhIvq/manifest.json"
+    },
+    {
+      "bytes": 2087,
+      "note": "status=cancelled; strategic-v1; started_at null; start_count 0; smallest manifest in the corpus",
+      "origin": "run-dir",
+      "path": "runs/manifest/cancelled-strategic-v1-never-started.json",
+      "sha256": "0d5360410f9d1b5e89fddff6e2155a25e3b65568b837925f29f9033dc9511482",
+      "source": ".agent-eval/runs/game_6QXA45i9eElOfyQx3c_eevMN/manifest.json"
+    },
+    {
+      "bytes": 2739,
+      "note": "status=cancelled; benchmark_valid null; returncode null; empty invalid_reasons",
+      "origin": "run-dir",
+      "path": "runs/manifest/cancelled-v2-benchmark-null.json",
+      "sha256": "f8aa2ced1438bea10a8d2e6d51226bc6808b9496750b3c4312c14c0454f6dfcf",
+      "source": ".agent-eval/runs/game_a8_dSs1WtX5NoDPHACckOKc4/manifest.json"
+    },
+    {
+      "bytes": 2983,
+      "note": "status=cancelled; started_at null; checkpoints 0; recovery present with zero attempts",
+      "origin": "run-dir",
+      "path": "runs/manifest/cancelled-v2-never-started-recovery.json",
+      "sha256": "34cd215d1bc773ac314b68ebf5bdd0c06e9cede1c70f698c92f7af6d68a8f9ef",
+      "source": ".agent-eval/runs/game_agU2q3kM9-grVcw2FhcLbXfy/manifest.json"
+    },
+    {
+      "bytes": 2780,
+      "note": "terminal + benchmark_valid true; 753 turns; strategic-v1 (no control_protocol key); two external seats",
+      "origin": "run-dir",
+      "path": "runs/manifest/completed-strategic-v1-multiplayer.json",
+      "sha256": "f0ec40514ae58203e90e4bb3cfdacbdadef9f3cf57b41c814c926e93b246d403",
+      "source": ".agent-eval/runs/game_ieTomdES08hpUmFRFzCOAVMo/manifest.json"
+    },
+    {
+      "bytes": 2325,
+      "note": "terminal + benchmark_valid true; turns=1 smoke run; mixed external/native seats",
+      "origin": "run-dir",
+      "path": "runs/manifest/completed-strategic-v1-single-native-seat.json",
+      "sha256": "d4cc8794c321eb72538d8bd758d27ca30347116426b700f45afeb60f48b4c205",
+      "source": ".agent-eval/runs/game_dtEjWTQyn61AJ4ua9kZj0mV8/manifest.json"
+    },
+    {
+      "bytes": 2958,
+      "note": "terminal failure; places=3; empty invalid_reasons; started_at null (never left setup)",
+      "origin": "run-dir",
+      "path": "runs/manifest/failed-strategic-v1-three-places.json",
+      "sha256": "2707167239e8654abbabeaf732208d0cb26681537c17fdb3d32f4e6cc479d086",
+      "source": ".agent-eval/runs/game_ssp8cKCX7WHao84FuVTVkmuQ/manifest.json"
+    },
+    {
+      "bytes": 3548,
+      "note": "terminal failure; invalid_reasons=[v2_boundary_wedged]; recovery block with by_kind/by_outcome maps",
+      "origin": "run-dir",
+      "path": "runs/manifest/failed-v2-boundary-wedged-recovery.json",
+      "sha256": "e8de8484bdc64bfcc67f76034033172daaebf208f04f3adc8e85211a0f9e6484",
+      "source": ".agent-eval/runs/game_Dn9lOXuTgVaNzhDP3FAKmiDz/manifest.json"
+    },
+    {
+      "bytes": 2780,
+      "note": "terminal failure; invalid_reasons=[sidecar_exited]; no recovery key; native seat present",
+      "origin": "run-dir",
+      "path": "runs/manifest/failed-v2-sidecar-exited.json",
+      "sha256": "576c20008b73c29d77dfe31cbf6426ce3c347c032dfb8dbde4c1dc8bf53b1ac1",
+      "source": ".agent-eval/runs/game_xMCbmQ67I89z0UjFTM8zyO9H/manifest.json"
+    },
+    {
+      "bytes": 2382,
+      "note": "status=invalid; invalid_reasons carries free-text prose, not enum slugs",
+      "origin": "run-dir",
+      "path": "runs/manifest/invalid-strategic-v1-freetext-reasons.json",
+      "sha256": "e46c4ea5c3d81b2fb8c0e1ae9067a1eac0329a51735df3b8648f06b5abd77648",
+      "source": ".agent-eval/runs/game_apkXzUzsDDA_zJ2DjuUD72iG/manifest.json"
+    },
+    {
+      "bytes": 2934,
+      "note": "status=invalid; invalid_reasons=[score_snapshot_incomplete]; recovery present; error null",
+      "origin": "run-dir",
+      "path": "runs/manifest/invalid-v2-score-snapshot-incomplete.json",
+      "sha256": "322e3c24a704956fe75f1cff38a01040df9782a267a73f06fea062883a83eb25",
+      "source": ".agent-eval/runs/game_Hsit9YEuBjKdJPPouFoGVYlk/manifest.json"
+    },
+    {
+      "bytes": 2967,
+      "note": "non-terminal: status/state running, finished_at null, returncode null, benchmark_valid null, recovery present",
+      "origin": "run-dir",
+      "path": "runs/manifest/running-v2-multiplayer.json",
+      "sha256": "9b793810c3a0ecf02544300a0681b9ec68a541095d5f24c72a3bb40c214b2013",
+      "source": ".agent-eval/runs/game_QAoITB7qSmKNSwsXX6LaZG8H/manifest.json"
+    },
+    {
+      "bytes": 8613,
+      "note": "current catalog shape: technology entries carry depth + requires",
+      "origin": "run-dir",
+      "path": "runs/replay-catalog/tech-tree-with-depth-and-requires.json",
+      "sha256": "45ff6b028a067dba0b4bf906db6ee7190ec60e533e0f38a1f80ea5517fda98ab",
+      "source": ".agent-eval/runs/game_Dn9lOXuTgVaNzhDP3FAKmiDz/replay-catalog.json"
+    },
+    {
+      "bytes": 7661,
+      "note": "older catalog shape: same schema_version 1, but entries omit depth and requires entirely",
+      "origin": "run-dir",
+      "path": "runs/replay-catalog/tech-tree-without-depth.json",
+      "sha256": "4706c77a9070c6411d82fe4f11565c868f422970e494877493885b2cb58c8092",
+      "source": ".agent-eval/runs/game_ieTomdES08hpUmFRFzCOAVMo/replay-catalog.json"
+    },
+    {
+      "bytes": 5401,
+      "note": "strategic-v1 shape: player.alive is null rather than a boolean",
+      "origin": "run-dir",
+      "path": "runs/report/alive-null-legacy-players.json",
+      "sha256": "5d57ac48e5212dc5dbc7471c55fce4f28c853f14624e3bc8f40e45aa204f70ff",
+      "source": ".agent-eval/runs/game_s4nXvSZVXIWkf48_3iNCFNFE/report.json"
+    },
+    {
+      "bytes": 6105,
+      "note": "final_turn 753; two players with the full 31-key metrics block; seat_stats for both seats; no recovery key",
+      "origin": "run-dir",
+      "path": "runs/report/completed-two-seats-full-score.json",
+      "sha256": "8f6cf7323571afd9d9a4e6de9546f33335e130cd01d6de787190f99746548d6a",
+      "source": ".agent-eval/runs/game_ieTomdES08hpUmFRFzCOAVMo/report.json"
+    },
+    {
+      "bytes": 5818,
+      "note": "a player with alive=false; recovery key present; empty seat_stats",
+      "origin": "run-dir",
+      "path": "runs/report/dead-player-alive-false.json",
+      "sha256": "eb3f1399622ff704f6d9ee5bc27bba3569b026a35308d61c25b35da4864d740b",
+      "source": ".agent-eval/runs/game_Hsit9YEuBjKdJPPouFoGVYlk/report.json"
+    },
+    {
+      "bytes": 3970,
+      "note": "score.final_turn null and score.players []; no recovery key; two seat_stats entries",
+      "origin": "run-dir",
+      "path": "runs/report/empty-score-no-recovery.json",
+      "sha256": "a5f5721af20e261a97b05e9c3a8688ddb6c7ace72490e2d9f2bb161e3b38b90e",
+      "source": ".agent-eval/runs/game_ssp8cKCX7WHao84FuVTVkmuQ/report.json"
+    },
+    {
+      "bytes": 3545,
+      "note": "score.final_turn null and score.players []; recovery key present; empty seat_stats",
+      "origin": "run-dir",
+      "path": "runs/report/empty-score-with-recovery.json",
+      "sha256": "302922c01aaddeb4687c34220bc8c8da6dd845c9c778bc09163f17c962464090",
+      "source": ".agent-eval/runs/game_agU2q3kM9-grVcw2FhcLbXfy/report.json"
+    },
+    {
+      "bytes": 5939,
+      "note": "two scored players but only one seat_stats entry; recovery key present",
+      "origin": "run-dir",
+      "path": "runs/report/partial-seat-stats-with-recovery.json",
+      "sha256": "ea6dc883a75deb5f8b1a4c66224ae5f32bc7a7572fab15e0f2bb169556256a2b",
+      "source": ".agent-eval/runs/game_4y8hfbatksF5YPoS7k8IEQ4u/report.json"
+    },
+    {
+      "bytes": 8754,
+      "note": "three players, distinct ranks 1/2/3; three seat_stats entries",
+      "origin": "run-dir",
+      "path": "runs/report/three-players-ranked.json",
+      "sha256": "d1b37470e6d6d04e310bb4f877c4ff1cd3848416ad1684fee8f910cdba613d74",
+      "source": ".agent-eval/runs/game_ZpZ7pkuWmi__HVqsPqHxhIvq/report.json"
+    },
+    {
+      "bytes": 6548,
+      "note": "two players both rank 1 (tie); seat_stats is an empty object; recovery key present",
+      "origin": "run-dir",
+      "path": "runs/report/tied-ranks-empty-seat-stats.json",
+      "sha256": "927cc00df2c317452b3d1430c4d4964983ffb0702817f4fdd690e6e320dc0358",
+      "source": ".agent-eval/runs/game_ruTF2kmaokEXtyXuCmI-mapG/report.json"
+    },
+    {
+      "bytes": 992,
+      "note": "nested died_at/forensics blocks; stderr_tail array; nullable seat_local_revision",
+      "origin": "run-dir",
+      "path": "runs/sidecar/exit-diagnostic.json",
+      "sha256": "708ba72900e1af2379d4f4e81624f37082e192b306576df4f4a466e604f0f5b1",
+      "source": ".agent-eval/runs/game_Dn9lOXuTgVaNzhDP3FAKmiDz/sidecar-exit-diagnostic.json"
+    },
+    {
+      "bytes": 2286,
+      "note": "array-of-diagnostics history for the same run",
+      "origin": "run-dir",
+      "path": "runs/sidecar/exit-history.json",
+      "sha256": "a7b68d1da53605b24efbfb691a76ecd20ae288243b87a2c94992cfec3fdbac0a",
+      "source": ".agent-eval/runs/game_Dn9lOXuTgVaNzhDP3FAKmiDz/sidecar-exit-history.json"
+    }
+  ],
+  "generated_for": "@arena/wire decode-parity tests",
+  "schema_version": 1
+}

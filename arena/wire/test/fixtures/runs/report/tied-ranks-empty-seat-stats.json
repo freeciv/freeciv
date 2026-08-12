@@ -1,0 +1,229 @@
+{
+  "episode": "/Users/cryogenicplanet/general/game_eval/freeciv/.agent-eval/runs/game_ruTF2kmaokEXtyXuCmI-mapG",
+  "manifest": {
+    "benchmark_valid": false,
+    "bridge_status_file": "bridge-status.jsonl",
+    "checkpoints": 8,
+    "commands_file": "server.commands",
+    "config": {
+      "action_timeout_s": 600.0,
+      "control_protocol": "full-control-v2",
+      "difficulty": "hard",
+      "lobby_timeout_s": 300.0,
+      "max_agents": 2,
+      "mode": "multiplayer",
+      "name": "session-game_ruTF2km",
+      "objective": "Maximize final Freeciv civilization score.",
+      "places": 2,
+      "ruleset": "classic",
+      "schema_version": 1,
+      "seats": [
+        {
+          "ai_difficulty": null,
+          "base_url": null,
+          "controller_fingerprint": "c13b2ded092a7e60c2d94f9b6b701e8940144b53f518b9ff7f945af20bdd201f",
+          "controller_label": "pi-gpt-5.6-sol",
+          "controller_metadata": {},
+          "id": "place-1",
+          "instructions": "Maximize final Freeciv civilization score.",
+          "model": null,
+          "name": "AgentPlace1",
+          "options": {},
+          "type": "external"
+        },
+        {
+          "ai_difficulty": null,
+          "base_url": null,
+          "controller_fingerprint": "552ff12cb67a1116035949e71f1f1d96ca815a8a215e35faec8ec0dd38e1da0c",
+          "controller_label": "claude-code-claude-opus-5",
+          "controller_metadata": {},
+          "id": "place-2",
+          "instructions": "Maximize final Freeciv civilization score.",
+          "model": null,
+          "name": "AgentPlace2",
+          "options": {},
+          "type": "external"
+        }
+      ],
+      "seeds": [
+        962777152
+      ],
+      "server": {
+        "frame_interval": 1,
+        "frame_zoom": 1
+      },
+      "timing_mode": "default",
+      "turns": 5000
+    },
+    "control_protocol": "full-control-v2",
+    "created_at": 1786499011.7524679,
+    "current_turn": 7,
+    "error": "the full-control-v2 native boundary wedged and turn 7 already used its 2 recovery attempts; the seat's client stopped answering while still running (last native client state running, sidecar error deadline_exceeded), lost at turn 7 phase 1 while the phase ledger was awaiting_agent, at seat revision 48",
+    "finished_at": 1786510215.860662,
+    "frames": 8,
+    "game_id": "game_ruTF2kmaokEXtyXuCmI-mapG",
+    "invalid_reasons": [
+      "v2_boundary_wedged"
+    ],
+    "joined_agents": 2,
+    "recovery": {
+      "attempts": 4,
+      "by_kind": {
+        "autosave_rollback": 2,
+        "sidecar_reattach": 2
+      },
+      "by_outcome": {
+        "abandoned": 2,
+        "failed": 2
+      },
+      "recovered_to_turns": [],
+      "rewound_applied_actions": false
+    },
+    "resolved_places": [
+      {
+        "controller": "agent",
+        "controller_fingerprint": "c13b2ded092a7e60c2d94f9b6b701e8940144b53f518b9ff7f945af20bdd201f",
+        "controller_label": "pi-gpt-5.6-sol",
+        "controller_metadata": {},
+        "controller_type": "external",
+        "joined": true,
+        "model": null,
+        "place": 1,
+        "player_color": "#0067A5",
+        "player_name": "AgentPlace1",
+        "seat_id": "place-1"
+      },
+      {
+        "controller": "agent",
+        "controller_fingerprint": "552ff12cb67a1116035949e71f1f1d96ca815a8a215e35faec8ec0dd38e1da0c",
+        "controller_label": "claude-code-claude-opus-5",
+        "controller_metadata": {},
+        "controller_type": "external",
+        "joined": true,
+        "model": null,
+        "place": 2,
+        "player_color": "#F38400",
+        "player_name": "AgentPlace2",
+        "seat_id": "place-2"
+      }
+    ],
+    "returncode": 0,
+    "schema_version": 1,
+    "scorelog_file": "score.log",
+    "start_count": 1,
+    "started_at": 1786499037.569258,
+    "state": "failed",
+    "status": "failed",
+    "trace_file": "decisions.jsonl",
+    "video_file": "game.mp4"
+  },
+  "recovery": {
+    "attempts": 4,
+    "by_kind": {
+      "autosave_rollback": 2,
+      "sidecar_reattach": 2
+    },
+    "by_outcome": {
+      "abandoned": 2,
+      "failed": 2
+    },
+    "recovered_to_turns": [],
+    "rewound_applied_actions": false
+  },
+  "score": {
+    "final_turn": 8,
+    "players": [
+      {
+        "added_turn": 1,
+        "alive": true,
+        "controller_fingerprint": "c13b2ded092a7e60c2d94f9b6b701e8940144b53f518b9ff7f945af20bdd201f",
+        "last_score_turn": 8,
+        "metrics": {
+          "bnp": 4,
+          "cities": 2,
+          "contentpop": 2,
+          "corruption": 2,
+          "culture": 0,
+          "gold": 62,
+          "gov": 1,
+          "happypop": 0,
+          "landarea": 24000,
+          "literacy": 0,
+          "luxrate": 0,
+          "mfg": 4,
+          "munits": 2,
+          "pollution": 0,
+          "pop": 2,
+          "riots": 0,
+          "scirate": 60,
+          "score": 2,
+          "settledarea": 3000,
+          "settlers": 0,
+          "spaceship": 0,
+          "specialists": 0,
+          "taxrate": 40,
+          "techout": 2,
+          "techs": 0,
+          "unhappypop": 0,
+          "unitsbuilt": 2,
+          "unitskilled": 0,
+          "unitslost": 0,
+          "unitsused": 2,
+          "wonders": 0
+        },
+        "name": "Pi-gpt-5.6-sol",
+        "player_id": 0,
+        "rank": 1,
+        "removed_turn": null,
+        "score": 2,
+        "seat_id": "place-1"
+      },
+      {
+        "added_turn": 1,
+        "alive": true,
+        "controller_fingerprint": "552ff12cb67a1116035949e71f1f1d96ca815a8a215e35faec8ec0dd38e1da0c",
+        "last_score_turn": 8,
+        "metrics": {
+          "bnp": 3,
+          "cities": 2,
+          "contentpop": 2,
+          "corruption": 1,
+          "culture": 0,
+          "gold": 55,
+          "gov": 1,
+          "happypop": 0,
+          "landarea": 35000,
+          "literacy": 0,
+          "luxrate": 0,
+          "mfg": 8,
+          "munits": 1,
+          "pollution": 0,
+          "pop": 2,
+          "riots": 0,
+          "scirate": 60,
+          "score": 2,
+          "settledarea": 5000,
+          "settlers": 0,
+          "spaceship": 0,
+          "specialists": 0,
+          "taxrate": 40,
+          "techout": 2,
+          "techs": 0,
+          "unhappypop": 0,
+          "unitsbuilt": 1,
+          "unitskilled": 0,
+          "unitslost": 0,
+          "unitsused": 2,
+          "wonders": 0
+        },
+        "name": "Claude-code-claude-opus-5",
+        "player_id": 1,
+        "rank": 1,
+        "removed_turn": null,
+        "score": 2,
+        "seat_id": "place-2"
+      }
+    ]
+  },
+  "seat_stats": {}
+}

@@ -5,7 +5,9 @@
   "type": "module",
   "description": "Arena wire protocol: packet schemas and codecs shared by every arena package",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./agent": "./src/agent/index.ts",
+    "./gateway": "./src/gateway/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

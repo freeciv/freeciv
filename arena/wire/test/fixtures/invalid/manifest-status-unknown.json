@@ -1,0 +1,84 @@
+{
+ "benchmark_valid": false,
+ "bridge_status_file": "bridge-status.jsonl",
+ "checkpoints": 0,
+ "commands_file": "server.commands",
+ "config": {
+  "action_timeout_s": 60.0,
+  "lobby_timeout_s": 300.0,
+  "max_agents": 1,
+  "mode": "single",
+  "name": "session-game_6QXA45i",
+  "objective": "Maximize final Freeciv civilization score.",
+  "places": 2,
+  "ruleset": "classic",
+  "schema_version": 1,
+  "seats": [
+   {
+    "base_url": null,
+    "controller_fingerprint": null,
+    "controller_label": null,
+    "controller_metadata": {},
+    "id": "place-1",
+    "instructions": "Maximize final Freeciv civilization score.",
+    "model": null,
+    "name": "AgentPlace1",
+    "options": {},
+    "type": "external"
+   },
+   {
+    "base_url": null,
+    "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+    "controller_label": null,
+    "controller_metadata": {},
+    "id": "place-2",
+    "instructions": null,
+    "model": null,
+    "name": "NativePlace2",
+    "options": {},
+    "type": "native"
+   }
+  ],
+  "seeds": [
+   1340354100
+  ],
+  "server": {
+   "frame_interval": 1,
+   "frame_zoom": 1
+  },
+  "turns": 100
+ },
+ "created_at": 1785472469.121226,
+ "current_turn": null,
+ "error": "cancelled by owner",
+ "finished_at": 1785472628.024742,
+ "frames": 0,
+ "game_id": "game_6QXA45i9eElOfyQx3c_eevMN",
+ "invalid_reasons": [],
+ "joined_agents": 0,
+ "resolved_places": [
+  {
+   "controller": "agent",
+   "joined": false,
+   "place": 1,
+   "player_name": "AgentPlace1",
+   "seat_id": "place-1"
+  },
+  {
+   "controller": "native_classic_ai",
+   "joined": false,
+   "place": 2,
+   "player_name": "NativePlace2",
+   "seat_id": "place-2"
+  }
+ ],
+ "returncode": 0,
+ "schema_version": 1,
+ "scorelog_file": "score.log",
+ "start_count": 0,
+ "started_at": null,
+ "state": "cancelled",
+ "status": "quantum",
+ "trace_file": "decisions.jsonl",
+ "video_file": null
+}

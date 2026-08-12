@@ -1,0 +1,198 @@
+{
+  "episode": "/Users/cryogenicplanet/general/game_eval/freeciv/.agent-eval/runs/game_s4nXvSZVXIWkf48_3iNCFNFE",
+  "manifest": {
+    "benchmark_valid": true,
+    "bridge_status_file": "bridge-status.jsonl",
+    "checkpoints": 101,
+    "commands_file": "server.commands",
+    "config": {
+      "action_timeout_s": 60.0,
+      "lobby_timeout_s": 300.0,
+      "max_agents": 1,
+      "mode": "single",
+      "name": "session-game_s4nXvSZ",
+      "objective": "Maximize final Freeciv civilization score.",
+      "places": 2,
+      "ruleset": "classic",
+      "schema_version": 1,
+      "seats": [
+        {
+          "base_url": null,
+          "controller_fingerprint": "0d49fe6760e115b766ed4c7b8f5802a780b6b3fe8f507fcad491a8b1a8e7b2bc",
+          "controller_label": "pi-gpt-5.5",
+          "controller_metadata": {},
+          "id": "place-1",
+          "instructions": "Maximize final Freeciv civilization score.",
+          "model": null,
+          "name": "AgentPlace1",
+          "options": {},
+          "type": "external"
+        },
+        {
+          "base_url": null,
+          "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+          "controller_label": null,
+          "controller_metadata": {},
+          "id": "place-2",
+          "instructions": null,
+          "model": null,
+          "name": "NativePlace2",
+          "options": {},
+          "type": "native"
+        }
+      ],
+      "seeds": [
+        1236840660
+      ],
+      "server": {
+        "frame_interval": 1,
+        "frame_zoom": 1
+      },
+      "turns": 100
+    },
+    "created_at": 1785646304.8250618,
+    "current_turn": 100,
+    "error": null,
+    "finished_at": 1785646557.950411,
+    "frames": 101,
+    "game_id": "game_s4nXvSZVXIWkf48_3iNCFNFE",
+    "invalid_reasons": [],
+    "joined_agents": 1,
+    "resolved_places": [
+      {
+        "controller": "agent",
+        "controller_fingerprint": "0d49fe6760e115b766ed4c7b8f5802a780b6b3fe8f507fcad491a8b1a8e7b2bc",
+        "controller_label": "pi-gpt-5.5",
+        "controller_metadata": {},
+        "joined": true,
+        "place": 1,
+        "player_name": "AgentPlace1",
+        "seat_id": "place-1"
+      },
+      {
+        "controller": "native_classic_ai",
+        "joined": false,
+        "place": 2,
+        "player_name": "NativePlace2",
+        "seat_id": "place-2"
+      }
+    ],
+    "returncode": 0,
+    "schema_version": 1,
+    "scorelog_file": "score.log",
+    "start_count": 1,
+    "started_at": 1785646370.3994071,
+    "state": "completed",
+    "status": "completed",
+    "trace_file": "decisions.jsonl",
+    "video_file": "game.mp4"
+  },
+  "score": {
+    "final_turn": 101,
+    "players": [
+      {
+        "controller_fingerprint": "0d49fe6760e115b766ed4c7b8f5802a780b6b3fe8f507fcad491a8b1a8e7b2bc",
+        "metrics": {
+          "bnp": 109,
+          "cities": 23,
+          "contentpop": 45,
+          "corruption": 29,
+          "culture": 0,
+          "gold": 1003,
+          "gov": 4,
+          "happypop": 1,
+          "landarea": 183000,
+          "literacy": 0,
+          "luxrate": 0,
+          "mfg": 67,
+          "munits": 9,
+          "pollution": 0,
+          "pop": 48,
+          "riots": 0,
+          "scirate": 80,
+          "score": 109,
+          "settledarea": 62000,
+          "settlers": 7,
+          "spaceship": 0,
+          "specialists": 1,
+          "taxrate": 20,
+          "techout": 87,
+          "techs": 25,
+          "unhappypop": 1,
+          "unitsbuilt": 60,
+          "unitskilled": 2,
+          "unitslost": 8,
+          "unitsused": 35,
+          "wonders": 1
+        },
+        "name": "AgentPlace1",
+        "player_id": 0,
+        "rank": 1,
+        "score": 109,
+        "seat_id": "place-1"
+      },
+      {
+        "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+        "metrics": {
+          "bnp": 128,
+          "cities": 26,
+          "contentpop": 51,
+          "corruption": 32,
+          "culture": 0,
+          "gold": 1222,
+          "gov": 4,
+          "happypop": 0,
+          "landarea": 299000,
+          "literacy": 0,
+          "luxrate": 0,
+          "mfg": 84,
+          "munits": 3,
+          "pollution": 0,
+          "pop": 51,
+          "riots": 0,
+          "scirate": 80,
+          "score": 100,
+          "settledarea": 67000,
+          "settlers": 6,
+          "spaceship": 0,
+          "specialists": 0,
+          "taxrate": 20,
+          "techout": 101,
+          "techs": 22,
+          "unhappypop": 0,
+          "unitsbuilt": 51,
+          "unitskilled": 1,
+          "unitslost": 1,
+          "unitsused": 35,
+          "wonders": 0
+        },
+        "name": "NativePlace2",
+        "player_id": 1,
+        "rank": 2,
+        "score": 100,
+        "seat_id": "place-2"
+      }
+    ]
+  },
+  "seat_stats": {
+    "place-1": {
+      "controller_fingerprint": "0d49fe6760e115b766ed4c7b8f5802a780b6b3fe8f507fcad491a8b1a8e7b2bc",
+      "decisions": 100,
+      "fallbacks": 0,
+      "input_tokens": 0,
+      "mean_latency_ms": 1615.181,
+      "output_tokens": 0,
+      "turns": 100
+    },
+    "place-2": {
+      "controller_fingerprint": "a91991f2448230d006e992848530ac125c0b66c6d5e026ddecc783fe1d6e0c0a",
+      "decisions": 0,
+      "fallbacks": 0,
+      "input_tokens": 0,
+      "latency_ms": 0.0,
+      "mean_latency_ms": 0,
+      "output_tokens": 0,
+      "turns": 100
+    }
+  }
+}
