@@ -87,7 +87,9 @@ in {game_id}. This directory is your private player workspace and scratchpad \
 (once — a second join is refused), `./play start`, and keep playing one full \
 turn per call with `./play do "..." --end --await --brief` until the game is \
 terminal. Choose every action yourself: no bots, no delegating to the game's \
-AI. Your opponent is live; play to win."""
+AI. Your opponent is live; play to win. An automated watchdog watches \
+the match: if it is your turn and you have gone idle, it re-prompts you \
+- treat those prompts as your cue to continue, never as conversation."""
 
 
 def _herdr(*cli_args: str, timeout_s: float = 120.0) -> dict:
@@ -191,6 +193,30 @@ The players run in herdr as agents named {player_names}. Your tools:
     {status_url}   # match state (admin token is in your environment)
 
 Loop: check every few minutes. Your own turn ends the moment you go idle, so never end a turn while the match is not yet underway — between checks, run `sleep 180` in your shell and check again, repeating until the match is running past turn 3. If a player is idle or blocked without having finished the match, read its terminal to see why, then nudge it with a short, specific prompt (for example: the exact error it printed and the remedy the error names). A player can wander into the wrong directory — its harness may resume an old session elsewhere — so every nudge should lead with the absolute workspace path to cd into. If a player keeps failing on the same command three times, stop nudging and report the pattern loudly instead. Never work around a player by acting in its place."""
+
+
+def _spawn_watchdog(
+    repo_root: Path, game_id: str, seats: list[tuple[str, str, str]],
+) -> Path:
+    """Detach the deterministic turn watchdog; returns its log path.
+
+    `seats` is (controller_label, herdr_name, workspace) per player.  The
+    watchdog is plain python (agent_eval.play_watchdog): it exits by itself
+    when the game is terminal, and its log is the audit trail of every nudge.
+    """
+    log_dir = repo_root / ".agent-eval"
+    log_dir.mkdir(mode=0o700, exist_ok=True)
+    log_path = log_dir / f"watchdog-{game_id}.log"
+    command = [sys.executable, "-B", "-m", "agent_eval.play_watchdog",
+               "--game-id", game_id]
+    for label, herdr_name, workspace in seats:
+        command += ["--player", f"{label}={herdr_name}={workspace}"]
+    with open(log_path, "ab") as log:
+        subprocess.Popen(
+            command, cwd=repo_root, stdout=log, stderr=log,
+            stdin=subprocess.DEVNULL, start_new_session=True,
+        )
+    return log_path
 
 
 def _spawn_herdr_babysitter(
@@ -564,9 +590,13 @@ def main(argv: list[str] | None = None) -> int:
              "submit the kickoff prompt; the agent joins from inside",
     )
     parser.add_argument(
-        "--no-babysitter", action="store_true",
-        help="with --herdr: skip the babysitter agent that shepherds the "
-             "match until it is underway",
+        "--babysitter", action="store_true",
+        help="with --herdr: also spawn the LLM babysitter agent (the "
+             "deterministic watchdog always runs; this adds judgment on top)",
+    )
+    parser.add_argument(
+        "--no-watchdog", action="store_true",
+        help="with --herdr: skip the deterministic turn watchdog",
     )
     parser.add_argument(
         "--repo-root", default=str(REPO_ROOT), help=argparse.SUPPRESS,
@@ -607,7 +637,18 @@ def main(argv: list[str] | None = None) -> int:
                     f"({state}) — attach with `herdr agent attach {herdr_name}`"
                 )
             print("Both agents were told to run ./play join themselves.")
-            if not args.no_babysitter:
+            if not args.no_watchdog:
+                log_path = _spawn_watchdog(
+                    repo_root, game_id,
+                    [
+                        (f"{harness}-{model}", herdr, str(ws))
+                        for (harness, model), herdr, ws in zip(
+                            players, spawned_names, workspaces,
+                        )
+                    ],
+                )
+                print(f"  watchdog: running detached, log {log_path}")
+            if args.babysitter:
                 service = os.environ.get(
                     "AGENT_EVAL_SERVICE_URL", "https://freeciv-api.localhost",
                 )
