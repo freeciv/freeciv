@@ -78,7 +78,7 @@ action_id aw_actions_transform[MAX_NUM_ACTIONS];
 action_id aw_actions_extra[MAX_NUM_ACTIONS];
 action_id aw_actions_rmextra[MAX_NUM_ACTIONS];
 
-static struct timer *aw_timer = NULL;
+static struct timer *aw_timer = nullptr;
 
 /**********************************************************************//**
   Free resources allocated for autoworkers system
@@ -86,7 +86,7 @@ static struct timer *aw_timer = NULL;
 void adv_workers_free(void)
 {
   timer_destroy(aw_timer);
-  aw_timer = NULL;
+  aw_timer = nullptr;
 }
 
 /**********************************************************************//**
@@ -145,7 +145,7 @@ adv_want adv_workers_road_bonus(const struct civ_map *nmap,
   int dep_count = 0;
   struct extra_type *pextra;
 
-  if (proad == NULL) {
+  if (proad == nullptr) {
     return 0;
   }
 
@@ -183,13 +183,13 @@ adv_want adv_workers_road_bonus(const struct civ_map *nmap,
       is_slow[i] = (build_time == 0 || build_time > 5);
 
       if (!real_road[i]) {
-	unit_list_iterate(tile1->units, punit) {
+        unit_list_iterate(tile1->units, punit) {
           if (punit->activity == ACTIVITY_GEN_ROAD) {
-            /* If a road, or its dependency is being built here, consider as if it's already
-	     * built. */
+            /* If a road, or its dependency is being built here,
+             * consider as if it's already built. */
             int build_rnbr;
 
-            fc_assert(punit->activity_target != NULL);
+            fc_assert(punit->activity_target != nullptr);
 
             build_rnbr = road_number(extra_road_get(punit->activity_target));
 
@@ -203,7 +203,7 @@ adv_want adv_workers_road_bonus(const struct civ_map *nmap,
               }
             }
           }
-	} unit_list_iterate_end;
+        } unit_list_iterate_end;
       }
     }
   }
@@ -415,7 +415,7 @@ autoworker_tile_behavior(const struct tile *ptile,
 {
   const struct player *owner = tile_owner(ptile);
 
-  if (NULL != owner && !pplayers_allied(owner, param->owner)) {
+  if (owner != nullptr && !pplayers_allied(owner, param->owner)) {
     return TB_IGNORE;
   }
 
@@ -427,7 +427,7 @@ autoworker_tile_behavior(const struct tile *ptile,
 
   The returned value is the goodness of the best tile and action found.
   If this return value is > 0, then best_tile indicates the tile chosen,
-  bestact indicates the activity it wants to do, and path (if not NULL)
+  bestact indicates the activity it wants to do, and path (if not nullptr)
   indicates the path to follow for the unit. If 0 is returned
   then there are no worthwhile activities available.
 
@@ -437,7 +437,7 @@ autoworker_tile_behavior(const struct tile *ptile,
   state contains, for each tile, the unit id of the worker en route,
   and the eta of this worker (if any). This information
   is used to possibly displace this previously assigned worker.
-  if this array is NULL, workers are never displaced.
+  if this array is nullptr, workers are never displaced.
 **************************************************************************/
 adv_want worker_evaluate_improvements(const struct civ_map *nmap,
                                       struct unit *punit,
@@ -461,7 +461,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
   int best_delay = 0;
 
   /* Closest worker, if any, headed towards target tile */
-  struct unit *enroute = NULL;
+  struct unit *enroute = nullptr;
 
   pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
@@ -534,11 +534,11 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
 
           /* Now, consider various activities... */
           aw_transform_action_iterate(act) {
-            struct extra_type *target = NULL;
-            enum extra_cause cause =
-                activity_to_extra_cause(action_id_get_activity(act));
-            enum extra_rmcause rmcause =
-                activity_to_extra_rmcause(action_id_get_activity(act));
+            struct extra_type *target = nullptr;
+            enum extra_cause cause
+              = activity_to_extra_cause(action_id_get_activity(act));
+            enum extra_rmcause rmcause
+              = activity_to_extra_rmcause(action_id_get_activity(act));
 
             if (cause != EC_NONE) {
               target = next_extra_for_tile(ptile, cause, pplayer,
@@ -651,7 +651,7 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
 
               proad = extra_road_get(pextra);
 
-              if (proad != NULL && road_provides_move_bonus(proad)) {
+              if (proad != nullptr && road_provides_move_bonus(proad)) {
                 int mc_multiplier = 1;
                 int mc_divisor = 1;
                 int old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
@@ -663,8 +663,8 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
                   if (tile_has_extra(ptile, pold) && pold != pextra) {
                     struct road_type *po_road = extra_road_get(pold);
 
-                    /* This ignores the fact that new road may be native to units that
-                     * old road is not. */
+                    /* This ignores the fact that new road may be native
+                     * to units that old road is not. */
                     if (po_road->move_cost < old_move_cost) {
                       old_move_cost = po_road->move_cost;
                     }
@@ -819,14 +819,14 @@ adv_want worker_evaluate_improvements(const struct civ_map *nmap,
     /* Fill in dummy values. The callers should check if the return value
      * is > 0 but this will avoid confusing them. */
     *best_act = ACTIVITY_IDLE;
-    *best_tile = NULL;
+    *best_tile = nullptr;
   }
 
   if (ppath) {
     if (*ppath != nullptr) {
       pf_path_destroy(*ppath);
     }
-    *ppath = *best_tile ? pf_map_path(pfm, *best_tile) : NULL;
+    *ppath = *best_tile ? pf_map_path(pfm, *best_tile) : nullptr;
   }
 
   pf_map_destroy(pfm);
@@ -847,8 +847,8 @@ struct city *worker_evaluate_city_requests(struct unit *punit,
   struct pf_map *pfm;
   struct pf_position pos;
   int best_value = -1;
-  struct worker_task *best = NULL;
-  struct city *taskcity = NULL;
+  struct worker_task *best = nullptr;
+  struct city *taskcity = nullptr;
   int dist = FC_INFINITY;
   const struct civ_map *nmap = &(wld.map);
 
@@ -876,7 +876,7 @@ struct city *worker_evaluate_city_requests(struct unit *punit,
                                                parameter.omniscience,
                                                ptask->tgt, ptask->ptile)) {
         /* Closest worker, if any, headed towards target tile */
-        struct unit *enroute = NULL;
+        struct unit *enroute = nullptr;
 
         if (state) {
           enroute = player_unit_by_number(pplayer,
@@ -915,11 +915,11 @@ struct city *worker_evaluate_city_requests(struct unit *punit,
 
   *best_task = best;
 
-  if (ppath != NULL) {
-    if (*ppath != NULL) {
+  if (ppath != nullptr) {
+    if (*ppath != nullptr) {
       pf_path_destroy(*ppath);
     }
-    *ppath = best ? pf_map_path(pfm, best->ptile) : NULL;
+    *ppath = best ? pf_map_path(pfm, best->ptile) : nullptr;
   }
 
   pf_map_destroy(pfm);
@@ -939,9 +939,9 @@ void auto_worker_findwork(const struct civ_map *nmap,
 {
   struct worker_task *best_task;
   enum unit_activity best_act;
-  struct tile *best_tile = NULL;
+  struct tile *best_tile = nullptr;
   struct extra_type *best_target;
-  struct pf_path *path = NULL;
+  struct pf_path *path = nullptr;
   struct city *taskcity;
 
   /* Time it will take worker to complete its given task */
@@ -954,9 +954,9 @@ void auto_worker_findwork(const struct civ_map *nmap,
       && recursion > unit_list_size(pplayer->units) * 1.5) {
     log_warn("Workers displacing each other recursing too much.");
 
-    adv_unit_new_task(punit, AUT_NONE, NULL);
+    adv_unit_new_task(punit, AUT_NONE, nullptr);
     set_unit_activity(punit, ACTIVITY_IDLE, ACTION_NONE);
-    send_unit_info(NULL, punit);
+    send_unit_info(nullptr, punit);
 
     return; /* Avoid further recursion. */
   }
@@ -971,8 +971,8 @@ void auto_worker_findwork(const struct civ_map *nmap,
 
   taskcity = worker_evaluate_city_requests(punit, &best_task, &path, state);
 
-  if (taskcity != NULL) {
-    if (path != NULL) {
+  if (taskcity != nullptr) {
+    if (path != nullptr) {
       completion_time = pf_path_last_position(path)->turn;
     }
 
@@ -986,7 +986,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
       clear_worker_task(taskcity, best_task);
     }
 
-    if (path != NULL) {
+    if (path != nullptr) {
       pf_path_destroy(path);
     }
 
@@ -1014,7 +1014,7 @@ void auto_worker_findwork(const struct civ_map *nmap,
                              completion_time);
     }
 
-    if (NULL != path) {
+    if (path != nullptr) {
       pf_path_destroy(path);
     }
   }
@@ -1035,7 +1035,7 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
 {
   /* Run the "autoworker" program */
   if (punit->server.adv->task == AUT_AUTO_WORKER) {
-    struct pf_map *pfm = NULL;
+    struct pf_map *pfm = nullptr;
     struct pf_parameter parameter;
     bool working = FALSE;
     struct unit *displaced;
@@ -1073,9 +1073,9 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
       int saved_id = punit->id;
       struct tile *old_pos = unit_tile(punit);
 
-      displaced->goto_tile = NULL;
+      displaced->goto_tile = nullptr;
       auto_worker_findwork(nmap, pplayer, displaced, state, recursion + 1);
-      if (NULL == player_unit_by_number(pplayer, saved_id)) {
+      if (player_unit_by_number(pplayer, saved_id) == nullptr) {
         /* Actions of the displaced worker somehow caused this worker
          * to die. (maybe by recursively giving control back to this unit)
          */
@@ -1118,17 +1118,17 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
       alive = adv_follow_path(punit, *ppath, best_tile);
 
       if (alive && same_pos(unit_tile(punit), best_tile)
-	  && punit->moves_left > 0) {
+          && punit->moves_left > 0) {
         enum gen_action action = activity_default_action(best_act);
 
-	/* Reached destination and can start working immediately */
+        /* Reached destination and can start working immediately */
         if (activity_requires_target(best_act)) {
           unit_activity_handling_targeted(punit, best_act, best_target,
                                           action);
         } else {
           unit_activity_handling(punit, best_act, action);
         }
-        send_unit_info(NULL, punit); /* FIXME: Probably duplicate */
+        send_unit_info(nullptr, punit); /* FIXME: Probably duplicate */
 
         UNIT_LOG(LOG_DEBUG, punit,
                  "reached its worksite and started work");
@@ -1140,7 +1140,7 @@ bool auto_worker_setup_work(const struct civ_map *nmap,
                  punit->moves_left);
       }
       pf_path_destroy(*ppath);
-      *ppath = NULL;
+      *ppath = nullptr;
     } else {
       UNIT_LOG(LOG_DEBUG, punit,
                "does not find path (%d, %d) -> (%d, %d)",
@@ -1191,7 +1191,7 @@ void auto_workers_player(struct player *pplayer)
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
   aw_timer = timer_renew(aw_timer, TIMER_CPU, TIMER_DEBUG,
-                         aw_timer != NULL ? NULL : "autoworkers");
+                         aw_timer != nullptr ? nullptr : "autoworkers");
   timer_start(aw_timer);
 
   if (is_ai(pplayer)) {
