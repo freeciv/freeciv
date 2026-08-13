@@ -80,12 +80,13 @@ fi
 
 QTPARAMS=""
 
-AUDIO=sdl2
-TOOLS=manual,ruleup
+AUDIO="sdl2"
+TOOLS="manual,ruleup"
 case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;
   gtk4) FCMP="gtk4" ;;
-  sdl2) FCMP="gtk4" ;;
+  sdl2) FCMP="gtk4"
+        AUDIO="sdl2" ;;
   sdl3) FCMP="gtk4"
         AUDIO="sdl3" ;;
   qt6) CLIENT="qt"
