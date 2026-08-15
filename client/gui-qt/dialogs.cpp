@@ -3905,13 +3905,22 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
   int diplomat_id = actor->id;
   int diplomat_target_id = tcity->id;
   pfcn_void func;
-  choice_dialog *cd = new choice_dialog(_("Sabotage"),
-                                        _("Select Improvement to Sabotage"),
-                                        gui()->game_tab_widget,
-                                        diplomat_queue_handle_secondary);
+  choice_dialog *cd;
   int nr = 0;
   struct astring stra = ASTRING_INIT;
   QList<QVariant> actor_and_target;
+
+  if (paction->result == ACTRES_STRIKE_BUILDING) {
+    cd = new choice_dialog(_("Strike"),
+                           _("Select Improvement to Strike"),
+                           gui()->game_tab_widget,
+                           diplomat_queue_handle_secondary);
+  } else {
+    cd = new choice_dialog(_("Sabotage"),
+                           _("Select Improvement to Sabotage"),
+                           gui()->game_tab_widget,
+                           diplomat_queue_handle_secondary);
+  }
 
   // Should be set before sending request to the server.
   fc_assert(is_more_user_input_needed);
