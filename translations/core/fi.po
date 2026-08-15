@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
-"PO-Revision-Date: 2026-07-05 21:03+0300\n"
+"POT-Creation-Date: 2026-08-15 19:26+0300\n"
+"PO-Revision-Date: 2026-08-15 19:35+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -4550,7 +4550,7 @@ msgstr "Graafisen tilan avaaminen epäonnistui."
 msgid "Freeciv (%s)"
 msgstr "Freeciv (%s)"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
@@ -7047,7 +7047,7 @@ msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr ""
 "Kopioin gtk3.22-asiakasohjelman asetuksia gtk4-asiakasohjelman asetuksiksi."
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -42725,31 +42725,36 @@ msgid "Enter password for %s:"
 msgstr "Anna käyttäjän %s salasana:"
 
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 msgid "First time login. Set a new password and confirm it."
 msgstr "Ensimmäinen kirjautumisesi. Aseta salasanasi, ja vahvista se."
 
 #: server/auth.c:141
+#, c-format
+msgid "Registration for %s requested."
+msgstr "Rekisteröintipyyntö käyttäjältä %s vastaanotettu."
+
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Pahoittelen, palvelin sallii vain ennalta rekisteröityjä käyttäjiä."
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr ""
 "%s jätettiin ulkopuolelle: Vain ennalta rekisteröidyt käyttäjät sallittu."
 
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "Pahoittelen, liian monta yritystä meni vikaan..."
 
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "%s jätetty ulkopuolelle: Liian monta salasanavahvistusta uudelle käyttäjälle."
 
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -42757,34 +42762,44 @@ msgstr ""
 "Varoitus: Virhe tallentaessa tietokantaan. Jatkan, mutta tietosi eivät "
 "tallennu."
 
-#: server/auth.c:222
+#: server/auth.c:183
+#, c-format
+msgid "Error writing to database for: %s"
+msgstr "Virhe kirjoitettaessa tietokantaan käyttäjän %s tietoja."
+
+#: server/auth.c:185
+#, c-format
+msgid "%s registered."
+msgstr "%s rekisteröitynyt."
+
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s jätetty ulkopuolelle: Liian monta epäonnistunutta salasanayritystä."
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "todennus epäonnistui"
 
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "Annoit väärän salasanan, yritä uudelleen."
 
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr "Pahoittelen, yhteytesi aikakatkaistiin..."
 
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s jätettiin ulkopuolelle: Yhteyden aikakatkaisu salasanaa odottaessa."
 
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "Salasanasi on liian lyhyt, alaraja on %d merkkiä. Anna uusi salasana."
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
