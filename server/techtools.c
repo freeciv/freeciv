@@ -481,8 +481,8 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
     /* Send all player an updated info of the owner of the Marco Polo
      * Wonder if this wonder has become obsolete. */
-    if (0 < had_embassies[i]
-        && 0 <= get_player_bonus(aplayer, EFT_HAVE_EMBASSIES)) {
+    if (had_embassies[i] > 0
+        && get_player_bonus(aplayer, EFT_HAVE_EMBASSIES) <= 0) {
       send_player_all_c(aplayer, aplayer->connections);
       players_iterate(pother_player) {
         if (aplayer != pother_player) {
