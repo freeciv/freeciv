@@ -1,6 +1,6 @@
 diff -Nurd tolua-5.2/src/bin/lua/array.lua tolua-5.2/src/bin/lua/array.lua
---- tolua-5.2/src/bin/lua/array.lua	2024-05-31 07:35:56.682991087 +0300
-+++ tolua-5.2/src/bin/lua/array.lua	2025-05-01 18:16:05.012460144 +0300
+--- tolua-5.2/src/bin/lua/array.lua	2026-08-13 02:26:11.386530703 +0300
++++ tolua-5.2/src/bin/lua/array.lua	2025-05-17 04:26:34.974396726 +0300
 @@ -87,7 +87,7 @@
   output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
  	output('#ifndef TOLUA_RELEASE\n')
@@ -29,8 +29,8 @@ diff -Nurd tolua-5.2/src/bin/lua/array.lua tolua-5.2/src/bin/lua/array.lua
  end
  
 diff -Nurd tolua-5.2/src/bin/lua/class.lua tolua-5.2/src/bin/lua/class.lua
---- tolua-5.2/src/bin/lua/class.lua	2024-05-31 07:35:56.682991087 +0300
-+++ tolua-5.2/src/bin/lua/class.lua	2025-05-01 18:11:12.830722336 +0300
+--- tolua-5.2/src/bin/lua/class.lua	2026-08-13 02:26:11.386666934 +0300
++++ tolua-5.2/src/bin/lua/class.lua	2025-05-17 04:26:34.974396726 +0300
 @@ -35,10 +35,10 @@
   	output('#ifdef __cplusplus\n')
   	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",'.._collect[self.type]..');')
@@ -45,8 +45,8 @@ diff -Nurd tolua-5.2/src/bin/lua/class.lua tolua-5.2/src/bin/lua/class.lua
   output(' tolua_beginmodule(tolua_S,"'..self.lname..'");')
   local i=1
 diff -Nurd tolua-5.2/src/bin/lua/declaration.lua tolua-5.2/src/bin/lua/declaration.lua
---- tolua-5.2/src/bin/lua/declaration.lua	2024-05-31 07:35:56.682991087 +0300
-+++ tolua-5.2/src/bin/lua/declaration.lua	2025-05-01 18:14:35.951932167 +0300
+--- tolua-5.2/src/bin/lua/declaration.lua	2026-08-13 02:26:11.386752115 +0300
++++ tolua-5.2/src/bin/lua/declaration.lua	2025-05-17 04:26:34.974396726 +0300
 @@ -307,10 +307,10 @@
       output('   {')
       output('#ifdef __cplusplus\n')
@@ -61,8 +61,8 @@ diff -Nurd tolua-5.2/src/bin/lua/declaration.lua tolua-5.2/src/bin/lua/declarati
       output('   }')
     else
 diff -Nurd tolua-5.2/src/bin/lua/function.lua tolua-5.2/src/bin/lua/function.lua
---- tolua-5.2/src/bin/lua/function.lua	2024-05-31 07:35:56.682991087 +0300
-+++ tolua-5.2/src/bin/lua/function.lua	2025-05-01 18:15:38.324302059 +0300
+--- tolua-5.2/src/bin/lua/function.lua	2026-08-13 02:26:11.386855345 +0300
++++ tolua-5.2/src/bin/lua/function.lua	2025-05-17 04:26:34.974396726 +0300
 @@ -145,7 +145,7 @@
   -- check self
   if class and self.name~='new' and static==nil then
@@ -86,22 +86,22 @@ diff -Nurd tolua-5.2/src/bin/lua/function.lua tolua-5.2/src/bin/lua/function.lua
       output('   }')
      elseif self.ptr == '&' then
 diff -Nurd tolua-5.2/src/bin/lua/package.lua tolua-5.2/src/bin/lua/package.lua
---- tolua-5.2/src/bin/lua/package.lua	2024-05-31 07:35:56.682991087 +0300
-+++ tolua-5.2/src/bin/lua/package.lua	2025-05-01 18:10:55.666619656 +0300
-@@ -156,8 +156,8 @@
+--- tolua-5.2/src/bin/lua/package.lua	2026-08-13 02:26:11.386937846 +0300
++++ tolua-5.2/src/bin/lua/package.lua	2026-08-13 02:26:47.793712754 +0300
+@@ -163,8 +163,8 @@
   output("{")
   output(" tolua_open(tolua_S);")
   output(" tolua_reg_types(tolua_S);")
 - output(" tolua_module(tolua_S,NULL,",self:hasvar(),");")
 - output(" tolua_beginmodule(tolua_S,NULL);")
-+ output(" tolua_module(tolua_S, nullptr, ",self:hasvar(),");")
-+ output(" tolua_beginmodule(tolua_S, nullptr);")
++ output(" tolua_module(tolua_S, NULL, ",self:hasvar(),");")
++ output(" tolua_beginmodule(tolua_S, NULL);")
   local i=1
   while self[i] do
    self[i]:register()
 diff -Nurd tolua-5.2/src/bin/lua/variable.lua tolua-5.2/src/bin/lua/variable.lua
---- tolua-5.2/src/bin/lua/variable.lua	2024-05-31 07:35:56.682991087 +0300
-+++ tolua-5.2/src/bin/lua/variable.lua	2025-05-01 18:17:27.216946438 +0300
+--- tolua-5.2/src/bin/lua/variable.lua	2026-08-13 02:26:11.387039876 +0300
++++ tolua-5.2/src/bin/lua/variable.lua	2025-05-17 04:26:34.974396726 +0300
 @@ -117,7 +117,7 @@
   if class and static==nil then
  	 output('#ifndef TOLUA_RELEASE\n')
