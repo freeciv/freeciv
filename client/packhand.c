@@ -5871,7 +5871,7 @@ void handle_access_area(const struct packet_access_area *packet)
 
   aarea = fc_malloc(sizeof(struct access_area));
 
-  aarea->cities = nullptr;
+  aarea->cities = city_list_new();
   aarea->index = packet->index;
   aarea->capital = packet->capital;
   aarea->tiledefs = packet->tiledefs;
@@ -5904,6 +5904,7 @@ void handle_city_access_area(const struct packet_city_access_area *packet)
       fc_assert(pcity->aarea == nullptr);
 
       pcity->aarea = aarea;
+      city_list_append(aarea->cities, pcity);
       break;
     }
   } aarea_list_iterate_end;

@@ -3648,6 +3648,11 @@ void destroy_city_virtual(struct city *pcity)
   /* Free rally points */
   city_rally_point_clear(pcity);
 
+  if (pcity->aarea != nullptr) {
+    city_list_remove(pcity->aarea->cities, pcity);
+    pcity->aarea = nullptr;
+  }
+
   unit_list_destroy(pcity->units_supported);
   trade_route_list_destroy(pcity->routes);
   if (pcity->tile_cache != nullptr) {
