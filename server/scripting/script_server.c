@@ -54,13 +54,13 @@
 /***********************************************************************//**
   Lua virtual machine states.
 ***************************************************************************/
-static struct fc_lua *fcl_main = NULL;
-static struct fc_lua *fcl_unsafe = NULL;
+static struct fc_lua *fcl_main = nullptr;
+static struct fc_lua *fcl_unsafe = nullptr;
 
 /***********************************************************************//**
   Optional game script code (useful for scenarios).
 ***************************************************************************/
-static char *script_server_code = NULL;
+static char *script_server_code = nullptr;
 
 static void script_server_vars_init(void);
 static void script_server_vars_free(void);
@@ -135,7 +135,7 @@ bool script_server_load_file(const char *filename, char **buf)
   fc_stat(filename, &stats);
   ffile = fc_fopen(filename, "r");
 
-  if (ffile != NULL) {
+  if (ffile != nullptr) {
     int len;
 
     buffer = fc_malloc(stats.st_size + 1);
@@ -247,7 +247,7 @@ static void script_server_vars_save(struct section_file *file)
 ***************************************************************************/
 static void script_server_code_init(void)
 {
-  script_server_code = NULL;
+  script_server_code = nullptr;
 }
 
 /***********************************************************************//**
@@ -257,7 +257,7 @@ static void script_server_code_free(void)
 {
   if (script_server_code) {
     free(script_server_code);
-    script_server_code = NULL;
+    script_server_code = nullptr;
   }
 }
 
@@ -291,16 +291,16 @@ static void script_server_code_save(struct section_file *file)
 ***************************************************************************/
 bool script_server_init(void)
 {
-  if (fcl_main != NULL) {
-    fc_assert_ret_val(fcl_main->state != NULL, FALSE);
+  if (fcl_main != nullptr) {
+    fc_assert_ret_val(fcl_main->state != nullptr, FALSE);
 
     return TRUE;
   }
 
-  fcl_main = luascript_new(NULL, TRUE);
-  if (fcl_main == NULL) {
+  fcl_main = luascript_new(nullptr, TRUE);
+  if (fcl_main == nullptr) {
     luascript_destroy(fcl_main);
-    fcl_main = NULL;
+    fcl_main = nullptr;
 
     return FALSE;
   }
@@ -331,10 +331,10 @@ bool script_server_init(void)
   script_server_functions_define();
 
   /* Add the unsafe instance. */
-  fcl_unsafe = luascript_new(NULL, FALSE);
-  if (fcl_unsafe == NULL) {
+  fcl_unsafe = luascript_new(nullptr, FALSE);
+  if (fcl_unsafe == nullptr) {
     luascript_destroy(fcl_unsafe);
-    fcl_unsafe = NULL;
+    fcl_unsafe = nullptr;
 
     return FALSE;
   }
@@ -365,19 +365,19 @@ bool script_server_init(void)
 ***************************************************************************/
 void script_server_free(void)
 {
-  if (fcl_main != NULL) {
+  if (fcl_main != nullptr) {
     script_server_code_free();
     script_server_vars_free();
 
     /* luascript_signal_free() is called by luascript_destroy(). */
     luascript_destroy(fcl_main);
-    fcl_main = NULL;
+    fcl_main = nullptr;
   }
 
-  if (fcl_unsafe != NULL) {
+  if (fcl_unsafe != nullptr) {
     /* luascript_signal_free() is called by luascript_destroy(). */
     luascript_destroy(fcl_unsafe);
-    fcl_unsafe = NULL;
+    fcl_unsafe = nullptr;
   }
 }
 
@@ -428,7 +428,7 @@ static void script_server_signals_create(void)
    * starting from 0. */
   depr = luascript_signal_create(fcl_main, "turn_started", 2,
                                  API_TYPE_INT, API_TYPE_INT);
-  deprecate_signal(depr, "turn_started", "turn_begin", "3.0", NULL);
+  deprecate_signal(depr, "turn_started", "turn_begin", "3.0", nullptr);
 
   luascript_signal_create(fcl_main, "player_phase_begin", 2,
                           API_TYPE_PLAYER, API_TYPE_BOOL);
@@ -450,7 +450,7 @@ static void script_server_signals_create(void)
   /* Deprecated form of the 'city_size_change' signal for the case of growth. */
   depr = luascript_signal_create(fcl_main, "city_growth", 2,
                                  API_TYPE_CITY, API_TYPE_INT);
-  deprecate_signal(depr, "city_growth", "city_size_change", "2.6", NULL);
+  deprecate_signal(depr, "city_growth", "city_size_change", "2.6", nullptr);
 
   /* Only includes units built in cities, for now. */
   luascript_signal_create(fcl_main, "unit_built", 2,
@@ -497,7 +497,7 @@ static void script_server_signals_create(void)
    * conquest. */
   depr = luascript_signal_create(fcl_main, "city_lost", 3,
                                  API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
-  deprecate_signal(depr, "city_lost", "city_transferred", "2.6", NULL);
+  deprecate_signal(depr, "city_lost", "city_transferred", "2.6", nullptr);
 
   luascript_signal_create(fcl_main, "hut_enter", 2,
                           API_TYPE_UNIT, API_TYPE_STRING);
@@ -517,7 +517,7 @@ static void script_server_signals_create(void)
    * support. */
   depr = luascript_signal_create(fcl_main, "disaster", 2,
                           API_TYPE_DISASTER, API_TYPE_CITY);
-  deprecate_signal(depr, "disaster", "disaster_occurred", "2.6", NULL);
+  deprecate_signal(depr, "disaster", "disaster_occurred", "2.6", nullptr);
 
   luascript_signal_create(fcl_main, "achievement_gained", 3,
                           API_TYPE_ACHIEVEMENT, API_TYPE_PLAYER,
@@ -550,13 +550,13 @@ static void script_server_signals_create(void)
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_TILE);
   deprecate_signal(depr, "action_started_unit_units",
-                   "action_started_unit_stack", "3.3", NULL);
+                   "action_started_unit_stack", "3.3", nullptr);
 
   luascript_signal_create(fcl_main, "action_finished_unit_units", 4,
                           API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT, API_TYPE_TILE);
   deprecate_signal(depr, "action_finished_unit_units",
-                   "action_finished_unit_stack", "3.3", NULL);
+                   "action_finished_unit_stack", "3.3", nullptr);
 
   luascript_signal_create(fcl_main, "action_started_unit_city", 3,
                           API_TYPE_ACTION,
