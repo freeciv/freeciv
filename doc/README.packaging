@@ -29,6 +29,8 @@ Updating from 3.2 to 3.3
   Make such builds with meson instead.
 * Minimum Python requirement for code generation scripts is 3.6.
 * Lua version to use is 5.5 now
+* Libsqlite is no longer a requirement if building neither
+  sqlite3 fcdb backend nor any modpack installer
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
