@@ -159,8 +159,6 @@ static GtkWidget *select_units_item;
 static GtkWidget *select_wonders_item;
 static GtkWidget *select_cma_item;
 
-static int city_dialog_shell_is_modal;
-
 bool select_menu_cached;
 
 /************************************************************************//**
@@ -292,8 +290,6 @@ static void city_model_fill(GtkListStore *store,
 void city_report_dialog_popup(bool raise)
 {
   if (!city_dialog_shell) {
-    city_dialog_shell_is_modal = FALSE;
-    
     create_city_report_dialog(FALSE);
 
     select_menu_cached = FALSE;
