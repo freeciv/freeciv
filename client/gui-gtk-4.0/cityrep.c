@@ -137,8 +137,6 @@ static GMenu *impr_a_select_menu;
 static GMenu *wndr_a_select_menu;
 static GMenu *governor_select_menu;
 
-static int city_dialog_shell_is_modal;
-
 static GMenu *cityrep_menu;
 static GActionGroup *cityrep_group;
 static GMenu *display_menu;
@@ -272,8 +270,6 @@ static void city_model_fill(GtkListStore *store,
 void city_report_dialog_popup(bool raise)
 {
   if (!city_dialog_shell) {
-    city_dialog_shell_is_modal = FALSE;
-
     create_city_report_dialog(FALSE);
   }
 
