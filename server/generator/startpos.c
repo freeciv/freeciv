@@ -59,7 +59,7 @@ static int get_tile_value(struct tile *ptile)
   /* Give one point for each food / shield / trade produced. */
   value = 0;
   output_type_iterate(o) {
-    value += city_tile_output(NULL, ptile, FALSE, o);
+    value += city_tile_output(nullptr, ptile, FALSE, o);
   } output_type_iterate_end;
 
   roaded = tile_virtual_new(ptile);
@@ -74,38 +74,38 @@ static int get_tile_value(struct tile *ptile)
       struct road_type *proad = extra_road_get(pextra);
 
       if (road_can_be_built(proad, roaded)
-          && are_reqs_active(&start_worker_ctxt, NULL,
+          && are_reqs_active(&start_worker_ctxt, nullptr,
                              &pextra->reqs, RPT_CERTAIN)) {
         tile_add_extra(roaded, pextra);
       }
     } extra_type_by_cause_iterate_end;
   }
 
-  nextra = next_extra_for_tile(roaded, EC_IRRIGATION, NULL, NULL);
+  nextra = next_extra_for_tile(roaded, EC_IRRIGATION, nullptr, nullptr);
 
-  if (nextra != NULL) {
+  if (nextra != nullptr) {
     struct tile *vtile;
 
     vtile = tile_virtual_new(roaded);
     tile_apply_activity(vtile, ACTIVITY_IRRIGATE, nextra);
     irrig_bonus = -value;
     output_type_iterate(o) {
-      irrig_bonus += city_tile_output(NULL, vtile, FALSE, o);
+      irrig_bonus += city_tile_output(nullptr, vtile, FALSE, o);
     } output_type_iterate_end;
     tile_virtual_destroy(vtile);
   }
 
-  nextra = next_extra_for_tile(roaded, EC_MINE, NULL, NULL);
+  nextra = next_extra_for_tile(roaded, EC_MINE, nullptr, nullptr);
 
   /* Same set of roads used with mine as with irrigation. */
-  if (nextra != NULL) {
+  if (nextra != nullptr) {
     struct tile *vtile;
 
     vtile = tile_virtual_new(roaded);
     tile_apply_activity(vtile, ACTIVITY_MINE, nextra);
     mine_bonus = -value;
     output_type_iterate(o) {
-      mine_bonus += city_tile_output(NULL, vtile, FALSE, o);
+      mine_bonus += city_tile_output(nullptr, vtile, FALSE, o);
     } output_type_iterate_end;
     tile_virtual_destroy(vtile);
   }
@@ -286,7 +286,7 @@ static bool filter_starters(const struct tile *ptile, const void *data)
 }
 
 /************************************************************************//**
-  where do the different nations start on the map? well this function tries
+  Where do the different nations start on the map? Well, this function tries
   to spread them out on the different islands.
 
   MAPSTARTPOS_SINGLE: one player per isle.
@@ -303,8 +303,8 @@ bool create_start_positions(enum map_startpos mode,
   struct tile *ptile;
   int k, sum;
   struct start_filter_data data;
-  int *tile_value_aux = NULL;
-  int *tile_value = NULL;
+  int *tile_value_aux = nullptr;
+  int *tile_value = nullptr;
   int min_goodies_per_player = 1500;
   int total_goodies = 0;
   /* This is factor is used to maximize land used in extreme little maps */
@@ -369,7 +369,7 @@ bool create_start_positions(enum map_startpos mode,
 
   /* Only consider tiles marked as 'starter terrains' by ruleset */
   whole_map_iterate(&(wld.map), starter_tile) {
-    if (!filter_starters(starter_tile, NULL)) {
+    if (!filter_starters(starter_tile, nullptr)) {
       tile_value[tile_index(starter_tile)] = 0;
     } else {
       /* Oceanic terrain cannot be starter terrain currently */
@@ -379,8 +379,8 @@ bool create_start_positions(enum map_startpos mode,
     }
   } whole_map_iterate_end;
 
-  /* evaluate the best places on the map */
-  adjust_int_map_filtered(tile_value, 0, 1000, NULL, filter_starters);
+  /* Evaluate the best places on the map */
+  adjust_int_map_filtered(tile_value, 0, 1000, nullptr, filter_starters);
 
   /* Sort the islands so the best ones come first.  Note that islands[0] is
    * unused so we just skip it. */
@@ -403,8 +403,8 @@ bool create_start_positions(enum map_startpos mode,
 
   if (MAPSTARTPOS_ALL == mode
       && (islands[1].goodies < player_count() * min_goodies_per_player
-	  || islands[1].goodies < total_goodies * (0.5 + 0.8 * efactor)
-	  / (1 + efactor))) {
+          || islands[1].goodies < total_goodies * (0.5 + 0.8 * efactor)
+          / (1 + efactor))) {
     log_verbose("No good enough island; falling back to startpos=VARIABLE");
     mode = MAPSTARTPOS_VARIABLE;
   }
@@ -433,17 +433,17 @@ bool create_start_positions(enum map_startpos mode,
                          ? player_count() : player_count() / 2);
 
       for (nr = 1; nr <= 1 + wld.map.num_continents - num_islands; nr++) {
-	if (islands[nr + num_islands - 1].goodies < min_goodies_per_player) {
-	  break;
-	}
-	var_goodies
-	    = (islands[nr].goodies - islands[nr + num_islands - 1].goodies)
-	    / (islands[nr + num_islands - 1].goodies);
+        if (islands[nr + num_islands - 1].goodies < min_goodies_per_player) {
+          break;
+        }
+        var_goodies
+          = (islands[nr].goodies - islands[nr + num_islands - 1].goodies)
+          / (islands[nr + num_islands - 1].goodies);
 
-	if (var_goodies < best * 0.9) {
-	  best = var_goodies;
-	  first = nr;
-	}
+        if (var_goodies < best * 0.9) {
+          best = var_goodies;
+          first = nr;
+        }
       }
     }
 
@@ -507,8 +507,8 @@ bool create_start_positions(enum map_startpos mode,
 
   free(islands);
   free(islands_index);
-  islands = NULL;
-  islands_index = NULL;
+  islands = nullptr;
+  islands_index = nullptr;
 
   if (!is_tmap) {
     destroy_tmap();
