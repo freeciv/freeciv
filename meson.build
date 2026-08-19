@@ -949,6 +949,18 @@ else
   qt_opts = 'cpp_std=c++17'
 endif
 
+qt_mod = import('qt6')
+
+if cxx_build and cxx_compiler.has_argument('-Wno-sfinae-incomplete')
+  qt_si_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'],
+                         version: '< 6.11',
+                         required: false)
+
+  if qt_si_dep.found()
+    add_global_arguments('-Wno-sfinae-incomplete', language : 'cpp')
+  endif
+endif
+
 if get_option('audio') != 'none'
   priv_conf_data.set('AUDIO_SDL', 1)
 
@@ -3715,7 +3727,6 @@ if gtk4_theme
                              'freeciv/themes/gtk4/Freeciv/gtk-4.0'))
 endif
 
-qt_mod = import('qt6')
 qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'],
                     version: '>= ' + qt_vercheck,
                     required: false)
