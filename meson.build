@@ -915,6 +915,35 @@ else
   qt_cppflags = ['-std=c++17', '-fPIC']
 endif
 
+if qtver == 'qt6' or qtver == 'qt6x'
+  qt_mod = import('qt6')
+
+  qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
+else
+  qt_mod = import('qt5')
+
+  qt_dep = dependency('Qt5', modules: ['Core', 'Gui', 'Widgets'], required: false)
+endif
+
+if cxx_build and qtver != 'qt5' and qt_dep.found() and \
+   cxx_compiler.has_argument('-Wno-sfinae-incomplete')
+  if cxx_compiler.compiles(
+'''#include <QtCore>
+int main()
+{
+#if QT_VERSION >= 0x060b00
+  fail
+#endif
+  return 0;
+}
+''',
+    name: 'qt < 6.11',
+    args: [qt_cppflags, '-Wno-sfinae-incomplete'],
+    dependencies: qt_dep)
+    add_global_arguments('-Wno-sfinae-incomplete', language : 'cpp')
+  endif
+endif
+
 if get_option('audio') != 'none'
   priv_conf_data.set('AUDIO_SDL', 1)
 
@@ -3570,16 +3599,6 @@ if gtk4_theme
                'data/themes/gtk4/Freeciv/gtk-4.0/bg.png',
                install_dir : join_paths(get_option('datadir'),
                              'freeciv/themes/gtk4/Freeciv/gtk-4.0'))
-endif
-
-if qtver == 'qt6' or qtver == 'qt6x'
-  qt_mod = import('qt6')
-
-  qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
-else
-  qt_mod = import('qt5')
-
-  qt_dep = dependency('Qt5', modules: ['Core', 'Gui', 'Widgets'], required: false)
 endif
 
 if qt_dep.found() and cxx_build
