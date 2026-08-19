@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
-"PO-Revision-Date: 2026-06-26 17:05+0200\n"
+"POT-Creation-Date: 2026-08-02 00:42+0300\n"
+"PO-Revision-Date: 2026-08-18 14:34+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -1521,8 +1521,8 @@ msgstr "debug POZIOM"
 #: tools/manual/fc_manual.c:469 server/civserver.c:277
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
-"d:plik1,min,max:...)"
+"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub d:plik1,min,"
+"max:...)"
 
 #: client/client_main.c:430 tools/fcmp/mpcmdline.c:84
 #: tools/manual/fc_manual.c:475 server/civserver.c:283
@@ -40553,8 +40553,8 @@ msgstr ""
 "podbijanych ludów, na przykład Greków czy Etrusków, i stała się podstawą "
 "kultury zachodniej. Nawet dziś wpływ kultury rzymskiej w dziedzinie prawa, "
 "filozofii i języka jest trudny do przecenienia. Państwo rzymskie przetrwało "
-"ponad tysiąc lat: najpierw było królestwem, potem republiką, a od 27 r. "
-"p.n.e. cesarstwem. W IV w. n.e. imperium rozpadło się na Cesarstwo "
+"ponad tysiąc lat: najpierw było królestwem, potem republiką, a od 27 r. p.n."
+"e. cesarstwem. W IV w. n.e. imperium rozpadło się na Cesarstwo "
 "Zachodniorzymskie, które upadło w 476 roku, oraz Cesarstwo Wschodniorzymskie "
 "(zwane też Bizantyńskim), które przetrwało przez kolejne tysiąc lat. Stolica "
 "tego drugiego, Konstantynopol, została zdobyta przez Turków w 1453 roku."
@@ -42665,30 +42665,35 @@ msgid "Enter password for %s:"
 msgstr "Wprowadź hasło dla %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 msgid "First time login. Set a new password and confirm it."
 msgstr "Pierwsze logowanie. Wprowadź nowe hasło i potwierdź je."
 
 #: server/auth.c:141
+#, c-format
+msgid "Registration for %s requested."
+msgstr "Zażądano rejestracji dla %s."
+
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Ten serwer przyjmuje jedynie zarejestrowanych użytkowników."
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr "%s został odrzucony: Jedynie zarejestrowani użytkownicy."
 
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "Zbyt wiele prób..."
 
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "%s został odrzucony: Zbyt wiele błędnych haseł pasuje do nowego użytkownika."
 
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -42696,34 +42701,44 @@ msgstr ""
 "Ostrzeżenie: Wystąpił błąd przy zapisywaniu bazy danych. Kontynuuję, lecz "
 "twoje stystystyki nie zostaną zapisane."
 
-#: server/auth.c:222
+#: server/auth.c:183
+#, c-format
+msgid "Error writing to database for: %s"
+msgstr "Błąd zapisu do bazy danych dla: %s"
+
+#: server/auth.c:185
+#, c-format
+msgid "%s registered."
+msgstr "Zarejestrowano %s."
+
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s został odrzucony: Zbyt wiele błędnych haseł."
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "uwierzytelnienie nie powiodło się"
 
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "Niepoprawne hasło. Spróbuj ponownie."
 
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr "Przekroczono limit czasu połączenia."
 
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s został odrzucony: Przekroczono czas oczekiwania na hasło."
 
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "Hasło zbyt krótkie. Wymagane co najmniej %d znaków. Spróbuj ponownie."
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -43402,8 +43417,8 @@ msgstr ""
 #: server/cityturn.c:1729
 #, c-format
 msgid ""
-"%s can't build %s from the worklist; city must be of size %d or "
-"smaller.Postponing..."
+"%s can't build %s from the worklist; city must be of size %d or smaller."
+"Postponing..."
 msgstr ""
 "%s nie może zbudować %s z planu prac; wymagany maksymalny rozmiar miasta to "
 "%d. Przesunięto na późniejszy termin..."
@@ -43956,8 +43971,8 @@ msgstr "Mieszkańcy %s rozważają przeniesienie się do %s (%s)."
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
-"Ostrzeżenie: opcja %s jest przestarzała. Aby włączyć opcję metaserwera użyj "
-"-m.\n"
+"Ostrzeżenie: opcja %s jest przestarzała. Aby włączyć opcję metaserwera użyj -"
+"m.\n"
 
 #: server/civserver.c:216
 #, c-format
@@ -47878,8 +47893,8 @@ msgid ""
 "Please read the section \"Requirement vector rules\" in doc/README.actions"
 msgstr ""
 "Aktywator dla %s posiada wymóg lokalny DiplRel %s w target_reqs! Proszę "
-"przeczytać sekcję \"Requirement vector rules\" w dokumencie doc/"
-"README.actions"
+"przeczytać sekcję \"Requirement vector rules\" w dokumencie doc/README."
+"actions"
 
 #: server/rssanity.c:1420
 #, c-format
@@ -49493,9 +49508,9 @@ msgid ""
 "    a   = Fast attack unit (eg., Horsemen)\n"
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
-"Powinien to być ciąg znaków, w którym każdy znak odpowiada jednej "
-"jednostce.Pierwsza jednostka początkowa musi być natywna przynajmniej dla "
-"jednego terenu początkowego. Znaczenia poszczególnych znaków:\n"
+"Powinien to być ciąg znaków, w którym każdy znak odpowiada jednej jednostce."
+"Pierwsza jednostka początkowa musi być natywna przynajmniej dla jednego "
+"terenu początkowego. Znaczenia poszczególnych znaków:\n"
 "    c   = Założyciel miast (np. Osadnicy)\n"
 "    w   = Pracownik (np. Robotnicy)\n"
 "    x   = Zwiadowca (np. Badacz)\n"
@@ -55733,11 +55748,11 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgstr "Nie rób nic względem chatek."
 
 #~ msgid ""
-#~ "Preparing user effects to help you port edit.unit_move() and "
-#~ "edit.unit_teleport() Lua calls."
+#~ "Preparing user effects to help you port edit.unit_move() and edit."
+#~ "unit_teleport() Lua calls."
 #~ msgstr ""
-#~ "Przygotowuję efekty użytkownika, aby przeportować polecenia Lua "
-#~ "edit.unit_move() i edit.unit_teleport() Lua calls."
+#~ "Przygotowuję efekty użytkownika, aby przeportować polecenia Lua edit."
+#~ "unit_move() i edit.unit_teleport() Lua calls."
 
 #~ msgid ""
 #~ "It is safe to delete the effects if you don't use unit_move() or "
@@ -62468,8 +62483,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #, fuzzy
 #~ msgid ""
-#~ "Automatically saved games will have name \"<prefix>-T<turn>-"
-#~ "Y<year>.sav\". This setting sets the <prefix> part."
+#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>."
+#~ "sav\". This setting sets the <prefix> part."
 #~ msgstr ""
 #~ "Autosave'y będą miały nazwę \"<prefix><rok>.sav\". Gdzie <prefix> jest "
 #~ "podanym przedrostkiem."
