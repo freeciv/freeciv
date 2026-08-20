@@ -1333,8 +1333,13 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   cont->id1 = actor->id; /* Spy id */
   cont->value = paction->id;
 
-  pstr = create_utf8_from_char_fonto(_("Select Improvement to Sabotage"),
-                                     FONTO_ATTENTION);
+  if (paction->result == ACTRES_STRIKE_BUILDING) {
+    pstr = create_utf8_from_char_fonto(_("Select Improvement to Strike"),
+                                       FONTO_ATTENTION);
+  } else {
+    pstr = create_utf8_from_char_fonto(_("Select Improvement to Sabotage"),
+                                       FONTO_ATTENTION);
+  }
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
