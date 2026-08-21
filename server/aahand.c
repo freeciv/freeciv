@@ -72,6 +72,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
 
         unit_tile_set(access_unit, city_tile(pcity));
         pft_fill_unit_parameter(&parameter, nmap, access_unit);
+        parameter.omniscience = TRUE;
         pfm = pf_map_new(&parameter);
 
         city_list_iterate(plr->cities, pcity2) {
