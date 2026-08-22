@@ -349,7 +349,7 @@ void save_restore_sane_state(void)
   /* Try to get the server back to a vaguely sane state */
   server_game_free();
   server_game_init(FALSE);
-  load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE);
+  load_rulesets(nullptr, nullptr, FALSE, nullptr, TRUE, FALSE, TRUE);
 
   researches_iterate(presearch) {
     presearch->techs_researched = recalculate_techs_researched(presearch);
