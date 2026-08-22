@@ -7,7 +7,7 @@ EXTRA_DIST =						\
 		emscripten/emsbuild.sh			\
 		emscripten/emssetup.sh			\
 		emscripten/setups/cross-ems.tmpl	\
-		flatpak/build_flatpak.sh		\
+		flatpak/build_flatpaks.sh		\
 		flatpak/org.freeciv.gtk322.yml		\
 		flatpak/org.freeciv.gtk4.yml		\
 		flatpak/org.freeciv.gtk4x.yml		\
