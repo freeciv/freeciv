@@ -420,7 +420,9 @@ static void meswin_dialog_free(struct meswin_dialog *pdialog)
 ****************************************************************************/
 void meswin_dialog_popup(bool raise)
 {
-  if (NULL == meswin.shell) {
+  if (meswin.shell == NULL
+      || (meswin.shell->type == GUI_DIALOG_WINDOW
+          && meswin.shell->v.window == NULL)) {
     meswin_dialog_init(&meswin);
   }
 
