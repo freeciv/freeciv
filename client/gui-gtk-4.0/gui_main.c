@@ -128,7 +128,6 @@ GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
 GtkWidget *top_notebook, *bottom_notebook, *right_notebook;
 GtkWidget *map_widget;
-static GtkWidget *bottom_hpaned;
 
 PangoFontDescription *city_names_style = NULL;
 PangoFontDescription *city_productions_style = NULL;
@@ -1496,7 +1495,6 @@ static void setup_widgets(void)
   /* *** The message window -- this is a detachable widget *** */
 
   if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_MERGED) {
-    bottom_hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
     GtkWidget *hpaned;
@@ -1521,7 +1519,6 @@ static void setup_widgets(void)
     gtk_widget_set_margin_end(hpaned, 4);
     gtk_widget_set_margin_start(hpaned, 4);
     gtk_widget_set_margin_top(hpaned, 4);
-    bottom_hpaned = hpaned;
 
     bottom_notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
