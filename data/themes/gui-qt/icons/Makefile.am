@@ -50,6 +50,7 @@ pkgdata_DATA =          	\
 	resize.png		\
 	sentry.png		\
 	set_homecity.png	\
+	smiley.png		\
 	transform.png		\
 	units.png		\
 	unload.png		\

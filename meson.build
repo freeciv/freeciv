@@ -3749,6 +3749,7 @@ install_data(
   'data/themes/gui-qt/icons/resize.png',
   'data/themes/gui-qt/icons/sentry.png',
   'data/themes/gui-qt/icons/set_homecity.png',
+  'data/themes/gui-qt/icons/smiley.png',
   'data/themes/gui-qt/icons/transform.png',
   'data/themes/gui-qt/icons/units.png',
   'data/themes/gui-qt/icons/unload.png',
