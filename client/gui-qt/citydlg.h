@@ -435,7 +435,7 @@ class city_dialog: public qfc_dialog
 
   QHBoxLayout *single_page_layout;
   QHBoxLayout *happiness_layout;
-  QVBoxLayout *counterss_layout;
+  QVBoxLayout *counters_layout;
   QSplitter *prod_unit_splitter;
   QSplitter *central_left_splitter;
   QSplitter *central_splitter;
@@ -450,7 +450,7 @@ class city_dialog: public qfc_dialog
   QGroupBox *info_labels_group;
   QGroupBox *happiness_group;
   QWidget *happiness_widget;
-  QFrame *counterss_frame;
+  QWidget *counters_widget;
   QWidget *info_widget;
   QLabel *qlt[NUM_INFO_FIELDS];
   QLabel *cma_info_text;
@@ -480,7 +480,7 @@ class city_dialog: public qfc_dialog
   QPushButton *work_add_but;
   QPushButton *work_rem_but;
   QPushButton *happiness_button;
-  QPushButton *counterss_button;
+  QPushButton *settings_button;
   QPushButton *zoom_in_button;
   QPushButton *zoom_out_button;
   QPixmap *citizen_pixmap;
@@ -525,6 +525,7 @@ private slots:
   void show_targets();
   void show_targets_worklist();
   void show_happiness();
+  void close_counters();
   void show_counters();
   void buy();
   void dbl_click_p(QTableWidgetItem *item);
@@ -534,7 +535,7 @@ private slots:
   void worklist_up();
   void worklist_down();
   void worklist_del();
-  void display_worklist_menu(const QPoint &p);
+  void display_settings_menu();
   void disband_state_changed(bool allow_disband);
   void cma_slider(int val);
   void cma_toggle_changed(Qt::CheckState state);

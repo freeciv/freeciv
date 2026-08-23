@@ -1691,23 +1691,27 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   prev_city_but->setToolTip(_("Show previous city"));
 
   happiness_button = new QPushButton();
-  happiness_button->setIcon(fc_icons::instance()->get_icon("city-switch"));
-  happiness_button->setIconSize(QSize(56, 28));
-  connect(happiness_button, &QAbstractButton::clicked, this, &city_dialog::show_happiness);
+  happiness_button->setIcon(fc_icons::instance()->get_icon("smiley"));
+  happiness_button->setIconSize(QSize(56,28));
+  connect(happiness_button, &QAbstractButton::clicked, this,
+          &city_dialog::show_happiness);
+
+  settings_button = new QPushButton(_("Settings"));
+  connect(settings_button, &QAbstractButton::clicked, this,
+          &city_dialog::display_settings_menu);
+  settings_button->setToolTip(_("Counters, worklist, and options menu"));
 
   button->setFixedSize(64, 64);
   prev_city_but->setFixedSize(64, 64);
   next_city_but->setFixedSize(64, 64);
   happiness_button->setFixedSize(64, 32);
+  settings_button->setFixedSize(64, 32);
   vbox_layout = new QVBoxLayout;
   vbox_layout->addWidget(prev_city_but);
   vbox_layout->addWidget(next_city_but);
   vbox_layout->addWidget(button);
   vbox_layout->addWidget(happiness_button, Qt::AlignHCenter);
-
-  counterss_button = new QPushButton();
-  connect(counterss_button, &QAbstractButton::clicked, this, &city_dialog::show_counters);
-  vbox_layout->addWidget(counterss_button, Qt::AlignHCenter);
+  vbox_layout->addWidget(settings_button, Qt::AlignHCenter);
 
   update_tabs();
   hbox_layout = new QHBoxLayout;
@@ -1809,7 +1813,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   worklist_layout->addWidget(qgbprod);
   connect(p_table_p,
           &QWidget::customContextMenuRequested, this,
-          &city_dialog::display_worklist_menu);
+          &city_dialog::display_settings_menu);
   connect(production_combo_p, &progress_bar::clicked, this, &city_dialog::show_targets);
   connect(work_add_but, &QAbstractButton::clicked, this, &city_dialog::show_targets_worklist);
   connect(work_prev_but, &QAbstractButton::clicked, this, &city_dialog::worklist_up);
@@ -1866,9 +1870,9 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   gridl = new QGridLayout;
   slider_grid = new QGridLayout;
 
-  counterss_layout = new QVBoxLayout();
-  counterss_frame = new QFrame();
-  counterss_frame->setLayout(counterss_layout);
+  counters_widget = new QWidget();
+  counters_layout = new QVBoxLayout(counters_widget);
+  counters_widget->setLayout(counters_layout);
 
   qpush2
     = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
@@ -2095,23 +2099,16 @@ void city_dialog::change_production(bool next)
 }
 
 /************************************************************************//**
-  Sets tooltip for happiness/pruction button switcher
+  Sets tooltip for happiness button switcher
 ****************************************************************************/
 void city_dialog::update_tabs()
 {
   if (current_tab == happiness) {
+    happiness_button->setIcon(fc_icons::instance()->get_icon("city-switch"));
     happiness_button->setToolTip(_("Show city production"));
-    counterss_button->setToolTip(_("Show counters information"));
-
   } else {
+    happiness_button->setIcon(fc_icons::instance()->get_icon("smiley"));
     happiness_button->setToolTip(_("Show happiness information"));
-
-    if (current_tab == counters) {
-      counterss_button->setToolTip(_("Show city production"));
-    }
-    else {
-      counterss_button->setToolTip(_("Show counters information"));
-    }
   }
 }
 
@@ -2120,7 +2117,7 @@ void city_dialog::update_tabs()
 ****************************************************************************/
 void city_dialog::show_happiness()
 {
-  QWidget *active_tab = current_tab == counters ? (QWidget*) counterss_frame : prod_unit_splitter;
+  QWidget *active_tab = current_tab == counters ? (QWidget*) counters_widget : prod_unit_splitter;
   setUpdatesEnabled(false);
 
 
@@ -2151,38 +2148,47 @@ void city_dialog::show_happiness()
 }
 
 /************************************************************************//**
+  close counters tab
+****************************************************************************/
+void city_dialog::close_counters()
+{
+  setUpdatesEnabled(false);
+
+  leftbot_layout->replaceWidget(counters_widget,
+                                prod_unit_splitter,
+                                Qt::FindDirectChildrenOnly);
+  prod_unit_splitter->show();
+  prod_unit_splitter->updateGeometry();
+  counters_widget->hide();
+  current_tab = common;
+
+  setUpdatesEnabled(true);
+  update();
+  update_tabs();
+}
+
+/************************************************************************//**
   Shows counters tab
 ****************************************************************************/
 void city_dialog::show_counters()
 {
   QWidget *active_tab = current_tab == happiness ? happiness_widget : prod_unit_splitter;
-  setUpdatesEnabled(false);
-
 
   if (current_tab != counters) {
+    setUpdatesEnabled(false);
+
     leftbot_layout->replaceWidget(active_tab,
-                                  counterss_frame,
+                                  counters_widget,
                                   Qt::FindDirectChildrenOnly);
     active_tab->hide();
-    counterss_frame->show();
-    counterss_frame->updateGeometry();
+    counters_widget->show();
+    counters_widget->updateGeometry();
     current_tab = counters;
-  } else {
-    /* We do not change prod_unit_splitter to current_tab,
-     * because counters is active tab and clicked -
-     * switching to default */
-    leftbot_layout->replaceWidget(counterss_frame,
-                                  prod_unit_splitter,
-                                  Qt::FindDirectChildrenOnly);
-    prod_unit_splitter->show();
-    prod_unit_splitter->updateGeometry();
-    counterss_frame->hide();
-    current_tab = common;
-  }
 
-  setUpdatesEnabled(true);
-  update();
-  update_tabs();
+    setUpdatesEnabled(true);
+    update();
+    update_tabs();
+  }
 }
 
 /************************************************************************//**
@@ -2273,13 +2279,13 @@ city_dialog::~city_dialog()
   // Delete the one widget that currently does NOT have a parent
   if (current_tab == common) {
     delete happiness_widget;
-    delete counterss_frame;
+    delete counters_widget;
   }
   else if (current_tab == counters) {
     delete happiness_widget;
     delete prod_unit_splitter;
-  }else {
-    delete counterss_frame;
+  } else {
+    delete counters_widget;
     delete prod_unit_splitter;
   }
 }
@@ -2775,28 +2781,32 @@ void city_dialog::cma_context_menu(const QPoint &p)
 /************************************************************************//**
   Context menu on production tab in city worklist
 ****************************************************************************/
-void city_dialog::display_worklist_menu(const QPoint &p)
+void city_dialog::display_settings_menu()
 {
   QAction *action;
   QAction *disband;
   QAction *wl_save;
   QAction *wl_clear;
   QAction *wl_empty;
+  QAction *counters_action;
   QMap<QString, cid> list;
   QMap<QString, cid>::const_iterator map_iter;
   QMenu *change_menu;
   QMenu *insert_menu;
-  QMenu *list_menu;
+  QMenu *settings_menu;
   QMenu *options_menu;
   int city_id = dlgcity->id;
 
   if (!can_client_issue_orders()) {
     return;
   }
-  list_menu = new QMenu(this);
-  change_menu = list_menu->addMenu(_("Change worklist"));
-  insert_menu = list_menu->addMenu(_("Insert worklist"));
-  wl_clear = list_menu->addAction(_("Clear"));
+  settings_menu = new QMenu(this);
+  counters_action = settings_menu->addAction(_("Counters"));
+  connect(counters_action, &QAction::triggered, this,
+          &city_dialog::show_counters);
+  change_menu = settings_menu->addMenu(_("Change worklist"));
+  insert_menu = settings_menu->addMenu(_("Insert worklist"));
+  wl_clear = settings_menu->addAction(_("Clear worklist"));
   connect(wl_clear, &QAction::triggered, this, &city_dialog::clear_worklist);
   list.clear();
 
@@ -2821,9 +2831,9 @@ void city_dialog::display_worklist_menu(const QPoint &p)
     map_iter++;
   }
 
-  wl_save = list_menu->addAction(_("Save worklist"));
+  wl_save = settings_menu->addAction(_("Save worklist"));
   connect(wl_save, &QAction::triggered, this, &city_dialog::save_worklist);
-  options_menu = list_menu->addMenu(_("Options"));
+  options_menu = settings_menu->addMenu(_("Options"));
   disband = options_menu->addAction(_("Allow disbanding city"));
   disband->setCheckable(true);
   disband->setChecked(is_city_option_set(dlgcity, CITYO_DISBAND));
@@ -2861,7 +2871,7 @@ void city_dialog::display_worklist_menu(const QPoint &p)
     city_queue_insert_worklist(pcity, selected_row_p + 1, worklist);
   });
 
-  list_menu->popup(QCursor::pos());
+  settings_menu->popup(QCursor::pos());
 }
 
 /************************************************************************//**
@@ -3027,7 +3037,29 @@ void city_dialog::update_counters_table()
 
   small_font = fc_font::instance()->get_font(fonts::notify_label);
 
-  qDeleteAll(counterss_frame->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
+  qDeleteAll(counters_widget->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
+
+  QWidget *titlebar_widget = new QWidget();
+  QHBoxLayout *titlebar_layout = new QHBoxLayout(titlebar_widget);
+  titlebar_widget->setLayout(titlebar_layout);
+
+  titlebar_layout->addWidget(new QLabel(_("<u>Counters</u>"),
+                                        titlebar_widget),
+                             0, Qt::AlignCenter);
+  QPushButton *closeButton =
+    new QPushButton(fc_icons::instance()->get_icon("close"), "",
+                    titlebar_widget);
+  connect(closeButton, &QPushButton::clicked, this,
+          &city_dialog::close_counters);
+  closeButton->setFixedSize(28, 28);
+
+  titlebar_layout->setContentsMargins(11, 0, 5, 0);
+  titlebar_layout->addWidget(closeButton, 0);
+
+  counters_layout->setContentsMargins(11, 0, 11, 5);
+  counters_layout->addWidget(titlebar_widget, 0, Qt::AlignTop);
+  counters_layout->setStretch(0, 0);
+
   city_counters_iterate(pcount) {
     QString helptext;
     char buf[1024];
@@ -3053,10 +3085,10 @@ void city_dialog::update_counters_table()
     activated->setFont(*small_font);
     help->setFont(*small_font);
 
-    counterss_layout->addWidget(name);
-    counterss_layout->addWidget(value);
-    counterss_layout->addWidget(activated);
-    counterss_layout->addWidget(help);
+    counters_layout->addWidget(name);
+    counters_layout->addWidget(value);
+    counters_layout->addWidget(activated);
+    counters_layout->addWidget(help);
   } city_counters_iterate_end;
 }
 
