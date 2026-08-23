@@ -979,6 +979,14 @@ static void worklist_load(struct section_file *file, int wlist_max_length,
   worklist_init(pwl);
   pwl->length = secfile_lookup_int_default(file, 0,
                                            "%s.wl_length", path_str);
+  if (pwl->length > MAX_LEN_WORKLIST) {
+    log_sg("worklist length %d, while MAX_LEN_WORKLIST %d.",
+           pwl->length, MAX_LEN_WORKLIST);
+    pwl->length = MAX_LEN_WORKLIST;
+  } else if (pwl->length > wlist_max_length) {
+    log_sg("worklist length %d, while player's max worklist length %d.",
+           pwl->length, wlist_max_length);
+  }
 
   for (i = 0; i < pwl->length; i++) {
     kind = secfile_lookup_str(file, "%s.wl_kind%d", path_str, i);
@@ -4971,6 +4979,11 @@ static void sg_load_player_cities(struct loaddata *loading,
   wlist_max_length = secfile_lookup_int_default(loading->file, 0,
                                                 "player%d.wl_max_length",
                                                 plrno);
+  if (wlist_max_length > MAX_LEN_WORKLIST) {
+    log_sg("wlist_max_length %d over MAX_LEN_WORKLIST (%d)",
+           wlist_max_length, MAX_LEN_WORKLIST);
+  }
+
   routes_max = secfile_lookup_int_default(loading->file, 0,
                                           "player%d.routes_max_length", plrno);
 
