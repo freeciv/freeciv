@@ -41,16 +41,16 @@
 
 #include "audio.h"
 
-#define MAX_NUM_PLUGINS		2
-#define SNDSPEC_SUFFIX		".soundspec"
+#define MAX_NUM_PLUGINS         2
+#define SNDSPEC_SUFFIX          ".soundspec"
 #define MUSICSPEC_SUFFIX        ".musicspec"
 
 #define SOUNDSPEC_CAPSTR "+Freeciv-soundset-3.4-Devel-2026.Aug.05"
 #define MUSICSPEC_CAPSTR "+Freeciv-3.2-musicspec"
 
 /* Keep them open throughout */
-static struct section_file *ss_tagfile = NULL;
-static struct section_file *ms_tagfile = NULL;
+static struct section_file *ss_tagfile = nullptr;
+static struct section_file *ms_tagfile = nullptr;
 
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
@@ -79,9 +79,9 @@ static void audio_shutdown_atexit(void);
 **************************************************************************/
 const struct strvec *get_soundplugin_list(const struct option *poption)
 {
-  static struct strvec *plugin_list = NULL;
+  static struct strvec *plugin_list = nullptr;
 
-  if (NULL == plugin_list) {
+  if (plugin_list == nullptr) {
     int i;
 
     plugin_list = strvec_new();
@@ -98,12 +98,12 @@ const struct strvec *get_soundplugin_list(const struct option *poption)
   Returns a static string vector of audiosets of given type available
   on the system by searching all data directories for files matching
   suffix.
-  The list is NULL-terminated.
+  The list is nullptr-terminated.
 **************************************************************************/
 static const struct strvec *get_audio_speclist(const char *suffix,
                                                struct strvec **audio_list)
 {
-  if (NULL == *audio_list) {
+  if (*audio_list == nullptr) {
     *audio_list = fileinfolist(get_data_dirs(), suffix);
   }
 
@@ -115,7 +115,7 @@ static const struct strvec *get_audio_speclist(const char *suffix,
 **************************************************************************/
 const struct strvec *get_soundset_list(const struct option *poption)
 {
-  static struct strvec *sound_list = NULL;
+  static struct strvec *sound_list = nullptr;
 
   return get_audio_speclist(SNDSPEC_SUFFIX, &sound_list);
 }
@@ -125,7 +125,7 @@ const struct strvec *get_soundset_list(const struct option *poption)
 **************************************************************************/
 const struct strvec *get_musicset_list(const struct option *poption)
 {
-  static struct strvec *music_list = NULL;
+  static struct strvec *music_list = nullptr;
 
   return get_audio_speclist(MUSICSPEC_SUFFIX, &music_list);
 }
@@ -198,7 +198,7 @@ void audio_init(void)
 }
 
 /**********************************************************************//**
-  Returns the filename for the given audio set. Returns NULL if
+  Returns the filename for the given audio set. Returns nullptr if
   set couldn't be found. Caller has to free the return value.
 **************************************************************************/
 static const char *audiospec_fullname(const char *audioset_name,
@@ -219,8 +219,8 @@ static const char *audiospec_fullname(const char *audioset_name,
   }
 
   if (strcmp(audioset_name, audioset_default) == 0) {
-    /* avoid endless recursion */
-    return NULL;
+    /* Avoid endless recursion */
+    return nullptr;
   }
 
   /* Marked for translation, as user may see this when
@@ -244,7 +244,7 @@ static bool check_audiofile_capstr(struct section_file *sfile,
   const char *file_capstr;
 
   file_capstr = secfile_lookup_str(sfile, "%s", opt_path);
-  if (NULL == file_capstr) {
+  if (file_capstr == nullptr) {
     log_fatal("Audio spec-file \"%s\" doesn't have capability string.",
               filename);
     exit(EXIT_FAILURE);
@@ -283,9 +283,9 @@ void audio_real_init(const char *const soundset_name,
   if (strcmp(preferred_plugin_name, "none") == 0) {
     /* We explicitly choose none plugin, silently skip the code below */
     log_verbose("Proceeding with sound support disabled.");
-    ss_tagfile = NULL;
+    ss_tagfile = nullptr;
     musicspec_close(ms_tagfile);
-    ms_tagfile = NULL;
+    ms_tagfile = nullptr;
 
     return;
   }
@@ -295,9 +295,9 @@ void audio_real_init(const char *const soundset_name,
     log_normal(_("Proceeding with sound support disabled."));
     log_normal(_("For sound support, install SDL2_mixer"));
     log_normal("https://github.com/libsdl-org/SDL_mixer");
-    ss_tagfile = NULL;
+    ss_tagfile = nullptr;
     musicspec_close(ms_tagfile);
-    ms_tagfile = NULL;
+    ms_tagfile = nullptr;
 
     return;
   }
@@ -320,9 +320,9 @@ void audio_real_init(const char *const soundset_name,
     log_normal(_("Get sound sets from <%s>."),
                "https://www.freeciv.org/wiki/Sounds");
     log_normal(_("Proceeding with sound support disabled."));
-    ss_tagfile = NULL;
+    ss_tagfile = nullptr;
     musicspec_close(ms_tagfile);
-    ms_tagfile = NULL;
+    ms_tagfile = nullptr;
 
     return;
   }
@@ -430,8 +430,8 @@ static int audio_play_tag(struct section_file *sfile,
                           enum keep_style keep_old_style)
 {
   const char *soundfile;
-  const char *fullpath = NULL;
-  audio_finished_callback cb = NULL;
+  const char *fullpath = nullptr;
+  audio_finished_callback cb = nullptr;
   int ret = 0;
 
   if (!tag || strcmp(tag, "-") == 0) {
@@ -440,7 +440,7 @@ static int audio_play_tag(struct section_file *sfile,
 
   if (sfile) {
     soundfile = secfile_lookup_str(sfile, "files.%s", tag);
-    if (soundfile == NULL) {
+    if (soundfile == nullptr) {
       const char *files[MAX_ALT_AUDIO_FILES];
       int excluded = -1;
       int i;
@@ -450,13 +450,13 @@ static int audio_play_tag(struct section_file *sfile,
       for (i = 0; i < MAX_ALT_AUDIO_FILES; i++) {
         const char *ftmp = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
 
-        if (ftmp == NULL) {
+        if (ftmp == nullptr) {
           if (excluded != -1 && j == 0) {
             /* Cannot exclude the only track */
             excluded = -1;
             j++;
           }
-          files[j] = NULL;
+          files[j] = nullptr;
           break;
         }
         files[j] = ftmp;
@@ -490,7 +490,7 @@ static int audio_play_tag(struct section_file *sfile,
       cb = music_finished_callback;
     }
 
-    if (NULL == soundfile) {
+    if (soundfile == nullptr) {
       log_verbose("No sound file for tag %s", tag);
     } else {
       fullpath = fileinfoname(get_data_dirs(), soundfile);
@@ -535,7 +535,7 @@ void audio_play_sound(const char *const tag, const char *const alt_tag,
   const char *pretty_alt2_tag = alt_tag2 ? alt_tag2 : "(null)";
 
   if (gui_options.sound_enable_effects) {
-    fc_assert_ret(tag != NULL);
+    fc_assert_ret(tag != nullptr);
 
     log_debug("audio_play_sound('%s', '%s', '%s')",
               tag, pretty_alt_tag, pretty_alt2_tag);
@@ -559,7 +559,7 @@ static void real_audio_play_music(const char *const tag, char *const alt_tag,
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  fc_assert_ret(tag != NULL);
+  fc_assert_ret(tag != nullptr);
 
   log_debug("audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 
@@ -663,7 +663,7 @@ void audio_shutdown(bool play_quit_tag)
   audio_stop_usage();
 
   if (play_quit_tag) {
-    audio_play_sound("e_client_quit", NULL, NULL);
+    audio_play_sound("e_client_quit", nullptr, nullptr);
   }
 
   if (plugins[selected_plugin].initialized) {
@@ -671,13 +671,13 @@ void audio_shutdown(bool play_quit_tag)
     plugins[selected_plugin].shutdown(&(plugins[selected_plugin]));
   }
 
-  if (NULL != ss_tagfile) {
+  if (ss_tagfile != nullptr) {
     secfile_destroy(ss_tagfile);
-    ss_tagfile = NULL;
+    ss_tagfile = nullptr;
   }
-  if (NULL != ms_tagfile) {
+  if (ms_tagfile != nullptr) {
     musicspec_close(ms_tagfile);
-    ms_tagfile = NULL;
+    ms_tagfile = nullptr;
   }
 }
 

@@ -59,12 +59,12 @@ const size_t buf_size = 1024;
 
 #ifdef AUDIO_SDL3
 #define MIX_CHANNELS 8
-static MIX_Audio *mus = NULL;
-static MIX_Mixer *mixer = NULL;
+static MIX_Audio *mus = nullptr;
+static MIX_Mixer *mixer = nullptr;
 static MIX_Track *tracks[MIX_CHANNELS];
 static SDL_PropertiesID forever_loop;
 #else  /* AUDIO_SDL3 */
-static Mix_Music *mus = NULL;
+static Mix_Music *mus = nullptr;
 #endif /* AUDIO_SDL3 */
 
 static struct sample samples[MIX_CHANNELS];
@@ -115,12 +115,12 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
 {
   int j;
 #ifdef AUDIO_SDL3
-  MIX_Audio *wave = NULL;
+  MIX_Audio *wave = nullptr;
   int channel;
   static int channel_turn = 1; /* Channel 0 is music */
 #else  /* AUDIO_SDL3 */
   int i;
-  Mix_Chunk *wave = NULL;
+  Mix_Chunk *wave = nullptr;
 #endif /* AUDIO_SDL3 */
 
   if (!fullpath) {
@@ -154,12 +154,12 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
 #else  /* AUDIO_SDL3 */
     mus = Mix_LoadMUS(fullpath);
 #endif /* AUDIO_SDL3 */
-    if (mus == NULL) {
+    if (mus == nullptr) {
       log_error("Can't open file \"%s\": %s",
                 fullpath, SDL_GetError());
     }
 
-    if (cb == NULL) {
+    if (cb == nullptr) {
 #ifdef AUDIO_SDL3
       MIX_SetTrackAudio(tracks[channel], mus);
       MIX_PlayTrack(tracks[channel], forever_loop);
@@ -209,7 +209,7 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
 #else  /* AUDIO_SDL3 */
     wave = Mix_LoadWAV(fullpath);
 #endif /* AUDIO_SDL3 */
-    if (wave == NULL) {
+    if (wave == nullptr) {
       log_error("Can't open file \"%s\"", fullpath);
     }
 
@@ -224,7 +224,7 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
        longer be playing by the time we get here */
     if (samples[channel].wave) {
       MIX_DestroyAudio(samples[channel].wave);
-      samples[channel].wave = NULL;
+      samples[channel].wave = nullptr;
     }
 
     /* Remember for caching */
@@ -239,11 +239,11 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
       return FALSE;
     }
     log_verbose("Playing file \"%s\" on channel %d", fullpath, i);
-    /* Free previous sample on this channel. it will by definition no
+    /* Free previous sample on this channel. It will by definition no
        longer be playing by the time we get here */
     if (samples[i].wave) {
       Mix_FreeChunk(samples[i].wave);
-      samples[i].wave = NULL;
+      samples[i].wave = nullptr;
     }
 
     /* Remember for caching */
@@ -428,8 +428,8 @@ static bool sdl_audio_init(struct audio_plugin *self)
   }
 
 #ifdef AUDIO_SDL3
-  mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
-  if (mixer == NULL) {
+  mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+  if (mixer == nullptr) {
     log_error("Error calling MIX_CreateMixerDevice()");
 #else  /* AUDIO_SDL3 */
   /* Initialize variables */
@@ -457,7 +457,7 @@ static bool sdl_audio_init(struct audio_plugin *self)
 #ifdef AUDIO_SDL3
     tracks[i] = MIX_CreateTrack(mixer);
 #endif /* AUDIO_SDL3 */
-    samples[i].wave = NULL;
+    samples[i].wave = nullptr;
   }
 
   /* Sanity check, for now; add volume controls later */

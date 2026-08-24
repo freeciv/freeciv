@@ -20,8 +20,8 @@ extern "C" {
 /* utility */
 #include "support.h"            /* bool type */
 
-#define MAX_AUDIO_NAME_LEN		20
-#define MAX_AUDIO_DESCR_LEN		200
+#define MAX_AUDIO_NAME_LEN              20
+#define MAX_AUDIO_DESCR_LEN             200
 
 #define MAX_ALT_AUDIO_FILES             25
 
