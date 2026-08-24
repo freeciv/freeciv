@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #/***********************************************************************
-# Freeciv - Copyright (C) 2017-2023
+# Freeciv - Copyright (C) 2017-2026
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2, or (at your option)
@@ -41,6 +41,11 @@ add_sdl2_mixer_env() {
   cp $1/bin/libvorbis-0.dll $2/ &&
   cp $1/bin/libvorbisfile-3.dll $2/ &&
   cp $1/bin/libogg-0.dll $2/
+}
+
+add_sdl3_mixer_env() {
+  cp $1/bin/SDL3.dll $2/ &&
+  cp $1/bin/SDL3_mixer.dll $2/
 }
 
 add_gtk_common_env() {
@@ -117,6 +122,11 @@ add_sdl2_env() {
   cp $1/bin/SDL2_ttf.dll $2/
 }
 
+add_sdl3_env() {
+  cp $1/bin/SDL3_image.dll $2/ &&
+  cp $1/bin/SDL3_ttf.dll $2/
+}
+
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ||
    test "$2" = "" ; then
   echo "Usage: $0 <crosser dir> <gui>"
@@ -137,6 +147,9 @@ case "${GUI}" in
     FCMP="gtk4" ;;
   sdl2)
     GUINAME="SDL2"
+    FCMP="gtk4" ;;
+  sdl3)
+    GUINAME="SDL3"
     FCMP="gtk4" ;;
   qt6)
     GUINAME="Qt6"
@@ -244,9 +257,16 @@ else
     exit 1
   fi
 
-  if ! add_sdl2_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
-    echo "Copying SDL2_mixer environment failed!" >&2
-    exit 1
+  if test "${GUI}" = "sdl3" ; then
+    if ! add_sdl3_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
+      echo "Copying SDL3_mixer environment failed!" >&2
+      exit 1
+    fi
+  else
+    if ! add_sdl2_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
+      echo "Copying SDL2_mixer environment failed!" >&2
+      exit 1
+    fi
   fi
 
   case "${GUI}" in
@@ -270,6 +290,17 @@ else
       fi
       if ! add_sdl2_env "${DLLSPATH}" "${INSTDIR}" ; then
         echo "Copying sdl2 environment failed!" >&2
+        exit 1
+      fi
+      ;;
+    sdl3)
+      # For gtk4 modpack installer
+      if ! add_gtk4_env "${DLLSPATH}" "${INSTDIR}" ; then
+        echo "Copying gtk4 environment failed!" >&2
+        exit 1
+      fi
+      if ! add_sdl3_env "${DLLSPATH}" "${INSTDIR}" ; then
+        echo "Copying sdl3 environment failed!" >&2
         exit 1
       fi
       ;;
@@ -297,7 +328,7 @@ else
   fi
 
   if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ||
-     test "$GUI" = "sdl2" ; then
+     test "$GUI" = "sdl2" || test "$GUI" = "sdl3" ; then
     UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
   else
     UNINSTALLER=""
@@ -305,7 +336,7 @@ else
 
   NSI_FILE="${NSI_DIR}/client-${SETUP}-${VERREV}-${GUI}.nsi"
 
-  if test "${GUI}" = "sdl2" ; then
+  if test "${GUI}" = "sdl2" || test "${GUI}" = "sdl3" ; then
     if ! ./create-freeciv-sdl-nsi.sh \
            "${INSTDIR}" "meson/output" "${VERREV}" "${SETUP}" \
            "${GUI}" "${GUINAME}" "${UNINSTALLER}" \
