@@ -1167,7 +1167,15 @@ foreach manp : man_pages
   man_conf_data.set('DATASUBDIR', '"' + datasubdir + '"')
   configure_file(input : 'doc/man/' + manp + '.6.in',
                  output : manp + '.6',
-                 configuration : man_conf_data)
+                 configuration : man_conf_data,
+                 install_dir: join_paths(get_option('mandir'), 'man6'))
+endforeach
+
+foreach manp : man_links
+  install_data(
+    join_paths('doc/man/', manp + '.6'),
+    install_dir : join_paths(get_option('mandir'), 'man6')
+    )
 endforeach
 
 add_global_arguments('-DHAVE_CONFIG_H',
@@ -3436,20 +3444,6 @@ foreach iconsize : i
                  join_paths('data/icons/', iconsize, 'freeciv-modpack.png'),
                  join_paths('data/icons/', iconsize, 'freeciv-ruledit.png'),
                  install_dir : join_paths(get_option('datadir'), 'icons/hicolor', iconsize, 'apps'))
-endforeach
-
-foreach manp : man_pages
-  install_data(
-    join_paths(b_root, manp + '.6'),
-    install_dir : join_paths(get_option('mandir'), 'man6')
-    )
-endforeach
-
-foreach manp : man_links
-  install_data(
-    join_paths('doc/man/', manp + '.6'),
-    install_dir : join_paths(get_option('mandir'), 'man6')
-    )
 endforeach
 
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
