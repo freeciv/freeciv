@@ -180,7 +180,7 @@ msgstr "*%s (datorstyrd)* Dina skumraskaffärer har kostat dig detta krig!"
 #: ai/default/daidiplomacy.c:1389
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr "*%s (datorstyrd)* Dina fientligheter mot %s var ditt sista mistag!"
+msgstr "*%s (datorstyrd)* Dina fientligheter mot %s var ditt sista misstag!"
 
 #: ai/default/daidiplomacy.c:1496
 #, c-format
@@ -274,7 +274,7 @@ msgstr "*%s (datorstyrd)* Vad hälsad bundsförvant, jag ser att du ännu inte h
 #: ai/default/daidiplomacy.c:1884
 #, c-format
 msgid "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at peace with our mortal enemy, %s! This is unacceptable; our alliance is no more!"
-msgstr "*%s (datorstyrd)* Din usling, vi slöt ett förbund, men du har fortfarande fred med vår dödsfiende, %s! Detta är inte godtagbard, vårt förbund har upphört!"
+msgstr "*%s (datorstyrd)* Din usling, vi slöt ett förbund, men du har fortfarande fred med vår dödsfiende, %s! Detta är inte godtagbart; vårt förbund har upphört!"
 
 #: ai/default/daidiplomacy.c:1918
 #, c-format
@@ -1713,7 +1713,7 @@ msgstr "Startar lokal server…"
 
 #: client/connectdlg_common.c:282 client/connectdlg_common.c:564
 msgid "Couldn't start the server."
-msgstr "Kunde inte starta server."
+msgstr "Kunde inte starta servern."
 
 #: client/connectdlg_common.c:284 client/connectdlg_common.c:566 client/connectdlg_common.c:605
 msgid "You'll have to start one manually. Sorry..."
@@ -1731,7 +1731,7 @@ msgstr "Du måste starta servern manuellt. Beklagar…"
 
 #: client/connectdlg_common.c:601
 msgid "Couldn't connect to the server."
-msgstr "Kunde inte skapa anslutning till server."
+msgstr "Kunde inte ansluta till servern."
 
 #: client/connectdlg_common.c:603
 msgid "We probably couldn't start it from here."
@@ -9123,10 +9123,10 @@ msgid_plural ""
 "%s territory (%d turn ceasefire)"
 msgstr[0] ""
 "\n"
-"%s territorium (%d omgång vapenstillestånd)"
+"%s territorium (%d omgång med vapenstillestånd)"
 msgstr[1] ""
 "\n"
-"%s territory (%d omgångar vapenstillestånd)"
+"%s territorium (%d omgångar med vapenstillestånd)"
 
 #: client/gui-sdl2/mapview.c:626 client/gui-sdl3/mapview.c:623
 #, c-format
@@ -11912,7 +11912,7 @@ msgstr "Inloggningsnamn"
 
 #: client/options.c:1925
 msgid "This is the default login username that will be used in the connection dialogs or with the -a command-line parameter."
-msgstr "Detta är det användarnamn som normalt kommer användas när du loggar in samt med kommandoradsparametern -a."
+msgstr "Detta är det användarnamn som normalt kommer att användas när du loggar in samt med kommandoradsparametern -a."
 
 #: client/options.c:1929
 msgid "Default to previously used server"
@@ -13129,7 +13129,7 @@ msgstr "Föråldrad händelsetyp E_UNIT_WIN i klientalternativen."
 
 #: client/options.c:5516
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr "Om man lägger till ett förvalt värde för hand bör man även uppdatera ”number_of_presets”"
+msgstr "Om du lägger till ett förvalt värde för hand bör du även uppdatera ”number_of_presets”"
 
 #: client/options.c:5625 client/options.c:5655
 #, c-format
@@ -13937,7 +13937,7 @@ msgstr "Omgångar till målet: %d"
 #: client/text.c:1155
 #, c-format
 msgid "Turns to target: %d to %d"
-msgstr "Omgångar till målet: %d to %d"
+msgstr "Omgångar till målet: %d till %d"
 
 #: client/text.c:1164
 #, c-format
@@ -19921,7 +19921,7 @@ msgstr "DETTA ÄR EN UTVECKLINGSVERSION"
 
 #: common/version.c:179
 msgid "'Cause civilization should be free!"
-msgstr "Ty civilization bör vara fritt!"
+msgstr "För civilisationen bör vara fri!"
 
 #: common/networking/connection.c:195 server/sernet.c:428 server/sernet.c:822
 msgid "network exception"
@@ -20027,7 +20027,7 @@ msgstr "%sDetonera robot%s"
 #: data/civ1/actions.ruleset:274
 #, c-format
 msgid "Enter %sHut from transport%s"
-msgstr "Gå in i %shyddan från transport%s"
+msgstr "Gå in i %shyddan från en transportör%s"
 
 #: data/civ1/actions.ruleset:278 data/civ2/actions.ruleset:318 data/classic/actions.ruleset:359 data/sandbox/actions.ruleset:437 data/civ2civ3/actions.ruleset:359 data/alien/actions.ruleset:300 data/multiplayer/actions.ruleset:344 data/granularity/actions.ruleset:224
 #, c-format
@@ -20749,7 +20749,7 @@ msgstr "Aztekerna, ett nahuatltalande folk från Sonoraöknen, tog under 1400-ta
 
 #: data/civ1/nations.ruleset:330 data/civ2/nations.ruleset:335 data/nation/babylonian.ruleset:5
 msgid "Babylonian"
-msgstr "babylonska"
+msgstr "babyloniska"
 
 #: data/civ1/nations.ruleset:331 data/civ2/nations.ruleset:336 data/nation/babylonian.ruleset:6
 msgid "?plural:Babylonians"
@@ -20997,7 +20997,7 @@ msgstr "Mahatma %s"
 
 #: data/civ1/nations.ruleset:1271 data/civ2/nations.ruleset:1532 data/nation/mongol.ruleset:5
 msgid "Mongol"
-msgstr "mongolska"
+msgstr "mongoliska"
 
 #: data/civ1/nations.ruleset:1272 data/civ2/nations.ruleset:1533 data/nation/mongol.ruleset:6
 msgid "?plural:Mongols"
@@ -21214,7 +21214,7 @@ msgstr "orientalisk"
 
 #: data/civ1/styles.ruleset:101 data/civ2/styles.ruleset:101 data/classic/styles.ruleset:101 data/sandbox/styles.ruleset:101 data/civ2civ3/styles.ruleset:101 data/multiplayer/styles.ruleset:101
 msgid "?citystyle:Babylonian"
-msgstr "babylonsk"
+msgstr "babylonisk"
 
 #: data/civ1/styles.ruleset:110 data/civ2/styles.ruleset:110 data/classic/styles.ruleset:110 data/sandbox/styles.ruleset:110 data/civ2civ3/styles.ruleset:110 data/multiplayer/styles.ruleset:110
 msgid "?citystyle:Celtic"
@@ -22345,7 +22345,7 @@ msgstr "forskningsanläggning"
 #: data/civ2/buildings.ruleset:845
 #, no-c-format
 msgid "Together with a Library, a Research Lab increases the science production of a city by 100%. Together with a Library and a University, a Research Lab increases the science production of a city by 150%."
-msgstr "Tillsammans med ett bibliotek, ökar en forskningsanläggning forskningen i en stad med 100%. Tillsammans med ett bibliotek och ett universitet, ökar en forskningsanläggning forskningen i en stad med 150%."
+msgstr "Tillsammans med ett bibliotek ökar en forskningsanläggning forskningen i en stad med 100 %. Tillsammans med ett bibliotek och ett universitet ökar en forskningsanläggning forskningen i en stad med 150 %."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:886 data/sandbox/buildings.ruleset:1083 data/civ2civ3/buildings.ruleset:1052 data/multiplayer/buildings.ruleset:865
 msgid "SAM Battery"
@@ -23179,7 +23179,7 @@ msgstr "Fjälljägare är rörliga terrängtrupper som är utmärkta försvarare
 
 #: data/civ2/units.ruleset:926 data/classic/units.ruleset:955 data/sandbox/units.ruleset:1125 data/civ2civ3/units.ruleset:1069 data/multiplayer/units.ruleset:995
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr "Kustjägare är fotsoldater som är specialiserade på marin krigsföring."
+msgstr "Kustjägare är infanterister som är specialiserade på marin krigföring."
 
 #: data/civ2/units.ruleset:961 data/classic/units.ruleset:990 data/multiplayer/units.ruleset:1030
 msgid "Paratroopers are experts at airborne attacks. From a friendly city or airbase, Paratroopers who have not expended any movement points can paradrop directly to any tile in range, and be immediately ready to act there. (Beware dropping into unseen territory, as Paratroopers landing on a tile occupied by enemy units are easy targets!)"
@@ -23363,11 +23363,11 @@ msgstr "Godsvagnen ersätter karavanen, rör sig dubbelt så snabbt och ger dubb
 
 #: data/civ2/units.ruleset:2447 data/classic/units.ruleset:2437 data/sandbox/units.ruleset:2865 data/civ2civ3/units.ruleset:2685 data/alien/units.ruleset:1184 data/multiplayer/units.ruleset:2536 data/granularity/units.ruleset:34
 msgid "Explorer"
-msgstr "upptäcksresande"
+msgstr "upptäcktsresande"
 
 #: data/civ2/units.ruleset:2477 data/classic/units.ruleset:2467 data/sandbox/units.ruleset:2895 data/civ2civ3/units.ruleset:2715 data/multiplayer/units.ruleset:2566
 msgid "Explorers are brave individuals that are very useful for mapping unknown territory."
-msgstr "Upptäcksresanden är modiga individer som är mycket användbara för att kartlägga okända områden."
+msgstr "Upptäcktsresanden är modiga individer som är mycket användbara för att kartlägga okända områden."
 
 #: data/civ2/units.ruleset:2513 data/classic/units.ruleset:2553 data/sandbox/units.ruleset:2994 data/civ2civ3/units.ruleset:2813 data/multiplayer/units.ruleset:2652
 msgid "When a Barbarian Leader is killed on a tile without any defending units, the ransom is paid, but only to land units and helicopters. Usually the ransom is 100 gold, but can be less if the barbarian has less money."
@@ -23542,12 +23542,12 @@ msgstr "%sErövra fästning från en icke-inhemsk ruta%s"
 #: data/classic/actions.ruleset:347 data/sandbox/actions.ruleset:413 data/civ2civ3/actions.ruleset:347 data/alien/actions.ruleset:292
 #, c-format
 msgid "Enter %sHut from non native%s"
-msgstr "%sGå in i by från en icke-inhemsk ruta%s"
+msgstr "%sGå in i en hydda från en icke-inhemsk ruta%s"
 
 #: data/classic/actions.ruleset:351 data/sandbox/actions.ruleset:417 data/civ2civ3/actions.ruleset:351
 #, c-format
 msgid "Frighten %sHut from non native%s"
-msgstr "%sSkräm by från en icke-inhemsk ruta%s"
+msgstr "%sSkräm en hydda från en icke-inhemsk ruta%s"
 
 #: data/classic/buildings.ruleset:364 data/sandbox/buildings.ruleset:463 data/civ2civ3/buildings.ruleset:460 data/multiplayer/buildings.ruleset:138
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electricity.)  However, it does not affect citizens made unhappy by military activity."
@@ -23598,7 +23598,7 @@ msgstr "Ökar effekten av en fabrik eller tillverkningsanläggning på stadens s
 #: data/classic/buildings.ruleset:878 data/multiplayer/buildings.ruleset:857
 #, no-c-format
 msgid "Together with a Library, a Research Lab increases the science production of a city by 200%. Together with a Library and a University, a Research Lab increases the science production of a city by 450%."
-msgstr "Tillsammans med ett bibliotek, ökar en forskningsanläggning forskningen i en stad med 200%. Tillsammans med ett bibliotek och ett universitet, ökar en forskningsanläggning forskningen i en stad med 450%."
+msgstr "Tillsammans med ett bibliotek ökar en forskningsanläggning forskningen i en stad med 200 %. Tillsammans med ett bibliotek och ett universitet ökar en forskningsanläggning forskningen i en stad med 450 %."
 
 #: data/classic/buildings.ruleset:986 data/multiplayer/buildings.ruleset:963
 #, no-c-format
@@ -23729,7 +23729,7 @@ msgstr "Frusen sjö"
 
 #: data/classic/styles.ruleset:128 data/sandbox/styles.ruleset:128 data/civ2civ3/styles.ruleset:128 data/multiplayer/styles.ruleset:128
 msgid "?citystyle:ElectricAge"
-msgstr "elektifierad"
+msgstr "elektrifierad"
 
 #: data/classic/techs.ruleset:266 data/multiplayer/techs.ruleset:266
 msgid "Allows Settlers, Workers and Engineers to build fortresses, and to build oil wells on Desert tiles."
@@ -26090,7 +26090,7 @@ msgstr "Godsvagnen ersätter karavanen och rör sig dubbelt så snabbt. Den har 
 
 #: data/sandbox/units.ruleset:2898 data/civ2civ3/units.ruleset:2718
 msgid "Explorers can also perform some actions in another player's city:"
-msgstr "Upptäcksresande kan också utföra vissa handlingar i en annan spelares stad:"
+msgstr "Upptäcktsresande kan också utföra vissa handlingar i en annan spelares stad:"
 
 #: data/sandbox/units.ruleset:3039 data/civ2civ3/units.ruleset:2858
 msgid "Storm"
@@ -28986,11 +28986,11 @@ msgstr "Försvararens grundstyrka är 3. På grund av skogsrutan, blir styrkan 4
 
 #: data/helpdata.txt:1275
 msgid "Strength values inside the game are actually multiplied by 10, with fractions dropped, so the attacker's strength is 80, and the defender's strength is 202."
-msgstr "Styrkevärden i spelet multipliceras i själva verket med 10, och decimaleran stryks, så angriparens styrka är 80, och försvararens styrka är 202."
+msgstr "Styrkevärdena i spelet multipliceras i själva verket med 10 och decimalerna stryks. Angriparens styrka blir därför 80 och försvararens 202."
 
 #: data/helpdata.txt:1279
 msgid "Both units keep their firepower of 1 unchanged."
-msgstr "Båda trupper behåller sin eldkraft på 1 oförändrad."
+msgstr "Båda trupperna behåller sin eldkraft på 1 oförändrad."
 
 #: data/helpdata.txt:1282
 #, no-c-format
@@ -29809,7 +29809,7 @@ msgstr "De olika kontrollsekvenserna kan naturligtvis kombineras i samma mening,
 
 #: data/helpdata.txt:1997
 msgid "The worklist editor is used to edit both worklists for each city (from the city dialog) and global worklists. Using this editor you can create lists specifying what to build in the turns to come."
-msgstr "Arbetslisteredigeraren änvänds både för varje enskild stads arbetslista (från stadsdialogen) och för övergripande arbetslistor. Med denna redigerare kan man skapa listor över vad som skall byggas i kommande omgångar."
+msgstr "Arbetslisteredigeraren används både för varje enskild stads arbetslista (från stadsdialogen) och för övergripande arbetslistor. Med redigeraren kan du skapa listor över vad som ska byggas under kommande omgångar."
 
 #: data/helpdata.txt:2001
 msgid "To add an item to the worklist, double-click the desired item in the list of available items. You can also press the Help button to get help on the selected item. Pressing Help with no item selected will display this page."
@@ -31150,7 +31150,7 @@ msgstr "Ståthållare %s"
 
 #: data/nation/egyptian.ruleset:8
 msgid "Egypt was the second-oldest of the world's civilizations.  Since ancient times it has been unusually urbanized, supporting a large population on silt deposited by the annual floodings of the Nile."
-msgstr "Egypten är den näst äldsta civilisationen i världen. Sedan urminnes tider har städer haft ovanligt stor betydelse i Egypten, som kunnat föda en stor befolkning med hjälp av näringsrikt slam som förts med Nilen vid de årliga översvämmningarna."
+msgstr "Egypten är världens näst äldsta civilisation. Sedan urminnes tider har landet varit ovanligt urbaniserat och kunnat försörja en stor befolkning tack vare det näringsrika slam som Nilens årliga översvämningar lämnar efter sig."
 
 #: data/nation/english.ruleset:27 data/nation/russian.ruleset:48 data/nation/spanish.ruleset:41
 #, c-format
@@ -33571,7 +33571,7 @@ msgstr "Ett fel inträffade medan användardatabasen lästes in; loggar in som g
 
 #: server/auth.c:118
 msgid "There was an error reading the user database and guest logins are not allowed. Sorry"
-msgstr "Ett fel inträffade medan användardatabasen lästes in och gäster är tyvärr inte välkomna."
+msgstr "Ett fel inträffade när användardatabasen lästes in, och gästinloggning är inte tillåten. Beklagar."
 
 #: server/auth.c:121
 #, c-format
@@ -33631,7 +33631,7 @@ msgstr "Din anslutning tog tyvärr för lång tid..."
 #: server/auth.c:242
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr "%s avvisades: anslutningen tog för lång tid vändandes på lösenord."
+msgstr "%s avvisades: tidsgränsen för anslutningen överskreds i väntan på lösenord."
 
 #: server/auth.c:308
 #, c-format
@@ -33738,7 +33738,7 @@ msgstr "Kan inte använda %s som stadsnamn. Det är förbehållet %s."
 #: server/citytools.c:441
 #, c-format
 msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr "%s är inte ett giltigt namn. När du matar in ett egen namn är endast ASCII tillåtna för städer."
+msgstr "%s är inte ett giltigt namn. Endast ASCII-namn eller namn från regelverket är tillåtna för städer."
 
 #: server/citytools.c:561
 #, c-format
@@ -35406,7 +35406,7 @@ msgstr ""
 "lua unsafe-cmd <skriptrad>\n"
 "lua file <skriptfil>\n"
 "lua unsafe-file <skriptfil>\n"
-"lua <skriptrad> (deprecated)"
+"lua <skriptrad> (föråldrat)"
 
 #: server/commands.c:632
 msgid "Evaluate a line of Freeciv script or a Freeciv script file in the current game."
@@ -36592,7 +36592,7 @@ msgstr "Skapare 3 satte inte ut alla stora öar."
 #: server/generator/mapgen.c:2431
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
-msgstr "Skapare 3 lämnade %li landmassa outsatt."
+msgstr "Generator 3 lämnade %li landmassa oplacerad."
 
 #: server/generator/mapgen_topology.c:124
 #, c-format
@@ -39466,7 +39466,7 @@ msgstr "Formeln för den handel som en stad får från en handelsled. CLASSIC-in
 
 #: server/settings.c:2364
 msgid "Minimum distance for trade routes"
-msgstr "Minsta avständ för handelsleder"
+msgstr "Minsta avstånd för handelsleder"
 
 #: server/settings.c:2365
 msgid "In order for two cities in the same civilization to establish a trade route, they must be at least this far apart on the map. For square grids, the distance is calculated as \"Manhattan distance\", that is, the sum of the displacements along the x and y directions."
@@ -39510,7 +39510,7 @@ msgstr "Sannolikhet att flytta sig till ruta efter angrepp"
 
 #: server/settings.c:2412
 msgid "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). If set to 100, attacking units will always move into the tile they attacked when they win the combat (and no enemy units remain in the tile). If set to a value between 0 and 100, this will be used as the percent chance of \"occupying\" territory."
-msgstr "Om satt till 0, är striden i stil med Civ1/2 (när man angriper, står man kvar). Om satt till 100, flyttar angripande trupp alltid in den angripna rutan om de vinner över den sista fiendetruppen där. Värden mellan 0 och 100 ger varierande sannolikhet att områdets ”besätts”."
+msgstr "Om värdet är 0 används strider i Civ1/2-stil (när du anfaller stannar du kvar). Om värdet är 100 flyttar anfallande trupper alltid in på den angripna rutan när de vinner striden och inga fiendetrupper finns kvar där. Ett värde mellan 0 och 100 anger sannolikheten i procent för att inta området."
 
 #: server/settings.c:2424
 msgid "Turn on/off server-side autoattack"
@@ -39996,7 +39996,7 @@ msgstr "Max antal sekunder för tömning av nätverksbuffer"
 
 #: server/settings.c:3016
 msgid "The server will wait for up to the value of this parameter in seconds, for all client connection network buffers to unblock. Zero means the server will not wait at all."
-msgstr "Servern kommer att vänta upp till värdet av denna parameter i sekunder på att alla klientanslutningars nätverksbuffrar svarar. Noll betyter att servern inte kommer att vänta alls."
+msgstr "Servern väntar i högst så många sekunder på att alla klientanslutningars nätverksbuffertar ska frigöras. Noll innebär att servern inte väntar alls."
 
 #: server/settings.c:3024
 msgid "Seconds between PINGs"
@@ -40095,7 +40095,7 @@ msgstr ""
 
 #: server/settings.c:3107
 msgid "Turns per auto-save"
-msgstr "Omgångar mellan autospar"
+msgstr "Omgångar mellan automatiska sparningar"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
@@ -41096,7 +41096,7 @@ msgstr "Server-id: %s"
 
 #: server/stdinhand.c:677 server/stdinhand.c:694
 msgid "You cannot save games manually on this server."
-msgstr "Denna server tillåter inte manuellt spar av spel."
+msgstr "Du kan inte spara spel manuellt på den här servern."
 
 #: server/stdinhand.c:712
 #, c-format
@@ -41241,7 +41241,7 @@ msgstr "Kunde inte skriva skriptfilen ”%s”."
 
 #: server/stdinhand.c:1345
 msgid "You cannot use the write command on this server for security reasons."
-msgstr "Man kan inte använda write-kommandot på denna server av säkerhetsskäl."
+msgstr "Du kan inte använda write-kommandot på den här servern av säkerhetsskäl."
 
 #. TRANS: Failed to write server script, e.g., 'example.serv'
 #: server/stdinhand.c:1365
@@ -41834,12 +41834,12 @@ msgstr "%s styr redan %s. Användning av ”observe” skulle ta bort %s"
 #: server/stdinhand.c:3433
 #, c-format
 msgid "%s is already observing %s."
-msgstr "%s iaktar redan %s."
+msgstr "%s iakttar redan %s."
 
 #: server/stdinhand.c:3438
 #, c-format
 msgid "%s is already observing."
-msgstr "%s iaktar redan."
+msgstr "%s iakttar redan."
 
 #: server/stdinhand.c:3470
 #, c-format
@@ -44198,7 +44198,7 @@ msgstr "Ordern för %s avbröts eftersom åtgärden %s mot %s misslyckades."
 #: server/unittools.c:4919
 #, c-format
 msgid "Your %s has invalid orders."
-msgstr "Vårt %s har ogiltliga order."
+msgstr "Din %s har ogiltiga order."
 
 #: server/unittools.c:5053
 #, c-format
