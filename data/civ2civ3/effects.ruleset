@@ -195,6 +195,7 @@ value   = 10
 reqs    =
     { "type", "name", "range", "present"
       "NationGroup", "Barbarian", "Player", TRUE
+      "Nation", "Animal Kingdom", "Player", FALSE
       "Age", "5", "Local", TRUE
       "CityTile", "Center", "Tile", FALSE
     }
