@@ -1629,7 +1629,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   units_layout = new QVBoxLayout();
   left_layout = new QVBoxLayout();
 
-  /* Checkboxes to show units/wonders/imrovements
+  /* Checkboxes to show units/wonders/improvements
    * on production list */
   prod_option_layout = new QHBoxLayout;
   show_buildings = new QCheckBox;
