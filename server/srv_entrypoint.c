@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
   int inx;
   bool showhelp = FALSE;
   bool showvers = FALSE;
-  char *option = NULL;
+  char *option = nullptr;
 
   executable_init();
   setup_interrupt_handlers();
@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
   con_write(C_VERSION, _("This is the server for %s"), freeciv_name_version());
   /* TRANS: No full stop after the URL, could cause confusion. */
   con_write(C_COMMENT, _("You can learn a lot about Freeciv at %s"),
-	    HOMEPAGE_URL);
+            HOMEPAGE_URL);
 
   if (showhelp) {
     struct cmdhelp *help = cmdhelp_new(argv[0]);
@@ -305,7 +305,7 @@ int main(int argc, char *argv[])
                 /* TRANS: "saves" is exactly what user must type, do not translate. */
                 _("saves DIR"),
                 _("Save games to directory DIR"));
-    cmdhelp_add(help, NULL,
+    cmdhelp_add(help, nullptr,
                 /* TRANS: "scenarios" is exactly what user must type, do not translate. */
                 _("scenarios DIR"),
                 _("Save scenarios to directory DIR"));
@@ -321,7 +321,7 @@ int main(int argc, char *argv[])
                 /* TRANS: "Ranklog" is exactly what user must type, do not translate. */
                 _("Ranklog FILE"),
                 _("Use FILE as ranking logfile"));
-    cmdhelp_add(help, NULL,
+    cmdhelp_add(help, nullptr,
                 /* TRANS: "ruleset" is exactly what user must type, do not translate. */
                 _("ruleset RULESET"),
                 _("Load ruleset RULESET"));

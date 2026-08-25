@@ -73,7 +73,7 @@ void real_city_log(const char *file, const char *function, int line,
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (notify) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
+    notify_conn(nullptr, nullptr, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   do_log(file, function, line, FALSE, level, "%s", buffer);
 }
@@ -117,7 +117,7 @@ void real_unit_log(const char *file, const char *function, int line,
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
   if (notify) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
+    notify_conn(nullptr, nullptr, E_AI_DEBUG, ftc_log, "%s", buffer);
   }
   do_log(file, function, line, FALSE, level, "%s", buffer);
 }
@@ -165,7 +165,7 @@ void timing_results_real(void)
               timer_read_seconds(aitimer[which][0]),                        \
               timer_read_seconds(aitimer[which][1]));                       \
   log_test("%s", buf);                                                      \
-  notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buf);
+  notify_conn(nullptr, nullptr, E_AI_DEBUG, ftc_log, "%s", buf);
 
   log_test("  --- AI timing results ---");
 
@@ -175,11 +175,11 @@ void timing_results_real(void)
   fc_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text, \
               timer_read_seconds(aitimer[which][0]),                    \
               timer_read_seconds(aitimer[which][1]));                   \
-  notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buf);
+  notify_conn(nullptr, nullptr, E_AI_DEBUG, ftc_log, "%s", buf);
 
 #endif /* LOG_TIMERS */
 
-  notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log,
+  notify_conn(nullptr, nullptr, E_AI_DEBUG, ftc_log,
               "  --- AI timing results ---");
   AILOG_OUT("Total AI time", AIT_ALL);
   AILOG_OUT("Movemap", AIT_MOVEMAP);

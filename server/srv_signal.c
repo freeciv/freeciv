@@ -50,7 +50,7 @@ if (S_S_RUNNING == server_state()) {    \
 }                                       \
 exit(EXIT_SUCCESS);
 
-static struct timer *signal_timer = NULL;
+static struct timer *signal_timer = nullptr;
 
 /**********************************************************************//**
   This function is called when a SIGINT (ctrl-c) is received. It will exit
@@ -60,20 +60,20 @@ static void signal_handler(int sig)
 {
   switch (sig) {
   case SIGINT:
-    if (signal_timer != NULL && timer_read_seconds(signal_timer) <= 1.0) {
+    if (signal_timer != nullptr && timer_read_seconds(signal_timer) <= 1.0) {
       save_and_exit(SIGINT);
     } else {
       if (game.info.timeout == -1) {
         log_normal(_("Setting timeout to 0. Autogame will stop."));
         game.info.timeout = 0;
       }
-      if (signal_timer == NULL) {
+      if (signal_timer == nullptr) {
         log_normal(_("You must interrupt Freeciv twice "
                      "within one second to make it exit."));
       }
     }
     signal_timer = timer_renew(signal_timer, TIMER_USER, TIMER_ACTIVE,
-                               signal_timer != NULL ? NULL : "ctrlc");
+                               signal_timer != nullptr ? nullptr : "ctrlc");
     timer_start(signal_timer);
     break;
 
@@ -148,8 +148,8 @@ void setup_interrupt_handlers(void)
 **************************************************************************/
 void signal_timer_free(void)
 {
-  if (signal_timer != NULL) {
+  if (signal_timer != nullptr) {
     timer_destroy(signal_timer);
-    signal_timer = NULL;
+    signal_timer = nullptr;
   }
 }

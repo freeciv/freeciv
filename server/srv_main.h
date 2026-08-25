@@ -30,11 +30,11 @@ struct server_arguments {
   bool metaconnection_persistent;
   char identity_name[256];
   unsigned short int metaserver_port;
-  /* Address this server is to listen on (NULL => INADDR_ANY) */
+  /* Address this server is to listen on (nullptr => INADDR_ANY) */
   char *bind_addr;
   /* This server's listen port */
   int port;
-  /* Address to bind when connecting to the metaserver (NULL => bind_addr) */
+  /* Address to bind when connecting to the metaserver (nullptr => bind_addr) */
   char *bind_meta_addr;
   /* The log level */
   enum log_level loglevel;
