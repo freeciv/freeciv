@@ -1064,6 +1064,11 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
   worklist_init(pwl);
   pwl->length = secfile_lookup_int_default(file, 0,
                                            "%s.wl_length", path_str);
+  if (pwl->length > MAX_LEN_WORKLIST) {
+    log_sg("worklist length %d, while max worklist length %d.",
+           pwl->length, MAX_LEN_WORKLIST);
+    pwl->length = MAX_LEN_WORKLIST;
+  }
 
   for (i = 0; i < pwl->length; i++) {
     kind = secfile_lookup_str(file, "%s.wl_kind%d", path_str, i);
