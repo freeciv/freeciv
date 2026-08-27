@@ -98,15 +98,15 @@ Configure options:
 
 Configure options are given as '-D<option>=<value>'.
 For example to set freeciv installation prefix as
-'/home/cazfi/freeciv-install':
+'/home/user/freeciv-install':
 
-> meson setup ../src -Dprefix=/home/cazfi/freeciv-install
+> meson setup ../src -Dprefix=/home/user/freeciv-install
 
 You can give configure options when you first set up the build directory
 (like in example above), or you can change configure options for the
 build directory later by 'meson configure' subcommand like this:
 
-> meson configure -Dprefix=/home/cazfi/freeciv-install
+> meson configure -Dprefix=/home/user/freeciv-install
 
 You get full list of configure options by running 'meson configure'
 subcommand without any configure options to set
