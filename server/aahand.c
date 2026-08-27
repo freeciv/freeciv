@@ -98,7 +98,7 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
         pf_map_tiles_iterate(pfm, ptile, TRUE) {
           if (ptile != nullptr) {
             tiledef_iterate(td) {
-              if (tile_matches_tiledef(td, ptile)) {
+              if (tile_matches_tiledef(td, ptile, plr)) {
                 int tn = tiledef_number(td);
 
                 BV_SET(aarea->tiledefs, tn);

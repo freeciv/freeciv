@@ -147,7 +147,8 @@ struct tiledef *tiledef_by_translated_name(const char *name)
 /************************************************************************//**
   Check if tile matches tiledef
 ****************************************************************************/
-bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
+bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile,
+                          const struct player *pplayer)
 {
   if (terrain_flag_id_is_valid(td->terr_flag)) {
     if (!terrain_has_flag(tile_terrain(ptile), td->terr_flag)) {
@@ -161,6 +162,11 @@ bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
     }
   } extra_type_list_iterate_end;
 
+  if (td->known && pplayer != nullptr
+      && tile_get_known(ptile, pplayer) == TILE_UNKNOWN) {
+    return FALSE;
+  }
+
   return TRUE;
 }
 
@@ -169,10 +175,10 @@ bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
   (Does not check ptile itself.)
 ****************************************************************************/
 bool is_tiledef_card_near(const struct civ_map *nmap, const struct tile *ptile,
-                          const struct tiledef *ptd)
+                          const struct tiledef *ptd, const struct player *pplayer)
 {
   cardinal_adjc_iterate(nmap, ptile, adjc_tile) {
-    if (tile_matches_tiledef(ptd, adjc_tile)) {
+    if (tile_matches_tiledef(ptd, adjc_tile, pplayer)) {
       return TRUE;
     }
   } cardinal_adjc_iterate_end;
@@ -185,10 +191,10 @@ bool is_tiledef_card_near(const struct civ_map *nmap, const struct tile *ptile,
   (Does not check ptile itself.)
 ****************************************************************************/
 bool is_tiledef_near_tile(const struct civ_map *nmap, const struct tile *ptile,
-                          const struct tiledef *ptd)
+                          const struct tiledef *ptd, const struct player *pplayer)
 {
   adjc_iterate(nmap, ptile, adjc_tile) {
-    if (tile_matches_tiledef(ptd, adjc_tile)) {
+    if (tile_matches_tiledef(ptd, adjc_tile, pplayer)) {
       return TRUE;
     }
   } adjc_iterate_end;

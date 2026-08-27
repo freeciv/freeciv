@@ -3129,6 +3129,10 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       secfile_insert_str_vec(sfile, extra_names, set_count,
                              "%s.extras", path);
     }
+
+    if (td->known) {
+      secfile_insert_bool(sfile, td->known, "%s.known", path);
+    }
   } tiledef_iterate_end;
 
   return save_ruleset_file(sfile, filename);

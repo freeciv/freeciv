@@ -28,6 +28,7 @@ struct tiledef
 
   enum terrain_flag_id terr_flag;
   struct extra_type_list *extras;
+  bool known;
 };
 
 void tiledefs_init(void);
@@ -57,13 +58,14 @@ struct tiledef *tiledef_by_translated_name(const char *name);
   }                                               \
 }
 
-bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile)
+bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile,
+                          const struct player *pplayer)
   fc__attribute((nonnull (1, 2)));
 
 bool is_tiledef_card_near(const struct civ_map *nmap, const struct tile *ptile,
-                          const struct tiledef *ptd);
+                          const struct tiledef *ptd, const struct player *pplayer);
 bool is_tiledef_near_tile(const struct civ_map *nmap, const struct tile *ptile,
-                          const struct tiledef *ptd);
+                          const struct tiledef *ptd, const struct player *pplayer);
 
 #ifdef __cplusplus
 }

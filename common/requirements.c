@@ -3294,32 +3294,41 @@ is_tiledef_req_active(const struct civ_map *nmap,
 
   ptdef = req->source.value.tiledef;
 
+  if (ptdef->known && context->player == nullptr) {
+    return TRI_MAYBE;
+  }
+
   switch (req->range) {
   case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has tiledef of requested type. */
     if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile));
+    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile,
+                                                 context->player));
   case REQ_RANGE_CADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile)
-                            || is_tiledef_card_near(nmap, context->tile, ptdef));
+    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile,
+                                                 context->player)
+                            || is_tiledef_card_near(nmap, context->tile, ptdef,
+                                                    context->player));
   case REQ_RANGE_ADJACENT:
     if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile)
-                            || is_tiledef_near_tile(nmap, context->tile, ptdef));
+    return BOOL_TO_TRISTATE(tile_matches_tiledef(ptdef, context->tile,
+                                                 context->player)
+                            || is_tiledef_near_tile(nmap, context->tile, ptdef,
+                                                    context->player));
   case REQ_RANGE_CITY:
     if (!context->city) {
       return TRI_MAYBE;
     }
     city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
-      if (tile_matches_tiledef(ptdef, ptile)) {
+      if (tile_matches_tiledef(ptdef, ptile, context->player)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
@@ -3332,7 +3341,7 @@ is_tiledef_req_active(const struct civ_map *nmap,
     }
     city_tile_iterate(nmap, city_map_radius_sq_get(context->city),
                       city_tile(context->city), ptile) {
-      if (tile_matches_tiledef(ptdef, ptile)) {
+      if (tile_matches_tiledef(ptdef, ptile, context->player)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
@@ -3344,7 +3353,7 @@ is_tiledef_req_active(const struct civ_map *nmap,
       } else {
         city_tile_iterate(nmap, city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
-          if (tile_matches_tiledef(ptdef, ptile)) {
+          if (tile_matches_tiledef(ptdef, ptile, context->player)) {
             return TRI_YES;
           }
         } city_tile_iterate_end;

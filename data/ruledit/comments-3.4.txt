@@ -753,6 +753,7 @@ tiledefs = "\
 ;                        to satisfy tiledef requirements.\n\
 ; extras               = List of extras that the tile must have\n\
 ;                        to satisfy tiledef requirements.\n\
+; known                = Whether the target player must know the tile or not\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

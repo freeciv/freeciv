@@ -4546,6 +4546,8 @@ void handle_ruleset_tiledef(const struct packet_ruleset_tiledef *p)
       extra_type_list_append(td->extras, pextra);
     }
   } extra_type_iterate_end;
+
+  td->known = p->known;
 }
 
 /************************************************************************//**

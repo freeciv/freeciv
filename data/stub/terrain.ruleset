@@ -656,5 +656,6 @@ rmact_gfx_alt2 = "-"
 ;                        to satisfy tiledef requirements.
 ; extras               = List of extras that the tile must have
 ;                        to satisfy tiledef requirements.
+; known                = Whether the target player must know the tile or not
 ;
 ; */ <-- avoid gettext warnings
