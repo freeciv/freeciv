@@ -1159,6 +1159,8 @@ man_links = [
   'freeciv-mp-cli'
   ]
 
+man_dir = join_paths(get_option('mandir'), 'man6')
+
 foreach manp : man_pages
   man_conf_data = configuration_data()
   man_conf_data.set('HOMEPAGE_URL', '"' + homepage_url + '"')
@@ -1168,13 +1170,13 @@ foreach manp : man_pages
   configure_file(input : 'doc/man/' + manp + '.6.in',
                  output : manp + '.6',
                  configuration : man_conf_data,
-                 install_dir: join_paths(get_option('mandir'), 'man6'))
+                 install_dir: man_dir)
 endforeach
 
 foreach manp : man_links
   install_data(
     join_paths('doc/man/', manp + '.6'),
-    install_dir : join_paths(get_option('mandir'), 'man6')
+    install_dir : man_dir
     )
 endforeach
 
