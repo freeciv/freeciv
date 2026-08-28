@@ -44,7 +44,7 @@
    gcc requires that there is prior prototype. */
 const char *fc_ai_classic_capstr(void);
 
-static struct ai_type *self = NULL;
+static struct ai_type *self = nullptr;
 
 /**********************************************************************//**
   Set pointer to ai type of the classic ai.
@@ -617,20 +617,20 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   ai->funcs.module_close = cai_module_close;
 
-  /* ai->funcs.map_alloc = NULL; */
-  /* ai->funcs.map_ready = NULL; */
-  /* ai->funcs.map_free = NULL; */
-  /* ai->funcs.game_start = NULL; */
-  /* ai->funcs.game_free = NULL; */
+  /* ai->funcs.map_alloc = nullptr; */
+  /* ai->funcs.map_ready = nullptr; */
+  /* ai->funcs.map_free = nullptr; */
+  /* ai->funcs.game_start = nullptr; */
+  /* ai->funcs.game_free = nullptr; */
 
   ai->funcs.player_alloc = cai_player_alloc;
   ai->funcs.player_free = cai_player_free;
-  /* ai->funcs.player_save = NULL; */
-  /* ai->funcs.player_load = NULL; */
+  /* ai->funcs.player_save = nullptr; */
+  /* ai->funcs.player_load = nullptr; */
   ai->funcs.player_save_relations = cai_player_save_relations;
   ai->funcs.player_load_relations = cai_player_load_relations;
   ai->funcs.gained_control = cai_gained_control;
-  /* ai->funcs.lost_control = NULL; */
+  /* ai->funcs.lost_control = nullptr; */
   ai->funcs.split_by_civil_war = cai_split_by_civil_war;
   ai->funcs.created_by_civil_war = cai_created_by_civil_war;
 
@@ -640,10 +640,10 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.city_alloc = cai_city_alloc;
   ai->funcs.city_free = cai_city_free;
   /*
-    ai->funcs.city_created = NULL;
-    ai->funcs.city_destroyed = NULL;
-    ai->funcs.city_got = NULL;
-    ai->funcs.city_lost = NULL;
+    ai->funcs.city_created = nullptr;
+    ai->funcs.city_destroyed = nullptr;
+    ai->funcs.city_got = nullptr;
+    ai->funcs.city_lost = nullptr;
   */
   ai->funcs.city_save = cai_city_save;
   ai->funcs.city_load = cai_city_load;
@@ -663,10 +663,10 @@ bool fc_ai_classic_setup(struct ai_type *ai)
      But advisors code still depends on some default ai data (role) to be
      always allocated. */
   /*
-    ai->funcs.unit_alloc = NULL;
-    ai->funcs.unit_free = NULL;
-    ai->funcs.unit_created = NULL;
-    ai->funcs.unit_destroyed = NULL;
+    ai->funcs.unit_alloc = nullptr;
+    ai->funcs.unit_free = nullptr;
+    ai->funcs.unit_created = nullptr;
+    ai->funcs.unit_destroyed = nullptr;
     ai->funcs.unit_got = dai_unit_init;
     ai->funcs.unit_lost = dai_unit_close;
   */
@@ -678,7 +678,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   ai->funcs.unit_turn_end = cai_unit_turn_end;
   ai->funcs.unit_move = cai_unit_move_or_attack;
-  /* ai->funcs.unit_move_seen = NULL; */
+  /* ai->funcs.unit_move_seen = nullptr; */
   ai->funcs.unit_task = cai_unit_new_adv_task;
 
   ai->funcs.unit_save = cai_unit_save;
@@ -706,11 +706,11 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.consider_tile_dangerous = cai_consider_tile_dangerous;
   ai->funcs.consider_wonder_city = cai_consider_wonder_city;
 
-  /* ai->funcs.refresh = NULL; */
+  /* ai->funcs.refresh = nullptr; */
 
-  /* ai->funcs.tile_info = NULL; */
-  /* ai->funcs.city_info = NULL; */
-  /* ai->funcs.unit_info = NULL; */
+  /* ai->funcs.tile_info = nullptr; */
+  /* ai->funcs.city_info = nullptr; */
+  /* ai->funcs.unit_info = nullptr; */
 
   ai->funcs.revolution_start = cai_revolution_start;
   ai->funcs.check_sanity = cai_sanity_check;
