@@ -1359,7 +1359,8 @@ struct entry *secfile_insert_comment(struct section_file *secfile,
 size_t secfile_insert_str_vec_full(struct section_file *secfile,
                                    const char *const *strings, size_t dim,
                                    const char *comment, bool allow_replace,
-                                   bool no_escape, const char *path, ...)
+                                   bool no_escape,  bool gt_marking,
+                                   const char *path, ...)
 {
   char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
@@ -1373,17 +1374,29 @@ size_t secfile_insert_str_vec_full(struct section_file *secfile,
 
   /* NB: 'path,0' is actually 'path'. See comment in the head
    * of the file. */
-  if (dim > 0
-      && secfile_insert_str_full(secfile, strings[0], comment,
-                                 allow_replace, no_escape, FALSE,
-                                 "%s", fullpath) != nullptr) {
-    ret++;
-  }
-  for (i = 1; i < dim; i++) {
-    if (secfile_insert_str_full(secfile, strings[i], comment,
-                                allow_replace, no_escape, FALSE,
-                                "%s,%d", fullpath, (int) i) != nullptr) {
+  if (dim > 0) {
+    struct entry *pentry =
+      secfile_insert_str_full(secfile, strings[0], comment,
+                              allow_replace, no_escape, FALSE,
+                              "%s", fullpath);
+    if (nullptr != pentry) {
       ret++;
+      if (gt_marking) {
+        entry_str_set_gt_marking(pentry, TRUE);
+      }
+    }
+  }
+
+  for (i = 1; i < dim; i++) {
+    struct entry *pentry =
+      secfile_insert_str_full(secfile, strings[i], comment,
+                              allow_replace, no_escape, FALSE,
+                              "%s,%d", fullpath, (int) i);
+    if (nullptr != pentry) {
+      ret++;
+      if (gt_marking) {
+        entry_str_set_gt_marking(pentry, TRUE);
+      }
     }
   }
 

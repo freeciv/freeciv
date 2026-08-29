@@ -196,38 +196,52 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
                                              comment, path, ...)            \
   secfile_insert_str_full(secfile, string, comment, TRUE, TRUE, FALSE,      \
                           path, ## __VA_ARGS__)
+
 size_t secfile_insert_str_vec_full(struct section_file *secfile,
                                    const char *const *strings, size_t dim,
                                    const char *comment, bool allow_replace,
-                                   bool no_escape, const char *path, ...)
-                                   fc__attribute((__format__(__printf__, 7, 8)));
+                                   bool no_escape, bool gt_marking,
+                                   const char *path, ...)
+                                   fc__attribute((__format__(__printf__, 8, 9)));
 #define secfile_insert_str_vec(secfile, strings, dim, path, ...)            \
-  secfile_insert_str_vec_full(secfile, strings, dim, nullptr, FALSE, FALSE, \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              nullptr, FALSE, FALSE, FALSE,                 \
+                              path, ## __VA_ARGS__)
+#define secfile_insert_str_vec_gt_marking(secfile, strings, dim, path, ...) \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              nullptr, FALSE, FALSE, TRUE,                  \
                               path, ## __VA_ARGS__)
 #define secfile_insert_str_vec_noescape(secfile, strings, dim, path, ...)   \
-  secfile_insert_str_vec_full(secfile, strings, dim, nullptr, FALSE, TRUE,  \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              nullptr, FALSE, TRUE, FALSE,                  \
                               path, ## __VA_ARGS__)
 #define secfile_insert_str_vec_comment(secfile, strings, dim,               \
                                        comment, path, ...)                  \
-  secfile_insert_str_vec_full(secfile, strings, dim, comment, FALSE, TRUE,  \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              comment, FALSE, TRUE, FALSE,                  \
                               path, ## __VA_ARGS__)
 #define secfile_insert_str_vec_noescape_comment(secfile, strings, dim,      \
                                                 comment, path, ...)         \
-  secfile_insert_str_vec_full(secfile, strings, dim, comment, FALSE, TRUE,  \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              comment, FALSE, TRUE, FALSE                   \
                               path, ## __VA_ARGS__)
 #define secfile_replace_str_vec(secfile, strings, dim, path, ...)           \
-  secfile_insert_str_vec_full(secfile, strings, dim, nullptr, TRUE, FALSE,  \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              nullptr, TRUE, FALSE, FALSE,                  \
                               path, ## __VA_ARGS__)
 #define secfile_replace_str_vec_noescape(secfile, strings, dim, path, ...)  \
-  secfile_insert_str_vec_full(secfile, strings, dim, nullptr, TRUE, TRUE,   \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              nullptr, TRUE, TRUE, FALSE,                   \
                               path, ## __VA_ARGS__)
 #define secfile_replace_str_vec_comment(secfile, strings, dim,              \
                                         comment, path, ...)                 \
-  secfile_insert_str_vec_full(secfile, strings, dim, comment, TRUE, TRUE,   \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              comment, TRUE, TRUE, FALSE,                   \
                               path, ## __VA_ARGS__)
 #define secfile_replace_str_vec_noescape_comment(secfile, strings, dim,     \
                                                  comment, path, ...)        \
-  secfile_insert_str_vec_full(secfile, strings, dim, comment, TRUE, TRUE,   \
+  secfile_insert_str_vec_full(secfile, strings, dim,                        \
+                              comment, TRUE, TRUE, FALSE,                   \
                               path, ## __VA_ARGS__)
 
 struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
