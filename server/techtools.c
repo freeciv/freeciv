@@ -363,39 +363,12 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
     fc_assert(TECH_KNOWN != research_invention_state(presearch, tech_found));
 #endif /* FREECIV_NDEBUG */
 
+    /* global_advances has not yet been updated */
     was_first = (!game.info.global_advances[tech_found]);
   }
-
-  /* Assign 'advance_name' before we increase the future tech counter. */
-  advance_name = research_advance_name_translation(presearch, tech_found);
-
-  if (was_first && vap) {
-    /* Alert the owners of any wonders that have been made obsolete */
-    improvement_iterate(pimprove) {
-      requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-        if (pobs->source.kind == VUT_ADVANCE
-            && pobs->source.value.advance == vap
-            && pobs->range >= REQ_RANGE_WORLD
-            && pobs->present
-            && pobs->survives
-            && is_great_wonder(pimprove)
-            && (pcity = city_from_great_wonder(pimprove))) {
-          notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE, ftc_server,
-                        _("Discovery of %s OBSOLETES %s in %s!"), 
-                        research_advance_name_translation
-                            (research_get(city_owner(pcity)), tech_found),
-                        improvement_name_translation(pimprove),
-                        city_link(pcity));
-        }
-      } requirement_vector_iterate_end;
-    } improvement_iterate_end;
-  }
-
-  if (was_first
-      && !is_future_tech(tech_found)
-      && advance_has_flag(tech_found, TF_BONUS_TECH)) {
-    bonus_tech_hack = TRUE;
-  }
+  /* improvement_obsolete() depends on updated global_advances,
+   * so need to do the code that updates it now,
+   * research_invention_set() does it */
 
   /* Memorize some values before the tech is marked as researched.
    * We will check what has changed later. */
@@ -416,6 +389,9 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
   presearch->researching_saved = A_UNKNOWN;
   presearch->techs_researched++;
 
+  /* Assign 'advance_name' before we increase the future tech counter. */
+  advance_name = research_advance_name_translation(presearch, tech_found);
+
   /* Mark the tech as known in the research struct and update
    * global_advances array. */
   if (is_future_tech(tech_found)) {
@@ -423,6 +399,105 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
   } else {
     research_invention_set(presearch, tech_found, TECH_KNOWN);
     research_update(presearch);
+  }
+
+  if (vap) {
+    /* Alert the owners of any wonders that have been made obsolete */
+    improvement_iterate(pimprove) {
+      requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+        struct player *city_owner_player = NULL;
+        bool is_obsolete = FALSE;
+
+        if (is_great_wonder(pimprove)) {
+          pcity = city_from_great_wonder(pimprove);
+          if (pcity) {
+            city_owner_player = city_owner(pcity);
+            is_obsolete = improvement_obsolete(city_owner_player,
+                                               pimprove, pcity);
+          }
+        }
+        if (is_obsolete
+            && pobs->source.kind == VUT_ADVANCE
+            && pobs->source.value.advance == vap
+            && pobs->present) {
+          bool is_range_ok = FALSE;
+          struct player *tech_player =
+                         player_by_number(research_number(presearch));
+          struct team *tech_team = NULL;
+
+          /* research owner is a team if shared research is enabled */
+          if (game.info.team_pooled_research) {
+            tech_team = team_by_number(research_number(presearch));
+          }
+          switch (pobs->range) {
+          case REQ_RANGE_LOCAL:
+          case REQ_RANGE_TILE:
+          case REQ_RANGE_CADJACENT:
+          case REQ_RANGE_ADJACENT:
+          case REQ_RANGE_CITY:
+          case REQ_RANGE_TRADE_ROUTE:
+          case REQ_RANGE_CONTINENT:
+            /* these ranges not supported for req type "Tech" */
+            break;
+          case REQ_RANGE_PLAYER:
+            if (game.info.team_pooled_research) {
+              if (tech_team == city_owner_player->team) {
+                is_range_ok = TRUE;
+              }
+            } else {
+              if (tech_player == city_owner_player) {
+                is_range_ok = TRUE;
+              }
+            }
+            break;
+          case REQ_RANGE_TEAM:
+            if (game.info.team_pooled_research) {
+              if (tech_team == city_owner_player->team) {
+                is_range_ok = TRUE;
+              }
+            } else {
+              if (players_on_same_team(tech_player, city_owner_player)) {
+                is_range_ok = TRUE;
+              }
+            }
+            break;
+          case REQ_RANGE_ALLIANCE:
+            if (game.info.team_pooled_research) {
+              player_list_iterate(team_members(tech_team), teammate) {
+                if (pplayers_allied(teammate, city_owner_player)) {
+                  is_range_ok = TRUE;
+                }
+              } player_list_iterate_end;
+            } else {
+              if (pplayers_allied(tech_player, city_owner_player)) {
+                is_range_ok = TRUE;
+              }
+            }
+            break;
+          case REQ_RANGE_WORLD:
+            is_range_ok = TRUE;
+            break;
+          default:
+            break;
+          }
+          if (is_range_ok) {
+            notify_player(city_owner_player, NULL, E_WONDER_OBSOLETE,
+                         ftc_server,
+                          _("Discovery of %s OBSOLETES %s in %s!"),
+                          research_advance_name_translation
+                              (research_get(city_owner_player), tech_found),
+                          improvement_name_translation(pimprove),
+                          city_link(pcity));
+          }
+        }
+      } requirement_vector_iterate_end;
+    } improvement_iterate_end;
+  }
+
+  if (was_first
+      && !is_future_tech(tech_found)
+      && advance_has_flag(tech_found, TF_BONUS_TECH)) {
+    bonus_tech_hack = TRUE;
   }
 
   /* Inform players about their new tech. */
@@ -1255,7 +1330,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
         j++;
       }
     } advance_index_iterate_max_end;
-  
+
     if (j == 0)  {
       /* We've moved on to future tech */
       if (vresearch->future_tech > presearch->future_tech) {
@@ -1272,11 +1347,11 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
                                         game.info.tech_steal_allow_holes)
             && research_invention_state(presearch, i) != TECH_KNOWN
             && research_invention_state(vresearch, i) == TECH_KNOWN) {
-	  j--;
+          j--;
         }
         if (j == 0) {
-	  stolen_tech = i;
-	  break;
+          stolen_tech = i;
+          break;
         }
       } advance_index_iterate_max_end;
       fc_assert(stolen_tech != A_NONE);
@@ -1340,7 +1415,7 @@ void handle_player_research(struct player *pplayer, int tech)
   if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
     return;
   }
-  
+
   if (tech != A_FUTURE
       && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
     return;
