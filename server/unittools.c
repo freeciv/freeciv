@@ -5109,7 +5109,7 @@ bool unit_can_be_retired(struct unit *punit)
 **************************************************************************/
 void random_movements(struct player *pplayer)
 {
-  const struct civ_map *nmap = &(wld.map);
+  struct civ_map *nmap = &(wld.map);
 
   game.server.random_move_time = pplayer;
 
@@ -5136,9 +5136,12 @@ void random_movements(struct player *pplayer)
           struct tile *dest = mapstep(&(wld.map), curtile, dirs[choice]);
 
           if (dest != nullptr) {
-            if (is_action_enabled_unit_on_stack(nmap, ACTION_ATTACK, punit, dest)) {
+            enum gen_action act
+              = select_actres_action_unit_on_stack(nmap, ACTRES_ATTACK, punit, dest);
+
+            if (act != ACTION_NONE) {
               if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
-                                      "", ACTION_ATTACK, ACT_REQ_RULES)) {
+                                      "", act, ACT_REQ_RULES)) {
                 moved = TRUE;
                 break;
               }
