@@ -2182,16 +2182,16 @@ On impact, the blast will destroy any unit in an area 3 tiles wide\
  land tiles within the blast area are subject to nuclear fallout,\
  which appears as pollution and contributes to global warming.\
 "), _("\
-TIP 1:  Nuking the ocean will not generate fallout, and is a most\
+TIP 1: Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\
  ships.\
 "), _("\
-TIP 2:  You may be involved in a situation where you've invaded an\
+TIP 2: You may be involved in a situation where you've invaded an\
  enemy country en masse, but the enemy cities are too strong.\
  Before using a Nuclear unit, assemble a gang of Settlers\
  and/or Engineers next to the city and have them ready to fix\
- the fallout on the same turn it occurs!  This minimizes the\
- chance of global warming.  Eco-friendly nukes!\
+ the fallout on the same turn it occurs! This minimizes the\
+ chance of global warming. Eco-friendly nukes!\
 ")
 
 [unit_diplomat]
