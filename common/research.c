@@ -925,7 +925,7 @@ int research_total_bulbs_required(const struct research *presearch,
     members++;
     total_cost += (base_cost
                    * get_player_bonus(pplayer, EFT_TECH_COST_FACTOR));
-    if (!leakage && get_player_bonus(pplayer, EFT_TECH_LEAKAGE)) {
+    if (!leakage && get_player_bonus(pplayer, EFT_TECH_LEAKAGE) > 0) {
       leakage = TRUE;
     }
   } research_players_iterate_end;
