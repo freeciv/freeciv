@@ -233,6 +233,9 @@ static struct actres act_results[ACTRES_LAST] = {
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TELEPORT_CONQUER */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_TILE },
+  { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_SCOUT */
+    FALSE, ACTIVITY_LAST, DRT_NONE,
+    EC_NONE, ERM_NONE, ATK_TILE },
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_ENABLER_CHECK */
     FALSE, ACTIVITY_LAST, DRT_NONE,
     EC_NONE, ERM_NONE, ATK_SELF }
@@ -398,6 +401,7 @@ int actres_min_range_default(enum action_result result)
   case ACTRES_JOIN_CITY:
   case ACTRES_STEAL_MAPS:
   case ACTRES_BOMBARD:
+  case ACTRES_SCOUT:
   case ACTRES_SPY_NUKE:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -534,6 +538,7 @@ int actres_max_range_default(enum action_result result)
   case ACTRES_DISBAND_UNIT_RECOVER:
     return RS_DEFAULT_ACTION_MAX_RANGE;
   case ACTRES_BOMBARD:
+  case ACTRES_SCOUT:
     return RS_DEFAULT_ACTION_MAX_RANGE;
   case ACTRES_NUKE:
     return RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE;
@@ -630,6 +635,7 @@ bool actres_legal_target_kind(enum action_result result,
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
   case ACTRES_TELEPORT_CONQUER:
+  case ACTRES_SCOUT:
     return tgt_kind == ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return tgt_kind == ATK_EXTRAS;
@@ -737,6 +743,7 @@ actres_sub_target_kind_default(enum action_result result)
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
   case ACTRES_TELEPORT_CONQUER:
+  case ACTRES_SCOUT:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_SPY_ESCAPE:
     return ASTK_NONE;
@@ -1655,6 +1662,7 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_FORTIFY:
   case ACTRES_HOMELESS:
+  case ACTRES_SCOUT:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No known hard coded requirements. */

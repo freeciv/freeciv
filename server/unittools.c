@@ -709,6 +709,13 @@ void finalize_unit_phase_beginning(struct player *pplayer)
     punit->changed_from = punit->activity;
     punit->changed_from_target = punit->activity_target;
     punit->changed_from_count = punit->activity_count;
+
+    if (punit->server.scout_vision != nullptr) {
+      vision_clear_sight(punit->server.scout_vision);
+      vision_free(punit->server.scout_vision);
+      punit->server.scout_vision = nullptr;
+    }
+
     send_unit_info(nullptr, punit);
   } unit_list_iterate_end;
 }
@@ -1836,6 +1843,11 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
     punit->server.vision = nullptr;
+  }
+  if (punit->server.scout_vision != nullptr) {
+    vision_clear_sight(punit->server.scout_vision);
+    vision_free(punit->server.scout_vision);
+    punit->server.scout_vision = nullptr;
   }
 
   packet.unit_id = punit->id;

@@ -244,6 +244,7 @@ struct unit {
       int ord_city;
 
       struct vision *vision;
+      struct vision *scout_vision;
       time_t action_timestamp;
       int action_turn;
       struct unit_move_data *moving;

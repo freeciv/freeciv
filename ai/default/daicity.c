@@ -1281,6 +1281,7 @@ static int action_target_neg_util(action_id act_id,
   /* Could be worse */
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SCOUT:
   case ACTRES_MARKETPLACE:
   case ACTRES_SPY_ESCAPE:
     /* TODO: Individual and well balanced values */

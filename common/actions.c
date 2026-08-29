@@ -2574,6 +2574,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
   case ACTRES_TELEPORT_CONQUER:
+  case ACTRES_SCOUT:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No hard unit type requirements. */
@@ -2774,6 +2775,7 @@ action_hard_reqs_actor(const struct civ_map *nmap,
   case ACTRES_SPY_ATTACK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_SCOUT:
   case ACTRES_ENABLER_CHECK:
   case ACTRES_NONE:
     /* No hard unit requirements. */
@@ -4345,6 +4347,9 @@ action_prob(const struct civ_map *nmap,
   case ACTRES_UNIT_MOVE:
   case ACTRES_TELEPORT:
   case ACTRES_TELEPORT_CONQUER:
+    chance = ACTPROB_CERTAIN;
+    break;
+  case ACTRES_SCOUT:
     chance = ACTPROB_CERTAIN;
     break;
     /* Not UI action, so chance is meaningless */

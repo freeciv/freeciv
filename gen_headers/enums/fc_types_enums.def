@@ -200,6 +200,7 @@ values
   /* TODO: Move close to "Move" */
   TELEPORT                     "Teleport"
   TELEPORT_CONQUER             "Teleport Conquer"
+  SCOUT                        "Scout"
 
   /* Hardcoded action that's just controlled by enablers */
   ENABLER_CHECK
