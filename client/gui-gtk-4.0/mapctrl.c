@@ -111,6 +111,8 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 {
   mapdeco_clear_crosshairs();
   mapdeco_clear_gotoroutes();
+
+  gtk_widget_unparent(w);
 }
 
 /**********************************************************************//**
