@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-08-15 19:26+0300\n"
-"PO-Revision-Date: 2026-08-15 19:35+0300\n"
+"POT-Creation-Date: 2026-08-31 00:25+0300\n"
+"PO-Revision-Date: 2026-08-31 00:30+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -11978,14 +11978,14 @@ msgstr "  %s tehdään kohteelle %s.\n"
 #. * leading spaces.
 #: client/helpdata.c:3179
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr "  %s jos kohderuudussa on asianmukainen mökki, siihen mennään.\n"
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3186
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 "  %s jos kohderuudussa on asianmukainen mökki, se pelotetaan tiehensä.\n"
 
@@ -21480,15 +21480,15 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "%s ei ole ajanmukaistettavissa kun sillä on toiminto '%s' kesken."
 
-#: common/unit.h:127
+#: common/unit.h:126
 msgid "?serveragent:None"
 msgstr "Ei palvelinpään asiamiestä"
 
-#: common/unit.h:129
+#: common/unit.h:128
 msgid "Autosettlers"
 msgstr "Automatisoitu työläinen"
 
-#: common/unit.h:131
+#: common/unit.h:130
 msgid "Autoexplore"
 msgstr "Automatisoitu tutkimusmatkailija"
 
