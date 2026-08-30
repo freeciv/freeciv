@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.4\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-08-15 19:25+0300\n"
-"PO-Revision-Date: 2026-08-15 20:18+0300\n"
+"POT-Creation-Date: 2026-08-31 00:24+0300\n"
+"PO-Revision-Date: 2026-08-31 00:51+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -261,13 +261,7 @@ msgstr ""
 "*%s (AI)* Odotamme apuanne tässä sodassa; olettehan mahtavia liittolaisiamme."
 
 #: ai/default/daidiplomacy.c:1559
-#, fuzzy, c-format
-#| msgid ""
-#| "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  "
-#| "Hold on - we are coming!"
-#| msgid_plural ""
-#| "*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
-#| "Hold on - we are coming!"
+#, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn. Hold "
 "on - we are coming!"
@@ -282,13 +276,7 @@ msgstr[1] ""
 "kuluttua. Tulossa ollaan!"
 
 #: ai/default/daidiplomacy.c:1569
-#, fuzzy, c-format
-#| msgid ""
-#| "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
-#| "turn.  We expect you to do likewise."
-#| msgid_plural ""
-#| "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
-#| "turns.  We expect you to do likewise."
+#, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turn. We expect you to do likewise."
@@ -12961,14 +12949,14 @@ msgstr "  %s tehdään kohteelle %s.\n"
 #. * leading spaces.
 #: client/helpdata.c:3190
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr "  %s jos kohderuudussa on asianmukainen mökki, siihen mennään.\n"
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3197
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 "  %s jos kohderuudussa on asianmukainen mökki, se pelotetaan tiehensä.\n"
 
@@ -15940,42 +15928,42 @@ msgstr "Asiakasohjelman toimintomuuttuja: %s"
 msgid "Server capability string: %s"
 msgstr "Palvelimen toimintomuuttuja: %s"
 
-#: client/packhand.c:1408
+#: client/packhand.c:1410
 #, c-format
 msgid "Start of turn %d"
 msgstr "Vuoron %d alku"
 
-#: client/packhand.c:1527
+#: client/packhand.c:1529
 #, c-format
 msgid "Beginning turn %d"
 msgstr "Aloitetaan kierros %d"
 
-#: client/packhand.c:1584
+#: client/packhand.c:1586
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:2272 client/tilespec.c:1493
+#: client/packhand.c:2277 client/tilespec.c:1493
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
 "Kartan topologia (%s) ja käytetty kuvitus (%s) eivät ole yhteensopivia."
 
-#: client/packhand.c:2319
+#: client/packhand.c:2324
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 "Tässä skenaariossa saattaa olla ominaisuuksia, joita editori ei pysty "
 "käsittelemään."
 
-#: client/packhand.c:2322
+#: client/packhand.c:2327
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr "Niitä ei talleta mikäli skenaario talletetaan editorista."
 
-#: client/packhand.c:2601
+#: client/packhand.c:2611
 msgid "AI mode is now ON."
 msgstr "AI-tila on nyt PÄÄLLÄ."
 
-#: client/packhand.c:2607
+#: client/packhand.c:2617
 msgid "AI mode is now OFF."
 msgstr "AI-tila on nyt POIS PÄÄLTÄ."
 
@@ -22280,8 +22268,12 @@ msgid ""
 msgid_plural ""
 "No more than %d other cardinally adjacent tiles may be part of the same "
 "continent or ocean."
-msgstr[0] "Korkeintaan %d muu rinnalla olevaa ruutua saa kuulua samaan mantereeseen tai mereen."
-msgstr[1] "Korkeintaan %d muuta rinnalla olevaa ruutua saa kuulua samaan mantereeseen tai mereen."
+msgstr[0] ""
+"Korkeintaan %d muu rinnalla olevaa ruutua saa kuulua samaan mantereeseen tai "
+"mereen."
+msgstr[1] ""
+"Korkeintaan %d muuta rinnalla olevaa ruutua saa kuulua samaan mantereeseen "
+"tai mereen."
 
 #: common/reqtext.c:4266
 #, c-format
@@ -22291,8 +22283,12 @@ msgid ""
 msgid_plural ""
 "Requires at least %d other cardinally adjacent tiles of the same continent "
 "or ocean."
-msgstr[0] "Vähintään %d muu rinnalla oleva ruutu täytyy kuulua samaan mantereeseen tai mereen."
-msgstr[1] "Vähintään %d muuta rinnalla olevaa ruutua täytyy kuulua samaan mantereeseen tai mereen."
+msgstr[0] ""
+"Vähintään %d muu rinnalla oleva ruutu täytyy kuulua samaan mantereeseen tai "
+"mereen."
+msgstr[1] ""
+"Vähintään %d muuta rinnalla olevaa ruutua täytyy kuulua samaan mantereeseen "
+"tai mereen."
 
 #: common/reqtext.c:4283
 msgid "No other adjacent tile may be part of the same continent or ocean."
@@ -22320,8 +22316,12 @@ msgid ""
 "Requires at least %d other adjacent tile of the same continent or ocean."
 msgid_plural ""
 "Requires at least %d other adjacent tiles of the same continent or ocean."
-msgstr[0] "Vähintään %d muu vieressä oleva ruutu täytyy kuulua samaan mantereeseen tai mereen."
-msgstr[1] "Vähintään %d muuta vieressä olevaa ruutua täytyy kuulua samaan mantereeseen tai mereen."
+msgstr[0] ""
+"Vähintään %d muu vieressä oleva ruutu täytyy kuulua samaan mantereeseen tai "
+"mereen."
+msgstr[1] ""
+"Vähintään %d muuta vieressä olevaa ruutua täytyy kuulua samaan mantereeseen "
+"tai mereen."
 
 #: common/reqtext.c:4310
 #, c-format
@@ -23015,15 +23015,15 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "%s ei ole ajanmukaistettavissa kun sillä on toiminto '%s' kesken."
 
-#: common/unit.h:129
+#: common/unit.h:128
 msgid "?serveragent:None"
 msgstr "Ei palvelinpään asiamiestä"
 
-#: common/unit.h:131
+#: common/unit.h:130
 msgid "AutoWorker"
 msgstr "Automaattinen työläinen"
 
-#: common/unit.h:133
+#: common/unit.h:132
 msgid "Autoexplore"
 msgstr "Automatisoitu tutkimusmatkailija"
 
@@ -24532,24 +24532,28 @@ msgstr "Kauppatavarat"
 #: data/civ1/game.ruleset:735 data/civ2/game.ruleset:666
 #: data/classic/game.ruleset:720 data/sandbox/game.ruleset:922
 #: data/civ2civ3/game.ruleset:806 data/alien/game.ruleset:705
+#: data/granularity/game.ruleset:662
 msgid "Team 1"
 msgstr "Joukkue 1"
 
 #: data/civ1/game.ruleset:736 data/civ2/game.ruleset:667
 #: data/classic/game.ruleset:721 data/sandbox/game.ruleset:923
 #: data/civ2civ3/game.ruleset:807 data/alien/game.ruleset:706
+#: data/granularity/game.ruleset:663
 msgid "Team 2"
 msgstr "Joukkue 2"
 
 #: data/civ1/game.ruleset:737 data/civ2/game.ruleset:668
 #: data/classic/game.ruleset:722 data/sandbox/game.ruleset:924
 #: data/civ2civ3/game.ruleset:808 data/alien/game.ruleset:707
+#: data/granularity/game.ruleset:664
 msgid "Team 3"
 msgstr "Joukkue 3"
 
 #: data/civ1/game.ruleset:738 data/civ2/game.ruleset:669
 #: data/classic/game.ruleset:723 data/sandbox/game.ruleset:925
 #: data/civ2civ3/game.ruleset:809 data/alien/game.ruleset:708
+#: data/granularity/game.ruleset:665
 msgid "Team 4"
 msgstr "Joukkue 4"
 
@@ -30096,22 +30100,22 @@ msgstr "Ydinonnettomuus"
 msgid "Robbery"
 msgstr "Ryöstö"
 
-#: data/classic/script.lua:75 data/sandbox/script.lua:381
-#: data/civ2civ3/script.lua:345
+#: data/classic/script.lua:76 data/sandbox/script.lua:383
+#: data/civ2civ3/script.lua:347
 msgid "Highest Peak"
 msgstr "Maailman huippu"
 
-#: data/classic/script.lua:80 data/sandbox/script.lua:228
-#: data/civ2civ3/script.lua:192
+#: data/classic/script.lua:81 data/sandbox/script.lua:230
+#: data/civ2civ3/script.lua:194
 msgid "Deep Trench"
 msgstr "Pohjaton hauta"
 
-#: data/classic/script.lua:85
+#: data/classic/script.lua:86
 msgid "Scorched Spot"
 msgstr "Käristetty maa"
 
-#: data/classic/script.lua:90 data/sandbox/script.lua:282
-#: data/civ2civ3/script.lua:246
+#: data/classic/script.lua:91 data/sandbox/script.lua:284
+#: data/civ2civ3/script.lua:248
 msgid "Frozen Lake"
 msgstr "Jääjärvi"
 
@@ -32509,223 +32513,223 @@ msgstr ""
 "yhdellä, mutta lisää yksiköiden hintaa 25% lisäkoulutuksen kustannusten "
 "takia."
 
-#: data/sandbox/script.lua:33
+#: data/sandbox/script.lua:35
 msgid "You found Hermit's Place."
 msgstr "Löysit erakon asuinpaikan."
 
-#: data/sandbox/script.lua:38
+#: data/sandbox/script.lua:40
 #, c-format
 msgid "Secluded studies have led the Hermit to the discovery of %s!"
 msgstr ""
 "Eristyksissä tehdyt tutkimukset ovat johtaneet erakon keksimään teknologian "
 "%s!"
 
-#: data/sandbox/script.lua:42
+#: data/sandbox/script.lua:44
 msgid "The Hermit has left nothing useful."
 msgstr "Erakolta ei ole jäänyt jälkeen mitään hyödyllistä."
 
-#: data/sandbox/script.lua:54
+#: data/sandbox/script.lua:56
 #, c-format
 msgid "Your %s has overflied a Hermit's Place and destroyed it!"
 msgstr "Yksikkösi %s on lentänyt erakon asuinpaikan yli ja tuhonnut sen!"
 
-#: data/sandbox/script.lua:212 data/civ2civ3/script.lua:176
+#: data/sandbox/script.lua:214 data/civ2civ3/script.lua:178
 msgid "Grand Canyon"
 msgstr "Suuri kanjoni"
 
-#: data/sandbox/script.lua:214 data/civ2civ3/script.lua:178
+#: data/sandbox/script.lua:216 data/civ2civ3/script.lua:180
 msgid "Deep Gorge"
 msgstr "Syvä kuilu"
 
-#: data/sandbox/script.lua:216 data/civ2civ3/script.lua:180
+#: data/sandbox/script.lua:218 data/civ2civ3/script.lua:182
 msgid "Fjords"
 msgstr "Vuonoja"
 
-#: data/sandbox/script.lua:218 data/civ2civ3/script.lua:182
+#: data/sandbox/script.lua:220 data/civ2civ3/script.lua:184
 msgid "Waterfalls"
 msgstr "Vesiputouksia"
 
-#: data/sandbox/script.lua:220 data/civ2civ3/script.lua:184
+#: data/sandbox/script.lua:222 data/civ2civ3/script.lua:186
 msgid "Travertine Terraces"
 msgstr "Marmoritasanteet"
 
-#: data/sandbox/script.lua:230 data/civ2civ3/script.lua:194
+#: data/sandbox/script.lua:232 data/civ2civ3/script.lua:196
 #: data/alien/terrain.ruleset:1309
 msgid "Thermal Vent"
 msgstr "Hydroterminen purkausaukko"
 
-#: data/sandbox/script.lua:238 data/civ2civ3/script.lua:202
+#: data/sandbox/script.lua:240 data/civ2civ3/script.lua:204
 msgid "Atoll Chain"
 msgstr "Atolliketju"
 
-#: data/sandbox/script.lua:240 data/civ2civ3/script.lua:204
+#: data/sandbox/script.lua:242 data/civ2civ3/script.lua:206
 msgid "Glacier Bay"
 msgstr "Jäätikkölahti"
 
-#: data/sandbox/script.lua:242 data/civ2civ3/script.lua:206
+#: data/sandbox/script.lua:244 data/civ2civ3/script.lua:208
 msgid "Great Barrier Reef"
 msgstr "Suuri valliriutta"
 
-#: data/sandbox/script.lua:245 data/civ2civ3/script.lua:209
+#: data/sandbox/script.lua:247 data/civ2civ3/script.lua:211
 msgid "Great Blue Hole"
 msgstr "Suuri sininen aukko"
 
-#: data/sandbox/script.lua:253 data/civ2civ3/script.lua:217
+#: data/sandbox/script.lua:255 data/civ2civ3/script.lua:219
 msgid "Great Lakes"
 msgstr "Suuret järvet"
 
-#: data/sandbox/script.lua:256 data/civ2civ3/script.lua:220
+#: data/sandbox/script.lua:258 data/civ2civ3/script.lua:222
 msgid "Dead Sea"
 msgstr "Kuollutmeri"
 
-#: data/sandbox/script.lua:258 data/civ2civ3/script.lua:222
+#: data/sandbox/script.lua:260 data/civ2civ3/script.lua:224
 msgid "Rift Lake"
 msgstr "Kuilujärvi"
 
-#: data/sandbox/script.lua:266 data/civ2civ3/script.lua:230
+#: data/sandbox/script.lua:268 data/civ2civ3/script.lua:232
 msgid "Grand Prismatic Spring"
 msgstr "Suuri sininen lähde"
 
-#: data/sandbox/script.lua:269 data/civ2civ3/script.lua:233
+#: data/sandbox/script.lua:271 data/civ2civ3/script.lua:235
 msgid "Mangrove Forest"
 msgstr "Mangrovemetsä"
 
-#: data/sandbox/script.lua:271 data/civ2civ3/script.lua:235
+#: data/sandbox/script.lua:273 data/civ2civ3/script.lua:237
 msgid "Cenotes"
 msgstr "Sortumakaivoja"
 
-#: data/sandbox/script.lua:279 data/civ2civ3/script.lua:243
+#: data/sandbox/script.lua:281 data/civ2civ3/script.lua:245
 msgid "Ice Sheet"
 msgstr "Jääpeite"
 
-#: data/sandbox/script.lua:285 data/civ2civ3/script.lua:249
+#: data/sandbox/script.lua:287 data/civ2civ3/script.lua:251
 msgid "Ice Shelf"
 msgstr "Jäähylly"
 
-#: data/sandbox/script.lua:287 data/civ2civ3/script.lua:251
+#: data/sandbox/script.lua:289 data/civ2civ3/script.lua:253
 msgid "Advancing Glacier"
 msgstr "Etenevä jäätikkö"
 
-#: data/sandbox/script.lua:293 data/civ2civ3/script.lua:257
+#: data/sandbox/script.lua:295 data/civ2civ3/script.lua:259
 msgid "Geothermal Area"
 msgstr "Geoterminen alue"
 
-#: data/sandbox/script.lua:300 data/civ2civ3/script.lua:264
+#: data/sandbox/script.lua:302 data/civ2civ3/script.lua:266
 msgid "Sand Sea"
 msgstr "Hiekkameri"
 
-#: data/sandbox/script.lua:303 data/civ2civ3/script.lua:267
+#: data/sandbox/script.lua:305 data/civ2civ3/script.lua:269
 msgid "Salt Flat"
 msgstr "Suolatasanko"
 
-#: data/sandbox/script.lua:305 data/civ2civ3/script.lua:269
+#: data/sandbox/script.lua:307 data/civ2civ3/script.lua:271
 msgid "Singing Dunes"
 msgstr "Laulavat dyynit"
 
-#: data/sandbox/script.lua:307 data/civ2civ3/script.lua:271
+#: data/sandbox/script.lua:309 data/civ2civ3/script.lua:273
 msgid "White Desert"
 msgstr "Valkoinen autiomaa"
 
-#: data/sandbox/script.lua:315 data/civ2civ3/script.lua:279
+#: data/sandbox/script.lua:317 data/civ2civ3/script.lua:281
 msgid "Long Beach"
 msgstr "Pitkä ranta"
 
-#: data/sandbox/script.lua:317 data/civ2civ3/script.lua:281
+#: data/sandbox/script.lua:319 data/civ2civ3/script.lua:283
 msgid "Valley of Geysers"
 msgstr "Geysirilaakso"
 
-#: data/sandbox/script.lua:319 data/civ2civ3/script.lua:283
+#: data/sandbox/script.lua:321 data/civ2civ3/script.lua:285
 msgid "Rock Pillars"
 msgstr "Kivipilarit"
 
-#: data/sandbox/script.lua:327 data/civ2civ3/script.lua:291
+#: data/sandbox/script.lua:329 data/civ2civ3/script.lua:293
 msgid "White Cliffs"
 msgstr "Valkoiset kielekkeet"
 
-#: data/sandbox/script.lua:329 data/civ2civ3/script.lua:293
+#: data/sandbox/script.lua:331 data/civ2civ3/script.lua:295
 msgid "Giant Cave"
 msgstr "Jättiläisluola"
 
-#: data/sandbox/script.lua:331 data/civ2civ3/script.lua:295
+#: data/sandbox/script.lua:333 data/civ2civ3/script.lua:297
 msgid "Rock Formation"
 msgstr "Kivimuodostelma"
 
-#: data/sandbox/script.lua:339 data/civ2civ3/script.lua:303
+#: data/sandbox/script.lua:341 data/civ2civ3/script.lua:305
 msgid "Rainforest"
 msgstr "Sademetsä"
 
-#: data/sandbox/script.lua:342 data/civ2civ3/script.lua:306
+#: data/sandbox/script.lua:344 data/civ2civ3/script.lua:308
 msgid "Subterranean River"
 msgstr "Maanalainen joki"
 
-#: data/sandbox/script.lua:344 data/civ2civ3/script.lua:308
+#: data/sandbox/script.lua:346 data/civ2civ3/script.lua:310
 msgid "Sinkholes"
 msgstr "Vajoamia"
 
-#: data/sandbox/script.lua:351 data/civ2civ3/script.lua:315
+#: data/sandbox/script.lua:353 data/civ2civ3/script.lua:317
 msgid "Stone Forest"
 msgstr "Kivimetsä"
 
-#: data/sandbox/script.lua:354 data/civ2civ3/script.lua:318
+#: data/sandbox/script.lua:356 data/civ2civ3/script.lua:320
 msgid "Sequoia Forest"
 msgstr "Punapuumetsä"
 
-#: data/sandbox/script.lua:356 data/civ2civ3/script.lua:320
+#: data/sandbox/script.lua:358 data/civ2civ3/script.lua:322
 msgid "Millenary Trees"
 msgstr "Tuhatvuotisia puita"
 
-#: data/sandbox/script.lua:365 data/civ2civ3/script.lua:329
+#: data/sandbox/script.lua:367 data/civ2civ3/script.lua:331
 msgid "Table Mountain"
 msgstr "Pöytävuori"
 
-#: data/sandbox/script.lua:368 data/civ2civ3/script.lua:332
+#: data/sandbox/script.lua:370 data/civ2civ3/script.lua:334
 msgid "Inselberg"
 msgstr "Yksinäinen vuori"
 
-#: data/sandbox/script.lua:371 data/civ2civ3/script.lua:335
+#: data/sandbox/script.lua:373 data/civ2civ3/script.lua:337
 msgid "Karst Landscape"
 msgstr "Karstimaastoa"
 
-#: data/sandbox/script.lua:373 data/civ2civ3/script.lua:337
+#: data/sandbox/script.lua:375 data/civ2civ3/script.lua:339
 msgid "Mud Volcanoes"
 msgstr "Mutatulivuoria"
 
-#: data/sandbox/script.lua:384 data/civ2civ3/script.lua:348
+#: data/sandbox/script.lua:386 data/civ2civ3/script.lua:350
 msgid "Sacred Mount"
 msgstr "Pyhä vuori"
 
-#: data/sandbox/script.lua:387 data/civ2civ3/script.lua:351
+#: data/sandbox/script.lua:389 data/civ2civ3/script.lua:353
 msgid "Cliff Coast"
 msgstr "Kielekerannikko"
 
-#: data/sandbox/script.lua:389 data/civ2civ3/script.lua:353
+#: data/sandbox/script.lua:391 data/civ2civ3/script.lua:355
 msgid "Active Volcano"
 msgstr "Aktiivinen tulivuori"
 
-#: data/sandbox/script.lua:391 data/civ2civ3/script.lua:355
+#: data/sandbox/script.lua:393 data/civ2civ3/script.lua:357
 msgid "High Summit"
 msgstr "Korkealaki"
 
 #. TRANS: Your Marines does Disrupt Supply Lines to American Armor.
-#: data/sandbox/script.lua:456
+#: data/sandbox/script.lua:458
 #, c-format
 msgid "Your %s does %s to %s %s."
 msgstr "Yksikkösi %s suoritti toiminnon %s %s %s."
 
 #. TRANS: German Paratroopers does Disrupt Supply Lines to your Armor.
-#: data/sandbox/script.lua:466
+#: data/sandbox/script.lua:468
 #, c-format
 msgid "%s %s does %s to your %s."
 msgstr "%s %s suoritti toiminnon %s yksiköllesi %s."
 
 #. TRANS: Your Marines didn't survive doing
 #. --  * Use Ancient Transportation Network.
-#: data/sandbox/script.lua:507
+#: data/sandbox/script.lua:509
 #, c-format
 msgid "Your %s didn't survive doing %s."
 msgstr "Yksikkösi %s menehtyi toiminnon %s tehdessään."
 
-#: data/sandbox/script.lua:512
+#: data/sandbox/script.lua:514
 msgid "Be more careful the next time you select a target."
 msgstr "Valitse kohteesi tarkemmin seuraavalla kerralla."
 
@@ -38071,7 +38075,15 @@ msgid ""
 "Terrain Alterations); you can select one improvement per tile at a time. "
 "These 'worker tasks' will be carried out by any units capable of them that "
 "are in 'auto worker' mode."
-msgstr "Voit pyytää ruutujen muokkauksia kaupungin kartasta sen sijaan että ohjeistaisit yksiköt tekemään ne suoraan. Jos asiakasohjelma tukee toiminnallisuutta, kaupunkikartan ruudun napauttaminen hiiren oikealla näppäimellä näyttää valikon muutoksista ja parannuksista jotka ruudulle voidaan tehdä, kuten kastelu tai tien rakentaminen (k. myös maanparannusosio). Voit valita yhden parannuksen ruutua kohti kerrallaan. Yksiköt jotka pystyvät työhön ja ovat \"Automaattinen työläinen\" -tilassa tekevät pyydetyt työt."
+msgstr ""
+"Voit pyytää ruutujen muokkauksia kaupungin kartasta sen sijaan että "
+"ohjeistaisit yksiköt tekemään ne suoraan. Jos asiakasohjelma tukee "
+"toiminnallisuutta, kaupunkikartan ruudun napauttaminen hiiren oikealla "
+"näppäimellä näyttää valikon muutoksista ja parannuksista jotka ruudulle "
+"voidaan tehdä, kuten kastelu tai tien rakentaminen (k. myös "
+"maanparannusosio). Voit valita yhden parannuksen ruutua kohti kerrallaan. "
+"Yksiköt jotka pystyvät työhön ja ovat \"Automaattinen työläinen\" -tilassa "
+"tekevät pyydetyt työt."
 
 #: data/helpdata.txt:730
 msgid ""
@@ -39801,7 +39813,8 @@ msgstr ""
 "  b:      perusta kaupunki (uudisraivaajat)\n"
 "  b:      auta rakentamaan ihmettä (karavaanit/rekat)\n"
 "  B:      mene ja perusta kaupunki kohderuudulle (uudisraivaajat)\n"
-"  d:      tee toimi valitulle ruudulle (paina kahdesti kohdistaaksesi toimen omaan ruutuun)\n"
+"  d:      tee toimi valitulle ruudulle (paina kahdesti kohdistaaksesi toimen "
+"omaan ruutuun)\n"
 "  d:      tee toimi valitulle ruudulle (mene-tilassa)\n"
 "  D:      lakkauta yksikkö\n"
 "  E:      rakenna l(e)ntotukikohta (lentotukikohtayksiköt)\n"
@@ -41065,23 +41078,23 @@ msgstr "Laventelit"
 msgid "?team name:Cream"
 msgstr "Kermanväriset"
 
-#: data/multiplayer/script.lua:48
+#: data/multiplayer/script.lua:49
 #, c-format
 msgid "%s boosts research; you gain the immediate advance %s."
 msgstr "%s tehostaa tutkimusta, saat välittömästi teknologian %s."
 
-#: data/multiplayer/script.lua:53
+#: data/multiplayer/script.lua:54
 #, c-format
 msgid "%s boosts %s research; you gain the immediate advance %s."
 msgstr "%s tehostaa %s tutkimusta, saatte välittömästi teknologian %s."
 
 #. TRANS: 1st %s is nation or team name
-#: data/multiplayer/script.lua:62
+#: data/multiplayer/script.lua:63
 #, c-format
 msgid "The %s gain %s from %s."
 msgstr "Tiedonjanoiset %s saivat edistysaskeleen %s, opettajina %s."
 
-#: data/multiplayer/script.lua:123
+#: data/multiplayer/script.lua:124
 #, c-format
 msgid ""
 "Great philosophers from all the world join your civilization: you get the "
@@ -41090,7 +41103,7 @@ msgstr ""
 "Suuret filosofit ympäri maailmaa liittyvät riveihisi; saat välittömästi "
 "edistysaskeleen %s."
 
-#: data/multiplayer/script.lua:128
+#: data/multiplayer/script.lua:129
 #, c-format
 msgid ""
 "Great philosophers from all the world join the %s: you get the immediate "
@@ -41100,7 +41113,7 @@ msgstr ""
 "edistysaskeleen %s."
 
 #. TRANS: first %s is nation plural or team name
-#: data/multiplayer/script.lua:136
+#: data/multiplayer/script.lua:137
 #, c-format
 msgid ""
 "Great philosophers from all the world join the %s: they get %s as an "
@@ -41630,7 +41643,9 @@ msgstr "Tekee yksiköiden uudenaikaistamisen mahdolliseksi kaupungeissa."
 msgid ""
 "With fire, there can be a place to live permanently. Allows settlements to "
 "grow two sizes bigger."
-msgstr "Tuli mahdollistaa pysyvän asutuksen. Asutukset voivat kasvaa kahta kokoa suuremmiksi."
+msgstr ""
+"Tuli mahdollistaa pysyvän asutuksen. Asutukset voivat kasvaa kahta kokoa "
+"suuremmiksi."
 
 #: data/granularity/techs.ruleset:333
 msgid "Fishing"
@@ -41709,7 +41724,7 @@ msgstr "Aura"
 
 #: data/granularity/techs.ruleset:506
 msgid "Make Irrigation fully effective."
-msgstr ""
+msgstr "Mahdollistaa täyden hyödyn saamisen kastelujärjestelmistä."
 
 #: data/granularity/techs.ruleset:511
 msgid "Policing"
@@ -41767,7 +41782,8 @@ msgstr "Henget"
 #: data/granularity/techs.ruleset:609
 msgid ""
 "Belief in natural spirits is the first step in Religious tech tree branch."
-msgstr "Usko luonnonhenkiin on ensimmäinen askel teknologiapuun uskonnollista haaraa."
+msgstr ""
+"Usko luonnonhenkiin on ensimmäinen askel teknologiapuun uskonnollista haaraa."
 
 #: data/granularity/techs.ruleset:614
 msgid "Strategies"
@@ -45354,182 +45370,182 @@ msgstr "Kun menetit kaupungin %2$s hallinnan, menetit yksikön %1$s."
 msgid "A replacement %s was built in %s."
 msgstr "Korvaava %s rakennettiin kaupunkiin %s."
 
-#: server/citytools.c:1186
+#: server/citytools.c:1189
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 "Sinulla on jo kaupunki nimeltään %s. Kaupungin uudeksi nimeksi tuli %s."
 
-#: server/citytools.c:1297
+#: server/citytools.c:1300
 #, c-format
 msgid "Transfer of %s"
 msgstr "%s siirretään"
 
-#: server/citytools.c:1315
+#: server/citytools.c:1318
 #, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr "Koko %s ihastelee millaista teknologiaa hallitset!"
 
-#: server/citytools.c:1321
+#: server/citytools.c:1324
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s with %s."
 msgstr ""
 "Työläiset päättävät kehittää kaupunkia %s. Talkoovoimin rakennetaan %s."
 
-#: server/citytools.c:1326
+#: server/citytools.c:1329
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s infrastructure."
 msgstr "Työläiset päättävät kehittää kaupunkia %s."
 
 #. TRANS: Reason that a building was added to the city.
 #. *        Building is given for free to player's first city.
-#: server/citytools.c:1474 server/citytools.c:1497
+#: server/citytools.c:1477 server/citytools.c:1500
 #, c-format
 msgid "?initbldg:Free %s"
 msgstr "Ilmainen %s"
 
-#: server/citytools.c:1644
+#: server/citytools.c:1647
 #, c-format
 msgid "You have founded %s."
 msgstr "Olet perustanut kaupungin %s."
 
-#: server/citytools.c:1792
+#: server/citytools.c:1795
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "Yksikkö %s poistui hylätystä kaupungista %s koska %s ei sovi sille."
 
-#: server/citytools.c:1804
+#: server/citytools.c:1807
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Kun %s hylättiin, yksikkösi %s ei voinut poistua ja se menetettiin."
 
 # TODO: Need to play the game and see if the translation suits the situation
-#: server/citytools.c:1838
+#: server/citytools.c:1841
 #, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
 "Kun %s hylättiin, yksikkösi %s kaupungissa %s jäi ansaan ja se menetettiin."
 
-#: server/citytools.c:2046 server/unithand.c:4868
+#: server/citytools.c:2049 server/unithand.c:4868
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Tuhoat kaupungin %s kokonaan."
 
-#: server/citytools.c:2049 server/unithand.c:4875
+#: server/citytools.c:2052 server/unithand.c:4875
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
 
-#: server/citytools.c:2075
+#: server/citytools.c:2078
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Valloitat kaupungin %s, saaliisi on %d kulta!"
 msgstr[1] "Valloitat kaupungin %s, saaliisi on %d kultaa!"
 
-#: server/citytools.c:2082
+#: server/citytools.c:2085
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s valloitti kaupungin %s ja sai saaliikseen %d kultaa."
 msgstr[1] "%s valloitti kaupungin %s ja sai saaliikseen %d kultaa."
 
-#: server/citytools.c:2091
+#: server/citytools.c:2094
 #, c-format
 msgid "You conquer %s."
 msgstr "Valloitat kaupungin %s"
 
-#: server/citytools.c:2094
+#: server/citytools.c:2097
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s valloitti kaupungin %s."
 
-#: server/citytools.c:2101
+#: server/citytools.c:2104
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Olet vapauttanut kaupungin %s! Saaliisi on %d kulta."
 msgstr[1] "Olet vapauttanut kaupungin %s! Saaliisi on %d kultaa."
 
-#: server/citytools.c:2108
+#: server/citytools.c:2111
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s vapautti kaupungin %s ja sai saaliikseen %d kullan."
 msgstr[1] "%s vapautti kaupungin %s ja sai saaliikseen %d kultaa."
 
-#: server/citytools.c:2117
+#: server/citytools.c:2120
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Olet vapauttanut kaupungin %s!"
 
-#: server/citytools.c:2120
+#: server/citytools.c:2123
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s vapautti kaupungin %s."
 
-#: server/citytools.c:2906
+#: server/citytools.c:2909
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr ""
 "Kauppareitti kaupunkien %s ja %s välillä on peruttu kaupungin menettämisen "
 "myötä."
 
-#: server/citytools.c:2911
+#: server/citytools.c:2914
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Kauppareitti kaupunkien %s ja %s välillä on peruttu."
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2919
+#: server/citytools.c:2922
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 "Kauppareitti %s kaupungin %s ja kaupungin %s välillä menetetty kaupungin "
 "myötä."
 
-#: server/citytools.c:2927
+#: server/citytools.c:2930
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "%s on perunut kauppareitin kaupungista %s kaupunkiisi %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2933
+#: server/citytools.c:2936
 #, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "Peruimme kauppareitin kaupungista %s %s kaupunkiin %s."
 
-#: server/citytools.c:2988
+#: server/citytools.c:2991
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s on ruton riipimä! Väestöä kuolee!"
 
-#: server/citytools.c:3053
+#: server/citytools.c:3056
 #, c-format
 msgid "Moving %s"
 msgstr "%s siirretään"
 
-#: server/citytools.c:3056
+#: server/citytools.c:3059
 #, c-format
 msgid "Acquiring %s"
 msgstr "%s saadaan"
 
-#: server/citytools.c:3213
+#: server/citytools.c:3216
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s ovat keskeyttäneet hankkeensa %s kaupungissa %s."
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3235
+#: server/citytools.c:3238
 msgid " from the worklist"
 msgstr " työlistalta"
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence). Preserve leading space.
-#: server/citytools.c:3240
+#: server/citytools.c:3243
 msgid " as suggested by the advisor"
 msgstr " neuvontantajan ohjaamana"
 
@@ -45537,17 +45553,17 @@ msgstr " neuvontantajan ohjaamana"
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
 #. * " from the worklist".
-#: server/citytools.c:3257
+#: server/citytools.c:3260
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s aloitti hankkeen %s%s."
 
-#: server/citytools.c:3266
+#: server/citytools.c:3269
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s tavoittelevat taivaita: %s rakenteilla kaupungissa %s."
 
-#: server/citytools.c:3435
+#: server/citytools.c:3438
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -45556,16 +45572,16 @@ msgstr[0] ""
 msgstr[1] ""
 "Myyt vesiyhteyttä vaativan parannuksen %s kaupungissa %s %d kullasta."
 
-#: server/citytools.c:3575
+#: server/citytools.c:3578
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Kaupungin %s alueen koko %s."
 
-#: server/citytools.c:3577
+#: server/citytools.c:3580
 msgid "increased"
 msgstr "laajeni"
 
-#: server/citytools.c:3578
+#: server/citytools.c:3581
 msgid "reduced"
 msgstr "supistui"
 
@@ -45947,7 +45963,8 @@ msgstr ""
 #: server/cityturn.c:1922
 #, c-format
 msgid "%s can't build %s from the worklist; Must own %d cities. Postponing..."
-msgstr "\"%s lykkää työlistan hanketta %s, koska omistaa vähemmäm kuin %d kaupunkia."
+msgstr ""
+"\"%s lykkää työlistan hanketta %s, koska omistaa vähemmäm kuin %d kaupunkia."
 
 #: server/cityturn.c:1937
 #, fuzzy, c-format
@@ -50352,7 +50369,7 @@ msgstr ""
 "Suoritetaan latauksen jälkeinen yhteensopivuustoiminto versiolle: <%d "
 "(tiedosto: %d, palvelin: %d)."
 
-#: server/savegame/savecompat.c:1285
+#: server/savegame/savecompat.c:1286
 #, c-format
 msgid ""
 "The save game is wrong about what the closest relationship %s (player %d) "
@@ -50385,7 +50402,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Virhe tallennetun pelin tarvitseman sääntökokoelman '%s' lataamisessa."
 
 #: server/savegame/savegame2.c:2978 server/savegame/savegame3.c:3993
-#: server/srv_main.c:2628 server/srv_main.c:2633
+#: server/srv_main.c:2632 server/srv_main.c:2637
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
@@ -52749,17 +52766,6 @@ msgstr "Millaiset voittotavat ovat mahdollisia"
 #. * The strings between parentheses and in uppercase must stay as
 #. * untranslated.
 #: server/settings.c:2688
-#, fuzzy
-#| msgid ""
-#| "This setting controls how game can be won. One can always win by "
-#| "conquering entire planet, but other victory conditions can be enabled or "
-#| "disabled:\n"
-#| "- \"Spacerace\" (SPACERACE): Spaceship is built and travels to Alpha "
-#| "Centauri.\n"
-#| "- \"Allied\" (ALLIED): After defeating enemies, all remaining players are "
-#| "allied.\n"
-#| "- \"Culture\" (CULTURE): Player meets ruleset defined cultural domination "
-#| "criteria.\n"
 msgid ""
 "This setting controls how game can be won. One can always win by conquering "
 "entire planet, but other victory conditions can be enabled or disabled:\n"
@@ -52772,15 +52778,11 @@ msgid ""
 "- \"World Peace\" (WORLDPEACE): There's no wars in the world for the "
 "specified amount of turns.\n"
 msgstr ""
-"Tämä asetus määrittää millä tavoilla peli voidaan voittaa. Voittaminen on "
-"aina mahdollista koko maailman valloittamisella, mutta muut voittokriteerit "
-"voidaan ottaa käyttöön tai poistaa käytöstä:\n"
-"- \"Avaruuden kilpajuoksu\" (SPACERACE): Avaruusalus on rakennettu ja "
-"matkustanut Alpha Centauriin.\n"
-"- \"Liittouma\" (ALLIED): Kaikki jäljellä olevat pelaajat ovat liittolaisia "
-"keskenään.\n"
-"- \"Kulttuuri\" (CULTURE): Pelaaja on saavuttanut kulttuurisen valta-aseman. "
-"Sääntökokoelma määrittää mikä katsotaan valta-asemaksi.\n"
+"Tämä asetus määrittää millä tavoilla peli voidaan voittaa. Voittaminen on aina mahdollista koko maailman valloittamisella, mutta muut voittokriteerit voidaan ottaa käyttöön tai poistaa käytöstä:\n"
+"- \"Avaruuden kilpajuoksu\" (SPACERACE): Avaruusalus on rakennettu ja matkustanut Alpha Centauriin.\n"
+"- \"Liittouma\" (ALLIED): Kaikki jäljellä olevat pelaajat ovat liittolaisia keskenään.\n"
+"- \"Kulttuuri\" (CULTURE): Pelaaja on saavuttanut kulttuurisen valta-aseman. Sääntökokoelma määrittää mikä katsotaan valta-asemaksi.\n"
+"- Maailmanrauha\" (WORLDPEACE): Maailmassa ei ole yhtään sotaa tietyn mittaisen ajanjakson aikana.\n"
 
 #: server/settings.c:2704
 msgid "Should the game end if the spaceship arrives?"
@@ -54111,10 +54113,9 @@ msgstr "Liittoutuneet pelaajat voittivat: %s."
 
 #. TRANS: There can be several winners listed
 #: server/srv_main.c:556 server/srv_main.c:557
-#, fuzzy, c-format
-#| msgid "Team victory to %s."
+#, c-format
 msgid "World Peace victory to %s."
-msgstr "Joukkue %s voitti."
+msgstr "Maailmanrauha-voiton saavutti %s."
 
 #: server/srv_main.c:583 server/srv_main.c:584
 #, c-format
@@ -54242,32 +54243,32 @@ msgstr "%s katoaa ruudusta %s."
 msgid "%s appears to %s."
 msgstr "%s ilmestyy ruutuun %s."
 
-#: server/srv_main.c:1925
+#: server/srv_main.c:1929
 msgid "The game is already running."
 msgstr "Peli on jo käynnissä."
 
-#: server/srv_main.c:1933
+#: server/srv_main.c:1937
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s menetti control-komentotason pelin alkaessa. Käytä äänestystä tästä "
 "eteenpäin."
 
-#: server/srv_main.c:1941
+#: server/srv_main.c:1945
 msgid "Starting game."
 msgstr "Aloitan pelin."
 
-#: server/srv_main.c:2065
+#: server/srv_main.c:2069
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "tuntemattoman raporttityypin pyyntö (tyyppi %d)"
 
-#: server/srv_main.c:2155
+#: server/srv_main.c:2159
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Varoitus: hylättiin vanha asiakasohjelma %s"
 
-#: server/srv_main.c:2166
+#: server/srv_main.c:2170
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -54275,53 +54276,53 @@ msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi vähintään "
 "Freeciv-versioon 2.2."
 
-#: server/srv_main.c:2226
+#: server/srv_main.c:2230
 msgid "You are not allowed to edit."
 msgstr "Sinulla ei ole tarvittavia oikeuksia muokkaamiseen."
 
-#: server/srv_main.c:2439 server/stdinhand.c:4331
+#: server/srv_main.c:2443 server/stdinhand.c:4331
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Kansakunta (%s) ei ole käyttäjän valittavissa."
 
-#: server/srv_main.c:2445 server/stdinhand.c:4339
+#: server/srv_main.c:2449 server/stdinhand.c:4339
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Kansakunta (%s) on jo käytössä."
 
 # Johndoe on suomalaisten hallitsija Tarja Halonen.
-#: server/srv_main.c:2461
+#: server/srv_main.c:2465
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:2537
+#: server/srv_main.c:2541
 #, c-format
 msgid "Waiting to start game: %d out of %d alive players are ready to start."
 msgstr ""
 "Odotetaan pelin alkamista: %d / %d elävistä pelaajista valmiina aloittamaan."
 
-#: server/srv_main.c:2563
+#: server/srv_main.c:2567
 msgid "requested more than 'maxplayers' setting"
 msgstr "pyydetty määrä ole enemmän kuin 'maxplayers' asetus sallii"
 
-#: server/srv_main.c:2570
+#: server/srv_main.c:2574
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "käytössä olevassa kansavalikoimassa ei ole riittävästi kansakuntia (kokeile "
 "muuttaa 'nationset' asetusta)"
 
-#: server/srv_main.c:2573
+#: server/srv_main.c:2577
 msgid "not enough playable nations"
 msgstr "Kansakuntia ei ole riittävästi."
 
-#: server/srv_main.c:2921 server/srv_main.c:2925
+#: server/srv_main.c:2925 server/srv_main.c:2929
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:3120
+#: server/srv_main.c:3124
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -54329,44 +54330,44 @@ msgstr ""
 "Tämä freeciv-palvelinohjelma tukee käyttäjien kirjautumista "
 "(autentikaatiota), mutta se ei ole tällä hetkellä käytössä."
 
-#: server/srv_main.c:3181 server/stdinhand.c:4020
+#: server/srv_main.c:3185 server/stdinhand.c:4020
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Sääntökokoelmahakemistoa \"%s\" ei löydy"
 
-#: server/srv_main.c:3201
+#: server/srv_main.c:3205
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Lähetän tietoa metapalvelimelle <%s>"
 
-#: server/srv_main.c:3205
+#: server/srv_main.c:3209
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 
-#: server/srv_main.c:3228
+#: server/srv_main.c:3232
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3363
+#: server/srv_main.c:3367
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3369
+#: server/srv_main.c:3373
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3398
+#: server/srv_main.c:3402
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3421 server/srv_main.c:3425
+#: server/srv_main.c:3425 server/srv_main.c:3429
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3632
+#: server/srv_main.c:3636
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -56327,27 +56328,27 @@ msgstr "Tiedonjanoiset %s saivat edistysaskeleen %s, opettajina %s."
 msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "%s on opittu, joten %s VANHENTUU kaupungissa %s!"
 
-#: server/techtools.c:468
+#: server/techtools.c:465
 #, c-format
 msgid "Discovery of %s"
 msgstr "Teknologian %s keksiminen"
 
-#: server/techtools.c:514
+#: server/techtools.c:511
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "%s opittu. Tutkimuksen seuraavana kohteena %s, tavoitteena %s."
 
-#: server/techtools.c:558
+#: server/techtools.c:555
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
 msgstr "%s opittu. Tiedemiehet eivät tiedä, mitä tutkisivat seuraavaksi."
 
-#: server/techtools.c:563
+#: server/techtools.c:560
 #, c-format
 msgid "Learned %s. Scientists choose to research %s."
 msgstr "%s opittu. Tutkimuksen seuraavana kohteena %s."
 
-#: server/techtools.c:602
+#: server/techtools.c:599
 #, c-format
 msgid ""
 "Great scientists from all the world join your civilization: you learn %s "
@@ -56356,24 +56357,24 @@ msgstr ""
 "Suuret tiedemiehet ympäri maailmaa liittyvät riveihisi; saavutat "
 "välittömästi edistysaskeleen %s."
 
-#: server/techtools.c:608
+#: server/techtools.c:605
 #, c-format
 msgid "%s acquire %s as a result of learning %s."
 msgstr "%s oppivat tekniikan %s kaupanpäällisiksi saatuaan tekniikan %s."
 
-#: server/techtools.c:711
+#: server/techtools.c:708
 #, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr "Olematon tutkimuspanostus saa meidät menettämään teknologian %s."
 
 # TODO: needs capitalization tag
 #. TRANS: technology loss
-#: server/techtools.c:836 server/techtools.c:848
+#: server/techtools.c:833 server/techtools.c:845
 #, c-format
 msgid "The %s have lost %s."
 msgstr "Diplomaatit raportoivat, että %s ovat menettäneet edistysaskeleen %s."
 
-#: server/techtools.c:870
+#: server/techtools.c:867
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -56382,7 +56383,7 @@ msgstr ""
 "Valtiomuotomme %s vaatima teknologia menetettiin. Kansa on noussut ja "
 "vallankumous tähtää valtiomuotoon %s."
 
-#: server/techtools.c:886
+#: server/techtools.c:883
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -56391,60 +56392,60 @@ msgstr ""
 "Tulevan valtiomuotomme %s vaatima teknologia menetettiin. Kansa tähtää nyt "
 "valtiomuotoon %s."
 
-#: server/techtools.c:907 server/techtools.c:921
+#: server/techtools.c:904 server/techtools.c:918
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty."
 
-#: server/techtools.c:1089
+#: server/techtools.c:1086
 #, c-format
 msgid "Technology goal is %s."
 msgstr "Teknologiatavoitteena on %s."
 
-#: server/techtools.c:1303
+#: server/techtools.c:1300
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Varastat edistysaskeleen %s kohteelta %s."
 
 # TODO: Needs capitalization tag.
-#: server/techtools.c:1307
+#: server/techtools.c:1304
 #, c-format
 msgid "The %s stole %s from the %s and shared it with you."
 msgstr "Saamme teknologian %2$s, koska %1$s varastivat sen kansalta %3$s."
 
-#: server/techtools.c:1313
+#: server/techtools.c:1310
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr ""
 "%2$s on vuotanut vieraalle vallalle - %1$s varastivat teknologian sinulta!"
 
 # TODO: Needs capitalization tag.
-#: server/techtools.c:1318
+#: server/techtools.c:1315
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr ""
 "Diplomaattien mukaan %1$s ovat varastaneet teknologian %2$s kansalta %3$s."
 
-#: server/techtools.c:1426
+#: server/techtools.c:1423
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
 "Ikävä juttu! Teit virheen kun yritit siirtää teknologiaa %s - menetit sen."
 
-#: server/techtools.c:1430
+#: server/techtools.c:1427
 #, c-format
 msgid "Too bad! The %s made a mistake transferring the tech %s and lost it."
 msgstr ""
 "Ikävä juttu! %s tekivät virheen yrittäessään siirtää teknologiaa %s ja "
 "menettivät sen."
 
-#: server/techtools.c:1472
+#: server/techtools.c:1469
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and didn't get it."
 msgstr ""
 "Ikävä juttu! Teit virheen kun yritit siirtää teknologiaa %s - et saanut sitä."
 
-#: server/techtools.c:1476
+#: server/techtools.c:1473
 #, c-format
 msgid ""
 "Too bad! The %s made a mistake transferring the tech %s and didn't get it."
@@ -56453,7 +56454,7 @@ msgstr ""
 "saaneet sitä."
 
 #. TRANS: "Discovery of <tech>"
-#: server/techtools.c:1566
+#: server/techtools.c:1563
 #, c-format
 msgid ""
 "%s makes several new government forms available. You may want to start a "
@@ -56463,7 +56464,7 @@ msgstr ""
 "vallankumouksen käyntiin."
 
 #. TRANS: "Discovery of <tech>"
-#: server/techtools.c:1579
+#: server/techtools.c:1576
 #, c-format
 msgid ""
 "%s makes the government form %s available. You may want to start a "
@@ -57185,16 +57186,11 @@ msgstr "TV:%d "
 #. * 9 HP remaining] survived the pathetic ...attack from
 #. * green Warriors [id:90 ...A:1.0 HP:10].
 #: server/unithand.c:5151
-#, fuzzy, c-format
-#| msgid ""
-#| "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
-#| "pathetic %sattack from the %s %s %s [id:%d %sA:%.1f HP:%d]."
+#, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
 "pathetic %sattack from %s %s [id:%d %sA:%.1f HP:%d]."
-msgstr ""
-"Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvisi "
-"surkeasta %shyökkäyksestä, jonka teki %s %s %s [id:%d %sH:%.1f OP:%d]."
+msgstr "Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvisi surkeasta %shyökkäyksestä, jonka teki %s %s [id:%d %sH:%.1f OP:%d]."
 
 #. TRANS: "Your green Legion [id:100 ...D:4.0 lost 1 HP,
 #. * 9 HP remaining] survived the pathetic ...attack from the
@@ -57213,16 +57209,11 @@ msgstr ""
 #. * 27 HP, 3 HP remaining%s]!";
 #. * last %s is either "and ..." or empty string
 #: server/unithand.c:5205
-#, fuzzy, c-format
-#| msgid ""
-#| "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s "
-#| "[id:%d lost %d HP, %d HP remaining%s]!"
+#, c-format
 msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against %s %s [id:%d lost "
 "%d HP, %d HP remaining%s]!"
-msgstr ""
-"Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. "
-"Puolustaja oli %s %s %s [id:%d menetti %d OP, %d OP jäljellä%s]!"
+msgstr "Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. Puolustaja oli %s %s [id:%d menetti %d OP, %d OP jäljellä%s]!"
 
 #. TRANS: "Your attacking green Cannon [id:100 ...A:8.0
 #. * failed against the Polish green Destroyer [id:200 lost
@@ -57242,16 +57233,11 @@ msgstr ""
 #. * [id:200 ...A:4.0 lost 1 HP, has 9 HP remaining%s]."
 #. * last %s is either "and ..." or empty string
 #: server/unithand.c:5263
-#, fuzzy, c-format
-#| msgid ""
-#| "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:"
-#| "%d %sA:%.1f lost %d HP, has %d HP remaining%s]."
+#, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by %s %s [id:%d %sA:%.1f "
 "lost %d HP, has %d HP remaining%s]."
-msgstr ""
-"Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka teki %s "
-"%s %s [id:%d %sH:%.1f menetti %d OP, %d OP jäljellä%s]."
+msgstr "Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka teki %s %s [id:%d %sH:%.1f menetti %d OP, %d OP jäljellä%s]."
 
 #. TRANS: "Your green Warriors [id:100 ...D:1.0 HP:10]
 #. * lost to an attack by the Greek green Legion
@@ -57270,16 +57256,11 @@ msgstr ""
 #. * lost 1 HP, has 9 HP remaining] succeeded against
 #. * green Warriors [id:100 HP:10]."
 #: server/unithand.c:5313
-#, fuzzy, c-format
-#| msgid ""
-#| "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
-#| "succeeded against the %s %s %s [id:%d HP:%d]."
+#, c-format
 msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
 "succeeded against %s %s [id:%d HP:%d]."
-msgstr ""
-"Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi "
-"voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
+msgstr "Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi voitokkaasti. Puolustautuja oli %s %s [id:%d OP:%d]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -57307,10 +57288,9 @@ msgstr ""
 "%s."
 
 #: server/unithand.c:5559
-#, fuzzy, c-format
-#| msgid "Your %s can't do %s to %s %s."
+#, c-format
 msgid "Your %s cannot do %s to %s in %s."
-msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s %s."
+msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s kaupungissa %s."
 
 #: server/unithand.c:5667 server/unittools.c:3194
 msgid "Cannot attack unless you declare war first."
@@ -57552,16 +57532,11 @@ msgstr "%s pakeni yksikön %s tuhoa ja pakeni kaupunkiin %s."
 
 #. TRANS: "... Cannon ... Destroyer ...."
 #: server/unittools.c:2388
-#, fuzzy, c-format
-#| msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
-#| msgid_plural ""
-#| "Your attacking %s succeeded against the %s %s (and %d other units)!"
+#, c-format
 msgid "Your attacking %s succeeded against %s (and %d other unit)!"
 msgid_plural "Your attacking %s succeeded against %s (and %d other units)!"
-msgstr[0] ""
-"Hyökännyt yksikkösi %s onnistui, %s %s (ja %d muu yksikkö) kukistettiin!"
-msgstr[1] ""
-"Hyökännyt yksikkösi %s onnistui, %s %s (ja %d muuta yksikköä) kukistettiin!"
+msgstr[0] "Hyökännyt yksikkösi %s onnistui, %s (ja %d muu yksikkö) kukistettiin!"
+msgstr[1] "Hyökännyt yksikkösi %s onnistui, %s (ja %d muuta yksikköä) kukistettiin!"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:2398
@@ -57576,10 +57551,9 @@ msgstr[1] ""
 
 #. TRANS: "Cannon ... Destroyer."
 #: server/unittools.c:2428
-#, fuzzy, c-format
-#| msgid "%s lost to an attack by the %s %s."
+#, c-format
 msgid "%s lost to an attack by %s."
-msgstr "%s menetettiin taistelussa; %s hyökännyt %s teki siitä selvää jälkeä."
+msgstr "%s menetettiin taistelussa; hyökännyt %s teki siitä selvää jälkeä."
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:2435
@@ -57590,26 +57564,23 @@ msgstr "%s menetettiin taistelussa; %s hyökännyt %s teki siitä selvää jälk
 #. TRANS: "Cannon lost when Destroyer
 #. * attacked Musketeers."
 #: server/unittools.c:2449
-#, fuzzy, c-format
-#| msgid "%s lost when the %s %s attacked the %s %s."
+#, c-format
 msgid "%s lost when %s attacked %s."
-msgstr "%s menetettiin kun %s %s hyökkäsi kohteen %s %s kimppuun."
+msgstr "%s menetettiin kun %s hyökkäsi kohteen %s kimppuun."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked Musketeers."
 #: server/unittools.c:2458
-#, fuzzy, c-format
-#| msgid "%s lost when the %s %s attacked the %s %s."
+#, c-format
 msgid "%s lost when the %s %s attacked %s."
-msgstr "%s menetettiin kun %s %s hyökkäsi kohteen %s %s kimppuun."
+msgstr "%s menetettiin kun %s %s hyökkäsi kohteen %s kimppuun."
 
 #. TRANS: "Cannon lost when Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:2470
-#, fuzzy, c-format
-#| msgid "%s lost when the %s %s attacked the %s %s."
+#, c-format
 msgid "%s lost when %s attacked the %s %s."
-msgstr "%s menetettiin kun %s %s hyökkäsi kohteen %s %s kimppuun."
+msgstr "%s menetettiin kun %s hyökkäsi kohteen %s %s kimppuun."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -57621,10 +57592,9 @@ msgstr "%s menetettiin kun %s %s hyökkäsi kohteen %s %s kimppuun."
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from Destroyer."
 #: server/unittools.c:2499
-#, fuzzy, c-format
-#| msgid "%s (and %s) lost to an attack from the %s %s."
+#, c-format
 msgid "%s (and %s) lost to an attack from %s."
-msgstr "%s (ja %s) menetettiin kun %s %s hyökkäsi."
+msgstr "%s (ja %s) menetettiin kun %s hyökkäsi."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
@@ -57637,13 +57607,11 @@ msgstr "%s (ja %s) menetettiin kun %s %s hyökkäsi."
 #. * an attack from Destroyer."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:2521
-#, fuzzy, c-format
-#| msgid "%s and %d other unit lost to an attack from the %s %s."
-#| msgid_plural "%s and %d other units lost to an attack from the %s %s."
+#, c-format
 msgid "%s and %d other unit lost to an attack from %s."
 msgid_plural "%s and %d other units lost to an attack from %s."
-msgstr[0] "%s ja %d muu yksikkö menetettiin kun %s %s hyökkäsi."
-msgstr[1] "%s ja %d muuta yksikköä menetettiin kun %s %s hyökkäsi."
+msgstr[0] "%s ja %d muu yksikkö menetettiin kun %s hyökkäsi."
+msgstr[1] "%s ja %d muuta yksikköä menetettiin kun %s hyökkäsi."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -57659,37 +57627,31 @@ msgstr[1] "%s ja %d muuta yksikköä menetettiin kun %s %s hyökkäsi."
 #. * attacked Musketeers."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:2552
-#, fuzzy, c-format
-#| msgid "%d unit lost when the %s %s attacked the %s %s."
-#| msgid_plural "%d units lost when the %s %s attacked the %s %s."
+#, c-format
 msgid "%d unit lost when %s attacked %s."
 msgid_plural "%d units lost when %s attacked %s."
-msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
-msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
+msgstr[0] "%d yksikkö menetettiin kun %s hyökkäsi kohteenaan %s."
+msgstr[1] "%d yksikköä menetettiin kun %s hyökkäsi kohteenaan %s."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked Musketeers."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:2564
-#, fuzzy, c-format
-#| msgid "%d unit lost when the %s %s attacked the %s %s."
-#| msgid_plural "%d units lost when the %s %s attacked the %s %s."
+#, c-format
 msgid "%d unit lost when the %s %s attacked %s."
 msgid_plural "%d units lost when the %s %s attacked %s."
-msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
-msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
+msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s."
+msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s."
 
 #. TRANS: "2 units lost when Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
 #: server/unittools.c:2579
-#, fuzzy, c-format
-#| msgid "%d unit lost when the %s %s attacked the %s %s."
-#| msgid_plural "%d units lost when the %s %s attacked the %s %s."
+#, c-format
 msgid "%d unit lost when %s attacked the %s %s."
 msgid_plural "%d units lost when %s attacked the %s %s."
-msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
-msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
+msgstr[0] "%d yksikkö menetettiin kun %s hyökkäsi kohteenaan %s %s."
+msgstr[1] "%d yksikköä menetettiin kun %s hyökkäsi kohteenaan %s %s."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -57702,13 +57664,11 @@ msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 
 #: server/unittools.c:2615
-#, fuzzy, c-format
-#| msgid "%d unit escaped from attack by %s %s"
-#| msgid_plural "%d units escaped from attack by %s %s"
+#, c-format
 msgid "%d unit escaped from attack by %s"
 msgid_plural "%d units escaped from attack by %s"
-msgstr[0] "%d yksikkö pakeni kun %s %s hyökkäsi"
-msgstr[1] "%d yksikköä pakeni kun %s %s hyökkäsi"
+msgstr[0] "%d yksikkö pakeni kun %s hyökkäsi"
+msgstr[1] "%d yksikköä pakeni kun %s hyökkäsi"
 
 #: server/unittools.c:2623
 #, c-format
