@@ -84,7 +84,7 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
 /**********************************************************************//**
   Lua virtual machine state.
 **************************************************************************/
-static struct fc_lua *fcl = NULL;
+static struct fc_lua *fcl = nullptr;
 
 /**********************************************************************//**
   Add fcdb callback functions; these must be defined in the lua script
@@ -116,7 +116,7 @@ static struct fc_lua *fcl = NULL;
   game_start(int oldid)
     - called when game starts. Should return game db id to use now on.
 
-  If an error occurred, the functions return a non-NULL string error
+  If an error occurred, the functions return a non-nullptr string error
   message as the last return value.
 **************************************************************************/
 static void script_fcdb_functions_define(void)
@@ -239,8 +239,8 @@ static int md5sum(lua_State *L)
 bool script_fcdb_init(const char *fcdb_luafile)
 {
 #ifdef HAVE_FCDB
-  if (fcl != NULL) {
-    fc_assert_ret_val(fcl->state != NULL, FALSE);
+  if (fcl != nullptr) {
+    fc_assert_ret_val(fcl->state != nullptr, FALSE);
 
     return TRUE;
   }
@@ -250,8 +250,8 @@ bool script_fcdb_init(const char *fcdb_luafile)
     fcdb_luafile = FC_CONF_PATH "/" SCRIPT_FCDB_LUA_FILE;
   }
 
-  fcl = luascript_new(NULL, FALSE);
-  if (fcl == NULL) {
+  fcl = luascript_new(nullptr, FALSE);
+  if (fcl == nullptr) {
     log_error("Error loading the Freeciv database lua definition.");
     return FALSE;
   }
@@ -384,7 +384,7 @@ void script_fcdb_free(void)
   if (fcl) {
     /* luascript_func_free() is called by luascript_destroy(). */
     luascript_destroy(fcl);
-    fcl = NULL;
+    fcl = nullptr;
   }
 #endif /* HAVE_FCDB */
 }
