@@ -16,7 +16,7 @@
 
 [datafile]
 description = "Unit definitions for the multiplayer ruleset."
-options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24 web-compatible"
+options = "+Freeciv-3.3-ruleset web-compatible"
 format_version = 40
 
 [control]

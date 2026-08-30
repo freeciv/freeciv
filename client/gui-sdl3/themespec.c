@@ -47,7 +47,7 @@
 
 #include "themespec.h"
 
-#define THEMESPEC_SDL3_CAPSTR "+Freeciv-sdl3-3.3-themespec-Devel-2023-Jun-07 duplicates_ok"
+#define THEMESPEC_SDL3_CAPSTR "+Freeciv-3.3-sdl3-themespec duplicates_ok"
 /*
  * Themespec capabilities acceptable to this program:
  *
@@ -59,7 +59,7 @@
  *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_SDL3_CAPSTR "+Freeciv-sdl3-3.3-spec-Devel-2023-Jun-10"
+#define SPEC_SDL3_CAPSTR "+Freeciv-3.3-sdl3-spec"
 /*
  * Individual spec file capabilities acceptable to this program:
  *

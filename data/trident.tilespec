@@ -1,7 +1,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-3.3-Devel-2024-Nov-16"
+options = "+Freeciv-3.3-tilespec"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"

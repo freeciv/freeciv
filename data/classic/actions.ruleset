@@ -12,7 +12,7 @@
 
 [datafile]
 description = "Classic actions data for Freeciv"
-options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24 web-compatible"
+options = "+Freeciv-3.3-ruleset web-compatible"
 format_version = 40
 
 [auto_attack]

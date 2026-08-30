@@ -14,7 +14,7 @@
 
 [datafile]
 description = "Civilization I governments data for Freeciv"
-options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
+options = "+Freeciv-3.3-ruleset"
 format_version = 40
 
 [governments]
