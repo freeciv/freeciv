@@ -1239,7 +1239,7 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
     send_research_info(presearch, NULL);
   } else if (advance_number(tech) == presearch->researching) {
     update_bulbs(pplayer, amount, TRUE, FALSE);
-    /* Clean the saved tech to get no surprizes switching */
+    /* Clean the saved tech to get no surprises switching */
     presearch->researching_saved = A_UNKNOWN;
 
     send_research_info(presearch, NULL);
