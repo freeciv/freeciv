@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #/***********************************************************************
-# Freeciv - Copyright (C) 2017-2023
+# Freeciv - Copyright (C) 2017-2026
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2, or (at your option)
@@ -56,6 +56,11 @@ then
   CROSSER_SDL2=yes
 fi
 
+if grep "CROSSER_SDL3" "${DLLSPATH}/crosser.txt" | grep yes > /dev/null
+then
+  CROSSER_SDL3=yes
+fi
+
 if ! ./meson-installer_build.sh "${DLLSPATH}" gtk3.22 ; then
   RET=1
   GTK322="Fail"
@@ -91,6 +96,16 @@ else
   SDL2="Success"
 fi
 
+# sdl3-client comes with gtk4 modpack installer
+if test "${CROSSER_SDL3}" != "yes" || test "${CROSSER_GTK4}" != "yes" ; then
+  SDL3="N/A"
+elif ! ./meson-installer_build.sh "${DLLSPATH}" sdl3 ; then
+  RET=1
+  SDL3="Fail"
+else
+  SDL3="Success"
+fi
+
 if test "${CROSSER_QT6}" != "yes" ; then
   RULEDIT="N/A"
 elif ! ./meson-installer_build.sh "${DLLSPATH}" ruledit ; then
@@ -104,6 +119,7 @@ echo "Gtk3.22: ${GTK322}"
 echo "Gtk4:    ${GTK4}"
 echo "Qt6:     ${QT6}"
 echo "Sdl2:    ${SDL2}"
+echo "Sdl3:    ${SDL3}"
 echo "Ruledit: ${RULEDIT}"
 
 exit ${RET}
