@@ -976,7 +976,9 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     }
     pix = sprite_get_pixbuf(sprite);
     g_object_set(rend, "pixbuf", pix, NULL);
-    g_object_unref(G_OBJECT(pix));
+    if (pix != NULL) {
+      g_object_unref(G_OBJECT(pix));
+    }
     if (VUT_UTYPE == target.kind) {
       free_sprite(sprite);
     }
