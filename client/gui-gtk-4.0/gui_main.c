@@ -225,6 +225,10 @@ static void free_unit_table(void);
 
 static void adjust_default_options(void);
 
+static gboolean animation_tick_cb(GtkWidget *widget,
+                                  GdkFrameClock *frame_clock,
+                                  gpointer user_data);
+
 static float zoom_steps_custom[] = {
   -1.0, 0.13, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, -1.0
 };
@@ -1481,6 +1485,9 @@ static void setup_widgets(void)
   g_signal_connect(map_canvas, "resize",
                    G_CALLBACK(map_canvas_resize), NULL);
 
+  /* Synchronize animation updates with the tick (improve performances) */
+  gtk_widget_add_tick_callback(map_canvas, animation_tick_cb, NULL, NULL);
+
   mc_controller = gtk_event_controller_key_new();
   g_signal_connect(mc_controller, "key-pressed",
                    G_CALLBACK(toplevel_key_press_handler), NULL);
@@ -2399,14 +2406,16 @@ void add_idle_callback(void (callback)(void *), void *data)
 }
 
 /**********************************************************************//**
-  Add idle callback for updating animations.
+  Update animations if needed on the current GUI tick.
 **************************************************************************/
-void animation_idle_cb(void *data)
+static gboolean animation_tick_cb(GtkWidget *widget,
+                                  GdkFrameClock *frame_clock,
+                                  gpointer user_data)
 {
   if (get_current_client_page() == PAGE_GAME) {
     update_animation();
-    add_idle_callback(animation_idle_cb, NULL);
   }
+  return G_SOURCE_CONTINUE; /* keep animation call back running */
 }
 
 /**********************************************************************//**
