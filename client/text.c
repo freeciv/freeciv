@@ -414,7 +414,7 @@ const char *popup_info_text(struct tile *ptile)
       }
     }
 
-    combat_odds_to_astr(&str, get_units_in_focus(), ptile, punit, "%%");
+    combat_odds_to_astr(&str, get_units_in_focus(), ptile, punit, "%");
 
     if (unit_owner(punit) == client_player()
         || client_is_global_observer()) {
