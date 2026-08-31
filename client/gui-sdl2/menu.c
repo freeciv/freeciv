@@ -1370,43 +1370,33 @@ void real_menus_update(void)
 
       {
         struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
-        bool road_conn_possible;
 
         if (proad != NULL) {
           struct extra_type *tgt;
 
           tgt = road_extra_get(proad);
 
-          road_conn_possible = can_unit_do_connect(punit, ACTIVITY_GEN_ROAD, tgt);
-        } else {
-          road_conn_possible = FALSE;
-        }
-
-        if (road_conn_possible) {
-          local_show(ID_UNIT_ORDER_CONNECT_ROAD);
-        } else {
-          local_hide(ID_UNIT_ORDER_CONNECT_ROAD);
+          if (can_unit_do_connect(punit, ACTIVITY_GEN_ROAD, tgt)) {
+            local_show(ID_UNIT_ORDER_CONNECT_ROAD);
+          } else {
+            local_hide(ID_UNIT_ORDER_CONNECT_ROAD);
+          }
         }
       }
 
       {
         struct road_type *proad = road_by_gui_type(ROAD_GUI_RAILROAD);
-        bool road_conn_possible;
 
         if (proad != NULL) {
           struct extra_type *tgt;
 
           tgt = road_extra_get(proad);
 
-          road_conn_possible = can_unit_do_connect(punit, ACTIVITY_GEN_ROAD, tgt);
-        } else {
-          road_conn_possible = FALSE;
-        }
-
-        if (road_conn_possible) {
-          local_show(ID_UNIT_ORDER_CONNECT_RAILROAD);
-        } else {
-          local_hide(ID_UNIT_ORDER_CONNECT_RAILROAD);
+          if (can_unit_do_connect(punit, ACTIVITY_GEN_ROAD, tgt)) {
+            local_show(ID_UNIT_ORDER_CONNECT_RAILROAD);
+          } else {
+            local_hide(ID_UNIT_ORDER_CONNECT_RAILROAD);
+          }
         }
       }
 
