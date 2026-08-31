@@ -461,7 +461,7 @@ const char *popup_info_text(struct tile *ptile)
       astr_add_line(&str, _("Unit: %s"), utype_name_translation(ptype));
     }
 
-    combat_odds_to_astr(&str, get_units_in_focus(), ptile, punit, "%%");
+    combat_odds_to_astr(&str, get_units_in_focus(), ptile, punit, "%");
 
     if (owner == plr || client_is_global_observer()) {
       /* Show bribe cost for own units. */
