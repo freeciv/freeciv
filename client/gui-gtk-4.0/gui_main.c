@@ -361,18 +361,21 @@ static void toplevel_focus(GtkWidget *w, GtkDirectionType arg,
 void main_message_area_resize(void *data)
 {
   if (get_current_client_page() == PAGE_GAME) {
-    static int old_width = 0, old_height = 0;
+    static int old_width = -1, old_height = -1;
     int width = gtk_widget_get_width(GTK_WIDGET(main_message_area));
     int height = gtk_widget_get_height(GTK_WIDGET(main_message_area));
 
     if (width != old_width
-        || height != old_height) {
+        || height != old_height || height == 0) {
+      /* XXX: At starts, we have a race condition with the chatline content
+       * recovery. It might consider that the bottom line is the first one,
+       * probably because gtk_widget_get_* calls returns 0. If you scroll up
+       * you will see the past content displayed.
+       */
       chatline_scroll_to_bottom(TRUE);
       old_width = width;
       old_height = height;
     }
-
-    add_idle_callback(main_message_area_resize, NULL);
   }
 }
 
@@ -1621,6 +1624,16 @@ static void setup_widgets(void)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(link_marks_clear_all), NULL);
   inputline_toolkit_view_append_button(view, button);
+
+  /* These two signals doesn't seems to be triggered for now */
+  g_signal_connect(main_message_area, "notify::default-width",
+                                   G_CALLBACK(main_message_area_resize), NULL);
+  g_signal_connect(main_message_area, "notify::default-height",
+                                   G_CALLBACK(main_message_area_resize), NULL);
+
+  /* Use parent resize to triggers properly the resize */
+  g_signal_connect(map_canvas, "resize",
+                                   G_CALLBACK(main_message_area_resize), NULL);
 
   /* Other things to take care of */
 
