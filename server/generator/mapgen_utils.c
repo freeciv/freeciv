@@ -39,7 +39,7 @@ static bool *placed_map;
 **************************************************************************/
 bool placed_map_is_initialized(void)
 {
-  return placed_map != NULL;
+  return placed_map != nullptr;
 }
 
 /**********************************************************************//**
@@ -59,7 +59,7 @@ void destroy_placed_map(void)
 {
   fc_assert_ret(placed_map_is_initialized());
   free(placed_map);
-  placed_map = NULL;
+  placed_map = nullptr;
 }
 
 
@@ -197,7 +197,7 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
   int *target_map, *source_map;
   int *alt_int_map = fc_calloc(MAP_INDEX_SIZE, sizeof(*alt_int_map));
 
-  fc_assert_ret(NULL != int_map);
+  fc_assert_ret(int_map != nullptr);
 
   weight = weight_standard;
   target_map = alt_int_map;
@@ -296,10 +296,10 @@ static void recalculate_surrounders(void)
 **************************************************************************/
 static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 {
-  struct tile_list *tlist = NULL;
+  struct tile_list *tlist = nullptr;
   const struct terrain *pterrain;
 
-  fc_assert_ret(ptile != NULL);
+  fc_assert_ret(ptile != nullptr);
 
 #ifndef FREECIV_NDEBUG
   pterrain = tile_terrain(ptile);
@@ -479,7 +479,7 @@ void assign_continent_numbers(void)
 struct terrain *most_shallow_ocean(bool frozen)
 {
   bool oceans = FALSE, frozenmatch = FALSE;
-  struct terrain *shallow = NULL;
+  struct terrain *shallow = nullptr;
 
   terrain_type_iterate(pterr) {
     if (is_ocean(pterr) && !terrain_has_flag(pterr, TER_NOT_GENERATED)) {
@@ -520,11 +520,11 @@ struct terrain *most_shallow_ocean(bool frozen)
 /**********************************************************************//**
   Picks an ocean terrain to match the given depth.
   Only considers terrains with/without Frozen flag depending on 'frozen'.
-  Return NULL when there is no available ocean.
+  Return nullptr when there is no available ocean.
 **************************************************************************/
 struct terrain *pick_ocean(int depth, bool frozen)
 {
-  struct terrain *best_terrain = NULL;
+  struct terrain *best_terrain = nullptr;
   int best_match = TERRAIN_OCEAN_DEPTH_MAXIMUM;
 
   terrain_type_iterate(pterrain) {
@@ -535,8 +535,8 @@ struct terrain *pick_ocean(int depth, bool frozen)
       int match = abs(depth - pterrain->property[MG_OCEAN_DEPTH]);
 
       if (best_match > match) {
-	best_match = match;
-	best_terrain = pterrain;
+        best_match = match;
+        best_terrain = pterrain;
       }
     }
   } terrain_type_iterate_end;
@@ -580,7 +580,7 @@ static struct terrain *most_adjacent_ocean_type(const struct tile *ptile)
     } adjc_iterate_end;
   } terrain_type_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -608,7 +608,7 @@ void smooth_water_depth(void)
       ocean = pick_ocean(dist * OCEAN_DEPTH_STEP
                          + fc_rand(OCEAN_DEPTH_RAND),
                          terrain_has_flag(tile_terrain(ptile), TER_FROZEN));
-      if (NULL != ocean && ocean != tile_terrain(ptile)) {
+      if (ocean != nullptr && ocean != tile_terrain(ptile)) {
         log_debug("Replacing %s by %s at (%d, %d) "
                   "to have shallow ocean on coast.",
                   terrain_rule_name(tile_terrain(ptile)),
@@ -625,7 +625,7 @@ void smooth_water_depth(void)
     }
 
     ocean = most_adjacent_ocean_type(ptile);
-    if (NULL != ocean && ocean != tile_terrain(ptile)) {
+    if (ocean != nullptr && ocean != tile_terrain(ptile)) {
       log_debug("Replacing %s by %s at (%d, %d) "
                 "to smooth the ocean types.",
                 terrain_rule_name(tile_terrain(ptile)),
@@ -663,7 +663,7 @@ struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
   terrain_type_iterate(pterrain) {
     if (has_flag[terrain_index(pterrain)]) {
       if (count == 0) {
-	return pterrain;
+        return pterrain;
       }
       count--;
     }
@@ -762,20 +762,20 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
 
 /**********************************************************************//**
   Pick a random resource to put on a tile of the given terrain type.
-  May return NULL when there is no eligible resource.
+  May return nullptr when there is no eligible resource.
 **************************************************************************/
 struct extra_type *pick_resource(const struct terrain *pterrain)
 {
   int freq_sum = 0;
-  struct extra_type *result = NULL;
+  struct extra_type *result = nullptr;
 
-  fc_assert_ret_val(NULL != pterrain, NULL);
+  fc_assert_ret_val(pterrain != nullptr, nullptr);
 
   terrain_resources_iterate(pterrain, res, freq) {
     /* This is a standard way to get a weighted random element from
      * pterrain->resources with weights from pterrain->resource_freq,
      * without computing its length or total weight in advance.
-     * Note that if *(pterrain->resources) == NULL,
+     * Note that if *(pterrain->resources) == nullptr,
      * then this loop is a no-op. */
 
     if (res->generated && freq > 0) {

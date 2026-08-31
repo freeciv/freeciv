@@ -54,42 +54,42 @@ struct extra_type *pick_resource(const struct terrain *pterrain);
  _index : the position in the interval of iteration (from -dist to dist)
  _tile : the tile pointer
  ***************************************************************************/
-#define axis_iterate(nmap, center_tile, _tile, _index, dist, is_X_axis)	\
-{									\
-  int _tile##_x, _tile##_y;						\
-  struct tile *_tile;							\
-  const struct tile *_tile##_center = (center_tile);			\
-  const bool _index##_axis = (is_X_axis);				\
-  const int _index##_d = (dist);					\
-  int _index = -(_index##_d);						\
-									\
-  for (; _index <= _index##_d; _index++) {				\
-    int _nat##_x, _nat##_y;                                                    \
+#define axis_iterate(nmap, center_tile, _tile, _index, dist, is_X_axis) \
+{                                                                       \
+  int _tile##_x, _tile##_y;                                             \
+  struct tile *_tile;                                                   \
+  const struct tile *_tile##_center = (center_tile);                    \
+  const bool _index##_axis = (is_X_axis);                               \
+  const int _index##_d = (dist);                                        \
+  int _index = -(_index##_d);                                           \
+                                                                        \
+  for (; _index <= _index##_d; _index++) {                              \
+    int _nat##_x, _nat##_y;                                                \
     index_to_native_pos(&_nat##_x, &_nat##_y, tile_index(_tile##_center)); \
-    _tile##_x = _nat##_x + (_index##_axis ? _index : 0);                       \
-    _tile##_y = _nat##_y + (_index##_axis ? 0 : _index);                       \
+    _tile##_x = _nat##_x + (_index##_axis ? _index : 0);                   \
+    _tile##_y = _nat##_y + (_index##_axis ? 0 : _index);                   \
     _tile = native_pos_to_tile(nmap, _tile##_x, _tile##_y);              \
-    if (NULL != _tile) {
+    if (_tile != nullptr) {
 
-#define axis_iterate_end						\
-    }									\
-  }									\
+#define axis_iterate_end                                                \
+    }                                                                   \
+  }                                                                     \
 }
 
 /***************************************************************************
-  pdata or pfilter can be NULL!
+  pdata or pfilter can be nullptr!
 ***************************************************************************/
-#define whole_map_iterate_filtered(_tile, pdata, pfilter)		\
-{									\
+#define whole_map_iterate_filtered(_tile, pdata, pfilter)               \
+{                                                                       \
   bool (*_tile##_filter)(const struct tile *vtile, const void *vdata) = (pfilter);\
-  const void *_tile##_data = (pdata);					\
-									\
+  const void *_tile##_data = (pdata);                                   \
+                                                                        \
   whole_map_iterate(&(wld.map), _tile) {                                \
-    if (NULL == _tile##_filter || (_tile##_filter)(_tile, _tile##_data)) {
+    if (_tile##_filter == nullptr || (_tile##_filter)(_tile, _tile##_data)) {
 
-#define whole_map_iterate_filtered_end					\
-    }									\
-  } whole_map_iterate_end;						\
+#define whole_map_iterate_filtered_end                                  \
+    }                                                                   \
+  } whole_map_iterate_end;                                              \
 }
 
 bool is_normal_nat_pos(int x, int y);
@@ -101,8 +101,8 @@ void adjust_int_map_filtered(int *int_map, int int_map_min,
                                             const void *data));
 #define adjust_int_map(int_map, int_map_min, int_map_max)         \
   adjust_int_map_filtered(int_map, int_map_min, int_map_max,      \
-      (void *)NULL,                                               \
-      (bool (*)(const struct tile *ptile, const void *data))NULL)
+      nullptr,                                                    \
+      (bool (*)(const struct tile *ptile, const void *data))nullptr)
 void smooth_int_map(int *int_map, bool zeroes_at_edges);
 
 /* placed_map tool */
