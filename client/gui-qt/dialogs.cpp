@@ -124,7 +124,9 @@ static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void bombard2(QVariant data1, QVariant data2);
 static void bombard3(QVariant data1, QVariant data2);
+static void bombard4(QVariant data1, QVariant data2);
 static void bombard_lethal(QVariant data1, QVariant data2);
+static void bombard_lethal2(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void transform_terrain(QVariant data1, QVariant data2);
 static void cultivate(QVariant data1, QVariant data2);
@@ -137,20 +139,36 @@ static void mine(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
+static void attack2(QVariant data1, QVariant data2);
 static void suicide_attack(QVariant data1, QVariant data2);
+static void suicide_attack2(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
 static void paradrop_conquer(QVariant data1, QVariant data2);
 static void paradrop_frighten(QVariant data1, QVariant data2);
 static void paradrop_frighten_conquer(QVariant data1, QVariant data2);
 static void paradrop_enter(QVariant data1, QVariant data2);
 static void paradrop_enter_conquer(QVariant data1, QVariant data2);
+static void teleport(QVariant data1, QVariant data2);
+static void teleport_conquer(QVariant data1, QVariant data2);
+static void teleport_frighten(QVariant data1, QVariant data2);
+static void teleport_frighten_conquer(QVariant data1, QVariant data2);
+static void teleport_enter(QVariant data1, QVariant data2);
+static void teleport_enter_conquer(QVariant data1, QVariant data2);
 static void disembark1(QVariant data1, QVariant data2);
 static void disembark2(QVariant data1, QVariant data2);
+static void disembark3(QVariant data1, QVariant data2);
+static void disembark4(QVariant data1, QVariant data2);
 static void enter_hut(QVariant data1, QVariant data2);
 static void enter_hut2(QVariant data1, QVariant data2);
+static void enter_hut3(QVariant data1, QVariant data2);
+static void enter_hut4(QVariant data1, QVariant data2);
 static void frighten_hut(QVariant data1, QVariant data2);
 static void frighten_hut2(QVariant data1, QVariant data2);
+static void frighten_hut3(QVariant data1, QVariant data2);
+static void frighten_hut4(QVariant data1, QVariant data2);
 static void regular_move(QVariant data1, QVariant data2);
+static void regular_move2(QVariant data1, QVariant data2);
+static void regular_move3(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
@@ -161,8 +179,12 @@ static void unit_upgrade(QVariant data1, QVariant data2);
 static void airlift(QVariant data1, QVariant data2);
 static void conquer_city_shrink(QVariant data1, QVariant data2);
 static void conquer_city_shrink2(QVariant data1, QVariant data2);
+static void conquer_city_shrink3(QVariant data1, QVariant data2);
+static void conquer_city_shrink4(QVariant data1, QVariant data2);
 static void conquer_extras(QVariant data1, QVariant data2);
 static void conquer_extras2(QVariant data1, QVariant data2);
+static void conquer_extras3(QVariant data1, QVariant data2);
+static void conquer_extras4(QVariant data1, QVariant data2);
 static void heal_unit(QVariant data1, QVariant data2);
 static void heal_unit2(QVariant data1, QVariant data2);
 static void transport_board(QVariant data1, QVariant data2);
@@ -247,6 +269,8 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_AIRLIFT] = airlift;
   action_function[ACTION_CONQUER_CITY_SHRINK] = conquer_city_shrink;
   action_function[ACTION_CONQUER_CITY_SHRINK2] = conquer_city_shrink2;
+  action_function[ACTION_CONQUER_CITY_SHRINK3] = conquer_city_shrink3;
+  action_function[ACTION_CONQUER_CITY_SHRINK4] = conquer_city_shrink4;
   action_function[ACTION_STRIKE_BUILDING] = spy_request_strike_bld_list;
   action_function[ACTION_NUKE_CITY] = nuke_city;
 
@@ -276,7 +300,9 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_BOMBARD] = bombard;
   action_function[ACTION_BOMBARD2] = bombard2;
   action_function[ACTION_BOMBARD3] = bombard3;
+  action_function[ACTION_BOMBARD4] = bombard4;
   action_function[ACTION_BOMBARD_LETHAL] = bombard_lethal;
+  action_function[ACTION_BOMBARD_LETHAL2] = bombard_lethal2;
   action_function[ACTION_NUKE_UNITS] = nuke_units;
   action_function[ACTION_COLLECT_RANSOM] = collect_ransom;
 
@@ -290,8 +316,17 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_PARADROP_FRIGHTEN] = paradrop_frighten;
   action_function[ACTION_PARADROP_FRIGHTEN_CONQUER]
       = paradrop_frighten_conquer;
+  action_function[ACTION_TELEPORT] = teleport;
+  action_function[ACTION_TELEPORT_CONQUER] = teleport_conquer;
+  action_function[ACTION_TELEPORT_ENTER] = teleport_enter;
+  action_function[ACTION_TELEPORT_ENTER_CONQUER] = teleport_enter_conquer;
+  action_function[ACTION_TELEPORT_FRIGHTEN] = teleport_frighten;
+  action_function[ACTION_TELEPORT_FRIGHTEN_CONQUER]
+      = teleport_frighten_conquer;
   action_function[ACTION_ATTACK] = attack;
+  action_function[ACTION_ATTACK2] = attack2;
   action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
+  action_function[ACTION_SUICIDE_ATTACK2] = suicide_attack2;
   action_function[ACTION_WIPE_UNITS] = wipe_units;
   action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
   action_function[ACTION_CULTIVATE] = cultivate;
@@ -304,15 +339,25 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
+  action_function[ACTION_TRANSPORT_DISEMBARK3] = disembark3;
+  action_function[ACTION_TRANSPORT_DISEMBARK4] = disembark4;
   action_function[ACTION_HUT_ENTER] = enter_hut;
   action_function[ACTION_HUT_ENTER2] = enter_hut2;
+  action_function[ACTION_HUT_ENTER3] = enter_hut3;
+  action_function[ACTION_HUT_ENTER4] = enter_hut4;
   action_function[ACTION_HUT_FRIGHTEN] = frighten_hut;
   action_function[ACTION_HUT_FRIGHTEN2] = frighten_hut2;
+  action_function[ACTION_HUT_FRIGHTEN3] = frighten_hut3;
+  action_function[ACTION_HUT_FRIGHTEN4] = frighten_hut4;
   action_function[ACTION_UNIT_MOVE] = regular_move;
+  action_function[ACTION_UNIT_MOVE2] = regular_move2;
+  action_function[ACTION_UNIT_MOVE3] = regular_move3;
 
   // Unit acting against all tile extras.
   action_function[ACTION_CONQUER_EXTRAS] = conquer_extras;
   action_function[ACTION_CONQUER_EXTRAS2] = conquer_extras2;
+  action_function[ACTION_CONQUER_EXTRAS3] = conquer_extras3;
+  action_function[ACTION_CONQUER_EXTRAS4] = conquer_extras4;
 
   // Unit acting with no target except itself.
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
@@ -1878,6 +1923,36 @@ static void conquer_city_shrink2(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Conquer City Shrink 3" for choice dialog
+***************************************************************************/
+static void conquer_city_shrink3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tgt_city_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
+    request_do_action(ACTION_CONQUER_CITY_SHRINK3,
+                      actor_id, tgt_city_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Conquer City Shrink 4" for choice dialog
+***************************************************************************/
+static void conquer_city_shrink4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tgt_city_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && game_city_by_number(tgt_city_id) != nullptr) {
+    request_do_action(ACTION_CONQUER_CITY_SHRINK4,
+                      actor_id, tgt_city_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Conquer Extras" for choice dialog
 ***************************************************************************/
 static void conquer_extras(QVariant data1, QVariant data2)
@@ -1901,6 +1976,34 @@ static void conquer_extras2(QVariant data1, QVariant data2)
 
   if (game_unit_by_number(actor_id) != nullptr) {
     request_do_action(ACTION_CONQUER_EXTRAS2,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Conquer Extras 3" for choice dialog
+***************************************************************************/
+static void conquer_extras3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr) {
+    request_do_action(ACTION_CONQUER_EXTRAS3,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Conquer Extras 4" for choice dialog
+***************************************************************************/
+static void conquer_extras4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr) {
+    request_do_action(ACTION_CONQUER_EXTRAS4,
                       actor_id, target_id, 0, "");
   }
 }
@@ -2687,6 +2790,36 @@ static void disembark2(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Transport Disembark 3" for choice dialog
+***************************************************************************/
+static void disembark3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TRANSPORT_DISEMBARK3,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Transport Disembark 4" for choice dialog
+***************************************************************************/
+static void disembark4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TRANSPORT_DISEMBARK4,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Enter Hut" for choice dialog
 ***************************************************************************/
 static void enter_hut(QVariant data1, QVariant data2)
@@ -2717,6 +2850,36 @@ static void enter_hut2(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Enter Hut 3" for choice dialog
+***************************************************************************/
+static void enter_hut3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_HUT_ENTER3,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Enter Hut 4" for choice dialog
+***************************************************************************/
+static void enter_hut4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_HUT_ENTER4,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Frighten Hut" for choice dialog
 ***************************************************************************/
 static void frighten_hut(QVariant data1, QVariant data2)
@@ -2742,6 +2905,36 @@ static void frighten_hut2(QVariant data1, QVariant data2)
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_HUT_FRIGHTEN2,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Frighten Hut 3" for choice dialog
+***************************************************************************/
+static void frighten_hut3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_HUT_FRIGHTEN3,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Frighten Hut 4" for choice dialog
+***************************************************************************/
+static void frighten_hut4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_HUT_FRIGHTEN4,
                       actor_id, target_id, 0, "");
   }
 }
@@ -2843,6 +3036,18 @@ static void bombard3(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Bombard 4" for choice dialog
+***************************************************************************/
+static void bombard4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_BOMBARD4, actor_id,
+                    target_id, 0, "");
+}
+
+/***********************************************************************//**
   Action "Bombard Lethal" for choice dialog
 ***************************************************************************/
 static void bombard_lethal(QVariant data1, QVariant data2)
@@ -2851,6 +3056,18 @@ static void bombard_lethal(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_BOMBARD_LETHAL, actor_id,
+                    target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Bombard Lethal 2" for choice dialog
+***************************************************************************/
+static void bombard_lethal2(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_BOMBARD_LETHAL2, actor_id,
                     target_id, 0, "");
 }
 
@@ -3065,6 +3282,21 @@ static void attack(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Attack 2" for choice dialog
+***************************************************************************/
+static void attack2(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
+    request_do_action(ACTION_ATTACK2,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Suicide Attack" for choice dialog
 ***************************************************************************/
 static void suicide_attack(QVariant data1, QVariant data2)
@@ -3075,6 +3307,21 @@ static void suicide_attack(QVariant data1, QVariant data2)
   if (game_unit_by_number(diplomat_id) != nullptr
       && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
     request_do_action(ACTION_SUICIDE_ATTACK,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Suicide Attack 2" for choice dialog
+***************************************************************************/
+static void suicide_attack2(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
+    request_do_action(ACTION_SUICIDE_ATTACK2,
                       diplomat_id, diplomat_target_id, 0, "");
   }
 }
@@ -3095,6 +3342,21 @@ static void paradrop(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Teleport Unit" for choice dialog
+***************************************************************************/
+static void teleport(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TELEPORT,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Paradrop Unit Conquer" for choice dialog
 ***************************************************************************/
 static void paradrop_conquer(QVariant data1, QVariant data2)
@@ -3105,6 +3367,21 @@ static void paradrop_conquer(QVariant data1, QVariant data2)
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_CONQUER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Teleport Unit Conquer" for choice dialog
+***************************************************************************/
+static void teleport_conquer(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TELEPORT_CONQUER,
                       actor_id, target_id, 0, "");
   }
 }
@@ -3125,6 +3402,21 @@ static void paradrop_frighten(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Teleport Unit Frighten" for choice dialog
+***************************************************************************/
+static void teleport_frighten(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TELEPORT_FRIGHTEN,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Paradrop Unit Frighten Conquer" for choice dialog
 ***************************************************************************/
 static void paradrop_frighten_conquer(QVariant data1, QVariant data2)
@@ -3135,6 +3427,21 @@ static void paradrop_frighten_conquer(QVariant data1, QVariant data2)
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_FRIGHTEN_CONQUER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Teleport Unit Frighten Conquer" for choice dialog
+***************************************************************************/
+static void teleport_frighten_conquer(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TELEPORT_FRIGHTEN_CONQUER,
                       actor_id, target_id, 0, "");
   }
 }
@@ -3155,6 +3462,21 @@ static void paradrop_enter(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Teleport Unit Enter" for choice dialog
+***************************************************************************/
+static void teleport_enter(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TELEPORT_ENTER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action "Paradrop Unit Enter Conquer" for choice dialog
 ***************************************************************************/
 static void paradrop_enter_conquer(QVariant data1, QVariant data2)
@@ -3165,6 +3487,21 @@ static void paradrop_enter_conquer(QVariant data1, QVariant data2)
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_PARADROP_ENTER_CONQUER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Teleport Unit Enter Conquer" for choice dialog
+***************************************************************************/
+static void teleport_enter_conquer(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_TELEPORT_ENTER_CONQUER,
                       actor_id, target_id, 0, "");
   }
 }
@@ -3683,6 +4020,36 @@ static void regular_move(QVariant data1, QVariant data2)
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_UNIT_MOVE,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Unit Move 2" for choice dialog
+***************************************************************************/
+static void regular_move2(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_UNIT_MOVE2,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Unit Move 3" for choice dialog
+***************************************************************************/
+static void regular_move3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_UNIT_MOVE3,
                       actor_id, target_id, 0, "");
   }
 }
