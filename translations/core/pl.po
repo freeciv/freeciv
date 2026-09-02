@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-08-02 00:42+0300\n"
-"PO-Revision-Date: 2026-08-18 14:34+0200\n"
+"POT-Creation-Date: 2026-08-25 20:20+0300\n"
+"PO-Revision-Date: 2026-08-31 19:13+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Bookmarks: 4866,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ai/default/daicity.c:999
@@ -4577,7 +4577,7 @@ msgstr "Nie udało się otworzyć trybu graficznego."
 msgid "Freeciv (%s)"
 msgstr "Freeciv (%s)"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno chcesz zakończyć?"
@@ -7070,7 +7070,7 @@ msgstr "Nieznana opcja wiersza poleceń \"%s\".\n"
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr "Przenoszenie opcji z klienta gtk3.22 do klienta gtk4"
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -12057,7 +12057,7 @@ msgstr "  %s dotyczy %s.\n"
 #. * leading spaces.
 #: client/helpdata.c:3179
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr ""
 "  %s jeśli odpowiednia chatka jest na polu docelowym, zostanie ona odkryta.\n"
 
@@ -12065,7 +12065,7 @@ msgstr ""
 #. * leading spaces.
 #: client/helpdata.c:3186
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 "  %s jeśli odpowiednia chatka jest na polu docelowym, jej mieszkańcy zostaną "
 "wystraszeni.\n"
@@ -32469,8 +32469,8 @@ msgstr ""
 "RADA: Może się zdarzyć, że twoje jednostki masowo najechały obszar wroga, "
 "lecz jego miasta są zbyt silne. Wówczas przed użyciem Bomb Atomowych, warto "
 "zgromadzić grupę jednostek sprzątających i przygotować ich do usuwania "
-"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej zimy\" "
-"(ekologiczne bomby atomowe!)."
+"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej "
+"zimy\" (ekologiczne bomby atomowe!)."
 
 #: data/sandbox/units.ruleset:2513
 msgid "ICBM"
@@ -44288,8 +44288,8 @@ msgid ""
 msgstr ""
 "Polecenie 'explain' to okrojone polecenie 'help' i pozostaje w serwerze dla "
 "zgodności z wcześniejszymi wersjami. Bez argumentów działa jak 'help "
-"options' (wyświetla listę opcji), a z argumentem jak 'help <nazwa-opcji>' "
-"(wyświetla pomoc o danej opcji)."
+"options' (wyświetla listę opcji), a z argumentem jak 'help <nazwa-"
+"opcji>' (wyświetla pomoc o danej opcji)."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:152
@@ -44768,8 +44768,8 @@ msgstr ""
 #: server/commands.c:411
 msgid "Set one or all AI players to 'Experimental'."
 msgstr ""
-"Ustawia jednego bądź wszystkich graczy AI w tryb 'experimental' "
-"(eksperymentalny)."
+"Ustawia jednego bądź wszystkich graczy AI w tryb "
+"'experimental' (eksperymentalny)."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:417
@@ -50338,8 +50338,8 @@ msgid ""
 msgstr ""
 "To ustawienie określa sposób przenoszenia jednostek mostem powietrznym. Może "
 "przyjmować następujące wartości:\n"
-"- \"Pozwala na przenoszenie jednostek z sojuszniczych miast\" "
-"(FROM_ALLIES).\n"
+"- \"Pozwala na przenoszenie jednostek z sojuszniczych "
+"miast\" (FROM_ALLIES).\n"
 "- \"Pozwala na przenoszenie jednostek do sojuszniczych miast\" (TO_ALLIES).\n"
 "- \"Nieograniczone przenoszenie z miast początkowych\" (SRC_UNLIMITED): "
 "przenoszenie z miasta nie zmniejsza licznika przenoszonych jednostek. Zestaw "
@@ -56468,8 +56468,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #~ msgid "Set one or all AI players to 'Handicapped'."
 #~ msgstr ""
-#~ "Ustawia jednego bądź wszystkich graczy AI na poziom 'handicapped' "
-#~ "(ułomny)."
+#~ "Ustawia jednego bądź wszystkich graczy AI na poziom "
+#~ "'handicapped' (ułomny)."
 
 #~ msgid ""
 #~ "Saved game uses the ancient format terrain ruleset, and is no longer "
