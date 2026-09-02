@@ -942,8 +942,6 @@ static void spy_steal_popup_shared(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  args->act_id = args->act_id;
-
   struct city *pvcity = game_city_by_number(args->target_city_id);
   struct player *pvictim = NULL;
 
