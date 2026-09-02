@@ -36,7 +36,7 @@ struct musicset {
   char version[MAX_LEN_NAME];
   char *summary;
   char *description;
-} current_ms = { .summary = NULL, .description = NULL };
+} current_ms = { .summary = nullptr, .description = nullptr };
 
 /**********************************************************************//**
   Start music suitable for current game situation
@@ -48,7 +48,7 @@ void start_style_music(void)
     return;
   }
 
-  if (client.conn.playing == NULL) {
+  if (client.conn.playing == nullptr) {
     /* Detached connections and global observers currently not
      * supported */
     return;
@@ -61,8 +61,8 @@ void start_style_music(void)
 
     pms = music_style_by_number(client.conn.playing->music_style);
 
-    if (pms != NULL) {
-      const char *tag = NULL;
+    if (pms != nullptr) {
+      const char *tag = nullptr;
 
       switch (client.conn.playing->client.mood) {
       case MOOD_COUNT:
@@ -76,9 +76,9 @@ void start_style_music(void)
         break;
       }
 
-      if (tag != NULL && tag[0] != '\0') {
+      if (tag != nullptr && tag[0] != '\0') {
         log_debug("Play %s", tag);
-        audio_play_music(tag, NULL, MU_INGAME);
+        audio_play_music(tag, nullptr, MU_INGAME);
       }
     }
   }
@@ -120,7 +120,7 @@ void play_single_track(const char *const tag)
     return;
   }
 
-  audio_play_track(tag, NULL);
+  audio_play_track(tag, nullptr);
 }
 
 /**********************************************************************//**
@@ -134,7 +134,7 @@ void musicspec_reread_callback(struct option *poption)
 
   /* Start suitable music from the new set */
   if (client_state() != C_S_RUNNING) {
-    start_menu_music("music_menu", NULL);
+    start_menu_music("music_menu", nullptr);
   } else {
     start_style_music();
   }
@@ -149,16 +149,16 @@ struct section_file *musicspec_load(const char *ms_filename)
 {
   struct section_file *tagfile = secfile_load(ms_filename, TRUE);
 
-  if (tagfile != NULL) {
+  if (tagfile != nullptr) {
     const char *mstr;
 
     mstr = secfile_lookup_str(tagfile, "musicspec.name");
 
-    if (mstr == NULL) {
+    if (mstr == nullptr) {
       log_error(_("Musicset from %s has no name defined!"), ms_filename);
       secfile_destroy(tagfile);
 
-      return NULL;
+      return nullptr;
     }
 
     /* Musicset name found */
@@ -183,9 +183,9 @@ struct section_file *musicspec_load(const char *ms_filename)
       fc_strlcpy(current_ms.summary, mstr, len + 1);
     } else {
       /* No summary */
-      if (current_ms.summary != NULL) {
+      if (current_ms.summary != nullptr) {
         free(current_ms.summary);
-        current_ms.summary = NULL;
+        current_ms.summary = nullptr;
       }
     }
 
@@ -199,9 +199,9 @@ struct section_file *musicspec_load(const char *ms_filename)
       fc_strlcpy(current_ms.description, mstr, len + 1);
     } else {
       /* No Description */
-      if (current_ms.description != NULL) {
+      if (current_ms.description != nullptr) {
         free(current_ms.description);
-        current_ms.description = NULL;
+        current_ms.description = nullptr;
       }
     }
   }
@@ -218,11 +218,11 @@ struct section_file *musicspec_load(const char *ms_filename)
 **************************************************************************/
 void musicspec_close(struct section_file *tagfile)
 {
-  if (tagfile != NULL) {
+  if (tagfile != nullptr) {
     free(current_ms.summary);
-    current_ms.summary = NULL;
+    current_ms.summary = nullptr;
     free(current_ms.description);
-    current_ms.description = NULL;
+    current_ms.description = nullptr;
 
     secfile_destroy(tagfile);
   }
@@ -237,19 +237,19 @@ const char *current_musicset_name(void)
 }
 
 /**********************************************************************//**
-  Return version of the current musicset. Can be NULL.
+  Return version of the current musicset. Can be nullptr.
 **************************************************************************/
 const char *current_musicset_version(void)
 {
   if (current_ms.version[0] == '\0') {
-    return NULL;
+    return nullptr;
   }
 
   return current_ms.version;
 }
 
 /**********************************************************************//**
-  Return summary of the current musicset. Can be NULL.
+  Return summary of the current musicset. Can be nullptr.
 **************************************************************************/
 const char *current_musicset_summary(void)
 {
@@ -257,7 +257,7 @@ const char *current_musicset_summary(void)
 }
 
 /**********************************************************************//**
-  Return description of the current musicset. Can be NULL.
+  Return description of the current musicset. Can be nullptr.
 **************************************************************************/
 const char *current_musicset_description(void)
 {
