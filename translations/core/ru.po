@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
-"PO-Revision-Date: 2026-07-09 11:11+0500\n"
+"POT-Creation-Date: 2026-09-03 09:56+0500\n"
+"PO-Revision-Date: 2026-09-03 10:24+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #: ai/default/daicity.c:999
 #, c-format
@@ -4608,7 +4608,7 @@ msgstr "Ошибка выбора графического режима."
 msgid "Freeciv (%s)"
 msgstr "Freeciv (%s)"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
@@ -7098,7 +7098,7 @@ msgstr "Неизвестный параметр командной строки 
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr "Перенос параметров из клиента gtk3.22 в клиент gtk4"
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -12088,19 +12088,19 @@ msgstr "  %s выполнено для %s.\n"
 #. * leading spaces.
 #: client/helpdata.c:3179
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr ""
-"  %s если на целевом поле находится подходящая хижина, соединение войдёт в "
+"  %s, если на целевом поле находится подходящая хижина, соединение войдёт в "
 "неё.\n"
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3186
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
-"  %s если на целевом поле находится подходящая хижина, соединение спугнёт её "
-"обитателей.\n"
+"  %s, если на целевом поле находится подходящая хижина, соединение спугнёт "
+"её обитателей.\n"
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
@@ -21809,15 +21809,15 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "Невозможно модернизировать соединение %s, выполняющее действие '%s'."
 
-#: common/unit.h:127
+#: common/unit.h:126
 msgid "?serveragent:None"
 msgstr "Нет"
 
-#: common/unit.h:129
+#: common/unit.h:128
 msgid "Autosettlers"
 msgstr "Авто-колонисты"
 
-#: common/unit.h:131
+#: common/unit.h:130
 msgid "Autoexplore"
 msgstr "Авто-исследовать"
 
@@ -43173,35 +43173,40 @@ msgid "Enter password for %s:"
 msgstr "Введите пароль для %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 msgid "First time login. Set a new password and confirm it."
 msgstr "Первый вход. Установите новый пароль и подтвердите его."
 
 #: server/auth.c:141
+#, c-format
+msgid "Registration for %s requested."
+msgstr "Запрошена регистрация для %s."
+
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
 "На этот сервер допускаются только ранее зарегистрированные пользователи. "
 "Извините."
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr ""
 "Пользователю %s было отказано в подключении: Разрешены только ранее "
 "зарегистрированные пользователи."
 
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "Извините, слишком много неверных попыток..."
 
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "Пользователю %s было отказано в подключении: Слишком много неверных "
 "подтверждений пароля новым пользователем."
 
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -43209,40 +43214,50 @@ msgstr ""
 "Предупреждение: При сохранении в базу данных произошла ошибка. Продолжаем, "
 "но Ваша статистика не будет сохранена."
 
-#: server/auth.c:222
+#: server/auth.c:183
+#, c-format
+msgid "Error writing to database for: %s"
+msgstr "Ошибка записи в базу данных: %s."
+
+#: server/auth.c:185
+#, c-format
+msgid "%s registered."
+msgstr "%s зарегистрирован."
+
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr ""
 "Пользователю %s было отказано в подключении: Слишком много ошибочных попвток "
 "ввода пароля."
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "авторизация не удалась"
 
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "Ваш пароль неверен. Попробуйте ещё раз."
 
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr ""
 "Извините, Ваше подключение было отсоединено вследствие превышения таймаута..."
 
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr ""
 "Пользователю %s было отказано в подключении: Превышен таймаут ожидания "
 "пароля."
 
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
 "Ваш пароль слишком короткий, минимальная длина — %d. Попробуйте ещё раз."
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
