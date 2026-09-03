@@ -12,9 +12,14 @@ CHANGES FROM 3.2.5 to 3.2.6
 
    (from <https://www.freeciv.org/wiki/NEWS-3.2.6>, 2026-09-03)
 
-3.2.6 is a bugfix release in the freeciv-3.2 series.
+3.2.6 is a bugfix release in the freeciv-3.2 series fixing
+two security vulnerabilities in savegame/scenario file handling,
+and a number of other bugs.
 
 Server / General
+    * Fixed security vulnerabilities in savegame/scenario file handling
+      RM#2161 RM#2162
+
 Changes affecting other rulesets / modders
 
     * Corrected RandomMovement units' attack legality check RM#2106
@@ -61,7 +66,7 @@ Translations
     * Corrected encoding of the Norwegian and
       Simplified Chinese translations
     * Updated translations:
-         + Complete translations: Polish
+         + Complete translations: Polish, Russian
          + Incomplete translations:
            Finnish (100% core, 90% nations, 100% ruledit)
            Swedish (99% core, 16% nations, 1% ruledit)
