@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2023-02-19 03:03+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -4583,7 +4583,7 @@ msgstr "Impossible d'ouvrir le mode graphique."
 msgid "Freeciv (%s)"
 msgstr "Freeciv %s"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "Voulez-vous vraiment quitter?"
@@ -7086,7 +7086,7 @@ msgstr "Option inconnue en ligne de commande \"%s\".\n"
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr "Migration des options du client gtk3.22 vers le client gtk4"
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -12073,8 +12073,9 @@ msgstr "  %s fait à %s.\n"
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3179
-#, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+#, fuzzy, c-format
+#| msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr ""
 "  %s si une hutte convenable se trouve sur la case cible, elle sera "
 "découverte.\n"
@@ -12082,8 +12083,10 @@ msgstr ""
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3186
-#, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+#, fuzzy, c-format
+#| msgid ""
+#| "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 "  %s si une hutte convenable se trouve sur la case cible, elle sera "
 "effrayée.\n"
@@ -21698,15 +21701,15 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "Impossible d'améliorer %s en faisant '%s'."
 
-#: common/unit.h:127
+#: common/unit.h:126
 msgid "?serveragent:None"
 msgstr "Aucun"
 
-#: common/unit.h:129
+#: common/unit.h:128
 msgid "Autosettlers"
 msgstr "ColonsAuto"
 
-#: common/unit.h:131
+#: common/unit.h:130
 msgid "Autoexplore"
 msgstr "ExploreAuto"
 
@@ -43880,33 +43883,39 @@ msgid "Enter password for %s:"
 msgstr "Entrez le mot de passe pour %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 msgid "First time login. Set a new password and confirm it."
 msgstr ""
 "Première connexion. Définissez un nouveau mot de passe et confirmez-le."
 
 #: server/auth.c:141
+#, fuzzy, c-format
+#| msgid "Nation of player %s reset."
+msgid "Registration for %s requested."
+msgstr "Nation du joueur %s réinitialisée."
+
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Ce serveur n'autorise que les joueurs préenregistrés. Désolé."
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr ""
 "%s a été rejeté : seuls les utilisateurs préenregistrés sont autorisés."
 
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "Désolé, trop de mauvaises tentatives..."
 
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "%s a été rejeté : trop de mauvaises tentatives de vérification du mot de "
 "passe pour un nouvel utilisateur."
 
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -43914,38 +43923,50 @@ msgstr ""
 "Attention : Il y a eu une erreur à la sauvegarde dans la base de données. On "
 "continue mais vos statistiques ne seront pas sauvegardées."
 
-#: server/auth.c:222
+#: server/auth.c:183
+#, fuzzy, c-format
+#| msgid "Error creating new AI player: %s."
+msgid "Error writing to database for: %s"
+msgstr "Erreur lors de la création d'un nouveau joueur IA : %s."
+
+#: server/auth.c:185
+#, fuzzy, c-format
+#| msgid "%s retired!"
+msgid "%s registered."
+msgstr "%s a quitté la partie !"
+
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s a été rejeté : trop de mauvais mots de passe entrés."
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "authentification échouée"
 
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "Votre mot de passe est incorrect. Essayez encore."
 
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr "Désolé, votre connexion a expiré ..."
 
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr ""
 "%s a été rejeté : expiration de la connexion durant l'attente du mot de "
 "passe."
 
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
 "Votre mot de passe est trop court, la longueur minimum est %d. Essayez "
 "encore."
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -49284,60 +49305,60 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr "Erreur de syntaxe dans un bloc d'attributs."
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Impossible de charger les règles du jeu '%s', nécessaires pour la sauvegarde."
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 "%s a été ajouté en tant que joueur contrôlé par une IA de niveau %s (%s)."
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s a été ajouté en tant que joueur humain."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s avait une nation invalide ; prenons %s en replacement."
 
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, fuzzy, c-format
 #| msgid "You give shared vision to %s."
 msgid "%s did not give shared vision to team member %s."
 msgstr "Vous partagez votre vue avec %s."
 
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s avait une technologie recherchée invalide."
 
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s avait un but technologique invalide."
 
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s avaient un compte de recherches terminées invalide."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
 msgstr ""
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -49346,23 +49367,23 @@ msgstr ""
 "%s a plusieurs unités de type %s alors qu'il ne devrait être possible que de "
 "n'en avoir qu'une seule."
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Impossible de charger les règles du jeu '%s'."
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Le scenario nécessite les capacités des règles du jeu : %s"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Les règles du jeu ont les capacités : %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
@@ -49371,7 +49392,7 @@ msgstr ""
 "Les règles du jeu actuelles %s ne sont pas compatibles avec le scenario %s. "
 "Essai de basculer sur les règles du jeu spécifiées par le scenario."
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
@@ -49379,17 +49400,17 @@ msgstr ""
 "la sauvegarde."
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr "Chargement réussi des règles du jeu du scenario %s."
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr "Impossible de trouver le fichier luadata du scenario : %s.luadata."
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "Impossible de charger le fichier luadata du scenario : %s.luadata."
@@ -79007,9 +79028,6 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid "Sending info to metaserver [%s]"
 #~ msgstr "Envoi d'information au méta-serveur [%s]"
-
-#~ msgid "Error creating new AI player: %s."
-#~ msgstr "Erreur lors de la création d'un nouveau joueur IA : %s."
 
 #~ msgid ""
 #~ "Error: command access level must be one of 'none', 'info', 'ctrl', or "

@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-08-31 00:25+0300\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2026-08-31 00:30+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -48068,50 +48068,50 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr "Käsittämättömästi muotoilta attribuuttilohko."
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Virhe tallennetun pelin tarvitseman sääntökokoelman '%s' lataamisessa."
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s ei antanut jaettua näkymää joukkueensa jäsenelle %s."
 
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "Pelaajan %s valmistuneiden tutkimusten laskuri oli virheellinen."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
@@ -48120,7 +48120,7 @@ msgstr ""
 "%s epäjohdonmukaisuus: heillä ei ole koskaan ollut ensimmäistä kaupunkia, "
 "mutta omistavat kaupunkeja tälläkin hetkellä. Korjaan."
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -48129,23 +48129,23 @@ msgstr ""
 "%s omistaa monta %s yksikköä, vaikka sellaisia pitäisi voida olla vain yksi "
 "kullakin pelaajalla."
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Virhe sääntökokoelman '%s' lataamisessa."
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Skenaarion vaatii toimintomuuttujat: %s"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Sääntökokoelman toimintomuuttujat: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
@@ -48154,7 +48154,7 @@ msgstr ""
 "Tämänhetkisestä sääntökokoelma %s epäyhteensopiva skenaarion %s kanssa. "
 "Yritetään vaihtaa skenaariossa määritettyyn sääntökokoelmaan."
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
@@ -48162,17 +48162,17 @@ msgstr ""
 "niistä jomman kumman."
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr "Onnistuneesti ladattu skenaarion sääntökokoelma %s."
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr "Skenaarion luadata tiedostoa %s.luadata ei löydy."
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "Skenaarion luadata tiedoston %s.luadata lataaminen epäonnistui."

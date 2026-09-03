@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-03-09 07:34+0200\n"
+"POT-Creation-Date: 2026-07-26 04:28+0300\n"
 "PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -279,71 +279,71 @@ msgstr "%s需要"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:119
 #, c-format
 msgid "Failed to load %s."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:155
 msgid "Print a summary of the options"
 msgstr "顯示選項的摘要"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:159 tools/ruledit/ruledit.cpp:165
 msgid "debug LEVEL"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:160
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:167
+#: tools/ruledit/ruledit.cpp:166
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:170
+#: tools/ruledit/ruledit.cpp:169
 msgid "Print the version number"
 msgstr "顯示版本號碼"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:172
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:174
+#: tools/ruledit/ruledit.cpp:173
 #, fuzzy
 #| msgid "Give ruleset to use as starting point."
 msgid "Ruleset to use as the starting point."
 msgstr "設為劇本的起點。"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:178
+#: tools/ruledit/ruledit.cpp:177
 msgid "Fatal [SIGNAL]"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:179
+#: tools/ruledit/ruledit.cpp:178
 msgid "Raise a signal on failed assertion"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:193
+#: tools/ruledit/ruledit.cpp:192
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:200
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
+#: tools/ruledit/ruledit.cpp:201 tools/ruledit/ruledit.cpp:214
 msgid "Try using --help.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:213
+#: tools/ruledit/ruledit.cpp:212
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:222
+#: tools/ruledit/ruledit.cpp:221
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "未確認的選項：「%s」\n"

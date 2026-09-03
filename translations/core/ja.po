@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2018-07-17 17:02+0900\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -4934,7 +4934,7 @@ msgid "Freeciv (%s)"
 msgstr "これはFreeciv %s， %sクライアントです。"
 
 # Daniel
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "ゲームを終了してよろしいですか？"
@@ -7604,7 +7604,7 @@ msgstr "未知のオプション '%s'。"
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr ""
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -12833,14 +12833,14 @@ msgstr "%sは解散して%sになりました。"
 #. * leading spaces.
 #: client/helpdata.c:3179
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr ""
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3186
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 
 #. TRANS: indented unit action property, preserve
@@ -22712,18 +22712,18 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr ""
 
-#: common/unit.h:127
+#: common/unit.h:126
 #, fuzzy
 msgid "?serveragent:None"
 msgstr "サーバー名"
 
-#: common/unit.h:129
+#: common/unit.h:128
 #, fuzzy
 #| msgid "Auto Settler"
 msgid "Autosettlers"
 msgstr "自動開拓"
 
-#: common/unit.h:131
+#: common/unit.h:130
 #, fuzzy
 #| msgid "Auto Explore"
 msgid "Autoexplore"
@@ -44502,34 +44502,40 @@ msgstr "%sのパスワードを入力してください："
 
 # clefs
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 #, fuzzy
 msgid "First time login. Set a new password and confirm it."
 msgstr "新しいパスワードを入力してください(後で使うので忘れないで)。"
 
-# clefs
 #: server/auth.c:141
+#, fuzzy, c-format
+#| msgid " Nation of the new player: %s."
+msgid "Registration for %s requested."
+msgstr " 新しいプレイヤーの民族: %s。"
+
+# clefs
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr "このサーバーは事前に登録したユーザーしか受け入れていません。ごめんね。"
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr "%sは拒絶されました: 事前登録ユーザーのみ許可。"
 
 # clefs
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "残念ですが，失敗回数が限度を超えました……"
 
 # clefs
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr "%sは拒絶されました: 新規ユーザーのパスワード認証失敗過多"
 
 # clefs
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -44537,39 +44543,52 @@ msgstr ""
 "警告: データベースへの保存にエラーがありました。続行しますが，あなたの状態は"
 "保存されません。"
 
+#: server/auth.c:183
+#, fuzzy, c-format
+#| msgid "Error connecting to metaserver"
+msgid "Error writing to database for: %s"
+msgstr "メタサーバーへの接続に失敗しました"
+
+# clefs
+#: server/auth.c:185
+#, fuzzy, c-format
+#| msgid "%s rules the %s."
+msgid "%s registered."
+msgstr "%sが%sを率います。"
+
 # 意訳 (clefs)
-#: server/auth.c:222
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s は拒絶されました: パスワード認証に失敗しました。"
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "認証失敗"
 
 # 戯訳 ;-)
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "じゅもんが　ちがいます"
 
 # clefs
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr "ごめんなさい，あなたの接続はタイムアウトしました……"
 
 # clefs
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s は拒絶されました: パスワード認証中にタイムアウトしました。"
 
 # clefs
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "このパスワードは短すぎます。最低%d文字で，もう一度。"
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -49962,108 +49981,108 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr ""
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, fuzzy, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "%sをダウンロードできませんでした。"
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%sは %sレベルのAIプレイヤーとして加わりました（%s）。"
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%sは人間プレイヤーとして加わりました。"
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%sの民族が不適切です。 %sに変更します。"
 
 # yasu
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, fuzzy, c-format
 #| msgid "You give shared vision to %s."
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s との視界の共有を許可しました。"
 
 # clefs
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%sが研究中の科学技術が不適切です。"
 
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr ""
 
 # clefs
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, fuzzy, c-format
 #| msgid "%s had invalid researching technology."
 msgid "%s had finished researches count wrong."
 msgstr "%sが研究中の科学技術が不適切です。"
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
 msgstr ""
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
 "one."
 msgstr ""
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, fuzzy, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "%sをダウンロードできませんでした。"
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, fuzzy, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "クライアントの機能指定文字列: %s"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, fuzzy, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "クライアントの機能指定文字列: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, fuzzy, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
 "the ruleset specified by the scenario."
 msgstr "現在のルールセットには概要の記述がありません。"
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr ""
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr ""
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, fuzzy, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "%sをダウンロードできませんでした。"

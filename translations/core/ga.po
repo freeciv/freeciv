@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4774,7 +4774,7 @@ msgstr ""
 msgid "Freeciv (%s)"
 msgstr "Freeciv"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "An bhfuil tú cinnte gur mian leat scor?"
@@ -7346,7 +7346,7 @@ msgstr "Rogha anaithnid '%s'."
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr ""
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -12707,14 +12707,14 @@ msgstr "Bhí an bua ag na comhghuaillithe: %s."
 #. * leading spaces.
 #: client/helpdata.c:3179
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr ""
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3186
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 
 #. TRANS: indented unit action property, preserve
@@ -22024,19 +22024,19 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr ""
 
-#: common/unit.h:127
+#: common/unit.h:126
 #, fuzzy
 #| msgid "Server Name"
 msgid "?serveragent:None"
 msgstr "Ainm an Fhreastalaí"
 
-#: common/unit.h:129
+#: common/unit.h:128
 #, fuzzy
 #| msgid "Settlers"
 msgid "Autosettlers"
 msgstr "Lucht Lonnaithe"
 
-#: common/unit.h:131
+#: common/unit.h:130
 #, fuzzy
 #| msgid "Explore"
 msgid "Autoexplore"
@@ -39479,34 +39479,40 @@ msgid "Enter password for %s:"
 msgstr "Iontráil focal faire do %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 #, fuzzy
 #| msgid "Enter a new password (and remember it)."
 msgid "First time login. Set a new password and confirm it."
 msgstr "Iontráil focal faire nua (agus meabhraigh é)."
 
 #: server/auth.c:141
+#, fuzzy, c-format
+#| msgid " Nation of the new player: %s."
+msgid "Registration for %s requested."
+msgstr " Náisiún an imreora nua: %s."
+
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
 "Ceadaíonn an freastalaí seo úsáideoirí réamhchláraithe amháin.  Tá brón orm."
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr "Diúltaíodh %s: Úsáideoirí réamhchláraithe amháin."
 
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "Tá brón orm, an iomarca iarrachtaí míchearta..."
 
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "Diúltaíodh %s: An iomarca iarrachtaí a fhocal faire a dhearbhú le haghaidh "
 "úsáideora nua."
 
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -39514,34 +39520,46 @@ msgstr ""
 "Rabhadh: Tharla earráid le linn sábhála sa bhunachar sonraí. Ag dul ar "
 "aghaidh, ach ní shábhálfar do chuid staitisticí."
 
-#: server/auth.c:222
+#: server/auth.c:183
+#, fuzzy, c-format
+msgid "Error writing to database for: %s"
+msgstr "Cailleadh an ceangal leis an bhfreastalaí (%s)!"
+
+# %s = player, nation_plural
+#: server/auth.c:185
+#, fuzzy, c-format
+#| msgid "%s rules the %s."
+msgid "%s registered."
+msgstr "Tá %s i gceannas ar na %s."
+
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "Diúltaíodh %s: An iomarca iarrachtaí focal faire a chur isteach."
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "theip ar údarú"
 
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "Focal faire mícheart. Bain triail eile as."
 
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr "Ceangal imithe thar am..."
 
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "Diúltaíodh %s: Ceangal imithe thar am fanacht leis an bhfocal faire."
 
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "Tá d'fhocal faire róghearr, is é %d an fad íosta. Bain triail eile as."
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -44822,86 +44840,86 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr ""
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, fuzzy, c-format
 #| msgid "Failed to download %s"
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Níorbh fhéidir %s a íosluchtú"
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Cuireadh %s leis an gcluiche (imreoir daonna)."
 
 # %s = player, nation_plural
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "Bhí náisiún neamhbhailí ag %s; is é na %s anois."
 
 # playername
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, fuzzy, c-format
 #| msgid "You give shared vision to %s."
 msgid "%s did not give shared vision to team member %s."
 msgstr "Tugann tú fís aontaithe do %s."
 
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, fuzzy, c-format
 msgid "%s had invalid researching technology."
 msgstr "Ní féidir leat taighde a dhéanamh ar an teicneolaíocht seo."
 
 # %s = player, nation_plural
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, fuzzy, c-format
 msgid "%s had invalid technology goal."
 msgstr "Bhí náisiún neamhbhailí ag %s; is é na %s anois."
 
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, fuzzy, c-format
 msgid "%s had finished researches count wrong."
 msgstr "Ní féidir leat taighde a dhéanamh ar an teicneolaíocht seo."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
 msgstr ""
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
 "one."
 msgstr ""
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, fuzzy, c-format
 #| msgid "Failed to download %s"
 msgid "Failed to load ruleset '%s'."
 msgstr "Níorbh fhéidir %s a íosluchtú"
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, fuzzy, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Saineolaithe: %s"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, fuzzy, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Saineolaithe: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, fuzzy, c-format
 #| msgid "Current ruleset directory is \"%s\""
 msgid ""
@@ -44909,23 +44927,23 @@ msgid ""
 "the ruleset specified by the scenario."
 msgstr "Is é \"%s\" an chomhadlann rialacha faoi láthair"
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr ""
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr ""
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, fuzzy, c-format
 #| msgid "Failed to download %s"
 msgid "Failed to load scenario luadata file %s.luadata"

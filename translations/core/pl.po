@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-08-25 20:20+0300\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2026-08-31 19:13+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@gmail.com\n"
@@ -1521,8 +1521,8 @@ msgstr "debug POZIOM"
 #: tools/manual/fc_manual.c:469 server/civserver.c:277
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub d:plik1,min,"
-"max:...)"
+"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
+"d:plik1,min,max:...)"
 
 #: client/client_main.c:430 tools/fcmp/mpcmdline.c:84
 #: tools/manual/fc_manual.c:475 server/civserver.c:283
@@ -21665,15 +21665,15 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "Nie można ulepszyć %s podczas '%s'."
 
-#: common/unit.h:127
+#: common/unit.h:126
 msgid "?serveragent:None"
 msgstr "brak"
 
-#: common/unit.h:129
+#: common/unit.h:128
 msgid "Autosettlers"
 msgstr "Automatyczni osadnicy"
 
-#: common/unit.h:131
+#: common/unit.h:130
 msgid "Autoexplore"
 msgstr "Automatyczny badacz"
 
@@ -32469,8 +32469,8 @@ msgstr ""
 "RADA: Może się zdarzyć, że twoje jednostki masowo najechały obszar wroga, "
 "lecz jego miasta są zbyt silne. Wówczas przed użyciem Bomb Atomowych, warto "
 "zgromadzić grupę jednostek sprzątających i przygotować ich do usuwania "
-"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej "
-"zimy\" (ekologiczne bomby atomowe!)."
+"skażeń w turze, w której się pojawią! Redukuje to ryzyko \"nuklearnej zimy\" "
+"(ekologiczne bomby atomowe!)."
 
 #: data/sandbox/units.ruleset:2513
 msgid "ICBM"
@@ -40553,8 +40553,8 @@ msgstr ""
 "podbijanych ludów, na przykład Greków czy Etrusków, i stała się podstawą "
 "kultury zachodniej. Nawet dziś wpływ kultury rzymskiej w dziedzinie prawa, "
 "filozofii i języka jest trudny do przecenienia. Państwo rzymskie przetrwało "
-"ponad tysiąc lat: najpierw było królestwem, potem republiką, a od 27 r. p.n."
-"e. cesarstwem. W IV w. n.e. imperium rozpadło się na Cesarstwo "
+"ponad tysiąc lat: najpierw było królestwem, potem republiką, a od 27 r. "
+"p.n.e. cesarstwem. W IV w. n.e. imperium rozpadło się na Cesarstwo "
 "Zachodniorzymskie, które upadło w 476 roku, oraz Cesarstwo Wschodniorzymskie "
 "(zwane też Bizantyńskim), które przetrwało przez kolejne tysiąc lat. Stolica "
 "tego drugiego, Konstantynopol, została zdobyta przez Turków w 1453 roku."
@@ -43417,8 +43417,8 @@ msgstr ""
 #: server/cityturn.c:1729
 #, c-format
 msgid ""
-"%s can't build %s from the worklist; city must be of size %d or smaller."
-"Postponing..."
+"%s can't build %s from the worklist; city must be of size %d or "
+"smaller.Postponing..."
 msgstr ""
 "%s nie może zbudować %s z planu prac; wymagany maksymalny rozmiar miasta to "
 "%d. Przesunięto na późniejszy termin..."
@@ -43971,8 +43971,8 @@ msgstr "Mieszkańcy %s rozważają przeniesienie się do %s (%s)."
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
-"Ostrzeżenie: opcja %s jest przestarzała. Aby włączyć opcję metaserwera użyj -"
-"m.\n"
+"Ostrzeżenie: opcja %s jest przestarzała. Aby włączyć opcję metaserwera użyj "
+"-m.\n"
 
 #: server/civserver.c:216
 #, c-format
@@ -44288,8 +44288,8 @@ msgid ""
 msgstr ""
 "Polecenie 'explain' to okrojone polecenie 'help' i pozostaje w serwerze dla "
 "zgodności z wcześniejszymi wersjami. Bez argumentów działa jak 'help "
-"options' (wyświetla listę opcji), a z argumentem jak 'help <nazwa-"
-"opcji>' (wyświetla pomoc o danej opcji)."
+"options' (wyświetla listę opcji), a z argumentem jak 'help <nazwa-opcji>' "
+"(wyświetla pomoc o danej opcji)."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:152
@@ -44768,8 +44768,8 @@ msgstr ""
 #: server/commands.c:411
 msgid "Set one or all AI players to 'Experimental'."
 msgstr ""
-"Ustawia jednego bądź wszystkich graczy AI w tryb "
-"'experimental' (eksperymentalny)."
+"Ustawia jednego bądź wszystkich graczy AI w tryb 'experimental' "
+"(eksperymentalny)."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:417
@@ -47893,8 +47893,8 @@ msgid ""
 "Please read the section \"Requirement vector rules\" in doc/README.actions"
 msgstr ""
 "Aktywator dla %s posiada wymóg lokalny DiplRel %s w target_reqs! Proszę "
-"przeczytać sekcję \"Requirement vector rules\" w dokumencie doc/README."
-"actions"
+"przeczytać sekcję \"Requirement vector rules\" w dokumencie doc/"
+"README.actions"
 
 #: server/rssanity.c:1420
 #, c-format
@@ -48032,51 +48032,51 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr "Błąd składniowy w bloku atrybutów."
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Nie udało się wczytać zestawu zasad '%s' potrzebnego dla zapisanej gry."
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s został/a dodany jako gracz AI, poziom %s (%s)."
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s został/a dodany jako gracz-człowiek."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s miał/a nieprawidłowy naród; zmieniam na %s."
 
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s nie daje widoku dzielonego członkowi drużyny %s."
 
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s miał/a niewłaściwą technologię badań."
 
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s miał/a niewłaściwy cel badań."
 
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s miał/a niewłaściwą ilość badań."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
@@ -48085,7 +48085,7 @@ msgstr ""
 "Niespójność %s: nigdy nie mieli pierwszego miasta, a teraz je mają. "
 "Naprawiam."
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -48093,23 +48093,23 @@ msgid ""
 msgstr ""
 "%s ma wiele jednostek typu %s, mimo że można mieć tylko jedną taką jednostkę."
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Nie udało się wczytać zestawu zasad '%s'."
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Scenariusz wymaga zestawu zasad z funkcjonalnościami: %s"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Zestaw zasad ma funkcjonalności: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
@@ -48118,7 +48118,7 @@ msgstr ""
 "Bieżący zestaw zasad %s jest niezgodny ze scenariuszem %s. Próbuję "
 "przełączyć na zestaw zasad określony w scenariuszu."
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
@@ -48126,17 +48126,17 @@ msgstr ""
 "gry."
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr "Udało się wczytać zestaw zasad %s scenariusza."
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr "Nie mogę znaleźć pliku scenariusza luadata %s.luadata."
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "Nie udało się wczytać pliku scenariusza luadata %s.luadata."
@@ -49508,9 +49508,9 @@ msgid ""
 "    a   = Fast attack unit (eg., Horsemen)\n"
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
-"Powinien to być ciąg znaków, w którym każdy znak odpowiada jednej jednostce."
-"Pierwsza jednostka początkowa musi być natywna przynajmniej dla jednego "
-"terenu początkowego. Znaczenia poszczególnych znaków:\n"
+"Powinien to być ciąg znaków, w którym każdy znak odpowiada jednej "
+"jednostce.Pierwsza jednostka początkowa musi być natywna przynajmniej dla "
+"jednego terenu początkowego. Znaczenia poszczególnych znaków:\n"
 "    c   = Założyciel miast (np. Osadnicy)\n"
 "    w   = Pracownik (np. Robotnicy)\n"
 "    x   = Zwiadowca (np. Badacz)\n"
@@ -50338,8 +50338,8 @@ msgid ""
 msgstr ""
 "To ustawienie określa sposób przenoszenia jednostek mostem powietrznym. Może "
 "przyjmować następujące wartości:\n"
-"- \"Pozwala na przenoszenie jednostek z sojuszniczych "
-"miast\" (FROM_ALLIES).\n"
+"- \"Pozwala na przenoszenie jednostek z sojuszniczych miast\" "
+"(FROM_ALLIES).\n"
 "- \"Pozwala na przenoszenie jednostek do sojuszniczych miast\" (TO_ALLIES).\n"
 "- \"Nieograniczone przenoszenie z miast początkowych\" (SRC_UNLIMITED): "
 "przenoszenie z miasta nie zmniejsza licznika przenoszonych jednostek. Zestaw "
@@ -55748,11 +55748,11 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ msgstr "Nie rób nic względem chatek."
 
 #~ msgid ""
-#~ "Preparing user effects to help you port edit.unit_move() and edit."
-#~ "unit_teleport() Lua calls."
+#~ "Preparing user effects to help you port edit.unit_move() and "
+#~ "edit.unit_teleport() Lua calls."
 #~ msgstr ""
-#~ "Przygotowuję efekty użytkownika, aby przeportować polecenia Lua edit."
-#~ "unit_move() i edit.unit_teleport() Lua calls."
+#~ "Przygotowuję efekty użytkownika, aby przeportować polecenia Lua "
+#~ "edit.unit_move() i edit.unit_teleport() Lua calls."
 
 #~ msgid ""
 #~ "It is safe to delete the effects if you don't use unit_move() or "
@@ -56468,8 +56468,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #~ msgid "Set one or all AI players to 'Handicapped'."
 #~ msgstr ""
-#~ "Ustawia jednego bądź wszystkich graczy AI na poziom "
-#~ "'handicapped' (ułomny)."
+#~ "Ustawia jednego bądź wszystkich graczy AI na poziom 'handicapped' "
+#~ "(ułomny)."
 
 #~ msgid ""
 #~ "Saved game uses the ancient format terrain ruleset, and is no longer "
@@ -62483,8 +62483,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 
 #, fuzzy
 #~ msgid ""
-#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>."
-#~ "sav\". This setting sets the <prefix> part."
+#~ "Automatically saved games will have name \"<prefix>-T<turn>-"
+#~ "Y<year>.sav\". This setting sets the <prefix> part."
 #~ msgstr ""
 #~ "Autosave'y będą miały nazwę \"<prefix><rok>.sav\". Gdzie <prefix> jest "
 #~ "podanym przedrostkiem."

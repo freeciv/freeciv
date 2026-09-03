@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-25 04:25+0300\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -4609,7 +4609,7 @@ msgstr ""
 msgid "Freeciv (%s)"
 msgstr "Freeciv"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2371
+#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "정말 끝내시겠습니까?"
@@ -7232,7 +7232,7 @@ msgstr "알려지지 않은 선택 '%s'."
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr ""
 
-#: client/gui-gtk-4.0/gui_main.c:2564
+#: client/gui-gtk-4.0/gui_main.c:2568
 #, c-format
 msgid ""
 "\n"
@@ -12429,14 +12429,14 @@ msgstr "%s 의 동맹한 승리."
 #. * leading spaces.
 #: client/helpdata.c:3179
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be entered.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be entered.\n"
 msgstr ""
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #: client/helpdata.c:3186
 #, c-format
-msgid "  %s if a suitable hut is at the targetet tile it will be frightened.\n"
+msgid "  %s if a suitable hut is at the targeted tile it will be frightened.\n"
 msgstr ""
 
 #. TRANS: indented unit action property, preserve
@@ -21424,19 +21424,19 @@ msgstr "이 %s의 업그레이드는 해안가로 운반할 것입니다"
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr ""
 
-#: common/unit.h:127
+#: common/unit.h:126
 #, fuzzy
 #| msgid "Server Name"
 msgid "?serveragent:None"
 msgstr "서버명"
 
-#: common/unit.h:129
+#: common/unit.h:128
 #, fuzzy
 #| msgid "Auto Settler"
 msgid "Autosettlers"
 msgstr "이주민 자동"
 
-#: common/unit.h:131
+#: common/unit.h:130
 #, fuzzy
 #| msgid "Auto Explore"
 msgid "Autoexplore"
@@ -40453,33 +40453,39 @@ msgid "Enter password for %s:"
 msgstr "%s 을 위한 암호를 적어 넣기:"
 
 #. TRANS: Try not to make the translation much longer than the original.
-#: server/auth.c:136
+#: server/auth.c:137
 #, fuzzy
 #| msgid "Enter a new password (and remember it)."
 msgid "First time login. Set a new password and confirm it."
 msgstr "하나의 새로운 암호를 적어 넣기 (그리고 이것을 기억하기)."
 
 #: server/auth.c:141
+#, fuzzy, c-format
+#| msgid " Nation of the new player: %s."
+msgid "Registration for %s requested."
+msgstr " 그 새로운 참가자의 국가: %s."
+
+#: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
 msgstr "이 서버는 미리 등록한 사용자들에게만 허용합니다. 미안한."
 
-#: server/auth.c:143
+#: server/auth.c:145
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr "%s (은)는 거절되었습니다: 미리 등록한 사용자들에게만 허용됩니다."
 
-#: server/auth.c:165 server/auth.c:221
+#: server/auth.c:168 server/auth.c:226
 msgid "Sorry, too many wrong tries..."
 msgstr "미안한, 너무 많은 잘못된 시도들..."
 
-#: server/auth.c:166
+#: server/auth.c:169
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "%s (은)는 거절되었습니다: 새로운 사용자를 위한 너무 많은 잘못된 암호 확인하기"
 "들."
 
-#: server/auth.c:178
+#: server/auth.c:181
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -40487,34 +40493,45 @@ msgstr ""
 "경고: 그곳에는 그 데이터베이스에 저장하는 안에 하나의 오류가 있습니다. 계속하"
 "는 중, 하지만 당신의 통계량들은 저장되지 않을 것입니다."
 
-#: server/auth.c:222
+#: server/auth.c:183
+#, fuzzy, c-format
+msgid "Error writing to database for: %s"
+msgstr "서버로부터 연결을 놓쳤습니다"
+
+#: server/auth.c:185
+#, fuzzy, c-format
+#| msgid "%s rules the %s."
+msgid "%s registered."
+msgstr "%s (은)는 그 %s (을)를 통치합니다."
+
+#: server/auth.c:227
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s (은)는 거절되었습니다: 너무 많은 잘못된 암호 시도들."
 
-#: server/auth.c:224 server/auth.c:244
+#: server/auth.c:229 server/auth.c:249
 msgid "auth failed"
 msgstr "인가 실패함"
 
-#: server/auth.c:231
+#: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "당신의 암호는 부정확합니다. 다시 시도하기."
 
-#: server/auth.c:241
+#: server/auth.c:246
 msgid "Sorry, your connection timed out..."
 msgstr "미안한, 당신의 접속은 시간이 초과되었습니다..."
 
-#: server/auth.c:242
+#: server/auth.c:247
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s (은)는 거절되었습니다: 암호를 위한 기다리는 접속 시간초과"
 
-#: server/auth.c:308
+#: server/auth.c:313
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "당신의 암호는 너무 짧아, 그 최소의 길이는 %d 입니다. 다시 시도하기."
 
-#: server/auth.c:314
+#: server/auth.c:319
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -45856,87 +45873,87 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr ""
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, fuzzy, c-format
 #| msgid "Failed to download %s"
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "%s (을)를 내려받기에 실패함"
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s (은)는 %s 수준 인공지능-통제되는 참가자 (%s) 로서 추가되었습니다."
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s (은)는 인간 참가자로서 추가되었습니다."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, fuzzy, c-format
 #| msgid "You give shared vision to %s."
 msgid "%s did not give shared vision to team member %s."
 msgstr "당신은 %s (에)게 공유된 시각을 줍니다."
 
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had invalid researching technology."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had invalid technology goal."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had finished researches count wrong."
 msgstr "%s (은)는 병약한 국가를 가졌습니다; %s (으)로 바꾸는 중."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
 msgstr ""
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
 "one."
 msgstr ""
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, fuzzy, c-format
 #| msgid "Failed to download %s"
 msgid "Failed to load ruleset '%s'."
 msgstr "%s (을)를 내려받기에 실패함"
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, fuzzy, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "호환성이 없는 인공지능 모듈 %s:"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, fuzzy, c-format
 #| msgid "Freeciv version %s"
 msgid "Ruleset has capabilities: %s"
 msgstr "Freeciv 버젼 %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, fuzzy, c-format
 #| msgid "Current ruleset directory is \"%s\""
 msgid ""
@@ -45944,23 +45961,23 @@ msgid ""
 "the ruleset specified by the scenario."
 msgstr "현재 규칙집단 디렉토리는 \"%s\" 입니다."
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr ""
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr ""
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, fuzzy, c-format
 #| msgid "Failed to download %s"
 msgid "Failed to load scenario luadata file %s.luadata"

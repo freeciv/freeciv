@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-09-03 09:56+0500\n"
+"POT-Creation-Date: 2026-09-03 22:04+0300\n"
 "PO-Revision-Date: 2026-09-03 10:24+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -48656,53 +48656,53 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr "Синтаксическая ошибка в блоке атрибутов."
 
-#: server/savegame/savegame2.c:1419 server/savegame/savegame3.c:1424
+#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Ошибка загрузки набора правил \"%s\", использующегося в сохранённой игре."
 
-#: server/savegame/savegame2.c:2967 server/savegame/savegame3.c:3901
+#: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 "Игрок %s был добавлен как управляемый компьютером игрок уровня %s (%s)."
 
-#: server/savegame/savegame2.c:2972 server/savegame/savegame3.c:3906
+#: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Игрок %s был добавлен как игрок-человек."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:2996 server/savegame/savegame3.c:3929
+#: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "У игрока %s был неверный народ. Меняем его народ на %s."
 
-#: server/savegame/savegame2.c:3083 server/savegame/savegame2.c:3089
-#: server/savegame/savegame3.c:4020 server/savegame/savegame3.c:4026
+#: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
+#: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr ""
 "Игрок %s не поделился своим видением обстановки с партнёром по команде %s."
 
-#: server/savegame/savegame2.c:5643 server/savegame/savegame3.c:8046
+#: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s: неверная изучаемая технология."
 
-#: server/savegame/savegame2.c:5653 server/savegame/savegame3.c:8056
+#: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s: неверная технологическая цель."
 
-#: server/savegame/savegame2.c:5662 server/savegame/savegame3.c:8065
+#: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "%s: неверное количество изученных технологий."
 
-#: server/savegame/savegame2.c:5688 server/savegame/savegame3.c:8110
+#: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
@@ -48711,7 +48711,7 @@ msgstr ""
 "несоответствие в %s: Никогда не строил города, но имеет город на текущий "
 "момент. Исправляем."
 
-#: server/savegame/savegame2.c:5714 server/savegame/savegame3.c:8083
+#: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -48720,23 +48720,23 @@ msgstr ""
 "Игрок %s имеет несколько соединений типа %s, хотя их должно быть не более "
 "одного."
 
-#: server/savegame/savegame3.c:1369
+#: server/savegame/savegame3.c:1377
 #, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Ошибка загрузки набора правил \"%s\"."
 
-#: server/savegame/savegame3.c:1381
+#: server/savegame/savegame3.c:1389
 #, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Сценарий требует следующие возможности: %s"
 
-#: server/savegame/savegame3.c:1382
+#: server/savegame/savegame3.c:1390
 #, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Набор правил поддерживает: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1385
+#: server/savegame/savegame3.c:1393
 #, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
@@ -48745,23 +48745,23 @@ msgstr ""
 "Текущий набор правил %s не совместим со сценарием %s. Переключаемся на набор "
 "правил, указанный в сценарии."
 
-#: server/savegame/savegame3.c:1419
+#: server/savegame/savegame3.c:1427
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr "Ошибка загрузки наборов правил '%s' или '%s', нужных сохранённой игре."
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1431
+#: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr "Набор правил %s, требуемый сценарием, успешно загружен."
 
-#: server/savegame/savegame3.c:1457
+#: server/savegame/savegame3.c:1465
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr "Отсутствует файл скрипта сценария %s.luadata."
 
-#: server/savegame/savegame3.c:1464
+#: server/savegame/savegame3.c:1472
 #, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "Ошибка загрузки файла скрипта сценария %s.luadata"

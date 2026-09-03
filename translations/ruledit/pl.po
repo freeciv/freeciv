@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-03-09 07:34+0200\n"
+"POT-Creation-Date: 2026-07-26 04:28+0300\n"
 "PO-Revision-Date: 2026-08-18 13:57+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@gmail.com\n"
@@ -250,7 +250,8 @@ msgid ""
 "fix the current issue by hand and come back here to find the next issue."
 msgstr ""
 "Wprowadza wszystkie zatwierdzone zmiany do elementu zestawu zasad. Możesz "
-"ręcznie naprawić dany problem i wrócić tu, aby przejść do następnego problemu."
+"ręcznie naprawić dany problem i wrócić tu, aby przejść do następnego "
+"problemu."
 
 #: tools/ruledit/req_vec_fix.cpp:279
 msgid "Unable to apply solution"
@@ -275,71 +276,71 @@ msgstr "Wymagane przez %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:119
 #, c-format
 msgid "Failed to load %s."
 msgstr "Nie udało się wczytać %s."
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:155
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:159 tools/ruledit/ruledit.cpp:165
 msgid "debug LEVEL"
 msgstr "debug POZIOM"
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:160
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub d:plik1,min,"
-"max:...)"
+"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub "
+"d:plik1,min,max:...)"
 
-#: tools/ruledit/ruledit.cpp:167
+#: tools/ruledit/ruledit.cpp:166
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr "Ustaw poziom debugowania (jedną z liter f,e,w,n,v)"
 
-#: tools/ruledit/ruledit.cpp:170
+#: tools/ruledit/ruledit.cpp:169
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:172
 msgid "ruleset RULESET"
 msgstr "ruleset ZESTAW ZASAD"
 
-#: tools/ruledit/ruledit.cpp:174
+#: tools/ruledit/ruledit.cpp:173
 msgid "Ruleset to use as the starting point."
 msgstr "Zestaw zasad będący punktem wyjścia."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:178
+#: tools/ruledit/ruledit.cpp:177
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SYGNAŁ]"
 
-#: tools/ruledit/ruledit.cpp:179
+#: tools/ruledit/ruledit.cpp:178
 msgid "Raise a signal on failed assertion"
 msgstr "Zwróć sygnał w przypadku błędnej asercji"
 
-#: tools/ruledit/ruledit.cpp:193
+#: tools/ruledit/ruledit.cpp:192
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Można edytować tylko jeden zestaw zasad na raz.\n"
 
-#: tools/ruledit/ruledit.cpp:200
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Nieprawidłowy poziom debugowania \"%s\" podany w opcji --debug.\n"
 
-#: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
+#: tools/ruledit/ruledit.cpp:201 tools/ruledit/ruledit.cpp:214
 msgid "Try using --help.\n"
 msgstr "Spróbuj --help.\n"
 
-#: tools/ruledit/ruledit.cpp:213
+#: tools/ruledit/ruledit.cpp:212
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Nieprawidłowy numer sygnału \"%s\".\n"
 
-#: tools/ruledit/ruledit.cpp:222
+#: tools/ruledit/ruledit.cpp:221
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
@@ -657,13 +658,14 @@ msgstr "Zapisz w katalogu"
 #: tools/ruledit/tab_misc.cpp:106
 #, c-format
 msgid ""
-"If you want to be able to load the ruleset directly to freeciv, place it as a "
-"subdirectory under %s%s%s\n"
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
 "Jeśli chcesz mieć możliwość wczytania zestawu zasad bezpośrednio do freeciv, "
 "umieść zestaw w podfolderze\n"
-"%s%s%s. Użyj polecenia \"/rulesetdir <podfolder>\", aby wczytać go do freeciv."
+"%s%s%s. Użyj polecenia \"/rulesetdir <podfolder>\", aby wczytać go do "
+"freeciv."
 
 #: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
