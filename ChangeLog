@@ -1,3 +1,551 @@
+commit 454de54f0d4edaf3ca6d6519e929083fa85bda78
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 4 00:04:19 2026 +0300
+
+    'make update-po' before 3.2.6 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0eb9cf63ad1392b0f3d0a7fdda7d502eb5b87b68
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 4 00:01:22 2026 +0300
+
+    FAQ: Update latest stable version number to 3.2.6
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b534444fa1d28f7cf9dff161ae7b2d39ad3e94ed
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 3 22:16:12 2026 +0300
+
+    NEWS-3.2: Refresh 3.2.6 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ef0c76c2765fe383140eb1a70dbea1228844152e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 24 02:47:56 2026 +0300
+
+    savegame: Fix Out-of-Bounds Read in activities.order[]
+
+    Reported by Tristan
+
+    See RM #2162
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 75ecde3e86ddf2fe775768450e9a290a4f4d4387
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 24 02:37:37 2026 +0300
+
+    savegame: Fix Heap Buffer Overflow in worklist_load()
+
+    Reported by Tristan
+
+    See RM #2161
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b1b0768bfaca9b2fae68f9466defe1e80636e9fa
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Thu Sep 3 10:28:54 2026 +0500
+
+    Update for Russian translation
+
+commit 2d5aae6b026059e05a86e845925558e00d6a8fb7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 3 04:21:27 2026 +0300
+
+    Comment typofix: "convuluted fasion" -> "convoluted fashion"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fe849d2192382c9dac90a374c641a3bd5e34ae33
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 3 03:21:26 2026 +0300
+
+    NEWS-3.2: Add 3.2.6 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 76322a8953f437a2cdf7bfa35c2a4a56f355cc8d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 2 18:57:05 2026 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2026-08-31)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 919de752d5daebf215dfe201b76124496b174afa
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 27 14:20:09 2026 +0300
+
+    INSTALL.meson: Replace /home/cazfi with /home/user in examples
+
+    See RM #2175
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9e2098913b398bc58de766bddfb10060620fc8be
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 31 00:53:09 2026 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e7cd6153af8e251bf84ab7dfcdfb1be5327b812b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 25 06:55:50 2026 +0300
+
+    Meson: Install man pages directly from configure_file()
+
+    Fixes meson-1.12 warnings like:
+    freeciv.6' is a generated file, and should be passed by reference
+    instead of string name. This will become a hard error in Meson 2.0
+
+    See RM #2166
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 32528f5c1f5d0c8365dacce08e242a3050f197cc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 30 13:19:39 2026 +0300
+
+    NEWS-3.2: Fix typo in 3.2.5 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e7722722a9bd2679c641b88c661ba5ecf13d4f38
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 30 09:34:48 2026 +0300
+
+    Comment typofix: "surprizes" -> "surprises"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit dfefa8559e93810d5ad6e41bb2e2a39ee094981d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 28 14:56:03 2026 +0300
+
+    path finding: Check against negative EFT_VETERAN_BUILD
+
+    See RM #2100
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bcca6af1d6150bc9770e9dd84dc20860053a9ca1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 21 02:05:47 2026 +0300
+
+    meson-build_all_installers.sh: Respect crosser.txt CROSSER_SDL2
+
+    See RM #2143
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0ee9e1ddf9a5be95e1d4fdc82902994f2466c260
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 3 13:07:29 2026 +0300
+
+    Remove "terrain.h" includes existing for "enum tile_special_type"
+
+    Nowadays "enum tile_special_type" lives (and is needed) in
+    savecompat only.
+
+    See RM #2113
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2410dc4675b96f261ad5ed322213823f4ef5eda3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Aug 19 04:00:25 2026 +0300
+
+    Meson: Silence sfinae-incomplete warnings with Qt < 6.11
+
+    See RM #2149
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 040cdeca36ae3181b91220a7ed4bb862af4b4a8d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 7 10:49:11 2026 +0300
+
+    SDL3_rotozoom.h: Rename SDL2_ROTOZOOM_SCOPE as SDL3_ROTOZOOM_SCOPE
+
+    See RM #1742
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d901523dafd857d0ee413787eacb99aa62b96c7d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 1 10:06:18 2026 +0300
+
+    random_movements(): Correct attack legality check
+
+    See RM #2106
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 755472e023fb331493400eaa04e2ea4de6f808b3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 25 23:46:01 2026 +0300
+
+    Comment typofix: "imrovements" -> "improvements"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7819f50698bc72bb078fcaee4f25b4b1b0e0d850
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 25 20:24:43 2026 +0300
+
+    Backport Swedish translation from main branch
+
+    Msgmerged main translations against S3_2 strings
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 04ef18f9f09100a4097fb1080e68d7603c2bfff0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 17 02:10:36 2026 +0300
+
+    installer_cross: Use cross-pkg-config
+
+    Build was using build system pkg-config.
+
+    See RM #2139
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit eabbbb87926d9af637c902d17dca503b53f1e4c1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 29 07:37:45 2026 +0300
+
+    Granularity: Fix counters documentation end characters
+
+    Replace
+    ; /* <-- avoid gettext warnings
+    with
+    ; */ <-- avoid gettext warnings
+
+    See RM #2102
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 654f85aed9d7291185858316c9f07f3657a4b39a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 9 11:24:44 2026 +0300
+
+    Fix typo in autogenerated Hut entering helptext
+
+    Reported by John Campbell
+
+    See RM #2126
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 31f80096b7bcfb8e9bca54060ddc4ae302013f9c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 3 04:42:59 2026 +0300
+
+    Do not look for "threaded" AI type directory
+
+    That AI type is long gone
+
+    See RM #2108
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6a2dbd1f6cec7aad6bdd091b66d6367c5ec167ba
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Aug 19 23:10:25 2026 +0300
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2026-08-18)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit edf5a9d876eab1d32e6c650f5481d7bb3e6f1ba7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 28 21:53:50 2026 +0300
+
+    Flatpak: Explicitly set audio=sdl2 for sdl2-client
+
+    See RM #2101
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 80e3b0874b0374b3533796374a7da2f4c4fbf7f2
+Author: Bernhard M. Wiedemann <bwiedemann@suse.de>
+Date:   Thu Aug 6 05:56:46 2026 +0200
+
+    tolua: Generate deterministic code
+
+    Lua 5.2 and later seed their string hash function randomly,
+    so the pairs() iteration order over the usertype and collect
+    tables changes with every tolua run. tolua_reg_types() listed
+    usertypes in that varying order, making generated code and
+    freeciv binaries built from it differ between builds.
+
+    Sort the tables before writing them out, and drop the timestamp
+    from generated header files.
+
+    This change makes the freeciv package build reproducibly.
+
+    See https://reproducible-builds.org/ for why this matters.
+
+    See RM #2122
+
+    Signed-off-by: Bernhard M. Wiedemann <bwiedemann@suse.de>
+
+commit 80f84a5dbc76ff9baae57af6dd918d406564615c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 3 10:07:51 2026 +0300
+
+    CI: Update emsdk job runner to ubuntu-26.04
+
+    See RM #2086
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 14cf91a78a0331fb22b9fd7075a7b307ae79285a
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 15 20:11:39 2026 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 07bb807d97db6ed35f7c0d1d5b725b66a1214464
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 2 07:10:30 2026 +0300
+
+    gtk4: Don't pause music when "Turn Done" button pressed
+
+    Grab the focus to another widget before "Turn Done"
+    button goes insensitive. That avoids freeciv window from
+    losing focus completely. This in turn fixes behavior
+    of the "Silent when not in focus" client option.
+
+    See RM #2107
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6678d13d684cd1fa696f139c582912bf42d8d791
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 8 10:28:26 2026 +0300
+
+    Do not include SDL2 headers when SDL3 audio enabled
+
+    Reported by Matt Jolly
+
+    See RM #2121
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0bcc68b72f75b960f5f8c6bd35bf811e1df3d731
+Author: Dino <macwiz23@comcast.net>
+Date:   Sat Jul 25 21:43:38 2026 -0400
+
+    Tech tree: Fix nodes to check for negative reqs
+
+    Reported by John Campbell
+
+    See RM #2085
+
+commit 2adf730cee4e1ea74427acb5b042871edbe6c01f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Jul 22 04:23:14 2026 +0300
+
+    Fix over-the-max veteran level at process_attacker_want()
+
+    Value of EFT_VETERAN_BUILD was being assigned as
+    veterancy level directly, without checking unit's
+    max veteran level.
+
+    See RM #2081
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cc767c22cd499175a77d257ae0a42911fe170e8e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 28 14:15:09 2026 +0300
+
+    build_tolua.sh: Add
+
+    See RM #2099
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 16b92ec9274663714fe9135388e9f7db651d148d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Jul 28 06:50:59 2026 +0300
+
+    AppImage: Explicitly set audio=sdl2 for sdl2-client
+
+    See RM #2096
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2581c0de5e4215086be98b6eca3fb09c0dadee6f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 8 13:08:43 2026 +0300
+
+    ruledit/zh_CN.po: Convert to UTF-8
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0caf2f09e75326fa547c43f1c94edb6f00d2a737
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jul 26 03:11:51 2026 +0300
+
+    CI: Update ubuntu runners to ubuntu-26.04
+
+    Except emsdk build that still remains in ubuntu-24.04
+
+    See RM #2084
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ecc7112921e549ae217c2a7dc64854c84f245747
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 20 14:58:40 2026 +0300
+
+    Flatpak: Update Qt Sdk & Platform to 6.11
+
+    See RM #2078
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 504ed575d044ac6a4c10a46ae45ec082cf224bd3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 4 01:56:29 2026 +0300
+
+    Server: Add logging about auth progress
+
+    See RM #2068
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 01233b27a4e03bcad3244e0cd6f0338692323559
+Author: Dino <macwiz23@comcast.net>
+Date:   Fri May 22 14:19:28 2026 -0400
+
+    Fix city_turns_to_grow() when food box already full
+
+    That can happen if city shrinks without losing food.
+    Resulting smaller granary size might already be filled
+    with existing food.
+
+    See RM #2040
+
+commit 44463f0cfafc87a20cf799bc95e4cc5fe2688120
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Jul 20 19:44:35 2026 +0300
+
+    Do not include anything Qt-specific to ruledit.cpp
+
+    Declare ruledit_qt_run() in ruledit.h, so ruledit.cpp
+    compilation sees it without including Qt-specific headers.
+
+    This fixes compilation failure with nls disabled and g++-16.
+
+    See RM #2075
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0a6789ac36dc2891be51463710e85880df848d18
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 25 18:08:47 2026 +0300
+
+    ruledit/nb.po: Correct charset
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 78e647b4f25ef4c67cdf14587a8502f8e5868d2d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 25 18:06:44 2026 +0300
+
+    ruledit/nb.po: Convert to UTF-8
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 60f3fa8bf03097a6b167625366f071a9b55eb096
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 4 11:01:12 2026 +0300
+
+    Move show_experimental() to ruledit_qt.cpp
+
+    See RM #2074
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fb3cc83f5ad7e9d713a0adf09456c9ed2d8e21c3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jun 19 05:41:59 2026 +0300
+
+    CI: Update actions/checkout to version 7.0.0
+
+    See RM #2056
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7d8348e9a228ef27458305bb3084bd6515d94c36
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 28 21:51:26 2026 +0300
+
+    Avoid infinite audio loop in the client exit
+
+    See RM #1963
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3674f80338ba9be1fcd9bb6ac333acdd716623b3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Jun 14 02:57:47 2026 +0300
+
+    CI: Update setup-msys2 to version 2.32.0
+
+    See RM #2050
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 965a7f7a0bd5ee9e4933a323200ec93f636fbae8
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Jul 4 03:32:35 2026 +0300
+
+    granularity: Mark Barracks helptext as no-c-format
+
+    Reported by NickWick13
+
+    See RM #2069
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5e049620e3569b4dbe012c69ffc916d95d03394b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 10 00:16:19 2026 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 60feb63f3afdaf3f2472df706a62a1cf6a5befaf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Jul 10 00:10:17 2026 +0300
+
+    Finalize 3.2.5 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit b8440a3c5a085f57dfe9bccb761912594391c66b
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Jul 10 00:04:28 2026 +0300
