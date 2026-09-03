@@ -1,10 +1,90 @@
 ========================
-Welcome to Freeciv 3.2.5
+Welcome to Freeciv 3.2.6
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.5 to 3.2.6
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.6>, 2026-09-03)
+
+3.2.6 is a bugfix release in the freeciv-3.2 series.
+
+Server / General
+Changes affecting other rulesets / modders
+
+    * Corrected RandomMovement units' attack legality check RM#2106
+    * Fixed path finding issues when value of Veteran_Build effect
+      has negative value RM#2100
+
+Changes affecting server operators
+
+    * Improved logging about player authentication RM#2068
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#2069 RM#2050 RM#2056 RM#2084 RM#2096 RM#2086 RM#2101 RM#2102
+      RM#1742 RM#2113
+
+AI
+
+    * Fixed failed assertions of unit veteran level being over
+      the maximum it can be RM#2081
+    * Do not search for no longer existing threaded AI type RM#2108
+
+Clients
+
+    * Fixed infinite audio loop in the client exit with the SDL3 audio
+      RM#1963
+    * Fixed issue with displayed "turns to grow" for the city to
+      be wrong after city shrank RM#2040
+    * Made tech tree not to show buildings or governments which
+      tech actually makes unavailable RM#2085
+
+    * gtk4
+         + Music no longer pauses when Turn Done button is pressed
+           RM#2107
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#2126
+    * Miscellaneous changes to developer/install/ruleset docs RM#2175
+
+Translations
+
+    * Corrected encoding of the Norwegian and
+      Simplified Chinese translations
+    * Updated translations:
+         + Complete translations: Polish
+         + Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+           Swedish (99% core, 16% nations, 1% ruledit)
+
+Build/portability
+
+    * Fixed ruledit build with g++ and disabled native language support
+      RM#2074 RM#2075
+    * Flatpak updates
+         + KDE Platform updated to 6.11 RM#2078
+    * Added build_tolua.sh script for building just tolua executable
+      from freeciv tree RM#2099
+    * Fixed SDL3 audio build without SDL2 files in the system RM#2121
+    * Made included tolua to generate deterministic code,
+      to make freeciv build with included tolua reproducible RM#2122
+    * Crosser based build improvements
+         + Fixed an issue that configure step detected build system
+           headers and/or libs instead of the target system ones RM#2139
+         + Made meson-build_all_installers.sh not to try sdl2-client
+           build if crosser does not provide sdl2 libraries RM#2143
+    * Silenced sfinae-incomplete compiler warnings with g++16
+      when building against Qt < 6.11 RM#2149
+    * Fixed meson-1.12 warnings about installation of man pages RM#2166
 
 
 CHANGES FROM 3.2.4 to 3.2.5
