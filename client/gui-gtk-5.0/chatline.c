@@ -1027,7 +1027,7 @@ bool chatline_is_scrolled_to_bottom(void)
 /**********************************************************************//**
   Scrolls the pregame and in-game chat windows all the way to the bottom.
 
-  Why do we do it in such a convuluted fasion rather than calling
+  Why do we do it in such a convoluted fashion rather than calling
   chatline_scroll_to_bottom() directly from toplevel_configure?
   Because the widget is not at its final size yet when the configure
   event occurs.
