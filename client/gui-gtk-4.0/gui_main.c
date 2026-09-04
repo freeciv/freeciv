@@ -224,6 +224,8 @@ static void free_unit_table(void);
 
 static void adjust_default_options(void);
 
+static gboolean animation_tick_cb(GtkWidget *widget, GdkFrameClock *frame_clock, gpointer user_data);
+
 static float zoom_steps_custom[] = {
   -1.0, 0.13, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, -1.0
 };
@@ -359,18 +361,21 @@ static void toplevel_focus(GtkWidget *w, GtkDirectionType arg,
 void main_message_area_resize(void *data)
 {
   if (get_current_client_page() == PAGE_GAME) {
-    static int old_width = 0, old_height = 0;
+    static int old_width = -1, old_height = -1;
     int width = gtk_widget_get_width(GTK_WIDGET(main_message_area));
     int height = gtk_widget_get_height(GTK_WIDGET(main_message_area));
 
     if (width != old_width
-        || height != old_height) {
+        || height != old_height || height == 0) {
+      /* XXX: At starts, we have a race condition with the chatline content
+       * recovery. It might consider that the bottom line is the first one,
+       * probably because gtk_widget_get_* calls returns 0. If you scroll up
+       * you will see the past content displayed.
+       */
       chatline_scroll_to_bottom(TRUE);
       old_width = width;
       old_height = height;
     }
-
-    add_idle_callback(main_message_area_resize, NULL);
   }
 }
 
@@ -1513,6 +1518,9 @@ static void setup_widgets(void)
   g_signal_connect(map_canvas, "resize",
                    G_CALLBACK(map_canvas_resize), NULL);
 
+  /* Synchronize animation updates with the tick (improve performances) */
+  gtk_widget_add_tick_callback(map_canvas, animation_tick_cb, NULL, NULL);
+
   mc_controller = gtk_event_controller_key_new();
   g_signal_connect(mc_controller, "key-pressed",
                    G_CALLBACK(toplevel_key_press_handler), NULL);
@@ -1616,6 +1624,16 @@ static void setup_widgets(void)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(link_marks_clear_all), NULL);
   inputline_toolkit_view_append_button(view, button);
+
+  /* These two signals doesn't seems to be triggered for now */
+  g_signal_connect(main_message_area, "notify::default-width",
+                                   G_CALLBACK(main_message_area_resize), NULL);
+  g_signal_connect(main_message_area, "notify::default-height",
+                                   G_CALLBACK(main_message_area_resize), NULL);
+
+  /* Use parent resize to triggers properly the resize */
+  g_signal_connect(map_canvas, "resize",
+                                   G_CALLBACK(main_message_area_resize), NULL);
 
   /* Other things to take care of */
 
@@ -2429,12 +2447,14 @@ void add_idle_callback(void (callback)(void *), void *data)
 /**********************************************************************//**
   Add idle callback for updating animations.
 **************************************************************************/
-void animation_idle_cb(void *data)
+static gboolean animation_tick_cb(GtkWidget *widget,
+                                  GdkFrameClock *frame_clock,
+                                  gpointer user_data)
 {
-  if (get_current_client_page() == PAGE_GAME) {
-    update_animation();
-    add_idle_callback(animation_idle_cb, NULL);
-  }
+    if (get_current_client_page() == PAGE_GAME) {
+            update_animation();
+    }
+    return G_SOURCE_CONTINUE; /* keep animation call back running */
 }
 
 /**********************************************************************//**
