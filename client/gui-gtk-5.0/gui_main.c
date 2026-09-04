@@ -170,7 +170,6 @@ GtkTextView *main_message_area;
 GtkTextBuffer *message_buffer = NULL;
 static GtkWidget *allied_chat_toggle_button;
 
-static gint timer_id;                               /*       Ditto        */
 static GIOChannel *srv_channel;
 static guint srv_id;
 gint cur_x, cur_y;
@@ -262,7 +261,7 @@ static gboolean timer_callback(gpointer data)
     }
   }
 
-  timer_id = g_timeout_add(seconds * 1000, timer_callback, NULL);
+  g_timeout_add(seconds * 1000, timer_callback, NULL);
 
   return FALSE;
 }
@@ -2116,7 +2115,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
   set_client_state(C_S_DISCONNECTED);
 
   /* Assumes client_state is set */
-  timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
+  g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 }
 
 /**********************************************************************//**
