@@ -3987,8 +3987,8 @@ if host_system != 'emscripten'
     sdl2_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
   endif
 
-  sdl2_image_dep = dependency('SDL2_image', required: false)
-  sdl2_ttf_dep = dependency('SDL2_ttf', required: false)
+  sdl2_image_dep = dependency('SDL2_image')
+  sdl2_ttf_dep = dependency('SDL2_ttf')
 endif
 
 executable('freeciv-sdl2',
@@ -4119,8 +4119,8 @@ sdl3_ttf_dep = []
 if host_system != 'emscripten'
   sdl3_gfx_inc = include_directories('dependencies')
 
-  sdl3_image_dep = dependency('sdl3-image', required: false)
-  sdl3_ttf_dep = dependency('sdl3-ttf', required: false)
+  sdl3_image_dep = dependency('sdl3-image')
+  sdl3_ttf_dep = dependency('sdl3-ttf')
 endif
 
 executable('freeciv-sdl3',
