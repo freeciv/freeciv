@@ -560,7 +560,7 @@ reqs    =
 
 [effect_action_success_surgical_strike]
 type    = "Action_Success_Actor_Move_Cost"
-value   = 100
+value   = 65535
 reqs    =
     { "type",   "name",                     "range", "present"
       "Action", "Surgical Strike Building", "Local", TRUE
