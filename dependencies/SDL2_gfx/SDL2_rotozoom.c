@@ -27,6 +27,8 @@ Andreas Schiffler -- aschiffler at ferzkopp dot net
 
 */
 
+#include "fc_prehdrs.h"
+
 #ifdef WIN32
 #include <windows.h>
 #endif
