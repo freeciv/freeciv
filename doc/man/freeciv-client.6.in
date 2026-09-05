@@ -53,7 +53,7 @@ documentation. It also accepts
 .B freeciv-sdl2
 accepts the following parameters following \fB\-\-\fP:
 .B [ \-f|\-\-fullscreen ] \
-[ \-F|\-\-Font \fsize\fP ] \
+[ \-F|\-\-Font \fIsize\fP ] \
 [ \-h|\-\-help ] \
 [ \-s|\-\-swrenderer ] \
 [ \-t|\-\-theme \fIstring\fP ]
@@ -61,7 +61,7 @@ accepts the following parameters following \fB\-\-\fP:
 .B freeciv-sdl3
 accepts the following parameters following \fB\-\-\fP:
 .B [ \-f|\-\-fullscreen ] \
-[ \-F|\-\-Font \fsize\fP ] \
+[ \-F|\-\-Font \fIsize\fP ] \
 [ \-h|\-\-help ] \
 [ \-t|\-\-theme \fIstring\fP ]
 
