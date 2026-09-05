@@ -1893,7 +1893,7 @@ static void airlift(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action "Conquer City" for choice dialog
+  Action "Conquer City Shrink" for choice dialog
 ***************************************************************************/
 static void conquer_city_shrink(QVariant data1, QVariant data2)
 {
@@ -1908,7 +1908,7 @@ static void conquer_city_shrink(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action "Conquer City 2" for choice dialog
+  Action "Conquer City Shrink 2" for choice dialog
 ***************************************************************************/
 static void conquer_city_shrink2(QVariant data1, QVariant data2)
 {
