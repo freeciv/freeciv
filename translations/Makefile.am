@@ -6,4 +6,5 @@ EXTRA_DIST = \
 	Strings.txt \
 	stats.sh \
 	generate_skips.sh \
-	global.skip
+	global.skip \
+	update_po.sh
