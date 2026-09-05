@@ -57,7 +57,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-08-25 20:17+0300\n"
+"POT-Creation-Date: 2026-09-05 15:34+0300\n"
 "PO-Revision-Date: 2026-07-16 08:15+0300\n"
 "Last-Translator: Jonatan Nyberg\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -259,11 +259,11 @@ msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
 msgstr[0] ""
-"*%s (datorstyrd)* Jag har för avsikt förklara krig mot %s om %d omgång för "
-"att plundra dem på deras rikedomar."
+"*%s (datorstyrd)* Jag har för avsikt att förklara krig mot %s om %d omgång "
+"för att plundra dem på deras rikedomar."
 msgstr[1] ""
-"*%s (datorstyrd)* Jag har för avsikt förklara krig mot %s om %d omgångar för "
-"att plundra dem på deras rikedomar."
+"*%s (datorstyrd)* Jag har för avsikt att förklara krig mot %s om %d omgångar "
+"för att plundra dem på deras rikedomar."
 
 #: ai/default/daidiplomacy.c:1541
 #, c-format
@@ -380,7 +380,7 @@ msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
 "%s. Why do I need to remind you of your promises?"
 msgstr ""
-"*%s (datorstyrd)* Vad hälsad bundsförvant, jag ser att du ännu inte har "
+"*%s (datorstyrd)* Var hälsad, bundsförvant. Jag ser att du ännu inte har "
 "förklarat krig mot vår fiende, %s. Varför behöver jag påminna dig om dina "
 "löften?"
 
@@ -804,8 +804,8 @@ msgstr[1] "%3d guld per omgång"
 #, c-format
 msgid "%3d infrapoint per turn"
 msgid_plural "%3d infrapoints per turn"
-msgstr[0] "%3d infrapoäng per tur"
-msgstr[1] "%3d infrapoäng per tur"
+msgstr[0] "%3d infrapoäng per omgång"
+msgstr[1] "%3d infrapoäng per omgång"
 
 #: client/citydlg_common.c:307
 #, c-format
@@ -2040,7 +2040,7 @@ msgstr "Hittade ingen väg till målet!"
 
 #: client/control.c:3317
 msgid "Oh my! You seem to have no capital!"
-msgstr "Hoppsan! Vi tycks sakna huvudstad!"
+msgstr "Hoppsan! Du tycks sakna en huvudstad!"
 
 #. TRANS: Perform action inside a goto.
 #: client/control.c:3451
@@ -2481,7 +2481,7 @@ msgstr "Stadens tillverkning"
 #: client/gui-sdl2/action_dialog.c:1697 client/gui-sdl3/action_dialog.c:1697
 #, c-format
 msgid "You can't incite a revolt in %s."
-msgstr "Vi kan inte anstifta ett uppror i %s."
+msgstr "Du kan inte anstifta ett uppror i %s."
 
 #: client/gui-gtk-3.22/action_dialog.c:1040
 #: client/gui-gtk-4.0/action_dialog.c:1037 client/gui-sdl2/action_dialog.c:1708
@@ -4650,21 +4650,21 @@ msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr "Överför gtk3-klientens tillval från Freeciv 2.5."
 
 #: client/gui-gtk-3.22/gui_main.c:1899 client/gui-gtk-4.0/gui_main.c:1909
-#: tools/fcmp/mpgui_gtk3.c:626 tools/fcmp/mpgui_gtk4.c:643
+#: tools/fcmp/mpgui_gtk3.c:628 tools/fcmp/mpgui_gtk4.c:643
 msgid "Failed to open graphical mode."
 msgstr "Misslyckades med att öppna grafiskt läge."
 
-#: client/gui-gtk-3.22/gui_main.c:1951 client/gui-gtk-4.0/gui_main.c:2008
+#: client/gui-gtk-3.22/gui_main.c:1953 client/gui-gtk-4.0/gui_main.c:2008
 #, c-format
 msgid "Freeciv (%s)"
 msgstr "Freeciv (%s)"
 
-#: client/gui-gtk-3.22/gui_main.c:2356 client/gui-gtk-4.0/gui_main.c:2378
+#: client/gui-gtk-3.22/gui_main.c:2358 client/gui-gtk-4.0/gui_main.c:2378
 #: client/gui-qt/gui_main.cpp:569
 msgid "Are you sure you want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: client/gui-gtk-3.22/gui_main.c:2539
+#: client/gui-gtk-3.22/gui_main.c:2541
 #, c-format
 msgid ""
 "\n"
@@ -8111,7 +8111,7 @@ msgstr "Staden %s vald. Välj nu samlingspunkt."
 
 #: client/gui-qt/mapctrl.cpp:264
 msgid "No city selected. Aborted"
-msgstr "Ingen stad har valts. Avbröt."
+msgstr "Ingen stad vald. Åtgärden avbröts."
 
 #: client/gui-qt/mapctrl.cpp:279
 #, c-format
@@ -9252,11 +9252,11 @@ msgstr ""
 
 #: client/gui-sdl2/citydlg.c:1216 client/gui-sdl3/citydlg.c:1212
 msgid "Sorry, you have already bought here in this turn."
-msgstr "Vi har tyvärr redan köpt här den här omgången."
+msgstr "Du har tyvärr redan köpt här den här omgången."
 
 #: client/gui-sdl2/citydlg.c:1219 client/gui-sdl3/citydlg.c:1215
 msgid "Sorry, you can't buy here in this turn."
-msgstr "Vi kan tyvärr inte köpa här den här omgången."
+msgstr "Du kan tyvärr inte köpa här den här omgången."
 
 #: client/gui-sdl2/citydlg.c:1223 client/gui-sdl3/citydlg.c:1219
 msgid "Buy it?"
@@ -9702,7 +9702,7 @@ msgstr "Slå upp ”%s” i hjälpbläddraren"
 
 #: client/gui-sdl2/dialogs.c:2480 client/gui-sdl3/dialogs.c:2477
 msgid "Choose Your New Government"
-msgstr "Välj vårt nya statsskick"
+msgstr "Välj ditt nya statsskick"
 
 #: client/gui-sdl2/dialogs.c:3156 client/gui-sdl3/dialogs.c:3153
 msgid "What nation will you be?"
@@ -10673,10 +10673,10 @@ msgid_plural ""
 "%d infrapoints per turn"
 msgstr[0] ""
 "%s\n"
-"%d infrapoäng per tur"
+"%d infrapoäng per omgång"
 msgstr[1] ""
 "%s\n"
-"%d infrapoäng per tur"
+"%d infrapoäng per omgång"
 
 #: client/gui-sdl2/wldlg.c:970 client/gui-sdl2/wldlg.c:1184
 #: client/gui-sdl3/wldlg.c:966 client/gui-sdl3/wldlg.c:1180
@@ -10781,8 +10781,8 @@ msgstr[1] "%d guld per omgång"
 #, c-format
 msgid "%d infrapoint per turn"
 msgid_plural "%d infrapoints per turn"
-msgstr[0] "%d infrapoäng per tur"
-msgstr[1] "%d infrapoäng per tur"
+msgstr[0] "%d infrapoäng per omgång"
+msgstr[1] "%d infrapoäng per omgång"
 
 #: client/gui-sdl2/wldlg.c:1522 client/gui-sdl3/wldlg.c:1518
 #, c-format
@@ -12285,7 +12285,7 @@ msgstr[1] ""
 
 #: client/helpdata.c:3407
 msgid "You cannot research this technology."
-msgstr "Vi kan inte forska fram denna teknologi."
+msgstr "Du kan inte forska fram denna teknologi."
 
 #. TRANS: preserve leading space
 #: client/helpdata.c:3413
@@ -13158,7 +13158,7 @@ msgstr "Det här är klientens Lua-konsol."
 #: client/mapctrl_common.c:404
 #, c-format
 msgid "You don't know how to build %s!"
-msgstr "Vi vet inte hur man bygger %s!"
+msgstr "Du vet inte hur man bygger %s!"
 
 #: client/mapctrl_common.c:415
 #, c-format
@@ -15105,7 +15105,7 @@ msgstr "Kultur"
 
 #: client/repodlgs_common.c:166
 msgid "You cannot sell improvements."
-msgstr "Vi kunde inte sälja stadsförbättringar"
+msgstr "Du kan inte sälja stadsförbättringar."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:207
@@ -15912,7 +15912,7 @@ msgstr "Risken för katastrofal nedkylning varje omgång: %d%%"
 
 #: client/text.c:1537
 msgid "Shows your current government:"
-msgstr "Visar vårt nuvarande statsskick:"
+msgstr "Visar ditt nuvarande statsskick:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1566
@@ -17590,7 +17590,7 @@ msgstr "Guld återfanns i hydda"
 
 #: common/events.c:145
 msgid "Killed by Barbarians in a Hut"
-msgstr "Slaktad av infödingar i hydda"
+msgstr "Dödad av barbarer i en hydda"
 
 #: common/events.c:146
 msgid "Mercenaries Found in Hut"
@@ -17606,7 +17606,7 @@ msgstr "Teknologi funnen i hydda"
 
 #: common/events.c:149
 msgid "Unit Spared by Barbarians"
-msgstr "Skonad av infödingarna"
+msgstr "Trupp skonad av barbarer"
 
 #: common/events.c:151
 msgid "Barbarian Uprising"
@@ -21762,15 +21762,15 @@ msgstr ""
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "Kan inte uppgradera %s medan ”%s” utförs."
 
-#: common/unit.h:129
+#: common/unit.h:128
 msgid "?serveragent:None"
 msgstr "Ingen"
 
-#: common/unit.h:131
+#: common/unit.h:130
 msgid "AutoWorker"
 msgstr "Automatisk arbetare"
 
-#: common/unit.h:133
+#: common/unit.h:132
 msgid "Autoexplore"
 msgstr "Automatisk utforskning"
 
@@ -22939,7 +22939,7 @@ msgstr ""
 #: data/classic/buildings.ruleset:1411 data/sandbox/buildings.ruleset:1770
 #: data/civ2civ3/buildings.ruleset:1617 data/multiplayer/buildings.ruleset:1389
 msgid "Great Library"
-msgstr "Stora Biblioteket"
+msgstr "Stora biblioteket"
 
 #: data/civ1/buildings.ruleset:983 data/civ2/buildings.ruleset:1382
 #: data/classic/buildings.ruleset:1430
@@ -22954,12 +22954,12 @@ msgstr ""
 #: data/classic/buildings.ruleset:1436 data/sandbox/buildings.ruleset:1800
 #: data/civ2civ3/buildings.ruleset:1645 data/multiplayer/buildings.ruleset:1414
 msgid "Great Wall"
-msgstr "Stora Muren"
+msgstr "Stora muren"
 
 #: data/civ1/buildings.ruleset:1008 data/civ2/buildings.ruleset:1407
 #: data/classic/buildings.ruleset:1455
 msgid "Works as a City Wall in all your cities."
-msgstr "Fungerar som stadsmurar i alla våra städer."
+msgstr "Fungerar som en stadsmur i alla dina städer."
 
 #: data/civ1/buildings.ruleset:1015 data/civ2/buildings.ruleset:1414
 #: data/classic/buildings.ruleset:1463 data/sandbox/buildings.ruleset:1828
@@ -24451,7 +24451,7 @@ msgstr "förbränning"
 #: data/classic/techs.ruleset:244 data/sandbox/techs.ruleset:246
 #: data/civ2civ3/techs.ruleset:245 data/multiplayer/techs.ruleset:244
 msgid "Computers"
-msgstr "datorn"
+msgstr "datorer"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:252
 #: data/classic/techs.ruleset:252 data/sandbox/techs.ruleset:254
@@ -24568,7 +24568,7 @@ msgstr "järnbearbetning"
 #: data/classic/techs.ruleset:427 data/sandbox/techs.ruleset:434
 #: data/civ2civ3/techs.ruleset:429 data/multiplayer/techs.ruleset:436
 msgid "Labor Union"
-msgstr "fackföreningen"
+msgstr "fackförening"
 
 #: data/civ1/techs.ruleset:381 data/civ2/techs.ruleset:455
 #: data/classic/techs.ruleset:451 data/sandbox/techs.ruleset:458
@@ -24728,7 +24728,7 @@ msgstr "rymdfart"
 #: data/classic/techs.ruleset:734 data/sandbox/techs.ruleset:778
 #: data/civ2civ3/techs.ruleset:753 data/multiplayer/techs.ruleset:740
 msgid "Steam Engine"
-msgstr "ångmaskinen"
+msgstr "ångmaskin"
 
 #: data/civ1/techs.ruleset:589 data/civ2/techs.ruleset:740
 #: data/classic/techs.ruleset:742 data/sandbox/techs.ruleset:786
@@ -27325,7 +27325,7 @@ msgstr "Tillåter nybyggare och ingenjörer att uppgradera vägar till järnväg
 #: data/sandbox/techs.ruleset:707 data/civ2civ3/techs.ruleset:692
 #: data/multiplayer/techs.ruleset:680
 msgid "Refrigeration"
-msgstr "kylskåpet"
+msgstr "kylteknik"
 
 #: data/civ2/techs.ruleset:679
 msgid ""
@@ -27451,10 +27451,10 @@ msgid ""
 "Supermarket, a farmland tile provides 50% more food. (Hence, farmland is "
 "only useful on tiles which with irrigation yield 2 or more food.)"
 msgstr ""
-"När kylskåpet har upptäckts kan bevattningssystem uppgraderas till åkermark "
-"genom att bevattnas en andra gång. Om staden som arbetar rutan har en "
-"stormarknad ger en åkermarksruta 50 % mer mat. (Åkermark är därför bara "
-"användbar på rutor som ger 2 eller mer mat med bevattning.)"
+"När kylteknik är känd kan bevattningssystem uppgraderas till åkermark genom "
+"att bevattnas en andra gång. Om staden som arbetar rutan har en stormarknad "
+"ger en åkermarksruta 50 % mer mat. (Åkermark är därför bara användbar på "
+"rutor som ger 2 eller mer mat med bevattning.)"
 
 #: data/civ2/terrain.ruleset:1217
 msgid "Like irrigation, farmland is incompatible with mines."
@@ -28260,12 +28260,12 @@ msgstr "Här ligger en övergiven boplats."
 
 #: data/default/default.lua:123
 msgid "You have unleashed a horde of barbarians!"
-msgstr "Vi har släppt lös en hord barbarer!"
+msgstr "Du har släppt lös en hord barbarer!"
 
 #: data/default/default.lua:126 server/unittools.c:3326
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "Vår %s blev slaktad av infödingar!"
+msgstr "%s dödades av barbarer!"
 
 #: data/default/default.lua:137
 #, c-format
@@ -29067,7 +29067,7 @@ msgstr "Dålig på att angripa jaktflygplan"
 #: data/classic/units.ruleset:56 data/sandbox/units.ruleset:72
 #: data/civ2civ3/units.ruleset:62 data/multiplayer/units.ruleset:56
 msgid "AttFromNonNative"
-msgstr "AttFromNonNative"
+msgstr "Anfall från icke-inhemska rutor"
 
 #: data/classic/units.ruleset:66 data/sandbox/units.ruleset:85
 #: data/sandbox/units.ruleset:2390 data/civ2civ3/units.ruleset:75
@@ -29107,7 +29107,7 @@ msgstr ""
 #: data/classic/units.ruleset:493 data/sandbox/units.ruleset:589
 #: data/civ2civ3/units.ruleset:576 data/multiplayer/units.ruleset:494
 msgid "?unit:Workers"
-msgstr "Arbetare"
+msgstr "arbetare"
 
 #: data/classic/units.ruleset:529 data/sandbox/units.ruleset:623
 #: data/civ2civ3/units.ruleset:610 data/multiplayer/units.ruleset:530
@@ -29597,7 +29597,7 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:445 data/civ2civ3/buildings.ruleset:442
 #: data/multiplayer/buildings.ruleset:120
 msgid "Amphitheater"
-msgstr "Amfiteater"
+msgstr "amfiteater"
 
 #: data/sandbox/buildings.ruleset:489 data/civ2civ3/buildings.ruleset:486
 msgid ""
@@ -29806,7 +29806,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:868 data/civ2civ3/buildings.ruleset:866
 msgid "Ecclesiastical Palace"
-msgstr "Kyrkligt palats"
+msgstr "kyrkligt palats"
 
 #: data/sandbox/buildings.ruleset:886 data/civ2civ3/buildings.ruleset:884
 msgid ""
@@ -31483,7 +31483,7 @@ msgstr "Låter städer bygga hamnar och kustunderverk."
 
 #: data/sandbox/terrain.ruleset:29
 msgid "DifficultLanding"
-msgstr "DifficultLanding"
+msgstr "Svår landning"
 
 #: data/sandbox/terrain.ruleset:29
 msgid "Only veterans can paradrop here."
@@ -31503,7 +31503,7 @@ msgstr "Bevattningskälla"
 
 #: data/sandbox/terrain.ruleset:46 data/civ2civ3/terrain.ruleset:45
 msgid "AllowsFarmlandOnDesert"
-msgstr "AllowsFarmlandOnDesert"
+msgstr "Tillåter åkermark i öken"
 
 #: data/sandbox/terrain.ruleset:519 data/civ2civ3/terrain.ruleset:518
 msgid ""
@@ -32139,7 +32139,7 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:542 data/civ2civ3/units.ruleset:529
 msgid "Migrants"
-msgstr "Migranter"
+msgstr "migranter"
 
 #: data/sandbox/units.ruleset:579 data/civ2civ3/units.ruleset:566
 msgid ""
@@ -32202,7 +32202,7 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:680
 msgid "Mechanic"
-msgstr "Mekaniker"
+msgstr "mekaniker"
 
 #: data/sandbox/units.ruleset:716
 msgid "A Mechanic can repair machines in the field."
@@ -32745,7 +32745,7 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:3050 data/civ2civ3/units.ruleset:2872
 msgid "Storm"
-msgstr "Storm"
+msgstr "storm"
 
 #: data/sandbox/units.ruleset:3079 data/civ2civ3/units.ruleset:2901
 msgid "Storms move randomly at seas."
@@ -32781,7 +32781,7 @@ msgid ""
 msgstr ""
 "Den sammanlagda bonusen är 150 % om ett bibliotek, universitet och en "
 "forskningsanläggning finns i samma stad, och ökar till 300 % när Stora "
-"Biblioteket, Isaac Newtons högskola och Internet har byggts."
+"biblioteket, Isaac Newtons högskola och Internet har byggts."
 
 #: data/civ2civ3/buildings.ruleset:1416
 #, no-c-format
@@ -32791,7 +32791,7 @@ msgid ""
 "Newton's College have both been built."
 msgstr ""
 "Den sammanlagda bonusen är 100 % om ett bibliotek och universitet finns i "
-"samma stad, och ökar till 200 % när både Stora Biblioteket och Isaac Newtons "
+"samma stad, och ökar till 200 % när både Stora biblioteket och Isaac Newtons "
 "högskola har byggts."
 
 #: data/civ2civ3/buildings.ruleset:1639
@@ -32881,7 +32881,7 @@ msgstr "Sälj %sbehållare%s"
 
 #: data/alien/buildings.ruleset:87
 msgid "Antigrav Port"
-msgstr "Antigravitationshamn"
+msgstr "antigravitationshamn"
 
 #: data/alien/buildings.ruleset:106
 #, no-c-format
@@ -32894,7 +32894,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:111
 msgid "Archive"
-msgstr "Arkiv"
+msgstr "arkiv"
 
 #: data/alien/buildings.ruleset:130
 #, no-c-format
@@ -32903,7 +32903,7 @@ msgstr "Ökar stadens forskningsproduktion med 75 %."
 
 #: data/alien/buildings.ruleset:134
 msgid "Basic Infrastructure"
-msgstr "Grundläggande infrastruktur"
+msgstr "grundläggande infrastruktur"
 
 #: data/alien/buildings.ruleset:152
 #, no-c-format
@@ -32920,7 +32920,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:159
 msgid "Bunker"
-msgstr "Bunker"
+msgstr "bunker"
 
 #: data/alien/buildings.ruleset:180
 #, no-c-format
@@ -32929,7 +32929,7 @@ msgstr "Uppror kan inte anstiftas i en stad med bunker."
 
 #: data/alien/buildings.ruleset:185
 msgid "Central Mine"
-msgstr "Centralgruva"
+msgstr "centralgruva"
 
 #: data/alien/buildings.ruleset:205
 #, no-c-format
@@ -32938,7 +32938,7 @@ msgstr "Stadskärnans ruta producerar tre extra sköldar."
 
 #: data/alien/buildings.ruleset:210
 msgid "Cyberpart Factory"
-msgstr "Cyberdelsfabrik"
+msgstr "cyberdelsfabrik"
 
 #: data/alien/buildings.ruleset:229
 #, no-c-format
@@ -32954,7 +32954,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:257
 msgid "Filter"
-msgstr "Filter"
+msgstr "filter"
 
 #: data/alien/buildings.ruleset:276
 msgid ""
@@ -32965,7 +32965,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:281
 msgid "Force Walls"
-msgstr "Kraftfältsmurar"
+msgstr "kraftfältsmurar"
 
 #: data/alien/buildings.ruleset:301
 #, no-c-format
@@ -32978,7 +32978,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:306
 msgid "Headquarters"
-msgstr "Högkvarter"
+msgstr "högkvarter"
 
 #: data/alien/buildings.ruleset:324
 #, no-c-format
@@ -32991,7 +32991,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:329
 msgid "Hospital"
-msgstr "Sjukhus"
+msgstr "sjukhus"
 
 #: data/alien/buildings.ruleset:348
 #, no-c-format
@@ -33004,7 +33004,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:353
 msgid "Information Distillery"
-msgstr "Informationsdestilleri"
+msgstr "informationsdestilleri"
 
 #: data/alien/buildings.ruleset:372
 #, no-c-format
@@ -33017,7 +33017,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:377
 msgid "Mood Center"
-msgstr "Stämningscentrum"
+msgstr "stämningscentrum"
 
 #: data/alien/buildings.ruleset:396
 #, no-c-format
@@ -33026,7 +33026,7 @@ msgstr "Gör 3 missnöjda medborgare nöjda."
 
 #: data/alien/buildings.ruleset:401
 msgid "Training Facility"
-msgstr "Utbildningsanläggning"
+msgstr "utbildningsanläggning"
 
 #: data/alien/buildings.ruleset:420
 #, no-c-format
@@ -33035,7 +33035,7 @@ msgstr "Alla nya trupper byggs som elittrupper."
 
 #: data/alien/buildings.ruleset:425
 msgid "Transportation"
-msgstr "Transport"
+msgstr "transport"
 
 #: data/alien/buildings.ruleset:444
 #, no-c-format
@@ -33051,7 +33051,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:452
 msgid "Radar Tower"
-msgstr "Radartorn"
+msgstr "radartorn"
 
 #: data/alien/buildings.ruleset:470
 msgid "City with Radar Tower sees much further than one without."
@@ -33059,7 +33059,7 @@ msgstr "En stad med radartorn ser mycket längre än en utan."
 
 #: data/alien/buildings.ruleset:474
 msgid "Radiation Resistor"
-msgstr "Strålningsskydd"
+msgstr "strålningsskydd"
 
 #: data/alien/buildings.ruleset:492
 msgid "Radiation Resistor increases maximum city size by 3."
@@ -33067,7 +33067,7 @@ msgstr "Strålningsskydd ökar stadens maximala storlek med 3."
 
 #: data/alien/buildings.ruleset:497
 msgid "Research Nest"
-msgstr "Forskningsnäste"
+msgstr "forskningsnäste"
 
 #: data/alien/buildings.ruleset:516
 #, no-c-format
@@ -33076,7 +33076,7 @@ msgstr "Ökar stadens forskningsproduktion med 100 %."
 
 #: data/alien/buildings.ruleset:520
 msgid "Secret Police"
-msgstr "Hemlig polis"
+msgstr "hemlig polis"
 
 #: data/alien/buildings.ruleset:538
 msgid ""
@@ -33092,7 +33092,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:544
 msgid "Skyscraper"
-msgstr "Skyskrapa"
+msgstr "skyskrapa"
 
 #: data/alien/buildings.ruleset:562
 msgid ""
@@ -33108,7 +33108,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:567
 msgid "Virtual Reality Theatre"
-msgstr "Teater för virtuell verklighet"
+msgstr "teater för virtuell verklighet"
 
 #: data/alien/buildings.ruleset:586
 #, no-c-format
@@ -34775,7 +34775,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:651
 msgid "Cyborgs"
-msgstr "Cyborgar"
+msgstr "cyborgar"
 
 #: data/alien/units.ruleset:681
 msgid "Attack power to the early game."
@@ -34783,7 +34783,7 @@ msgstr "Ger anfallskraft i början av spelet."
 
 #: data/alien/units.ruleset:686
 msgid "Tank"
-msgstr "Stridsvagn"
+msgstr "stridsvagn"
 
 #: data/alien/units.ruleset:717
 msgid "This is the most powerful Earth technology unit."
@@ -34791,7 +34791,7 @@ msgstr "Detta är den kraftfullaste truppen med jordisk teknologi."
 
 #: data/alien/units.ruleset:722
 msgid "War Monster"
-msgstr "Krigsmonster"
+msgstr "krigsmonster"
 
 #: data/alien/units.ruleset:752
 msgid "As a native unit, this can move and fight on radiating areas too."
@@ -34809,7 +34809,7 @@ msgstr "En utomjordisk livsform som har tränats för att vara snabb."
 
 #: data/alien/units.ruleset:792
 msgid "Cyber Alien"
-msgstr "Cyberutomjording"
+msgstr "cyberutomjording"
 
 #: data/alien/units.ruleset:822
 msgid ""
@@ -34847,7 +34847,7 @@ msgstr "Detta är ett utmärkt försvarsfordon."
 
 #: data/alien/units.ruleset:933
 msgid "Earth Sub"
-msgstr "Jordubåt"
+msgstr "jordubåt"
 
 #: data/alien/units.ruleset:963
 msgid ""
@@ -34901,7 +34901,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1076
 msgid "Spitter"
-msgstr "Spottare"
+msgstr "spottare"
 
 #: data/alien/units.ruleset:1107
 msgid "This alien lifeform is first bombarding unit."
@@ -34909,7 +34909,7 @@ msgstr "Denna utomjordiska livsform är den första bombarderande truppen."
 
 #: data/alien/units.ruleset:1112
 msgid "Heavy Spitter"
-msgstr "Tung spottare"
+msgstr "tung spottare"
 
 #: data/alien/units.ruleset:1144
 msgid ""
@@ -34921,7 +34921,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1149
 msgid "Biomass"
-msgstr "Biomassa"
+msgstr "biomassa"
 
 #: data/alien/units.ruleset:1180
 msgid ""
@@ -34941,7 +34941,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1218
 msgid "Scout Animal"
-msgstr "Spaningsdjur"
+msgstr "spaningsdjur"
 
 #: data/alien/units.ruleset:1248
 msgid "This is native scout animal that can enter any land terrain."
@@ -34949,7 +34949,7 @@ msgstr "Detta är ett inhemskt spaningsdjur som kan gå in i all landterräng."
 
 #: data/alien/units.ruleset:1253
 msgid "Raft"
-msgstr "Flotte"
+msgstr "flotte"
 
 #: data/alien/units.ruleset:1282
 msgid "  This vessel allows coastal travel, but not on Boiling Seas."
@@ -34958,7 +34958,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1287
 msgid "Ship"
-msgstr "Fartyg"
+msgstr "fartyg"
 
 #: data/alien/units.ruleset:1319
 msgid ""
@@ -35035,7 +35035,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1582
 msgid "Antiburrow Missile"
-msgstr "Antigrävningsmissil"
+msgstr "antigrävningsmissil"
 
 #: data/alien/units.ruleset:1610
 msgid ""
@@ -39676,9 +39676,9 @@ msgid ""
 "by irrigating them a second time; if the city working the tile has a "
 "Supermarket, a farmland tile provides twice as much food."
 msgstr ""
-"När kylskåpet har upptäckts kan bevattningssystem uppgraderas till åkermark "
-"genom att bevattnas en andra gång. Om staden som arbetar rutan har en "
-"stormarknad ger en åkermarksruta dubbelt så mycket mat."
+"När kylteknik är känd kan bevattningssystem uppgraderas till åkermark genom "
+"att bevattnas en andra gång. Om staden som arbetar rutan har en stormarknad "
+"ger en åkermarksruta dubbelt så mycket mat."
 
 #: data/multiplayer/terrain.ruleset:1429
 msgid ""
@@ -42190,7 +42190,7 @@ msgstr ""
 "efter ”--”. Se Gtk-dokumentationen.\n"
 "\n"
 
-#: tools/fcmp/mpgui_gtk3.c:597
+#: tools/fcmp/mpgui_gtk3.c:599
 msgid "Freeciv modpack installer (gtk3)"
 msgstr "Freecivs installerare för modpaket (GTK3)"
 
@@ -43756,8 +43756,8 @@ msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
 "Postponing..."
 msgstr ""
-"%s kan inte bygga %s från arbetslistan; endast tillgängligt efter %d turer. "
-"Produktionen skjuts upp..."
+"%s kan inte bygga %s från arbetslistan; endast tillgängligt efter %d "
+"omgångar. Produktionen skjuts upp..."
 
 #: server/cityturn.c:2150
 #, c-format
@@ -43766,7 +43766,7 @@ msgid ""
 "Postponing..."
 msgstr ""
 "%s kan inte bygga %s från arbetslistan; endast tillgängligt när formen är "
-"minst %d turer gammal. Produktionen skjuts upp..."
+"minst %d omgångar gammal. Produktionen skjuts upp..."
 
 #: server/cityturn.c:2275
 #, c-format
@@ -43792,12 +43792,12 @@ msgstr "Byggandet av %s ersätts med %s i %s."
 #: server/cityturn.c:2405
 #, c-format
 msgid "The %s worklist is now empty."
-msgstr "%ss arbetslista tog slut."
+msgstr "Arbetslistan för %s är nu tom."
 
 #: server/cityturn.c:2573
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr "%s kan inte underhålla %s - truppen upplöst."
+msgstr "%s kan inte underhålla %s; truppen upplöstes."
 
 #: server/cityturn.c:2613
 #, c-format
@@ -43833,8 +43833,8 @@ msgstr "%s har färdigställt %s."
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] "%s ökar forskningen; vi få genast %d framsteg."
-msgstr[1] "%s ökar forskningen; vi få genast %d framsteg."
+msgstr[0] "%s ökar forskningen; du får genast %d framsteg."
+msgstr[1] "%s ökar forskningen; du får genast %d framsteg."
 
 #. TRANS: Tech from building (Darwin's Voyage)
 #: server/cityturn.c:2751
@@ -45508,7 +45508,7 @@ msgstr "Vi äger inte %s, så vi kan inte godkänna avtalet."
 #: server/diplhand.c:251 server/diplhand.c:390
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
-msgstr "Vår huvudstad (%s) efterfrågas, så vi kan inte godkänna avtalet."
+msgstr "Din huvudstad (%s) efterfrågas, så du kan inte godkänna avtalet."
 
 #: server/diplhand.c:273
 #, c-format
@@ -46794,7 +46794,8 @@ msgstr ""
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
-msgstr "%1$s har angripit din bundsförvant %2$s! Du bryter förbundet med %1$s."
+msgstr ""
+"%s har angripit din bundsförvant %s! Du bryter förbundet med angriparen."
 
 #: server/plrhand.c:1067
 #, c-format
@@ -46802,8 +46803,8 @@ msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
-"Vår lagkamrat %s har förklarat krig mot %s. Nu förväntas det av oss att "
-"bryta vårt förbund med %s."
+"Din lagkamrat %s har förklarat krig mot %s. Du är skyldig att bryta ditt "
+"förbund med %s."
 
 #: server/plrhand.c:1722
 msgid ""
@@ -46831,7 +46832,7 @@ msgstr "%s har blivit avlägsnad från spelet."
 
 #: server/plrhand.c:2116
 msgid "Please choose a non-blank name."
-msgstr "Var god välj ett ickeblankt namn."
+msgstr "Välj ett namn som inte är tomt."
 
 #: server/plrhand.c:2129
 msgid "That nation is already in use."
@@ -46883,7 +46884,7 @@ msgstr ""
 
 #: server/plrhand.c:3105
 msgid "Your nation is thrust into civil war."
-msgstr "Det utbryter inbördeskrig i vår nation."
+msgstr "Det utbryter inbördeskrig i din nation."
 
 #. TRANS: <leader> ... the Poles.
 #: server/plrhand.c:3109
@@ -48021,54 +48022,54 @@ msgstr ""
 msgid "Syntax error in attribute block."
 msgstr "Syntaxfel i attributblocket."
 
-#: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1426
+#: server/savegame/savegame2.c:1435 server/savegame/savegame3.c:1434
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Misslyckades med att läsa in regelverket ”%s” som behövs för det sparade "
 "spelet."
 
-#: server/savegame/savegame2.c:2978 server/savegame/savegame3.c:3993
+#: server/savegame/savegame2.c:2986 server/savegame/savegame3.c:4001
 #: server/srv_main.c:2627 server/srv_main.c:2632
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s har lagts till som en datorstyrd spelare på nivån %s (%s)."
 
-#: server/savegame/savegame2.c:2983 server/savegame/savegame3.c:3998
+#: server/savegame/savegame2.c:2991 server/savegame/savegame3.c:4006
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s har lagts till som mänsklig spelare."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame/savegame2.c:3007 server/savegame/savegame3.c:4021
+#: server/savegame/savegame2.c:3015 server/savegame/savegame3.c:4029
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s har ogiltigt folkslag; byter till %s."
 
-#: server/savegame/savegame2.c:3094 server/savegame/savegame2.c:3100
-#: server/savegame/savegame3.c:4112 server/savegame/savegame3.c:4118
+#: server/savegame/savegame2.c:3102 server/savegame/savegame2.c:3108
+#: server/savegame/savegame3.c:4120 server/savegame/savegame3.c:4126
 #, c-format
 msgid "%s did not give shared vision to team member %s."
 msgstr "%s gav inte delad anblick till lagmedlemmen %s."
 
-#: server/savegame/savegame2.c:5665 server/savegame/savegame3.c:8186
+#: server/savegame/savegame2.c:5683 server/savegame/savegame3.c:8206
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s hade ogiltig teknologi under forskning."
 
-#: server/savegame/savegame2.c:5675 server/savegame/savegame3.c:8196
+#: server/savegame/savegame2.c:5693 server/savegame/savegame3.c:8216
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s hade ogiltigt teknologimål."
 
-#: server/savegame/savegame2.c:5703 server/savegame/savegame3.c:8243
+#: server/savegame/savegame2.c:5721 server/savegame/savegame3.c:8263
 #, c-format
 msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
 msgstr ""
 
-#: server/savegame/savegame2.c:5729 server/savegame/savegame3.c:8216
+#: server/savegame/savegame2.c:5747 server/savegame/savegame3.c:8236
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -48077,23 +48078,23 @@ msgstr ""
 "%s har flera trupper av slaget %s trots att det endast ska vara möjligt att "
 "ha en."
 
-#: server/savegame/savegame3.c:1371
+#: server/savegame/savegame3.c:1379
 #, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Misslyckades med att läsa in regelverket ”%s”."
 
-#: server/savegame/savegame3.c:1383
+#: server/savegame/savegame3.c:1391
 #, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Scenariot kräver följande regelverksförmågor: %s"
 
-#: server/savegame/savegame3.c:1384
+#: server/savegame/savegame3.c:1392
 #, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Regelverket har följande förmågor: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
-#: server/savegame/savegame3.c:1387
+#: server/savegame/savegame3.c:1395
 #, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
@@ -48102,7 +48103,7 @@ msgstr ""
 "Det aktuella regelverket %s är inte kompatibelt med scenariot %s. Försöker "
 "byta till det regelverk som anges av scenariot."
 
-#: server/savegame/savegame3.c:1421
+#: server/savegame/savegame3.c:1429
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
@@ -48110,17 +48111,17 @@ msgstr ""
 "för det sparade spelet."
 
 #. TRANS: ruleset dir
-#: server/savegame/savegame3.c:1433
+#: server/savegame/savegame3.c:1441
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
 msgstr "Scenariots regelverk %s lästes in."
 
-#: server/savegame/savegame3.c:1459
+#: server/savegame/savegame3.c:1467
 #, c-format
 msgid "Can't find scenario luadata file %s.luadata."
 msgstr "Kan inte hitta scenariots luadata-fil %s.luadata."
 
-#: server/savegame/savegame3.c:1466
+#: server/savegame/savegame3.c:1474
 #, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
 msgstr "Misslyckades med att läsa in scenariots luadata-fil %s.luadata"
@@ -48219,7 +48220,7 @@ msgstr "stänger snart av på grund av brist på spelare"
 #: server/sernet.c:630
 #, c-format
 msgid "Restarting in %d seconds for lack of players."
-msgstr "Startar om om %d sekunder på grund av brist på spelare."
+msgstr "Startar om efter %d sekunder på grund av brist på spelare."
 
 #: server/sernet.c:633
 msgid "restarting soon for lack of players"
@@ -51412,11 +51413,11 @@ msgstr "Man behöver en huvudstad för att sända iväg ett rymdskepp."
 
 #: server/spacerace.c:180
 msgid "Your spaceship is already launched!"
-msgstr "Vårt rymdskepp är redan ivägsänt!"
+msgstr "Ditt rymdskepp har redan sänts iväg!"
 
 #: server/spacerace.c:186
 msgid "Your spaceship can't be launched yet!"
-msgstr "Vårt rymdskepp kan inte sändas iväg än!"
+msgstr "Ditt rymdskepp kan inte sändas iväg än!"
 
 #: server/spacerace.c:195
 #, c-format
@@ -51429,11 +51430,11 @@ msgstr ""
 
 #: server/spacerace.c:223
 msgid "Spaceship action received, but you don't have a spaceship!"
-msgstr "Rymdskeppshandling mottagen, men vi har inget rymdskepp!"
+msgstr "Rymdskeppshandling mottagen, men du har inget rymdskepp!"
 
 #: server/spacerace.c:233
 msgid "You can't modify your spaceship after launch!"
-msgstr "Man kan inte ändra sitt rymdskepp när det har sänts iväg!"
+msgstr "Du kan inte ändra ditt rymdskepp efter att det har sänts iväg!"
 
 #: server/spacerace.c:247
 msgid "You don't have any unplaced Space Structurals!"
@@ -51441,7 +51442,7 @@ msgstr "Du har inga oplacerade rymdstrukturer!"
 
 #: server/spacerace.c:256
 msgid "That Space Structural would not be connected!"
-msgstr "Denna rumdstruktur ansluts inte!"
+msgstr "Den här rymdstrukturen skulle inte vara ansluten!"
 
 #: server/spacerace.c:275 server/spacerace.c:303
 msgid "You don't have any unplaced Space Components!"
@@ -51450,11 +51451,11 @@ msgstr "Oanvända rymdkomponenter saknas!"
 #: server/spacerace.c:283
 msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
-"Vårt rymdskepp har redan det största möjliga antalet bränslekomponenter!"
+"Ditt rymdskepp har redan det största möjliga antalet bränslekomponenter!"
 
 #: server/spacerace.c:312
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
-msgstr "Vårt rymdskepp har redan det största möjliga antalet motorkomponenter!"
+msgstr "Ditt rymdskepp har redan det största möjliga antalet motorkomponenter!"
 
 #: server/spacerace.c:333 server/spacerace.c:362 server/spacerace.c:391
 msgid "You don't have any unplaced Space Modules!"
@@ -51462,16 +51463,16 @@ msgstr "Oanvända rymdmoduler saknas!"
 
 #: server/spacerace.c:341
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
-msgstr "Vårt rymdskepp har redan det största möjliga antalet bostadsmoduler!"
+msgstr "Ditt rymdskepp har redan det största möjliga antalet bostadsmoduler!"
 
 #: server/spacerace.c:370
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
-"Vårt rymdskepp har redan det största möjliga antalet livsuppehållsmoduler!"
+"Ditt rymdskepp har redan det största möjliga antalet livsuppehållsmoduler!"
 
 #: server/spacerace.c:399
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr "Vårt rymdskepp har redan det största möjliga antalet solpanelsmoduler!"
+msgstr "Ditt rymdskepp har redan det största möjliga antalet solpanelsmoduler!"
 
 #: server/spacerace.c:423
 #, c-format
@@ -51760,7 +51761,7 @@ msgstr[1] ""
 #: server/srv_main.c:924 server/srv_main.c:939
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "Vår/t %s upplöstes i enlighet med vårt fredsavtal med %s."
+msgstr "%s upplöstes i enlighet med ditt fredsavtal med %s."
 
 #: server/srv_main.c:989
 #, c-format
@@ -51774,7 +51775,7 @@ msgstr ""
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
-"Vapenstilleståndet med %s har upphört. Vi befinner oss nu i krig med %s."
+"Vapenstilleståndet med %s har upphört. Du befinner dig nu i krig med %s."
 
 #: server/srv_main.c:1043 server/srv_main.c:1053
 #, c-format
@@ -54732,7 +54733,7 @@ msgstr "Tyvärr så sköts vår %s ned av fiendens missilförsvar."
 #: server/unithand.c:4731
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
-msgstr "Kärnvapenangreppet mot %s avvärjdes av vårt missilförsvar."
+msgstr "Kärnvapenangreppet mot %s avvärjdes av ditt missilförsvar."
 
 #. TRANS: " and achieved the rank of <veteran level>";
 #. * preserve leading space
@@ -54875,7 +54876,7 @@ msgstr "Kan inte angripa utan att förklara krig först."
 #: server/unithand.c:5629
 #, c-format
 msgid "%s can only move into your own zone of control."
-msgstr "Vår %s kan endast röra sig inom vårt eget kontrollområde."
+msgstr "%s kan endast röra sig inom ditt eget kontrollområde."
 
 #: server/unithand.c:5642
 #, c-format
@@ -54946,7 +54947,7 @@ msgstr "Din %s kan tyvärr inte upprätta en handelsled mellan %s och %s."
 #: server/unithand.c:6115 server/unithand.c:6140
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
-msgstr "Vår %s kan tyvärr inte inrätta en handelsled hit!"
+msgstr "%s kan tyvärr inte upprätta en handelsled här!"
 
 #: server/unithand.c:6121 server/unithand.c:6146
 #, c-format
@@ -55012,7 +55013,7 @@ msgstr[1] ""
 #: server/unithand.c:6260
 #, c-format
 msgid "New trade route established from %s to %s."
-msgstr "Ny handelsleder har inrättats från %s till %s."
+msgstr "Ny handelsled har upprättats från %s till %s."
 
 #: server/unithand.c:6266
 #, c-format
@@ -55924,7 +55925,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "göra matförrådet 10 % fullt när staden växer."
 
 #~ msgid "Housing"
-#~ msgstr "Bostäder"
+#~ msgstr "bostäder"
 
 #~ msgid "Space for people to live allows settlements to grow one size bigger."
 #~ msgstr ""
@@ -55943,7 +55944,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 
 #~| msgid "Shared Vision"
 #~ msgid "Sacred Grove"
-#~ msgstr "Helig lund"
+#~ msgstr "helig lund"
 
 #~ msgid ""
 #~ "Makes one unhappy citizen content. Does not affect citizens made unhappy "
@@ -55959,7 +55960,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ msgstr "Producerar två historikpoäng varje omgång."
 
 #~ msgid "Central Rock Pile"
-#~ msgstr "Centralt stenröse"
+#~ msgstr "centralt stenröse"
 
 #~ msgid ""
 #~ "This Rock Pile marks the spot where your people first settled, and found "
@@ -55971,7 +55972,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "markerar din huvudstad tills du har en mer passande byggnad för ändamålet."
 
 #~ msgid "Throne"
-#~ msgstr "Tron"
+#~ msgstr "tron"
 
 #~ msgid "City with your throne is your capital city."
 #~ msgstr "Staden med din tron är din huvudstad."
@@ -55983,14 +55984,14 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "omgång."
 
 #~ msgid "Quarry"
-#~ msgstr "Stenbrott"
+#~ msgstr "stenbrott"
 
 #~ msgid "Quarry produces 300 infrapoints per turn."
 #~ msgstr "Stenbrottet producerar 300 infrapoäng per omgång."
 
 #~| msgid "Plant Forest"
 #~ msgid "Stone Circle"
-#~ msgstr "Stencirkel"
+#~ msgstr "stencirkel"
 
 #~ msgid ""
 #~ "Stone Circle produces two points of history per turn for each city, five "
@@ -56000,7 +56001,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "fem poäng för staden där den finns."
 
 #~ msgid "Gather Wood"
-#~ msgstr "Samla ved"
+#~ msgstr "samla ved"
 
 #~| msgid ""
 #~| "This is not a normal improvement.  Instead, setting a city's production "
@@ -56427,7 +56428,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ msgstr "luft"
 
 #~ msgid "Nomad"
-#~ msgstr "Nomad"
+#~ msgstr "nomad"
 
 #~ msgid ""
 #~ "Nomads can both fight and found new cities, but unlike specialized units "
@@ -56446,7 +56447,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ msgstr "Legionen är ganska bra både på att försvara och anfalla. "
 
 #~ msgid "Hunters"
-#~ msgstr "Jägare"
+#~ msgstr "jägare"
 
 #~ msgid ""
 #~ "Hunters and their dogs can mostly provide upkeep for themselves, not "
@@ -56457,7 +56458,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 
 #~| msgid "Scenario"
 #~ msgid "Mercenaries"
-#~ msgstr "Legosoldater"
+#~ msgstr "legosoldater"
 
 #~ msgid ""
 #~ "Mercenaries are not bound to march under specific flag, but can be "
@@ -56480,7 +56481,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "byggnader."
 
 #~ msgid "Bounty Hunter"
-#~ msgstr "Prisjägare"
+#~ msgstr "prisjägare"
 
 #~ msgid "Bounty Hunters are able to capture all enemy units."
 #~ msgstr "Prisjägare kan tillfångata alla fientliga trupper."
@@ -56499,7 +56500,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "växter."
 
 #~ msgid "Boats"
-#~ msgstr "Båtar"
+#~ msgstr "båtar"
 
 #~ msgid "Boats carved from logs. They cannot sail off the coast."
 #~ msgstr "Båtar urholkade ur stockar. De kan inte segla bort från kusten."
@@ -56512,7 +56513,7 @@ msgstr "fel %d (kompilerad utan strerror)"
 #~ "begränsad till att endast segla på grunda hav."
 
 #~ msgid "Emissary"
-#~ msgstr "Sändebud"
+#~ msgstr "sändebud"
 
 #~| msgid "Diplomatic Message"
 #~ msgid "Diplomatic unit."
