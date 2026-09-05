@@ -78,7 +78,7 @@ static void place_animal(struct player *plr, int sqrdist)
   }
 
   circle_iterate(&(wld.map), ptile, sqrdist, check) {
-    if (tile_city(check) != NULL
+    if (tile_city(check) != nullptr
         || is_non_allied_unit_tile(check, plr, TRUE)) {
       return;
     }
@@ -86,14 +86,14 @@ static void place_animal(struct player *plr, int sqrdist)
 
   ptype = animal_for_terrain(tile_terrain(ptile));
 
-  if (ptype != NULL && !utype_player_already_has_this_unique(plr, ptype)) {
+  if (ptype != nullptr && !utype_player_already_has_this_unique(plr, ptype)) {
     struct unit *punit;
 
     fc_assert_ret(can_exist_at_tile(&(wld.map), ptype, ptile));
 
     punit = create_unit(plr, ptile, ptype, 0, 0, -1);
 
-    send_unit_info(NULL, punit);
+    send_unit_info(nullptr, punit);
   }
 }
 
@@ -111,17 +111,18 @@ void create_animals(void)
     return;
   }
 
-  anination = pick_a_nation(NULL, FALSE, TRUE, ANIMAL_BARBARIAN);
+  anination = pick_a_nation(nullptr, FALSE, TRUE, ANIMAL_BARBARIAN);
 
   if (anination == NO_NATION_SELECTED) {
     return;
   }
 
-  plr = server_create_player(-1, default_ai_type_name(), NULL, FALSE);
-  if (plr == NULL) {
+  plr = server_create_player(-1, default_ai_type_name(), nullptr, FALSE);
+  if (plr == nullptr) {
     return;
   }
-  /* Freeciv-web depends on AI-status being set already before server_player_init() */
+  /* Freeciv-web depends on AI-status being set already
+   * before server_player_init() */
   set_as_ai(plr);
   server_player_init(plr, TRUE, TRUE);
 
@@ -152,10 +153,10 @@ void create_animals(void)
 
   CALL_PLR_AI_FUNC(gained_control, plr, plr);
 
-  send_player_all_c(plr, NULL);
+  send_player_all_c(plr, nullptr);
   /* Send research info after player info, else the client will complain
    * about invalid team. */
-  send_research_info(presearch, NULL);
+  send_research_info(presearch, nullptr);
 
   for (i = 0;
        i < MAP_NATIVE_WIDTH * MAP_NATIVE_HEIGHT * wld.map.server.animals / 1000;
