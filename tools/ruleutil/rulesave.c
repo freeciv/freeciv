@@ -352,11 +352,11 @@ static bool save_uclass_vec(struct section_file *sfile,
 }
 
 /**********************************************************************//**
-  Save strvec as ruleset vector of strings
+  Save helptext as ruleset vector of strings
 **************************************************************************/
-static bool save_strvec(struct section_file *sfile,
-                        struct strvec *to_save,
-                        const char *path, const char *entry)
+static bool save_helptext(struct section_file *sfile,
+                          struct strvec *to_save,
+                          const char *path, const char *entry)
 {
   if (to_save != nullptr) {
     int sect_count = strvec_size(to_save);
@@ -470,7 +470,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
                                "%s.flags", path);
       }
 
-      save_strvec(sfile, pb->helptext, path, "helptext");
+      save_helptext(sfile, pb->helptext, path, "helptext");
     }
   } improvement_re_active_iterate_end;
 
@@ -700,7 +700,7 @@ static bool save_cities_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, s->graphic_alt, "%s.graphic_alt", path);
     }
 
-    save_strvec(sfile, s->helptext, path, "helptext");
+    save_helptext(sfile, s->helptext, path, "helptext");
 
   } specialist_type_iterate_end;
 
@@ -1799,7 +1799,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                              "%s.flags", path);
     }
 
-    save_strvec(sfile, pgood->helptext, path, "helptext");
+    save_helptext(sfile, pgood->helptext, path, "helptext");
   } goods_type_re_active_iterate_end;
 
   /* Clauses */
@@ -1840,7 +1840,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
     if (pcounter->helptext != nullptr
         && strvec_size(pcounter->helptext) > 0) {
-      save_strvec(sfile, pcounter->helptext, path, "helptext");
+      save_helptext(sfile, pcounter->helptext, path, "helptext");
     }
   } counters_re_iterate_end;
 
@@ -1957,7 +1957,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
       }
     }
 
-    save_strvec(sfile, pg->helptext, path, "helptext");
+    save_helptext(sfile, pg->helptext, path, "helptext");
 
   } governments_re_active_iterate_end;
 
@@ -1983,7 +1983,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 
       save_reqs_vector(sfile, &(pmul->reqs), path, "reqs");
 
-      save_strvec(sfile, pmul->helptext, path, "helptext");
+      save_helptext(sfile, pmul->helptext, path, "helptext");
     }
   } multipliers_iterate_end;
 
@@ -2447,7 +2447,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
         secfile_insert_int(sfile, pa->cost, "%s.cost", path);
       }
 
-      save_strvec(sfile, pa->helptext, path, "helptext");
+      save_helptext(sfile, pa->helptext, path, "helptext");
     }
 
   } advance_re_active_iterate_end;
@@ -2730,7 +2730,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     rgbcolor_save(sfile, pterr->rgb, "%s.color", path);
 
-    save_strvec(sfile, pterr->helptext, path, "helptext");
+    save_helptext(sfile, pterr->helptext, path, "helptext");
 
   } terrain_type_iterate_end;
 
@@ -2940,7 +2940,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                              "%s.bridged_over", path);
     }
 
-    save_strvec(sfile, pextra->helptext, path, "helptext");
+    save_helptext(sfile, pextra->helptext, path, "helptext");
 
   } extra_type_re_active_iterate_end;
 
@@ -3230,7 +3230,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
                              "%s.flags", path);
     }
 
-    save_strvec(sfile, puc->helptext, path, "helptext");
+    save_helptext(sfile, puc->helptext, path, "helptext");
 
   } unit_class_re_active_iterate_end;
 
@@ -3366,7 +3366,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
                                "%s.roles", path);
       }
 
-      save_strvec(sfile, put->helptext, path, "helptext");
+      save_helptext(sfile, put->helptext, path, "helptext");
     }
   } unit_type_re_active_iterate_end;
 
