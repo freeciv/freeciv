@@ -7,7 +7,7 @@ on:
 
 jobs:
   msys2:
-    runs-on: windows-2025
+    runs-on: windows-2025-vs2026
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v7.0.0
