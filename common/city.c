@@ -1160,7 +1160,7 @@ const char *city_name_get(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Return the name of the city, embellished for removeable, recyclable flags.
+  Return the name of the city, embellished for removable, recyclable flags.
 **************************************************************************/
 #define POLLUTION_EFT_NEARMAX -95
 const char *city_name_getx(const struct city *pcity)
