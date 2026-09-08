@@ -605,11 +605,11 @@ Engineers are similar to Workers, but they work twice as fast and\
  on a tile surrounded by sufficient existing land). See the\
  Terrain Alterations section for more details.\
 "), _("\
-TIP 1:  Upgrade Workers to Engineers when possible, as Engineers\
+TIP 1: Upgrade Workers to Engineers when possible, as Engineers\
  require the same resources as ordinary Workers.\
 "), _("\
-TIP 2:  If you manage to build Leonardo's Workshop, research\
- Explosives before the Workshop becomes obsolete.  This way,\
+TIP 2: If you manage to build Leonardo's Workshop, research\
+ Explosives before the Workshop becomes obsolete. This way,\
  your Workers units will be upgraded for free.\
 ")
 
