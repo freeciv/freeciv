@@ -113,7 +113,7 @@ static void texai_thread_start(void *arg)
 **************************************************************************/
 void texai_map_alloc(void)
 {
-  texai_send_msg(TEXAI_MSG_MAP_ALLOC, NULL, NULL);
+  texai_send_msg(TEXAI_MSG_MAP_ALLOC, nullptr, nullptr);
 }
 
 /**********************************************************************//**
@@ -139,7 +139,7 @@ static void texai_map_alloc_recv(void)
 **************************************************************************/
 void texai_map_free(void)
 {
-  texai_send_msg(TEXAI_MSG_MAP_FREE, NULL, NULL);
+  texai_send_msg(TEXAI_MSG_MAP_FREE, nullptr, nullptr);
 }
 
 /**********************************************************************//**
@@ -195,7 +195,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
         texai_city_worker_requests_create(ait, msg->plr, pcity);
         texai_city_worker_wants(ait, msg->plr, pcity);
 
-        if (tex_city != NULL) {
+        if (tex_city != nullptr) {
           choice = military_advisor_choose_build(ait, texai_map_get(),
                                                  msg->plr, tex_city,
                                                  texai_player_units);
@@ -218,7 +218,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       } city_list_iterate_safe_end;
       fc_mutex_release(&game.server.mutexes.city_list);
 
-      texai_send_req(TEXAI_REQ_TURN_DONE, msg->plr, NULL);
+      texai_send_req(TEXAI_REQ_TURN_DONE, msg->plr, nullptr);
 
       break;
     case TEXAI_MSG_TILE_INFO:
@@ -298,8 +298,8 @@ void texai_player_free(struct ai_type *ait, struct player *pplayer)
   /* Default AI */
   dai_data_close(ait, pplayer);
 
-  if (player_data != NULL) {
-    player_set_ai_data(pplayer, ait, NULL);
+  if (player_data != nullptr) {
+    player_set_ai_data(pplayer, ait, nullptr);
     unit_list_destroy(player_data->units);
     city_list_destroy(player_data->cities);
     FC_FREE(player_data);
@@ -348,7 +348,7 @@ void texai_control_lost(struct ai_type *ait, struct player *pplayer)
             exthrai.num_players);
 
   if (exthrai.num_players <= 0) {
-    texai_send_msg(TEXAI_MSG_THR_EXIT, pplayer, NULL);
+    texai_send_msg(TEXAI_MSG_THR_EXIT, pplayer, nullptr);
 
     fc_thread_wait(&exthrai.ait);
     exthrai.thread_running = FALSE;
@@ -387,7 +387,7 @@ void texai_refresh(struct ai_type *ait, struct player *pplayer)
              = (struct texai_build_choice_req *)(req->data);
            struct city *pcity = game_city_by_number(choice_req->city_id);
 
-           if (pcity != NULL && city_owner(pcity) == req->plr) {
+           if (pcity != nullptr && city_owner(pcity) == req->plr) {
              adv_choice_copy(&(def_ai_city_data(pcity, ait)->choice),
                              &(choice_req->choice));
              FC_FREE(choice_req);
