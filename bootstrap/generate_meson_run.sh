@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Freeciv - Copyright (C) 2022-2024 The Freeciv Team
+# Freeciv - Copyright (C) 2022-2026 The Freeciv Team
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2, or (at your option)
@@ -24,9 +24,9 @@ echo "  exit"                                                                   
 echo "fi"                                                                        >> "$1"
 echo                                                                             >> "$1"
 echo "if test \"\${FREECIV_DATA_PATH}\" = \"\" ; then"                           >> "$1"
-echo "  FREECIV_DATA_PATH=\"${2}/${3}:${DATADIR}\""                              >> "$1"
+echo "  FREECIV_DATA_PATH=\"${2}/${3}:${DATADIR}:.\""                            >> "$1"
 echo "else"                                                                      >> "$1"
-echo "  FREECIV_DATA_PATH=\"\${FREECIV_DATA_PATH}:${2}/${3}:${DATADIR}\""        >> "$1"
+echo "  FREECIV_DATA_PATH=\"\${FREECIV_DATA_PATH}:${2}/${3}:${DATADIR}:.\""      >> "$1"
 echo "fi"                                                                        >> "$1"
 echo "export FREECIV_DATA_PATH"                                                  >> "$1"
 echo "if test \"\$FREECIV_SCENARIO_PATH\" = \"\" ; then"                         >> "$1"
