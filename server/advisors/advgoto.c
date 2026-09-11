@@ -66,12 +66,12 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
     if (activity != ACTIVITY_GOTO) {
       /* Only go via ACTIVITY_IDLE if we are actually changing the activity */
       unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
-      send_unit_info(NULL, punit); /* FIXME: probably duplicate */
+      send_unit_info(nullptr, punit); /* FIXME: Probably duplicate */
       unit_activity_handling_targeted(punit, activity, &tgt,
                                       activity_default_action(activity));
     }
-    punit->goto_tile = old_tile; /* May be NULL. */
-    send_unit_info(NULL, punit);
+    punit->goto_tile = old_tile; /* May be nullptr. */
+    send_unit_info(nullptr, punit);
   }
 
   return alive;
@@ -159,7 +159,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 {
   struct action *paction;
   struct player *pplayer = unit_owner(punit);
-  struct unit *ptrans = NULL;
+  struct unit *ptrans = nullptr;
   const struct civ_map *nmap = &(wld.map);
 
   /* If enemy, stop and give a chance for the human player to
@@ -178,77 +178,77 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
     /* "Transport Embark". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
-             && ptrans != NULL
+             && ptrans != nullptr
              && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK2,
                                                punit, ptrans)) {
     /* "Transport Embark 2". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK2);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
-             && ptrans != NULL
+             && ptrans != nullptr
              && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK3,
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK3);
   } else if (!can_unit_survive_at_tile(nmap, punit, ptile)
-             && ptrans != NULL
+             && ptrans != nullptr
              && is_action_enabled_unit_on_unit(nmap, ACTION_TRANSPORT_EMBARK4,
                                                punit, ptrans)) {
     /* "Transport Embark 4". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK4);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK1,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Transport Disembark". */
     paction = action_by_number(ACTION_TRANSPORT_DISEMBARK1);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK2,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Transport Disembark 2". */
     paction = action_by_number(ACTION_TRANSPORT_DISEMBARK2);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK3,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Transport Disembark 3". */
     paction = action_by_number(ACTION_TRANSPORT_DISEMBARK3);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_TRANSPORT_DISEMBARK4,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Transport Disembark 4". */
     paction = action_by_number(ACTION_TRANSPORT_DISEMBARK4);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_ENTER,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Enter Hut". */
     paction = action_by_number(ACTION_HUT_ENTER);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_ENTER2,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Enter Hut 2". */
     paction = action_by_number(ACTION_HUT_ENTER2);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_ENTER3,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Enter Hut 3". */
     paction = action_by_number(ACTION_HUT_ENTER3);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_ENTER4,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Enter Hut 4". */
     paction = action_by_number(ACTION_HUT_ENTER4);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_FRIGHTEN,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Frighten Hut". */
     paction = action_by_number(ACTION_HUT_FRIGHTEN);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_FRIGHTEN2,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Frighten Hut 2". */
     paction = action_by_number(ACTION_HUT_FRIGHTEN2);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_FRIGHTEN3,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Frighten Hut 3". */
     paction = action_by_number(ACTION_HUT_FRIGHTEN3);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_HUT_FRIGHTEN4,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Frighten Hut 4". */
     paction = action_by_number(ACTION_HUT_FRIGHTEN4);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Unit Move". */
     paction = action_by_number(ACTION_UNIT_MOVE);
   } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE2,
-                                            punit, ptile, NULL)) {
+                                            punit, ptile, nullptr)) {
     /* "Unit Move 2". */
     paction = action_by_number(ACTION_UNIT_MOVE2);
   } else {
@@ -363,7 +363,7 @@ int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
   enum unit_move_result reason =
     unit_move_to_tile_test(&(wld.map), punit, ACTIVITY_IDLE, unit_tile(punit),
                            dest_tile, unit_has_type_flag(punit, UTYF_IGZOC),
-                           TRUE, NULL, FALSE);
+                           TRUE, nullptr, FALSE);
 
   switch (reason) {
   case MR_OK:
@@ -441,7 +441,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
-  if (pcity != NULL && pplayers_allied(city_owner(pcity), owner)
+  if (pcity != nullptr && pplayers_allied(city_owner(pcity), owner)
       && !is_non_allied_unit_tile(ptile, pplayer,
                                   unit_has_type_flag(punit, UTYF_FLAGLESS))) {
     /* We will be safe in a friendly city */
@@ -461,9 +461,9 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
     }
     unit_list_iterate(ptile1->units, enemy) {
       if (pplayers_at_war(unit_owner(enemy), owner)
-          && (unit_attack_unit_at_tile_result(enemy, NULL, punit, ptile)
+          && (unit_attack_unit_at_tile_result(enemy, nullptr, punit, ptile)
               == ATT_OK)
-          && (unit_attack_units_at_tile_result(enemy, NULL, ptile)
+          && (unit_attack_units_at_tile_result(enemy, nullptr, ptile)
               == ATT_OK)) {
         a += adv_unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
@@ -481,14 +481,14 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   The value of the units belonging to a given player on a given tile.
 **************************************************************************/
 static int stack_value(const struct tile *ptile,
-		       const struct player *pplayer)
+                       const struct player *pplayer)
 {
   int cost = 0;
 
   if (is_stack_vulnerable(ptile)) {
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer) {
-	cost += unit_build_shield_cost_base(punit);
+        cost += unit_build_shield_cost_base(punit);
       }
     } unit_list_iterate_end;
   }
