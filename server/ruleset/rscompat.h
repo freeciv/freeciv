@@ -24,7 +24,7 @@ extern "C" {
 #include "ruleload.h"
 #include "settings.h"
 
-#define RULESET_COMPAT_CAP "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
+#define RULESET_COMPAT_CAP "+Freeciv-3.3-ruleset"
 
 struct rscompat_info
 {
