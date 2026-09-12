@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk3.mp
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-mp-gtk3
 rename-icon: freeciv-modpack
@@ -19,6 +19,7 @@ modules:
       - -Dclients=[]
       - -Dserver=disabled
       - -Dtools=[]
+      - -Daudio=none
     sources:
       - type: dir
         path: ../..
