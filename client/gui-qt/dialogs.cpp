@@ -112,6 +112,7 @@ static void diplomat_sabotage(QVariant data1, QVariant data2);
 static void diplomat_sabotage_esc(QVariant data1, QVariant data2);
 static void diplomat_bribe_unit(QVariant data1, QVariant data2);
 static void diplomat_bribe_stack(QVariant data1, QVariant data2);
+static void spy_attack(QVariant data1, QVariant data2);
 static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
@@ -305,6 +306,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_BOMBARD_LETHAL2] = bombard_lethal2;
   action_function[ACTION_NUKE_UNITS] = nuke_units;
   action_function[ACTION_COLLECT_RANSOM] = collect_ransom;
+  action_function[ACTION_SPY_ATTACK] = spy_attack;
 
   // Unit acting against a tile.
   action_function[ACTION_FOUND_CITY] = found_city;
@@ -2959,6 +2961,18 @@ static void collect_ransom(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_COLLECT_RANSOM, actor_id,
+                    target_id, 0, "");
+}
+
+/**********************************************************************//**
+  Action "Spy Attack" for choice dialog
+***************************************************************************/
+static void spy_attack(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_SPY_ATTACK, actor_id,
                     target_id, 0, "");
 }
 
