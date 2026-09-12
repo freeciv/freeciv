@@ -62,6 +62,4 @@ bool spy_escape(struct player *pplayer,
                 struct tile *target_tile,
                 const struct action *paction);
 
-int count_diplomats_on_tile(struct tile *ptile);
-
 #endif /* FC__DIPLOMATS_H */

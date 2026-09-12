@@ -88,6 +88,22 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist,
                                   struct pf_map *pfm);
 
+/************************************************************************//**
+  Return number of diplomats on this square.  AJS 20000130
+****************************************************************************/
+static int count_diplomats_on_tile(struct tile *ptile)
+{
+  int count = 0;
+
+  unit_list_iterate((ptile)->units, punit) {
+    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
+      count++;
+    }
+  } unit_list_iterate_end;
+
+  return count;
+}
+
 /**************************************************************************//**
   Number of techs that we don't have and the enemy (tplayer) does.
 ******************************************************************************/

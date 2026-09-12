@@ -2483,7 +2483,7 @@ bool spy_escape(struct player *pplayer,
     vlink = tile_link(target_tile);
   }
 
-  /* this may cause a diplomatic incident */
+  /* This may cause a diplomatic incident */
   action_consequence_success(paction, pplayer, act_utype,
                              tile_owner(target_tile),
                              target_tile, vlink);
@@ -2493,20 +2493,4 @@ bool spy_escape(struct player *pplayer,
                        target_tile, vlink, paction);
 
   return TRUE;
-}
-
-/************************************************************************//**
-  Return number of diplomats on this square.  AJS 20000130
-****************************************************************************/
-int count_diplomats_on_tile(struct tile *ptile)
-{
-  int count = 0;
-
-  unit_list_iterate((ptile)->units, punit) {
-    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
-      count++;
-    }
-  } unit_list_iterate_end;
-
-  return count;
 }
