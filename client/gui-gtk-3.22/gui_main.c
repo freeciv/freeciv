@@ -1032,7 +1032,7 @@ void reset_unit_table(void)
   /* We have to force a redraw of the units.  And we explicitly have
    * to force a redraw of the focus unit, which is normally only
    * redrawn when the focus changes. We also have to force the 'more'
-   * arrow to go away, both by expicitly hiding it and telling it to
+   * arrow to go away, both by explicitly hiding it and telling it to
    * do so (this will be reset immediately afterwards if necessary,
    * but we have to make the *internal* state consistent). */
   gtk_widget_hide(more_arrow_pixmap_button);
