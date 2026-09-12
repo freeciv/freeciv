@@ -1,6 +1,6 @@
 app-id: org.freeciv.sdl2
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-sdl2
 rename-icon: freeciv-client
@@ -32,6 +32,16 @@ modules:
       - type: archive
         url: https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.24.0/SDL2_ttf-2.24.0.tar.gz
         sha256: 0b2bf1e7b6568adbdbc9bb924643f79d9dedafe061fa1ed687d1d9ac4e453bfd
+  - name: SDL2_mixer
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DSDL2MIXER_MOD=OFF
+      - -DSDL2MIXER_MIDI=OFF
+    sources:
+      - type: archive
+        url: https://github.com/libsdl-org/SDL_mixer/releases/download/release-2.8.2/SDL2_mixer-2.8.2.tar.gz
+        sha256: 938dff531d00ace2296557a6599abe6f34599e2f34f0a4a08a397e2ccac8b8f7
   - name: freeciv-sdl2
     buildsystem: meson
     no-autogen: true
