@@ -67,7 +67,7 @@ bool api_edit_unleash_barbarians(lua_State *L, Tile *ptile)
 
 /**********************************************************************//**
   A wrapper around transform_unit() that correctly processes
-  some unsafe requests. punit and to_unit must not be NULL.
+  some unsafe requests. punit and to_unit must not be nullptr.
 **************************************************************************/
 static bool
 ur_transform_unit(struct unit *punit, const struct unit_type *to_unit,
@@ -86,6 +86,7 @@ ur_transform_unit(struct unit *punit, const struct unit_type *to_unit,
       }
     }
     transform_unit(punit, to_unit, vet_loss);
+
     return TRUE;
   } else {
     return FALSE;
@@ -116,7 +117,7 @@ Unit *api_edit_create_unit(lua_State *L, Player *pplayer, Tile *ptile,
                            City *homecity, int moves_left)
 {
   return api_edit_create_unit_full(L, pplayer, ptile, ptype, veteran_level,
-                                   homecity, moves_left, -1, NULL);
+                                   homecity, moves_left, -1, nullptr);
 }
 
 /**********************************************************************//**
@@ -136,37 +137,37 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
   bool placed;
 #endif
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, nullptr);
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!", NULL);
+  LUASCRIPT_CHECK(L, fcl != nullptr, "Undefined Freeciv lua state!", nullptr);
 
-  if (ptype == NULL
+  if (ptype == nullptr
       || ptype < unit_type_array_first() || ptype > unit_type_array_last()) {
-    return NULL;
+    return nullptr;
   }
 
   if (is_non_allied_unit_tile(ptile, pplayer,
                               utype_has_flag(ptype, UTYF_FLAGLESS))) {
     luascript_log(fcl, LOG_ERROR, "create_unit_full: tile is occupied by "
                                   "enemy unit");
-    return NULL;
+    return nullptr;
   }
 
   pcity = tile_city(ptile);
-  if (pcity != NULL && !pplayers_allied(pplayer, city_owner(pcity))) {
+  if (pcity != nullptr && !pplayers_allied(pplayer, city_owner(pcity))) {
     luascript_log(fcl, LOG_ERROR, "create_unit_full: tile is occupied by "
                                   "enemy city");
-    return NULL;
+    return nullptr;
   }
 
   if (utype_player_already_has_this_unique(pplayer, ptype)) {
     luascript_log(fcl, LOG_ERROR,
                   "create_unit_full: player already has unique unit");
-    return NULL;
+    return nullptr;
   }
 
   punit = unit_virtual_prepare(pplayer, ptile, ptype, veteran_level,
@@ -184,20 +185,20 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
                                     "'%s' here",
                     utype_rule_name(unit_type_get(ptransport)),
                     utype_rule_name(ptype));
-      return NULL;
+      return nullptr;
     }
   } else if (!can_exist_at_tile(&(wld.map), ptype, ptile)) {
     unit_virtual_destroy(punit);
     luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot exist at "
                                   "tile", utype_rule_name(ptype));
-    return NULL;
+    return nullptr;
   }
 
 #ifndef FREECIV_NDEBUG
   placed =
 #endif
   place_unit(punit, pplayer, homecity, ptransport, TRUE);
-  fc_assert_action(placed, unit_virtual_destroy(punit); punit = NULL);
+  fc_assert_action(placed, unit_virtual_destroy(punit); punit = nullptr);
 
   return punit;
 }
@@ -234,7 +235,7 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
 
   /* Teleport first so destination is revealed even if unit dies */
   alive = unit_move(punit, dest, 0,
-                    embark_to, embark_to != NULL,
+                    embark_to, embark_to != nullptr,
                     conquer_city, conquer_extra,
                     enter_hut, frighten_hut);
   if (alive) {
@@ -243,14 +244,14 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
 
     if (!can_unit_exist_at_tile(&(wld.map), punit, dest)
         && !unit_transported(punit)) {
-      wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
+      wipe_unit(punit, ULR_NONNATIVE_TERR, nullptr);
       return FALSE;
     }
     if (is_non_allied_unit_tile(dest, owner,
                                 unit_has_type_flag(punit, UTYF_FLAGLESS))
-        || (pcity != NULL
+        || (pcity != nullptr
             && !pplayers_allied(city_owner(pcity), owner))) {
-      wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
+      wipe_unit(punit, ULR_STACK_CONFLICT, nullptr);
       return FALSE;
     }
   }
@@ -390,11 +391,11 @@ bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
     break;
   case ATK_TILE:
     enabled = is_action_enabled_unit_on_tile(nmap, paction->id, punit,
-                                             tgt, NULL);
+                                             tgt, nullptr);
     break;
   case ATK_EXTRAS:
     enabled = is_action_enabled_unit_on_extras(nmap, paction->id, punit,
-                                               tgt, NULL);
+                                               tgt, nullptr);
     break;
   case ATK_CITY:
     /* Not handled here. */
@@ -448,7 +449,7 @@ bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, string, FALSE);
 
   sub_target = extra_type_by_rule_name(sub_tgt);
-  LUASCRIPT_CHECK_ARG(L, sub_target != NULL, 5, "No such extra", FALSE);
+  LUASCRIPT_CHECK_ARG(L, sub_target != nullptr, 5, "No such extra", FALSE);
 
   switch (action_get_target_kind(paction)) {
   case ATK_STACK:
@@ -532,7 +533,7 @@ void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir)
   if (direction8_is_valid(dir)) {
     punit->facing = dir;
 
-    send_unit_info(NULL, punit);
+    send_unit_info(nullptr, punit);
   } else {
     log_error("Illegal direction %d for unit from lua script", dir);
   }
@@ -621,7 +622,7 @@ bool api_edit_unit_hitpoints(lua_State *L, Unit *self, int change,
     }
   }
 
-  send_unit_info(NULL, self);
+  send_unit_info(nullptr, self);
 
   return TRUE;
 }
@@ -649,7 +650,7 @@ void api_edit_unit_movepoints(lua_State *L, Unit *self, int change)
     self->done_moving = FALSE;
   }
 
-  send_unit_info(NULL, self);
+  send_unit_info(nullptr, self);
 }
 
 /**********************************************************************//**
@@ -667,7 +668,7 @@ bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
 
   if (old_terrain == pterr
       || (terrain_has_flag(pterr, TER_NO_CITIES)
-          && tile_city(ptile) != NULL)) {
+          && tile_city(ptile) != nullptr)) {
     return FALSE;
   }
 
@@ -678,7 +679,7 @@ bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
 
     /* FIXME: adv / ai phase handling like in check_terrain_change() */
 
-    send_all_known_tiles(NULL);
+    send_all_known_tiles(nullptr);
   }
 
   update_tile_knowledge(ptile);
@@ -739,7 +740,7 @@ void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr)
   if (!city_has_building(pcity, impr)) {
     bool need_game_info = FALSE;
     bool need_plr_info = FALSE;
-    struct player *old_owner = NULL, *pplayer = city_owner(pcity);
+    struct player *old_owner = nullptr, *pplayer = city_owner(pcity);
     struct city *oldcity;
 
     oldcity = build_or_move_building(pcity, impr, &old_owner);
@@ -755,19 +756,19 @@ void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr)
       if (city_refresh(oldcity)) {
         auto_arrange_workers(oldcity);
       }
-      send_city_info(NULL, oldcity);
+      send_city_info(nullptr, oldcity);
     }
 
     if (city_refresh(pcity)) {
       auto_arrange_workers(pcity);
     }
-    send_city_info(NULL, pcity);
+    send_city_info(nullptr, pcity);
     if (need_game_info) {
-      send_game_info(NULL);
-      send_player_info_c(old_owner, NULL);
+      send_game_info(nullptr);
+      send_player_info_c(old_owner, nullptr);
     }
     if (need_plr_info) {
-      send_player_info_c(pplayer, NULL);
+      send_player_info_c(pplayer, nullptr);
     }
   }
 }
@@ -783,13 +784,13 @@ void api_edit_remove_building(lua_State *L, City *pcity, Building_Type *impr)
 
   if (city_has_building(pcity, impr)) {
     city_remove_improvement(pcity, impr);
-    send_city_info(NULL, pcity);
+    send_city_info(nullptr, pcity);
 
     if (is_wonder(impr)) {
       if (is_great_wonder(impr)) {
-        send_game_info(NULL);
+        send_game_info(nullptr);
       }
-      send_player_info_c(city_owner(pcity), NULL);
+      send_player_info_c(city_owner(pcity), nullptr);
     }
   }
 }
@@ -899,19 +900,20 @@ bool api_edit_city_add_specialist(lua_State *L, City *pcity,
 Player *api_edit_create_player(lua_State *L, const char *username,
                                Nation_Type *pnation, const char *ai)
 {
-  struct player *pplayer = NULL;
+  struct player *pplayer = nullptr;
   char buf[128] = "";
   struct fc_lua *fcl;
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, username, 2, string, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, username, 2, string, nullptr);
+
   if (!ai) {
     ai = default_ai_type_name();
   }
 
   fcl = luascript_get_fcl(L);
 
-  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined Freeciv lua state!", NULL);
+  LUASCRIPT_CHECK(L, fcl != nullptr, "Undefined Freeciv lua state!", nullptr);
 
   if (game_was_started()) {
     create_command_newcomer(username, ai, FALSE, pnation, &pplayer,
@@ -938,7 +940,7 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
 
   pplayer->economic.gold = MAX(0, pplayer->economic.gold + amount);
 
-  send_player_info_c(pplayer, NULL);
+  send_player_info_c(pplayer, nullptr);
 }
 
 /**********************************************************************//**
@@ -952,13 +954,13 @@ void api_edit_change_infrapoints(lua_State *L, Player *pplayer, int amount)
   pplayer->economic.infra_points
     = MAX(0, pplayer->economic.infra_points + amount);
 
-  send_player_info_c(pplayer, NULL);
+  send_player_info_c(pplayer, nullptr);
 }
 
 /**********************************************************************//**
-  Give pplayer technology ptech. Quietly returns NULL if
+  Give pplayer technology ptech. Quietly returns nullptr if
   player already has this tech; otherwise returns the tech granted.
-  Use NULL for ptech to grant a random tech.
+  Use nullptr for ptech to grant a random tech.
   sends script signal "tech_researched" with the given reason
 **************************************************************************/
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
@@ -970,9 +972,9 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
   Tech_type_id id;
   Tech_Type *result;
 
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
-  LUASCRIPT_CHECK_ARG(L, cost >= -3, 4, "Unknown give_tech() cost value", NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, nullptr);
+  LUASCRIPT_CHECK_ARG(L, cost >= -3, 4, "Unknown give_tech() cost value", nullptr);
 
   presearch = research_get(pplayer);
   if (ptech) {
@@ -999,13 +1001,13 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
     result = advance_by_number(id);
     script_tech_learned(presearch, pplayer, result, reason);
 
-    if (notify && result != NULL) {
+    if (notify && result != nullptr) {
       const char *adv_name = research_advance_name_translation(presearch, id);
       char research_name[MAX_LEN_NAME * 2];
 
       research_pretty_name(presearch, research_name, sizeof(research_name));
 
-      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+      notify_player(pplayer, nullptr, E_TECH_GAIN, ftc_server,
                     Q_("?fromscript:You acquire %s."), adv_name);
       notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
                       /* TRANS: "The Greeks ..." or "The members of
@@ -1013,7 +1015,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                       Q_("?fromscript:The %s acquire %s and share this "
                          "advance with you."),
                       nation_plural_for_player(pplayer), adv_name);
-      notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
+      notify_research_embassies(presearch, nullptr, E_TECH_EMBASSY, ftc_server,
                                 /* TRANS: "The Greeks ..." or "The members of
                                  * team Red ..." */
                                 Q_("?fromscript:The %s acquire %s."),
@@ -1022,7 +1024,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 
     return result;
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -1058,13 +1060,13 @@ void api_edit_create_owned_extra(lua_State *L, Tile *ptile,
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
 
-  if (name == NULL) {
+  if (name == nullptr) {
     return;
   }
 
   pextra = extra_type_by_rule_name(name);
 
-  if (pextra != NULL) {
+  if (pextra != nullptr) {
     create_extra(ptile, pextra, pplayer);
     update_tile_knowledge(ptile);
     tile_change_side_effects(ptile, TRUE);
@@ -1076,7 +1078,7 @@ void api_edit_create_owned_extra(lua_State *L, Tile *ptile,
 **************************************************************************/
 void api_edit_create_extra(lua_State *L, Tile *ptile, const char *name)
 {
-  api_edit_create_owned_extra(L, ptile, name, NULL);
+  api_edit_create_owned_extra(L, ptile, name, nullptr);
 }
 
 /**********************************************************************//**
@@ -1093,7 +1095,7 @@ void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
 **************************************************************************/
 void api_edit_create_road(lua_State *L, Tile *ptile, const char *name)
 {
-  api_edit_create_owned_extra(L, ptile, name, NULL);
+  api_edit_create_owned_extra(L, ptile, name, nullptr);
 }
 
 /**********************************************************************//**
@@ -1106,13 +1108,13 @@ void api_edit_remove_extra(lua_State *L, Tile *ptile, const char *name)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
 
-  if (name == NULL) {
+  if (name == nullptr) {
     return;
   }
 
   pextra = extra_type_by_rule_name(name);
 
-  if (pextra != NULL && tile_has_extra(ptile, pextra)) {
+  if (pextra != nullptr && tile_has_extra(ptile, pextra)) {
     tile_extra_rm_apply(ptile, pextra);
     update_tile_knowledge(ptile);
     tile_change_side_effects(ptile, TRUE);
@@ -1130,7 +1132,7 @@ void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label)
 
   tile_set_label(ptile, label);
   if (server_state() >= S_S_RUNNING) {
-    send_tile_info(NULL, ptile, FALSE);
+    send_tile_info(nullptr, ptile, FALSE);
   }
 }
 
@@ -1164,7 +1166,7 @@ bool api_edit_tile_hide(lua_State *L, Tile *ptile, Player *pplayer)
 
   pcity = tile_city(ptile);
 
-  if (pcity != NULL) {
+  if (pcity != nullptr) {
     trade_partners_iterate(pcity, partner) {
       if (really_gives_vision(pplayer, city_owner(partner))) {
         /* Can't remove vision about trade partner */
@@ -1200,24 +1202,24 @@ void api_edit_climate_change(lua_State *L, enum climate_change_type type,
 **************************************************************************/
 Player *api_edit_civil_war(lua_State *L, Player *pplayer, int probability)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, nullptr);
   LUASCRIPT_CHECK_ARG(L, probability >= 0 && probability <= 100,
-                      3, "must be a percentage", NULL);
+                      3, "must be a percentage", nullptr);
 
   if (!civil_war_possible(pplayer, FALSE, FALSE)) {
-    return NULL;
+    return nullptr;
   }
 
   if (probability == 0) {
     /* Calculate chance with normal rules */
     if (!civil_war_triggered(pplayer)) {
-      return NULL;
+      return nullptr;
     }
   } else {
     /* Fixed chance specified by script */
     if (fc_rand(100) >= probability) {
-      return NULL;
+      return nullptr;
     }
   }
 
@@ -1266,7 +1268,7 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
   }
 
   return unit_move(punit, ptile, movecost,
-                   embark_to, embark_to != NULL,
+                   embark_to, embark_to != nullptr,
                    conquer_city, conquer_extra,
                    enter_hut, frighten_hut);
 }
@@ -1279,7 +1281,7 @@ void api_edit_unit_moving_disallow(lua_State *L, Unit *punit)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_SELF(L, punit);
 
-  if (punit != NULL) {
+  if (punit != nullptr) {
     punit->stay = TRUE;
   }
 }
@@ -1292,7 +1294,7 @@ void api_edit_unit_moving_allow(lua_State *L, Unit *punit)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_SELF(L, punit);
 
-  if (punit != NULL) {
+  if (punit != nullptr) {
     punit->stay = FALSE;
   }
 }
@@ -1323,7 +1325,7 @@ void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount)
   Give bulbs to a player, optionally towards a specific tech.
   If a tech that is not currently in research is specified,
   tech known state will not immediately change.
-  Out of multiresearch mode, when tech is not NULL,
+  Out of multiresearch mode, when tech is not nullptr,
   this function sets the "previous" tech (or clears it if the current
   one is specified); in the case if a new "previous" tech is set,
   all non-free bulbs of the old "previous" tech are cleared,
@@ -1343,13 +1345,13 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
   if (!tech) {
     update_bulbs(pplayer, amount, TRUE, TRUE);
 
-    send_research_info(presearch, NULL);
+    send_research_info(presearch, nullptr);
   } else if (advance_number(tech) == presearch->researching) {
     update_bulbs(pplayer, amount, TRUE, FALSE);
     /* Clean the saved tech to get no surprises switching */
     presearch->researching_saved = A_UNKNOWN;
 
-    send_research_info(presearch, NULL);
+    send_research_info(presearch, nullptr);
   } else {
     /* Sometimes we may set negative bulbs, it's normal though lurking */
     if (game.server.multiresearch) {
@@ -1374,7 +1376,7 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
       presearch->bulbs_researched = amount
         - amount * game.server.techpenalty / 100 + presearch->free_bulbs;
       if (oldb != presearch->bulbs_researched) {
-        send_research_info(presearch, NULL);
+        send_research_info(presearch, nullptr);
       }
     }
   }
@@ -1396,7 +1398,7 @@ bool api_edit_create_trade_route(lua_State *L, City *from, City *to)
     return FALSE;
   }
 
-  create_trade_route(from, to, goods_from_city_to_unit(from, NULL));
+  create_trade_route(from, to, goods_from_city_to_unit(from, nullptr));
 
   /* Refresh the cities. */
   city_refresh(from);
