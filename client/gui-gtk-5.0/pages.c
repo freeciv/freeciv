@@ -962,9 +962,9 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
 /****************************************************************************
                                  NETWORK PAGE
 ****************************************************************************/
-static GtkWidget *network_login_label, *network_login;
-static GtkWidget *network_host_label, *network_host;
-static GtkWidget *network_port_label, *network_port;
+static GtkWidget *network_login;
+static GtkWidget *network_host;
+static GtkWidget *network_port;
 static GtkWidget *network_password_label, *network_password;
 static GtkWidget *network_confirm_password_label, *network_confirm_password;
 
@@ -1719,7 +1719,6 @@ GtkWidget *create_network_page(void)
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  network_host_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
   network_port = gtk_entry_new();
@@ -1734,7 +1733,6 @@ GtkWidget *create_network_page(void)
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  network_port_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 
   network_login = gtk_entry_new();
@@ -1751,7 +1749,6 @@ GtkWidget *create_network_page(void)
                        "yalign", 0.5,
                        NULL);
   gtk_widget_set_margin_top(label, 10);
-  network_login_label = label;
   gtk_grid_attach(GTK_GRID(table), label, 0, 3, 1, 1);
 
   network_password = gtk_entry_new();
