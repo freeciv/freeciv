@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk322
 runtime: org.freedesktop.Platform
-runtime-version: '25.08'
+runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 command: freeciv-gtk3.22
 rename-icon: freeciv-client
@@ -19,6 +19,7 @@ modules:
       - -Dclients=gtk3.22
       - -Dfcmp=[]
       - -Dtools=[]
+      - -Daudio=sdl3
     sources:
       - type: dir
         path: ../..
