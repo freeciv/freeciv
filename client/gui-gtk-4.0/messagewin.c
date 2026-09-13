@@ -448,7 +448,9 @@ void meswin_dialog_popdown(void)
 ****************************************************************************/
 bool meswin_dialog_is_open(void)
 {
-  return (NULL != meswin.shell);
+  return meswin.shell != NULL
+    && (meswin.shell->type != GUI_DIALOG_WINDOW
+        || meswin.shell->v.window != NULL);
 }
 
 /************************************************************************//**
