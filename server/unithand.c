@@ -4226,11 +4226,13 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   fc_assert_ret_val(amount > 0, FALSE);
 
   city_size_add(pcity, amount);
+
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += amount;
   citizens_update(pcity, unit_nationality(punit));
-  /* Refresh the city data. */
-  city_refresh(pcity);
+
+  /* Make the new people do something useful */
+  auto_arrange_workers(pcity);  /* this calls city_refresh(pcity) */
 
   /* Notify the unit owner that the unit successfully joined the city. */
   notify_player(pplayer, city_tile(pcity), E_CITY_BUILD, ftc_server,
