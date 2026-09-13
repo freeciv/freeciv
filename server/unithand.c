@@ -4235,7 +4235,6 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 {
   int amount = unit_pop_value(punit);
   const struct unit_type *act_utype;
-  Specialist_type_id spec_id = DEFAULT_SPECIALIST;
   int new_food;
   int savings_pct = city_growth_granary_savings(pcity);
 
@@ -4253,23 +4252,22 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   /* Preserve old food stock, unless granary effect gives us more. */
   pcity->food_stock = MAX(pcity->food_stock, new_food);
 
+  citizens_update(pcity, unit_nationality(punit));
+
   if (is_super_specialist(act_utype->spec_type)) {
     Specialist_type_id sspec = specialist_index(act_utype->spec_type);
 
     fc_assert_ret_val(pcity->specialists[sspec] < MAX_CITY_SIZE, FALSE);
     pcity->specialists[sspec]++;
+    /* Refresh the city data. */
+    city_refresh(pcity);
   } else {
     fc_assert_ret_val(amount > 0, FALSE);
-    /* Hardly much needed but let it be */
-    spec_id = specialist_index(act_utype->spec_type);
+    /* Make the new people something, otherwise city fails the checks */
+    pcity->specialists[DEFAULT_SPECIALIST] += amount;
+    /* Make the new people do something useful */
+    auto_arrange_workers(pcity);  /* this calls city_refresh(pcity) */
   }
-  /* Make the new people something, otherwise city fails the checks */
-  fc_assert_ret_val(MAX_CITY_SIZE - pcity->specialists[spec_id] >= amount,
-                    FALSE);
-  pcity->specialists[spec_id] += amount;
-  citizens_update(pcity, unit_nationality(punit));
-  /* Refresh the city data. */
-  city_refresh(pcity);
 
   /* Notify the unit owner that the unit successfully joined the city. */
   notify_player(pplayer, city_tile(pcity), E_CITY_BUILD, ftc_server,
