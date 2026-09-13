@@ -101,7 +101,7 @@ static int redraw_window(struct widget *pwindow)
 /**************************************************************************
   Window mechanism.
 
-  Active Window schould be first on list (All Widgets on this
+  Active Window should be first on list (All Widgets on this
   Window that are on List must be above)
 
   LIST:
