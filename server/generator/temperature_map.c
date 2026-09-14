@@ -72,11 +72,11 @@ static char *tmap_y2str(int ycoor)
 #endif /* FREECIV_DEBUG */
 
 /**********************************************************************//**
-  Return TRUE if temperateure_map is initialized
+  Return TRUE if temperature_map is initialized
 **************************************************************************/
 bool temperature_is_initialized(void)
 {
-  return temperature_map != NULL;
+  return temperature_map != nullptr;
 }
 
 /**********************************************************************//**
@@ -95,7 +95,7 @@ bool is_temperature_type_near(const struct tile *ptile, temperature_type tt)
   adjc_iterate(&(wld.map), ptile, tile1) {
     if (BOOL_VAL(tmap(tile1) & (tt))) {
       return TRUE;
-    };
+    }
   } adjc_iterate_end;
 
   return FALSE;
@@ -106,14 +106,15 @@ bool is_temperature_type_near(const struct tile *ptile, temperature_type tt)
 **************************************************************************/
 void destroy_tmap(void)
 {
-  fc_assert_ret(NULL != temperature_map);
+  fc_assert_ret(temperature_map != nullptr);
+
   free(temperature_map);
-  temperature_map = NULL;
+  temperature_map = nullptr;
 }
 
 /**********************************************************************//**
-  Initialize the temperature_map
-  if arg is FALSE, create a dummy tmap == map_colatitude
+  Initialize the temperature_map.
+  If arg is FALSE, create a dummy tmap == map_colatitude
   to be used if hmap or oceans are not placed gen 2-4
 **************************************************************************/
 void create_tmap(bool real)
@@ -123,7 +124,7 @@ void create_tmap(bool real)
   /* If map is defined this is not changed. */
   /* TODO: Load if from scenario game with tmap */
   /* to debug, never load at this time */
-  fc_assert_ret(NULL == temperature_map);
+  fc_assert_ret(temperature_map == nullptr);
 
   temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
   whole_map_iterate(&(wld.map), ptile) {

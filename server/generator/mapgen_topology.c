@@ -28,17 +28,17 @@
 int ice_base_colatitude = 0 ;
 
 /************************************************************************//**
-  Returns the colatitude of this map position.  This is a value in the
+  Returns the colatitude of this map position. This is a value in the
   range of 0 to MAX_COLATITUDE (inclusive).
-  This function is wanted to concentrate the topology information
-  all generator code has to use  colatitude and others topology safe
-  functions instead (x,y) coordinate to place terrains
-  colatitude is 0 at poles and MAX_COLATITUDE at equator
+  This function is wanted to concentrate the topology information.
+  All generator code has to use colatitude and other topology safe
+  functions instead (x, y) coordinate to place terrains.
+  Colatitude is 0 at poles and MAX_COLATITUDE at equator.
 ****************************************************************************/
 int map_colatitude(const struct tile *ptile)
 {
   int latitude;
-  fc_assert_ret_val(ptile != NULL, MAX_COLATITUDE / 2);
+  fc_assert_ret_val(ptile != nullptr, MAX_COLATITUDE / 2);
 
   latitude = map_signed_latitude(ptile);
   latitude = MAX(latitude, -latitude);
@@ -47,14 +47,13 @@ int map_colatitude(const struct tile *ptile)
 }
 
 /************************************************************************//**
-  Return TRUE if the map in a typical city radius is SINGULAR.  This is
+  Return TRUE if the map in a typical city radius is SINGULAR. This is
   used to avoid putting (non-polar) land near the edge of the map.
 ****************************************************************************/
 bool near_singularity(const struct tile *ptile)
 {
   return is_singular_tile(ptile, CITY_MAP_DEFAULT_RADIUS);
 }
-
 
 /************************************************************************//**
   Set the map xsize and ysize based on a base size and ratio (in natural
@@ -91,7 +90,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
    */
   const int i_size
     = sqrt((float)(size)
-	   / (float)(Xratio * Yratio * iso * even * even)) + 0.49;
+           / (float)(Xratio * Yratio * iso * even * even)) + 0.49;
 
   /* Now build xsize and ysize value as described above. */
   wld.map.xsize = Xratio * i_size * even;
@@ -129,8 +128,8 @@ static void set_sizes(double size, int Xratio, int Yratio)
 /************************************************************************//**
   Return the default ratios for known topologies.
 
- The factor x_ratio * y_ratio determines the accuracy of the size.
- Small ratios work better than large ones; 3:2 is not the same as 6:4
+  The factor x_ratio * y_ratio determines the accuracy of the size.
+  Small ratios work better than large ones; 3:2 is not the same as 6:4
 ****************************************************************************/
 static void get_ratios(int *x_ratio, int *y_ratio)
 {
