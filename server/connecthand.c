@@ -34,6 +34,7 @@
 #include "version.h"
 
 /* server */
+#include "aahand.h"
 #include "aiiface.h"
 #include "auth.h"
 #include "diplhand.h"
@@ -177,7 +178,7 @@ void establish_new_connection(struct connection *pconn)
                 freeciv_name_version(), srvarg.port);
   }
 
-  /* FIXME: this (getting messages about others logging on) should be
+  /* FIXME: This (getting messages about others logging on) should be
    * a message option for the client with event */
 
   /* Notify the console that you're here. */
@@ -742,7 +743,7 @@ static bool connection_attach_real(struct connection *pconn,
   send_conn_info(pconn->self, game.est_connections);    /* Client side. */
   conn_reset_delta_state(pconn);                        /* Server side. */
 
-  /* Initial packets don't need to be resent.  See comment for
+  /* Initial packets don't need to be resent. See comment for
    * connecthand.c::establish_new_connection(). */
   switch (server_state()) {
   case S_S_INITIAL:
@@ -763,6 +764,7 @@ static bool connection_attach_real(struct connection *pconn,
     send_diplomatic_meetings(pconn);
     send_pending_events(pconn, connecting);
     send_running_votes(pconn, !connecting);
+    send_access_area_info(pconn);
     break;
 
   case S_S_OVER:

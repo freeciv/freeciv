@@ -125,3 +125,44 @@ void access_areas_refresh(struct civ_map *nmap, struct player *plr)
     unit_virtual_destroy(access_unit);
   }
 }
+
+/*********************************************************************//**
+  Just send existing access area info.
+  @param pconn Connection to send the information for and to
+*************************************************************************/
+void send_access_area_info(struct connection *pconn)
+{
+  if (pconn->playing != nullptr
+      && access_info_access_unit() != nullptr) {
+    struct aarea_list *alist = area_list_for_player(pconn->playing);
+    struct packet_access_area aarea_packet;
+
+    aarea_packet.player = player_number(pconn->playing);
+
+    aarea_list_iterate(alist, aarea) {
+      BV_CLR_ALL(aarea_packet.tiledefs);
+
+      tiledef_iterate(td) {
+        int tn = tiledef_number(td);
+
+        if (BV_ISSET(aarea->tiledefs, tn)) {
+          BV_SET(aarea_packet.tiledefs, tn);
+        }
+      } tiledef_iterate_end;
+
+      aarea_packet.index = aarea->index;
+      aarea_packet.capital = aarea->capital;
+
+      send_packet_access_area(pconn, &aarea_packet);
+    } aarea_list_iterate_end;
+
+    city_list_iterate(pconn->playing->cities, pcity) {
+      struct packet_city_access_area caarea_packet;
+
+      caarea_packet.city = pcity->id;
+      caarea_packet.aarea = pcity->aarea->index;
+
+      send_packet_city_access_area(pconn, &caarea_packet);
+    } city_list_iterate_end;
+  }
+}

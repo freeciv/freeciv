@@ -14,5 +14,6 @@
 #define FC__AAHAND_H
 
 void access_areas_refresh(struct civ_map *nmap, struct player *plr);
+void send_access_area_info(struct connection *pconn);
 
 #endif /* FC__AAHAND_H */
