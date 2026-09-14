@@ -1177,17 +1177,13 @@ const char *city_name_getx(const struct city *pcity)
   sz_strlcat(em_city_name, city_name_get(pcity));
 
   if (get_city_bonus(pcity, EFT_AIRLIFT) > 0) {
-    if (!spacer) {
-      sz_strlcat(em_city_name, " ");
-      spacer = TRUE;
-    }
-    sz_strlcat(em_city_name, "🛧"); /* 🛧🛪 (alternatives)*/
+    sz_strlcat(em_city_name, " 🛧"); /* 🛧🛪 (alternatives)*/
+    spacer = TRUE;
   }
 
   if (get_city_bonus(pcity, EFT_POLLU_PROD_PCT) < POLLUTION_EFT_NEARMAX) {
     if (!spacer) {
       sz_strlcat(em_city_name, " ");
-      spacer = TRUE;
     }
     sz_strlcat(em_city_name, "♺"); /* ♺♻♳ (alternatives)*/
   }
