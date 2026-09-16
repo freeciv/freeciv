@@ -68,7 +68,6 @@ static GtkWidget *scenario_version;
 static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store; 
 
 static GtkListStore *server_playerlist_store;
-static GtkWidget *server_playerlist_view;
 
 static GtkTreeSelection *load_selection, *scenario_selection;
 static GtkTreeSelection *meta_selection, *lan_selection;
@@ -1411,7 +1410,6 @@ GtkWidget *create_network_page(void)
   add_treeview_column(view, _("Type"), G_TYPE_STRING, 1);
   add_treeview_column(view, _("Host"), G_TYPE_STRING, 2);
   add_treeview_column(view, _("Nation"), G_TYPE_STRING, 3);
-  server_playerlist_view = view;
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
