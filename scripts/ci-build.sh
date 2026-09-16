@@ -91,9 +91,10 @@ mkdir build
 cd build
 meson setup .. \
   -Ddebug=true \
+  -Daudio=sdl3 \
   -Dtools=ruledit,manual,ruleup \
   -Dsyslua=true \
-  -Dclients=gtk3.22,sdl2,gtk4,qt,stub \
+  -Dclients=gtk3.22,sdl3,gtk4,qt,stub \
   -Dfcmp=gtk3,gtk4,qt,cli \
   -Dfollowtag=macos \
   -Dprefix=${HOME}/freeciv/mac-meson \

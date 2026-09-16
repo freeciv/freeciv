@@ -66,9 +66,9 @@ jobs:
             jpeg \
             gtk+3 \
             gtk4 \
-            sdl2_mixer \
-            sdl2_image \
-            sdl2_ttf \
+            sdl3_mixer \
+            sdl3_image \
+            sdl3_ttf \
             qt@6
       - name: build
         shell: bash
