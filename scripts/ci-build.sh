@@ -93,8 +93,9 @@ cd build
 meson setup .. \
   -Dqtver=qt6x \
   -Ddebug=true \
+  -Daudio=sdl3 \
   -Dtools=ruledit,manual,ruleup \
-  -Dclients=gtk3.22,sdl2,gtk4,qt,stub \
+  -Dclients=gtk3.22,sdl3,gtk4,qt,stub \
   -Dfcmp=gtk3,gtk4,qt,cli \
   -Dprefix=${HOME}/freeciv/mac-meson \
   || (let meson_exit_status=$? \
