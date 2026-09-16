@@ -38,7 +38,7 @@
   already got the new ones.
 **************************************************************************/
 
-static struct tile *previous_tiles = NULL;
+static struct tile *previous_tiles = nullptr;
 static struct unit_list *previous_units;
 
 /**********************************************************************//**
@@ -64,7 +64,8 @@ static void sha_unit_change(int id)
 
   log_debug("sha got unit: %d", id);
 
-  fc_assert_ret(NULL != pold_unit);
+  fc_assert_ret(pold_unit != nullptr);
+
   *pold_unit = *punit;
 }
 
@@ -74,7 +75,7 @@ static void sha_unit_change(int id)
 static void sha_unit_new(int id)
 {
   struct unit *punit = game_unit_by_number(id);
-  struct unit *pold_unit = unit_virtual_create(unit_owner(punit), NULL,
+  struct unit *pold_unit = unit_virtual_create(unit_owner(punit), nullptr,
                                                unit_type_get(punit), 0);
 
   log_debug("sha got unit: %d", id);
@@ -92,7 +93,8 @@ static void sha_unit_remove(int id)
 
   log_debug("sha got unit: %d", id);
 
-  fc_assert_ret(NULL != pold_unit);
+  fc_assert_ret(pold_unit != nullptr);
+
   unit_list_remove(previous_units, pold_unit);
   /* List pointers were struct copied, cannot unit_virtual_destroy() */
   memset(pold_unit, 0, sizeof(*pold_unit)); /* Ensure no pointers remain */

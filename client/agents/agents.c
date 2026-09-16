@@ -45,7 +45,7 @@
 #define log_meta_callback(...)          log_debug(__VA_ARGS__)
 #define log_debug_freeze(...)           /* log_test(__VA_ARGS__) */
 
-#define MAX_AGENTS			10
+#define MAX_AGENTS                      10
 
 struct my_agent;
 
@@ -191,14 +191,14 @@ static void enqueue_call(enum oct type,
 
 /************************************************************************//**
   Return an outstanding call. The call is removed from the agents.calls
-  list. Returns NULL if there no more outstanding calls.
+  list. Returns nullptr if there no more outstanding calls.
 ****************************************************************************/
 static struct call *remove_and_return_a_call(void)
 {
   struct call *result;
 
   if (call_list_size(agents.calls) == 0) {
-    return NULL;
+    return nullptr;
   }
 
   result = call_list_front(agents.calls);
@@ -305,7 +305,7 @@ static struct my_agent *agent_by_name(const char *agent_name)
       return &agents.entries[i];
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -780,7 +780,8 @@ void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
 {
   struct my_agent *agent = agent_by_name(name_of_calling_agent);
 
-  fc_assert_ret(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
+  fc_assert_ret(agent->agent.unit_callbacks[CB_CHANGE] != nullptr);
+
   enqueue_call(OCT_UNIT, CB_CHANGE, agent, punit->id);
   call_handle_methods();
 }
@@ -793,7 +794,8 @@ void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
 {
   struct my_agent *agent = agent_by_name(name_of_calling_agent);
 
-  fc_assert_ret(agent->agent.city_callbacks[CB_CHANGE] != NULL);
+  fc_assert_ret(agent->agent.city_callbacks[CB_CHANGE] != nullptr);
+
   enqueue_call(OCT_CITY, CB_CHANGE, agent, pcity->id);
   call_handle_methods();
 }

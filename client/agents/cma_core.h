@@ -53,7 +53,7 @@ void cma_release_city(struct city *pcity);
 
 /*
  * Test if the citizen in the given city are managed by the agent. The
- * given parameter is filled if pointer is non-NULL. The parameter is
+ * given parameter is filled if pointer is non-nullptr. The parameter is
  * only valid if cma_is_city_under_agent returns true.
  */
 bool cma_is_city_under_agent(const struct city *pcity,

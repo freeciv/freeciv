@@ -137,7 +137,7 @@ static bool fc_results_are_equal(const struct cm_result *result1,
 
 /************************************************************************//**
   Returns TRUE if the city is valid for CMA. Fills parameter if TRUE
-  is returned. Parameter can be NULL.
+  is returned. Parameter can be nullptr.
 ****************************************************************************/
 static struct city *check_city(int city_id, struct cm_parameter *parameter)
 {
@@ -150,13 +150,13 @@ static struct city *check_city(int city_id, struct cm_parameter *parameter)
 
   if (!pcity
       || !cma_get_parameter(ATTR_CITY_CMA_PARAMETER, city_id, parameter)) {
-    return NULL;
+    return nullptr;
   }
 
   if (city_owner(pcity) != client.conn.playing) {
     cma_release_city(pcity);
 
-    return NULL;
+    return nullptr;
   }
 
   return pcity;
@@ -244,7 +244,7 @@ static bool apply_result_on_server(struct city *pcity,
    * DEFAULT_SPECIALIST! */
   city_tile_iterate_skip_free_worked(&(wld.map), city_radius_sq, pcenter, ptile, idx,
                                      x, y) {
-    if (NULL == tile_worked(ptile)
+    if (tile_worked(ptile) == nullptr
         && result->worker_positions[idx]) {
       log_apply_result("Putting worker at {%d,%d}.", x, y);
       fc_assert_action(city_can_work_tile(pcity, ptile), break);
@@ -298,7 +298,7 @@ static bool apply_result_on_server(struct city *pcity,
     int city_id = pcity->id;
 
     wait_for_requests("CMA", first_request_id, last_request_id);
-    if (pcity != check_city(city_id, NULL)) {
+    if (pcity != check_city(city_id, nullptr)) {
       log_verbose("apply_result_on_server(city %d) !check_city()!", city_id);
       return FALSE;
     }
@@ -357,7 +357,7 @@ static void report_stats(void)
 ****************************************************************************/
 static void release_city(int city_id)
 {
-  attr_city_set(ATTR_CITY_CMA_PARAMETER, city_id, 0, NULL);
+  attr_city_set(ATTR_CITY_CMA_PARAMETER, city_id, 0, nullptr);
 }
 
 /****************************************************************************
@@ -407,7 +407,7 @@ static void handle_city(struct city *pcity)
     } else {
       if (!apply_result_on_server(pcity, result)) {
         log_handle_city2("  doesn't cleanly apply");
-        if (pcity == check_city(city_id, NULL) && i == 0) {
+        if (pcity == check_city(city_id, nullptr) && i == 0) {
           create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
                        _("The citizen governor has gotten confused dealing "
                          "with %s. You may want to have a look."),
@@ -425,7 +425,7 @@ static void handle_city(struct city *pcity)
   cm_result_destroy(result);
 
   if (!handled) {
-    fc_assert_ret(pcity == check_city(city_id, NULL));
+    fc_assert_ret(pcity == check_city(city_id, nullptr));
     log_handle_city2("  not handled");
 
     create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
@@ -492,7 +492,7 @@ void cma_init(void)
    * called multiple times per client invocation so that lead to memory
    * leaks. */
   stats.wall_timer = timer_renew(timer, TIMER_USER, TIMER_ACTIVE,
-                                 timer != NULL ? NULL : "agent: stats");
+                                 timer != nullptr ? nullptr : "agent: stats");
 
   memset(&self, 0, sizeof(self));
   strcpy(self.name, "CMA");
@@ -509,7 +509,7 @@ void cma_init(void)
 ****************************************************************************/
 bool cma_apply_result(struct city *pcity, const struct cm_result *result)
 {
-  fc_assert(!cma_is_city_under_agent(pcity, NULL));
+  fc_assert(!cma_is_city_under_agent(pcity, nullptr));
 
   if (result->found_a_valid) {
     return apply_result_on_server(pcity, result);
@@ -558,7 +558,7 @@ bool cma_is_city_under_agent(const struct city *pcity,
     return FALSE;
   }
 
-  if (parameter != NULL) {
+  if (parameter != nullptr) {
     memcpy(parameter, &my_parameter, sizeof(struct cm_parameter));
   }
 

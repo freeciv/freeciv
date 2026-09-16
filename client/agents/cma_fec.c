@@ -42,9 +42,9 @@
 #include "cma_fec.h"
 
 
-#define RESULT_COLUMNS		10
-#define BUFFER_SIZE		100
-#define MAX_LEN_PRESET_NAME	80
+#define RESULT_COLUMNS          10
+#define BUFFER_SIZE             100
+#define MAX_LEN_PRESET_NAME     80
 
 struct cma_preset {
   char *descr;
@@ -59,7 +59,7 @@ struct cma_preset {
     TYPED_LIST_ITERATE(struct cma_preset, presetlist, ppreset)
 #define preset_list_iterate_end  LIST_ITERATE_END
 
-static struct preset_list *preset_list = NULL;
+static struct preset_list *preset_list = nullptr;
 
 /**********************************************************************//**
   Is called if the game removes a city. It will clear the
@@ -67,7 +67,7 @@ static struct preset_list *preset_list = NULL;
 **************************************************************************/
 static void city_remove(int city_id)
 {
-  attr_city_set(ATTR_CITY_CMAFE_PARAMETER, city_id, 0, NULL);
+  attr_city_set(ATTR_CITY_CMAFE_PARAMETER, city_id, 0, nullptr);
 }
 
 /**********************************************************************//**
@@ -77,7 +77,7 @@ void cmafec_init(void)
 {
   struct agent self;
 
-  if (preset_list == NULL) {
+  if (preset_list == nullptr) {
     preset_list = preset_list_new();
   }
 
@@ -137,7 +137,7 @@ void cmafec_preset_add(const char *descr_name, struct cm_parameter *pparam)
 {
   struct cma_preset *ppreset = fc_malloc(sizeof(struct cma_preset));
 
-  if (preset_list == NULL) {
+  if (preset_list == nullptr) {
     preset_list = preset_list_new();
   }
 
@@ -170,7 +170,7 @@ char *cmafec_preset_get_descr(int idx)
 {
   struct cma_preset *ppreset;
 
-  fc_assert_ret_val(idx >= 0 && idx < cmafec_preset_num(), NULL);
+  fc_assert_ret_val(idx >= 0 && idx < cmafec_preset_num(), nullptr);
 
   ppreset = preset_list_get(preset_list, idx);
   return ppreset->descr;
@@ -183,7 +183,7 @@ const struct cm_parameter *cmafec_preset_get_parameter(int idx)
 {
   struct cma_preset *ppreset;
 
-  fc_assert_ret_val(idx >= 0 && idx < cmafec_preset_num(), NULL);
+  fc_assert_ret_val(idx >= 0 && idx < cmafec_preset_num(), nullptr);
 
   ppreset = preset_list_get(preset_list, idx);
   return &ppreset->parameter;
