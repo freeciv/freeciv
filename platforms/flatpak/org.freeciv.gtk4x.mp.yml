@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk4x.mp
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 command: freeciv-mp-gtk4x
 rename-icon: freeciv-modpack
@@ -19,6 +19,7 @@ modules:
       - -Dclients=[]
       - -Dserver=disabled
       - -Dtools=[]
+      - -Daudio=none
     sources:
       - type: dir
         path: ../..
