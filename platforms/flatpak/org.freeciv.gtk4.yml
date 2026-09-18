@@ -1,6 +1,6 @@
 app-id: org.freeciv.gtk4
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 command: freeciv-gtk4
 rename-icon: freeciv-client
@@ -19,6 +19,7 @@ modules:
       - -Dclients=gtk4
       - -Dfcmp=[]
       - -Dtools=[]
+      - -Daudio=sdl3
     sources:
       - type: dir
         path: ../..
