@@ -3034,21 +3034,25 @@ void city_dialog::refresh()
 void city_dialog::update_counters_table()
 {
   QFont *small_font;
+  char buf[1024];
+  QWidget *titlebar_widget;
+  QHBoxLayout *titlebar_layout;
+  QPushButton *closeButton;
 
   small_font = fc_font::instance()->get_font(fonts::notify_label);
 
   qDeleteAll(counters_widget->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
 
-  QWidget *titlebar_widget = new QWidget();
-  QHBoxLayout *titlebar_layout = new QHBoxLayout(titlebar_widget);
+  titlebar_widget = new QWidget();
+  titlebar_layout = new QHBoxLayout(titlebar_widget);
   titlebar_widget->setLayout(titlebar_layout);
 
-  titlebar_layout->addWidget(new QLabel(_("<u>Counters</u>"),
-                                        titlebar_widget),
+  fc_snprintf(buf, sizeof(buf), _("<u>%s</u>"), _("Counters"));
+  titlebar_layout->addWidget(new QLabel(buf, titlebar_widget),
                              0, Qt::AlignCenter);
-  QPushButton *closeButton =
-    new QPushButton(fc_icons::instance()->get_icon("close"), "",
-                    titlebar_widget);
+  closeButton
+    = new QPushButton(fc_icons::instance()->get_icon("close"), "",
+                      titlebar_widget);
   connect(closeButton, &QPushButton::clicked, this,
           &city_dialog::close_counters);
   closeButton->setFixedSize(28, 28);
@@ -3062,7 +3066,6 @@ void city_dialog::update_counters_table()
 
   city_counters_iterate(pcount) {
     QString helptext;
-    char buf[1024];
     QLabel *name, *value, *activated, *help;
 
     name = new QLabel(name_translation_get(&pcount->name));
