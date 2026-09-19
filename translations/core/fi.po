@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-09-03 22:04+0300\n"
-"PO-Revision-Date: 2026-08-31 00:30+0300\n"
+"POT-Creation-Date: 2026-09-19 17:15+0300\n"
+"PO-Revision-Date: 2026-09-19 17:29+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -556,14 +556,14 @@ msgstr ""
 "Käskynhaltija hämmentyi, kun käsittelyssä oli %s. Halunnet katsoa, mitä on "
 "tekeillä."
 
-#: client/agents/cma_fec.c:226 client/gui-gtk-3.22/cityrep.c:771
-#: client/gui-gtk-3.22/cityrep.c:797 client/gui-gtk-4.0/cityrep.c:716
-#: client/gui-gtk-4.0/cityrep.c:755
+#: client/agents/cma_fec.c:226 client/gui-gtk-3.22/cityrep.c:767
+#: client/gui-gtk-3.22/cityrep.c:793 client/gui-gtk-4.0/cityrep.c:712
+#: client/gui-gtk-4.0/cityrep.c:751
 msgid "?cma:none"
 msgstr "asettamatta"
 
-#: client/agents/cma_fec.c:242 client/gui-gtk-3.22/cityrep.c:818
-#: client/gui-gtk-4.0/cityrep.c:783
+#: client/agents/cma_fec.c:242 client/gui-gtk-3.22/cityrep.c:814
+#: client/gui-gtk-4.0/cityrep.c:779
 msgid "?cma:custom"
 msgstr "oma valinta"
 
@@ -1232,9 +1232,9 @@ msgid "Best defending units"
 msgstr "Parhaat puolustusyksiköt"
 
 #: client/cityrepdata.c:772 client/cityrepdata.c:776
-#: client/gui-gtk-3.22/cityrep.c:1520 client/gui-gtk-3.22/cityrep.c:1539
-#: client/gui-gtk-3.22/cityrep.c:1558 client/gui-gtk-3.22/cityrep.c:1577
-#: client/gui-gtk-3.22/cityrep.c:1597 client/gui-gtk-3.22/menu.c:398
+#: client/gui-gtk-3.22/cityrep.c:1516 client/gui-gtk-3.22/cityrep.c:1535
+#: client/gui-gtk-3.22/cityrep.c:1554 client/gui-gtk-3.22/cityrep.c:1573
+#: client/gui-gtk-3.22/cityrep.c:1593 client/gui-gtk-3.22/menu.c:398
 #: client/gui-gtk-3.22/repodlgs.c:1665 client/gui-gtk-4.0/menu.c:969
 #: client/gui-gtk-4.0/repodlgs.c:1694 client/gui-qt/cityrep.cpp:740
 #: client/gui-qt/menu.cpp:1552 client/gui-qt/pages.cpp:745
@@ -1439,8 +1439,8 @@ msgstr "Ruttoriski vuoroa kohden"
 msgid "?cma:Governor"
 msgstr "Käskynhaltija"
 
-#: client/cityrepdata.c:828 client/gui-gtk-3.22/cityrep.c:1886
-#: client/gui-gtk-3.22/menu.c:424 client/gui-gtk-4.0/cityrep.c:1794
+#: client/cityrepdata.c:828 client/gui-gtk-3.22/cityrep.c:1882
+#: client/gui-gtk-3.22/menu.c:424 client/gui-gtk-4.0/cityrep.c:1790
 #: client/gui-gtk-4.0/menu.c:1008 client/gui-sdl2/citydlg.c:3730
 #: client/gui-sdl2/cma_fe.c:921 client/gui-sdl3/citydlg.c:3726
 #: client/gui-sdl3/cma_fe.c:917 client/include/helpdlg_g.h:39
@@ -2076,9 +2076,9 @@ msgstr ""
 "Valitse tukikohtatyyppi: vaihto+m tai hiiren oikea nappi."
 
 #: client/editor.c:220 client/gui-gtk-3.22/editprop.c:675
-#: client/gui-gtk-3.22/unitselect.c:95 client/gui-gtk-4.0/cityrep.c:1507
-#: client/gui-gtk-4.0/cityrep.c:1704 client/gui-gtk-4.0/cityrep.c:1742
-#: client/gui-gtk-4.0/cityrep.c:1750 client/gui-gtk-4.0/cityrep.c:1774
+#: client/gui-gtk-3.22/unitselect.c:95 client/gui-gtk-4.0/cityrep.c:1503
+#: client/gui-gtk-4.0/cityrep.c:1700 client/gui-gtk-4.0/cityrep.c:1738
+#: client/gui-gtk-4.0/cityrep.c:1746 client/gui-gtk-4.0/cityrep.c:1770
 #: client/gui-gtk-4.0/editprop.c:675 client/gui-gtk-4.0/unitselect.c:95
 #: client/gui-qt/menu.cpp:1195
 msgid "Unit"
@@ -2215,15 +2215,15 @@ msgstr "(nimetön)"
 #. TRANS: Used below. Separate so treasury content too can determine
 #. * if this is plural.
 #: client/gui-gtk-3.22/action_dialog.c:483
-#: client/gui-gtk-3.22/action_dialog.c:972 client/gui-gtk-3.22/citydlg.c:3199
+#: client/gui-gtk-3.22/action_dialog.c:983 client/gui-gtk-3.22/citydlg.c:3199
 #: client/gui-gtk-3.22/repodlgs.c:1620 client/gui-gtk-4.0/action_dialog.c:483
-#: client/gui-gtk-4.0/action_dialog.c:970 client/gui-gtk-4.0/citydlg.c:3341
+#: client/gui-gtk-4.0/action_dialog.c:980 client/gui-gtk-4.0/citydlg.c:3341
 #: client/gui-gtk-4.0/repodlgs.c:1650 client/gui-qt/citydlg.cpp:3485
 #: client/gui-qt/dialogs.cpp:3669 client/gui-qt/dialogs.cpp:3732
-#: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1640
-#: client/gui-sdl2/action_dialog.c:1903 client/gui-sdl2/citydlg.c:1192
-#: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1640
-#: client/gui-sdl3/action_dialog.c:1903 client/gui-sdl3/citydlg.c:1188
+#: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1645
+#: client/gui-sdl2/action_dialog.c:1908 client/gui-sdl2/citydlg.c:1192
+#: client/gui-sdl2/repodlgs.c:211 client/gui-sdl3/action_dialog.c:1645
+#: client/gui-sdl3/action_dialog.c:1908 client/gui-sdl3/citydlg.c:1188
 #: client/gui-sdl3/repodlgs.c:211 client/text.c:1301 common/unit.c:2071
 #: server/unithand.c:2160 server/unithand.c:2870
 #, c-format
@@ -2235,7 +2235,7 @@ msgstr[1] "Kassassa on %d kultaa."
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:492
 #: client/gui-gtk-4.0/action_dialog.c:492 client/gui-qt/dialogs.cpp:3738
-#: client/gui-sdl2/action_dialog.c:1928 client/gui-sdl3/action_dialog.c:1928
+#: client/gui-sdl2/action_dialog.c:1933 client/gui-sdl3/action_dialog.c:1933
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -2252,14 +2252,14 @@ msgstr[1] ""
 
 #: client/gui-gtk-3.22/action_dialog.c:494
 #: client/gui-gtk-4.0/action_dialog.c:494 client/gui-qt/dialogs.cpp:3741
-#: client/gui-sdl2/action_dialog.c:1909 client/gui-sdl3/action_dialog.c:1909
+#: client/gui-sdl2/action_dialog.c:1914 client/gui-sdl3/action_dialog.c:1914
 msgid "Bribe Enemy Unit"
 msgstr "Lahjo vihollisen yksikkö"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/action_dialog.c:500
 #: client/gui-gtk-4.0/action_dialog.c:500 client/gui-qt/dialogs.cpp:3753
-#: client/gui-sdl2/action_dialog.c:1978 client/gui-sdl3/action_dialog.c:1978
+#: client/gui-sdl2/action_dialog.c:1983 client/gui-sdl3/action_dialog.c:1983
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -2275,11 +2275,11 @@ msgstr[1] ""
 "%s."
 
 #: client/gui-gtk-3.22/action_dialog.c:502
-#: client/gui-gtk-3.22/action_dialog.c:999
+#: client/gui-gtk-3.22/action_dialog.c:1010
 #: client/gui-gtk-4.0/action_dialog.c:502
-#: client/gui-gtk-4.0/action_dialog.c:997 client/gui-qt/dialogs.cpp:3755
-#: client/gui-sdl2/action_dialog.c:1762 client/gui-sdl2/action_dialog.c:1990
-#: client/gui-sdl3/action_dialog.c:1762 client/gui-sdl3/action_dialog.c:1990
+#: client/gui-gtk-4.0/action_dialog.c:1007 client/gui-qt/dialogs.cpp:3755
+#: client/gui-sdl2/action_dialog.c:1767 client/gui-sdl2/action_dialog.c:1995
+#: client/gui-sdl3/action_dialog.c:1767 client/gui-sdl3/action_dialog.c:1995
 msgid "Traitors Demand Too Much!"
 msgstr "Kapinalliset ovat liian ahneita!"
 
@@ -2289,8 +2289,9 @@ msgid "Steal Technology"
 msgstr "Varasta teknologiaa"
 
 #: client/gui-gtk-3.22/action_dialog.c:586
-#: client/gui-gtk-3.22/action_dialog.c:774
-#: client/gui-gtk-3.22/action_dialog.c:1552 client/gui-gtk-3.22/chatline.c:1133
+#: client/gui-gtk-3.22/action_dialog.c:775
+#: client/gui-gtk-3.22/action_dialog.c:781
+#: client/gui-gtk-3.22/action_dialog.c:1563 client/gui-gtk-3.22/chatline.c:1133
 #: client/gui-gtk-3.22/citydlg.c:3113 client/gui-gtk-3.22/dialogs.c:869
 #: client/gui-gtk-3.22/editgui.c:1011 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:412
@@ -2301,8 +2302,9 @@ msgstr "Varasta teknologiaa"
 #: client/gui-gtk-3.22/pages.c:1440 client/gui-gtk-3.22/pages.c:2814
 #: client/gui-gtk-3.22/pages.c:2971 client/gui-gtk-3.22/pages.c:3329
 #: client/gui-gtk-4.0/action_dialog.c:586
-#: client/gui-gtk-4.0/action_dialog.c:773
-#: client/gui-gtk-4.0/action_dialog.c:1548 client/gui-gtk-4.0/chatline.c:1174
+#: client/gui-gtk-4.0/action_dialog.c:774
+#: client/gui-gtk-4.0/action_dialog.c:780
+#: client/gui-gtk-4.0/action_dialog.c:1558 client/gui-gtk-4.0/chatline.c:1174
 #: client/gui-gtk-4.0/citydlg.c:3232 client/gui-gtk-4.0/dialogs.c:876
 #: client/gui-gtk-4.0/editgui.c:1004 client/gui-gtk-4.0/finddlg.c:77
 #: client/gui-gtk-4.0/gamedlgs.c:308 client/gui-gtk-4.0/gamedlgs.c:400
@@ -2333,61 +2335,77 @@ msgstr "_Edistysaskeleet:"
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-3.22/action_dialog.c:668
-#: client/gui-gtk-3.22/action_dialog.c:850
+#: client/gui-gtk-3.22/action_dialog.c:863
 #: client/gui-gtk-4.0/action_dialog.c:666
-#: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:3211
-#: client/gui-qt/dialogs.cpp:3862 client/gui-sdl2/action_dialog.c:493
-#: client/gui-sdl2/action_dialog.c:1429 client/gui-sdl3/action_dialog.c:493
-#: client/gui-sdl3/action_dialog.c:1429
+#: client/gui-gtk-4.0/action_dialog.c:859 client/gui-qt/dialogs.cpp:3211
+#: client/gui-qt/dialogs.cpp:3871 client/gui-sdl2/action_dialog.c:493
+#: client/gui-sdl2/action_dialog.c:1434 client/gui-sdl3/action_dialog.c:493
+#: client/gui-sdl3/action_dialog.c:1434
 #, c-format
 msgid "At %s's Discretion"
 msgstr "%s päättäköön itse"
 
-#: client/gui-gtk-3.22/action_dialog.c:772
-#: client/gui-gtk-4.0/action_dialog.c:771
+#: client/gui-gtk-3.22/action_dialog.c:773
+#: client/gui-gtk-4.0/action_dialog.c:772
+msgid "Strike Improvements"
+msgstr "Iske rakennukseen"
+
+#: client/gui-gtk-3.22/action_dialog.c:776
+#: client/gui-gtk-4.0/action_dialog.c:775
+msgid "_Strike"
+msgstr "_Iske"
+
+#: client/gui-gtk-3.22/action_dialog.c:779
+#: client/gui-gtk-4.0/action_dialog.c:778
 msgid "Sabotage Improvements"
 msgstr "Sabotoi rakennushanke"
 
-#: client/gui-gtk-3.22/action_dialog.c:775
-#: client/gui-gtk-4.0/action_dialog.c:774
+#: client/gui-gtk-3.22/action_dialog.c:782
+#: client/gui-gtk-4.0/action_dialog.c:781
 msgid "_Sabotage"
 msgstr "_Sabotoi"
 
-#: client/gui-gtk-3.22/action_dialog.c:783
-#: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3825
-#: client/gui-sdl2/action_dialog.c:1336 client/gui-sdl3/action_dialog.c:1336
-msgid "Select Improvement to Sabotage"
-msgstr "Valitse sabotoitava rakennushanke"
+#: client/gui-gtk-3.22/action_dialog.c:792
+#: client/gui-gtk-4.0/action_dialog.c:790 client/gui-qt/dialogs.cpp:3831
+#: client/gui-sdl2/action_dialog.c:1337 client/gui-sdl3/action_dialog.c:1337
+msgid "Select Improvement to Strike"
+msgstr "Valitse rakennus, johon isketään"
 
-#: client/gui-gtk-3.22/action_dialog.c:808
-#: client/gui-gtk-4.0/action_dialog.c:806
+#: client/gui-gtk-3.22/action_dialog.c:794
+#: client/gui-gtk-4.0/action_dialog.c:792 client/gui-qt/dialogs.cpp:3836
+#: client/gui-sdl2/action_dialog.c:1340 client/gui-sdl3/action_dialog.c:1340
+msgid "Select Improvement to Sabotage"
+msgstr "Valitse sabotoitava rakennus"
+
+#: client/gui-gtk-3.22/action_dialog.c:821
+#: client/gui-gtk-4.0/action_dialog.c:818
 msgid "_Improvements:"
 msgstr "Valmistuneet _rakennushankkeet:"
 
-#: client/gui-gtk-3.22/action_dialog.c:830
-#: client/gui-gtk-4.0/action_dialog.c:827 client/gui-qt/dialogs.cpp:3845
-#: client/gui-qt/menu.cpp:1129 client/gui-sdl2/action_dialog.c:1369
-#: client/gui-sdl3/action_dialog.c:1369
+#: client/gui-gtk-3.22/action_dialog.c:843
+#: client/gui-gtk-4.0/action_dialog.c:839 client/gui-qt/dialogs.cpp:3854
+#: client/gui-qt/menu.cpp:1129 client/gui-sdl2/action_dialog.c:1374
+#: client/gui-sdl3/action_dialog.c:1374
 msgid "City Production"
 msgstr "Kaupungin tuotanto"
 
-#: client/gui-gtk-3.22/action_dialog.c:980
-#: client/gui-gtk-4.0/action_dialog.c:978 client/gui-qt/dialogs.cpp:3678
-#: client/gui-sdl2/action_dialog.c:1678 client/gui-sdl3/action_dialog.c:1678
+#: client/gui-gtk-3.22/action_dialog.c:991
+#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3678
+#: client/gui-sdl2/action_dialog.c:1683 client/gui-sdl3/action_dialog.c:1683
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Et voi lietsoa kapinaa kaupungissa %s."
 
-#: client/gui-gtk-3.22/action_dialog.c:982
-#: client/gui-gtk-4.0/action_dialog.c:980 client/gui-sdl2/action_dialog.c:1689
-#: client/gui-sdl3/action_dialog.c:1689
+#: client/gui-gtk-3.22/action_dialog.c:993
+#: client/gui-gtk-4.0/action_dialog.c:990 client/gui-sdl2/action_dialog.c:1694
+#: client/gui-sdl3/action_dialog.c:1694
 msgid "City can't be incited!"
 msgstr "Kaupungissa ei voi lietsoa kapinaa!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-3.22/action_dialog.c:988
-#: client/gui-gtk-4.0/action_dialog.c:986 client/gui-qt/dialogs.cpp:3687
-#: client/gui-sdl2/action_dialog.c:1699 client/gui-sdl3/action_dialog.c:1699
+#: client/gui-gtk-3.22/action_dialog.c:999
+#: client/gui-gtk-4.0/action_dialog.c:996 client/gui-qt/dialogs.cpp:3687
+#: client/gui-sdl2/action_dialog.c:1704 client/gui-sdl3/action_dialog.c:1704
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -2402,16 +2420,16 @@ msgstr[1] ""
 "Käytetäänkö kapinan lietsomiseen %d kultaa?\n"
 "%s"
 
-#: client/gui-gtk-3.22/action_dialog.c:990
-#: client/gui-gtk-4.0/action_dialog.c:988 client/gui-qt/dialogs.cpp:3691
-#: client/gui-sdl2/action_dialog.c:1646 client/gui-sdl3/action_dialog.c:1646
+#: client/gui-gtk-3.22/action_dialog.c:1001
+#: client/gui-gtk-4.0/action_dialog.c:998 client/gui-qt/dialogs.cpp:3691
+#: client/gui-sdl2/action_dialog.c:1651 client/gui-sdl3/action_dialog.c:1651
 msgid "Incite a Revolt!"
 msgstr "Lietso kapinaa!"
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-3.22/action_dialog.c:997
-#: client/gui-gtk-4.0/action_dialog.c:995 client/gui-qt/dialogs.cpp:3703
-#: client/gui-sdl2/action_dialog.c:1750 client/gui-sdl3/action_dialog.c:1750
+#: client/gui-gtk-3.22/action_dialog.c:1008
+#: client/gui-gtk-4.0/action_dialog.c:1005 client/gui-qt/dialogs.cpp:3703
+#: client/gui-sdl2/action_dialog.c:1755 client/gui-sdl3/action_dialog.c:1755
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -2426,33 +2444,33 @@ msgstr[1] ""
 "Kapinan järjestäminen maksaisi %d kultaa.\n"
 "%s"
 
-#: client/gui-gtk-3.22/action_dialog.c:1068
-#: client/gui-gtk-4.0/action_dialog.c:1066
+#: client/gui-gtk-3.22/action_dialog.c:1079
+#: client/gui-gtk-4.0/action_dialog.c:1076
 msgid "Target unit selection"
 msgstr "Kohdeyksikön valinta"
 
-#: client/gui-gtk-3.22/action_dialog.c:1069
-#: client/gui-gtk-4.0/action_dialog.c:1067
+#: client/gui-gtk-3.22/action_dialog.c:1080
+#: client/gui-gtk-4.0/action_dialog.c:1077
 msgid "Looking for target unit:"
 msgstr "Etsii kohdeyksikköä:"
 
-#: client/gui-gtk-3.22/action_dialog.c:1070
-#: client/gui-gtk-4.0/action_dialog.c:1068
+#: client/gui-gtk-3.22/action_dialog.c:1081
+#: client/gui-gtk-4.0/action_dialog.c:1078
 msgid "Units at tile:"
 msgstr "Ruudun yksiköt:"
 
-#: client/gui-gtk-3.22/action_dialog.c:1071
-#: client/gui-gtk-3.22/action_dialog.c:1169
-#: client/gui-gtk-4.0/action_dialog.c:1069
-#: client/gui-gtk-4.0/action_dialog.c:1167 client/gui-qt/cityrep.cpp:523
+#: client/gui-gtk-3.22/action_dialog.c:1082
+#: client/gui-gtk-3.22/action_dialog.c:1180
+#: client/gui-gtk-4.0/action_dialog.c:1079
+#: client/gui-gtk-4.0/action_dialog.c:1177 client/gui-qt/cityrep.cpp:523
 #: client/gui-qt/hudwidget.cpp:1423 client/gui-qt/menu.cpp:1153
 msgid "Select"
 msgstr "Valitse"
 
 #. TRANS: GTK action selection dialog extra target
 #. * selection dialog title.
-#: client/gui-gtk-3.22/action_dialog.c:1162
-#: client/gui-gtk-4.0/action_dialog.c:1160
+#: client/gui-gtk-3.22/action_dialog.c:1173
+#: client/gui-gtk-4.0/action_dialog.c:1170
 msgid "Target extra selection"
 msgstr "Kohderuutulisän valinta"
 
@@ -2462,28 +2480,28 @@ msgstr "Kohderuutulisän valinta"
 #. TRANS: GTK action selection dialog extra target
 #. * selection dialog actor unit label.
 #. TRANS: Pillage dialog actor text.
-#: client/gui-gtk-3.22/action_dialog.c:1165 client/gui-gtk-3.22/dialogs.c:365
-#: client/gui-gtk-4.0/action_dialog.c:1163 client/gui-gtk-4.0/dialogs.c:365
+#: client/gui-gtk-3.22/action_dialog.c:1176 client/gui-gtk-3.22/dialogs.c:365
+#: client/gui-gtk-4.0/action_dialog.c:1173 client/gui-gtk-4.0/dialogs.c:365
 msgid "Looking for target extra:"
 msgstr "Etsii kohteena olevaa ruutulisää:"
 
 #. TRANS: GTK action selection dialog extra target
 #. * selection dialog extra list label.
-#: client/gui-gtk-3.22/action_dialog.c:1168
-#: client/gui-gtk-4.0/action_dialog.c:1166
+#: client/gui-gtk-3.22/action_dialog.c:1179
+#: client/gui-gtk-4.0/action_dialog.c:1176
 msgid "Extra targets:"
 msgstr "Ruutulisäkohteet:"
 
 #. TRANS: %s is a unit name, e.g., Spy
-#: client/gui-gtk-3.22/action_dialog.c:1402
-#: client/gui-gtk-4.0/action_dialog.c:1398 client/gui-qt/dialogs.cpp:2058
+#: client/gui-gtk-3.22/action_dialog.c:1413
+#: client/gui-gtk-4.0/action_dialog.c:1408 client/gui-qt/dialogs.cpp:2058
 #: client/gui-sdl2/action_dialog.c:972 client/gui-sdl3/action_dialog.c:972
 #, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Anna toimintaohjeet yksiköllesi %s"
 
-#: client/gui-gtk-3.22/action_dialog.c:1407
-#: client/gui-gtk-4.0/action_dialog.c:1403 client/gui-qt/dialogs.cpp:2063
+#: client/gui-gtk-3.22/action_dialog.c:1418
+#: client/gui-gtk-4.0/action_dialog.c:1413 client/gui-qt/dialogs.cpp:2063
 #, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
@@ -2492,8 +2510,8 @@ msgstr ""
 "%s kaupungista %s saapuu kaupunkiin %s.\n"
 "Mitä nyt?"
 
-#: client/gui-gtk-3.22/action_dialog.c:1413
-#: client/gui-gtk-4.0/action_dialog.c:1409 client/gui-qt/dialogs.cpp:2069
+#: client/gui-gtk-3.22/action_dialog.c:1424
+#: client/gui-gtk-4.0/action_dialog.c:1419 client/gui-qt/dialogs.cpp:2069
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -2503,36 +2521,36 @@ msgstr ""
 "Mikä on komentosi?"
 
 #. TRANS: Your Spy is ready to act against Roman Freight.
-#: client/gui-gtk-3.22/action_dialog.c:1419
-#: client/gui-gtk-4.0/action_dialog.c:1415 client/gui-qt/dialogs.cpp:2075
+#: client/gui-gtk-3.22/action_dialog.c:1430
+#: client/gui-gtk-4.0/action_dialog.c:1425 client/gui-qt/dialogs.cpp:2075
 #, c-format
 msgid "Your %s is ready to act against %s %s."
 msgstr "Lähettämäsi %s on valmis toimimaan %s yksikköä %s vastaan."
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
-#: client/gui-gtk-3.22/action_dialog.c:1428
-#: client/gui-gtk-4.0/action_dialog.c:1424 client/gui-qt/dialogs.cpp:2085
+#: client/gui-gtk-3.22/action_dialog.c:1439
+#: client/gui-gtk-4.0/action_dialog.c:1434 client/gui-qt/dialogs.cpp:2085
 #, c-format
 msgid "Your %s is waiting for your command."
 msgstr "%ssi odottaa toimintaohjeita"
 
-#: client/gui-gtk-3.22/action_dialog.c:1523
-#: client/gui-gtk-4.0/action_dialog.c:1519
+#: client/gui-gtk-3.22/action_dialog.c:1534
+#: client/gui-gtk-4.0/action_dialog.c:1529
 msgid "Change unit target"
 msgstr "Vaihda kohdeyksikköä"
 
-#: client/gui-gtk-3.22/action_dialog.c:1531
-#: client/gui-gtk-4.0/action_dialog.c:1527
+#: client/gui-gtk-3.22/action_dialog.c:1542
+#: client/gui-gtk-4.0/action_dialog.c:1537
 msgid "Change extra target"
 msgstr "Vaihda kohderuutulisää"
 
-#: client/gui-gtk-3.22/action_dialog.c:1538
-#: client/gui-gtk-4.0/action_dialog.c:1534
+#: client/gui-gtk-3.22/action_dialog.c:1549
+#: client/gui-gtk-4.0/action_dialog.c:1544
 msgid "Show Location"
 msgstr "Näytä kohde"
 
-#: client/gui-gtk-3.22/action_dialog.c:1545 client/gui-gtk-3.22/menu.c:543
-#: client/gui-gtk-4.0/action_dialog.c:1541 client/gui-gtk-4.0/menu.c:791
+#: client/gui-gtk-3.22/action_dialog.c:1556 client/gui-gtk-3.22/menu.c:543
+#: client/gui-gtk-4.0/action_dialog.c:1551 client/gui-gtk-4.0/menu.c:791
 msgid "_Wait"
 msgstr "O_dota"
 
@@ -2811,8 +2829,8 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d vuoroa"
 
 #: client/gui-gtk-3.22/citydlg.c:1036 client/gui-gtk-3.22/citydlg.c:1228
-#: client/gui-gtk-3.22/cityrep.c:1171 client/gui-gtk-4.0/citydlg.c:1027
-#: client/gui-gtk-4.0/citydlg.c:1197 client/gui-gtk-4.0/cityrep.c:1134
+#: client/gui-gtk-3.22/cityrep.c:1167 client/gui-gtk-4.0/citydlg.c:1027
+#: client/gui-gtk-4.0/citydlg.c:1197 client/gui-gtk-4.0/cityrep.c:1130
 msgid "_Buy"
 msgstr "O_sta"
 
@@ -3037,8 +3055,8 @@ msgstr "Ylläpidettyjä yksiköitä %d"
 msgid "Present units %d"
 msgstr "Paikallaolevia yksiköitä %d"
 
-#: client/gui-gtk-3.22/citydlg.c:2559 client/gui-gtk-3.22/cityrep.c:1179
-#: client/gui-gtk-4.0/citydlg.c:2593 client/gui-gtk-4.0/cityrep.c:1142
+#: client/gui-gtk-3.22/citydlg.c:2559 client/gui-gtk-3.22/cityrep.c:1175
+#: client/gui-gtk-4.0/citydlg.c:2593 client/gui-gtk-4.0/cityrep.c:1138
 msgid "Cen_ter"
 msgstr "Keskitä"
 
@@ -3201,7 +3219,7 @@ msgid "What should we rename the city to?"
 msgstr "Mikä annetaan kaupungin uudeksi nimeksi?"
 
 # I think this can be plural in some cases, but that's problem even in original
-#: client/gui-gtk-3.22/cityrep.c:629 client/gui-gtk-4.0/cityrep.c:569
+#: client/gui-gtk-3.22/cityrep.c:625 client/gui-gtk-4.0/cityrep.c:565
 #: client/gui-qt/cityrep.cpp:667
 #, c-format
 msgid "Are you sure you want to sell those %s?"
@@ -3209,7 +3227,7 @@ msgstr "Haluatko todella myydä rakennuksen %s?"
 
 #. TRANS: "Sold 3 Harbor for 90 gold." (Pluralisation is in gold --
 #. * second %d -- not in buildings.)
-#: client/gui-gtk-3.22/cityrep.c:648 client/gui-gtk-4.0/cityrep.c:588
+#: client/gui-gtk-3.22/cityrep.c:644 client/gui-gtk-4.0/cityrep.c:584
 #: client/repodlgs_common.c:184
 #, c-format
 msgid "Sold %d %s for %d gold."
@@ -3217,78 +3235,78 @@ msgid_plural "Sold %d %s for %d gold."
 msgstr[0] "Myyty %d × %s, saatu %d kulta."
 msgstr[1] "Myyty %d × %s, saatu %d kultaa."
 
-#: client/gui-gtk-3.22/cityrep.c:655 client/gui-gtk-4.0/cityrep.c:595
+#: client/gui-gtk-3.22/cityrep.c:651 client/gui-gtk-4.0/cityrep.c:591
 #: client/repodlgs_common.c:188
 #, c-format
 msgid "No %s could be sold."
 msgstr "%s ei ole myytävissä."
 
-#: client/gui-gtk-3.22/cityrep.c:976 client/gui-gtk-4.0/cityrep.c:952
+#: client/gui-gtk-3.22/cityrep.c:972 client/gui-gtk-4.0/cityrep.c:948
 #: client/gui-qt/citydlg.cpp:2813 client/gui-qt/cityrep.cpp:477
 msgid "(no worklists defined)"
 msgstr "(ei työlistaa)"
 
-#: client/gui-gtk-3.22/cityrep.c:1053 client/gui-gtk-4.0/cityrep.c:1062
-#: client/gui-gtk-4.0/cityrep.c:1629
+#: client/gui-gtk-3.22/cityrep.c:1049 client/gui-gtk-4.0/cityrep.c:1058
+#: client/gui-gtk-4.0/cityrep.c:1625
 msgid "_Production"
 msgstr "_Tuotanto"
 
-#: client/gui-gtk-3.22/cityrep.c:1060 client/gui-gtk-4.0/cityrep.c:1561
+#: client/gui-gtk-3.22/cityrep.c:1056 client/gui-gtk-4.0/cityrep.c:1557
 msgid "Chan_ge"
 msgstr "Vai_hda"
 
-#: client/gui-gtk-3.22/cityrep.c:1064 client/gui-gtk-4.0/cityrep.c:1568
+#: client/gui-gtk-3.22/cityrep.c:1060 client/gui-gtk-4.0/cityrep.c:1564
 msgid "Add _First"
 msgstr "Lisää _ensimmäiseksi"
 
-#: client/gui-gtk-3.22/cityrep.c:1068 client/gui-gtk-4.0/cityrep.c:1584
+#: client/gui-gtk-3.22/cityrep.c:1064 client/gui-gtk-4.0/cityrep.c:1580
 msgid "Add _Next"
 msgstr "Lisää _seuraavaksi"
 
-#: client/gui-gtk-3.22/cityrep.c:1072 client/gui-gtk-4.0/cityrep.c:1592
+#: client/gui-gtk-3.22/cityrep.c:1068 client/gui-gtk-4.0/cityrep.c:1588
 msgid "Add _2nd Last"
 msgstr "Lisää 2. viimeiseksi"
 
-#: client/gui-gtk-3.22/cityrep.c:1076 client/gui-gtk-4.0/cityrep.c:1576
+#: client/gui-gtk-3.22/cityrep.c:1072 client/gui-gtk-4.0/cityrep.c:1572
 msgid "Add _Last"
 msgstr "Lisää _viimeiseksi"
 
-#: client/gui-gtk-3.22/cityrep.c:1083 client/gui-gtk-4.0/cityrep.c:1596
+#: client/gui-gtk-3.22/cityrep.c:1079 client/gui-gtk-4.0/cityrep.c:1592
 msgid "Set Worklist"
 msgstr "Aseta työlistaksi"
 
-#: client/gui-gtk-3.22/cityrep.c:1089 client/gui-gtk-4.0/cityrep.c:1600
+#: client/gui-gtk-3.22/cityrep.c:1085 client/gui-gtk-4.0/cityrep.c:1596
 msgid "Append Worklist"
 msgstr "Liitä työlistaan"
 
-#: client/gui-gtk-3.22/cityrep.c:1095 client/gui-gtk-4.0/cityrep.c:1607
+#: client/gui-gtk-3.22/cityrep.c:1091 client/gui-gtk-4.0/cityrep.c:1603
 msgid "Clear _Worklist"
 msgstr "T_yhjennä työlista"
 
-#: client/gui-gtk-3.22/cityrep.c:1100 client/gui-gtk-4.0/cityrep.c:828
-#: client/gui-gtk-4.0/cityrep.c:1065
+#: client/gui-gtk-3.22/cityrep.c:1096 client/gui-gtk-4.0/cityrep.c:824
+#: client/gui-gtk-4.0/cityrep.c:1061
 msgid "Gover_nor"
 msgstr "_Käskynhaltija"
 
-#: client/gui-gtk-3.22/cityrep.c:1105 client/gui-gtk-4.0/cityrep.c:1069
-#: client/gui-gtk-4.0/cityrep.c:1546
+#: client/gui-gtk-3.22/cityrep.c:1101 client/gui-gtk-4.0/cityrep.c:1065
+#: client/gui-gtk-4.0/cityrep.c:1542
 msgid "S_ell"
 msgstr "_Myy"
 
-#: client/gui-gtk-3.22/cityrep.c:1110 client/gui-gtk-3.22/menu.c:522
-#: client/gui-gtk-3.22/unitselect.c:490 client/gui-gtk-4.0/cityrep.c:1070
-#: client/gui-gtk-4.0/cityrep.c:1820 client/gui-gtk-4.0/menu.c:3172
+#: client/gui-gtk-3.22/cityrep.c:1106 client/gui-gtk-3.22/menu.c:522
+#: client/gui-gtk-3.22/unitselect.c:490 client/gui-gtk-4.0/cityrep.c:1066
+#: client/gui-gtk-4.0/cityrep.c:1816 client/gui-gtk-4.0/menu.c:3172
 #: client/gui-gtk-4.0/unitselect.c:498
 msgid "_Select"
 msgstr "Va_litse"
 
-#: client/gui-gtk-3.22/cityrep.c:1114 client/gui-gtk-3.22/plrdlg.c:554
-#: client/gui-gtk-4.0/cityrep.c:1073 client/gui-gtk-4.0/plrdlg.c:718
+#: client/gui-gtk-3.22/cityrep.c:1110 client/gui-gtk-3.22/plrdlg.c:554
+#: client/gui-gtk-4.0/cityrep.c:1069 client/gui-gtk-4.0/plrdlg.c:718
 msgid "_Display"
 msgstr "_Näytä"
 
-#: client/gui-gtk-3.22/cityrep.c:1151 client/gui-gtk-3.22/menu.c:392
-#: client/gui-gtk-4.0/cityrep.c:1114 client/gui-gtk-4.0/menu.c:960
+#: client/gui-gtk-3.22/cityrep.c:1147 client/gui-gtk-3.22/menu.c:392
+#: client/gui-gtk-4.0/cityrep.c:1110 client/gui-gtk-4.0/menu.c:960
 #: client/gui-qt/diplodlg.cpp:414 client/gui-qt/menu.cpp:1560
 #: client/gui-qt/pages.cpp:748 client/gui-qt/pages.cpp:1305
 #: client/gui-sdl2/diplodlg.c:821 client/gui-sdl3/diplodlg.c:817
@@ -3300,105 +3318,105 @@ msgstr "_Näytä"
 msgid "Cities"
 msgstr "Kaupungit"
 
-#: client/gui-gtk-3.22/cityrep.c:1175 client/gui-gtk-4.0/cityrep.c:1138
+#: client/gui-gtk-3.22/cityrep.c:1171 client/gui-gtk-4.0/cityrep.c:1134
 msgid "_Inspect"
 msgstr "_Tarkasta"
 
-#: client/gui-gtk-3.22/cityrep.c:1522 client/gui-gtk-3.22/cityrep.c:1541
-#: client/gui-gtk-3.22/cityrep.c:1560 client/gui-gtk-3.22/cityrep.c:1579
-#: client/gui-gtk-3.22/cityrep.c:1601 client/gui-sdl2/helpdlg.c:339
+#: client/gui-gtk-3.22/cityrep.c:1518 client/gui-gtk-3.22/cityrep.c:1537
+#: client/gui-gtk-3.22/cityrep.c:1556 client/gui-gtk-3.22/cityrep.c:1575
+#: client/gui-gtk-3.22/cityrep.c:1597 client/gui-sdl2/helpdlg.c:339
 #: client/gui-sdl3/helpdlg.c:336
 msgid "Improvements"
 msgstr "Rakennushankkeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1524 client/gui-gtk-3.22/cityrep.c:1543
-#: client/gui-gtk-3.22/cityrep.c:1562 client/gui-gtk-3.22/cityrep.c:1581
-#: client/gui-gtk-3.22/cityrep.c:1605 client/gui-qt/cityrep.cpp:741
+#: client/gui-gtk-3.22/cityrep.c:1520 client/gui-gtk-3.22/cityrep.c:1539
+#: client/gui-gtk-3.22/cityrep.c:1558 client/gui-gtk-3.22/cityrep.c:1577
+#: client/gui-gtk-3.22/cityrep.c:1601 client/gui-qt/cityrep.cpp:741
 #: tools/manual/fc_manual.h:37
 msgid "Wonders"
 msgstr "Ihmeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1782 client/gui-gtk-4.0/cityrep.c:1661
+#: client/gui-gtk-3.22/cityrep.c:1778 client/gui-gtk-4.0/cityrep.c:1657
 #: client/gui-qt/cityrep.cpp:960
 msgid "All Cities"
 msgstr "Kaikki kaupungit"
 
-#: client/gui-gtk-3.22/cityrep.c:1787 client/gui-gtk-4.0/cityrep.c:1668
+#: client/gui-gtk-3.22/cityrep.c:1783 client/gui-gtk-4.0/cityrep.c:1664
 #: client/gui-qt/cityrep.cpp:962
 msgid "No Cities"
 msgstr "Ei yhtään kaupunkia"
 
-#: client/gui-gtk-3.22/cityrep.c:1792 client/gui-gtk-4.0/cityrep.c:1675
+#: client/gui-gtk-3.22/cityrep.c:1788 client/gui-gtk-4.0/cityrep.c:1671
 #: client/gui-qt/cityrep.cpp:964
 msgid "Invert Selection"
 msgstr "Käänteinen valinta"
 
-#: client/gui-gtk-3.22/cityrep.c:1802 client/gui-gtk-4.0/cityrep.c:1682
+#: client/gui-gtk-3.22/cityrep.c:1798 client/gui-gtk-4.0/cityrep.c:1678
 #: client/gui-qt/cityrep.cpp:975
 msgid "Building Units"
 msgstr "Yksiköiden teko"
 
-#: client/gui-gtk-3.22/cityrep.c:1808 client/gui-gtk-4.0/cityrep.c:1689
+#: client/gui-gtk-3.22/cityrep.c:1804 client/gui-gtk-4.0/cityrep.c:1685
 #: client/gui-qt/cityrep.cpp:978
 msgid "Building Improvements"
 msgstr "Rakennushankkeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1814 client/gui-gtk-4.0/cityrep.c:1696
+#: client/gui-gtk-3.22/cityrep.c:1810 client/gui-gtk-4.0/cityrep.c:1692
 #: client/gui-qt/cityrep.cpp:981
 msgid "Building Wonders"
 msgstr "Ihmeiden rakennus"
 
-#: client/gui-gtk-3.22/cityrep.c:1826
+#: client/gui-gtk-3.22/cityrep.c:1822
 msgid "Building Unit"
 msgstr "Tekee yksikköä"
 
-#: client/gui-gtk-3.22/cityrep.c:1830
+#: client/gui-gtk-3.22/cityrep.c:1826
 msgid "Building Improvement"
 msgstr "Rakentaa"
 
-#: client/gui-gtk-3.22/cityrep.c:1834
+#: client/gui-gtk-3.22/cityrep.c:1830
 msgid "Building Wonder"
 msgstr "Rakentaa ihmettä"
 
-#: client/gui-gtk-3.22/cityrep.c:1842 client/gui-gtk-4.0/cityrep.c:1727
+#: client/gui-gtk-3.22/cityrep.c:1838 client/gui-gtk-4.0/cityrep.c:1723
 #: client/gui-qt/cityrep.cpp:967
 msgid "Coastal Cities"
 msgstr "Rannikkokaupungit"
 
-#: client/gui-gtk-3.22/cityrep.c:1847 client/gui-gtk-4.0/cityrep.c:1734
+#: client/gui-gtk-3.22/cityrep.c:1843 client/gui-gtk-4.0/cityrep.c:1730
 #: client/gui-qt/cityrep.cpp:969
 msgid "Same Island"
 msgstr "Samalla saarella olevat kaupungit"
 
-#: client/gui-gtk-3.22/cityrep.c:1857 client/gui-qt/cityrep.cpp:994
+#: client/gui-gtk-3.22/cityrep.c:1853 client/gui-qt/cityrep.cpp:994
 msgid "Supported Units"
 msgstr "Ylläpidetyt yksiköt"
 
-#: client/gui-gtk-3.22/cityrep.c:1860 client/gui-qt/cityrep.cpp:998
+#: client/gui-gtk-3.22/cityrep.c:1856 client/gui-qt/cityrep.cpp:998
 msgid "Units Present"
 msgstr "Läsnäolevat yksiköt"
 
-#: client/gui-gtk-3.22/cityrep.c:1864 client/gui-qt/cityrep.cpp:985
+#: client/gui-gtk-3.22/cityrep.c:1860 client/gui-qt/cityrep.cpp:985
 msgid "Improvements in City"
 msgstr "Kaupungissa toteutetut hankkeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1868 client/gui-qt/cityrep.cpp:989
+#: client/gui-gtk-3.22/cityrep.c:1864 client/gui-qt/cityrep.cpp:989
 msgid "Wonders in City"
 msgstr "Kaupungin ihmeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1877 client/gui-qt/cityrep.cpp:1003
+#: client/gui-gtk-3.22/cityrep.c:1873 client/gui-qt/cityrep.cpp:1003
 msgid "Available Units"
 msgstr "Tuotettavissa olevat yksiköt"
 
-#: client/gui-gtk-3.22/cityrep.c:1880 client/gui-qt/cityrep.cpp:1007
+#: client/gui-gtk-3.22/cityrep.c:1876 client/gui-qt/cityrep.cpp:1007
 msgid "Available Improvements"
 msgstr "Rakennettavissa oleva hankkeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1883 client/gui-qt/cityrep.cpp:1011
+#: client/gui-gtk-3.22/cityrep.c:1879 client/gui-qt/cityrep.cpp:1011
 msgid "Available Wonders"
 msgstr "Rakennettavissa olevat ihmeet"
 
-#: client/gui-gtk-3.22/cityrep.c:1996 client/gui-gtk-4.0/cityrep.c:1861
+#: client/gui-gtk-3.22/cityrep.c:1992 client/gui-gtk-4.0/cityrep.c:1857
 #, c-format
 msgid "Total Buy Cost: %d"
 msgstr "Ostohinnat yhteensä: %d"
@@ -3517,14 +3535,14 @@ msgstr "Vallankumous!"
 
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-3.22/dialogs.c:363 client/gui-gtk-4.0/dialogs.c:363
-#: client/gui-qt/dialogs.cpp:3889 client/gui-sdl2/dialogs.c:2301
+#: client/gui-qt/dialogs.cpp:3898 client/gui-sdl2/dialogs.c:2301
 #: client/gui-sdl3/dialogs.c:2298
 msgid "What To Pillage"
 msgstr "Mitä turmellaan"
 
 #. TRANS: Pillage dialog target text.
 #: client/gui-gtk-3.22/dialogs.c:367 client/gui-gtk-4.0/dialogs.c:367
-#: client/gui-qt/dialogs.cpp:3889
+#: client/gui-qt/dialogs.cpp:3898
 msgid "Select what to pillage:"
 msgstr "Valitse mitä haluat turmella:"
 
@@ -3614,13 +3632,13 @@ msgid "You must type a legal name."
 msgstr "Kirjoita jokin järkevä nimi."
 
 #: client/gui-gtk-3.22/dialogs.c:1448 client/gui-gtk-4.0/dialogs.c:1487
-#: client/gui-qt/dialogs.cpp:4398
+#: client/gui-qt/dialogs.cpp:4407
 msgid "Upgrade Unit!"
 msgstr "Ajanmukaista!"
 
 #: client/gui-gtk-3.22/dialogs.c:1457 client/gui-gtk-3.22/repodlgs.c:1640
 #: client/gui-gtk-4.0/dialogs.c:1496 client/gui-gtk-4.0/repodlgs.c:1670
-#: client/gui-qt/dialogs.cpp:4401 client/gui-qt/repodlgs.cpp:226
+#: client/gui-qt/dialogs.cpp:4410 client/gui-qt/repodlgs.cpp:226
 #: client/gui-sdl2/dialogs.c:704 client/gui-sdl2/repodlgs.c:225
 #: client/gui-sdl3/dialogs.c:700 client/gui-sdl3/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
@@ -3635,7 +3653,7 @@ msgid "Disband Units"
 msgstr "Lakkauta yksiköt"
 
 #: client/gui-gtk-3.22/dialogs.c:1548 client/gui-gtk-4.0/dialogs.c:1589
-#: client/gui-qt/dialogs.cpp:4355
+#: client/gui-qt/dialogs.cpp:4364
 #, c-format
 msgid ""
 "Tileset \"%s\" problem, it's probably incompatible with the ruleset:\n"
@@ -3646,7 +3664,7 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-3.22/dialogs.c:1555 client/gui-gtk-4.0/dialogs.c:1596
-#: client/gui-qt/dialogs.cpp:4359
+#: client/gui-qt/dialogs.cpp:4368
 #, c-format
 msgid ""
 "Tileset problem, it's probably incompatible with the ruleset:\n"
@@ -3671,7 +3689,7 @@ msgid "Are you sure you want to do %s?"
 msgstr "Oletko varma että haluat tehdä toimen %s?"
 
 #: client/gui-gtk-3.22/dialogs.c:1651 client/gui-gtk-4.0/dialogs.c:1695
-#: client/gui-qt/dialogs.cpp:4997 client/gui-sdl2/dialogs.c:3808
+#: client/gui-qt/dialogs.cpp:5006 client/gui-sdl2/dialogs.c:3808
 #: client/gui-sdl3/dialogs.c:3806
 #, c-format
 msgid "No image for tag \"%s\", requested by the server."
@@ -4443,7 +4461,7 @@ msgstr "poissa kaupungeista"
 msgid "Currently in: %s"
 msgstr "Sijoitettuna: %s"
 
-#: client/gui-gtk-3.22/gui_main.c:269
+#: client/gui-gtk-3.22/gui_main.c:267
 msgid ""
 "This client accepts the standard Gtk command-line options\n"
 "after '--'. See the Gtk documentation.\n"
@@ -4453,11 +4471,11 @@ msgstr ""
 "antamisen '--':n jälkeen. Lisätietoa saat Gtk-dokumentaatiosta.\n"
 "\n"
 
-#: client/gui-gtk-3.22/gui_main.c:273 client/gui-qt/gui_main.cpp:117
+#: client/gui-gtk-3.22/gui_main.c:271 client/gui-qt/gui_main.cpp:117
 msgid "Other gui-specific options are:\n"
 msgstr "Muut tälle käyttöliittymälle ainutlaatuiset optiot ovat:\n"
 
-#: client/gui-gtk-3.22/gui_main.c:276
+#: client/gui-gtk-3.22/gui_main.c:274
 msgid ""
 "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
 "\n"
@@ -4466,7 +4484,7 @@ msgstr ""
 "\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/gui-gtk-3.22/gui_main.c:280 client/gui-gtk-4.0/gui_main.c:284
+#: client/gui-gtk-3.22/gui_main.c:278 client/gui-gtk-4.0/gui_main.c:286
 #: client/gui-qt/gui_main.cpp:126 client/gui-sdl2/gui_main.c:189
 #: client/gui-sdl3/gui_main.c:184 tools/fcmp/mpcli.c:115
 #: tools/fcmp/mpgui_gtk3.c:579 tools/fcmp/mpgui_gtk4.c:626
@@ -4475,87 +4493,87 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Ilmoita ohjelman virheistä osoitteessa %s\n"
 
-#: client/gui-gtk-3.22/gui_main.c:299 client/gui-gtk-4.0/gui_main.c:313
+#: client/gui-gtk-3.22/gui_main.c:297 client/gui-gtk-4.0/gui_main.c:315
 #, c-format
 msgid "Illegal video mode '%s'\n"
 msgstr "Virheellinen videomoodi '%s'\n"
 
-#: client/gui-gtk-3.22/gui_main.c:801 client/gui-gtk-4.0/gui_main.c:802
+#: client/gui-gtk-3.22/gui_main.c:799 client/gui-gtk-4.0/gui_main.c:807
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-3.22/gui_main.c:868 client/gui-gtk-4.0/gui_main.c:862
+#: client/gui-gtk-3.22/gui_main.c:866 client/gui-gtk-4.0/gui_main.c:867
 msgid "Detach/Attach the pane."
 msgstr "Irrota/Kiinnitä paneli."
 
-#: client/gui-gtk-3.22/gui_main.c:1113 client/gui-gtk-4.0/gui_main.c:1057
+#: client/gui-gtk-3.22/gui_main.c:1111 client/gui-gtk-4.0/gui_main.c:1062
 #: client/gui-qt/sidebar.cpp:663
 msgid "Fixed length turns"
 msgstr "Kiinteämittaiset kierrokset"
 
-#: client/gui-gtk-3.22/gui_main.c:1118 client/gui-gtk-3.22/gui_main.c:1407
-#: client/gui-gtk-4.0/gui_main.c:1062 client/gui-gtk-4.0/gui_main.c:1351
+#: client/gui-gtk-3.22/gui_main.c:1116 client/gui-gtk-3.22/gui_main.c:1405
+#: client/gui-gtk-4.0/gui_main.c:1067 client/gui-gtk-4.0/gui_main.c:1356
 #: client/gui-qt/pages.cpp:763 client/gui-qt/sidebar.cpp:668
 #: client/gui-sdl2/mapctrl.c:1690 client/gui-sdl3/mapctrl.c:1686
 msgid "Turn Done"
 msgstr "Vuoro valmis"
 
-#: client/gui-gtk-3.22/gui_main.c:1118 client/gui-gtk-4.0/gui_main.c:1062
+#: client/gui-gtk-3.22/gui_main.c:1116 client/gui-gtk-4.0/gui_main.c:1067
 #: client/gui-qt/sidebar.cpp:668 client/gui-sdl2/mapctrl.c:1690
 #: client/gui-sdl2/mapview.c:952 client/gui-sdl3/mapctrl.c:1686
 #: client/gui-sdl3/mapview.c:948
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-3.22/gui_main.c:1495 client/gui-gtk-4.0/gui_main.c:1444
+#: client/gui-gtk-3.22/gui_main.c:1493 client/gui-gtk-4.0/gui_main.c:1449
 #: client/gui-qt/menu.cpp:1548 client/gui-qt/pages.cpp:739
 msgid "?noun:View"
 msgstr "Näkymä"
 
-#: client/gui-gtk-3.22/gui_main.c:1618 client/gui-gtk-4.0/gui_main.c:1575
+#: client/gui-gtk-3.22/gui_main.c:1614 client/gui-gtk-4.0/gui_main.c:1581
 msgid "Chat"
 msgstr "Keskustelu"
 
-#: client/gui-gtk-3.22/gui_main.c:1648 client/gui-gtk-4.0/gui_main.c:1606
+#: client/gui-gtk-3.22/gui_main.c:1644 client/gui-gtk-4.0/gui_main.c:1612
 msgid "Allies Only"
 msgstr "Vain liittolaiset"
 
-#: client/gui-gtk-3.22/gui_main.c:1657 client/gui-gtk-4.0/gui_main.c:1615
+#: client/gui-gtk-3.22/gui_main.c:1653 client/gui-gtk-4.0/gui_main.c:1621
 #: client/gui-qt/chatline.cpp:282
 msgid "Clear links"
 msgstr "Poista linkkimerkinnät"
 
-#: client/gui-gtk-3.22/gui_main.c:1774 client/gui-gtk-4.0/gui_main.c:1735
+#: client/gui-gtk-3.22/gui_main.c:1770 client/gui-gtk-4.0/gui_main.c:1751
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia gtk3-asiakasohjelman asetuksiksi."
 
-#: client/gui-gtk-3.22/gui_main.c:1829 client/gui-gtk-4.0/gui_main.c:1790
+#: client/gui-gtk-3.22/gui_main.c:1825 client/gui-gtk-4.0/gui_main.c:1806
 msgid "Migrating options from gtk3 to gtk3.22 client"
 msgstr ""
 "Kopioin gtk3-asiakasohjelman asetuksia gtk3.22-asiakasohjelman asetuksiksi."
 
-#: client/gui-gtk-3.22/gui_main.c:1840 client/gui-gtk-4.0/gui_main.c:1801
+#: client/gui-gtk-3.22/gui_main.c:1836 client/gui-gtk-4.0/gui_main.c:1817
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk3-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
 
-#: client/gui-gtk-3.22/gui_main.c:1900 client/gui-gtk-4.0/gui_main.c:1906
-#: tools/fcmp/mpgui_gtk3.c:626 tools/fcmp/mpgui_gtk4.c:643
+#: client/gui-gtk-3.22/gui_main.c:1896 client/gui-gtk-4.0/gui_main.c:1922
+#: tools/fcmp/mpgui_gtk3.c:628 tools/fcmp/mpgui_gtk4.c:643
 msgid "Failed to open graphical mode."
 msgstr "Graafisen tilan avaaminen epäonnistui."
 
-#: client/gui-gtk-3.22/gui_main.c:1952 client/gui-gtk-4.0/gui_main.c:2005
+#: client/gui-gtk-3.22/gui_main.c:1950 client/gui-gtk-4.0/gui_main.c:2021
 #, c-format
 msgid "Freeciv (%s)"
 msgstr "Freeciv (%s)"
 
-#: client/gui-gtk-3.22/gui_main.c:2357 client/gui-gtk-4.0/gui_main.c:2375
+#: client/gui-gtk-3.22/gui_main.c:2355 client/gui-gtk-4.0/gui_main.c:2391
 #: client/gui-qt/gui_main.cpp:571
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
 
-#: client/gui-gtk-3.22/gui_main.c:2540
+#: client/gui-gtk-3.22/gui_main.c:2538
 #, c-format
 msgid ""
 "\n"
@@ -5021,12 +5039,12 @@ msgstr "Lataa Lua-skripti"
 msgid "_Open"
 msgstr "Avaa (_O)"
 
-#: client/gui-gtk-3.22/mapctrl.c:200 client/gui-gtk-4.0/mapctrl.c:143
+#: client/gui-gtk-3.22/mapctrl.c:200 client/gui-gtk-4.0/mapctrl.c:145
 #: client/gui-qt/mapctrl.cpp:60
 msgid "Build New City"
 msgstr "Perusta uusi kaupunki"
 
-#: client/gui-gtk-3.22/mapctrl.c:201 client/gui-gtk-4.0/mapctrl.c:144
+#: client/gui-gtk-3.22/mapctrl.c:201 client/gui-gtk-4.0/mapctrl.c:146
 #: client/gui-qt/mapctrl.cpp:59 client/gui-sdl2/mapctrl.c:2819
 #: client/gui-sdl3/mapctrl.c:2814
 msgid "What should we call our new city?"
@@ -5503,7 +5521,7 @@ msgid "Game/Scenario Properties"
 msgstr "Pelin/skenaarion ominaisuudet"
 
 #: client/gui-gtk-3.22/menu.c:505 client/gui-gtk-3.22/pages.c:3530
-#: client/gui-gtk-4.0/menu.c:625 client/gui-gtk-4.0/pages.c:3675
+#: client/gui-gtk-4.0/menu.c:625 client/gui-gtk-4.0/pages.c:3676
 msgid "Save Scenario"
 msgstr "Tallenna skenaario"
 
@@ -5803,7 +5821,7 @@ msgstr "M_uunna yksiköksi %s"
 #. TRANS: Menu name part to be used like "Change to Improvement"
 #. *        This is about changing current production.
 #: client/gui-gtk-3.22/menu.c:2840 client/gui-gtk-3.22/menu.c:2872
-#: client/gui-gtk-4.0/cityrep.c:1560 client/gui-gtk-4.0/menu.c:4087
+#: client/gui-gtk-4.0/cityrep.c:1556 client/gui-gtk-4.0/menu.c:4087
 #: client/gui-gtk-4.0/menu.c:4119
 #, c-format
 msgid "Change to %s"
@@ -6301,46 +6319,46 @@ msgstr "Tiedostonimi:"
 msgid "Format:"
 msgstr "Versioyhteensopivuus:"
 
-#: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3640
+#: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3641
 #: client/gui-qt/menu.cpp:1001 client/gui-sdl2/optiondlg.c:862
 #: client/gui-sdl3/optiondlg.c:876
 msgid "Save Game"
 msgstr "Tallenna peli"
 
-#: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3640
+#: client/gui-gtk-3.22/pages.c:3495 client/gui-gtk-4.0/pages.c:3641
 msgid "Saved _Games:"
 msgstr "Tallennetut _pelit:"
 
-#: client/gui-gtk-3.22/pages.c:3496 client/gui-gtk-4.0/pages.c:3641
+#: client/gui-gtk-3.22/pages.c:3496 client/gui-gtk-4.0/pages.c:3642
 msgid "Save _Filename:"
 msgstr "Tallenna _tiedostoon:"
 
-#: client/gui-gtk-3.22/pages.c:3530 client/gui-gtk-4.0/pages.c:3675
+#: client/gui-gtk-3.22/pages.c:3530 client/gui-gtk-4.0/pages.c:3676
 msgid "Saved Sce_narios:"
 msgstr "Tallennetut ske_naariot:"
 
-#: client/gui-gtk-3.22/pages.c:3531 client/gui-gtk-4.0/pages.c:3676
+#: client/gui-gtk-3.22/pages.c:3531 client/gui-gtk-4.0/pages.c:3677
 msgid "Save Sc_enario:"
 msgstr "Tallenna sk_enaario"
 
-#: client/gui-gtk-3.22/pages.c:3559 client/gui-gtk-4.0/pages.c:3704
+#: client/gui-gtk-3.22/pages.c:3559 client/gui-gtk-4.0/pages.c:3705
 msgid "Save Map Image"
 msgstr "Tallenna karttakuva"
 
-#: client/gui-gtk-3.22/pages.c:3559 client/gui-gtk-4.0/pages.c:3704
+#: client/gui-gtk-3.22/pages.c:3559 client/gui-gtk-4.0/pages.c:3705
 msgid "Saved Map _Images:"
 msgstr "Tallennetut karttakuvat:"
 
-#: client/gui-gtk-3.22/pages.c:3560 client/gui-gtk-4.0/pages.c:3705
+#: client/gui-gtk-3.22/pages.c:3560 client/gui-gtk-4.0/pages.c:3706
 msgid "Save _Map Images:"
 msgstr "Tallenna karttakuvat:"
 
-#: client/gui-gtk-3.22/pages.c:3576 client/gui-gtk-4.0/pages.c:3721
+#: client/gui-gtk-3.22/pages.c:3576 client/gui-gtk-4.0/pages.c:3722
 #: client/gui-qt/menu.cpp:3865
 msgid "Error"
 msgstr "Virhe"
 
-#: client/gui-gtk-3.22/pages.c:3577 client/gui-gtk-4.0/pages.c:3722
+#: client/gui-gtk-3.22/pages.c:3577 client/gui-gtk-4.0/pages.c:3723
 msgid "Error Creating the Map Image!"
 msgstr "Virhe karttakuvaa luotaessa!"
 
@@ -6725,7 +6743,7 @@ msgstr ""
 "Tällä hetkellä käytössä on %s."
 
 #: client/gui-gtk-3.22/tileset_dlg.c:49 client/gui-gtk-4.0/tileset_dlg.c:48
-#: client/gui-qt/dialogs.cpp:3988
+#: client/gui-qt/dialogs.cpp:3997
 msgid "Can't load requested tileset."
 msgstr "Halutun kuvituksen lataaminen epäonnistui."
 
@@ -6957,78 +6975,78 @@ msgstr "Vaihda t_uotantoa"
 msgid "Counters Page"
 msgstr "Laskurisivu"
 
-#: client/gui-gtk-4.0/cityrep.c:1515 client/gui-gtk-4.0/cityrep.c:1712
-#: client/gui-gtk-4.0/cityrep.c:1758 client/gui-gtk-4.0/cityrep.c:1782
+#: client/gui-gtk-4.0/cityrep.c:1511 client/gui-gtk-4.0/cityrep.c:1708
+#: client/gui-gtk-4.0/cityrep.c:1754 client/gui-gtk-4.0/cityrep.c:1778
 msgid "Improvement"
 msgstr "Rakennushanke"
 
-#: client/gui-gtk-4.0/cityrep.c:1523 client/gui-gtk-4.0/cityrep.c:1720
-#: client/gui-gtk-4.0/cityrep.c:1766 client/gui-gtk-4.0/cityrep.c:1790
+#: client/gui-gtk-4.0/cityrep.c:1519 client/gui-gtk-4.0/cityrep.c:1716
+#: client/gui-gtk-4.0/cityrep.c:1762 client/gui-gtk-4.0/cityrep.c:1786
 #: client/gui-sdl2/repodlgs.c:2166 client/gui-sdl3/repodlgs.c:2166
 msgid "Wonder"
 msgstr "Ihme"
 
 #. TRANS: Menu name to be used like "Set Improvement first"
 #. *        This is about adding item to the beginning of the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1567
+#: client/gui-gtk-4.0/cityrep.c:1563
 #, c-format
 msgid "Set %s first"
 msgstr "Aseta %s ensimmäiseksi"
 
 #. TRANS: Menu name to be used like "Set Improvement last"
 #. *        This is about adding item to the end of the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1575
+#: client/gui-gtk-4.0/cityrep.c:1571
 #, c-format
 msgid "Set %s last"
 msgstr "Aseta %s viimeiseksi"
 
 #. TRANS: Menu name to be used like "Set Improvement next"
 #. *        This is about adding item after current one on the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1583
+#: client/gui-gtk-4.0/cityrep.c:1579
 #, c-format
 msgid "Set %s next"
 msgstr "Aseta %s seuraavaksi"
 
 #. TRANS: Menu name to be used like "Set Improvement 2nd last"
 #. *        This is about adding item as second last on the worklist.
-#: client/gui-gtk-4.0/cityrep.c:1591
+#: client/gui-gtk-4.0/cityrep.c:1587
 #, c-format
 msgid "Set %s 2nd last"
 msgstr "Aseta %s toiseksi viimeiseksi"
 
-#: client/gui-gtk-4.0/cityrep.c:1704 client/gui-gtk-4.0/cityrep.c:1712
-#: client/gui-gtk-4.0/cityrep.c:1720
+#: client/gui-gtk-4.0/cityrep.c:1700 client/gui-gtk-4.0/cityrep.c:1708
+#: client/gui-gtk-4.0/cityrep.c:1716
 #, c-format
 msgid "Building %s"
 msgstr "Rakennettavana %s"
 
-#: client/gui-gtk-4.0/cityrep.c:1742
+#: client/gui-gtk-4.0/cityrep.c:1738
 #, c-format
 msgid "Supported %s"
 msgstr "Ylläpidettävänä %s"
 
-#: client/gui-gtk-4.0/cityrep.c:1750 client/gui-gtk-4.0/cityrep.c:1758
-#: client/gui-gtk-4.0/cityrep.c:1766
+#: client/gui-gtk-4.0/cityrep.c:1746 client/gui-gtk-4.0/cityrep.c:1754
+#: client/gui-gtk-4.0/cityrep.c:1762
 #, c-format
 msgid "Present %s"
 msgstr "Paikalla %s"
 
-#: client/gui-gtk-4.0/cityrep.c:1774 client/gui-gtk-4.0/cityrep.c:1782
-#: client/gui-gtk-4.0/cityrep.c:1790
+#: client/gui-gtk-4.0/cityrep.c:1770 client/gui-gtk-4.0/cityrep.c:1778
+#: client/gui-gtk-4.0/cityrep.c:1786
 #, c-format
 msgid "Available %s"
 msgstr "Tuotettavissa %s"
 
-#: client/gui-gtk-4.0/gui_main.c:273
+#: client/gui-gtk-4.0/gui_main.c:275
 msgid "gtk4-client gui-specific options are:\n"
 msgstr "Gtk4-käyttöliittymälle ainutlaatuiset optiot ovat:\n"
 
-#: client/gui-gtk-4.0/gui_main.c:276
+#: client/gui-gtk-4.0/gui_main.c:278
 msgid "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
 msgstr "-r, --resolution LEVEYSxKORKEUS\tOleta näytön kooksi annettu arvo\n"
 
 #. TRANS: Keep word 'default' untranslated
-#: client/gui-gtk-4.0/gui_main.c:280
+#: client/gui-gtk-4.0/gui_main.c:282
 msgid ""
 "-z, --zoom LEVEL\tSet zoom level; use value 'default' to reset\n"
 "\n"
@@ -7037,17 +7055,17 @@ msgstr ""
 "normaaliksi\n"
 "\n"
 
-#: client/gui-gtk-4.0/gui_main.c:318
+#: client/gui-gtk-4.0/gui_main.c:320
 #, c-format
 msgid "Unknown command-line option \"%s\".\n"
 msgstr "Tuntematon komentoriviparametri \"%s\".\n"
 
-#: client/gui-gtk-4.0/gui_main.c:1849
+#: client/gui-gtk-4.0/gui_main.c:1865
 msgid "Migrating options from gtk3.22 to gtk4 client"
 msgstr ""
 "Kopioin gtk3.22-asiakasohjelman asetuksia gtk4-asiakasohjelman asetuksiksi."
 
-#: client/gui-gtk-4.0/gui_main.c:2568
+#: client/gui-gtk-4.0/gui_main.c:2586
 #, c-format
 msgid ""
 "\n"
@@ -7487,103 +7505,107 @@ msgstr "Älä tee mitään"
 msgid "Steal"
 msgstr "Varasta"
 
-#: client/gui-qt/dialogs.cpp:3824 client/gui-qt/menu.cpp:1441
+#: client/gui-qt/dialogs.cpp:3830
+msgid "Strike"
+msgstr "Iske"
+
+#: client/gui-qt/dialogs.cpp:3835 client/gui-qt/menu.cpp:1441
 #: common/events.c:125 common/events.c:135
 msgid "Sabotage"
 msgstr "Sabotaasi"
 
-#: client/gui-qt/dialogs.cpp:3924
+#: client/gui-qt/dialogs.cpp:3933
 msgid "Are you sure you want to disband that %1 unit?"
 msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Haluatko todella poistaa käytöstä %1 yksikön?"
 msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 
-#: client/gui-qt/dialogs.cpp:3927 client/gui-qt/pages.cpp:1778
-#: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:1711
-#: client/gui-sdl2/action_dialog.c:1940 client/gui-sdl2/citydlg.c:1262
+#: client/gui-qt/dialogs.cpp:3936 client/gui-qt/pages.cpp:1778
+#: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:1716
+#: client/gui-sdl2/action_dialog.c:1945 client/gui-sdl2/citydlg.c:1262
 #: client/gui-sdl2/cma_fe.c:361 client/gui-sdl2/diplodlg.c:1504
 #: client/gui-sdl2/plrdlg.c:251 client/gui-sdl2/repodlgs.c:268
-#: client/gui-sdl3/action_dialog.c:1711 client/gui-sdl3/action_dialog.c:1940
+#: client/gui-sdl3/action_dialog.c:1716 client/gui-sdl3/action_dialog.c:1945
 #: client/gui-sdl3/citydlg.c:1258 client/gui-sdl3/cma_fe.c:357
 #: client/gui-sdl3/diplodlg.c:1500 client/gui-sdl3/plrdlg.c:247
 #: client/gui-sdl3/repodlgs.c:268 client/text.c:645
 msgid "Yes"
 msgstr "Kyllä"
 
-#: client/gui-qt/dialogs.cpp:3928 client/gui-qt/pages.cpp:1780
-#: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:1722
-#: client/gui-sdl2/action_dialog.c:1950 client/gui-sdl2/citydlg.c:1249
+#: client/gui-qt/dialogs.cpp:3937 client/gui-qt/pages.cpp:1780
+#: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:1727
+#: client/gui-sdl2/action_dialog.c:1955 client/gui-sdl2/citydlg.c:1249
 #: client/gui-sdl2/cma_fe.c:371 client/gui-sdl2/diplodlg.c:1492
 #: client/gui-sdl2/plrdlg.c:251 client/gui-sdl2/repodlgs.c:255
-#: client/gui-sdl2/repodlgs.c:1668 client/gui-sdl3/action_dialog.c:1722
-#: client/gui-sdl3/action_dialog.c:1950 client/gui-sdl3/citydlg.c:1245
+#: client/gui-sdl2/repodlgs.c:1668 client/gui-sdl3/action_dialog.c:1727
+#: client/gui-sdl3/action_dialog.c:1955 client/gui-sdl3/citydlg.c:1245
 #: client/gui-sdl3/cma_fe.c:367 client/gui-sdl3/diplodlg.c:1488
 #: client/gui-sdl3/plrdlg.c:247 client/gui-sdl3/repodlgs.c:255
 #: client/gui-sdl3/repodlgs.c:1668
 msgid "No"
 msgstr "Ei"
 
-#: client/gui-qt/dialogs.cpp:3929
+#: client/gui-qt/dialogs.cpp:3938
 msgid "Disband units"
 msgstr "Poista yksiköt käytöstä"
 
-#: client/gui-qt/dialogs.cpp:3973
+#: client/gui-qt/dialogs.cpp:3982
 msgid "Modpack suggests using %1 tileset."
 msgstr "Muunnospaketti ehdottaa kuvituksen %1 käyttöä."
 
-#: client/gui-qt/dialogs.cpp:3978
+#: client/gui-qt/dialogs.cpp:3987
 msgid "Keep current tileset"
 msgstr "Pidä nykyiset kuvitukset"
 
-#: client/gui-qt/dialogs.cpp:3979
+#: client/gui-qt/dialogs.cpp:3988
 msgid "Load tileset"
 msgstr "Lataa kuvitukset"
 
-#: client/gui-qt/dialogs.cpp:4004
+#: client/gui-qt/dialogs.cpp:4013
 msgid "Modpack suggests using %1 soundset."
 msgstr "Muunnospaketti ehdottaa äänistön %1 käyttöä."
 
-#: client/gui-qt/dialogs.cpp:4009
+#: client/gui-qt/dialogs.cpp:4018
 msgid "Keep current soundset"
 msgstr "Pidä nykyinen äänistö"
 
-#: client/gui-qt/dialogs.cpp:4010
+#: client/gui-qt/dialogs.cpp:4019
 msgid "Load soundset"
 msgstr "Lataa äänistö"
 
-#: client/gui-qt/dialogs.cpp:4029
+#: client/gui-qt/dialogs.cpp:4038
 msgid "Modpack suggests using %1 musicset."
 msgstr "Muunnospaketti ehdottaa musiikkivalikoiman %1 käyttöä."
 
-#: client/gui-qt/dialogs.cpp:4034
+#: client/gui-qt/dialogs.cpp:4043
 msgid "Keep current musicset"
 msgstr "Pidä nykyiset musiikit"
 
-#: client/gui-qt/dialogs.cpp:4035
+#: client/gui-qt/dialogs.cpp:4044
 msgid "Load musicset"
 msgstr "Lataa musiikit"
 
-#: client/gui-qt/dialogs.cpp:4365
+#: client/gui-qt/dialogs.cpp:4374
 msgid "Tileset error"
 msgstr "Kuvitusvirhe"
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/dialogs.cpp:4587
+#: client/gui-qt/dialogs.cpp:4596
 msgid "MP:"
 msgstr "LP:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:4692
+#: client/gui-qt/dialogs.cpp:4701
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:4697 client/gui-qt/hudwidget.cpp:1509
+#: client/gui-qt/dialogs.cpp:4706 client/gui-qt/hudwidget.cpp:1509
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
 msgstr[1] "%1 yksikköä"
 
-#: client/gui-qt/dialogs.cpp:4963
+#: client/gui-qt/dialogs.cpp:4972
 msgid "Are you sure you want to do %1?"
 msgstr "Oletko varma että haluat tehdä toimen %1?"
 
@@ -9004,9 +9026,9 @@ msgstr "Tyhjä"
 msgid "<b>%1 called a vote for:</b>"
 msgstr "<b>%s pyysi äänestyksen:</b>"
 
-#: client/gui-sdl2/action_dialog.c:416 client/gui-sdl2/action_dialog.c:1355
-#: client/gui-sdl2/action_dialog.c:1667 client/gui-sdl2/action_dialog.c:1737
-#: client/gui-sdl2/action_dialog.c:1965 client/gui-sdl2/chatline.c:223
+#: client/gui-sdl2/action_dialog.c:416 client/gui-sdl2/action_dialog.c:1360
+#: client/gui-sdl2/action_dialog.c:1672 client/gui-sdl2/action_dialog.c:1742
+#: client/gui-sdl2/action_dialog.c:1970 client/gui-sdl2/chatline.c:223
 #: client/gui-sdl2/citydlg.c:3605 client/gui-sdl2/cma_fe.c:523
 #: client/gui-sdl2/cma_fe.c:939 client/gui-sdl2/dialogs.c:339
 #: client/gui-sdl2/dialogs.c:543 client/gui-sdl2/dialogs.c:1131
@@ -9020,8 +9042,8 @@ msgstr "<b>%s pyysi äänestyksen:</b>"
 #: client/gui-sdl2/repodlgs.c:2087 client/gui-sdl2/repodlgs.c:2980
 #: client/gui-sdl2/repodlgs.c:3169 client/gui-sdl2/repodlgs.c:3458
 #: client/gui-sdl2/spaceshipdlg.c:179 client/gui-sdl3/action_dialog.c:416
-#: client/gui-sdl3/action_dialog.c:1355 client/gui-sdl3/action_dialog.c:1667
-#: client/gui-sdl3/action_dialog.c:1737 client/gui-sdl3/action_dialog.c:1965
+#: client/gui-sdl3/action_dialog.c:1360 client/gui-sdl3/action_dialog.c:1672
+#: client/gui-sdl3/action_dialog.c:1742 client/gui-sdl3/action_dialog.c:1970
 #: client/gui-sdl3/chatline.c:219 client/gui-sdl3/citydlg.c:3601
 #: client/gui-sdl3/cma_fe.c:519 client/gui-sdl3/cma_fe.c:935
 #: client/gui-sdl3/dialogs.c:335 client/gui-sdl3/dialogs.c:539
@@ -42090,7 +42112,7 @@ msgstr ""
 "antamisen '--':n jälkeen. Lisätietoa saat Gtk-dokumentaatiosta.\n"
 "\n"
 
-#: tools/fcmp/mpgui_gtk3.c:597
+#: tools/fcmp/mpgui_gtk3.c:599
 msgid "Freeciv modpack installer (gtk3)"
 msgstr "Muunnospakettien asennusohjelma (gtk3)"
 
