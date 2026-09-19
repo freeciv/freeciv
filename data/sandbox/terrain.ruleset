@@ -2484,3 +2484,4 @@ extras = "River", "Road"
 [tiledef_coal_mine]
 name   = _("Coal Mine")
 extras = "Coal", "Mine"
+known  = TRUE
