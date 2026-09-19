@@ -2707,7 +2707,7 @@ static bool cancelvote_command(struct connection *caller,
                 _("The vote \"%s\" (number %d) has been canceled."),
                 pvote->cmdline, pvote->vote_no);
   }
-  /* Make it after, prevent crashs about a free pointer (pvote). */
+  /* Make it after, prevent crashes about a free pointer (pvote). */
   remove_vote(pvote);
 
   return TRUE;
