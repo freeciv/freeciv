@@ -301,7 +301,7 @@ bool create_start_positions(enum map_startpos mode,
                             struct unit_type *initial_unit)
 {
   struct tile *ptile;
-  int k, sum;
+  int k;
   struct start_filter_data data;
   int *tile_value_aux = nullptr;
   int *tile_value = nullptr;
@@ -475,9 +475,17 @@ bool create_start_positions(enum map_startpos mode,
   data.value = tile_value;
   data.min_value = 900;
   data.initial_unit = initial_unit;
-  sum = 0;
+
+#ifndef FREECIV_NDEBUG
+  int sum = 0;
+#endif
+
   for (k = 1; k <= wld.map.num_continents; k++) {
+
+#ifndef FREECIV_NDEBUG
     sum += islands[islands_index[k]].starters;
+#endif
+
     if (islands[islands_index[k]].starters != 0) {
       log_verbose("starters on isle %i", k);
     }
