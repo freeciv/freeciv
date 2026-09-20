@@ -87,7 +87,6 @@ static struct server_scan_timer_data lan_scan = { NULL, 0 };
 
 static GtkWidget *statusbar, *statusbar_frame;
 static GQueue *statusbar_queue;
-static guint statusbar_timer = 0;
 
 static GtkWidget *ruleset_combo;
 
@@ -918,7 +917,7 @@ GtkWidget *create_statusbar(void)
   gtk_container_add(GTK_CONTAINER(statusbar_frame), statusbar);
 
   statusbar_queue = g_queue_new();
-  statusbar_timer = g_timeout_add(2000, update_network_statusbar, NULL);
+  g_timeout_add(2000, update_network_statusbar, NULL);
 
   return statusbar_frame;
 }
