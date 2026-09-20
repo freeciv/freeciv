@@ -2619,6 +2619,24 @@ static struct setting settings[] = {
           GAME_MIN_REVOLUTION_LENGTH, GAME_MAX_REVOLUTION_LENGTH,
           GAME_DEFAULT_REVOLUTION_LENGTH)
 
+  GEN_INT("armisticelength", game.info.armistice_length,
+          SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE,
+          ALLOW_NONE, ALLOW_BASIC,
+          N_("Length of armistice"),
+          N_("Timee before an armistice turns in to a peace treaty."),
+          nullptr, nullptr, nullptr,
+          GAME_MIN_ARMISTICE_LENGTH, GAME_MAX_ARMISTICE_LENGTH,
+          GAME_DEFAULT_ARMISTICE_LENGTH)
+
+  GEN_INT("ceasefirelength", game.info.ceasefire_length,
+          SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE,
+          ALLOW_NONE, ALLOW_BASIC,
+          N_("Length of cease-fire"),
+          N_("Time before a cease-fire reverts back to full war."),
+          nullptr, nullptr, nullptr,
+          GAME_MIN_CEASEFIRE_LENGTH, GAME_MAX_CEASEFIRE_LENGTH,
+          GAME_DEFAULT_CEASEFIRE_LENGTH)
+
   GEN_BOOL("fogofwar", game.info.fogofwar,
            SSET_RULES, SSET_MILITARY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
            N_("Whether to enable fog of war"),

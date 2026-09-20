@@ -498,6 +498,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL airlift_from_always_enabled;
   BOOL airlift_to_always_enabled;
   UINT8 angrycitizen;
+  UINT8 armistice_length;
   SINT16 base_pollution;
   UINT16 base_tech_cost;
   UINT16 min_tech_cost;
@@ -508,6 +509,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BORDERS_MODE borders;
   UINT32 base_bribe_cost;
   CARAVAN_BONUS_STYLE caravan_bonus_style;
+  UINT8 ceasefire_length;
   UINT32 culture_vic_points;
   UINT16 culture_vic_lead;
   UINT16 culture_migration_pml;
