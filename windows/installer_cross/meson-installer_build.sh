@@ -15,14 +15,14 @@
 
 add_common_env() {
   cp $1/bin/libcurl-4.dll  $2/ &&
-  cp $1/bin/libz.dll.1.3.1 $2/ &&
+  cp $1/bin/libz.dll.1.3.2 $2/ &&
   cp $1/bin/liblzma-5.dll  $2/ &&
   cp $1/bin/libzstd-1.dll  $2/ &&
   cp $1/bin/libintl-8.dll  $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
   cp $1/bin/libsqlite3-0.dll  $2/ &&
-  cp $1/bin/icuuc76.dll       $2/ &&
-  cp $1/bin/icudt76.dll       $2/ &&
+  cp $1/bin/icuuc78.dll       $2/ &&
+  cp $1/bin/icudt78.dll       $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
   cp $1/bin/libpng16-16.dll   $2/ &&
   cp $1/bin/libharfbuzz-0.dll        $2/ &&
@@ -60,7 +60,7 @@ add_gtk_common_env() {
   cp $1/bin/libfontconfig-1.dll $2/ &&
   cp $1/bin/libpixman-1-0.dll $2/ &&
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
-  cp $1/bin/libjpeg-9.dll $2/ &&
+  cp $1/bin/libjpeg-10.dll $2/ &&
   cp $1/bin/libepoxy-0.dll $2/ &&
   cp $1/bin/libfribidi-0.dll $2/ &&
   cp $1/bin/libatk-1.0-0.dll $2/ &&
