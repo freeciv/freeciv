@@ -13,6 +13,7 @@
 #ifndef FC__VOTING_H
 #define FC__VOTING_H
 
+/* utility */
 #include "support.h"            /* bool type */
 
 enum vote_condition_flags {
@@ -32,8 +33,8 @@ struct connection;
 struct conn_list;
 
 struct vote_cast {
-  enum vote_type vote_cast;     /* see enum above */
-  int conn_id;                  /* user id */
+  enum vote_type vote_cast;     /* See enum above */
+  int conn_id;                  /* User id */
 };
 
 #define SPECLIST_TAG vote_cast
@@ -44,12 +45,12 @@ struct vote_cast {
 #define vote_cast_list_iterate_end  LIST_ITERATE_END
 
 struct vote {
-  int caller_id;     /* caller connection id */
+  int caller_id;     /* Caller connection id */
   int command_id;
   char cmdline[512]; /* Must match MAX_LEN_CONSOLE_LINE. */
   int turn_count;    /* Number of turns active. */
   struct vote_cast_list *votes_cast;
-  int vote_no;       /* place in the queue */
+  int vote_no;       /* Place in the queue */
   int yes;
   int no;
   int abstain;
@@ -77,7 +78,7 @@ void cancel_connection_votes(struct connection *pconn);
 bool conn_can_vote(const struct connection *pconn,
                    const struct vote *pvote);
 bool conn_can_see_vote(const struct connection *pconn,
-		       const struct vote *pvote);
+                       const struct vote *pvote);
 struct vote *get_vote_by_no(int vote_no);
 void connection_vote(struct connection *pconn,
                      struct vote *pvote,
