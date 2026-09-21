@@ -53,7 +53,7 @@ enum rfc_status create_command_pregame(const char *name,
                                        char *buf, size_t buflen);
 
 bool load_command(struct connection *caller,
-                  const char *filename, bool check, bool cmdline_load);
+                  const char *filename, bool check);
 bool start_command(struct connection *caller, bool check, bool notify);
 
 void toggle_ai_player_direct(struct connection *caller,
