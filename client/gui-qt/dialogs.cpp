@@ -93,6 +93,7 @@ static void diplomat_steal(QVariant data1, QVariant data2);
 static void diplomat_steal_esc(QVariant data1, QVariant data2);
 static void spy_poison(QVariant data1, QVariant data2);
 static void spy_poison_esc(QVariant data1, QVariant data2);
+static void spy_spread_plague(QVariant data1, QVariant data2);
 static void spy_steal_gold(QVariant data1, QVariant data2);
 static void spy_steal_gold_esc(QVariant data1, QVariant data2);
 static void spy_steal_maps(QVariant data1, QVariant data2);
@@ -239,6 +240,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_INV_CITY_SPEND] = diplomat_investigate;
   action_function[ACTION_SPY_POISON] = spy_poison;
   action_function[ACTION_SPY_POISON_ESC] = spy_poison_esc;
+  action_function[ACTION_SPY_SPREAD_PLAGUE] = spy_spread_plague;
   action_function[ACTION_SPY_STEAL_GOLD] = spy_steal_gold;
   action_function[ACTION_SPY_STEAL_GOLD_ESC] = spy_steal_gold_esc;
   action_function[ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage;
@@ -3691,6 +3693,21 @@ static void spy_poison_esc(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_POISON_ESC,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action Spread Plague for choice dialog
+***************************************************************************/
+static void spy_spread_plague(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (game_unit_by_number(diplomat_id) != nullptr
+      && game_city_by_number(diplomat_target_id) != nullptr) {
+    request_do_action(ACTION_SPY_SPREAD_PLAGUE,
                       diplomat_id, diplomat_target_id, 0, "");
   }
 }
