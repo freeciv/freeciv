@@ -3185,7 +3185,7 @@ static void srv_prepare(void)
 
   /* Try to load a saved game */
   if ('\0' == srvarg.load_filename[0]
-      || !load_command(NULL, srvarg.load_filename, FALSE, TRUE)) {
+      || !load_command(NULL, srvarg.load_filename, FALSE)) {
     /* Savegame not loaded */
     sz_strlcpy(game.server.orig_game_version, freeciv_datafile_version());
 
