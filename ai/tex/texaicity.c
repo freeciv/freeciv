@@ -97,10 +97,10 @@ void texai_city_worker_wants(struct ai_type *ait,
   struct texai_city *cdata = texai_city_data(ait, pcity);
   int *wants = cdata->unit_wants;
   int maxwant = 0;
-  struct unit_type *type = NULL;
+  struct unit_type *type = nullptr;
   Continent_id place = tile_continent(city_tile(pcity));
-  struct ai_plr *dai = dai_plr_data_get(ait, pplayer, NULL);
-  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct ai_plr *dai = dai_plr_data_get(ait, pplayer, nullptr);
+  struct adv_data *adv = adv_data_get(pplayer, nullptr);
 
   unit_type_iterate(ptype) {
     wants[utype_index(ptype)] = 0;
@@ -180,7 +180,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
     bool possible = FALSE;
     enum extra_cause cause;
     enum extra_rmcause rmcause;
-    struct extra_type *tgt = NULL;
+    struct extra_type *tgt = nullptr;
 
     /* Do not request activities that already are under way. */
     unit_list_iterate(ptile->units, punit) {
@@ -225,7 +225,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           worked->want       = TWMP * (value - orig_value);
           worked->ptile      = ptile;
           worked->act        = action_id_get_activity(act);
-          worked->tgt        = NULL;
+          worked->tgt        = nullptr;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
               if (action_prob_possible(
@@ -252,7 +252,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           unworked->want       = TWMP * (value - orig_value);
           unworked->ptile      = ptile;
           unworked->act        = action_id_get_activity(act);
-          unworked->tgt        = NULL;
+          unworked->tgt        = nullptr;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
               if (action_prob_possible(
@@ -271,7 +271,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
   } aw_transform_action_iterate_end;
 
   extra_type_iterate(tgt) {
-    struct action *paction = NULL;
+    struct action *paction = nullptr;
     bool removing = tile_has_extra(ptile, tgt);
 
     unit_list_iterate(units, punit) {
@@ -308,7 +308,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
       }
     } unit_list_iterate_end;
 
-    if (paction != NULL) {
+    if (paction != nullptr) {
       adv_want base_value;
       int value;
       adv_want extra;
@@ -337,7 +337,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
         base_value = adv_city_worker_extra_get(pcity, cindex, tgt);
       }
 
-      if (proad != NULL && road_provides_move_bonus(proad)) {
+      if (proad != nullptr && road_provides_move_bonus(proad)) {
         int old_move_cost;
         int mc_multiplier = 1;
         int mc_divisor = 1;
@@ -449,17 +449,20 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
                                           enum texai_worker_task_limitation limit)
 {
   struct worker_task *selected;
-  struct worker_task worked = { .ptile = NULL, .want = 0, .act = ACTIVITY_IDLE, .tgt = NULL };
-  struct worker_task unworked = { .ptile = NULL, .want = 0, .act = ACTIVITY_IDLE, .tgt = NULL };
-  struct texai_tile_state state = { .uw_max = 0, .uw_max_base = 0, .worst_worked = FC_INFINITY,
-                                    .orig_worst_worked = 0, .old_worst_worked = FC_INFINITY };
-  struct unit_list *units = NULL;
+  struct worker_task worked
+    = { .ptile = nullptr, .want = 0, .act = ACTIVITY_IDLE, .tgt = nullptr };
+  struct worker_task unworked
+    = { .ptile = nullptr, .want = 0, .act = ACTIVITY_IDLE, .tgt = nullptr };
+  struct texai_tile_state state
+    = { .uw_max = 0, .uw_max_base = 0, .worst_worked = FC_INFINITY,
+        .orig_worst_worked = 0, .old_worst_worked = FC_INFINITY };
+  struct unit_list *units = nullptr;
   const struct civ_map *nmap = &(wld.map);
 
   switch (limit) {
   case TWTL_CURRENT_UNITS:
     units = texai_player_units(pplayer);
-    state.wants = NULL;
+    state.wants = nullptr;
     break;
   case TWTL_BUILDABLE_UNITS:
     units = unit_list_new();
@@ -478,7 +481,7 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
                                   &worked, &unworked, &state, limit);
   } city_tile_iterate_end;
 
-  if (worked.ptile == NULL
+  if (worked.ptile == nullptr
       || (state.old_worst_worked < state.uw_max
           && (state.uw_max - state.orig_worst_worked) * TWMP > worked.want)
       || (state.uw_max - state.uw_max_base * TWMP > worked.want)) {
@@ -497,19 +500,20 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
     unit_list_destroy(units);
   }
 
-  if (selected->ptile != NULL) {
-    struct extra_type *target = NULL;
+  if (selected->ptile != nullptr) {
+    struct extra_type *target = nullptr;
 
-    if (selected->tgt == NULL) {
+    if (selected->tgt == nullptr) {
       enum extra_cause cause = activity_to_extra_cause(selected->act);
 
       if (cause != EC_NONE) {
-        target = next_extra_for_tile(selected->ptile, cause, pplayer, NULL);
+        target = next_extra_for_tile(selected->ptile, cause, pplayer, nullptr);
       } else {
         enum extra_rmcause rmcause = activity_to_extra_rmcause(selected->act);
 
         if (rmcause != ERM_NONE) {
-          target = prev_extra_in_tile(selected->ptile, rmcause, pplayer, NULL);
+          target = prev_extra_in_tile(selected->ptile, rmcause,
+                                      pplayer, nullptr);
         }
       }
     } else {
@@ -537,11 +541,11 @@ void texai_req_worker_task_rcv(struct texai_req *req)
 
   pcity = game_city_by_number(data->city_id);
 
-  if (pcity != NULL && city_owner(pcity) == req->plr) {
+  if (pcity != nullptr && city_owner(pcity) == req->plr) {
     /* City has not been lost meanwhile */
     struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
-    if (ptask == NULL) {
+    if (ptask == nullptr) {
       ptask = fc_malloc(sizeof(struct worker_task));
       worker_task_init(ptask);
       worker_task_list_append(pcity->task_reqs, ptask);
@@ -581,9 +585,9 @@ void texai_city_free(struct ai_type *ait, struct city *pcity)
 {
   struct texai_city *city_data = texai_city_data(ait, pcity);
 
-  if (city_data != NULL) {
+  if (city_data != nullptr) {
     adv_deinit_choice(&(city_data->defai.choice));
-    city_set_ai_data(pcity, ait, NULL);
+    city_set_ai_data(pcity, ait, nullptr);
     FC_FREE(city_data);
   }
 }

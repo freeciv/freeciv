@@ -44,7 +44,7 @@ bool fc_ai_tex_setup(struct ai_type *ai);
 
 static void texai_init_self(struct ai_type *ai);
 
-static struct ai_type *self = NULL;
+static struct ai_type *self = nullptr;
 
 /**********************************************************************//**
   Set pointer to ai type of the tex ai.

@@ -117,7 +117,7 @@ void texai_tile_info(struct tile *ptile)
     info->terrain = ptile->terrain;
     info->extras = ptile->extras;
 
-    texai_send_msg(TEXAI_MSG_TILE_INFO, NULL, info);
+    texai_send_msg(TEXAI_MSG_TILE_INFO, nullptr, info);
   }
 }
 
@@ -128,7 +128,7 @@ void texai_tile_info_recv(void *data)
 {
   struct texai_tile_info_msg *info = (struct texai_tile_info_msg *)data;
 
-  if (texai_world.map.tiles != NULL) {
+  if (texai_world.map.tiles != nullptr) {
     struct tile *ptile;
 
     ptile = index_to_tile(&(texai_world.map), info->index);
@@ -152,7 +152,7 @@ static void texai_city_update(struct city *pcity, enum texaimsgtype msgtype)
     info->owner = player_number(city_owner(pcity));
     info->tindex = tile_index(city_tile(pcity));
 
-    texai_send_msg(msgtype, NULL, info);
+    texai_send_msg(msgtype, nullptr, info);
   }
 }
 
@@ -185,7 +185,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
     struct tile *ptile;
     struct texai_plr *plr_data;
 
-    if (idex_lookup_city(&texai_world, info->id) != NULL) {
+    if (idex_lookup_city(&texai_world, info->id) != nullptr) {
       return;
     }
 
@@ -202,7 +202,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
   } else {
     pcity = idex_lookup_city(&texai_world, info->id);
 
-    if (pcity != NULL) {
+    if (pcity != nullptr) {
       pcity->owner = pplayer;
     } else {
       log_error("Tex: requested change on city id %d that's not known.",
@@ -231,7 +231,7 @@ void texai_city_destroyed(struct city *pcity)
 
     info->id = pcity->id;
 
-    texai_send_msg(TEXAI_MSG_CITY_DESTROYED, NULL, info);
+    texai_send_msg(TEXAI_MSG_CITY_DESTROYED, nullptr, info);
   }
 }
 
@@ -243,11 +243,11 @@ void texai_city_destruction_recv(void *data)
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct city *pcity = idex_lookup_city(&texai_world, info->id);
 
-  if (pcity != NULL) {
+  if (pcity != nullptr) {
     struct texai_plr *plr_data;
 
     adv_city_free(pcity);
-    tile_set_worked(city_tile(pcity), NULL);
+    tile_set_worked(city_tile(pcity), nullptr);
     plr_data = player_ai_data(city_owner(pcity), texai_get_self());
     city_list_remove(plr_data->cities, pcity);
     idex_unregister_city(&texai_world, pcity);
@@ -274,7 +274,7 @@ static void texai_unit_update(struct unit *punit, enum texaimsgtype msgtype)
     info->tindex = tile_index(unit_tile(punit));
     info->type = utype_number(unit_type_get(punit));
 
-    texai_send_msg(msgtype, NULL, info);
+    texai_send_msg(msgtype, nullptr, info);
   }
 }
 
@@ -308,13 +308,13 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
   if (msgtype == TEXAI_MSG_UNIT_CREATED) {
     struct texai_plr *plr_data;
 
-    if (idex_lookup_unit(&texai_world, info->id) != NULL) {
+    if (idex_lookup_unit(&texai_world, info->id) != nullptr) {
       return;
     }
 
     plr_data = player_ai_data(pplayer, texai_get_self());
 
-    punit = unit_virtual_create(pplayer, NULL, type, 0);
+    punit = unit_virtual_create(pplayer, nullptr, type, 0);
     punit->id = info->id;
 
     idex_register_unit(&texai_world, punit);
@@ -343,7 +343,7 @@ void texai_unit_destroyed(struct unit *punit)
 
     info->id = punit->id;
 
-    texai_send_msg(TEXAI_MSG_UNIT_DESTROYED, NULL, info);
+    texai_send_msg(TEXAI_MSG_UNIT_DESTROYED, nullptr, info);
   }
 }
 
@@ -355,7 +355,7 @@ void texai_unit_destruction_recv(void *data)
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct unit *punit = idex_lookup_unit(&texai_world, info->id);
 
-  if (punit != NULL) {
+  if (punit != nullptr) {
     struct texai_plr *plr_data = player_ai_data(punit->owner,
                                                 texai_get_self());
 
@@ -382,7 +382,7 @@ void texai_unit_move_seen(struct unit *punit)
     info->id = punit->id;
     info->tindex = tile_index(unit_tile(punit));
 
-    texai_send_msg(TEXAI_MSG_UNIT_MOVED, NULL, info);
+    texai_send_msg(TEXAI_MSG_UNIT_MOVED, nullptr, info);
   }
 }
 
@@ -395,7 +395,7 @@ void texai_unit_moved_recv(void *data)
   struct unit *punit = idex_lookup_unit(&texai_world, info->id);
   struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
 
-  if (punit != NULL) {
+  if (punit != nullptr) {
     unit_list_remove(punit->tile->units, punit);
     unit_list_prepend(ptile->units, punit);
 

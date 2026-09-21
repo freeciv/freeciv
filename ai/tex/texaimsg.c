@@ -62,7 +62,7 @@ void texai_send_req(enum texaireqtype type, struct player *pplayer,
 **************************************************************************/
 void texai_first_activities(struct ai_type *ait, struct player *pplayer)
 {
-  texai_send_msg(TEXAI_MSG_FIRST_ACTIVITIES, pplayer, NULL);
+  texai_send_msg(TEXAI_MSG_FIRST_ACTIVITIES, pplayer, nullptr);
 }
 
 /**********************************************************************//**
@@ -70,5 +70,5 @@ void texai_first_activities(struct ai_type *ait, struct player *pplayer)
 **************************************************************************/
 void texai_phase_finished(struct ai_type *ait, struct player *pplayer)
 {
-  texai_send_msg(TEXAI_MSG_PHASE_FINISHED, pplayer, NULL);
+  texai_send_msg(TEXAI_MSG_PHASE_FINISHED, pplayer, nullptr);
 }
