@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.4\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-09-19 17:15+0300\n"
-"PO-Revision-Date: 2026-09-19 18:06+0300\n"
+"POT-Creation-Date: 2026-09-21 22:14+0300\n"
+"PO-Revision-Date: 2026-09-21 22:41+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -14147,11 +14147,6 @@ msgid "Metaserver"
 msgstr "Metapalvelin"
 
 #: client/options.c:1966
-#, fuzzy
-#| msgid ""
-#| "The metaserver is a host that the client contacts to find out about games "
-#| "on the internet.  Don't change this from its default value unless you "
-#| "know what you're doing."
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet. Don't change this from its default value unless you know what "
@@ -14244,11 +14239,6 @@ msgid "Sound plugin"
 msgstr "Ääniliitännäinen"
 
 #: client/options.c:2013
-#, fuzzy
-#| msgid ""
-#| "If you have a problem with sound, try changing the sound plugin.  The new "
-#| "plugin won't take effect until you restart Freeciv.  Changing this is the "
-#| "same as using the -P command-line option."
 msgid ""
 "If you have a problem with sound, try changing the sound plugin. The new "
 "plugin won't take effect until you restart Freeciv. Changing this is the "
@@ -14533,10 +14523,6 @@ msgid "Draw shield graphics for units"
 msgstr "Piirrä kilpikuvio yksiköille"
 
 #: client/options.c:2196
-#, fuzzy
-#| msgid ""
-#| "Setting this option will draw a shield icon as the flags on units.  If "
-#| "unset, the full flag will be drawn."
 msgid ""
 "Setting this option will draw a shield icon as the flags on units. If unset, "
 "the full flag will be drawn."
@@ -14619,11 +14605,6 @@ msgid "Sound bell at new turn"
 msgstr "Merkkiääni pelivuoron vaihtuessa"
 
 #: client/options.c:2235
-#, fuzzy
-#| msgid ""
-#| "Set this option to have a \"bell\" event be generated at the start of a "
-#| "new turn.  You can control the behavior of the \"bell\" event by editing "
-#| "the message options."
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn. You can control the behavior of the \"bell\" event by editing the "
@@ -14637,10 +14618,6 @@ msgid "Unit movement animation time (milliseconds)"
 msgstr "Yksikön liikkeen animointiaika millisekunneissa"
 
 #: client/options.c:2242
-#, fuzzy
-#| msgid ""
-#| "This option controls how long unit \"animation\" takes when a unit moves "
-#| "on the map view.  Set it to 0 to disable animation entirely."
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view. Set it to 0 to disable animation entirely."
@@ -14653,11 +14630,6 @@ msgid "Mapview recentering time (milliseconds)"
 msgstr "Karttanäkymän uudelleenkeskittämisen aika millisekunneissa"
 
 #: client/options.c:2248
-#, fuzzy
-#| msgid ""
-#| "When the map view is recentered, it will slide smoothly over the map to "
-#| "its new position.  This option controls how long this slide lasts.  Set "
-#| "it to 0 to disable mapview sliding entirely."
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position. This option controls how long this slide lasts. Set it to 0 to "
@@ -14672,10 +14644,6 @@ msgid "Combat animation step time (milliseconds)"
 msgstr "Taisteluanimaation liikkeiden välinen aika millisekunteina"
 
 #: client/options.c:2255
-#, fuzzy
-#| msgid ""
-#| "This option controls the speed of combat animation between units on the "
-#| "mapview.  Set it to 0 to disable animation entirely."
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview. Set it to 0 to disable animation entirely."
@@ -14714,11 +14682,6 @@ msgid "Color to highlight your player/user name"
 msgstr "Korostusväri pelaaja- tai käyttäjänimellesi"
 
 #: client/options.c:2276
-#, fuzzy
-#| msgid ""
-#| "If set, your player and user name in the new chat messages will be "
-#| "highlighted using this color as background.  If not set, it will just not "
-#| "highlight anything."
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background. If not set, it will just not "
@@ -14769,11 +14732,6 @@ msgid "Auto center on combat"
 msgstr "Keskitä taisteluihin automaattisesti"
 
 #: client/options.c:2295
-#, fuzzy
-#| msgid ""
-#| "Set this option to have any combat be centered automatically.  Disabling "
-#| "this will speed up the time between turns but may cause you to miss "
-#| "combat entirely."
 msgid ""
 "Set this option to have any combat be centered automatically. Disabling this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -14823,11 +14781,6 @@ msgid "Allow goto into the unknown"
 msgstr "Salli meno tuntemattomaan"
 
 #: client/options.c:2316
-#, fuzzy
-#| msgid ""
-#| "Setting this option will make the game consider moving into unknown "
-#| "tiles.  If not, then goto routes will detour around or be blocked by "
-#| "unknown tiles."
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles. "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -18113,16 +18066,14 @@ msgid "%sCivil War%s"
 msgstr "%sSisällissota%s"
 
 #: common/actions.c:6390
-#, fuzzy, c-format
-#| msgid "Heal %sUnit%s"
+#, c-format
 msgid "Finish %sUnit%s"
-msgstr "%sParanna yksikkö%s"
+msgstr "Viimeistele %syksikkö%s"
 
 #: common/actions.c:6392
-#, fuzzy, c-format
-#| msgid "Building %s"
+#, c-format
 msgid "Finish %sBuilding%s"
-msgstr "Rakennettavana %s"
+msgstr "Viimeistele %srakennus%s"
 
 #: common/actions.c:7518
 msgid "individual cities"
@@ -36874,12 +36825,11 @@ msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
 "    Start the game by wandering around BRIEFLY to find a good place to build "
-"the first city.  Don't feel tempted to investigate any yellow-roofed "
-"villages yet - they might contain barbarian tribes.  Build the city close to "
-"resources and perhaps close to the sea.  Keep in mind that the city you "
-"build first will be your capital!  The idea is to balance the quality of the "
-"site you find against getting your first city established as early as "
-"possible."
+"the first city. Don't feel tempted to investigate any yellow-roofed villages "
+"yet - they might contain barbarian tribes. Build the city close to resources "
+"and perhaps close to the sea. Keep in mind that the city you build first "
+"will be your capital! The idea is to balance the quality of the site you "
+"find against getting your first city established as early as possible."
 msgstr ""
 " 0. Ensimmäisen kaupungin paikan valinta.\n"
 "\n"
@@ -36896,11 +36846,10 @@ msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
 "    After the capital city has been founded, it will start producing a "
-"warrior unit.  These units can be used to rove around exploring the "
-"countryside.  Remember, it is risky to leave a city undefended, so perhaps "
-"keep the first warrior in the city, and use the following one to explore.  "
-"If you started the game with an explorer unit, use that to explore, "
-"obviously!"
+"warrior unit. These units can be used to rove around exploring the "
+"countryside. Remember, it is risky to leave a city undefended, so perhaps "
+"keep the first warrior in the city, and use the following one to explore. If "
+"you started the game with an explorer unit, use that to explore, obviously!"
 msgstr ""
 " 1. Ympäristön kartoittaminen.\n"
 "\n"
@@ -36915,9 +36864,9 @@ msgid ""
 " 2. Defending the cities.\n"
 "\n"
 "    At this point, defend your cities by always leaving a warrior unit in "
-"them.  As your civilization develops units with a greater defense strength, "
+"them. As your civilization develops units with a greater defense strength, "
 "replace the obsolete units with new ones to ensure your cities have maximum "
-"defense.  The units most often used for defense are (in order of strength):  "
+"defense. The units most often used for defense are (in order of strength): "
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
 " 2. Kaupunkien puolustaminen.\n"
@@ -36935,7 +36884,7 @@ msgid ""
 "    Keep in mind that with some types of government, military units inside "
 "or outside cities can reduce or create unhappiness. Also remember that when "
 "a land unit is inside a city, it gets a 50% defensive bonus, as if "
-"fortified.  When a new city is built, the city starts to build the best "
+"fortified. When a new city is built, the city starts to build the best "
 "available defensive unit from the above list."
 msgstr ""
 "    Muista, että joissain valtiomuodoissa sotilasyksiköt kaupunkien sisällä "
@@ -36949,12 +36898,12 @@ msgstr ""
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
-"    After building one or two Warrior units, start building Settlers.  "
+"    After building one or two Warrior units, start building Settlers. "
 "Settlers take city population, but if you picked a good city site, your city "
-"should be big enough by now.  Settlers are best put to use founding new "
+"should be big enough by now. Settlers are best put to use founding new "
 "cities; while they can also build agricultural improvements (see the next "
 "section), it is better to use Workers for this when available, as unlike "
-"Settlers, Workers do not consume food from their parent city.  Keep in mind "
+"Settlers, Workers do not consume food from their parent city. Keep in mind "
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate, not to mention that cities secure land for "
 "your empire, so founding new cities should be a high priority initially."
@@ -36979,9 +36928,9 @@ msgid ""
 " 4. Improving the land.\n"
 "\n"
 "    Each city has an area of land around it that can be used for growing "
-"food, producing goods, and generating trade.  This output can be increased "
-"by using Workers (or Settlers) to improve the land close to your cities.  "
-"The land can be improved with irrigation (increasing food), roads (allowing "
+"food, producing goods, and generating trade. This output can be increased by "
+"using Workers (or Settlers) to improve the land close to your cities. The "
+"land can be improved with irrigation (increasing food), roads (allowing "
 "units to move faster and increasing trade), and mines (increasing "
 "production), among other improvements."
 msgstr ""
@@ -36998,12 +36947,12 @@ msgstr ""
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
-"    The best location for a city is a matter of taste.  A city which is "
+"    The best location for a city is a matter of taste. A city which is "
 "placed near the sea is easier to spot by opponents, but can also serve as a "
-"port for sea-going units.  (They also usually need a coastal defense later "
-"on.)  The best strategy is to build a few of both, but keep in mind that "
-"your opponents will find it harder to locate your city if you don't build it "
-"by the sea."
+"port for sea-going units. (They also usually need a coastal defense later "
+"on.) The best strategy is to build a few of both, but keep in mind that your "
+"opponents will find it harder to locate your city if you don't build it by "
+"the sea."
 msgstr ""
 " 5. Muiden kaupunkien sijainnista päättäminen.\n"
 "\n"
@@ -37018,10 +36967,10 @@ msgstr ""
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
-"    Every city has a band of citizens.  The number of citizens depends on "
-"the city's population.  When you click on a city, you can see how the land "
-"around the city is being used.  You can assign your citizens to the land, or "
-"they can be specialists that contribute to your civilization in other ways.  "
+"    Every city has a band of citizens. The number of citizens depends on the "
+"city's population. When you click on a city, you can see how the land around "
+"the city is being used. You can assign your citizens to the land, or they "
+"can be specialists that contribute to your civilization in other ways. "
 "Especially at the start of the game, care should be taken to ensure that the "
 "citizens are employed so that they maximize growth, trade and production."
 msgstr ""
@@ -37038,7 +36987,7 @@ msgstr ""
 #: data/helpdata.txt:180
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the land "
-"by clicking on the occupied land tile.  This citizen can then be transferred "
+"by clicking on the occupied land tile. This citizen can then be transferred "
 "to the other duties mentioned previously."
 msgstr ""
 "    Jos ruokaa tuotetaan liikaa, asukas voidaan ottaa pois työstämästä "
@@ -37058,9 +37007,9 @@ msgstr ""
 #: data/helpdata.txt:191
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
-"least as many happy citizens as unhappy citizens.  A city where this is not "
+"least as many happy citizens as unhappy citizens. A city where this is not "
 "so falls into disorder; such cities are labeled with a raised fist or a "
-"lightning bolt (depending on the tileset).  Take care not to let this happen "
+"lightning bolt (depending on the tileset). Take care not to let this happen "
 "to any of your cities, as cities in disorder produce nothing, and are prone "
 "to revolt."
 msgstr ""
@@ -37077,7 +37026,7 @@ msgid ""
 "\n"
 "    When one of your units first meets a unit of another nation, or finds "
 "one of their cities (or equally if they find you), a basic contact is "
-"established between the two nations.  This provides each with basic "
+"established between the two nations. This provides each with basic "
 "intelligence about the other, which can be accessed from the 'Nations' "
 "report."
 msgstr ""
@@ -37091,9 +37040,9 @@ msgstr ""
 #: data/helpdata.txt:206
 msgid ""
 "    This communication will lapse after a set number of turns with no "
-"contact.  Establishing an embassy will give a more permanent communication "
+"contact. Establishing an embassy will give a more permanent communication "
 "channel, as well as more advanced intelligence such as details of "
-"technology.  Embassies are one-way - the nation hosting the embassy receives "
+"technology. Embassies are one-way - the nation hosting the embassy receives "
 "no benefit - and once established, cannot be revoked."
 msgstr ""
 "    Tämä tiedonvälitys katkeaa jos kansakuntien välillä ei ole tiettyyn "
@@ -37106,8 +37055,8 @@ msgstr ""
 #: data/helpdata.txt:213
 msgid ""
 "    If you are in contact with another player, then you can arrange a "
-"diplomatic meeting.  From the 'Nations' report, this is done by clicking on "
-"the nation with whom you wish to meet and selecting 'Meet'.  If the entry "
+"diplomatic meeting. From the 'Nations' report, this is done by clicking on "
+"the nation with whom you wish to meet and selecting 'Meet'. If the entry "
 "under the embassy column is not blank and the other player is connected (or "
 "is a server AI) then a treaty dialog will pop up."
 msgstr ""
@@ -37122,10 +37071,10 @@ msgstr ""
 msgid ""
 "    In this dialog you can negotiate an exchange of assets (maps, vision, "
 "advances, cities, or gold), embassies, or binding pacts such as a cease-fire "
-"or peace.  There is no need to trade like for like; you can trade, say, an "
-"advance or city for gold - you can consider this buying and selling.  Each "
-"player builds a list of offered items.  To remove an item from the list, "
-"double-click on it.  When both players indicate satisfaction, the pact is "
+"or peace. There is no need to trade like for like; you can trade, say, an "
+"advance or city for gold - you can consider this buying and selling. Each "
+"player builds a list of offered items. To remove an item from the list, "
+"double-click on it. When both players indicate satisfaction, the pact is "
 "concluded."
 msgstr ""
 "    Tässä ikkunassa voit neuvotella pelin eri hyödykkeiden kuten karttojen, "
@@ -37139,13 +37088,13 @@ msgstr ""
 #: data/helpdata.txt:228
 msgid ""
 "    Pacts affect where your units can go and what they can do, and a pact "
-"with one nation can affect your relations with others.  Under authoritarian "
+"with one nation can affect your relations with others. Under authoritarian "
 "governments such as Monarchy you can break a pact at any time, but the "
 "representative governments (Republic and Democracy) have a senate which will "
 "block the unprovoked cancellation of a treaty; unless a foreign Diplomat or "
 "Spy sparks a diplomatic incident, the only way to dissolve a pact in this "
-"situation is to dissolve your government.  The details of pacts are "
-"described in the Diplomacy section."
+"situation is to dissolve your government. The details of pacts are described "
+"in the Diplomacy section."
 msgstr ""
 "    Sitovat valtiosopimukset vaikuttavat siihen, minne yksikkösi voivat "
 "mennä ja mitä ne voivat tehdä. Sopimus yhden kansakunnan kanssa voi "
@@ -37169,7 +37118,7 @@ msgstr "   – Et voi antaa pois pääkaupunkiasi."
 msgid ""
 "   - You can only request property that you know about; so you can't request "
 "technology unless you have an embassy, and if you can't see a city on your "
-"map, then you can't request it.  Of course, the owner of that city can still "
+"map, then you can't request it. Of course, the owner of that city can still "
 "offer it to you, in which case the area around the city is shown on your map "
 "before you accept the treaty."
 msgstr ""
@@ -37182,7 +37131,7 @@ msgstr ""
 msgid ""
 "   - One important thing to note: when a city is transferred, any units in "
 "the field and supported by that city are also transferred (but not those "
-"sitting in other cities).  So make sure the other player isn't getting a "
+"sitting in other cities). So make sure the other player isn't getting a "
 "better deal than you expect."
 msgstr ""
 "   – Tärkeä asia huomata: kun kaupunki siirtyy omistajalta toiselle "
@@ -37195,9 +37144,9 @@ msgid ""
 " 8. Exploring the world.\n"
 "\n"
 "    After you have fortified your cities with troops, build Triremes in the "
-"cities near the sea.  Use the Triremes to map the world in search of "
-"opponents and new lands.  If you are on an island, you should spend less on "
-"military and more on expansion.  Or if you are located close to an opponent, "
+"cities near the sea. Use the Triremes to map the world in search of "
+"opponents and new lands. If you are on an island, you should spend less on "
+"military and more on expansion. Or if you are located close to an opponent, "
 "it is truly a good idea to make a peace treaty and share the advances you "
 "have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
@@ -37238,8 +37187,8 @@ msgid ""
 " 10. Making your own strategy for the game.\n"
 "\n"
 "    These basic concepts will allow you to play the game pretty well, "
-"especially in the beginning of the game.  But to improve, you need to study "
-"the various units and advances, and PRACTICE, PRACTICE, PRACTICE!  Freeciv "
+"especially in the beginning of the game. But to improve, you need to study "
+"the various units and advances, and PRACTICE, PRACTICE, PRACTICE! Freeciv "
 "has many twists, so if you haven't played a similar game before, try "
 "consulting the Freeciv WWW pages at:"
 msgstr ""
@@ -39140,9 +39089,14 @@ msgid " Combat example 1"
 msgstr " Taisteluesimerkki 1"
 
 #: data/helpdata.txt:1266
+#, fuzzy
+#| msgid ""
+#| "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
+#| "HP:20, FP:1) inside a city with City Walls built on a Forest tile.  "
+#| "Neither are veteran."
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
-"HP:20, FP:1) inside a city with City Walls built on a Forest tile.  Neither "
+"HP:20, FP:1) inside a city with City Walls built on a Forest tile. Neither "
 "are veteran."
 msgstr ""
 "Oletetaan, että kanuuna (H:8, P:1, VP:20, TV:1) hyökkää musketöörin (H:3, "
@@ -39150,10 +39104,16 @@ msgstr ""
 "kaupungissa, kimppuun. Kumpikaan ei ole konkareita."
 
 #: data/helpdata.txt:1270
+#, fuzzy
+#| msgid ""
+#| "The defender's base strength is 3.  Because it is on a Forest tile, its "
+#| "strength becomes 4.5.  It is behind City Walls, so its strength is "
+#| "tripled, to 13.5.  It is a ground unit inside a city, so its strength is "
+#| "increased to 20.25."
 msgid ""
-"The defender's base strength is 3.  Because it is on a Forest tile, its "
-"strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
-"to 13.5.  It is a ground unit inside a city, so its strength is increased to "
+"The defender's base strength is 3. Because it is on a Forest tile, its "
+"strength becomes 4.5. It is behind City Walls, so its strength is tripled, "
+"to 13.5. It is a ground unit inside a city, so its strength is increased to "
 "20.25."
 msgstr ""
 "Puolustajan perusvoimakkuus on 3. Koska se on metsäruudulla, sen "
@@ -39178,9 +39138,9 @@ msgstr "Kummankin yksikön tulivoima (1) pysyy samana."
 #: data/helpdata.txt:1282
 #, no-c-format
 msgid ""
-"Each round of combat, a random number between 1 and 282 is generated.  If "
-"the number is greater than 202 (about a 28% chance), the defender loses 1 "
-"hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
+"Each round of combat, a random number between 1 and 282 is generated. If the "
+"number is greater than 202 (about a 28% chance), the defender loses 1 hit "
+"point. Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 "Jokaisella taistelukierroksella arvotaan satunnaisluku 1:n ja 282:n väliltä. "
 "Jos numero on suurempi kuin 202 (noin 28% todennäköisyys), puolustaja "
@@ -39191,8 +39151,8 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
-"defender.  The defender will probably lose somewhere around 40% of its hit "
-"points during the fight.  But the outcome is never certain as long as both "
+"defender. The defender will probably lose somewhere around 40% of its hit "
+"points during the fight. But the outcome is never certain as long as both "
 "units have non-zero strengths; the defender might emerge untouched, or it "
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
@@ -39234,7 +39194,7 @@ msgstr "Hyökkääjän perusvoima on 12, konkarilla se on kuitenkin 18."
 #: data/helpdata.txt:1316
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
-"terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
+"terrain's defense factor is 1 (no effect). The Coastal Defense doubles the "
 "defender's strength to 15. (The City Walls have no effect against attacking "
 "sea units.) The defender is a ground unit inside a city, so its total "
 "strength is 22.5."
@@ -39260,9 +39220,9 @@ msgstr "Taistelulaivan tulivoima muutetaan kahdesta yhdeksi."
 #: data/helpdata.txt:1328
 #, no-c-format
 msgid ""
-"Each round, a random number from 1 to 405 is generated.  If it is greater "
-"than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
-"the attacker loses 1 hit point."
+"Each round, a random number from 1 to 405 is generated. If it is greater "
+"than 225 (about a 44% chance) the defender loses 1 hit point. Otherwise, the "
+"attacker loses 1 hit point."
 msgstr ""
 "Joka kierroksella arvotaan satunnaisluku väliltä 1–405. Jos se on suurempi "
 "kuin 225 (noin 44% mahdollisuus), puolustaja menettää yhden voimapisteen. "
@@ -39271,8 +39231,8 @@ msgstr ""
 #: data/helpdata.txt:1339
 #, no-c-format
 msgid ""
-"In this case, the odds greatly favor the attacker winning.  The Battleship "
-"is 25% less likely to score a hit in any given round, but the Battleship has "
+"In this case, the odds greatly favor the attacker winning. The Battleship is "
+"25% less likely to score a hit in any given round, but the Battleship has "
 "twice as many hit points. The Battleship should expect to lose about 60% of "
 "its hit points during the fight, and should expect to have no movement "
 "points left."
@@ -39771,7 +39731,7 @@ msgstr ""
 #: data/helpdata.txt:1622
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
-"connection dialog.  If it never shows any results, check whether your WWW "
+"connection dialog. If it never shows any results, check whether your WWW "
 "browser is using a HTTP proxy; to make the client use the same proxy, before "
 "starting the client, set the $http_proxy environment variable to:"
 msgstr ""
@@ -39784,10 +39744,10 @@ msgstr ""
 #: data/helpdata.txt:1630
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
-"already connected, including AI players.  Merely connecting to an AI player "
-"doesn't make it human controlled; this is an independent server setting.  If "
+"already connected, including AI players. Merely connecting to an AI player "
+"doesn't make it human controlled; this is an independent server setting. If "
 "you lose connection early in the game and reconnect, use the name you chose "
-"for your ruler, not your original nickname!  If the server is reporting on "
+"for your ruler, not your original nickname! If the server is reporting on "
 "the metaserver, the player names can be found there."
 msgstr ""
 "Kun peli on aloitettu, kuka tahansa voi yhdistyä millä nimellä tahansa, jos "
@@ -40369,9 +40329,9 @@ msgid ""
 "Featured text (GTK):\n"
 "====================\n"
 "\n"
-"Since 2.2, the GTK client has featured text support.  This feature allows "
+"Since 2.2, the GTK client has featured text support. This feature allows "
 "users to format the chat messages they are sending using boldface, italic, "
-"colors, links, etc...  Such changes are performed using escape sequences."
+"colors, links, etc... Such changes are performed using escape sequences."
 msgstr ""
 "Tyylitelty teksti (GTK):\n"
 "========================\n"
@@ -40529,9 +40489,9 @@ msgid ""
 "Full name sequence: '[link target=\"unit\"] ... [/link]'\n"
 "Abbreviation sequence: '[l tgt=\"unit\"] ... [/l]'\n"
 "Short cut: Shift-Control-Alt-Right-click on a unit on the map.\n"
-"The 'id' parameter must be set to the id of the unit you are pointing to.  "
-"An optional 'name' parameter can be set to bind the unit name in the case "
-"the destination users don't know this unit on their map.\n"
+"The 'id' parameter must be set to the id of the unit you are pointing to. An "
+"optional 'name' parameter can be set to bind the unit name in the case the "
+"destination users don't know this unit on their map.\n"
 "This expression can also be started and finished within the same pair of "
 "brackets, like '[link target=\"unit\" id=109 /]' (note the slash at the "
 "end).\n"
@@ -40620,7 +40580,7 @@ msgstr ""
 
 #: data/helpdata.txt:2021
 msgid ""
-"Freeciv supports several local languages.  See the Native Language Support "
+"Freeciv supports several local languages. See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
 "languages.\n"
 "\n"
@@ -40648,7 +40608,7 @@ msgstr ""
 #: data/helpdata.txt:2051
 msgid ""
 "Freeciv is released under the GNU General Public License (version 2 or, at "
-"your option, any later version).  In short, you may copy this program "
+"your option, any later version). In short, you may copy this program "
 "(including source) freely, but see the full license text below for full "
 "details."
 msgstr ""
@@ -40661,8 +40621,8 @@ msgstr ""
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2360
 msgid ""
-"If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:"
+"If you find any bugs, then please send us a bug report. This is best done by "
+"visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
 "Parhaiten tämä onnistuu Freecivin vikaraportointisivuston kautta, osoitteessa"
@@ -41530,7 +41490,9 @@ msgstr ""
 msgid ""
 "Compared to tribalism, despotism gives some more power to the leader. It's "
 "possible acquire up to ten cities."
-msgstr "Verrattuna heimojärjestelmään yksinvaltius antaa lisää valtaa hallitsijalle. Voit hankkia 10 kaupunkia."
+msgstr ""
+"Verrattuna heimojärjestelmään yksinvaltius antaa lisää valtaa hallitsijalle. "
+"Voit hankkia 10 kaupunkia."
 
 #: data/granularity/governments.ruleset:155
 #, c-format
@@ -41592,7 +41554,9 @@ msgstr "Maanviljelystaito mahdollistaa kastelujärjestelmien sijoittamisen."
 msgid ""
 "Abstract symbols to mark things make it possible to adjust tax/science/lux "
 "rates more freely."
-msgstr "Abstraktit symbolit asioiden merkitsemiseksi mahdollistavat vero/tiede/luksus osuuksien vapaamman säätämisen."
+msgstr ""
+"Abstraktit symbolit asioiden merkitsemiseksi mahdollistavat vero/tiede/"
+"luksus osuuksien vapaamman säätämisen."
 
 #: data/granularity/techs.ruleset:135
 msgid "Animal Taming"
@@ -41670,7 +41634,9 @@ msgstr "Kertoo kulttuurintuotannon 1,5:lla."
 msgid ""
 "Makes it possible for diplomatic units to bribe opponents. Makes it possible "
 "to agree on gold transfer as part of diplomatic treaties."
-msgstr "Mahdollistaa diplomaattisten yksiköiden lahjoa vastustajiaan. Mahdollistaa kullan siirtämisen pelaajalta toiselle osana diplomaattista sopimusta."
+msgstr ""
+"Mahdollistaa diplomaattisten yksiköiden lahjoa vastustajiaan. Mahdollistaa "
+"kullan siirtämisen pelaajalta toiselle osana diplomaattista sopimusta."
 
 #: data/granularity/techs.ruleset:292
 msgid "Deception"
@@ -41716,7 +41682,7 @@ msgstr "Yrtit"
 msgid ""
 "Makes units that do not move during the turn to heal additional 10% of their "
 "maximum hitpoints. Outside cities that might be the only healing they do."
-msgstr ""
+msgstr "Yksiköt, jotka eivät liiku vuoron aikana, paranevat lisää 10% maksimiosumapisteistään. Kaupunkien ulkopuolella tämä saattaa olla ainoa paraneminen, joka niille tapahtuu."
 
 #: data/granularity/techs.ruleset:396
 msgid "Make iron available."
@@ -41794,7 +41760,9 @@ msgstr "Rituaalit"
 msgid ""
 "Provides a morale boost increasing both attack and defense values of units "
 "by 20%."
-msgstr "Lisää huomattavasti joukkojen moraalia. Sekä hyökkäys- että puolustusarvot nousevat 20%."
+msgstr ""
+"Lisää huomattavasti joukkojen moraalia. Sekä hyökkäys- että puolustusarvot "
+"nousevat 20%."
 
 #: data/granularity/techs.ruleset:553
 msgid "Rope"
@@ -41810,7 +41778,9 @@ msgstr "Lisää meriyksiköiden nopeutta yhdellä pisteellä."
 
 #: data/granularity/techs.ruleset:579
 msgid "Enables philosophers specialist type. Libraries provide more science."
-msgstr "Mahdollistaa erityisosaajatyypin filosofi käytön. Kirjastot antavat enemmän tiedettä."
+msgstr ""
+"Mahdollistaa erityisosaajatyypin filosofi käytön. Kirjastot antavat enemmän "
+"tiedettä."
 
 #: data/granularity/techs.ruleset:594
 msgid "Siege Engines"
@@ -41834,7 +41804,9 @@ msgstr "Strategiat"
 msgid ""
 "Makes it possible to move 6 units to the same tile. Makes it possible to "
 "adjust Offensive Strategies policy."
-msgstr "Mahdollista kuuden yksikön liikuttamisen samaan ruutuun. Mahdollistaa offensiiviset strategiat politiikkan säätämisen."
+msgstr ""
+"Mahdollista kuuden yksikön liikuttamisen samaan ruutuun. Mahdollistaa "
+"offensiiviset strategiat politiikkan säätämisen."
 
 #: data/granularity/techs.ruleset:632
 msgid ""
@@ -41852,7 +41824,9 @@ msgstr "Työkalut"
 msgid ""
 "Anything can be done with right tools. Allows more efficient use of "
 "production resources."
-msgstr "Oikeilla työkaluilla voidaan tehdä mitä hyvänsä. Tuotantoresurssien käyttö tehostuu."
+msgstr ""
+"Oikeilla työkaluilla voidaan tehdä mitä hyvänsä. Tuotantoresurssien käyttö "
+"tehostuu."
 
 #: data/granularity/techs.ruleset:650
 msgid "Trenches"
@@ -41906,13 +41880,18 @@ msgstr ""
 msgid ""
 "Any land terrain type may have a River on it. Land units may move along a "
 "River (but not diagonally) for fast travel."
-msgstr "Millä hyvänsä maa-maastotyypillä voi olla joki. Maayksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain olevien jokiruutujen välillä, tavallista nopeammin."
+msgstr ""
+"Millä hyvänsä maa-maastotyypillä voi olla joki. Maayksiköt voivat kulkea "
+"jokea pitkin, mutta eivät kulmittain olevien jokiruutujen välillä, "
+"tavallista nopeammin."
 
 #: data/granularity/terrain.ruleset:864
 msgid ""
 "Adds +200 to the tile shield output. Becomes visible and usable by the Iron "
 "Working tech."
-msgstr "Ruutujen tuotanto kasvaa kahdella sadalla. Tulee näkyväksi ja käytettäväksi raudan tuntemuksen myötä."
+msgstr ""
+"Ruutujen tuotanto kasvaa kahdella sadalla. Tulee näkyväksi ja käytettäväksi "
+"raudan tuntemuksen myötä."
 
 #: data/granularity/terrain.ruleset:884
 #, fuzzy
@@ -41978,7 +41957,9 @@ msgstr "Metsästäjät"
 msgid ""
 "Hunters and their dogs can mostly provide upkeep for themselves, not "
 "requiring as much of it from their homecity."
-msgstr "Metsästäjät koirineen voivat suurimmaksi osaksi huolehtia itse itsestään, eivätkä näin ollen tarvitse niin paljoa ylläpitoa kotikaupungiltaan."
+msgstr ""
+"Metsästäjät koirineen voivat suurimmaksi osaksi huolehtia itse itsestään, "
+"eivätkä näin ollen tarvitse niin paljoa ylläpitoa kotikaupungiltaan."
 
 #: data/granularity/units.ruleset:569
 msgid "Mercenaries"
@@ -41988,7 +41969,9 @@ msgstr "Palkkasotilaat"
 msgid ""
 "Mercenaries are not bound to march under specific flag, but can be serving "
 "any master."
-msgstr "Palkkasotilaat eivät marssi minkään lipun alla, vaan voivat olla kenen hyvänsä palveluksessa."
+msgstr ""
+"Palkkasotilaat eivät marssi minkään lipun alla, vaan voivat olla kenen "
+"hyvänsä palveluksessa."
 
 #: data/granularity/units.ruleset:634
 msgid "Powerful attack unit."
@@ -42001,7 +41984,9 @@ msgstr "Hevosmiehet ovat ensimmäinen nopea yksikkö."
 #: data/granularity/units.ruleset:705
 msgid ""
 "Catapults are the first bombarding unit and it can also destroy buildings."
-msgstr "Katapultit ovat ensimmäinen pommitusyksikkö ja se voi myös tuhota rakennuksia."
+msgstr ""
+"Katapultit ovat ensimmäinen pommitusyksikkö ja se voi myös tuhota "
+"rakennuksia."
 
 #: data/granularity/units.ruleset:710
 msgid "Bounty Hunter"
@@ -42031,7 +42016,8 @@ msgstr "Paatit"
 
 #: data/granularity/units.ruleset:882
 msgid "Boats carved from logs. They cannot sail off the coast."
-msgstr "Paatit on kaiverrettu puusta. Ne eivät voi poistua rannikon tuntumasta."
+msgstr ""
+"Paatit on kaiverrettu puusta. Ne eivät voi poistua rannikon tuntumasta."
 
 #: data/granularity/units.ruleset:919
 msgid ""
@@ -42045,7 +42031,7 @@ msgstr ""
 
 #: data/granularity/units.ruleset:956
 msgid "Faster ship than earlier Trireme."
-msgstr ""
+msgstr "Aiempia kolmisoutuja nopeampi alus."
 
 #: data/granularity/units.ruleset:961
 msgid "Emissary"
@@ -45451,12 +45437,12 @@ msgid ""
 msgstr ""
 "Kun %s hylättiin, yksikkösi %s kaupungissa %s jäi ansaan ja se menetettiin."
 
-#: server/citytools.c:2052 server/unithand.c:4868
+#: server/citytools.c:2052 server/unithand.c:4866
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Tuhoat kaupungin %s kokonaan."
 
-#: server/citytools.c:2055 server/unithand.c:4875
+#: server/citytools.c:2055 server/unithand.c:4873
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
@@ -48309,12 +48295,12 @@ msgstr ""
 "Lähettämäsi %s ei löytänyt suunniteltua sabotaasikohdetta %s kaupungista %s."
 
 # Hard.
-#: server/diplomats.c:1576 server/unithand.c:5461
+#: server/diplomats.c:1576 server/unithand.c:5459
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Lähettämäsi %s onnistui! %s ei valmistu aikataulussa kaupungissa %s."
 
-#: server/diplomats.c:1583 server/unithand.c:5467
+#: server/diplomats.c:1583 server/unithand.c:5465
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr ""
@@ -48330,12 +48316,12 @@ msgstr "Lähettämäsi %s jäi kiinni kesken sabotointiyrityksen!"
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "%s %s yritti sabotaasia – kohteenaan %s kaupungissa %s!"
 
-#: server/diplomats.c:1630 server/unithand.c:5584
+#: server/diplomats.c:1630 server/unithand.c:5582
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Lähettämäsi %s tuhosi kohteensa %s kaupungissa %s."
 
-#: server/diplomats.c:1636 server/unithand.c:5590
+#: server/diplomats.c:1636 server/unithand.c:5588
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "%s tuhosivat kohteen %s kaupungissa %s."
@@ -56765,14 +56751,14 @@ msgstr[0] "%s ei voi tehdä mitään. %d kulta ehkä auttaisi. %s"
 msgstr[1] "%s ei voi tehdä mitään. %d kultaa ehkä auttaisi. %s"
 
 #. TRANS: "Trireme cannot move ..."
-#: server/unithand.c:2212 server/unithand.c:2925 server/unithand.c:5678
+#: server/unithand.c:2212 server/unithand.c:2925 server/unithand.c:5676
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ei voi liikkua niin kauas rannikolta."
 
 #. TRANS: "Riflemen cannot disembark ... native base
 #. * for Helicopter."
-#: server/unithand.c:2217 server/unithand.c:2932 server/unithand.c:5693
+#: server/unithand.c:2217 server/unithand.c:2932 server/unithand.c:5691
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr ""
@@ -57132,81 +57118,81 @@ msgstr ""
 msgid "%s transferred control over a %s to you in %s."
 msgstr "%s antoi yksikön %s käyttöösi kaupungissa %s."
 
-#: server/unithand.c:4276
+#: server/unithand.c:4274
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s lisätty auttamaan kaupunkia %s kasvamaan."
 
 #. TRANS: another player had their unit join your city.
-#: server/unithand.c:4284
+#: server/unithand.c:4282
 #, c-format
 msgid "%s adds %s to your city %s."
 msgstr "%s lisäsi yksikön %s kaupunkisi %s väkeen."
 
 #. TRANS: Battleship ... Los Angeles ... Bombard
-#: server/unithand.c:4613
+#: server/unithand.c:4611
 #, c-format
 msgid "Your %s destroyed %s by doing %s."
 msgstr "Lähettämäsi %s tuhosi kaupungin %s tekemällä toimen %s."
 
 #. TRANS: Sigurd I Magnusson ... Alkasse ... Attack
-#: server/unithand.c:4619
+#: server/unithand.c:4617
 #, c-format
 msgid "%s destroyed %s by doing %s."
 msgstr "%s tuhosi kaupungin %s tekemällä toimen %s."
 
 #. TRANS: Your Bomber killed the English Rifleman by
 #. * doing Bombard.
-#: server/unithand.c:4674
+#: server/unithand.c:4672
 #, c-format
 msgid "Your %s killed the %s %s by doing %s."
 msgstr "Yksikkösi %s tappoi %s %s toiminnolla %s."
 
 #. TRANS: Your Rifleman was killed by the French
 #. * Bomber doing Bombard.
-#: server/unithand.c:4683
+#: server/unithand.c:4681
 #, c-format
 msgid "Your %s was killed by the %s %s doing %s."
 msgstr "%2$s %3$s tappoi yksikkösi %1$s toiminnolla %4$s."
 
 #. TRANS: Your Bomber bombards the English Rifleman.
-#: server/unithand.c:4692
+#: server/unithand.c:4690
 #, c-format
 msgid "Your %s bombards the %s %s."
 msgstr "Lähettämäsi %s pommittaa kohdetta %s kaupungissa %s."
 
 #. TRANS: Your Rifleman is bombarded by the French
 #. * Bomber.
-#: server/unithand.c:4700
+#: server/unithand.c:4698
 #, c-format
 msgid "Your %s is bombarded by the %s %s."
 msgstr "Yksikköäsi %s pommittaa %s %s."
 
-#: server/unithand.c:4771
+#: server/unithand.c:4769
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr ""
 "Laukaisemasi %s ammuttiin alas ohjuspuolustusjärjestelmällä. Ilonpilaajat!"
 
-#: server/unithand.c:4774
+#: server/unithand.c:4772
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Ohjustentorjuntajärjestelmäsi torjui ydiniskun – %s ei vahingoittunut."
 
 #. TRANS: " and achieved the rank of <veteran level>";
 #. * preserve leading space
-#: server/unithand.c:4936
+#: server/unithand.c:4934
 #, c-format
 msgid " and achieved the rank of %s"
 msgstr " ja ylennettiin arvoon %s"
 
 #. TRANS: tired; note trailing space
-#: server/unithand.c:4953
+#: server/unithand.c:4951
 msgid "tired "
 msgstr "väsynyt "
 
 #. TRANS: FP = Firepower of a unit; note trailing space
-#: server/unithand.c:4977
+#: server/unithand.c:4975
 #, c-format
 msgid "FP:%d "
 msgstr "TV:%d "
@@ -57214,7 +57200,7 @@ msgstr "TV:%d "
 #. TRANS: "Your green Legion [id:100 ...D:4.0 lost 1 HP,
 #. * 9 HP remaining] survived the pathetic ...attack from
 #. * green Warriors [id:90 ...A:1.0 HP:10].
-#: server/unithand.c:5151
+#: server/unithand.c:5149
 #, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
@@ -57226,7 +57212,7 @@ msgstr ""
 #. TRANS: "Your green Legion [id:100 ...D:4.0 lost 1 HP,
 #. * 9 HP remaining] survived the pathetic ...attack from the
 #. * Greek green Warriors [id:90 ...A:1.0 HP:10].
-#: server/unithand.c:5174
+#: server/unithand.c:5172
 #, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
@@ -57239,7 +57225,7 @@ msgstr ""
 #. * failed against green Destroyer [id:200 lost
 #. * 27 HP, 3 HP remaining%s]!";
 #. * last %s is either "and ..." or empty string
-#: server/unithand.c:5205
+#: server/unithand.c:5203
 #, c-format
 msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against %s %s [id:%d lost "
@@ -57252,7 +57238,7 @@ msgstr ""
 #. * failed against the Polish green Destroyer [id:200 lost
 #. * 27 HP, 3 HP remaining%s]!";
 #. * last %s is either "and ..." or empty string
-#: server/unithand.c:5227
+#: server/unithand.c:5225
 #, c-format
 msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s [id:"
@@ -57265,7 +57251,7 @@ msgstr ""
 #. * lost to an attack by green Legion
 #. * [id:200 ...A:4.0 lost 1 HP, has 9 HP remaining%s]."
 #. * last %s is either "and ..." or empty string
-#: server/unithand.c:5263
+#: server/unithand.c:5261
 #, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by %s %s [id:%d %sA:%.1f "
@@ -57278,7 +57264,7 @@ msgstr ""
 #. * lost to an attack by the Greek green Legion
 #. * [id:200 ...A:4.0 lost 1 HP, has 9 HP remaining%s]."
 #. * last %s is either "and ..." or empty string
-#: server/unithand.c:5287
+#: server/unithand.c:5285
 #, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
@@ -57290,7 +57276,7 @@ msgstr ""
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against
 #. * green Warriors [id:100 HP:10]."
-#: server/unithand.c:5313
+#: server/unithand.c:5311
 #, c-format
 msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
@@ -57302,7 +57288,7 @@ msgstr ""
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
 #. * Greek green Warriors [id:100 HP:10]."
-#: server/unithand.c:5334
+#: server/unithand.c:5332
 #, c-format
 msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
@@ -57312,40 +57298,40 @@ msgstr ""
 "voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
 
 #. TRANS: unit, action, city
-#: server/unithand.c:5437 server/unithand.c:5525
+#: server/unithand.c:5435 server/unithand.c:5523
 #, c-format
 msgid "Your %s failed to do %s in %s."
 msgstr "Yksikkösi %s epäonnistui toiminnon %s tekemisessä kohteelle %s."
 
-#: server/unithand.c:5543
+#: server/unithand.c:5541
 #, c-format
 msgid "Your %s didn't find a %s to %s in %s."
 msgstr ""
 "Yksikkösi %s ei löytänyt kohdetta %s suorittaakseen toiminnon %s kaupungissa "
 "%s."
 
-#: server/unithand.c:5559
+#: server/unithand.c:5557
 #, c-format
 msgid "Your %s cannot do %s to %s in %s."
 msgstr ""
 "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s kaupungissa %s."
 
-#: server/unithand.c:5667 server/unittools.c:3194
+#: server/unithand.c:5665 server/unittools.c:3194
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
-#: server/unithand.c:5672
+#: server/unithand.c:5670
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s voi siirtyä vain itse valvomallesi alueelle."
 
-#: server/unithand.c:5685
+#: server/unithand.c:5683
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
 "Sinä ja %s olette solmineet rauhan, et voi hyökätä ennen sopimuksen purkua."
 
-#: server/unithand.c:5702
+#: server/unithand.c:5700
 #, c-format
 msgid "Terrain is unsuitable for %s units."
 msgstr "Maasto ei sovellu %s yksiköille."
@@ -57353,27 +57339,27 @@ msgstr "Maasto ei sovellu %s yksiköille."
 #. TRANS: Your Caravan does "Disband Unit Recover" to help build the
 #. * current production in Bergen (4 surplus).
 #. * "Disband Unit Recover" says "current production" rather than its name.
-#: server/unithand.c:6004
+#: server/unithand.c:6002
 msgid "current production"
 msgstr "tämänhetkistä tuotantoa"
 
 #. TRANS: Your Caravan does "Help Wonder" to help build the
 #. * Pyramids in Bergen (4 remaining).
 #. * You can reorder '4' and 'remaining' in the actual format string.
-#: server/unithand.c:6011
+#: server/unithand.c:6009
 msgid "remaining"
 msgstr "jäljellä"
 
 #. TRANS: Your Caravan does "Help Wonder" to help build the
 #. * Pyramids in Bergen (4 surplus).
 #. * You can reorder '4' and 'surplus' in the actual format string.
-#: server/unithand.c:6016
+#: server/unithand.c:6014
 msgid "surplus"
 msgstr "ylijäämä"
 
 #. TRANS: Your Caravan does "Help Wonder" to help build the
 #. * Pyramids in Bergen (4 surplus).
-#: server/unithand.c:6023
+#: server/unithand.c:6021
 #, c-format
 msgid "Your %s does %s to help build the %s in %s (%d %s)."
 msgstr ""
@@ -57381,20 +57367,20 @@ msgstr ""
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
-#: server/unithand.c:6042
+#: server/unithand.c:6040
 #, c-format
 msgid "Help building the %s in %s received from %s %s (%d %s)."
 msgstr ""
 "Kaupungissa %2$s %1$s valmistuu nopeammin kun %4$s, jonka %3$s lähettivät "
 "auttaa (%5$d %6$s)."
 
-#: server/unithand.c:6098
+#: server/unithand.c:6096
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:6108
+#: server/unithand.c:6106
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it's not carrying any "
@@ -57402,17 +57388,17 @@ msgid ""
 msgstr ""
 "%s ei voi luoda kauppareittiä, koska se ei ole kuljettamassa kauppatavaroita."
 
-#: server/unithand.c:6119
+#: server/unithand.c:6117
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s ei voi luoda kauppareittiä kaupunkien %s ja %s välille."
 
-#: server/unithand.c:6158 server/unithand.c:6183
+#: server/unithand.c:6156 server/unithand.c:6181
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s ei voi luoda kauppareittiä tänne!"
 
-#: server/unithand.c:6164 server/unithand.c:6189
+#: server/unithand.c:6162 server/unithand.c:6187
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -57420,7 +57406,7 @@ msgstr[0] "      Kaupungilla %s on jo %d parempi kauppareitti!"
 msgstr[1] "      Kaupungilla %s on jo %d parempaa kauppareittiä!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
-#: server/unithand.c:6222
+#: server/unithand.c:6220
 #, c-format
 msgid "Your %s from %s has arrived in %s carrying %s."
 msgstr ""
@@ -57428,7 +57414,7 @@ msgstr ""
 "%4$s-lasti."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:6232
+#: server/unithand.c:6230
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -57444,7 +57430,7 @@ msgstr[1] ""
 "kultaa."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:6247
+#: server/unithand.c:6245
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -57460,7 +57446,7 @@ msgstr[1] ""
 "pistettä tutkimusta."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:6262
+#: server/unithand.c:6260
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -57475,12 +57461,12 @@ msgstr[1] ""
 "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
 "kultaa ja tutkimusta."
 
-#: server/unithand.c:6303
+#: server/unithand.c:6301
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Uusi kauppareitti perustettu kaupungista %s kaupunkiin %s."
 
-#: server/unithand.c:6309
+#: server/unithand.c:6307
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s perusti kauppareitin kaupunkinsa %s ja kaupungin %s välille."
