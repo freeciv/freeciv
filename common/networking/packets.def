@@ -1964,6 +1964,7 @@ PACKET_RULESET_TILEDEF = 520; sc, lsend
 
   BV_EXTRAS extras;
   BOOL known;
+  BOOL owned;
 end
 
 /**************************************************************************

@@ -4353,6 +4353,8 @@ static bool load_ruleset_terrain(struct section_file *file,
         if (ok) {
           td->known = secfile_lookup_bool_default(file, FALSE,
                                                   "%s.known", section);
+          td->owned = secfile_lookup_bool_default(file, FALSE,
+                                                  "%s.owned", section);
         }
 
         if (!ok) {
@@ -8913,6 +8915,7 @@ static void send_ruleset_tiledefs(struct conn_list *dest)
     packet.extras = extras;
 
     packet.known = td->known;
+    packet.owned = td->owned;
 
     lsend_packet_ruleset_tiledef(dest, &packet);
   } tiledef_iterate_end;

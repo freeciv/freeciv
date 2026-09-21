@@ -29,6 +29,7 @@ struct tiledef
   enum terrain_flag_id terr_flag;
   struct extra_type_list *extras;
   bool known;
+  bool owned;
 };
 
 void tiledefs_init(void);

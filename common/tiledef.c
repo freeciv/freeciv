@@ -167,6 +167,11 @@ bool tile_matches_tiledef(const struct tiledef *td, const struct tile *ptile,
     return FALSE;
   }
 
+  if (td->owned && pplayer != nullptr
+      && tile_owner(ptile) != pplayer) {
+    return FALSE;
+  }
+
   return TRUE;
 }
 

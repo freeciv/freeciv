@@ -3169,6 +3169,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (td->known) {
       secfile_insert_bool(sfile, td->known, "%s.known", path);
     }
+    if (td->owned) {
+      secfile_insert_bool(sfile, td->owned, "%s.owned", path);
+    }
   } tiledef_iterate_end;
 
   return save_ruleset_file(sfile, filename);

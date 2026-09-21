@@ -4548,6 +4548,7 @@ void handle_ruleset_tiledef(const struct packet_ruleset_tiledef *p)
   } extra_type_iterate_end;
 
   td->known = p->known;
+  td->owned = p->owned;
 }
 
 /************************************************************************//**
