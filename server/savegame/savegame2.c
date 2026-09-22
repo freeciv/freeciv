@@ -1329,6 +1329,21 @@ static void sg_roads_set_bv(bv_extras *extras, char ch, struct road_type **idx)
 }
 
 /************************************************************************//**
+  Return the resource type matching the identifier, or nullptr
+  when none matches.
+****************************************************************************/
+static struct extra_type *resource_by_identifier(const char identifier)
+{
+  extra_type_by_cause_iterate(EC_RESOURCE, presource) {
+    if (presource->data.resource->id_old_save == identifier) {
+      return presource;
+    }
+  } extra_type_by_cause_iterate_end;
+
+  return nullptr;
+}
+
+/************************************************************************//**
   Return the resource for the given identifier.
 ****************************************************************************/
 static struct extra_type *char2resource(char c)

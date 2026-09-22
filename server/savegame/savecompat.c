@@ -328,21 +328,6 @@ struct extra_type *special_extra_get(int spe)
   return nullptr;
 }
 
-/************************************************************************//**
-  Return the resource type matching the identifier, or nullptr
-  when none matches.
-****************************************************************************/
-struct extra_type *resource_by_identifier(const char identifier)
-{
-  extra_type_by_cause_iterate(EC_RESOURCE, presource) {
-    if (presource->data.resource->id_old_save == identifier) {
-      return presource;
-    }
-  } extra_type_by_cause_iterate_end;
-
-  return nullptr;
-}
-
 /* =======================================================================
  * Compatibility functions for loading a game.
  * ======================================================================= */
