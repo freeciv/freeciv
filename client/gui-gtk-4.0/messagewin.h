@@ -16,6 +16,4 @@
 /* client */
 #include "messagewin_g.h"
 
-void meswin_dialog_popdown(void);
-
-#endif  /* FC__MESSAGEWIN_H */
+#endif /* FC__MESSAGEWIN_H */
