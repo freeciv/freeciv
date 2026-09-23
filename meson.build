@@ -665,7 +665,7 @@ if host_system == 'emscripten'
   emscripten_use_args = [
      '-s', 'USE_ICU=1',
      '-s', 'USE_ZLIB=1',
-     '-s', 'USE_PTHREADS=1'
+     '-pthread'
     ]
 
   add_global_arguments(
