@@ -38,9 +38,10 @@
 **************************************************************************/
 const char *api_auth_get_username(lua_State *L, Connection *pconn)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pconn, NULL);
-  fc_assert_ret_val(conn_is_valid(pconn), NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pconn, nullptr);
+
+  fc_assert_ret_val(conn_is_valid(pconn), nullptr);
 
   return auth_get_username(pconn);
 }
@@ -50,9 +51,10 @@ const char *api_auth_get_username(lua_State *L, Connection *pconn)
 **************************************************************************/
 const char *api_auth_get_ipaddr(lua_State *L, Connection *pconn)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_SELF(L, pconn, NULL);
-  fc_assert_ret_val(conn_is_valid(pconn), NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_SELF(L, pconn, nullptr);
+
+  fc_assert_ret_val(conn_is_valid(pconn), nullptr);
 
   return auth_get_ipaddr(pconn);
 }

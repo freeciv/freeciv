@@ -12,7 +12,7 @@
 *****************************************************************************/
 
 /*****************************************************************************
-  ADVERTISEMENT: do not attempt to change the name of the API functions.
+  ADVERTISEMENT: Do not attempt to change the name of the API functions.
   They may be in use in Lua scripts in savefiles, so once released, the
   name and signature cannot change shape even in new major versions of
   Freeciv, until the relevant save format version can no longer be loaded.
@@ -250,7 +250,7 @@ module edit {
 
   void api_edit_player_give_bulbs
     @ give_bulbs(lua_State *L, Player *self, int amount,
-                 Tech_Type *tech = NULL);
+                 Tech_Type *tech = nullptr);
 
   bool api_edit_create_trade_route
     @ create_trade_route(lua_State *L, City *from, City *to);
@@ -577,7 +577,7 @@ module Player {
   int api_methods_player_trait_current_mod
     @ trait_current_mod (lua_State *L, Player *pplayer, const char *tname);
   void api_methods_player_lose
-    @ lose (lua_State *L, Player *pplayer, Player *looter = NULL);
+    @ lose (lua_State *L, Player *pplayer, Player *looter = nullptr);
   int api_methods_player_tech_bulbs
     @ bulbs_saved (lua_State *L, Player *pplayer, Tech_Type *tech);
 

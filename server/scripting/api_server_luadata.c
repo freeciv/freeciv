@@ -34,11 +34,12 @@
 **************************************************************************/
 const char *api_luadata_get_str(lua_State *L, const char *field)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
 
-  if (game.server.luadata == NULL) {
-    return NULL;
+  if (game.server.luadata == nullptr) {
+    return nullptr;
   }
 
-  return secfile_lookup_str_default(game.server.luadata, NULL, "%s", field);
+  return secfile_lookup_str_default(game.server.luadata, nullptr,
+                                    "%s", field);
 }

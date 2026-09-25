@@ -33,8 +33,8 @@
 **************************************************************************/
 const char *api_fcdb_option(lua_State *L, const char *type)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
-  LUASCRIPT_CHECK_ARG_NIL(L, type, 2, string, NULL);
+  LUASCRIPT_CHECK_STATE(L, nullptr);
+  LUASCRIPT_CHECK_ARG_NIL(L, type, 2, string, nullptr);
 
   if (!fc_strncasecmp(OPTION_DEPR_PREFIX, type,
                       strlen(OPTION_DEPR_PREFIX))) {
