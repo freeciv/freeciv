@@ -110,9 +110,6 @@ static void recreate_production_menu(GActionGroup *group);
 static void recreate_select_menu(GActionGroup *group);
 static void recreate_sell_menu(GActionGroup *group);
 
-static GtkWidget *city_center_command;
-static GtkWidget *city_popup_command;
-static GtkWidget *city_buy_command;
 static GtkWidget *city_total_buy_cost_label;
 
 static GMenu *prod_menu = NULL;
@@ -1103,7 +1100,7 @@ static void create_city_report_dialog(bool make_modal)
   static char (*buf)[128];
   struct city_report_spec *spec;
 
-  GtkWidget *w, *sw, *aux_menu;
+  GtkWidget *sw, *aux_menu;
   int i;
 
   gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
@@ -1126,17 +1123,14 @@ static void create_city_report_dialog(bool make_modal)
   gui_dialog_add_action_widget(city_dialog_shell,
                                city_total_buy_cost_label);
 
-  w = gui_dialog_add_button(city_dialog_shell, NULL,
-                            _("_Buy"), CITY_BUY);
-  city_buy_command = w;
+  gui_dialog_add_button(city_dialog_shell, NULL,
+                        _("_Buy"), CITY_BUY);
 
-  w = gui_dialog_add_button(city_dialog_shell, NULL,
-                            _("_Inspect"), CITY_POPUP);
-  city_popup_command = w;
+  gui_dialog_add_button(city_dialog_shell, NULL,
+                        _("_Inspect"), CITY_POPUP);
 
-  w = gui_dialog_add_button(city_dialog_shell, NULL,
-                            _("Cen_ter"), CITY_CENTER);
-  city_center_command = w;
+  gui_dialog_add_button(city_dialog_shell, NULL,
+                        _("Cen_ter"), CITY_CENTER);
 
   /* Tree view */
   buf = fc_realloc(buf, NUM_CREPORT_COLS * sizeof(buf[0]));
