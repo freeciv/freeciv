@@ -5155,30 +5155,15 @@ void random_movements(struct player *pplayer)
               if (unit_perform_action(pplayer, id, tile_index(dest), NO_TARGET,
                                       "", act, ACT_REQ_RULES)) {
                 moved = TRUE;
-                break;
               }
             }
 
             if (!moved) {
-              if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE, punit, dest,
-                                                 nullptr)) {
+              act = select_actres_action_unit_on_tile(nmap, ACTRES_UNIT_MOVE,
+                                                      punit, dest);
+              if (act != ACTION_NONE) {
                 if (unit_perform_action(pplayer, id, tile_index(dest),
-                                        NO_TARGET, "", ACTION_UNIT_MOVE,
-                                        ACT_REQ_RULES)) {
-                  moved = TRUE;
-                }
-              } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE2,
-                                                        punit, dest, nullptr)) {
-                if (unit_perform_action(pplayer, id, tile_index(dest),
-                                        NO_TARGET, "", ACTION_UNIT_MOVE2,
-                                        ACT_REQ_RULES)) {
-                  moved = TRUE;
-                }
-              } else if (is_action_enabled_unit_on_tile(nmap, ACTION_UNIT_MOVE3,
-                                                        punit, dest, nullptr)) {
-                if (unit_perform_action(pplayer, id, tile_index(dest),
-                                        NO_TARGET, "", ACTION_UNIT_MOVE3,
-                                        ACT_REQ_RULES)) {
+                                        NO_TARGET, "", act, ACT_REQ_RULES)) {
                   moved = TRUE;
                 }
               }
