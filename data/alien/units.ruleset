@@ -645,7 +645,7 @@ tp_defense    = "Alight"
 flags         = "Capturer"
 roles         = "DefendOk", "DefendOkStartUnit", "FirstBuild", "Barbarian", "BarbarianSea"
 helptext      = _("\
-This unit may be built from the start of the game.  It is the\
+This unit may be built from the start of the game. It is the\
  weakest military unit.\
 ")
 
