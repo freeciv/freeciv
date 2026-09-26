@@ -3197,7 +3197,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
     struct fair_tile *pend;
     int n = ((river_pct * size * wld.map.num_cardinal_dirs
               * wld.map.num_cardinal_dirs) / 200);
-    int length_max = 3, length, l;
+    int length_max = 3, l;
     enum direction8 dir;
     int extra_idx;
     int dirs_num;
@@ -3254,7 +3254,11 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
 
       /* Check a river in one direction. */
       pend = NULL;
-      length = -1;
+
+#if !defined(FREECIV_NDEBUG) || defined(FREECIV_DEBUG)
+      int length = -1;
+#endif
+
       dir = direction8_invalid();
       dirs_num = 0;
       for (j = 0; j < wld.map.num_valid_dirs; j++) {
@@ -3306,7 +3310,10 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
         if (finished && fc_rand(++dirs_num) == 0) {
           dir = wld.map.valid_dirs[j];
           pend = pftile2;
+
+#if !defined(FREECIV_NDEBUG) || defined(FREECIV_DEBUG)
           length = l;
+#endif
         }
       }
       if (pend == NULL) {
@@ -3322,7 +3329,11 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
                 length);
       for (;;) {
         BV_SET(pftile->extras, extra_idx);
+
+#if !defined(FREECIV_NDEBUG) || defined(FREECIV_DEBUG)
         length--;
+#endif
+
         if (pftile == pend) {
           fc_assert(length == 0);
           break;
