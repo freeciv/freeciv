@@ -130,8 +130,8 @@ city. Goods later in chains trade for higher value.
 
 Bridges:
 Base number of trade routes a city can have is just one.
-Another trade route becomes possible, if there's a tile with
-both River and Road within the city area.
+Another trade route becomes possible, if there's a tile
+owned by the city owner with both River and Road within the city area.
 
 Coal Mines:
 Building a factory requires that city is connected via roads
