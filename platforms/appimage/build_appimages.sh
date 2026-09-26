@@ -69,7 +69,7 @@ fcmp_appimage() {
   fi
 
   cd "build/fcmp-$1"
-  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dserver=disabled  -Dclients=[] -Dfcmp=$2 -Dtools=[] $4 "${SRC_ROOT}"
+  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dserver=disabled  -Dclients=[] -Dfcmp=$2 -Dtools=[] -Daudio=none $4 "${SRC_ROOT}"
   then
     echo "fcmp-$1 setup with meson failed!" >&2
     return 1
@@ -101,7 +101,7 @@ ruledit_appimage() {
 
   cd "build/ruledit-$1"
   if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=[] -Dfcmp=[] \
-       -Dserver=disabled -Dtools='ruledit' -Dqtver=$1 "${SRC_ROOT}"
+       -Dserver=disabled -Dtools='ruledit' -Dqtver=$1 -Daudio=none "${SRC_ROOT}"
   then
     echo "ruledit-$1 setup with meson failed!" >&2
     return 1
