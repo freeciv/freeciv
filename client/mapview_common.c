@@ -77,9 +77,9 @@ bool can_slide = TRUE;
 
 static bool frame_by_frame_animation = FALSE;
 
-const struct tile *center_tile = NULL;
+const struct tile *center_tile = nullptr;
 
-struct tile *infratile = NULL;
+struct tile *infratile = nullptr;
 
 static void base_canvas_to_map_pos(float zoom, int *map_x, int *map_y,
                                    float canvas_x, float canvas_y);
@@ -125,7 +125,7 @@ struct trade_route_line {
 /* A trade route line might need to be drawn in two parts. */
 static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
 
-static struct timer *anim_timer = NULL;
+static struct timer *anim_timer = nullptr;
 
 enum animation_type { ANIM_MOVEMENT, ANIM_BATTLE, ANIM_EXPL, ANIM_NUKE };
 
@@ -173,7 +173,7 @@ struct animation
 #define SPECLIST_TYPE struct animation
 #include "speclist.h"
 
-struct animation_list *animations = NULL;
+struct animation_list *animations = nullptr;
 
 /************************************************************************//**
   Initialize animations system.
@@ -188,7 +188,7 @@ void animations_init(void)
 ****************************************************************************/
 void animations_free(void)
 {
-  if (animations != NULL) {
+  if (animations != nullptr) {
     int i;
     size_t last = animation_list_size(animations);
 
@@ -213,7 +213,7 @@ void animations_free(void)
     }
 
     animation_list_destroy(animations);
-    animations = NULL;
+    animations = nullptr;
   }
 }
 
@@ -223,7 +223,7 @@ void animations_free(void)
 static void anim_timer_renew(void)
 {
   anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE,
-                           anim_timer != NULL ? NULL : "anim");
+                           anim_timer != nullptr ? nullptr : "anim");
   timer_start(anim_timer);
 }
 
@@ -252,7 +252,7 @@ static bool movement_animation(struct animation *anim, double time_gone)
   double mytime = MIN(time_gone, timing_sec);
   struct unit *punit = anim->movement.mover;
 
-  if (punit != NULL) {
+  if (punit != nullptr) {
     tile_to_canvas_pos(&start_x, &start_y, map_zoom, anim->movement.src);
     if (tileset_is_isometric(tileset) && tileset_hex_height(tileset) == 0) {
       start_y -= tileset_tile_height(tileset) / 2 * map_zoom;
@@ -440,7 +440,7 @@ static bool nuke_animation(struct animation *anim, double time_gone)
 ****************************************************************************/
 void update_animation(void)
 {
-  if (animations != NULL && animation_list_size(animations) > 0) {
+  if (animations != nullptr && animation_list_size(animations) > 0) {
     struct animation *anim = animation_list_get(animations, 0);
 
     if (anim->finished) {
@@ -496,7 +496,8 @@ static inline struct gotoline_counter *gotoline_counter_new(void)
 ****************************************************************************/
 static void gotoline_counter_destroy(struct gotoline_counter *pglc)
 {
-  fc_assert_ret(NULL != pglc);
+  fc_assert_ret(pglc != nullptr);
+
   free(pglc);
 }
 
@@ -760,7 +761,7 @@ static void base_canvas_to_map_pos(float zoom, int *map_x, int *map_y,
 
 /************************************************************************//**
   Finds the tile corresponding to pixel coordinates. Returns that tile,
-  or NULL if the position is off the map.
+  or nullptr if the position is off the map.
 ****************************************************************************/
 struct tile *canvas_pos_to_tile(float canvas_x, float canvas_y,
                                 float zoom)
@@ -771,13 +772,14 @@ struct tile *canvas_pos_to_tile(float canvas_x, float canvas_y,
   if (normalize_map_pos(&(wld.map), &map_x, &map_y)) {
     return map_pos_to_tile(&(wld.map), map_x, map_y);
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
 /************************************************************************//**
   Finds the tile corresponding to pixel coordinates. Returns that tile,
-  or the one nearest is the position is off the map. Will never return NULL.
+  or the one nearest is the position is off the map.
+  Will never return nullptr.
 ****************************************************************************/
 struct tile *canvas_pos_to_nearest_tile(float canvas_x, float canvas_y,
                                         float zoom)
@@ -1399,10 +1401,12 @@ void put_one_element(struct canvas *pcanvas, float zoom,
 void put_unit(const struct unit *punit, struct canvas *pcanvas, float zoom,
               int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset)) * zoom;
+  canvas_y
+    += (tileset_unit_height(tileset) - tileset_tile_height(tileset)) * zoom;
+
   mapview_layer_iterate(layer) {
-    put_one_element(pcanvas, zoom, layer, NULL, NULL, NULL,
-                    punit, NULL, canvas_x, canvas_y, NULL, NULL);
+    put_one_element(pcanvas, zoom, layer, nullptr, nullptr, nullptr,
+                    punit, nullptr, canvas_x, canvas_y, nullptr, nullptr);
   } mapview_layer_iterate_end;
 }
 
@@ -1410,29 +1414,33 @@ void put_unit(const struct unit *punit, struct canvas *pcanvas, float zoom,
   Draw the given unit onto the canvas store at the given location. The area
   of drawing is tileset_unit_height(tileset) x tileset_unit_width(tileset).
 ****************************************************************************/
-void put_unittype(const struct unit_type *putype, struct canvas *pcanvas, float zoom,
-                  int canvas_x, int canvas_y)
+void put_unittype(const struct unit_type *putype, struct canvas *pcanvas,
+                  float zoom, int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset)) * zoom;
+  canvas_y
+    += (tileset_unit_height(tileset) - tileset_tile_height(tileset)) * zoom;
+
   mapview_layer_iterate(layer) {
-    put_one_element(pcanvas, zoom, layer, NULL, NULL, NULL,
-                    NULL, NULL, canvas_x, canvas_y, NULL, putype);
+    put_one_element(pcanvas, zoom, layer, nullptr, nullptr, nullptr,
+                    nullptr, nullptr, canvas_x, canvas_y, nullptr, putype);
   } mapview_layer_iterate_end;
 }
 
 /************************************************************************//**
-  Draw the given city onto the canvas store at the given location. The
-  area of drawing is
+  Draw the given city onto the canvas store at the given location.
+  The area of drawing is
   tileset_full_tile_height(tileset) x tileset_full_tile_width(tileset).
 ****************************************************************************/
 void put_city(struct city *pcity, struct canvas *pcanvas, float zoom,
               int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset)) * zoom;
+  canvas_y
+    += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset)) * zoom;
+
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, zoom, layer,
-                    NULL, NULL, NULL, NULL, pcity,
-                    canvas_x, canvas_y, NULL, NULL);
+                    nullptr, nullptr, nullptr, nullptr, pcity,
+                    canvas_x, canvas_y, nullptr, nullptr);
   } mapview_layer_iterate_end;
 }
 
@@ -1446,10 +1454,12 @@ void put_terrain(struct tile *ptile, struct canvas *pcanvas, float zoom,
                  int canvas_x, int canvas_y)
 {
   /* Use full tile height, even for terrains. */
-  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset)) * zoom;
+  canvas_y
+    += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset)) * zoom;
+
   mapview_layer_iterate(layer) {
-    put_one_element(pcanvas, zoom, layer, ptile, NULL, NULL, NULL, NULL,
-                    canvas_x, canvas_y, NULL, NULL);
+    put_one_element(pcanvas, zoom, layer, ptile, nullptr, nullptr, nullptr,
+                    nullptr, canvas_x, canvas_y, nullptr, nullptr);
   } mapview_layer_iterate_end;
 }
 
@@ -1590,19 +1600,19 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
   if (client_tile_get_known(ptile) != TILE_UNKNOWN
       || (editor_is_active() && editor_tile_is_selected(ptile))) {
     struct unit *punit = get_drawable_unit(tileset, ptile, citymode);
-    struct animation *anim = NULL;
+    struct animation *anim = nullptr;
 
     if (animation_list_size(animations) > 0) {
       anim = animation_list_get(animations, 0);
     }
 
-    if (anim != NULL && punit != NULL
+    if (anim != nullptr && punit != nullptr
         && punit->id == anim->id) {
-      punit = NULL;
+      punit = nullptr;
     }
 
-    put_one_element(pcanvas, map_zoom, layer, ptile, NULL, NULL, punit,
-                    tile_city(ptile), canvas_x, canvas_y, citymode, NULL);
+    put_one_element(pcanvas, map_zoom, layer, ptile, nullptr, nullptr, punit,
+                    tile_city(ptile), canvas_x, canvas_y, citymode, nullptr);
   }
 }
 
@@ -1695,7 +1705,7 @@ static void draw_trade_routes_for_city(const struct city *pcity_src)
   }
 
   trade_partners_iterate(pcity_src, pcity_dest) {
-    if (pcity_dest != NULL) {
+    if (pcity_dest != nullptr) {
       draw_trade_route_line(city_tile(pcity_src), city_tile(pcity_dest),
                             COLOR_MAPVIEW_TRADE_ROUTE_LINE);
     }
@@ -1815,13 +1825,13 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       const int cx = gui_x - mapview.gui_x0, cy = gui_y - mapview.gui_y0;
 
       if (ptile) {
-        put_one_tile(mapview.store, layer, ptile, cx, cy, NULL);
+        put_one_tile(mapview.store, layer, ptile, cx, cy, nullptr);
       } else if (pedge) {
-        put_one_element(mapview.store, map_zoom, layer, NULL, pedge, NULL,
-                        NULL, NULL, cx, cy, NULL, NULL);
+        put_one_element(mapview.store, map_zoom, layer, nullptr, pedge,
+                        nullptr, nullptr, nullptr, cx, cy, nullptr, nullptr);
       } else if (pcorner) {
-        put_one_element(mapview.store, map_zoom, layer, NULL, NULL, pcorner,
-                        NULL, NULL, cx, cy, NULL, NULL);
+        put_one_element(mapview.store, map_zoom, layer, nullptr, nullptr,
+                        pcorner, nullptr, nullptr, cx, cy, nullptr, nullptr);
       } else {
         /* This can happen, for instance for unreal tiles. */
       }
@@ -1928,7 +1938,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   int width1 = 0, width2 = 0, height1 = 0, height2 = 0;
   struct sprite *bg = citybar->background;
   struct sprite *flag = get_city_flag_sprite(tileset, pcity);
-  struct sprite *occupy = NULL;
+  struct sprite *occupy = nullptr;
   int bg_w, bg_h, x, y;
   const int canvas_x = canvas_x0 + tileset_tile_width(tileset) / 2 * map_zoom;
   const int canvas_y = canvas_y0 + tileset_citybar_offset_y(tileset) * map_zoom;
@@ -2242,9 +2252,9 @@ static void show_small_citybar(struct canvas *pcanvas,
   if (gui_options.draw_city_names) {
     int drawposx;
 
-    /* HACK: put a character's worth of space between the two
+    /* HACK: Put a character's worth of space between the two
      * strings if needed. */
-    get_text_size(&spacer_width, NULL, FONT_CITY_NAME, "M");
+    get_text_size(&spacer_width, nullptr, FONT_CITY_NAME, "M");
 
     total_width = 0;
     total_height = 0;
@@ -2458,7 +2468,7 @@ void show_tile_labels(int canvas_base_x, int canvas_base_y,
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
 
-    if (ptile && ptile->label != NULL) {
+    if (ptile && ptile->label != nullptr) {
       int width = 0, height = 0;
 
       show_tile_label(mapview.store, canvas_x, canvas_y,
@@ -2562,16 +2572,18 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     anim->type = ANIM_BATTLE;
     anim->id = -1;
-    anim->battle.virt_loser = unit_virtual_create(unit_owner(losing_unit),
-                                                  NULL, unit_type_get(losing_unit),
-                                                  losing_unit->veteran);
+    anim->battle.virt_loser
+      = unit_virtual_create(unit_owner(losing_unit),
+                            nullptr, unit_type_get(losing_unit),
+                            losing_unit->veteran);
     anim->battle.loser_tile = unit_tile(losing_unit);
     anim->battle.virt_loser->facing = losing_unit->facing;
     anim->battle.loser_hp_start = losing_unit->hp;
     anim->battle.loser_hp_end = loser_end_hp;
-    anim->battle.virt_winner = unit_virtual_create(unit_owner(winning_unit),
-                                                   NULL, unit_type_get(winning_unit),
-                                                   winning_unit->veteran);
+    anim->battle.virt_winner
+      = unit_virtual_create(unit_owner(winning_unit),
+                            nullptr, unit_type_get(winning_unit),
+                            winning_unit->veteran);
     anim->battle.winner_tile = unit_tile(winning_unit);
     anim->battle.virt_winner->facing = winning_unit->facing;
     anim->battle.winner_hp_start = MAX(winning_unit->hp, winner_end_hp);
@@ -2659,7 +2671,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     }
   }
 
-  set_units_in_combat(NULL, NULL);
+  set_units_in_combat(nullptr, nullptr);
   refresh_unit_mapcanvas(punit0, unit_tile(punit0), TRUE, FALSE);
   refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
 }
@@ -2719,9 +2731,9 @@ void move_unit_map_canvas(struct unit *punit,
 
       anim->type = ANIM_MOVEMENT;
       anim->id = punit->id;
-      anim->movement.mover = unit_virtual_create(unit_owner(punit),
-                                                 NULL, unit_type_get(punit),
-                                                 punit->veteran);
+      anim->movement.mover
+        = unit_virtual_create(unit_owner(punit), nullptr,
+                              unit_type_get(punit), punit->veteran);
       anim->movement.mover->hp = punit->hp;
       anim->movement.mover->facing = punit->facing;
       anim->movement.src = src_tile;
@@ -2778,48 +2790,48 @@ void move_unit_map_canvas(struct unit *punit,
 /************************************************************************//**
   Find the "best" city/settlers to associate with the selected tile.
     a.  If a visible city is working the tile, return that city.
-    b.  If another player's city is working the tile, return NULL.
+    b.  If another player's city is working the tile, return nullptr.
     c.  If any selected cities are within range, return the closest one.
     d.  If any cities are within range, return the closest one.
     e.  If any active (with color) settler could work it if they founded a
-        city, choose the closest one (only if punit != NULL).
+        city, choose the closest one (only if punit != nullptr).
     f.  If any settler could work it if they founded a city, choose the
-        closest one (only if punit != NULL).
-    g.  If nobody can work it, return NULL.
+        closest one (only if punit != nullptr).
+    g.  If nobody can work it, return nullptr.
 ****************************************************************************/
 struct city *find_city_or_settler_near_tile(const struct tile *ptile,
                                             struct unit **punit)
 {
   struct city *closest_city;
   struct city *pcity;
-  struct unit *closest_settler = NULL, *best_settler = NULL;
+  struct unit *closest_settler = nullptr, *best_settler = nullptr;
   int max_rad = rs_max_city_radius_sq();
 
   if (punit) {
-    *punit = NULL;
+    *punit = nullptr;
   }
 
   /* Check if there is visible city working that tile */
   pcity = tile_worked(ptile);
   if (pcity && pcity->tile) {
-    if (NULL == client.conn.playing
+    if (client.conn.playing == nullptr
         || city_owner(pcity) == client.conn.playing) {
       /* Rule a */
       return pcity;
     } else {
       /* Rule b */
-      return NULL;
+      return nullptr;
     }
   }
 
   /* Rule e */
-  closest_city = NULL;
+  closest_city = nullptr;
 
   /* Check within maximum (squared) city radius */
   city_tile_iterate(&(wld.map), max_rad, ptile, tile1) {
     pcity = tile_city(tile1);
     if (pcity
-        && (NULL == client.conn.playing
+        && (client.conn.playing == nullptr
             || city_owner(pcity) == client.conn.playing)
         && client_city_can_work_tile(pcity, tile1)) {
       /*
@@ -2847,32 +2859,32 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
     /* Check within maximum (squared) city radius */
     city_tile_iterate(&(wld.map), max_rad, ptile, tile1) {
       unit_list_iterate(tile1->units, psettler) {
-        if ((NULL == client.conn.playing
+        if ((client.conn.playing == nullptr
              || unit_owner(psettler) == client.conn.playing)
             && unit_can_do_action(psettler, ACTION_FOUND_CITY)
             && city_can_be_built_here(&(wld.map), unit_tile(psettler),
                                       psettler, FALSE)) {
-          if (closest_settler == NULL) {
+          if (closest_settler == nullptr) {
             closest_settler = psettler;
           }
-          if (best_settler == NULL && psettler->client.colored) {
+          if (best_settler == nullptr && psettler->client.colored) {
             best_settler = psettler;
           }
         }
       } unit_list_iterate_end;
     } city_tile_iterate_end;
 
-    if (best_settler != NULL) {
+    if (best_settler != nullptr) {
       /* Rule e */
       *punit = best_settler;
-    } else if (closest_settler != NULL) {
+    } else if (closest_settler != nullptr) {
       /* Rule f */
       *punit = closest_settler;
     }
   }
 
   /* Rule g */
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -2880,12 +2892,12 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 ****************************************************************************/
 struct city *find_city_near_tile(const struct tile *ptile)
 {
-  return find_city_or_settler_near_tile(ptile, NULL);
+  return find_city_or_settler_near_tile(ptile, nullptr);
 }
 
 /************************************************************************//**
   Append the buy cost of the current production of the given city to the
-  already NULL-terminated buffer. Does nothing if draw_city_buycost is
+  already zero-terminated buffer. Does nothing if draw_city_buycost is
   set to FALSE, or if it does not make sense to buy the current production
   (e.g. coinage).
 ****************************************************************************/
@@ -2931,7 +2943,7 @@ void get_city_mapview_production(struct city *pcity,
 /************************************************************************//**
   Find the mapview city trade routes text for the given city, and place it
   into the buffer. Sets 'pcolor' to the preferred color the text should
-  be drawn in if it is non-NULL.
+  be drawn in if it is non-nullptr.
 ****************************************************************************/
 void get_city_mapview_trade_routes(struct city *pcity,
                                    char *trade_routes_buffer,
@@ -3000,7 +3012,7 @@ static void queue_add_callback(void)
 {
   if (!callback_queued) {
     callback_queued = TRUE;
-    add_idle_callback(queue_callback, NULL);
+    add_idle_callback(queue_callback, nullptr);
   }
 }
 
@@ -3011,7 +3023,7 @@ static void queue_add_callback(void)
   Not only would this often end up with a lot of duplicated work, but it
   would also draw over the city descriptions, which would then just
   "disappear" from the mapview. The hack is to instead call
-  queue_mapview_update in place of this update, and later (after all
+  queue_mapview_update() in place of this update, and later (after all
   packets have been read) call unqueue_mapview_update(). The functions
   don't track which areas of the screen need updating, rather when the
   unqueue is done we just update the whole visible mapqueue, and redraw
@@ -3102,7 +3114,7 @@ void unqueue_mapview_updates(bool write_to_screen)
    * the function itself (namely, within update_map_canvas() ). */
   for (i = 0; i < TILE_UPDATE_COUNT; i++) {
     my_tile_updates[i] = tile_updates[i];
-    tile_updates[i] = NULL;
+    tile_updates[i] = nullptr;
   }
 
   if (!map_is_empty()) {
@@ -3181,7 +3193,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
   fc_strlcpy(name_buffer, city_name_getx(pcity), name_buffer_len);
 
   *production_color = COLOR_MAPVIEW_CITYTEXT;
-  if (NULL == client.conn.playing
+  if (client.conn.playing == nullptr
       || city_owner(pcity) == client.conn.playing) {
     int turns = city_turns_to_grow(pcity);
 
@@ -3309,15 +3321,15 @@ void mapdeco_free(void)
 {
   if (mapdeco_highlight_table) {
     tile_hash_destroy(mapdeco_highlight_table);
-    mapdeco_highlight_table = NULL;
+    mapdeco_highlight_table = nullptr;
   }
   if (mapdeco_crosshair_table) {
     tile_hash_destroy(mapdeco_crosshair_table);
-    mapdeco_crosshair_table = NULL;
+    mapdeco_crosshair_table = nullptr;
   }
   if (mapdeco_gotoline_table) {
     gotoline_hash_destroy(mapdeco_gotoline_table);
-    mapdeco_gotoline_table = NULL;
+    mapdeco_gotoline_table = nullptr;
   }
 }
 
@@ -3334,7 +3346,7 @@ void mapdeco_set_highlight(const struct tile *ptile, bool highlight)
   }
 
   if (highlight) {
-    changed = tile_hash_insert(mapdeco_highlight_table, ptile, NULL);
+    changed = tile_hash_insert(mapdeco_highlight_table, ptile, nullptr);
   } else {
     changed = tile_hash_remove(mapdeco_highlight_table, ptile);
   }
@@ -3353,7 +3365,8 @@ bool mapdeco_is_highlight_set(const struct tile *ptile)
   if (!ptile || !mapdeco_highlight_table) {
     return FALSE;
   }
-  return tile_hash_lookup(mapdeco_highlight_table, ptile, NULL);
+
+  return tile_hash_lookup(mapdeco_highlight_table, ptile, nullptr);
 }
 
 /************************************************************************//**
@@ -3385,7 +3398,7 @@ void mapdeco_set_crosshair(const struct tile *ptile, bool crosshair)
   }
 
   if (crosshair) {
-    changed = tile_hash_insert(mapdeco_crosshair_table, ptile, NULL);
+    changed = tile_hash_insert(mapdeco_crosshair_table, ptile, nullptr);
   } else {
     changed = tile_hash_remove(mapdeco_crosshair_table, ptile);
   }
@@ -3404,7 +3417,8 @@ bool mapdeco_is_crosshair_set(const struct tile *ptile)
   if (!mapdeco_crosshair_table || !ptile) {
     return FALSE;
   }
-  return tile_hash_lookup(mapdeco_crosshair_table, ptile, NULL);
+
+  return tile_hash_lookup(mapdeco_crosshair_table, ptile, nullptr);
 }
 
 /************************************************************************//**
@@ -3488,7 +3502,7 @@ void mapdeco_remove_gotoline(const struct tile *ptile,
     /* FIXME: Remove the casts. */
     refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
     ptile = mapstep(&(wld.map), ptile, dir);
-    if (ptile != NULL) {
+    if (ptile != nullptr) {
       refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
     }
   }
@@ -3512,7 +3526,7 @@ void mapdeco_set_gotoroute(const struct unit *punit)
 
   ptile = unit_tile(punit);
 
-  for (i = 0; ptile != NULL && i < punit->orders.length; i++) {
+  for (i = 0; ptile != nullptr && i < punit->orders.length; i++) {
     if (punit->orders.index + i >= punit->orders.length
         && !punit->orders.repeat) {
       break;
@@ -3521,7 +3535,7 @@ void mapdeco_set_gotoroute(const struct unit *punit)
     ind = (punit->orders.index + i) % punit->orders.length;
     porder = &punit->orders.list[ind];
     if (porder->order != ORDER_MOVE) {
-      /* FIXME: should display some indication of non-move orders here. */
+      /* FIXME: Should display some indication of non-move orders here. */
       continue;
     }
 
@@ -3627,7 +3641,7 @@ bool map_canvas_resized(int width, int height)
 
   if (!map_is_empty() && can_client_change_view()) {
     if (tile_size_changed) {
-      if (center_tile != NULL) {
+      if (center_tile != nullptr) {
         int x_left, y_top;
         float gui_x, gui_y;
 
@@ -3670,7 +3684,7 @@ bool map_canvas_resized(int width, int height)
 ****************************************************************************/
 void init_mapcanvas_and_overview(void)
 {
-  /* Create a dummy map to make sure mapview.store is never NULL. */
+  /* Create a dummy map to make sure mapview.store is never nullptr. */
   map_canvas_resized(1, 1);
 }
 
@@ -3784,7 +3798,7 @@ struct link_mark {
   TYPED_LIST_ITERATE(struct link_mark, link_marks, pmark)
 #define link_marks_iterate_end LIST_ITERATE_END
 
-static struct link_mark_list *link_marks = NULL;
+static struct link_mark_list *link_marks = nullptr;
 
 /************************************************************************//**
   Find a link mark in the list.
@@ -3797,7 +3811,7 @@ static struct link_mark *link_mark_find(enum text_link_type type, int id)
     }
   } link_marks_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -3832,18 +3846,20 @@ static struct tile *link_mark_tile(const struct link_mark *pmark)
   case TLT_CITY:
     {
       struct city *pcity = game_city_by_number(pmark->id);
-      return pcity ? pcity->tile : NULL;
+
+      return pcity ? pcity->tile : nullptr;
     }
   case TLT_TILE:
     return index_to_tile(&(wld.map), pmark->id);
   case TLT_UNIT:
     {
       struct unit *punit = game_unit_by_number(pmark->id);
-      return punit ? unit_tile(punit) : NULL;
+
+      return punit ? unit_tile(punit) : nullptr;
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -3860,7 +3876,7 @@ static struct color *link_mark_color(const struct link_mark *pmark)
     return get_color(tileset, COLOR_MAPVIEW_UNIT_LINK);
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
@@ -3931,7 +3947,7 @@ void link_marks_free(void)
   }
 
   link_mark_list_destroy(link_marks);
-  link_marks = NULL;
+  link_marks = nullptr;
 }
 
 /************************************************************************//**
@@ -4030,7 +4046,7 @@ enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
     tileset_topology = 0;
   }
 
-  if (tset_topo != NULL) {
+  if (tset_topo != nullptr) {
     *tset_topo = tileset_topology;
   }
 
@@ -4098,10 +4114,10 @@ void client_infratile_set(struct tile *ptile)
 
   infratile = ptile;
 
-  if (old_tile != NULL) {
+  if (old_tile != nullptr) {
     refresh_tile_mapcanvas(old_tile, FALSE, TRUE);
   }
-  if (ptile != NULL) {
+  if (ptile != nullptr) {
     refresh_tile_mapcanvas(ptile, FALSE, TRUE);
   }
 }

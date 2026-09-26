@@ -82,7 +82,7 @@ extern bool can_slide;
  * These values may be negative.
  *
  * _t, _e, _c: the tile, edge, or corner that is being iterated, declared
- * inside the macro. Usually, only one of them will be non-NULL at a time.
+ * inside the macro. Usually, only one of them will be non-nullptr at a time.
  * These values may be passed directly to fill_sprite_array().
  *
  * _x, _y: the canvas position of the current element, declared inside
@@ -129,9 +129,9 @@ extern bool can_slide;
     log_debug("Iterating over %d-%d x %d-%d rectangle.",                \
               _t##_x1, _t##_x0, _t##_y1, _t##_y0);                      \
     for (; _t##_index < _t##_count; _t##_index++) {                     \
-      struct tile *_t = NULL;                                           \
-      struct tile_edge *_e = NULL;                                      \
-      struct tile_corner *_c = NULL;                                    \
+      struct tile *_t = nullptr;                                        \
+      struct tile_edge *_e = nullptr;                                   \
+      struct tile_corner *_c = nullptr;                                 \
                                                                         \
       _t##_xi = _t##_x0 + (_t##_index % (_t##_x1 - _t##_x0));           \
       _t##_yi = _t##_y0 + (_t##_index / (_t##_x1 - _t##_x0));           \
