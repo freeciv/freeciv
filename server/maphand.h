@@ -28,10 +28,10 @@ struct conn_list;
 
 
 struct player_tile {
-  struct vision_site *site;		/* NULL for no vision site */
-  struct extra_type *resource;          /* NULL for no resource */
-  struct terrain *terrain;		/* NULL for unknown tiles */
-  struct player *owner; 		/* NULL for unowned */
+  struct vision_site *site;             /* nullptr for no vision site */
+  struct extra_type *resource;          /* nullptr for no resource */
+  struct terrain *terrain;              /* nullptr for unknown tiles */
+  struct player *owner;                 /* nullptr for unowned */
   struct player *extras_owner;
   struct dbv extras;
 
@@ -53,7 +53,7 @@ void upgrade_all_city_extras(struct player *pplayer, bool discovery);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_citymap_from_player_to_player(struct city *pcity,
-					struct player *pfrom, struct player *pdest);
+                                        struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct conn_list *dest);
 
 bool send_tile_suppression(bool now);
@@ -65,7 +65,7 @@ void send_map_info(struct conn_list *dest);
 void map_show_tile(struct player *pplayer, struct tile *ptile);
 void map_hide_tile(struct player *pplayer, struct tile *ptile);
 void map_show_circle(struct player *pplayer,
-		     struct tile *ptile, int radius_sq);
+                     struct tile *ptile, int radius_sq);
 void map_vision_update(struct player *pplayer, struct tile *ptile,
                        const v_radius_t old_radius_sq,
                        const v_radius_t new_radius_sq,
