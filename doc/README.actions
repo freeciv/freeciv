@@ -1504,6 +1504,10 @@ Actions done by a unit against a tile
    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
    - the target tile's Hut's rmreqs are fulfilled
 
+"Scout" - Reveal area around a tile until turn change
+ * max legal distance to the target (center tile of the area to scout)
+   can be set using scout_max_range
+
 Actions done by a unit against all extras at a tile
 ===================================================
 "Conquer Extras" - Claim ownership of an extra.

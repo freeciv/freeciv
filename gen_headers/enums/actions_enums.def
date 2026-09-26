@@ -140,6 +140,7 @@ values
   ACTION_PLANT2                           "Plant 2"
   ACTION_TRANSFORM_TERRAIN                "Transform Terrain"
   ACTION_TRANSFORM_TERRAIN2               "Transform Terrain 2"
+  ACTION_SCOUT                            "Scout"
 
   # Enabler checks only
   ACTION_GAIN_VETERANCY                   "Gain Veterancy"

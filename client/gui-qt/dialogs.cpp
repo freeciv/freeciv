@@ -182,6 +182,7 @@ static void frighten_hut4(QVariant data1, QVariant data2);
 static void regular_move(QVariant data1, QVariant data2);
 static void regular_move2(QVariant data1, QVariant data2);
 static void regular_move3(QVariant data1, QVariant data2);
+static void scout(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
 static void fortify2(QVariant data1, QVariant data2);
@@ -379,6 +380,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_UNIT_MOVE] = regular_move;
   action_function[ACTION_UNIT_MOVE2] = regular_move2;
   action_function[ACTION_UNIT_MOVE3] = regular_move3;
+  action_function[ACTION_SCOUT] = scout;
 
   // Unit acting against all tile extras.
   action_function[ACTION_CONQUER_EXTRAS] = conquer_extras;
@@ -4318,6 +4320,21 @@ static void regular_move3(QVariant data1, QVariant data2)
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
     request_do_action(ACTION_UNIT_MOVE3,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Scout" for choice dialog
+***************************************************************************/
+static void scout(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (game_unit_by_number(actor_id) != nullptr
+      && index_to_tile(&(wld.map), target_id) != nullptr) {
+    request_do_action(ACTION_SCOUT,
                       actor_id, target_id, 0, "");
   }
 }
