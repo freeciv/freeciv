@@ -3597,6 +3597,7 @@ static void update_city_activity(struct city *pcity)
   struct government *gov;
   bool is_happy;
   bool is_celebrating;
+  bool celebration_change = FALSE;
 
   if (!pcity) {
     return;
@@ -3642,12 +3643,14 @@ static void update_city_activity(struct city *pcity)
         notify_player(pplayer, city_tile(pcity), E_CITY_LOVE, ftc_server,
                       _("Celebrations in your honor in %s."),
                       city_link(pcity));
+        celebration_change = TRUE;
       }
     } else {
       if (pcity->rapture != 0) {
         notify_player(pplayer, city_tile(pcity), E_CITY_NORMAL, ftc_server,
                       _("Celebrations canceled in %s."),
                       city_link(pcity));
+        celebration_change = TRUE;
       }
 
       /* Update city's celebrating counters */
@@ -3674,6 +3677,12 @@ static void update_city_activity(struct city *pcity)
           return;
         }
       }
+    }
+
+    /* Refresh city again, after happiness calculations.
+     * This makes celebration to affect output on the first turn it happens. */
+    if (celebration_change && city_refresh(pcity)) {
+      auto_arrange_workers(pcity);
     }
 
     /* City population updated here, after the rapture stuff above. --Jing */
