@@ -1693,7 +1693,7 @@ bool base_city_celebrating(const struct city *pcity)
 }
 
 /**********************************************************************//**
-cities celebrate only after consecutive happy turns
+  Cities celebrate only after consecutive happy turns
 **************************************************************************/
 bool city_celebrating(const struct city *pcity)
 {
