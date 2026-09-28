@@ -2959,10 +2959,10 @@ int city_airlift_max(const struct city *pcity)
 }
 
 /**********************************************************************//**
-   Set food, trade and shields production in a city.
+  Set food, trade and shields production in a city.
 
-   This initializes the prod[] and waste[] arrays.  It assumes that
-   the bonus[] and citizen_base[] arrays are alread built.
+  This initializes the prod[] and waste[] arrays. It assumes that
+  the bonus[] and citizen_base[] arrays are already built.
 **************************************************************************/
 inline void set_city_production(struct city *pcity)
 {
