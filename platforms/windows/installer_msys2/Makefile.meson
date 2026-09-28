@@ -360,7 +360,6 @@ install-env-gtk4x: install-env-gtk4-fcmp
 
 SDL2_DLLS := \
 	SDL2_ttf.dll \
-	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
 	libjxl.dll \
 	libbrotlienc.dll \
