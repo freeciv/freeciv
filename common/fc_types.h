@@ -30,7 +30,7 @@ extern "C" {
  * directory! */
 
 #define MAX_NUM_PLAYER_SLOTS 512 /* Used in the network protocol. */
-                                 /* Must be divisable by 32 or iterations
+                                 /* Must be divisible by 32 or iterations
                                   * in savegame2.c needs to be changed */
 #define MAX_NUM_BARBARIANS   12  /* 3, but slots reserved for future use. */
 #define MAX_NUM_PLAYERS      MAX_NUM_PLAYER_SLOTS - MAX_NUM_BARBARIANS
