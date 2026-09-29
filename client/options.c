@@ -6289,7 +6289,7 @@ void options_load(void)
     save_cma_presets(sf);
 
     /* FIXME: need better messages */
-    if (!secfile_save(sf, name, 0, FZ_PLAIN)) {
+    if (!secfile_save(sf, name, 0, FZ_PLAIN, FALSE)) {
       log_error(_("Save failed, cannot write to file %s"), name);
     } else {
       log_normal(_("Saved settings to file %s"), name);
@@ -6587,7 +6587,7 @@ void options_save(option_save_log_callback log_cb)
   }
 
   /* Save to disk */
-  if (!secfile_save(sf, name, 0, FZ_PLAIN)) {
+  if (!secfile_save(sf, name, 0, FZ_PLAIN, FALSE)) {
     log_cb(LOG_ERROR, _("Saving options failed, cannot write to file %s"), name);
   } else {
     log_cb(LOG_VERBOSE, _("Saved options to file %s"), name);

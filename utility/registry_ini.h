@@ -64,7 +64,8 @@ struct section_file *secfile_from_stream(fz_FILE *stream,
                                          bool allow_duplicates);
 
 bool secfile_save(const struct section_file *secfile, const char *filename,
-                  int compression_level, enum fz_method compression_method);
+                  int compression_level, enum fz_method compression_method,
+                  bool do_formatting);
 void secfile_check_unused(const struct section_file *secfile);
 const char *secfile_name(const struct section_file *secfile);
 

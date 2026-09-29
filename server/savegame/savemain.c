@@ -130,7 +130,7 @@ static void save_thread_run(void *arg)
   struct save_thread_data *stdata = (struct save_thread_data *)arg;
 
   if (!secfile_save(stdata->sfile, stdata->filepath, stdata->save_compress_level,
-                    stdata->save_compress_type)) {
+                    stdata->save_compress_type, FALSE)) {
     con_write(C_FAIL, _("Failed saving game as %s"), stdata->filepath);
     log_error("Game saving failed: %s", secfile_error());
     notify_conn(nullptr, nullptr, E_LOG_ERROR, ftc_warning,

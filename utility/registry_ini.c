@@ -152,6 +152,7 @@
 #include <fc_config.h>
 #endif
 
+#include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -173,6 +174,11 @@
 #include "registry_ini.h"
 
 #define MAX_LEN_SECPATH 1024
+
+/* used for word wrapping, the longest output line may actually be
+ * 78 chars after stuff like _("..."), gets added.
+ */
+#define MAX_LINE_LEN 72
 
 /* Set to FALSE for old-style savefiles. */
 #define SAVE_TABLES TRUE
@@ -623,6 +629,212 @@ static bool is_legal_table_entry_name(char c, bool num)
 }
 
 /**********************************************************************//**
+  Utility routine used by format_entry_string()
+
+  returns whether it's OK to insert a line break before the passed in char,
+  most non-alphanumeric are OK, test high bit to rule out UTF-8.
+**************************************************************************/
+static bool is_delim(char ch)
+{
+  if (isalnum(ch) || ch & 0x80) {
+    return FALSE;
+  } else {
+    return (ch != '%' && ch != '.' && ch != ',' && ch != '?'
+            && ch != '!' && ch != ';' && ch != ':' && ch != ')');
+  }
+}
+
+/**********************************************************************//**
+  Utility routine used by format_entry_string()
+
+  starting at a location in a string, find the offsets of the next 2
+  delims, and return those offset values. Return value -1 means not found.
+**************************************************************************/
+static void find_next_delims(char *start_ptr,
+                             int *delim1_offset, int *delim2_offset)
+{
+  char *p = start_ptr;
+
+  *delim1_offset = -1;
+  *delim2_offset = -1;
+  while (*p && !is_delim(*p)) {
+    p++;
+  }
+  if (*p) {
+    *delim1_offset = p - start_ptr;
+  } else {
+    return;
+  }
+  p++;
+  while (*p && !is_delim(*p)) {
+    p++;
+  }
+  if (*p) {
+    *delim2_offset = p - start_ptr;
+  }
+}
+
+/**********************************************************************//**
+  Utility routine used by format_entry_string().
+  Does the word wrapping algorithm. Called twice,
+  first time with is_counting=TRUE to count number of line breaks
+  that will be added, and second time with is_counting=FALSE to do
+  the actual work.
+**************************************************************************/
+static int word_wrap_internal(char *new_buf, int indent, bool is_counting)
+{
+  bool is_finished = FALSE;
+  size_t str_length = strlen(new_buf);
+  char *end_new_buf_ptr = new_buf + str_length;
+  char *break_ptr, *progress_ptr = new_buf;
+  int num_undone = str_length;
+  int looked_at = 0;
+  int width = MAX_LINE_LEN - indent;
+  int delim1_offset, delim2_offset;
+  int counter = 0;
+
+  while (! is_finished) {
+    if (num_undone > width) {
+      find_next_delims(progress_ptr, &delim1_offset, &delim2_offset);
+      if (delim1_offset == -1) {
+        is_finished = TRUE;
+      } else {
+        if (looked_at + delim1_offset < width
+            && (looked_at + delim2_offset >= width || delim2_offset == -1)) {
+          break_ptr = progress_ptr + delim1_offset;
+          /* found where we want to word wrap */
+          if (is_counting) {
+            counter++;
+          } else {
+            char *p;
+
+            /* insert '\' and newline char into new_buf at break_ptr */
+            /* first, move to make room */
+            p = end_new_buf_ptr;
+            while (p >= break_ptr) {
+              *(p + 2) = *p;
+              p--;
+            }
+            *break_ptr++ = '\\';
+            *break_ptr++ = '\n';
+            end_new_buf_ptr += 2;
+          }
+
+          /* update for next time thru loop */
+          num_undone = end_new_buf_ptr - break_ptr;
+          looked_at = 0;
+          progress_ptr = break_ptr + 1;
+          width = MAX_LINE_LEN;
+        } else {
+          /* still looking, update for next time thru loop */
+          progress_ptr += delim1_offset + 1;
+          looked_at += delim1_offset + 1;
+        }
+        /* if now pointing at a new line, update for next time thru loop */
+        if (*progress_ptr == '\n') {
+          looked_at = 0;
+          width = MAX_LINE_LEN;
+        }
+      }
+    } else {
+      is_finished = TRUE;
+    }
+  }
+  return counter;
+}
+
+/**********************************************************************//**
+  Utility routine used in secfile_save() when writing ENTRY_STR's.
+
+  When reading a secfile, strings may have "\n\" followed by a newline to
+  help human readability, and that gets lost.
+  This re-inserts the "\n\" so the output will look formatted the same.
+
+  Also tries to keep output lines shorter than MAX_LINE_LEN + 6 chars,
+  inserting new lines as needed. May not succeed with pathological input
+  that contains super long tokens with no delimiters.
+
+  Assumes the struct entry is type ENTRY_STR.
+**************************************************************************/
+static void format_entry_string(struct entry *pentry, int indent)
+{
+  char *new_buf;
+  char *new_buf_ptr;
+  char *buf_ptr = pentry->string.value;
+  size_t entry_str_length = strlen(pentry->string.value);
+  int new_buf_size;
+  char *old_val;
+  int counter = 0;
+
+  fc_assert(pentry->type == ENTRY_STR);
+
+  /* count newline chars */
+  while (*buf_ptr) {
+    if (*buf_ptr == '\n') {
+      counter++;
+    }
+    buf_ptr++;
+  }
+
+  /* allocate new buffer with room for the added chars */
+  new_buf_size = entry_str_length + 3 * counter + 1;
+  new_buf = fc_malloc(new_buf_size);
+  new_buf_ptr = new_buf;
+
+  /* insert "\n\" before newline chars  */
+  buf_ptr = pentry->string.value;
+  while (*buf_ptr) {
+    if (*buf_ptr == '\n') {
+      /* found a newline char, insert "\n\" */
+      *new_buf_ptr++ = '\\';
+      *new_buf_ptr++ = 'n';
+      *new_buf_ptr++ = '\\';
+    }
+    *new_buf_ptr++ = *buf_ptr++;
+  }
+  *new_buf_ptr = 0;
+
+  /* dry run of word wrapping to count how many line breaks we will add */
+  counter = word_wrap_internal(new_buf, indent, TRUE);
+
+  if (counter > 0) {
+    /* expand new_buf to accomodate added chars */
+    new_buf_size += 2 * counter;
+    new_buf = fc_realloc(new_buf, new_buf_size);
+
+    /* do word wrapping */
+    word_wrap_internal(new_buf, indent, FALSE);
+  }
+
+  /* swap in new_buf as the pentry->string.value,
+   * and free the old pentry->string.value
+   */
+  old_val = pentry->string.value;
+  pentry->string.value = new_buf;
+  free(old_val);
+}
+
+/**********************************************************************//**
+  Utility routine used in secfile_save() when writing out strings.
+  Returns the length the string will be when written out.
+
+  Assumes the struct entry is type ENTRY_STR.
+**************************************************************************/
+static size_t entry_str_length(struct entry *pentry)
+{
+  size_t len;
+
+  fc_assert(pentry->type == ENTRY_STR);
+
+  /* + 2 for the enclosing " chars */
+  len = strlen(pentry->string.value) + 2;
+  if (pentry->string.gt_marking) {
+    len +=3;  /* + 3 for the initial "_(" and terminating ")" */
+  }
+  return len;
+}
+
+/**********************************************************************//**
   Save the previously filled in section_file to disk.
 
   There is now limited ability to save in the new tabular format
@@ -642,7 +854,8 @@ static bool is_legal_table_entry_name(char c, bool num)
   changes to FZ_PLAIN method when level == 0.
 **************************************************************************/
 bool secfile_save(const struct section_file *secfile, const char *filename,
-                  int compression_level, enum fz_method compression_method)
+                  int compression_level, enum fz_method compression_method,
+                  bool do_formatting)
 {
   char real_filename[1024];
   char pentry_name[128];
@@ -651,6 +864,9 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   const struct entry_list_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
   int i;
+  /* these vars are only used for formatting ENTRY_STR's */
+  bool need_new_line = FALSE;
+  int col = 0, indent, entry_len;
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, nullptr, secfile != nullptr, FALSE);
 
@@ -823,8 +1039,15 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
               }
             }
 
+            if (icol == 0 && pentry->type == ENTRY_STR && do_formatting) {
+              col = entry_str_length(pentry) + 1;
+            }
             if (icol > 0) {
               fz_fprintf(fs, ",");
+              /* maybe do formatting for ENTRY_STR's */
+              if (pentry->type == ENTRY_STR && do_formatting) {
+                format_entry_string(pentry, col);
+              }
             }
             entry_to_file(pentry, fs);
 
@@ -852,7 +1075,17 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         } else {
           /* Classic entry. */
           col_entry_name = entry_name(pentry);
-          fz_fprintf(fs, "%s=", col_entry_name);
+          indent = fz_fprintf(fs, "%s=", col_entry_name);
+
+          /* maybe do formatting for ENTRY_STR's */
+          if (pentry->type == ENTRY_STR && do_formatting) {
+            col = indent;
+            format_entry_string(pentry, indent);
+            /* + 1 for the comma */
+            entry_len = entry_str_length(pentry) + 1;
+            col += entry_len;
+          }
+
           entry_to_file(pentry, fs);
 
           /* Check for vector. */
@@ -868,7 +1101,27 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
               break;
             }
             fz_fprintf(fs, ",");
+
+            /* maybe do formatting for ENTRY_STR's */
+            if (pentry->type == ENTRY_STR && do_formatting) {
+              col++;
+              format_entry_string(col_pentry, indent);
+              /* + 1 for the comma */
+              entry_len = entry_str_length(col_pentry) + 1;
+              if (col + entry_len > MAX_LINE_LEN) {
+                need_new_line = TRUE;
+              }
+              if (need_new_line) {
+                fz_fprintf(fs, "\n%*s", indent, " ");
+                need_new_line = FALSE;
+                col = indent + entry_len;
+              } else {
+                col += entry_len;
+              }
+            }
+
             entry_to_file(col_pentry, fs);
+
             ent_iter = col_iter;
           }
 
@@ -3633,6 +3886,26 @@ bool entry_str_set_gt_marking(struct entry *pentry, bool gt_marking)
   return TRUE;
 }
 
+/************************************************************************//**
+  Copies a string and convert the following characters:
+  - '\"' to "\\\"".
+****************************************************************************/
+static void make_escapes_quotes(const char *str, char *buf, size_t buf_len)
+{
+  char *dest = buf;
+  /* Sometimes we insert a character, so keep
+   * place for '\0' and an extra character. */
+  const char *max = buf + buf_len - 2;
+
+  while (*str != '\0' && dest < max) {
+    if (*str == '\"') {
+      *dest++ = '\\';
+    }
+    *dest++ = *str++;
+  }
+  *dest = 0;
+}
+
 /**********************************************************************//**
   Push an entry into a file stream.
 **************************************************************************/
@@ -3667,7 +3940,7 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
     break;
   case ENTRY_STR:
     if (pentry->string.escaped) {
-      make_escapes(pentry->string.value, buf, sizeof(buf));
+      make_escapes_quotes(pentry->string.value, buf, sizeof(buf));
       if (pentry->string.gt_marking) {
         fz_fprintf(fs, "_(\"%s\")", buf);
       } else {

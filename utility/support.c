@@ -285,47 +285,12 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
 }
 
 /************************************************************************//**
-  Copies a string and convert the following characters:
-  - '\n' to "\\n".
-  - '\\' to "\\\\".
-  - '\"' to "\\\"".
-  See also remove_escapes().
-****************************************************************************/
-void make_escapes(const char *str, char *buf, size_t buf_len)
-{
-  char *dest = buf;
-  /* Sometimes we insert 2 characters at once ('\n' -> "\\n"), so keep
-   * place for '\0' and an extra character. */
-  const char *const max = buf + buf_len - 2;
-
-  while (*str != '\0' && dest < max) {
-    switch (*str) {
-    case '\n':
-      *dest++ = '\\';
-      *dest++ = 'n';
-      str++;
-      break;
-    case '\\':
-    case '\"':
-      *dest++ = '\\';
-
-      fc__fallthrough;
-    default:
-      *dest++ = *str++;
-      break;
-    }
-  }
-  *dest = 0;
-}
-
-/************************************************************************//**
   Copies a string. Backslash followed by a genuine newline always
   removes the newline.
   If full_escapes is TRUE:
     - '\n' -> newline translation.
     - Other '\?' sequences (any character '?') are just passed
       through with the '\' removed (eg, includes '\\', '\"').
-  See also make_escapes().
 ****************************************************************************/
 void remove_escapes(const char *str, bool full_escapes,
                     char *buf, size_t buf_len)

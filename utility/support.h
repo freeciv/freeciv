@@ -241,7 +241,6 @@ static inline bool is_bigendian(void)
 #endif /* WORDS_BIGENDIAN */
 }
 
-void make_escapes(const char *str, char *buf, size_t buf_len);
 void remove_escapes(const char *str, bool full_escapes,
                     char *buf, size_t buf_len);
 
