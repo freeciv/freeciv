@@ -739,16 +739,14 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
 }
 
 /************************************************************************//**
-  Destroy diplomacy dialog
+  Remove diplomacy dialog from use.
 ****************************************************************************/
-static void diplomacy_destroy(struct Diplomacy_dialog *pdialog)
+static void diplomacy_remove(struct Diplomacy_dialog *pdialog)
 {
-  if (NULL != pdialog->dialog) {
-    /* pdialog->dialog may be NULL if the tab has been destroyed
-     * by an other way. */
-    gui_dialog_destroy(pdialog->dialog);
-    pdialog->dialog = NULL;
-  }
+  /* Dialog destroy callbacks will take care of freeing everything
+   * related to the pdialog->dialog.
+   * Here we just take the dialog out of use. */
+
   dialog_list_remove(dialog_list, pdialog);
 
   if (dialog_list) {
@@ -1328,7 +1326,7 @@ static void diplomacy_dialog_shared_tiles_callback(GSimpleAction *action,
 ****************************************************************************/
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
-  diplomacy_destroy(pdialog);
+  diplomacy_remove(pdialog);
 }
 
 /************************************************************************//**
