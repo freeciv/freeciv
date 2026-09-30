@@ -4920,7 +4920,7 @@ units_select::units_select(tile *ptile, QWidget *parent)
   utile = ptile;
   pix = nullptr;
   show_line = 0;
-  highligh_num = -1;
+  highlight_num = -1;
   ufont.setItalic(true);
   info_font = *fc_font::instance()->get_font(fonts::notify_label);
   update_units();
@@ -4986,106 +4986,106 @@ void units_select::create_pixmap()
 
   update_units();
   if (unit_list.count() > 0) {
-  if (!tileset_is_isometric(tileset)) {
-    item_size.setWidth(tileset_unit_width(tileset));
-    item_size.setHeight(tileset_unit_width(tileset));
-  } else {
-    item_size.setWidth(tileset_unit_width(tileset) * isosize);
-    item_size.setHeight(tileset_unit_width(tileset) * isosize);
-  }
-  more = false;
-  if (h_pix != nullptr) {
-    delete h_pix;
-  }
-  h_pix = new QPixmap(item_size.width(), item_size.height());
-  h_pix->fill(palette().color(QPalette::HighlightedText));
-  if (unit_count < 5) {
-    row_count = 1;
-    pix = new QPixmap((unit_list.size()) * item_size.width(),
-                      item_size.height());
-  } else if (unit_count < 9) {
-    row_count = 2;
-    pix = new QPixmap(4 * item_size.width(), 2 * item_size.height());
-  } else {
-    row_count = 3;
-    if (unit_count > 12) {
-      more = true;
-    }
-    pix = new QPixmap(4 * item_size.width(), 3 * item_size.height());
-  }
-  pix->fill(Qt::transparent);
-  foreach(punit, unit_list) {
-    unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
-                                    tileset_unit_height(tileset));
-    unit_pixmap->map_pixmap.fill(Qt::transparent);
-    put_unit(punit, unit_pixmap, 1.0, 0, 0);
-    img = unit_pixmap->map_pixmap.toImage();
-    crop = zealous_crop_rect(img);
-    cropped_img = img.copy(crop);
     if (!tileset_is_isometric(tileset)) {
-      img = cropped_img.scaled(tileset_unit_width(tileset),
-                               tileset_unit_width(tileset),
-                               Qt::KeepAspectRatio,
-                               Qt::SmoothTransformation);
+      item_size.setWidth(tileset_unit_width(tileset));
+      item_size.setHeight(tileset_unit_width(tileset));
     } else {
-      img = cropped_img.scaled(tileset_unit_width(tileset) * isosize,
-                               tileset_unit_width(tileset) * isosize,
-                               Qt::KeepAspectRatio,
-                               Qt::SmoothTransformation);
+      item_size.setWidth(tileset_unit_width(tileset) * isosize);
+      item_size.setHeight(tileset_unit_width(tileset) * isosize);
     }
-    pixc = QPixmap::fromImage(img);
-    pixp = new QPixmap(pixc);
-    pix_list.push_back(pixp);
-    qtg_canvas_free(unit_pixmap);
-  }
-  a = qMin(item_size.width() / 4, 12);
-  x = 0, y = -item_size.height(), i = -1;
-  p.begin(pix);
-  ufont.setPixelSize(a);
-  p.setFont(ufont);
-  pen.setColor(palette().color(QPalette::Text));
-  p.setPen(pen);
-
-  while (!pix_list.isEmpty()) {
-    tmp_pix = pix_list.takeFirst();
-    i++;
-    if (i % 4 == 0) {
-      x = 0;
-      y = y + item_size.height();
+    more = false;
+    if (h_pix != nullptr) {
+      delete h_pix;
     }
-    punit = unit_list.at(i);
-    Q_ASSERT(punit != nullptr);
-
-    if (i == highligh_num) {
-      p.drawPixmap(x, y, *h_pix);
-      p.drawPixmap(x, y, *tmp_pix);
+    h_pix = new QPixmap(item_size.width(), item_size.height());
+    h_pix->fill(palette().color(QPalette::HighlightedText));
+    if (unit_count < 5) {
+      row_count = 1;
+      pix = new QPixmap((unit_list.size()) * item_size.width(),
+                        item_size.height());
+    } else if (unit_count < 9) {
+      row_count = 2;
+      pix = new QPixmap(4 * item_size.width(), 2 * item_size.height());
     } else {
-      p.drawPixmap(x, y, *tmp_pix);
-    }
-
-    if (client_is_global_observer() || unit_owner(punit) == client.conn.playing) {
-      int rate, f;
-      QString str;
-
-      rate = unit_type_get(punit)->move_rate;
-      f = ((punit->fuel) - 1);
-      str = QString(move_points_text(punit->moves_left, false));
-      if (utype_fuel(unit_type_get(punit))) {
-        str = str + "(" + QString(move_points_text((rate * f)
-                                                   + punit->moves_left, false)) + ")";
+      row_count = 3;
+      if (unit_count > 12) {
+        more = true;
       }
-      // TRANS: MP = Movement points
-      str = QString(_("MP:")) + str;
-      p.drawText(x, y + item_size.height() - 4, str);
+      pix = new QPixmap(4 * item_size.width(), 3 * item_size.height());
     }
+    pix->fill(Qt::transparent);
+    foreach(punit, unit_list) {
+      unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
+                                      tileset_unit_height(tileset));
+      unit_pixmap->map_pixmap.fill(Qt::transparent);
+      put_unit(punit, unit_pixmap, 1.0, 0, 0);
+      img = unit_pixmap->map_pixmap.toImage();
+      crop = zealous_crop_rect(img);
+      cropped_img = img.copy(crop);
+      if (!tileset_is_isometric(tileset)) {
+        img = cropped_img.scaled(tileset_unit_width(tileset),
+                                 tileset_unit_width(tileset),
+                                 Qt::KeepAspectRatio,
+                                 Qt::SmoothTransformation);
+      } else {
+        img = cropped_img.scaled(tileset_unit_width(tileset) * isosize,
+                                 tileset_unit_width(tileset) * isosize,
+                                 Qt::KeepAspectRatio,
+                                 Qt::SmoothTransformation);
+      }
+      pixc = QPixmap::fromImage(img);
+      pixp = new QPixmap(pixc);
+      pix_list.push_back(pixp);
+      qtg_canvas_free(unit_pixmap);
+    }
+    a = qMin(item_size.width() / 4, 12);
+    x = 0, y = -item_size.height(), i = -1;
+    p.begin(pix);
+    ufont.setPixelSize(a);
+    p.setFont(ufont);
+    pen.setColor(palette().color(QPalette::Text));
+    p.setPen(pen);
 
-    x = x + item_size.width();
-    delete tmp_pix;
-  }
-  p.end();
-  setFixedWidth(pix->width() + 20);
-  setFixedHeight(pix->height() + 2 * (fm.height() + 6));
-  qDeleteAll(pix_list.begin(), pix_list.end());
+    while (!pix_list.isEmpty()) {
+      tmp_pix = pix_list.takeFirst();
+      i++;
+      if (i % 4 == 0) {
+        x = 0;
+        y = y + item_size.height();
+      }
+      punit = unit_list.at(i);
+      Q_ASSERT(punit != nullptr);
+
+      if (i == highlight_num) {
+        p.drawPixmap(x, y, *h_pix);
+        p.drawPixmap(x, y, *tmp_pix);
+      } else {
+        p.drawPixmap(x, y, *tmp_pix);
+      }
+
+      if (client_is_global_observer() || unit_owner(punit) == client.conn.playing) {
+        int rate, f;
+        QString str;
+
+        rate = unit_type_get(punit)->move_rate;
+        f = ((punit->fuel) - 1);
+        str = QString(move_points_text(punit->moves_left, false));
+        if (utype_fuel(unit_type_get(punit))) {
+          str = str + "(" + QString(move_points_text((rate * f)
+                                                     + punit->moves_left, false)) + ")";
+        }
+        // TRANS: MP = Movement points
+        str = QString(_("MP:")) + str;
+        p.drawText(x, y + item_size.height() - 4, str);
+      }
+
+      x = x + item_size.width();
+      delete tmp_pix;
+    }
+    p.end();
+    setFixedWidth(pix->width() + 20);
+    setFixedHeight(pix->height() + 2 * (fm.height() + 6));
+    qDeleteAll(pix_list.begin(), pix_list.end());
   }
 }
 
@@ -5101,8 +5101,8 @@ void units_select::mouseMoveEvent(QMouseEvent *event)
   int x = pos.x();
   int y = pos.y();
 
-  old_h = highligh_num;
-  highligh_num = -1;
+  old_h = highlight_num;
+  highlight_num = -1;
   if (x > width() - 11
       || y > height() - fm.height() - 5
       || y < fm.height() + 3 || x < 11) {
@@ -5110,9 +5110,9 @@ void units_select::mouseMoveEvent(QMouseEvent *event)
   } else if (row_count > 0) {
     a = (x - 10) / item_size.width();
     b = (y - fm.height() - 3) / item_size.height();
-    highligh_num = b * 4 + a;
+    highlight_num = b * 4 + a;
   }
-  if (old_h != highligh_num) {
+  if (old_h != highlight_num) {
     create_pixmap();
     update();
   }
@@ -5131,12 +5131,12 @@ void units_select::mousePressEvent(QMouseEvent *event)
     close();
     destroy();
   }
-  if (event->button() == Qt::LeftButton && highligh_num != -1) {
+  if (event->button() == Qt::LeftButton && highlight_num != -1) {
     update_units();
-    if (highligh_num >= unit_list.count()) {
+    if (highlight_num >= unit_list.count()) {
       return;
     }
-    punit = unit_list.at(highligh_num);
+    punit = unit_list.at(highlight_num);
     unit_focus_set(punit);
     was_destroyed = true;
     close();
@@ -5173,10 +5173,10 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
   } else {
     f_size = &point_size;
   }
-  if (highligh_num != -1 && highligh_num < unit_list.count()) {
+  if (highlight_num != -1 && highlight_num < unit_list.count()) {
     struct astring addition = ASTRING_INIT;
 
-    punit = unit_list.at(highligh_num);
+    punit = unit_list.at(highlight_num);
     unit_activity_astr(punit, &addition);
 
     // TRANS: HP - hit points
@@ -5206,7 +5206,7 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
     painter->setPen(pen);
     painter->setFont(info_font);
     painter->drawText(10, h, str);
-    if (highligh_num != -1 && highligh_num < unit_list.count()) {
+    if (highlight_num != -1 && highlight_num < unit_list.count()) {
       painter->drawText(10, height() - 5, str2);
     }
     // Draw scroll
