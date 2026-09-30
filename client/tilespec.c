@@ -1323,7 +1323,11 @@ bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
     strvec_destroy(list);
 
     if (tileset == NULL) {
-      tileset_error(LOG_FATAL, NULL, _("No usable default tileset found, aborting!"));
+      if (global_default) {
+        tileset_error(LOG_FATAL, NULL, _("No usable default tileset found, aborting!"));
+      }
+
+      return FALSE;
     }
 
     log_verbose("Trying tileset \"%s\".", tileset->name);
