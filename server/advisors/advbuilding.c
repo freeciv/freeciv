@@ -73,7 +73,7 @@ static void calculate_city_clusters(struct player *pplayer)
   punittype = best_role_unit_for_player(pplayer,
       action_id_get_role(ACTION_HELP_WONDER));
 
-  if (punittype == NULL) {
+  if (punittype == nullptr) {
     /* Simulate future unit */
     punittype = get_role_unit(action_id_get_role(ACTION_HELP_WONDER), 0);
   }
@@ -81,7 +81,7 @@ static void calculate_city_clusters(struct player *pplayer)
   fc_assert_msg(utype_can_do_action(punittype, ACTION_HELP_WONDER),
                 "Non existence of wonder helper unit not caught");
 
-  ghost = unit_virtual_create(pplayer, NULL, punittype, 0);
+  ghost = unit_virtual_create(pplayer, nullptr, punittype, 0);
   range = unit_move_rate(ghost) * 4;
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -100,7 +100,7 @@ static void calculate_city_clusters(struct player *pplayer)
       if (move_cost > range) {
         break;
       }
-      if (acity == NULL) {
+      if (acity == nullptr) {
         continue;
       }
       if (city_owner(acity) == pplayer) {
@@ -174,7 +174,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 **************************************************************************/
 void building_advisor(struct player *pplayer)
 {
-  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, nullptr);
   struct city *wonder_city = game_city_by_number(adv->wonder_city);
 
   CALL_FUNC_EACH_AI(build_adv_init, pplayer);
@@ -182,15 +182,15 @@ void building_advisor(struct player *pplayer)
   if (wonder_city && city_owner(wonder_city) != pplayer) {
     /* We lost it to the enemy! */
     adv->wonder_city = 0;
-    wonder_city = NULL;
+    wonder_city = nullptr;
   }
 
   /* Preliminary analysis - find our Wonder City. Also check if it
    * is sane to continue building the wonder in it. If either does
    * not check out, make a Wonder City. */
-  if (NULL == wonder_city
+  if (wonder_city == nullptr
    || 0 >= wonder_city->surplus[O_SHIELD]
-   || VUT_UTYPE == wonder_city->production.kind /* changed to defender? */
+   || VUT_UTYPE == wonder_city->production.kind /* Changed to defender? */
    || !is_wonder(wonder_city->production.value.building)
    || !can_city_build_improvement_now(wonder_city,
                                       wonder_city->production.value.building,
@@ -199,10 +199,10 @@ void building_advisor(struct player *pplayer)
                                  wonder_city->production.value.building)) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;
-    struct city *best_candidate = NULL;
+    struct city *best_candidate = nullptr;
     /* Whether ruleset has a help wonder unit type */
-    bool has_help =
-        (num_role_units(action_id_get_role(ACTION_HELP_WONDER)) > 0);
+    bool has_help
+      = (num_role_units(action_id_get_role(ACTION_HELP_WONDER)) > 0);
 
     calculate_city_clusters(pplayer);
 
@@ -274,7 +274,7 @@ void building_advisor(struct player *pplayer)
 void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
 {
   struct player *plr = city_owner(pcity);
-  struct impr_type *chosen = NULL;
+  struct impr_type *chosen = nullptr;
   adv_want want = 0;
 
   improvement_iterate(pimprove) {
@@ -296,7 +296,7 @@ void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
   choice->want = want;
   choice->value.building = chosen;
 
-  if (chosen != NULL) {
+  if (chosen != nullptr) {
     choice->type = CT_BUILDING;
 
     CITY_LOG(LOG_DEBUG, pcity, "advisor wants to build %s with want "

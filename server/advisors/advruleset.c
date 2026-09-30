@@ -39,7 +39,7 @@ void adv_units_ruleset_init(void)
     bool move_sea_disabled  = FALSE; /* Cannot move at some ocean terrains */
 
     terrain_type_iterate(pterrain) {
-      if (is_native_to_class(pclass, pterrain, NULL)) {
+      if (is_native_to_class(pclass, pterrain, nullptr)) {
         /* Can move at terrain */
         if (is_ocean(pterrain)) {
           move_sea_enabled = TRUE;
@@ -85,7 +85,7 @@ void adv_units_ruleset_init(void)
     effect_list_iterate(get_effects(EFT_DEFEND_BONUS), peffect) {
       if (peffect->value > 0) {
         requirement_vector_iterate(&peffect->reqs, preq) {
-          if (!is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
+          if (!is_req_active(&context, nullptr, preq, RPT_POSSIBLE)) {
             ptype->adv.igwall = FALSE;
             break;
           }
