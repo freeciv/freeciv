@@ -136,8 +136,8 @@ static bool fc_results_are_equal(const struct cm_result *result1,
 }
 
 /************************************************************************//**
-  Returns TRUE if the city is valid for CMA. Fills parameter if TRUE
-  is returned. Parameter can be NULL.
+  Returns city pointer if the city is valid for CMA, NULL otherwise.
+  Fills parameter if city is returned. Parameter can be NULL.
 ****************************************************************************/
 static struct city *check_city(int city_id, struct cm_parameter *parameter)
 {
