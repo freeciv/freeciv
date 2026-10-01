@@ -1472,7 +1472,8 @@ static int checkmajorminor (lua_State *L, global_State *g) {
   if (g->gckind == KGC_GENMAJOR) {  /* generational mode? */
     l_mem numbytes = gettotalbytes(g);
     l_mem addedbytes = numbytes - g->GCmajorminor;
-    l_mem limit = applygcparam(g, MAJORMINOR, addedbytes);
+    l_mem limit = (addedbytes < 0) ? 0
+                                   : applygcparam(g, MAJORMINOR, addedbytes);
     l_mem tobecollected = numbytes - g->GCmarked;
     if (tobecollected > limit) {
       atomic2gen(L, g);  /* return to generational mode */
