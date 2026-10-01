@@ -89,6 +89,7 @@ lu_byte luaO_codeparam (unsigned int p) {
 l_mem luaO_applyparam (lu_byte p, l_mem x) {
   int m = p & 0xF;  /* mantissa */
   int e = (p >> 4);  /* exponent */
+  lua_assert(x >= 0);
   if (e > 0) {  /* normalized? */
     e--;  /* correct exponent */
     m += 0x10;  /* correct mantissa; maximum value is 0x1F */
