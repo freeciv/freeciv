@@ -176,10 +176,6 @@ priv_conf_data.set('SIZEOF_INT', c_compiler.sizeof('int'))
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
-  if host_system == 'windows'
-    # Qt headers have problems with dllimport attributes
-    add_global_arguments('-Wno-error=attributes', language : 'cpp')
-  endif
 else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
