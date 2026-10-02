@@ -153,11 +153,21 @@ const char *government_name_translation(const struct government *pgovern)
 **************************************************************************/
 const char *government_name_for_player(const struct player *pplayer)
 {
+  const struct government *pgov;
+
   if (!pplayer->is_alive) {
     return "-";
   }
 
-  return government_name_translation(government_of_player(pplayer));
+  pgov = government_of_player(pplayer);
+
+  if (!pgov) {
+    /* Can happen on client side when we have
+     * no contact to the player. */
+    return "?";
+  }
+
+  return government_name_translation(pgov);
 }
 
 /**********************************************************************//**

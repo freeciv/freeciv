@@ -319,17 +319,9 @@ static int cmp_score(const struct player *player1,
 static const char *col_government(const struct player *them)
 {
   static char buf[100];
-  const struct player *me = client_player();
 
-  /*  'contact' gives the knowledge of other's government */
-  if (me == them
-      || client_is_global_observer()
-      || team_has_embassy(me->team, them)
-      || player_diplstate_get(me, them)->contact_turns_left > 0 ) {
-    fc_snprintf(buf, sizeof(buf),"%s", government_name_for_player(them));
-  } else {
-    fc_snprintf(buf, sizeof(buf),"?");
-  }
+  /* This gives sensible result even when the government is not known */
+  fc_snprintf(buf, sizeof(buf), "%s", government_name_for_player(them));
 
   return buf;
 }
