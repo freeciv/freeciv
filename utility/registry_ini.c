@@ -3881,9 +3881,14 @@ bool entry_str_set_gt_marking(struct entry *pentry, bool gt_marking)
   SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
                              ENTRY_STR == pentry->type, FALSE);
 
-  pentry->string.gt_marking = gt_marking;
-
-  return TRUE;
+  /* don't put gettext marking on empty strings */
+  if (pentry->string.value[0] != '\0') {
+    pentry->string.gt_marking = gt_marking;
+    return TRUE;
+  } else {
+    pentry->string.gt_marking = FALSE;
+    return !gt_marking;
+  }
 }
 
 /************************************************************************//**
