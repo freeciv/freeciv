@@ -4011,7 +4011,7 @@ static bool disband_city(struct city *pcity)
     }
   }
 
-  punit = city_create_unit(pcity, utype, NULL);
+  punit = city_create_unit(pcity, utype, nullptr);
 
   /* "unit_built" script handler may have destroyed city. If so, we
    * assume something sensible happened to its units, and that the
@@ -4031,7 +4031,7 @@ static bool disband_city(struct city *pcity)
                     city_tile_link(pcity), utype_name_translation(utype));
     }
 
-    script_server_signal_emit("city_destroyed", pcity, pcity->owner, NULL);
+    script_server_signal_emit("city_destroyed", pcity, pcity->owner, nullptr);
 
     if (!city_exist(saved_id)) {
       /* Already removed during the script */

@@ -1942,7 +1942,7 @@ void remove_city(struct city *pcity)
     }
   } conn_list_iterate_end;
 
-  if (old_vision != NULL) {
+  if (old_vision != nullptr) {
     vision_clear_sight(old_vision);
     vision_free(old_vision);
   }
@@ -2192,7 +2192,7 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
   packet->id = pdcity->identity;
   packet->owner = player_number(vision_site_owner(pdcity));
 
-  if (pdcity->original != NULL) {
+  if (pdcity->original != nullptr) {
     packet->original = player_number(pdcity->original);
   } else {
     packet->original = MAX_NUM_PLAYER_SLOTS;

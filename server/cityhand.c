@@ -61,7 +61,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
   const struct civ_map *nmap = &(wld.map);
 
-  if (NULL == punit) {
+  if (punit == nullptr) {
     /* Probably died or bribed. */
     log_verbose("handle_city_name_suggestion_req() invalid unit %d",
                 unit_id);
@@ -69,7 +69,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
   }
 
   if (action_prob_possible(action_prob_vs_tile(nmap, punit, ACTION_FOUND_CITY,
-                                               unit_tile(punit), NULL))) {
+                                               unit_tile(punit), nullptr))) {
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));
     dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,
@@ -83,15 +83,15 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
               "cannot build there.", TILE_XY(unit_tile(punit)));
 
   illegal_action_msg(pplayer, E_BAD_COMMAND, punit, ACTION_FOUND_CITY,
-                     unit_tile(punit), NULL, NULL);
+                     unit_tile(punit), nullptr, nullptr);
 }
 
 /**********************************************************************//**
   Handle request to change specialist type
 **************************************************************************/
 void handle_city_change_specialist(struct player *pplayer, int city_id,
-				   Specialist_type_id from,
-				   Specialist_type_id to)
+                                   Specialist_type_id from,
+                                   Specialist_type_id to)
 {
   struct city *pcity = player_city_by_number(pplayer, city_id);
 
@@ -126,14 +126,14 @@ void handle_city_make_specialist(struct player *pplayer,
   struct tile *ptile = index_to_tile(&(wld.map), tile_id);
   struct city *pcity = player_city_by_number(pplayer, city_id);
 
-  if (NULL == pcity) {
+  if (pcity == nullptr) {
     /* Probably lost. */
     log_verbose("handle_city_make_specialist() bad city number %d.",
                 city_id);
     return;
   }
 
-  if (NULL == ptile) {
+  if (ptile == nullptr) {
     log_error("handle_city_make_specialist() bad tile number %d.", tile_id);
     return;
   }
@@ -173,13 +173,13 @@ void handle_city_make_worker(struct player *pplayer,
   struct tile *ptile = index_to_tile(&(wld.map), tile_id);
   struct city *pcity = player_city_by_number(pplayer, city_id);
 
-  if (NULL == pcity) {
+  if (pcity == nullptr) {
     /* Probably lost. */
     log_verbose("handle_city_make_worker() bad city number %d.",city_id);
     return;
   }
 
-  if (NULL == ptile) {
+  if (ptile == nullptr) {
     log_error("handle_city_make_worker() bad tile number %d.", tile_id);
     return;
   }
@@ -239,7 +239,7 @@ void handle_city_make_worker(struct player *pplayer,
   input before passing to this function if it comes from untrusted source.
 **************************************************************************/
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
-			     struct impr_type *pimprove)
+                             struct impr_type *pimprove)
 {
   enum test_result sell_result;
   int price;
@@ -248,7 +248,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 
   if (sell_result == TR_ALREADY_SOLD) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
-		  _("You have already sold something here this turn."));
+                  _("You have already sold something here this turn."));
     return;
   }
 
@@ -268,7 +268,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
   city_refresh(pcity);
 
   /* If we sold the walls the other players should see it */
-  send_city_info(NULL, pcity);
+  send_city_info(nullptr, pcity);
   send_player_info_c(pplayer, pplayer->connections);
 }
 
@@ -307,7 +307,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   if (pcity->did_buy) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
-		  _("You have already bought this turn."));
+                  _("You have already bought this turn."));
     return;
   }
 
@@ -354,7 +354,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
      * fully well add the missing shields there. */
     pcity->disbanded_shields += total - pcity->shield_stock;
     pcity->shield_stock = total; /* AI wants this -- Syela */
-    pcity->did_buy = TRUE;	/* !PS: no need to set buy flag otherwise */
+    pcity->did_buy = TRUE;       /* !PS: No need to set buy flag otherwise */
   }
   city_refresh(pcity);
 
@@ -488,7 +488,7 @@ void handle_city_rename(struct player *pplayer, int city_id,
   struct city *pcity = player_city_by_number(pplayer, city_id);
   char message[1024];
 
-  if (pcity == NULL) {
+  if (pcity == nullptr) {
     return;
   }
 
@@ -500,7 +500,7 @@ void handle_city_rename(struct player *pplayer, int city_id,
 
   city_name_set(pcity, name);
   city_refresh(pcity);
-  send_city_info(NULL, pcity);
+  send_city_info(nullptr, pcity);
 }
 
 /**********************************************************************//**
@@ -508,12 +508,12 @@ void handle_city_rename(struct player *pplayer, int city_id,
   given city be changed.
 **************************************************************************/
 void handle_city_options_req(struct player *pplayer, int city_id,
-			     bv_city_options options,
+                             bv_city_options options,
                              enum city_wl_cancel_behavior wlcb)
 {
   struct city *pcity = player_city_by_number(pplayer, city_id);
 
-  if (!pcity) {
+  if (pcity == nullptr) {
     return;
   }
 
@@ -531,7 +531,7 @@ void handle_city_rally_point(struct player *pplayer,
 {
   struct city *pcity = player_city_by_number(pplayer, packet->id);
 
-  if (NULL != pcity) {
+  if (pcity != nullptr) {
     city_rally_point_receive(packet, pcity);
     send_city_info(pplayer, pcity);
   }
@@ -550,8 +550,8 @@ void handle_web_cma_set(struct player *pplayer, int id,
 #ifdef FREECIV_WEB
   struct city *pcity = player_city_by_number(pplayer, id);
 
-  if (pcity != NULL) {
-    if (pcity->cm_parameter == NULL) {
+  if (pcity != nullptr) {
+    if (pcity->cm_parameter == nullptr) {
       pcity->cm_parameter = fc_calloc(1, sizeof(struct cm_parameter));
     }
 
@@ -572,9 +572,9 @@ void handle_web_cma_clear(struct player *pplayer, int id)
 {
   struct city *pcity = player_city_by_number(pplayer, id);
 
-  if (pcity != NULL && pcity->cm_parameter != NULL) {
+  if (pcity != nullptr && pcity->cm_parameter != nullptr) {
     free(pcity->cm_parameter);
-    pcity->cm_parameter = NULL;
+    pcity->cm_parameter = nullptr;
     send_city_info(pplayer, pcity);
   }
 }
