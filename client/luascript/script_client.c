@@ -51,12 +51,12 @@
 /*****************************************************************************
   Lua virtual machine state.
 *****************************************************************************/
-static struct fc_lua *main_fcl = NULL;
+static struct fc_lua *main_fcl = nullptr;
 
 /*****************************************************************************
   Optional game script code (useful for scenarios).
 *****************************************************************************/
-static char *script_client_code = NULL;
+static char *script_client_code = nullptr;
 
 static void script_client_vars_init(void);
 static void script_client_vars_free(void);
@@ -150,7 +150,7 @@ static void script_client_vars_save(struct section_file *file)
 *****************************************************************************/
 static void script_client_code_init(void)
 {
-  script_client_code = NULL;
+  script_client_code = nullptr;
 }
 
 /*************************************************************************//**
@@ -160,7 +160,7 @@ static void script_client_code_free(void)
 {
   if (script_client_code) {
     free(script_client_code);
-    script_client_code = NULL;
+    script_client_code = nullptr;
   }
 }
 
@@ -194,16 +194,16 @@ static void script_client_code_save(struct section_file *file)
 *****************************************************************************/
 bool script_client_init(void)
 {
-  if (main_fcl != NULL) {
-    fc_assert_ret_val(main_fcl->state != NULL, FALSE);
+  if (main_fcl != nullptr) {
+    fc_assert_ret_val(main_fcl->state != nullptr, FALSE);
 
     return TRUE;
   }
 
   main_fcl = luascript_new(script_client_output, TRUE);
-  if (main_fcl == NULL) {
-    luascript_destroy(main_fcl); /* TODO: main_fcl is NULL here... */
-    main_fcl = NULL;
+  if (main_fcl == nullptr) {
+    luascript_destroy(main_fcl); /* TODO: main_fcl is nullptr here... */
+    main_fcl = nullptr;
 
     return FALSE;
   }
@@ -282,14 +282,14 @@ static void script_client_output(struct fc_lua *fcl, enum log_level level,
 *****************************************************************************/
 void script_client_free(void)
 {
-  if (main_fcl != NULL) {
+  if (main_fcl != nullptr) {
     script_client_code_free();
     script_client_vars_free();
 
     luascript_signal_free(main_fcl);
 
     luascript_destroy(main_fcl);
-    main_fcl = NULL;
+    main_fcl = nullptr;
   }
 }
 
