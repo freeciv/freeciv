@@ -31,9 +31,6 @@ dist_noinst_DATA = \
 		installer_cross/create-freeciv-gtk-qt-nsi.sh	\
 		installer_cross/create-freeciv-sdl-nsi.sh	\
 		installer_cross/create-freeciv-ruledit-nsi.sh	\
-		installer_cross/installer_build.sh		\
-		installer_cross/build_all_installers.sh		\
-		installer_cross/winbuild.sh			\
 		installer_cross/Freeciv.url			\
 		installer_cross/freeciv-server.cmd		\
 		installer_cross/freeciv-gtk3.22.cmd		\
