@@ -41,7 +41,6 @@ jobs:
             mingw-w64-ucrt-x86_64-qt6-svg
             mingw-w64-ucrt-x86_64-SDL2_image
             mingw-w64-ucrt-x86_64-SDL2_ttf
-            mingw-w64-ucrt-x86_64-SDL2_gfx
             mingw-w64-ucrt-x86_64-sdl3-mixer
             mingw-w64-ucrt-x86_64-sdl3-image
             mingw-w64-ucrt-x86_64-sdl3-ttf
