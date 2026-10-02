@@ -95,7 +95,7 @@
  *      "duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+Freeciv-spec-3.3-Devel-2023.Apr.05"
+#define SPEC_CAPSTR "+Freeciv-spec-3.4-Devel-2026.Oct.03"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
