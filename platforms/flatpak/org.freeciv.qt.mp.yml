@@ -17,6 +17,7 @@ modules:
     config-opts:
       - -Dfcmp=qt
       - -Dclients=[]
+      - -Daudio=none
       - -Dserver=disabled
       - -Dtools=[]
       - -Dqtver=qt6

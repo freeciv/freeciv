@@ -17,6 +17,7 @@ modules:
       - -Dqtver=qt6
       - -Dtools=ruledit
       - -Dclients=[]
+      - -Daudio=none
       - -Dserver=disabled
       - -Dfcmp=[]
     sources:
