@@ -34,7 +34,7 @@ client_appimage() {
   fi
 
   cd "build/client-$1"
-  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$2 -Dfcmp=[] -Dtools=[] $4 "${SRC_ROOT}"
+  if ! meson setup -Dappimage=true -Dprefix=/usr -Ddefault_library=static -Dclients=$2 -Dfcmp=[] -Dtools=[] -Daudio=sdl2 $4 "${SRC_ROOT}"
   then
     echo "client-$1 setup with meson failed!" >&2
     return 1
