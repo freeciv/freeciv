@@ -203,13 +203,13 @@ struct drawing_data {
 
   bool is_reversed;
 
-  int blending; /* layer, 0 = none */
+  int blending; /* Layer, 0 = none */
   struct sprite *blender;
-  struct sprite *blend[4]; /* indexed by a direction4 */
+  struct sprite *blend[4]; /* Indexed by a direction4 */
 };
 
 struct city_style_threshold {
-  struct sprite *sprite;
+  struct anim *cst;
 };
 
 struct city_sprite {
@@ -3229,8 +3229,8 @@ static void tileset_setup_citizen_types(struct tileset *t,
 
   See also load_city_sprite(), free_city_sprite().
 ****************************************************************************/
-static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
-                                      const struct city *pcity)
+static struct anim *get_city_anim(const struct city_sprite *city_sprite,
+                                  const struct city *pcity)
 {
   /* Get style and match the best tile based on city size */
   int style = style_of_city(pcity);
@@ -3259,20 +3259,20 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
   }
   img_index = CLIP(0, img_index, num_thresholds - 1);
 
-  return thresholds[img_index].sprite;
+  return thresholds[img_index].cst;
 }
 
 /************************************************************************//**
   Allocates one threshold set for city sprite
 ****************************************************************************/
-static int load_city_thresholds_sprites(struct tileset *t, const char *tag,
-                                        char *graphic, char *graphic_alt,
-                                        struct city_style_threshold **thresholds)
+static int load_city_thresholds_anims(struct tileset *t, const char *tag,
+                                      char *graphic, char *graphic_alt,
+                                      struct city_style_threshold **thresholds)
 {
   char buffer[128];
   char *gfx_in_use = graphic;
   int num_thresholds = 0;
-  struct sprite *sprite;
+  struct anim *anim;
   int size;
 
   *thresholds = NULL;
@@ -3280,10 +3280,10 @@ static int load_city_thresholds_sprites(struct tileset *t, const char *tag,
   for (size = 0; size < MAX_CITY_SIZE; size++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_%s_%d",
                 gfx_in_use, tag, size);
-    if ((sprite = load_sprite(t, buffer, TRUE, TRUE, FALSE))) {
+    if ((anim = anim_load(t, buffer, 0))) {
       num_thresholds++;
       *thresholds = fc_realloc(*thresholds, num_thresholds * sizeof(**thresholds));
-      (*thresholds)[num_thresholds - 1].sprite = sprite;
+      (*thresholds)[num_thresholds - 1].cst = anim;
     } else if (size == 0) {
       if (gfx_in_use == graphic) {
         /* Try again with graphic_alt. */
@@ -3304,7 +3304,7 @@ static int load_city_thresholds_sprites(struct tileset *t, const char *tag,
 
   tag may be NULL.
 
-  See also get_city_sprite(), free_city_sprite().
+  See also get_city_anim(), free_city_sprite().
 ****************************************************************************/
 static struct city_sprite *load_city_sprite(struct tileset *t,
                                             const char *tag)
@@ -3320,8 +3320,8 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
                                   * sizeof(*city_sprite->styles));
 
   for (style = 0; style < city_sprite->num_styles; style++) {
-    city_sprite->styles[style].land_num_thresholds =
-      load_city_thresholds_sprites(t, tag, city_styles[style].graphic,
+    city_sprite->styles[style].land_num_thresholds
+      = load_city_thresholds_anims(t, tag, city_styles[style].graphic,
                                    city_styles[style].graphic_alt,
                                    &city_sprite->styles[style].land_thresholds);
   }
@@ -3332,7 +3332,7 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
 /************************************************************************//**
   Frees a city sprite.
 
-  See also get_city_sprite, load_city_sprite.
+  See also get_city_anim(), load_city_sprite().
 ****************************************************************************/
 static void free_city_sprite(struct city_sprite *city_sprite)
 {
@@ -6287,51 +6287,51 @@ int fill_sprite_array(struct tileset *t,
        * for non-iso view they are an overlay on top of the base city
        * graphic. */
       if (t->type == TS_OVERHEAD || pcity->client.walls <= 0) {
-        ADD_SPRITE(get_city_sprite(t->sprites.city.tile, pcity), TRUE,
-                   FULL_TILE_X_OFFSET + t->city_offset_x,
-                   FULL_TILE_Y_OFFSET + t->city_offset_y);
+        ADD_ANIM_SPRITE(get_city_anim(t->sprites.city.tile, pcity), TRUE,
+                        FULL_TILE_X_OFFSET + t->city_offset_x,
+                        FULL_TILE_Y_OFFSET + t->city_offset_y);
       }
       if (t->type == TS_ISOMETRIC && pcity->client.walls > 0) {
         struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
-        struct sprite *spr = NULL;
+        struct anim *anim = NULL;
 
         if (cspr != NULL) {
-          spr = get_city_sprite(cspr, pcity);
+          anim = get_city_anim(cspr, pcity);
         }
-        if (spr == NULL) {
+        if (anim == NULL) {
           cspr = t->sprites.city.single_wall;
           if (cspr != NULL) {
-            spr = get_city_sprite(cspr, pcity);
+            anim = get_city_anim(cspr, pcity);
           }
         }
 
-        if (spr != NULL) {
-          ADD_SPRITE(spr, TRUE,
-                     FULL_TILE_X_OFFSET + t->city_offset_x,
-                     FULL_TILE_Y_OFFSET + t->city_offset_y);
+        if (anim != NULL) {
+          ADD_ANIM_SPRITE(anim, TRUE,
+                          FULL_TILE_X_OFFSET + t->city_offset_x,
+                          FULL_TILE_Y_OFFSET + t->city_offset_y);
         }
       }
       if (!gui_options.draw_full_citybar && pcity->client.occupied) {
-        ADD_SPRITE(get_city_sprite(t->sprites.city.occupied, pcity), TRUE,
-                   FULL_TILE_X_OFFSET + t->occupied_offset_x,
-                   FULL_TILE_Y_OFFSET + t->occupied_offset_y);
+        ADD_ANIM_SPRITE(get_city_anim(t->sprites.city.occupied, pcity), TRUE,
+                        FULL_TILE_X_OFFSET + t->occupied_offset_x,
+                        FULL_TILE_Y_OFFSET + t->occupied_offset_y);
       }
       if (t->type == TS_OVERHEAD && pcity->client.walls > 0) {
         struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
-        struct sprite *spr = NULL;
+        struct anim *anim = NULL;
 
         if (cspr != NULL) {
-          spr = get_city_sprite(cspr, pcity);
+          anim = get_city_anim(cspr, pcity);
         }
-        if (spr == NULL) {
+        if (anim == NULL) {
           cspr = t->sprites.city.single_wall;
           if (cspr != NULL) {
-            spr = get_city_sprite(cspr, pcity);
+            anim = get_city_anim(cspr, pcity);
           }
         }
 
-        if (spr != NULL) {
-          ADD_SPRITE_FULL(spr);
+        if (anim != NULL) {
+          ADD_ANIM_FULL(anim);
         }
       }
       if (pcity->client.unhappy) {
@@ -7116,7 +7116,7 @@ struct sprite *get_sample_city_sprite(const struct tileset *t,
     return NULL;
   } else {
     return (t->sprites.city.tile->styles[style_idx]
-            .land_thresholds[num_thresholds - 1].sprite);
+            .land_thresholds[num_thresholds - 1].cst->sprites[0]);
   }
 }
 

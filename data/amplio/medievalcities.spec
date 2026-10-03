@@ -51,33 +51,33 @@ tiles = { "row", "column", "tag"
 
 ; used by all city styles
 
- 2,  11, "city.european_occupied_0"
- 2,  11, "city.industrial_occupied_0"
+ 2,  11, "city.european_occupied_0:0"
+ 2,  11, "city.industrial_occupied_0:0"
 
 ;
 ; city tiles
 ;
 
- 0,  0, "city.european_city_0"
- 0,  1, "city.european_city_1"
- 0,  2, "city.european_city_2"
- 0,  3, "city.european_city_3"
- 0,  4, "city.european_city_4"
- 0,  5, "city.european_wall_0"
- 0,  6, "city.european_wall_1"
- 0,  7, "city.european_wall_2"
- 0,  8, "city.european_wall_3"
- 0,  9, "city.european_wall_4"
+ 0,  0, "city.european_city_0:0"
+ 0,  1, "city.european_city_1:0"
+ 0,  2, "city.european_city_2:0"
+ 0,  3, "city.european_city_3:0"
+ 0,  4, "city.european_city_4:0"
+ 0,  5, "city.european_wall_0:0"
+ 0,  6, "city.european_wall_1:0"
+ 0,  7, "city.european_wall_2:0"
+ 0,  8, "city.european_wall_3:0"
+ 0,  9, "city.european_wall_4:0"
 
- 1,  0, "city.industrial_city_0"
- 1,  1, "city.industrial_city_1"
- 1,  2, "city.industrial_city_2"
- 1,  3, "city.industrial_city_3"
- 1,  4, "city.industrial_city_4"
- 1,  5, "city.industrial_wall_0"
- 1,  6, "city.industrial_wall_1"
- 1,  7, "city.industrial_wall_2"
- 1,  8, "city.industrial_wall_3"
- 1,  9, "city.industrial_wall_4"
+ 1,  0, "city.industrial_city_0:0"
+ 1,  1, "city.industrial_city_1:0"
+ 1,  2, "city.industrial_city_2:0"
+ 1,  3, "city.industrial_city_3:0"
+ 1,  4, "city.industrial_city_4:0"
+ 1,  5, "city.industrial_wall_0:0"
+ 1,  6, "city.industrial_wall_1:0"
+ 1,  7, "city.industrial_wall_2:0"
+ 1,  8, "city.industrial_wall_3:0"
+ 1,  9, "city.industrial_wall_4:0"
 
 }

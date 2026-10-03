@@ -50,16 +50,16 @@ tiles = { "row", "column", "tag"
  2,  5, "base.castle_bg:0"
 ;[HH]
  0,  2, "cd.occupied",
-      "city.european_occupied_0",
-      "city.classical_occupied_0",
-      "city.asian_occupied_0",
-      "city.tropical_occupied_0",
-      "city.celtic_occupied_0",
-      "city.babylonian_occupied_0",
-      "city.industrial_occupied_0",
-      "city.electricage_occupied_0",
-      "city.modern_occupied_0",
-      "city.postmodern_occupied_0"
+      "city.european_occupied_0:0",
+      "city.classical_occupied_0:0",
+      "city.asian_occupied_0:0",
+      "city.tropical_occupied_0:0",
+      "city.celtic_occupied_0:0",
+      "city.babylonian_occupied_0:0",
+      "city.industrial_occupied_0:0",
+      "city.electricage_occupied_0:0",
+      "city.modern_occupied_0:0",
+      "city.postmodern_occupied_0:0"
 ;[HH]
  0,  5, "city.disorder"
 ;blank defaults
