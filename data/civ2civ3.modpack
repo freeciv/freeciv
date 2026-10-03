@@ -1,6 +1,6 @@
 
 [datafile]
-options = "+Freeciv-modpack-3.3-Devel-2024.Apr.14"
+options = "+Freeciv-3.3-modpack"
 
 [modpack]
 ; Name of the modpack
