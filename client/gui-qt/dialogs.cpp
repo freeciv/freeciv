@@ -4603,6 +4603,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
                            gui()->game_tab_widget,
                            diplomat_queue_handle_secondary);
   }
+  cd->unit_id = diplomat_id;
 
   // Should be set before sending request to the server.
   fc_assert(is_more_user_input_needed);
