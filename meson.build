@@ -667,6 +667,7 @@ if host_system == 'emscripten'
   zlib_dep = []
   syslua = 'false'
   ems_suffix = 'html'
+  ems_largs = [ '--preload-file', 'data' ]
 
   priv_conf_data.set('ALWAYS_ROOT', 1)
 
@@ -697,6 +698,7 @@ else
   endif
 
   ems_suffix = []
+  ems_largs = []
 endif
 
 # Set unconditionally, as it was checked as hard requirement
@@ -1284,6 +1286,14 @@ if host_system == 'windows'
   tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')
 else
   tinycthr_files = files()
+endif
+
+if host_system == 'emscripten'
+  ems_data = custom_target('datacopy', output: 'data',
+                   command: [sh_exe, files('platforms/emscripten/datacopy.sh')],
+                   depend_files: files('platforms/emscripten/datacopy.sh'))
+else
+  ems_data = []
 endif
 
 if syslua != 'false' and lua_dep_tmp.found()
@@ -3940,12 +3950,13 @@ executable('freeciv-sdl2',
   sdl2_gfx_src,
   clienticon,
   c_args: sdl2_gfx_cargs,
-  sources: [verhdr],
+  sources: [verhdr, ems_data],
   include_directories: [client_inc, sdl2_gfx_inc ],
   dependencies: [sdl2main_dep, audio_dep,
                  sdl2_image_dep, sdl2_gfx_dep, sdl2_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
+  link_args: ems_largs,
   name_suffix: ems_suffix,
   install: true,
   win_subsystem: 'windows'
@@ -4072,12 +4083,13 @@ executable('freeciv-sdl3',
   'client/gui-sdl3/wldlg.c',
   'client/gui-sdl3/SDL3_gfx/SDL3_rotozoom.c',
   clienticon,
-  sources: [verhdr],
+  sources: [verhdr, ems_data],
   include_directories: [client_inc, sdl3_gfx_inc ],
   dependencies: [sdl3main_dep, audio_dep,
                  sdl3_image_dep, sdl3_gfx_dep, sdl3_ttf_dep,
                  net_dep, gettext_dep, mw_extra_dep],
   link_with: client_common,
+  link_args: ems_largs,
   name_suffix: ems_suffix,
   install: true,
   win_subsystem: 'windows'
