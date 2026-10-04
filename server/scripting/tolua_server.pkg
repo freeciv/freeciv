@@ -285,7 +285,7 @@ function create_unit_full(player, tile, utype, veteran_level, homecity,
 end
 
 function create_city(player, tile, name)
-  log.deprecation_warning("create_city()", "edit.create_city()",
+  log.deprecation_warning("create_city()", "edit.city_create()",
                           "2.4");
   edit.city_create(player, tile, name, nil)
 end
