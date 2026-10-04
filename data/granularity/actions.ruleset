@@ -163,6 +163,12 @@ nuke_units_consuming_always = TRUE
 ; Will performing this action always consume the actor unit?
 found_city_consuming_always = TRUE
 
+; The maximum distance from the actor unit to the center of the
+; scouted area. The value 1 means that the tile must be a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction.
+scout_max_range = 6
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
@@ -230,6 +236,10 @@ ui_name = _("%sKeep moving%s")
 [action_relocate]
 action  = "Teleport"
 ui_name = _("%sRelocate%s")
+
+[action_recon]
+action  = "Scout"
+ui_name = _("Re%scon%s")
 
 
 ; /* <-- avoid gettext warnings
@@ -582,9 +592,17 @@ actor_reqs    =
 [enabler_bombard]
 action        = "Bombard"
 actor_reqs    =
-    { "type",         "name", "range"
-      "UnitClass",    "Air",  "Local"
-      "MinMoveFrags", "5",    "Local"
+    { "type",         "name",   "range"
+      "UnitType",     "Bomber", "Local"
+      "MinMoveFrags", "5",      "Local"
+    }
+
+[enabler_recon]
+action        = "Scout"
+actor_reqs    =
+    { "type",         "name",    "range"
+      "UnitType",     "Biplane", "Local"
+      "MinMoveFrags", "5",       "Local"
     }
 
 [enabler_fortify]

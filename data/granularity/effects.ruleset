@@ -629,6 +629,14 @@ reqs    =
       "Action", "Surgical Strike Building", "Local", TRUE
     }
 
+[effect_action_success_recon]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",  "range", "present"
+      "Action", "Scout", "Local", TRUE
+    }
+
 [effect_no_tools]
 type    = "Output_Bonus"
 value   = -50
