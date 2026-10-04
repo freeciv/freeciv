@@ -932,8 +932,8 @@ if get_option('audio') == 'sdl3' or get_option('clients').contains('sdl3')
 endif
 
 if qtver == 'qt6x'
-  qt_minver = '0x060a00'
-  qt_vercheck = '6.10'
+  qt_minver = '0x060b00'
+  qt_vercheck = '6.11'
   qt_modename = 'Qt6x'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=' + qt_minver, language : 'cpp')
   priv_conf_data.set('FC_QT6X_MODE', 1)
