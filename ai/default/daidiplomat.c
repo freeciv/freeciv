@@ -189,7 +189,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
   int expenses;
 
-  dai_calc_data(pplayer, NULL, &expenses, NULL);
+  dai_calc_data(pplayer, nullptr, &expenses, nullptr);
 
   if (!ut) {
     /* We don't know diplomats yet! */
@@ -224,8 +224,8 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     pf_map_destroy(pfm);
     unit_virtual_destroy(punit);
 
-    if (acity == NULL
-	|| BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
+    if (acity == nullptr
+        || BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
       /* Found no target or city already considered */
       return;
     }
@@ -257,9 +257,9 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
                                           pplayer, acity)
             || is_action_possible_on_city(ACTION_SPY_STEAL_TECH_ESC,
                                           pplayer, acity))
-	&& !pplayers_allied(pplayer, city_owner(acity))) {
-      /* tech theft gain */
-      /* FIXME: this value is right only when
+        && !pplayers_allied(pplayer, city_owner(acity))) {
+      /* Tech theft gain */
+      /* FIXME: This value is right only when
        * 'game.info.game.info.tech_cost_style' is set to
        * TECH_COST_CIV1CIV2. */
       gain_theft =
@@ -267,7 +267,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
                                          FALSE) * TRADE_WEIGHTING);
     }
     gain = MAX(gain_incite, gain_theft);
-    loss = utype_build_shield_cost(pcity, NULL, ut) * SHIELD_WEIGHTING;
+    loss = utype_build_shield_cost(pcity, nullptr, ut) * SHIELD_WEIGHTING;
 
     /* Probability to succeed, assuming no defending diplomat */
     p_success = game.server.diplchance;
@@ -290,7 +290,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     }
 
     want = military_amortize(pplayer, pcity, want, time_to_dest,
-                             utype_build_shield_cost(pcity, NULL, ut));
+                             utype_build_shield_cost(pcity, nullptr, ut));
 
     if (!player_has_embassy(pplayer, city_owner(acity))
         && want < 99
@@ -360,8 +360,8 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   unit_activity_handling(punit, ACTIVITY_IDLE, ACTION_NONE);
 
   /* Select the best potentially legal action. */
-  /* FIXME: what if it is illegal? */
-  chosen_action = NULL;
+  /* FIXME: What if it is illegal? */
+  chosen_action = nullptr;
   chosen_action_utility = -1;
   chosen_sub_tgt_id = 0;
   action_iterate(act_id) {
@@ -401,7 +401,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     }
   } action_iterate_end;
 
-  if (chosen_action != NULL) {
+  if (chosen_action != nullptr) {
     /* An action has been selected. */
 
     if (action_prob_possible(
@@ -423,7 +423,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   UNIT_LOG(LOG_DIPLOMAT, punit,
            "decides to stand idle outside enemy city %s!",
            city_name_get(ctarget));
-  dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+  dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr);
 }
 
 /**************************************************************************//**
@@ -451,22 +451,23 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
 }
 
 /**************************************************************************//**
-  Returns (in ctarget) the closest city to send diplomats against, or NULL
-  if none available on this continent.  punit can be virtual.
+  Returns (in ctarget) the closest city to send diplomats against, or nullptr
+  if none available on this continent. punit can be virtual.
 ******************************************************************************/
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist,
                                   struct pf_map *pfm)
 {
   bool has_embassy;
-  int incite_cost = 0; /* incite cost */
+  int incite_cost = 0; /* Incite cost */
   int expenses;
-  bool dipldef; /* whether target is protected by diplomats */
+  bool dipldef; /* Whether target is protected by diplomats */
 
-  fc_assert_ret(punit != NULL);
-  *ctarget = NULL;
+  fc_assert_ret(punit != nullptr);
+
+  *ctarget = nullptr;
   *move_dist = -1;
-  dai_calc_data(pplayer, NULL, &expenses, NULL);
+  dai_calc_data(pplayer, nullptr, &expenses, nullptr);
 
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     struct city *acity;
@@ -539,9 +540,9 @@ static struct city *dai_diplomat_defend(struct ai_type *ait,
                                         const struct unit_type *utype,
                                         struct pf_map *pfm)
 {
-  int best_dist = 30; /* any city closer than this is better than none */
+  int best_dist = 30; /* Any city closer than this is better than none */
   int best_urgency = 0;
-  struct city *ctarget = NULL;
+  struct city *ctarget = nullptr;
   struct city *pcity = tile_city(unit_tile(punit));
 
   if (pcity
@@ -608,7 +609,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
   int gold_avail, expenses;
   const struct civ_map *nmap = &(wld.map);
 
-  dai_calc_data(pplayer, NULL, &expenses, NULL);
+  dai_calc_data(pplayer, nullptr, &expenses, nullptr);
   gold_avail = pplayer->economic.gold - expenses;
 
   pf_map_positions_iterate(pfm, pos, FALSE) {
@@ -739,7 +740,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
 void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
                          struct unit *punit)
 {
-  struct city *pcity, *ctarget = NULL;
+  struct city *pcity, *ctarget = nullptr;
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_position pos;
@@ -751,7 +752,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
   /* Generate map */
   pft_fill_unit_parameter(&parameter, nmap, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
-  parameter.get_zoc = NULL; /* Kludge */
+  parameter.get_zoc = nullptr; /* Kludge */
   parameter.get_TB = no_intermediate_fights;
   pfm = pf_map_new(&parameter);
 
@@ -763,7 +764,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
   }
 
   /* If we are the only diplomat in a threatened city, then stay to defend */
-  pcity = tile_city(unit_tile(punit)); /* we may have moved */
+  pcity = tile_city(unit_tile(punit)); /* We may have moved */
   if (pcity) {
     struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
@@ -772,7 +773,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
             || city_data->urgency > 0)) {
       UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)",
                city_name_get(pcity), city_data->urgency);
-      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL); /* abort mission */
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr); /* Abort mission */
       def_ai_unit_data(punit, ait)->done = TRUE;
       pf_map_destroy(pfm);
       return;
@@ -807,7 +808,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
     }
     if (failure) {
       UNIT_LOG(LOG_DIPLOMAT, punit, "mission aborted");
-      dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr);
     }
   }
 
@@ -819,7 +820,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
     pf_map_destroy(pfm);
     pft_fill_unit_parameter(&parameter, nmap, punit);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
-    parameter.get_zoc = NULL; /* Kludge */
+    parameter.get_zoc = nullptr; /* Kludge */
     parameter.get_TB = no_intermediate_fights;
     pfm = pf_map_new(&parameter);
   }
@@ -837,14 +838,14 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = dai_diplomat_defend(ait, pplayer, punit,
                                               unit_type_get(punit), pfm))
-               != NULL) {
+               != nullptr) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s",
                city_name_get(ctarget));
-    } else if ((ctarget = find_closest_city(unit_tile(punit), NULL, pplayer,
+    } else if ((ctarget = find_closest_city(unit_tile(punit), nullptr, pplayer,
                                             TRUE, FALSE, FALSE, TRUE, FALSE,
-                                            NULL))
-               != NULL) {
+                                            nullptr))
+               != nullptr) {
       /* This should only happen if the entire continent was suddenly
        * conquered. So we head for closest coastal city and wait for someone
        * to code ferrying for diplomats, or hostile attacks from the sea. */
@@ -863,7 +864,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
   }
 
   CHECK_UNIT(punit);
-  if (ctarget == NULL) {
+  if (ctarget == nullptr) {
     UNIT_LOG(LOG_ERROR, punit, "ctarget not set (task == %d)",
              unit_data->task);
     pf_map_destroy(pfm);
@@ -884,7 +885,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
                  dist, ctarget ? city_name_get(ctarget) : "(none)");
         if (dist <= 1) {
           /* Do our stuff */
-          dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+          dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr);
           dai_diplomat_city(ait, punit, ctarget);
         }
       }
