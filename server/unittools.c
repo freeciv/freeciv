@@ -4565,15 +4565,14 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
   while (TRUE) {
     struct unit_order order;
-
     struct action *oaction;
-
     struct tile *dst_tile;
     struct city *tgt_city;
     struct unit *tgt_unit;
     int tgt_id;
     int sub_tgt_id;
     struct extra_type *pextra;
+    enum action_target_kind tk;
 
     if (punit->done_moving) {
       log_debug("  stopping because we're done this turn");
@@ -4753,6 +4752,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       log_debug("  orders: doing action %s", action_rule_name(oaction));
 
+      tk = action_id_get_target_kind(order.action);
+
       dst_tile = index_to_tile(&(wld.map), order.target);
 
       if (dst_tile == nullptr) {
@@ -4769,8 +4770,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       /* Get the target city from the target tile. */
       tgt_city = tile_city(dst_tile);
 
-      if (tgt_city == nullptr
-          && action_id_get_target_kind(order.action) == ATK_CITY) {
+      if (tgt_city == nullptr && tk == ATK_CITY) {
         /* This action targets a city but no city target was found. */
 
         cancel_orders(punit, "  perform action vs city with no city");
@@ -4783,8 +4783,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       /* Get a target unit at the target tile. */
       tgt_unit = action_tgt_unit(punit, dst_tile, TRUE);
 
-      if (tgt_unit == nullptr
-          && action_id_get_target_kind(order.action) == ATK_UNIT) {
+      if (tgt_unit == nullptr && tk == ATK_UNIT) {
         /* This action targets a unit but no target unit was found. */
 
         cancel_orders(punit, "  perform action vs unit with no unit");
@@ -4831,7 +4830,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       /* Assume impossible until told otherwise. */
       prob = ACTPROB_IMPOSSIBLE;
 
-      switch (action_id_get_target_kind(order.action)) {
+      switch (tk) {
       case ATK_STACK:
         prob = action_prob_vs_stack(nmap, punit, order.action,
                                     dst_tile);
