@@ -6878,20 +6878,13 @@ static bool unit_activity_targeted_internal(struct unit *punit,
 static bool do_scout(struct unit *punit, struct tile *ptile,
                      const struct action *paction)
 {
-  struct player *owner = unit_owner(punit);
-
   if (punit->server.scout_vision != nullptr
       && punit->server.scout_vision->tile != ptile) {
-    vision_free(punit->server.scout_vision);
-    punit->server.scout_vision = nullptr;
+    unit_scout_vision_clear(punit);
   }
 
   if (punit->server.scout_vision == nullptr) {
-    const v_radius_t radius_sq = V_RADIUS(5, 0, 0);
-
-    punit->server.scout_vision = vision_new(owner, ptile);
-    vision_reveal_tiles(punit->server.scout_vision, TRUE);
-    vision_change_sight(punit->server.scout_vision, radius_sq);
+    unit_scout_vision_gain(punit, ptile);
   }
 
   return TRUE;

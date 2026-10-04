@@ -710,11 +710,7 @@ void finalize_unit_phase_beginning(struct player *pplayer)
     punit->changed_from_target = punit->activity_target;
     punit->changed_from_count = punit->activity_count;
 
-    if (punit->server.scout_vision != nullptr) {
-      vision_clear_sight(punit->server.scout_vision);
-      vision_free(punit->server.scout_vision);
-      punit->server.scout_vision = nullptr;
-    }
+    unit_scout_vision_clear(punit);
 
     send_unit_info(nullptr, punit);
   } unit_list_iterate_end;
@@ -1844,11 +1840,7 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
     vision_free(punit->server.vision);
     punit->server.vision = nullptr;
   }
-  if (punit->server.scout_vision != nullptr) {
-    vision_clear_sight(punit->server.scout_vision);
-    vision_free(punit->server.scout_vision);
-    punit->server.scout_vision = nullptr;
-  }
+  unit_scout_vision_clear(punit);
 
   packet.unit_id = punit->id;
   /* Send to onlookers. */
@@ -5200,4 +5192,35 @@ void unit_make_contact(const struct unit *punit,
 
   maybe_make_contact(ptile != nullptr ? ptile : unit_tile(punit),
                      pplayer != nullptr ? pplayer : unit_owner(punit));
+}
+
+/**********************************************************************//**
+  Add scout vision to the unit.
+
+  @param punit Unit to add the scout vision for
+  @param ptile Central tile of the scouted area
+**************************************************************************/
+void unit_scout_vision_gain(struct unit *punit, struct tile *ptile)
+{
+  const v_radius_t radius_sq = V_RADIUS(5, 0, 0);
+
+  fc_assert(punit->server.scout_vision == nullptr);
+
+  punit->server.scout_vision = vision_new(unit_owner(punit), ptile);
+  vision_reveal_tiles(punit->server.scout_vision, TRUE);
+  vision_change_sight(punit->server.scout_vision, radius_sq);
+}
+
+/**********************************************************************//**
+  Clear scout vision from the unit.
+
+  @param punit Unit to clear the scout vision from
+**************************************************************************/
+void unit_scout_vision_clear(struct unit *punit)
+{
+  if (punit->server.scout_vision != nullptr) {
+    vision_clear_sight(punit->server.scout_vision);
+    vision_free(punit->server.scout_vision);
+    punit->server.scout_vision = nullptr;
+  }
 }

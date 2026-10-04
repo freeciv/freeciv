@@ -195,4 +195,7 @@ void unit_activities_cancel_all_illegal_area(const struct tile *ptile);
 
 void unit_get_goods(struct unit *punit);
 
+void unit_scout_vision_gain(struct unit *punit, struct tile *ptile);
+void unit_scout_vision_clear(struct unit *punit);
+
 #endif /* FC__UNITTOOLS_H */
