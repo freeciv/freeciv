@@ -48,7 +48,7 @@ format_version = 50
 
 [effect_entertainer]
 type    = "Specialist_Output"
-value   = 2
+value   = 200
 reqs    =
     { "type",       "name",        "range"
       "Specialist", "Entertainer", "Local"
@@ -57,7 +57,7 @@ reqs    =
 
 [effect_philosopher]
 type    = "Specialist_Output"
-value   = 3
+value   = 300
 reqs    =
     { "type",       "name",        "range"
       "Specialist", "Philosopher", "Local"
