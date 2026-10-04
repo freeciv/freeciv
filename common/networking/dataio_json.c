@@ -308,8 +308,6 @@ int dio_put_cm_parameter_json(struct json_data_out *d_out,
                              json_boolean(param->require_happy));
     e |= json_object_set_new(obj, "allow_disorder",
                              json_boolean(param->allow_disorder));
-    e |= json_object_set_new(obj, "allow_specialists",
-                             json_boolean(param->allow_specialists));
     e |= json_object_set_new(obj, "happy_factor",
                              json_integer(param->happy_factor));
     e |= plocation_write_data(d_out->json, location, obj);
@@ -515,14 +513,6 @@ bool dio_get_cm_parameter_json(struct connection *pc, struct data_in *din,
     location->sub_location->name = "allow_disorder";
     if (!dio_get_bool8_json(pc, din, location, &param->allow_disorder)) {
       log_packet("Corrupt cm_parameter.allow_disorder");
-      FC_FREE(location->sub_location);
-      return FALSE;
-    }
-
-    location->sub_location->name = "allow_specialists";
-    if (!dio_get_bool8_json(pc, din, location, &param->allow_specialists)) {
-      log_packet("Corrupt cm_parameter.allow_specialists");
-      FC_FREE(location->sub_location);
       FC_FREE(location->sub_location);
       return FALSE;
     }

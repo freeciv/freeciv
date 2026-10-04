@@ -256,7 +256,6 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   cm_init_parameter(&cmp);
   cmp.require_happy = TRUE;    /* Note this one */
   cmp.allow_disorder = FALSE;
-  cmp.allow_specialists = TRUE;
   cmp.factor[O_FOOD] = 20;
   cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
 

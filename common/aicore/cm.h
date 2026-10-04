@@ -42,7 +42,6 @@ struct cm_parameter {
   bool max_growth;
   bool require_happy;
   bool allow_disorder;
-  bool allow_specialists;
 
   int factor[O_LAST];
   int happy_factor;

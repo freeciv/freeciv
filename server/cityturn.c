@@ -319,7 +319,6 @@ static void set_default_city_manager(struct cm_parameter *cmp,
 
   cmp->require_happy = FALSE;
   cmp->allow_disorder = FALSE;
-  cmp->allow_specialists = TRUE;
 
   /* We used to look at pplayer->ai.xxx_priority to determine the values
    * to be used here. However that doesn't work at all because those values

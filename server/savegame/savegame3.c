@@ -5617,8 +5617,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
           loading->file, FALSE, "%s.require_happy", citystr);
       param->allow_disorder = secfile_lookup_bool_default(
           loading->file, FALSE, "%s.allow_disorder", citystr);
-      param->allow_specialists = secfile_lookup_bool_default(
-          loading->file, FALSE, "%s.allow_specialists", citystr);
       param->happy_factor = secfile_lookup_int_default(
           loading->file, 0, "%s.happy_factor", citystr);
       pcity->cm_parameter = param;
@@ -5637,8 +5635,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       secfile_entry_ignore(loading->file, "%s.require_happy",
                            citystr);
       secfile_entry_ignore(loading->file, "%s.allow_disorder",
-                           citystr);
-      secfile_entry_ignore(loading->file, "%s.allow_specialists",
                            citystr);
       secfile_entry_ignore(loading->file, "%s.happy_factor",
                            citystr);
@@ -6055,9 +6051,6 @@ static void sg_save_player_cities(struct savedata *saving,
                           "%s.require_happy", buf);
       secfile_insert_bool(saving->file, pcity->cm_parameter->allow_disorder,
                           "%s.allow_disorder", buf);
-      secfile_insert_bool(saving->file,
-                          pcity->cm_parameter->allow_specialists,
-                         "%s.allow_specialists", buf);
       secfile_insert_int(saving->file, pcity->cm_parameter->happy_factor,
                         "%s.happy_factor", buf);
     } else {
@@ -6071,7 +6064,6 @@ static void sg_save_player_cities(struct savedata *saving,
       secfile_insert_bool(saving->file, FALSE, "%s.max_growth", buf);
       secfile_insert_bool(saving->file, FALSE, "%s.require_happy", buf);
       secfile_insert_bool(saving->file, FALSE, "%s.allow_disorder", buf);
-      secfile_insert_bool(saving->file, FALSE, "%s.allow_specialists", buf);
       secfile_insert_int(saving->file, 0, "%s.happy_factor", buf);
     }
 

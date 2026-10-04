@@ -2438,9 +2438,9 @@ void city_dialog::save_cma()
     struct cm_parameter param;
     QByteArray ask_bytes = ask->input_edit.text().toUtf8();
     QString text = ask_bytes.data();
+
     if (!text.isEmpty()) {
       param.allow_disorder = false;
-      param.allow_specialists = true;
       param.require_happy = cma_celeb_checkbox->isChecked();
       param.max_growth = cma_max_growth->isChecked();
       param.happy_factor = slider_tab[2 * O_LAST + 1]->value();
@@ -2481,7 +2481,6 @@ void city_dialog::cma_changed()
   struct cm_parameter param;
 
   param.allow_disorder = false;
-  param.allow_specialists = true;
   param.require_happy = cma_celeb_checkbox->isChecked();
   param.max_growth = cma_max_growth->isChecked();
   param.happy_factor = slider_tab[2 * O_LAST + 1]->value();

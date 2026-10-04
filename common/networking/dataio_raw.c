@@ -551,7 +551,6 @@ int dio_put_cm_parameter_raw(struct raw_data_out *d_out,
   e |= dio_put_bool8_raw(d_out, param->max_growth);
   e |= dio_put_bool8_raw(d_out, param->require_happy);
   e |= dio_put_bool8_raw(d_out, param->allow_disorder);
-  e |= dio_put_bool8_raw(d_out, param->allow_specialists);
 
   for (i = 0; i < O_LAST; i++) {
     e |= dio_put_uint16_raw(d_out, param->factor[i]);
@@ -887,8 +886,7 @@ bool dio_get_cm_parameter_raw(struct data_in *din,
 
   if (!dio_get_bool8_raw(din, &param->max_growth)
       || !dio_get_bool8_raw(din, &param->require_happy)
-      || !dio_get_bool8_raw(din, &param->allow_disorder)
-      || !dio_get_bool8_raw(din, &param->allow_specialists)) {
+      || !dio_get_bool8_raw(din, &param->allow_disorder)) {
     log_packet("Got a bad cm_parameter");
     return FALSE;
   }

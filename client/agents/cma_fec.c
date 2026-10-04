@@ -389,7 +389,6 @@ void create_default_cma_presets(void)
      .minimal_surplus = {0, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
-     .allow_specialists = TRUE,
      .factor = {10, 5, 0, 4, 0, 4},
      .happy_factor = 25
    },
@@ -397,7 +396,6 @@ void create_default_cma_presets(void)
      .minimal_surplus = {-20, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
-     .allow_specialists = TRUE,
      .factor = {25, 5, 0, 4, 0, 4},
      .happy_factor = 0
    },
@@ -405,7 +403,6 @@ void create_default_cma_presets(void)
      .minimal_surplus = {0, -20, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
-     .allow_specialists = TRUE,
      .factor = {10, 25, 0, 4, 0, 4},
      .happy_factor = 0
    },
@@ -413,7 +410,6 @@ void create_default_cma_presets(void)
      .minimal_surplus = {0, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
-     .allow_specialists = TRUE,
      .factor = {10, 5, 0, 25, 0, 4},
      .happy_factor = 0
    },
@@ -421,7 +417,6 @@ void create_default_cma_presets(void)
      .minimal_surplus = {0, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
-     .allow_specialists = TRUE,
      .factor = {10, 5, 0, 4, 0, 25},
      .happy_factor = 0
    }

@@ -2672,6 +2672,24 @@ static void compat_load_030400(struct loaddata *loading,
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.4.0");
+
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
+    int ncities;
+    int cnro;
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
+      continue;
+    }
+
+    ncities = secfile_lookup_int_default(loading->file, 0,
+                                         "player%d.dc_total", plrno);
+
+    for (cnro = 0; cnro < ncities; cnro++) {
+      secfile_entry_ignore(loading->file, "player%d.c%d.allow_specialists",
+                           plrno, cnro);
+    }
+  } player_slots_iterate_end;
 }
 
 /************************************************************************//**
@@ -2695,6 +2713,24 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 3039100) {
     /* Before version number bump to 3.3.91 */
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int ncities;
+      int cnro;
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
+        continue;
+      }
+
+      ncities = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.dc_total", plrno);
+
+      for (cnro = 0; cnro < ncities; cnro++) {
+        secfile_entry_ignore(loading->file, "player%d.c%d.allow_specialists",
+                             plrno, cnro);
+      }
+    } player_slots_iterate_end;
 
   } /* Version < 3.3.91 */
 

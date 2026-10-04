@@ -2157,9 +2157,6 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
   if (p1->allow_disorder != p2->allow_disorder) {
     return FALSE;
   }
-  if (p1->allow_specialists != p2->allow_specialists) {
-    return FALSE;
-  }
   if (p1->happy_factor != p2->happy_factor) {
     return FALSE;
   }
@@ -2192,7 +2189,6 @@ void cm_init_parameter(struct cm_parameter *dest)
   dest->happy_factor = 1;
   dest->require_happy = FALSE;
   dest->allow_disorder = FALSE;
-  dest->allow_specialists = TRUE;
   dest->max_growth = FALSE;
 }
 
@@ -2210,7 +2206,6 @@ void cm_init_emergency_parameter(struct cm_parameter *dest)
   dest->happy_factor = 1;
   dest->require_happy = FALSE;
   dest->allow_disorder = TRUE;
-  dest->allow_specialists = TRUE;
   dest->max_growth = FALSE;
 }
 
