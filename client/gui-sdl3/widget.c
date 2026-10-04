@@ -1093,7 +1093,7 @@ int setup_vertical_widgets_position(int step,
   Window Manager Mechanism.
   Idea is simple each window/dialog has own buffer layer which is draw
   on screen during flush operations.
-  This consume lots of memory but is extremly effecive.
+  This consume lots of memory but is extremely effective.
 
   Each widget has own "destination" parm == where ( on what buffer )
   will be draw.
