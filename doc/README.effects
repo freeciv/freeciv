@@ -238,6 +238,11 @@ Airlift
 Any_Government
     Allow changing to any form of government regardless of tech prerequisites.
 
+Armistice_Length_Pct
+    How long an armistice agreed by the two players last before turning
+    into a peace treaty. The effect is evaluated for both parties of
+    the treaty, and the longer of the times applies.
+
 Attack_Bonus
     Increases offensive bonuses of units. Unit requirements on this effect are
     the attacking unit itself. Can be limited to only apply to some actions
@@ -318,6 +323,11 @@ Casus_Belli_Success
       Attack, Suicide Attack, Conquer City, Unit Move, Help Wonder,
       Disband Unit Recover, Establish Trade Route, Enter Marketplace,
       Pillage, Spy Escape, Surgical Strike Building, Surgical Strike Production
+
+Ceasefire_Length_Pct
+    How long a cease-fire agreed by the two players last before reverting
+    back to war. The effect is evaluated for both parties of the treaty,
+    and the shorter of the times applies.
 
 City_Build_Slots
     Increase the number of units with no population cost a city can build in

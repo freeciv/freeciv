@@ -442,6 +442,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       enum diplstate_type old_diplstate = ds_giverdest->type;
       struct unit_list *pgiver_seen_units BAD_HEURISTIC_INIT(NULL);
       struct unit_list *pdest_seen_units BAD_HEURISTIC_INIT(NULL);
+      int armistice_length, arm_1, arm_2;
+      int ceasefire_length, cf_1, cf_2;
 
       switch (pclause->type) {
       case CLAUSE_EMBASSY:
@@ -563,8 +565,25 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           pdest_seen_units = get_units_seen_via_ally(pdest, pgiver);
         }
         set_diplstate_type(ds_giverdest, ds_destgiver, DS_CEASEFIRE);
-        ds_giverdest->turns_left = game.info.ceasefire_length;
-        ds_destgiver->turns_left = game.info.ceasefire_length;
+        cf_1 = get_target_bonus_effects(nullptr,
+                                        &(const struct req_context) {
+                                          .player = pgiver,
+                                        },
+                                        &(const struct req_context) {
+                                          .player = pdest,
+                                        }, EFT_CEASEFIRE_LENGTH_PCT);
+        cf_2 = get_target_bonus_effects(nullptr,
+                                        &(const struct req_context) {
+                                          .player = pdest,
+                                        },
+                                        &(const struct req_context) {
+                                          .player = pgiver,
+                                        }, EFT_CEASEFIRE_LENGTH_PCT);
+        ceasefire_length
+          = game.info.ceasefire_length * MIN(cf_1, cf_2) / 100;
+        ceasefire_length = MAX(1, ceasefire_length);
+        ds_giverdest->turns_left = ceasefire_length;
+        ds_destgiver->turns_left = ceasefire_length;
         notify_player(pgiver, NULL, E_TREATY_CEASEFIRE, ftc_server,
                       _("You agree on a cease-fire with %s."),
                       player_name(pdest));
@@ -587,8 +606,25 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           pdest_seen_units = get_units_seen_via_ally(pdest, pgiver);
         }
         set_diplstate_type(ds_giverdest, ds_destgiver, DS_ARMISTICE);
-        ds_giverdest->turns_left = game.info.armistice_length;
-        ds_destgiver->turns_left = game.info.armistice_length;
+        arm_1 = get_target_bonus_effects(nullptr,
+                                         &(const struct req_context) {
+                                           .player = pgiver,
+                                         },
+                                         &(const struct req_context) {
+                                           .player = pdest,
+                                         }, EFT_ARMISTICE_LENGTH_PCT);
+        arm_2 = get_target_bonus_effects(nullptr,
+                                         &(const struct req_context) {
+                                           .player = pdest,
+                                         },
+                                         &(const struct req_context) {
+                                           .player = pgiver,
+                                         }, EFT_ARMISTICE_LENGTH_PCT);
+        armistice_length
+          = game.info.armistice_length * MAX(arm_1, arm_2) / 100;
+        armistice_length = MAX(1, armistice_length);
+        ds_giverdest->turns_left = armistice_length;
+        ds_destgiver->turns_left = armistice_length;
         notify_player(pgiver, NULL, E_TREATY_PEACE, ftc_server,
                       /* TRANS: ... the Poles ... Polish territory */
                       PL_("You agree on an armistice with the %s. In %d turn, "
@@ -599,9 +635,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                           "it will become a peace treaty. Move any "
                           "military units out of %s territory to avoid them "
                           "being disbanded.",
-                          game.info.armistice_length),
+                          armistice_length),
                       nation_plural_for_player(pdest),
-                      game.info.armistice_length,
+                      armistice_length,
                       nation_adjective_for_player(pdest));
         notify_player(pdest, NULL, E_TREATY_PEACE, ftc_server,
                       /* TRANS: ... the Poles ... Polish territory */
@@ -613,9 +649,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                           "it will become a peace treaty. Move any "
                           "military units out of %s territory to avoid them "
                           "being disbanded.",
-                          game.info.armistice_length),
+                          armistice_length),
                       nation_plural_for_player(pgiver),
-                      game.info.armistice_length,
+                      armistice_length,
                       nation_adjective_for_player(pgiver));
         if (old_diplstate == DS_ALLIANCE) {
           update_players_after_alliance_breakup(pgiver, pdest,

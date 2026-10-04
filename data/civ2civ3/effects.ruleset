@@ -3809,6 +3809,14 @@ value   = 300
 type    = "Tech_Leakage"
 value   = 1
 
+[effect_armistice_len_pct]
+type    = "Armistice_Length_Pct"
+value   = 100
+
+[effect_ceasefire_len_pct]
+type    = "Ceasefire_Length_Pct"
+value   = 100
+
 ; Cities can always work tiles
 [effect_tile_workable]
 type    = "Tile_Workable"

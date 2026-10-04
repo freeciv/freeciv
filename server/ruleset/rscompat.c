@@ -515,6 +515,10 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
 
+  /* Old behavior: Armistice and Ceasefire took full (!00%) time. */
+  effect_new(EFT_ARMISTICE_LENGTH_PCT, 100, nullptr);
+  effect_new(EFT_CEASEFIRE_LENGTH_PCT, 100, nullptr);
+
   /* Make sure that all action enablers added or modified by the
    * compatibility post processing fulfills all hard action requirements. */
   rscompat_enablers_add_obligatory_hard_reqs();

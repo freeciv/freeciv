@@ -622,11 +622,13 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_NUKE_BLAST_RADIUS_1_SQ:
   case EFT_HEAL_UNIT_PCT:
   case EFT_TILE_CLAIMABLE:
+  case EFT_SHIELD2GOLD_PCT:
+  case EFT_ARMISTICE_LENGTH_PCT:
+  case EFT_CEASEFIRE_LENGTH_PCT:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
   case EFT_CITY_IMAGE:
-  case EFT_SHIELD2GOLD_PCT:
     break;
   case EFT_PERFORMANCE:
   case EFT_NATION_PERFORMANCE:

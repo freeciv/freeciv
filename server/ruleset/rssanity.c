@@ -52,7 +52,8 @@ enum effect_type req_base_effects[] =
 /* These have been made mandatory in freeciv-3.4 */
 enum effect_type req_base_effects_3_4[] =
   {
-    /* None yet */
+    EFT_ARMISTICE_LENGTH_PCT,
+    EFT_CEASEFIRE_LENGTH_PCT,
     EFT_COUNT
   };
 
