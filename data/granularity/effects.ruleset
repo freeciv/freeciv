@@ -47,7 +47,7 @@ format_version = 30
 ; Specialists
 [effect_philosopher]
 type    = "Specialist_Output"
-value   = 3
+value   = 300
 reqs    =
     { "type",       "name",        "range"
       "Specialist", "Philosopher", "Local"
