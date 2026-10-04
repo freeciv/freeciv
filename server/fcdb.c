@@ -72,9 +72,9 @@ struct fcdb_option {
   TYPED_HASH_ITERATE(char *, struct fcdb_option *, phash, key, data)
 #define fcdb_option_hash_iterate_end HASH_ITERATE_END
 
-struct fcdb_option_hash *fcdb_config = NULL;
+struct fcdb_option_hash *fcdb_config = nullptr;
 
-char *fcdb_script = NULL;
+char *fcdb_script = nullptr;
 
 static bool fcdb_set_option(const char *key, const char *value,
                             enum fcdb_option_source source);
@@ -82,29 +82,30 @@ static bool fcdb_load_config(const char *filename);
 
 
 /************************************************************************//**
-  Set one fcdb option (or delete it if value == NULL).
+  Set one fcdb option (or delete it if value == nullptr).
   Replaces any previous setting.
 ****************************************************************************/
 static bool fcdb_set_option(const char *key, const char *value,
                             enum fcdb_option_source source)
 {
-  struct fcdb_option *oldopt = NULL;
+  struct fcdb_option *oldopt = nullptr;
   bool removed;
 
-  if (value != NULL) {
+  if (value != nullptr) {
     struct fcdb_option *newopt = fc_malloc(sizeof(*newopt));
 
     newopt->value = fc_strdup(value);
     newopt->source = source;
     removed = fcdb_option_hash_replace_full(fcdb_config, key, newopt,
-                                            NULL, &oldopt);
+                                            nullptr, &oldopt);
   } else {
-    removed = fcdb_option_hash_remove_full(fcdb_config, key, NULL, &oldopt);
+    removed = fcdb_option_hash_remove_full(fcdb_config, key, nullptr, &oldopt);
   }
 
   if (removed) {
     /* Overwritten/removed an existing value */
-    fc_assert_ret_val(oldopt != NULL, FALSE);
+    fc_assert_ret_val(oldopt != nullptr, FALSE);
+
     FC_FREE(oldopt->value);
     FC_FREE(oldopt);
   }
@@ -122,7 +123,7 @@ static bool fcdb_load_config(const char *filename)
   struct section_file *secfile;
   const char *val;
 
-  fc_assert_ret_val(NULL != filename, FALSE);
+  fc_assert_ret_val(filename != nullptr, FALSE);
 
   if (!(secfile = secfile_load(filename, FALSE))) {
     log_error(_("Cannot load fcdb config file '%s':\n%s"), filename,
@@ -130,8 +131,8 @@ static bool fcdb_load_config(const char *filename)
     return FALSE;
   }
 
-  val = secfile_lookup_str_default(secfile, NULL, "meta.lua");
-  if (val != NULL) {
+  val = secfile_lookup_str_default(secfile, nullptr, "meta.lua");
+  if (val != nullptr) {
     fcdb_script = fc_strdup(val);
   }
 
@@ -166,7 +167,7 @@ static bool fcdb_load_config(const char *filename)
 ****************************************************************************/
 bool fcdb_init(const char *conf_file)
 {
-  fc_assert(fcdb_config == NULL);
+  fc_assert(fcdb_config == nullptr);
 
   fcdb_config = fcdb_option_hash_new();
 
@@ -191,7 +192,7 @@ const char *fcdb_option_get(const char *type)
   if (fcdb_option_hash_lookup(fcdb_config, type, &opt)) {
     return opt->value;
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -208,7 +209,7 @@ void fcdb_free(void)
   } fcdb_option_hash_data_iterate_end;
 
   fcdb_option_hash_destroy(fcdb_config);
-  fcdb_config = NULL;
+  fcdb_config = nullptr;
 }
 
 #else  /* HAVE_FCDB */
@@ -226,7 +227,7 @@ bool fcdb_init(const char *conf_file)
 ****************************************************************************/
 const char *fcdb_option_get(const char *type)
 {
-  return NULL;
+  return nullptr;
 }
 
 /************************************************************************//**
