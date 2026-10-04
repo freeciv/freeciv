@@ -488,11 +488,12 @@ void update_animation(void)
 static inline struct gotoline_counter *gotoline_counter_new(void)
 {
   struct gotoline_counter *pglc = fc_calloc(1, sizeof(*pglc));
+
   return pglc;
 }
 
 /************************************************************************//**
-  Create a new goto line counter.
+  Free goto line counter resources.
 ****************************************************************************/
 static void gotoline_counter_destroy(struct gotoline_counter *pglc)
 {
