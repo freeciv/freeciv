@@ -77,7 +77,7 @@ FC_C_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
            [], [EXTRA_DEBUG_CFLAGS])
 if test "x$cxx_works" = "xyes" ; then
   FC_CXX_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare \
-                -Wno-deprecated-declarations],
+                -Wno-deprecated-declarations -Wno-c++20-extensions],
                [], [EXTRA_DEBUG_CXXFLAGS])
 fi
 

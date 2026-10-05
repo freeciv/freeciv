@@ -675,7 +675,7 @@ dnl Detect flags to be used in configure tests that should fail on warnings
 WERROR_C_TEST_FLAGS=""
 WERROR_CXX_TEST_FLAGS=""
 FC_C_FLAGS([-Werror -Wall], [], [WERROR_C_TEST_FLAGS])
-FC_CXX_FLAGS([-Werror -Wall], [], [WERROR_CXX_TEST_FLAGS])
+FC_CXX_FLAGS([-Werror -Wall -Wno-c++20-extensions], [], [WERROR_CXX_TEST_FLAGS])
 
 FC_C99_VARIADIC_MACROS
 FC_C99_VARIABLE_ARRAYS
