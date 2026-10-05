@@ -51,7 +51,8 @@ c_cpp_args = [
 
 cpp_args = [
   '-Wno-deprecated-declarations',
-  '-fPIC'
+  '-fPIC',
+  '-Wno-c++20-extensions'
   ]
 
 foreach arg : c_args
@@ -1067,14 +1068,21 @@ if svgflags
   pub_conf_data.set('FREECIV_SVG_FLAGS', 1)
 endif
 
-if cxx_build and cxx_compiler.compiles('''
+if cxx_build
+  if cxx_compiler.has_argument('-Wno-c++20-extensions')
+    accept_cxx_20 = ['-Wno-c++20-extensions']
+  else
+    accept_cxx_20 = []
+  endif
+  if cxx_compiler.compiles('''
 class me {
 void top(); };
 void me::top() { (void) [=, this]() { this->top(); }; };
 ''',
-     name: 'C++20 capture this',
-     args: ['-Werror', '-Wall'])
-  pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
+       name: 'C++20 capture this',
+       args: ['-Werror', '-Wall', accept_cxx_20])
+    pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
+  endif
 endif
 
 if not meson.is_cross_build()
