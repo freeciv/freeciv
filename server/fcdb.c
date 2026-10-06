@@ -122,8 +122,16 @@ static bool fcdb_load_config(const char *filename)
 {
   struct section_file *secfile;
   const char *val;
+  struct stat buf;
 
   fc_assert_ret_val(filename != nullptr, FALSE);
+
+  /* does file exist? */
+  if (fc_stat(filename, &buf) != 0) {
+    log_error(_("Cannot load fcdb config file '%s':\n%s"), filename,
+              fc_strerror(fc_get_errno()));
+    return FALSE;
+  }
 
   if (!(secfile = secfile_load(filename, FALSE))) {
     log_error(_("Cannot load fcdb config file '%s':\n%s"), filename,
