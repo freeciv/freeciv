@@ -3400,7 +3400,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
       secfile_insert_int(sfile, put->build_cost, "%s.build_cost", path);
       secfile_insert_int(sfile, put->pop_cost, "%s.pop_cost", path);
-      if (DEFAULT_SPECIALIST < 0 || DEFAULT_SPECIALIST != specialist_index(put->spec_type)) {
+      if (DEFAULT_SPECIALIST < 0 || (nullptr != put->spec_type)) {
         secfile_insert_str(sfile, specialist_rule_name(put->spec_type),
                            "%s.specialist", path);
       }

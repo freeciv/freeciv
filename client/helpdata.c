@@ -2933,7 +2933,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        /* TRANS: * ... Great Artist(s) ... */
                        _("  %s adds a %s superspecialist to the city.\n"),
                        BULLET, specialist_plural_translation(utype->spec_type));
-        } else if (DEFAULT_SPECIALIST != specialist_index(utype->spec_type)) {
+        } else if (utype->spec_type != nullptr) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: * ... Scientists */
                        _("  %s adds to cities as %s.\n"),
@@ -4375,6 +4375,7 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
 {
   bool reqs = FALSE;
 
+  fc_assert_ret(nullptr != pspec);
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 

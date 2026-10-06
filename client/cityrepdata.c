@@ -264,6 +264,8 @@ static const char *cr_entry_specialist(const struct city *pcity,
   static char buf[8];
   const struct specialist *sp = data;
 
+  fc_assert_ret_val(sp != nullptr, nullptr);
+
   fc_snprintf(buf, sizeof(buf), "%2d",
               pcity->specialists[specialist_index(sp)]);
 

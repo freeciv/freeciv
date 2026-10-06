@@ -1041,8 +1041,8 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
         return TRI_NO;
       }
 
-      sid = specialist_index(unit_type_get(actor->unit)->spec_type);
-      if (DEFAULT_SPECIALIST != sid) {
+      if (unit_type_get(actor->unit)->spec_type != nullptr) {
+        sid = specialist_index(unit_type_get(actor->unit)->spec_type);
         if (!city_can_use_specialist(target->city, sid)) {
           /* Respect specialist reqs */
           /* Potential info leak about if they are fulfilled */

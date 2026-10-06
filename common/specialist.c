@@ -156,6 +156,8 @@ struct specialist *specialist_by_translated_name(const char *name)
 **************************************************************************/
 const char *specialist_rule_name(const struct specialist *sp)
 {
+  fc_assert_ret_val(sp != nullptr, nullptr);
+
   return rule_name_get(&sp->name);
 }
 
@@ -165,6 +167,8 @@ const char *specialist_rule_name(const struct specialist *sp)
 **************************************************************************/
 const char *specialist_plural_translation(const struct specialist *sp)
 {
+  fc_assert_ret_val(sp != nullptr, nullptr);
+
   return name_translation_get(&sp->name);
 }
 
@@ -207,6 +211,9 @@ bool is_normal_specialist_id(Specialist_type_id sp)
 **************************************************************************/
 bool is_super_specialist(const struct specialist *sp)
 {
+  if (sp == nullptr) {
+    return FALSE;
+  }
   return is_super_specialist_id(specialist_index(sp));
 }
 
@@ -216,6 +223,9 @@ bool is_super_specialist(const struct specialist *sp)
 **************************************************************************/
 bool is_normal_specialist(const struct specialist *sp)
 {
+  if (sp == nullptr) {
+    return FALSE;
+  }
   return is_normal_specialist_id(specialist_index(sp));
 }
 
