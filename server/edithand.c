@@ -65,7 +65,7 @@ static bool need_continents_reassigned = FALSE;
 /* Hold pointers to tiles which were changed during the edit sequence,
  * so that they can be sanity-checked when the sequence is complete
  * and final global fix-ups have been done. */
-static struct tile_hash *modified_tile_table = NULL;
+static struct tile_hash *modified_tile_table = nullptr;
 
 /* Array of size player_slot_count() indexed by player
  * number to tell whether a given player has fog of war
@@ -77,14 +77,14 @@ static bool *unfogged_players;
 ****************************************************************************/
 void edithand_init(void)
 {
-  if (NULL != modified_tile_table) {
+  if (modified_tile_table != nullptr) {
     tile_hash_destroy(modified_tile_table);
   }
   modified_tile_table = tile_hash_new();
 
   need_continents_reassigned = FALSE;
 
-  if (unfogged_players != NULL) {
+  if (unfogged_players != nullptr) {
     free(unfogged_players);
   }
   unfogged_players = fc_calloc(player_slot_count(), sizeof(bool));
@@ -95,14 +95,14 @@ void edithand_init(void)
 ****************************************************************************/
 void edithand_free(void)
 {
-  if (NULL != modified_tile_table) {
+  if (modified_tile_table != nullptr) {
     tile_hash_destroy(modified_tile_table);
-    modified_tile_table = NULL;
+    modified_tile_table = nullptr;
   }
 
-  if (unfogged_players != NULL) {
+  if (unfogged_players != nullptr) {
     free(unfogged_players);
-    unfogged_players = NULL;
+    unfogged_players = nullptr;
   }
 }
 
@@ -114,7 +114,7 @@ void edithand_send_initial_packets(struct conn_list *dest)
   struct packet_edit_startpos startpos;
   struct packet_edit_startpos_full startpos_full;
 
-  if (NULL == dest) {
+  if (dest == nullptr) {
     dest = game.est_connections;
   }
 
@@ -132,7 +132,7 @@ void edithand_send_initial_packets(struct conn_list *dest)
         send_packet_edit_startpos_full(pconn, &startpos_full);
       }
 
-      if (pconn->playing != NULL) {
+      if (pconn->playing != nullptr) {
         dsend_packet_edit_fogofwar_state(pconn,
                                          !unfogged_players[player_number(pconn->playing)]);
       }
@@ -148,7 +148,7 @@ static void check_edited_tile_terrains(void)
 {
   if (need_continents_reassigned) {
     assign_continent_numbers();
-    send_all_known_tiles(NULL);
+    send_all_known_tiles(nullptr);
     need_continents_reassigned = FALSE;
 
     /* FIXME: adv / ai phase handling like in check_terrain_change() */
@@ -198,13 +198,13 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 
   if (!game.info.is_edit_mode && is_edit_mode) {
     /* Someone could be cheating! Warn people. */
-    notify_conn(NULL, NULL, E_SETTING, ftc_editor,
+    notify_conn(nullptr, nullptr, E_SETTING, ftc_editor,
                 _(" *** Server set to edit mode by %s! *** "),
                 conn_description(pc));
   }
 
   if (game.info.is_edit_mode && !is_edit_mode) {
-    notify_conn(NULL, NULL, E_SETTING, ftc_editor,
+    notify_conn(nullptr, nullptr, E_SETTING, ftc_editor,
                 _(" *** Edit mode canceled by %s. *** "),
                 conn_description(pc));
 
@@ -214,8 +214,8 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
   if (game.info.is_edit_mode != is_edit_mode) {
     game.info.is_edit_mode = is_edit_mode;
 
-    send_game_info(NULL);
-    edithand_send_initial_packets(NULL);
+    send_game_info(nullptr);
+    edithand_send_initial_packets(nullptr);
   }
 }
 
@@ -231,13 +231,13 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
 
   if (old_terrain == pterrain
       || (terrain_has_flag(pterrain, TER_NO_CITIES)
-          && NULL != tile_city(ptile))) {
+          && tile_city(ptile) != nullptr)) {
     return FALSE;
   }
 
   tile_change_terrain(ptile, pterrain);
   fix_tile_on_terrain_change(ptile, old_terrain, FALSE);
-  tile_hash_insert(modified_tile_table, ptile, NULL);
+  tile_hash_insert(modified_tile_table, ptile, nullptr);
   if (need_to_reassign_continents(old_terrain, pterrain)) {
     need_continents_reassigned = TRUE;
   }
@@ -308,7 +308,7 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
 
   ptile_center = index_to_tile(&(wld.map), tile);
   if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit the tile because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
@@ -345,7 +345,7 @@ void handle_edit_tile_extra(struct connection *pc, int tile,
 
   ptile_center = index_to_tile(&(wld.map), tile);
   if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit the tile because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
@@ -363,7 +363,7 @@ void handle_edit_tile_extra(struct connection *pc, int tile,
   if (eowner != MAP_TILE_OWNER_NULL) {
     plr_eowner = player_by_number(eowner);
   } else {
-    plr_eowner = NULL;
+    plr_eowner = nullptr;
   }
 
   conn_list_do_buffer(game.est_connections);
@@ -386,7 +386,7 @@ void handle_edit_tile(struct connection *pc,
 
   ptile = index_to_tile(&(wld.map), packet->tile);
   if (!ptile) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit the tile because %d is not a valid "
                   "tile index on this map!"), packet->tile);
     return;
@@ -395,7 +395,7 @@ void handle_edit_tile(struct connection *pc,
   if (packet->eowner != MAP_TILE_OWNER_NULL) {
     eowner = player_by_number(packet->eowner);
   } else {
-    eowner = NULL;
+    eowner = nullptr;
   }
 
   /* Handle changes in extras. */
@@ -425,7 +425,7 @@ void handle_edit_tile(struct connection *pc,
   /* Send the new state to all affected. */
   if (changed) {
     update_tile_knowledge(ptile);
-    send_tile_info(NULL, ptile, FALSE);
+    send_tile_info(nullptr, ptile, FALSE);
   }
 
   tile_change_side_effects(ptile, TRUE);
@@ -448,7 +448,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
 
   ptile = index_to_tile(&(wld.map), tile);
   if (!ptile) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot create units because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
@@ -494,7 +494,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
   pcity = tile_city(ptile);
   if (is_non_allied_unit_tile(ptile, pplayer,
                               utype_has_flag(punittype, UTYF_FLAGLESS))
-      || (pcity != NULL
+      || (pcity != nullptr
           && !pplayers_allied(pplayer, city_owner(pcity)))) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." type <unit-type> on enemy tile
@@ -517,18 +517,18 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
 
   if (count > 0 && !pplayer->is_alive) {
     pplayer->is_alive = TRUE;
-    send_player_info_c(pplayer, NULL);
+    send_player_info_c(pplayer, nullptr);
   }
 
-  homecity = find_closest_city(ptile, NULL, pplayer, FALSE, FALSE, FALSE,
+  homecity = find_closest_city(ptile, nullptr, pplayer, FALSE, FALSE, FALSE,
                                TRUE, FALSE, utype_class(punittype));
   id = homecity ? homecity->id : 0;
 
   conn_list_do_buffer(game.est_connections);
   map_show_circle(pplayer, ptile, punittype->vision_radius_sq);
   for (i = 0; i < count; i++) {
-    /* As far as I can see create_unit is guaranteed to
-     * never return NULL. */
+    /* As far as I can see create_unit() is guaranteed to
+     * never return nullptr. */
     punit = create_unit(pplayer, ptile, punittype, 0, id, -1);
     if (tag > 0) {
       dsend_packet_edit_object_created(pc, tag, punit->id);
@@ -551,7 +551,7 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
 
   ptile = index_to_tile(&(wld.map), tile);
   if (!ptile) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot remove units because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
@@ -588,7 +588,7 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
         || unit_owner(punit) != pplayer) {
       continue;
     }
-    wipe_unit(punit, ULR_EDITOR, NULL);
+    wipe_unit(punit, ULR_EDITOR, nullptr);
     i++;
   } unit_list_iterate_safe_end;
 }
@@ -602,12 +602,12 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
 
   punit = game_unit_by_number(id);
   if (!punit) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No such unit (ID %d)."), id);
     return;
   }
 
-  wipe_unit(punit, ULR_EDITOR, NULL);
+  wipe_unit(punit, ULR_EDITOR, nullptr);
 }
 
 /************************************************************************//**
@@ -625,7 +625,7 @@ void handle_edit_unit(struct connection *pc,
   id = packet->id;
   punit = game_unit_by_number(id);
   if (!punit) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No such unit (ID %d)."), id);
     return;
   }
@@ -662,8 +662,8 @@ void handle_edit_unit(struct connection *pc,
   if (packet->veteran != punit->veteran) {
     int v = packet->veteran;
 
-    if (utype_veteran_level(putype, v) == NULL) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    if (utype_veteran_level(putype, v) == nullptr) {
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Invalid veteran level %d for unit %d (%s)."),
                   v, id, unit_link(punit));
     } else {
@@ -682,7 +682,7 @@ void handle_edit_unit(struct connection *pc,
 
   /* Send the new state to all affected. */
   if (changed) {
-    send_unit_info(NULL, punit);
+    send_unit_info(nullptr, punit);
   }
 }
 
@@ -699,7 +699,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
 
   ptile = index_to_tile(&(wld.map), tile);
   if (!ptile) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot create a city because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
@@ -733,7 +733,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
     /* FIXME: Slow and inefficient for large size changes. */
     city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE), pplayer,
                      -1, nullptr);
-    send_city_info(NULL, pcity);
+    send_city_info(nullptr, pcity);
   }
 
   if (tag > 0) {
@@ -761,7 +761,7 @@ void handle_edit_city(struct connection *pc,
 
   pcity = game_city_by_number(packet->id);
   if (!pcity) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit city with invalid city ID %d."),
                 packet->id);
     return;
@@ -802,7 +802,7 @@ void handle_edit_city(struct connection *pc,
 
   /* Handle city improvement changes. */
   improvement_iterate(pimprove) {
-    oldcity = NULL;
+    oldcity = nullptr;
     id = improvement_number(pimprove);
 
     if (is_special_improvement(pimprove)) {
@@ -824,7 +824,7 @@ void handle_edit_city(struct connection *pc,
 
     } else if (!city_has_building(pcity, pimprove)
                && packet->built[id] >= 0) {
-      struct player *old_owner = NULL;
+      struct player *old_owner = nullptr;
 
       oldcity = build_or_move_building(pcity, pimprove, &old_owner);
       if (oldcity != pcity) {
@@ -884,21 +884,21 @@ void handle_edit_city(struct connection *pc,
     conn_list_do_buffer(game.est_connections);
     city_refresh_queue_processing();
 
-    /* FIXME: city_refresh_queue_processing only sends to city owner? */
-    send_city_info(NULL, pcity);
+    /* FIXME: city_refresh_queue_processing() only sends to city owner? */
+    send_city_info(nullptr, pcity);
 
     conn_list_do_unbuffer(game.est_connections);
   }
 
   /* Update wonder infos. */
   if (need_game_info) {
-    send_game_info(NULL);
+    send_game_info(nullptr);
   }
   if (BV_ISSET_ANY(need_player_info)) {
     players_iterate(aplayer) {
       if (BV_ISSET(need_player_info, player_index(aplayer))) {
         /* No need to send to detached connections. */
-        send_player_info_c(aplayer, NULL);
+        send_player_info_c(aplayer, nullptr);
       }
     } players_iterate_end;
   }
@@ -915,7 +915,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   int existing = player_count();
 
   if (existing >= player_slot_count()) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No more players can be added because the maximum "
                   "number of players (%d) has been reached."),
                 player_slot_count());
@@ -923,33 +923,34 @@ void handle_edit_player_create(struct connection *pc, int tag)
   }
 
   if (existing >= game.server.max_players) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No more players can be added because there's "
-                  "already maximum number of players allowed by maxplayers setting (value %d)"),
+                  "already maximum number of players allowed by "
+                  "maxplayers setting (value %d)"),
                 game.server.max_players);
     return;
   }
 
   if (existing >= nation_count() ) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No more players can be added because there are "
                   "no available nations (%d used)."),
                 nation_count());
     return;
   }
 
-  pnation = pick_a_nation(NULL, TRUE, TRUE, NOT_A_BARBARIAN);
+  pnation = pick_a_nation(nullptr, TRUE, TRUE, NOT_A_BARBARIAN);
   if (!pnation) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Player cannot be created because random nation "
                   "selection failed."));
     return;
   }
 
   pplayer = server_create_player(-1, default_ai_type_name(),
-                                 NULL, FALSE);
+                                 nullptr, FALSE);
   if (!pplayer) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Player creation failed."));
     return;
   }
@@ -974,10 +975,10 @@ void handle_edit_player_create(struct connection *pc, int tag)
   init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
 
-  send_player_all_c(pplayer, NULL);
+  send_player_all_c(pplayer, nullptr);
   /* Send research info after player info, else the client will complain
    * about invalid team. */
-  send_research_info(presearch, NULL);
+  send_research_info(presearch, nullptr);
   if (tag > 0) {
     dsend_packet_edit_object_created(pc, tag, player_number(pplayer));
   }
@@ -991,8 +992,8 @@ void handle_edit_player_remove(struct connection *pc, int id)
   struct player *pplayer;
 
   pplayer = player_by_number(id);
-  if (pplayer == NULL) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+  if (pplayer == nullptr) {
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No such player (ID %d)."), id);
     return;
   }
@@ -1022,7 +1023,7 @@ void handle_edit_player(struct connection *pc,
 
   pplayer = player_by_number(packet->id);
   if (!pplayer) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit player with invalid player ID %d."),
                 packet->id);
     return;
@@ -1035,11 +1036,11 @@ void handle_edit_player(struct connection *pc,
   if (0 != strcmp(packet->name, player_name(pplayer))) {
     char error_buf[256];
 
-    if (server_player_set_name_full(pc, pplayer, NULL, packet->name,
+    if (server_player_set_name_full(pc, pplayer, nullptr, packet->name,
                                     error_buf, sizeof(error_buf))) {
       changed = TRUE;
     } else {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot change name of player (%d) '%s' to '%s': %s"),
                   player_number(pplayer), player_name(pplayer),
                   packet->name, error_buf);
@@ -1049,14 +1050,14 @@ void handle_edit_player(struct connection *pc,
   /* Handle nation change. */
   pnation = nation_by_number(packet->nation);
   if (nation_of_player(pplayer) != pnation) {
-    if (pnation == NULL) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    if (pnation == nullptr) {
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot change nation for player %d (%s) "
                     "because the given nation ID %d is invalid."),
                   player_number(pplayer), player_name(pplayer),
                   packet->nation);
-    } else if (pnation->player != NULL) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    } else if (pnation->player != nullptr) {
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot change nation for player %d (%s) "
                     "to nation %d (%s) because that nation is "
                     "already assigned to player %d (%s)."),
@@ -1065,7 +1066,7 @@ void handle_edit_player(struct connection *pc,
                   player_number(pnation->player),
                   player_name(pnation->player));
     } else if (!nation_is_in_current_set(pnation)) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot change nation for player %d (%s) "
                     "to nation %d (%s) because that nation is "
                     "not in the current nation set."),
@@ -1074,7 +1075,7 @@ void handle_edit_player(struct connection *pc,
     } else if (pplayer->ai_common.barbarian_type
                != nation_barbarian_type(pnation)
                || (!is_barbarian(pplayer) && !is_nation_playable(pnation))) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot change nation for player %d (%s) "
                     "to nation %d (%s) because that nation is "
                     "unsuitable for this player."),
@@ -1114,7 +1115,7 @@ void handle_edit_player(struct connection *pc,
   /* Handle a change in the player's gold. */
   if (packet->gold != pplayer->economic.gold) {
     if (!(0 <= packet->gold && packet->gold <= 1000000)) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot set gold for player %d (%s) because "
                     "the value %d is outside the allowed range."),
                   player_number(pplayer), player_name(pplayer),
@@ -1128,7 +1129,7 @@ void handle_edit_player(struct connection *pc,
   /* Handle a change in the player's infrapoints. */
   if (packet->infrapoints != pplayer->economic.infra_points) {
     if (!(0 <= packet->infrapoints && packet->infrapoints <= 1000000)) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+      notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                   _("Cannot set infrapoints for player %d (%s) because "
                     "the value %d is outside the allowed range."),
                   player_number(pplayer), player_name(pplayer),
@@ -1214,12 +1215,12 @@ void handle_edit_player(struct connection *pc,
     changed = TRUE;
 
     /* Inform everybody about global advances */
-    send_game_info(NULL);
-    send_research_info(research, NULL);
+    send_game_info(nullptr);
+    send_research_info(research, nullptr);
   }
 
   if (changed) {
-    send_player_all_c(pplayer, NULL);
+    send_player_all_c(pplayer, nullptr);
   }
 }
 
@@ -1234,7 +1235,7 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
 
   ptile_center = index_to_tile(&(wld.map), tile);
   if (!ptile_center) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit vision because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
@@ -1311,8 +1312,8 @@ void handle_edit_city_remove(struct connection *pc, int id)
   struct city *pcity;
 
   pcity = game_city_by_number(id);
-  if (pcity == NULL) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+  if (pcity == nullptr) {
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No such city (ID %d)."), id);
     return;
   }
@@ -1338,7 +1339,7 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
   struct player *pplayer;
 
   if (!game.info.fogofwar) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot toggle fog-of-war when it is already "
                   "disabled."));
     return;
@@ -1346,7 +1347,7 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
 
   pplayer = player_by_number(plr_no);
   if (!pplayer) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Cannot toggle fog-of-war for invalid player ID %d."),
                 plr_no);
     return;
@@ -1373,8 +1374,8 @@ void handle_edit_startpos(struct connection *pconn,
   bool changed;
 
   /* Check. */
-  if (NULL == ptile) {
-    notify_conn(pconn->self, NULL, E_BAD_COMMAND, ftc_editor,
+  if (ptile == nullptr) {
+    notify_conn(pconn->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Invalid tile index %d for start position."), packet->id);
     return;
   }
@@ -1383,7 +1384,7 @@ void handle_edit_startpos(struct connection *pconn,
   if (packet->removal) {
     changed = map_startpos_remove(ptile);
   } else {
-    if (NULL != map_startpos_get(ptile)) {
+    if (map_startpos_get(ptile) != nullptr) {
       changed = FALSE;
     } else {
       map_startpos_new(ptile);
@@ -1412,15 +1413,15 @@ void handle_edit_startpos_full(struct connection *pconn,
   struct startpos *psp;
 
   /* Check. */
-  if (NULL == ptile) {
-    notify_conn(pconn->self, NULL, E_BAD_COMMAND, ftc_editor,
+  if (ptile == nullptr) {
+    notify_conn(pconn->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Invalid tile index %d for start position."),
                 packet->id);
     return;
   }
 
   psp = map_startpos_get(ptile);
-  if (NULL == psp) {
+  if (psp == nullptr) {
     notify_conn(pconn->self, ptile, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit start position nations at (%d, %d) "
                   "because there is no start position there."),
@@ -1497,8 +1498,8 @@ void handle_edit_game(struct connection *pc,
   }
 
   if (changed) {
-    send_scenario_info(NULL);
-    send_game_info(NULL);
+    send_scenario_info(nullptr);
+    send_game_info(nullptr);
   }
 }
 
@@ -1510,7 +1511,7 @@ void handle_edit_scenario_desc(struct connection *pc, const char *scenario_desc)
   if (fc_strncmp(scenario_desc, game.scenario_desc.description,
                  MAX_LEN_PACKET)) {
     sz_strlcpy(game.scenario_desc.description, scenario_desc);
-    send_scenario_description(NULL);
+    send_scenario_description(nullptr);
   }
 }
 
@@ -1520,14 +1521,14 @@ void handle_edit_scenario_desc(struct connection *pc, const char *scenario_desc)
 void handle_save_scenario(struct connection *pc, const char *name)
 {
   if (pc->access_level != ALLOW_HACK) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("No permissions to remotely save scenario."));
     return;
   }
 
   if (!game.scenario.is_scenario) {
     /* Scenario information not available */
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+    notify_conn(pc->self, nullptr, E_BAD_COMMAND, ftc_editor,
                 _("Scenario information not set. Cannot save scenario."));
     return;
   }
