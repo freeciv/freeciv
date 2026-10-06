@@ -3864,8 +3864,21 @@ bool load_command(struct connection *caller, const char *filename, bool check)
     }
   }
 
-  /* attempt to parse the file */
+  {
+    struct stat buf;
 
+    /* does file exist? */
+    if (fc_stat(arg, &buf) != 0) {
+      log_error("Error loading savefile '%s': %s", arg,
+                fc_strerror(fc_get_errno()));
+      cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"),
+                arg);
+      dlsend_packet_game_load(game.est_connections, FALSE, arg);
+      return FALSE;
+    }
+  }
+
+  /* attempt to parse the file */
   if (!(file = secfile_load(arg, FALSE))) {
     log_error("Error loading savefile '%s': %s", arg, secfile_error());
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"),
