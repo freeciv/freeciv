@@ -542,6 +542,7 @@ functions available natively.
 - Instead of strncmp(), use fc_strncmp()
 - Instead of strcasecmp(), use fc_strcasecmp()
 - Instead of strlcat() or strncat(), use fc_strlcat()
+- Instead of stat(), use fc_stat()
 
 ============================================================================
   Miscellaneous
