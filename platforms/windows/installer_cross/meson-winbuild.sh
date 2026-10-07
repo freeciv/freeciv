@@ -86,7 +86,7 @@ fi
 
 QTPARAMS=""
 
-AUDIO="sdl2"
+AUDIO="sdl3"
 TOOLS="manual,ruleup"
 case "${GUI}" in
   gtk3.22) FCMP="gtk3" ;;

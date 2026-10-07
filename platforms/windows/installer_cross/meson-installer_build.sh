@@ -266,14 +266,14 @@ else
     exit 1
   fi
 
-  if test "${GUI}" = "sdl3" ; then
-    if ! add_sdl3_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
-      echo "Copying SDL3_mixer environment failed!" >&2
+  if test "${GUI}" = "sdl2" ; then
+    if ! add_sdl2_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
+      echo "Copying SDL2_mixer environment failed!" >&2
       exit 1
     fi
   else
-    if ! add_sdl2_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
-      echo "Copying SDL2_mixer environment failed!" >&2
+    if ! add_sdl3_mixer_env "${DLLSPATH}" "${INSTDIR}" ; then
+      echo "Copying SDL3_mixer environment failed!" >&2
       exit 1
     fi
   fi
