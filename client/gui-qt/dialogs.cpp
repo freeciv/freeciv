@@ -80,142 +80,153 @@ extern void popdown_science_report();
 extern void popdown_city_report();
 extern void popdown_endgame_report();
 
-static void spy_request_strike_bld_list(QVariant data1, QVariant data2);
-static void diplomat_incite(QVariant data1, QVariant data2);
-static void diplomat_incite_escape(QVariant data1, QVariant data2);
-static void spy_request_sabotage_list(QVariant data1, QVariant data2);
-static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2);
-static void spy_sabotage(QVariant data1, QVariant data2);
-static void spy_steal(QVariant data1, QVariant data2);
-static void spy_steal_esc(QVariant data1, QVariant data2);
-static void spy_steal_something(QVariant data1, QVariant data2);
-static void diplomat_steal(QVariant data1, QVariant data2);
-static void diplomat_steal_esc(QVariant data1, QVariant data2);
-static void spy_poison(QVariant data1, QVariant data2);
-static void spy_poison_esc(QVariant data1, QVariant data2);
-static void spy_spread_plague(QVariant data1, QVariant data2);
-static void spy_steal_gold(QVariant data1, QVariant data2);
-static void spy_steal_gold_esc(QVariant data1, QVariant data2);
-static void spy_steal_maps(QVariant data1, QVariant data2);
-static void spy_steal_maps_esc(QVariant data1, QVariant data2);
-static void spy_escape(QVariant data1, QVariant data2);
-static void spy_nuke_city(QVariant data1, QVariant data2);
-static void spy_nuke_city_esc(QVariant data1, QVariant data2);
-static void nuke_city(QVariant data1, QVariant data2);
-static void destroy_city(QVariant data1, QVariant data2);
-static void diplomat_embassy(QVariant data1, QVariant data2);
-static void spy_embassy(QVariant data1, QVariant data2);
-static void spy_sabotage_unit(QVariant data1, QVariant data2);
-static void spy_sabotage_unit_esc(QVariant data1, QVariant data2);
-static void spy_investigate(QVariant data1, QVariant data2);
-static void diplomat_investigate(QVariant data1, QVariant data2);
-static void diplomat_sabotage(QVariant data1, QVariant data2);
-static void diplomat_sabotage_esc(QVariant data1, QVariant data2);
-static void diplomat_bribe_unit(QVariant data1, QVariant data2);
-static void diplomat_bribe_stack(QVariant data1, QVariant data2);
-static void spy_attack(QVariant data1, QVariant data2);
-static void caravan_marketplace(QVariant data1, QVariant data2);
-static void caravan_establish_trade(QVariant data1, QVariant data2);
-static void caravan_help_build(QVariant data1, QVariant data2);
-static void unit_disband_recover(QVariant data1, QVariant data2);
-static void capture_units(QVariant data1, QVariant data2);
-static void nuke_units(QVariant data1, QVariant data2);
-static void collect_ransom(QVariant data1, QVariant data2);
-static void wipe_units(QVariant data1, QVariant data2);
-static void expel_unit(QVariant data1, QVariant data2);
-static void bombard(QVariant data1, QVariant data2);
-static void bombard2(QVariant data1, QVariant data2);
-static void bombard3(QVariant data1, QVariant data2);
-static void bombard4(QVariant data1, QVariant data2);
-static void bombard_lethal(QVariant data1, QVariant data2);
-static void bombard_lethal2(QVariant data1, QVariant data2);
-static void found_city(QVariant data1, QVariant data2);
-static void transform_terrain(QVariant data1, QVariant data2);
-static void transform_terrain2(QVariant data1, QVariant data2);
-static void cultivate(QVariant data1, QVariant data2);
-static void cultivate2(QVariant data1, QVariant data2);
-static void plant(QVariant data1, QVariant data2);
-static void plant2(QVariant data1, QVariant data2);
-static void pillage(QVariant data1, QVariant data2);
-static void pillage2(QVariant data1, QVariant data2);
-static void clean(QVariant data1, QVariant data2);
-static void clean2(QVariant data1, QVariant data2);
-static void road(QVariant data1, QVariant data2);
-static void road2(QVariant data1, QVariant data2);
-static void base(QVariant data1, QVariant data2);
-static void base2(QVariant data1, QVariant data2);
-static void mine(QVariant data1, QVariant data2);
-static void mine2(QVariant data1, QVariant data2);
-static void irrigate(QVariant data1, QVariant data2);
-static void irrigate2(QVariant data1, QVariant data2);
-static void nuke(QVariant data1, QVariant data2);
-static void attack(QVariant data1, QVariant data2);
-static void attack2(QVariant data1, QVariant data2);
-static void suicide_attack(QVariant data1, QVariant data2);
-static void suicide_attack2(QVariant data1, QVariant data2);
-static void paradrop(QVariant data1, QVariant data2);
-static void paradrop_conquer(QVariant data1, QVariant data2);
-static void paradrop_frighten(QVariant data1, QVariant data2);
-static void paradrop_frighten_conquer(QVariant data1, QVariant data2);
-static void paradrop_enter(QVariant data1, QVariant data2);
-static void paradrop_enter_conquer(QVariant data1, QVariant data2);
-static void teleport(QVariant data1, QVariant data2);
-static void teleport2(QVariant data1, QVariant data2);
-static void teleport3(QVariant data1, QVariant data2);
-static void teleport_conquer(QVariant data1, QVariant data2);
-static void teleport_frighten(QVariant data1, QVariant data2);
-static void teleport_frighten_conquer(QVariant data1, QVariant data2);
-static void teleport_enter(QVariant data1, QVariant data2);
-static void teleport_enter_conquer(QVariant data1, QVariant data2);
-static void disembark1(QVariant data1, QVariant data2);
-static void disembark2(QVariant data1, QVariant data2);
-static void disembark3(QVariant data1, QVariant data2);
-static void disembark4(QVariant data1, QVariant data2);
-static void enter_hut(QVariant data1, QVariant data2);
-static void enter_hut2(QVariant data1, QVariant data2);
-static void enter_hut3(QVariant data1, QVariant data2);
-static void enter_hut4(QVariant data1, QVariant data2);
-static void frighten_hut(QVariant data1, QVariant data2);
-static void frighten_hut2(QVariant data1, QVariant data2);
-static void frighten_hut3(QVariant data1, QVariant data2);
-static void frighten_hut4(QVariant data1, QVariant data2);
-static void regular_move(QVariant data1, QVariant data2);
-static void regular_move2(QVariant data1, QVariant data2);
-static void regular_move3(QVariant data1, QVariant data2);
-static void scout(QVariant data1, QVariant data2);
-static void convert_unit(QVariant data1, QVariant data2);
-static void fortify(QVariant data1, QVariant data2);
-static void fortify2(QVariant data1, QVariant data2);
-static void disband_unit(QVariant data1, QVariant data2);
-static void homeless(QVariant data1, QVariant data2);
-static void join_city(QVariant data1, QVariant data2);
-static void unit_home_city(QVariant data1, QVariant data2);
-static void unit_upgrade(QVariant data1, QVariant data2);
-static void airlift(QVariant data1, QVariant data2);
-static void conquer_city_shrink(QVariant data1, QVariant data2);
-static void conquer_city_shrink2(QVariant data1, QVariant data2);
-static void conquer_city_shrink3(QVariant data1, QVariant data2);
-static void conquer_city_shrink4(QVariant data1, QVariant data2);
-static void conquer_extras(QVariant data1, QVariant data2);
-static void conquer_extras2(QVariant data1, QVariant data2);
-static void conquer_extras3(QVariant data1, QVariant data2);
-static void conquer_extras4(QVariant data1, QVariant data2);
-static void heal_unit(QVariant data1, QVariant data2);
-static void heal_unit2(QVariant data1, QVariant data2);
-static void transport_board(QVariant data1, QVariant data2);
-static void transport_board2(QVariant data1, QVariant data2);
-static void transport_board3(QVariant data1, QVariant data2);
-static void transport_embark(QVariant data1, QVariant data2);
-static void transport_embark2(QVariant data1, QVariant data2);
-static void transport_embark3(QVariant data1, QVariant data2);
-static void transport_embark4(QVariant data1, QVariant data2);
-static void transport_deboard(QVariant data1, QVariant data2);
-static void transport_unload(QVariant data1, QVariant data2);
-static void transport_load(QVariant data1, QVariant data2);
-static void transport_load2(QVariant data1, QVariant data2);
-static void transport_load3(QVariant data1, QVariant data2);
-static void keep_moving(QVariant data1, QVariant data2);
-static void pillage_something(QVariant data1, QVariant data2);
+static void spy_request_strike_bld_list(QVariant data1, QVariant data2,
+                                        action_id act);
+static void diplomat_incite(QVariant data1, QVariant data2, action_id act);
+static void diplomat_incite_escape(QVariant data1, QVariant data2,
+                                   action_id act);
+static void spy_request_sabotage_list(QVariant data1, QVariant data2,
+                                      action_id act);
+static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2,
+                                          action_id act);
+static void spy_sabotage(QVariant data1, QVariant data2, action_id act);
+static void spy_steal(QVariant data1, QVariant data2, action_id act);
+static void spy_steal_esc(QVariant data1, QVariant data2, action_id act);
+static void spy_steal_something(QVariant data1, QVariant data2, action_id act);
+static void diplomat_steal(QVariant data1, QVariant data2, action_id act);
+static void diplomat_steal_esc(QVariant data1, QVariant data2, action_id act);
+static void spy_poison(QVariant data1, QVariant data2, action_id act);
+static void spy_poison_esc(QVariant data1, QVariant data2, action_id act);
+static void spy_spread_plague(QVariant data1, QVariant data2, action_id act);
+static void spy_steal_gold(QVariant data1, QVariant data2, action_id act);
+static void spy_steal_gold_esc(QVariant data1, QVariant data2, action_id act);
+static void spy_steal_maps(QVariant data1, QVariant data2, action_id act);
+static void spy_steal_maps_esc(QVariant data1, QVariant data2, action_id act);
+static void spy_escape(QVariant data1, QVariant data2, action_id act);
+static void spy_nuke_city(QVariant data1, QVariant data2, action_id act);
+static void spy_nuke_city_esc(QVariant data1, QVariant data2, action_id act);
+static void nuke_city(QVariant data1, QVariant data2, action_id act);
+static void destroy_city(QVariant data1, QVariant data2, action_id act);
+static void diplomat_embassy(QVariant data1, QVariant data2, action_id act);
+static void spy_embassy(QVariant data1, QVariant data2, action_id act);
+static void spy_sabotage_unit(QVariant data1, QVariant data2, action_id act);
+static void spy_sabotage_unit_esc(QVariant data1, QVariant data2,
+                                  action_id act);
+static void spy_investigate(QVariant data1, QVariant data2, action_id act);
+static void diplomat_investigate(QVariant data1, QVariant data2, action_id act);
+static void diplomat_sabotage(QVariant data1, QVariant data2, action_id act);
+static void diplomat_sabotage_esc(QVariant data1, QVariant data2,
+                                  action_id act);
+static void diplomat_bribe_unit(QVariant data1, QVariant data2, action_id act);
+static void diplomat_bribe_stack(QVariant data1, QVariant data2, action_id act);
+static void spy_attack(QVariant data1, QVariant data2, action_id act);
+static void caravan_marketplace(QVariant data1, QVariant data2, action_id act);
+static void caravan_establish_trade(QVariant data1, QVariant data2,
+                                    action_id act);
+static void caravan_help_build(QVariant data1, QVariant data2, action_id act);
+static void unit_disband_recover(QVariant data1, QVariant data2, action_id act);
+static void capture_units(QVariant data1, QVariant data2, action_id act);
+static void nuke_units(QVariant data1, QVariant data2, action_id act);
+static void collect_ransom(QVariant data1, QVariant data2, action_id act);
+static void wipe_units(QVariant data1, QVariant data2, action_id act);
+static void expel_unit(QVariant data1, QVariant data2, action_id act);
+static void bombard(QVariant data1, QVariant data2, action_id act);
+static void bombard2(QVariant data1, QVariant data2, action_id act);
+static void bombard3(QVariant data1, QVariant data2, action_id act);
+static void bombard4(QVariant data1, QVariant data2, action_id act);
+static void bombard_lethal(QVariant data1, QVariant data2, action_id act);
+static void bombard_lethal2(QVariant data1, QVariant data2, action_id act);
+static void found_city(QVariant data1, QVariant data2, action_id act);
+static void transform_terrain(QVariant data1, QVariant data2, action_id act);
+static void transform_terrain2(QVariant data1, QVariant data2, action_id act);
+static void cultivate(QVariant data1, QVariant data2, action_id act);
+static void cultivate2(QVariant data1, QVariant data2, action_id act);
+static void plant(QVariant data1, QVariant data2, action_id act);
+static void plant2(QVariant data1, QVariant data2, action_id act);
+static void pillage(QVariant data1, QVariant data2, action_id act);
+static void pillage2(QVariant data1, QVariant data2, action_id act);
+static void clean(QVariant data1, QVariant data2, action_id act);
+static void clean2(QVariant data1, QVariant data2, action_id act);
+static void road(QVariant data1, QVariant data2, action_id act);
+static void road2(QVariant data1, QVariant data2, action_id act);
+static void base(QVariant data1, QVariant data2, action_id act);
+static void base2(QVariant data1, QVariant data2, action_id act);
+static void mine(QVariant data1, QVariant data2, action_id act);
+static void mine2(QVariant data1, QVariant data2, action_id act);
+static void irrigate(QVariant data1, QVariant data2, action_id act);
+static void irrigate2(QVariant data1, QVariant data2, action_id act);
+static void nuke(QVariant data1, QVariant data2, action_id act);
+static void attack(QVariant data1, QVariant data2, action_id act);
+static void attack2(QVariant data1, QVariant data2, action_id act);
+static void suicide_attack(QVariant data1, QVariant data2, action_id act);
+static void suicide_attack2(QVariant data1, QVariant data2, action_id act);
+static void paradrop(QVariant data1, QVariant data2, action_id act);
+static void paradrop_conquer(QVariant data1, QVariant data2, action_id act);
+static void paradrop_frighten(QVariant data1, QVariant data2, action_id act);
+static void paradrop_frighten_conquer(QVariant data1, QVariant data2,
+                                      action_id act);
+static void paradrop_enter(QVariant data1, QVariant data2, action_id act);
+static void paradrop_enter_conquer(QVariant data1, QVariant data2,
+                                   action_id act);
+static void teleport(QVariant data1, QVariant data2, action_id act);
+static void teleport2(QVariant data1, QVariant data2, action_id act);
+static void teleport3(QVariant data1, QVariant data2, action_id act);
+static void teleport_conquer(QVariant data1, QVariant data2, action_id act);
+static void teleport_frighten(QVariant data1, QVariant data2, action_id act);
+static void teleport_frighten_conquer(QVariant data1, QVariant data2,
+                                      action_id act);
+static void teleport_enter(QVariant data1, QVariant data2, action_id act);
+static void teleport_enter_conquer(QVariant data1, QVariant data2,
+                                   action_id act);
+static void disembark1(QVariant data1, QVariant data2, action_id act);
+static void disembark2(QVariant data1, QVariant data2, action_id act);
+static void disembark3(QVariant data1, QVariant data2, action_id act);
+static void disembark4(QVariant data1, QVariant data2, action_id act);
+static void enter_hut(QVariant data1, QVariant data2, action_id act);
+static void enter_hut2(QVariant data1, QVariant data2, action_id act);
+static void enter_hut3(QVariant data1, QVariant data2, action_id act);
+static void enter_hut4(QVariant data1, QVariant data2, action_id act);
+static void frighten_hut(QVariant data1, QVariant data2, action_id act);
+static void frighten_hut2(QVariant data1, QVariant data2, action_id act);
+static void frighten_hut3(QVariant data1, QVariant data2, action_id act);
+static void frighten_hut4(QVariant data1, QVariant data2, action_id act);
+static void regular_move(QVariant data1, QVariant data2, action_id act);
+static void regular_move2(QVariant data1, QVariant data2, action_id act);
+static void regular_move3(QVariant data1, QVariant data2, action_id act);
+static void scout(QVariant data1, QVariant data2, action_id act);
+static void convert_unit(QVariant data1, QVariant data2, action_id act);
+static void fortify(QVariant data1, QVariant data2, action_id act);
+static void fortify2(QVariant data1, QVariant data2, action_id act);
+static void disband_unit(QVariant data1, QVariant data2, action_id act);
+static void homeless(QVariant data1, QVariant data2, action_id act);
+static void join_city(QVariant data1, QVariant data2, action_id act);
+static void unit_home_city(QVariant data1, QVariant data2, action_id act);
+static void unit_upgrade(QVariant data1, QVariant data2, action_id act);
+static void airlift(QVariant data1, QVariant data2, action_id act);
+static void conquer_city_shrink(QVariant data1, QVariant data2, action_id act);
+static void conquer_city_shrink2(QVariant data1, QVariant data2, action_id act);
+static void conquer_city_shrink3(QVariant data1, QVariant data2, action_id act);
+static void conquer_city_shrink4(QVariant data1, QVariant data2, action_id act);
+static void conquer_extras(QVariant data1, QVariant data2, action_id act);
+static void conquer_extras2(QVariant data1, QVariant data2, action_id act);
+static void conquer_extras3(QVariant data1, QVariant data2, action_id act);
+static void conquer_extras4(QVariant data1, QVariant data2, action_id act);
+static void heal_unit(QVariant data1, QVariant data2, action_id act);
+static void heal_unit2(QVariant data1, QVariant data2, action_id act);
+static void transport_board(QVariant data1, QVariant data2, action_id act);
+static void transport_board2(QVariant data1, QVariant data2, action_id act);
+static void transport_board3(QVariant data1, QVariant data2, action_id act);
+static void transport_embark(QVariant data1, QVariant data2, action_id act);
+static void transport_embark2(QVariant data1, QVariant data2, action_id act);
+static void transport_embark3(QVariant data1, QVariant data2, action_id act);
+static void transport_embark4(QVariant data1, QVariant data2, action_id act);
+static void transport_deboard(QVariant data1, QVariant data2, action_id act);
+static void transport_unload(QVariant data1, QVariant data2, action_id act);
+static void transport_load(QVariant data1, QVariant data2, action_id act);
+static void transport_load2(QVariant data1, QVariant data2, action_id act);
+static void transport_load3(QVariant data1, QVariant data2, action_id act);
+static void keep_moving(QVariant data1, QVariant data2, action_id act);
+static void pillage_something(QVariant data1, QVariant data2, action_id act);
 static void action_entry(choice_dialog *cd,
                          action_id act,
                          const struct act_prob *act_probs,
@@ -1411,12 +1422,14 @@ void popup_revolution_dialog(struct government *gov)
 Choice_dialog_button::Choice_dialog_button(const QString title,
                                            pfcn_void func_in,
                                            QVariant data1_in,
-                                           QVariant data2_in)
+                                           QVariant data2_in,
+                                           action_id act_in)
   : QPushButton(title)
 {
   func = func_in;
   data1 = data1_in;
   data2 = data2_in;
+  act = act_in;
 }
 
 /***********************************************************************//**
@@ -1443,6 +1456,14 @@ QVariant Choice_dialog_button::getData1()
 QVariant Choice_dialog_button::getData2()
 {
   return data2;
+}
+
+/***********************************************************************//**
+  Get the action id associated with the button.
+***************************************************************************/
+action_id Choice_dialog_button::get_act()
+{
+  return act;
 }
 
 /***********************************************************************//**
@@ -1561,11 +1582,12 @@ void choice_dialog::set_layout()
   Adds new action for choice dialog
 ***************************************************************************/
 void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
-                             QVariant data2, QString tool_tip = "",
+                             QVariant data2, action_id act = 0,
+                             QString tool_tip = "",
                              const int button_id = -1)
 {
    Choice_dialog_button *button = new Choice_dialog_button(title, func,
-                                                           data1, data2);
+                                                           data1, data2, act);
    int action = buttons_list.count();
 
    QObject::connect(button, &QPushButton::clicked,
@@ -1636,7 +1658,8 @@ bool try_default_unit_action(QVariant q1, QVariant q2)
   }
   func = af_map[action];
 
-  func(q1, q2);
+  func(q1, q2, action);
+
   return true;
 }
 
@@ -1653,7 +1676,8 @@ bool try_default_city_action(QVariant q1, QVariant q2)
     return false;
   }
   func = af_map[action];
-  func(q1, q2);
+  func(q1, q2, action);
+
   return true;
 }
 
@@ -1771,7 +1795,7 @@ void choice_dialog::execute_action(const int action)
   Choice_dialog_button *button = buttons_list.at(action);
   pfcn_void func = button->getFunc();
 
-  func(button->getData1(), button->getData2());
+  func(button->getData1(), button->getData2(), button->get_act());
   close();
 }
 
@@ -1814,7 +1838,7 @@ void choice_dialog::unstack_all_buttons()
 /***********************************************************************//**
   Action enter market place for choice dialog
 ***************************************************************************/
-static void caravan_marketplace(QVariant data1, QVariant data2)
+static void caravan_marketplace(QVariant data1, QVariant data2, action_id act)
 {
   int actor_unit_id = data1.toInt();
   int target_city_id = data2.toInt();
@@ -1829,7 +1853,7 @@ static void caravan_marketplace(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action establish trade for choice dialog
 ***************************************************************************/
-static void caravan_establish_trade(QVariant data1, QVariant data2)
+static void caravan_establish_trade(QVariant data1, QVariant data2, action_id act)
 {
   int actor_unit_id = data1.toInt();
   int target_city_id = data2.toInt();
@@ -1844,7 +1868,7 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action help build wonder for choice dialog
 ***************************************************************************/
-static void caravan_help_build(QVariant data1, QVariant data2)
+static void caravan_help_build(QVariant data1, QVariant data2, action_id act)
 {
   int caravan_id = data1.toInt();
   int caravan_target_id = data2.toInt();
@@ -1859,7 +1883,7 @@ static void caravan_help_build(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Disband Unit Recover for choice dialog
 ***************************************************************************/
-static void unit_disband_recover(QVariant data1, QVariant data2)
+static void unit_disband_recover(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1874,7 +1898,7 @@ static void unit_disband_recover(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Home City for choice dialog
 ***************************************************************************/
-static void unit_home_city(QVariant data1, QVariant data2)
+static void unit_home_city(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1889,7 +1913,7 @@ static void unit_home_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Upgrade Unit" for choice dialog
 ***************************************************************************/
-static void unit_upgrade(QVariant data1, QVariant data2)
+static void unit_upgrade(QVariant data1, QVariant data2, action_id act)
 {
   struct unit *punit;
 
@@ -1910,7 +1934,7 @@ static void unit_upgrade(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Airlift Unit" for choice dialog
 ***************************************************************************/
-static void airlift(QVariant data1, QVariant data2)
+static void airlift(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1925,7 +1949,7 @@ static void airlift(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer City Shrink" for choice dialog
 ***************************************************************************/
-static void conquer_city_shrink(QVariant data1, QVariant data2)
+static void conquer_city_shrink(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1940,7 +1964,7 @@ static void conquer_city_shrink(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer City Shrink 2" for choice dialog
 ***************************************************************************/
-static void conquer_city_shrink2(QVariant data1, QVariant data2)
+static void conquer_city_shrink2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1955,7 +1979,7 @@ static void conquer_city_shrink2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer City Shrink 3" for choice dialog
 ***************************************************************************/
-static void conquer_city_shrink3(QVariant data1, QVariant data2)
+static void conquer_city_shrink3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1970,7 +1994,7 @@ static void conquer_city_shrink3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer City Shrink 4" for choice dialog
 ***************************************************************************/
-static void conquer_city_shrink4(QVariant data1, QVariant data2)
+static void conquer_city_shrink4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
@@ -1985,7 +2009,7 @@ static void conquer_city_shrink4(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer Extras" for choice dialog
 ***************************************************************************/
-static void conquer_extras(QVariant data1, QVariant data2)
+static void conquer_extras(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -1999,7 +2023,7 @@ static void conquer_extras(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer Extras 2" for choice dialog
 ***************************************************************************/
-static void conquer_extras2(QVariant data1, QVariant data2)
+static void conquer_extras2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2013,7 +2037,7 @@ static void conquer_extras2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer Extras 3" for choice dialog
 ***************************************************************************/
-static void conquer_extras3(QVariant data1, QVariant data2)
+static void conquer_extras3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2027,7 +2051,7 @@ static void conquer_extras3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Conquer Extras 4" for choice dialog
 ***************************************************************************/
-static void conquer_extras4(QVariant data1, QVariant data2)
+static void conquer_extras4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2041,7 +2065,7 @@ static void conquer_extras4(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Delay selection of what action to take.
 ***************************************************************************/
-static void act_sel_wait(QVariant data1, QVariant data2)
+static void act_sel_wait(QVariant data1, QVariant data2, action_id act)
 {
   key_unit_wait();
 }
@@ -2049,7 +2073,7 @@ static void act_sel_wait(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Empty action for choice dialog (just do nothing)
 ***************************************************************************/
-static void keep_moving(QVariant data1, QVariant data2)
+static void keep_moving(QVariant data1, QVariant data2, action_id act)
 {
 }
 
@@ -2399,11 +2423,11 @@ void popup_action_selection(struct unit *actor_unit,
 
   func = act_sel_wait;
   cd->add_item(QString(_("&Wait")), func, qv1, qv2,
-               "", BUTTON_WAIT);
+               0, "", BUTTON_WAIT);
 
   func = keep_moving;
   cd->add_item(QString(_("Do nothing")), func, qv1, qv2,
-               "", BUTTON_CANCEL);
+               0, "", BUTTON_CANCEL);
 
   cd->set_layout();
   cd->show_me();
@@ -2492,7 +2516,7 @@ static void action_entry(choice_dialog *cd,
   tool_tip = QString(act_sel_action_tool_tip(action_by_number(act),
                                              act_probs[act]));
 
-  cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
+  cd->add_item(title, af_map[act], data1, data2, act, tool_tip, act);
 }
 
 /***********************************************************************//**
@@ -2527,7 +2551,7 @@ static void action_entry_update(Choice_dialog_button *button,
 /***********************************************************************//**
   Action Disband Unit for choice dialog
 ***************************************************************************/
-static void disband_unit(QVariant data1, QVariant data2)
+static void disband_unit(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2539,7 +2563,7 @@ static void disband_unit(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Fortify" for choice dialog
 ***************************************************************************/
-static void fortify(QVariant data1, QVariant data2)
+static void fortify(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2553,7 +2577,7 @@ static void fortify(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Fortify 2" for choice dialog
 ***************************************************************************/
-static void fortify2(QVariant data1, QVariant data2)
+static void fortify2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2567,7 +2591,7 @@ static void fortify2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Convert Unit for choice dialog
 ***************************************************************************/
-static void convert_unit(QVariant data1, QVariant data2)
+static void convert_unit(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2579,7 +2603,7 @@ static void convert_unit(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Unit Make Homeless" for choice dialog
 ***************************************************************************/
-static void homeless(QVariant data1, QVariant data2)
+static void homeless(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2593,7 +2617,7 @@ static void homeless(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action bribe unit for choice dialog
 ***************************************************************************/
-static void diplomat_bribe_unit(QVariant data1, QVariant data2)
+static void diplomat_bribe_unit(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2611,7 +2635,7 @@ static void diplomat_bribe_unit(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action bribe stack for choice dialog
 ***************************************************************************/
-static void diplomat_bribe_stack(QVariant data1, QVariant data2)
+static void diplomat_bribe_stack(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2628,7 +2652,7 @@ static void diplomat_bribe_stack(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action sabotage unit for choice dialog
 ***************************************************************************/
-static void spy_sabotage_unit(QVariant data1, QVariant data2)
+static void spy_sabotage_unit(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2640,7 +2664,7 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Sabotage Unit Escape for choice dialog
 ***************************************************************************/
-static void spy_sabotage_unit_esc(QVariant data1, QVariant data2)
+static void spy_sabotage_unit_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2652,7 +2676,7 @@ static void spy_sabotage_unit_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Heal Unit" for choice dialog
 ***************************************************************************/
-static void heal_unit(QVariant data1, QVariant data2)
+static void heal_unit(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2663,7 +2687,7 @@ static void heal_unit(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Heal Unit 2" for choice dialog
 ***************************************************************************/
-static void heal_unit2(QVariant data1, QVariant data2)
+static void heal_unit2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2674,7 +2698,7 @@ static void heal_unit2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Board" for choice dialog
 ***************************************************************************/
-static void transport_board(QVariant data1, QVariant data2)
+static void transport_board(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2685,7 +2709,7 @@ static void transport_board(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Board 2" for choice dialog
 ***************************************************************************/
-static void transport_board2(QVariant data1, QVariant data2)
+static void transport_board2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2696,7 +2720,7 @@ static void transport_board2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Board 3" for choice dialog
 ***************************************************************************/
-static void transport_board3(QVariant data1, QVariant data2)
+static void transport_board3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2707,7 +2731,7 @@ static void transport_board3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Embark" for choice dialog
 ***************************************************************************/
-static void transport_embark(QVariant data1, QVariant data2)
+static void transport_embark(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2718,7 +2742,7 @@ static void transport_embark(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Embark 2" for choice dialog
 ***************************************************************************/
-static void transport_embark2(QVariant data1, QVariant data2)
+static void transport_embark2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2729,7 +2753,7 @@ static void transport_embark2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Embark 3" for choice dialog
 ***************************************************************************/
-static void transport_embark3(QVariant data1, QVariant data2)
+static void transport_embark3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2740,7 +2764,7 @@ static void transport_embark3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Embark 4" for choice dialog
 ***************************************************************************/
-static void transport_embark4(QVariant data1, QVariant data2)
+static void transport_embark4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2751,7 +2775,7 @@ static void transport_embark4(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Unload" for choice dialog
 ***************************************************************************/
-static void transport_unload(QVariant data1, QVariant data2)
+static void transport_unload(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2762,7 +2786,7 @@ static void transport_unload(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Load" for choice dialog
 ***************************************************************************/
-static void transport_load(QVariant data1, QVariant data2)
+static void transport_load(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2773,7 +2797,7 @@ static void transport_load(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Load 2" for choice dialog
 ***************************************************************************/
-static void transport_load2(QVariant data1, QVariant data2)
+static void transport_load2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2784,7 +2808,7 @@ static void transport_load2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Load 3" for choice dialog
 ***************************************************************************/
-static void transport_load3(QVariant data1, QVariant data2)
+static void transport_load3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2795,7 +2819,7 @@ static void transport_load3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Deboard" for choice dialog
 ***************************************************************************/
-static void transport_deboard(QVariant data1, QVariant data2)
+static void transport_deboard(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2806,7 +2830,7 @@ static void transport_deboard(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Disembark" for choice dialog
 ***************************************************************************/
-static void disembark1(QVariant data1, QVariant data2)
+static void disembark1(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2821,7 +2845,7 @@ static void disembark1(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Disembark 2" for choice dialog
 ***************************************************************************/
-static void disembark2(QVariant data1, QVariant data2)
+static void disembark2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2836,7 +2860,7 @@ static void disembark2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Disembark 3" for choice dialog
 ***************************************************************************/
-static void disembark3(QVariant data1, QVariant data2)
+static void disembark3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2851,7 +2875,7 @@ static void disembark3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transport Disembark 4" for choice dialog
 ***************************************************************************/
-static void disembark4(QVariant data1, QVariant data2)
+static void disembark4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2866,7 +2890,7 @@ static void disembark4(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Enter Hut" for choice dialog
 ***************************************************************************/
-static void enter_hut(QVariant data1, QVariant data2)
+static void enter_hut(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2881,7 +2905,7 @@ static void enter_hut(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Enter Hut 2" for choice dialog
 ***************************************************************************/
-static void enter_hut2(QVariant data1, QVariant data2)
+static void enter_hut2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2896,7 +2920,7 @@ static void enter_hut2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Enter Hut 3" for choice dialog
 ***************************************************************************/
-static void enter_hut3(QVariant data1, QVariant data2)
+static void enter_hut3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2911,7 +2935,7 @@ static void enter_hut3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Enter Hut 4" for choice dialog
 ***************************************************************************/
-static void enter_hut4(QVariant data1, QVariant data2)
+static void enter_hut4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2926,7 +2950,7 @@ static void enter_hut4(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Frighten Hut" for choice dialog
 ***************************************************************************/
-static void frighten_hut(QVariant data1, QVariant data2)
+static void frighten_hut(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2941,7 +2965,7 @@ static void frighten_hut(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Frighten Hut 2" for choice dialog
 ***************************************************************************/
-static void frighten_hut2(QVariant data1, QVariant data2)
+static void frighten_hut2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2956,7 +2980,7 @@ static void frighten_hut2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Frighten Hut 3" for choice dialog
 ***************************************************************************/
-static void frighten_hut3(QVariant data1, QVariant data2)
+static void frighten_hut3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2971,7 +2995,7 @@ static void frighten_hut3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Frighten Hut 4" for choice dialog
 ***************************************************************************/
-static void frighten_hut4(QVariant data1, QVariant data2)
+static void frighten_hut4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2986,7 +3010,7 @@ static void frighten_hut4(QVariant data1, QVariant data2)
 /**********************************************************************//**
   Action "Nuke Units" for choice dialog
 ***************************************************************************/
-static void nuke_units(QVariant data1, QVariant data2)
+static void nuke_units(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -2998,7 +3022,7 @@ static void nuke_units(QVariant data1, QVariant data2)
 /**********************************************************************//**
   Action "Collect Ransom" for choice dialog
 ***************************************************************************/
-static void collect_ransom(QVariant data1, QVariant data2)
+static void collect_ransom(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3010,7 +3034,7 @@ static void collect_ransom(QVariant data1, QVariant data2)
 /**********************************************************************//**
   Action "Spy Attack" for choice dialog
 ***************************************************************************/
-static void spy_attack(QVariant data1, QVariant data2)
+static void spy_attack(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3022,7 +3046,7 @@ static void spy_attack(QVariant data1, QVariant data2)
 /**********************************************************************//**
   Action "Wipe Units" for choice dialog
 ***************************************************************************/
-static void wipe_units(QVariant data1, QVariant data2)
+static void wipe_units(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3034,7 +3058,7 @@ static void wipe_units(QVariant data1, QVariant data2)
 /**********************************************************************//**
   Action capture units for choice dialog
 ***************************************************************************/
-static void capture_units(QVariant data1, QVariant data2)
+static void capture_units(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3046,7 +3070,7 @@ static void capture_units(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action expel unit for choice dialog
 ***************************************************************************/
-static void expel_unit(QVariant data1, QVariant data2)
+static void expel_unit(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3058,7 +3082,7 @@ static void expel_unit(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Bombard" for choice dialog
 ***************************************************************************/
-static void bombard(QVariant data1, QVariant data2)
+static void bombard(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3070,7 +3094,7 @@ static void bombard(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Bombard 2" for choice dialog
 ***************************************************************************/
-static void bombard2(QVariant data1, QVariant data2)
+static void bombard2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3082,7 +3106,7 @@ static void bombard2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Bombard 3" for choice dialog
 ***************************************************************************/
-static void bombard3(QVariant data1, QVariant data2)
+static void bombard3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3094,7 +3118,7 @@ static void bombard3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Bombard 4" for choice dialog
 ***************************************************************************/
-static void bombard4(QVariant data1, QVariant data2)
+static void bombard4(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3106,7 +3130,7 @@ static void bombard4(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Bombard Lethal" for choice dialog
 ***************************************************************************/
-static void bombard_lethal(QVariant data1, QVariant data2)
+static void bombard_lethal(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3118,7 +3142,7 @@ static void bombard_lethal(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Bombard Lethal 2" for choice dialog
 ***************************************************************************/
-static void bombard_lethal2(QVariant data1, QVariant data2)
+static void bombard_lethal2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3130,7 +3154,7 @@ static void bombard_lethal2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action build city for choice dialog
 ***************************************************************************/
-static void found_city(QVariant data1, QVariant data2)
+static void found_city(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
 
@@ -3141,7 +3165,7 @@ static void found_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transform Terrain" for choice dialog
 ***************************************************************************/
-static void transform_terrain(QVariant data1, QVariant data2)
+static void transform_terrain(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3156,7 +3180,7 @@ static void transform_terrain(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Transform Terrain 2" for choice dialog
 ***************************************************************************/
-static void transform_terrain2(QVariant data1, QVariant data2)
+static void transform_terrain2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3171,7 +3195,7 @@ static void transform_terrain2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Cultivate" for choice dialog
 ***************************************************************************/
-static void cultivate(QVariant data1, QVariant data2)
+static void cultivate(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3186,7 +3210,7 @@ static void cultivate(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Cultivate 2" for choice dialog
 ***************************************************************************/
-static void cultivate2(QVariant data1, QVariant data2)
+static void cultivate2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3201,7 +3225,7 @@ static void cultivate2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Plant" for choice dialog
 ***************************************************************************/
-static void plant(QVariant data1, QVariant data2)
+static void plant(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3216,7 +3240,7 @@ static void plant(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Plant 2" for choice dialog
 ***************************************************************************/
-static void plant2(QVariant data1, QVariant data2)
+static void plant2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3231,7 +3255,7 @@ static void plant2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Pillage" for choice dialog
 ***************************************************************************/
-static void pillage(QVariant data1, QVariant data2)
+static void pillage(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3251,7 +3275,7 @@ static void pillage(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Pillage 2" for choice dialog
 ***************************************************************************/
-static void pillage2(QVariant data1, QVariant data2)
+static void pillage2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3271,7 +3295,7 @@ static void pillage2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Clean" for choice dialog
 ***************************************************************************/
-static void clean(QVariant data1, QVariant data2)
+static void clean(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3291,7 +3315,7 @@ static void clean(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Clean 2" for choice dialog
 ***************************************************************************/
-static void clean2(QVariant data1, QVariant data2)
+static void clean2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3311,7 +3335,7 @@ static void clean2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Road" for choice dialog
 ***************************************************************************/
-static void road(QVariant data1, QVariant data2)
+static void road(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3332,7 +3356,7 @@ static void road(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Road 2" for choice dialog
 ***************************************************************************/
-static void road2(QVariant data1, QVariant data2)
+static void road2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3353,7 +3377,7 @@ static void road2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Base" for choice dialog
 ***************************************************************************/
-static void base(QVariant data1, QVariant data2)
+static void base(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3374,7 +3398,7 @@ static void base(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Base 2" for choice dialog
 ***************************************************************************/
-static void base2(QVariant data1, QVariant data2)
+static void base2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3395,7 +3419,7 @@ static void base2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Mine" for choice dialog
 ***************************************************************************/
-static void mine(QVariant data1, QVariant data2)
+static void mine(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3416,7 +3440,7 @@ static void mine(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Mine 2" for choice dialog
 ***************************************************************************/
-static void mine2(QVariant data1, QVariant data2)
+static void mine2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3437,7 +3461,7 @@ static void mine2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Irrigation" for choice dialog
 ***************************************************************************/
-static void irrigate(QVariant data1, QVariant data2)
+static void irrigate(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3458,7 +3482,7 @@ static void irrigate(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Build Irrigation 2" for choice dialog
 ***************************************************************************/
-static void irrigate2(QVariant data1, QVariant data2)
+static void irrigate2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3479,7 +3503,7 @@ static void irrigate2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Explode Nuclear" for choice dialog
 ***************************************************************************/
-static void nuke(QVariant data1, QVariant data2)
+static void nuke(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3494,7 +3518,7 @@ static void nuke(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Attack" for choice dialog
 ***************************************************************************/
-static void attack(QVariant data1, QVariant data2)
+static void attack(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3509,7 +3533,7 @@ static void attack(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Attack 2" for choice dialog
 ***************************************************************************/
-static void attack2(QVariant data1, QVariant data2)
+static void attack2(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3524,7 +3548,7 @@ static void attack2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Suicide Attack" for choice dialog
 ***************************************************************************/
-static void suicide_attack(QVariant data1, QVariant data2)
+static void suicide_attack(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3539,7 +3563,7 @@ static void suicide_attack(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Suicide Attack 2" for choice dialog
 ***************************************************************************/
-static void suicide_attack2(QVariant data1, QVariant data2)
+static void suicide_attack2(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3554,7 +3578,7 @@ static void suicide_attack2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Paradrop Unit" for choice dialog
 ***************************************************************************/
-static void paradrop(QVariant data1, QVariant data2)
+static void paradrop(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3569,7 +3593,7 @@ static void paradrop(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit" for choice dialog
 ***************************************************************************/
-static void teleport(QVariant data1, QVariant data2)
+static void teleport(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3584,7 +3608,7 @@ static void teleport(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit 2" for choice dialog
 ***************************************************************************/
-static void teleport2(QVariant data1, QVariant data2)
+static void teleport2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3599,7 +3623,7 @@ static void teleport2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit 3" for choice dialog
 ***************************************************************************/
-static void teleport3(QVariant data1, QVariant data2)
+static void teleport3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3614,7 +3638,7 @@ static void teleport3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Paradrop Unit Conquer" for choice dialog
 ***************************************************************************/
-static void paradrop_conquer(QVariant data1, QVariant data2)
+static void paradrop_conquer(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3629,7 +3653,7 @@ static void paradrop_conquer(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit Conquer" for choice dialog
 ***************************************************************************/
-static void teleport_conquer(QVariant data1, QVariant data2)
+static void teleport_conquer(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3644,7 +3668,7 @@ static void teleport_conquer(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Paradrop Unit Frighten" for choice dialog
 ***************************************************************************/
-static void paradrop_frighten(QVariant data1, QVariant data2)
+static void paradrop_frighten(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3659,7 +3683,7 @@ static void paradrop_frighten(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit Frighten" for choice dialog
 ***************************************************************************/
-static void teleport_frighten(QVariant data1, QVariant data2)
+static void teleport_frighten(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3674,7 +3698,8 @@ static void teleport_frighten(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Paradrop Unit Frighten Conquer" for choice dialog
 ***************************************************************************/
-static void paradrop_frighten_conquer(QVariant data1, QVariant data2)
+static void paradrop_frighten_conquer(QVariant data1, QVariant data2,
+                                      action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3689,7 +3714,8 @@ static void paradrop_frighten_conquer(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit Frighten Conquer" for choice dialog
 ***************************************************************************/
-static void teleport_frighten_conquer(QVariant data1, QVariant data2)
+static void teleport_frighten_conquer(QVariant data1, QVariant data2,
+                                      action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3704,7 +3730,7 @@ static void teleport_frighten_conquer(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Paradrop Unit Enter" for choice dialog
 ***************************************************************************/
-static void paradrop_enter(QVariant data1, QVariant data2)
+static void paradrop_enter(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3719,7 +3745,7 @@ static void paradrop_enter(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit Enter" for choice dialog
 ***************************************************************************/
-static void teleport_enter(QVariant data1, QVariant data2)
+static void teleport_enter(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3734,7 +3760,7 @@ static void teleport_enter(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Paradrop Unit Enter Conquer" for choice dialog
 ***************************************************************************/
-static void paradrop_enter_conquer(QVariant data1, QVariant data2)
+static void paradrop_enter_conquer(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3749,7 +3775,7 @@ static void paradrop_enter_conquer(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Teleport Unit Enter Conquer" for choice dialog
 ***************************************************************************/
-static void teleport_enter_conquer(QVariant data1, QVariant data2)
+static void teleport_enter_conquer(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3764,7 +3790,7 @@ static void teleport_enter_conquer(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action join city for choice dialog
 ***************************************************************************/
-static void join_city(QVariant data1, QVariant data2)
+static void join_city(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3853,7 +3879,7 @@ static void spy_steal_shared(QVariant data1, QVariant data2,
 /***********************************************************************//**
   Action "Targeted Steal Tech" for choice dialog
 ***************************************************************************/
-static void spy_steal(QVariant data1, QVariant data2)
+static void spy_steal(QVariant data1, QVariant data2, action_id act)
 {
   spy_steal_shared(data1, data2, ACTION_SPY_TARGETED_STEAL_TECH);
 }
@@ -3861,7 +3887,7 @@ static void spy_steal(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Targeted Steal Tech Escape Expected" for choice dialog
 ***************************************************************************/
-static void spy_steal_esc(QVariant data1, QVariant data2)
+static void spy_steal_esc(QVariant data1, QVariant data2, action_id act)
 {
   spy_steal_shared(data1, data2, ACTION_SPY_TARGETED_STEAL_TECH_ESC);
 }
@@ -3869,7 +3895,7 @@ static void spy_steal_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal given tech for choice dialog
 ***************************************************************************/
-static void spy_steal_something(QVariant data1, QVariant data2)
+static void spy_steal_something(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
@@ -3892,7 +3918,8 @@ static void spy_steal_something(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action request "Surgical Strike Building" list for choice dialog
 ***************************************************************************/
-static void spy_request_strike_bld_list(QVariant data1, QVariant data2)
+static void spy_request_strike_bld_list(QVariant data1, QVariant data2,
+                                        action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -3909,7 +3936,8 @@ static void spy_request_strike_bld_list(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action  request sabotage list for choice dialog
 ***************************************************************************/
-static void spy_request_sabotage_list(QVariant data1, QVariant data2)
+static void spy_request_sabotage_list(QVariant data1, QVariant data2,
+                                      action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3927,7 +3955,8 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action request sabotage (and escape) list for choice dialog
 ***************************************************************************/
-static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2)
+static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2,
+                                          action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3946,7 +3975,7 @@ static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Poison City for choice dialog
 ***************************************************************************/
-static void spy_poison(QVariant data1, QVariant data2)
+static void spy_poison(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3961,7 +3990,7 @@ static void spy_poison(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Poison City Escape for choice dialog
 ***************************************************************************/
-static void spy_poison_esc(QVariant data1, QVariant data2)
+static void spy_poison_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3976,7 +4005,7 @@ static void spy_poison_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Spread Plague for choice dialog
 ***************************************************************************/
-static void spy_spread_plague(QVariant data1, QVariant data2)
+static void spy_spread_plague(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -3991,7 +4020,7 @@ static void spy_spread_plague(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action suitcase nuke for choice dialog
 ***************************************************************************/
-static void spy_nuke_city(QVariant data1, QVariant data2)
+static void spy_nuke_city(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4006,7 +4035,7 @@ static void spy_nuke_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action suitcase nuke escape for choice dialog
 ***************************************************************************/
-static void spy_nuke_city_esc(QVariant data1, QVariant data2)
+static void spy_nuke_city_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4021,7 +4050,7 @@ static void spy_nuke_city_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Nuke City" for choice dialog
 ***************************************************************************/
-static void nuke_city(QVariant data1, QVariant data2)
+static void nuke_city(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -4036,7 +4065,7 @@ static void nuke_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action destroy city for choice dialog
 ***************************************************************************/
-static void destroy_city(QVariant data1, QVariant data2)
+static void destroy_city(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4051,7 +4080,7 @@ static void destroy_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal gold for choice dialog
 ***************************************************************************/
-static void spy_steal_gold(QVariant data1, QVariant data2)
+static void spy_steal_gold(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4066,7 +4095,7 @@ static void spy_steal_gold(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal gold escape for choice dialog
 ***************************************************************************/
-static void spy_steal_gold_esc(QVariant data1, QVariant data2)
+static void spy_steal_gold_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4081,7 +4110,7 @@ static void spy_steal_gold_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal maps for choice dialog
 ***************************************************************************/
-static void spy_steal_maps(QVariant data1, QVariant data2)
+static void spy_steal_maps(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4096,7 +4125,7 @@ static void spy_steal_maps(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal maps escape for choice dialog
 ***************************************************************************/
-static void spy_steal_maps_esc(QVariant data1, QVariant data2)
+static void spy_steal_maps_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4111,7 +4140,7 @@ static void spy_steal_maps_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Spy Escape for choice dialog
 ***************************************************************************/
-static void spy_escape(QVariant data1, QVariant data2)
+static void spy_escape(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4126,7 +4155,7 @@ static void spy_escape(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action establish embassy for choice dialog
 ***************************************************************************/
-static void spy_embassy(QVariant data1, QVariant data2)
+static void spy_embassy(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4141,7 +4170,7 @@ static void spy_embassy(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action establish embassy for choice dialog
 ***************************************************************************/
-static void diplomat_embassy(QVariant data1, QVariant data2)
+static void diplomat_embassy(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4156,7 +4185,7 @@ static void diplomat_embassy(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action investigate city for choice dialog
 ***************************************************************************/
-static void spy_investigate(QVariant data1, QVariant data2)
+static void spy_investigate(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4171,7 +4200,7 @@ static void spy_investigate(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action Investigate City Spend Unit for choice dialog
 ***************************************************************************/
-static void diplomat_investigate(QVariant data1, QVariant data2)
+static void diplomat_investigate(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4186,7 +4215,7 @@ static void diplomat_investigate(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action sabotage for choice dialog
 ***************************************************************************/
-static void diplomat_sabotage(QVariant data1, QVariant data2)
+static void diplomat_sabotage(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4201,7 +4230,7 @@ static void diplomat_sabotage(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action sabotage and escape for choice dialog
 ***************************************************************************/
-static void diplomat_sabotage_esc(QVariant data1, QVariant data2)
+static void diplomat_sabotage_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4216,7 +4245,7 @@ static void diplomat_sabotage_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal with diplomat for choice dialog
 ***************************************************************************/
-static void diplomat_steal(QVariant data1, QVariant data2)
+static void diplomat_steal(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4231,7 +4260,7 @@ static void diplomat_steal(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Steal Tech Escape Expected" for choice dialog
 ***************************************************************************/
-static void diplomat_steal_esc(QVariant data1, QVariant data2)
+static void diplomat_steal_esc(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4246,7 +4275,7 @@ static void diplomat_steal_esc(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action incite revolt for choice dialog
 ***************************************************************************/
-static void diplomat_incite(QVariant data1, QVariant data2)
+static void diplomat_incite(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4264,7 +4293,7 @@ static void diplomat_incite(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action incite revolt and escape for choice dialog
 ***************************************************************************/
-static void diplomat_incite_escape(QVariant data1, QVariant data2)
+static void diplomat_incite_escape(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -4282,7 +4311,7 @@ static void diplomat_incite_escape(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Unit Move" for choice dialog
 ***************************************************************************/
-static void regular_move(QVariant data1, QVariant data2)
+static void regular_move(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -4297,7 +4326,7 @@ static void regular_move(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Unit Move 2" for choice dialog
 ***************************************************************************/
-static void regular_move2(QVariant data1, QVariant data2)
+static void regular_move2(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -4312,7 +4341,7 @@ static void regular_move2(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Unit Move 3" for choice dialog
 ***************************************************************************/
-static void regular_move3(QVariant data1, QVariant data2)
+static void regular_move3(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -4327,7 +4356,7 @@ static void regular_move3(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action "Scout" for choice dialog
 ***************************************************************************/
-static void scout(QVariant data1, QVariant data2)
+static void scout(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
@@ -4500,7 +4529,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ttile, int cost,
 /***********************************************************************//**
   Action pillage for choice dialog
 ***************************************************************************/
-static void pillage_something(QVariant data1, QVariant data2)
+static void pillage_something(QVariant data1, QVariant data2, action_id act)
 {
   int punit_id;
   int what;
@@ -4520,7 +4549,7 @@ static void pillage_something(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action sabotage with spy for choice dialog
 ***************************************************************************/
-static void spy_sabotage(QVariant data1, QVariant data2)
+static void spy_sabotage(QVariant data1, QVariant data2, action_id act)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();

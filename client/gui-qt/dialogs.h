@@ -43,7 +43,7 @@ class QTableWidget;
 class QTextEdit;
 class QWidget;
 
-typedef void (*pfcn_void)(QVariant, QVariant);
+typedef void (*pfcn_void)(QVariant, QVariant, action_id act);
 void update_nationset_combo();
 void popup_races_dialog(struct player *pplayer);
 void restart_notify_dialogs();
@@ -243,12 +243,15 @@ class Choice_dialog_button: public QPushButton
   Q_OBJECT
   pfcn_void func;
   QVariant data1, data2;
+  action_id act;
 public:
   Choice_dialog_button(const QString title, pfcn_void func_in,
-                       QVariant data1_in, QVariant data2_in);
+                       QVariant data1_in, QVariant data2_in,
+                       action_id act_in);
   pfcn_void getFunc();
   QVariant getData1();
   QVariant getData2();
+  action_id get_act();
   void setData1(QVariant wariat);
   void setData2(QVariant wariat);
 };
@@ -274,7 +277,8 @@ public:
   ~choice_dialog();
   void set_layout();
   void add_item(QString title, pfcn_void func, QVariant data1,
-                QVariant data2, QString tool_tip, const int button_id);
+                QVariant data2, action_id act, QString tool_tip,
+                const int button_id);
   void show_me();
   void stack_button(Choice_dialog_button *button);
   void unstack_all_buttons();
