@@ -189,7 +189,7 @@ void city_dialog_redraw_map(struct city *pcity,
 {
   struct tileset *tmp;
 
-  tmp = NULL;
+  tmp = nullptr;
   if (unscaled_tileset) {
     tmp = tileset;
     tileset = unscaled_tileset;
@@ -204,15 +204,15 @@ void city_dialog_redraw_map(struct city *pcity,
   mapview_layer_iterate(layer) {
     citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y) {
       struct unit *punit
-        = ptile ? get_drawable_unit(tileset, ptile, pcity) : NULL;
-      struct city *pcity_draw = ptile ? tile_city(ptile) : NULL;
+        = ptile ? get_drawable_unit(tileset, ptile, pcity) : nullptr;
+      struct city *pcity_draw = ptile ? tile_city(ptile) : nullptr;
 
       put_one_element(pcanvas, 1.0, layer, ptile, pedge, pcorner,
-                      punit, pcity_draw, canvas_x, canvas_y, pcity, NULL);
+                      punit, pcity_draw, canvas_x, canvas_y, pcity, nullptr);
     } citydlg_iterate_end;
   } mapview_layer_iterate_end;
 
-  if (tmp != NULL) {
+  if (tmp != nullptr) {
     tileset = tmp;
   }
 }
@@ -254,7 +254,7 @@ char *city_production_cost_str(const struct city *pcity)
 /**********************************************************************//**
   Find the city dialog city production text for the given city, and
   place it into the buffer. This will check the
-  concise_city_production option. pcity may be NULL; in this case a
+  concise_city_production option. pcity may be nullptr; in this case a
   filler string is returned.
 **************************************************************************/
 void get_city_dialog_production(struct city *pcity,
@@ -263,7 +263,7 @@ void get_city_dialog_production(struct city *pcity,
   char time_str[50], *cost_str;
   int turns, stock;
 
-  if (pcity == NULL) {
+  if (pcity == nullptr) {
     /*
      * Some GUIs use this to build a "filler string" so that they can
      * properly size the widget to hold the string. This has some
@@ -373,7 +373,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 /**********************************************************************//**
   Pretty sprints the info about a production in 4 columns (name, info,
   cost, turns to build). The columns must each have a size of
-  column_size bytes. City may be NULL.
+  column_size bytes. City may be nullptr.
 **************************************************************************/
 void get_city_dialog_production_row(char *buf[], size_t column_size,
                                     struct universal *target,
@@ -408,7 +408,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
       if (pcity && is_improvement_redundant(pcity, pimprove)) {
         fc_snprintf(buf[1], column_size, "%d*", upkeep);
       } else {
-        const char *state = NULL;
+        const char *state = nullptr;
 
         if (is_great_wonder(pimprove)) {
           if (improvement_obsolete(pplayer, pimprove, pcity)) {
@@ -436,12 +436,12 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
         }
       }
 
-      if (pcity != NULL) {
+      if (pcity != nullptr) {
         fc_snprintf(buf[2], column_size, "%d",
                     impr_build_shield_cost(pcity, pimprove));
       } else {
         fc_snprintf(buf[2], column_size, "%d",
-                    impr_estimate_build_shield_cost(pplayer, NULL, pimprove));
+                    impr_estimate_build_shield_cost(pplayer, nullptr, pimprove));
       }
     }
     break;
@@ -514,7 +514,7 @@ static struct city_sum *city_sum_new(const char *format)
 
   sum->format = format;
   sum->n = 0;
-  sum->sums = NULL;
+  sum->sums = nullptr;
 
   return sum;
 }
@@ -535,11 +535,11 @@ static void city_sum_add_real(struct city_sum *sum, double value,
 
   /* Likely to lead to quadratic behavior, but who cares: */
   for (i = 0; i < sum->n; i++) {
-    fc_assert(sum->sums != NULL);
+    fc_assert(sum->sums != nullptr);
     if ((strcmp(sum->sums[i].posdesc, posdesc) == 0)
         && (strcmp(sum->sums[i].negdesc, negdesc) == 0)
         && ((sum->sums[i].auxfmt == auxfmt)
-            || (auxfmt != NULL && !strcmp(sum->sums[i].auxfmt, auxfmt)))
+            || (auxfmt != nullptr && !strcmp(sum->sums[i].auxfmt, auxfmt)))
         && sum->sums[i].suppress_if_zero == suppress_if_zero) {
       /* Looks like we already have an entry like this. Accumulate values. */
       sum->sums[i].value += value;
@@ -626,7 +626,7 @@ static void
   va_end(args);
 
   /* Descriptions will be freed individually, so need to fc_strdup() */
-  city_sum_add_real(sum, value, FALSE, NULL, 0, desc, fc_strdup(desc));
+  city_sum_add_real(sum, value, FALSE, nullptr, 0, desc, fc_strdup(desc));
 }
 
 /**********************************************************************//**
@@ -653,7 +653,7 @@ static void
   va_end(args);
 
   /* Descriptions will be freed individually, so need to fc_strdup() */
-  city_sum_add_real(sum, value, TRUE, NULL, 0, desc, fc_strdup(desc));
+  city_sum_add_real(sum, value, TRUE, nullptr, 0, desc, fc_strdup(desc));
 }
 
 /**********************************************************************//**
@@ -850,7 +850,7 @@ void get_city_dialog_output_text(const struct city *pcity,
         if (eft[priority] == EFT_OUTPUT_BONUS_ABSOLUTE) {
           new_total = bonus * base / 100 + delta;
           city_sum_add_full(sum, new_total - city_sum_total(sum), TRUE,
-                            NULL, 0,
+                            nullptr, 0,
                             Q_("?city_surplus:Bonus from %s"),
                             Q_("?city_surplus:Loss from %s"), buf2);
         } else {
@@ -953,7 +953,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
 
   plist = effect_list_new();
 
-  (void) get_city_bonus_effects(plist, pcity, NULL, EFT_HEALTH_PCT);
+  (void) get_city_bonus_effects(plist, pcity, nullptr, EFT_HEALTH_PCT);
 
   effect_list_iterate(plist, peffect) {
     char buf2[512];
@@ -1031,13 +1031,13 @@ void get_city_dialog_culture_text(const struct city *pcity,
 
   buf[0] = '\0';
 
-  /* XXX: no way to check whether client's idea of gain/turn is accurate */
+  /* XXX: No way to check whether client's idea of gain/turn is accurate */
   city_sum_add(sum, pcity->history, Q_("?city_culture:History (%+d/turn)"),
                city_history_gain(pcity));
 
   plist = effect_list_new();
 
-  (void) get_city_bonus_effects(plist, pcity, NULL, EFT_PERFORMANCE);
+  (void) get_city_bonus_effects(plist, pcity, nullptr, EFT_PERFORMANCE);
 
   effect_list_iterate(plist, peffect) {
     char buf2[512];
@@ -1300,7 +1300,7 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
 void activate_all_units(struct tile *ptile)
 {
   struct unit_list *punit_list = ptile->units;
-  struct unit *pmyunit = NULL;
+  struct unit *pmyunit = nullptr;
 
   unit_list_iterate(punit_list, punit) {
     if (unit_owner(punit) == client.conn.playing) {
@@ -1561,7 +1561,7 @@ bool city_can_buy(const struct city *pcity)
    * doesn't allow for error messages. It doesn't check the cost of
    * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
-          && NULL != pcity
+          && pcity != nullptr
           && city_owner(pcity) == client.conn.playing
           && pcity->turn_founded != game.info.turn
           && !pcity->did_buy
@@ -1615,11 +1615,11 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
   fc_assert(is_valid_city_coords(city_radius_sq, city_x, city_y));
   ptile = city_map_to_tile(&(wld.map), city_tile(pcity), city_radius_sq,
                            city_x, city_y);
-  if (NULL == ptile) {
+  if (ptile == nullptr) {
     return 0;
   }
 
-  if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
+  if (tile_worked(ptile) != nullptr && tile_worked(ptile) == pcity) {
     return dsend_packet_city_make_specialist(&client.conn,
                                              pcity->id, ptile->index);
   } else if (city_can_work_tile(pcity, ptile)) {

@@ -52,7 +52,7 @@ static struct usdata *usdata_new(void)
 
   struct usdata *data = fc_calloc(1, sizeof(*data));
 
-  data->utype = NULL;
+  data->utype = nullptr;
 
   for (loc = unit_select_location_mode_begin();
        loc != unit_select_location_mode_end();
@@ -71,7 +71,7 @@ static struct usdata *usdata_new(void)
 *****************************************************************************/
 static void usdata_destroy(struct usdata *data)
 {
-  if (data != NULL) {
+  if (data != nullptr) {
     enum unit_select_location_mode loc;
     enum unit_activity act;
 
@@ -79,7 +79,7 @@ static void usdata_destroy(struct usdata *data)
          loc != unit_select_location_mode_end();
          loc = unit_select_location_mode_next(loc)) {
       for (act = 0; act < ACTIVITY_LAST; act++) {
-        if (data->units[loc][act] != NULL) {
+        if (data->units[loc][act] != nullptr) {
           unit_list_destroy(data->units[loc][act]);
         }
       }
@@ -186,7 +186,7 @@ static void usdlg_data_add_unit(struct usdata_hash *ushash,
 static bool usdlg_check_unit_activity(const struct unit *punit,
                                       enum unit_activity act)
 {
-  fc_assert_ret_val(punit != NULL, FALSE);
+  fc_assert_ret_val(punit != nullptr, FALSE);
 
   return (punit->activity == act);
 }
@@ -200,11 +200,11 @@ static bool usdlg_check_unit_location(const struct unit *punit,
 {
   struct tile *utile;
 
-  fc_assert_ret_val(punit != NULL, FALSE);
+  fc_assert_ret_val(punit != nullptr, FALSE);
 
   utile = unit_tile(punit);
 
-  fc_assert_ret_val(utile != NULL, FALSE);
+  fc_assert_ret_val(utile != nullptr, FALSE);
 
   switch (loc) {
   case SELLOC_UNITS:
@@ -228,13 +228,13 @@ static bool usdlg_check_unit_location(const struct unit *punit,
     break;
   case SELLOC_LAND:
     if (utype_move_type(unit_type_get(punit)) == UMT_LAND
-        && (!is_ocean(tile_terrain(utile)) || tile_city(utile) != NULL)) {
+        && (!is_ocean(tile_terrain(utile)) || tile_city(utile) != nullptr)) {
       return TRUE;
     }
     break;
   case SELLOC_SEA:
     if (utype_move_type(unit_type_get(punit)) == UMT_SEA
-        && (is_ocean(tile_terrain(utile)) || tile_city(utile) != NULL)) {
+        && (is_ocean(tile_terrain(utile)) || tile_city(utile) != nullptr)) {
       return TRUE;
     }
     break;

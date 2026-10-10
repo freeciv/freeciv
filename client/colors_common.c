@@ -38,7 +38,7 @@ struct color_system {
 /************************************************************************//**
   Called when the client first starts to allocate the default colors.
 
-  Currently this must be called in ui_main, generally after UI
+  Currently this must be called in ui_main(), generally after UI
   initialization.
 ****************************************************************************/
 struct color_system *color_system_read(struct section_file *file)
@@ -50,7 +50,7 @@ struct color_system *color_system_read(struct section_file *file)
 
   for (stdcolor = color_std_begin(); stdcolor != color_std_end();
        stdcolor = color_std_next(stdcolor)) {
-    struct rgbcolor *prgbcolor = NULL;
+    struct rgbcolor *prgbcolor = nullptr;
 
     if (rgbcolor_load(file, &prgbcolor, "colors.%s0",
                       color_std_name(stdcolor))) {
@@ -86,11 +86,12 @@ void color_system_free(struct color_system *colors)
 ****************************************************************************/
 struct color *ensure_color(struct rgbcolor *rgb)
 {
-  fc_assert_ret_val(rgb != NULL, NULL);
+  fc_assert_ret_val(rgb != nullptr, nullptr);
 
   if (!rgb->color) {
     rgb->color = color_alloc(rgb->r, rgb->g, rgb->b);
   }
+
   return rgb->color;
 }
 
@@ -101,7 +102,7 @@ struct color *get_color(const struct tileset *t, enum color_std stdcolor)
 {
   struct color_system *colors = get_color_system(t);
 
-  fc_assert_ret_val(colors != NULL, NULL);
+  fc_assert_ret_val(colors != nullptr, nullptr);
 
   return ensure_color(*(colors->stdcolors + stdcolor));
 }
@@ -112,9 +113,9 @@ struct color *get_color(const struct tileset *t, enum color_std stdcolor)
 ****************************************************************************/
 bool player_has_color(const struct player *pplayer)
 {
-  fc_assert_ret_val(pplayer != NULL, FALSE);
+  fc_assert_ret_val(pplayer != nullptr, FALSE);
 
-  return pplayer->rgb != NULL;
+  return pplayer->rgb != nullptr;
 }
 
 /************************************************************************//**
@@ -125,8 +126,8 @@ bool player_has_color(const struct player *pplayer)
 struct color *get_player_color(const struct tileset *t,
                                const struct player *pplayer)
 {
-  fc_assert_ret_val(pplayer != NULL, NULL);
-  fc_assert_ret_val(pplayer->rgb != NULL, NULL);
+  fc_assert_ret_val(pplayer != nullptr, nullptr);
+  fc_assert_ret_val(pplayer->rgb != nullptr, nullptr);
 
   return ensure_color(pplayer->rgb);
 }
@@ -137,8 +138,8 @@ struct color *get_player_color(const struct tileset *t,
 struct color *get_terrain_color(const struct tileset *t,
                                 const struct terrain *pterrain)
 {
-  fc_assert_ret_val(pterrain != NULL, NULL);
-  fc_assert_ret_val(pterrain->rgb != NULL, NULL);
+  fc_assert_ret_val(pterrain != nullptr, nullptr);
+  fc_assert_ret_val(pterrain->rgb != nullptr, nullptr);
 
   return ensure_color(pterrain->rgb);
 }
@@ -152,16 +153,16 @@ struct color *color_best_contrast(struct color *subject,
 {
   int sbright = color_brightness_score(subject), bestdiff = 0;
   int i;
-  struct color *best = NULL;
+  struct color *best = nullptr;
 
-  fc_assert_ret_val(candidates != NULL, NULL);
-  fc_assert_ret_val(ncandidates > 0, NULL);
+  fc_assert_ret_val(candidates != nullptr, nullptr);
+  fc_assert_ret_val(ncandidates > 0, nullptr);
 
   for (i = 0; i < ncandidates; i++) {
     int cbright = color_brightness_score(candidates[i]);
     int diff = ABS(sbright - cbright);
 
-    if (best == NULL || diff > bestdiff) {
+    if (best == nullptr || diff > bestdiff) {
       best = candidates[i];
       bestdiff = diff;
     }

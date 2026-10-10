@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#include <stdlib.h>		/* qsort */
+#include <stdlib.h>             /* qsort */
 
 /* utility */
 #include "fcintl.h"
@@ -62,7 +62,7 @@ bool tiles_hilited_cities = FALSE;
 /* The mapcanvas clipboard */
 struct universal clipboard =
 { .kind = VUT_NONE,
-  .value = {.building = NULL}
+  .value = {.building = nullptr}
 };
 
 /* Goto with drag and drop. */
@@ -71,7 +71,7 @@ bool keyboardless_goto_active = FALSE;
 struct tile *keyboardless_goto_start_tile;
 
 /* Update the workers for a city on the map, when the update is received */
-struct city *city_workers_display = NULL;
+struct city *city_workers_display = nullptr;
 
 /*************************************************************************/
 
@@ -140,12 +140,12 @@ static void define_tiles_within_rectangle(bool append)
       /*  For diamond shaped tiles, every other row is indented.
        */
       if ((yy % 2 ^ xx % 2) != 0) {
-	continue;
+        continue;
       }
 
       ptile = canvas_pos_to_tile(x, y, map_zoom);
       if (!ptile) {
-	continue;
+        continue;
       }
 
       /*  "Half-tile" indentation must match, or we'll process
@@ -154,13 +154,13 @@ static void define_tiles_within_rectangle(bool append)
       tile_to_canvas_pos(&x2, &y2, map_zoom, ptile);
 
       if ((yy % 2) != 0 && ((rec_corner_x % W) ^ abs((int)x2 % W)) != 0) {
-	continue;
+        continue;
       }
 
       /*  Tile passed all tests; process it.
        */
       pcity = tile_city(ptile);
-      if (pcity != NULL && city_owner(pcity) == client_player()) {
+      if (pcity != nullptr && city_owner(pcity) == client_player()) {
         mapdeco_set_highlight(ptile, TRUE);
         found_any_cities = tiles_hilited_cities = TRUE;
       }
@@ -202,7 +202,7 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
 {
   const int W = tileset_tile_width(tileset),  half_W = W / 2;
   const int H = tileset_tile_height(tileset), half_H = H / 2;
-  static struct tile *rec_tile = NULL;
+  static struct tile *rec_tile = nullptr;
   int diff_x, diff_y;
   struct tile *center_tile;
   struct tile *ptile;
@@ -343,7 +343,7 @@ void toggle_tile_hilite(struct tile *ptile)
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
-  else if (NULL != pcity && city_owner(pcity) == client.conn.playing) {
+  else if (pcity != nullptr && city_owner(pcity) == client.conn.playing) {
     mapdeco_set_highlight(ptile, TRUE);
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
@@ -427,13 +427,13 @@ void clipboard_paste_production(struct city *pcity)
   if (!can_client_issue_orders()) {
     return;
   }
-  if (NULL == clipboard.value.building) {
+  if (clipboard.value.building == nullptr) {
     create_event(city_tile(pcity), E_BAD_COMMAND, ftc_client,
                  _("Clipboard is empty."));
     return;
   }
   if (!tiles_hilited_cities) {
-    if (NULL != pcity && city_owner(pcity) == client.conn.playing) {
+    if (pcity != nullptr && city_owner(pcity) == client.conn.playing) {
       clipboard_send_production_packet(pcity);
     }
     return;
@@ -498,7 +498,7 @@ void release_goto_button(int canvas_x, int canvas_y)
   }
   keyboardless_goto_active = FALSE;
   keyboardless_goto_button_down = FALSE;
-  keyboardless_goto_start_tile = NULL;
+  keyboardless_goto_start_tile = nullptr;
 }
 
 /**********************************************************************//**
@@ -534,7 +534,7 @@ bool can_end_turn(void)
   struct option *opt;
 
   opt = optset_option_by_name(server_optset, "fixedlength");
-  if (opt != NULL && option_bool_get(opt)) {
+  if (opt != nullptr && option_bool_get(opt)) {
     return FALSE;
   }
 
@@ -599,28 +599,28 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y, mouse_zoom);
 
-  if (NULL != ptile && can_client_issue_orders()) {
+  if (ptile != nullptr && can_client_issue_orders()) {
     struct city *pcity = find_city_near_tile(ptile);
 
-    if (pcity && !cma_is_city_under_agent(pcity, NULL)) {
+    if (pcity && !cma_is_city_under_agent(pcity, nullptr)) {
 #ifndef FREECIV_NDEBUG
       int city_x, city_y;
 #endif
 
       fc_assert_ret(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
 
-      if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
+      if (tile_worked(ptile) != nullptr && tile_worked(ptile) == pcity) {
         dsend_packet_city_make_specialist(&client.conn,
                                           pcity->id, ptile->index);
       } else if (city_can_work_tile(pcity, ptile)) {
         dsend_packet_city_make_worker(&client.conn,
                                       pcity->id, ptile->index);
       } else {
-	return;
+        return;
       }
 
       /* When the city info packet is received, update the workers on the
-       * map.  This is a bad hack used to selectively update the mapview
+       * map. This is a bad hack used to selectively update the mapview
        * when we receive the corresponding city packet. */
       city_workers_display = pcity;
     }
@@ -628,7 +628,7 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 }
 
 /**********************************************************************//**
-  Recenter the map on the canvas location, on user request.  Usually this
+  Recenter the map on the canvas location, on user request. Usually this
   is done with a right-click.
 **************************************************************************/
 void recenter_button_pressed(int canvas_x, int canvas_y)

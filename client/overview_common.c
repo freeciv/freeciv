@@ -33,12 +33,12 @@
 int OVERVIEW_TILE_SIZE = 2;
 #if 0
 struct overview overview = {
-  /* These are the default values.  All others are zeroed automatically. */
+  /* These are the default values. All others are zeroed automatically. */
   .fog = TRUE,
   .layers = {[OLAYER_BACKGROUND] = TRUE,
-	     [OLAYER_UNITS] = TRUE,
-	     [OLAYER_CITIES] = TRUE,
-	     [OLAYER_BORDERS_ON_OCEAN] = TRUE}
+             [OLAYER_UNITS] = TRUE,
+             [OLAYER_CITIES] = TRUE,
+             [OLAYER_BORDERS_ON_OCEAN] = TRUE}
 };
 #endif
 
@@ -49,20 +49,20 @@ struct overview overview = {
 static bool overview_dirty = FALSE;
 
 /************************************************************************//**
-  Translate from gui to natural coordinate systems.  This provides natural
+  Translate from gui to natural coordinate systems. This provides natural
   coordinates as a floating-point value so there is no loss of information
   in the resulting values.
 ****************************************************************************/
 static void gui_to_natural_pos(const struct tileset *t,
-			       double *ntl_x, double *ntl_y,
-			       int gui_x, int gui_y)
+                               double *ntl_x, double *ntl_y,
+                               int gui_x, int gui_y)
 {
   const double gui_xd = gui_x, gui_yd = gui_y;
   const double W = tileset_tile_width(t) * map_zoom;
   const double H = tileset_tile_height(t) * map_zoom;
   double map_x, map_y;
 
-  /* First convert to map positions.  This ignores hex conversions; we're
+  /* First convert to map positions. This ignores hex conversions; we're
    * not looking for an exact tile. */
   if (tileset_is_isometric(t)) {
     /* Includes hex cases. */
@@ -121,14 +121,14 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct city *pcity = tile_city(ptile);
 
     if (pcity) {
-      if (NULL == client.conn.playing
+      if (client.conn.playing == nullptr
           || city_owner(pcity) == client.conn.playing) {
-	return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
+        return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
       } else if (pplayers_allied(city_owner(pcity), client.conn.playing)) {
-	/* Includes teams. */
-	return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
+        /* Includes teams. */
+        return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
       } else {
-	return get_color(tileset, COLOR_OVERVIEW_ENEMY_CITY);
+        return get_color(tileset, COLOR_OVERVIEW_ENEMY_CITY);
       }
     }
   }
@@ -136,14 +136,14 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct unit *punit = find_visible_unit(ptile);
 
     if (punit) {
-      if (NULL == client.conn.playing
+      if (client.conn.playing == nullptr
           || unit_owner(punit) == client.conn.playing) {
-	return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
+        return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
       } else if (pplayers_allied(unit_owner(punit), client.conn.playing)) {
-	/* Includes teams. */
-	return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
+        /* Includes teams. */
+        return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
       } else {
-	return get_color(tileset, COLOR_OVERVIEW_ENEMY_UNIT);
+        return get_color(tileset, COLOR_OVERVIEW_ENEMY_UNIT);
       }
     }
   }
@@ -221,14 +221,14 @@ static void redraw_overview(void)
   }
 
   gui_to_overview_pos(tileset, &x[0], &y[0],
-		      mapview.gui_x0, mapview.gui_y0);
+                      mapview.gui_x0, mapview.gui_y0);
   gui_to_overview_pos(tileset, &x[1], &y[1],
-		      mapview.gui_x0 + mapview.width, mapview.gui_y0);
+                      mapview.gui_x0 + mapview.width, mapview.gui_y0);
   gui_to_overview_pos(tileset, &x[2], &y[2],
-		      mapview.gui_x0 + mapview.width,
-		      mapview.gui_y0 + mapview.height);
+                      mapview.gui_x0 + mapview.width,
+                      mapview.gui_y0 + mapview.height);
   gui_to_overview_pos(tileset, &x[3], &y[3],
-		      mapview.gui_x0, mapview.gui_y0 + mapview.height);
+                      mapview.gui_x0, mapview.gui_y0 + mapview.height);
 
   for (i = 0; i < 4; i++) {
     int src_x = x[i];
@@ -314,7 +314,7 @@ void center_tile_overviewcanvas(void)
   redraw_overview();
 
   gui_to_overview_pos(tileset, &ox, &oy,
-		      mapview.gui_x0, mapview.gui_y0);
+                      mapview.gui_x0, mapview.gui_y0);
   update_overview_scroll_window_pos(ox, oy);
 }
 
@@ -327,7 +327,7 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
   /* The map position may not be normal, for instance when the mapview
    * origin is not a normal position.
    *
-   * NOTE: this embeds the map wrapping in the overview code. */
+   * NOTE: This embeds the map wrapping in the overview code. */
   do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
     int ovr_x = ntl_x - gui_options.overview.map_x0;
     int ovr_y = ntl_y - gui_options.overview.map_y0;
@@ -513,8 +513,8 @@ void overview_free(void)
   if (gui_options.overview.map) {
     canvas_free(gui_options.overview.map);
     canvas_free(gui_options.overview.window);
-    gui_options.overview.map = NULL;
-    gui_options.overview.window = NULL;
+    gui_options.overview.map = nullptr;
+    gui_options.overview.window = nullptr;
   }
 }
 
@@ -524,7 +524,7 @@ void overview_free(void)
 void overview_redraw_callback(struct option *option)
 {
   /* This is called once for each option changed so it is slower than
-   * necessary.  If this becomes a problem it could be switched to use a
+   * necessary. If this becomes a problem it could be switched to use a
    * queue system like the mapview drawing code does. */
   refresh_overview_canvas();
 }

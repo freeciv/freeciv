@@ -67,18 +67,18 @@ void init_themes(void)
   int i;
 
   /* Get GUI-specific theme directories */
-  char **gui_directories =
-      get_gui_specific_themes_directories(&num_directories);
+  char **gui_directories
+    = get_gui_specific_themes_directories(&num_directories);
 
-  directories =
-      fc_malloc(sizeof(struct theme_directory) * num_directories);
+  directories
+    = fc_malloc(sizeof(struct theme_directory) * num_directories);
 
   for (i = 0; i < num_directories; i++) {
     directories[i].path = gui_directories[i];
 
     /* Get usable themes in this directory */
-    directories[i].themes =
-	get_usable_themes_in_directory(directories[i].path,
+    directories[i].themes
+      = get_usable_themes_in_directory(directories[i].path,
                                        &(directories[i].num_themes));
   }
   free(gui_directories);
@@ -89,9 +89,9 @@ void init_themes(void)
 ****************************************************************************/
 const struct strvec *get_themes_list(const struct option *poption)
 {
-  static struct strvec *themes_list = NULL;
+  static struct strvec *themes_list = nullptr;
 
-  if (NULL == themes_list) {
+  if (themes_list == nullptr) {
     int i, j, k;
 
     themes_list = strvec_new();
@@ -139,6 +139,7 @@ void theme_reread_callback(struct option *poption)
 {
   const char *theme_name = option_str_get(poption);
 
-  fc_assert_ret(NULL != theme_name && theme_name[0] != '\0');
+  fc_assert_ret(theme_name != nullptr && theme_name[0] != '\0');
+
   load_theme(theme_name);
 }

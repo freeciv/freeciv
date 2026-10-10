@@ -121,8 +121,8 @@ void output_window_append(const struct ft_color color,
       text_tag_list_prepend(tags, ptag);
     } else {
       log_error("Failed to create a color text tag (fg = %s, bg = %s).",
-                (NULL != color.foreground ? color.foreground : "NULL"),
-                (NULL != color.background ? color.background : "NULL"));
+                (color.foreground != nullptr ? color.foreground : "nullptr"),
+                (color.background != nullptr ? color.background : "nullptr"));
     }
   }
 
@@ -133,7 +133,7 @@ void output_window_append(const struct ft_color color,
 }
 
 /**********************************************************************//**
-  Add a line of text to the output ("chatline") window.  The text is
+  Add a line of text to the output ("chatline") window. The text is
   constructed in printf style.
 **************************************************************************/
 void output_window_vprintf(const struct ft_color color,
@@ -147,7 +147,7 @@ void output_window_vprintf(const struct ft_color color,
 
 
 /**********************************************************************//**
-  Add a line of text to the output ("chatline") window.  The text is
+  Add a line of text to the output ("chatline") window. The text is
   constructed in printf style.
 **************************************************************************/
 void output_window_printf(const struct ft_color color,

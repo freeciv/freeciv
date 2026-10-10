@@ -51,7 +51,7 @@ void get_economy_report_data(struct improvement_entry *entries,
   *total_cost = 0;
   *total_income = 0;
 
-  if (NULL == client.conn.playing) {
+  if (client.conn.playing == nullptr) {
     return;
   }
 
@@ -110,7 +110,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
   *num_entries_used = 0;
   *total_cost = 0;
 
-  if (NULL == client.conn.playing) {
+  if (client.conn.playing == nullptr) {
     return;
   }
 
@@ -127,7 +127,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
 
     city_list_iterate(client.conn.playing->cities, pcity) {
       unit_list_iterate(pcity->units_supported, punit) {
-	if (unit_type_get(punit) == unittype) {
+        if (unit_type_get(punit) == unittype) {
           count++;
           partial_cost += punit->upkeep[O_GOLD];
         }

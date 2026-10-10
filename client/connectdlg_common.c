@@ -156,9 +156,9 @@ void client_kill_server(bool force)
   if (server_quitting && server_pid > 0) {
     /* Already asked to /quit.
      * If it didn't do that, kill it. */
-    if (waitpid(server_pid, NULL, WUNTRACED) <= 0) {
+    if (waitpid(server_pid, nullptr, WUNTRACED) <= 0) {
       kill(server_pid, SIGTERM);
-      waitpid(server_pid, NULL, WUNTRACED);
+      waitpid(server_pid, nullptr, WUNTRACED);
     }
     server_pid = -1;
     server_quitting = FALSE;
@@ -200,7 +200,7 @@ void client_kill_server(bool force)
        * the server. */
 #ifdef HAVE_USABLE_FORK
       kill(server_pid, SIGTERM);
-      waitpid(server_pid, NULL, WUNTRACED);
+      waitpid(server_pid, nullptr, WUNTRACED);
       server_pid = -1;
 #elif FREECIV_MSWINDOWS
       TerminateProcess(server_process, 0);
@@ -286,7 +286,7 @@ bool client_start_server(void)
   }
 
   storage = freeciv_storage_dir();
-  if (storage == NULL) {
+  if (storage == nullptr) {
     output_window_append(ftc_client, _("Cannot find freeciv storage directory"));
     output_window_append(ftc_client,
                          _("You'll have to start server manually. Sorry..."));
@@ -348,11 +348,11 @@ bool client_start_server(void)
     if (are_deprecation_warnings_enabled()) {
       argv[argc++] = "--warnings";
     }
-    if (ruleset != NULL) {
+    if (ruleset != nullptr) {
       argv[argc++] = "--ruleset";
       argv[argc++] = ruleset;
     }
-    argv[argc] = NULL;
+    argv[argc] = nullptr;
     fc_assert(argc <= max_nargs);
 
     {
@@ -448,8 +448,8 @@ bool client_start_server(void)
   if (logfile) {
     loghandle = CreateFile(logfile, GENERIC_WRITE,
                            FILE_SHARE_READ | FILE_SHARE_WRITE,
-                           NULL,
-                           OPEN_ALWAYS, 0, NULL);
+                           nullptr,
+                           OPEN_ALWAYS, 0, nullptr);
   }
 
   ZeroMemory(&si, sizeof(si));
@@ -503,7 +503,7 @@ bool client_start_server(void)
   } else {
     depr = "";
   }
-  if (ruleset != NULL) {
+  if (ruleset != nullptr) {
     fc_snprintf(rsparam, sizeof(rsparam), " --ruleset %s", ruleset);
   } else {
     rsparam[0] = '\0';
@@ -538,22 +538,22 @@ bool client_start_server(void)
 
   if (
 #ifdef FREECIV_DEBUG
-      !CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
+      !CreateProcess(nullptr, cmdline1, nullptr, nullptr, TRUE,
                      DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-                     NULL, NULL, &si, &pi)
+                     nullptr, nullptr, &si, &pi)
 #ifndef FREECIV_WEB
-      && !CreateProcess(NULL, cmdline2, NULL, NULL, TRUE,
+      && !CreateProcess(nullptr, cmdline2, nullptr, nullptr, TRUE,
                         DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-                        NULL, NULL, &si, &pi)
+                        nullptr, nullptr, &si, &pi)
 #endif /* FREECIV_WEB */
       &&
 #endif /* FREECIV_DEBUG */
-      !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
+      !CreateProcess(nullptr, cmdline3, nullptr, nullptr, TRUE,
                      DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-                     NULL, NULL, &si, &pi)
-      && !CreateProcess(NULL, cmdline4, NULL, NULL, TRUE,
+                     nullptr, nullptr, &si, &pi)
+      && !CreateProcess(nullptr, cmdline4, nullptr, nullptr, TRUE,
                         DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-                        NULL, NULL, &si, &pi)) {
+                        nullptr, nullptr, &si, &pi)) {
     log_error("Failed to start server process.");
 #ifdef FREECIV_DEBUG
     log_verbose("Tried with commandline: '%s'", cmdline1);
@@ -580,7 +580,7 @@ bool client_start_server(void)
     fc_usleep(WAIT_BETWEEN_TRIES);
 #ifdef HAVE_USABLE_FORK
 #ifndef FREECIV_MSWINDOWS
-    if (waitpid(server_pid, NULL, WNOHANG) != 0) {
+    if (waitpid(server_pid, nullptr, WNOHANG) != 0) {
       break;
     }
 #endif /* FREECIV_MSWINDOWS */
@@ -683,7 +683,7 @@ void send_client_wants_hack(const char *filename)
     struct section_file *file;
     const char *sdir = freeciv_storage_dir();
 
-    if (sdir == NULL) {
+    if (sdir == nullptr) {
       return;
     }
 

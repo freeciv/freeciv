@@ -111,7 +111,7 @@ static const char *col_diplstate(const struct player *player)
   static char buf[100];
   const struct player_diplstate *pds;
 
-  if (NULL == client.conn.playing || player == client.conn.playing) {
+  if (client.conn.playing == nullptr || player == client.conn.playing) {
     return "-";
   } else {
     pds = player_diplstate_get(client.conn.playing, player);
@@ -134,7 +134,7 @@ static const char *col_diplstate(const struct player *player)
 ****************************************************************************/
 static int diplstate_value(const struct player *plr)
 {
-  /* these values are scaled so that adding/subtracting
+  /* These values are scaled so that adding/subtracting
      the number of turns left makes sense */
   static const int diplstate_cmp_lookup[DS_LAST] = {
     [DS_TEAM] = 1 << 16,
@@ -149,8 +149,8 @@ static int diplstate_value(const struct player *plr)
   const struct player_diplstate *pds;
   int ds_value;
 
-  if (NULL == client.conn.playing || plr == client.conn.playing) {
-    /* current global player is as close as players get
+  if (client.conn.playing == nullptr || plr == client.conn.playing) {
+    /* Current global player is as close as players get
        -> return value smaller than for DS_TEAM */
     return 0;
   }
@@ -179,7 +179,7 @@ static int cmp_diplstate(const struct player *player1,
 ****************************************************************************/
 static const char *col_love(const struct player *player)
 {
-  if (NULL == client.conn.playing || player == client.conn.playing
+  if (client.conn.playing == nullptr || player == client.conn.playing
       || is_human(player)) {
     return "-";
   } else {
@@ -195,7 +195,7 @@ static int cmp_love(const struct player *player1,
 {
   int love1, love2;
 
-  if (NULL == client.conn.playing) {
+  if (client.conn.playing == nullptr) {
     return player_number(player1) - player_number(player2);
   }
 
@@ -241,7 +241,7 @@ const char *plrdlg_col_state(const struct player *plr)
     }
 
     opt = optset_option_by_name(server_optset, "turnblock");
-    if (opt != NULL) {
+    if (opt != nullptr) {
       consider_tb = option_bool_get(opt);
     }
 
@@ -345,10 +345,10 @@ static const char *get_culture_info(const struct player *them)
   const struct player *me = client_player();
   bool gobs = client_is_global_observer();
 
-  if (them == NULL || !them->is_alive) {
+  if (them == nullptr || !them->is_alive) {
     fc_snprintf(buf, sizeof(buf), "-");
   } else if (gobs
-             || (me != NULL
+             || (me != nullptr
                  && (me == them || team_has_embassy(me->team, them)))) {
     fc_snprintf(buf, sizeof(buf), "%d", them->client.culture);
   } else {
@@ -385,10 +385,10 @@ static const char *get_gold_info(const struct player *them)
   const struct player *me = client_player();
   bool gobs = client_is_global_observer();
 
-  if (them == NULL || !them->is_alive) {
+  if (them == nullptr || !them->is_alive) {
     fc_snprintf(buf, sizeof(buf), "-");
   } else if (gobs
-             || (me != NULL
+             || (me != nullptr
                  && (me == them || team_has_embassy(me->team, them)
                      || player_diplstate_get(me, them)->contact_turns_left > 0))) {
     fc_snprintf(buf, sizeof(buf), "%d", them->economic.gold);
@@ -426,10 +426,10 @@ static const char *get_tax_info(const struct player *them)
   const struct player *me = client_player();
   bool gobs = client_is_global_observer();
 
-  if (them == NULL || !them->is_alive) {
+  if (them == nullptr || !them->is_alive) {
     fc_snprintf(buf, sizeof(buf), "-");
   } else if (gobs
-             || (me != NULL
+             || (me != nullptr
                  && (me == them || team_has_embassy(me->team, them)))) {
     fc_snprintf(buf, sizeof(buf), "%d %%", them->economic.tax);
   } else {
@@ -466,10 +466,10 @@ static const char *get_science_info(const struct player *them)
   const struct player *me = client_player();
   bool gobs = client_is_global_observer();
 
-  if (them == NULL || !them->is_alive) {
+  if (them == nullptr || !them->is_alive) {
     fc_snprintf(buf, sizeof(buf), "-");
   } else if (gobs
-             || (me != NULL
+             || (me != nullptr
                  && (me == them || team_has_embassy(me->team, them)))) {
     fc_snprintf(buf, sizeof(buf), "%d %%", them->economic.science);
   } else {
@@ -506,10 +506,10 @@ static const char *get_luxury_info(const struct player *them)
   const struct player *me = client_player();
   bool gobs = client_is_global_observer();
 
-  if (them == NULL || !them->is_alive) {
+  if (them == nullptr || !them->is_alive) {
     fc_snprintf(buf, sizeof(buf), "-");
   } else if (gobs
-             || (me != NULL
+             || (me != nullptr
                  && (me == them || team_has_embassy(me->team, them)))) {
     fc_snprintf(buf, sizeof(buf), "%d %%", them->economic.luxury);
   } else {
@@ -536,10 +536,10 @@ static const char *get_researching_info(const struct player *them)
   const struct player *me = client_player();
   bool gobs = client_is_global_observer();
 
-  if (them == NULL || !them->is_alive) {
+  if (them == nullptr || !them->is_alive) {
     fc_snprintf(buf, sizeof(buf), "-");
   } else if (gobs
-             || (me != NULL
+             || (me != nullptr
                  && (me == them || team_has_embassy(me->team, them)))) {
     struct research *research = research_get(them);
 
@@ -564,30 +564,30 @@ static const char *col_research(const struct player *pplayer)
   ...
 ****************************************************************************/
 struct player_dlg_column player_dlg_columns[] = {
-  {TRUE, COL_TEXT, N_("?Player:Name"), col_name, NULL, cmp_name, "name"},
-  {FALSE, COL_TEXT, N_("Username"), col_username, NULL, NULL, "username"},
-  {TRUE, COL_FLAG, N_("Flag"), NULL, NULL, NULL,  "flag"},
-  {TRUE, COL_TEXT, N_("Nation"), col_nation, NULL, NULL,  "nation"},
-  {TRUE, COL_COLOR, N_("Border"), NULL, NULL, NULL,  "border"},
-  {TRUE, COL_RIGHT_TEXT, N_("Score"), get_score_text, NULL, cmp_score, "score"},
-  {TRUE, COL_TEXT, N_("Team"), col_team, NULL, NULL,  "team"},
-  {TRUE, COL_BOOLEAN, N_("AI"), NULL, col_ai, NULL,  "ai"},
-  {TRUE, COL_TEXT, N_("Attitude"), col_love, NULL, cmp_love,  "attitude"},
-  {TRUE, COL_TEXT, N_("Embassy"), col_embassy, NULL, NULL,  "embassy"},
-  {TRUE, COL_TEXT, N_("Dipl.State"), col_diplstate, NULL, cmp_diplstate,
+  {TRUE, COL_TEXT, N_("?Player:Name"), col_name, nullptr, cmp_name, "name"},
+  {FALSE, COL_TEXT, N_("Username"), col_username, nullptr, nullptr, "username"},
+  {TRUE, COL_FLAG, N_("Flag"), nullptr, nullptr, nullptr, "flag"},
+  {TRUE, COL_TEXT, N_("Nation"), col_nation, nullptr, nullptr, "nation"},
+  {TRUE, COL_COLOR, N_("Border"), nullptr, nullptr, nullptr, "border"},
+  {TRUE, COL_RIGHT_TEXT, N_("Score"), get_score_text, nullptr, cmp_score, "score"},
+  {TRUE, COL_TEXT, N_("Team"), col_team, nullptr, nullptr, "team"},
+  {TRUE, COL_BOOLEAN, N_("AI"), nullptr, col_ai, nullptr, "ai"},
+  {TRUE, COL_TEXT, N_("Attitude"), col_love, nullptr, cmp_love, "attitude"},
+  {TRUE, COL_TEXT, N_("Embassy"), col_embassy, nullptr, nullptr, "embassy"},
+  {TRUE, COL_TEXT, N_("Dipl.State"), col_diplstate, nullptr, cmp_diplstate,
     "diplstate"},
-  {TRUE, COL_TEXT, N_("Vision"), col_vision, NULL, NULL,  "vision"},
-  {TRUE, COL_TEXT, N_("State"), plrdlg_col_state, NULL, NULL,  "state"},
-  {FALSE, COL_TEXT, N_("?Player_dlg:Host"), col_host, NULL, NULL,  "host"},
-  {FALSE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, NULL, NULL,  "idle"},
-  {FALSE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, NULL,  "ping"},
-  {TRUE, COL_TEXT, N_("Government"), col_government, NULL, NULL,  "government"},
-  {TRUE, COL_RIGHT_TEXT, N_("Culture"), col_culture, NULL, cmp_culture, "culture"},
-  {TRUE, COL_RIGHT_TEXT, N_("Gold"), col_gold, NULL, cmp_gold, "gold"},
-  {TRUE, COL_RIGHT_TEXT, N_("Tax"), col_tax, NULL, cmp_tax, "tax"},
-  {TRUE, COL_RIGHT_TEXT, N_("Science"), col_science, NULL, cmp_science, "science"},
-  {TRUE, COL_RIGHT_TEXT, N_("Luxury"), col_luxury, NULL, cmp_luxury, "luxury"},
-  {TRUE, COL_TEXT, N_("Research"), col_research, NULL, NULL, "research"}
+  {TRUE, COL_TEXT, N_("Vision"), col_vision, nullptr, nullptr, "vision"},
+  {TRUE, COL_TEXT, N_("State"), plrdlg_col_state, nullptr, nullptr, "state"},
+  {FALSE, COL_TEXT, N_("?Player_dlg:Host"), col_host, nullptr, nullptr, "host"},
+  {FALSE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, nullptr, nullptr, "idle"},
+  {FALSE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, nullptr, nullptr, "ping"},
+  {TRUE, COL_TEXT, N_("Government"), col_government, nullptr, nullptr, "government"},
+  {TRUE, COL_RIGHT_TEXT, N_("Culture"), col_culture, nullptr, cmp_culture, "culture"},
+  {TRUE, COL_RIGHT_TEXT, N_("Gold"), col_gold, nullptr, cmp_gold, "gold"},
+  {TRUE, COL_RIGHT_TEXT, N_("Tax"), col_tax, nullptr, cmp_tax, "tax"},
+  {TRUE, COL_RIGHT_TEXT, N_("Science"), col_science, nullptr, cmp_science, "science"},
+  {TRUE, COL_RIGHT_TEXT, N_("Luxury"), col_luxury, nullptr, cmp_luxury, "luxury"},
+  {TRUE, COL_TEXT, N_("Research"), col_research, nullptr, nullptr, "research"}
 };
 
 const int num_player_dlg_columns = ARRAY_SIZE(player_dlg_columns);
