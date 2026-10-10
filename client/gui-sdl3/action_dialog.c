@@ -73,7 +73,7 @@ void popdown_incite_dialog(void);
 void popdown_bribe_dialog(void);
 
 
-static struct diplomat_dialog *diplomat_dlg = NULL;
+static struct diplomat_dialog *diplomat_dlg = nullptr;
 static bool is_more_user_input_needed = FALSE;
 static bool did_not_decide = FALSE;
 
@@ -200,9 +200,8 @@ static int diplomat_dlg_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int spy_strike_bld_request(struct widget *pwidget)
 {
-  if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-      && NULL != game_city_by_number(
-              diplomat_dlg->target_ids[ATK_CITY])) {
+  if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+      && game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr) {
     request_action_details(ACTION_STRIKE_BUILDING,
                            diplomat_dlg->actor_unit_id,
                            diplomat_dlg->target_ids[ATK_CITY]);
@@ -221,9 +220,8 @@ static int spy_strike_bld_request(struct widget *pwidget)
 **************************************************************************/
 static int spy_sabotage_request(struct widget *pwidget)
 {
-  if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-      && NULL != game_city_by_number(
-              diplomat_dlg->target_ids[ATK_CITY])) {
+  if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+      && game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr) {
     request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY,
                            diplomat_dlg->actor_unit_id,
                            diplomat_dlg->target_ids[ATK_CITY]);
@@ -243,9 +241,8 @@ static int spy_sabotage_request(struct widget *pwidget)
 **************************************************************************/
 static int spy_sabotage_esc_request(struct widget *pwidget)
 {
-  if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-      && NULL != game_city_by_number(
-              diplomat_dlg->target_ids[ATK_CITY])) {
+  if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+      && game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr) {
     request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
                            diplomat_dlg->actor_unit_id,
                            diplomat_dlg->target_ids[ATK_CITY]);
@@ -297,9 +294,8 @@ static int spy_steal_callback(struct widget *pwidget)
     int steal_advance = MAX_ID - pwidget->id;
     int actor_id = diplomat_dlg->actor_unit_id;
 
-    if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-        && NULL != game_city_by_number(
-                diplomat_dlg->target_ids[ATK_CITY])) {
+    if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+        && game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr) {
       if (steal_advance == A_UNSET) {
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(
@@ -332,9 +328,9 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   const struct research *presearch, *vresearch;
   struct city *vcity = pwidget->data.city;
   int id = diplomat_dlg->actor_unit_id;
-  struct player *victim = NULL;
+  struct player *victim = nullptr;
   struct container *cont;
-  struct widget *buf = NULL;
+  struct widget *buf = nullptr;
   struct widget *pwindow;
   utf8_str *pstr;
   SDL_Surface *surf;
@@ -399,7 +395,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
                                      FONTO_ATTENTION);
   pstr->style |= TTF_STYLE_BOLD;
 
-  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(nullptr, pstr, 0);
 
   pwindow->action = spy_steal_dlg_window_callback;
   set_wstate(pwindow , FC_WS_NORMAL);
@@ -454,7 +450,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     }
   }
 
-  pstr = create_utf8_str_fonto(NULL, 0, FONTO_DEFAULT);
+  pstr = create_utf8_str_fonto(nullptr, 0, FONTO_DEFAULT);
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   count = 0;
@@ -532,9 +528,9 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   area.w = MAX(area.w, (col * buf->size.w + adj_size(2) + idx));
   area.h = count * buf->size.h + adj_size(2);
 
-  /* alloca window theme and win background buffer */
+  /* Allocate window theme and win background buffer */
   surf = theme_get_background(active_theme, BACKGROUND_SPYSTEALDLG);
-  if (resize_window(pwindow, surf, NULL,
+  if (resize_window(pwindow, surf, nullptr,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(surf);
@@ -546,7 +542,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
                       (main_window_width() - pwindow->size.w) / 2,
                       (main_window_height() - pwindow->size.h) / 2);
 
-  /* exit button */
+  /* Exit button */
   buf = pwindow->prev;
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
@@ -592,9 +588,8 @@ static int spy_steal_esc_popup(struct widget *pwidget)
 static int diplomat_incite_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-        && NULL != game_city_by_number(
-                diplomat_dlg->target_ids[ATK_CITY])) {
+    if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+        && game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr) {
       request_action_details(ACTION_SPY_INCITE_CITY,
                              diplomat_dlg->actor_unit_id,
                              diplomat_dlg->target_ids[ATK_CITY]);
@@ -614,9 +609,8 @@ static int diplomat_incite_callback(struct widget *pwidget)
 static int spy_incite_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-        && NULL != game_city_by_number(
-                diplomat_dlg->target_ids[ATK_CITY])) {
+    if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+        && game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr) {
       request_action_details(ACTION_SPY_INCITE_CITY_ESC,
                              diplomat_dlg->actor_unit_id,
                              diplomat_dlg->target_ids[ATK_CITY]);
@@ -651,9 +645,8 @@ static int act_sel_wait_callback(struct widget *pwidget)
 static int diplomat_bribe_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
-        && NULL !=
-         game_unit_by_number(diplomat_dlg->target_ids[ATK_UNIT])) {
+    if (game_unit_by_number(diplomat_dlg->actor_unit_id) != nullptr
+        && game_unit_by_number(diplomat_dlg->target_ids[ATK_UNIT]) != nullptr) {
       request_action_details(ACTION_SPY_BRIBE_UNIT,
                              diplomat_dlg->actor_unit_id,
                              diplomat_dlg->target_ids[ATK_UNIT]);
@@ -711,7 +704,7 @@ static int upgrade_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit;
 
-    if (game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != NULL
+    if (game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != nullptr
         && (punit = game_unit_by_number(diplomat_dlg->actor_unit_id))) {
       popup_unit_upgrade_dlg(punit, FALSE);
     }
@@ -742,8 +735,9 @@ static int simple_action_callback(struct widget *pwidget)
 
   /* Actor */
   fc_assert(action_get_actor_kind(paction) == AAK_UNIT);
+
   actor_id = diplomat_dlg->actor_unit_id;
-  if (NULL == game_unit_by_number(actor_id)) {
+  if (game_unit_by_number(actor_id) == nullptr) {
     /* Probably dead. */
     failed = TRUE;
   }
@@ -753,14 +747,14 @@ static int simple_action_callback(struct widget *pwidget)
   switch (action_get_target_kind(paction)) {
   case ATK_CITY:
     target_id = diplomat_dlg->target_ids[ATK_CITY];
-    if (NULL == game_city_by_number(target_id)) {
+    if (game_city_by_number(target_id) == nullptr) {
       /* Probably destroyed. */
       failed = TRUE;
     }
     break;
   case ATK_UNIT:
     target_id = diplomat_dlg->target_ids[ATK_UNIT];
-    if (NULL == game_unit_by_number(target_id)) {
+    if (game_unit_by_number(target_id) == nullptr) {
       /* Probably dead. */
       failed = TRUE;
     }
@@ -769,7 +763,7 @@ static int simple_action_callback(struct widget *pwidget)
   case ATK_TILE:
   case ATK_EXTRAS:
     target_id = diplomat_dlg->target_ids[ATK_TILE];
-    if (NULL == index_to_tile(&(wld.map), target_id)) {
+    if (index_to_tile(&(wld.map), target_id) == nullptr) {
       /* TODO: Should this be possible at all? If not: add assertion. */
       failed = TRUE;
     }
@@ -788,14 +782,14 @@ static int simple_action_callback(struct widget *pwidget)
     switch (action_get_sub_target_kind(paction)) {
     case ASTK_BUILDING:
       sub_target = diplomat_dlg->sub_target_id[ASTK_BUILDING];
-      if (NULL == improvement_by_number(sub_target)) {
+      if (improvement_by_number(sub_target) == nullptr) {
         /* Did the ruleset change? */
         failed = TRUE;
       }
       break;
     case ASTK_TECH:
       sub_target = diplomat_dlg->sub_target_id[ASTK_TECH];
-      if (NULL == valid_advance_by_number(sub_target)) {
+      if (valid_advance_by_number(sub_target) == nullptr) {
         /* Did the ruleset change? */
         failed = TRUE;
       }
@@ -804,14 +798,14 @@ static int simple_action_callback(struct widget *pwidget)
     case ASTK_EXTRA_NOT_THERE:
       /* TODO: validate if the extra is there? */
       sub_target = diplomat_dlg->sub_target_id[ASTK_EXTRA];
-      if (NULL == extra_by_number(sub_target)) {
+      if (extra_by_number(sub_target) == nullptr) {
         /* Did the ruleset change? */
         failed = TRUE;
       }
       break;
     case ASTK_SPECIALIST:
       sub_target = diplomat_dlg->sub_target_id[ASTK_SPECIALIST];
-      if (nullptr == specialist_by_number(sub_target)) {
+      if (specialist_by_number(sub_target) == nullptr) {
         /* Did the ruleset change? */
         failed = TRUE;
       }
@@ -820,6 +814,7 @@ static int simple_action_callback(struct widget *pwidget)
     case ASTK_COUNT:
       /* Shouldn't happen. */
       fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
+
       failed = TRUE;
       break;
     }
@@ -914,7 +909,7 @@ static void action_entry(const action_id act,
                                                       act_unit,
                                                       tgt_city);
 
-  if (af_map[act] == NULL) {
+  if (af_map[act] == nullptr) {
     /* No special call back function needed for this action. */
     cb = simple_action_callback;
   } else {
@@ -971,7 +966,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct extra_type *target_extra,
                             const struct act_prob *act_probs)
 {
-  struct widget *pwindow = NULL, *buf = NULL;
+  struct widget *pwindow = nullptr, *buf = nullptr;
   utf8_str *pstr;
   SDL_Rect area;
 
@@ -1007,7 +1002,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   pstr->style |= TTF_STYLE_BOLD;
 
-  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(nullptr, pstr, 0);
 
   pwindow->action = diplomat_dlg_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
@@ -1058,7 +1053,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(act, act_probs,
-                   actor_unit, NULL, target_city, NULL,
+                   actor_unit, nullptr, target_city, nullptr,
                    pwindow, &area);
     }
   } action_iterate_end;
@@ -1069,7 +1064,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
       action_entry(act, act_probs,
-                   actor_unit, NULL, NULL, target_unit,
+                   actor_unit, nullptr, nullptr, target_unit,
                    pwindow, &area);
     }
   } action_iterate_end;
@@ -1080,7 +1075,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_STACK) {
       action_entry(act, act_probs,
-                   actor_unit, target_tile, NULL, NULL,
+                   actor_unit, target_tile, nullptr, nullptr,
                    pwindow, &area);
     }
   } action_iterate_end;
@@ -1091,7 +1086,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
       action_entry(act, act_probs,
-                   actor_unit, target_tile, NULL, NULL,
+                   actor_unit, target_tile, nullptr, nullptr,
                    pwindow, &area);
     }
   } action_iterate_end;
@@ -1102,7 +1097,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_EXTRAS) {
       action_entry(act, act_probs,
-                   actor_unit, target_tile, NULL, NULL,
+                   actor_unit, target_tile, nullptr, nullptr,
                    pwindow, &area);
     }
   } action_iterate_end;
@@ -1113,7 +1108,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_SELF) {
       action_entry(act, act_probs,
-                   actor_unit, NULL, NULL, target_unit,
+                   actor_unit, nullptr, nullptr, target_unit,
                    pwindow, &area);
     }
   } action_iterate_end;
@@ -1145,9 +1140,9 @@ void popup_action_selection(struct unit *actor_unit,
   /* ---------- */
   diplomat_dlg->pdialog->begin_widget_list = buf;
 
-  /* setup window size and start position */
+  /* Setup window size and start position */
 
-  resize_window(pwindow, NULL, NULL,
+  resize_window(pwindow, nullptr, nullptr,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
 
@@ -1157,7 +1152,7 @@ void popup_action_selection(struct unit *actor_unit,
   put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
                            unit_tile(actor_unit));
 
-  /* setup widget size and start position */
+  /* Setup widget size and start position */
 
   buf = pwindow->prev;
   setup_vertical_widgets_position(1,
@@ -1166,7 +1161,7 @@ void popup_action_selection(struct unit *actor_unit,
         diplomat_dlg->pdialog->begin_widget_list, buf);
 
   /* --------------------- */
-  /* redraw */
+  /* Redraw */
   redraw_group(diplomat_dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
@@ -1300,8 +1295,8 @@ static int sabotage_impr_callback(struct widget *pwidget)
       sabotage_improvement = -1;
     }
 
-    if (NULL != game_unit_by_number(diplomat_id)
-        && NULL != game_city_by_number(diplomat_target_id)) {
+    if (game_unit_by_number(diplomat_id) != nullptr
+        && game_city_by_number(diplomat_target_id) != nullptr) {
       if (sabotage_improvement == B_LAST) {
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(act_id),
@@ -1333,7 +1328,7 @@ static int sabotage_impr_callback(struct widget *pwidget)
 void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                            const struct action *paction)
 {
-  struct widget *pwindow = NULL, *buf = NULL , *last = NULL;
+  struct widget *pwindow = nullptr, *buf = nullptr, *last = nullptr;
   struct container *cont;
   utf8_str *pstr;
   SDL_Rect area, area2;
@@ -1370,7 +1365,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   }
   pstr->style |= TTF_STYLE_BOLD;
 
-  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(nullptr, pstr, 0);
 
   pwindow->action = diplomat_dlg_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
@@ -1408,8 +1403,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
     area.w = MAX(area.w, buf->size.w);
     area.h += buf->size.h;
 
-    /* separator */
-    buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
+    /* Separator */
+    buf = create_iconlabel(nullptr, pwindow->dst, nullptr, WF_FREE_THEME);
 
     add_to_gui_list(ID_SEPARATOR, buf);
     area.h += buf->next->size.h;
@@ -1446,8 +1441,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   if (n > 0
       && action_prob_possible(actor->client.act_prob_cache[
                               get_non_targeted_action_id(paction->id)])) {
-    /* separator */
-    buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
+    /* Separator */
+    buf = create_iconlabel(nullptr, pwindow->dst, nullptr, WF_FREE_THEME);
 
     add_to_gui_list(ID_SEPARATOR, buf);
     area.h += buf->next->size.h;
@@ -1493,7 +1488,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 
   area.h += imp_h;
 
-  resize_window(pwindow, NULL, NULL,
+  resize_window(pwindow, nullptr, nullptr,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
 
@@ -1505,7 +1500,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 
   w = area.w;
 
-  /* exit button */
+  /* Exit button */
   buf = pwindow->prev;
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
@@ -1575,7 +1570,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 /* ====================================================================== */
 /* ============================== INCITE DIALOG ========================= */
 /* ====================================================================== */
-static struct small_diplomat_dialog *incite_dlg = NULL;
+static struct small_diplomat_dialog *incite_dlg = nullptr;
 
 /**********************************************************************//**
   User interacted with Incite Revolt dialog window.
@@ -1595,8 +1590,8 @@ static int incite_dlg_window_callback(struct widget *pwindow)
 static int diplomat_incite_yes_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (NULL != game_unit_by_number(incite_dlg->actor_unit_id)
-        && NULL != game_city_by_number(incite_dlg->target_id)) {
+    if (game_unit_by_number(incite_dlg->actor_unit_id) != nullptr
+        && game_city_by_number(incite_dlg->target_id) != nullptr) {
       request_do_action(incite_dlg->act_id, incite_dlg->actor_unit_id,
                         incite_dlg->target_id, 0, "");
     }
@@ -1644,7 +1639,7 @@ void popdown_incite_dialog(void)
 void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                          const struct action *paction)
 {
-  struct widget *pwindow = NULL, *buf = NULL;
+  struct widget *pwindow = nullptr, *buf = nullptr;
   utf8_str *pstr;
   char tBuf[255], cbuf[255];
   bool exit = FALSE;
@@ -1680,7 +1675,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 
   pstr->style |= TTF_STYLE_BOLD;
 
-  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(nullptr, pstr, 0);
 
   pwindow->action = incite_dlg_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
@@ -1711,7 +1706,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     fc_snprintf(cbuf, sizeof(cbuf), _("You can't incite a revolt in %s."),
                 city_name_get(pcity));
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL , buf);
 
@@ -1719,7 +1714,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     area.h += buf->size.h;
     /*------------*/
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("City can't be incited!"), NULL);
+                            _("City can't be incited!"), nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1732,7 +1727,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                 PL_("Incite a revolt for %d gold?\n%s",
                     "Incite a revolt for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1783,7 +1778,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                 PL_("Inciting a revolt costs %d gold.\n%s",
                     "Inciting a revolt costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1792,7 +1787,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 
     /*------------*/
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("Traitors Demand Too Much!"), NULL);
+                            _("Traitors Demand Too Much!"), nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1801,9 +1796,9 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   }
   incite_dlg->pdialog->begin_widget_list = buf;
 
-  /* setup window size and start position */
+  /* Setup window size and start position */
 
-  resize_window(pwindow, NULL, NULL,
+  resize_window(pwindow, nullptr, nullptr,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
 
@@ -1813,11 +1808,11 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
                            pcity->tile);
 
-  /* setup widget size and start position */
+  /* Setup widget size and start position */
   buf = pwindow;
 
   if (exit) {
-    /* exit button */
+    /* Exit button */
     buf = buf->prev;
     buf->size.x = area.x + area.w - buf->size.w - 1;
     buf->size.y = pwindow->size.y + adj_size(2);
@@ -1830,7 +1825,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
         incite_dlg->pdialog->begin_widget_list, buf);
 
   /* --------------------- */
-  /* redraw */
+  /* Redraw */
   redraw_group(incite_dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
@@ -1839,7 +1834,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 /* ====================================================================== */
 /* ============================ BRIBE DIALOG ========================== */
 /* ====================================================================== */
-static struct small_diplomat_dialog *bribe_dlg = NULL;
+static struct small_diplomat_dialog *bribe_dlg = nullptr;
 
 /**********************************************************************//**
   User interacted with bribe dialog window.
@@ -1859,8 +1854,8 @@ static int bribe_dlg_window_callback(struct widget *pwindow)
 static int diplomat_bribe_unit_yes_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (NULL != game_unit_by_number(bribe_dlg->actor_unit_id)
-        && NULL != game_unit_by_number(bribe_dlg->target_id)) {
+    if (game_unit_by_number(bribe_dlg->actor_unit_id) != nullptr
+        && game_unit_by_number(bribe_dlg->target_id) != nullptr) {
       request_do_action(bribe_dlg->act_id, bribe_dlg->actor_unit_id,
                         bribe_dlg->target_id, 0, "");
     }
@@ -1876,7 +1871,7 @@ static int diplomat_bribe_unit_yes_callback(struct widget *pwidget)
 static int diplomat_bribe_stack_yes_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (NULL != game_unit_by_number(bribe_dlg->actor_unit_id)) {
+    if (game_unit_by_number(bribe_dlg->actor_unit_id) != nullptr) {
       request_do_action(bribe_dlg->act_id, bribe_dlg->actor_unit_id,
                         bribe_dlg->target_id, 0, "");
     }
@@ -1923,7 +1918,7 @@ void popdown_bribe_dialog(void)
 void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
                              const struct action *paction)
 {
-  struct widget *pwindow = NULL, *buf = NULL;
+  struct widget *pwindow = nullptr, *buf = nullptr;
   utf8_str *pstr;
   char tBuf[255], cbuf[255];
   bool exit = FALSE;
@@ -1959,7 +1954,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
 
   pstr->style |= TTF_STYLE_BOLD;
 
-  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(nullptr, pstr, 0);
 
   pwindow->action = bribe_dlg_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
@@ -1977,7 +1972,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
                 PL_("Bribe unit for %d gold?\n%s",
                     "Bribe unit for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -2027,7 +2022,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
                 PL_("Bribing the unit costs %d gold.\n%s",
                     "Bribing the unit costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -2036,7 +2031,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
 
     /*------------*/
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("Traitors Demand Too Much!"), NULL);
+                            _("Traitors Demand Too Much!"), nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -2047,7 +2042,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
 
   /* Setup window size and start position */
 
-  resize_window(pwindow, NULL, NULL,
+  resize_window(pwindow, nullptr, nullptr,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
 
@@ -2087,7 +2082,7 @@ void popup_bribe_unit_dialog(struct unit *actor, struct unit *punit, int cost,
 void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
                               const struct action *paction)
 {
-  struct widget *pwindow = NULL, *buf = NULL;
+  struct widget *pwindow = nullptr, *buf = nullptr;
   utf8_str *pstr;
   char tBuf[255], cbuf[255];
   bool exit = FALSE;
@@ -2123,7 +2118,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
 
   pstr->style |= TTF_STYLE_BOLD;
 
-  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(nullptr, pstr, 0);
 
   pwindow->action = bribe_dlg_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
@@ -2141,7 +2136,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
                 PL_("Bribe unit stack for %d gold?\n%s",
                     "Bribe unit stack for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -2191,7 +2186,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
                 PL_("Bribing the unit stack costs %d gold.\n%s",
                     "Bribing the unit stack costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -2200,7 +2195,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
 
     /*------------*/
     create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("Traitors Demand Too Much!"), NULL);
+                            _("Traitors Demand Too Much!"), nullptr);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -2211,7 +2206,7 @@ void popup_bribe_stack_dialog(struct unit *actor, struct tile *ptile, int cost,
 
   /* Setup window size and start position */
 
-  resize_window(pwindow, NULL, NULL,
+  resize_window(pwindow, nullptr, nullptr,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
 
