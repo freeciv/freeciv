@@ -34,7 +34,7 @@ enum tile_special_type {
   S_FARMLAND,
   S_FALLOUT,
 
-  /* internal values not saved */
+  /* Internal values not saved */
   S_LAST,
 
   S_OLD_ROAD,
@@ -206,10 +206,6 @@ char bin2ascii_hex(int value, int halfbyte_wanted);
 int ascii_hex2bin(char ch, int halfbyte);
 
 int char2num(char ch);
-
-enum tile_special_type special_by_rule_name(const char *name);
-const char *special_rule_name(enum tile_special_type type);
-struct extra_type *special_extra_get(int spe);
 
 enum ai_level ai_level_convert(int old_level);
 enum barbarian_type barb_type_convert(int old_type);

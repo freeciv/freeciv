@@ -149,6 +149,12 @@ extern bool sg_success;
 #define ACTIVITY_OLD_FALLOUT_SG2 (ACTIVITY_OLD_POLLUTION_SG2 + 1)
 #define ACTIVITY_LAST_SAVEGAME2 (ACTIVITY_OLD_FALLOUT_SG2 + 1)
 
+static char *special_names[] =
+  {
+    "Irrigation", "Mine", "Pollution", "Hut", "Farmland",
+    "Fallout", nullptr
+  };
+
 /*
  * This loops over the entire map to save data. It collects all the data of
  * a line using GET_XY_CHAR and then executes the macro SECFILE_INSERT_LINE.
@@ -855,6 +861,48 @@ static void unit_ordering_apply(void)
   whole_map_iterate(&(wld.map), ptile) {
     unit_list_sort_ord_map(ptile->units);
   } whole_map_iterate_end;
+}
+
+/************************************************************************//**
+  Return the special with the given name, or S_LAST.
+****************************************************************************/
+static enum tile_special_type special_by_rule_name(const char *name)
+{
+  int i;
+
+  for (i = 0; special_names[i] != nullptr; i++) {
+    if (!strcmp(name, special_names[i])) {
+      return i;
+    }
+  }
+
+  return S_LAST;
+}
+
+/************************************************************************//**
+  Return the untranslated name of the given special.
+****************************************************************************/
+static const char *special_rule_name(enum tile_special_type type)
+{
+  fc_assert(type >= 0 && type < S_LAST);
+
+  fc__unreachable(type >= S_LAST);
+
+  return special_names[type];
+}
+
+/************************************************************************//**
+  Get extra of the given special
+****************************************************************************/
+static struct extra_type *special_extra_get(int spe)
+{
+  struct extra_type_list *elist = extra_type_list_by_cause(EC_SPECIAL);
+
+  if (spe < extra_type_list_size(elist)) {
+    return extra_type_list_get(elist, spe);
+  }
+
+  return nullptr;
 }
 
 /************************************************************************//**

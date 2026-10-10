@@ -34,12 +34,6 @@
 
 bool sg_success;
 
-static char *special_names[] =
-  {
-    "Irrigation", "Mine", "Pollution", "Hut", "Farmland",
-    "Fallout", nullptr
-  };
-
 /*
   For each savefile format after 2.3.0, compatibility functions are defined
   which translate secfile structures from previous version to that version;
@@ -288,45 +282,6 @@ int char2num(char ch)
   return pch - num_chars;
 }
 
-/************************************************************************//**
-  Return the special with the given name, or S_LAST.
-****************************************************************************/
-enum tile_special_type special_by_rule_name(const char *name)
-{
-  int i;
-
-  for (i = 0; special_names[i] != nullptr; i++) {
-    if (!strcmp(name, special_names[i])) {
-      return i;
-    }
-  }
-
-  return S_LAST;
-}
-
-/************************************************************************//**
-  Return the untranslated name of the given special.
-****************************************************************************/
-const char *special_rule_name(enum tile_special_type type)
-{
-  fc_assert(type >= 0 && type < S_LAST);
-
-  return special_names[type];
-}
-
-/************************************************************************//**
-  Get extra of the given special
-****************************************************************************/
-struct extra_type *special_extra_get(int spe)
-{
-  struct extra_type_list *elist = extra_type_list_by_cause(EC_SPECIAL);
-
-  if (spe < extra_type_list_size(elist)) {
-    return extra_type_list_get(elist, spe);
-  }
-
-  return nullptr;
-}
 
 /* =======================================================================
  * Compatibility functions for loading a game.
