@@ -130,16 +130,16 @@ this file.
    -------------------
 
 To play a game with the goldkeep rules, start the server with:
-       ./fcser -r data/goldkeep.serv
+       freeciv-server -r data/goldkeep.serv
 or a single player game with
-       ./freeciv-gtk3.22 -r data/goldkeep.serv
+       freeciv-gtk4 -r data/goldkeep.serv
 (and any other command-line arguments you normally use)
 
-Start the client normally.  The client must be network-compatible
+Start the client normally. The client must be network-compatible
 (usually meaning the same or similar version) but otherwise nothing
 special is needed.
 
 Note that the Freeciv AI might not play as well with rules other
-than standard Freeciv.  The AI is supposed to understand and
+than standard Freeciv. The AI is supposed to understand and
 utilize all sane rules variations, so please report any AI
 failures so that they can be fixed.
