@@ -526,27 +526,27 @@ Actions done by a unit against a city
  * the target city contains 0 units (!)
 
 "Conquer City Shrink 2" - Shrink target city by one and conquer it.
-* any action listed in conquer_city_shrink_2_blocked_by must be impossible
-* A copy of "Conquer City Shrink".
-* See "Conquer City Shrink" for everything else.
+ * any action listed in conquer_city_shrink_2_blocked_by must be impossible
+ * A copy of "Conquer City Shrink".
+ * See "Conquer City Shrink" for everything else.
 
 "Conquer City Shrink 3" - Shrink target city by one and conquer it.
-* any action listed in conquer_city_shrink_3_blocked_by must be impossible
-* A copy of "Conquer City Shrink".
-* See "Conquer City Shrink" for everything else.
+ * any action listed in conquer_city_shrink_3_blocked_by must be impossible
+ * A copy of "Conquer City Shrink".
+ * See "Conquer City Shrink" for everything else.
 
 "Conquer City Shrink 4" - Shrink target city by one and conquer it.
-* any action listed in conquer_city_shrink_4_blocked_by must be impossible
-* A copy of "Conquer City Shrink".
-* See "Conquer City Shrink" for everything else.
+ * any action listed in conquer_city_shrink_4_blocked_by must be impossible
+ * A copy of "Conquer City Shrink".
+ * See "Conquer City Shrink" for everything else.
 
 "Surgical Strike Building" - Destroy a specific building.
  * actor must be aware that the target exists
  * the actor unit must be on a tile next to the target.
 
 "Surgical Strike Production" - Destroy the city production.
-* actor must be aware that the target exists
-* the actor unit must be on a tile next to the target.
+ * actor must be aware that the target exists
+ * the actor unit must be on a tile next to the target.
 
 Actions done by a unit against another unit
 ===========================================
@@ -1239,270 +1239,270 @@ Actions done by a unit against a tile
  * See "Build Irrigation" for everything else.
 
 "Transport Disembark" - Exit transport to target tile.
-* the actor unit must be on a tile next to the target.
-* the actor unit has at least one move fragment left (!)
-* actor must be transported (!)
-* the actor unit's transport must be in a city or in a native base if the
-  transport's unit class has the Unreachable unit class flag and the
-  actor's unit type doesn't list the target's unit class in disembarks.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* actor unit must be able to exist outside of a transport at the target
-  tile.
-* actor unit must be able to move to the target tile.
-* the target tile isn't blocked for the actor unit by some other unit's
-  zone of control (ZOC)
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
+ * the actor unit must be on a tile next to the target.
+ * the actor unit has at least one move fragment left (!)
+ * actor must be transported (!)
+ * the actor unit's transport must be in a city or in a native base if the
+   transport's unit class has the Unreachable unit class flag and the
+   actor's unit type doesn't list the target's unit class in disembarks.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * actor unit must be able to exist outside of a transport at the target
+   tile.
+ * actor unit must be able to move to the target tile.
+ * the target tile isn't blocked for the actor unit by some other unit's
+   zone of control (ZOC)
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
 
 "Transport Disembark 2" - Exit transport to target tile.
-* A copy of "Transport Disembark".
-* See "Transport Disembark" for everything else.
+ * A copy of "Transport Disembark".
+ * See "Transport Disembark" for everything else.
 
 "Transport Disembark 3" - Exit transport to target tile.
-* A copy of "Transport Disembark".
-* See "Transport Disembark" for everything else.
+ * A copy of "Transport Disembark".
+ * See "Transport Disembark" for everything else.
 
 "Transport Disembark 4" - Exit transport to target tile.
-* A copy of "Transport Disembark".
-* See "Transport Disembark" for everything else.
+ * A copy of "Transport Disembark".
+ * See "Transport Disembark" for everything else.
 
 "Enter Hut" - Enter a Hut, destroying it in the process.
-* the actor unit must be on a tile next to the target.
-* the actor unit has at least one move fragment left (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to move to the target tile.
-* the actor unit's current transport, if the actor unit is transported,
-  must be in a city or in a base native to the current transport if the
-  current transport's unit class has the Unreachable unit class flag and
-  the actor's unit type doesn't list the current transport's unit class in
-  disembarks.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile has an extra with "Enter" in its rmcauses (a Hut)
-* the target tile's Hut's rmreqs must be fulfilled
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
-* the target tile isn't blocked for the actor unit by some other unit's
-  zone of control (ZOC)
+ * the actor unit must be on a tile next to the target.
+ * the actor unit has at least one move fragment left (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to move to the target tile.
+ * the actor unit's current transport, if the actor unit is transported,
+   must be in a city or in a base native to the current transport if the
+   current transport's unit class has the Unreachable unit class flag and
+   the actor's unit type doesn't list the current transport's unit class in
+   disembarks.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile has an extra with "Enter" in its rmcauses (a Hut)
+ * the target tile's Hut's rmreqs must be fulfilled
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
+ * the target tile isn't blocked for the actor unit by some other unit's
+   zone of control (ZOC)
 
 "Enter Hut 2" - Enter a Hut, destroying it in the process.
-* A copy of "Enter Hut"
-* See "Enter Hut" for everything else.
+ * A copy of "Enter Hut"
+ * See "Enter Hut" for everything else.
 
 "Enter Hut 3" - Enter a Hut, destroying it in the process.
-* A copy of "Enter Hut"
-* See "Enter Hut" for everything else.
+ * A copy of "Enter Hut"
+ * See "Enter Hut" for everything else.
 
 "Enter Hut 4" - Enter a Hut, destroying it in the process.
-* A copy of "Enter Hut"
-* See "Enter Hut" for everything else.
+ * A copy of "Enter Hut"
+ * See "Enter Hut" for everything else.
 
 "Frighten Hut" - Frighten a Hut, destroying it in the process.
-* the actor unit must be on a tile next to the target.
-* the actor unit has the unit class flag "HutFrighten" (!)
-* the actor unit has at least one move fragment left (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to move to the target tile.
-* the actor unit's current transport, if the actor unit is transported,
-  must be in a city or in a base native to the current transport if the
-  current transport's unit class has the Unreachable unit class flag and
-  the actor's unit type doesn't list the current transport's unit class in
-  disembarks.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile has an extra with "Enter" in its rmcauses (a Hut)
-* the target tile's Hut's rmreqs must be fulfilled
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
-* the target tile isn't blocked for the actor unit by some other unit's
-  zone of control (ZOC)
+ * the actor unit must be on a tile next to the target.
+ * the actor unit has the unit class flag "HutFrighten" (!)
+ * the actor unit has at least one move fragment left (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to move to the target tile.
+ * the actor unit's current transport, if the actor unit is transported,
+   must be in a city or in a base native to the current transport if the
+   current transport's unit class has the Unreachable unit class flag and
+   the actor's unit type doesn't list the current transport's unit class in
+   disembarks.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile has an extra with "Enter" in its rmcauses (a Hut)
+ * the target tile's Hut's rmreqs must be fulfilled
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
+ * the target tile isn't blocked for the actor unit by some other unit's
+   zone of control (ZOC)
 
 "Frighten Hut 2" - Frighten a Hut, destroying it in the process.
-* A copy of "Frighten Hut"
-* See "Frighten Hut" for everything else.
+ * A copy of "Frighten Hut"
+ * See "Frighten Hut" for everything else.
 
 "Frighten Hut 3" - Frighten a Hut, destroying it in the process.
-* A copy of "Frighten Hut"
-* See "Frighten Hut" for everything else.
+ * A copy of "Frighten Hut"
+ * See "Frighten Hut" for everything else.
 
 "Frighten Hut 4" - Frighten a Hut, destroying it in the process.
-* A copy of "Frighten Hut"
-* See "Frighten Hut" for everything else.
+ * A copy of "Frighten Hut"
+ * See "Frighten Hut" for everything else.
 
 "Unit Move" - a regular move to the target tile.
-* any action listed in move_blocked_by must be impossible
-* the actor unit must be on a tile next to the target.
-* the actor unit has at least one move fragment left (!)
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
-* the target tile isn't blocked for the actor unit by some other unit's
-  zone of control (ZOC)
+ * any action listed in move_blocked_by must be impossible
+ * the actor unit must be on a tile next to the target.
+ * the actor unit has at least one move fragment left (!)
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
+ * the target tile isn't blocked for the actor unit by some other unit's
+   zone of control (ZOC)
 
 "Unit Move 2" - a regular move to the target tile.
-* any action listed in move_2_blocked_by must be impossible
-* A copy of "Unit Move"
-* See "Unit Move" for everything else.
+ * any action listed in move_2_blocked_by must be impossible
+ * A copy of "Unit Move"
+ * See "Unit Move" for everything else.
 
 "Unit Move 3" - a regular move to the target tile.
-* any action listed in move_3_blocked_by must be impossible
-* A copy of "Unit Move"
-* See "Unit Move" for everything else.
+ * any action listed in move_3_blocked_by must be impossible
+ * A copy of "Unit Move"
+ * See "Unit Move" for everything else.
 
 "Teleport" - teleport unit to the target tile.
-* any action listed in teleport_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_min_range and teleport_max_range
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
+ * any action listed in teleport_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_min_range and teleport_max_range
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
 
 "Teleport 2" - teleport unit to the target tile.
-* any action listed in teleport_2_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_2_min_range and teleport_2_max_range
-* See "Teleport" for everything else.
+ * any action listed in teleport_2_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_2_min_range and teleport_2_max_range
+ * See "Teleport" for everything else.
 
 "Teleport 3" - teleport unit to the target tile.
-* any action listed in teleport_3_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_3_min_range and teleport_3_max_range
-* See "Teleport" for everything else.
+ * any action listed in teleport_3_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_3_min_range and teleport_3_max_range
+ * See "Teleport" for everything else.
 
 "Teleport Conquer" - teleport unit to the target tile and conquer it
-* any action listed in teleport_conquer_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_conquer_min_range and teleport_conquer_max_range
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any units not allied to the actor
-  unit and all its cargo.
+ * any action listed in teleport_conquer_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_conquer_min_range and teleport_conquer_max_range
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any units not allied to the actor
+   unit and all its cargo.
 
 "Teleport Frighten" - teleport unit to the target tile.
-* any action listed in teleport_frighten_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_frighten_min_range and teleport_frighten_max_range
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
-* can result in hut frightening if
-   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
-   - the target tile's Hut's rmreqs are fulfilled
+ * any action listed in teleport_frighten_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_frighten_min_range and teleport_frighten_max_range
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
+ * can result in hut frightening if
+    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+    - the target tile's Hut's rmreqs are fulfilled
 
 "Teleport Frighten Conquer" - teleport unit to the target tile and conquer it
-* any action listed in teleport_frighten_conquer_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_frighten_conquer_min_range and
-  teleport_frighten_conquer_max_range
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any units not allied to the actor
-  unit and all its cargo.
-* can result in hut frightening if
-   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
-   - the target tile's Hut's rmreqs are fulfilled
+ * any action listed in teleport_frighten_conquer_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_frighten_conquer_min_range and
+   teleport_frighten_conquer_max_range
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any units not allied to the actor
+   unit and all its cargo.
+ * can result in hut frightening if
+    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+    - the target tile's Hut's rmreqs are fulfilled
 
 "Teleport Enter" - teleport unit to the target tile.
-* any action listed in teleport_enter_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_enter_min_range and teleport_enter_max_range
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any city or units not allied to the actor
-  unit and all its cargo.
-* can result in hut entry if
-   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
-   - the target tile's Hut's rmreqs are fulfilled
+ * any action listed in teleport_enter_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_enter_min_range and teleport_enter_max_range
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
+ * can result in hut entry if
+    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+    - the target tile's Hut's rmreqs are fulfilled
 
 "Teleport Enter Conquer" - teleport unit to the target tile and conquer it
-* any action listed in teleport_enter_conquer_blocked_by must be impossible
-* the range of legal distance between actor unit and target tile
-  must be between teleport_enter_conquer_min_range and
-  teleport_enter_conquer_max_range
-* the actor unit may not be transported (!)
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the target tile can't contain any units not allied to the actor
-  unit and all its cargo.
-* can result in hut entry if
-   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
-   - the target tile's Hut's rmreqs are fulfilled
+ * any action listed in teleport_enter_conquer_blocked_by must be impossible
+ * the range of legal distance between actor unit and target tile
+   must be between teleport_enter_conquer_min_range and
+   teleport_enter_conquer_max_range
+ * the actor unit may not be transported (!)
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the target tile can't contain any units not allied to the actor
+   unit and all its cargo.
+ * can result in hut entry if
+    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+    - the target tile's Hut's rmreqs are fulfilled
 
 "Scout" - Reveal area around a tile until turn change
  * max legal distance to the target (center tile of the area to scout)
@@ -1511,41 +1511,41 @@ Actions done by a unit against a tile
 Actions done by a unit against all extras at a tile
 ===================================================
 "Conquer Extras" - Claim ownership of an extra.
-* the actor unit must be on a tile next to the target.
-* the actor unit has at least one move fragment left (!)
-* the actor unit's current transport, if the actor unit is transported,
-  must be in a city or in a base native to the current transport if the
-  current transport's unit class has the Unreachable unit class flag and
-  the actor's unit type doesn't list the current transport's unit class in
-  disembarks.
-* the actor unit must be able to move to the target tile.
-* the actor unit's type must be the target tile's terrain animal if the
-  player's nation is an animal barbarian.
-* the actor unit must be able to exist outside of a transport at the target
-  tile.
-* the actor unit can't be diplomatically forbidden from entering the target
-  tile.
-* the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target tile is on or adjacent to a tile that doesn't have the
-  "UnsafeCoast" terrain flag.
-* one of the target extras must claim territory and be native to the actor
-  unit.
-* the target tile can't contain any city or units not allied to the actor
-  unit.
-* the target tile isn't blocked for the actor unit by some other unit's
-  zone of control (ZOC)
+ * the actor unit must be on a tile next to the target.
+ * the actor unit has at least one move fragment left (!)
+ * the actor unit's current transport, if the actor unit is transported,
+   must be in a city or in a base native to the current transport if the
+   current transport's unit class has the Unreachable unit class flag and
+   the actor's unit type doesn't list the current transport's unit class in
+   disembarks.
+ * the actor unit must be able to move to the target tile.
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit must be able to exist outside of a transport at the target
+   tile.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target tile is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * one of the target extras must claim territory and be native to the actor
+   unit.
+ * the target tile can't contain any city or units not allied to the actor
+   unit.
+ * the target tile isn't blocked for the actor unit by some other unit's
+   zone of control (ZOC)
 
 "Conquer Extras 2" - Claim ownership of an extra.
-* A copy of "Conquer Extras"
-* See "Conquer Extras" for everything else.
+ * A copy of "Conquer Extras"
+ * See "Conquer Extras" for everything else.
 
 "Conquer Extras 3" - Claim ownership of an extra.
-* A copy of "Conquer Extras"
-* See "Conquer Extras" for everything else.
+ * A copy of "Conquer Extras"
+ * See "Conquer Extras" for everything else.
 
 "Conquer Extras 4" - Claim ownership of an extra.
-* A copy of "Conquer Extras"
-* See "Conquer Extras" for everything else.
+ * A copy of "Conquer Extras"
+ * See "Conquer Extras" for everything else.
 
 Actions done by a unit to it self
 =================================
