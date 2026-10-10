@@ -38,11 +38,10 @@ mingw-w64-ucrt-x86_64-imagemagick ^
 mingw-w64-ucrt-x86_64-drmingw ^
 mingw-w64-ucrt-x86_64-qt6-base ^
 ' || exit /b
-rem mingw-w64-ucrt-x86_64-SDL2_gfx
 
 %1\usr\bin\bash.exe -lc 'pacman --noconfirm -Su --needed ^
 mingw-w64-ucrt-x86_64-meson ^
-mingw-w64-ucrt-x86_64-tolua ^
+mingw-w64-ucrt-x86_64-diffutils ^
 mingw-w64-ucrt-x86_64-qt6-svg ^
 mingw-w64-ucrt-x86_64-wget2 ^
 mingw-w64-ucrt-x86_64-sdl3-image ^
@@ -70,11 +69,9 @@ mingw-w64-x86_64-SDL2_ttf ^
 mingw-w64-x86_64-imagemagick ^
 mingw-w64-x86_64-drmingw ^
 ' || exit /b
-rem mingw-w64-x86_64-SDL2_gfx
 
 %1\usr\bin\bash.exe -lc 'pacman --noconfirm -Su --needed ^
 mingw-w64-x86_64-meson ^
-mingw-w64-x86_64-tolua ^
 mingw-w64-x86_64-wget2 ^
 mingw-w64-x86_64-sdl3-image ^
 mingw-w64-x86_64-sdl3-ttf ^
@@ -100,12 +97,11 @@ mingw-w64-clang-x86_64-SDL2_ttf ^
 mingw-w64-clang-x86_64-imagemagick ^
 mingw-w64-clang-x86_64-drmingw ^
 ' || exit /b
-rem mingw-w64-clang-x86_64-SDL2_gfx
 
 %1\usr\bin\bash.exe -lc 'pacman --noconfirm -Su --needed ^
 mingw-w64-clang-x86_64-qt6-base ^
 mingw-w64-clang-x86_64-meson ^
-mingw-w64-clang-x86_64-tolua ^
+mingw-w64-clang-x86_64-diffutils ^
 mingw-w64-clang-x86_64-qt6-svg ^
 mingw-w64-clang-x86_64-wget2 ^
 mingw-w64-clang-x86_64-sdl3-image ^
