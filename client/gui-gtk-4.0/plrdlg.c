@@ -880,6 +880,11 @@ void real_players_dialog_update(void *unused)
     selected = -1;
   }
 
+  /* Suspend notification callback during each row deletes / creates */
+  /* to avoid callback storms under gtk-4.0 */
+  g_object_freeze_notify(G_OBJECT(players_dialog_store));
+  g_signal_handlers_block_by_func(players_selection, G_CALLBACK(selection_callback), NULL);
+
   gtk_list_store_clear(players_dialog_store);
   players_iterate(pplayer) {
     if (!player_should_be_shown(pplayer)) {
@@ -894,6 +899,10 @@ void real_players_dialog_update(void *unused)
   } players_iterate_end;
 
   update_views();
+
+  /* Restore notifications callback */
+  g_signal_handlers_unblock_by_func(players_selection, G_CALLBACK(selection_callback), NULL);
+  g_object_thaw_notify(G_OBJECT(players_dialog_store));
 }
 
 /**********************************************************************//**
