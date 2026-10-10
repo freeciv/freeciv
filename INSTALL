@@ -193,7 +193,7 @@ readline ('try'/'true'/'false')
   The default is 'try' to enable it if suitable readline found.
 
 audio ('none'/'sdl2'/'sdl3'):
-  What kind of sound support should be built to the clients. Defaults to sdl2.
+  What kind of sound support should be built to the clients. Defaults to sdl3.
 
 tools (array):
   Extra tools to build:
