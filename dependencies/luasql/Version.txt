@@ -9,6 +9,8 @@ Some modifications have been done to them:
 - Removed unused variables from ls_odbc.c
   Patch submitted to upstream.
 - Cleared trailing tabs from ls_odbc.c
+- Fixed dead assignment from ls_sqlite3.c
+  Upstream has an equivalent PR pending.
 
 Only the files needed by freeciv are included here, not entire luasql
 source directory hierarchy.
