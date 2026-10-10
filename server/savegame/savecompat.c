@@ -411,21 +411,25 @@ static void compat_load_020400(struct loaddata *loading,
        * format. Try to recover it to a sane format. */
       /* MAX_NUM_PLAYER_SLOTS in 2.3.x was 128 */
       /* MAP_MAX_LINEAR_SIZE in 2.3.x was 512 */
-      const int maxslots = 128, maxmapsize = 512;
-      const int lines = maxslots/32;
+#define MAXSLOTS_2_3 128
+#define MAXMAPSIZE_2_3 512
+#define LINES_2_3 (MAXSLOTS_2_3 / 32)
       int xsize = 0, y, l, j, x;
-      unsigned int known_row_old[lines * maxmapsize],
-                   known_row[lines * maxmapsize];
+      unsigned int known_row_old[LINES_2_3 * MAXMAPSIZE_2_3],
+                   known_row[LINES_2_3 * MAXMAPSIZE_2_3];
+
       /* Process a map row at a time */
-      for (y = 0; y < maxmapsize; y++) {
+      for (y = 0; y < MAXMAPSIZE_2_3; y++) {
         /* Look for broken info to convert */
         bool found = FALSE;
+
         memset(known_row_old, 0, sizeof(known_row_old));
-        for (l = 0; l < lines; l++) {
+        for (l = 0; l < LINES_2_3; l++) {
           for (j = 0; j < 8; j++) {
-            const char *s =
-              secfile_lookup_str_default(loading->file, nullptr,
-                                         "map.k%02d_%04d", l * 8 + j, y);
+            const char *s
+              = secfile_lookup_str_default(loading->file, nullptr,
+                                           "map.k%02d_%04d", l * 8 + j, y);
+
             if (s) {
               found = TRUE;
               if (xsize == 0) {
@@ -445,9 +449,10 @@ static void compat_load_020400(struct loaddata *loading,
            * all there. */
           /* Attempt to munge into sane format */
           int p;
+
           memset(known_row, 0, sizeof(known_row));
           /* Iterate over possible player slots */
-          for (p = 0; p < maxslots; p++) {
+          for (p = 0; p < MAXSLOTS_2_3; p++) {
             l = p / 32;
             for (x = 0; x < xsize; x++) {
               /* This test causes bit-shifts of >=32 (undefined behavior), but
@@ -460,11 +465,12 @@ static void compat_load_020400(struct loaddata *loading,
           }
           /* Save sane format back to memory representation of secfile for
            * real loading code to pick up */
-          for (l = 0; l < lines; l++) {
+          for (l = 0; l < LINES_2_3; l++) {
             for (j = 0; j < 8; j++) {
               /* Save info for all slots (not just used ones). It's only
                * memory, after all. */
-              char row[xsize+1];
+              char row[xsize + 1];
+
               for (x = 0; x < xsize; x++) {
                 row[x] = bin2ascii_hex(known_row[l * xsize + x], j);
               }
@@ -476,6 +482,10 @@ static void compat_load_020400(struct loaddata *loading,
         }
       }
     }
+
+#undef LINES_2_3
+#undef MAXMAPSIZE_2_3
+#undef MAXSLOTS_2_3
   }
 
   /* Server setting migration. */
