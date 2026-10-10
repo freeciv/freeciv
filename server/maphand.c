@@ -774,12 +774,15 @@ void map_set_border_vision(struct player *pplayer,
 **************************************************************************/
 void map_show_tile(struct player *src_player, struct tile *ptile)
 {
-  static int recurse = 0;
-
   log_debug("Showing %i,%i to %s", TILE_XY(ptile), player_name(src_player));
 
+#ifndef FREECIV_NDEBUG
+  static int recurse = 0;
+
   fc_assert(recurse == 0);
+
   recurse++;
+#endif /* !FREECIV_NDEBUG */
 
   players_iterate(pplayer) {
     if (pplayer == src_player || really_gives_vision(src_player, pplayer)) {
@@ -816,7 +819,9 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
     }
   } players_iterate_end;
 
+#ifndef FREECIV_NDEBUG
   recurse--;
+#endif
 }
 
 /**********************************************************************//**
@@ -826,12 +831,15 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 **************************************************************************/
 void map_hide_tile(struct player *src_player, struct tile *ptile)
 {
-  static int recurse = 0;
-
   log_debug("Hiding %d,%d to %s", TILE_XY(ptile), player_name(src_player));
 
+#ifndef FREECIV_NDEBUG
+  static int recurse = 0;
+
   fc_assert(recurse == 0);
+
   recurse++;
+#endif /* !FREECIV_NDEBUG */
 
   players_iterate(pplayer) {
     if (pplayer == src_player || really_gives_vision(src_player, pplayer)) {
@@ -861,7 +869,9 @@ void map_hide_tile(struct player *src_player, struct tile *ptile)
     }
   } players_iterate_end;
 
+#ifndef FREECIV_NDEBUG
   recurse--;
+#endif
 }
 
 /**********************************************************************//**
