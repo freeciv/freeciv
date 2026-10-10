@@ -121,6 +121,8 @@ extern "C" {
 
 #if defined(__GNUC__) && __GNUC__ >= 5
 #define fc__noreturn __attribute__((noreturn))
+#elif defined (__clang__)
+#define fc__noreturn __attribute__((noreturn))
 #else
 #define fc__noreturn
 #endif
