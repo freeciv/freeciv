@@ -48,15 +48,15 @@ static void action_success_actor_consume(struct action *paction,
       && utype_is_consumed_by_action(paction, unit_type_get(actor))) {
     if (action_has_result(paction, ACTRES_DISBAND_UNIT)
         || action_has_result(paction, ACTRES_DISBAND_UNIT_RECOVER)) {
-      wipe_unit(actor, ULR_DISBANDED, NULL);
+      wipe_unit(actor, ULR_DISBANDED, nullptr);
     } else if (action_has_result(paction, ACTRES_NUKE)
                || action_has_result(paction, ACTRES_NUKE_UNITS)) {
-      wipe_unit(actor, ULR_DETONATED, NULL);
+      wipe_unit(actor, ULR_DETONATED, nullptr);
     } else if (action_has_result(paction, ACTRES_ATTACK)
                || action_has_result(paction, ACTRES_WIPE_UNITS)) {
-      wipe_unit(actor, ULR_MISSILE, NULL);
+      wipe_unit(actor, ULR_MISSILE, nullptr);
     } else {
-      wipe_unit(actor, ULR_USED, NULL);
+      wipe_unit(actor, ULR_USED, nullptr);
     }
   }
 }
@@ -69,8 +69,9 @@ static void action_success_pay_mp(struct action *paction,
 {
   if (unit_is_alive(actor_id)) {
     int spent_mp = unit_pays_mp_for_action(paction, actor);
+
     actor->moves_left = MAX(0, actor->moves_left - spent_mp);
-    send_unit_info(NULL, actor);
+    send_unit_info(nullptr, actor);
   }
 }
 
@@ -82,20 +83,20 @@ void action_success_target_pay_mp(struct action *paction,
 {
   if (unit_is_alive(target_id)) {
     int spent_mp = get_target_bonus_effects(
-        NULL,
+        nullptr,
         &(const struct req_context) {
           .player = unit_owner(target),
-          .city = unit_tile(target) ? tile_city(unit_tile(target)) : NULL,
+          .city = unit_tile(target) ? tile_city(unit_tile(target)) : nullptr,
           .tile = unit_tile(target),
           .unit = target,
           .unittype = unit_type_get(target),
           .action = paction,
         },
-        NULL,
+        nullptr,
         EFT_ACTION_SUCCESS_TARGET_MOVE_COST);
 
     target->moves_left = MAX(0, target->moves_left - spent_mp);
-    send_unit_info(NULL, target);
+    send_unit_info(nullptr, target);
   }
 }
 
@@ -145,7 +146,7 @@ static void action_give_casus_belli(struct player *offender,
   Take care of any consequences (like casus belli) of the given action
   when the situation was as specified.
 
-  victim_player can be NULL
+  victim_player can be nullptr
 **************************************************************************/
 static void action_consequence_common(const struct action *paction,
                                       struct player *offender,
@@ -193,12 +194,12 @@ static void action_consequence_common(const struct action *paction,
     call_incident(INCIDENT_ACTION, cbr, paction, offender, victim_player);
 
     /* Update the clients. */
-    send_player_all_c(offender, NULL);
+    send_player_all_c(offender, nullptr);
 
-    if (victim_player != NULL && victim_player != offender) {
+    if (victim_player != nullptr && victim_player != offender) {
       /* The actor player was just sent. */
       /* An action against an ownerless tile is victimless. */
-      send_player_all_c(victim_player, NULL);
+      send_player_all_c(victim_player, nullptr);
     }
   }
 }
@@ -345,7 +346,7 @@ static void notify_global_caught(struct player *receiver,
                     "everyone a casus belli against the %s."),
                   action_name_translation(paction),
                   nation_plural_for_player(offender));
-  } else if (victim_player == NULL) {
+  } else if (victim_player == nullptr) {
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Suitcase Nuke */
@@ -369,7 +370,7 @@ static void notify_global_caught(struct player *receiver,
   Take care of any consequences (like casus belli) of getting caught while
   trying to perform the given action.
 
-  victim_player can be NULL
+  victim_player can be nullptr
 **************************************************************************/
 void action_consequence_caught(const struct action *paction,
                                struct player *offender,
@@ -522,7 +523,7 @@ static void notify_global_success(struct player *receiver,
                     "the %s."),
                   action_name_translation(paction),
                   nation_plural_for_player(offender));
-  } else if (victim_player == NULL) {
+  } else if (victim_player == nullptr) {
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
                   /* TRANS: Europeans ... Suitcase Nuke */
@@ -546,7 +547,7 @@ static void notify_global_success(struct player *receiver,
   Take care of any consequences (like casus belli) of successfully
   performing the given action.
 
-  victim_player can be NULL
+  victim_player can be nullptr
 **************************************************************************/
 void action_consequence_success(const struct action *paction,
                                 struct player *offender,
@@ -567,7 +568,7 @@ void action_consequence_success(const struct action *paction,
   Take care of any consequences (like casus belli) of successfully
   completing the given action.
 
-  victim_player can be NULL
+  victim_player can be nullptr
 **************************************************************************/
 void action_consequence_complete(const struct action *paction,
                                  struct player *offender,
@@ -601,7 +602,7 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
 {
   const struct civ_map *nmap = &(wld.map);
 
-  if (actor == NULL || target == NULL) {
+  if (actor == nullptr || target == nullptr) {
     /* Can't do any actions if actor or target are missing. */
     return FALSE;
   }
@@ -631,7 +632,7 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
 /**********************************************************************//**
   Find a city to target for an action on the specified tile.
 
-  Returns NULL if no proper target is found.
+  Returns nullptr if no proper target is found.
 
   If the only action(s) that can be performed against a target has the
   rare_pop_up property the target will only be considered valid if the
@@ -647,7 +648,7 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
     return target;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -667,7 +668,7 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
 {
   const struct civ_map *nmap = &(wld.map);
 
-  if (actor == NULL || target == NULL) {
+  if (actor == nullptr || target == nullptr) {
     /* Can't do any actions if actor or target are missing. */
     return FALSE;
   }
@@ -698,7 +699,7 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
   Find a unit to target for an action at the specified tile.
 
   Returns the first unit found at the tile that the actor may act against
-  or NULL if no proper target is found.
+  or nullptr if no proper target is found.
 
   If the only action(s) that can be performed against a target has the
   rare_pop_up property the target will only be considered valid if the
@@ -713,14 +714,14 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
     }
   } unit_list_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
   Returns the tile iff it, from the point of view of the owner of the
   actor unit, looks like a target tile.
 
-  Returns NULL if the player knows that the actor unit can't do any
+  Returns nullptr if the player knows that the actor unit can't do any
   action (that specifies its target as a tile) to the tile.
 
   If the owner of the actor unit doesn't have the knowledge needed to know
@@ -737,9 +738,9 @@ struct tile *action_tgt_tile(struct unit *actor,
 {
   const struct civ_map *nmap = &(wld.map);
 
-  if (actor == NULL || target == NULL) {
+  if (actor == nullptr || target == nullptr) {
     /* Can't do any actions if actor or target are missing. */
-    return NULL;
+    return nullptr;
   }
 
   action_iterate(act) {
@@ -783,7 +784,7 @@ struct tile *action_tgt_tile(struct unit *actor,
     }
   } action_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -805,7 +806,7 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
 {
   const struct civ_map *nmap = &(wld.map);
 
-  if (actor == NULL || tgt_tile == NULL || tgt_extra == NULL) {
+  if (actor == nullptr || tgt_tile == nullptr || tgt_extra == nullptr) {
     /* Can't do any actions if actor or target are missing. */
     return FALSE;
   }
@@ -861,7 +862,7 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
   Find an extra to target for an action at the specified tile.
 
   Returns the first extra found that the actor may act against at the tile
-  or NULL if no proper target is found. (Note that some actions requires
+  or nullptr if no proper target is found. (Note that some actions requires
   the absence of an extra since they result in its creation while other
   requires its presence.)
 
@@ -880,7 +881,7 @@ struct extra_type *action_tgt_tile_extra(const struct unit *actor,
     }
   } extra_type_re_active_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -915,13 +916,13 @@ int action_sub_target_id_for_action(const struct action *paction,
   case ASTK_EXTRA_NOT_THERE:
     if (action_has_result(paction, ACTRES_PILLAGE)) {
       /* Special treatment for "Pillage" */
-      struct extra_type *pextra = NULL;
+      struct extra_type *pextra = nullptr;
       enum unit_activity activity = action_get_activity(paction);
 
       unit_assign_specific_activity_target(actor_unit, &activity,
                                            action_number(paction), &pextra);
 
-      if (pextra != NULL) {
+      if (pextra != nullptr) {
         return extra_number(pextra);
       }
     }
@@ -950,9 +951,9 @@ int action_sub_target_id_for_action(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Returns the action auto performer that the specified cause can force the
-  specified actor to perform. Returns NULL if no such action auto performer
-  exists.
+  Returns the action auto performer that the specified cause can force
+  the specified actor to perform. Returns nullptr if no such
+  action auto performer exists.
 **************************************************************************/
 const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
@@ -982,7 +983,7 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
   } action_auto_perf_by_cause_iterate_end;
 
   /* Can't even try to force an action. */
-  return NULL;
+  return nullptr;
 }
 
 #define action_auto_perf_acquire_targets(_target_extra_)                   \
@@ -1001,7 +1002,7 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
   Make the specified actor unit perform an action because of cause.
 
   Returns the action the actor unit was forced to perform.
-  Returns NULL if that didn't happen.
+  Returns nullptr if that didn't happen.
 
   Note that the return value doesn't say anything about survival.
 **************************************************************************/
@@ -1029,7 +1030,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
 
   if (!autoperf) {
     /* No matching Action Auto Performer. */
-    return NULL;
+    return nullptr;
   }
 
   actor_id = actor->id;
@@ -1044,7 +1045,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
 #define perform_action_to(act, actor, tgtid, tgt_extra)                   \
   if (unit_perform_action(unit_owner(actor),                              \
                           actor->id, tgtid, tgt_extra,                    \
-                          NULL, act, ACT_REQ_RULES)) {                    \
+                          nullptr, act, ACT_REQ_RULES)) {                 \
     return action_by_number(act);                                         \
   }
 
@@ -1095,12 +1096,12 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
 
       if (!unit_is_alive(actor_id)) {
         /* The unit is gone. Maybe it was killed in Lua? */
-        return NULL;
+        return nullptr;
       }
     }
   } action_auto_perf_actions_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
