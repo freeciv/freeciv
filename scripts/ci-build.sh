@@ -69,6 +69,7 @@ meson setup .. \
   -Dclients='gtk3.22','qt','sdl2','gtk4','stub' \
   -Dfcmp='gtk3','qt','cli','gtk4' \
   -Dqtver=qt6 \
+  -Daudio=sdl2 \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
       && cat meson-logs/meson-log.txt \
@@ -147,6 +148,7 @@ CXX="clang++" \
 meson setup .. \
  -Ddebug=true \
  -Dqtver=qt6 \
+ -Daudio=sdl2 \
  -Dclients=gtk3.22,gtk4,qt,sdl2,stub \
  -Dfcmp=gtk3,gtk4,qt,cli \
  -Dfcdb=sqlite3,mariadb,odbc \
