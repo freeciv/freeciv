@@ -328,7 +328,6 @@ public:
     return 1;
   }
   QVariant data() const;
-  bool setData();
 
 private:
   struct universal *target;
@@ -354,8 +353,6 @@ public:
     return 3;
   }
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-  bool setData(const QModelIndex &index, const QVariant &value,
-               int role = Qt::DisplayRole);
   QPoint size_hint();
   void populate();
   QPoint sh;

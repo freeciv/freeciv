@@ -4413,14 +4413,6 @@ QVariant production_item::data() const
 }
 
 /************************************************************************//**
-  Sets data for item, must be declared.
-****************************************************************************/
-bool production_item::setData()
-{
-  return false;
-}
-
-/************************************************************************//**
   Constructor for city production model
 ****************************************************************************/
 city_production_model::city_production_model(struct city *pcity, bool f,
@@ -4539,24 +4531,6 @@ void city_production_model::populate()
   city_target_list << pi;
   sh.setX(2 * sh.y() + sh.x());
   sh.setX(qMin(sh.x(), 250));
-}
-
-/************************************************************************//**
-  Sets data in model
-****************************************************************************/
-bool city_production_model::setData(const QModelIndex &index,
-                                    const QVariant &value, int role)
-{
-  if (!index.isValid() || role != Qt::DisplayRole || role != Qt::ToolTipRole)
-    return false;
-
-  if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
-      && index.column() < columnCount()) {
-    bool change = city_target_list[index.row()]->setData();
-    return change;
-  }
-
-  return false;
 }
 
 /************************************************************************//**
