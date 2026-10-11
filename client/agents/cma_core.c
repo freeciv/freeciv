@@ -587,13 +587,14 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   if (len == 0) {
     return FALSE;
   }
-  fc_assert_ret_val(len == SAVED_PARAMETER_SIZE || len == SAVED_PARAMETER_SIZE_OLD,
+  fc_assert_ret_val(len == SAVED_PARAMETER_SIZE
+                    || len == SAVED_PARAMETER_SIZE_OLD,
                     FALSE);
 
   dio_input_init(&din, buffer, len);
 
   dio_get_uint8_raw(&din, &version);
-  if (version > CMA_ATTR_VERSION && version < CMA_ATTR_VERSION_MIN_SUPPORTED) {
+  if (version > CMA_ATTR_VERSION || version < CMA_ATTR_VERSION_MIN_SUPPORTED) {
     log_error("CMA data has a wrong version %d (expected %d)",
               version, CMA_ATTR_VERSION);
     return FALSE;
