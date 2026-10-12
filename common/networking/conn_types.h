@@ -34,8 +34,8 @@ extern "C" {
 #define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 128)
 
 /* Used in network protocol. */
-#define MAX_LEN_MSG             1536
-#define MAX_LEN_ROUTE           2000      /* MAX_LEN_PACKET / 2 - header */
+#define MAX_LEN_MSG       1536
+#define MAX_LEN_ROUTE   ((MAX_LEN_CONTENT - 100) / sizeof(struct unit_order))
 
 /* Used in network protocol. */
 enum authentication_type {

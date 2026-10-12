@@ -3692,7 +3692,8 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
 
   if (0 > packet->length || MAX_LEN_ROUTE < packet->length) {
     /* Shouldn't happen */
-    log_error("city_rally_point_receive() invalid packet length %d (max %d)",
+    log_error("city_rally_point_receive() invalid packet length %d (max "
+              SIZE_T_PRINTF ")",
               packet->length, MAX_LEN_ROUTE);
     return;
   }

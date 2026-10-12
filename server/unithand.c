@@ -6846,8 +6846,9 @@ void handle_unit_orders(struct player *pplayer,
   if (0 > length || MAX_LEN_ROUTE < length) {
     /* Shouldn't happen */
     log_error("handle_unit_orders() invalid %s (%d) "
-              "packet length %d (max %d)", unit_rule_name(punit),
-              packet->unit_id, length, MAX_LEN_ROUTE);
+              "packet length %d (max " SIZE_T_PRINTF ")",
+              unit_rule_name(punit), packet->unit_id, length,
+              MAX_LEN_ROUTE);
     return;
   }
 
