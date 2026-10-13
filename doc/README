@@ -103,13 +103,14 @@ Starting a game:
   NOTE:
   The following examples assume that Freeciv has been installed on
   your system, and that the directory containing the "freeciv-gtk4"
-  and "freeciv-server" programs is in your PATH.  If Freeciv is not
-  installed, then you may want to use the "fcgui" and "fcser" programs,
-  which can be found in the top Freeciv directory.  They are used
-  in exactly the same fashion as "freeciv-gtk4" and "freeciv-server".
+  and "freeciv-server" programs is in your PATH. If Freeciv is not
+  installed, then you may want to use the "./run.sh" script,
+  which can be found in the Freeciv build directory. Just prepend
+  "freeciv-gtk4" or "freeciv-server" command lines with "./run.sh ",
+  e.g., "./run.sh freeciv-gtk4 --help"
 
 Running Freeciv involves starting the server, then the client(s)
-and AI(s), then telling the server to start the game.  Here are the
+and AI(s), then telling the server to start the game. Here are the
 steps:
 
 Server:
