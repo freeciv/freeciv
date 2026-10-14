@@ -289,6 +289,7 @@ static void popup_diplomacy_dialog(struct treaty *ptreaty, struct player *they,
     /* We have to raise the diplomacy meeting tab as well as the selected
      * meeting. */
     fc_assert_ret(dipl_main != NULL);
+
     gui_dialog_raise(dipl_main->dialog);
     gui_dialog_raise(pdialog->dialog);
 
@@ -739,14 +740,16 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
 }
 
 /************************************************************************//**
-  Remove diplomacy dialog from use.
+  Destroy diplomacy dialog
 ****************************************************************************/
-static void diplomacy_remove(struct Diplomacy_dialog *pdialog)
+static void diplomacy_destroy(struct Diplomacy_dialog *pdialog)
 {
-  /* Dialog destroy callbacks will take care of freeing everything
-   * related to the pdialog->dialog.
-   * Here we just take the dialog out of use. */
-
+  if (NULL != pdialog->dialog) {
+    /* pdialog->dialog may be NULL if the tab has been destroyed
+     * by an other way. */
+    gui_dialog_destroy(pdialog->dialog);
+    pdialog->dialog = NULL;
+  }
   dialog_list_remove(dialog_list, pdialog);
 
   if (dialog_list) {
@@ -778,6 +781,7 @@ static void diplomacy_response(struct gui_dialog *dlg, int response,
   struct Diplomacy_dialog *pdialog = NULL;
 
   fc_assert_ret(data);
+
   pdialog = (struct Diplomacy_dialog *)data;
 
   switch (response) {
@@ -1326,7 +1330,7 @@ static void diplomacy_dialog_shared_tiles_callback(GSimpleAction *action,
 ****************************************************************************/
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
-  diplomacy_remove(pdialog);
+  diplomacy_destroy(pdialog);
 }
 
 /************************************************************************//**
