@@ -2578,7 +2578,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   nat_packet->id = pcity->id;
   nat_packet->nationalities_count = 0;
   if (game.info.citizen_nationality) {
+#ifndef FREECIV_NDEBUG
     int cit = 0;
+#endif
 
     player_slots_iterate(pslot) {
       citizens nationality = citizens_nation_get(pcity, pslot);
@@ -2593,7 +2595,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
           = nationality;
         nat_packet->nationalities_count++;
 
+#ifndef FREECIV_NDEBUG
         cit += nationality;
+#endif
       }
     } player_slots_iterate_end;
 
