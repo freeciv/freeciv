@@ -454,7 +454,11 @@ gboolean leave_mapcanvas(GtkEventControllerMotion *controller,
                          gpointer data)
 {
   update_mouse_cursor(CURSOR_DEFAULT);
-  update_unit_info_label(get_units_in_focus());
+
+  /* Here used to be update_unit_info_label() call here,
+   * but it sometimes crashed in goto_get_turns() when
+   * goto setup was active. It was not obvious why
+   * the call would be needed here. We just removed it. */
 
   return TRUE;
 }
