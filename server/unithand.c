@@ -3544,7 +3544,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    pcity ? city_owner(pcity) : nullptr, nullptr, pcity,   \
-                   nullptr, TRUE, requester);                             \
+                   nullptr, REQEST_PLAYER_INITIATED, requester);          \
   }
 
 #define ACTION_PERFORM_UNIT_SELF(action, actor, action_performer)         \
@@ -3568,7 +3568,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    unit_owner(actor_unit), nullptr, nullptr, actor_unit,  \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                   \
   }
 
 #define ACTION_PERFORM_UNIT_UNIT(action, actor, target, action_performer) \
@@ -3599,7 +3599,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    punit ? unit_owner(punit) : nullptr, nullptr, nullptr, \
-                   punit, TRUE, requester);                               \
+                   punit, REQEST_PLAYER_INITIATED, requester);            \
   }
 
 #define ACTION_PERFORM_UNIT_STACK(action, actor, target, action_performer)\
@@ -3631,7 +3631,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    nullptr, target_tile, nullptr, nullptr,                \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                   \
   }
 
 #define ACTION_PERFORM_UNIT_TILE(action, actor, target, action_performer) \
@@ -3659,7 +3659,7 @@ bool unit_perform_action(struct player *pplayer,
     illegal_action(pplayer, actor_unit, action_type,                      \
                    target_tile ? tile_owner(target_tile) : nullptr,       \
                    target_tile, nullptr, nullptr,                         \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                   \
   }
 
 #define ACTION_PERFORM_UNIT_EXTRAS(action, actor, target, action_performer)\
@@ -3687,7 +3687,7 @@ bool unit_perform_action(struct player *pplayer,
     illegal_action(pplayer, actor_unit, action_type,                      \
                    target_tile ? target_tile->extras_owner : nullptr,     \
                    target_tile, nullptr, nullptr,                         \
-                   TRUE, requester);                                      \
+                   REQEST_PLAYER_INITIATED, requester);                   \
   }
 
 #define ACTION_PERFORM_UNIT_ANY(paction, actor,                           \
