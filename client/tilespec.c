@@ -3027,6 +3027,12 @@ static struct anim *anim_load(struct tileset *t, const char *tag,
   } while (sprite_exists(t, buf));
 
   if (--frames == 0) {
+    if (sprite_exists(t, tag)) {
+      log_deprecation(_("No animation \"%s\", but there's a single "
+                        "sprite by such a tag. Should it be an animation?"),
+                      tag);
+    }
+
     return nullptr;
   }
 
