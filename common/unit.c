@@ -2976,3 +2976,14 @@ enum gen_action activity_default_action(enum unit_activity act)
 
   return act_act[act];
 }
+
+/**********************************************************************//**
+  Returns the unit's *pgood's replace_priority, or -1 if pgood is nullptr
+**************************************************************************/
+int unit_current_good_replace_priority(const struct unit *punit,
+                                       const struct city *homecity)
+{
+  struct goods_type *pgoods = unit_current_goods(punit, homecity);
+
+  return pgoods != nullptr ? pgoods->replace_priority : -1;
+}

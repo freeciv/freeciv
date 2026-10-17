@@ -594,6 +594,9 @@ struct unit_order *create_unit_orders(const struct civ_map *nmap,
 
 enum gen_action activity_default_action(enum unit_activity act);
 
+int unit_current_good_replace_priority(const struct unit *punit,
+                                       const struct city *homecity);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -251,6 +251,20 @@ static void caravan_search_from(const struct civ_map *nmap,
   pf_map_destroy(pfm);
 }
 
+/**********************************************************************//**
+  Return the replace_priority of the goods a city would provide.
+  May return -1 if city can't provide any goods.
+
+  @param src   City to start traderoute from
+  @return      the goods's replace_priority, maybe -1
+**************************************************************************/
+static int city_current_good_replace_priority(const struct city *pcity)
+{
+  struct goods_type *pgoods = goods_from_city_to_unit(pcity, nullptr);
+
+  return pgoods != nullptr ? pgoods->replace_priority : -1;
+}
+
 /************************************************************************//**
   When the caravan arrives, compute the benefit from the immediate windfall,
   taking into account the parameter's objective.
@@ -258,15 +272,15 @@ static void caravan_search_from(const struct civ_map *nmap,
 static double windfall_benefit(const struct unit *caravan,
                                const struct city *src,
                                const struct city *dest,
-                               const struct goods_type *pgood,
                                const struct caravan_parameter *param)
 {
   if (!param->consider_windfall || !can_cities_trade(src, dest)) {
     return 0;
   } else {
-    bool can_establish = (unit_can_do_action(caravan, ACTION_TRADE_ROUTE)
-                          && can_establish_trade_route(src, dest,
-                                                       pgood->replace_priority));
+    int priority =
+      city_current_good_replace_priority(src);
+    bool can_establish = unit_can_do_action(caravan, ACTION_TRADE_ROUTE)
+                         && can_establish_trade_route(src, dest, priority);
     int bonus = get_caravan_enter_city_trade_bonus(src, dest,
                                                    unit_type_get(caravan),
                                                    NULL, can_establish);
@@ -291,7 +305,6 @@ static double windfall_benefit(const struct unit *caravan,
 ****************************************************************************/
 static int one_city_trade_benefit(const struct city *pcity,
                                   const struct player *pplayer,
-                                  const struct goods_type *pgood,
                                   bool countloser, int newtrade)
 {
   int losttrade = 0;
@@ -306,10 +319,10 @@ static int one_city_trade_benefit(const struct city *pcity,
     /* If the city can handle this route, we don't break any old routes */
     losttrade = 0;
   } else {
+    int priority = city_current_good_replace_priority(pcity);
     struct trade_route_list *would_remove
       = (countloser ? trade_route_list_new() : NULL);
-    int oldtrade = city_trade_removable(pcity, pgood->replace_priority,
-                                        would_remove);
+    int oldtrade = city_trade_removable(pcity, priority, would_remove);
 
     /* If we own the city, the trade benefit is only by how much
        better we are than the old trade route */
@@ -347,7 +360,6 @@ static int one_city_trade_benefit(const struct city *pcity,
 static double trade_benefit(const struct player *caravan_owner,
                             const struct city *src,
                             const struct city *dest,
-                            const struct goods_type *pgood,
                             const struct caravan_parameter *param)
 {
   /* Do we care about trade at all? */
@@ -357,7 +369,8 @@ static double trade_benefit(const struct player *caravan_owner,
 
   /* First, see if a new route is made. */
   if (!can_cities_trade(src, dest)
-      || !can_establish_trade_route(src, dest, pgood->replace_priority)) {
+      || !can_establish_trade_route(src, dest,
+                                    city_current_good_replace_priority(src))) {
     return 0;
   }
   if (max_trade_routes(src) <= 0 || max_trade_routes(dest) <= 0) {
@@ -370,10 +383,8 @@ static double trade_benefit(const struct player *caravan_owner,
     bool countloser = param->account_for_broken_routes;
     int newtrade = trade_base_between_cities(src, dest);
 
-    return one_city_trade_benefit(src, caravan_owner, pgood,
-                                  countloser, newtrade)
-      + one_city_trade_benefit(dest, caravan_owner, pgood,
-                               countloser, newtrade);
+    return one_city_trade_benefit(src, caravan_owner, countloser, newtrade)
+      + one_city_trade_benefit(dest, caravan_owner, countloser, newtrade);
   } else {
     /* Always fails. */
     fc_assert_msg(!param->convert_trade,
@@ -495,7 +506,6 @@ static bool get_discounted_reward(const struct unit *caravan,
   bool consider_wonder;
   bool consider_trade;
   bool consider_windfall;
-  struct goods_type *pgood;
   const struct civ_map *nmap = &(wld.map);
 
   /* If no foreign trade is allowed, just quit. */
@@ -537,10 +547,8 @@ static bool get_discounted_reward(const struct unit *caravan,
     wonder = -1.0;
   }
 
-  pgood = goods_from_city_to_unit(src, NULL);
-
   if (consider_trade) {
-    trade = trade_benefit(pplayer_src, src, dest, pgood, parameter);
+    trade = trade_benefit(pplayer_src, src, dest, parameter);
     if (parameter->horizon == FC_INFINITY) {
       trade = perpetuity(trade, discount);
     } else {
@@ -552,7 +560,7 @@ static bool get_discounted_reward(const struct unit *caravan,
   }
 
   if (consider_windfall) {
-    windfall = windfall_benefit(caravan, src, dest, pgood, parameter);
+    windfall = windfall_benefit(caravan, src, dest, parameter);
     windfall = presentvalue(windfall, arrival_time, discount);
   } else {
     windfall = 0.0;

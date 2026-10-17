@@ -923,10 +923,10 @@ enum fc_tristate actres_possible(const struct civ_map *nmap,
       /* There are more restrictions on establishing a trade route than on
        * entering the market place. */
       if (result == ACTRES_TRADE_ROUTE) {
-        struct goods_type *pgood = unit_current_goods(actor->unit, homecity);
+        int priority =
+          unit_current_good_replace_priority(actor->unit, homecity);
 
-        if (!can_establish_trade_route(homecity, target->city,
-                                       pgood->replace_priority)) {
+        if (!can_establish_trade_route(homecity, target->city, priority)) {
           return TRI_NO;
         }
       }
