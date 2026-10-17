@@ -2634,7 +2634,7 @@ static void compat_load_030300(struct loaddata *loading,
                                          "player%d.dc_total", plrno);
 
     for (cnro = 0; cnro < ncities; cnro++) {
-      secfile_insert_int(loading->file, -1, "player%d.dc%d.original",
+      secfile_insert_int(loading->file, -1, "player%d.c%d.original",
                          plrno, cnro);
     }
   } player_slots_iterate_end;
