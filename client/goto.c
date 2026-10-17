@@ -1395,8 +1395,10 @@ void request_orders_cleared(struct unit *punit)
 
 /************************************************************************//**
   Creates orders for a path as a goto or patrol route.
+  If route is too long, only MAX_LEN_ROUTE steps are written,
+  and final_order is not written as it should only come after the full route.
 ****************************************************************************/
-static void make_path_orders(struct unit *punit, struct pf_path *path,
+static bool make_path_orders(struct unit *punit, struct pf_path *path,
                              enum unit_orders orders,
                              struct unit_order *final_order,
                              struct unit_order *order_list,
@@ -1404,20 +1406,35 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
 {
   int i;
   struct tile *old_tile;
+  bool cut = FALSE;
 
-  fc_assert_ret(path != nullptr);
-  fc_assert_ret_msg(unit_tile(punit) == path->positions[0].tile,
-                    "Unit %d has moved without goto cancellation.",
-                    punit->id);
-  fc_assert_ret(length != nullptr);
+  fc_assert_ret_val(path != nullptr, FALSE);
+  fc_assert_ret_val_msg(unit_tile(punit) == path->positions[0].tile, FALSE,
+                        "Unit %d has moved without goto cancellation.",
+                        punit->id);
+  fc_assert_ret_val(length != nullptr, FALSE);
 
   /* We skip the start position. */
   *length = path->length - 1;
-  fc_assert(*length < MAX_LEN_ROUTE);
+
+  if (*length > MAX_LEN_ROUTE) {
+    *length = MAX_LEN_ROUTE;
+    cut = TRUE;
+  } else if (final_order && *length == MAX_LEN_ROUTE) {
+    /* Everything but the final_order fits */
+    cut = TRUE;
+  }
+
+  if (cut) {
+    log_warn(_("Too long goto route. Cut."));
+  }
+
+  fc_assert(*length <= MAX_LEN_ROUTE);
+
   old_tile = path->positions[0].tile;
 
   /* If the path has n positions it takes n-1 steps. */
-  for (i = 0; i < path->length - 1; i++) {
+  for (i = 0; i < *length; i++) {
     struct tile *new_tile = path->positions[i + 1].tile;
 
     if (same_pos(new_tile, old_tile)) {
@@ -1469,7 +1486,7 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
     }
   }
 
-  if (final_order) {
+  if (final_order && !cut) {
     /* Append the final order after moving to the target tile. */
     order_list[i].order = final_order->order;
     order_list[i].dir = final_order->dir;
@@ -1484,6 +1501,8 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
   if (dest_tile) {
     *dest_tile = tile_index(old_tile);
   }
+
+  return !cut;
 }
 
 /************************************************************************//**
