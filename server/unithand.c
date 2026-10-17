@@ -4262,7 +4262,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 
   citizens_update(pcity, unit_nationality(punit));
 
-  if (is_super_specialist(act_utype->spec_type)) {
+  if (act_utype->spec_type != nullptr) {
     Specialist_type_id sspec = specialist_index(act_utype->spec_type);
 
     fc_assert_ret_val(pcity->specialists[sspec] < MAX_CITY_SIZE, FALSE);
