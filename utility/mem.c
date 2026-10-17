@@ -35,8 +35,8 @@
   Do whatever we should do when fc_malloc() fails.
   At the moment this just prints a log message and calls exit(EXIT_FAILURE)
 **********************************************************************/
-static void handle_alloc_failure(size_t size, const char *called_as,
-                                 int line, const char *file)
+static void fc__noreturn handle_alloc_failure(size_t size, const char *called_as,
+                                              int line, const char *file)
 {
   log_fatal("Out of memory trying to %s " SIZE_T_PRINTF " bytes at line %d of %s.",
             called_as, size, line, file);
