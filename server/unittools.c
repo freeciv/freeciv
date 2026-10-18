@@ -1227,7 +1227,7 @@ void bounce_unit(struct unit *punit, bool verbose)
 
   /* I assume that there are no topologies that have more than
    * (2d + 1)^2 tiles in the "square" of "radius" d. */
-  const int DIST = 2;
+#define DIST 2
   struct tile *tiles[(2 * DIST + 1) * (2 * DIST + 1)];
 
   if (!punit) {
@@ -1292,6 +1292,7 @@ void bounce_unit(struct unit *punit, bool verbose)
 
   wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
 }
+#undef DIST
 
 /**********************************************************************//**
   Throw pplayer's units from non-allied cities
