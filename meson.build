@@ -728,6 +728,7 @@ if host_system == 'emscripten'
      '-s', 'TOTAL_MEMORY=64MB',
      '-sSTACK_SIZE=131072',
      '-sASYNCIFY',
+     '-sASYNCIFY_STACK_SIZE=8192',
      language : [ 'c', 'cpp'])
 else
   zlib_dep = c_compiler.find_library('z', dirs: cross_lib_path)
