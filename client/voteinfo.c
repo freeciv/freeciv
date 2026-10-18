@@ -42,7 +42,7 @@
   TYPED_LIST_ITERATE(struct voteinfo, alist, pitem)
 #define voteinfo_list_iterate_end  LIST_ITERATE_END
 
-static struct voteinfo_list *voteinfo_queue = NULL;
+static struct voteinfo_list *voteinfo_queue = nullptr;
 static int voteinfo_queue_current_index = 0;
 
 
@@ -54,15 +54,15 @@ void voteinfo_queue_delayed_remove(int vote_no)
 {
   struct voteinfo *vi;
 
-  fc_assert_ret_msg(NULL != voteinfo_queue,
+  fc_assert_ret_msg(voteinfo_queue != nullptr,
                     "%s() called before votinfo_queue_init()!",
                     __FUNCTION__);
 
   vi = voteinfo_queue_find(vote_no);
-  if (vi == NULL) {
+  if (vi == nullptr) {
     return;
   }
-  vi->remove_time = time(NULL);
+  vi->remove_time = time(nullptr);
 }
 
 /**********************************************************************//**
@@ -74,14 +74,14 @@ void voteinfo_queue_check_removed(void)
   time_t now;
   struct voteinfo_list *removed;
 
-  if (voteinfo_queue == NULL) {
+  if (voteinfo_queue == nullptr) {
     return;
   }
 
-  now = time(NULL);
+  now = time(nullptr);
   removed = voteinfo_list_new();
   voteinfo_list_iterate(voteinfo_queue, vi) {
-    if (vi != NULL && vi->remove_time > 0 && now - vi->remove_time > 2) {
+    if (vi != nullptr && vi->remove_time > 0 && now - vi->remove_time > 2) {
       voteinfo_list_append(removed, vi);
     }
   } voteinfo_list_iterate_end;
@@ -104,12 +104,12 @@ void voteinfo_queue_remove(int vote_no)
 {
   struct voteinfo *vi;
 
-  fc_assert_ret_msg(NULL != voteinfo_queue,
+  fc_assert_ret_msg(voteinfo_queue != nullptr,
                     "%s() called before votinfo_queue_init()!",
                     __FUNCTION__);
 
   vi = voteinfo_queue_find(vote_no);
-  if (vi == NULL) {
+  if (vi == nullptr) {
     return;
   }
 
@@ -125,7 +125,7 @@ void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
 {
   struct voteinfo *vi;
 
-  fc_assert_ret_msg(NULL != voteinfo_queue,
+  fc_assert_ret_msg(voteinfo_queue != nullptr,
                     "%s() called before votinfo_queue_init()!",
                     __FUNCTION__);
 
@@ -149,7 +149,7 @@ void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
 **************************************************************************/
 struct voteinfo *voteinfo_queue_find(int vote_no)
 {
-  fc_assert_ret_val_msg(NULL != voteinfo_queue, NULL,
+  fc_assert_ret_val_msg(voteinfo_queue != nullptr, nullptr,
                         "%s() called before votinfo_queue_init()!",
                         __FUNCTION__);
 
@@ -158,7 +158,8 @@ struct voteinfo *voteinfo_queue_find(int vote_no)
       return vi;
     }
   } voteinfo_list_iterate_end;
-  return NULL;
+
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -166,7 +167,7 @@ struct voteinfo *voteinfo_queue_find(int vote_no)
 **************************************************************************/
 void voteinfo_queue_init(void)
 {
-  if (voteinfo_queue != NULL) {
+  if (voteinfo_queue != nullptr) {
     voteinfo_queue_free();
   }
   voteinfo_queue = voteinfo_list_new();
@@ -178,24 +179,24 @@ void voteinfo_queue_init(void)
 **************************************************************************/
 void voteinfo_queue_free(void)
 {
-  if (voteinfo_queue == NULL) {
+  if (voteinfo_queue == nullptr) {
     return;
   }
 
   voteinfo_list_iterate(voteinfo_queue, vi) {
-    if (vi != NULL) {
+    if (vi != nullptr) {
       free(vi);
     }
   } voteinfo_list_iterate_end;
 
   voteinfo_list_destroy(voteinfo_queue);
-  voteinfo_queue = NULL;
+  voteinfo_queue = nullptr;
   voteinfo_queue_current_index = 0;
 }
 
 /**********************************************************************//**
   Get the voteinfo record at the start of the vote queue. If 'pindex' is
-  non-NULL, it is set to queue index of that record. This function is
+  not nullptr, it is set to queue index of that record. This function is
   used in conjunction with voteinfo_queue_next().
 **************************************************************************/
 struct voteinfo *voteinfo_queue_get_current(int *pindex)
@@ -203,14 +204,14 @@ struct voteinfo *voteinfo_queue_get_current(int *pindex)
   struct voteinfo *vi;
   int size;
 
-  if (voteinfo_queue == NULL) {
-    return NULL;
+  if (voteinfo_queue == nullptr) {
+    return nullptr;
   }
 
   size = voteinfo_list_size(voteinfo_queue);
 
   if (size <= 0) {
-    return NULL;
+    return nullptr;
   }
 
   if (!(0 <= voteinfo_queue_current_index
@@ -220,7 +221,7 @@ struct voteinfo *voteinfo_queue_get_current(int *pindex)
 
   vi = voteinfo_list_get(voteinfo_queue, voteinfo_queue_current_index);
 
-  if (vi != NULL && pindex != NULL) {
+  if (vi != nullptr && pindex != nullptr) {
     *pindex = voteinfo_queue_current_index;
   }
 
@@ -241,7 +242,7 @@ void voteinfo_do_vote(int vote_no, enum client_vote_type vote)
   }
 
   vi = voteinfo_queue_find(vote_no);
-  if (vi == NULL) {
+  if (vi == nullptr) {
     return;
   }
 
@@ -273,7 +274,7 @@ void voteinfo_queue_next(void)
 {
   int size;
 
-  if (voteinfo_queue == NULL) {
+  if (voteinfo_queue == nullptr) {
     return;
   }
 
@@ -290,7 +291,7 @@ void voteinfo_queue_next(void)
 **************************************************************************/
 int voteinfo_queue_size(void)
 {
-  return (NULL != voteinfo_queue ? voteinfo_list_size(voteinfo_queue) : 0);
+  return (voteinfo_queue != nullptr ? voteinfo_list_size(voteinfo_queue) : 0);
 }
 
 /**********************************************************************//**
@@ -298,11 +299,11 @@ int voteinfo_queue_size(void)
 **************************************************************************/
 bool voteinfo_bar_can_be_shown(void)
 {
-  return (NULL != voteinfo_queue
+  return (voteinfo_queue != nullptr
           && gui_options.voteinfo_bar_use
           && (gui_options.voteinfo_bar_always_show
               || (0 < voteinfo_list_size(voteinfo_queue)
-                  && NULL != voteinfo_queue_get_current(NULL)))
+                  && voteinfo_queue_get_current(nullptr) != nullptr))
           && (!gui_options.voteinfo_bar_hide_when_not_player
               || (client_has_player()
                   && !client_is_observer())));
