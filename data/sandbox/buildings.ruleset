@@ -979,7 +979,7 @@ sound		= "b_port_facility"
 sound_alt	= "b_generic"
 sound_alt2      = "-"
 helptext	= _("\
-Allows a city to build veteran sea units.  Also, damaged sea units\
+Allows a city to build veteran sea units. Also, damaged sea units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
