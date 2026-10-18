@@ -736,11 +736,12 @@ bool city_receives_goods(const struct city *pcity,
 }
 
 /*********************************************************************//**
-  Fond out goods type for the new trade route
+  Return goods type for the new trade route.
+  May return nullptr if city can't provide any goods.
 
   @param src   City to start traderoute from
   @param punit Unit to carry the goods
-  @return      Goods to carry
+  @return      Goods to carry, may be nullptr
 *************************************************************************/
 struct goods_type *goods_from_city_to_unit(const struct city *src,
                                            const struct unit *punit)
@@ -772,10 +773,11 @@ struct goods_type *goods_from_city_to_unit(const struct city *src,
 
 /*********************************************************************//**
   What goods unit would provide if it established trade route now?
+  May return nullptr if city can't provide any goods.
 
   @param punit    Unit to establish the trade route
   @param homecity Homecity of the unit. Can be used speculatively.
-  @return         What good unit would provide
+  @return         What good unit would provide, may be nullptr
 *************************************************************************/
 struct goods_type *unit_current_goods(const struct unit *punit,
                                       const struct city *homecity)

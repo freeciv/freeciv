@@ -365,14 +365,15 @@ const char *popup_info_text(struct tile *ptile)
       struct city *hcity = game_city_by_number(pfocus_unit->homecity);
 
       if (utype_can_do_action(unit_type_get(pfocus_unit), ACTION_TRADE_ROUTE)
-          && can_cities_trade(hcity, pcity)
-          && can_establish_trade_route(hcity, pcity,
-                                       unit_current_goods(pfocus_unit,
-                                                          hcity)->replace_priority)) {
-        /* TRANS: "Trade from Warsaw: 5" */
-        astr_add_line(&str, _("Trade from %s: %d"),
-                      city_name_get(hcity),
-                      trade_base_between_cities(hcity, pcity));
+          && can_cities_trade(hcity, pcity)) {
+        int priority = unit_current_good_replace_priority(pfocus_unit, hcity);
+
+        if (can_establish_trade_route(hcity, pcity, priority)) {
+          /* TRANS: "Trade from Warsaw: 5" */
+          astr_add_line(&str, _("Trade from %s: %d"),
+                        city_name_get(hcity),
+                        trade_base_between_cities(hcity, pcity));
+        }
       }
     } unit_list_iterate_end;
   }

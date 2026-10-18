@@ -2975,3 +2975,14 @@ int unit_upkeep_cost(const struct unit *punit, Output_type_id otype)
   return utype_upkeep_cost(unit_type_get(punit), punit, unit_owner(punit),
                            otype);
 }
+
+/**********************************************************************//**
+  Returns the unit's *pgood's replace_priority, or -1 if pgood is nullptr
+**************************************************************************/
+int unit_current_good_replace_priority(const struct unit *punit,
+                                       const struct city *homecity)
+{
+  struct goods_type *pgoods = unit_current_goods(punit, homecity);
+
+  return pgoods != nullptr ? pgoods->replace_priority : -1;
+}
