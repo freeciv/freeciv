@@ -2148,19 +2148,24 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                      0, "", ACTION_MARKETPLACE);
     } else {
       enum log_level level = LOG_NORMAL;
+      char *help_wonder_msg = "help build wonder in";
+      char *action_msg = "trade with nor enter marketplace in";
 
       if (help_wonder) {
         /* A Caravan ordered to help build wonder may arrive after
-         * enough shields to build the wonder is produced. */
+         * enough shields to build the wonder has been produced,
+         * or after the city changed its production. */
+        action_msg = help_wonder_msg;
         level = LOG_VERBOSE;
       }
 
       log_base(level,
-               "%s %s[%d](%d,%d) unable to trade with %s",
+               "%s %s[%d](%d,%d) unable to %s %s",
                nation_rule_name(nation_of_unit(punit)),
                unit_rule_name(punit),
                punit->id,
                TILE_XY(unit_tile(punit)),
+               action_msg,
                city_name_get(dest_city));
     }
   }
