@@ -9,7 +9,7 @@ MAJOR_VERSION="3"
 MINOR_VERSION="3"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha3+"
+VERSION_LABEL="-beta0"
 
 # Type is either "development" or "stable"
 # Date and NEWS URL are relevant only for "stable" releases
@@ -53,9 +53,9 @@ fi
 # Update DEFAULT_FOLLOW_TAG to "stable", and also
 # platforms/windows/installer_msys2/Makefile.meson -Dfollowtag to "windows"
 
-IS_DEVEL_VERSION=1
-IS_FREEZE_VERSION=1
-IS_BETA_VERSION=0
+IS_DEVEL_VERSION=0
+IS_FREEZE_VERSION=0
+IS_BETA_VERSION=1
 
 NEXT_STABLE_VERSION="3.3.0"
 
