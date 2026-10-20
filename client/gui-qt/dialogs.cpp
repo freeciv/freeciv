@@ -137,12 +137,6 @@ static void bombard4(QVariant data1, QVariant data2, action_id act);
 static void bombard_lethal(QVariant data1, QVariant data2, action_id act);
 static void bombard_lethal2(QVariant data1, QVariant data2, action_id act);
 static void found_city(QVariant data1, QVariant data2, action_id act);
-static void transform_terrain(QVariant data1, QVariant data2, action_id act);
-static void transform_terrain2(QVariant data1, QVariant data2, action_id act);
-static void cultivate(QVariant data1, QVariant data2, action_id act);
-static void cultivate2(QVariant data1, QVariant data2, action_id act);
-static void plant(QVariant data1, QVariant data2, action_id act);
-static void plant2(QVariant data1, QVariant data2, action_id act);
 static void pillage(QVariant data1, QVariant data2, action_id act);
 static void pillage2(QVariant data1, QVariant data2, action_id act);
 static void clean(QVariant data1, QVariant data2, action_id act);
@@ -155,51 +149,12 @@ static void mine(QVariant data1, QVariant data2, action_id act);
 static void mine2(QVariant data1, QVariant data2, action_id act);
 static void irrigate(QVariant data1, QVariant data2, action_id act);
 static void irrigate2(QVariant data1, QVariant data2, action_id act);
-static void nuke(QVariant data1, QVariant data2, action_id act);
-static void attack(QVariant data1, QVariant data2, action_id act);
-static void attack2(QVariant data1, QVariant data2, action_id act);
-static void suicide_attack(QVariant data1, QVariant data2, action_id act);
-static void suicide_attack2(QVariant data1, QVariant data2, action_id act);
-static void paradrop(QVariant data1, QVariant data2, action_id act);
-static void paradrop_conquer(QVariant data1, QVariant data2, action_id act);
-static void paradrop_frighten(QVariant data1, QVariant data2, action_id act);
-static void paradrop_frighten_conquer(QVariant data1, QVariant data2,
-                                      action_id act);
-static void paradrop_enter(QVariant data1, QVariant data2, action_id act);
-static void paradrop_enter_conquer(QVariant data1, QVariant data2,
-                                   action_id act);
-static void teleport(QVariant data1, QVariant data2, action_id act);
-static void teleport2(QVariant data1, QVariant data2, action_id act);
-static void teleport3(QVariant data1, QVariant data2, action_id act);
-static void teleport_conquer(QVariant data1, QVariant data2, action_id act);
-static void teleport_frighten(QVariant data1, QVariant data2, action_id act);
-static void teleport_frighten_conquer(QVariant data1, QVariant data2,
-                                      action_id act);
-static void teleport_enter(QVariant data1, QVariant data2, action_id act);
-static void teleport_enter_conquer(QVariant data1, QVariant data2,
-                                   action_id act);
-static void disembark1(QVariant data1, QVariant data2, action_id act);
-static void disembark2(QVariant data1, QVariant data2, action_id act);
-static void disembark3(QVariant data1, QVariant data2, action_id act);
-static void disembark4(QVariant data1, QVariant data2, action_id act);
-static void enter_hut(QVariant data1, QVariant data2, action_id act);
-static void enter_hut2(QVariant data1, QVariant data2, action_id act);
-static void enter_hut3(QVariant data1, QVariant data2, action_id act);
-static void enter_hut4(QVariant data1, QVariant data2, action_id act);
-static void frighten_hut(QVariant data1, QVariant data2, action_id act);
-static void frighten_hut2(QVariant data1, QVariant data2, action_id act);
-static void frighten_hut3(QVariant data1, QVariant data2, action_id act);
-static void frighten_hut4(QVariant data1, QVariant data2, action_id act);
-static void regular_move(QVariant data1, QVariant data2, action_id act);
-static void regular_move2(QVariant data1, QVariant data2, action_id act);
-static void regular_move3(QVariant data1, QVariant data2, action_id act);
-static void scout(QVariant data1, QVariant data2, action_id act);
+static void simple_tile_request(QVariant data1, QVariant data2, action_id act);
 static void convert_unit(QVariant data1, QVariant data2, action_id act);
 static void fortify(QVariant data1, QVariant data2, action_id act);
 static void fortify2(QVariant data1, QVariant data2, action_id act);
 static void disband_unit(QVariant data1, QVariant data2, action_id act);
 static void homeless(QVariant data1, QVariant data2, action_id act);
-static void join_city(QVariant data1, QVariant data2, action_id act);
 static void unit_home_city(QVariant data1, QVariant data2, action_id act);
 static void unit_upgrade(QVariant data1, QVariant data2, action_id act);
 static void airlift(QVariant data1, QVariant data2, action_id act);
@@ -283,7 +238,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_TRADE_ROUTE] = caravan_establish_trade;
   action_function[ACTION_MARKETPLACE] = caravan_marketplace;
   action_function[ACTION_HELP_WONDER] = caravan_help_build;
-  action_function[ACTION_JOIN_CITY] = join_city;
+  action_function[ACTION_JOIN_CITY] = simple_tile_request;
   action_function[ACTION_STEAL_MAPS] = spy_steal_maps;
   action_function[ACTION_STEAL_MAPS_ESC] = spy_steal_maps_esc;
   action_function[ACTION_SPY_NUKE] = spy_nuke_city;
@@ -336,34 +291,34 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
 
   // Unit acting against a tile.
   action_function[ACTION_FOUND_CITY] = found_city;
-  action_function[ACTION_NUKE] = nuke;
-  action_function[ACTION_PARADROP] = paradrop;
-  action_function[ACTION_PARADROP_CONQUER] = paradrop_conquer;
-  action_function[ACTION_PARADROP_ENTER] = paradrop_enter;
-  action_function[ACTION_PARADROP_ENTER_CONQUER] = paradrop_enter_conquer;
-  action_function[ACTION_PARADROP_FRIGHTEN] = paradrop_frighten;
+  action_function[ACTION_NUKE] = simple_tile_request;
+  action_function[ACTION_PARADROP] = simple_tile_request;
+  action_function[ACTION_PARADROP_CONQUER] = simple_tile_request;
+  action_function[ACTION_PARADROP_ENTER] = simple_tile_request;
+  action_function[ACTION_PARADROP_ENTER_CONQUER] = simple_tile_request;
+  action_function[ACTION_PARADROP_FRIGHTEN] = simple_tile_request;
   action_function[ACTION_PARADROP_FRIGHTEN_CONQUER]
-      = paradrop_frighten_conquer;
-  action_function[ACTION_TELEPORT] = teleport;
-  action_function[ACTION_TELEPORT2] = teleport2;
-  action_function[ACTION_TELEPORT3] = teleport3;
-  action_function[ACTION_TELEPORT_CONQUER] = teleport_conquer;
-  action_function[ACTION_TELEPORT_ENTER] = teleport_enter;
-  action_function[ACTION_TELEPORT_ENTER_CONQUER] = teleport_enter_conquer;
-  action_function[ACTION_TELEPORT_FRIGHTEN] = teleport_frighten;
+      = simple_tile_request;
+  action_function[ACTION_TELEPORT] = simple_tile_request;
+  action_function[ACTION_TELEPORT2] = simple_tile_request;
+  action_function[ACTION_TELEPORT3] = simple_tile_request;
+  action_function[ACTION_TELEPORT_CONQUER] = simple_tile_request;
+  action_function[ACTION_TELEPORT_ENTER] = simple_tile_request;
+  action_function[ACTION_TELEPORT_ENTER_CONQUER] = simple_tile_request;
+  action_function[ACTION_TELEPORT_FRIGHTEN] = simple_tile_request;
   action_function[ACTION_TELEPORT_FRIGHTEN_CONQUER]
-      = teleport_frighten_conquer;
-  action_function[ACTION_ATTACK] = attack;
-  action_function[ACTION_ATTACK2] = attack2;
-  action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
-  action_function[ACTION_SUICIDE_ATTACK2] = suicide_attack2;
+      = simple_tile_request;
+  action_function[ACTION_ATTACK] = simple_tile_request;
+  action_function[ACTION_ATTACK2] = simple_tile_request;
+  action_function[ACTION_SUICIDE_ATTACK] = simple_tile_request;
+  action_function[ACTION_SUICIDE_ATTACK2] = simple_tile_request;
   action_function[ACTION_WIPE_UNITS] = wipe_units;
-  action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
-  action_function[ACTION_TRANSFORM_TERRAIN2] = transform_terrain2;
-  action_function[ACTION_CULTIVATE] = cultivate;
-  action_function[ACTION_CULTIVATE2] = cultivate2;
-  action_function[ACTION_PLANT] = plant;
-  action_function[ACTION_PLANT2] = plant2;
+  action_function[ACTION_TRANSFORM_TERRAIN] = simple_tile_request;
+  action_function[ACTION_TRANSFORM_TERRAIN2] = simple_tile_request;
+  action_function[ACTION_CULTIVATE] = simple_tile_request;
+  action_function[ACTION_CULTIVATE2] = simple_tile_request;
+  action_function[ACTION_PLANT] = simple_tile_request;
+  action_function[ACTION_PLANT2] = simple_tile_request;
   action_function[ACTION_PILLAGE] = pillage;
   action_function[ACTION_PILLAGE2] = pillage2;
   action_function[ACTION_CLEAN] = clean;
@@ -376,22 +331,22 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_MINE2] = mine2;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_IRRIGATE2] = irrigate2;
-  action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
-  action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
-  action_function[ACTION_TRANSPORT_DISEMBARK3] = disembark3;
-  action_function[ACTION_TRANSPORT_DISEMBARK4] = disembark4;
-  action_function[ACTION_HUT_ENTER] = enter_hut;
-  action_function[ACTION_HUT_ENTER2] = enter_hut2;
-  action_function[ACTION_HUT_ENTER3] = enter_hut3;
-  action_function[ACTION_HUT_ENTER4] = enter_hut4;
-  action_function[ACTION_HUT_FRIGHTEN] = frighten_hut;
-  action_function[ACTION_HUT_FRIGHTEN2] = frighten_hut2;
-  action_function[ACTION_HUT_FRIGHTEN3] = frighten_hut3;
-  action_function[ACTION_HUT_FRIGHTEN4] = frighten_hut4;
-  action_function[ACTION_UNIT_MOVE] = regular_move;
-  action_function[ACTION_UNIT_MOVE2] = regular_move2;
-  action_function[ACTION_UNIT_MOVE3] = regular_move3;
-  action_function[ACTION_SCOUT] = scout;
+  action_function[ACTION_TRANSPORT_DISEMBARK1] = simple_tile_request;
+  action_function[ACTION_TRANSPORT_DISEMBARK2] = simple_tile_request;
+  action_function[ACTION_TRANSPORT_DISEMBARK3] = simple_tile_request;
+  action_function[ACTION_TRANSPORT_DISEMBARK4] = simple_tile_request;
+  action_function[ACTION_HUT_ENTER] = simple_tile_request;
+  action_function[ACTION_HUT_ENTER2] = simple_tile_request;
+  action_function[ACTION_HUT_ENTER3] = simple_tile_request;
+  action_function[ACTION_HUT_ENTER4] = simple_tile_request;
+  action_function[ACTION_HUT_FRIGHTEN] = simple_tile_request;
+  action_function[ACTION_HUT_FRIGHTEN2] = simple_tile_request;
+  action_function[ACTION_HUT_FRIGHTEN3] = simple_tile_request;
+  action_function[ACTION_HUT_FRIGHTEN4] = simple_tile_request;
+  action_function[ACTION_UNIT_MOVE] = simple_tile_request;
+  action_function[ACTION_UNIT_MOVE2] = simple_tile_request;
+  action_function[ACTION_UNIT_MOVE3] = simple_tile_request;
+  action_function[ACTION_SCOUT] = simple_tile_request;
 
   // Unit acting against all tile extras.
   action_function[ACTION_CONQUER_EXTRAS] = conquer_extras;
@@ -2827,186 +2782,6 @@ static void transport_deboard(QVariant data1, QVariant data2, action_id act)
   request_do_action(ACTION_TRANSPORT_DEBOARD, actor_id, target_id, 0, "");
 }
 
-/***********************************************************************//**
-  Action "Transport Disembark" for choice dialog
-***************************************************************************/
-static void disembark1(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TRANSPORT_DISEMBARK1,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Transport Disembark 2" for choice dialog
-***************************************************************************/
-static void disembark2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TRANSPORT_DISEMBARK2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Transport Disembark 3" for choice dialog
-***************************************************************************/
-static void disembark3(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TRANSPORT_DISEMBARK3,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Transport Disembark 4" for choice dialog
-***************************************************************************/
-static void disembark4(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TRANSPORT_DISEMBARK4,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Enter Hut" for choice dialog
-***************************************************************************/
-static void enter_hut(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_ENTER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Enter Hut 2" for choice dialog
-***************************************************************************/
-static void enter_hut2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_ENTER2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Enter Hut 3" for choice dialog
-***************************************************************************/
-static void enter_hut3(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_ENTER3,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Enter Hut 4" for choice dialog
-***************************************************************************/
-static void enter_hut4(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_ENTER4,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Frighten Hut" for choice dialog
-***************************************************************************/
-static void frighten_hut(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_FRIGHTEN,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Frighten Hut 2" for choice dialog
-***************************************************************************/
-static void frighten_hut2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_FRIGHTEN2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Frighten Hut 3" for choice dialog
-***************************************************************************/
-static void frighten_hut3(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_FRIGHTEN3,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Frighten Hut 4" for choice dialog
-***************************************************************************/
-static void frighten_hut4(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_HUT_FRIGHTEN4,
-                      actor_id, target_id, 0, "");
-  }
-}
-
 /**********************************************************************//**
   Action "Nuke Units" for choice dialog
 ***************************************************************************/
@@ -3160,96 +2935,6 @@ static void found_city(QVariant data1, QVariant data2, action_id act)
 
   dsend_packet_city_name_suggestion_req(&client.conn,
                                         actor_id);
-}
-
-/***********************************************************************//**
-  Action "Transform Terrain" for choice dialog
-***************************************************************************/
-static void transform_terrain(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TRANSFORM_TERRAIN,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Transform Terrain 2" for choice dialog
-***************************************************************************/
-static void transform_terrain2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TRANSFORM_TERRAIN2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Cultivate" for choice dialog
-***************************************************************************/
-static void cultivate(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_CULTIVATE,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Cultivate 2" for choice dialog
-***************************************************************************/
-static void cultivate2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_CULTIVATE2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Plant" for choice dialog
-***************************************************************************/
-static void plant(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PLANT,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Plant 2" for choice dialog
-***************************************************************************/
-static void plant2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PLANT2,
-                      actor_id, target_id, 0, "");
-  }
 }
 
 /***********************************************************************//**
@@ -3497,308 +3182,6 @@ static void irrigate2(QVariant data1, QVariant data2, action_id act)
                        * becomes supported. */
                       action_selection_target_extra(),
                       "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Explode Nuclear" for choice dialog
-***************************************************************************/
-static void nuke(QVariant data1, QVariant data2, action_id act)
-{
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if (game_unit_by_number(diplomat_id) != nullptr
-      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
-    request_do_action(ACTION_NUKE,
-                      diplomat_id, diplomat_target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Attack" for choice dialog
-***************************************************************************/
-static void attack(QVariant data1, QVariant data2, action_id act)
-{
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if (game_unit_by_number(diplomat_id) != nullptr
-      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
-    request_do_action(ACTION_ATTACK,
-                      diplomat_id, diplomat_target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Attack 2" for choice dialog
-***************************************************************************/
-static void attack2(QVariant data1, QVariant data2, action_id act)
-{
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if (game_unit_by_number(diplomat_id) != nullptr
-      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
-    request_do_action(ACTION_ATTACK2,
-                      diplomat_id, diplomat_target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Suicide Attack" for choice dialog
-***************************************************************************/
-static void suicide_attack(QVariant data1, QVariant data2, action_id act)
-{
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if (game_unit_by_number(diplomat_id) != nullptr
-      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
-    request_do_action(ACTION_SUICIDE_ATTACK,
-                      diplomat_id, diplomat_target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Suicide Attack 2" for choice dialog
-***************************************************************************/
-static void suicide_attack2(QVariant data1, QVariant data2, action_id act)
-{
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if (game_unit_by_number(diplomat_id) != nullptr
-      && index_to_tile(&(wld.map), diplomat_target_id) != nullptr) {
-    request_do_action(ACTION_SUICIDE_ATTACK2,
-                      diplomat_id, diplomat_target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Paradrop Unit" for choice dialog
-***************************************************************************/
-static void paradrop(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PARADROP,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit" for choice dialog
-***************************************************************************/
-static void teleport(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit 2" for choice dialog
-***************************************************************************/
-static void teleport2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit 3" for choice dialog
-***************************************************************************/
-static void teleport3(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT3,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Paradrop Unit Conquer" for choice dialog
-***************************************************************************/
-static void paradrop_conquer(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PARADROP_CONQUER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit Conquer" for choice dialog
-***************************************************************************/
-static void teleport_conquer(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT_CONQUER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Paradrop Unit Frighten" for choice dialog
-***************************************************************************/
-static void paradrop_frighten(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PARADROP_FRIGHTEN,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit Frighten" for choice dialog
-***************************************************************************/
-static void teleport_frighten(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT_FRIGHTEN,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Paradrop Unit Frighten Conquer" for choice dialog
-***************************************************************************/
-static void paradrop_frighten_conquer(QVariant data1, QVariant data2,
-                                      action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PARADROP_FRIGHTEN_CONQUER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit Frighten Conquer" for choice dialog
-***************************************************************************/
-static void teleport_frighten_conquer(QVariant data1, QVariant data2,
-                                      action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT_FRIGHTEN_CONQUER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Paradrop Unit Enter" for choice dialog
-***************************************************************************/
-static void paradrop_enter(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PARADROP_ENTER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit Enter" for choice dialog
-***************************************************************************/
-static void teleport_enter(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT_ENTER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Paradrop Unit Enter Conquer" for choice dialog
-***************************************************************************/
-static void paradrop_enter_conquer(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_PARADROP_ENTER_CONQUER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Teleport Unit Enter Conquer" for choice dialog
-***************************************************************************/
-static void teleport_enter_conquer(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_TELEPORT_ENTER_CONQUER,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action join city for choice dialog
-***************************************************************************/
-static void join_city(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && game_city_by_number(target_id) != nullptr) {
-    request_do_action(ACTION_JOIN_CITY,
-                      actor_id, target_id, 0, "");
   }
 }
 
@@ -4309,62 +3692,16 @@ static void diplomat_incite_escape(QVariant data1, QVariant data2, action_id act
 }
 
 /***********************************************************************//**
-  Action "Unit Move" for choice dialog
+  Tile targeted action for choice dialog
 ***************************************************************************/
-static void regular_move(QVariant data1, QVariant data2, action_id act)
+static void simple_tile_request(QVariant data1, QVariant data2, action_id act)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
   if (game_unit_by_number(actor_id) != nullptr
       && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_UNIT_MOVE,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Unit Move 2" for choice dialog
-***************************************************************************/
-static void regular_move2(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_UNIT_MOVE2,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Unit Move 3" for choice dialog
-***************************************************************************/
-static void regular_move3(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_UNIT_MOVE3,
-                      actor_id, target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Scout" for choice dialog
-***************************************************************************/
-static void scout(QVariant data1, QVariant data2, action_id act)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (game_unit_by_number(actor_id) != nullptr
-      && index_to_tile(&(wld.map), target_id) != nullptr) {
-    request_do_action(ACTION_SCOUT,
-                      actor_id, target_id, 0, "");
+    request_do_action(act, actor_id, target_id, 0, "");
   }
 }
 
