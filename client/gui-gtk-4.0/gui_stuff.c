@@ -435,6 +435,9 @@ static void gui_dialog_detach(struct gui_dialog *dlg)
   g_signal_handler_disconnect(notebook, handler_id);
 
   n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->grid);
+
+  fc_assert(n >= 0);
+
   gtk_notebook_remove_page(GTK_NOTEBOOK(dlg->v.tab.notebook), n);
 
 
@@ -882,6 +885,9 @@ void gui_dialog_destroy(struct gui_dialog *dlg)
       gint n;
 
       n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->grid);
+
+      fc_assert(n >= 0);
+
       gtk_notebook_remove_page(GTK_NOTEBOOK(dlg->v.tab.notebook), n);
       g_signal_handler_disconnect(GTK_NOTEBOOK(dlg->v.tab.notebook),
                                   dlg->v.tab.handler_id);
