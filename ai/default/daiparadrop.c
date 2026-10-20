@@ -63,7 +63,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
 {
   int best = 0;
   int val;
-  struct tile* best_tile = NULL;
+  struct tile* best_tile = nullptr;
   int range = unit_type_get(punit)->paratroopers_range;
   struct city* acity;
   struct player* pplayer = unit_owner(punit);
@@ -80,13 +80,13 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
         && unit_list_size(ptile->units) == 0) {
       val = city_size_get(acity) * def_ai_city_data(acity, ait)->urgency;
       if (val > best) {
-	best = val;
-	best_tile = ptile;
+        best = val;
+        best_tile = ptile;
       }
     }
   } square_iterate_end;
 
-  if (best_tile != NULL) {
+  if (best_tile != nullptr) {
     acity = tile_city(best_tile);
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
              "Choose to jump in order to protect allied city %s (%d %d). "
@@ -109,12 +109,12 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
             + (tile_continent(unit_tile(punit)) != tile_continent(ptile));
       if (val > best) {
         best = val;
-	best_tile = ptile;
+        best_tile = ptile;
       }
     }
   } square_iterate_end;
 
-  if (best_tile != NULL) {
+  if (best_tile != nullptr) {
     acity = tile_city(best_tile);
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
              "Choose to jump into enemy city %s (%d %d). Benefit: %d",
@@ -148,7 +148,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     /* Iterate over adjacent tile to find good victim */
     adjc_iterate(nmap, ptile, target) {
       if (unit_list_size(target->units) == 0
-          || !can_unit_attack_tile(punit, NULL, target)
+          || !can_unit_attack_tile(punit, nullptr, target)
           || is_ocean_tile(target)
           || (has_handicap(pplayer, H_FOG)
               && !map_is_known_and_seen(target, pplayer, V_MAIN))) {
@@ -159,29 +159,29 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
         unit_list_iterate(target->units, victim) {
           if ((!has_handicap(pplayer, H_FOG)
                || can_player_see_unit(pplayer, victim))
-              && (unit_attack_unit_at_tile_result(punit, NULL,
+              && (unit_attack_unit_at_tile_result(punit, nullptr,
                                                   victim, target)
                   == ATT_OK)) {
             val += victim->hp * 100;
           }
         } unit_list_iterate_end;
       } else {
-        val += get_defender(nmap, punit, target, NULL)->hp * 100;
+        val += get_defender(nmap, punit, target, nullptr)->hp * 100;
       }
       val *= unit_win_chance(nmap, punit,
-                             get_defender(nmap, punit, target, NULL),
-                             NULL);
+                             get_defender(nmap, punit, target, nullptr),
+                             nullptr);
       val += pterrain->defense_bonus / 10;
       val -= punit->hp * 100;
 
       if (val > best) {
         best = val;
-	best_tile = ptile;
+        best_tile = ptile;
       }
     } adjc_iterate_end;
   } square_iterate_end;
 
-  if (best_tile != NULL) {
+  if (best_tile != nullptr) {
     UNIT_LOG(LOG_DEBUG, punit, "Choose to jump at (%d, %d) to attack "
                                "adjacent units. Benefit: %d",
              TILE_XY(best_tile), best);
@@ -197,7 +197,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
                             struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
-  struct tile *ptile_dest = NULL;
+  struct tile *ptile_dest = nullptr;
   const struct civ_map *nmap = &(wld.map);
   int sanity = punit->id;
 
@@ -243,11 +243,11 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
         if (has_handicap(pplayer, H_FOG)) {
           possible = action_prob_possible(
                        action_prob_unit_vs_tgt(nmap, paction, punit,
-                                               tile_city(ptile_dest), NULL,
-                                               ptile_dest, NULL));
+                                               tile_city(ptile_dest), nullptr,
+                                               ptile_dest, nullptr));
         } else {
           possible = is_action_enabled_unit_on_tile(nmap, paction->id, punit,
-                                                    ptile_dest, NULL);
+                                                    ptile_dest, nullptr);
         }
 
         if (possible) {
@@ -257,31 +257,31 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
                                     paction->id, ACT_REQ_PLAYER);
         }
 
-        if (jump_performed || NULL == game_unit_by_number(sanity)) {
+        if (jump_performed || game_unit_by_number(sanity) == nullptr) {
           /* Finished or finished. */
           break;
         }
       } action_iterate_end;
 
       if (jump_performed) {
-	/* Successful! */
-        if (NULL == game_unit_by_number(sanity)) {
-	  /* The unit did not survive the move */
-	  return;
-	}
-	/* We attack the target */
+        /* Successful! */
+        if (game_unit_by_number(sanity) == nullptr) {
+          /* The unit did not survive the move */
+          return;
+        }
+        /* We attack the target */
         (void) dai_military_rampage(punit, RAMPAGE_ANYTHING,
                                     RAMPAGE_ANYTHING);
       }
     }
   } else {
     /* We can't paradrop :-(  */
-    struct city *acity = NULL;
+    struct city *acity = nullptr;
 
     /* We are in a city, so don't try to find another */
     if (pcity) {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
-	       "waiting in a city for next turn.");
+               "waiting in a city for next turn.");
       return;
     }
 
@@ -296,7 +296,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
       }
     } else {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
-	       "didn't find city to go and recover.");
+               "didn't find city to go and recover.");
       dai_manage_military(ait, nmap, pplayer, punit);
     }
   }
@@ -316,9 +316,8 @@ static int calculate_want_for_paratrooper(struct unit *punit,
   int total, total_cities;
   struct civ_map *nmap = &(wld.map);
 
-  profit += u_type->defense_strength
-          + u_type->move_rate
-	  + u_type->attack_strength;
+  profit
+    += u_type->defense_strength + u_type->move_rate + u_type->attack_strength;
 
   square_iterate(nmap, ptile_city, range, ptile) {
     int multiplier;
@@ -364,7 +363,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
     }
   } square_iterate_end;
 
-  total = adv_data_get(pplayer, NULL)->stats.units.teleporters;
+  total = adv_data_get(pplayer, nullptr)->stats.units.teleporters;
   total_cities = city_list_size(pplayer->cities);
 
   if (total > total_cities) {
