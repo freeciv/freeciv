@@ -644,11 +644,19 @@ widget_id gui_event_loop(void *data,
           continue;
         }
       } else {
+
+#ifdef __EMSCRIPTEN__
+        if (net_socket >= 0) {
+          SDL_PushEvent(net_user_event);
+        }
+#else  /* __EMSCRIPTEN__ */
         if (result > 0) {
           if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
             SDL_PushEvent(net_user_event);
           }
         }
+#endif /* __EMSCRIPTEN__ */
+
       }
     } else { /* If connection is not establish */
       SDL_Delay(10);
