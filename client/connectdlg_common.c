@@ -298,8 +298,8 @@ bool client_start_server(void)
 #ifdef HAVE_USABLE_FORK
   {
     int argc = 0;
-    const int max_nargs = 25;
-    char *argv[max_nargs + 1];
+#define MAX_NARGS 25
+    char *argv[MAX_NARGS + 1];
     char port_buf[32];
     char dbg_lvl_buf[32]; /* Do not move this inside the block where it gets filled,
                            * it's needed via the argv[x] pointer later on, so must
@@ -353,7 +353,8 @@ bool client_start_server(void)
       argv[argc++] = ruleset;
     }
     argv[argc] = nullptr;
-    fc_assert(argc <= max_nargs);
+
+    fc_assert(argc <= MAX_NARGS);
 
     {
       struct astring srv_cmdline_opts = ASTRING_INIT;
@@ -443,6 +444,8 @@ bool client_start_server(void)
       _exit(1);
     }
   }
+#undef MAX_NARGS
+
 #else /* HAVE_USABLE_FORK */
 #ifdef FREECIV_MSWINDOWS
   if (logfile) {
