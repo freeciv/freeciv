@@ -1132,10 +1132,8 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
 
   strvec_iterate(dirs, dirname) {
-    struct stat buf;    /* See if we can open the file or directory */
-
     astr_set(&realfile, "%s" DIR_SEPARATOR "%s", dirname, fnbuf);
-    if (fc_stat(astr_str(&realfile), &buf) == 0) {
+    if (fc_stat(astr_str(&realfile), nullptr) == 0) {
       return astr_str(&realfile);
     }
   } strvec_iterate_end;

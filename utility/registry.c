@@ -52,9 +52,7 @@ struct section_file *secfile_load(const char *filename,
                                   bool allow_duplicates)
 {
 #ifdef FREECIV_HAVE_XML_REGISTRY
-  struct stat buf;
-
-  if (fc_stat(filename, &buf) == 0) {
+  if (fc_stat(filename, nullptr) == 0) {
     xmlDoc *sec_doc;
 
     sec_doc = xmlReadFile(filename, nullptr, XML_PARSE_NOERROR);

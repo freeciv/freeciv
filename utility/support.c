@@ -535,19 +535,32 @@ int fc_remove(const char *filename)
 /************************************************************************//**
   Wrapper function for stat() with filename conversion to local
   encoding on Windows.
+
+  @param   filename Name of the file to check
+  @param   buf      Stat struct to fill. Can be nullptr
+  @return  0 on success, -1 on failure
 ****************************************************************************/
 int fc_stat(const char *filename, struct stat *buf)
 {
+  struct stat dummy;
+  struct stat *ptr;
+
+  if (buf != nullptr) {
+    ptr = buf;
+  } else {
+    ptr = &dummy;
+  }
+
 #ifdef FREECIV_MSWINDOWS
   int result;
   char *filename_in_local_encoding =
     internal_to_local_string_malloc(filename);
 
-  result = stat(filename_in_local_encoding, buf);
+  result = stat(filename_in_local_encoding, ptr);
   free(filename_in_local_encoding);
   return result;
 #else  /* FREECIV_MSWINDOWS */
-  return stat(filename, buf);
+  return stat(filename, ptr);
 #endif /* FREECIV_MSWINDOWS */
 }
 

@@ -5008,7 +5008,6 @@ static const char *lua_accessor(int i)
 static bool lua_command(struct connection *caller, char *arg, bool check,
                         int read_recursion)
 {
-  struct stat statbuf;
   const char extension[] = ".lua", *real_filename = nullptr;
   char luafile[4096], tilde_filename[4096];
   char *tokens[1], *luaarg = nullptr;
@@ -5141,7 +5140,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check,
               _("Loading Freeciv script file '%s'."), real_filename);
 
     if (is_reg_file_for_access(real_filename, FALSE)
-        && !fc_stat(real_filename, &statbuf)) {
+        && !fc_stat(real_filename, nullptr)) {
       ret = script_server_do_file(caller, real_filename);
     } else {
       cmd_reply(CMD_LUA, caller, C_FAIL,
@@ -5154,7 +5153,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check,
               _("Loading Freeciv script file '%s'."), real_filename);
 
     if (is_reg_file_for_access(real_filename, FALSE)
-        && !fc_stat(real_filename, &statbuf)) {
+        && !fc_stat(real_filename, nullptr)) {
       ret = script_server_unsafe_do_file(caller, real_filename);
     } else {
       cmd_reply(CMD_LUA, caller, C_FAIL,

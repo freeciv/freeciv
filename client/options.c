@@ -5702,7 +5702,6 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
     fc_strlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
 #else
     int major, minor;
-    struct stat buf;
 
     name = freeciv_storage_dir();
     if (name == NULL) {
@@ -5719,7 +5718,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
               : minor >= 0); minor--) {
         fc_snprintf(name_buffer, sizeof(name_buffer),
                     "%s" DIR_SEPARATOR NEW_OPTION_FILE_NAME, name, major, minor);
-        if (0 == fc_stat(name_buffer, &buf)) {
+        if (0 == fc_stat(name_buffer, nullptr)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
               || MINOR_NEW_OPTION_FILE_NAME != minor) {
             log_normal(_("Didn't find '%s' option file, "
@@ -5751,7 +5750,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
          minor--) {
       fc_snprintf(name_buffer, sizeof(name_buffer),
                   "%s" DIR_SEPARATOR MID_OPTION_FILE_NAME, name, major, minor);
-      if (0 == fc_stat(name_buffer, &buf)) {
+      if (0 == fc_stat(name_buffer, nullptr)) {
         log_normal(_("Didn't find '%s' option file, "
                      "loading from '%s' instead."),
                    get_current_option_file_name() + strlen(name) + 1,
