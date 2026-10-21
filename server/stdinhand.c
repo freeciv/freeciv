@@ -3852,11 +3852,20 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   {
     struct stat buf;
+    bool failure = FALSE;
 
-    /* does file exist? */
+    /* Does file exist? */
     if (fc_stat(arg, &buf) != 0) {
       log_error("Error loading savefile '%s': %s", arg,
                 fc_strerror(fc_get_errno()));
+      failure = TRUE;
+    } else if (!S_ISREG(buf.st_mode)) {
+      log_error("Error loading savefile '%s': %s", arg,
+                "not a file");
+      failure = TRUE;
+    }
+
+    if (failure) {
       cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"),
                 arg);
       dlsend_packet_game_load(game.est_connections, FALSE, arg);

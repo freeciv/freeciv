@@ -126,10 +126,15 @@ static bool fcdb_load_config(const char *filename)
 
   fc_assert_ret_val(filename != nullptr, FALSE);
 
-  /* does file exist? */
+  /* Does file exist? */
   if (fc_stat(filename, &buf) != 0) {
     log_error(_("Cannot load fcdb config file '%s':\n%s"), filename,
               fc_strerror(fc_get_errno()));
+    return FALSE;
+  }
+  if (!S_ISREG(buf.st_mode)) {
+    log_error(_("Cannot load fcdb config file '%s':\n%s"), filename,
+              "not a file");
     return FALSE;
   }
 
