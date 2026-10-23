@@ -731,7 +731,7 @@ if host_system == 'emscripten'
      language : [ 'c', 'cpp'])
   add_global_link_arguments(
      emscripten_use_args,
-     '-s', 'TOTAL_MEMORY=64MB',
+     '-sTOTAL_MEMORY=128MB',
      '-sSTACK_SIZE=131072',
      '-sASYNCIFY',
      '-sASYNCIFY_STACK_SIZE=8192',
