@@ -41,6 +41,8 @@ endif
 IMSYS2_DIR != pwd
 FREECIV_VERSION != $(SRC_ROOT)/fc_version
 
+FOLLOWTAG='windows-S3_4'
+
 ifeq ($(MIN_WIN_VER),)
 MIN_WIN_VER=$(PREF_WIN_VER)
 endif
@@ -147,7 +149,7 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 install-freeciv-common: clean-install-client-arch
 	# Create build directory
 	mkdir -p $(BUILD_DIR)/$(WINARCH)-client-$(GUI)
-	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); meson setup $(IMSYS2_DIR)/../../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dfollowtag='windows-S3_4' -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Dtools=manual,ruleup -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) -Dsyslua=false $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); meson setup $(IMSYS2_DIR)/../../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-client-$(GUI) -Dfollowtag=$(FOLLOWTAG) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Dtools=manual,ruleup -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) -Dsyslua=false $(EXTRA_CONFIG)
 	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja
 	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja install
 	cd $(BUILD_DIR)/$(WINARCH)-client-$(GUI); ninja langstat_core.txt
@@ -164,7 +166,7 @@ install-freeciv-common: clean-install-client-arch
 install-ruledit-common: clean-ruledit-install-arch
 	# Create build directory
 	mkdir -p $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI)
-	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); meson setup $(IMSYS2_DIR)/../../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dfollowtag='windows-S3_4' -Dclients=[] -Dfcmp=[] -Dserver=disabled -Dtools=ruledit -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) -Dsyslua=false $(EXTRA_CONFIG)
+	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); meson setup $(IMSYS2_DIR)/../../.. -Dprefix=$(IMSYS2_DIR)/$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dfollowtag=$(FOLLOWTAG) -Dclients=[] -Dfcmp=[] -Dserver=disabled -Dtools=ruledit -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) -Dsyslua=false $(EXTRA_CONFIG)
 	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja
 	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja install
 	cd $(BUILD_DIR)/$(WINARCH)-ruledit-$(GUI); ninja langstat_core.txt langstat_ruledit.txt
