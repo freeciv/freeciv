@@ -88,9 +88,9 @@ struct waiting_queue_data {
 #define SPECHASH_IDATA_FREE waiting_queue_list_destroy
 #include "spechash.h"
 
-static struct update_queue_hash *update_queue = NULL;
-static struct waiting_queue_hash *processing_started_waiting_queue = NULL;
-static struct waiting_queue_hash *processing_finished_waiting_queue = NULL;
+static struct update_queue_hash *update_queue = nullptr;
+static struct waiting_queue_hash *processing_started_waiting_queue = nullptr;
+static struct waiting_queue_hash *processing_finished_waiting_queue = nullptr;
 static int update_queue_frozen_level = 0;
 static bool update_queue_has_idle_callback = FALSE;
 
@@ -116,8 +116,9 @@ update_queue_data_new(void *data, uq_free_fn_t free_data_func)
 ****************************************************************************/
 static void update_queue_data_destroy(struct update_queue_data *uq_data)
 {
-  fc_assert_ret(NULL != uq_data);
-  if (NULL != uq_data->free_data_func) {
+  fc_assert_ret(uq_data != nullptr);
+
+  if (uq_data->free_data_func != nullptr) {
     uq_data->free_data_func(uq_data->data);
   }
   free(uq_data);
@@ -142,9 +143,10 @@ waiting_queue_data_new(uq_callback_t callback, void *data,
 ****************************************************************************/
 static void waiting_queue_data_destroy(struct waiting_queue_data *wq_data)
 {
-  fc_assert_ret(NULL != wq_data);
-  if (NULL != wq_data->uq_data) {
-    /* May be NULL, see waiting_queue_data_extract(). */
+  fc_assert_ret(wq_data != nullptr);
+
+  if (wq_data->uq_data != nullptr) {
+    /* May be nullptr, see waiting_queue_data_extract(). */
     update_queue_data_destroy(wq_data->uq_data);
   }
   free(wq_data);
@@ -158,24 +160,25 @@ waiting_queue_data_extract(struct waiting_queue_data *wq_data)
 {
   struct update_queue_data *uq_data = wq_data->uq_data;
 
-  wq_data->uq_data = NULL;
+  wq_data->uq_data = nullptr;
+
   return uq_data;
 }
-
 
 /************************************************************************//**
   Initialize the update queue.
 ****************************************************************************/
 void update_queue_init(void)
 {
-  if (NULL !=  update_queue) {
+  if (update_queue != nullptr) {
     /* Already initialized. */
-    fc_assert(NULL != processing_started_waiting_queue);
-    fc_assert(NULL != processing_finished_waiting_queue);
+    fc_assert(processing_started_waiting_queue != nullptr);
+    fc_assert(processing_finished_waiting_queue != nullptr);
+
     return;
   }
-  fc_assert(NULL == processing_started_waiting_queue);
-  fc_assert(NULL == processing_finished_waiting_queue);
+  fc_assert(processing_started_waiting_queue == nullptr);
+  fc_assert(processing_finished_waiting_queue == nullptr);
 
   update_queue = update_queue_hash_new();
   processing_started_waiting_queue = waiting_queue_hash_new();
@@ -189,21 +192,21 @@ void update_queue_init(void)
 ****************************************************************************/
 void update_queue_free(void)
 {
-  fc_assert(NULL != update_queue);
-  fc_assert(NULL != processing_started_waiting_queue);
-  fc_assert(NULL != processing_finished_waiting_queue);
+  fc_assert(update_queue != nullptr);
+  fc_assert(processing_started_waiting_queue != nullptr);
+  fc_assert(processing_finished_waiting_queue != nullptr);
 
-  if (NULL != update_queue) {
+  if (update_queue != nullptr) {
     update_queue_hash_destroy(update_queue);
-    update_queue = NULL;
+    update_queue = nullptr;
   }
-  if (NULL != processing_started_waiting_queue) {
+  if (processing_started_waiting_queue != nullptr) {
     waiting_queue_hash_destroy(processing_started_waiting_queue);
-    processing_started_waiting_queue = NULL;
+    processing_started_waiting_queue = nullptr;
   }
-  if (NULL != processing_finished_waiting_queue) {
+  if (processing_finished_waiting_queue != nullptr) {
     waiting_queue_hash_destroy(processing_finished_waiting_queue);
-    processing_finished_waiting_queue = NULL;
+    processing_finished_waiting_queue = nullptr;
   }
 
   update_queue_frozen_level = 0;
@@ -226,10 +229,10 @@ void update_queue_thaw(void)
   update_queue_frozen_level--;
   if (0 == update_queue_frozen_level
       && !update_queue_has_idle_callback
-      && NULL != update_queue
+      && update_queue != nullptr
       && 0 < update_queue_hash_size(update_queue)) {
     update_queue_has_idle_callback = TRUE;
-    add_idle_callback(update_unqueue, NULL);
+    add_idle_callback(update_unqueue, nullptr);
   } else if (0 > update_queue_frozen_level) {
     log_error("update_queue_frozen_level < 0, repairing...");
     update_queue_frozen_level = 0;
@@ -263,7 +266,7 @@ waiting_queue_execute_pending_requests(struct waiting_queue_hash *hash,
 {
   struct waiting_queue_list *list;
 
-  if (NULL == hash || !waiting_queue_hash_lookup(hash, request_id, &list)) {
+  if (hash == nullptr || !waiting_queue_hash_lookup(hash, request_id, &list)) {
     return;
   }
 
@@ -298,7 +301,7 @@ static void update_unqueue(void *data)
 {
   struct update_queue_hash *hash;
 
-  if (NULL == update_queue) {
+  if (update_queue == nullptr) {
     update_queue_has_idle_callback = FALSE;
     return;
   }
@@ -334,7 +337,7 @@ static inline void update_queue_push(uq_callback_t callback,
   if (!update_queue_has_idle_callback
       && !update_queue_is_frozen()) {
     update_queue_has_idle_callback = TRUE;
-    add_idle_callback(update_unqueue, NULL);
+    add_idle_callback(update_unqueue, nullptr);
   }
 }
 
@@ -344,8 +347,8 @@ static inline void update_queue_push(uq_callback_t callback,
 ****************************************************************************/
 void update_queue_add(uq_callback_t callback, void *data)
 {
-  if (NULL != update_queue) {
-    update_queue_push(callback, update_queue_data_new(data, NULL));
+  if (update_queue != nullptr) {
+    update_queue_push(callback, update_queue_data_new(data, nullptr));
   }
 }
 
@@ -356,7 +359,7 @@ void update_queue_add(uq_callback_t callback, void *data)
 void update_queue_add_full(uq_callback_t callback, void *data,
                            uq_free_fn_t free_data_func)
 {
-  if (NULL != update_queue) {
+  if (update_queue != nullptr) {
     update_queue_push(callback, update_queue_data_new(data, free_data_func));
   }
 }
@@ -366,32 +369,34 @@ void update_queue_add_full(uq_callback_t callback, void *data,
 ****************************************************************************/
 bool update_queue_has_callback(uq_callback_t callback)
 {
-  return (NULL != update_queue
-          && update_queue_hash_lookup(update_queue, callback, NULL));
+  return (update_queue != nullptr
+          && update_queue_hash_lookup(update_queue, callback, nullptr));
 }
 
 /************************************************************************//**
   Returns whether this callback is listed in the update queue and
   get the its data and free function. 'data' and 'free_data_func' can
-  be NULL.
+  be nullptr.
 ****************************************************************************/
 bool update_queue_has_callback_full(uq_callback_t callback,
                                     const void **data,
                                     uq_free_fn_t *free_data_func)
 {
-  if (NULL != update_queue) {
+  if (update_queue != nullptr) {
     struct update_queue_data *uq_data;
 
     if (update_queue_hash_lookup(update_queue, callback, &uq_data)) {
-      if (NULL != data) {
+      if (data != nullptr) {
         *data = uq_data->data;
       }
-      if (NULL != free_data_func) {
+      if (free_data_func != nullptr) {
         *free_data_func = uq_data->free_data_func;
       }
+
       return TRUE;
     }
   }
+
   return FALSE;
 }
 
@@ -403,7 +408,7 @@ waiting_queue_add_pending_request(struct waiting_queue_hash *hash,
                                   int request_id, uq_callback_t callback,
                                   void *data, uq_free_fn_t free_data_func)
 {
-  if (NULL != hash) {
+  if (hash != nullptr) {
     struct waiting_queue_list *list;
 
     if (!waiting_queue_hash_lookup(hash, request_id, &list)) {
@@ -425,7 +430,7 @@ void update_queue_connect_processing_started(int request_id,
                                              void *data)
 {
   waiting_queue_add_pending_request(processing_started_waiting_queue,
-                                    request_id, callback, data, NULL);
+                                    request_id, callback, data, nullptr);
 }
 
 /************************************************************************//**
@@ -452,7 +457,7 @@ void update_queue_connect_processing_finished(int request_id,
                                               void *data)
 {
   waiting_queue_add_pending_request(processing_finished_waiting_queue,
-                                    request_id, callback, data, NULL);
+                                    request_id, callback, data, nullptr);
 }
 
 /************************************************************************//**
@@ -522,7 +527,7 @@ enum client_pages get_client_page(void)
   const void *data;
 
   if (update_queue_has_callback_full(set_client_page_callback,
-                                     &data, NULL)) {
+                                     &data, nullptr)) {
     return FC_PTR_TO_INT(data);
   } else {
     return get_current_client_page();
@@ -571,7 +576,7 @@ void menus_update(void)
 ****************************************************************************/
 void multipliers_dialog_update(void)
 {
-  update_queue_add(real_multipliers_dialog_update, NULL);
+  update_queue_add(real_multipliers_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -623,7 +628,7 @@ static void cities_update_callback(void *data)
 void popup_city_dialog(struct city *pcity)
 {
   pcity->client.need_updates |= CU_POPUP_DIALOG;
-  update_queue_add(cities_update_callback, NULL);
+  update_queue_add(cities_update_callback, nullptr);
 }
 
 /************************************************************************//**
@@ -632,7 +637,7 @@ void popup_city_dialog(struct city *pcity)
 void refresh_city_dialog(struct city *pcity)
 {
   pcity->client.need_updates |= CU_UPDATE_DIALOG;
-  update_queue_add(cities_update_callback, NULL);
+  update_queue_add(cities_update_callback, nullptr);
 }
 
 /************************************************************************//**
@@ -641,7 +646,7 @@ void refresh_city_dialog(struct city *pcity)
 void city_report_dialog_update_city(struct city *pcity)
 {
   pcity->client.need_updates |= CU_UPDATE_REPORT;
-  update_queue_add(cities_update_callback, NULL);
+  update_queue_add(cities_update_callback, nullptr);
 }
 
 /************************************************************************//**
@@ -649,7 +654,7 @@ void city_report_dialog_update_city(struct city *pcity)
 ****************************************************************************/
 void conn_list_dialog_update(void)
 {
-  update_queue_add(real_conn_list_dialog_update, NULL);
+  update_queue_add(real_conn_list_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -657,7 +662,7 @@ void conn_list_dialog_update(void)
 ****************************************************************************/
 void players_dialog_update(void)
 {
-  update_queue_add(real_players_dialog_update, NULL);
+  update_queue_add(real_players_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -665,7 +670,7 @@ void players_dialog_update(void)
 ****************************************************************************/
 void city_report_dialog_update(void)
 {
-  update_queue_add(real_city_report_dialog_update, NULL);
+  update_queue_add(real_city_report_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -673,7 +678,7 @@ void city_report_dialog_update(void)
 ****************************************************************************/
 void science_report_dialog_update(void)
 {
-  update_queue_add(real_science_report_dialog_update, NULL);
+  update_queue_add(real_science_report_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -681,7 +686,7 @@ void science_report_dialog_update(void)
 ****************************************************************************/
 void economy_report_dialog_update(void)
 {
-  update_queue_add(real_economy_report_dialog_update, NULL);
+  update_queue_add(real_economy_report_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -689,7 +694,7 @@ void economy_report_dialog_update(void)
 ****************************************************************************/
 void units_report_dialog_update(void)
 {
-  update_queue_add(real_units_report_dialog_update, NULL);
+  update_queue_add(real_units_report_dialog_update, nullptr);
 }
 
 /************************************************************************//**
@@ -697,5 +702,5 @@ void units_report_dialog_update(void)
 ****************************************************************************/
 void unit_select_dialog_update(void)
 {
-  update_queue_add(unit_select_dialog_update_real, NULL);
+  update_queue_add(unit_select_dialog_update_real, nullptr);
 }
