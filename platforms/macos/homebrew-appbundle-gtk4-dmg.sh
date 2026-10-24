@@ -24,6 +24,8 @@
 # script was started from
 cd "$(dirname "$0")/../.." || exit 1
 
+FOLLOWTAG="macos-S3_4"
+
 BREW="$(brew --prefix)"
 
 export CXXFLAGS=-std=c++17
@@ -128,7 +130,7 @@ if ! meson setup .. \
        -Dclients=gtk4 \
        -Dfcmp=gtk4 \
        -Daudio=sdl3 \
-       -Dfollowtag=macos \
+       -Dfollowtag=${FOLLOWTAG} \
        -Ddefault_library=static \
        -Dprefix="${CONTENTSDIR}" ||
    ! ninja ||
