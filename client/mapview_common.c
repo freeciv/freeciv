@@ -1594,15 +1594,13 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
   if (client_tile_get_known(ptile) != TILE_UNKNOWN
       || (editor_is_active() && editor_tile_is_selected(ptile))) {
     struct unit *punit = get_drawable_unit(tileset, ptile, citymode);
-    struct animation *anim = NULL;
 
-    if (animation_list_size(animations) > 0) {
-      anim = animation_list_get(animations, 0);
-    }
+    if (punit != nullptr && animation_list_size(animations) > 0) {
+      struct animation *anim = animation_list_get(animations, 0);
 
-    if (anim != NULL && punit != NULL
-        && punit->id == anim->id) {
-      punit = NULL;
+      if (punit->id == anim->id) {
+        punit = nullptr;
+      }
     }
 
     put_one_element(pcanvas, map_zoom, layer, ptile, NULL, NULL, punit,
