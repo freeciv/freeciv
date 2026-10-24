@@ -97,7 +97,7 @@ bool is_sea_barbarian(struct player *pplayer)
 struct player *create_barbarian_player(enum barbarian_type type)
 {
   struct player *barbarians;
-  struct nation_type *nation = NULL;
+  struct nation_type *nation = nullptr;
   struct research *presearch;
 
   players_iterate(old_barbs) {
@@ -128,11 +128,12 @@ struct player *create_barbarian_player(enum barbarian_type type)
   } players_iterate_end;
 
   /* Make a new player, or not */
-  barbarians = server_create_player(-1, default_ai_type_name(), NULL, FALSE);
-  if (barbarians == NULL) {
-    return NULL;
+  barbarians = server_create_player(-1, default_ai_type_name(), nullptr, FALSE);
+  if (barbarians == nullptr) {
+    return nullptr;
   }
-  /* Freeciv-web depends on AI-status being set already before server_player_init() */
+  /* Freeciv-web depends on AI-status being set already
+   * before server_player_init() */
   set_as_ai(barbarians);
   server_player_init(barbarians, TRUE, TRUE);
 
@@ -140,19 +141,19 @@ struct player *create_barbarian_player(enum barbarian_type type)
     /* Try LAND_AND_SEA *FIRST*, so that we don't end up
      * with one of the Land/Sea barbarians created first and
      * then LAND_AND_SEA created instead of the second. */
-    nation = pick_a_nation(NULL, FALSE, FALSE, LAND_AND_SEA_BARBARIAN);
-    if (nation != NULL) {
+    nation = pick_a_nation(nullptr, FALSE, FALSE, LAND_AND_SEA_BARBARIAN);
+    if (nation != nullptr) {
       type = LAND_AND_SEA_BARBARIAN;
     }
   }
 
-  if (nation == NULL) {
-    nation = pick_a_nation(NULL, FALSE, FALSE, type);
+  if (nation == nullptr) {
+    nation = pick_a_nation(nullptr, FALSE, FALSE, type);
   }
 
   /* Ruleset loading time checks should guarantee that there always is
      suitable nation available */
-  fc_assert(nation != NULL);
+  fc_assert(nation != nullptr);
 
   player_nation_defaults(barbarians, nation, TRUE);
   if (game_was_started()) {
@@ -187,16 +188,16 @@ struct player *create_barbarian_player(enum barbarian_type type)
 
   log_verbose("Created barbarian %s, player %d", player_name(barbarians),
               player_number(barbarians));
-  notify_player(NULL, NULL, E_UPRISING, ftc_server,
+  notify_player(nullptr, nullptr, E_UPRISING, ftc_server,
                 _("%s gain a leader by the name %s. Dangerous "
                   "times may lie ahead."),
                 nation_plural_for_player(barbarians),
                 player_name(barbarians));
 
-  send_player_all_c(barbarians, NULL);
+  send_player_all_c(barbarians, nullptr);
   /* Send research info after player info, else the client will complain
    * about invalid team. */
-  send_research_info(presearch, NULL);
+  send_research_info(presearch, nullptr);
 
   return barbarians;
 }
@@ -248,7 +249,7 @@ static void unit_move_pay(struct unit *punit, struct tile *pdesttile)
 
   unit_move(punit, pdesttile, move_cost,
             /* Don't override "Transport Embark" */
-            NULL, FALSE,
+            nullptr, FALSE,
             /* Don't override "Conquer City" */
             FALSE,
             /* Don't override "Conquer Extras" */
@@ -274,7 +275,7 @@ bool unleash_barbarians(struct tile *ptile)
   struct player *barbarians;
   int unit_cnt;
   int i;
-  bool alive = TRUE;     /* explorer survived */
+  bool alive = TRUE;     /* Explorer survived */
   enum terrain_class terrainc[8];
   struct tile *dir_tiles[8];
   int land_tiles = 0;
@@ -293,7 +294,7 @@ bool unleash_barbarians(struct tile *ptile)
       || game.info.turn < game.server.onsetbarbarian
       || num_role_units(L_BARBARIAN) == 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
-      wipe_unit(punit, ULR_BARB_UNLEASH, NULL);
+      wipe_unit(punit, ULR_BARB_UNLEASH, nullptr);
     } unit_list_iterate_safe_end;
     return FALSE;
   }
@@ -320,7 +321,7 @@ bool unleash_barbarians(struct tile *ptile)
 
       barb_unit = create_unit(barbarians, ptile, punittype, 0, 0, -1);
       log_debug("Created barbarian unit %s", utype_rule_name(punittype));
-      send_unit_info(NULL, barb_unit);
+      send_unit_info(nullptr, barb_unit);
     }
   }
 
@@ -328,7 +329,7 @@ bool unleash_barbarians(struct tile *ptile)
    * Only needed if we consider moving units away to random directions. */
   for (dir = 0; dir < 8; dir++) {
     dir_tiles[dir] = mapstep(nmap, ptile, dir);
-    if (dir_tiles[dir] == NULL) {
+    if (dir_tiles[dir] == nullptr) {
       terrainc[dir] = terrain_class_invalid();
     } else if (!is_non_allied_unit_tile(dir_tiles[dir], barbarians, TRUE)) {
       if (is_ocean_tile(dir_tiles[dir])) {
@@ -355,7 +356,8 @@ bool unleash_barbarians(struct tile *ptile)
         /* Search tile to move to */
         for (checked_count = 0; !dest_found && checked_count < land_tiles;
              checked_count++) {
-          int rdir = random_unchecked_direction(land_tiles - checked_count, checked);
+          int rdir
+            = random_unchecked_direction(land_tiles - checked_count, checked);
 
           if (unit_can_move_to_tile(nmap, punit2, dir_tiles[rdir],
                                     TRUE, FALSE, FALSE)) {
@@ -377,14 +379,14 @@ bool unleash_barbarians(struct tile *ptile)
 
   } else {
     if (ocean_tiles > 0) {
-      /* maybe it's an island, try to get on boats */
-      struct unit *boat = NULL; /* Boat */
+      /* Maybe it's an island, try to get on boats */
+      struct unit *boat = nullptr; /* Boat */
 
       /* Initialize checked status for checking Ocean tiles */
       init_dir_checked_status(checked, terrainc, TC_OCEAN);
 
       /* Search tile for boat. We always create just one boat. */
-      for (checked_count = 0; boat == NULL && checked_count < ocean_tiles;
+      for (checked_count = 0; boat == nullptr && checked_count < ocean_tiles;
            checked_count++) {
         struct unit_type *candidate;
         int rdir = random_unchecked_direction(ocean_tiles - checked_count, checked);
@@ -468,15 +470,15 @@ bool unleash_barbarians(struct tile *ptile)
     /* There's barbarian in this village! Kill the explorer. */
     unit_list_iterate_safe((ptile)->units, punit2) {
       if (unit_owner(punit2) != barbarians) {
-        wipe_unit(punit2, ULR_BARB_UNLEASH, NULL);
+        wipe_unit(punit2, ULR_BARB_UNLEASH, nullptr);
         alive = FALSE;
       } else {
-        send_unit_info(NULL, punit2);
+        send_unit_info(nullptr, punit2);
       }
     } unit_list_iterate_safe_end;
   }
 
-  /* FIXME: I don't know if this is needed */
+  /* FIXME: I don't know if this is needed. */
   if (ptile) {
     map_show_circle(barbarians, ptile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
   }
@@ -509,7 +511,7 @@ static struct tile *find_empty_tile_nearby(struct tile *ptile)
     }
   } square_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -544,8 +546,8 @@ static void try_summon_barbarians(void)
   int city_max;
   const struct civ_map *nmap = &(wld.map);
 
-  /* We attempt the summons on a particular, random position.  If this is
-   * an invalid position then the summons simply fails this time.  This means
+  /* We attempt the summons on a particular, random position. If this is
+   * an invalid position then the summons simply fails this time. This means
    * that a particular tile's chance of being summoned on is independent of
    * all the other tiles on the map - which is essential for balanced
    * gameplay. */
@@ -555,9 +557,9 @@ static void try_summon_barbarians(void)
     return;
   }
 
-  if (!(pc = find_closest_city(ptile, NULL, NULL, FALSE, FALSE, FALSE, FALSE,
-                               FALSE, NULL))) {
-    /* any city */
+  if (!(pc = find_closest_city(ptile, nullptr, nullptr, FALSE, FALSE,
+                               FALSE, FALSE, FALSE, nullptr))) {
+    /* Any city */
     return;
   }
 
@@ -570,17 +572,17 @@ static void try_summon_barbarians(void)
     return;
   }
 
-  /* I think Sea Raiders can come out of unknown sea territory */
+  /* I think Sea Raiders can come out of unknown sea territory. */
   if (!(utile = find_empty_tile_nearby(ptile))
       || (!map_is_known(utile, victim)
-	  && !is_ocean_tile(utile))
+          && !is_ocean_tile(utile))
       || !is_near_land(utile)) {
     return;
   }
 
   fc_assert(1 < game.server.barbarianrate);
 
-  /* do not harass small civs - in practice: do not uprise at the beginning */
+  /* Do not harass small civs - in practice: do not uprise at the beginning. */
   if ((int)fc_rand(30) + 1 >
       (int)city_list_size(victim->cities) * (game.server.barbarianrate - 1)
       || fc_rand(100) > get_player_bonus(victim, EFT_CIVIL_WAR_CHANCE)) {
@@ -614,7 +616,7 @@ static void try_summon_barbarians(void)
   leader_type = get_role_unit(L_BARBARIAN_LEADER, 0);
 
   if (!is_ocean_tile(utile)) {
-    /* land (disembark) barbarians */
+    /* Land (disembark) barbarians */
     barbarians = create_barbarian_player(LAND_BARBARIAN);
     if (!barbarians) {
       return;
@@ -709,12 +711,12 @@ static void try_summon_barbarians(void)
     return;
   }
 
-  /* Is this necessary?  create_unit_full() already sends unit info. */
+  /* Is this necessary? create_unit_full() already sends unit info. */
   unit_list_iterate(utile->units, punit2) {
-    send_unit_info(NULL, punit2);
+    send_unit_info(nullptr, punit2);
   } unit_list_iterate_end;
 
-  /* to let them know where to get you */
+  /* To let them know where to get you */
   map_show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
   map_show_circle(barbarians, pc->tile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
 
@@ -771,7 +773,7 @@ void barbarian_initial_wars(struct player *barbarians)
    * of a war between no-contact nations.
    * The problem is that if barbarians were not in War, they would
    * likely not to head to attack towards yet-unknown players
-   * as aggressively */
+   * as aggressively. */
 
   players_iterate(pplayer) {
     if (pplayer != barbarians) {
