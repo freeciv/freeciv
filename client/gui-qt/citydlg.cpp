@@ -401,7 +401,7 @@ impr_item::~impr_item()
 }
 
 /************************************************************************//**
-  Sets pixmap to improvemnt item
+  Sets pixmap to improvement item
 ****************************************************************************/
 void impr_item::init_pix()
 {
