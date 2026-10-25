@@ -51,12 +51,12 @@ void aiguard_check_guard(struct ai_type *ait, const struct unit *guard)
   const struct unit *charge_unit = game_unit_by_number(guard_data->charge);
   const struct city *charge_city = game_city_by_number(guard_data->charge);
   const struct player *guard_owner = unit_owner(guard);
-  const struct player *charge_owner = NULL;
-  struct unit_ai *charge_data = NULL;
+  const struct player *charge_owner = nullptr;
+  struct unit_ai *charge_data = nullptr;
 
   fc_assert_ret(BODYGUARD_NONE <= guard_data->charge);
   /* IDs always distinct */
-  fc_assert_ret(charge_unit == NULL || charge_city == NULL);
+  fc_assert_ret(charge_unit == nullptr || charge_city == nullptr);
 
   if (charge_unit) {
     charge_owner = unit_owner(charge_unit);
@@ -92,13 +92,13 @@ void aiguard_check_charge_unit(struct ai_type *ait, const struct unit *charge)
   struct unit_ai *charge_data = def_ai_unit_data(charge, ait);
   const struct player *charge_owner = unit_owner(charge);
   const struct unit *guard = game_unit_by_number(charge_data->bodyguard);
-  struct unit_ai *guard_data = NULL;
+  struct unit_ai *guard_data = nullptr;
 
   if (guard) {
     guard_data = def_ai_unit_data(guard, ait);
   }
 
-  fc_assert_ret(guard == NULL
+  fc_assert_ret(guard == nullptr
                 || (guard_data && BODYGUARD_WANTED <= guard_data->bodyguard));
 
   if (guard && guard_data->charge != charge->id) {
@@ -121,7 +121,7 @@ void aiguard_clear_charge(struct ai_type *ait, struct unit *guard)
   struct city *charge_city = game_city_by_number(guard_data->charge);
 
   /* IDs always distinct */
-  fc_assert_ret(charge_unit == NULL || charge_city == NULL);
+  fc_assert_ret(charge_unit == nullptr || charge_city == nullptr);
 
   if (charge_unit) {
     BODYGUARD_LOG(ait, LOGLEVEL_BODYGUARD, guard, "unassigned (unit)");
@@ -173,8 +173,8 @@ void aiguard_clear_guard(struct ai_type *ait, struct unit *charge)
 void aiguard_assign_guard_unit(struct ai_type *ait, struct unit *charge,
                                struct unit *guard)
 {
-  fc_assert_ret(NULL != charge);
-  fc_assert_ret(NULL != guard);
+  fc_assert_ret(charge != nullptr);
+  fc_assert_ret(guard != nullptr);
   fc_assert_ret(charge != guard);
   fc_assert_ret(unit_owner(charge) == unit_owner(guard));
 
@@ -198,8 +198,8 @@ void aiguard_assign_guard_city(struct ai_type *ait, struct city *charge,
 {
   struct unit_ai *guard_data = def_ai_unit_data(guard, ait);
 
-  fc_assert_ret(charge != NULL);
-  fc_assert_ret(guard != NULL);
+  fc_assert_ret(charge != nullptr);
+  fc_assert_ret(guard != nullptr);
   /*
    * Usually, but not always, city_owner(charge) == unit_owner(guard).
    */
@@ -264,7 +264,7 @@ bool aiguard_has_guard(struct ai_type *ait, struct unit *charge)
 
 /**********************************************************************//**
   Which unit, if any, is the body guard of a unit?
-  Returns NULL if the unit has not been assigned a guard.
+  Returns nullptr if the unit has not been assigned a guard.
 **************************************************************************/
 struct unit *aiguard_guard_of(struct ai_type *ait, struct unit *charge)
 {
@@ -274,7 +274,7 @@ struct unit *aiguard_guard_of(struct ai_type *ait, struct unit *charge)
 
 /**********************************************************************//**
   Which unit (if any) has a guard been assigned to?
-  Returns NULL if the unit is not the guard for a unit.
+  Returns nullptr if the unit is not the guard for a unit.
 **************************************************************************/
 struct unit *aiguard_charge_unit(struct ai_type *ait, struct unit *guard)
 {
@@ -284,7 +284,7 @@ struct unit *aiguard_charge_unit(struct ai_type *ait, struct unit *guard)
 
 /**********************************************************************//**
   Which city (if any) has a guard been assigned to?
-  Returns NULL if the unit is not a guard for a city.
+  Returns nullptr if the unit is not a guard for a city.
 **************************************************************************/
 struct city *aiguard_charge_city(struct ai_type *ait, struct unit *guard)
 {
@@ -302,11 +302,11 @@ void aiguard_update_charge(struct ai_type *ait, struct unit *guard)
   const struct unit *charge_unit = game_unit_by_number(guard_data->charge);
   const struct city *charge_city = game_city_by_number(guard_data->charge);
   const struct player *guard_owner = unit_owner(guard);
-  const struct player *charge_owner = NULL;
+  const struct player *charge_owner = nullptr;
 
   fc_assert_ret(BODYGUARD_NONE <= guard_data->charge);
   /* IDs always distinct */
-  fc_assert_ret(charge_unit == NULL || charge_city == NULL);
+  fc_assert_ret(charge_unit == nullptr || charge_city == nullptr);
 
   if (charge_unit) {
     charge_owner = unit_owner(charge_unit);
