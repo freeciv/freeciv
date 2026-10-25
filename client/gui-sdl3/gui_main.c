@@ -636,7 +636,12 @@ widget_id gui_event_loop(void *data,
       }
 
       tv.tv_sec = 0;
+
+#ifdef __EMSCRIPTEN__
+      tv.tv_usec = 0;
+#else
       tv.tv_usec = 10000; /* 10ms*/
+#endif
 
       result = fc_select(net_socket + 1, &civfdset, NULL, NULL, &tv);
       if (result < 0) {
