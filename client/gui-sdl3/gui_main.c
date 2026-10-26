@@ -132,11 +132,11 @@ static SDL_Event __info_user_event;
 static SDL_Event __flush_user_event;
 static SDL_Event __map_scroll_user_event;
 
-static SDL_Event *net_user_event = NULL;
-static SDL_Event *anim_user_event = NULL;
-static SDL_Event *info_user_event = NULL;
-static SDL_Event *flush_user_event = NULL;
-static SDL_Event *map_scroll_user_event = NULL;
+static SDL_Event *net_user_event = nullptr;
+static SDL_Event *anim_user_event = nullptr;
+static SDL_Event *info_user_event = nullptr;
+static SDL_Event *flush_user_event = nullptr;
+static SDL_Event *map_scroll_user_event = nullptr;
 
 static void print_usage(void);
 static bool parse_options(int argc, char **argv);
@@ -164,7 +164,7 @@ struct callback {
 #define SPECLIST_TYPE struct callback
 #include "speclist.h"
 
-struct callback_list *callbacks = NULL;
+struct callback_list *callbacks = nullptr;
 
 /* =========================================================== */
 
@@ -191,7 +191,7 @@ static void print_usage(void)
 static bool parse_options(int argc, char **argv)
 {
   int i = 1;
-  char *option = NULL;
+  char *option = nullptr;
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {
@@ -228,7 +228,7 @@ static widget_id main_key_down_handler(SDL_KeyboardEvent *key, void *data)
 {
   static struct widget *pwidget;
 
-  if ((pwidget = find_next_widget_for_key(NULL, key)) != NULL) {
+  if ((pwidget = find_next_widget_for_key(nullptr, key)) != nullptr) {
     return widget_pressed_action(pwidget);
   } else {
     if (key->key == SDLK_TAB) {
@@ -247,8 +247,8 @@ static widget_id main_key_down_handler(SDL_KeyboardEvent *key, void *data)
             struct unit *punit;
             struct city *pcity;
 
-            if (NULL != (punit = head_of_units_in_focus())
-                && (pcity = tile_city(unit_tile(punit))) != NULL
+            if ((punit = head_of_units_in_focus()) != nullptr
+                && (pcity = tile_city(unit_tile(punit))) != nullptr
                 && city_owner(pcity) == client.conn.playing) {
               popup_city_dialog(pcity);
             }
@@ -325,7 +325,7 @@ static widget_id main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
   int x = touch_event->x * main_window_width();
   int y = touch_event->y * main_window_height();
 
-  if ((pwidget = find_next_widget_at_pos(NULL, x, y)) != NULL) {
+  if ((pwidget = find_next_widget_at_pos(nullptr, x, y)) != nullptr) {
     if (get_wstate(pwidget) != FC_WS_DISABLED) {
       return widget_pressed_action(pwidget);
     }
@@ -355,7 +355,7 @@ static widget_id main_finger_up_handler(SDL_TouchFingerEvent *touch_event,
 
   /* Screen wasn't pressed over a widget. */
   if (finger_behavior.finger_down_ticks
-      && !find_next_widget_at_pos(NULL, x, y)) {
+      && !find_next_widget_at_pos(nullptr, x, y)) {
     finger_behavior.event = *touch_event;
     finger_up_on_map(&finger_behavior);
   }
@@ -376,9 +376,9 @@ static widget_id main_mouse_button_down_handler(SDL_MouseButtonEvent *button_eve
 {
   struct widget *pwidget;
 
-  if ((pwidget = find_next_widget_at_pos(NULL,
+  if ((pwidget = find_next_widget_at_pos(nullptr,
                                          button_event->x,
-                                         button_event->y)) != NULL) {
+                                         button_event->y)) != nullptr) {
     if (get_wstate(pwidget) != FC_WS_DISABLED) {
       return widget_pressed_action(pwidget);
     }
@@ -411,7 +411,7 @@ static widget_id main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event
                                               void *data)
 {
   if (button_behavior.button_down_ticks /* Button wasn't pressed over a widget */
-      && !find_next_widget_at_pos(NULL, button_event->x, button_event->y)) {
+      && !find_next_widget_at_pos(nullptr, button_event->x, button_event->y)) {
     *button_behavior.event = *button_event;
     button_up_on_map(&button_behavior);
   }
@@ -459,9 +459,9 @@ static widget_id main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
   }
 #endif /* UNDER_CE */
 
-  if ((pwidget = find_next_widget_at_pos(NULL,
+  if ((pwidget = find_next_widget_at_pos(nullptr,
                                          motion_event->x,
-                                         motion_event->y)) != NULL) {
+                                         motion_event->y)) != nullptr) {
     update_mouse_cursor(CURSOR_DEFAULT);
     if (get_wstate(pwidget) != FC_WS_DISABLED) {
       widget_selected_action(pwidget);
@@ -565,8 +565,8 @@ void force_exit_from_event_loop(void)
 
   event.type = user_event_type;
   event.user.code = EXIT_FROM_EVENT_LOOP;
-  event.user.data1 = NULL;
-  event.user.data2 = NULL;
+  event.user.data1 = nullptr;
+  event.user.data2 = nullptr;
 
   SDL_PushEvent(&event);
 }
@@ -636,7 +636,7 @@ widget_id gui_event_loop(void *data,
       tv.tv_sec = 0;
       tv.tv_usec = 10000; /* 10ms*/
 
-      result = fc_select(net_socket + 1, &civfdset, NULL, NULL, &tv);
+      result = fc_select(net_socket + 1, &civfdset, nullptr, nullptr, &tv);
       if (result < 0) {
         if (errno != EINTR) {
           break;
@@ -938,7 +938,7 @@ static void real_resize_window_callback(void *data)
 **************************************************************************/
 static void resize_window_callback(struct option *poption)
 {
-  update_queue_add(real_resize_window_callback, NULL);
+  update_queue_add(real_resize_window_callback, nullptr);
 }
 
 /**********************************************************************//**
@@ -965,7 +965,7 @@ static void fullscreen_callback(struct option *poption)
     }
   }
 
-  update_queue_add(real_resize_window_callback, NULL);
+  update_queue_add(real_resize_window_callback, nullptr);
 }
 
 /**********************************************************************//**
@@ -1081,36 +1081,36 @@ int ui_main(int argc, char *argv[])
     SDL_zero(__net_user_event);
     __net_user_event.type = user_event_type;
     __net_user_event.user.code = NET;
-    __net_user_event.user.data1 = NULL;
-    __net_user_event.user.data2 = NULL;
+    __net_user_event.user.data1 = nullptr;
+    __net_user_event.user.data2 = nullptr;
     net_user_event = &__net_user_event;
 
     SDL_zero(__anim_user_event);
     __anim_user_event.type = user_event_type;
     __anim_user_event.user.code = EVENT_ERROR;
-    __anim_user_event.user.data1 = NULL;
-    __anim_user_event.user.data2 = NULL;
+    __anim_user_event.user.data1 = nullptr;
+    __anim_user_event.user.data2 = nullptr;
     anim_user_event = &__anim_user_event;
 
     SDL_zero(__info_user_event);
     __info_user_event.type = user_event_type;
     __info_user_event.user.code = SHOW_WIDGET_INFO_LABEL;
-    __info_user_event.user.data1 = NULL;
-    __info_user_event.user.data2 = NULL;
+    __info_user_event.user.data1 = nullptr;
+    __info_user_event.user.data2 = nullptr;
     info_user_event = &__info_user_event;
 
     SDL_zero(__flush_user_event);
     __flush_user_event.type = user_event_type;
     __flush_user_event.user.code = FLUSH;
-    __flush_user_event.user.data1 = NULL;
-    __flush_user_event.user.data2 = NULL;
+    __flush_user_event.user.data1 = nullptr;
+    __flush_user_event.user.data2 = nullptr;
     flush_user_event = &__flush_user_event;
 
     SDL_zero(__map_scroll_user_event);
     __map_scroll_user_event.type = user_event_type;
     __map_scroll_user_event.user.code = MAP_SCROLL;
-    __map_scroll_user_event.user.data1 = NULL;
-    __map_scroll_user_event.user.data2 = NULL;
+    __map_scroll_user_event.user.data1 = nullptr;
+    __map_scroll_user_event.user.data2 = nullptr;
     map_scroll_user_event = &__map_scroll_user_event;
 
     is_unit_move_blocked = FALSE;
@@ -1142,8 +1142,9 @@ int ui_main(int argc, char *argv[])
     set_client_state(C_S_DISCONNECTED);
 
     /* Main game loop */
-    gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler, NULL,
-                   main_finger_down_handler, main_finger_up_handler, NULL,
+    gui_event_loop(nullptr, nullptr, main_key_down_handler,
+                   main_key_up_handler, nullptr, main_finger_down_handler,
+                   main_finger_up_handler, nullptr,
                    main_mouse_button_down_handler, main_mouse_button_up_handler,
                    main_mouse_motion_handler);
     start_quitting();
@@ -1163,12 +1164,12 @@ int ui_main(int argc, char *argv[])
     intel_dialog_done();
 
     callback_list_destroy(callbacks);
-    callbacks = NULL;
+    callbacks = nullptr;
 
     unload_cursors();
 
     free(button_behavior.event);
-    button_behavior.event = NULL;
+    button_behavior.event = nullptr;
 
     meswin_dialog_popdown();
 
@@ -1176,7 +1177,7 @@ int ui_main(int argc, char *argv[])
 
     free_font_system();
     theme_free(active_theme);
-    active_theme = NULL;
+    active_theme = nullptr;
 
     quit_sdl();
   }
@@ -1256,7 +1257,7 @@ void remove_net_input(void)
 **************************************************************************/
 void add_idle_callback(void (callback)(void *), void *data)
 {
-  if (callbacks != NULL) {
+  if (callbacks != nullptr) {
     struct callback *cb = fc_malloc(sizeof(*cb));
 
     cb->callback = callback;
