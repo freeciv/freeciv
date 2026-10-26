@@ -195,18 +195,21 @@ void animations_free(void)
     for (i = 0; i < last; i++) {
       struct animation *anim = animation_list_get(animations, i);
 
-      switch (anim->type) {
-      case ANIM_MOVEMENT:
-        unit_virtual_destroy(anim->movement.mover);
-        break;
-      case ANIM_BATTLE:
-        unit_virtual_destroy(anim->battle.virt_winner);
-        unit_virtual_destroy(anim->battle.virt_loser);
-        break;
-      case ANIM_EXPL:
-      case ANIM_NUKE:
-        /* Nothing to free */
-        break;
+      /* Finished animation has virtual units already destroyed */
+      if (!anim->finished) {
+        switch (anim->type) {
+        case ANIM_MOVEMENT:
+          unit_virtual_destroy(anim->movement.mover);
+          break;
+        case ANIM_BATTLE:
+          unit_virtual_destroy(anim->battle.virt_winner);
+          unit_virtual_destroy(anim->battle.virt_loser);
+          break;
+        case ANIM_EXPL:
+        case ANIM_NUKE:
+          /* Nothing to free */
+          break;
+        }
       }
 
       free(anim);
