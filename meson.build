@@ -3370,6 +3370,8 @@ install_data('data/amplio2/activities.png',
              'data/amplio2/volcano.spec',
              'data/amplio2/water.png',
              'data/amplio2/water.spec',
+             'data/amplio2/worker_unit.png',
+             'data/amplio2/worker_unit.spec',
              install_dir : join_paths(get_option('datadir'), 'freeciv/amplio2'))
 
 install_data('data/stdmusic/CullamBruce-Lockhart--Dawning_Fanfare.ogg',
