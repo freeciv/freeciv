@@ -35,7 +35,7 @@ tiles = { "row", "column", "tag"
   1,  0, "u.worker_dig:0"         ; [GB] & [EJ]
   1,  1, "u.worker_dig:1"         ; [GB] & [EJ]
   1,  2, "u.worker_dig:2"         ; [GB] & [EJ]
-  2,  0, "u.worker_chape:0"     ; [GB] & [EJ]
-  2,  1, "u.worker_chape:1"     ; [GB] & [EJ]
-  2,  2, "u.worker_chape:2"     ; [GB] & [EJ]
+  2,  0, "u.worker_chop:0"     ; [GB] & [EJ]
+  2,  1, "u.worker_chop:1"     ; [GB] & [EJ]
+  2,  2, "u.worker_chop:2"     ; [GB] & [EJ]
 }
