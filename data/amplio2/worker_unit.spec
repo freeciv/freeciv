@@ -17,7 +17,7 @@ Hani Ejeilat [EJ] <kode2457@gmail.com>
 "
 
 [file]
-gfx = "amplio2/worker_movement"
+gfx = "amplio2/worker_unit"
 
 [grid_main]
 
