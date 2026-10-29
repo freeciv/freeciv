@@ -166,6 +166,7 @@ files =
   "misc/icons.spec",
   "misc/editor.spec",
   "amplio2/units.spec",
+  "amplio2/worker_unit.spec",
   "amplio2/extra_units.spec",
   "amplio2/animals.spec",
   "amplio2/nuke.spec",

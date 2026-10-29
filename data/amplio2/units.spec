@@ -100,7 +100,7 @@ tiles = { "row", "column", "tag"
   2, 11, "u.crusaders_Idle:0"     ; [BB]
   2, 12, "u.fanatics_Idle:0"      ; [GB] & [CT]
   2, 13, "u.awacs_Idle:0"         ; [APL]
-  2, 14, "u.worker_Idle:0"        ; [GB]
+;  2, 14, "u.worker_Idle:0"        ; [GB]
   2, 15, "u.leader_Idle:0"        ; [GB]
   2, 16, "u.barbarian_leader_Idle:0" ; FiftyNine
   2, 17, "u.migrants_Idle:0"      ; Eleazar

@@ -47,6 +47,8 @@ pkgdata_DATA =          	\
 	volcano.png		\
 	volcano.spec		\
 	water.png		\
-	water.spec
+	water.spec		\
+	worker_unit.png		\
+	worker_unit.spec
 
 EXTRA_DIST = $(pkgdata_DATA)
