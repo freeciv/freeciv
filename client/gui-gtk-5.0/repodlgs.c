@@ -271,11 +271,6 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
   struct canvas canvas = FC_STATIC_CANVAS_INIT;
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int rtwidth, rtheight;
-  GtkAdjustment *hadjustment;
-  GtkAdjustment *vadjustment;
-  gint hadjustment_value;
-  gint vadjustment_value;
-  GtkViewport *vp;
 
   if (!tileset_is_fully_loaded()) {
     return;
@@ -283,15 +278,6 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
 
   get_reqtree_dimensions(reqtree, &rtwidth, &rtheight);
   gtk_widget_set_size_request(GTK_WIDGET(widget), rtwidth, rtheight);
-
-  vp = GTK_VIEWPORT(gtk_widget_get_parent(GTK_WIDGET(widget)));
-  hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(vp));
-  vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(vp));
-
-  hadjustment_value = (gint)gtk_adjustment_get_value(hadjustment);
-  vadjustment_value = (gint)gtk_adjustment_get_value(vadjustment);
-
-  cairo_translate(cr, -hadjustment_value, -vadjustment_value);
 
   canvas.drawable = cr;
 
