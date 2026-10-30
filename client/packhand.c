@@ -1774,7 +1774,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     }
 
     if (punit->activity != packet_unit->activity
-        || punit->activity_target == packet_unit->activity_target
+        || punit->activity_target != packet_unit->activity_target
         || punit->client.transported_by != packet_unit->client.transported_by
         || punit->client.occupied != packet_unit->client.occupied
 	|| punit->has_orders != packet_unit->has_orders
