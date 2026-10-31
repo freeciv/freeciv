@@ -123,7 +123,7 @@ struct trade_route_line {
 };
 
 /* A trade route line might need to be drawn in two parts. */
-static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
+#define MAX_TRADE_ROUTE_DRAW_LINES 2
 
 static struct timer *anim_timer = NULL;
 
@@ -1645,6 +1645,7 @@ static int trade_route_to_canvas_lines(const struct tile *ptile1,
 
   lines[1].width = -lines[0].width;
   lines[1].height = -lines[0].height;
+
   return 2;
 }
 
