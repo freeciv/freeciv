@@ -151,7 +151,7 @@ signal.connect('unit_moved', 'tutorial_unit_moved_callback')
 citypulses = 0
 
 function tutorial_first_city_pulse()
-  if citypulses < 1 then
+  if citypulses < 2 then
     citypulses = citypulses + 1
   else
     notify.event(city_builder, city_tile, E.SCRIPT,
@@ -161,7 +161,7 @@ _("Now you have built your first city. The city window should have\nopened autom
 end
 
 function tutorial_second_city_pulse()
-  if citypulses < 2 then
+  if citypulses < 4 then
     citypulses = citypulses + 1
   else
     notify.event(city_builder, city_tile, E.SCRIPT,
@@ -171,7 +171,7 @@ _("Congratulations, you have founded your second city. This city will\nbehave al
 end
 
 function tutorial_third_city_pulse()
-  if citypulses < 3 then
+  if citypulses < 6 then
     citypulses = citypulses + 1
   else
     notify.event(city_builder, city_tile, E.SCRIPT,
@@ -181,7 +181,7 @@ _("You have built your third city! Your civilization seems to be\nthriving. It m
 end
 
 function tutorial_fourth_city_pulse()
-  if citypulses < 4 then
+  if citypulses < 8 then
     citypulses = citypulses + 1
   else
     notify.event(city_builder, city_tile, E.SCRIPT,
@@ -191,7 +191,7 @@ _("Another city! You are really getting the hang of this. You\nprobably have a p
 end
 
 function tutorial_fifth_city_pulse()
-  if citypulses < 5 then
+  if citypulses < 10 then
     citypulses = citypulses + 1
   else
     notify.event(city_builder, city_tile, E.SCRIPT,
