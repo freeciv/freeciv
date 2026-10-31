@@ -10,7 +10,7 @@
 #
 # (Inkomplett) lista med konventioner
 #  • empire -> rike
-#  • nation -> folk/folkslag
+#  • nation -> nation (spelbegrepp); folk (historisk eller kulturell grupp)
 #  • set -> ställa in/inställt
 #  • load (data) -> läsa in
 #  • load (unit) -> lasta på
@@ -58,15 +58,15 @@ msgstr ""
 "Project-Id-Version: Freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2026-09-05 15:37+0300\n"
-"PO-Revision-Date: 2026-09-20 16:40+0300\n"
-"Last-Translator: Jonatan Nyberg\n"
+"PO-Revision-Date: 2026-10-31 11:04+0200\n"
+"Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Codex\n"
 
 #: ai/default/daicity.c:999
 #, c-format
@@ -106,8 +106,8 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (datorstyrd)* Jag vill se att du kan hålla vårt vapenstillestånd först, "
-"%s."
+"*%s (datorstyrd)* Jag vill först se att du håller det nuvarande "
+"vapenstilleståndet ett tag till, %s."
 
 #: ai/default/daidiplomacy.c:434
 #, c-format
@@ -131,7 +131,7 @@ msgstr ""
 #: ai/default/daidiplomacy.c:689
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "*%s (datorstyrd)* Det här är inte ett acceptabelt avtal, %s!"
+msgstr "*%s (datorstyrd)* Det här avtalet var inte särskilt bra för oss, %s!"
 
 #: ai/default/daidiplomacy.c:712
 #, c-format
@@ -174,7 +174,7 @@ msgstr ""
 #: ai/default/daidiplomacy.c:1357
 #, c-format
 msgid "*%s (AI)* Space will never be yours."
-msgstr "*%s (datorstyrd)* Rymden må aldrig bli din."
+msgstr "*%s (datorstyrd)* Rymden blir aldrig din."
 
 #: ai/default/daidiplomacy.c:1363
 #, c-format
@@ -200,7 +200,9 @@ msgstr ""
 #: ai/default/daidiplomacy.c:1382
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr "*%s (datorstyrd)* Dina skumraskaffärer har kostat dig detta krig!"
+msgstr ""
+"*%s (datorstyrd)* Dina dolda fientligheter har dragit detta krig "
+"över dig!"
 
 #: ai/default/daidiplomacy.c:1390
 #, c-format
@@ -442,9 +444,9 @@ msgid ""
 "default level for any new AI players to '%s'. With an argument, sets the "
 "skill level for the specified player only."
 msgstr ""
-"Utan argument sätter detta kommando alla datorstyrda spelares till "
-"skicklighetsnivån ”%s” och sätter standardskicklighetsnivå för varje ny "
-"datorstyrd spelare till ”%s”. Med ett argument sätter kommandot "
+"Utan argument sätter detta kommando alla datorstyrda spelare till "
+"skicklighetsnivån ”%s” och sätter standardskicklighetsnivå för varje"
+" ny datorstyrd spelare till ”%s”. Med ett argument sätter kommandot "
 "skicklighetsnivån för endast den spelaren."
 
 #: ai/difficulty.c:276
@@ -1195,7 +1197,7 @@ msgstr "Stadsnamn"
 #: client/gui-sdl2/repodlgs.c:2164 client/gui-sdl3/repodlgs.c:2164
 #: client/plrdlg_common.c:578
 msgid "Nation"
-msgstr "Folkslag"
+msgstr "Nation"
 
 #: client/cityrepdata.c:748
 msgid "?size [short]:Sz"
@@ -1671,7 +1673,7 @@ msgstr "Anslut till servern på VÄRD (vanligen med -a)"
 #. TRANS: "Sound" is exactly what user must type, do not translate.
 #: client/client_main.c:479
 msgid "Sound FILE"
-msgstr "Ljud FIL"
+msgstr "Sound FIL"
 
 #: client/client_main.c:480
 msgid "Read sound tags from FILE"
@@ -1680,7 +1682,7 @@ msgstr "Läs ljudtaggar från FIL"
 #. TRANS: "music" is exactly what user must type, do not translate.
 #: client/client_main.c:483
 msgid "music FILE"
-msgstr "musik FIL"
+msgstr "music FIL"
 
 #: client/client_main.c:484
 msgid "Read music tags from FILE"
@@ -1799,7 +1801,7 @@ msgstr "%s ger %s"
 #: client/climisc.c:259
 #, c-format
 msgid "The %s give an unknown city"
-msgstr "%s anger en okänd stad"
+msgstr "%s ger en okänd stad"
 
 #: client/climisc.c:264
 #, c-format
@@ -1884,7 +1886,7 @@ msgstr "Förlorade anslutningen till servern (%s)!"
 
 #: client/clinet.c:176
 msgid "Failed looking up host."
-msgstr "Misslyckades få kontakt med värd."
+msgstr "Kunde inte slå upp värdnamnet."
 
 #: client/clinet.c:203
 msgid "Connection in progress."
@@ -1927,8 +1929,8 @@ msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for "
 "%d times"
 msgstr ""
-"Självständing anslutning till servern ”%s” vid port %d som ”%s” var %fte "
-"sekund %d gånger"
+"Försöker automatiskt ansluta till servern ”%s” på port %d som ”%s” "
+"med %f sekunders mellanrum, %d gånger"
 
 #: client/connectdlg_common.c:271
 msgid "Starting local server..."
@@ -2186,9 +2188,10 @@ msgid ""
 "position on the map and use the property editor.\n"
 "Shortcut: b"
 msgstr ""
-"Placera en startposition som tillåter vilket folkslag som helst att börja på "
-"rutan. För att endast tillåta vissa folkslag att börja där, mittenklicka på "
-"startpositionen på kartan och använd egenskapsredigeraren.\n"
+"Placera en startposition som tillåter vilken nation som helst att "
+"börja på rutan. För att endast tillåta vissa nationer att börja där,"
+" mittenklicka på startpositionen på kartan och använd "
+"egenskapsredigeraren.\n"
 "Kortkommando: b"
 
 #: client/editor.c:234
@@ -2964,7 +2967,7 @@ msgstr "Förvaltarsidan"
 
 #: client/gui-gtk-3.22/citydlg.c:1522 client/gui-gtk-4.0/citydlg.c:1437
 msgid "This Settings page"
-msgstr "Denna inställningssidan"
+msgstr "Denna inställningssida"
 
 #: client/gui-gtk-3.22/citydlg.c:1523 client/gui-gtk-4.0/citydlg.c:1438
 msgid "Last active page"
@@ -3027,7 +3030,7 @@ msgstr "<b>%s</b> – %s invånare – firar"
 #: client/gui-gtk-3.22/citydlg.c:1847 client/gui-gtk-4.0/citydlg.c:1840
 #, c-format
 msgid "<b>%s</b> - %s citizens - happy"
-msgstr "<b>%s</b> – %s invånare – nöjda"
+msgstr "<b>%s</b> – %s invånare – lyckliga"
 
 #. TRANS: city dialog title
 #: client/gui-gtk-3.22/citydlg.c:1852 client/gui-gtk-4.0/citydlg.c:1845
@@ -3593,26 +3596,26 @@ msgstr "Alla"
 #: client/gui-gtk-3.22/dialogs.c:859 client/gui-gtk-4.0/dialogs.c:866
 #: client/gui-qt/dialogs.cpp:589
 msgid "Edit Nation"
-msgstr "Redigera folkslag"
+msgstr "Redigera nation"
 
 #: client/gui-gtk-3.22/dialogs.c:861 client/gui-gtk-4.0/dialogs.c:868
 #: client/gui-qt/dialogs.cpp:591
 msgid "What Nation Will You Be?"
-msgstr "Vilket folk ska du styra?"
+msgstr "Vilken nation ska du styra?"
 
 #: client/gui-gtk-3.22/dialogs.c:863 client/gui-gtk-4.0/dialogs.c:870
 #: client/gui-qt/dialogs.cpp:593 client/gui-qt/pages.cpp:688
 #: client/gui-sdl2/chatline.c:817 client/gui-sdl3/chatline.c:813
 msgid "Pick Nation"
-msgstr "Välj folkslag"
+msgstr "Välj nation"
 
 #: client/gui-gtk-3.22/dialogs.c:871 client/gui-gtk-4.0/dialogs.c:878
 msgid "_Random Nation"
-msgstr "Sl_umpvalt folkslag"
+msgstr "Sl_umpvald nation"
 
 #: client/gui-gtk-3.22/dialogs.c:883 client/gui-gtk-4.0/dialogs.c:889
 msgid "Select a nation"
-msgstr "Välj ett folkslag"
+msgstr "Välj en nation"
 
 #. TRANS: nation set name followed by number of playable nations;
 #. * <b> and </b> are Pango markup and should be left alone
@@ -3620,16 +3623,16 @@ msgstr "Välj ett folkslag"
 #, c-format
 msgid "<b>%s</b> (%d nation)"
 msgid_plural "<b>%s</b> (%d nations)"
-msgstr[0] "<b>%s</b> (%d folkslag)"
-msgstr[1] "<b>%s</b> (%d folkslag)"
+msgstr[0] "<b>%s</b> (%d nation)"
+msgstr[1] "<b>%s</b> (%d nationer)"
 
 #: client/gui-gtk-3.22/dialogs.c:995 client/gui-gtk-4.0/dialogs.c:1006
 msgid "_Nation Set:"
-msgstr "_Folkslagsuppsättning:"
+msgstr "_Nationsuppsättning:"
 
 #: client/gui-gtk-3.22/dialogs.c:1028 client/gui-gtk-4.0/dialogs.c:1039
 msgid "Nation _Groups:"
-msgstr "_Grupper:"
+msgstr "Nations_grupper:"
 
 #: client/gui-gtk-3.22/dialogs.c:1051 client/gui-gtk-3.22/wldlg.c:226
 #: client/gui-gtk-4.0/dialogs.c:1062 client/gui-gtk-4.0/wldlg.c:230
@@ -3959,21 +3962,21 @@ msgstr "%d närvarande"
 #: client/gui-qt/dialogs.cpp:623 data/civ1/nations.ruleset:87
 #: data/civ2/nations.ruleset:89 data/alien/nations.ruleset:89
 msgid "All nations"
-msgstr "Alla folkslag"
+msgstr "Alla nationer"
 
 #: client/gui-gtk-3.22/editprop.c:957 client/gui-gtk-4.0/editprop.c:957
 #, c-format
 msgid "%d nation"
 msgid_plural "%d nations"
-msgstr[0] "%d folkslag"
-msgstr[1] "%d folkslag"
+msgstr[0] "%d nation"
+msgstr[1] "%d nationer"
 
 #: client/gui-gtk-3.22/editprop.c:964 client/gui-gtk-4.0/editprop.c:964
 #, c-format
 msgid "%d byte"
 msgid_plural "%d bytes"
-msgstr[0] "%d bit"
-msgstr[1] "%d bitar"
+msgstr[0] "%d byte"
+msgstr[1] "%d byte"
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-3.22/editprop.c:989 client/gui-gtk-4.0/editprop.c:989
@@ -4126,7 +4129,7 @@ msgstr "Etikett"
 
 #: client/gui-gtk-3.22/editprop.c:4498 client/gui-gtk-4.0/editprop.c:4507
 msgid "Exclude Nations"
-msgstr "Uteslut folkslag"
+msgstr "Uteslut nationer"
 
 #. TRANS: Nations report title
 #. TRANS: Nations report action
@@ -4139,7 +4142,7 @@ msgstr "Uteslut folkslag"
 #: client/gui-sdl2/mapctrl.c:1705 client/gui-sdl2/plrdlg.c:684
 #: client/gui-sdl3/mapctrl.c:1701 client/gui-sdl3/plrdlg.c:680
 msgid "Nations"
-msgstr "Folkslag"
+msgstr "Nationer"
 
 #. TRANS: Image header
 #: client/gui-gtk-3.22/editprop.c:4512 client/gui-gtk-3.22/pages.c:1414
@@ -4255,7 +4258,7 @@ msgstr "Spara spelare"
 
 #: client/gui-gtk-3.22/editprop.c:4619 client/gui-gtk-4.0/editprop.c:4628
 msgid "Nation Start Positions"
-msgstr "Folkslagens startpositioner"
+msgstr "Nationernas startpositioner"
 
 #: client/gui-gtk-3.22/editprop.c:4622 client/gui-gtk-4.0/editprop.c:4631
 msgid "Prevent New Cities"
@@ -4645,7 +4648,7 @@ msgstr "Byggnader:"
 #: client/gui-gtk-3.22/happiness.c:211 client/gui-gtk-4.0/happiness.c:181
 #: client/gui-qt/citydlg.cpp:1871
 msgid "Nationality:"
-msgstr "Folkslagstillhörighet:"
+msgstr "Nationalitet:"
 
 #: client/gui-gtk-3.22/happiness.c:212 client/gui-gtk-4.0/happiness.c:182
 #: client/gui-qt/citydlg.cpp:1871
@@ -5235,7 +5238,7 @@ msgstr "_Trupper"
 
 #: client/gui-gtk-3.22/menu.c:330 client/gui-gtk-4.0/menu.c:863
 msgid "_Nations"
-msgstr "_Folkslag"
+msgstr "_Nationer"
 
 #: client/gui-gtk-3.22/menu.c:334 client/gui-gtk-4.0/menu.c:886
 msgid "_Wonders of the World"
@@ -5382,7 +5385,7 @@ msgstr "Om aktuell musikuppsättning"
 #: client/gui-gtk-3.22/menu.c:418 client/gui-gtk-4.0/menu.c:999
 #: client/include/helpdlg_g.h:44 data/helpdata.txt:1599
 msgid "About Nations"
-msgstr "Om folkslag"
+msgstr "Om nationer"
 
 #: client/gui-gtk-3.22/menu.c:420 client/gui-gtk-4.0/menu.c:1002
 #: client/include/helpdlg_g.h:36 data/helpdata.txt:1614
@@ -5485,7 +5488,7 @@ msgstr "K_ustlinje"
 
 #: client/gui-gtk-3.22/menu.c:466 client/gui-gtk-4.0/menu.c:672
 msgid "_Paths"
-msgstr "_Sökvägar"
+msgstr "_Vägar"
 
 #: client/gui-gtk-3.22/menu.c:468 client/gui-gtk-4.0/menu.c:675
 msgid "_Irrigation"
@@ -5602,7 +5605,7 @@ msgstr "Bygg _bas"
 #: client/gui-gtk-3.22/menu.c:527 client/gui-gtk-4.0/menu.c:3208
 #: client/gui-gtk-4.0/menu.c:3631
 msgid "Build _Path"
-msgstr "Bygg _sökväg"
+msgstr "Bygg _väg"
 
 #: client/gui-gtk-3.22/menu.c:528 client/gui-gtk-4.0/menu.c:3214
 #: client/gui-gtk-4.0/menu.c:3704
@@ -5680,7 +5683,7 @@ msgstr "Lasta _av"
 
 #: client/gui-gtk-3.22/menu.c:566 client/gui-gtk-4.0/menu.c:773
 msgid "U_nload All From Transporter"
-msgstr "Lasta av alla från _fraktskepp"
+msgstr "Lasta av alla från _transporttrupp"
 
 #: client/gui-gtk-3.22/menu.c:569 client/gui-gtk-4.0/menu.c:776
 msgid "Set _Home City"
@@ -6166,7 +6169,7 @@ msgstr "Växla redoläge för spelare"
 #: client/gui-gtk-3.22/pages.c:1837 client/gui-gtk-4.0/pages.c:1916
 #: client/gui-qt/pages.cpp:2038
 msgid "Pick nation"
-msgstr "Välj folkslag"
+msgstr "Välj nation"
 
 #: client/gui-gtk-3.22/pages.c:1845 client/gui-gtk-4.0/pages.c:1923
 msgid "Observe this player"
@@ -6225,7 +6228,7 @@ msgstr "_Ta över %s"
 #: client/gui-gtk-3.22/pages.c:2254 client/gui-gtk-3.22/pages.c:2819
 #: client/gui-gtk-4.0/pages.c:2363 client/gui-gtk-4.0/pages.c:2952
 msgid "Pick _Nation"
-msgstr "Välj ditt _folk"
+msgstr "Välj din _nation"
 
 #: client/gui-gtk-3.22/pages.c:2257 client/gui-gtk-4.0/pages.c:2366
 msgid "_Take a Player"
@@ -6552,7 +6555,7 @@ msgstr "Sammanlagt"
 #: client/gui-qt/pages.cpp:2172 client/gui-qt/repodlgs.cpp:1391
 #, c-format
 msgid "Income: %d    Total Costs: %d"
-msgstr "Inkomst: %d Sammanlagt kostnad: %d"
+msgstr "Inkomst: %d    Sammanlagd kostnad: %d"
 
 # Används när du säljer alla byggnader av en sort
 #. TRANS: %s is an improvement
@@ -6682,7 +6685,8 @@ msgstr "Spelare\n"
 
 #: client/gui-gtk-3.22/repodlgs.c:1834 client/gui-gtk-4.0/repodlgs.c:1861
 msgid "Nation\n"
-msgstr "Folkslag\n"
+msgstr ""
+"Nation\n"
 
 #: client/gui-gtk-3.22/repodlgs.c:1836 client/gui-gtk-4.0/repodlgs.c:1863
 msgid "Score\n"
@@ -6776,7 +6780,7 @@ msgstr "Kunde inte läsa in den begärda rutbildsuppsättningen."
 
 #: client/gui-gtk-3.22/tileset_dlg.c:63 client/gui-gtk-4.0/tileset_dlg.c:62
 msgid "Preferred tileset"
-msgstr "Föredraget tema"
+msgstr "Föredragen rutbildsuppsättning"
 
 #: client/gui-gtk-3.22/tileset_dlg.c:66 client/gui-gtk-4.0/tileset_dlg.c:65
 msgid "_Load tileset"
@@ -7149,7 +7153,7 @@ msgstr "Lasta av"
 #: client/gui-qt/citydlg.cpp:863 client/gui-qt/menu.cpp:1248
 #: client/gui-sdl2/menu.c:655 client/gui-sdl3/menu.c:651
 msgid "Unload All From Transporter"
-msgstr "Lasta av alla från fraktskepp"
+msgstr "Lasta av alla från transporttrupp"
 
 #: client/gui-qt/citydlg.cpp:870 client/gui-sdl2/menu.c:474
 #: client/gui-sdl3/menu.c:470
@@ -7387,7 +7391,7 @@ msgstr "%1 – %2 invånare – firar"
 #. TRANS: city dialog title
 #: client/gui-qt/citydlg.cpp:3807
 msgid "%1 - %2 citizens - happy"
-msgstr "%1 – %2 invånare – nöjda"
+msgstr "%1 – %2 invånare – lyckliga"
 
 #. TRANS: city dialog title
 #: client/gui-qt/citydlg.cpp:3811
@@ -7487,15 +7491,15 @@ msgstr "Kolumnsynlighet"
 
 #: client/gui-qt/dialogs.cpp:457
 msgid "Select Nation"
-msgstr "Välj folkslag"
+msgstr "Välj nation"
 
 #: client/gui-qt/dialogs.cpp:476
 msgid "Nation Set:"
-msgstr "Folkslagsuppsättning:"
+msgstr "Nationsuppsättning:"
 
 #: client/gui-qt/dialogs.cpp:506
 msgid "Choose nation"
-msgstr "Välj folkslag"
+msgstr "Välj nation"
 
 #: client/gui-qt/dialogs.cpp:507
 msgid "Your leader name"
@@ -7509,7 +7513,7 @@ msgstr "Ok"
 
 #: client/gui-qt/dialogs.cpp:859
 msgid "Nation has been chosen by other player"
-msgstr "Folkslaget har valts av en annan spelare"
+msgstr "Nationen har valts av en annan spelare"
 
 #: client/gui-qt/dialogs.cpp:1116
 msgid "Goto Location"
@@ -7694,7 +7698,7 @@ msgstr "Fler spelalternativ"
 
 #: client/gui-qt/fc_client.cpp:1212
 msgid "Nation:"
-msgstr "Folkslag:"
+msgstr "Nation:"
 
 #: client/gui-qt/fc_client.cpp:1213
 msgid "Rules:"
@@ -8710,7 +8714,7 @@ msgstr "Regel: "
 #: client/gui-qt/plrdlg.cpp:749 client/gui-sdl2/inteldlg.c:458
 #: client/gui-sdl3/inteldlg.c:454
 msgid " (obsolete)"
-msgstr "(omodern)"
+msgstr " (omodern)"
 
 #: client/gui-qt/plrdlg.cpp:823
 msgid "Meet"
@@ -9377,8 +9381,8 @@ msgid ""
 "time\n"
 "to grow"
 msgstr ""
-"kommer\n"
-"att växa"
+"tid till\n"
+"tillväxt"
 
 #: client/gui-sdl2/cityrep.c:225 client/gui-sdl2/mapctrl.c:1716
 #: client/gui-sdl3/cityrep.c:221 client/gui-sdl3/mapctrl.c:1712
@@ -9585,11 +9589,11 @@ msgstr "Välj ditt nya statsskick"
 
 #: client/gui-sdl2/dialogs.c:3144 client/gui-sdl3/dialogs.c:3141
 msgid "What nation will you be?"
-msgstr "Vilket folk ska du styra?"
+msgstr "Vilken nation ska du styra?"
 
 #: client/gui-sdl2/dialogs.c:3238 client/gui-sdl3/dialogs.c:3236
 msgid "Nation set"
-msgstr "Folkslagsuppsättning"
+msgstr "Nationsuppsättning"
 
 #: client/gui-sdl2/diplodlg.c:625 client/gui-sdl3/diplodlg.c:621
 msgid "World map"
@@ -10042,10 +10046,10 @@ msgid_plural ""
 "%s territory (%d turn armistice)"
 msgstr[0] ""
 "\n"
-"%s territorium (%d omgång med vapenstillestånd)"
+"%s territorium (%d omgång med vapenvila)"
 msgstr[1] ""
 "\n"
-"%s territorium (%d omgångar med vapenstillestånd)"
+"%s territorium (%d omgångar med vapenvila)"
 
 #: client/gui-sdl2/mapview.c:631 client/gui-sdl3/mapview.c:628
 #, c-format
@@ -10474,8 +10478,10 @@ msgstr[1] "steg"
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] "%2d: %s ledare %s värderades till %d\n"
-msgstr[1] "%2d: %s ledare %s värderades till %d\n"
+msgstr[0] ""
+"%2d: Den %s härskaren %s fick %d poäng\n"
+msgstr[1] ""
+"%2d: Den %s härskaren %s fick %d poäng\n"
 
 #: client/gui-sdl2/repodlgs.c:3541 client/gui-sdl3/repodlgs.c:3541
 msgid "Final Report:"
@@ -11374,13 +11380,15 @@ msgstr "%s Kan bara byggas i spel där nya städer tillåts.\n"
 #: client/helpdata.c:2163
 #, c-format
 msgid "  %s New cities are not allowed in the current game.\n"
-msgstr "%s Nya städer tillåts inte i det aktuella spelet.\n"
+msgstr ""
+"  %s Nya städer tillåts inte i det aktuella spelet.\n"
 
 #. TRANS: indented; preserve leading spaces
 #: client/helpdata.c:2167
 #, c-format
 msgid "  %s New cities are allowed in the current game.\n"
-msgstr "%s Nya städer tillåts i det aktuella spelet.\n"
+msgstr ""
+"  %s Nya städer tillåts i det aktuella spelet.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:2188
@@ -11760,15 +11768,16 @@ msgid ""
 "  %s ending up on a native tile after this action has been performed ends "
 "this unit's turn.\n"
 msgstr ""
-"  %s som efter utförd handling hamnar på en inhemsk ruta avslutar truppens "
-"omgång.\n"
+"  %s Om truppen hamnar på en inhemsk ruta efter att handlingen har "
+"utförts avslutas dess omgång.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
 #: client/helpdata.c:2747
 #, c-format
 msgid "  %s target must be at the same tile.\n"
-msgstr "  Målet för %s måste vara på samma ruta.\n"
+msgstr ""
+"  %s Målet måste vara på samma ruta.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11776,15 +11785,18 @@ msgstr "  Målet för %s måste vara på samma ruta.\n"
 #, c-format
 msgid "  %s target must be exactly %d tile away.\n"
 msgid_plural "  %s target must be exactly %d tiles away.\n"
-msgstr[0] "  Målet för %s måste ligga exakt %d ruta bort.\n"
-msgstr[1] "  Målet för %s måste ligga exakt %d rutor bort.\n"
+msgstr[0] ""
+"  %s Målet måste ligga exakt %d ruta bort.\n"
+msgstr[1] ""
+"  %s Målet måste ligga exakt %d rutor bort.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
 #: client/helpdata.c:2765
 #, c-format
 msgid "  %s target can be anywhere.\n"
-msgstr "  Målet för %s kan finnas var som helst.\n"
+msgstr ""
+"  %s Målet kan finnas var som helst.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11792,8 +11804,10 @@ msgstr "  Målet för %s kan finnas var som helst.\n"
 #, c-format
 msgid "  %s target must be at least %d tile away.\n"
 msgid_plural "  %s target must be at least %d tiles away.\n"
-msgstr[0] "  Målet för %s måste ligga minst %d ruta bort.\n"
-msgstr[1] "  Målet för %s måste ligga minst %d rutor bort.\n"
+msgstr[0] ""
+"  %s Målet måste ligga minst %d ruta bort.\n"
+msgstr[1] ""
+"  %s Målet måste ligga minst %d rutor bort.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11801,8 +11815,10 @@ msgstr[1] "  Målet för %s måste ligga minst %d rutor bort.\n"
 #, c-format
 msgid "  %s target can be max %d tile away.\n"
 msgid_plural "  %s target can be max %d tiles away.\n"
-msgstr[0] "%s-målet får vara högst %d ruta bort.\n"
-msgstr[1] "%s-målet får vara högst %d rutor bort.\n"
+msgstr[0] ""
+"  %s Målet får vara högst %d ruta bort.\n"
+msgstr[1] ""
+"  %s Målet får vara högst %d rutor bort.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11810,8 +11826,10 @@ msgstr[1] "%s-målet får vara högst %d rutor bort.\n"
 #, c-format
 msgid "  %s target must be between %d and %d tile away.\n"
 msgid_plural "  %s target must be between %d and %d tiles away.\n"
-msgstr[0] "  Målet för %s måste ligga mellan %d och %d ruta bort.\n"
-msgstr[1] "  Målet för %s måste ligga mellan %d och %d rutor bort.\n"
+msgstr[0] ""
+"  %s Målet måste ligga mellan %d och %d ruta bort.\n"
+msgstr[1] ""
+"  %s Målet måste ligga mellan %d och %d rutor bort.\n"
 
 #. TRANS: ...performing this action ... Casus Belli
 #: client/helpdata.c:2805
@@ -11821,7 +11839,7 @@ msgstr "framgångsrikt"
 #. TRANS: ...performing this action ... Casus Belli
 #: client/helpdata.c:2807
 msgid "getting caught before"
-msgstr "bli ertappad innan"
+msgstr "bli ertappad innan du hinner"
 
 #. TRANS: successfully ... Peace, or Alliance
 #: client/helpdata.c:2856
@@ -11977,7 +11995,8 @@ msgstr "  %s alla trupper som träffas av kärnvapenexplosionen dör.\n"
 #: client/helpdata.c:3021
 #, c-format
 msgid "  %s has a squared blast radius of %d.\n"
-msgstr "  %s har en kvadratisk explosionsradie på %d.\n"
+msgstr ""
+"  %s Explosionsradiens kvadrat är %d.\n"
 
 #: client/helpdata.c:3030
 #, c-format
@@ -12203,7 +12222,7 @@ msgid ""
 "%s To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
 msgstr ""
-"%s För att bevara denna teknologi åt vårt folk behövs ett antal "
+"%s För att bevara denna teknologi åt vår nation behövs ett antal "
 "forskningslampor varje omgång.\n"
 
 #: client/helpdata.c:3599
@@ -12423,7 +12442,8 @@ msgstr "%s Om en trupp besegras dör inte alla andra trupper på denna ruta.\n"
 #: client/helpdata.c:4199
 #, c-format
 msgid "%s Extends national borders of the building nation.\n"
-msgstr "%s Utvidgar det byggande folkets nationsgränser.\n"
+msgstr ""
+"%s Utvidgar den byggande nationens gränser.\n"
 
 #: client/helpdata.c:4204
 #, c-format
@@ -12910,7 +12930,6 @@ msgstr "%s Produktionen av %s drabbas av vissa förluster.\n"
 msgid "%s %s production will suffer a small amount of losses.\n"
 msgstr ""
 "%s Produktionen av %s drabbas av små förluster.\n"
-"\n"
 
 #: client/helpdata.c:4968
 #, c-format
@@ -13048,7 +13067,7 @@ msgstr "Klippbordet är tomt."
 
 #: client/mapview_common.c:4109
 msgid "ISO|Hex"
-msgstr "Hex"
+msgstr "ISO|Hex"
 
 #: client/mapview_common.c:4111 common/fc_types.h:618
 msgid "ISO"
@@ -13283,10 +13302,11 @@ msgid ""
 "this is the same as using the -t command-line parameter. Use modpack "
 "installer utility to install additional tilesets."
 msgstr ""
-"Välj den rutbildsuppsättning som används för fyrkantiga kartor. Om en sådan "
-"karta spelas kan den aktiva rutbildsuppsättningen ändras. Det motsvarar då "
-"kommandoradsparametern -t. Installera ytterligare rutbildsuppsättningar med "
-"verktyget för installation av modpaket."
+"Välj den rutbildsuppsättning som används för kartor med kvadratiska "
+"rutor. Om en sådan karta spelas kan den aktiva rutbildsuppsättningen"
+" ändras. Det motsvarar då kommandoradsparametern -t. Installera "
+"ytterligare rutbildsuppsättningar med verktyget för installation av "
+"modpaket."
 
 #: client/options.c:2019
 msgid "Tileset (Hex)"
@@ -13299,10 +13319,11 @@ msgid ""
 "using the -t command-line parameter. Use modpack installer utility to "
 "install additional tilesets."
 msgstr ""
-"Välj den rutbildsuppsättning som används för hexagonala kartor. Om en sådan "
-"karta spelas kan den aktiva rutbildsuppsättningen ändras. Det motsvarar då "
-"kommandoradsparametern -t. Installera ytterligare rutbildsuppsättningar med "
-"verktyget för installation av modpaket."
+"Välj den rutbildsuppsättning som används för kartor med hexagonala "
+"rutor. Om en sådan karta spelas kan den aktiva rutbildsuppsättningen"
+" ändras. Det motsvarar då kommandoradsparametern -t. Installera "
+"ytterligare rutbildsuppsättningar med verktyget för installation av "
+"modpaket."
 
 #: client/options.c:2029
 msgid "Tileset (Iso-Hex)"
@@ -13315,9 +13336,10 @@ msgid ""
 "same as using the -t command-line parameter.Use modpack installer utility to "
 "install additional tilesets."
 msgstr ""
-"Välj den rutbildsuppsättning som används för isometriska hexagonala kartor. "
-"Om en sådan karta spelas kan den aktiva rutbildsuppsättningen ändras. Det "
-"motsvarar då kommandoradsparametern -t. Installera ytterligare "
+"Välj den rutbildsuppsättning som används för isometriska kartor med "
+"hexagonala rutor. Om en sådan karta spelas kan den aktiva "
+"rutbildsuppsättningen ändras. Det motsvarar då "
+"kommandoradsparametern -t. Installera ytterligare "
 "rutbildsuppsättningar med verktyget för installation av modpaket."
 
 #: client/options.c:2040
@@ -13437,7 +13459,7 @@ msgstr ""
 
 #: client/options.c:2095
 msgid "Draw the paths"
-msgstr "Visa sökvägar"
+msgstr "Visa vägar"
 
 #: client/options.c:2096
 msgid "Setting this option will draw all kind of paths on the map."
@@ -13485,13 +13507,13 @@ msgstr "När alternativet är aktiverat visas hyddorna på kartan."
 
 #: client/options.c:2123
 msgid "Draw the pollution/nuclear fallout"
-msgstr "Visa föroreningar/kärnkraftsnedfall"
+msgstr "Visa föroreningar/radioaktivt nedfall"
 
 #: client/options.c:2124
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
-"När detta alternativ är aktiverat visas föroreningar och kärnkraftsnedfall "
-"på kartan."
+"När detta alternativ är aktiverat visas föroreningar och radioaktivt"
+" nedfall på kartan."
 
 #: client/options.c:2128
 msgid "Draw the cities"
@@ -13591,15 +13613,15 @@ msgstr ""
 
 #: client/options.c:2177
 msgid "Show dead players in Nations report"
-msgstr "Visa besegrade spelare i folkslagsrapporten"
+msgstr "Visa besegrade spelare i nationsrapporten"
 
 #: client/options.c:2178
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
 msgstr ""
-"Detta alternativ styr om besegrade folkslag visas på folkslagsrapportens "
-"sida."
+"Detta alternativ styr om besegrade nationer visas på "
+"nationsrapportens sida."
 
 #: client/options.c:2182
 msgid "Sound bell at new turn"
@@ -14133,9 +14155,9 @@ msgid ""
 "look ugly with many islands). This option is only of interest if you have "
 "set the option \"Borders layer\" already."
 msgstr ""
-"Översiktskartans gränslager ritas även på havsrutor (detta kan se fult ut om "
-"det finns många öar). Alternativet är endast relevant om du redan har "
-"aktiverat ”Gränslager”."
+"Översiktskartans gränslager ritas även på havsrutor (detta kan se "
+"fult ut om det finns många öar). Alternativet är endast relevant om "
+"du redan har aktiverat ”Riksgränser”."
 
 #: client/options.c:2437
 msgid "Units layer"
@@ -14183,7 +14205,7 @@ msgstr "Visa området innanför gränserna"
 
 #: client/options.c:2463
 msgid "If set, the territory of each nation is shown on the saved image."
-msgstr "Om detta anges visas varje folkslags territorium i den sparade bilden."
+msgstr "Om detta anges visas varje nations territorium i den sparade bilden."
 
 #: client/options.c:2467
 msgid "Show borders"
@@ -14191,7 +14213,7 @@ msgstr "Visa gränser"
 
 #: client/options.c:2468
 msgid "If set, the border of each nation is shown on the saved image."
-msgstr "Om detta anges visas varje folkslags gräns i den sparade bilden."
+msgstr "Om detta anges visas varje nations gräns i den sparade bilden."
 
 #: client/options.c:2472
 msgid "Show cities"
@@ -15872,7 +15894,7 @@ msgstr "Byggnader: inga."
 
 #: client/text.c:1867
 msgid "Nationality: "
-msgstr "Folkslagstillhörighet: "
+msgstr "Nationalitet: "
 
 #: client/text.c:1880
 #, c-format
@@ -17536,7 +17558,7 @@ msgstr "Hydda: %s"
 #: common/events.c:59
 #, c-format
 msgid "Nation: %s"
-msgstr "Folkslag: %s"
+msgstr "Nation: %s"
 
 #: common/events.c:60
 #, c-format
@@ -17949,7 +17971,7 @@ msgstr "Spelet är igång"
 
 #: common/events.c:203
 msgid "Nation Selected"
-msgstr "Folkslag valt"
+msgstr "Nation vald"
 
 #: common/events.c:204
 msgid "Player Destroyed"
@@ -19433,63 +19455,63 @@ msgstr "Kräver att %s inte är med i spelet."
 #: common/reqtext.c:1184
 #, c-format
 msgid "Requires that you are playing %s nation."
-msgstr "Kräver att du spelar folkslaget %s."
+msgstr "Kräver att du spelar en nation i gruppen %s."
 
 #. TRANS: nation group: "... playing Imaginary nation."
 #: common/reqtext.c:1189
 #, c-format
 msgid "Prevented if you are playing %s nation."
-msgstr "Förhindras om du spelar folkslaget %s."
+msgstr "Förhindras om du spelar en nation i gruppen %s."
 
 #. TRANS: nation group: "Requires Medieval nation ..."
 #: common/reqtext.c:1198
 #, c-format
 msgid "Requires %s nation on your team."
-msgstr "Kräver folkslaget %s i ditt lag."
+msgstr "Kräver att en nation i gruppen %s finns i ditt lag."
 
 #. TRANS: nation group: "Prevented by Medieval nation ..."
 #: common/reqtext.c:1203
 #, c-format
 msgid "Prevented by %s nation on your team."
-msgstr "Förhindras av att folkslaget %s finns i ditt lag."
+msgstr "Förhindras av att en nation i gruppen %s finns i ditt lag."
 
 #. TRANS: nation group: "Requires Modern nation ..."
 #: common/reqtext.c:1212
 #, c-format
 msgid "Requires %s nation in alliance with you."
-msgstr "Kräver att folkslaget %s är allierat med dig."
+msgstr "Kräver att en nation i gruppen %s är allierad med dig."
 
 #. TRANS: nation group: "Prevented by Modern nation ..."
 #: common/reqtext.c:1217
 #, c-format
 msgid "Prevented if %s nation is in alliance with you."
-msgstr "Förhindras om folkslaget %s är allierat med dig."
+msgstr "Förhindras om en nation i gruppen %s är allierad med dig."
 
 #. TRANS: nation group: "Requires Asian nation ..."
 #: common/reqtext.c:1226
 #, c-format
 msgid "Requires %s nation in the game."
-msgstr "Kräver att folkslaget %s är med i spelet."
+msgstr "Kräver att en nation i gruppen %s är med i spelet."
 
 #. TRANS: nation group: "Prevented by Asian nation ..."
 #: common/reqtext.c:1231
 #, c-format
 msgid "Prevented by %s nation in the game."
-msgstr "Förhindras av att folkslaget %s finns i spelet."
+msgstr "Förhindras av att en nation i gruppen %s finns i spelet."
 
 #. TRANS: "Requires that you are playing Asian style
 #. * nation."
 #: common/reqtext.c:1257
 #, c-format
 msgid "Requires that you are playing %s style nation."
-msgstr "Kräver att du spelar ett folkslag i stilen %s."
+msgstr "Kräver att du spelar en nation i stilen %s."
 
 #. TRANS: "Requires that you are not playing Classical
 #. * style nation."
 #: common/reqtext.c:1263
 #, c-format
 msgid "Requires that you are not playing %s style nation."
-msgstr "Kräver att du inte spelar ett folkslag i stilen %s."
+msgstr "Kräver att du inte spelar en nation i stilen %s."
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: common/reqtext.c:1275
@@ -19915,8 +19937,8 @@ msgstr[1] "Kräver en trupp med minst veterannivå %d."
 #, c-format
 msgid "Requires a unit with fewer than %d veteran level."
 msgid_plural "Requires a unit with fewer than %d veteran levels."
-msgstr[0] "Kräver en trupp med färre än %d veterannivå."
-msgstr[1] "Kräver en trupp med färre än %d veterannivåer."
+msgstr[0] "Kräver en trupp med veterannivå under %d."
+msgstr[1] "Kräver en trupp med veterannivå under %d."
 
 #: common/reqtext.c:2008
 #, c-format
@@ -20032,15 +20054,15 @@ msgstr[1] ""
 #, c-format
 msgid "Requires your nation to have culture of at least %d."
 msgid_plural "Requires your nation to have culture of at least %d."
-msgstr[0] "Kräver att ditt folkslag har minst %d kultur."
-msgstr[1] "Kräver att ditt folkslag har minst %d kultur."
+msgstr[0] "Kräver att din nation har minst %d kultur."
+msgstr[1] "Kräver att din nation har minst %d kultur."
 
 #: common/reqtext.c:2160
 #, c-format
 msgid "Prevented if your nation has culture of %d or more."
 msgid_plural "Prevented if your nation has culture of %d or more."
-msgstr[0] "Förhindras om ditt folkslag har kultur på %d eller mer."
-msgstr[1] "Förhindras om ditt folkslag har kultur på %d eller mer."
+msgstr[0] "Förhindras om din nation har kultur på %d eller mer."
+msgstr[1] "Förhindras om din nation har kultur på %d eller mer."
 
 #: common/reqtext.c:2172
 #, c-format
@@ -20589,7 +20611,7 @@ msgstr "Förhindras om åldern är över %d omgångar."
 #: common/reqtext.c:2898
 #, c-format
 msgid "Requires form age of %d turns."
-msgstr "Kräver att statsskickets ålder är %d omgångar."
+msgstr "Kräver att truppen har haft sin nuvarande form i minst %d omgångar."
 
 #: common/reqtext.c:2902
 #, c-format
@@ -21400,7 +21422,7 @@ msgstr[1] ""
 
 #: common/unit.c:2106
 msgid "You can only upgrade units in your cities."
-msgstr "Kan endast ersätta trupper i städer."
+msgstr "Du kan endast ersätta trupper i dina egna städer."
 
 #: common/unit.c:2110
 #, c-format
@@ -22168,11 +22190,12 @@ msgid ""
 "of population and all stored food; a Granary eliminates this risk."
 msgstr ""
 "Hungersnöd kan inträffa när matförrådet når noll på grund av ett "
-"matunderskott (vilket ett sädeslager bara fördröjer). Då går alla nybyggare "
-"som förbrukar mat förlorade, eller stadens befolkning om det inte finns "
-"några sådana. Hungersnöd kan också inträffa när som helst på grund av "
-"slumpmässig missväxt. Då går befolkning och all lagrad mat förlorade. Ett "
-"sädeslager eliminerar denna risk."
+"matunderskott (ett sädeslager fördröjer bara detta). Då går en "
+"nybyggare som förbrukar mat förlorad, eller så minskar stadens "
+"befolkning om det inte finns någon sådan. Hungersnöd kan också "
+"inträffa när som helst på grund av slumpmässig missväxt. Då minskar "
+"befolkningen och all lagrad mat går förlorad. Ett sädeslager "
+"eliminerar denna risk."
 
 #: data/civ1/buildings.ruleset:392 data/civ2/buildings.ruleset:472
 #: data/classic/buildings.ruleset:479 data/sandbox/buildings.ruleset:588
@@ -22298,10 +22321,11 @@ msgid ""
 "your capital itself is half of what it would otherwise be (as if it had a "
 "Courthouse)."
 msgstr ""
-"Gör en stad till huvudstad och centrum för ditt styre. Korruptionen i andra "
-"städer beror på avståndet till huvudstaden, utom under demokrati och "
-"kommunism. Dessutom är korruptionen i själva huvudstaden hälften så stor som "
-"den annars skulle vara, som om staden hade en domstol."
+"Gör en stad till huvudstad och centrum för ditt styre. Korruptionen "
+"i andra städer beror på avståndet till huvudstaden, utom under "
+"demokrati och kommunism. Dessutom är korruptionen i själva "
+"huvudstaden hälften så stor som den annars skulle vara, som om "
+"staden hade ett tingshus."
 
 #: data/civ1/buildings.ruleset:589
 msgid ""
@@ -22514,10 +22538,10 @@ msgid ""
 "citizens are made content. Does not affect citizens made unhappy by military "
 "activity."
 msgstr ""
-"Gör en missnöjd medborgare nöjd. Teknologin mysticism fördubblar effekten, "
-"liksom underverket Oraklet. Med både mysticism och Oraklet blir fyra "
-"medborgare nöjda. Påverkar inte medborgare som är missnöjda på grund av "
-"militär verksamhet."
+"Gör en missnöjd medborgare nöjd. Teknologin spådomskonst fördubblar "
+"effekten, liksom underverket Oraklet. Med både spådomskonst och "
+"Oraklet blir fyra medborgare nöjda. Påverkar inte medborgare som är "
+"missnöjda på grund av militär verksamhet."
 
 #: data/civ1/buildings.ruleset:805
 msgid ""
@@ -22821,9 +22845,10 @@ msgid ""
 "means that in a Republic, units do not cause unhappiness, and in a "
 "Democracy, aggressive units cause only 1 unhappy citizen each."
 msgstr ""
-"Minskar varje trupps inverkan på missnöjet i varje stad med 1. Det innebär "
-"att i en republik orsakar trupper inget missnöje, och under demokrati "
-"orsakar trupper i fält 1 missnöjd medborgare var."
+"Minskar varje trupps inverkan på missnöjet i varje stad med 1. Det "
+"innebär att trupper inte orsakar missnöje under republik och att "
+"aggressivt utplacerade trupper under demokrati bara gör 1 medborgare"
+" missnöjd var."
 
 #: data/civ1/cities.ruleset:48 data/civ2/cities.ruleset:48
 #: data/classic/cities.ruleset:48 data/sandbox/cities.ruleset:48
@@ -22897,12 +22922,12 @@ msgid ""
 "health.\n"
 msgstr ""
 "Du spelar med regler i Civ1-stil. De är mycket enklare än Freecivs "
-"standardregler. Om du endast känner till standardreglerna bör du ägna en "
-"stund åt att undersöka skillnaderna.\n"
+"standardregler. Om du endast känner till standardreglerna bör du "
+"ägna en stund åt att undersöka skillnaderna.\n"
 "\n"
 " * Det finns färre teknologier, byggnader och trupper.\n"
-" * Tålighetspoäng saknar betydelse. En trupp som vinner en strid behåller "
-"full hälsa.\n"
+" * Träffpunkter saknar betydelse. En trupp som vinner en strid "
+"behåller full hälsa.\n"
 
 #: data/civ1/game.ruleset:388 data/civ2/game.ruleset:384
 #: data/classic/game.ruleset:407 data/sandbox/game.ruleset:410
@@ -23137,9 +23162,10 @@ msgid ""
 "goods are owned by the state, rather than by private citizens.  Communism "
 "gives a balance between military and commercial styles of government."
 msgstr ""
-"Ett kommunistiskt styre bygger på idealet att alla människor är lika. Alla "
-"varor ägs av staten i stället för av privatpersoner. Kommunism ger en balans "
-"mellan militära och kommersiella styrelsesätt."
+"Ett kommunistiskt styre bygger på idealet att alla människor är "
+"jämlika. Alla varor ägs av staten i stället för av privatpersoner. "
+"Kommunism ger en balans mellan militära och kommersiella "
+"styrelsesätt."
 
 #: data/civ1/governments.ruleset:161 data/classic/governments.ruleset:159
 #: data/multiplayer/governments.ruleset:159
@@ -23182,10 +23208,11 @@ msgid ""
 "freedom.  Citizens under the Republic become unhappy easily, but the self-"
 "sufficiency of your citizens allows high levels of trade."
 msgstr ""
-"I en republik håller medborgarna val av en representant som skall regera "
-"dem; eftersom valda ledare måste hålla sig omtyckta för att stanna vid "
-"makten, har medborgarna större frihet. Medborgare i en republik blir lätt "
-"missnöjda, men medborgarnas självständighet tillåter mycket handel."
+"I en republik håller medborgarna val av en representant som ska "
+"styra dem; eftersom valda ledare måste hålla sig omtyckta för att "
+"stanna vid makten, har medborgarna större frihet. Medborgare i en "
+"republik blir lätt missnöjda, men medborgarnas självständighet "
+"tillåter mycket handel."
 
 #: data/civ1/governments.ruleset:195 data/civ1/techs.ruleset:264
 #: data/civ2/governments.ruleset:224 data/civ2/techs.ruleset:281
@@ -23221,10 +23248,10 @@ msgid ""
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
 msgstr ""
-"Vid demokrati röstar medborgarna direkt i folkomröstningar. Demokrati "
-"erbjuder högsta möjliga handel, men även högst möjlighet till missnöje. Det "
-"förekommer ingen korruption eller spill vid demokrati, men medborgarna blir "
-"mycket upprörda under krig."
+"Vid demokrati styr medborgarna direkt genom att rösta i sakfrågor. "
+"Demokrati ger högsta möjliga handelsnivå men också störst risk för "
+"missnöje. Det förekommer ingen korruption under demokrati, men "
+"medborgarna blir mycket upprörda under krig."
 
 #: data/civ1/governments.ruleset:213 data/civ2/governments.ruleset:243
 msgid ""
@@ -23554,9 +23581,9 @@ msgid ""
 "end of the Cold War."
 msgstr ""
 "Tyskland enades 1871 av den preussiska krigsmakten. Efter första "
-"världskriget blev landet en republik, men 1933 föll det under nazismen och "
-"inledde andra världskriget. Efter kriget delades landet i två stater, som "
-"återförenades 1990 vid kalla krigets slut."
+"världskriget blev landet en republik, men föll under nazismen 1933. "
+"Landet inledde andra världskriget. Efter kriget delades landet i två"
+" stater, som återförenades 1990 vid kalla krigets slut."
 
 #: data/civ1/nations.ruleset:882 data/civ2/nations.ruleset:1022
 #: data/nation/austrian.ruleset:51 data/nation/byzantium.ruleset:28
@@ -23796,14 +23823,15 @@ msgid ""
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
 msgstr ""
-"Enligt legenden bjöd slaviska och finsk-ugriska stammar i Novgorod år 862 in "
-"den varjagiske (vikingske) kungen Rurik för att skapa ordning i landet. "
-"Rurik grundade Kievriket i detta område, den första ryska staten. På 1000-"
-"talet hade Kievriket splittrats i mindre furstendömen, som åter förenades "
-"till en stat av Ivan III på 1400-talet. Efter en avgörande seger över "
-"Sverige och stora landvinningar utropade Peter I det ryska kejsardömet 1721. "
-"Det ryska kejsardömet bestod till 1917, då en socialistisk revolution "
-"avsatte den siste ryske kejsaren. Efter Sovjetunionens upplösning 1991 "
+"Enligt legenden bjöd slaviska och östersjöfinska stammar i Novgorod "
+"år 862 in den varjagiske (vikingske) kungen Rurik för att skapa "
+"ordning i landet. Rurik grundade Kievriket i detta område, den "
+"första ryska staten. På 1000-talet hade Kievriket splittrats i "
+"mindre furstendömen, som åter förenades till en stat av Ivan III på "
+"1400-talet. Efter en avgörande seger över Sverige och stora "
+"landvinningar utropade Peter I det ryska kejsardömet 1721. Det ryska"
+" kejsardömet bestod till 1917, då en socialistisk revolution avsatte"
+" den siste ryske kejsaren. Efter Sovjetunionens upplösning 1991 "
 "återkom Ryssland på världskartan, nu som en federal republik."
 
 #: data/civ1/nations.ruleset:1414 data/civ2/nations.ruleset:1753
@@ -23845,9 +23873,10 @@ msgid ""
 "into southern Africa beginning in the early 1700s, conquering the native "
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
-"Zuluerna är en krigisk bantustam som utvandrade från Västafrika till "
-"Sydafrika i början av 1700-talet. De underkuvade Khoisan-stammarna och stred "
-"mot europeiska nybyggare."
+"Zuluerna är ett krigiskt bantufolk som från början av 1700-talet "
+"vandrade från västra Centralafrika till södra Afrika, underkuvade de"
+" inhemska khoisanfolken och drabbade samman med europeiska "
+"nybyggare."
 
 #: data/civ1/nations.ruleset:1504 data/civ2/nations.ruleset:1845
 #: data/civ2/nations.ruleset:2099 data/nation/apache.ruleset:28
@@ -24693,11 +24722,12 @@ msgid ""
 "the city tile simply to allow building further irrigation elsewhere, but "
 "will not give the tile any further bonus."
 msgstr ""
-"Stadskärnans rutor får automatiskt landskapets bevattningsbonus om det inte "
-"finns någon motstridig gruva på rutan. Detta gör dock inte att städer räknas "
-"som vattenkällor för fortsatt bevattning. Bevattning kan byggas på "
-"stadsrutan enbart för att göra det möjligt att bygga ytterligare bevattning "
-"på andra håll, men ger inte rutan någon ytterligare bonus."
+"Städernas centrumrutor får automatiskt landskapets bevattningsbonus "
+"om rutan inte har någon gruva som hindrar bevattning. Detta gör dock"
+" inte att städer räknas som vattenkällor för fortsatt bevattning. "
+"Bevattning kan byggas på stadsrutan enbart för att göra det möjligt "
+"att bygga ytterligare bevattning på andra håll, men ger inte rutan "
+"någon ytterligare bonus."
 
 #: data/civ1/terrain.ruleset:1011 data/civ2/terrain.ruleset:1083
 #: data/classic/terrain.ruleset:1270 data/sandbox/terrain.ruleset:1298
@@ -24796,13 +24826,13 @@ msgid ""
 "world loses coastal land to jungles and swamps, and inland tiles are lost to "
 "desert. This tends to devastate cities and leads to global impoverishment."
 msgstr ""
-"När en oanvänd ruta förorenas kan det vara frestande att undvika arbetet med "
-"att sanera den, men spridningen av föroreningar får långt värre följder än "
-"den omedelbara ekonomiska skadan – varje förorenad ruta ökar risken för "
-"global uppvärmning. Varje gång den globala uppvärmningen fortskrider "
-"förlorar hela världen kustland till havet samt till djungler och träsk, "
-"medan inlandsrutor förvandlas till öken. Detta tenderar att ödelägga städer "
-"och leder till global utarmning."
+"När en oanvänd ruta förorenas kan det vara frestande att undvika "
+"arbetet med att sanera den, men spridningen av föroreningar får "
+"långt värre följder än den omedelbara ekonomiska skadan – varje "
+"förorenad ruta ökar risken för global uppvärmning. Varje gång den "
+"globala uppvärmningen fortskrider förlorar hela världen kustland "
+"till djungler och träsk, medan inlandsrutor förvandlas till öken. "
+"Detta tenderar att ödelägga städer och leder till global utarmning."
 
 #: data/civ1/terrain.ruleset:1086 data/civ2/terrain.ruleset:1158
 #: data/classic/terrain.ruleset:1377 data/sandbox/terrain.ruleset:1438
@@ -25184,7 +25214,8 @@ msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
 msgstr ""
-"Denna trupp kan byggas från spelets början. Det är den svagaste truppen."
+"Denna trupp kan byggas från spelets början. Det är den svagaste "
+"anfallstruppen."
 
 #: data/civ1/units.ruleset:503 data/civ2/units.ruleset:561
 #: data/classic/units.ruleset:630 data/sandbox/units.ruleset:755
@@ -25309,8 +25340,8 @@ msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
 msgstr ""
-"Pansarvagnar är motoriserade och bepansrade krigsmaskiner som är snabbare, "
-"starkare och kan ta mer stryk än traditionella trupper."
+"Pansarvagnar är motoriserade krigsvagnar som är snabbare, starkare "
+"och tål mer skada än någon beriden trupp."
 
 #: data/civ1/units.ruleset:831 data/civ2/units.ruleset:1303
 #: data/classic/units.ruleset:1261 data/sandbox/units.ruleset:1512
@@ -26088,10 +26119,11 @@ msgid ""
 "corruption and waste in your capital itself is half of what it would "
 "otherwise be (as if it had a Courthouse)."
 msgstr ""
-"Gör en stad till huvudstad och centrum för ditt statsskick. Korruptionen och "
-"spillet i andra städer beror på hur långt de ligger från huvudstaden, utom "
-"under demokrati och kommunism. Dessutom halveras korruptionen och spillet i "
-"själva huvudstaden (som om staden hade ett tingshus)."
+"Gör en stad till huvudstad och centrum för ditt styre. Korruptionen "
+"och spillet i andra städer beror på hur långt de ligger från "
+"huvudstaden, utom under demokrati och kommunism. Dessutom halveras "
+"korruptionen och spillet i själva huvudstaden (som om staden hade "
+"ett tingshus)."
 
 #: data/civ2/buildings.ruleset:696 data/classic/buildings.ruleset:716
 #: data/sandbox/buildings.ruleset:842 data/civ2civ3/buildings.ruleset:840
@@ -26326,8 +26358,8 @@ msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
 msgstr ""
-"Ditt rykte och anseende hos de andra nationerna ökar fyrfaldigt när du "
-"besitter detta underverk."
+"Ditt rykte och anseende hos andra nationer återhämtar sig fyra "
+"gånger så snabbt."
 
 #: data/civ2/buildings.ruleset:1430 data/classic/buildings.ruleset:1479
 msgid ""
@@ -26734,7 +26766,9 @@ msgstr "japanerna"
 msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
-msgstr "Sagan förtäljer att Japan grundades på 700-talet f.Kr. av Jimmu."
+msgstr ""
+"Enligt traditionell japansk mytologi grundades Japan på 600-talet "
+"f.Kr. av stamfadern kejsar Jimmu."
 
 #: data/civ2/nations.ruleset:1429 data/nation/aztec.ruleset:30
 #: data/nation/brazilian.ruleset:30 data/nation/byzantium.ruleset:31
@@ -27385,10 +27419,11 @@ msgid ""
 "capabilities of Settlers; see the Terrain Alterations section for more "
 "details."
 msgstr ""
-"Ingenjörer liknar nybyggare, men de arbetar dubbelt så snabbt och förflyttar "
-"sig dubbelt så snabbt.  Ingenjörer kan också utföra större "
-"terrängomvandlingar, till exempel omvandla tundra till öken, vilket "
-"nybyggare inte kan göra. Se avsnittet Terrängändringar för mer information."
+"Ingenjörer liknar nybyggare, men de arbetar dubbelt så snabbt och "
+"förflyttar sig dubbelt så snabbt.  Ingenjörer kan också utföra "
+"större terrängomvandlingar, till exempel omvandla tundra till öken, "
+"vilket nybyggare inte kan göra. Se avsnittet Landskapsförändringar "
+"för mer information."
 
 #: data/civ2/units.ruleset:518
 msgid ""
@@ -27470,8 +27505,8 @@ msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
-"Fundamentalistiska folk kan underhålla fanatiker utan att betala några "
-"sköldar i underhåll."
+"Fundamentalistiska nationer kan underhålla fanatiker utan att betala"
+" några sköldar i underhåll."
 
 #: data/civ2/units.ruleset:785 data/classic/units.ruleset:815
 #: data/sandbox/units.ruleset:1010 data/civ2civ3/units.ruleset:955
@@ -27834,14 +27869,16 @@ msgid ""
 " - sabotage predetermined city targets (with a reduced chance of success)."
 msgstr ""
 "En spion kan också användas till att:\n"
-" - sabotera en fientlig trupp (minska dess träffpoäng till hälften), om den "
-"är ensam på en ruta och spelarna är i krig;\n"
-" - förgifta vattenförsörjningen i en fiendestad (minska befolkningen med "
-"ett);\n"
+" - sabotera en fientlig trupp (minska dess träffpunkter till "
+"hälften), om den är ensam på en ruta och spelarna är i krig;\n"
+" - förgifta vattenförsörjningen i en fiendestad (minska befolkningen"
+" med ett);\n"
 " - stjäla en viss teknologi (med mindre chans att lyckas);\n"
-" - stjäla ytterligare teknologier från en stad som redan har bestulits (även "
-"om städer blir mer motståndskraftiga varje gång de bestjäls);\n"
-" - sabotera förutbestämda mål i en stad (med mindre chans att lyckas)."
+" - stjäla ytterligare teknologier från en stad som redan har "
+"bestulits (även om städer blir mer motståndskraftiga varje gång de "
+"bestjäls);\n"
+" - sabotera förutbestämda mål i en stad (med mindre chans att "
+"lyckas)."
 
 #: data/civ2/units.ruleset:2354 data/classic/units.ruleset:2342
 #: data/sandbox/units.ruleset:2775 data/civ2civ3/units.ruleset:2593
@@ -27996,8 +28033,8 @@ msgid ""
 "A small set of playable nations that should be fully localized into "
 "languages other than English."
 msgstr ""
-"En liten uppsättning spelbara folkslag som bör vara fullständigt översatta "
-"till andra språk än engelska."
+"En liten uppsättning spelbara nationer som bör vara fullständigt "
+"översatta till andra språk än engelska."
 
 #: data/default/nationlist.ruleset:34
 msgid "?nationset:Extended"
@@ -28015,9 +28052,9 @@ msgid ""
 "variety, but not all of these may have been localized into languages other "
 "than English."
 msgstr ""
-"Den fullständiga uppsättningen spelbara folkslag. Den möjliggör större spel "
-"eller mer variation, men alla kanske inte är översatta till andra språk än "
-"engelska."
+"Den fullständiga uppsättningen spelbara nationer. Den möjliggör "
+"större spel eller mer variation, men alla kanske inte är översatta "
+"till andra språk än engelska."
 
 #: data/default/nationlist.ruleset:63
 msgid "?nationgroup:Medieval"
@@ -28295,14 +28332,15 @@ msgid ""
 "upkeep, for all your cities."
 msgstr ""
 "Stadsförbättringar som annars skulle ha kostat 1 i underhåll blir "
-"kostnadsbefriade för alla städer."
+"kostnadsbefriade i alla dina städer."
 
 #: data/classic/buildings.ruleset:1402
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
-"Ditt rykte och anseende hos de andra folken förbättras dubbelt så fort."
+"Ditt rykte och anseende hos de andra nationerna förbättras dubbelt "
+"så fort."
 
 #: data/classic/buildings.ruleset:1533
 #, no-c-format
@@ -28322,7 +28360,7 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:1657
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "Ger alla marina enheter 2 ytterligare drag."
+msgstr "Ger alla dina marina enheter 2 ytterligare drag."
 
 #: data/classic/buildings.ruleset:1756
 msgid ""
@@ -28604,11 +28642,12 @@ msgid ""
 "be built on the city tile simply to allow building further irrigation "
 "elsewhere, but will not give the tile any further bonus."
 msgstr ""
-"Stadskärnans rutor får automatiskt landskapets bevattningsbonus om det inte "
-"finns någon motstridig gruva eller oljekälla på rutan. Detta gör dock inte "
-"att städer räknas som vattenkällor för fortsatt bevattning. Bevattning kan "
-"byggas på stadsrutan enbart för att göra det möjligt att bygga ytterligare "
-"bevattning på andra håll, men ger inte rutan någon ytterligare bonus."
+"Städernas centrumrutor får automatiskt landskapets bevattningsbonus "
+"om rutan inte har någon gruva eller oljekälla som hindrar "
+"bevattning. Detta gör dock inte att städer räknas som vattenkällor "
+"för fortsatt bevattning. Bevattning kan byggas på stadsrutan enbart "
+"för att göra det möjligt att bygga ytterligare bevattning på andra "
+"håll, men ger inte rutan någon ytterligare bonus."
 
 #: data/classic/terrain.ruleset:1299 data/sandbox/terrain.ruleset:1329
 #: data/civ2civ3/terrain.ruleset:1328 data/multiplayer/terrain.ruleset:1273
@@ -28710,10 +28749,11 @@ msgid ""
 "recovers a quarter of its hit points. With Invention, fortresses gain "
 "watchtowers from which land units can see further afield."
 msgstr ""
-"Fästningar förbättrar försvaret för marktrupper utanför städer. Bland annat "
-"återfår en marktrupp som stannar i en fästning en hel omgång utan att "
-"förflytta sig en fjärdedel av sina träffpoäng. Med uppfinning får fästningar "
-"vakttorn varifrån marktrupper kan se längre."
+"Fästningar förbättrar försvaret för marktrupper utanför städer. "
+"Bland annat återfår en marktrupp som stannar i en fästning en hel "
+"omgång utan att förflytta sig en fjärdedel av sina träffpunkter. Med"
+" uppfinning får fästningar vakttorn varifrån marktrupper kan se "
+"längre."
 
 #: data/classic/terrain.ruleset:1551 data/sandbox/terrain.ruleset:1788
 #: data/civ2civ3/terrain.ruleset:1713 data/multiplayer/terrain.ruleset:1523
@@ -28832,13 +28872,13 @@ msgid ""
 "an ocean-going vessel, on a tile surrounded by sufficient existing land). "
 "See the Terrain Alterations section for more details."
 msgstr ""
-"Ingenjörer liknar arbetare, men de arbetar dubbelt så snabbt och förflyttar "
-"sig dubbelt så snabbt. Ingenjörer kan också utföra större "
-"terrängomvandlingar som arbetare och nybyggare inte klarar, till exempel "
-"omvandla tundra till öken, eller i vissa fall till och med hav till träsk "
-"när de befinner sig ombord på ett havsgående fartyg på en ruta som omges av "
-"tillräckligt mycket befintligt land. Se avsnittet Terrängändringar för mer "
-"information."
+"Ingenjörer liknar arbetare, men de arbetar dubbelt så snabbt och "
+"förflyttar sig dubbelt så snabbt. Ingenjörer kan också utföra större"
+" terrängomvandlingar som arbetare och nybyggare inte klarar, till "
+"exempel omvandla tundra till öken, eller i vissa fall till och med "
+"hav till träsk när de befinner sig ombord på ett havsgående fartyg "
+"på en ruta som omges av tillräckligt mycket befintligt land. Se "
+"avsnittet Landskapsförändringar för mer information."
 
 #: data/classic/units.ruleset:587 data/multiplayer/units.ruleset:588
 msgid ""
@@ -28944,13 +28984,14 @@ msgid ""
 "against the Leader you will always die). If the defending unit dies, you "
 "lose one movement point and may try again."
 msgstr ""
-"Diplomater kan också utföra ett antal handlingar i en annan spelares stad, "
-"men varje diplomat får bara försöka utföra en handling. De flesta av dessa "
-"handlingar kan misslyckas. Fientliga diplomater eller spioner i staden "
-"motverkar också fientliga handlingar, liksom fiendens ledare i spel med "
-"ledare. I så fall dör antingen din trupp eller den försvarande truppen (om "
-"du möter ledaren dör du alltid). Om den försvarande truppen dör förlorar du "
-"en dragpoäng och kan försöka igen."
+"Diplomater kan också utföra ett antal handlingar i en annan spelares"
+" stad, men varje diplomat får bara försöka utföra en handling. De "
+"flesta av dessa handlingar kan misslyckas. Fientliga diplomater "
+"eller spioner i staden motverkar också fientliga handlingar, liksom "
+"fiendens ledare i spel med ledare. I så fall dör antingen din trupp "
+"eller den försvarande truppen (om du möter ledaren dör din trupp "
+"alltid). Om den försvarande truppen dör förlorar du en "
+"förflyttningspoäng och kan försöka igen."
 
 #: data/classic/units.ruleset:2272 data/multiplayer/units.ruleset:2383
 msgid ""
@@ -29018,8 +29059,8 @@ msgid ""
 "knowing both allows cities to support four trade routes each."
 msgstr ""
 "Till en början kan städer ha högst två handelsleder. Kunskap om "
-"teknologierna magnetism och bolaget höjer vardera gränsen med en. Om du "
-"känner till båda kan varje stad ha fyra handelsleder."
+"teknologierna magnetism och företaget höjer vardera gränsen med en. "
+"Om du känner till båda kan varje stad ha fyra handelsleder."
 
 #: data/classic/units.ruleset:2438
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -29495,11 +29536,11 @@ msgid ""
 "production waste in your capital itself is half of what it would otherwise "
 "be (and a Courthouse will eliminate it entirely)."
 msgstr ""
-"Gör en stad till huvudstad och centrum för ditt statsskick. Spillet i andra "
-"städer (korruption, produktionsspill och matspill) beror ofta på hur långt "
-"de ligger från huvudstaden. Dessutom halveras korruptionen och "
-"produktionsspillet i själva huvudstaden jämfört med vad de annars skulle "
-"vara (och ett tingshus eliminerar dem helt)."
+"Gör en stad till huvudstad och centrum för ditt styre. Spillet i "
+"andra städer (korruption, produktionsspill och matspill) beror ofta "
+"på hur långt de ligger från huvudstaden. Dessutom halveras "
+"korruptionen och produktionsspillet i själva huvudstaden jämfört med"
+" vad de annars skulle vara (och ett tingshus eliminerar dem helt)."
 
 #: data/sandbox/buildings.ruleset:859 data/sandbox/buildings.ruleset:898
 #: data/civ2civ3/buildings.ruleset:857 data/civ2civ3/buildings.ruleset:896
@@ -29508,8 +29549,8 @@ msgid ""
 "Under Despotism the city containing the palace gains a +75% gold bonus, and "
 "under Monarchy a +50% gold bonus."
 msgstr ""
-"Under envälde får staden med palatset +75 % bonus till guldproduktionen, och "
-"under monarki +50 %."
+"Under envälde får staden med slottet +75 % bonus till "
+"guldproduktionen, och under monarki +50 %."
 
 #: data/sandbox/buildings.ruleset:865 data/civ2civ3/buildings.ruleset:863
 msgid "Ecclesiastical Palace"
@@ -29700,9 +29741,9 @@ msgid ""
 "generating some trade, produces one extra trade resource. The same applies "
 "to the city center tile (even if it is receiving a farmland bonus)."
 msgstr ""
-"Varje ruta runt staden som har väg men inte jordbruksmark och som redan "
+"Varje ruta runt staden som har väg men inte åkermark och som redan "
 "producerar handel ger 1 extra handelsresurs. Detsamma gäller "
-"stadscentrumsrutan (även om den får en bonus från jordbruksmark)."
+"stadscentrumsrutan (även om den får en bonus från åkermark)."
 
 #: data/sandbox/buildings.ruleset:1395 data/civ2civ3/buildings.ruleset:1327
 #, no-c-format
@@ -29836,11 +29877,11 @@ msgid ""
 "your cities with an Aqueduct and a Sewer System will be entirely free of "
 "plague."
 msgstr ""
-"Denna häpnadsväckande tekniska bedrift gör 1 nöjd medborgare lycklig i var "
-"och en av dina städer (2 extra lyxpoäng per stad). Den minskar dessutom "
-"risken för pest (med 10 % av grundrisken). Med kunskap om medicin blir alla "
-"dina städer som har både en vattenledning och ett avloppssystem helt fria "
-"från pest."
+"Denna häpnadsväckande tekniska bedrift gör 1 nöjd medborgare lycklig"
+" i var och en av dina städer (2 extra välfärdspoäng per stad). Den "
+"minskar dessutom risken för pest (med 10 % av grundrisken). Med "
+"kunskap om medicin blir alla dina städer som har både en "
+"vattenledning och ett avloppssystem helt fria från pest."
 
 #: data/sandbox/buildings.ruleset:1701 data/civ2civ3/buildings.ruleset:1578
 msgid ""
@@ -29921,10 +29962,10 @@ msgid ""
 "two content citizens happy in the city where it is located (4 extra luxury "
 "points)."
 msgstr ""
-"Gör 1 missnöjd medborgare nöjd i varje stad som tillhör spelaren som äger "
-"underverket (utom medborgare som är missnöjda på grund av aggression). I "
-"staden där underverket finns gör det dessutom 2 nöjda medborgare lyckliga (4 "
-"extra lyxpoäng)."
+"Gör 1 missnöjd medborgare nöjd i varje stad som tillhör spelaren som"
+" äger underverket (utom medborgare som är missnöjda på grund av "
+"aggression). I staden där underverket finns gör det dessutom 2 nöjda"
+" medborgare lyckliga (4 extra välfärdspoäng)."
 
 #: data/sandbox/buildings.ruleset:1873 data/civ2civ3/buildings.ruleset:1718
 #, no-c-format
@@ -30065,10 +30106,11 @@ msgid ""
 "tiles with output greater than 2 (for all kinds of output), as if all your "
 "cities were always celebrating."
 msgstr ""
-"Varje ruta omkring staden där detta underverk byggs som redan producerar "
-"någon sköldavkastning producerar en extra sköldresurs. Under despoti eller "
-"stamstyre upphäver pyramiderna avdraget för arbetade rutor med avkastning "
-"över 2, för alla typer av avkastning, som om alla dina städer alltid firade."
+"Varje ruta omkring staden där detta underverk byggs som redan "
+"producerar någon sköldavkastning producerar en extra sköldresurs. "
+"Under envälde eller stamstyre upphäver pyramiderna avdraget för "
+"arbetade rutor med avkastning över 2, för alla typer av avkastning, "
+"som om alla dina städer alltid firade."
 
 #: data/sandbox/buildings.ruleset:2222 data/civ2civ3/buildings.ruleset:2067
 msgid "Internet"
@@ -30234,13 +30276,13 @@ msgid ""
 "This ruleset was originally based on current default ruleset, civ2civ3, as "
 "it stood in 2.6."
 msgstr ""
-"Du spelar Freeciv med sandlåderegelverket. Det visar upp nya eller ovanliga "
-"funktioner i Freeciv utan hänsyn till strikt spelbalans, spelbarhet, AI-"
-"prestanda, tillgänglig grafik eller kompatibilitet mellan sparade spel från "
-"olika versioner.\n"
+"Du spelar Freeciv med sandlåderegelverket. Det visar upp nya eller "
+"ovanliga funktioner i Freeciv utan hänsyn till strikt spelbalans, "
+"spelbarhet, AI-prestanda, tillgänglig grafik eller kompatibilitet "
+"mellan sparade spel från olika versioner.\n"
 "\n"
-"Regelverket baserades ursprungligen på det dåvarande standardregelverket "
-"civ2civ3, så som det såg ut i version 2.6."
+"Regelverket baserades ursprungligen på det nuvarande "
+"standardregelverket civ2civ3, så som det såg ut i version 2.6."
 
 #: data/sandbox/game.ruleset:513 data/civ2civ3/game.ruleset:515
 msgid "Spaceship Launch"
@@ -30334,7 +30376,7 @@ msgstr "Kulturnation"
 
 #: data/sandbox/game.ruleset:581 data/civ2civ3/game.ruleset:583
 msgid "Your nation is the first one to achieve 10000 culture points!"
-msgstr "Ditt folkslag är det första som uppnår 10 000 kulturpoäng!"
+msgstr "Din nation är den första som uppnår 10 000 kulturpoäng!"
 
 #: data/sandbox/game.ruleset:582 data/civ2civ3/game.ruleset:584
 msgid "Your nation has achieved 10000 culture points!"
@@ -30398,23 +30440,23 @@ msgid ""
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
 "* Byggnader och teknologier kräver inget underhåll.\n"
-"* Varje arbetad ruta som ger mer än 2 mat, sköldar eller handel får ett "
-"avdrag på 1, såvida staden som arbetar rutan inte firar. (Städer mindre än "
-"storlek 3 firar inte.)\n"
-"* Varje stad kan underhålla upp till 2 trupper gratis; ytterligare trupper "
-"kostar 1 sköld per omgång.\n"
+"* Varje arbetad ruta som ger mer än 2 mat, sköldar eller handel får "
+"ett avdrag på 1, såvida staden som arbetar rutan inte firar. (Städer"
+" mindre än storlek 3 firar inte.)\n"
+"* Varje stad kan underhålla upp till 2 trupper gratis; ytterligare "
+"trupper kostar vardera 1 sköld per omgång.\n"
 "* Stridande enheter orsakar inget missnöje ens när de är aggressivt "
 "utplacerade.\n"
-"* Stridande enheter upprätthåller undantagstillstånd. Upp till 3 stridande "
-"enheter i en stad gör vardera 1 missnöjd medborgare nöjd.\n"
-"* Du kan inte styra skattesatserna. Alla handelsinkomster omvandlas till "
-"välfärd.\n"
-"* Hälften av välfärden, även den som omvandlats från andra handelsinkomster, "
-"går förlorad.\n"
-"* Vanlig korruption ökar med avståndet från huvudstaden (hälften så snabbt "
-"med kunskap om Företaget).\n"
-"* Grundnivån av produktionsspill är 30 %. Den ökar med avståndet från "
-"huvudstaden (hälften så snabbt med kunskap om Handel)."
+"* Stridande enheter upprätthåller undantagstillstånd. Upp till 3 "
+"stridande enheter i en stad gör vardera 1 missnöjd medborgare nöjd.\n"
+"* Du kan inte styra skattesatserna. Alla handelsinkomster omvandlas "
+"till välfärd.\n"
+"* Hälften av välfärden, även den som omvandlats från andra "
+"handelsinkomster, går förlorad.\n"
+"* Vanlig korruption ökar med avståndet från huvudstaden (hälften så "
+"snabbt med kunskap om Företaget).\n"
+"* Grundnivån av produktionsspill är 30 %. Den ökar med avståndet "
+"från huvudstaden (hälften så snabbt med kunskap om Handel)."
 
 #: data/sandbox/governments.ruleset:110 data/civ2civ3/governments.ruleset:110
 msgid "Tribal"
@@ -30457,21 +30499,22 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Ökar chansen för marktrupper att nå nästa veterannivå efter en strid med "
-"hälften.\n"
-"* Varje arbetad ruta som ger mer än 2 mat, sköldar eller handel får ett "
-"avdrag på 1, såvida staden som arbetar rutan inte firar. (Städer mindre än "
-"storlek 3 firar inte.)\n"
+"* Ökar chansen för marktrupper att nå nästa veterannivå efter en "
+"strid med hälften.\n"
+"* Varje arbetad ruta som ger mer än 2 mat, sköldar eller handel får "
+"ett avdrag på 1, såvida staden som arbetar rutan inte firar. (Städer"
+" mindre än storlek 3 firar inte.)\n"
 "* Varje stad får 1 extra nöjd medborgare.\n"
-"* Varje stad kan underhålla upp till 2 trupper gratis; ytterligare trupper "
-"kostar 1 sköld per omgång.\n"
-"* Till skillnad från senare statsskick orsakar stridande enheter inget "
-"missnöje ens när de är aggressivt utplacerade.\n"
-"* Grundkorruptionen är 30 % (den högsta under något statsskick). Den ökar "
+"* Varje stad kan underhålla upp till 2 trupper gratis; ytterligare "
+"trupper kostar vardera 1 sköld per omgång.\n"
+"* Till skillnad från senare statsskick orsakar stridande enheter "
+"inget missnöje ens när de är aggressivt utplacerade.\n"
+"* Grundkorruptionen är 30 % (den högsta under något statsskick). Den"
+" ökar med avståndet från huvudstaden (hälften så snabbt med kunskap "
+"om Företaget).\n"
+"* Det finns ingen grundnivå av produktionsspill, men spillet ökar "
 "med avståndet från huvudstaden (hälften så snabbt med kunskap om "
-"Företaget).\n"
-"* Det finns ingen grundnivå av produktionsspill, men spillet ökar med "
-"avståndet från huvudstaden (hälften så snabbt med kunskap om Handel)."
+"Handel)."
 
 #: data/sandbox/governments.ruleset:167 data/civ2civ3/governments.ruleset:167
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
@@ -30496,21 +30539,21 @@ msgid ""
 "* Base production waste is 10%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Dina styrelsecentrum (städer med palats och kyrkligt palats) får +75 % "
-"bonus till guldproduktionen.\n"
-"* Varje arbetad ruta som ger mer än 2 mat, sköldar eller handel får ett "
-"avdrag på 1, såvida staden som arbetar rutan inte firar. (Städer mindre än "
-"storlek 3 firar inte.)\n"
-"* Varje stad kan underhålla upp till 2 trupper gratis; ytterligare trupper "
-"kostar 1 guld per omgång.\n"
-"* Till skillnad från senare statsskick orsakar stridande enheter inget "
-"missnöje ens när de är aggressivt utplacerade.\n"
-"* Stridande enheter upprätthåller undantagstillstånd. Upp till 3 stridande "
-"enheter i en stad gör vardera 1 missnöjd medborgare nöjd.\n"
-"* Grundkorruptionen är 20 %. Den ökar med avståndet från huvudstaden "
-"(hälften så snabbt med kunskap om Företaget).\n"
-"* Grundnivån av produktionsspill är 10 %. Den ökar med avståndet från "
-"huvudstaden (hälften så snabbt med kunskap om Handel)."
+"* Dina styrelsecentrum (städer med slott och kyrkligt palats) får "
+"+75 % bonus till guldproduktionen.\n"
+"* Varje arbetad ruta som ger mer än 2 mat, sköldar eller handel får "
+"ett avdrag på 1, såvida staden som arbetar rutan inte firar. (Städer"
+" mindre än storlek 3 firar inte.)\n"
+"* Varje stad kan underhålla upp till 2 trupper gratis; ytterligare "
+"trupper kostar 1 guld per omgång.\n"
+"* Till skillnad från senare statsskick orsakar stridande enheter "
+"inget missnöje ens när de är aggressivt utplacerade.\n"
+"* Stridande enheter upprätthåller undantagstillstånd. Upp till 3 "
+"stridande enheter i en stad gör vardera 1 missnöjd medborgare nöjd.\n"
+"* Grundkorruptionen är 20 %. Den ökar med avståndet från huvudstaden"
+" (hälften så snabbt med kunskap om Företaget).\n"
+"* Grundnivån av produktionsspill är 10 %. Den ökar med avståndet "
+"från huvudstaden (hälften så snabbt med kunskap om Handel)."
 
 #: data/sandbox/governments.ruleset:208 data/civ2civ3/governments.ruleset:208
 msgid "Monarchy gives low unit upkeep costs."
@@ -30534,20 +30577,20 @@ msgid ""
 "* Base production waste is 20%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Dina styrelsecentrum (städer med palats och kyrkligt palats) får +50 % "
-"bonus till guldproduktionen.\n"
-"* Firande städer producerar 1 extra handelspoäng för varje ruta som redan "
-"producerar handel. (Städer mindre än storlek 3 firar inte.)\n"
-"* Varje stad kan underhålla upp till 3 trupper gratis (det högsta möjliga "
-"antalet); ytterligare trupper kostar 1 guld per omgång.\n"
-"* Varje stad tolererar upp till 3 aggressivt utplacerade stridande enheter; "
-"varje ytterligare trupp gör 1 medborgare missnöjd.\n"
-"* Stridande enheter upprätthåller undantagstillstånd. Upp till 3 stridande "
-"enheter i en stad gör vardera 1 missnöjd medborgare nöjd.\n"
-"* Grundkorruptionen är 10 %. Den ökar med avståndet från huvudstaden "
-"(hälften så snabbt med kunskap om Företaget).\n"
-"* Grundnivån av produktionsspill är 20 %. Den ökar med avståndet från "
-"huvudstaden (hälften så snabbt med kunskap om Handel)."
+"* Dina styrelsecentrum (städer med slott och kyrkligt palats) får "
+"+50 % bonus till guldproduktionen.\n"
+"* Firande städer producerar 1 extra handelspoäng för varje ruta som "
+"redan producerar handel. (Städer mindre än storlek 3 firar inte.)\n"
+"* Varje stad kan underhålla upp till 3 trupper gratis (det högsta "
+"möjliga antalet); ytterligare trupper kostar 1 guld per omgång.\n"
+"* Varje stad tolererar upp till 3 aggressivt utplacerade stridande "
+"enheter; varje ytterligare trupp gör 1 medborgare missnöjd.\n"
+"* Stridande enheter upprätthåller undantagstillstånd. Upp till 3 "
+"stridande enheter i en stad gör vardera 1 missnöjd medborgare nöjd.\n"
+"* Grundkorruptionen är 10 %. Den ökar med avståndet från huvudstaden"
+" (hälften så snabbt med kunskap om Företaget).\n"
+"* Grundnivån av produktionsspill är 20 %. Den ökar med avståndet "
+"från huvudstaden (hälften så snabbt med kunskap om Handel)."
 
 #: data/sandbox/governments.ruleset:250 data/civ2civ3/governments.ruleset:250
 msgid ""
@@ -31576,10 +31619,10 @@ msgid ""
 "Freight) can only travel on roads, railroads, rivers or ships."
 msgstr ""
 "Vägar gör att dina marktrupper kan förflytta sig snabbare och låter "
-"hjulförsedda stora marktrupper, som stridsvagnar och katapulter, färdas "
-"genom annars svårframkomlig terräng (berg, djungel och sumpmark). "
-"Handelstrupper (karavaner och frakttrupper) kan bara färdas på vägar, "
-"järnvägar och floder eller ombord på fartyg."
+"hjulförsedda stora marktrupper, som stridsvagnar och katapulter, "
+"färdas genom annars svårframkomlig terräng (berg, djungel och "
+"sumpmark). Handelstrupper (karavaner och godsvagnar) kan bara färdas"
+" på vägar, järnvägar och floder eller ombord på fartyg."
 
 #: data/sandbox/terrain.ruleset:1904 data/civ2civ3/terrain.ruleset:1796
 msgid "On some terrains, roads also provide a trade bonus."
@@ -31901,12 +31944,13 @@ msgid ""
 "vessel, on a tile surrounded by sufficient existing land). See the Terrain "
 "Alterations section for more details."
 msgstr ""
-"Med kunskap om fusionskraft kan ingenjörer också utföra mer radikala "
-"terrängomvandlingar än arbetare, nybyggare eller migranter med ordern "
-"”omvandla”. Exempel är att omvandla tundra till slätt, eller i vissa fall "
-"till och med hav till träsk när de befinner sig ombord på ett havsgående "
-"fartyg på en ruta som omges av tillräckligt mycket befintligt land. Se "
-"avsnittet Terrängändringar för mer information."
+"Med kunskap om fusionskraft kan ingenjörer också utföra mer radikala"
+" terrängomvandlingar än arbetare, nybyggare eller migranter med "
+"ordern ”omvandla”. Exempel är att omvandla tundra till slättland, "
+"eller i vissa fall till och med hav till sumpmark när de befinner "
+"sig ombord på ett havsgående fartyg på en ruta som omges av "
+"tillräckligt mycket befintligt land. Se avsnittet "
+"Landskapsförändringar för mer information."
 
 #: data/sandbox/units.ruleset:682
 msgid "Mechanic"
@@ -32113,10 +32157,10 @@ msgid ""
 "base, or Carrier to refuel after a set number of turns; however, care must "
 "be exercised, due to the health they lose every turn."
 msgstr ""
-"Till skillnad från andra flygplan behöver helikoptrar inte återvända till en "
-"stad, bas eller ett hangarfartyg för att tanka efter ett visst antal "
-"omgångar. De måste dock användas varsamt på grund av den hälsa de förlorar "
-"varje omgång."
+"Till skillnad från andra luftfartyg behöver helikoptrar inte "
+"återvända till en stad, bas eller ett hangarfartyg för att tanka "
+"efter ett visst antal omgångar. De måste dock användas varsamt på "
+"grund av den hälsa de förlorar varje omgång."
 
 #: data/sandbox/units.ruleset:1914 data/civ2civ3/units.ruleset:1854
 msgid ""
@@ -32269,10 +32313,11 @@ msgid ""
 "an excuse for the breaking of treaties by a Federation or Democracy, or a "
 "nuclear-armed regime otherwise restrained by the United Nations."
 msgstr ""
-"Många hemliga handlingar kan försöka utföras även i fredstid, men de mer "
-"aggressiva handlingarna upptäcks och orsakar diplomatiska incidenter, vilket "
-"ger en federation eller demokrati, eller en kärnvapenbeväpnad regim som "
-"annars hålls tillbaka av Förenta nationerna, en förevändning att bryta avtal."
+"Du kan försöka utföra många hemliga handlingar även i fredstid, men "
+"de mer aggressiva handlingarna upptäcks och orsakar diplomatiska "
+"incidenter, vilket ger en federation eller demokrati, eller en "
+"kärnvapenbeväpnad regim som annars hålls tillbaka av Förenta "
+"nationerna, en förevändning att bryta avtal."
 
 #: data/sandbox/units.ruleset:2635 data/civ2civ3/units.ruleset:2456
 msgid ""
@@ -32754,10 +32799,10 @@ msgid ""
 "transported from further away to city center. On hex maps city radius grows "
 "to 2 tiles. On square based maps increases city area by 8 tiles."
 msgstr ""
-"Stadsarbetare kan färdas längre från stadskärnan för att arbeta, och varor "
-"kan transporteras till stadskärnan från längre bort. På hexagonkartor växer "
-"stadsradien till 2 rutor. På kvadratiska kartor ökar stadsområdet med 8 "
-"rutor."
+"Stadsarbetare kan färdas längre från stadskärnan för att arbeta, och"
+" varor kan transporteras till stadskärnan från längre bort. På "
+"hexagonkartor växer stadsradien till 2 rutor. På kartor med "
+"kvadratiska rutor ökar stadsområdet med 8 rutor."
 
 #: data/alien/buildings.ruleset:449
 msgid "Radar Tower"
@@ -34096,10 +34141,11 @@ msgid ""
 "Burrowing units are unable to burrow through these mountains, but at least "
 "Burrowing technology makes mining them possible."
 msgstr ""
-"Vad är dessa berg gjorda av?!? En diamantborr lämnar inte ens en repa.\n"
+"Vad är dessa berg gjorda av?!? En diamantborr lämnar inte ens en "
+"repa.\n"
 "\n"
-"Grävande trupper kan inte gräva sig genom dessa berg, men teknologin "
-"Grävning gör åtminstone att massiva berg kan brytas."
+"Grävande trupper kan inte gräva sig genom dessa berg, men teknologin"
+" Grävning gör det åtminstone möjligt att anlägga gruvor där."
 
 #: data/alien/terrain.ruleset:554
 msgid "This is normal oceanic terrain."
@@ -34138,16 +34184,16 @@ msgid ""
 "- Deep Pumping allows water to be drawn from the depths of the crust, "
 "allowing Greenhouses to be built anywhere."
 msgstr ""
-"Växthus kan byggas på vissa terrängtyper för att ge en matbonus. För att "
-"bygga växthus måste rutan ha en vattenkälla:\n"
-"- Städer har inbyggda växthus, såvida det inte finns en gruva på rutan. De "
-"behöver inte byggas.\n"
-"- Med Tillverkning kan växthus byggas utanför städer direkt på flodrutor "
-"eller i kardinal riktning intill havsrutor.\n"
-"- Med Vattenflöde blir det också möjligt att bygga växthus i kardinal "
-"riktning intill flodrutor eller stadscentrum.\n"
-"- Djupumpning gör att vatten kan hämtas från jordskorpans djup, så att "
-"växthus kan byggas var som helst."
+"Växthus kan byggas på vissa terrängtyper för att ge en matbonus. För"
+" att bygga växthus måste rutan ha en vattenkälla:\n"
+"- Städer har inbyggda växthus, såvida det inte finns en gruva på "
+"rutan. De behöver inte byggas.\n"
+"- Med Tillverkning kan växthus byggas utanför städer direkt på "
+"flodrutor eller på rutor som delar en sida med en havsruta.\n"
+"- Med Vattenflöde blir det också möjligt att bygga växthus på rutor "
+"som delar en sida med en flodruta eller ett stadscentrum.\n"
+"- Djupumpning gör att vatten kan hämtas från jordskorpans djup, så "
+"att växthus kan byggas var som helst."
 
 #: data/alien/terrain.ruleset:853
 msgid ""
@@ -34302,9 +34348,10 @@ msgid ""
 "can be built on oceanic terrains only, but first part of the tube must be "
 "built cardinally adjacent to land and following parts must be built in order."
 msgstr ""
-"Grävtunnlar är det enda sättet för grävande trupper att korsa hav. De kan "
-"bara byggas på havsterräng, men tunnelns första del måste byggas i kardinal "
-"riktning intill land och de följande delarna måste byggas i ordning."
+"Grävtunnlar är det enda sättet för grävande trupper att korsa hav. "
+"De kan bara byggas på havsterräng, men tunnelns första del måste "
+"byggas på en ruta som delar en sida med en landruta och de följande "
+"delarna måste byggas i ordning."
 
 #: data/alien/terrain.ruleset:1210
 msgid "Green River"
@@ -34939,14 +34986,15 @@ msgid ""
 "units -- typically with an explorer and a couple of settlers in 4000 BCE -- "
 "and race to expand outward from those humble beginnings."
 msgstr ""
-"Freeciv är ett turordningsbaserat strategispel där varje spelare blir ledare "
-"för en civilisation. Du tävlar mot flera motståndare om att grunda städer, "
-"använda dem för att stödja militär och ekonomi och till sist fullborda ett "
-"rike som överlever alla möten med sina grannar och står som segrare. Varje "
-"motståndare kan vara en annan människa eller styras av datorn. Alla spelare "
-"börjar vid historiens gryning med en handfull trupper – vanligtvis en "
-"utforskare och ett par nybyggare år 4000 f.Kr. – och tävlar om att expandera "
-"från denna blygsamma början."
+"Freeciv är ett turordningsbaserat strategispel där varje spelare "
+"blir ledare för en civilisation. Du tävlar mot flera motståndare om "
+"att grunda städer, använda dem för att stödja militär och ekonomi "
+"och till sist fullborda ett rike som överlever alla möten med sina "
+"grannar och står som segrare. Varje motståndare kan vara en annan "
+"människa eller styras av datorn. Alla spelare börjar vid historiens "
+"gryning med en handfull trupper – vanligtvis en upptäcktsresande och"
+" ett par nybyggare år 4000 f.Kr. – och tävlar om att expandera från "
+"denna blygsamma början."
 
 #: data/helpdata.txt:54
 msgid ""
@@ -35057,14 +35105,15 @@ msgid ""
 "site you find against getting your first city established as early as "
 "possible."
 msgstr ""
-" 0. Välja den första boplatsen.\n"
+" 0. Välja platsen för den första staden.\n"
 "\n"
-"    Inled spelet med att vandra omkring EN KORT STUND för att finna en bra "
-"första boplats. Man bör inte känna sig frestad att undersöka några hyddor än "
-"- de kan innehålla barbariska stammar. Grunda staden nära naturtillgångar "
-"och kanske nära sjön. Kom ihåg att den första staden man grundar blir ens "
-"huvudstad! Tanken är att avväga tiden som man ägnar åt att finna ett bra "
-"ställe, mot att få sin första stad grundad så tidigt som möjligt."
+"    Inled spelet med att vandra omkring EN KORT STUND för att hitta "
+"en bra plats för den första staden. Låt dig inte frestas att "
+"undersöka några byar med gula tak ännu – de kan innehålla "
+"barbarstammar. Grunda staden nära naturtillgångar och kanske nära "
+"havet. Kom ihåg att den första staden du grundar blir din huvudstad!"
+" Tanken är att väga platsens kvalitet mot att få den första staden "
+"grundad så tidigt som möjligt."
 
 #: data/helpdata.txt:112
 msgid ""
@@ -35097,12 +35146,12 @@ msgid ""
 msgstr ""
 " 2. Försvara städerna.\n"
 "\n"
-"   Man skall alltid försvara sina städer genom att lämna en krigare i dem i "
-"detta läge. Allt eftersom ens civilisation utvecklar trupp med större "
-"försvarsstyrka, ersätter man de omoderna trupperna med nya för att se till "
-"att ens städer har bästa möjliga försvar. De mest använda försvarstrupperna "
-"är (i styrkeordning): krigare, falang, spjutbärare, musketerare och "
-"infanteri."
+"    I detta läge bör du försvara dina städer genom att alltid lämna "
+"en krigare i dem. Allt eftersom din civilisation utvecklar trupper "
+"med större försvarsstyrka ersätter du de omoderna trupperna med nya,"
+" så att städerna får bästa möjliga försvar. De trupper som oftast "
+"används till försvar är, i styrkeordning: krigare, falang, "
+"spjutbärare, musketerare och infanteri."
 
 #: data/helpdata.txt:131
 #, no-c-format
@@ -35231,11 +35280,12 @@ msgid ""
 "to any of your cities, as cities in disorder produce nothing, and are prone "
 "to revolt."
 msgstr ""
-"    Den gyllene regeln för stadsskötsel är att det ska finnas minst lika "
-"många lyckliga som missnöjda medborgare. Om så inte är fallet råder upplopp "
-"i staden; sådana städer markeras med en höjd näve eller en blixt (beroende "
-"på rutuppsättning). Se till att detta inte händer i någon av dina städer, "
-"eftersom städer med upplopp inte producerar något och lätt kan göra uppror."
+"    Den gyllene regeln för stadsskötsel är att det ska finnas minst "
+"lika många lyckliga som missnöjda medborgare. Om så inte är fallet "
+"råder upplopp i staden; sådana städer markeras med en höjd näve "
+"eller en blixt (beroende på rutbildsuppsättning). Se till att detta "
+"inte händer i någon av dina städer, eftersom städer med upplopp inte"
+" producerar något och lätt kan göra uppror."
 
 #: data/helpdata.txt:198
 msgid ""
@@ -35249,11 +35299,11 @@ msgid ""
 msgstr ""
 " 7. Samspel med andra spelare (diplomati).\n"
 "\n"
-"    När en av dina trupper för första gången möter en trupp från ett annat "
-"folkslag eller hittar en av deras städer (eller om de på motsvarande sätt "
-"hittar dig), upprättas en grundläggande kontakt mellan de två folkslagen.  "
-"Detta ger vardera parten grundläggande underrättelser om den andra, vilka "
-"kan nås via rapporten ”Folkslag”."
+"    När en av dina trupper för första gången möter en trupp från en "
+"annan nation eller hittar en av dess städer (eller om den på "
+"motsvarande sätt hittar dig), upprättas en grundläggande kontakt "
+"mellan de två nationerna.  Detta ger vardera parten grundläggande "
+"underrättelser om den andra, vilka kan nås via rapporten ”Nationer”."
 
 #: data/helpdata.txt:206
 msgid ""
@@ -35263,11 +35313,12 @@ msgid ""
 "technology.  Embassies are one-way - the nation hosting the embassy receives "
 "no benefit - and once established, cannot be revoked."
 msgstr ""
-"    Denna kommunikation upphör efter ett visst antal omgångar utan kontakt.  "
-"En ambassad ger en mer bestående kommunikationskanal och även mer avancerade "
-"underrättelser, till exempel uppgifter om teknologi.  Ambassader är "
-"enkelriktade – folkslaget som hyser ambassaden får ingen fördel – och kan "
-"inte återkallas när de väl har upprättats."
+"    Denna kommunikation upphör efter ett visst antal omgångar utan "
+"kontakt.  En ambassad ger en mer bestående kommunikationskanal och "
+"även mer avancerade underrättelser, till exempel uppgifter om "
+"teknologi.  Ambassader är enkelriktade – nationen som hyser "
+"ambassaden får ingen fördel – och kan inte återkallas när de väl har"
+" upprättats."
 
 #: data/helpdata.txt:213
 msgid ""
@@ -35277,11 +35328,11 @@ msgid ""
 "under the embassy column is not blank and the other player is connected (or "
 "is a server AI) then a treaty dialog will pop up."
 msgstr ""
-"    Om du har kontakt med en annan spelare kan du ordna ett diplomatiskt "
-"möte. I folkslagsrapporten gör du detta genom att klicka på det folkslag du "
-"vill möta och välja ”Möt”. Om posten i ambassadkolumnen inte är tom och den "
-"andra spelaren är ansluten (eller är en serverstyrd AI) öppnas en "
-"avtalsdialog."
+"    Om du har kontakt med en annan spelare kan du ordna ett "
+"diplomatiskt möte. I nationsrapporten gör du detta genom att klicka "
+"på den nation du vill möta och välja ”Möt”. Om posten i "
+"ambassadkolumnen inte är tom och den andra spelaren är ansluten "
+"(eller är en serverstyrd AI) öppnas en avtalsdialog."
 
 #: data/helpdata.txt:220
 msgid ""
@@ -35293,13 +35344,14 @@ msgid ""
 "double-click on it.  When both players indicate satisfaction, the pact is "
 "concluded."
 msgstr ""
-"    I denna dialogruta kan ni förhandla om utbyte av tillgångar (kartor, "
-"synfält, framsteg, städer eller guld), ambassader eller bindande avtal som "
-"vapenstillestånd eller fred.  Det finns inget krav på likvärdigt utbyte; du "
-"kan exempelvis byta ett framsteg eller en stad mot guld, vilket kan "
-"betraktas som köp och försäljning.  Varje spelare sammanställer en lista "
-"över erbjudna poster.  Dubbelklicka på en post för att ta bort den från "
-"listan.  När båda spelarna anger att de är nöjda sluts avtalet."
+"    I denna dialogruta kan ni förhandla om utbyte av tillgångar "
+"(kartor, synfält, framsteg, städer eller guld), ambassader eller "
+"bindande avtal som vapenstillestånd eller fred.  Du behöver inte "
+"byta tillgångar av samma slag mot varandra; du kan exempelvis byta "
+"ett framsteg eller en stad mot guld, vilket kan betraktas som köp "
+"och försäljning.  Varje spelare sammanställer en lista över erbjudna"
+" poster.  Dubbelklicka på en post för att ta bort den från listan.  "
+"När båda spelarna anger att de är nöjda sluts avtalet."
 
 #: data/helpdata.txt:228
 msgid ""
@@ -35312,14 +35364,14 @@ msgid ""
 "situation is to dissolve your government.  The details of pacts are "
 "described in the Diplomacy section."
 msgstr ""
-"    Avtal påverkar vart dina trupper får gå och vad de får göra, och ett "
-"avtal med ett folkslag kan påverka dina relationer med andra.  Under "
-"auktoritära styren som monarki kan du bryta ett avtal när som helst, men "
-"representativa styren (republik och demokrati) har en senat som stoppar en "
-"oprovocerad uppsägning av ett avtal. Om inte en utländsk diplomat eller "
-"spion utlöser en diplomatisk incident är det enda sättet att upplösa ett "
-"avtal i denna situation att upplösa styret.  Avtalens närmare innebörd "
-"beskrivs i avsnittet Diplomati."
+"    Avtal påverkar vart dina trupper får gå och vad de får göra, och"
+" ett avtal med en nation kan påverka dina relationer med andra.  "
+"Under auktoritära styren som monarki kan du bryta ett avtal när som "
+"helst, men representativa styren (republik och demokrati) har en "
+"senat som stoppar en oprovocerad uppsägning av ett avtal. Om inte en"
+" utländsk diplomat eller spion utlöser en diplomatisk incident är "
+"det enda sättet att upplösa ett avtal i denna situation att upplösa "
+"styret.  Avtalens närmare innebörd beskrivs i avsnittet Diplomati."
 
 #: data/helpdata.txt:238
 msgid "    A couple of notes:"
@@ -35392,7 +35444,8 @@ msgstr ""
 "\n"
 "  - Vilket framsteg du behöver härnäst.\n"
 "\n"
-"  - Vilka nivåer skatter, lyx och forskning för närvarande är inställda på.\n"
+"  - Vilka nivåer skatter, välfärd och forskning för närvarande är "
+"inställda på.\n"
 "\n"
 "  - Avtal bryts ofta, så försumma inte försvaret …\n"
 "\n"
@@ -35673,12 +35726,12 @@ msgid ""
 "Borders also come into play when there is a diplomatic pact between nations "
 "(see the section on Diplomacy)."
 msgstr ""
-"Om funktionen är aktiverad på servern har varje folkslag gränser, vilka "
-"visas som prickade linjer på kartan. Gränser avgör vilket land dina "
-"medborgare kan bruka, var du kan grunda nya städer och om dina medborgare "
-"betraktar dina trupper som aggressivt utplacerade (se avsnittet om "
-"belåtenhet). Gränser spelar också en roll när det finns ett diplomatiskt "
-"avtal mellan folkslag (se avsnittet om diplomati)."
+"Om funktionen är aktiverad på servern har varje nation gränser, "
+"vilka visas som prickade linjer på kartan. Gränser avgör vilken mark"
+" dina medborgare kan bruka, var du kan grunda nya städer och om dina"
+" medborgare betraktar dina trupper som aggressivt utplacerade (se "
+"avsnittet om belåtenhet). Gränser spelar också en roll när det finns"
+" ett diplomatiskt avtal mellan nationer (se avsnittet om diplomati)."
 
 #: data/helpdata.txt:433
 msgid ""
@@ -35690,13 +35743,14 @@ msgid ""
 "Other rulesets may differ in which, if any, tiles are permanently claimed by "
 "a city."
 msgstr ""
-"När en stad grundas görs anspråk på ett landområde runt den. I det klassiska "
-"regelverket kan en ruta som en stad direkt kan bruka inte byta ägare efter "
-"att anspråket har etablerats, såvida inte staden gör det eller förstörs. "
-"Äganderätten till mark som ligger utom räckhåll för alla städer kan däremot "
-"förändras beroende på faktorer som den relativa storleken på närliggande "
-"folkslags städer. Andra regelverk kan skilja sig åt beträffande vilka rutor, "
-"om några, en stad gör permanent anspråk på."
+"När en stad grundas görs anspråk på ett landområde runt den. I det "
+"klassiska regelverket kan en ruta som en stad direkt kan bruka inte "
+"byta ägare efter att anspråket har etablerats, såvida inte staden "
+"gör det eller förstörs. Äganderätten till mark som ligger utom "
+"räckhåll för alla städer kan däremot förändras beroende på faktorer "
+"som den relativa storleken på närliggande nationers städer. Andra "
+"regelverk kan skilja sig åt beträffande vilka rutor, om några, en "
+"stad gör permanent anspråk på."
 
 #: data/helpdata.txt:441
 msgid ""
@@ -35818,14 +35872,15 @@ msgid ""
 "added to their city's list of structures. Any leftover production points "
 "remain available to be applied towards the next project."
 msgstr ""
-"Produktionspoäng utöver dem som stadens trupper behöver går till den trupp, "
-"byggnad eller det världsunder som har valts som stadens aktuella produkt. På "
-"samma sätt som matpoäng samlas i stadens sädeslager och ger en medborgare "
-"när lagret blir fullt, samlas produktionspoäng tills produktens kostnad har "
-"uppnåtts. Färdiga produkter dyker upp i staden – trupper visas på kartan, "
-"medan stadsförbättringar och världsunder läggs till i stadens lista över "
-"byggnader. Eventuella överblivna produktionspoäng kan användas till nästa "
-"projekt."
+"Produktionspoäng utöver dem som stadens trupper behöver går till den"
+" trupp, byggnad eller det underverk som har valts som stadens "
+"aktuella produkt. På samma sätt som matpoäng samlas i stadens "
+"sädeslager och ger en medborgare när lagret blir fullt, samlas "
+"produktionspoäng tills produktens kostnad har uppnåtts. Färdiga "
+"produkter dyker upp i staden – trupper visas på kartan, medan "
+"stadsförbättringar och underverk läggs till i stadens lista över "
+"byggnader. Eventuella överblivna produktionspoäng kan användas till "
+"nästa projekt."
 
 #: data/helpdata.txt:510
 msgid ""
@@ -35904,12 +35959,13 @@ msgid ""
 "buildings whose upkeep you cannot afford, both of which will be disbanded "
 "immediately after completion."
 msgstr ""
-"Varje spelare får bygga alla produkter som den kända teknologin har gjort "
-"tillgängliga, med några få begränsningar. Se avsnitten om trupper, "
-"stadsförbättringar och världsunder för mer information. Var försiktig – "
-"spelet ger dig till och med friheten att producera trupper som du inte kan "
-"försörja och byggnader vars underhåll du inte har råd med. Båda upplöses "
-"omedelbart efter att de har färdigställts."
+"Varje spelare får bygga alla produkter som den kända teknologin har "
+"gjort tillgängliga, med några få begränsningar. Se avsnitten om "
+"trupper, stadsförbättringar och världens underverk för mer "
+"information. Var försiktig – spelet ger dig till och med friheten "
+"att producera trupper som du inte kan försörja och byggnader vars "
+"underhåll du inte har råd med. Båda upplöses omedelbart efter att de"
+" har färdigställts."
 
 #: data/helpdata.txt:550
 msgid ""
@@ -35919,11 +35975,12 @@ msgid ""
 "You can spend gold to complete a project in one turn by hitting the Buy "
 "button on the city dialog."
 msgstr ""
-"Du kan alltid ändra den produkt som en stad arbetar på, men du förlorar "
-"hälften av de samlade produktionspoängen när du byter från en byggnad, trupp "
-"eller ett världsunder till en produkt i någon av de andra två kategorierna. "
-"Du kan spendera guld för att slutföra ett projekt på en omgång genom att "
-"trycka på knappen Köp i stadsdialogrutan."
+"Du kan alltid ändra den produkt som en stad arbetar på, men du "
+"förlorar hälften av de samlade produktionspoängen när du byter från "
+"en byggnad, trupp eller ett underverk till en produkt i någon av de "
+"andra två kategorierna. Du kan spendera guld för att slutföra ett "
+"projekt på en omgång genom att trycka på knappen Köp i "
+"stadsdialogrutan."
 
 #: data/helpdata.txt:556
 msgid ""
@@ -35957,13 +36014,14 @@ msgid ""
 "points influence citizen morale; and science points (\"bulbs\") contribute "
 "towards the discovery of new technology."
 msgstr ""
-"Handelspoäng återspeglar det välstånd som yttre handel skapar i varje stad. "
-"Vissa handelspoäng kan gå förlorade till korruption, som varierar mellan "
-"statsskick och tenderar att öka med avståndet från styrets centrum. Varje "
-"stad fördelar sina återstående handelspoäng mellan tre användningsområden: "
-"guld i form av skatter går till den nationella statskassan, välfärdspoäng "
-"påverkar medborgarnas moral och vetenskapspoäng (”glödlampor”) bidrar till "
-"upptäckten av ny teknologi."
+"Handelspoäng återspeglar det välstånd som yttre handel skapar i "
+"varje stad. Vissa handelspoäng kan gå förlorade till korruption, som"
+" varierar mellan statsskick och tenderar att öka med avståndet från "
+"styrets centrum. Varje stad fördelar sina återstående handelspoäng "
+"mellan tre användningsområden: guld i form av skatter går till den "
+"nationella statskassan, välfärdspoäng påverkar medborgarnas "
+"belåtenhet och forskningspoäng (”glödlampor”) bidrar till upptäckten"
+" av ny teknologi."
 
 #: data/helpdata.txt:577
 msgid ""
@@ -35990,16 +36048,17 @@ msgid ""
 "assigning citizens as entertainers in the classic ruleset). See the section "
 "on Happiness for more details on the effect of luxuries."
 msgstr ""
-"Det gemensamma fördelningsförhållandet påverkar inte guld och vetenskap "
-"särskilt mycket, eftersom både guld och teknologiska framsteg räknas för "
-"hela riket. Välfärd är däremot mer problematiskt, eftersom dess effekt är "
-"lokal – den påverkar bara staden som producerar den. Det vore praktiskt om "
-"missnöjda städer kunde investera all sin handel i välfärd medan andra i "
-"stället investerade i vetenskap eller skatter, men du måste i stället "
-"kompromissa mellan alla städers behov (även om det kan finnas sätt att göra "
-"lokala justeringar, till exempel genom att tilldela medborgare rollen som "
-"trubadurer i det klassiska regelverket). Se avsnittet om belåtenhet för mer "
-"information om välfärdens effekt."
+"Kravet på samma fördelning i alla städer påverkar inte guld och "
+"forskning, eftersom både guld och teknologiska framsteg räknas för "
+"hela riket. Välfärd är däremot mer problematiskt, eftersom dess "
+"effekt är lokal – den påverkar bara staden som producerar den. Det "
+"vore praktiskt om missnöjda städer kunde investera all sin handel i "
+"välfärd medan andra i stället investerade i forskning eller skatter,"
+" men du måste i stället kompromissa mellan alla städers behov (även "
+"om det kan finnas sätt att göra lokala justeringar, till exempel "
+"genom att tilldela medborgare rollen som trubadurer i det klassiska "
+"regelverket). Se avsnittet om belåtenhet för mer information om "
+"välfärdens effekt."
 
 #: data/helpdata.txt:593
 msgid ""
@@ -36022,12 +36081,13 @@ msgid ""
 "distance between the two cities, controlled by the 'trademindist' server "
 "option (default nine tiles)."
 msgstr ""
-"Regelverket kan begränsa möjligheten att bedriva handel eller avkastningen "
-"från den beroende på om de två städerna ligger på olika kontinenter och/"
-"eller tillhör olika folkslag. För internationella handelsleder kan även de "
-"två handelspartnernas diplomatiska status påverka. För inhemska leder krävs "
-"ett minsta avstånd mellan städerna, vilket styrs av serveralternativet "
-"”trademindist” (som standard nio rutor)."
+"Regelverket kan begränsa möjligheten att bedriva handel eller "
+"avkastningen från den beroende på om de två städerna ligger på olika"
+" kontinenter och/eller tillhör olika nationer. För internationella "
+"handelsleder kan även de två handelspartnernas diplomatiska status "
+"påverka. För inhemska leder krävs ett minsta avstånd mellan "
+"städerna, vilket styrs av serveralternativet ”trademindist” (som "
+"standard nio rutor)."
 
 #: data/helpdata.txt:605
 msgid ""
@@ -36037,11 +36097,12 @@ msgid ""
 "creates a trade route between the unit's home city (which might be different "
 "from the city that originally produced it) and the destination."
 msgstr ""
-"En handelsled upprättas när en lämplig trupp (i det klassiska regelverket en "
-"karavan eller godsvagn) går in i en berättigad stad. För egna eller "
-"allierade städer måste du ge ordern ”Upprätta handelsled”. Då skapas en "
-"handelsled mellan truppens hemstad (som kan skilja sig från staden där den "
-"ursprungligen producerades) och destinationen."
+"En handelsled upprättas när en lämplig trupp (i det klassiska "
+"regelverket en karavan eller godsvagn) går in i en stad som "
+"uppfyller kraven. För egna eller allierade städer måste du ge ordern"
+" ”Upprätta handelsled”. Då skapas en handelsled mellan truppens "
+"hemstad (som kan skilja sig från staden där den ursprungligen "
+"producerades) och destinationen."
 
 #: data/helpdata.txt:612
 msgid ""
@@ -36052,11 +36113,12 @@ msgid ""
 "destination civilization learns about the location of the origin city, if it "
 "is not already known."
 msgstr ""
-"Beroende på regelverket kan truppens ursprungscivilisation omedelbart få "
-"intäkter i guld, vetenskap eller bådadera när handelsvarorna säljs i "
-"destinationsstaden. Den ursprungliga intäkten beror på den handel som de två "
-"berörda städerna redan producerar och avståndet mellan dem. Destinationens "
-"civilisation får kännedom om ursprungsstadens läge om det inte redan är känt."
+"Beroende på regelverket kan truppens ursprungscivilisation "
+"omedelbart få intäkter i guld, vetenskap eller bådadera när "
+"handelsvarorna säljs i destinationsstaden. Engångsintäkten beror på "
+"den handel som de två berörda städerna redan producerar och "
+"avståndet mellan dem. Destinationens civilisation får kännedom om "
+"ursprungsstadens läge om det inte redan är känt."
 
 #: data/helpdata.txt:619
 msgid ""
@@ -36087,12 +36149,13 @@ msgid ""
 "initial revenue by entering the marketplace and selling trade goods, but it "
 "is reduced to a third.)"
 msgstr ""
-"Varje stad kan bara upprätthålla ett begränsat antal handelsleder (den "
-"exakta gränsen bestäms av regelverket och omständigheterna). Om du försöker "
-"upprätta fler upphävs handelsleden med lägst fortlöpande intäkt, förutsatt "
-"att den ger mindre än den nya leden. (Annars kan ursprungscivilisationen "
-"fortfarande få den ursprungliga intäkten genom att gå in på marknadsplatsen "
-"och sälja handelsvarorna, men intäkten minskas till en tredjedel.)"
+"Varje stad kan bara upprätthålla ett begränsat antal handelsleder "
+"(den exakta gränsen bestäms av regelverket och omständigheterna). Om"
+" du försöker upprätta fler upphävs handelsleden med lägst "
+"fortlöpande intäkt, förutsatt att den ger mindre än den nya leden. "
+"(Annars kan ursprungscivilisationen fortfarande få engångsintäkten "
+"genom att gå in på marknadsplatsen och sälja handelsvarorna, men "
+"intäkten minskas till en tredjedel.)"
 
 #: data/helpdata.txt:636
 msgid ""
@@ -36177,10 +36240,11 @@ msgid ""
 "depending on factors such as the size of the city and known technologies."
 msgstr ""
 "Varje stad kan bruka landskapet inom sin räckvidd. I det klassiska "
-"regelverket är detta en fast radie på omkring tre rutor, vilket ger tillgång "
-"till 20 rutor på rektangulära kartor eller 18 på sexkantiga kartor, utöver "
-"rutan med stadscentrum. I andra regelverk kan det vara annorlunda och "
-"variera beroende på faktorer som stadens storlek och känd teknologi."
+"regelverket är detta en fast radie på omkring tre rutor, vilket ger "
+"tillgång till 20 rutor på kartor med rektangulära rutor eller 18 på "
+"kartor med sexkantiga rutor, utöver rutan med stadscentrum. I andra "
+"regelverk kan det vara annorlunda och variera beroende på faktorer "
+"som stadens storlek och känd teknologi."
 
 #: data/helpdata.txt:684
 msgid ""
@@ -36291,11 +36355,12 @@ msgid ""
 "immigrants. Units founding or contributing citizens to a city can also bring "
 "their own nationality."
 msgstr ""
-"Medborgare har en nationalitet som är skild från staten de bor i. När en "
-"stad växer genom matöverskott får nya medborgare stadens nuvarande ägares "
-"nationalitet, men när en stad erövras eller överlåts på annat sätt behåller "
-"medborgarna sin ursprungliga nationalitet, liksom invandrare. Trupper som "
-"grundar en stad eller tillför den medborgare kan också föra med sig sin egen "
+"Medborgarnas nationalitet kan skilja sig från nationaliteten hos den"
+" stat de bor i. När en stad växer genom matöverskott får nya "
+"medborgare stadens nuvarande ägares nationalitet, men när en stad "
+"erövras eller överlåts på annat sätt behåller medborgarna sin "
+"ursprungliga nationalitet, liksom invandrare. Trupper som grundar en"
+" stad eller tillför den medborgare kan också föra med sig sin egen "
 "nationalitet."
 
 #: data/helpdata.txt:737
@@ -36308,13 +36373,14 @@ msgid ""
 "state's cities. Over time, citizens may be assimilated into their home city, "
 "depending on ruleset settings."
 msgstr ""
-"Medborgare av en annan nationalitet arbetar i dina städer precis som dina "
-"egna och beter sig likadant i de flesta avseenden, men de kan bli missnöjda "
-"när du befinner dig i krig med den stat de förknippas med. Deras närvaro gör "
-"det billigare för den statens agenter att hetsa till uppror i dina städer, "
-"och om migration är aktiverad har de större benägenhet att flytta till den "
-"statens städer. Med tiden kan medborgare assimileras i sin hemstad, beroende "
-"på regelverkets inställningar."
+"Medborgare av en annan nationalitet arbetar i dina städer precis som"
+" dina egna och beter sig likadant i de flesta avseenden, men de kan "
+"bli missnöjda när du befinner dig i krig med den stat de förknippas "
+"med. Deras närvaro gör det billigare för den statens agenter att "
+"anstifta uppror i dina städer, och om migration är aktiverad har de "
+"större benägenhet att flytta till den statens städer. Med tiden kan "
+"medborgare assimileras i sin hemstad, beroende på regelverkets "
+"inställningar."
 
 #: data/helpdata.txt:745
 msgid ""
@@ -36335,9 +36401,10 @@ msgid ""
 "the sections on City Improvements and Wonders of the World for more "
 "information."
 msgstr ""
-"Städer kan förbättras med en stor mängd olika byggnader som kan öka deras "
-"produktivitet eller militära styrka eller ge dem nya förmågor. Se avsnitten "
-"om stadsförbättringar och världsunder för mer information."
+"Städer kan förbättras med en stor mängd olika byggnader som kan öka "
+"deras produktivitet eller militära styrka eller ge dem nya förmågor."
+" Se avsnitten om stadsförbättringar och världens underverk för mer "
+"information."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:760
@@ -36420,13 +36487,13 @@ msgid ""
 "revolt. Prolonged disorder under certain governments can lead to a "
 "spontaneous national revolution, overthrowing your government."
 msgstr ""
-"Om antalet missnöjda medborgare i en stad överstiger antalet lyckliga "
-"medborgare uppstår upplopp. En stad med upplopp producerar inget överskott "
-"av mat eller produktion och ingen forskning eller skatt; endast "
-"lyxproduktionen återstår. Det är också lättare för fientliga agenter att "
-"anstifta uppror i en stad med upplopp. Långvariga upplopp under vissa "
-"statsskick kan leda till en spontan nationell revolution som störtar "
-"statsskicket."
+"Om antalet missnöjda medborgare i en stad överstiger antalet "
+"lyckliga medborgare uppstår upplopp. En stad med upplopp producerar "
+"inget överskott av mat eller produktion och ingen forskning eller "
+"skatt; endast välfärdsproduktionen återstår. Det är också lättare "
+"för fientliga agenter att anstifta uppror i en stad med upplopp. "
+"Långvariga upplopp under vissa statsskick kan leda till en spontan "
+"nationell revolution som störtar statsskicket."
 
 #: data/helpdata.txt:805
 msgid ""
@@ -36539,13 +36606,13 @@ msgid ""
 "rates; see the section on Trade. Luxury points may also be produced by other "
 "means, such as entertainer specialists in the classic ruleset."
 msgstr ""
-"Välfärd gör medborgarna lyckliga. För varje två välfärdspoäng som en stad "
-"producerar görs en nöjd medborgare lycklig (om inga nöjda medborgare "
-"återstår blir missnöjda medborgare först nöjda och sedan lyckliga). Varje "
-"stad får tillbaka en del av de handelspoäng den producerar som välfärdspoäng "
-"enligt rikets skattesatser; se avsnittet om handel. Välfärdspoäng kan också "
-"produceras på andra sätt, exempelvis av specialister som är underhållare i "
-"det klassiska regelverket."
+"Välfärd gör medborgarna lyckliga. För varje två välfärdspoäng som en"
+" stad producerar görs en nöjd medborgare lycklig (om inga nöjda "
+"medborgare återstår blir missnöjda medborgare först nöjda och sedan "
+"lyckliga). Varje stad får tillbaka en del av de handelspoäng den "
+"producerar som välfärdspoäng enligt rikets skattesatser; se "
+"avsnittet om handel. Välfärdspoäng kan också produceras på andra "
+"sätt, exempelvis av trubadurer i det klassiska regelverket."
 
 #: data/helpdata.txt:863
 msgid ""
@@ -36587,8 +36654,9 @@ msgid ""
 "If you are at war with a civilization and some of your citizens are of that "
 "nationality, those citizens may also become unhappy."
 msgstr ""
-"Om du befinner dig i krig med en civilisation och några av dina medborgare "
-"tillhör det folkslaget kan även dessa medborgare bli missnöjda."
+"Om du befinner dig i krig med en civilisation och några av dina "
+"medborgare har den nationaliteten kan även dessa medborgare bli "
+"missnöjda."
 
 #: data/helpdata.txt:882
 msgid ""
@@ -36646,12 +36714,12 @@ msgid ""
 "several turns, increasing the risk of plague in those cities by a factor "
 "depending on the size of both cities."
 msgstr ""
-"Risken för pest beror på stadens storlek (trängsel leder till ohygieniska "
-"förhållanden) och på de föroreningar som staden alstrar. Pest kan också "
-"spridas via handelsleder (oavsett folkslag). När en stad har drabbats av "
-"pest förblir den smittsam för sina handelspartner under flera omgångar, "
-"vilket ökar risken för pest i dessa städer med en faktor som beror på båda "
-"städernas storlek."
+"Risken för pest beror på stadens storlek (trängsel leder till "
+"ohygieniska förhållanden) och på de föroreningar som staden alstrar."
+" Pest kan också spridas via handelsleder (oavsett nationalitet). När"
+" en stad har drabbats av pest förblir den smittsam för sina "
+"handelspartner under flera omgångar, vilket ökar risken för pest i "
+"dessa städer med en faktor som beror på båda städernas storlek."
 
 #: data/helpdata.txt:913
 msgid ""
@@ -36682,10 +36750,10 @@ msgid ""
 "game may migrate to a nearby, more attractive city, either within the same "
 "nation or even across national borders (to a lesser extent, by default)."
 msgstr ""
-"När migration är aktiverad kan en medborgare i varje stad i spelet med några "
-"omgångars mellanrum flytta till en närliggande, mer attraktiv stad, antingen "
-"inom samma folkslag eller till och med över riksgränser (i mindre omfattning "
-"som standard)."
+"När migration är aktiverad kan en medborgare i varje stad i spelet "
+"med några omgångars mellanrum flytta till en närliggande, mer "
+"attraktiv stad, antingen inom samma nation eller till och med över "
+"riksgränser (i mindre omfattning som standard)."
 
 #: data/helpdata.txt:931
 msgid ""
@@ -36718,8 +36786,9 @@ msgid ""
 " - In rulesets where nationality is enabled, citizens have a strong "
 "preference to move to cities of their own nationality."
 msgstr ""
-" - I regelverk där folkslagstillhörighet används har medborgarna en stark "
-"benägenhet att flytta till städer som tillhör deras eget folkslag."
+" - I regelverk där nationalitet används har medborgarna en stark "
+"benägenhet att flytta till städer med samma nationalitet som de "
+"själva."
 
 #: data/helpdata.txt:946
 msgid ""
@@ -36801,11 +36870,11 @@ msgid ""
 "and the last citizen from your only remaining city will never migrate to "
 "another nation."
 msgstr ""
-"Migration kan till och med leda till att städer överges helt (ägandet av "
-"eventuella trupper överförs då till din närmaste kvarvarande stad). Städer "
-"med underverk upplöses dock aldrig (så att underverket inte förstörs), och "
-"den sista medborgaren i din enda kvarvarande stad flyttar aldrig till ett "
-"annat folkslag."
+"Migration kan till och med leda till att städer överges helt "
+"(ägandet av eventuella trupper överförs då till din närmaste "
+"kvarvarande stad). Städer med underverk upplöses dock aldrig (så att"
+" underverket inte förstörs), och den sista medborgaren i din enda "
+"kvarvarande stad flyttar aldrig till en annan nation."
 
 #: data/helpdata.txt:985
 msgid ""
@@ -36953,12 +37022,13 @@ msgid ""
 "firepower); the Combat section describes the process in detail, and the "
 "following sections list specific units' attributes."
 msgstr ""
-"En trupp kan inte flytta till en ruta som upptas av en fientlig trupp. När "
-"den beordras att göra det anfaller den i stället (om den kan anfalla), och "
-"de två trupperna strider tills den ena förstörs. Utfallet beror på "
-"truppernas egenskaper (träffpoäng, anfalls- och försvarsstyrka samt "
-"eldkraft). Avsnittet om strid beskriver förloppet i detalj, och följande "
-"avsnitt anger egenskaperna för enskilda trupper."
+"En trupp kan inte flytta till en ruta som upptas av en fientlig "
+"trupp. När den beordras att göra det anfaller den i stället (om den "
+"kan anfalla), och de två trupperna strider tills den ena förstörs. "
+"Utfallet beror på truppernas egenskaper (träffpunkter, anfalls- och "
+"försvarsstyrka samt eldkraft). Avsnittet om strid beskriver "
+"förloppet i detalj, och följande avsnitt anger egenskaperna för "
+"enskilda trupper."
 
 #: data/helpdata.txt:1076
 msgid ""
@@ -37012,15 +37082,16 @@ msgid ""
 "of the total; however, in some rulesets (but not the classic rules) it will "
 "lose some or all of its veteran levels."
 msgstr ""
-"När teknologin utvecklas blir nya truppslag tillgängliga och gör befintliga "
-"typer föråldrade. När du upptäcker en sådan ny teknologi förblir dina "
-"befintliga trupper intakta, men du kan inte längre bygga nya trupper av den "
-"föråldrade typen. När en föråldrad trupp befinner sig i en av dina städer "
-"kan du välja att uppgradera den till den senaste motsvarigheten genom att "
-"betala guld. Kostnaden ökar med skillnaden i produktionspoäng mellan de två "
-"typerna. Vid uppgradering behålls truppens träffpoäng och förflyttningspoäng "
-"som en andel av totalvärdet. I vissa regelverk (men inte det klassiska) "
-"förlorar den dock några eller alla veterannivåer."
+"När teknologin utvecklas blir nya truppslag tillgängliga och gör "
+"befintliga typer föråldrade. När du upptäcker en sådan ny teknologi "
+"förblir dina befintliga trupper intakta, men du kan inte längre "
+"bygga nya trupper av den föråldrade typen. När en föråldrad trupp "
+"befinner sig i en av dina städer kan du välja att uppgradera den "
+"till den senaste motsvarigheten genom att betala guld. Kostnaden "
+"ökar med skillnaden i produktionspoäng mellan de två typerna. Vid "
+"uppgradering behålls truppens träffpunkter och förflyttningspoäng "
+"som en andel av totalvärdet. I vissa regelverk (men inte det "
+"klassiska) förlorar den dock några eller alla veterannivåer."
 
 #: data/helpdata.txt:1115
 msgid ""
@@ -37242,9 +37313,10 @@ msgid ""
 "Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
 "half in case of land units."
 msgstr ""
-"Den trupp som överlever striden har en chans att befordras en veterannivå. I "
-"det klassiska regelverket ökar chansen med hälften för marktrupper om "
-"vinnarens civilisation har Sun Tzus krigsakademi och den inte är omodern."
+"Den trupp som överlever striden har en chans att befordras en "
+"veterannivå. I det klassiska regelverket ökar chansen med hälften "
+"för marktrupper om vinnarens civilisation har Sun Tzus krigsskola "
+"och den inte är omodern."
 
 #: data/helpdata.txt:1250
 msgid ""
@@ -37288,9 +37360,10 @@ msgid ""
 "to 13.5.  It is a ground unit inside a city, so its strength is increased to "
 "20.25."
 msgstr ""
-"Försvararens grundstyrka är 3. På grund av skogsrutan, blir styrkan 4.5. "
-"Försvararen befinner sig bakom stadsmurar, så styrkan tredubblas till 13.5. "
-"Försvararen är en marktrupp i en stad, så styrkan ökas till 20.25."
+"Försvararens grundstyrka är 3. Eftersom den befinner sig på en "
+"skogsruta blir styrkan 4,5. Försvararen befinner sig bakom "
+"stadsmurar, så styrkan tredubblas till 13,5. Försvararen är en "
+"marktrupp i en stad, så styrkan ökar till 20,25."
 
 #: data/helpdata.txt:1275
 msgid ""
@@ -37350,9 +37423,9 @@ msgid ""
 "points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city "
 "built on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
-"Anta att ett veteranslagskepp (A:12, F:12, TP:40, E:2) med 3 dragpoäng "
-"angriper erfarna fjälljägare (A:5, F:5, TP:20, E:1) i en stad på en "
-"ängsmarksruta med stadsmurar och kustförsvar."
+"Anta att ett veteranslagskepp (A:12, F:12, TP:40, E:2) med 3 "
+"förflyttningspoäng angriper erfarna fjälljägare (A:5, F:5, TP:20, "
+"E:1) i en stad på en ängsmarksruta med stadsmurar och kustförsvar."
 
 #: data/helpdata.txt:1313
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
@@ -37366,11 +37439,11 @@ msgid ""
 "sea units.) The defender is a ground unit inside a city, so its total "
 "strength is 22.5."
 msgstr ""
-"Försvararens styrka är 5, och ökas till 7.5 på grund av erfarenhet. "
-"Landskapets försvarsfaktor är 1 (ingen inverkan). Kustförsvaret fördubblar "
-"försvararens styrka till 15. Försvararen är en marktrupp i en stad, så den "
-"sammanlagda styrkan är 22.5. (Stadsmurarna hjälper inte mot angripande "
-"marina enheter.)"
+"Försvararens styrka är 5 och ökar till 7,5 eftersom truppen är "
+"erfaren. Landskapets försvarsfaktor är 1 (ingen inverkan). "
+"Kustförsvaret fördubblar försvararens styrka till 15. (Stadsmurarna "
+"hjälper inte mot angripande marina enheter.) Försvararen är en "
+"marktrupp i en stad, så den sammanlagda styrkan är 22,5."
 
 #: data/helpdata.txt:1322
 msgid ""
@@ -37436,14 +37509,15 @@ msgid ""
 "an Alliance pact with that nation. Adjacency means any of the eight tiles "
 "surrounding a unit for rectangular grids, or six tiles for hexagonal grids."
 msgstr ""
-"Kontrollområden kan endast upprätthållas på vissa terrängtyper – i de "
-"klassiska reglerna endast på landrutor. När kontrollområden gäller är "
-"huvudregeln att en trupp som står intill en ruta med en fientlig trupp inte "
-"får flytta direkt till en annan ruta som också ligger intill en ruta med en "
-"fientlig trupp. En ruta räknas som fientligt besatt om den innehåller en "
-"utländsk trupp av ett slag som utövar kontrollområde, såvida du inte har ett "
-"förbund med folkslaget. På ett rektangulärt rutnät är de åtta omgivande "
-"rutorna angränsande; på ett sexkantigt rutnät är de sex."
+"Kontrollområden kan endast upprätthållas på vissa terrängtyper – i "
+"de klassiska reglerna endast på landrutor. När kontrollområden "
+"gäller är huvudregeln att en trupp som står intill en ruta med en "
+"fientlig trupp inte får flytta direkt till en annan ruta som också "
+"ligger intill en ruta med en fientlig trupp. En ruta räknas som "
+"fientligt besatt om den innehåller en utländsk trupp av ett slag som"
+" utövar kontrollområde, såvida du inte har ett förbund med nationen."
+" På ett rektangulärt rutnät är de åtta omgivande rutorna "
+"angränsande; på ett sexkantigt rutnät är de sex."
 
 #: data/helpdata.txt:1371
 msgid ""
@@ -37539,10 +37613,10 @@ msgid ""
 "keep them happy. When conquering other civilizations, it may be helpful to "
 "switch to one of the more militant styles of government."
 msgstr ""
-"TIPS 1: Offensiva fälttåg är svåra under republik och demokrati om du inte "
-"ger medborgarna mycket lyx för att hålla dem lyckliga. När du erövrar andra "
-"civilisationer kan det vara bra att byta till ett mer militaristiskt "
-"statsskick."
+"TIPS 1: Offensiva fälttåg är svåra under republik och demokrati om "
+"du inte ger medborgarna mycket välfärd för att hålla dem lyckliga. "
+"När du erövrar andra civilisationer kan det vara bra att byta till "
+"ett mer militaristiskt statsskick."
 
 #: data/helpdata.txt:1419
 msgid ""
@@ -37659,11 +37733,12 @@ msgid ""
 "number of turns, the Cease-fire will lead back to War. Upon first contact "
 "with an AI player, it will automatically offer you a Cease-fire treaty."
 msgstr ""
-"När två spelare beslutar att upphöra med fientligheterna kan de komma "
-"överens om eldupphör. Det hindrar dem från att angripa varandra, men trupper "
-"kan fortfarande flyttas inom den andra spelarens gränser. Efter ett bestämt "
-"antal omgångar övergår eldupphöret åter till krig. Vid den första kontakten "
-"med en AI-spelare erbjuder den automatiskt eldupphör."
+"När två spelare beslutar att upphöra med fientligheterna kan de "
+"komma överens om vapenstillestånd. Det hindrar dem från att angripa "
+"varandra, men trupper kan fortfarande flyttas inom den andra "
+"spelarens gränser. Efter ett bestämt antal omgångar övergår "
+"vapenstilleståndet åter till krig. Vid den första kontakten med en "
+"datorstyrd spelare erbjuder den automatiskt vapenstillestånd."
 
 #: data/helpdata.txt:1489
 msgid ""
@@ -37706,17 +37781,18 @@ msgid ""
 "and shared vision, and will seriously consider trading technologies and "
 "cities, but in return will expect you to join its wars against other players."
 msgstr ""
-"Ett förbund är den mest långtgående diplomatiska relationen mellan två "
-"spelare. I detta tillstånd får ni flytta trupper in i varandras städer och "
-"era trupper får dela samma ruta; trupper utövar inte längre kontrollområden. "
-"Förbundsavtal medför dock förpliktelser. Du kan inte ingå förbund med en "
-"spelare som är i krig med en nuvarande bundsförvant utan att först bryta det "
-"första avtalet. Om en av dina bundsförvanter förklarar krig mot en annan "
-"bryts förbundet med angriparen automatiskt. Om ett förbund bryts övergår "
-"relationen till vapenstillestånd. En AI-spelare som är din bundsförvant ger "
-"dig fritt sina världskartor och delad sikt och överväger seriöst handel med "
-"teknologier och städer, men förväntar sig i gengäld att du går med i dess "
-"krig mot andra spelare."
+"Ett förbund är den mest långtgående diplomatiska relationen mellan "
+"två spelare. I detta tillstånd får ni flytta trupper in i varandras "
+"städer och era trupper får dela samma ruta; trupper utövar inte "
+"längre kontrollområden. Förbundsavtal medför dock förpliktelser. Du "
+"kan inte ingå förbund med en spelare som är i krig med en nuvarande "
+"bundsförvant utan att först bryta det första avtalet. Om en av dina "
+"bundsförvanter förklarar krig mot en annan bryts förbundet med "
+"angriparen automatiskt. Om ett förbund bryts övergår relationen till"
+" vapenvila. En AI-spelare som är din bundsförvant ger dig fritt sina"
+" världskartor och delad sikt och överväger seriöst handel med "
+"teknologier och städer, men förväntar sig i gengäld att du går med i"
+" dess krig mot andra spelare."
 
 #: data/helpdata.txt:1518
 msgid ""
@@ -37765,14 +37841,15 @@ msgid ""
 "again."
 msgstr ""
 "Medan huvuddelen av den resulterande forskningsproduktionen "
-"(”forskningslampor”) vanligtvis går till tekniska framsteg kan en del i "
+"(”glödlampor”) vanligtvis går till tekniska framsteg kan en del i "
 "vissa regelverk (men inte de klassiska reglerna) avledas för att "
-"upprätthålla sakkunskapen om befintliga teknologier. Den mängd som krävs för "
-"teknologiunderhåll ökar med den sammanlagda forskningskostnaden för alla "
-"teknologier du känner till. Vilken utvecklingsnivå du måste nå innan "
-"underhållet börjar tas ut kan bero på faktorer som statsskick. Om "
-"forskningsproduktionen sjunker under det som krävs för underhåll glömmer "
-"civilisationen en teknologi, som då måste forskas fram på nytt."
+"upprätthålla sakkunskapen om befintliga teknologier. Den mängd som "
+"krävs för teknologiunderhåll ökar med den sammanlagda "
+"forskningskostnaden för alla teknologier du känner till. Vilken "
+"utvecklingsnivå du måste nå innan underhållet börjar tas ut kan bero"
+" på faktorer som statsskick. Om forskningsproduktionen sjunker under"
+" det som krävs för underhåll glömmer civilisationen en teknologi, "
+"som då måste forskas fram på nytt."
 
 #: data/helpdata.txt:1544
 msgid ""
@@ -37825,8 +37902,8 @@ msgid ""
 "players, select the player in the Nations report and click \"Spaceship\"."
 msgstr ""
 "När du har börjat bygga ett rymdskepp kan du se det med kommandot "
-"”Rymdskepp” i rapportmenyn. För att se andra spelares rymdskepp väljer du "
-"spelaren i folkslagsrapporten och klickar på ”Rymdskepp”."
+"”Rymdskepp” i rapportmenyn. För att se andra spelares rymdskepp "
+"väljer du spelaren i nationsrapporten och klickar på ”Rymdskepp”."
 
 #: data/helpdata.txt:1575
 msgid ""
@@ -37852,9 +37929,10 @@ msgid ""
 "build a light spaceship with many propulsion units that will arrive earlier. "
 "The only other option is to capture their capital."
 msgstr ""
-"TIPS: Om en fientlig civilisation har sänt iväg ett rymdskepp bör du försöka "
-"bygga ett lätt rymdskepp med många framdrivningsenheter som anländer "
-"tidigare. Det enda andra alternativet är att erövra fiendens huvudstad."
+"TIPS: Om en fientlig civilisation har sänt iväg ett rymdskepp bör du"
+" försöka att snabbt bygga ett lätt rymdskepp med många "
+"framdrivningsenheter som anländer tidigare. Det enda andra "
+"alternativet är att erövra fiendens huvudstad."
 
 #: data/helpdata.txt:1600
 msgid ""
@@ -37862,9 +37940,9 @@ msgid ""
 "day nation state, a historical state or empire, an ethnic group, or even a "
 "fictional nation."
 msgstr ""
-"Varje spelare i spelet representeras av ett folkslag. Ett folkslag kan vara "
-"en modern nationalstat, en historisk stat eller ett rike, en etnisk grupp "
-"eller till och med ett fiktivt folkslag."
+"Varje spelare i spelet representeras av en nation. En nation kan "
+"vara en modern nationalstat, en historisk stat eller ett rike, en "
+"etnisk grupp eller till och med en fiktiv nation."
 
 #: data/helpdata.txt:1604
 msgid ""
@@ -37872,10 +37950,10 @@ msgid ""
 "classic rules they are identical in all other aspects and play by the same "
 "rules, but other rules may have nation-specific behavior."
 msgstr ""
-"Folkslagen skiljs åt genom sina flaggor, ledare och stadsnamn. I de "
-"klassiska reglerna är de identiska i alla andra avseenden och spelar efter "
-"samma regler, men andra regelverk kan ha beteenden som är särskilda för "
-"vissa folkslag."
+"Nationerna skiljs åt genom sina flaggor, ledare och stadsnamn. I de "
+"klassiska reglerna är de identiska i alla andra avseenden och spelar"
+" efter samma regler, men andra regelverk kan ha beteenden som är "
+"särskilda för vissa nationer."
 
 #: data/helpdata.txt:1615
 msgid ""
@@ -37883,9 +37961,9 @@ msgid ""
 "hostname and port number (5556 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
-"Innan ett spel sätts i gång kan vem som helst ansluta till servern genom att "
-"ange dess värdnamn och portnummer (5556 är standard). Om servern utförs med "
-"argumentet -m, anmäler den sig till metaservern,"
+"Innan ett spel sätts i gång kan vem som helst ansluta till servern "
+"genom att ange dess värdnamn och portnummer (5556 är standard). Om "
+"servern startas med argumentet -m anmäler den sig till metaservern,"
 
 #: data/helpdata.txt:1622
 msgid ""
@@ -37909,13 +37987,13 @@ msgid ""
 "for your ruler, not your original nickname!  If the server is reporting on "
 "the metaserver, the player names can be found there."
 msgstr ""
-"När ett spel har satts i gång kan alla ansluta som vilken spelare som helst "
-"som inte redan är ansluten, innefattande datorstyrda spelare. Att helt "
-"enkelt ansluta till en datorstyrd spelare gör den inte människostyrd; detta "
-"är en oberoende serverinställning. Om man tappar anslutningen tidigt i "
-"spelet och återansluter skall man använda namnet som man valde till sin "
-"ledare, inte sitt inloggningsnamn! Om servern är ansluten till metaservern, "
-"finns spelarnamnen där."
+"När ett spel har startat kan alla ansluta som vilken spelare som "
+"helst som inte redan är ansluten, även datorstyrda spelare. Att "
+"ansluta till en datorstyrd spelare gör den inte människostyrd; detta"
+" är en separat serverinställning. Om du tappar anslutningen tidigt i"
+" spelet och återansluter ska du använda namnet som du valde för din "
+"härskare, inte ditt ursprungliga smeknamn! Om servern rapporterar "
+"till metaservern finns spelarnamnen där."
 
 #. TRANS: This text mentions the names of some client options. These names
 #. ;  * are separately translated elsewhere; they should match!
@@ -38035,12 +38113,14 @@ msgstr ""
 "===============\n"
 "  z:   markera endast den första truppen i den markerade gruppen\n"
 "  v:   markera alla trupper på rutan\n"
-"  V:   (på rutan) markera alla trupper av samma slag som den aktiva truppen\n"
-"  C:   (på kontinenten) markera alla trupper av samma slag som den aktiva "
+"  V:   (på rutan) markera alla trupper av samma slag som den aktiva "
 "truppen\n"
-"  X:   (överallt) markera alla trupper av samma slag som den aktiva truppen\n"
+"  C:   (på kontinenten) markera alla trupper av samma slag som den "
+"aktiva truppen\n"
+"  X:   (överallt) markera alla trupper av samma slag som den aktiva "
+"truppen\n"
 "\n"
-"  w:   (w)änta: fokusera på nästa trupp\n"
+"  w:   vänta (w): fokusera på nästa trupp\n"
 "  5:   fokusera på föregående trupp\n"
 "blanksteg: avsluta ordergivningen  (truppen står kvar)\n"
 
@@ -38113,8 +38193,8 @@ msgid ""
 msgstr ""
 "Huvudkarta (tangenter):\n"
 "======================\n"
-"  Vissa klienter kan zooma eller skala kartgrafiken med tangenterna + och "
-"-.\n"
+"  Vissa klienter kan zooma eller skala kartgrafiken med tangenterna "
+"+ och -.\n"
 "  Vissa klienter kan styra ljudvolymen med tangenterna ”<” och ”>”.\n"
 "  c:            centrera vyn på den aktiva truppen\n"
 "  Skift-Home:   centrera vyn på huvudstaden\n"
@@ -38127,7 +38207,7 @@ msgstr ""
 "  Ctrl-P: visa/dölj stadsproduktion\n"
 "  Ctrl-O: visa/dölj stadstillväxt\n"
 "  Ctrl-V: visa/dölj städernas avkastningsvärden\n"
-"  Ctrl-Y: visa/dölj stadsgränser\n"
+"  Ctrl-Y: visa/dölj stadskonturer\n"
 
 #: data/helpdata.txt:1731
 msgid ""
@@ -38299,7 +38379,7 @@ msgstr ""
 "=======================\n"
 "     F1: visa kartvyn\n"
 "     F2: öppna trupprapporten\n"
-"     F3: öppna folkslagsrapporten\n"
+"     F3: öppna nationsrapporten\n"
 "     F4: öppna stadsrapporten\n"
 "     F5: öppna ekonomirapporten\n"
 "     F6: öppna forskningsrapporten\n"
@@ -38311,7 +38391,8 @@ msgstr ""
 "\n"
 "    Ctrl-F:       öppna dialogen Hitta stad\n"
 "    Skift-Ctrl-L: öppna arbetslistedialogen\n"
-"    Ctrl-T:       öppna dialogen för skatte-, lyx- och forskningsnivåer\n"
+"    Ctrl-T:       öppna dialogen för skatte-, välfärds- och "
+"forskningssatser\n"
 "    Skift-Ctrl-G: öppna revolutionsdialogen\n"
 "    Skift-Ctrl-I: öppna dialogen för infrapoäng\n"
 "    Skift-Ctrl-R: öppna dialogen för samlingspunkt\n"
@@ -38354,11 +38435,11 @@ msgid ""
 "appropriate. And the governor has another ability: whenever possible, it "
 "keeps your cities content."
 msgstr ""
-"Stadsförvaltaren (tidigare kallad CMA) hjälper dig att sköta dina städer. "
-"Den placerar de tillgängliga arbetarna på lediga rutor runt staden för att "
-"maximera stadens produktion. Den gör även om arbetare till specialister när "
-"det är lämpligt. Förvaltaren har dessutom en annan förmåga: när det är "
-"möjligt håller den dina städer nöjda."
+"Stadsförvaltaren (tidigare kallad CMA) hjälper dig att sköta dina "
+"städer. Den placerar de tillgängliga arbetarna på lediga rutor runt "
+"staden för att maximera stadens avkastning. Den gör även om arbetare"
+" till specialister när det är lämpligt. Förvaltaren har dessutom en "
+"annan förmåga: när det är möjligt håller den dina städer nöjda."
 
 #: data/helpdata.txt:1836
 msgid ""
@@ -38372,15 +38453,16 @@ msgid ""
 "can set different factors for each kind of production, according to your "
 "needs."
 msgstr ""
-"Det finns flera sätt att tala om för förvaltaren vilken sorts produktion du "
-"vill ha. Öppna stadsfönstret och klicka på fliken Förvaltare. Det finns två "
-"slags reglage. Till vänster kan du ange ett minsta överskott för varje "
-"produktionsslag. Exempelvis betyder Guld = +3 att staden tjänar tre guld mer "
-"än vad som behövs för att underhålla dess förbättringar. Med reglagen till "
-"höger anger du hur mycket du föredrar ett produktionsslag framför ett annat. "
-"Om forskning anges till 3 betyder det att du föredrar en enda "
-"forskningslampa framför tre sköldar (eller guld, handel och så vidare). Du "
-"kan ange olika faktorer för varje produktionsslag efter dina behov."
+"Det finns flera sätt att tala om för förvaltaren vilken sorts "
+"produktion du vill ha. Öppna stadsfönstret och klicka på fliken "
+"Förvaltare. Det finns två slags reglage. Till vänster kan du ange "
+"ett minsta överskott för varje produktionsslag. Exempelvis betyder "
+"Guld = +3 att staden tjänar tre guld mer än vad som behövs för att "
+"underhålla dess förbättringar. Med reglagen till höger anger du hur "
+"mycket du föredrar ett produktionsslag framför ett annat. Om "
+"forskning anges till 3 betyder det att du föredrar en enda glödlampa"
+" framför tre sköldar (eller guld, handel och så vidare). Du kan ange"
+" olika faktorer för varje produktionsslag efter dina behov."
 
 #: data/helpdata.txt:1847
 msgid ""
@@ -38420,12 +38502,13 @@ msgid ""
 "can change it from there (use 'change' --> 'Citizen Governor'), if you have "
 "saved it as a preset."
 msgstr ""
-"För att underlätta användningen kan du spara reglageinställningen som en "
-"namngiven förinställning. Klicka på ”Lägg till förinställning” och ange ett "
-"namn på inställningen. Du kan använda förinställningen i alla städer genom "
-"att klicka på dess namn. Du kan också styra inställningen i stadsrapportens "
-"förvaltarkolumn och ändra den därifrån (välj ”Ändra” → ”Stadsförvaltare”), "
-"om du har sparat den som en förinställning."
+"För att underlätta användningen kan du spara reglageinställningen "
+"som ett namngivet förval. Använd knappen för att lägga till ett nytt"
+" förval och ange ett namn på inställningen. Du kan använda förvalet "
+"i alla städer genom att klicka på dess namn. Du kan också styra "
+"inställningen i stadsrapportens förvaltarkolumn och ändra den "
+"därifrån (välj ”Ändra” → ”Stadsförvaltare”), om du har sparat den "
+"som ett förval."
 
 #: data/helpdata.txt:1866
 msgid ""
@@ -38750,8 +38833,9 @@ msgstr ""
 "Home, flytta fokus till arbetslistan\n"
 "End, flytta fokus till listan över tillgängliga objekt\n"
 "Pil upp/ned, välj föregående/nästa objekt i listan\n"
-"PageUp/PageDown, flytta objekt i arbetslistan\n"
-"Insert, infoga objekt från listan över tillgängliga objekt i arbetslistan\n"
+"PageUp/PageDown, flytta objekt uppåt/nedåt i arbetslistan\n"
+"Insert, infoga objekt från listan över tillgängliga objekt i "
+"arbetslistan\n"
 "Delete, tag bort det valda objektet från arbetslistan."
 
 #: data/helpdata.txt:2014
@@ -38768,8 +38852,8 @@ msgid ""
 "\n"
 "First, check whether a localization is already in progress for your language:"
 msgstr ""
-"Freeciv är översatt till flera språk. Se avsnittet om språkstöd i README-"
-"filen för  information om hur man använder ett av dessa språk.\n"
+"Freeciv är översatt till flera språk. Se avsnittet om språkstöd i "
+"README-filen för information om hur man använder ett av dessa språk.\n"
 "\n"
 "Se först om ditt språk redan håller på att översättas:"
 
@@ -39663,12 +39747,12 @@ msgid ""
 "I, the Byzantines controlled nearly all of the Middle East, northern Africa, "
 "Italy, and parts of Spain."
 msgstr ""
-"Vid tiden av det gamla Romarrikets nedgång, beslutade kejsar Konstantin att "
-"år 325 flytta rikets huvudstad till Bysans och grundlade vad som brukar "
-"benämnas det Östromerska riket eller det Bysantiska riket. Detta rike kom "
-"att vara till 1453 då dess huvudstad föll för de osmanska turkarna. Under "
-"kejsar Justinianus I:s tid härskade bysanterna över så gott som hela "
-"Mellanöstern, Nordafrika, Italien och delar av Spanien."
+"Under det gamla Romarrikets nedgång flyttade kejsar Konstantin "
+"rikets huvudstad till Bysans och grundade ett nytt rike, främst känt"
+" som Östromerska riket eller Bysantinska riket. Riket bestod till "
+"1453, då huvudstaden föll för osmanerna. Under Justinianus I:s tid "
+"kontrollerade bysantinerna nästan hela Mellanöstern, norra Afrika, "
+"Italien och delar av Spanien."
 
 #: data/nation/carthaginian.ruleset:8
 msgid ""
@@ -39764,8 +39848,10 @@ msgid ""
 "forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant "
 "maritime and economic power in the 17th century."
 msgstr ""
-"Nederländerna bildades 1579 i uppror mot tysk-romerska riket som på den "
-"tiden styrde regionen. Under 1600-talet blev landet en kolonial stormakt."
+"När den tysk-romerske kejsaren dömde hela befolkningen till döden "
+"gjorde Nederländernas folk uppror och förklarade sig självständigt "
+"genom att bilda Utrechtunionen 1579. Under 1600-talet blev "
+"Nederländerna en dominerande sjömakt och ekonomisk stormakt."
 
 #: data/nation/dutch.ruleset:39 data/nation/polish.ruleset:36
 #: data/nation/russian.ruleset:49
@@ -39931,14 +40017,15 @@ msgid ""
 "link has still not been unequivocally proven. Hunnic ethnic relations and "
 "language are likewise controversial."
 msgstr ""
-"De europeiska hunnerna var ett forntida stamförbund som först framträdde på "
-"300-talet e.Kr. Hunnerna levde på den eurasiska stäppen och var kända som "
-"fruktade bågskyttar till häst. På 400-talet skapade de ett mäktigt militärt "
-"rike under Attilas ledning, känt för sina fälttåg mot Romarriket. Attila dog "
-"453 och riket föll samman ett år senare. Hunnernas ursprung är fortfarande "
-"omstritt. De har länge förknippats med xiongnu, som omnämns i kinesiska "
-"källor, men sambandet har ännu inte bevisats entydigt. Även hunnernas "
-"etniska relationer och språk är omstridda."
+"De europeiska hunnerna var ett forntida stamförbund som först "
+"framträdde på 300-talet e.Kr. Hunnerna levde på den eurasiska "
+"stäppen och var kända som fruktade bågskyttar till häst. På "
+"400-talet skapade de ett mäktigt militärt rike under ledning av "
+"Attila, som är känd för sina fälttåg mot Romarriket. Attila dog 453 "
+"och riket föll samman ett år senare. Hunnernas ursprung är "
+"fortfarande omstritt. De har länge förknippats med xiongnu, som "
+"omnämns i kinesiska källor, men sambandet har ännu inte bevisats "
+"entydigt. Även hunnernas etniska relationer och språk är omstridda."
 
 #: data/nation/inca.ruleset:5
 msgid "Inca"
@@ -40064,10 +40151,13 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
-"Irokeserna var en nordamerikansk konfederation av självständiga stammar med "
-"gemensamt språk och kultur. De bebodde området kring dagens New York och var "
-"med sin grundlag och valuta den mest framskridna statsbildningen i "
-"Nordamerika vid den tid européerna anlände till kontinenten."
+"Irokesförbundet – på det egna språket känt som Haudenosaunee – var "
+"en nordamerikansk sammanslutning av folk med gemensamt språk och "
+"kultur. De levde i det som i dag är den norra delen av delstaten New"
+" York och bestod ursprungligen av fem folk: seneca, cayuga, "
+"onondaga, oneida och mohawk. Förbundet hade en skriven författning "
+"och ett valutasystem, vilket gjorde det till den mest utvecklade "
+"statsbildningen i Nordamerika när européerna anlände."
 
 #: data/nation/italian.ruleset:5
 msgid "Italian"
@@ -40395,9 +40485,9 @@ msgid ""
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
 msgstr ""
-"Sumererna kontrollerade södra Mesopotamien fram tills Babylon tog makten. I "
-"storleksordningen 5500 år gamla Skrifttavlor med sumerisk skrift har "
-"upptäckts, vilket gör den till den äldsta kända skriften."
+"Sumer kontrollerade södra Mesopotamien fram till Babyloniens "
+"uppgång. Omkring 5 500 år gamla tavlor med sumerisk skrift har "
+"hittats; de är äldre än alla andra kända skrifter."
 
 #: data/nation/swedish.ruleset:5
 msgid "Swedish"
@@ -40446,16 +40536,18 @@ msgid ""
 "traders between islands. Recent genetic studies show that roughly half of "
 "Puerto Ricans have Taino maternal descent."
 msgstr ""
-"Ursprungsbefolkningen på Bahamas, Kuba, Hispaniola, Puerto Rico, Jamaica och "
-"andra karibiska öar gav oss ordstammarna till orkan, tobak, potatis, kanot, "
-"barbecue, hängmatta och yucca. De var ett matrilinjärt folk och de första "
-"som Columbus kom i kontakt med 1492. Trots att de var hundratusentals, "
-"kanske miljontals, i hela Karibien föll taíno offer för slaveri och "
-"sjukdomar, och deras befolkning minskade snabbt. Spanska skildringar "
-"beskriver dem som fredliga jämfört med deras karibiska grannar i söder. "
-"Deras urholkade kanoter, som ofta var nästan lika långa som Columbus fartyg, "
-"transporterade handelsmän mellan öarna. Nyare genetiska studier visar att "
-"ungefär hälften av puertoricanerna härstammar från taínokvinnor."
+"Ursprungsbefolkningen på Bahamas, Kuba, Hispaniola, Puerto Rico, "
+"Jamaica och andra karibiska öar gav oss ordstammarna till orkan, "
+"tobak, potatis, kanot, barbecue, hängmatta och yucca. De var ett "
+"matrilinjärt folk och de första som Columbus kom i kontakt med 1492."
+" Trots att de var hundratusentals, kanske miljontals, i hela "
+"Karibien föll taíno offer för slaveri och sjukdomar, och deras "
+"befolkning minskade snabbt. Spanska skildringar beskriver dem som "
+"fredliga jämfört med deras grannar kariberna i söder. Deras "
+"urholkade kanoter, som ofta var nästan lika långa som Columbus "
+"fartyg, transporterade handelsmän mellan öarna. Nyare genetiska "
+"studier visar att ungefär hälften av puertoricanerna härstammar från"
+" taínokvinnor."
 
 #: data/nation/thai.ruleset:5
 msgid "Thai"
@@ -40948,13 +41040,16 @@ msgstr ""
 "vilka rutor som arbetas och hur mycket mat, sköldar och handel var\n"
 "och en ger. Mat används för att få staden att växa, sköldar används\n"
 "för produktion av byggnader och trupper, medan handel ger beskattbar\n"
-"inkomst som kan omvandlas till forskning, guld eller lyx.\n"
+"inkomst som kan omvandlas till forskning, guld eller välfärd.\n"
 "\n"
-"Klicka på en arbetad ruta för att ta bort medborgaren från den rutan.\n"
-"Klicka sedan på en obearbetad ruta för att placera en medborgare där.\n"
-"Du kan förstås placera upp till två medborgare på rutor. De återstående\n"
-"medborgarna är specialister - som standard är de alla underhållare som\n"
-"endast ger lyx, vilket inte blir användbart förrän senare."
+"Klicka på en arbetad ruta för att ta bort medborgaren från den "
+"rutan.\n"
+"Klicka sedan på en obearbetad ruta för att placera en medborgare "
+"där.\n"
+"Du kan förstås placera upp till två medborgare på rutor. De "
+"återstående\n"
+"medborgarna är specialister - som standard är de alla trubadurer som\n"
+"endast ger välfärd, vilket inte blir användbart förrän senare."
 
 #: data/scenarios/tutorial.sav:232
 #, c-format
@@ -41085,14 +41180,15 @@ msgstr ""
 "Du har byggt en nybyggare. Nybyggare används bäst till att grunda\n"
 "nya städer för att utvidga din civilisation. Flytta nybyggaren\n"
 "bort från dina befintliga städer för att hitta en plats för en ny\n"
-"stad. När du har valt en plats trycker du på B för att grunda staden.\n"
+"stad. När du har valt en plats trycker du på B för att grunda "
+"staden.\n"
 "\n"
 "Återigen byggs städer helst på öppen mark nära vatten. Ängsmark\n"
-"och slätter ger staden mat. Skogar och kullar ger de resurser\n"
+"och slättland ger staden mat. Skogar och kullar ger de resurser\n"
 "(sköldar) som behövs för att bygga saker. Floder och hav ger\n"
 "handelsbonusar som gynnar hela civilisationen. Öken och tundra ger\n"
 "i allmänhet lite avkastning och är inte till mycket nytta för små\n"
-"städer. Se hjälpen om terräng för mer information om terrängens\n"
+"städer. Se hjälpen om Landskap för mer information om landskapets\n"
 "egenskaper."
 
 #: data/scenarios/tutorial.sav:271
@@ -41209,7 +41305,7 @@ msgstr ""
 "de ger mer mat och staden växer snabbare. Städer som inte har mycket\n"
 "mat bör inte försöka bygga nybyggare. När du grundar en ny stad bör\n"
 "du se till att den byggs på terräng som ger tillräckligt med mat -\n"
-"ängsmark är bäst; slätter eller kullar är nästan lika bra."
+"ängsmark är bäst; slättland eller kullar är nästan lika bra."
 
 #: data/scenarios/tutorial.sav:331
 msgid ""
@@ -41231,20 +41327,29 @@ msgid ""
 "technology. When you are done playing around click on the View tab\n"
 "(F1) to return to the map view."
 msgstr ""
-"Du har fått din första teknologi! Teknologiska framsteg är ett centralt\n"
-"begrepp i Freeciv. När din teknologiska nivå ökar får du tillgång till\n"
+"Du har fått din första teknologi! Teknologiska framsteg är ett "
+"centralt\n"
+"begrepp i Freeciv. När din teknologiska nivå ökar får du tillgång "
+"till\n"
 "nya trupper, byggnader, statsskick och olika kostnadsfria bonusar.\n"
 "\n"
-"Öppna nu forskningsrapporten och prova dig fram en stund. Tryck F6 för\n"
-"att öppna den eller klicka på fliken Forskning i huvudfönstret. Leta upp\n"
-"teknologin Republiken och klicka på den. Republiken är nu ditt\n"
-"teknologimål, vilket innebär att nästa framsteg på vägen dit automatiskt\n"
+"Öppna nu forskningsrapporten och prova dig fram en stund. Tryck F6 "
+"för\n"
+"att öppna den eller klicka på fliken Forskning i huvudfönstret. Leta"
+" upp\n"
+"teknologin republik och klicka på den. Republik är nu ditt\n"
+"teknologimål, vilket innebär att nästa framsteg på vägen dit "
+"automatiskt\n"
 "väljs för forskning. Överst i fönstret visas hur mycket forskning du\n"
-"producerar varje omgång. Forskning, eller glödlampor, kommer från den\n"
-"beskattningsbara handeln i dina städer. Nederst finns teknologiträdet.\n"
+"producerar varje omgång. Forskning, eller glödlampor, kommer från "
+"den\n"
+"beskattningsbara handeln i dina städer. Nederst finns "
+"teknologiträdet.\n"
 "Där kan du vänsterklicka för att ange forskningsinriktning eller\n"
-"teknologimål och högerklicka för att få hjälp om en viss teknologi. När\n"
-"du är klar klickar du på fliken Vy eller trycker F1 för att återgå till\n"
+"teknologimål och högerklicka för att få hjälp om en viss teknologi. "
+"När\n"
+"du är klar klickar du på fliken Vy eller trycker F1 för att återgå "
+"till\n"
 "kartvyn."
 
 #: data/scenarios/tutorial.sav:334
@@ -41263,15 +41368,19 @@ msgid ""
 "to worry about picking a new research target each time you finish\n"
 "researching a technology."
 msgstr ""
-"Nu har du fått din andra teknologi. Gå tillbaka till forskningsrapporten\n"
+"Nu har du fått din andra teknologi. Gå tillbaka till "
+"forskningsrapporten\n"
 "med F6 och ta en snabb titt på dina framsteg. Om du tidigare angav\n"
-"Republiken som teknologimål bör en ny forskningsinriktning ha valts\n"
+"republik som teknologimål bör en ny forskningsinriktning ha valts\n"
 "automatiskt. Om du inte har angett något mål väljs däremot ingen ny\n"
 "inriktning förrän i slutet av omgången.\n"
 "\n"
-"Under den omgång då forskningen slutförs kan du välja en ny teknologi att\n"
-"forska fram. Om du byter inriktning mitt under forskningen om en viss\n"
-"teknologi förlorar du däremot all forskning som hittills har lagts på\n"
+"Under den omgång då forskningen slutförs kan du välja en ny "
+"teknologi att\n"
+"forska fram. Om du byter inriktning mitt under forskningen om en "
+"viss\n"
+"teknologi förlorar du däremot all forskning som hittills har lagts "
+"på\n"
 "den. Genom att välja teknologimål med omsorg slipper du välja en ny\n"
 "forskningsinriktning varje gång du forskat färdigt en teknologi."
 
@@ -41293,18 +41402,26 @@ msgid ""
 "However Republic is a substantially better form of government\n"
 "than Despotism so the investment will soon pay off."
 msgstr ""
-"Du har forskat färdigt Republiken. Den här teknologin är särskilt\n"
-"användbar eftersom den möjliggör ett nytt statsskick. Civilisationens\n"
-"statsskick har stor betydelse för dess utveckling. I början styrdes du\n"
-"med despoti, ett mycket ineffektivt statsskick. Senare statsskick låter\n"
-"dig i viss mån välja om civilisationen ska vara en fredlig handelsnation\n"
+"Du har forskat fram republik. Den här teknologin är särskilt\n"
+"användbar eftersom den möjliggör ett nytt statsskick. "
+"Civilisationens\n"
+"statsskick har stor betydelse för dess utveckling. I början styrdes "
+"du\n"
+"med envälde, ett mycket ineffektivt statsskick. Senare statsskick "
+"låter\n"
+"dig i viss mån välja om civilisationen ska vara en fredlig "
+"handelsnation\n"
 "eller en ohejdbar erövrarmakt. Alla har sina fördelar.\n"
 "\n"
-"För tillfället bör du antagligen byta direkt till republik. Öppna menyn\n"
-"Civilisation, gå till undermenyn Statsskick och välj Republik. Ja, du\n"
-"vill ha en revolution! Ett byte av statsskick medför några omgångar av\n"
-"anarki och är därför inte kostnadsfritt. Republiken är dock ett avsevärt\n"
-"bättre statsskick än despoti, så investeringen lönar sig snart."
+"För tillfället bör du antagligen byta direkt till republik. Öppna "
+"menyn\n"
+"Civilisation, gå till undermenyn Statsskick och välj Republik. Ja, "
+"du\n"
+"vill ha en revolution! Ett byte av statsskick medför några omgångar "
+"av\n"
+"anarki och är därför inte kostnadsfritt. Republik är dock ett "
+"avsevärt\n"
+"bättre statsskick än envälde, så investeringen lönar sig snart."
 
 #: data/scenarios/tutorial.sav:350
 #, c-format
@@ -41958,7 +42075,7 @@ msgstr ""
 #: tools/manual/manual_settings.c:71
 #, c-format
 msgid "Level: %s.<br>"
-msgstr "Läge: %s.<br>"
+msgstr "Nivå: %s.<br>"
 
 #: tools/manual/manual_settings.c:73
 #, c-format
@@ -42475,7 +42592,7 @@ msgstr ""
 #: server/barbarian.c:191
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr "%s ledaren %s sprider skräck i världen. Vi kan gå svåra år till mötes."
+msgstr "%s har fått en ledare vid namn %s. Farliga tider kan vänta."
 
 #: server/barbarian.c:724
 #, c-format
@@ -42509,7 +42626,7 @@ msgstr "Vi har redan köpt den här omgången."
 #: server/cityhand.c:316
 #, c-format
 msgid "You don't buy %s!"
-msgstr "Vi köpte inte %s!"
+msgstr "Du kan inte köpa %s!"
 
 #: server/cityhand.c:323
 msgid "Can't buy units when city is in disorder."
@@ -42595,7 +42712,7 @@ msgstr "%s har redan en %s. Din kan inte överföras."
 #: server/citytools.c:659
 #, c-format
 msgid "Transferred %s in %s from %s to %s."
-msgstr "Överförde %s till %s från %s till %s."
+msgstr "Överförde %s i %s från %s till %s."
 
 #: server/citytools.c:673
 #, c-format
@@ -42997,8 +43114,8 @@ msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is required. "
 "Postponing..."
 msgstr ""
-"%s kan inte bygga %s från arbetslistan; folkslaget %s krävs. Produktionen "
-"skjuts upp…"
+"%s kan inte bygga %s från arbetslistan; nationen ”%s” krävs. "
+"Produktionen skjuts upp…"
 
 #: server/cityturn.c:1509
 #, c-format
@@ -43006,7 +43123,7 @@ msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is prohibited. "
 "Postponing..."
 msgstr ""
-"%s kan inte bygga %s från arbetslistan; folkslaget %s är förbjudet. "
+"%s kan inte bygga %s från arbetslistan; nationen ”%s” är förbjuden. "
 "Produktionen skjuts upp…"
 
 #. TRANS: "%s nation" is adjective
@@ -43016,8 +43133,8 @@ msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
 "Postponing..."
 msgstr ""
-"%s kan inte bygga %s från arbetslistan; %s-folkslag krävs. Produktionen "
-"skjuts upp…"
+"%s kan inte bygga %s från arbetslistan; en nation i gruppen %s "
+"krävs. Produktionen skjuts upp…"
 
 #: server/cityturn.c:1539
 #, c-format
@@ -43025,8 +43142,8 @@ msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is prohibited. "
 "Postponing..."
 msgstr ""
-"%s kan inte bygga %s från arbetslistan; %s-folkslag är förbjudet. "
-"Produktionen skjuts upp…"
+"%s kan inte bygga %s från arbetslistan; nationer i gruppen %s är "
+"förbjudna. Produktionen skjuts upp…"
 
 #: server/cityturn.c:1556
 #, c-format
@@ -43850,13 +43967,14 @@ msgid ""
 "savegame for the game to recommence. Once the game is running this command "
 "is no longer available, since it would have no effect."
 msgstr ""
-"Detta kommando startar spelet. När ett nytt spel startas ska det användas "
-"efter att alla mänskliga spelare har anslutit, eventuella datorstyrda "
-"spelare har skapats och önskade ändringar av serverns inledande tillval har "
-"gjorts. Efter ”start” kan varje mänsklig spelare välja sitt folkslag, "
-"varefter spelet börjar. Kommandot krävs också efter att ett sparat spel har "
-"lästs in för att spelet ska fortsätta. När spelet väl pågår är kommandot "
-"inte längre tillgängligt, eftersom det då inte skulle ha någon effekt."
+"Detta kommando startar spelet. När ett nytt spel startas ska det "
+"användas efter att alla mänskliga spelare har anslutit, eventuella "
+"datorstyrda spelare har skapats och önskade ändringar av serverns "
+"inledande tillval har gjorts. Efter ”start” kan varje mänsklig "
+"spelare välja sin nation, varefter spelet börjar. Kommandot krävs "
+"också efter att ett sparat spel har lästs in för att spelet ska "
+"fortsätta. När spelet väl pågår är kommandot inte längre "
+"tillgängligt, eftersom det då inte skulle ha någon effekt."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:71
@@ -43924,7 +44042,7 @@ msgstr ""
 " - spelarna i spelet,\n"
 " - tillgängliga regelverk (för kommandot ”read”),\n"
 " - tillgängliga scenarier,\n"
-" - tillgängliga folkslagsuppsättningar i detta regelverk,\n"
+" - tillgängliga nationsuppsättningar i detta regelverk,\n"
 " - spelarlagen eller\n"
 " - pågående omröstningar.\n"
 "Argumentet får förkortas och är ”players” om det utelämnas."
@@ -44477,7 +44595,7 @@ msgstr ""
 
 #: server/commands.c:422
 msgid "Query or set command access level access."
-msgstr "Ansök om eller bestäm läge för kontrollnivå."
+msgstr "Visa eller ange kontrollnivå."
 
 #: server/commands.c:423
 msgid ""
@@ -44673,11 +44791,11 @@ msgstr ""
 #. TRANS: translate text between <> and [] only
 #: server/commands.c:525
 msgid "playernation <player-name> [nation] [is-male] [leader] [style]"
-msgstr "playernation <spelarnamn> [folkslag] [är-man] [ledare] [stil]"
+msgstr "playernation <spelarnamn> [nation] [är-man] [ledare] [stil]"
 
 #: server/commands.c:526
 msgid "Define the nation of a player."
-msgstr "Ange en spelares folkslag."
+msgstr "Ange en spelares nation."
 
 #: server/commands.c:527
 msgid ""
@@ -44687,10 +44805,11 @@ msgid ""
 "player settings will reset the player to defaults.\n"
 "This command may not be used once the game has started."
 msgstr ""
-"Det här kommandot anger folkslag, ledarnamn, stil och kön för en viss "
+"Det här kommandot anger nation, ledarnamn, stil och kön för en viss "
 "spelare.\n"
 "Könsparametern ska vara 1 för en man och annars 0. Om någon "
-"spelarinställning utelämnas återställs spelaren till standardvärdena.\n"
+"spelarinställning utelämnas återställs spelaren till "
+"standardvärdena.\n"
 "Kommandot kan inte användas när spelet väl har börjat."
 
 #: server/commands.c:537
@@ -44699,7 +44818,7 @@ msgstr "Avsluta spelet med en gång utan att ge någon segern."
 
 #: server/commands.c:543
 msgid "Concede the game."
-msgstr "Erkänn sig besegrad."
+msgstr "Erkänn dig besegrad."
 
 #: server/commands.c:544
 msgid ""
@@ -44949,24 +45068,24 @@ msgid ""
 "The [player-name] argument can only be used by connections with cmdlevel "
 "'admin' or above to force the corresponding change of the delegation status."
 msgstr ""
-"Delegering gör det möjligt för en användare att utse en annan användare som "
-"tillfälligt kan ta över kontrollen över spelarens konto medan ägaren är "
-"borta.\n"
-"'delegate to <användarnamn>': tillåt <användarnamn> att använda 'delegate "
-"take' för din spelare.\n"
-"'delegate cancel': den utsedda användaren kan inte längre ta över din "
-"spelare.\n"
-"'delegate take <spelarnamn>': ta kontroll över en spelare som har delegerats "
-"till dig. (Fungerar som 'take', förutom att begränsningarna i 'allowtake' "
-"inte tillämpas.)\n"
+"Med delegering kan en användare utse någon annan att tillfälligt "
+"styra den egna spelaren medan användaren är borta.\n"
+"'delegate to <användarnamn>': tillåt <användarnamn> att använda "
+"'delegate take' för din spelare.\n"
+"'delegate cancel': den utsedda användaren kan inte längre ta över "
+"din spelare.\n"
+"'delegate take <spelarnamn>': ta kontroll över en spelare som har "
+"delegerats till dig. (Fungerar som 'take', förutom att "
+"begränsningarna i 'allowtake' inte tillämpas.)\n"
 "'delegate restore': avstå från kontrollen över en delegerad spelare "
-"(motsatsen till 'delegate take') och återställ din tidigare vy, om det fanns "
-"någon. (Detta sker också automatiskt om spelarens ägare återansluter.)\n"
-"'delegate show': visa vem kontrollen över din spelare för närvarande är "
-"delegerad till, om någon.\n"
+"(motsatsen till 'delegate take') och återställ din tidigare vy, om "
+"det fanns någon. (Detta sker också automatiskt om spelarens ägare "
+"återansluter.)\n"
+"'delegate show': visa vem kontrollen över din spelare för närvarande"
+" är delegerad till, om någon.\n"
 "Argumentet [spelarnamn] kan endast användas av anslutningar med "
-"kommandonivån 'admin' eller högre för att framtvinga motsvarande ändring av "
-"delegeringsstatusen."
+"kommandonivån 'admin' eller högre för att framtvinga motsvarande "
+"ändring av delegeringsstatusen."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:679
@@ -45417,7 +45536,7 @@ msgstr "%s avbröt mötet!"
 #: server/diplhand.c:824
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr "Mötet med %s ledde inte till någon överenskommelse."
+msgstr "Mötet med %s avbröts."
 
 #: server/diplhand.c:864
 msgid "Your diplomatic envoy was decapitated!"
@@ -45534,8 +45653,8 @@ msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
 "attempt."
 msgstr ""
-"%s %s misslyckades återigen med att stjäla teknologi från %s. Vi var "
-"förberedda på försöket."
+"Den %s truppen %s misslyckades med att stjäla teknologi från %s på "
+"nytt. Vi var förberedda på försöket."
 
 #. TRANS: Your Spy was caught ... from %s.
 #: server/diplomats.c:1023
@@ -45886,7 +46005,7 @@ msgstr ""
 #: server/edithand.c:492
 #, c-format
 msgid "Cannot create multiple instances of unique unit type %s."
-msgstr "Kan inte skapa flera exemplar av den unika truppslaget %s."
+msgstr "Kan inte skapa flera exemplar av det unika truppslaget %s."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
@@ -46019,14 +46138,14 @@ msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
-"Inga fler spelare kan läggas till eftersom det inte finns några tillgängliga "
-"folkslag (%d används)."
+"Inga fler spelare kan läggas till eftersom det inte finns några "
+"tillgängliga nationer (%d används)."
 
 #: server/edithand.c:945
 msgid "Player cannot be created because random nation selection failed."
 msgstr ""
-"Spelaren kan inte skapas eftersom det inte gick att välja ett slumpmässigt "
-"folkslag."
+"Spelaren kan inte skapas eftersom det inte gick att välja en "
+"slumpmässig nation."
 
 #: server/edithand.c:954
 msgid "Player creation failed."
@@ -46053,8 +46172,8 @@ msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
-"Kan inte ändra folkslag för spelare %d (%s) eftersom angivet folkslagsid %d "
-"är ogiltigt."
+"Kan inte ändra nation för spelare %d (%s) eftersom angivet nationsid"
+" %d är ogiltigt."
 
 #: server/edithand.c:1061
 #, c-format
@@ -46062,8 +46181,8 @@ msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
-"Kan inte ändra folkslag för spelare %d (%s) till folkslag %d (%s) eftersom "
-"det folkslaget redan är tilldelat en annan spelare %d (%s)"
+"Kan inte ändra nation för spelare %d (%s) till nation %d (%s) "
+"eftersom den nationen redan är tilldelad en annan spelare %d (%s)"
 
 #: server/edithand.c:1070
 #, c-format
@@ -46071,8 +46190,9 @@ msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is not in the current nation set."
 msgstr ""
-"Kan inte ändra folkslag för spelare %d (%s) till folkslag %d (%s) eftersom "
-"det folkslaget inte finns i den aktuella folkslagsuppsättningen."
+"Kan inte ändra nation för spelare %d (%s) till nation %d (%s) "
+"eftersom den nationen inte finns i den aktuella "
+"nationsuppsättningen."
 
 #: server/edithand.c:1079
 #, c-format
@@ -46080,8 +46200,8 @@ msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is unsuitable for this player."
 msgstr ""
-"Kan inte ändra folkslag för spelare %d (%s) till folkslag %d (%s) eftersom "
-"det folkslaget inte passar för denna spelare."
+"Kan inte ändra nation för spelare %d (%s) till nation %d (%s) "
+"eftersom den nationen inte passar för denna spelare."
 
 #: server/edithand.c:1119
 #, c-format
@@ -46142,8 +46262,8 @@ msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
 msgstr ""
-"Kan inte redigera startpositionens folkslag vid (%d, %d), eftersom det inte "
-"finns någon startposition där."
+"Kan inte redigera startpositionens nationer vid (%d, %d), eftersom "
+"det inte finns någon startposition där."
 
 #: server/edithand.c:1525
 msgid "No permissions to remotely save scenario."
@@ -46572,7 +46692,7 @@ msgstr "Välj ett namn som inte är tomt."
 
 #: server/plrhand.c:2127
 msgid "That nation is already in use."
-msgstr "Folkslaget är upptaget."
+msgstr "Nationen är upptagen."
 
 #: server/plrhand.c:2132
 #, c-format
@@ -46610,7 +46730,7 @@ msgstr "Kunde inte försätta %s i inbördeskrig – maxplayers (%d) har nåtts"
 #: server/plrhand.c:3040
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
-msgstr "Kunde inte försätta %s i inbördeskrig - inga tillgängliga folkslag"
+msgstr "Kunde inte försätta %s i inbördeskrig - inga tillgängliga nationer"
 
 #: server/plrhand.c:3075
 #, c-format
@@ -46968,8 +47088,8 @@ msgstr[1] " ton"
 #: server/report.c:1008
 msgid " point"
 msgid_plural " points"
-msgstr[0] "poäng"
-msgstr[1] "poäng"
+msgstr[0] " poäng"
+msgstr[1] " poäng"
 
 #: server/report.c:1040
 #, c-format
@@ -47404,8 +47524,8 @@ msgstr "Teknologin %s är inledande för %s, men de har inget root_req för den.
 #| msgid "Barbarian nation %s has init_buildings set but will never see them"
 msgid "Nation %s has init_buildings set but as barbarians will never get them."
 msgstr ""
-"Folkslaget %s har init_buildings angivet, men kommer som barbarer aldrig "
-"att få byggnaderna."
+"Nationen %s har init_buildings angivet, men kommer som barbarer "
+"aldrig att få byggnaderna."
 
 #: server/rssanity.c:1049
 #, c-format
@@ -47579,7 +47699,7 @@ msgstr "auto_attack: %s stöds inte i attack_actions."
 #: server/rssanity.c:1464
 #, c-format
 msgid "There's no basic city style for nation style %s"
-msgstr "Det finns ingen grundläggande stadsstil för folkslagsstilen %s"
+msgstr "Det finns ingen grundläggande stadsstil för nationsstilen %s"
 
 #: server/rssanity.c:1474
 msgid "Music Styles have conflicting or invalid requirements!"
@@ -47615,8 +47735,8 @@ msgstr ""
 msgid ""
 "There's nation %s listed in embedded nations, but there's no such nation."
 msgstr ""
-"Folkslaget %s anges bland de inbäddade folkslagen, men något sådant folkslag "
-"finns inte."
+"Nationen %s anges bland de inbäddade nationerna, men någon sådan "
+"nation finns inte."
 
 #: server/rssanity.c:1680
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
@@ -47721,7 +47841,7 @@ msgstr "%s har lagts till som mänsklig spelare."
 #: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr "%s har ogiltigt folkslag; byter till %s."
+msgstr "%s har en ogiltig nation; byter till %s."
 
 #: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
 #: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
@@ -48102,7 +48222,7 @@ msgstr "Per lag, i ordning"
 
 #: server/settings.c:438
 msgid "Per-nation, in order"
-msgstr "Per folkslag, i ordning"
+msgstr "Per nation, i ordning"
 
 #: server/settings.c:449
 msgid "Borders are not helping"
@@ -48290,8 +48410,8 @@ msgstr "Varning: kravet för aifill uppfylldes inte: %s."
 #: server/settings.c:740
 msgid "Warning: not enough nations in this nation set for all current players."
 msgstr ""
-"Varning: det finns inte tillräckligt många folkslag i denna "
-"folkslagsuppsättning för alla nuvarande spelare."
+"Varning: det finns inte tillräckligt många nationer i denna "
+"nationsuppsättning för alla nuvarande spelare."
 
 #: server/settings.c:877
 msgid "Failed to update default AI type."
@@ -48377,7 +48497,8 @@ msgstr ""
 #, c-format
 msgid "Unknown nation set \"%s\". See '%slist nationsets' for possible values."
 msgstr ""
-"Okänd folkslagsuppsättning \"%s\". Se '%slist nationsets' för möjliga värden."
+"Okänd nationsuppsättning \"%s\". Se '%slist nationsets' för möjliga "
+"värden."
 
 #: server/settings.c:1168 server/settings.c:1206
 msgid "You are not allowed to set timeout values less than 30 seconds."
@@ -48439,8 +48560,8 @@ msgstr "Freeciv-web stöder inte denna kartomslutning."
 #: server/settings.c:1404
 msgid "No nations in the currently loaded ruleset have associated colors."
 msgstr ""
-"Inget folkslag i det regelverk som för närvarande är inläst har en tilldelad "
-"färg."
+"Ingen nation i det regelverk som för närvarande är inläst har en "
+"tilldelad färg."
 
 #: server/settings.c:1480
 msgid "Map size definition"
@@ -48680,7 +48801,7 @@ msgstr ""
 
 #: server/settings.c:1642
 msgid "Method used to choose start positions"
-msgstr "Medod att bestämma startpositioner"
+msgstr "Metod att bestämma startpositioner"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -48826,15 +48947,18 @@ msgid ""
 "In rulesets that support it, latitude may also have certain effects during "
 "gameplay."
 msgstr ""
-"Tillsammans med 'southlatitude' styr detta vilka klimatzoner som finns på "
-"kartan. Högre värden ligger längre norrut och lägre värden längre söderut.\n"
+"Tillsammans med 'southlatitude' styr detta vilka klimatzoner som "
+"finns på kartan. Högre värden ligger längre norrut och lägre värden "
+"längre söderut.\n"
 "\n"
 "1000 och -1000 ger en fullständig planetkarta.\n"
-"1000 och     0 ger endast ett norra halvklot.\n"
-" 500 och   500 ger en karta med samma klimat för mellanlatituder överallt.\n"
+"1000 och     0 ger endast norra halvklotet.\n"
+" 500 och   500 ger en karta med samma klimat för mellanlatituder "
+"överallt.\n"
 " 300 och  -300 ger en ekvatorial karta.\n"
 "\n"
-"I regelverk som stöder det kan latituden även ha vissa effekter under spelet."
+"I regelverk som stöder det kan latituden även ha vissa effekter "
+"under spelet."
 
 #: server/settings.c:1750
 msgid "Southernmost latitude"
@@ -48856,15 +48980,18 @@ msgid ""
 "In rulesets that support it, latitude may also have certain effects during "
 "gameplay."
 msgstr ""
-"Tillsammans med 'northlatitude' styr detta vilka klimatzoner som finns på "
-"kartan. Högre värden ligger längre norrut och lägre värden längre söderut.\n"
+"Tillsammans med 'northlatitude' styr detta vilka klimatzoner som "
+"finns på kartan. Högre värden ligger längre norrut och lägre värden "
+"längre söderut.\n"
 "\n"
 "1000 och -1000 ger en fullständig planetkarta.\n"
-"1000 och     0 ger endast ett norra halvklot.\n"
-" 500 och   500 ger en karta med samma klimat för mellanlatituder överallt.\n"
+"1000 och     0 ger endast norra halvklotet.\n"
+" 500 och   500 ger en karta med samma klimat för mellanlatituder "
+"överallt.\n"
 " 300 och  -300 ger en ekvatorial karta.\n"
 "\n"
-"I regelverk som stöder det kan latituden även ha vissa effekter under spelet."
+"I regelverk som stöder det kan latituden även ha vissa effekter "
+"under spelet."
 
 #: server/settings.c:1772
 msgid "Average temperature of the planet"
@@ -49093,7 +49220,7 @@ msgstr ""
 
 #: server/settings.c:1954
 msgid "Set of nations to choose from"
-msgstr "Uppsättning av valbara folkslag"
+msgstr "Uppsättning av valbara nationer"
 
 #. TRANS: do not translate '/list nationsets'
 #: server/settings.c:1956
@@ -49106,14 +49233,15 @@ msgid ""
 "If this is left blank, the ruleset's default nation set is used.\n"
 "See '/list nationsets' for possible choices for the currently loaded ruleset."
 msgstr ""
-"Styr vilka folkslag som tillåts i spelet. Alternativen definieras av "
-"regelverket.\n"
-"Endast folkslag i den uppsättning som väljs här tillåts under några "
-"omständigheter, även för nya spelare och vid inbördeskrig. Små uppsättningar "
-"kan därför begränsa antalet spelare i ett spel.\n"
-"Om detta lämnas tomt används regelverkets standarduppsättning av folkslag.\n"
-"Se '/list nationsets' för tillgängliga alternativ i det regelverk som för "
-"närvarande är inläst."
+"Styr vilka nationer som tillåts i spelet. Alternativen definieras av"
+" regelverket.\n"
+"Oavsett omständigheterna tillåts endast nationer i den uppsättning "
+"som väljs här, även för nya spelare och vid inbördeskrig. Små "
+"uppsättningar kan därför begränsa antalet spelare i ett spel.\n"
+"Om detta lämnas tomt används regelverkets standarduppsättning av "
+"nationer.\n"
+"Se '/list nationsets' för tillgängliga alternativ i det regelverk "
+"som för närvarande är inläst."
 
 #: server/settings.c:1970
 msgid "Event cache for this number of turns"
@@ -49793,11 +49921,11 @@ msgid ""
 "borders visible at once. ENABLED will, in some rulesets, grant the same "
 "visibility if certain conditions are met."
 msgstr ""
-"Om detta inte är inaktiverat ägs alla landrutor runt en stad eller ett "
-"gränsanspråkande tillägg, såsom basen Fästning i det klassiska regelverket, "
-"av det folkslaget. SEE_INSIDE och EXPAND gör allt inom en spelares gränser "
-"synligt omedelbart. ENABLED ger i vissa regelverk samma synlighet om vissa "
-"villkor är uppfyllda."
+"Om detta inte är inaktiverat ägs alla landrutor runt en stad eller "
+"ett gränsanspråkande tillägg, såsom basen Fästning i det klassiska "
+"regelverket, av den nationen. SEE_INSIDE och EXPAND gör allt inom en"
+" spelares gränser synligt omedelbart. ENABLED ger i vissa regelverk "
+"samma synlighet om vissa villkor är uppfyllda."
 
 #: server/settings.c:2473
 msgid "Units inside borders cause no unhappiness"
@@ -49840,15 +49968,15 @@ msgid ""
 "player isn't allowed to use a default city name of another nation unless it "
 "is a default for their nation also."
 msgstr ""
-"- ”Inga begränsningar” (NO_RESTRICTIONS): spelare kan ha flera städer med "
-"samma namn.\n"
-"- ”Unikt för en spelare” (PLAYER_UNIQUE): en spelare kan inte ha flera "
+"- ”Inga begränsningar” (NO_RESTRICTIONS): spelare kan ha flera "
 "städer med samma namn.\n"
-"- ”Globalt unikt” (GLOBAL_UNIQUE): alla städer i ett spel måste ha olika "
-"namn.\n"
-"- ”Ingen stöld av stadsnamn” (NO_STEALING): som ”Globalt unikt”, men en "
-"spelare får inte använda ett annat folks förvalda stadsnamn om det inte "
-"också är förvalt för spelarens eget folk."
+"- ”Unikt för en spelare” (PLAYER_UNIQUE): en spelare kan inte ha "
+"flera städer med samma namn.\n"
+"- ”Globalt unikt” (GLOBAL_UNIQUE): alla städer i ett spel måste ha "
+"olika namn.\n"
+"- ”Ingen stöld av stadsnamn” (NO_STEALING): som ”Globalt unikt”, men"
+" en spelare får inte använda en annan nations förvalda stadsnamn om "
+"det inte också är förvalt för spelarens egen nation."
 
 #: server/settings.c:2507
 msgid "How to pick player colors"
@@ -49879,21 +50007,24 @@ msgid ""
 "Regardless of this setting, individual player colors can be changed after "
 "the game starts with the 'playercolor' command."
 msgstr ""
-"Denna inställning styr hur spelarfärger väljs. Spelarfärger används i "
-"folkslagsrapporten, för riksgränser på kartan och på andra ställen.\n"
-"- ”Per spelare, i ordning” (PLR_ORDER): färger tilldelas enskilda spelare i "
-"tur och ordning från en lista som definieras av regelverket.\n"
-"- ”Per spelare, slumpmässigt” (PLR_RANDOM): färger tilldelas enskilda "
-"spelare slumpmässigt från uppsättningen som definieras av regelverket.\n"
-"- ”Anges manuellt” (PLR_SET): färger kan anges med kommandot 'playercolor' "
-"innan spelet börjar och är då inte begränsade till regelverkets färger. "
-"Spelare som saknar angiven färg när spelet börjar får en slumpmässig färg "
-"från regelverket.\n"
-"- ”Per lag, i ordning” (TEAM_ORDER): färger tilldelas lag från listan i "
-"regelverket. Alla spelare i samma lag får samma färg.\n"
-"- ”Per folkslag, i ordning” (NATION_ORDER): om regelverket definierar en "
-"färg för en spelares folkslag får spelaren den färgen. Spelare vars folkslag "
-"saknar en tilldelad färg får en slumpmässig färg från listan i regelverket.\n"
+"Denna inställning styr hur spelarfärger väljs. Spelarfärger används "
+"i nationsrapporten, för riksgränser på kartan och på andra ställen.\n"
+"- ”Per spelare, i ordning” (PLR_ORDER): färger tilldelas enskilda "
+"spelare i tur och ordning från en lista som definieras av "
+"regelverket.\n"
+"- ”Per spelare, slumpmässigt” (PLR_RANDOM): färger tilldelas "
+"enskilda spelare slumpmässigt från uppsättningen som definieras av "
+"regelverket.\n"
+"- ”Anges manuellt” (PLR_SET): färger kan anges med kommandot "
+"'playercolor' innan spelet börjar och är då inte begränsade till "
+"regelverkets färger. Spelare som saknar angiven färg när spelet "
+"börjar får en slumpmässig färg från regelverket.\n"
+"- ”Per lag, i ordning” (TEAM_ORDER): färger tilldelas lag från "
+"listan i regelverket. Alla spelare i samma lag får samma färg.\n"
+"- ”Per nation, i ordning” (NATION_ORDER): om regelverket definierar "
+"en färg för en spelares nation får spelaren den färgen. Spelare vars"
+" nationer saknar en tilldelad färg får en slumpmässig färg från "
+"listan i regelverket.\n"
 "Oavsett denna inställning kan enskilda spelares färger ändras efter "
 "spelstart med kommandot 'playercolor'."
 
@@ -50160,7 +50291,7 @@ msgstr ""
 
 #: server/settings.c:2730
 msgid "Rebuild palace whenever capital is conquered"
-msgstr "Bygg nytt slott om huvudstad förloras"
+msgstr "Bygg nytt slott när huvudstaden erövras"
 
 #: server/settings.c:2731
 msgid ""
@@ -50170,10 +50301,11 @@ msgid ""
 "ignored. (In some rulesets, buildings other than the palace are affected by "
 "this setting.)"
 msgstr ""
-"Om detta är aktiverat återuppbyggs palatset automatiskt och kostnadsfritt i "
-"en annan slumpmässigt vald stad när huvudstaden erövras. Detta är "
-"betydelsefullt eftersom teknologikravet för att bygga ett palats ignoreras. "
-"(I vissa regelverk påverkar denna inställning andra byggnader än palatset.)"
+"Om detta är aktiverat återuppbyggs slottet automatiskt och "
+"kostnadsfritt i en annan slumpmässigt vald stad när huvudstaden "
+"erövras. Detta är betydelsefullt eftersom teknologikravet för att "
+"bygga ett slott ignoreras. (I vissa regelverk påverkar denna "
+"inställning andra byggnader än slottet.)"
 
 #: server/settings.c:2742
 msgid "Give caught units a homecity"
@@ -50220,18 +50352,19 @@ msgid ""
 "  'mgr_worldchance'  - Chance for inter-nation migration.\n"
 "  'mgr_nationchance' - Chance for intra-nation migration."
 msgstr ""
-"Detta är huvudinställningen som styr om medborgarmigration är aktiv i "
-"spelet. Om den är aktiverad kan medborgare automatiskt flytta från mindre "
-"attraktiva städer till mer attraktiva. En stads ”attraktivitet” beräknas "
-"utifrån flera faktorer. I allmänhet föredras större städer med högre "
-"inkomster och fler stadsförbättringar. Medborgare flyttar aldrig från "
-"huvudstaden och får inte heller ett underverk att gå förlorat genom att en "
-"stad upplöses. Flera andra inställningar styr hur migrationen fungerar:\n"
+"Detta är huvudinställningen som styr om medborgarmigration är aktiv "
+"i spelet. Om den är aktiverad kan medborgare automatiskt flytta från"
+" mindre attraktiva städer till mer attraktiva. En stads "
+"”attraktivitet” beräknas utifrån flera faktorer. I allmänhet "
+"föredras större städer med högre inkomster och fler "
+"stadsförbättringar. Medborgare flyttar aldrig från huvudstaden och "
+"får inte heller ett underverk att gå förlorat genom att en stad "
+"upplöses. Flera andra inställningar styr hur migrationen fungerar:\n"
 "  'mgr_turninterval' - Hur ofta medborgare försöker flytta.\n"
 "  'mgr_foodneeded'   - Om maten i målstaden kontrolleras.\n"
 "  'mgr_distance'     - Hur långt medborgare får flytta.\n"
-"  'mgr_worldchance'  - Sannolikhet för migration mellan folkslag.\n"
-"  'mgr_nationchance' - Sannolikhet för migration inom samma folkslag."
+"  'mgr_worldchance'  - Sannolikhet för migration mellan nationer.\n"
+"  'mgr_nationchance' - Sannolikhet för migration inom samma nation."
 
 #: server/settings.c:2782
 msgid "Number of turns between migrations from a city"
@@ -50295,7 +50428,7 @@ msgstr ""
 
 #: server/settings.c:2828
 msgid "Percent probability for migration within the same nation"
-msgstr "Procentuell sannolikhet för migration inom samma folkslag"
+msgstr "Procentuell sannolikhet för migration inom samma nation"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:2830
@@ -50660,8 +50793,8 @@ msgid ""
 "    b = display \"best nation\" column\n"
 "The order of characters is not significant, but their capitalization is."
 msgstr ""
-"Detta ska vara en teckensträng där varje tecken anger att en informationsrad "
-"ska tas med i demografirapporten.\n"
+"Detta ska vara en teckensträng där varje tecken anger att en "
+"informationsrad ska tas med i demografirapporten.\n"
 "Tecknen och deras betydelser är:\n"
 "    N = ta med befolkning\n"
 "    P = ta med tillverkning\n"
@@ -50676,7 +50809,7 @@ msgstr ""
 "Dessutom styr följande tecken om vissa kolumner visas i rapporten:\n"
 "    q = visa kolumnen ”mängd”\n"
 "    r = visa kolumnen ”rang”\n"
-"    b = visa kolumnen ”bästa folk”\n"
+"    b = visa kolumnen ”bästa nation”\n"
 "Tecknens ordning saknar betydelse, men deras skiftläge gör det inte."
 
 #: server/settings.c:3104
@@ -50905,10 +51038,11 @@ msgid ""
 "to empty (\"\", not \"empty\") to always use an automatically generated meta "
 "server message."
 msgstr ""
-"Användardefinierad informationsrad för metaservern. För det mesta används "
-"ett användardefinierat metameddelande i stället för ett automatiskt "
-"genererat meddelande. Lämna värdet tomt (””, inte ”empty”) för att alltid "
-"använda ett automatiskt genererat metaservermeddelande."
+"Användardefinierad informationsrad för metaservern. För det mesta "
+"används ett användardefinierat metameddelande i stället för ett "
+"automatiskt genererat meddelande. Ange en tom sträng (\"\", inte "
+"\"empty\") för att alltid använda ett automatiskt genererat "
+"metaservermeddelande."
 
 #: server/settings.c:3271
 msgid "Level of new AIs"
@@ -51363,12 +51497,12 @@ msgstr "Du har inte rätt att redigera."
 #: server/srv_main.c:2353 server/stdinhand.c:4345
 #, c-format
 msgid "%s nation is not available for user selection."
-msgstr "Folkslaget %s är inte tillgängligt för användarval."
+msgstr "Nationen ”%s” är inte tillgänglig för användarval."
 
 #: server/srv_main.c:2359 server/stdinhand.c:4353
 #, c-format
 msgid "%s nation is already in use."
-msgstr "Folkslaget %s är upptaget."
+msgstr "Nationen ”%s” är upptagen."
 
 #: server/srv_main.c:2375
 #, c-format
@@ -51388,12 +51522,12 @@ msgstr "begärde fler än inställningen 'maxplayers' tillåter"
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
-"inte tillräckligt många spelbara folkslag i denna folkslagsuppsättning (se "
-"inställningen 'nationset')"
+"inte tillräckligt många spelbara nationer i denna nationsuppsättning"
+" (se inställningen 'nationset')"
 
 #: server/srv_main.c:2487
 msgid "not enough playable nations"
-msgstr "inte tillräckligt många spelbara folkslag"
+msgstr "inte tillräckligt många spelbara nationer"
 
 #: server/srv_main.c:2834 server/srv_main.c:2838
 #, c-format
@@ -51640,17 +51774,17 @@ msgstr "Det finns redan en levande spelare med det namnet."
 #, c-format
 msgid "Can't create player, requested nation %s not in current nation set."
 msgstr ""
-"Kan inte skapa spelare; det begärda folkslaget %s finns inte i den aktuella "
-"folkslagsuppsättningen."
+"Kan inte skapa spelare; den begärda nationen (%s) finns inte i den "
+"aktuella nationsuppsättningen."
 
 #: server/stdinhand.c:859
 #, c-format
 msgid "Can't create players, nation %s conflicts with %s."
-msgstr "Kan inte skapa spelare; folkslaget %s står i konflikt med %s."
+msgstr "Kan inte skapa spelare; %s står i konflikt med %s."
 
 #: server/stdinhand.c:870
 msgid "Can't create players, no nations available."
-msgstr "Kan inte skapa spelare; inga folkslag är tillgängliga."
+msgstr "Kan inte skapa spelare; inga nationer är tillgängliga."
 
 #: server/stdinhand.c:888
 msgid "Can't create players, no slots available."
@@ -51679,7 +51813,7 @@ msgstr "Den nya spelaren %s skapades."
 #: server/stdinhand.c:965
 #, c-format
 msgid " Nation of the new player: %s."
-msgstr " Den nya spelarens folkslag: %s."
+msgstr " Den nya spelarens nation: %s."
 
 #: server/stdinhand.c:1030
 msgid "A player already exists by that name."
@@ -51698,15 +51832,15 @@ msgid ""
 "Can't add more players, not enough playable nations in current nation set "
 "(see 'nationset' setting)."
 msgstr ""
-"Kan inte lägga till fler spelare; det finns inte tillräckligt många spelbara "
-"folkslag i den aktuella folkslagsuppsättningen (se inställningen "
-"”nationset”)."
+"Kan inte lägga till fler spelare; det finns inte tillräckligt många "
+"spelbara nationer i den aktuella nationsuppsättningen (se "
+"inställningen ”nationset”)."
 
 #: server/stdinhand.c:1057
 msgid "Can't add more players, not enough playable nations."
 msgstr ""
-"Kan inte lägga till fler spelare; det finns inte tillräckligt många spelbara "
-"folkslag."
+"Kan inte lägga till fler spelare; det finns inte tillräckligt många "
+"spelbara nationer."
 
 #: server/stdinhand.c:1068
 #, c-format
@@ -51746,7 +51880,7 @@ msgstr "Namnet ”%s” är otillåtet av säkerhetsskäl."
 #: server/stdinhand.c:1237
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Ingen kommandoskript med namnet ”%s” kunde finnas."
+msgstr "Inget kommandoskript med namnet ”%s” hittades."
 
 #: server/stdinhand.c:1245
 #, c-format
@@ -51857,7 +51991,7 @@ msgstr "Någon annan är redan spelledare."
 #: server/stdinhand.c:1630
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
-msgstr "Anslutningen %s har uttryckt intresse av att bli spelledare."
+msgstr "Anslutningen %s har valt att bli spelledare."
 
 #: server/stdinhand.c:1643
 msgid "Default cmdlevel lowered to 'basic' on game start."
@@ -52024,7 +52158,7 @@ msgstr " - ett ”+” betyder att du kan ändra alternativet."
 
 #: server/stdinhand.c:2261
 msgid " - a '~' means that option follows default value."
-msgstr "- ett ”~” betyder att alternativet följer standardvärdet."
+msgstr " - ett ”~” betyder att alternativet följer standardvärdet."
 
 #: server/stdinhand.c:2262
 msgid " - a '=' means the value is same as default."
@@ -52426,12 +52560,12 @@ msgstr "Det finns ingen ledig spelarposition för %s."
 #: server/stdinhand.c:3614
 #, c-format
 msgid "Reassigned nation to %s by server console."
-msgstr "Folkslag omtilldelades till %s av serverkonsolen."
+msgstr "Nationen tilldelades %s på nytt av serverkonsolen."
 
 #: server/stdinhand.c:3618
 #, c-format
 msgid "Reassigned nation to %s by %s."
-msgstr "Folkslaget ändrades till %s av %s."
+msgstr "Nationen tilldelades %s på nytt av %s."
 
 #: server/stdinhand.c:3657
 #, c-format
@@ -52602,22 +52736,22 @@ msgstr "Minst ett argument krävs. Se '/help playernation'."
 
 #: server/stdinhand.c:4314
 msgid "Can only set player nation before game starts."
-msgstr "Spelarens folkslag kan bara anges innan spelet startar."
+msgstr "Spelarens nation kan bara anges innan spelet startar."
 
 #: server/stdinhand.c:4331
 #, c-format
 msgid "Nation of player %s reset."
-msgstr "Folkslaget för spelare %s återställdes."
+msgstr "Nationen för spelare %s återställdes."
 
 #: server/stdinhand.c:4338
 #, c-format
 msgid "Unrecognized nation: %s."
-msgstr "Okänt folkslag: %s."
+msgstr "Okänd nation: %s."
 
 #. TRANS: Nation resetting form of /playernation does not require sex
 #: server/stdinhand.c:4361
 msgid "Leader sex must be given when setting nation."
-msgstr "Ledarens kön måste anges när folkslaget ställs in."
+msgstr "Ledarens kön måste anges när nationen ställs in."
 
 #: server/stdinhand.c:4372
 #, c-format
@@ -52632,7 +52766,7 @@ msgstr "Okänd stil: %s."
 #: server/stdinhand.c:4405
 #, c-format
 msgid "Nation of player %s set to [%s]."
-msgstr "Folkslaget för spelare %s ställdes in på [%s]."
+msgstr "Nationen för spelare %s ställdes in på [%s]."
 
 #: server/stdinhand.c:4422
 msgid "Goodbye."
@@ -53098,15 +53232,15 @@ msgid ""
 "Not enough nations in the current nation set for all players; game will not "
 "start. (See 'nationset' setting.)"
 msgstr ""
-"Det finns inte tillräckligt många folkslag i den aktuella "
-"folkslagsuppsättningen för alla spelare; spelet startar inte. (Se "
+"Det finns inte tillräckligt många nationer i den aktuella "
+"nationsuppsättningen för alla spelare; spelet startar inte. (Se "
 "inställningen ”nationset”.)"
 
 #: server/stdinhand.c:6192
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
-"Det finns inte tillräckligt många folkslag för alla spelare; spelet startar "
-"inte."
+"Det finns inte tillräckligt många nationer för alla spelare; spelet "
+"startar inte."
 
 #: server/stdinhand.c:6198
 msgid ""
@@ -53217,7 +53351,7 @@ msgstr "Sammanfattning: "
 #: server/stdinhand.c:6476
 #, c-format
 msgid "Level: %s"
-msgstr "Läge: %s"
+msgstr "Nivå: %s"
 
 #: server/stdinhand.c:6500
 msgid "The following server commands are available:"
@@ -53339,7 +53473,8 @@ msgstr "Lista över tillgängliga scenarion:"
 #: server/stdinhand.c:6949
 msgid "List of nation sets available for 'nationset' option:"
 msgstr ""
-"Lista över folkslagsuppsättningar tillgängliga för alternativet ”nationset”:"
+"Lista över nationsuppsättningar tillgängliga för alternativet "
+"”nationset”:"
 
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
@@ -53347,8 +53482,8 @@ msgstr ""
 #, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
-msgstr[0] " %-10s  %s (%d spelbart folkslag)"
-msgstr[1] " %-10s  %s (%d spelbara folkslag)"
+msgstr[0] " %-10s  %s (%d spelbar nation)"
+msgstr[1] " %-10s  %s (%d spelbara nationer)"
 
 #: server/stdinhand.c:6986
 msgid "List of teams:"
@@ -53417,7 +53552,7 @@ msgstr "Teknologin %s erhölls från %s via %s!"
 #: server/techtools.c:236
 #, c-format
 msgid "?fromeffect:The %s have acquired %s from %s."
-msgstr "Folket %s har erhållit %s från %s."
+msgstr "%s har erhållit %s från %s."
 
 #: server/techtools.c:384
 #, c-format
@@ -53467,7 +53602,7 @@ msgstr "Otillräcklig forskningsproduktion. Vi förlorade %s."
 #: server/techtools.c:836 server/techtools.c:848
 #, c-format
 msgid "The %s have lost %s."
-msgstr "Folket %s har förlorat %s."
+msgstr "%s har förlorat %s."
 
 #: server/techtools.c:870
 #, c-format
@@ -53505,7 +53640,7 @@ msgstr "Vi stal %s från %s."
 #: server/techtools.c:1305
 #, c-format
 msgid "The %s stole %s from the %s and shared it with you."
-msgstr "Folket %s stal %s från folket %s och delade teknologin med dig."
+msgstr "%s stal %s från %s och delade teknologin med dig."
 
 #: server/techtools.c:1311
 #, c-format
@@ -53715,8 +53850,8 @@ msgstr "Den här truppen kan bara agera om den har en hemstad."
 #, c-format
 msgid "You must declare war on %s first. Try using the Nations report (F3)."
 msgstr ""
-"Du måste först förklara krig mot %s. Prova att använda folkslagsrapporten "
-"(F3)."
+"Du måste först förklara krig mot %s. Prova att använda "
+"nationsrapporten (F3)."
 
 #: server/unithand.c:2054
 #, c-format
@@ -53724,7 +53859,7 @@ msgid ""
 "You must break peace with %s first. Try using the Nations report to declare "
 "war (F3)."
 msgstr ""
-"Du måste först bryta freden med %s. Använd folkslagsrapporten för att "
+"Du måste först bryta freden med %s. Använd nationsrapporten för att "
 "förklara krig (F3)."
 
 #: server/unithand.c:2064
@@ -53962,7 +54097,7 @@ msgid ""
 "report to declare war (F3)."
 msgstr ""
 "Din %s kan inte utföra %s medan du har fred med %s. Använd "
-"folkslagsrapporten för att förklara krig (F3)."
+"nationsrapporten för att förklara krig (F3)."
 
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
@@ -54548,31 +54683,31 @@ msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-"Vår/t angripande %s segrade över den/det %s %s/n/t (samt %d ytterligare "
-"trupp)!"
+"Vår angripande trupp (%s) besegrade den %s truppen (%s) samt %d "
+"ytterligare trupp!"
 msgstr[1] ""
-"Vår/t angripande %s segrade över den/det %s %s/n/t (samt %d ytterligare "
-"trupper)!"
+"Vår angripande trupp (%s) besegrade den %s truppen (%s) samt %d "
+"ytterligare trupper!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:2397
 #, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "Vi förlorade %s under angrepp från den/det %s %s/n/t."
+msgstr "Vi förlorade %s under angrepp från den %s truppen (%s)."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:2407
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr "Vi förlorade %s när den/det %s %s/n/t angrep den/det %s %s/n/t."
+msgstr "Vi förlorade %s när den %s truppen (%s) angrep den %s truppen (%s)."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
 #: server/unittools.c:2423
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
-msgstr "Vi förlorade %s (samt %s) under angrepp från den/det %s %s/n/t."
+msgstr "Vi förlorade %s (samt %s) under angrepp från den %s truppen (%s)."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
@@ -54582,11 +54717,11 @@ msgstr "Vi förlorade %s (samt %s) under angrepp från den/det %s %s/n/t."
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
 msgstr[0] ""
-"Vi förlorade %s samt %d ytterligare trupp under angrepp från den/det %s %s/n/"
-"t."
+"Vi förlorade %s samt %d ytterligare trupp under angrepp från den %s "
+"truppen (%s)."
 msgstr[1] ""
-"Vi förlorade %s samt %d ytterligare trupper under angrepp från den/det %s %s/"
-"n/t."
+"Vi förlorade %s samt %d ytterligare trupper under angrepp från den "
+"%s truppen (%s)."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -54596,9 +54731,11 @@ msgstr[1] ""
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] ""
-"Vi förlorade %d trupp när den/det %s %s/n/t angrep den/det %s %s/n/t."
+"Vi förlorade %d trupp när den %s truppen (%s) angrep den %s truppen "
+"(%s)."
 msgstr[1] ""
-"Vi förlorade %d trupper när den/det %s %s/n/t angrep den/det %s %s/n/t."
+"Vi förlorade %d trupper när den %s truppen (%s) angrep den %s "
+"truppen (%s)."
 
 #: server/unittools.c:2469
 #, c-format
@@ -54945,7 +55082,8 @@ msgstr ""
 #: utility/log.c:133
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr "Loggningsnivån %d är inte tillåtet i ”%s”.\n"
+msgstr ""
+"Loggningsnivån %d är inte tillåten i ”%s”.\n"
 
 #: utility/log.c:138
 #, c-format
