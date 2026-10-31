@@ -9,7 +9,7 @@
 #
 # (Inkomplett) lista med konventioner
 #  • empire -> rike
-#  • nation -> folk/folkslag
+#  • nation -> nation (spelbegrepp); folk (historisk eller kulturell grupp)
 #  • set -> ställa in/inställt
 #  • load (data) -> läsa in
 #  • load (unit) -> lasta på
@@ -56,9 +56,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-29 08:09+0300\n"
-"PO-Revision-Date: 2010-06-20 19:43+0200\n"
-"Last-Translator: Jon Severinsson <jon@severinsson.net>\n"
+"POT-Creation-Date: 2026-09-12 16:34+0300\n"
+"PO-Revision-Date: 2026-10-31 11:04+0200\n"
+"Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-Country: SWEDEN\n"
 "X-Poedit-Language: Swedish\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Codex\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -1393,12 +1393,6 @@ msgstr "argentinarna"
 
 #: data/nation/argentine.ruleset:6
 #, fuzzy
-#| msgid ""
-#| "Argentina is located on the south-eastern coast of South America. Since "
-#| "independence from Spain in 1816, it has been plagued by several internal "
-#| "and external conflicts. In the decades after World War II, the country's "
-#| "politics was dominated by Juan Peron and his charismatic wife Eva "
-#| "\"Evita\" Peron."
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
@@ -2564,8 +2558,8 @@ msgid ""
 "Bosnia and Herzegovina is a country in south-east Europe, and the home of "
 "three constituent peoples: Bosniaks, Serbs, and Croats."
 msgstr ""
-"Bosnien och Herzegovian är ett land i sydöstra Europa och hemland för tre "
-"folkslag: bosniaker, serber och kroater."
+"Bosnien och Hercegovina är ett land i sydöstra Europa och hemland för tre "
+"folk: bosniaker, serber och kroater."
 
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:41
@@ -4245,7 +4239,6 @@ msgstr ""
 
 #: data/nation/dagestan.ruleset:4
 #, fuzzy
-#| msgid "?plural:Pakistanis"
 msgid "?plural:Dagestani"
 msgstr "pakistanerna"
 
@@ -7256,13 +7249,11 @@ msgstr ""
 
 #: data/nation/louisianian.ruleset:3
 #, fuzzy
-#| msgid "Lithuanian"
 msgid "Louisianian"
 msgstr "litauiska"
 
 #: data/nation/louisianian.ruleset:4
 #, fuzzy
-#| msgid "?plural:Bosnians"
 msgid "?plural:Louisianians"
 msgstr "bosnierna"
 
@@ -8606,7 +8597,6 @@ msgstr ""
 # ?
 #: data/nation/northirish.ruleset:4
 #, fuzzy
-#| msgid "?plural:Cornish"
 msgid "?plural:Northern Irish"
 msgstr "kornierna"
 
@@ -9130,7 +9120,6 @@ msgstr ""
 
 #: data/nation/palauan.ruleset:4
 #, fuzzy
-#| msgid "?plural:Papuans"
 msgid "?plural:Palauans"
 msgstr "papuanerna"
 
@@ -11225,7 +11214,7 @@ msgstr "thrakerna"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
-msgstr "Det näst folkrikaste folkslaget i den forntida västvärlden."
+msgstr "Det näst största folket i den forntida västvärlden."
 
 #: data/nation/thuringian.ruleset:3
 msgid "Thuringian"
