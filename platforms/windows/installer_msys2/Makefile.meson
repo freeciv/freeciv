@@ -20,6 +20,7 @@ SRC_ROOT=../../..
 
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
+ARCH_FCMP=gtk3
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
 CPPLIBS=libstdc++-6.dll libgomp-1.dll
@@ -28,6 +29,7 @@ PREF_WIN_VER=0x0603
 
 else ifeq ($(MSYSTEM),UCRT64)
 WINARCH=win64-10
+ARCH_FCMP=gtk4
 ARCHDIR=ucrt64
 LIBGCCDLL=libgcc_s_seh-1.dll
 CPPLIBS=libstdc++-6.dll libgomp-1.dll
@@ -36,6 +38,7 @@ PREF_WIN_VER=0x0A00
 
 else ifeq ($(MSYSTEM),CLANG64)
 WINARCH=win64+
+ARCH_FCMP=gtk4
 ARCHDIR=clang64
 LIBGCCDLL=
 CPPLIBS=libc++.dll libomp.dll libunwind.dll
@@ -96,13 +99,13 @@ gtk4-installer:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 installer-common
 
 sdl2-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl2 $(EXTRA_CONFIG)" GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl2 $(EXTRA_CONFIG)" GUI=sdl2 CLIENT=sdl2 FCMP=$(ARCH_FCMP) installer-common
 
 qt5-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 -Dtools=manual,ruleup,ruledit $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
 
 sdl3-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl3 $(EXTRA_CONFIG)" GUI=sdl3 CLIENT=sdl3 FCMP=gtk4 installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Daudio=sdl3 $(EXTRA_CONFIG)" GUI=sdl3 CLIENT=sdl3 FCMP=$(ARCH_FCMP) installer-common
 
 qt6-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 -Dsvgflags=true -Dtools=manual,ruleup,ruledit $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
@@ -126,13 +129,13 @@ gtk4-install:
 	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 install-freeciv-gtk4
 
 sdl2-install:
-	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 install-freeciv-sdl2
+	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=$(ARCH_FCMP) install-freeciv-sdl2
 
 qt5-install:
 	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" install-freeciv-qt5
 
 sdl3-install:
-	make -f $(MAKEFILE_NAME) GUI=sdl3 CLIENT=sdl3 FCMP=gtk4 install-freeciv-sdl3
+	make -f $(MAKEFILE_NAME) GUI=sdl3 CLIENT=sdl3 FCMP=$(ARCH_FCMP) install-freeciv-sdl3
 
 qt6-install:
 	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="-Dqtver=qt6 -Dsvgflags=true $(EXTRA_CONFIG)" install-freeciv-qt6
@@ -389,12 +392,12 @@ SDL3_DLLS := \
 	SDL3_ttf.dll \
 	SDL3_image.dll
 
-install-env-sdl2: install-env-gtk4-fcmp
+install-env-sdl2: install-env-$(FCMP)-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
-install-env-sdl3: install-env-gtk4-fcmp
+install-env-sdl3: install-env-$(FCMP)-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL3_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL3)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
