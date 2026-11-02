@@ -399,6 +399,13 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   if (result->city_center.tdc == nullptr) {
     fc_assert(result->city_center.tdc != nullptr);
 
+    pplayer->government = curr_govt;
+    if (virtual_city) {
+      destroy_city_virtual(pcity);
+      tile_set_owner(result->tile, saved_owner, saved_claimer);
+    }
+    cityresult_destroy(result);
+
     return nullptr;
   }
 
@@ -414,6 +421,8 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   } else {
     /* There is no available tile in this city. All is worked. */
     result->total = 0;
+    pplayer->government = curr_govt;
+
     return result;
   }
 
@@ -458,8 +467,13 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
     tile_set_owner(result->tile, saved_owner, saved_claimer);
   }
 
-  fc_assert_ret_val(result->city_center.tdc->sum >= 0, nullptr);
-  fc_assert_ret_val(result->remaining >= 0, nullptr);
+  if (result->city_center.tdc->sum < 0 || result->remaining < 0) {
+    fc_assert(result->city_center.tdc->sum >= 0);
+    fc_assert(result->remaining >= 0);
+    cityresult_destroy(result);
+
+    return nullptr;
+  }
 
   return result;
 }
