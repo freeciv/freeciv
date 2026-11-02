@@ -2599,7 +2599,7 @@ msgstr "_Limpar"
 #: client/gui-gtk-5.0/optiondlg.c:398 client/gui-gtk-5.0/pages.c:3473
 #: client/gui-gtk-5.0/pages.c:3876
 msgid "_OK"
-msgstr "_DACORDO"
+msgstr "_DE ACORDO"
 
 #: client/gui-gtk-3.22/chatline.c:1343
 msgid "Bold"
@@ -2677,7 +2677,7 @@ msgstr "Seleccionar a cor de fondo"
 #: client/gui-sdl3/dialogs.c:2934 client/gui-sdl3/dialogs.c:3383
 #: client/gui-sdl3/mapctrl.c:2793 common/mapimg.c:304
 msgid "OK"
-msgstr "DACORDO"
+msgstr "DE ACORDO"
 
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-3.22/chatline.c:1432 client/gui-gtk-4.0/chatline.c:1485
@@ -8158,7 +8158,7 @@ msgstr "O teu nome de líder"
 #: client/gui-qt/optiondlg.cpp:174 client/gui-qt/ratesdlg.cpp:79
 #: client/gui-qt/ratesdlg.cpp:169 client/gui-qt/shortcuts.cpp:653
 msgid "Ok"
-msgstr "Dacordo"
+msgstr "De acordo"
 
 #: client/gui-qt/dialogs.cpp:861
 msgid "Nation has been chosen by other player"
@@ -45803,11 +45803,11 @@ msgstr "Por favor, denuncia esta mensaxe en %s"
 
 #: server/console.c:255
 msgid "Ok. RFC-style set."
-msgstr "Dacordo. Conxunto de estilo RFC."
+msgstr "De acordo. Conxunto de estilo RFC."
 
 #: server/console.c:257
 msgid "Ok. Standard style set."
-msgstr "Dacordo. Conxunto de estilo estándar."
+msgstr "De acordo. Conxunto de estilo estándar."
 
 #: server/console.c:278
 msgid "For introductory help, type 'help'."
