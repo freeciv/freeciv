@@ -322,6 +322,13 @@ int main(void) { return thrd_create((void *)0, (void *)0, (void *)0); }''',
   name: 'C11 threads')
   pub_conf_data.set('FREECIV_HAVE_C11_THREADS', 1)
   threads='c11'
+elif host_system != 'windows' and c_compiler.compiles('''
+#include <pthread.h>
+void *(*srout)(void *);
+int main(void) { void *arg; return pthread_create(NULL, NULL, srout, arg); }''',
+  name: 'pthreads')
+  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+  threads='pthread'
 else
   threads=''
 endif
@@ -371,8 +378,7 @@ else
   priv_conf_data.set('HAVE_WORKING_VSNPRINTF', 1)
 
   if threads == ''
-    pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
-    threads='pthread'
+    error('No suitable thread implementation found')
   endif
 
   if host_system == 'haiku'
@@ -728,6 +734,7 @@ if host_system == 'emscripten'
      '-s', 'TOTAL_MEMORY=64MB',
      '-sSTACK_SIZE=131072',
      '-sASYNCIFY',
+     '-sASYNCIFY_STACK_SIZE=8192',
      language : [ 'c', 'cpp'])
 else
   zlib_dep = c_compiler.find_library('z', dirs: cross_lib_path)

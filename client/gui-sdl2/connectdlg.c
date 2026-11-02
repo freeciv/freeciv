@@ -58,11 +58,11 @@
 
 #include "connectdlg.h"
 
-static struct server_list *server_list = NULL;
-static struct server_scan *server_scan = NULL;
+static struct server_list *server_list = nullptr;
+static struct server_scan *server_scan = nullptr;
 
-static struct advanced_dialog *meta_server = NULL;
-static struct small_dialog *connect_dlg = NULL;
+static struct advanced_dialog *meta_server = nullptr;
+static struct small_dialog *connect_dlg = nullptr;
 
 static int connect_callback(struct widget *pwidget);
 static int convert_portnr_callback(struct widget *pwidget);
@@ -126,8 +126,8 @@ static int exit_meta_server_dlg_callback(struct widget *pwidget)
     queue_flush();
 
     server_scan_finish(server_scan);
-    server_scan = NULL;
-    server_list = NULL;
+    server_scan = nullptr;
+    server_list = nullptr;
 
     set_client_page(PAGE_NETWORK);
     meswin_dialog_popup(TRUE);
@@ -147,7 +147,7 @@ static int select_meta_servers_callback(struct widget *pwidget)
     sz_strlcpy(server_host, server->host);
     server_port = server->port;
 
-    exit_meta_server_dlg_callback(NULL);
+    exit_meta_server_dlg_callback(nullptr);
   }
 
   return -1;
@@ -165,13 +165,13 @@ static void server_scan_error(struct server_scan *scan,
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
     server_scan_finish(server_scan);
-    server_scan = NULL;
-    server_list = NULL;
+    server_scan = nullptr;
+    server_list = nullptr;
     break;
   case SERVER_SCAN_GLOBAL:
     server_scan_finish(server_scan);
-    server_scan = NULL;
-    server_list = NULL;
+    server_scan = nullptr;
+    server_list = nullptr;
     break;
   case SERVER_SCAN_LAST:
     break;
@@ -186,7 +186,7 @@ static void server_scan_error(struct server_scan *scan,
 **************************************************************************/
 static struct srv_list *sdl_create_server_list(bool lan)
 {
-  struct srv_list *list = NULL;
+  struct srv_list *list = nullptr;
   int i;
 
   if (lan) {
@@ -196,7 +196,7 @@ static struct srv_list *sdl_create_server_list(bool lan)
   }
 
   if (!server_scan) {
-    return NULL;
+    return nullptr;
   }
 
   SDL_Delay(5000);
@@ -232,7 +232,7 @@ void popup_connection_dialog(bool lan_scan)
   meswin_dialog_popdown();
 
   /* Text Label */
-  label_window = create_window_skeleton(NULL, NULL, 0);
+  label_window = create_window_skeleton(nullptr, nullptr, 0);
   add_to_gui_list(ID_WINDOW, label_window);
 
   area = label_window->area;
@@ -241,7 +241,7 @@ void popup_connection_dialog(bool lan_scan)
   pstr = create_utf8_from_char_fonto(cbuf, FONTO_BIG);
   pstr->style = TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  new_widget = create_iconlabel(NULL, label_window->dst, pstr,
+  new_widget = create_iconlabel(nullptr, label_window->dst, pstr,
                 (WF_RESTORE_BACKGROUND | WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, new_widget);
 
@@ -250,7 +250,7 @@ void popup_connection_dialog(bool lan_scan)
   area.h += new_widget->size.h + (adj_size(30) -
             (label_window->size.w - label_window->area.w));
 
-  resize_window(label_window, NULL, &bg_color,
+  resize_window(label_window, nullptr, &bg_color,
                 (label_window->size.w - label_window->area.w) + area.w,
                 (label_window->size.h - label_window->area.h) + area.h);
 
@@ -297,7 +297,7 @@ void popup_connection_dialog(bool lan_scan)
   /* Server list window */
   meta_server = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pwindow = create_window_skeleton(NULL, NULL, 0);
+  pwindow = create_window_skeleton(nullptr, nullptr, 0);
   pwindow->action = meta_server_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
   clear_wflag(pwindow, WF_DRAW_FRAME_AROUND_WIDGET);
@@ -326,7 +326,7 @@ void popup_connection_dialog(bool lan_scan)
                 server->host, server->port, server->version, _(server->state),
                 Q_("?header:Players"), server->nplayers, server->message);
 
-    new_widget = create_iconlabel_from_chars_fonto(NULL, pwindow->dst, cbuf,
+    new_widget = create_iconlabel_from_chars_fonto(nullptr, pwindow->dst, cbuf,
                                                    FONTO_DEFAULT,
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
@@ -379,7 +379,7 @@ void popup_connection_dialog(bool lan_scan)
   meta_h += meta_server->end_widget_list->prev->size.h + adj_size(10) + adj_size(20);
 
   logo = theme_get_background(active_theme, BACKGROUND_CONNECTDLG);
-  if (resize_window(pwindow, logo, NULL, w, meta_h)) {
+  if (resize_window(pwindow, logo, nullptr, w, meta_h)) {
     FREESURFACE(logo);
   }
 
@@ -413,7 +413,7 @@ void popup_connection_dialog(bool lan_scan)
 
   new_widget = new_widget->prev;
 
-  while (new_widget != NULL) {
+  while (new_widget != nullptr) {
     new_widget->size.w = w;
     new_widget->size.h = h;
     new_widget->size.x = new_widget->next->size.x;
@@ -462,7 +462,7 @@ void popup_connection_dialog(bool lan_scan)
 **************************************************************************/
 static int convert_playername_callback(struct widget *pwidget)
 {
-  if (pwidget->string_utf8->text != NULL) {
+  if (pwidget->string_utf8->text != nullptr) {
     sz_strlcpy(user_name, pwidget->string_utf8->text);
   } else {
     /* Empty input -> restore previous content */
@@ -480,7 +480,7 @@ static int convert_playername_callback(struct widget *pwidget)
 **************************************************************************/
 static int convert_servername_callback(struct widget *pwidget)
 {
-  if (pwidget->string_utf8->text != NULL) {
+  if (pwidget->string_utf8->text != nullptr) {
     sz_strlcpy(server_host, pwidget->string_utf8->text);
   } else {
     /* Empty input -> restore previous content */
@@ -500,7 +500,7 @@ static int convert_portnr_callback(struct widget *pwidget)
 {
   char port_str[6];
 
-  if (pwidget->string_utf8->text != NULL) {
+  if (pwidget->string_utf8->text != nullptr) {
     sscanf(pwidget->string_utf8->text, "%d", &server_port);
   } else {
     /* Empty input -> restore previous content */
@@ -534,9 +534,9 @@ void popup_join_game_dialog(void)
 {
   char port_str[6];
   struct widget *buf, *pwindow;
-  utf8_str *plrname = NULL;
-  utf8_str *srvname = NULL;
-  utf8_str *port_nr = NULL;
+  utf8_str *plrname = nullptr;
+  utf8_str *srvname = nullptr;
+  utf8_str *port_nr = nullptr;
   SDL_Surface *logo;
   SDL_Rect area;
   int start_x;
@@ -549,7 +549,7 @@ void popup_join_game_dialog(void)
   connect_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* Window */
-  pwindow = create_window_skeleton(NULL, NULL, 0);
+  pwindow = create_window_skeleton(nullptr, nullptr, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
   connect_dlg->end_widget_list = pwindow;
 
@@ -558,13 +558,13 @@ void popup_join_game_dialog(void)
   /* Player name label */
   plrname = create_utf8_from_char_fonto(_("Player Name :"), FONTO_DEFAULT);
   plrname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  buf = create_iconlabel(NULL, pwindow->dst, plrname,
+  buf = create_iconlabel(nullptr, pwindow->dst, plrname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, buf);
   area.h += buf->size.h + adj_size(20);
 
   /* Player name edit */
-  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, user_name,
+  buf = create_edit_from_chars_fonto(nullptr, pwindow->dst, user_name,
                                      FONTO_HEADING,
                                      adj_size(210),
                                      (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
@@ -576,13 +576,13 @@ void popup_join_game_dialog(void)
   /* Server name label */
   srvname = create_utf8_from_char_fonto(_("Freeciv Server :"), FONTO_DEFAULT);
   srvname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  buf = create_iconlabel(NULL, pwindow->dst, srvname,
+  buf = create_iconlabel(nullptr, pwindow->dst, srvname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, buf);
   area.h += buf->size.h + adj_size(5);
 
   /* Server name edit */
-  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, server_host,
+  buf = create_edit_from_chars_fonto(nullptr, pwindow->dst, server_host,
                                      FONTO_HEADING,
                                      adj_size(210), WF_RESTORE_BACKGROUND);
 
@@ -594,7 +594,7 @@ void popup_join_game_dialog(void)
   /* Port label */
   port_nr = create_utf8_from_char_fonto(_("Port :"), FONTO_DEFAULT);
   port_nr->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  buf = create_iconlabel(NULL, pwindow->dst, port_nr,
+  buf = create_iconlabel(nullptr, pwindow->dst, port_nr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, buf);
   area.h += buf->size.h + adj_size(5);
@@ -602,7 +602,7 @@ void popup_join_game_dialog(void)
   /* Port edit */
   fc_snprintf(port_str, sizeof(port_str), "%d", server_port);
 
-  buf = create_edit_from_chars_fonto(NULL, pwindow->dst, port_str,
+  buf = create_edit_from_chars_fonto(nullptr, pwindow->dst, port_str,
                                      FONTO_HEADING,
                                      adj_size(210),
                                      WF_RESTORE_BACKGROUND);
@@ -646,7 +646,7 @@ void popup_join_game_dialog(void)
 #endif
 
   logo = theme_get_background(active_theme, BACKGROUND_JOINGAMEDLG);
-  if (resize_window(pwindow, logo, NULL, dialog_w, dialog_h)) {
+  if (resize_window(pwindow, logo, nullptr, dialog_w, dialog_h)) {
     FREESURFACE(logo);
   }
 
@@ -723,7 +723,7 @@ void popup_join_game_dialog(void)
 static int convert_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget->string_utf8->text != NULL) {
+    if (pwidget->string_utf8->text != nullptr) {
       fc_snprintf(fc_password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
     }
   }
@@ -776,7 +776,7 @@ static int cancel_passwd_callback(struct widget *pwidget)
 static void popup_user_passwd_dialog(const char *message)
 {
   struct widget *buf, *pwindow;
-  utf8_str *label_str = NULL;
+  utf8_str *label_str = nullptr;
   SDL_Surface *background;
   int start_x, start_y;
   int start_button_y;
@@ -787,7 +787,7 @@ static void popup_user_passwd_dialog(const char *message)
 
   connect_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-  pwindow = create_window_skeleton(NULL, NULL, 0);
+  pwindow = create_window_skeleton(nullptr, nullptr, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
   connect_dlg->end_widget_list = pwindow;
 
@@ -796,14 +796,14 @@ static void popup_user_passwd_dialog(const char *message)
   /* Text label */
   label_str = create_utf8_from_char_fonto(message, FONTO_ATTENTION);
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
-  buf = create_iconlabel(NULL, pwindow->dst, label_str,
+  buf = create_iconlabel(nullptr, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, buf);
   area.h += adj_size(10) + buf->size.h + adj_size(5);
 
   /* Password edit */
-  buf = create_edit(NULL, pwindow->dst,
-                    create_utf8_str_fonto(NULL, 0, FONTO_BIG),
+  buf = create_edit(nullptr, pwindow->dst,
+                    create_utf8_str_fonto(nullptr, 0, FONTO_BIG),
                     adj_size(210),
                     (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_passwd_callback;
@@ -844,7 +844,7 @@ static void popup_user_passwd_dialog(const char *message)
   area.w += adj_size(80);
 
   background = theme_get_background(active_theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pwindow, background, NULL,
+  if (resize_window(pwindow, background, nullptr,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(background);
@@ -903,7 +903,7 @@ static void popup_user_passwd_dialog(const char *message)
 static int convert_first_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget->string_utf8->text != NULL) {
+    if (pwidget->string_utf8->text != nullptr) {
       fc_snprintf(fc_password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
       set_wstate(pwidget->prev, FC_WS_NORMAL);
       widget_redraw(pwidget->prev);
@@ -920,7 +920,7 @@ static int convert_first_passwd_callback(struct widget *pwidget)
 static int convert_second_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget->string_utf8->text != NULL
+    if (pwidget->string_utf8->text != nullptr
         && !fc_strncmp(fc_password, pwidget->string_utf8->text,
                        MAX_LEN_NAME)) {
       set_wstate(pwidget->prev, FC_WS_NORMAL); /* Next button */
@@ -946,7 +946,7 @@ static int convert_second_passwd_callback(struct widget *pwidget)
 static void popup_new_user_passwd_dialog(const char *message)
 {
   struct widget *buf, *pwindow;
-  utf8_str *label_str = NULL;
+  utf8_str *label_str = nullptr;
   SDL_Surface *background;
   int start_x, start_y;
   int start_button_y;
@@ -957,7 +957,7 @@ static void popup_new_user_passwd_dialog(const char *message)
 
   connect_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-  pwindow = create_window_skeleton(NULL, NULL, 0);
+  pwindow = create_window_skeleton(nullptr, nullptr, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
   connect_dlg->end_widget_list = pwindow;
 
@@ -966,14 +966,14 @@ static void popup_new_user_passwd_dialog(const char *message)
   /* Text label */
   label_str = create_utf8_from_char_fonto(message, FONTO_ATTENTION);
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
-  buf = create_iconlabel(NULL, pwindow->dst, label_str,
+  buf = create_iconlabel(nullptr, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, buf);
   area.h += adj_size(10) + buf->size.h + adj_size(5);
 
   /* Password edit */
-  buf = create_edit(NULL, pwindow->dst,
-                    create_utf8_str_fonto(NULL, 0, FONTO_BIG),
+  buf = create_edit(nullptr, pwindow->dst,
+                    create_utf8_str_fonto(nullptr, 0, FONTO_BIG),
                     adj_size(210),
                     (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_first_passwd_callback;
@@ -982,8 +982,8 @@ static void popup_new_user_passwd_dialog(const char *message)
   area.h += buf->size.h + adj_size(5);
 
   /* Second password edit */
-  buf = create_edit(NULL, pwindow->dst,
-                    create_utf8_str_fonto(NULL, 0, FONTO_BIG),
+  buf = create_edit(nullptr, pwindow->dst,
+                    create_utf8_str_fonto(nullptr, 0, FONTO_BIG),
                     adj_size(210),
                     (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_second_passwd_callback;
@@ -1021,7 +1021,7 @@ static void popup_new_user_passwd_dialog(const char *message)
   area.w += adj_size(80);
 
   background = theme_get_background(active_theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pwindow, background, NULL,
+  if (resize_window(pwindow, background, nullptr,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(background);
@@ -1100,8 +1100,8 @@ void close_connection_dialog(void)
 
     if (server_list) {
       server_scan_finish(server_scan);
-      server_scan = NULL;
-      server_list = NULL;
+      server_scan = nullptr;
+      server_list = nullptr;
     }
   }
 }

@@ -350,13 +350,13 @@ install-freeciv-qt6x: install-freeciv-common
 	cp freeciv-ruledit.cmd $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-gtk3.22: install-env-gtk3-fcmp
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL3)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-gtk4: install-env-gtk4-fcmp
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL3)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-gtk4x: install-env-gtk4-fcmp
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL3)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 SDL2_DLLS := \
 	SDL2_ttf.dll \
@@ -411,7 +411,7 @@ CLIENT_QT6_DLLS := \
 install-env-qt6: install-env-qt6-fcmp
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(CLIENT_QT6_DLLS)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL2)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SOUND_DLLS_SDL3)) $(INST_DIR)/$(WINARCH)-client-$(GUI)/
 
 install-env-qt6x: install-env-qt6
 

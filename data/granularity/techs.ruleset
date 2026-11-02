@@ -529,6 +529,15 @@ As food can be stored, granary is set to 15% full when city grows\
  or 25% full when city shrinks.\
 ")
 
+[advance_radio]
+name        = _("Radio")
+req1        = "Flight"
+req2        = "None"
+flags       = ""
+graphic     = "a.radio"
+graphic_alt = "-"
+;helptext    =
+
 [advance_road_building]
 name        = _("Road Building")
 req1        = "None"

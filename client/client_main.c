@@ -129,9 +129,9 @@ static void fc_interface_init_client(void);
 
 static void cache_tilesets(void);
 
-char *logfile = NULL;
-char *scriptfile = NULL;
-char *savefile = NULL;
+char *logfile = nullptr;
+char *scriptfile = nullptr;
+char *savefile = nullptr;
 char forced_tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
@@ -173,10 +173,12 @@ static char *put_conv(const char *src, size_t *length)
 
   if (out) {
     *length = strlen(out);
+
     return out;
   } else {
     *length = 0;
-    return NULL;
+
+    return nullptr;
   }
 }
 
@@ -186,7 +188,7 @@ static char *put_conv(const char *src, size_t *length)
   large enough or the source was bad.
 **************************************************************************/
 static bool get_conv(char *dst, size_t ndst,
-		     const char *src, size_t nsrc)
+                     const char *src, size_t nsrc)
 {
   char *out = data_to_internal_string_malloc(src);
   bool ret = TRUE;
@@ -245,7 +247,7 @@ static void at_exit(void)
 **************************************************************************/
 static void client_game_init(void)
 {
-  client.conn.playing = NULL;
+  client.conn.playing = nullptr;
   client.conn.observer = FALSE;
 
   game_init(FALSE);
@@ -288,7 +290,7 @@ static void client_game_free(void)
      the server! */
   update_queue_init();
 
-  client.conn.playing = NULL;
+  client.conn.playing = nullptr;
   client.conn.observer = FALSE;
 }
 
@@ -352,7 +354,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
   enum log_level loglevel = LOG_NORMAL;
   int ui_options = 0;
   bool ui_separator = FALSE;
-  char *option = NULL;
+  char *option = nullptr;
   int fatal_assertions = -1;
   int aii;
   int uret;
@@ -589,13 +591,13 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
   }
 
   /* Remove all options except those intended for the UI. */
-  argv[1 + ui_options] = NULL;
+  argv[1 + ui_options] = nullptr;
   argc = 1 + ui_options;
 
   /* Disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_client");
 
-  log_init(logfile, loglevel, NULL, NULL, fatal_assertions);
+  log_init(logfile, loglevel, nullptr, nullptr, fatal_assertions);
   backtrace_init();
 
   /* After log_init: */
@@ -671,7 +673,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
 
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */
-  fc_srand(time(NULL));
+  fc_srand(time(nullptr));
   helpdata_init();
   boot_help_texts();
 
@@ -730,10 +732,10 @@ void fc__noreturn client_exit(int return_value)
   }
 
   overview_free();
-  if (unscaled_tileset != NULL) {
+  if (unscaled_tileset != nullptr) {
     tileset_free(unscaled_tileset);
   }
-  if (tileset != NULL) {
+  if (tileset != nullptr) {
     tileset_free(tileset);
   }
 
@@ -877,7 +879,7 @@ void set_client_state(enum client_states newstate)
 
     if (!is_client_quitting()) {
       /* Back to menu */
-      start_menu_music("music_menu", NULL);
+      start_menu_music("music_menu", nullptr);
     }
   }
 
@@ -895,7 +897,7 @@ void set_client_state(enum client_states newstate)
     meswin_clear_older(MESWIN_CLEAR_ALL, 0);
 
     if (oldstate > C_S_DISCONNECTED) {
-      unit_focus_set(NULL);
+      unit_focus_set(nullptr);
       agents_disconnect();
       editor_clear();
       global_worklists_unbuild();
@@ -924,7 +926,7 @@ void set_client_state(enum client_states newstate)
       options_dialogs_update();
     }
 
-    unit_focus_set(NULL);
+    unit_focus_set(nullptr);
 
     if (get_client_page() != PAGE_SCENARIO
         && get_client_page() != PAGE_LOAD) {
@@ -940,7 +942,7 @@ void set_client_state(enum client_states newstate)
 
     init_city_report_game_data();
     options_dialogs_set();
-    create_event(NULL, E_GAME_START, ftc_client, _("Game started."));
+    create_event(nullptr, E_GAME_START, ftc_client, _("Game started."));
     if (pplayer) {
       research_update(research_get(pplayer));
     }
@@ -967,7 +969,7 @@ void set_client_state(enum client_states newstate)
       center_on_something();
     }
     start_style_music();
-    audio_play_sound("e_enter_game", NULL, NULL);
+    audio_play_sound("e_enter_game", nullptr, nullptr);
     break;
 
   case C_S_OVER:
@@ -975,7 +977,7 @@ void set_client_state(enum client_states newstate)
       /* Extra kludge for end-game handling of the CMA. */
       if (pplayer && pplayer->cities) {
         city_list_iterate(pplayer->cities, pcity) {
-          if (cma_is_city_under_agent(pcity, NULL)) {
+          if (cma_is_city_under_agent(pcity, nullptr)) {
             cma_release_city(pcity);
           }
         } city_list_iterate_end;
@@ -983,7 +985,7 @@ void set_client_state(enum client_states newstate)
       popdown_all_city_dialogs();
       close_all_diplomacy_dialogs();
       popdown_all_game_dialogs();
-      unit_focus_set(NULL);
+      unit_focus_set(nullptr);
     } else {
       /* From C_S_PREPARING. */
       init_city_report_game_data();
@@ -994,7 +996,7 @@ void set_client_state(enum client_states newstate)
       role_unit_precalcs();
       boot_help_texts();            /* reboot */
       global_worklists_build();
-      unit_focus_set(NULL);
+      unit_focus_set(nullptr);
       set_client_page(PAGE_GAME);
       center_on_something();
     }
@@ -1002,7 +1004,7 @@ void set_client_state(enum client_states newstate)
 
     update_info_label();
     unit_focus_update();
-    update_unit_info_label(NULL);
+    update_unit_info_label(nullptr);
 
     break;
   }
@@ -1031,10 +1033,10 @@ enum client_states client_state(void)
 **************************************************************************/
 void client_remove_cli_conn(struct connection *pconn)
 {
-  fc_assert_msg(pconn != NULL,
+  fc_assert_msg(pconn != nullptr,
                 "Trying to remove a non existing connection");
 
-  if (NULL != pconn->playing) {
+  if (pconn->playing != nullptr) {
     conn_list_remove(pconn->playing->connections, pconn);
   }
   conn_list_remove(game.all_connections, pconn);
@@ -1049,7 +1051,7 @@ void client_remove_cli_conn(struct connection *pconn)
 **************************************************************************/
 void client_remove_all_cli_conn(void)
 {
-  fc_assert_msg(game.all_connections != NULL,
+  fc_assert_msg(game.all_connections != nullptr,
                 "Connection list missing");
 
   while (conn_list_size(game.all_connections) > 0) {
@@ -1072,7 +1074,7 @@ void send_attribute_block_request(void)
 void wait_till_request_got_processed(int request_id)
 {
   input_from_server_till_request_got_processed(client.conn.sock,
-					       request_id);
+                                               request_id);
 }
 
 /**********************************************************************//**
@@ -1091,7 +1093,7 @@ static struct timer *turndone_timer;
 
 /* The timer tells how long since server informed us about starting
  * turn-change activities. */
-static struct timer *between_turns = NULL;
+static struct timer *between_turns = nullptr;
 static bool waiting_turn_change = FALSE;
 
 /* This value shows what value the timeout label is currently showing for
@@ -1110,7 +1112,7 @@ void set_seconds_to_turndone(double seconds)
   if (current_turn_timeout() > 0) {
     seconds_to_turndone = seconds;
     turndone_timer = timer_renew(turndone_timer, TIMER_USER, TIMER_ACTIVE,
-                                 turndone_timer != NULL ? NULL : "turndone");
+                                 turndone_timer != nullptr ? nullptr : "turndone");
     timer_start(turndone_timer);
 
     /* Maybe we should do an update_timeout_label here, but it doesn't
@@ -1134,7 +1136,8 @@ void start_turn_change_wait(void)
 {
   seconds_shown_to_new_turn = ceil(game.tinfo.last_turn_change_time + 0.1);
   between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE,
-                              between_turns != NULL ? NULL : "between turns");
+                              between_turns != nullptr
+                                ? nullptr : "between turns");
   timer_start(between_turns);
 
   waiting_turn_change = TRUE;
@@ -1213,7 +1216,7 @@ double real_timer_callback(void)
 
   /* It is possible to have current_turn_timeout() > 0 but !turndone_timer,
    * in the first moments after the timeout is set. */
-  if (current_turn_timeout() > 0 && turndone_timer != NULL) {
+  if (current_turn_timeout() > 0 && turndone_timer != nullptr) {
     double seconds = seconds_to_turndone - timer_read_seconds(turndone_timer);
     int iseconds = ceil(seconds + 0.1); /* Turn should end right on 0. */
 
@@ -1223,7 +1226,7 @@ double real_timer_callback(void)
     }
 
     time_until_next_call = MIN(time_until_next_call,
-			       seconds - floor(seconds) + 0.001);
+                               seconds - floor(seconds) + 0.001);
   }
   if (waiting_turn_change) {
     double seconds = game.tinfo.last_turn_change_time - timer_read_seconds(between_turns);
@@ -1255,7 +1258,7 @@ double real_timer_callback(void)
 **************************************************************************/
 bool can_client_control(void)
 {
-  return (NULL != client.conn.playing
+  return (client.conn.playing != nullptr
           && !client_is_observer());
 }
 
@@ -1267,7 +1270,7 @@ bool can_client_control(void)
 bool can_client_issue_orders(void)
 {
   return (can_client_control()
-	  && C_S_RUNNING == client_state());
+          && C_S_RUNNING == client_state());
 }
 
 /**********************************************************************//**
@@ -1277,8 +1280,8 @@ bool can_client_issue_orders(void)
 bool can_meet_with_player(const struct player *pplayer)
 {
   return (can_client_issue_orders()
-	  /* && NULL != client.conn.playing (above) */
-	  && could_meet_with_player(client.conn.playing, pplayer));
+          /* && client.conn.playing != nullptr (above) */
+          && could_meet_with_player(client.conn.playing, pplayer));
 }
 
 /**********************************************************************//**
@@ -1288,7 +1291,7 @@ bool can_meet_with_player(const struct player *pplayer)
 bool can_intel_with_player(const struct player *pplayer)
 {
   return (client_is_observer()
-          || (NULL != client.conn.playing
+          || (client.conn.playing != nullptr
               && could_intel_with_player(client_player(), pplayer)));
 }
 
@@ -1314,9 +1317,9 @@ const char *title_for_player(const struct player *pplayer,
 **************************************************************************/
 bool can_client_change_view(void)
 {
-  return ((NULL != client.conn.playing || client_is_observer())
-	  && (C_S_RUNNING == client_state()
-	      || C_S_OVER == client_state()));
+  return ((client.conn.playing != nullptr || client_is_observer())
+          && (C_S_RUNNING == client_state()
+              || C_S_OVER == client_state()));
 }
 
 /**********************************************************************//**
@@ -1330,7 +1333,7 @@ void set_server_busy(bool busy)
     server_busy = busy;
 
     /* This may mean that we have to change from or to wait cursor */
-    control_mouse_cursor(NULL);
+    control_mouse_cursor(nullptr);
   }
 }
 
@@ -1347,7 +1350,7 @@ bool is_server_busy(void)
 **************************************************************************/
 bool client_is_global_observer(void)
 {
-  return client.conn.playing == NULL && client.conn.observer;
+  return client.conn.playing == nullptr && client.conn.observer;
 }
 
 /**********************************************************************//**
@@ -1355,7 +1358,7 @@ bool client_is_global_observer(void)
 **************************************************************************/
 int client_player_number(void)
 {
-  if (client.conn.playing == NULL) {
+  if (client.conn.playing == nullptr) {
     return -1;
   }
   return player_number(client.conn.playing);
@@ -1366,7 +1369,7 @@ int client_player_number(void)
 **************************************************************************/
 bool client_has_player(void)
 {
-  return client.conn.playing != NULL;
+  return client.conn.playing != nullptr;
 }
 
 /**********************************************************************//**
@@ -1420,7 +1423,8 @@ static const char *client_ss_name_get(server_setting_id id)
     return option_name(pset);
   } else {
     log_error("No server setting with the id %d exists.", id);
-    return NULL;
+
+    return nullptr;
   }
 }
 
@@ -1525,9 +1529,9 @@ static void fc_interface_init_client(void)
   funcs->server_setting_val_bool_get = client_ss_val_bool_get;
   funcs->server_setting_val_int_get = client_ss_val_int_get;
   funcs->server_setting_val_bitwise_get = client_ss_val_bitwise_get;
-  funcs->create_extra = NULL;
-  funcs->destroy_extra = NULL;
-  funcs->destroy_city = NULL;
+  funcs->create_extra = nullptr;
+  funcs->destroy_extra = nullptr;
+  funcs->destroy_city = nullptr;
   funcs->player_tile_vision_get = client_map_is_known_and_seen;
   funcs->player_tile_city_id_get = client_plr_tile_city_id_get;
   funcs->gui_color_free = color_free;
@@ -1581,7 +1585,7 @@ static struct player *mapimg_client_tile_city(const struct tile *ptile,
   struct city *pcity = tile_city(ptile);
 
   if (!pcity) {
-    return NULL;
+    return nullptr;
   }
 
   return city_owner(tile_city(ptile));
@@ -1597,7 +1601,7 @@ static struct player *mapimg_client_tile_unit(const struct tile *ptile,
   int unit_count = unit_list_size(ptile->units);
 
   if (unit_count == 0) {
-    return NULL;
+    return nullptr;
   }
 
   return unit_owner(unit_list_get(ptile->units, 0));
@@ -1620,7 +1624,7 @@ static struct rgbcolor *mapimg_client_plrcolor_get(int i)
   int count = 0;
 
   if (0 > i || i > player_count()) {
-    return NULL;
+    return nullptr;
   }
 
   players_iterate(pplayer) {
@@ -1630,7 +1634,7 @@ static struct rgbcolor *mapimg_client_plrcolor_get(int i)
     count++;
   } players_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -1663,7 +1667,7 @@ static void cache_tilesets(void)
 
     sf = secfile_load(pfile->fullname, FALSE);
 
-    if (sf != NULL) {
+    if (sf != nullptr) {
       modpack_cache_tileset(sf);
       secfile_destroy(sf);
     }
