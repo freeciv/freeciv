@@ -17805,11 +17805,11 @@ msgstr "Pode medrar pronto"
 
 #: common/events.c:105
 msgid "Needs Aqueduct"
-msgstr "Precisa acueducto"
+msgstr "Precisa acueduto"
 
 #: common/events.c:106
 msgid "Needs Aqueduct Being Built"
-msgstr "Precisa a construción dun acueducto"
+msgstr "Precisa a construción dun acueduto"
 
 #: common/events.c:107 common/fc_types.h:360
 msgid "Normal"
@@ -22662,7 +22662,7 @@ msgid ""
 "An Aqueduct also eliminates a city's risk of plague causing loss of population, and of "
 "fire causing loss of buildings."
 msgstr ""
-"Un acueducto tamén elimina o risco dunha cidade de que a praga cause perda de poboación "
+"Un acueduto tamén elimina o risco dunha cidade de que a praga cause perda de poboación "
 "e de incendio que cause perda de edificios."
 
 #: data/civ1/buildings.ruleset:111 data/civ2/buildings.ruleset:142
@@ -26728,7 +26728,7 @@ msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required for a city to "
 "grow larger than size 8."
 msgstr ""
-"Permite que unha cidade medre máis que o tamaño 12.  Primeiro é preciso un acueducto "
+"Permite que unha cidade medre máis que o tamaño 12.  Primeiro é preciso un acueduto "
 "para que unha cidade medre máis que o tamaño 8."
 
 #: data/civ2/buildings.ruleset:932 data/classic/buildings.ruleset:967
@@ -29618,7 +29618,7 @@ msgid ""
 "overcrowding; an Aqueduct reduces that base chance by 30%."
 msgstr ""
 "A partir do tamaño 5, as cidades en crecemento incorren nun risco crecente de praga "
-"debido á masificación; un Acueducto reduce esa probabilidade base nun 30%."
+"debido á masificación; un Acueduto reduce esa probabilidade base nun 30%."
 
 #: data/sandbox/buildings.ruleset:156 data/civ2civ3/buildings.ruleset:153
 msgid ""
@@ -29630,7 +29630,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:162 data/civ2civ3/buildings.ruleset:159
 msgid "Aqueduct, Lake"
-msgstr "Acueducto, Lago"
+msgstr "Acueduto, Lago"
 
 #: data/sandbox/buildings.ruleset:194 data/civ2civ3/buildings.ruleset:191
 msgid ""
@@ -29642,7 +29642,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:200 data/civ2civ3/buildings.ruleset:197
 msgid "Aqueduct, River"
-msgstr "Acueducto, río"
+msgstr "Acueduto, río"
 
 #: data/sandbox/buildings.ruleset:233 data/civ2civ3/buildings.ruleset:230
 msgid ""
@@ -30034,7 +30034,7 @@ msgid ""
 "Together with an Aqueduct, allows a city to grow larger than size 16, and further "
 "reduces the chance of a plague (by 30% of the base chance)."
 msgstr ""
-"Xunto cun acueducto, permite que unha cidade medre máis que o tamaño 16 e reduce aínda "
+"Xunto cun acueduto, permite que unha cidade medre máis que o tamaño 16 e reduce aínda "
 "máis a posibilidade dunha praga (un 30% da probabilidade base)."
 
 #: data/sandbox/buildings.ruleset:1193 data/civ2civ3/buildings.ruleset:1162
@@ -36965,7 +36965,7 @@ msgid ""
 "food to support them."
 msgstr ""
 "Os cidadáns non migrarán ás cidades que non poden aumentar de tamaño para apoialas, por "
-"exemplo, debido á falta dunha mellora da cidade como un acueducto. Se se establece a "
+"exemplo, debido á falta dunha mellora da cidade como un acueduto. Se se establece a "
 "opción do servidor 'mgr_foodneeded', non migrarán a cidades que non terían suficiente "
 "alimento para soportalos."
 
@@ -49938,7 +49938,7 @@ msgid ""
 "the ruleset."
 msgstr ""
 "Se unha cidade quixese expandirse, pero non pode porque carece dalgún requisito previo "
-"(tradicionalmente un acueducto ou un sistema de sumidoiros), esta é a porcentaxe base "
+"(tradicionalmente un acueduto ou un sistema de sumidoiros), esta é a porcentaxe base "
 "da súa caixa de alimentos que se perde cada quenda; a sanción poderá ser reducida por "
 "edificacións ou outras circunstancias, dependendo da normativa."
 
