@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-06-29 08:09+0300\n"
-"PO-Revision-Date: 2026-06-27 14:04+0200\n"
+"POT-Creation-Date: 2026-09-12 16:34+0300\n"
+"PO-Revision-Date: 2026-11-02 22:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: gl_ES\n"
@@ -252,15 +252,14 @@ msgid ""
 "distrust of British colonial authorities who would forcefully deport them in "
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
-"\"Acadia foi fundada por primeira vez en 1604 como a primeira colonia "
-"francesa en América do Norte. Pronto se viu atrapada no fogo cruzado das "
-"guerras franco-británicas, o que levou a que Acadia cambiase de mans con "
-"frecuencia. Isto fixo que os acadianos desenvolvesen unha identidade propia "
-"e unha forma de autogoberno. A súa falta de apoio a calquera das partes "
-"nestas guerras fíxolles gañar o título de neutrales franceses, pero tamén a "
-"desconfianza das autoridades coloniais británicas, que os deportaron "
-"forzosamente en 1755. Os acadianos regresaron desde entón á súa terra e "
-"reconstruíron."
+"Acadia foi fundada por primeira vez en 1604 como a primeira colonia francesa "
+"en América do Norte. Pronto se viu atrapada no fogo cruzado das guerras "
+"franco-británicas, o que levou a que Acadia cambiase de mans con frecuencia. "
+"Isto fixo que os acadianos desenvolvesen unha identidade propia e unha forma "
+"de autogoberno. A súa falta de apoio a calquera das partes nestas guerras "
+"fíxolles gañar o título de neutrales franceses, pero tamén a desconfianza "
+"das autoridades coloniais británicas, que os deportaron forzosamente en "
+"1755. Os acadianos regresaron desde entón á súa terra e reconstruíron."
 
 #: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
@@ -395,7 +394,7 @@ msgstr "Acreano"
 
 #: data/nation/acrean.ruleset:4
 msgid "?plural:Acreans"
-msgstr "Acreans"
+msgstr "Acreanos"
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -456,7 +455,7 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
-"\"Afganistán, ao que se lle chama a encrucillada de Asia Central, ten unha "
+"Afganistán, ao que se lle chama a encrucillada de Asia Central, ten unha "
 "historia moi turbulenta. Ao longo dos séculos, o país foi ocupado por moitas "
 "forzas, incluíndo o Imperio Persa, Xenguis Khan e Alexandre o Grande. O "
 "Estado nación de Afganistán tal como se coñece hoxe en día entrou en "
@@ -591,7 +590,7 @@ msgstr "Andalusí"
 
 #: data/nation/alandalus.ruleset:4
 msgid "?plural:Andalusis"
-msgstr "Andalusis"
+msgstr "Andalusís"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -725,11 +724,11 @@ msgstr "Vicaria %s"
 
 #: data/nation/alaskan.ruleset:3
 msgid "Alaska"
-msgstr "Alasca"
+msgstr "Alasqueño"
 
 #: data/nation/alaskan.ruleset:4
 msgid "?plural:Alaskans"
-msgstr "Alaskans"
+msgstr "Alasqueños"
 
 #: data/nation/alaskan.ruleset:6
 msgid ""
@@ -929,7 +928,7 @@ msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
 msgstr ""
-"Alxeria é unha nación árabe no norte de África. Históricamente está habitado "
+"Alxeria é unha nación árabe no norte de África. Historicamente está habitado "
 "polo pobo bereber."
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
@@ -1189,7 +1188,7 @@ msgstr "Angolano"
 
 #: data/nation/angolan.ruleset:4
 msgid "?plural:Angolans"
-msgstr "Angolans"
+msgstr "Angolanos"
 
 #: data/nation/angolan.ruleset:6
 msgid ""
@@ -1248,7 +1247,7 @@ msgstr ""
 #: data/nation/vampire.ruleset:51 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Count %s"
-msgstr "Conta %s"
+msgstr "Conde %s"
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -1336,11 +1335,11 @@ msgstr "Polo Sur independente, terra dos pingüíns."
 
 #: data/nation/antiguan.ruleset:3
 msgid "Antiguan and Barbudan"
-msgstr "Antigua e Barbudan"
+msgstr "Antiguano e Barbudano"
 
 #: data/nation/antiguan.ruleset:4
 msgid "?plural:Antiguans and Barbudans"
-msgstr "Antiguans and Barbudans"
+msgstr "antiguanos e barbudanos"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -1835,7 +1834,7 @@ msgstr "%s Shahbanu"
 
 #: data/nation/badian.ruleset:3
 msgid "Badian"
-msgstr "Badian"
+msgstr "Badiano"
 
 #: data/nation/badian.ruleset:4
 msgid "?plural:Badians"
@@ -1921,7 +1920,7 @@ msgstr "Mahdi %s"
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:20
 #, c-format
 msgid "?female:Mahdi %s"
-msgstr "?Mahdi (muller) %s"
+msgstr "Mahdi (muller) %s"
 
 #: data/nation/bangladeshi.ruleset:3
 msgid "Bangladeshi"
@@ -1936,8 +1935,8 @@ msgid ""
 "The People's Republic of Bangladesh was formed from the former Pakistani "
 "territory of East Bengal following a war of independence."
 msgstr ""
-"A República Popular de Bangladesh formouse a partir do antigo "
-"paquistaníterritorio de Bengala Oriental tras unha guerra de independencia."
+"A República Popular de Bangladesh formouse a partir do antigo paquistaní "
+"territorio de Bengala Oriental tras unha guerra de independencia."
 
 #: data/nation/bangladeshi.ruleset:21 data/nation/bengali.ruleset:25
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
@@ -2338,7 +2337,7 @@ msgstr ""
 "rexión maia, foi colonizada por piratas e madeireiros británicos no século "
 "XVII. Belice, entón coñecida como Honduras Británica, converteuse nunha "
 "colonia da coroa en 1862. É un país independente desde 1981. Belice é "
-"étnicamente moi diversa, a súa poboación está formada por crioulos, maias, "
+"etnicamente moi diversa, a súa poboación está formada por crioulos, maias, "
 "mestizos de fala hispana, garífunas, chineses, menonitas e indios."
 
 #: data/nation/belizean.ruleset:25
@@ -2466,11 +2465,11 @@ msgstr "Raíña do Dragón %s"
 
 #: data/nation/biafran.ruleset:3
 msgid "Biafran"
-msgstr "Biafran"
+msgstr "Biafrano"
 
 #: data/nation/biafran.ruleset:4
 msgid "?plural:Biafrans"
-msgstr "Biafrans"
+msgstr "Biafranos"
 
 #: data/nation/biafran.ruleset:6
 msgid ""
@@ -2480,11 +2479,12 @@ msgid ""
 "because of famine and disease caused by the blockade of Biafran ports. "
 "Biafra surrendered in 1970."
 msgstr ""
-"Biafra declarou a súa independencia de Nixeria en 1967 despois de anos de "
-"tensións étnicas, relixiosas e económicas na recentemente independente "
-"Nixeria. Seguiuse unha guerra entre Nixeria e Biafra, que causou ata dous "
-"millóns de vidas, principalmente por mor da fame e as enfermidades causadas "
-"polo bloqueo dos portos de Biafra. Biafra rendeuse en 1970."
+"Biafra declarou a súa independencia de Nixeria en 1967, tras anos de "
+"tensións étnicas, relixiosas e económicas na recentemente independizada "
+"Nixeria. A continuación, estalou unha guerra entre Nixeria e Biafra que "
+"causou ata dous millóns de mortes, na súa maioría debido á fame e ás "
+"enfermidades provocadas polo bloqueo dos portos de Biafra. Biafra rendeuse "
+"en 1970."
 
 #: data/nation/biafran.ruleset:21 data/nation/hellenic.ruleset:20
 #: data/nation/nigerien.ruleset:23
@@ -2626,13 +2626,13 @@ msgid ""
 "indigenous president."
 msgstr ""
 "Bolivia é un país sen litoral de América do Sur cun gran patrimonio "
-"indíxena. O país leva o nome de Sim\\303\\263n Bolívar. Independente desde "
-"1825, o país foi destrozado pola inestabilidade e perdeu a costa do Pacífico "
-"a favor de Chile. A guerra do Chaco de 1932-1936 contra Paraguai levou a "
-"outra humillante derrota. O descontento co réxime oligárquico de Bolivia "
-"levou a unha revolución en 1952. Despois dunha serie de golpes militares na "
-"década de 1970, o país volveu ao goberno democrático nos anos 80. En 2006 "
-"Evo Morales converteuse no primeiro presidente indíxena do país."
+"indíxena. O país leva o nome de Simón Bolívar. Independente desde 1825, o "
+"país foi destrozado pola inestabilidade e perdeu a costa do Pacífico a favor "
+"de Chile. A guerra do Chaco de 1932-1936 contra Paraguai levou a outra "
+"humillante derrota. O descontento co réxime oligárquico de Bolivia levou a "
+"unha revolución en 1952. Despois dunha serie de golpes militares na década "
+"de 1970, o país volveu ao goberno democrático nos anos 80. En 2006 Evo "
+"Morales converteuse no primeiro presidente indíxena do país."
 
 #: data/nation/bolivian.ruleset:38 data/nation/brandenburgian.ruleset:29
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
@@ -2683,11 +2683,11 @@ msgstr "Ban %s"
 
 #: data/nation/bosporan.ruleset:3
 msgid "Bosporan"
-msgstr "Bósforo"
+msgstr "Bosforano"
 
 #: data/nation/bosporan.ruleset:4
 msgid "?plural:Bosporans"
-msgstr "Bosporans"
+msgstr "Bosforanos"
 
 #: data/nation/bosporan.ruleset:6
 msgid ""
@@ -2735,11 +2735,11 @@ msgstr "Consulesa %s"
 
 #: data/nation/botswanan.ruleset:3
 msgid "Botswanan"
-msgstr "Botswanan"
+msgstr "Botsuano"
 
 #: data/nation/botswanan.ruleset:4
 msgid "?plural:Botswanans"
-msgstr "Botswanans"
+msgstr "Botswananos"
 
 #: data/nation/botswanan.ruleset:6
 msgid ""
@@ -2988,11 +2988,11 @@ msgstr ""
 
 #: data/nation/burgundian.ruleset:3
 msgid "Burgundian"
-msgstr "Borgoña"
+msgstr "Borgoñon"
 
 #: data/nation/burgundian.ruleset:4
 msgid "?plural:Burgundians"
-msgstr "Burgundians"
+msgstr "Borgoñóns"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -3034,11 +3034,11 @@ msgstr "Canciller %s"
 
 #: data/nation/burgundic.ruleset:3
 msgid "Burgundic"
-msgstr "Borgoña"
+msgstr "Borgoñón"
 
 #: data/nation/burgundic.ruleset:4
 msgid "?plural:Burgunds"
-msgstr "Borgoñans"
+msgstr "Borgoñóns"
 
 #: data/nation/burgundic.ruleset:6
 msgid ""
@@ -3095,11 +3095,11 @@ msgstr ""
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundian"
-msgstr "Burundian"
+msgstr "Burundés"
 
 #: data/nation/burundi.ruleset:4
 msgid "?plural:Burundians"
-msgstr "Burundians"
+msgstr "Burundeses"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -3181,11 +3181,11 @@ msgstr ""
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
-msgstr "Cambodian"
+msgstr "Camboxano"
 
 #: data/nation/cambodian.ruleset:4
 msgid "?plural:Cambodians"
-msgstr "Cambodians"
+msgstr "Camboxanos"
 
 #: data/nation/cambodian.ruleset:6
 msgid ""
@@ -3252,17 +3252,16 @@ msgid ""
 "fierce resistance. They rebelled during the Incan civil war and sided with "
 "the Spanish during their conquest of the Inca empire."
 msgstr ""
-"Os Ca\\303\\261aris foron unha civilización precolombina no que hoxe é "
-"Ecuador, cuxa existencia pódese rastrexar dende o século VI en diante. Foron "
-"unha das poucas culturas andinas que non adoraron o sol. A lingua "
-"ca\\303\\261ari probablemente estaba relacionada coa lingua mochica do Perú, "
-"pero no momento da conquista española os ca\\303\\261aris pasaran "
-"maioritariamente ao quechua. Os Ca\\303\\261aris formaron unha confederación "
-"solta co seu principal centro político en Guapdondelig, na actualidade a "
-"cidade de Cuenca, capital da provincia do Azuay. Foron subxugados polos "
-"incas a finais do século XV, aínda que opoñendo unha feroz resistencia. "
-"Rebeláronse durante a guerra civil incaica e puxéronse ao lado dos españois "
-"durante a súa conquista do imperio inca."
+"Os Cañaris foron unha civilización precolombina no que hoxe é Ecuador, cuxa "
+"existencia pódese rastrexar dende o século VI en diante. Foron unha das "
+"poucas culturas andinas que non adoraron o sol. A lingua cañari "
+"probablemente estaba relacionada coa lingua mochica do Perú, pero no momento "
+"da conquista española os cañaris pasaran maioritariamente ao quechua. Os "
+"Cañaris formaron unha confederación solta co seu principal centro político "
+"en Guapdondelig, na actualidade a cidade de Cuenca, capital da provincia do "
+"Azuay. Foron subxugados polos incas a finais do século XV, aínda que "
+"opoñendo unha feroz resistencia. Rebeláronse durante a guerra civil incaica "
+"e puxéronse ao lado dos españois durante a súa conquista do imperio inca."
 
 #: data/nation/cantonese.ruleset:3
 msgid "Cantonese"
@@ -3512,18 +3511,17 @@ msgstr ""
 "rexión de Aukshtota. Son un resto da Commonwealth polaco-lituana, a "
 "Mancomunidade de Dúas Nacións, que foi fundada coa Unión de Lublin en 1569. "
 "Este estado uniu o Reino de Polonia co Gran Ducado de Lituania e foi fundado "
-"polo gran duque lituano Jogaila. , que foi bautizado co nome de "
-"W\\305\\202adys\\305\\202aw. A presenza da primeira comunidade polaca en "
-"Lituania remóntase ao duque Mindaugas de Lituania. Os primeiros polacos "
-"chegaron a Lituania como prisioneiros de guerra tomados durante as "
-"incursións nas terras fronteirizas (principalmente a Mazovia). Despois de "
-"unir os dous países houbo unha polonización moi forte da nobreza lituana. A "
-"comunidade de fala polaca en Lituania sobreviviu ao colapso e á partición do "
-"estado polaco, coexistindo con persoas de fala lituana. En 1920, o xeneral "
-"rebelde \\305\\273eligowski anunciou a creación dunha República de Lituania "
-"Central, que logo se incorporou a Polonia. Despois da Segunda Guerra "
-"Mundial, a maioría dos polacos lituanos foron desprazados aos novos "
-"territorios occidentais de Polonia."
+"polo gran duque lituano Jogaila. , que foi bautizado co nome de Władysław. A "
+"presenza da primeira comunidade polaca en Lituania remóntase ao duque "
+"Mindaugas de Lituania. Os primeiros polacos chegaron a Lituania como "
+"prisioneiros de guerra tomados durante as incursións nas terras fronteirizas "
+"(principalmente a Mazovia). Despois de unir os dous países houbo unha "
+"polonización moi forte da nobreza lituana. A comunidade de fala polaca en "
+"Lituania sobreviviu ao colapso e á partición do estado polaco, coexistindo "
+"con persoas de fala lituana. En 1920, o xeneral rebelde Żeligowski anunciou "
+"a creación dunha República de Lituania Central, que logo se incorporou a "
+"Polonia. Despois da Segunda Guerra Mundial, a maioría dos polacos lituanos "
+"foron desprazados aos novos territorios occidentais de Polonia."
 
 #: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
 #: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:35
@@ -3539,7 +3537,7 @@ msgstr "Comisaria do Pobo %s"
 
 #: data/nation/chadian.ruleset:3
 msgid "Chadian"
-msgstr "Chadian"
+msgstr "Chadiano"
 
 #: data/nation/chadian.ruleset:4
 msgid "?plural:Chadians"
@@ -3555,7 +3553,7 @@ msgstr ""
 "Chad é un país africano sen litoral. O Chad foi colonizado por Francia en "
 "1900, xa que foi o lugar do Imperio Kanem-Bornu. Independente desde 1960, "
 "Chad segue sendo un dos países máis pobres do mundo. De 1982 a 1990 Hissene "
-"Habr\\303\\251 liderou unha ditadura notoriamente brutal."
+"Habré liderou unha ditadura notoriamente brutal."
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
@@ -4207,9 +4205,9 @@ msgstr ""
 "A República Democrática do Congo é un gran país de África Central. A pesar "
 "(ou por mor da) da súa riqueza de recursos naturais estivo en ruínas durante "
 "a maior parte da súa historia moderna. En 1885, o Congo foi concedido a "
-"L\\303\\251opold II de Bélxica como a súa posesión persoal, o Estado Libre "
-"do Congo, que converteu o país nun matadoiro. Polo menos o vinte por cento "
-"da poboación morreu e tras unha protesta internacional converteuse nunha "
+"Léopold II de Bélxica como a súa posesión persoal, o Estado Libre do Congo, "
+"que converteu o país nun matadoiro. Polo menos o vinte por cento da "
+"poboación morreu e tras unha protesta internacional converteuse nunha "
 "colonia belga en 1906. Acadou a independencia en 1960. A ditadura de Mobutu "
 "iniciou unha nova rolda de pillaxe. Cando Mobutu foi derrubado, o país "
 "afundiuse nunha guerra civil, causando cinco millóns de mortos, o evento "
@@ -4308,7 +4306,7 @@ msgstr "Costarricense"
 
 #: data/nation/costarican.ruleset:4
 msgid "?plural:Costa Ricans"
-msgstr "Costarriqueños"
+msgstr "Costarricenses"
 
 #: data/nation/costarican.ruleset:6
 msgid ""
@@ -4363,7 +4361,7 @@ msgstr ""
 "avanzada de Europa, a cultura minoica. Unha erupción da próxima Thera "
 "destruíu a civilización minoica. Creta pasou a formar parte do reino "
 "cultural grego, e posteriormente foi conquistada polos romanos, árabes, "
-"bizantinos, venecianos e turcos otománs. Despois de ser un estado "
+"bizantinos, venecianos e turcos otomanos. Despois de ser un estado "
 "semiindependente durante 15 anos, Creta finalmente pasou a formar parte de "
 "Grecia en 1913."
 
@@ -4659,11 +4657,11 @@ msgstr ""
 
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
-msgstr "Dahomean"
+msgstr "Daomeano"
 
 #: data/nation/dahomean.ruleset:4
 msgid "?plural:Dahomeans"
-msgstr "Dahomeanos"
+msgstr "Daomeanos"
 
 #: data/nation/dahomean.ruleset:6
 msgid ""
@@ -4908,7 +4906,7 @@ msgstr "Timor oriental"
 
 #: data/nation/easttimorese.ruleset:4
 msgid "?plural:East Timorese"
-msgstr "Timorés Oriental"
+msgstr "Timoreses Orientais"
 
 #: data/nation/easttimorese.ruleset:6
 msgid ""
@@ -4928,7 +4926,7 @@ msgstr "Ecuatoriano"
 
 #: data/nation/ecuadorian.ruleset:4
 msgid "?plural:Ecuadorians"
-msgstr "Ecuatorians"
+msgstr "Ecuatorianos"
 
 #: data/nation/ecuadorian.ruleset:6
 msgid ""
@@ -4943,8 +4941,8 @@ msgid ""
 msgstr ""
 "Ecuador é un país do oeste de América do Sur. Divídese en tres rexións "
 "xeográficas ben diferenciadas: as terras baixas costeiras, as montañas dos "
-"Andes e as selvas do Oriente. As illas Gal\\303\\241pagos tamén forman parte "
-"do Ecuador. O país independizouse de España en 1821 e de Colombia en 1830. A "
+"Andes e as selvas do Oriente. As illas Galápagos tamén forman parte do "
+"Ecuador. O país independizouse de España en 1821 e de Colombia en 1830. A "
 "historia do Ecuador estivo marcada pola rivalidade entre a costa (Guayaquil) "
 "e as montañas (Quito). Tamén loitou numerosas guerras fronteirizas tanto con "
 "Colombia como con Perú. Hoxe en día Ecuador é un dos principais países "
@@ -4952,7 +4950,7 @@ msgstr ""
 
 #: data/nation/egyptianarab.ruleset:3
 msgid "Egyptian Arab"
-msgstr "Arabe exipcio"
+msgstr "Árabe exipcio"
 
 #: data/nation/egyptianarab.ruleset:4
 msgid "?plural:Egyptian Arabs"
@@ -4994,7 +4992,7 @@ msgstr "Emiratos"
 
 #: data/nation/emirati.ruleset:4
 msgid "?plural:Emiratis"
-msgstr "Emiratis"
+msgstr "Emiratís"
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -5014,7 +5012,7 @@ msgstr "Epirota"
 
 #: data/nation/epirote.ruleset:4
 msgid "?plural:Epirotes"
-msgstr "Epirotes"
+msgstr "Epirotas"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -5295,8 +5293,8 @@ msgid ""
 "After centuries of Spanish rule, the Philippines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
 msgstr ""
-"After centuries of Spanish rule, the Philippines were ceded to the Americans "
-"in 1898. They attained home rule in 1935 and independence in 1946."
+"Tras séculos de dominio español, as Filipinas foron cedidas aos Estados "
+"Unidos en 1898. En 1935 acadaron o autogoberno e en 1946 a independencia."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -5329,7 +5327,7 @@ msgstr "Flamengo"
 
 #: data/nation/flemish.ruleset:4
 msgid "?plural:Flemings"
-msgstr "Flemings"
+msgstr "Flamengos"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
@@ -5501,7 +5499,7 @@ msgstr "Franco"
 
 #: data/nation/frankish.ruleset:4
 msgid "?plural:Franks"
-msgstr "Franks"
+msgstr "Francos"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -5762,9 +5760,9 @@ msgid ""
 "Napoleon, this was short-lived, and the Republic was ultimately annexed by "
 "the Kingdom of Sardinia."
 msgstr ""
-"A Serenísima República de Xénova (en italiano : Repubblica di Genova ) foi "
-"un estado independente de Liguria na costa noroeste italiana desde o século "
-"XI ata 1797 , cando foi invadida polos exércitos da Francia Revolucionaria "
+"A Serenísima República de Xénova (en italiano: Repubblica di Genova) foi un "
+"estado independente de Liguria na costa noroeste italiana desde o século XI "
+"ata 1797 , cando foi invadida polos exércitos da Francia Revolucionaria "
 "baixo Napoleón . Despois sucedeulle a República de Ligur, que existiu ata "
 "1805 antes de ser anexionada polo Imperio francés. Aínda que a súa "
 "restauración foi brevemente proclamada en 1814, tras a derrota de Napoleón, "
@@ -6013,11 +6011,11 @@ msgid ""
 "the creators of a vast military empire, which covered the steppe areas from "
 "the Kuban river in the West to Korea in the East."
 msgstr ""
-"O G\\303\\266kt\\303\\274rk ou khaganato turco antigo foi gobernado pola "
-"dinastía Ashina que derivou as súas orixes lendarias da loba vermella. Os "
-"G\\303\\266kt\\303\\274rks foron antepasados ​​das modernas nacións turcas de "
-"Asia e Europa do Leste. Foron os creadores dun vasto imperio militar, que "
-"cubriu as zonas esteparias desde o río Kuban no occidente ata Corea no leste."
+"O Göktürk ou khaganato turco antigo foi gobernado pola dinastía Ashina que "
+"derivou as súas orixes lendarias da loba vermella. Os Göktürks foron "
+"antepasados ​​das modernas nacións turcas de Asia e Europa do Leste. Foron os "
+"creadores dun vasto imperio militar, que cubriu as zonas esteparias desde o "
+"río Kuban no occidente ata Corea no leste."
 
 #: data/nation/goldenhorde.ruleset:3
 msgid "Golden Horde"
@@ -6201,9 +6199,8 @@ msgid ""
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
 "Guinea declarou a súa independencia de Francia en 1958. O seu primeiro "
-"presidente Ahmed S\\303\\251kou Tour\\303\\251 continuou gobernando o país "
-"ata a súa morte en 1984. Guinea non debe confundirse coa veciña Guinea-"
-"Bissau."
+"presidente Ahmed Sékou Touré continuou gobernando o país ata a súa morte en "
+"1984. Guinea non debe confundirse coa veciña Guinea-Bissau."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -6475,7 +6472,7 @@ msgstr "Heftalita"
 
 #: data/nation/hephthalite.ruleset:4
 msgid "?plural:Hephthalites"
-msgstr "Hephthalites"
+msgstr "heftalitas"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -6493,17 +6490,17 @@ msgstr ""
 "ser de orixe mixta iraní, tochariano e turco, pero a súa lingua principal é "
 "descoñecida. Aínda que tamén eran coñecidos como os hunos brancos, "
 "considérase improbable unha conexión cos hunos. Os heftalitas foron "
-"esmagados polos G\\303\\266kt\\303\\274rks e sasánidas no século VI, pero no "
-"subcontinente indio algúns reinos sucesores heftalitas sobreviviron ata "
-"finais do século VII."
+"esmagados polos Göktürks e sasánidas no século VI, pero no subcontinente "
+"indio algúns reinos sucesores heftalitas sobreviviron ata finais do século "
+"VII."
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
-msgstr "Hessian"
+msgstr "Hesiano"
 
 #: data/nation/hessian.ruleset:4
 msgid "?plural:Hessians"
-msgstr "Hessians"
+msgstr "Hesianos"
 
 #: data/nation/hessian.ruleset:6
 msgid ""
@@ -6512,9 +6509,9 @@ msgid ""
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
 msgstr ""
-"Hesse converteuse nun landgraviado do Sacro Imperio Romano Xermánico no "
+"Hesse converteuse nun landgraviato do Sacro Imperio Romano Xermánico no "
 "século XIII. No século XVI dividiuse nunha serie de territorios máis "
-"pequenos. Moitos hessianos loitaron na Revolución Americana como mercenarios "
+"pequenos. Moitos hesianos loitaron na Revolución Americana como mercenarios "
 "de ambos os bandos. Actualmente Hesse é un dos estados da República Federal "
 "de Alemaña."
 
@@ -6566,11 +6563,11 @@ msgstr ""
 
 #: data/nation/holyroman.ruleset:3
 msgid "Holy Roman"
-msgstr "Holy Roman"
+msgstr "Sacro Romano"
 
 #: data/nation/holyroman.ruleset:4
 msgid "?plural:Holy Romans"
-msgstr "Santos Romanos"
+msgstr "Sacros Romanos"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -6763,7 +6760,7 @@ msgid ""
 "have been made. One of the first scientists who noted the similarities "
 "between these languages was Sir William Jones."
 msgstr ""
-"Os indoeuropeos eran un hipotético pobo antigo que era lingüísticamente "
+"Os indoeuropeos eran un hipotético pobo antigo que era lingüisticamente "
 "ancestral dos pobos modernos de Europa e do sur e oeste de Asia. "
 "Probablemente existiron hai uns 5000 anos nalgún lugar das estepas "
 "euroasiáticas, pero a súa verdadeira orixe segue sendo un misterio. A "
@@ -6818,7 +6815,7 @@ msgstr "O aiatolá %s"
 #: data/nation/iranian.ruleset:42
 #, c-format
 msgid "?female:Ayatollah %s"
-msgstr "?A Aiatolá %s"
+msgstr "A Aiatolá %s"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
@@ -6982,9 +6979,9 @@ msgid ""
 "relatively stable compared to other West African countries, but in the 2000s "
 "it lived through a civil war."
 msgstr ""
-"Costa de Marfil ou C\\303\\264te d'Ivoire logrou a súa independencia en "
-"1960. Foi relativamente estable en comparación con outros países de África "
-"Occidental, pero na década de 2000 viviu unha guerra civil."
+"Costa do Marfil ou Côte d'Ivoire logrou a súa independencia en 1960. Foi "
+"relativamente estable en comparación con outros países de África Occidental, "
+"pero na década de 2000 viviu unha guerra civil."
 
 #: data/nation/jaffna.ruleset:3
 msgid "Jaffna"
@@ -7252,11 +7249,11 @@ msgstr ""
 
 #: data/nation/katangan.ruleset:3
 msgid "Katangan"
-msgstr "Katanga"
+msgstr "Katangués"
 
 #: data/nation/katangan.ruleset:4
 msgid "?plural:Katangans"
-msgstr "Katangans"
+msgstr "katangueses"
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -7362,11 +7359,11 @@ msgstr ""
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
-msgstr "Khwarezmian"
+msgstr "Corasmio"
 
 #: data/nation/khwarezmian.ruleset:4
 msgid "?plural:Khwarezmians"
-msgstr "khwarezmians"
+msgstr "corasmios"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -7428,11 +7425,11 @@ msgstr ""
 
 #: data/nation/kittitian.ruleset:3
 msgid "Kittitian and Nevisian"
-msgstr "Kittitian and Nevisian"
+msgstr "De San Cristovo e Nevis"
 
 #: data/nation/kittitian.ruleset:4
 msgid "?plural:Kittitians and Nevisians"
-msgstr "kititianos e nevisianos"
+msgstr "De San Cristovo e Nevis"
 
 #: data/nation/kittitian.ruleset:6
 msgid ""
@@ -7623,7 +7620,7 @@ msgstr ""
 "Kuwait é un país árabe, limitado con Iraq, Arabia Saudita e o Golfo Pérsico. "
 "Foi fundada en 1756 pola dinastía Sabah, quen goberna o país desde entón. En "
 "1990 o país foi ocupado polas forzas iraquís, que foron posteriormente "
-"expulsadas tras unha intervención militar internacional. Económicamente, "
+"expulsadas tras unha intervención militar internacional. Economicamente, "
 "Kuwait é un dos países máis desenvolvidos de Oriente Medio. A pesar do seu "
 "tamaño relativamente pequeno, o país ten preto do dez por cento das reservas "
 "mundiales de petróleo probadas."
@@ -7726,7 +7723,7 @@ msgstr ""
 
 #: data/nation/latin.ruleset:3
 msgid "Latin"
-msgstr "Latin"
+msgstr "Latino"
 
 #: data/nation/latin.ruleset:4
 msgid "?plural:Latins"
@@ -7796,7 +7793,7 @@ msgstr "Lendiano"
 
 #: data/nation/lendian.ruleset:4
 msgid "?plural:Lendians"
-msgstr "Lendians"
+msgstr "Lendianos"
 
 #: data/nation/lendian.ruleset:6
 msgid ""
@@ -8042,7 +8039,7 @@ msgstr "Lippiano"
 
 #: data/nation/lippe.ruleset:4
 msgid "?plural:Lippians"
-msgstr "Lippians"
+msgstr "Lippianos"
 
 #: data/nation/lippe.ruleset:6
 msgid ""
@@ -8076,7 +8073,7 @@ msgstr "Lojbanistán"
 
 #: data/nation/lojbanistani.ruleset:4
 msgid "?plural:Lojbanistanis"
-msgstr "Lojbanistanis"
+msgstr "Lojbanistanís"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -8267,11 +8264,11 @@ msgstr ""
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
-msgstr "Masaio"
+msgstr "Masai"
 
 #: data/nation/maasai.ruleset:4
 msgid "?plural:Maasais"
-msgstr "Maasais"
+msgstr "masais"
 
 #: data/nation/maasai.ruleset:6
 msgid ""
@@ -8307,7 +8304,7 @@ msgstr "Macedon"
 
 #: data/nation/macedon.ruleset:4
 msgid "?plural:Macedons"
-msgstr "?Macedons"
+msgstr "Macedons"
 
 #: data/nation/macedon.ruleset:6
 msgid ""
@@ -8423,11 +8420,11 @@ msgstr ""
 
 #: data/nation/maldivian.ruleset:3
 msgid "Maldivian"
-msgstr "Maldivian"
+msgstr "Maldivo"
 
 #: data/nation/maldivian.ruleset:4
 msgid "?plural:Maldivians"
-msgstr "Maldivians"
+msgstr "Maldivos"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -8509,11 +8506,12 @@ msgid ""
 "their own state in Egypt. The Mamluk Sultanate was ruled by two dynasties "
 "Mamluks until it was conquered by the Ottoman Turks in 1517."
 msgstr ""
-"The Mamluks were an Egyptian warrior caste who were recruited from slaves of "
-"Turkish or Caucasian origin. The Mamluks were known as elite military units. "
-"They held important roles in several Muslim countries. In 1250, they created "
-"their own state in Egypt. The Mamluk Sultanate was ruled by two dynasties "
-"Mamluks until it was conquered by the Ottoman Turks in 1517."
+"Os mamelucos eran unha caste guerreira exipcia recrutada entre escravos de "
+"orixe turca ou caucásica. Eran coñecidos por constituír unidades militares "
+"de elite e desempeñaron importantes funcións en varios países musulmáns. En "
+"1250, fundaron o seu propio Estado en Exipto. O sultanato mameluco estivo "
+"gobernado por dúas dinastías de mamelucos ata que foi conquistado polos "
+"turcos otománs en 1517."
 
 #: data/nation/mamluk.ruleset:35 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:19
@@ -8749,11 +8747,11 @@ msgstr ""
 
 #: data/nation/mecklenburgian.ruleset:3
 msgid "Mecklenburgian"
-msgstr "Mecklemburgo"
+msgstr "Mecklemburgués"
 
 #: data/nation/mecklenburgian.ruleset:4
 msgid "?plural:Mecklenburgians"
-msgstr "Mecklenburgianos"
+msgstr "Mecklenburgueses"
 
 #: data/nation/mecklenburgian.ruleset:6
 msgid ""
@@ -8780,7 +8778,7 @@ msgstr "Mediana"
 
 #: data/nation/median.ruleset:4
 msgid "?plural:Medians"
-msgstr "?plural:Medians"
+msgstr "?plural:Medianas"
 
 #: data/nation/median.ruleset:6
 msgid ""
@@ -8822,11 +8820,11 @@ msgstr ""
 
 #: data/nation/metis.ruleset:3
 msgid "Métis"
-msgstr "Metisián"
+msgstr "Metisiano"
 
 #: data/nation/metis.ruleset:6
 msgid "?plural:Métis"
-msgstr "Metisians"
+msgstr "Metisianos"
 
 #: data/nation/metis.ruleset:8
 msgid ""
@@ -8839,9 +8837,8 @@ msgstr ""
 "Os Metis son un pobo de ascendencia mixta das Primeiras Nacións (nativos "
 "americanos) e europeos (principalmente franceses) que vive principalmente "
 "nas provincias das praderas canadenses. Xunto coas Primeiras Nacións e os "
-"Inuit forman un dos tres grupos indíxenas de Canadá. No século XIX os "
-"M\\303\\251tis rebeláronse repetidamente contra as autoridades británicas e "
-"canadenses."
+"Inuit forman un dos tres grupos indíxenas de Canadá. No século XIX os Métis "
+"rebeláronse repetidamente contra as autoridades británicas e canadenses."
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -9046,7 +9043,7 @@ msgid ""
 "living in the Mexican states of Oaxaca, Guerrero and Puebla, as well as in "
 "emigrant communities in Northern Mexico and the US."
 msgstr ""
-"Os mixtecas ou \\303\\221uu Savi foron unha das principais civilizacións "
+"Os mixtecas ou Ñuu Savi foron unha das principais civilizacións "
 "mesoamericanas. O territorio mixteca estaba formado por un gran número de "
 "cidades estado. O gobernante mixteca Eight Deer 'Jaguar Claw', que gobernou "
 "Tilantongo ao redor de 1100 d.C., era famoso en todo o antigo México. A "
@@ -9078,11 +9075,11 @@ msgstr ""
 
 #: data/nation/moluccan.ruleset:3
 msgid "Moluccan"
-msgstr "Molucan"
+msgstr "Molucano"
 
 #: data/nation/moluccan.ruleset:4
 msgid "?plural:Moluccans"
-msgstr "Molucans"
+msgstr "Molucanos"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -9178,11 +9175,11 @@ msgstr ""
 
 #: data/nation/moravian.ruleset:3
 msgid "Moravian"
-msgstr "Moravian"
+msgstr "Moravo"
 
 #: data/nation/moravian.ruleset:4
 msgid "?plural:Moravians"
-msgstr "Moravianos"
+msgstr "Moravos"
 
 #: data/nation/moravian.ruleset:6
 msgid ""
@@ -9427,9 +9424,9 @@ msgid ""
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
-"Os Navajo ou Din\\303\\251 son a nación nativa americana máis poboada dos "
-"Estados Unidos. Están moi relacionados co Apache. A súa lingua é famosa por "
-"ser unha das máis complexas do mundo."
+"Os Navajo ou Diné son a nación nativa americana máis poboada dos Estados "
+"Unidos. Están moi relacionados co Apache. A súa lingua é famosa por ser unha "
+"das máis complexas do mundo."
 
 #: data/nation/neapolitan.ruleset:3
 msgid "Neapolitan"
@@ -9985,11 +9982,11 @@ msgstr ""
 
 #: data/nation/oldenburgian.ruleset:3
 msgid "Oldenburgian"
-msgstr "Oldemburgo"
+msgstr "Oldenburgués"
 
 #: data/nation/oldenburgian.ruleset:4
 msgid "?plural:Oldenburgians"
-msgstr "Oldenburgianos"
+msgstr "Oldenburgueses"
 
 #: data/nation/oldenburgian.ruleset:6
 msgid ""
@@ -10132,8 +10129,8 @@ msgstr ""
 "como mercenarios nos exércitos de moitas civilizacións mesoamericanas e "
 "recibiron o seu nome do otmitl, a orde militar crack dos aztecas, na que "
 "serviron moitos deles. Na súa lingua denomínanse Hñähñu. Con máis de medio "
-"millón de habitantes, os otom\\303\\255 seguen sendo un dos maiores grupos "
-"indíxenas de México."
+"millón de habitantes, os otomí seguen sendo un dos maiores grupos indíxenas "
+"de México."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -10173,11 +10170,11 @@ msgstr "Padixá %s"
 
 #: data/nation/ozite.ruleset:3
 msgid "Ozite"
-msgstr "Ozita"
+msgstr "Ozitano"
 
 #: data/nation/ozite.ruleset:4
 msgid "?plural:Ozites"
-msgstr "Ozitans"
+msgstr "Ozitanos"
 
 #: data/nation/ozite.ruleset:8
 msgid ""
@@ -10208,7 +10205,7 @@ msgstr "Peonio"
 
 #: data/nation/paeonian.ruleset:4
 msgid "?plural:Paeonians"
-msgstr "Paeonians"
+msgstr "peonios"
 
 #: data/nation/paeonian.ruleset:6
 msgid ""
@@ -10280,11 +10277,11 @@ msgstr "Condesa Palatina %s"
 
 #: data/nation/palauan.ruleset:3
 msgid "Palauan"
-msgstr "Palauan"
+msgstr "Palauano"
 
 #: data/nation/palauan.ruleset:4
 msgid "?plural:Palauans"
-msgstr "Palauans"
+msgstr "Palauanos"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
@@ -10312,11 +10309,11 @@ msgstr ""
 
 #: data/nation/palmyrene.ruleset:3
 msgid "Palmyrene"
-msgstr "Palmireno"
+msgstr "Palmireño"
 
 #: data/nation/palmyrene.ruleset:4
 msgid "?plural:Palmyrenes"
-msgstr "Palmyrenes"
+msgstr "palmireños"
 
 #: data/nation/palmyrene.ruleset:6
 msgid ""
@@ -10360,11 +10357,11 @@ msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr "Papua New Guinean"
+msgstr "Papuano"
 
 #: data/nation/papuanewguinean.ruleset:4
 msgid "?plural:Papua New Guineans"
-msgstr "Papúa Nova Guineans"
+msgstr "Papuanos"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -10392,11 +10389,11 @@ msgstr "Gobernadora Xeneral %s"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "Papúa"
+msgstr "Papuano"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr "Papuans"
+msgstr "Papuanos"
 
 #: data/nation/papuan.ruleset:6
 msgid ""
@@ -10414,13 +10411,13 @@ msgid ""
 "of the Dutch in 1963, though indigenous activists have been struggling for "
 "independence ever since."
 msgstr ""
-"Os papúes son os habitantes indíxenas da illa de Nova Guinea. Son os "
+"Os papuanos son os habitantes indíxenas da illa de Nova Guinea. Son os "
 "descendentes das persoas que se asentaron por primeira vez na illa hai "
 "40.000 anos. A agricultura desenvolveuse nas Terras Altas de Nova Guinea hai "
 "uns 6.000 anos, aínda que moitas tribos de Papúa, especialmente as da costa, "
 "seguen vivindo como cazadores-recolectores. Algunhas tribos de Papúa aínda "
 "están sen contactar. Os diversos grupos de Papúa son moi diversos cultural, "
-"étnica e lingüísticamente; Nova Guinea alberga nada menos que a cuarta parte "
+"étnica e lingüisticamente; Nova Guinea alberga nada menos que a cuarta parte "
 "das linguas do mundo. A parte occidental da illa foi colonizada polos "
 "holandeses, a oriental polos alemáns, os británicos, os xaponeses e "
 "finalmente os australianos. A parte oriental foi independente como Papúa "
@@ -10501,11 +10498,11 @@ msgstr "Shahbanu %s"
 
 #: data/nation/pashtun.ruleset:3
 msgid "Pashtun"
-msgstr "Pashtún"
+msgstr "Paxtún"
 
 #: data/nation/pashtun.ruleset:4
 msgid "?plural:Pashtuns"
-msgstr "Pashtuns"
+msgstr "paxtúns"
 
 #: data/nation/pashtun.ruleset:6
 msgid ""
@@ -10655,11 +10652,11 @@ msgstr ""
 
 #: data/nation/pontic.ruleset:3
 msgid "Pontic"
-msgstr "Pontian"
+msgstr "Póntico"
 
 #: data/nation/pontic.ruleset:4
 msgid "?plural:Pontians"
-msgstr "Pontians"
+msgstr "Pónticos"
 
 #: data/nation/pontic.ruleset:6
 msgid ""
@@ -10694,7 +10691,7 @@ msgstr "Poyais"
 
 #: data/nation/poyaisian.ruleset:4
 msgid "Poyaisians"
-msgstr "Poyaisians"
+msgstr "Poyaisianos"
 
 #: data/nation/poyaisian.ruleset:6
 msgid ""
@@ -10767,11 +10764,11 @@ msgstr ""
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
-msgstr "P'urhepecha"
+msgstr "Purépecha"
 
 #: data/nation/purhepecha.ruleset:4
 msgid "?plural:P'urhepecha"
-msgstr "P'urhepechans"
+msgstr "purépechas"
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -11037,7 +11034,7 @@ msgstr "Rus de Kiev"
 
 #: data/nation/ruthenian.ruleset:4
 msgid "?plural:Kievan Rus'"
-msgstr "Kievan Rus'"
+msgstr "rus de Kíiv"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -11351,11 +11348,11 @@ msgstr ""
 
 #: data/nation/santomean.ruleset:3
 msgid "Santomean"
-msgstr "Santomean"
+msgstr "Santomense"
 
 #: data/nation/santomean.ruleset:4
 msgid "?plural:Santomeans"
-msgstr "Santomeans"
+msgstr "Santomenses"
 
 #: data/nation/santomean.ruleset:6
 msgid ""
@@ -11366,13 +11363,12 @@ msgid ""
 "Slavery was abolished in the 19th century and the country became independent "
 "in 1975. The islands' economy remains dependent on the export of cocoa."
 msgstr ""
-"S\\303\\243o Tom\\303\\251 e Pr\\303\\255ncipe son dúas illas do océano "
-"Atlántico fronte ás costas de África. A illa principal recibiu o nome de "
-"Santo Tomé polos mariñeiros portugueses que descubriron a illa por primeira "
-"vez o día da festa do santo ao redor de 1470. As illas convertéronse na "
-"primeira gran colonia europea de plantacións. A escravitude foi abolida no "
-"século XIX e o país independizouse en 1975. A economía das illas segue "
-"dependente da exportación de cacao."
+"São Tomé e Príncipe son dúas illas do océano Atlántico fronte ás costas de "
+"África. A illa principal recibiu o nome de Santo Tomé polos mariñeiros "
+"portugueses que descubriron a illa por primeira vez o día da festa do santo "
+"ao redor de 1470. As illas convertéronse na primeira gran colonia europea de "
+"plantacións. A escravitude foi abolida no século XIX e o país independizouse "
+"en 1975. A economía das illas segue dependente da exportación de cacao."
 
 #: data/nation/sardinian.ruleset:3
 msgid "Sardinian"
@@ -11505,7 +11501,7 @@ msgid ""
 "Scania saw something of a national revival in the late 20th century with "
 "calls for greater autonomy within the Kingdom of Sweden."
 msgstr ""
-"Scania é a rexión máis meridional de Suecia. Históricamente, un dos moitos "
+"Scania é a rexión máis meridional de Suecia. Historicamente, un dos moitos "
 "reinos pequenos da idade viquinga Escandinavia, converteuse na época "
 "medieval en parte de Dinamarca, pero foi cedido a Suecia a través do Tratado "
 "de Roskilde en 1658. Escania experimentou unha especie de renacemento "
@@ -11793,11 +11789,11 @@ msgid ""
 "controlled much of today's Myanmar, Laos, Thailand, as well as China's "
 "Yunnan Province."
 msgstr ""
-"The Shans are an ethnic group related to the Thais and the Laotians. After "
-"the fall of the Burmese dominated Bagan Kingdom to the Mongols in 1287, a "
-"succession of Shan kingdoms known by historians as the Shan States "
-"controlled much of today's Myanmar, Laos, Thailand, as well as China's "
-"Yunnan Province."
+"Os shan son un grupo étnico emparentado cos tailandeses e os laosianos. Tras "
+"a caída en 1287 do reino de Bagan, dominado polos birmanos, a mans dos "
+"mongois, unha sucesión de reinos shan, coñecidos polos historiadores como os "
+"Estados shan, controlou gran parte dos territorios que hoxe corresponden a "
+"Myanmar, Laos, Tailandia e a provincia chinesa de Yunnan."
 
 #: data/nation/shawnee.ruleset:3
 msgid "Shawnee"
@@ -11875,7 +11871,7 @@ msgstr "Siciliano"
 
 #: data/nation/sicilian.ruleset:4
 msgid "?plural:Sicilians"
-msgstr "Sicilians"
+msgstr "Sicilianos"
 
 #: data/nation/sicilian.ruleset:6
 msgid ""
@@ -11936,7 +11932,7 @@ msgstr ""
 
 #: data/nation/sikkimese.ruleset:3
 msgid "Sikkimese"
-msgstr "Sikkimese"
+msgstr "Sikkimés"
 
 #: data/nation/sikkimese.ruleset:4
 msgid "?plural:Sikkimese"
@@ -12080,11 +12076,11 @@ msgstr ""
 
 #: data/nation/somaliland.ruleset:3
 msgid "Somaliland"
-msgstr "Somalilandian"
+msgstr "Somalilandés"
 
 #: data/nation/somaliland.ruleset:4
 msgid "?plural:Somalilanders"
-msgstr "Somalilandians"
+msgstr "Somalilandeses"
 
 #: data/nation/somaliland.ruleset:6
 msgid ""
@@ -12130,7 +12126,7 @@ msgstr "Sorabo"
 
 #: data/nation/sorbian.ruleset:4
 msgid "?plural:Sorbs"
-msgstr "Sorbs"
+msgstr "Sorabos"
 
 #: data/nation/sorbian.ruleset:6
 msgid ""
@@ -12190,7 +12186,7 @@ msgstr ""
 "\"apartheid\" de desigualdade legal baseada na cor do cidadán. pel. Tras a "
 "aprobación da primeira constitución non racista do país en 1994, o preso "
 "político Nelson Mandela converteuse no primeiro presidente de Sudáfrica "
-"verdadeiramente elixido democráticamente."
+"verdadeiramente elixido democraticamente."
 
 #: data/nation/southamerican.ruleset:3
 msgid "South American"
@@ -12320,11 +12316,11 @@ msgstr ""
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
-msgstr "Sri Vijayan"
+msgstr "Srivijiano"
 
 #: data/nation/srivijaya.ruleset:4
 msgid "?plural:Sri Vijaya"
-msgstr "Sri Vijayans"
+msgstr "Srivijianos"
 
 #: data/nation/srivijaya.ruleset:6
 msgid ""
@@ -12548,11 +12544,11 @@ msgstr ""
 
 #: data/nation/tairona.ruleset:3
 msgid "Tairona"
-msgstr "Taironan"
+msgstr "Tairona"
 
 #: data/nation/tairona.ruleset:4
 msgid "?plural:Tairona"
-msgstr "Taironans"
+msgstr "Taironas"
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -12618,11 +12614,11 @@ msgstr ""
 
 #: data/nation/tanganyikan.ruleset:3
 msgid "Tanganyikan"
-msgstr "Tanganyikan"
+msgstr "Tanganicano"
 
 #: data/nation/tanganyikan.ruleset:4
 msgid "?plural:Tanganyikans"
-msgstr "Tanganyikans"
+msgstr "Tanganicanos"
 
 #: data/nation/tanganyikan.ruleset:6
 msgid ""
@@ -12927,11 +12923,11 @@ msgstr ""
 
 #: data/nation/tokiponan.ruleset:3
 msgid "Toki Ponan"
-msgstr "Toki Pona"
+msgstr "Toki Ponano"
 
 #: data/nation/tokiponan.ruleset:4
 msgid "?plural:Toki Ponans"
-msgstr "Toki Ponans"
+msgstr "Toki ponanos"
 
 #: data/nation/tokiponan.ruleset:6
 msgid ""
@@ -12984,7 +12980,7 @@ msgstr ""
 
 #: data/nation/tongan.ruleset:3
 msgid "Tongan"
-msgstr "Tongan"
+msgstr "Tongano"
 
 #: data/nation/tongan.ruleset:4
 msgid "?plural:Tongans"
@@ -13259,11 +13255,11 @@ msgstr ""
 
 #: data/nation/tyrolian.ruleset:3
 msgid "Tyrolian"
-msgstr "Tirolas"
+msgstr "Tirolés"
 
 #: data/nation/tyrolian.ruleset:4
 msgid "?plural:Tyrolians"
-msgstr "Tirolans"
+msgstr "Tiroleses"
 
 #: data/nation/tyrolian.ruleset:6
 msgid ""
@@ -13283,7 +13279,7 @@ msgstr "Conde principesco %s"
 #: data/nation/tyrolian.ruleset:24
 #, c-format
 msgid "Princely Countess %s"
-msgstr "Príncipe Condesa %s"
+msgstr "Condesa principesca %s"
 
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
@@ -13648,10 +13644,10 @@ msgid ""
 msgstr ""
 "Venezuela é o país máis setentrional de América do Sur. Sendo unha colonia "
 "española dende o século XVI, o país logrou a súa independencia o 5 de xullo "
-"de 1811 baixo o liderado de El Libertador Sim\\303\\263n Bolívar - O "
-"Libertador. Venezuela posúe unha das maiores reservas probadas de petróleo e "
-"gas do mundo; durante o boom petroleiro dos anos 70 foi o país máis rico de "
-"América Latina. O país é coñecido polas súas paisaxes variadas e a súa alta "
+"de 1811 baixo o liderado de El Libertador Simón Bolívar - O Libertador. "
+"Venezuela posúe unha das maiores reservas probadas de petróleo e gas do "
+"mundo; durante o boom petroleiro dos anos 70 foi o país máis rico de América "
+"Latina. O país é coñecido polas súas paisaxes variadas e a súa alta "
 "biodiversidade."
 
 #: data/nation/vermont.ruleset:3
@@ -13789,20 +13785,20 @@ msgid ""
 "displaced Volapük by the turn of the century. Today only a few dozen Volapük "
 "speakers remain."
 msgstr ""
-"O volapük é unha lingua auxiliar internacional construída polo "
-"alemánsacerdote Johann Martin Schleyer en 1879. Gozou dunha breve "
-"popularidade no finais do século XIX. A lingua considérase a miúdo complexa "
+"O volapük é unha lingua auxiliar internacional construída polo alemán "
+"sacerdote Johann Martin Schleyer en 1879. Gozou dunha breve popularidade no "
+"finais do século XIX. A lingua considérase a miúdo complexa "
 "innecesariamenteen comparación con alternativas como o esperanto, que tiña "
-"case completamentedesprazou Volapük a principios de século. Hoxe só unhas "
+"case completamente desprazou Volapük a principios de século. Hoxe só unhas "
 "poucas ducias de Volapükos falantes permanecen."
 
 #: data/nation/volgabulgar.ruleset:3
 msgid "Volga Bulgar"
-msgstr "Volga Bulgar"
+msgstr "Búlgaro do Volga"
 
 #: data/nation/volgabulgar.ruleset:4
 msgid "?plural:Volga Bulgars"
-msgstr "Volga Bulgars"
+msgstr "búlgaros do Volga"
 
 #: data/nation/volgabulgar.ruleset:6
 msgid ""
@@ -13822,7 +13818,7 @@ msgstr "Alemán do Volga"
 
 #: data/nation/volgagerman.ruleset:4
 msgid "?plural:Volga Germans"
-msgstr "Alemans do Volga"
+msgstr "Alemáns do Volga"
 
 #: data/nation/volgagerman.ruleset:6
 msgid ""
@@ -13902,11 +13898,11 @@ msgstr ""
 
 #: data/nation/westernpomeranian.ruleset:3
 msgid "Western Pomeranian"
-msgstr "Pomeranian Occidental"
+msgstr "Pomeraniano Occidental"
 
 #: data/nation/westernpomeranian.ruleset:4
 msgid "?plural:Western Pomeranians"
-msgstr "Pomeranians Occidentais"
+msgstr "Pomeranianos Occidentais"
 
 #: data/nation/westernpomeranian.ruleset:6
 msgid ""
@@ -13984,11 +13980,11 @@ msgstr ""
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr "Westfalia"
+msgstr "Westfaliano"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
-msgstr "Westphalians"
+msgstr "Westfalianos"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -14002,11 +13998,11 @@ msgstr ""
 
 #: data/nation/wuerttembergian.ruleset:3
 msgid "Wuerttembergian"
-msgstr "Wuerttembergiano"
+msgstr "Württembergués"
 
 #: data/nation/wuerttembergian.ruleset:4
 msgid "?plural:Wuerttembergians"
-msgstr "Wuerttembergians"
+msgstr "Württembergueses"
 
 #: data/nation/wuerttembergian.ruleset:6
 msgid ""
@@ -14178,11 +14174,11 @@ msgstr ""
 
 #: data/nation/zanzibari.ruleset:3
 msgid "Zanzibari"
-msgstr "Zanzíbari"
+msgstr "Zanzíbarí"
 
 #: data/nation/zanzibari.ruleset:4
 msgid "?plural:Zanzibaris"
-msgstr "Zanzibaris"
+msgstr "Zanzibarís"
 
 #: data/nation/zanzibari.ruleset:6
 msgid ""
