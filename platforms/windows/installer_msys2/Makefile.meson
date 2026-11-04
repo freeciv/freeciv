@@ -22,6 +22,7 @@ ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
 ARCH_FCMP=gtk3
 ARCHDIR=mingw64
+ARCH_COMMON_DLLS=
 LIBGCCDLL=libgcc_s_seh-1.dll
 CPPLIBS=libstdc++-6.dll libgomp-1.dll
 CRYPTOLIB_SUFFIX=-x64
@@ -31,6 +32,7 @@ else ifeq ($(MSYSTEM),UCRT64)
 WINARCH=win64-10
 ARCH_FCMP=gtk4
 ARCHDIR=ucrt64
+ARCH_COMMON_DLLS=exchndl.dll mgwhelp.dll
 LIBGCCDLL=libgcc_s_seh-1.dll
 CPPLIBS=libstdc++-6.dll libgomp-1.dll
 CRYPTOLIB_SUFFIX=-x64
@@ -40,6 +42,7 @@ else ifeq ($(MSYSTEM),CLANG64)
 WINARCH=win64+
 ARCH_FCMP=gtk4
 ARCHDIR=clang64
+ARCH_COMMON_DLLS=exchndl.dll mgwhelp.dll
 LIBGCCDLL=
 CPPLIBS=libc++.dll libomp.dll libunwind.dll
 CRYPTOLIB_SUFFIX=-x64
@@ -267,8 +270,7 @@ COMMON_DLLS := \
 	libxml2-16.dll \
 	libraqm-0.dll \
 	libunistring-5.dll \
-	exchndl.dll \
-	mgwhelp.dll \
+	$(ARCH_COMMON_DLLS) \
 	libngtcp2-16.dll \
 	libngtcp2_crypto_ossl-0.dll
 
