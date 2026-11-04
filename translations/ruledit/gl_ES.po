@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: freeciv 3.2.92.1-dev\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2025-12-14 03:45+0200\n"
-"PO-Revision-Date: 2026-06-27 14:05+0200\n"
+"PO-Revision-Date: 2026-11-02 21:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: gl_ES\n"
@@ -46,19 +46,19 @@ msgstr "Etiqueta gfx de actividade alternativa"
 
 #: tools/ruledit/edit_extra.cpp:96
 msgid "Second alt activity gfx tag"
-msgstr "Segunda actividade alternativa etiqueta gfx"
+msgstr "Segunda etiqueta gfx alternativa da actividade"
 
 #: tools/ruledit/edit_extra.cpp:105
 msgid "Removal activity graphics tag"
-msgstr "Eliminación da etiqueta gráfica da actividade"
+msgstr "Etiqueta gráfica da actividade de eliminación"
 
 #: tools/ruledit/edit_extra.cpp:114
 msgid "Alt removal activity gfx tag"
-msgstr "Actividade de eliminación alternativa etiqueta gfx"
+msgstr "Etiqueta gfx alternativa da actividade de eliminación"
 
 #: tools/ruledit/edit_extra.cpp:123
 msgid "Second alt removal activity gfx tag"
-msgstr "Segunda etiqueta de actividade de eliminación alt gfx"
+msgstr "Segunda etiqueta gfx alternativa da actividade de eliminación"
 
 #: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
@@ -124,7 +124,7 @@ msgstr "Forza de ataque"
 
 #: tools/ruledit/edit_utype.cpp:99
 msgid "Defense Strength"
-msgstr "Forza de Defensa"
+msgstr "Forza de defensa"
 
 #: tools/ruledit/edit_utype.cpp:109
 msgid "Hitpoints"
@@ -132,11 +132,11 @@ msgstr "Puntos de vida"
 
 #: tools/ruledit/edit_utype.cpp:119
 msgid "Firepower"
-msgstr "Potencia de lume"
+msgstr "Potencia de fogo"
 
 #: tools/ruledit/edit_utype.cpp:129
 msgid "Move Rate"
-msgstr "Mover taxa"
+msgstr "Taxa de movemento"
 
 #: tools/ruledit/edit_utype.cpp:139
 msgid "Transport Capacity"
@@ -144,15 +144,15 @@ msgstr "Capacidade de transporte"
 
 #: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
-msgstr "Mover a etiqueta de son"
+msgstr "Etiqueta de son de movemento"
 
 #: tools/ruledit/edit_utype.cpp:186
 msgid "Alt move sound tag"
-msgstr "Alt move a etiqueta de son"
+msgstr "Etiqueta de son de movemento alternativa"
 
 #: tools/ruledit/edit_utype.cpp:196
 msgid "Fight sound tag"
-msgstr "Loita contra a etiqueta sonora"
+msgstr "Etiqueta de son de loita"
 
 #: tools/ruledit/edit_utype.cpp:206
 msgid "Alt fight sound tag"
@@ -172,7 +172,7 @@ msgstr "Valor:"
 
 #: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_enablers.cpp:153
 msgid "Comment"
-msgstr "Comenta"
+msgstr "Comentario"
 
 #: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
@@ -219,7 +219,7 @@ msgstr "Aceptar a solución seleccionada"
 
 #: tools/ruledit/req_vec_fix.cpp:159
 msgid "Requirement problem"
-msgstr "Problema de esixencia"
+msgstr "Problema de requisito"
 
 #. TRANS: Button text in the requirement vector fixer dialog. Cancels all
 #. * changes done since the last time all accepted changes were done.
@@ -241,7 +241,7 @@ msgstr ""
 #. * accepted. Button text in the requirement vector fixer dialog.
 #: tools/ruledit/req_vec_fix.cpp:180
 msgid "Do accepted changes"
-msgstr "Fai os cambios aceptados"
+msgstr "Facer os cambios aceptados"
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Tool tip text in the requirement vector fixer dialog.
@@ -261,7 +261,7 @@ msgstr "Non se pode aplicar a solución"
 #. TRANS: requirement vector fix failed to apply
 #: tools/ruledit/req_vec_fix.cpp:283
 msgid "Failed to apply solution %1 for %2 to %3."
-msgstr "Non se puido aplicar a solución % 1 para % 2 a % 3."
+msgstr "Non se puido aplicar a solución %1 para %2 a %3."
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -289,7 +289,7 @@ msgstr "Imprime un resumo das opcións"
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:146 tools/ruledit/ruledit.cpp:152
 msgid "debug LEVEL"
-msgstr "NIVEL de depuración"
+msgstr "debug NIVEL"
 
 #: tools/ruledit/ruledit.cpp:147
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
@@ -308,7 +308,7 @@ msgstr "Imprime o número de versión"
 #. TRANS: argument (don't translate) VALUE (translate)
 #: tools/ruledit/ruledit.cpp:159
 msgid "ruleset RULESET"
-msgstr "conxunto de regras CONxunto de regras"
+msgstr "ruleset CONXUNTO"
 
 #: tools/ruledit/ruledit.cpp:160
 msgid "Ruleset to use as the starting point."
@@ -376,11 +376,11 @@ msgstr "Comezar a editar"
 
 #: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
-msgstr "Misc"
+msgstr "Varios"
 
 #: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
-msgstr "Técnico"
+msgstr "Tecnoloxía"
 
 #: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
@@ -517,7 +517,7 @@ msgstr "Engadir logro"
 
 #: tools/ruledit/tab_achievement.cpp:127
 msgid "Remove this Achievement"
-msgstr "Elimina este logro"
+msgstr "Eliminar este logro"
 
 #: tools/ruledit/tab_achievement.cpp:218
 msgid "An achievement with that rule name already exists!"
@@ -535,7 +535,7 @@ msgstr "Engadir edificio"
 
 #: tools/ruledit/tab_building.cpp:102
 msgid "Remove this Building"
-msgstr "Elimina este edificio"
+msgstr "Eliminar este edificio"
 
 #: tools/ruledit/tab_building.cpp:184
 msgid "A building with that rule name already exists!"
@@ -559,7 +559,7 @@ msgstr "Engadir contador"
 
 #: tools/ruledit/tab_counters.cpp:142
 msgid "Remove this Counter"
-msgstr "Elimina este contador"
+msgstr "Eliminar este contador"
 
 #: tools/ruledit/tab_counters.cpp:275
 msgid "A counter with that rule name already exists!"
@@ -575,16 +575,16 @@ msgstr "Requisitos de destino"
 
 #: tools/ruledit/tab_enablers.cpp:159
 msgid "Add Enabler"
-msgstr "Engadir Enabler"
+msgstr "Engadir activador"
 
 #: tools/ruledit/tab_enablers.cpp:163
 msgid "Remove this Enabler"
-msgstr "Elimina este Enabler"
+msgstr "Eliminar este activador"
 
 #: tools/ruledit/tab_enablers.cpp:171 tools/ruledit/tab_enablers.cpp:248
 #: tools/ruledit/tab_enablers.cpp:260
 msgid "Enabler Issues"
-msgstr "Problemas do habilitador"
+msgstr "Problemas do activador"
 
 #. TRANS: Fix an error in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:239
@@ -594,7 +594,7 @@ msgstr "Activador de reparación"
 #. TRANS: Fix a non error issue in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:244
 msgid "Improve Enabler"
-msgstr "Mellorar o Activador"
+msgstr "Mellorar o activador"
 
 #: tools/ruledit/tab_enablers.cpp:413
 msgid "Enabler (target)"
@@ -615,7 +615,7 @@ msgstr "Engadir extra"
 
 #: tools/ruledit/tab_extras.cpp:104
 msgid "Remove this Extra"
-msgstr "Elimina este extra"
+msgstr "Eliminar este extra"
 
 #: tools/ruledit/tab_extras.cpp:188
 msgid "An extra with that rule name already exists!"
@@ -627,11 +627,11 @@ msgstr "Engadir ben"
 
 #: tools/ruledit/tab_good.cpp:98
 msgid "Remove this Good"
-msgstr "Elimina este ben"
+msgstr "Eliminar este ben"
 
 #: tools/ruledit/tab_good.cpp:182
 msgid "A good with that rule name already exists!"
-msgstr "Un bo con ese nome de regra xa existe!"
+msgstr "Xa existe un ben con ese nome de regra!"
 
 #: tools/ruledit/tab_gov.cpp:95
 msgid "Add Government"
@@ -639,7 +639,7 @@ msgstr "Engadir goberno"
 
 #: tools/ruledit/tab_gov.cpp:100
 msgid "Remove this Government"
-msgstr "Elimina este Goberno"
+msgstr "Eliminar este goberno"
 
 #: tools/ruledit/tab_gov.cpp:184
 msgid "A government with that rule name already exists!"
@@ -675,7 +675,7 @@ msgstr "Sufixo de versión para o nome do directorio"
 
 #: tools/ruledit/tab_misc.cpp:120
 msgid "Save now"
-msgstr "Garda agora"
+msgstr "Gardar agora"
 
 #: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
@@ -687,7 +687,7 @@ msgstr "Ficheiro de descrición"
 
 #: tools/ruledit/tab_misc.cpp:137
 msgid "Sanity check rules"
-msgstr "Regras de control de cordura"
+msgstr "Regras de comprobación de coherencia"
 
 #: tools/ruledit/tab_misc.cpp:141
 msgid "Always active Effects"
@@ -711,11 +711,11 @@ msgstr "Clases de tecnoloxía"
 
 #: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Techs"
-msgstr "Tecnoloxia"
+msgstr "Tecnoloxía"
 
 #: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Unit Classes"
-msgstr "Clases unidades"
+msgstr "Clases de unidades"
 
 #: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Unit Types"
@@ -723,7 +723,7 @@ msgstr "Tipos de unidades"
 
 #: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Enablers"
-msgstr "Habilitadores"
+msgstr "Activadores"
 
 #: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Buildings"
@@ -795,15 +795,15 @@ msgstr "Sempre activo"
 
 #: tools/ruledit/tab_misc.cpp:489
 msgid "Sanity Check"
-msgstr "Verificación de cordura"
+msgstr "Comprobación de coherencia"
 
 #: tools/ruledit/tab_misc.cpp:496
 msgid "Sanity check failed!"
-msgstr "Fallou a comprobación de cordura!"
+msgstr "Fallou a comprobación de coherencia!"
 
 #: tools/ruledit/tab_misc.cpp:498
 msgid "Sanity check success"
-msgstr "Éxito da comprobación de cordura"
+msgstr "Comprobación de coherencia superada"
 
 #: tools/ruledit/tab_misc.cpp:507
 msgid "All effects"
@@ -815,7 +815,7 @@ msgstr "Engadir multiplicador"
 
 #: tools/ruledit/tab_multiplier.cpp:93
 msgid "Remove this Multiplier"
-msgstr "Elimina este multiplicador"
+msgstr "Eliminar este multiplicador"
 
 #: tools/ruledit/tab_multiplier.cpp:177
 msgid "A multiplier with that rule name already exists!"
@@ -823,11 +823,11 @@ msgstr "Xa existe un multiplicador con ese nome de regra!"
 
 #: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
-msgstr "Use nacionalista"
+msgstr "Usar lista de nacións"
 
 #: tools/ruledit/tab_nation.cpp:54
 msgid "Nationlist"
-msgstr "Nacionalista"
+msgstr "Lista de nacións"
 
 #: tools/ruledit/tab_tech.cpp:90
 msgid "Req1"
@@ -839,7 +839,7 @@ msgstr "Requisito 2"
 
 #: tools/ruledit/tab_tech.cpp:107
 msgid "Root Req"
-msgstr "Root Req"
+msgstr "Requisito raíz"
 
 #: tools/ruledit/tab_tech.cpp:120
 msgid "Add tech"
@@ -847,7 +847,7 @@ msgstr "Engadir tecnoloxía"
 
 #: tools/ruledit/tab_tech.cpp:124
 msgid "Remove this tech"
-msgstr "Elimina esta tecnoloxía"
+msgstr "Eliminar esta tecnoloxía"
 
 #: tools/ruledit/tab_tech.cpp:202
 msgid "Never"
@@ -863,7 +863,7 @@ msgstr "Engadir terreo"
 
 #: tools/ruledit/tab_terrains.cpp:100
 msgid "Remove this Terrain"
-msgstr "Elimina este terreo"
+msgstr "Eliminar este terreo"
 
 #: tools/ruledit/tab_terrains.cpp:184
 msgid "A terrain with that rule name already exists!"
@@ -875,7 +875,7 @@ msgstr "Engadir unidade"
 
 #: tools/ruledit/tab_unit.cpp:100
 msgid "Remove this Unit"
-msgstr "Elimina esta unidade"
+msgstr "Eliminar esta unidade"
 
 #: tools/ruledit/tab_unit.cpp:183
 msgid "A unit type with that rule name already exists!"
@@ -909,7 +909,7 @@ msgstr "%s impide"
 
 #: tools/ruledit/validity.c:50 tools/ruledit/validity.c:388
 msgid "Effect"
-msgstr "Efectos"
+msgstr "Efecto"
 
 #: tools/ruledit/validity.c:132
 #, c-format
@@ -918,7 +918,7 @@ msgstr "Activador de accións %s"
 
 #: tools/ruledit/validity.c:154
 msgid "Music Style"
-msgstr "Estilo Musical"
+msgstr "Estilo musical"
 
 #. TRANS: e.g. "Advance clause"
 #: tools/ruledit/validity.c:168
