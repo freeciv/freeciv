@@ -1,10 +1,147 @@
 ========================
-Welcome to Freeciv 3.2.6
+Welcome to Freeciv 3.2.7
 ========================
 
 The changes in the 3.2.x series are summarised below.
 For changes prior to 3.2, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.2.6 to 3.2.7
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.2.7>, 2026-11-04)
+
+3.2.7 is a generic bugfix release in the freeciv-3.2 series.
+Server / General
+
+    * Corrected conditions to refresh opponents information about
+      a player who loses Marco Polo's Embassy RM#2120
+    * City celebration now affects the city also on the turn it begins
+      RM#1942
+
+Changes affecting players (supplied rulesets)
+
+    * civ2civ3 / sandbox
+         + Storm units are no longer retired RM#2164
+
+    * sandbox
+         + City founder gets history bonus from celebrating city
+           without the wait to own the city long enough RM#2301
+
+Changes affecting other rulesets / modders
+
+    * RandomMovements units now correctly consider fake generalized
+      attack actions RM#2118
+
+Changes affecting server operators
+
+    * Hack access players can now load savegames by their plain name
+      RM#2269
+
+Low-level changes
+
+    * Iterating through unit's tech requirements now ignores negated
+      requirements. This affects both the AI and the client UI. RM#2091
+
+General
+
+    * Various internal changes which should only affect developers.
+      RM#2214 RM#2197 RM#2135 RM#2217 RM#2249 RM#2293 RM#2300 RM#2289
+      RM#2209 RM#2311 RM#2338 RM#2365 RM#2275 RM#2364 RM#2391 RM#2398
+      RM#2327 RM#2375
+
+Clients
+
+    * Corrected texts on Strike Building target selection dialog
+      RM#267 RM#2136 RM#2155
+    * Fixed duplicated "%" character in unit battle win chance display
+      RM#2195
+    * Fixed crash when government of the opposing player is not known,
+      e.g., when contact has been temporarily lost RM#2238
+    * Do not abort if there's no tileset for some specific topology,
+      as long as there's tileset for at least one topology RM#2307
+
+    * gtk4
+         + Fixed gtk warnings like
+           "Finalizing ..., but it still has children left"
+           RM#2189 RM#2194
+         + Fixed busy loops making client to use CPU at 100% load
+           RM#2221 RM#2222
+         + Fixed reopening Messages tab closed as window RM#2160 RM#2241
+         + Fixed failed asserts when the tileset does not have graphics
+           for all the buildings that the ruleset has RM#2188
+         + Fixed crash on closing last diplomacy dialog RM#2306 RM#2371
+         + Fixed crash when pointer leaves map while goto setup active
+           RM#2368
+
+    * gtk3.22
+         + Improved Wayland integration RM#2167
+
+    * qt
+         + Many actions previously absent from the action selection list
+           are now correctly present RM#1634 RM#2200 RM#2199
+         + Fixed assert failure after Sabotage or Strike action finished
+           RM#2203
+
+    * sdl
+         + Fixed a crash on connecting to a server that runs ruleset
+           lacking road type for some gui_type RM#2192
+
+Tools
+
+    * Gettext marking is no longer put around empty strings when saving
+      the ruleset from ruleup or ruledit RM#2247
+
+Help / Documentation
+
+    * Fixed groff error with freeciv-client man page RM#2213
+    * Doxygen documentation updates RM#2257 RM#2296
+    * Miscellaneous improvements to in-game text and user documentation.
+      RM#2319
+    * Miscellaneous changes to developer/install/ruleset docs
+      RM#2230 RM#2281 RM#2316 RM#2353 RM#2341
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 90% nations, 100% ruledit)
+           Galician (99% core, 90% nations, 100% ruledit)
+           Swedish (99% core, 16% nations, 100% ruledit)
+
+Build/portability
+
+    * Refreshed bootstrap files from their upstreams
+      RM#2124 RM#2245 RM#2333
+    * Includede lua updated to version 5.4.9 RM#2196
+    * Fixed clang-23 compiler warnings
+      RM#2148 RM#2157 RM#2176 RM#2225 RM#2242 RM#2256 RM#2265
+    * Fixed compiler warnings on a release build
+      RM#2267 RM#2298 RM#2343 RM#2352 RM#2359
+    * Fixed clang C++ "capture this" semantics RM#2335
+    * Meson based build improvements
+         + Hard require sdl libs for sdl-clients RM#2207
+         + Fixed a dependency tree issue RM#2254
+         + Fixed setting compiler command like options without checking
+           if the compiler supports them RM#2274 RM#2150
+    * Flatpak updates
+         + Updated SDL2_image for sdl2-client to version 2.8.12 RM#2220
+         + Freedesktop Platform and SDK updated to version 26.08 RM#2219
+         + Gnome Platform and SDL updated to version 51 RM#2258
+         + Audio has been enabled at the sdl3-client RM#2240
+    * Dropped remainders of support for using autotools to
+      build Windows Installers RM#2305 RM#2321
+    * Cross-built Windows Installers improvements
+         + Updated crosser to version 2.12 RM#2212
+         + Build sdl3-client RM#2128 RM#2140 RM#2141 RM#2142
+    * Optimized build_tolua.sh RM#2132
+    * Fixed build of included SDL2_rotozoom in Windows RM#2211
+    * Work towards working emscripten client RM#2279 RM#2384
+    * Removed executable bits from wonders images RM#2387
+    * Added new MacOS appbundle building script RM#2388
+    * Fixed clang analyzer warning RM#2272
 
 
 CHANGES FROM 3.2.5 to 3.2.6
