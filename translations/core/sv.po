@@ -57,8 +57,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-10-31 16:43+0200\n"
-"PO-Revision-Date: 2026-10-31 11:04+0200\n"
+"POT-Creation-Date: 2026-11-04 20:02+0200\n"
+"PO-Revision-Date: 2026-11-05 06:38+0200\n"
 "Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -2443,15 +2443,13 @@ msgstr "Efter %s gottfinnande"
 
 #: client/gui-gtk-3.22/action_dialog.c:831
 #: client/gui-gtk-4.0/action_dialog.c:829
-#, fuzzy
 msgid "Strike Improvements"
-msgstr "Sälj stadsförbättringar"
+msgstr "Anfall stadsförbättringar"
 
 #: client/gui-gtk-3.22/action_dialog.c:834
 #: client/gui-gtk-4.0/action_dialog.c:832
-#, fuzzy
 msgid "_Strike"
-msgstr "Genomstruken"
+msgstr "A_nfall"
 
 #: client/gui-gtk-3.22/action_dialog.c:837
 #: client/gui-gtk-4.0/action_dialog.c:835
@@ -2466,9 +2464,8 @@ msgstr "För_stör"
 #: client/gui-gtk-3.22/action_dialog.c:850
 #: client/gui-gtk-4.0/action_dialog.c:847 client/gui-qt/dialogs.cpp:4550
 #: client/gui-sdl2/action_dialog.c:1356 client/gui-sdl3/action_dialog.c:1356
-#, fuzzy
 msgid "Select Improvement to Strike"
-msgstr "Välj en stadsförbättring att förstöra"
+msgstr "Välj en stadsförbättring att anfalla"
 
 #: client/gui-gtk-3.22/action_dialog.c:852
 #: client/gui-gtk-4.0/action_dialog.c:849 client/gui-qt/dialogs.cpp:4555
@@ -7650,9 +7647,8 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-qt/dialogs.cpp:4549
-#, fuzzy
 msgid "Strike"
-msgstr "Genomstruken"
+msgstr "Anfall"
 
 #: client/gui-qt/dialogs.cpp:4554 client/gui-qt/menu.cpp:1445
 #: common/events.c:125 common/events.c:135
@@ -9879,16 +9875,16 @@ msgstr "  -t,  --theme TEMA\tAnvänd gränssnittstemat TEMA\n"
 msgid "Invalid font size %s"
 msgstr "Ogiltig teckenstorlek %s"
 
-#: client/gui-sdl2/gui_main.c:777 client/gui-sdl3/gui_main.c:770
+#: client/gui-sdl2/gui_main.c:785 client/gui-sdl3/gui_main.c:778
 #, c-format
 msgid "Making screenshot %s"
 msgstr "Tar skärmdump %s"
 
-#: client/gui-sdl2/gui_main.c:1022
+#: client/gui-sdl2/gui_main.c:1030
 msgid "Migrating options from sdl to sdl2 client"
 msgstr "Migrerar inställningar från SDL-klienten till SDL2-klienten"
 
-#: client/gui-sdl2/gui_main.c:1064 client/gui-sdl3/gui_main.c:1064
+#: client/gui-sdl2/gui_main.c:1072 client/gui-sdl3/gui_main.c:1072
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Använder grafikläge: %s"
@@ -10889,7 +10885,7 @@ msgstr "SDL3-klient för Freeciv"
 msgid "Failed to start text input: %s"
 msgstr "Det gick inte att starta textinmatningen: %s"
 
-#: client/gui-sdl3/gui_main.c:1015
+#: client/gui-sdl3/gui_main.c:1023
 msgid "Migrating options from sdl2 to sdl3 client"
 msgstr "Migrerar inställningar från SDL2-klienten till SDL3-klienten"
 
@@ -16341,39 +16337,46 @@ msgstr "%s: Taggen ”%s”, som har ersatts av ”%s”, används i %s"
 msgid "Animation for tag '%s' missing."
 msgstr "Animation för taggen ”%s” saknas."
 
-#: client/tilespec.c:3044
+#: client/tilespec.c:3031
+#, c-format
+msgid ""
+"No animation \"%s\", but there's a single sprite by such a tag. Should it be "
+"an animation?"
+msgstr ""
+
+#: client/tilespec.c:3050
 #, c-format
 msgid "Animation sprite for tag '%s' missing."
 msgstr "Animationsbild för taggen ”%s” saknas."
 
-#: client/tilespec.c:3175
+#: client/tilespec.c:3181
 #, c-format
 msgid "No graphics for specialist \"%s\" in %s."
 msgstr "Ingen grafik för specialisten ”%s” i %s."
 
-#: client/tilespec.c:3221
+#: client/tilespec.c:3227
 #, c-format
 msgid "No graphics for citizen \"%s\" in %s."
 msgstr "Ingen grafik för medborgaren ”%s” i %s."
 
-#: client/tilespec.c:3522
+#: client/tilespec.c:3528
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Nödvändiga spritebilder för citybar.occupancy_N saknas."
 
-#: client/tilespec.c:3645
+#: client/tilespec.c:3651
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Överlagringsfärgens spritebild colors.overlay_0 saknas."
 
-#: client/tilespec.c:3720
+#: client/tilespec.c:3726
 msgid "Sprite tx.darkness missing."
 msgstr "Spritebilden tx.darkness saknas."
 
-#: client/tilespec.c:3873
+#: client/tilespec.c:3879
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr "Grafiktaggarna ”%s” och ”%s” för %s ”%s” saknas."
 
-#: client/tilespec.c:4008
+#: client/tilespec.c:4014
 #, fuzzy, c-format
 msgid ""
 "Missing %s unit sprites for tags \"%s\" and alternatives \"%s\" and \"%s\"."
@@ -16381,7 +16384,7 @@ msgstr ""
 "Spritebild för %s-trupp saknas för taggarna ”%s” och alternativen ”%s” och "
 "”%s”."
 
-#: client/tilespec.c:4017
+#: client/tilespec.c:4023
 #, fuzzy, c-format
 msgid ""
 "Unit type %s has no unoriented sprites and tileset has no "
@@ -16390,17 +16393,17 @@ msgstr ""
 "Truppslaget %s saknar riktningsoberoende spritebild och "
 "rutbildsuppsättningen saknar unit_default_orientation."
 
-#: client/tilespec.c:4086
+#: client/tilespec.c:4092
 #, c-format
 msgid "No extra style for \"%s\" or \"%s\"."
 msgstr "Ingen extrastil för ”%s” eller ”%s”."
 
-#: client/tilespec.c:4139
+#: client/tilespec.c:4145
 #, c-format
 msgid "No cardinal-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ingen grafik i väderstrecksstil ”%s*” för extraföreteelsen ”%s”"
 
-#: client/tilespec.c:4166
+#: client/tilespec.c:4172
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -16409,7 +16412,7 @@ msgstr ""
 "Spritebild för byggaktiviteten %s saknas för taggarna ”%s” och alternativen "
 "”%s” och ”%s”."
 
-#: client/tilespec.c:4185
+#: client/tilespec.c:4191
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -16418,32 +16421,32 @@ msgstr ""
 "Spritebild för borttagningsaktiviteten %s saknas för taggarna ”%s” och "
 "alternativen ”%s” och ”%s”."
 
-#: client/tilespec.c:4277
+#: client/tilespec.c:4283
 #, c-format
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ingen grafik i flodstil ”%s*” för extraföreteelsen ”%s”"
 
-#: client/tilespec.c:4334
+#: client/tilespec.c:4340
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr "Ingen grafik med taggen ”%s_bg/mg/fg” finns för extraföreteelsen ”%s”"
 
-#: client/tilespec.c:4355
+#: client/tilespec.c:4361
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\", \"%s\", or \"%s\"."
 msgstr "Terrängen ”%s”: ingen grafikruta ”%s”, ”%s” eller ”%s”."
 
-#: client/tilespec.c:4391
+#: client/tilespec.c:4397
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Basbild för taggen ”%s” saknas."
 
-#: client/tilespec.c:4646
+#: client/tilespec.c:4652
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Nationen %s saknar nationsflagga."
 
-#: client/tilespec.c:5939
+#: client/tilespec.c:5945
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -16452,7 +16455,7 @@ msgstr ""
 "Rutbildsuppsättningen ”%s” stöder inte så långa gå till-vägar som %d. Vägen "
 "visas inte som förväntat."
 
-#: client/tilespec.c:6530
+#: client/tilespec.c:6536
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -16461,12 +16464,12 @@ msgstr ""
 "Rutbildsuppsättningen ”%s” stöder inte stadsstorlekar så stora som %d. "
 "Storleken visas inte som förväntat."
 
-#: client/tilespec.c:6719
+#: client/tilespec.c:6725
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Stadsstilen ”%s” saknar stadsgrafik."
 
-#: client/tilespec.c:6724
+#: client/tilespec.c:6730
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "Stadsstilen ”%s” saknar grafik för ockuperade städer."
@@ -16946,7 +16949,7 @@ msgstr "Inkassera %slösensumma%s"
 #: common/actions.c:6293
 #, c-format
 msgid "Surgical Str%sike Building%s"
-msgstr "Kirurgiskt %sanfall mot byggnad%s"
+msgstr "Precisions%sanfall mot byggnad%s"
 
 #. TRANS: Surgical Str_ike Production (100% chance of success).
 #: common/actions.c:6296
@@ -55303,47 +55306,47 @@ msgstr[1] "Du hittade %d guld."
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Ordern för %s avbröts eftersom fiendetrupp siktats i närheten."
 
-#: server/unittools.c:4574
+#: server/unittools.c:4573
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Ordern för %s avbröts eftersom det finns trupper i närheten."
 
-#: server/unittools.c:4662
+#: server/unittools.c:4661
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Ordern för %s avbröts eftersom den var ogiltig."
 
-#: server/unittools.c:4672
+#: server/unittools.c:4671
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Ordern för %s avbröts eftersom den angav en ogiltig position."
 
-#: server/unittools.c:4683
+#: server/unittools.c:4682
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Ordern för %s avbröts eftersom det finns trupper i vägen."
 
-#: server/unittools.c:4728
+#: server/unittools.c:4727
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Ordern för %s avbröts eftersom en förflyttning inte kunde utföras."
 
-#: server/unittools.c:4869
+#: server/unittools.c:4868
 #, c-format
 msgid "%s could not do %s to %s."
 msgstr "%s kunde inte utföra %s mot %s."
 
-#: server/unittools.c:4907
+#: server/unittools.c:4906
 #, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr "Ordern för %s avbröts eftersom åtgärden %s mot %s misslyckades."
 
-#: server/unittools.c:4931
+#: server/unittools.c:4930
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Din %s har ogiltiga order."
 
-#: server/unittools.c:5065
+#: server/unittools.c:5064
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
