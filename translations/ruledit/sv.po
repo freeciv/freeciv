@@ -56,7 +56,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
-"POT-Creation-Date: 2026-07-26 04:28+0300\n"
+"POT-Creation-Date: 2026-09-04 07:27+0300\n"
 "PO-Revision-Date: 2026-10-31 11:04+0200\n"
 "Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -285,8 +285,8 @@ msgid ""
 "Undo all accepted solutions since you started or since last time you ordered "
 "all accepted changes done."
 msgstr ""
-"Ångra alla lösningar som du har godkänt sedan du började eller sedan"
-" du senast genomförde de godkända ändringarna."
+"Ångra alla lösningar som du har godkänt sedan du började eller sedan du "
+"senast genomförde de godkända ändringarna."
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Button text in the requirement vector fixer dialog.
@@ -301,9 +301,9 @@ msgid ""
 "Perform all the changes you have accepted to the ruleset item. You can then "
 "fix the current issue by hand and come back here to find the next issue."
 msgstr ""
-"Genomför alla ändringar som du har godkänt för objektet i "
-"regelverket. Därefter kan du åtgärda det aktuella problemet manuellt"
-" och återvända hit för att hitta nästa problem."
+"Genomför alla ändringar som du har godkänt för objektet i regelverket. "
+"Därefter kan du åtgärda det aktuella problemet manuellt och återvända hit "
+"för att hitta nästa problem."
 
 #: tools/ruledit/req_vec_fix.cpp:279
 msgid "Unable to apply solution"
@@ -374,25 +374,21 @@ msgstr "Utlös en signal när ett kontrolluttryck misslyckas"
 
 #: tools/ruledit/ruledit.cpp:192
 msgid "Can only edit one ruleset at a time.\n"
-msgstr ""
-"Endast ett regelverk kan redigeras åt gången.\n"
+msgstr "Endast ett regelverk kan redigeras åt gången.\n"
 
 #: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr ""
-"Ogiltig felsökningsnivå ”%s” angavs med tillvalet --debug.\n"
+msgstr "Ogiltig felsökningsnivå ”%s” angavs med tillvalet --debug.\n"
 
 #: tools/ruledit/ruledit.cpp:201 tools/ruledit/ruledit.cpp:214
 msgid "Try using --help.\n"
-msgstr ""
-"Försök med --help.\n"
+msgstr "Försök med --help.\n"
 
 #: tools/ruledit/ruledit.cpp:212
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
-msgstr ""
-"Ogiltigt signalnummer ”%s”.\n"
+msgstr "Ogiltigt signalnummer ”%s”.\n"
 
 #: tools/ruledit/ruledit.cpp:221
 #, c-format
@@ -716,10 +712,10 @@ msgid ""
 "a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
-"Om du vill kunna läsa in regelverket direkt i Freeciv ska du placera"
-" det i en underkatalog till %s%s%s\n"
-"Använd serverkommandot ”/rulesetdir <underkatalog>” för att läsa in "
-"det i Freeciv."
+"Om du vill kunna läsa in regelverket direkt i Freeciv ska du placera det i "
+"en underkatalog till %s%s%s\n"
+"Använd serverkommandot ”/rulesetdir <underkatalog>” för att läsa in det i "
+"Freeciv."
 
 #: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
