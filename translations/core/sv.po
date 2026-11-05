@@ -58,7 +58,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2026-09-05 15:37+0300\n"
-"PO-Revision-Date: 2026-10-31 11:04+0200\n"
+"PO-Revision-Date: 2026-11-05 06:38+0200\n"
 "Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -2398,6 +2398,16 @@ msgstr "Fr_amsteg:"
 msgid "At %s's Discretion"
 msgstr "Efter %s gottfinnande"
 
+#: client/gui-gtk-3.22/action_dialog.c:773
+#: client/gui-gtk-4.0/action_dialog.c:772
+msgid "Strike Improvements"
+msgstr "Anfall stadsförbättringar"
+
+#: client/gui-gtk-3.22/action_dialog.c:776
+#: client/gui-gtk-4.0/action_dialog.c:775
+msgid "_Strike"
+msgstr "A_nfall"
+
 #: client/gui-gtk-3.22/action_dialog.c:772
 #: client/gui-gtk-4.0/action_dialog.c:771
 msgid "Sabotage Improvements"
@@ -2407,6 +2417,12 @@ msgstr "Förstör stadsförbättringar"
 #: client/gui-gtk-4.0/action_dialog.c:774
 msgid "_Sabotage"
 msgstr "För_stör"
+
+#: client/gui-gtk-3.22/action_dialog.c:792
+#: client/gui-gtk-4.0/action_dialog.c:790 client/gui-qt/dialogs.cpp:4229
+#: client/gui-sdl2/action_dialog.c:1337 client/gui-sdl3/action_dialog.c:1337
+msgid "Select Improvement to Strike"
+msgstr "Välj en stadsförbättring att anfalla"
 
 #: client/gui-gtk-3.22/action_dialog.c:783
 #: client/gui-gtk-4.0/action_dialog.c:781 client/gui-qt/dialogs.cpp:3825
@@ -7534,6 +7550,10 @@ msgstr "Gör ingenting"
 #: client/gui-qt/dialogs.cpp:3182
 msgid "Steal"
 msgstr "Stjäl"
+
+#: client/gui-qt/dialogs.cpp:4228
+msgid "Strike"
+msgstr "Anfall"
 
 #: client/gui-qt/dialogs.cpp:3824 client/gui-qt/menu.cpp:1441
 #: common/events.c:125 common/events.c:135
@@ -17077,7 +17097,7 @@ msgstr "Inkassera %slösensumma%s"
 #: common/actions.c:6962
 #, c-format
 msgid "Surgical Str%sike Building%s"
-msgstr "Kirurgiskt %sanfall mot byggnad%s"
+msgstr "Precisions%sanfall mot byggnad%s"
 
 #. TRANS: Surgical Str_ike Production (100% chance of success).
 #: common/actions.c:6965
