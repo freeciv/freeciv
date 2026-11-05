@@ -1,3 +1,1224 @@
+commit 563ebdac027279ee6cb25af8f31e5af24ed358b7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Nov 6 00:11:51 2026 +0200
+
+    'make update-po' before 3.2.7 release
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b882e63176859cd0416200803d067a9516942dfc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Nov 6 00:05:22 2026 +0200
+
+    FAQ: Update latest stable version number to 3.2.7
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cb7295ee1553a70ef98d11efabbf0a3190aaf420
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Nov 5 19:05:43 2026 +0200
+
+    NEWS-3.2: Update 3.2.7 translation stats
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6661246e3baf0e3856170dbc6e105df0d3088952
+Author: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>
+Date:   Thu Nov 5 06:56:13 2026 +0200
+
+    Complete Swedish core and nations translations for 3.2.7
+
+commit 370bd03bd6d670788f4200cd59c760ac96db72c4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 4 23:12:16 2026 +0200
+
+    NEWS-3.2: Add 3.2.7 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8f7927750f9a6b474e4168051005e868d1847619
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 4 20:11:14 2026 +0200
+
+    Msgmerge Galician translation from main branch
+
+    Main translation updates by ninjum
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9a423532a826961d313f39b7bd82b06082ac40d7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Nov 4 19:07:28 2026 +0200
+
+    Update Polish translation by Hubert Kowalewski.
+
+    Pulled from https://sourceforge.net/projects/freeciv-l10n-pl/files/
+    (zip timestamp 2026-10-31)
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b6e7e712e33184e525ff2ff0745b89539bfbaa3a
+Author: Konstantin Vedeneev <konved@gmail.com>
+Date:   Tue Nov 3 10:56:27 2026 +0500
+
+    Update for Russian translation
+
+commit 5f7f78417c3aed4701ce758ca7e83a3c700c2496
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Oct 7 05:57:49 2026 +0300
+
+    CodingStyle: List fc_stat() as stat() replacement
+
+    See RM #2341
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 53af6285eb736e12cefb45abb0d7e79903ff97c1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 24 03:55:51 2026 +0300
+
+    CI: Do not install libsdl2-gfx-dev for meson job
+
+    See RM #2375
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1f429c5696df605739c011ae24adffb180d19bcf
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 18 16:02:05 2026 +0300
+
+    emscripten: Double ASYNCIFY_STACK_SIZE to 8192
+
+    See RM #2384
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9399659c2a78bf3cab481ac8d2342105643df098
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 4 03:24:46 2026 +0300
+
+    execute_orders(): Call action_id_get_target_kind() just once for each action
+
+    See RM #2272
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3a3a1934e7e3a7bb75065ab473b2331527c304dc
+Author: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>
+Date:   Sat Oct 31 11:13:57 2026 +0200
+
+    Improve Swedish translations and complete ruledit for S3_2
+
+    Use nation terminology consistently in the interface and folk for historical peoples.
+
+commit c225bd99c5690cca53a86544089a78be25c3d620
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 4 14:39:56 2026 +0300
+
+    granularity: Correct specialist outputs
+
+    See RM #2327
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b938802a3ca187f7927be5bbb59390d55e66dfe1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 20 21:10:36 2026 +0300
+
+    gtk4: Assert notebook page number to remove
+
+    See RM #2398
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 476bdb0591802635deb19a6d60d662ea1dc35b6f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 23 23:29:12 2026 +0300
+
+    CI: Add mac-appbundle job
+
+    See RM #2391
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit eb2e636284b9ad3fe5d407e7c237e51b26b912bb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 10 12:46:00 2026 +0300
+
+    gnulib-common.m4: Update to serial 124
+
+    See RM #2333
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5a096d9426764645d01f98cb0e8d09f9175b9010
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 4 11:07:27 2026 +0300
+
+    Correct gotoline_counter_destroy() header
+
+    See RM #2296
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 672009b2238e79dbf05d432a11488693ad996b46
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 3 05:03:16 2026 +0300
+
+    Qt: Fix assert failure after Sabotage or Strike action finished
+
+    Tell sabotage/strike target list choice dialog the unit acting,
+    so it can properly end action selection progress for it when
+    it has finished.
+
+    See RM #2203
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7f8221efd2e9758029e65f57e1a7dd2ca610556f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 30 05:19:18 2026 +0300
+
+    Correct check_city() header
+
+    See RM #2257
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 629598737a81a0247c47abb36044cfcf34205b0f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 13 03:16:43 2026 +0300
+
+    README: Stop referring to "fcser" and "fcgui"
+
+    Those scripts were generated in the autotools based
+    build system only. Replace the references with
+    meson based build system's "./run.sh"
+
+    See RM #2353
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 56527864216921573371eacd9ee2885cefce6fc6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 16 17:28:00 2026 +0300
+
+    gtk4: Fix crash when pointer leaves map while goto setup active
+
+    Reported by Eelis Vuokko
+
+    See RM #2368
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 335df4c7cb51b5288ff5b654e52f8f6283da9a9b
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Oct 19 21:38:18 2026 +0300
+
+    Add new MacOS appbundle building script
+
+    New homebrew-appbundle-gtk4-dmg.sh replaces
+    old homebrew-appbundle.sh
+
+    Script by janior with minor changes by me
+
+    See RM #2388
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fbd5b6f71bd673d1a3e3251ff0d5a8691bf5c533
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 30 23:53:54 2026 +0300
+
+    tilespec_try_read(): Abort only if looking for global default tileset
+
+    tilespec_try_read() aborts if it can't find requested tileset.
+    Correct that to happen only if function is used to look
+    for global default tileset, i.e., when there's no tileset at all
+    which client could use. Do not abort when options code
+    uses the function to look for default tileset for specific
+    topologies.
+
+    See RM #2307
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e019dffaacde5a0373a90c2e19687bdfdad3c49c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 18 22:06:05 2026 +0300
+
+    Remove executable bits from wonders/*.png
+
+    See RM #2387
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5d71990b5334855e56ca2dbf7d64a5a4e682340d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 25 10:45:53 2026 +0200
+
+    Comment typofix: "improvemnt" -> "improvement"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5fbadaf26a235fdf14f68477c26dd037ac09de11
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Oct 15 19:44:25 2026 +0300
+
+    package_city(): Fix set-but-unused warning on ndebug builds
+
+    See RM #2359
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 973e382aa02885908bc5b550b02e94276b661bd7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 3 02:09:23 2026 +0300
+
+    Meson: Remove setting "-Wno-error=attributes"
+
+    See RM #2150
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9057eec5bf6c8bad298e9dd91a35f93f6dd0fb84
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 10 18:55:23 2026 +0300
+
+    README.<ruleset>: Remove ./fcser references
+
+    Update README.goldkeep and README.multiplayer
+
+    - "./fcser" -> "freeciv-server"
+    - "./freeciv-gtk3.22" -> "freeciv-gtk4"
+    - Remove double spaces
+
+    See RM #2316
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1a16be1897dbd9ce329664287eafd3c085b99b03
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 27 23:58:38 2026 +0300
+
+    sandbox: Give founder celebration history bonus without owned wait
+
+    See RM #2301
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ee3e3fa5485f424fc8522d4cd3bee1691d62790e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 2 21:39:42 2026 +0300
+
+    Fix client crash on government_name_for_player()
+
+    Reported by Michael Ortmann
+
+    See RM #2238
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 091aa0a5bb33eb92f4f47ca0437ba333fb750fb4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 16 20:53:33 2026 +0300
+
+    CI: Do not install libsdl2-gfx-dev for CodeQL job
+
+    See RM #2364
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 582f7ab9ffbb48d6e718c6845e3ea9b63fe2bd9e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 22 03:22:59 2026 +0300
+
+    gtk4: Drop unused meswin_dialog_popdown()
+
+    See RM #2275
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1bc90bb2b4a5e2220445c5af9075eccafd1a2398
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Oct 5 22:37:29 2026 -0400
+
+    Improve error message when secfile not found
+
+    See RM #2319
+
+commit 62cb40e5ca3c97e1c02bddfa22ae411925d7ea71
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Oct 10 18:34:01 2026 +0300
+
+    map_[show|hide]_tile(): Fix set-but-unused warning on ndebug builds
+
+    See RM #2352
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d1a3d3197103ccc4347bc522722ff9496c19aad9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 21 21:52:44 2026 +0300
+
+    Allow hack access users to load savegame with plain name
+
+    The restriction that even hack access users cannot /load
+    savegames with plain name was inconsistent with the fact
+    that they don't have restrictions in loading savegames
+    with full path. Ability to load files by their full name
+    made it possible to load the same file, that plain name
+    restriction tried to prevent one from loading, anyway.
+
+    Reported by Dean Brown
+
+    See RM #2269
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ab97abf4afe2350a36ca83aadb852362f25ed783
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Oct 11 09:06:21 2026 +0300
+
+    CI: Explicitly set audio=sdl2 for jobs running on ubuntu-26.04
+
+    See RM #2365
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 83d2780d9f6d1f8bf232c88ac43a628bf529319f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Oct 14 19:26:41 2026 +0300
+
+    gtk4: Fix diplodlg closing memory handling
+
+    - Revert RM #2306.
+    - Move any access to another dialog's content
+      from gui_dialog_destroy_handler() to happen already
+      in gui_dialog_destroy()
+
+    See RM #2371
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 048cd334e0a85346c2226df21a47a96b874b98db
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 23 19:49:27 2026 +0300
+
+    Update to emscripten 6.0.10
+
+    See RM #2279
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b9f1e9717ff55c4ef47f65e58f28f072a70121f6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 2 18:07:40 2026 +0300
+
+    README.rulesets: Remove ./fcser references
+
+    See RM #2281
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit bd5309e3d10713f37917f4cabd7f333105227b07
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Oct 5 21:02:24 2026 +0300
+
+    Fix configure check for 'C++20 capture this' on clang
+
+    Both meson and autotools based builds affected.
+
+    See RM #2335
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 44e6898c90b1b753c8ec6514804bbd16309c8bde
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 6 19:20:00 2026 +0300
+
+    map_generate_fair_islands(): Fix set-but-unused warning on ndebug builds
+
+    See RM #2343
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d29589108d2595056a56bf17f6ebc3624c085dfc
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 27 23:22:56 2026 +0300
+
+    Make celebration to affect city outputs on turn it begins
+
+    Reported by Affy Dal
+
+    See RM #1942
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ce0ec7d288630bf89424ac0528c20fca84804c44
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 2 23:09:22 2026 +0300
+
+    installer_cross: Drop unsupported autotools build scripts
+
+    See RM #2321
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 77cbe367d0370331f5f181a8a081818b8868ff35
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Oct 6 03:21:27 2026 +0300
+
+    CI: Remove SDL2 include/lib path references from mac-meson job
+
+    See RM #2338
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit e369fe581bd252b3dbfad9d7ad0d8a706b1fb4d2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 22 02:32:45 2026 +0300
+
+    Meson: Remove duplicate setting of '-Wshadow'
+
+    See RM #2274
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 72c07927936e87615450e921d2b2f08fafe634b7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 26 23:09:25 2026 +0300
+
+    fair_map_island_new(): Fix set-but-unused warning on ndebug builds
+
+    See RM #2298
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2a34e3d7e2913f8ea29b07cf0851fd8edebb992d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 13 07:43:15 2026 +0300
+
+    gnulib-common.m4: Update to serial 123
+
+    See RM #2245
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7b7a0e490e62afa4a95698b21706819bcbbf8c5d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Oct 2 21:16:22 2026 +0300
+
+    Flatpak: Set audio=none for Qt fcmp, ruledit
+
+    See RM #2311
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 644bd6837c9680f07930506da6dfc5193cc0fca4
+Author: Dino <macwiz23@comcast.net>
+Date:   Thu Oct 1 22:48:50 2026 -0400
+
+    Don't put _() marking around empty strings ("")
+
+    See RM #2247
+
+commit feb3a90b5e75812db8da9989431ba42362d849d2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 29 21:14:53 2026 +0300
+
+    gtk4: Fix diplodlg double destruction
+
+    See RM #2306
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8de88cda67cd2730a985b989a3f01f4caf65ec96
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 28 18:13:13 2026 +0300
+
+    Msys2: Drop unsupported Makefile.autotools
+
+    See RM #2305
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d921bb430229ccf8b36e71e0bbf9fa1455f430c6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 21 02:46:34 2026 +0300
+
+    create_start_positions(): Fix set-but-unused warning on ndebug builds
+
+    See RM #2267
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5c6980a4835933739d20f8200b2b4e7804e1dcc1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 5 09:03:13 2026 +0300
+
+    granularity: Make Surgical Strike Building to cost all movement
+
+    See RM #2209
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 924acdf322e758b1062c42aab44b29e89efb30c7
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 26 04:40:12 2026 +0300
+
+    build_appimages.sh: Set audio=none for ruledit and fcmp
+
+    See RM #2289
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 5eda8ae6a95dc46654eacdd00483647a18105dd6
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 13 06:12:32 2026 +0300
+
+    gtk4: Fix meswin_dialog_is_open()
+
+    See RM #2241
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2e32be1972b3287641dd159d0c2d6c621682575c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 8 19:21:45 2026 +0300
+
+    TODO: Fix typo "its" -> "it's"
+
+    See RM #2230
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 82ae13fe85b42de16fa79b2f72f251405eb168b2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Oct 5 01:01:08 2026 +0300
+
+    Comment typofix: "extremly effecive" -> "extremely effective"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cfb5061a07b14bc16d141f1a2e4e7e69cdee2c73
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 26 02:20:21 2026 +0300
+
+    gtk4: Drop unused city_*_command
+
+    See RM #2265
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 25e85ef67d11b99a7de0defe780035f24f7b23f3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 21 21:25:19 2026 +0300
+
+    Qt: Support "Spread Plague" at the choice dialog
+
+    See RM #2199
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c2b6360d1f82538c3586fa844fd5dac39f269c4e
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Sep 24 02:37:53 2026 +0300
+
+    Flatpak: Enable audio at sdl3-client
+
+    See RM #2240
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit f845b522ed38ab15141e69e45e4c6e3fcd6dbb91
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 27 17:07:12 2026 +0300
+
+    CI: Update setup-msys2 to version 2.33.0
+
+    See RM #2300
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 1fb10af8097fca085c82473d24d559b6eb141b58
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 1 00:00:05 2026 +0300
+
+    Fix doubled '%' in win chance display
+
+    See RM #2195
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6c0f48e1c7e989fa2c9b5af874d59585197ab0e0
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 12 20:28:42 2026 +0300
+
+    Qt: Support "Spy Attack" at the choice dialog
+
+    See RM #2200
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9f0b20d0c2d996f252a7413ec7a9c4ac122f4def
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 26 08:19:12 2026 +0300
+
+    CI: Update actions/checkout to version 7.0.1
+
+    See RM #2293
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ec59426c158cca1e741e169786b575440d632dbd
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 20 11:55:32 2026 +0300
+
+    gtk: Drop unused statusbar_timer
+
+    See RM #2256
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9cea9391abb483db8d6d2ed5fb4347e2e08a5b9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 30 00:59:34 2026 +0300
+
+    Comment typofix: "divisable" -> "divisible"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 954ad47bce5a078b8edfafc77671d08d34492392
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 18 22:52:23 2026 +0300
+
+    Flatpak: Update gnome Sdk & Platform to 51
+
+    See RM #2258
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit af5b8a6551ceebaa3b401728e5214b93a3b8e0f4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 6 03:47:26 2026 +0300
+
+    gtk4: Unparent popups from the citydlg info labels
+
+    See RM #2194
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b589f8ba9dc856d8364f395a7c21333c22b44da9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 28 18:26:37 2026 +0300
+
+    Comment typofix: "alread" -> "already"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ffd78e40aa0afcf951eedf75c7f66bc3faee4d20
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Aug 31 05:20:55 2026 +0300
+
+    sdl: Fix crash when ruleset does not have roads with all gui_types
+
+    See RM #2192
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0b148f0206f5fea26bdb00ef512e71e0a7d86805
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 28 16:22:12 2026 +0300
+
+    NEWS-3.2: Revert previous change to 3.2.5 section
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a11009e7f4f238c83180af9c151de4667e6b0002
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 28 16:20:42 2026 +0300
+
+    NEWS-3.2: Refresh 3.2.6 and 3.2.5 sections
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9413bc1d760ae510fa5ebf4d61e718557c64bd09
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 16 07:19:56 2026 +0300
+
+    CI: Build sdl3-client at mac-meson job
+
+    See RM #2249
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 68a990516c39f69d9f7d11fa5235137b15d6e439
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Sep 16 20:46:37 2026 +0300
+
+    gtk: Drop unused server_playerlist_view
+
+    See RM #2242
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 33778ed4e94e89e0a9e01da7cf807013ed70a788
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 20 23:12:13 2026 +0300
+
+    Update to crosser-2.12
+
+    See RM #2212
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8b66ecfdca8cc1ecf34f56b2afabe2e616fef264
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 1 19:44:34 2026 +0300
+
+    Qt: Fix activation of S3_2 fake generalized actions
+
+    ...from selection list
+
+    See RM #1634
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 6c526086e2207e9729ad8b29633cb51af8acd773
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 29 07:53:52 2026 +0300
+
+    random_movements(): Consider fake generalized attack actions
+
+    See RM #2118
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 35e21cc38ac1c9f5968368228f5fae5406389a62
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 12 14:28:31 2026 +0300
+
+    gtk: Drop unused network_[login|host|port]_label
+
+    See RM #2225
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 676470ed2874cf90fc66b9a4648a522136da344d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 12 13:56:51 2026 +0300
+
+    Flatpak: Update freedesktop Sdk & Platform to 26.08
+
+    See RM #2219
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cd838b6d17a481e4f929347d364dc39a928f2ae2
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 30 07:45:17 2026 +0300
+
+    gtk4: Fix failed asserts when tileset does not have all buildings
+
+    See RM #2188
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c9a85e9417df2b82a27e3f665ab28022fae9a942
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 6 08:47:11 2026 +0300
+
+    CI: Update windows runner to windows-2025-vs2026
+
+    See RM #2217
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 323039f63b8954722022534fc1d86c62623c774d
+Author: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>
+Date:   Sun Sep 20 16:52:13 2026 +0300
+
+    Update Swedish translation for S3_2
+
+    Signed-off-by: Jonatan Nyberg <84130654+NickWick13@users.noreply.github.com>
+
+commit 3766a16d9bac0803a4c9e4dc86b7e9aba773d24d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Mon Sep 14 05:18:40 2026 +0300
+
+    Meson: Make client gui frontends to depend on verhdr
+
+    See RM #2254
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 9f35897aa2d7b51ada0502ce35cf5a193f6945c4
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 19 18:09:23 2026 +0300
+
+    Update Finnish translation
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 664a097aea8c04c87e797779a87e7cd8999f1641
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 19 15:30:04 2026 +0300
+
+    Comment typofix: "crashs" -> "crashes"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3ac67764ea3a24fbb8ddc47a5a8bb5449c5fea8c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 30 04:08:26 2026 +0300
+
+    meson-build_all_installers.sh: Add support for building sdl3-installer
+
+    Building sdl3-installer requires not-yet-released crosser-2.12,
+    but existing guis continue to build with crosser-2.11.
+
+    See RM #2142
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 90311ad0cdb01da9e948350e6288b72a59723387
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 6 06:18:56 2026 +0300
+
+    Flatpak: Update SDL2_image for sdl2-client to version 2.8.12
+
+    See RM #2220
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cbe2b292b9d7e80a4db9904eb0b3e7d864154832
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 5 14:54:58 2026 +0300
+
+    SDL2_rotozoom.c: Include fc_prehdrs.h before windows.h
+
+    See RM #2211
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0e82c619f9cf2aed39b5dffa8e7f871d4b2d31d1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 13 23:29:04 2026 +0300
+
+    meson-winbuild.sh: Explicitly set audio=sdl2 for sdl2-client
+
+    See RM #2135
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3636c3aed34d10a2aa9e7419f3df10e4c0bfb326
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 4 19:02:58 2026 +0300
+
+    gtk: Drop unused timer_id
+
+    See RM #2176
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit ad99682e04266ac0f09a96422ebe1b74668d228c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 25 02:57:53 2026 +0300
+
+    meson-installer_build.sh: Add support for building sdl3-installer
+
+    Building sdl3-installer requires not-yet-released crosser-2.12,
+    but existing guis continue to build with crosser-2.11.
+
+    See RM #2141
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit b963ea64ac7bcc3ecbd1de22e0b0127957df05ae
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 20 23:59:21 2026 +0300
+
+    sdl: Correct texts on Strike Building selection dialog
+
+    See RM #2155
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit fdb3eb9ae77be5db2e3b4b326dd4337486af9013
+Author: Caeies <caeies@caeies.org>
+Date:   Mon Aug 31 23:17:52 2026 +0200
+
+    gtk4: Fix message area resize
+
+    * Avoid 100% CPU load due to call in loops.
+    * Only resize when resize events are triggered.
+
+    See RM #2222
+
+commit 0d0303a2edb09a3fabcae6a47eaee95fac373716
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 4 19:25:57 2026 +0300
+
+    Meson: Hard require sdl libs for sdl-clients
+
+    Configure phase was not considering
+    SDL2_image and SDL2_ttf hard requirements for sdl2-client, or
+    sdl3-image and sdl3-ttf hard requirements for sdl3-client.
+    Instead of proper configure time error message we got
+    much more mystique errors at build time when some library
+    was not present.
+
+    See RM #2207
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a1bff7c1e0038e869b0e4dc324142bdc81203f54
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 23 00:59:57 2026 +0300
+
+    gtk4: Fix reopening Messages tab closed as window
+
+    If Messages were windowed and then closed, it was
+    impossible to reopen afterwards.
+
+    See RM #2160
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 4ba4c4af16249e9b84b2bce2ef5e0253afba8ee9
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Wed Aug 19 03:05:23 2026 +0300
+
+    installer_cross: Add freeciv-sdl3.cmd
+
+    See RM #2140
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 8f2da50cce6275e7397bd407df96de743a2a535f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Sep 13 13:21:46 2026 +0300
+
+    Comment typofix: "schould" -> "should"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a86735a0df2323cbd567dffcfe11cc77e693ae67
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 1 03:59:44 2026 +0300
+
+    CI: Update mac runner to xcode-27
+
+    See RM #2197
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a9a1b9db069622e13d975282ffad52f2b2d91905
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 22 03:57:27 2026 +0300
+
+    gtk: Drop unused bottom_hpaned
+
+    See RM #2157
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2db5dea983ef8903b7fdbc10915d9f4271a56416
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 12 15:11:34 2026 +0300
+
+    Comment typofix: "expicitly" -> "explicitly"
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit cb14e3f9e0fcae1b3020219cd0930958bce5a979
+Author: Caeies <caeies@caeies.org>
+Date:   Mon Aug 31 12:55:54 2026 +0200
+
+    gtk4: Synchronize update_animation() with idle tick.
+
+    In GTK4 you should not g_idle_add() yourself during
+    idle loop execution.
+
+    See RM #2221
+
+commit 12933723afa5823bc6839fa6fb2895f9c602afa7
+Author: Tobias Frost <tobi@debian.org>
+Date:   Fri Sep 4 20:08:29 2026 +0200
+
+    fix groff error in freeciv-client(6) manpage
+
+    found with the lintian tool:
+    W: freeciv-data: groff-message troff:<standard input>:59: warning: cannot select font 's' [usr/share/man/man6/freeciv-client.6.gz:1]
+    W: freeciv-data: groff-message troff:<standard input>:66: warning: cannot select font 's' [usr/share/man/man6/freeciv-client.6.gz:2]
+
+    See RM #2213
+
+commit 31abaabd762665ea8f21811699b7f8716bbd4b63
+Author: Dino <macwiz23@comcast.net>
+Date:   Mon Aug 24 20:29:51 2026 -0400
+
+    civ2civ3/sandbox: Don't retire Storm units
+
+    See RM #2164
+
+commit f1cc221a11647526d969d1094c5d1584c7326917
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 15 23:57:03 2026 +0300
+
+    Qt: Correct texts on Strike Building selection dialog
+
+    See RM #2136
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 35b7c1a95094475e2874235ea07e666ceb526940
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Thu Aug 13 03:59:23 2026 +0300
+
+    unit_tech_reqs_iterate(): Filter out negated requirements
+
+    See RM #2091
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 98ffeb8593713808c8eec63415621692f1f627b1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 30 10:37:24 2026 +0300
+
+    gtk4: Unparent popups from the map canvas
+
+    See RM #2189
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0f82c4fed5cf95209cbfdbada8860c6cce0abfce
+Author: Dmitry Rantovov <rantovov5@gmail.com>
+Date:   Wed Sep 2 11:28:27 2026 +0300
+
+    gtk: Drop the self-assignment at the top of spy_steal_popup_shared()
+
+    See RM #2214
+
+commit d6f0a89cacbca0192dd1b29c97b86d0416043348
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 16 00:09:04 2026 +0300
+
+    found_new_tech(): Correct EFT_HAVE_EMBASSIES disabling check
+
+    See RM #2120
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 7f0b38c69bd45ee20b2951d0e91fa61dc3b8f85d
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Aug 7 13:24:45 2026 +0300
+
+    gnulib-common.m4: Refresh from gnulib
+
+    Serial remains 122
+
+    See RM #2124
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit a1bfd42e4baca543d9428418fcf57223ed053a1f
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 11 09:26:40 2026 +0300
+
+    build_tolua.sh: Build just tolua
+
+    See RM #2132
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 0f0840ddba2d6747c04cd58d1c130f1e28ef0615
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Aug 18 23:14:39 2026 +0300
+
+    gtk: Drop unused city_dialog_shell_is_modal
+
+    See RM #2148
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 419ae92b0ed60ead010e4d7ef6c149b6832cd58c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Tue Sep 1 00:32:27 2026 +0300
+
+    Update included lua to version 5.4.9
+
+    See RM #2196
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit c37f538735beda0e2ba9d53e00cfa339c805e0eb
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Aug 8 15:53:19 2026 +0300
+
+    gtk: Correct texts on Strike Building selection dialog
+
+    See RM #267
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit d460d3a0592e66132a4bb55bd3fbb2f21fe4df4c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sat Sep 5 15:43:19 2026 +0300
+
+    Backport Swedish translation from main branch
+
+    Msgmerged main translations from commit a9eddb4747
+    against S3_2 strings
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 3ff1cf24e9b24066a25502d687c7149f40e032e9
+Author: Balló György <ballogyor@gmail.com>
+Date:   Wed Jul 22 22:17:40 2026 +0200
+
+    gtk3.22: Set prgname to application ID
+
+    Using the application ID ensures that Wayland compositors could match the
+    window with the application and show the appropriate icon for them.
+
+    See RM #2167
+
+commit 84d43637a6be4cba0e706c91a09f8e202706eba3
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Sun Aug 9 21:38:52 2026 +0300
+
+    meson-winbuild.sh: Add support for building sdl3-client
+
+    Building sdl3-client requires not-yet-released crosser-2.12,
+    but existing guis continue to build with crosser-2.11.
+
+    See RM #2128
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 472332a11a339226418954ac4a1db5143c4c2f5c
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 4 00:08:04 2026 +0300
+
+    Mark as development code
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
+commit 2c4304c742aa81f1d73a5d604ed83237d57804a1
+Author: Marko Lindqvist <cazfi74@gmail.com>
+Date:   Fri Sep 4 00:05:48 2026 +0300
+
+    Finalize 3.2.6 release
+
+    - Set version number
+    - Refresh ChangeLog
+
+    See RM #2165
+
+    Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+
 commit 454de54f0d4edaf3ca6d6519e929083fa85bda78
 Author: Marko Lindqvist <cazfi74@gmail.com>
 Date:   Fri Sep 4 00:04:19 2026 +0300
