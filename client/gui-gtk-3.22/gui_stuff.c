@@ -339,7 +339,7 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
 
   g_object_unref(dlg->gui_button);
 
-  if (*(dlg->source)) {
+  if (dlg->source != NULL) {
     *(dlg->source) = NULL;
   }
 

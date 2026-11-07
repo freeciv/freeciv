@@ -895,7 +895,7 @@ void gui_dialog_destroy(struct gui_dialog *dlg)
     break;
   }
 
-  if (*(dlg->source)) {
+  if (dlg->source != NULL) {
     *(dlg->source) = NULL;
   }
 }
