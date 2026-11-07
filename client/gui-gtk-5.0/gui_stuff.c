@@ -874,30 +874,36 @@ void gui_dialog_set_title(struct gui_dialog *dlg, const char *title)
 **************************************************************************/
 void gui_dialog_destroy(struct gui_dialog *dlg)
 {
+  if (dlg->source != nullptr) {
+    *(dlg->source) = nullptr;
+  }
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     if (dlg->v.window != NULL) {
+      /* Destruction of the window can lead to the destruction of
+       * the entire dialog structure, via destrucion handler of
+       * dlg->v.grid. Be sure not to reference it after this. */
       gtk_window_destroy(GTK_WINDOW(dlg->v.window));
-      dlg->v.window = NULL;
     }
     break;
   case GUI_DIALOG_TAB:
     {
       gint n;
+      GtkNotebook *notebook = GTK_NOTEBOOK(dlg->v.tab.notebook);
+      gulong handler = dlg->v.tab.handler_id;
 
-      n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->grid);
+      n = gtk_notebook_page_num(notebook, dlg->grid);
 
       fc_assert(n >= 0);
 
-      gtk_notebook_remove_page(GTK_NOTEBOOK(dlg->v.tab.notebook), n);
-      g_signal_handler_disconnect(GTK_NOTEBOOK(dlg->v.tab.notebook),
-                                  dlg->v.tab.handler_id);
+      /* Destruction of the notebook page can lead to the destruction of
+       * the entire dialog structure, via destrucion handler of
+       * dlg->v.grid. Be sure not to reference it after this. */
+      gtk_notebook_remove_page(notebook, n);
+      g_signal_handler_disconnect(notebook, handler);
     }
     break;
-  }
-
-  if (dlg->source != nullptr) {
-    *(dlg->source) = nullptr;
   }
 }
 
