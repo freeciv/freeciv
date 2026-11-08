@@ -15,6 +15,7 @@
 #include <fc_config.h>
 #endif
 
+#include <stdint.h>
 #include <string.h>
 
 /* utility */
@@ -1838,9 +1839,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     int wall_id, danger;
     bool build_walls = TRUE;
     bool def_unit_selected = FALSE;
-    int qdanger = city_data->danger * city_data->danger;
+    /* The square of a 32-bit sum needs 64 bits. */
+    uint64_t qdanger = (uint64_t) city_data->danger * city_data->danger;
 
-    if (qdanger <= 0) {
+    if (qdanger == 0) {
       /* We only need these defenders because of Martial Law value */
       danger = 0;
       build_walls = FALSE; /* Walls don't provide Martial Law */
@@ -1854,10 +1856,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
         } else if (our_def == 0) {
           danger = 200 + urgency;
         } else {
-          danger = MIN(200, 100 * qdanger / our_def) + urgency;
+          danger = MIN(200, (int) (100 * qdanger / our_def)) + urgency;
         }
       } else {
-        danger = 100 * qdanger / our_def;
+        danger = (int) (100 * qdanger / our_def);
       }
 
       if (pcity->surplus[O_SHIELD] <= 0 && our_def != 0) {
