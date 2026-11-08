@@ -71,7 +71,7 @@ static struct unit *dai_hunter_find(struct player *pplayer,
     }
   } unit_list_iterate_end;
 
-  return NULL;
+  return nullptr;
 }
 
 /**********************************************************************//**
@@ -82,7 +82,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
                                                struct ai_type *ait,
                                                bool allow_gold_upkeep)
 {
-  struct unit_type *bestid = NULL;
+  struct unit_type *bestid = nullptr;
   int best = 0;
   struct player *pplayer = city_owner(pcity);
   const struct civ_map *nmap = &(wld.map);
@@ -120,7 +120,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
       desire += desire / 4;
     }
     if (!can_attack_non_native(ut)) {
-      desire -= desire / 4; /* less flexibility */
+      desire -= desire / 4; /* Less flexibility */
     }
     /* Causes continual unhappiness */
     if (utype_has_flag(ut, UTYF_FIELDUNIT)) {
@@ -128,7 +128,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     }
 
     desire = amortize(desire,
-                      (utype_build_shield_cost(pcity, NULL, ut)
+                      (utype_build_shield_cost(pcity, nullptr, ut)
                        / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
@@ -148,8 +148,8 @@ static void dai_hunter_missile_want(struct player *pplayer,
                                     struct adv_choice *choice)
 {
   adv_want best = -1;
-  struct unit_type *best_unit_type = NULL;
-  struct unit *hunter = NULL;
+  struct unit_type *best_unit_type = nullptr;
+  struct unit *hunter = nullptr;
   const struct civ_map *nmap = &(wld.map);
 
   unit_list_iterate(pcity->tile->units, punit) {
@@ -198,7 +198,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
     }
 
     desire = amortize(desire,
-                      (utype_build_shield_cost(pcity, NULL, ut)
+                      (utype_build_shield_cost(pcity, nullptr, ut)
                        / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
@@ -313,7 +313,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
 
   /* Only directly transported units. Not launching cargo of cargo */
   unit_list_iterate_safe(punit->transporting, missile) {
-    struct unit *sucker = NULL;
+    struct unit *sucker = nullptr;
 
     if (unit_owner(missile) == pplayer
         && utype_can_do_action(unit_type_get(missile),
@@ -328,7 +328,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
           break;
         }
         if (tile_city(ptile)
-            || !can_unit_attack_tile(punit, NULL, ptile)) {
+            || !can_unit_attack_tile(punit, nullptr, ptile)) {
           continue;
         }
         unit_list_iterate(ptile->units, victim) {
@@ -385,7 +385,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
             dai_unit_attack(ait, missile, unit_tile(sucker));
           }
         }
-        if (game_unit_by_number(target_sanity) == NULL) {
+        if (game_unit_by_number(target_sanity) == nullptr) {
           return; /* Target killed */
         }
       }
@@ -466,7 +466,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
     }
 
     if (tile_city(ptile)
-        || !can_unit_attack_tile(punit, NULL, ptile)) {
+        || !can_unit_attack_tile(punit, nullptr, ptile)) {
       continue;
     }
 
@@ -499,7 +499,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       }
 
       target_tile = unit_tile(target);
-      if (!unit_attack_unit_at_tile_result(punit, NULL, target, target_tile)) {
+      if (!unit_attack_unit_at_tile_result(punit, nullptr, target, target_tile)) {
         /* We can't attack the target */
         continue;
       }
@@ -535,9 +535,9 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       /* Calculate juiciness of target, compare with existing target,
        * if any. */
       dai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
-      defender = get_defender(nmap, punit, target_tile, NULL);
-      if (defender != NULL) {
-        stackcost *= unit_win_chance(nmap, punit, defender, NULL);
+      defender = get_defender(nmap, punit, target_tile, nullptr);
+      if (defender != nullptr) {
+        stackcost *= unit_win_chance(nmap, punit, defender, nullptr);
       }
       if (stackcost < unit_build_shield_cost_base(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)",
@@ -571,6 +571,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       unit_data->target = target->id;
       if (is_virtual) {
         pf_map_destroy(pfm);
+
         return stackthreat;
       }
 
@@ -583,9 +584,10 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       /* Check if we have nuked it */
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (pre)");
-        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr);
         pf_map_destroy(pfm);
-        return -1; /* try again */
+
+        return -1; /* Try again */
       }
 
       /* Go towards it. */
@@ -593,33 +595,38 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       if (!adv_unit_execute_path(punit, path)) {
         pf_path_destroy(path);
         pf_map_destroy(pfm);
+
         return 0;
       }
       pf_path_destroy(path);
 
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
-        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr);
         pf_map_destroy(pfm);
-        return -1; /* try again */
+
+        return -1; /* Try again */
       }
 
       /* Check if we can nuke it now */
       dai_hunter_try_launch(ait, pplayer, punit, target);
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (post)");
-        dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
+        dai_unit_new_task(ait, punit, AIUNIT_NONE, nullptr);
         pf_map_destroy(pfm);
-        return -1; /* try again */
+
+        return -1; /* Try again */
       }
 
       pf_map_destroy(pfm);
       unit_data->done = TRUE;
-      return stackthreat; /* still have work to do */
+
+      return stackthreat; /* Still have work to do */
     } unit_list_iterate_safe_end;
   } pf_map_move_costs_iterate_end;
 
   UNIT_LOG(LOGLEVEL_HUNT, punit, "ran out of map finding hunt target");
   pf_map_destroy(pfm);
-  return 0; /* found nothing */
+
+  return 0; /* Found nothing */
 }
