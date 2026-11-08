@@ -527,7 +527,8 @@ static int revolentype_length(enum revolen_type rltype,
   case REVOLEN_RANDQUICK:
     /* If everyone changes to this government once, the last 50% of players doing so
      * will get the minimum time (1 turn) */
-    change_speed = (player_count() / 2) / (game.server.revolution_length - 1);
+    change_speed = (player_count() / 2)
+                   / MAX(1, game.server.revolution_length - 1);
     /* It never takes zero players to make revlen shorter */
     change_speed = MAX(change_speed, 1);
     max_turns = game.server.revolution_length - gov->changed_to_times / change_speed;
