@@ -704,7 +704,8 @@ static const char *cr_entry_plague_risk(const struct city *pcity,
     fc_snprintf(buf, sizeof(buf), " -.-");
   } else {
     fc_snprintf(buf, sizeof(buf), "%4.1f",
-                (float)city_illness_calc(pcity, NULL, NULL, NULL, NULL)/10.0);
+                (float)city_illness_calc(pcity, nullptr, nullptr,
+                                         nullptr, nullptr) / 10.0);
   }
 
   return buf;
@@ -744,104 +745,104 @@ static const char *cr_entry_cma(const struct city *pcity,
 #define FUNC_TAG(var)  cr_entry_##var, #var
 
 static const struct city_report_spec base_city_report_specs[] = {
-  { TRUE,  -15, NULL,  N_("?city:Name"), N_("City Name"),
-    NULL, FUNC_TAG(cityname) },
-  { FALSE, -15, NULL, N_("Nation"),  N_("Nation"),
-    NULL, FUNC_TAG(nation) },
-  { TRUE,    2, NULL,  N_("?size [short]:Sz"), N_("Size"),
-    NULL, FUNC_TAG(size) },
-  { TRUE,   -8, NULL,  N_("State"),   N_("Celebrating/Peace/Disorder"),
-    NULL, FUNC_TAG(hstate_verbose) },
-  { FALSE,   1, NULL,  NULL,          N_("Concise *=Celebrating, X=Disorder"),
-    NULL, FUNC_TAG(hstate_concise) },
+  { TRUE,  -15, nullptr,  N_("?city:Name"), N_("City Name"),
+    nullptr, FUNC_TAG(cityname) },
+  { FALSE, -15, nullptr,  N_("Nation"),  N_("Nation"),
+    nullptr, FUNC_TAG(nation) },
+  { TRUE,    2, nullptr,  N_("?size [short]:Sz"), N_("Size"),
+    nullptr, FUNC_TAG(size) },
+  { TRUE,   -8, nullptr,  N_("State"),   N_("Celebrating/Peace/Disorder"),
+    nullptr, FUNC_TAG(hstate_verbose) },
+  { FALSE,   1, nullptr,  nullptr,          N_("Concise *=Celebrating, X=Disorder"),
+    nullptr, FUNC_TAG(hstate_concise) },
 
-  { FALSE,   2, NULL, N_("?Happy workers:H"), N_("Workers: Happy"),
-    NULL, FUNC_TAG(happy) },
-  { FALSE,   2, NULL, N_("?Content workers:C"), N_("Workers: Content"),
-    NULL, FUNC_TAG(content) },
-  { FALSE,   2, NULL, N_("?Unhappy workers:U"), N_("Workers: Unhappy"),
-    NULL, FUNC_TAG(unhappy) },
-  { FALSE,   2, NULL, N_("?Angry workers:A"), N_("Workers: Angry"),
-    NULL, FUNC_TAG(angry) },
+  { FALSE,   2, nullptr, N_("?Happy workers:H"), N_("Workers: Happy"),
+    nullptr, FUNC_TAG(happy) },
+  { FALSE,   2, nullptr, N_("?Content workers:C"), N_("Workers: Content"),
+    nullptr, FUNC_TAG(content) },
+  { FALSE,   2, nullptr, N_("?Unhappy workers:U"), N_("Workers: Unhappy"),
+    nullptr, FUNC_TAG(unhappy) },
+  { FALSE,   2, nullptr, N_("?Angry workers:A"), N_("Workers: Angry"),
+    nullptr, FUNC_TAG(angry) },
   { TRUE,   10, N_("?city:Workers"),
     N_("?happy/content/unhappy/angry:H/C/U/A"),
     N_("Workers: Happy, Content, Unhappy, Angry"),
-    NULL, FUNC_TAG(workers) },
+    nullptr, FUNC_TAG(workers) },
 
   { FALSE,   8, N_("Best"), N_("attack"),
-    N_("Best attacking units"), NULL, FUNC_TAG(attack)},
+    N_("Best attacking units"), nullptr, FUNC_TAG(attack)},
   { FALSE,   8, N_("Best"), N_("defense"),
-    N_("Best defending units"), NULL, FUNC_TAG(defense)},
+    N_("Best defending units"), nullptr, FUNC_TAG(defense)},
   { FALSE,   2, N_("Units"),
     /* TRANS: Header "Number of units inside city" */
     N_("?Present (units):Here"),
-    N_("Number of units present"), NULL, FUNC_TAG(present) },
+    N_("Number of units present"), nullptr, FUNC_TAG(present) },
   { FALSE,   2, N_("Units"),
     /* TRANS: Header "Number of units supported by given city" */
     N_("?Supported (units):Owned"),
-    N_("Number of units supported"), NULL, FUNC_TAG(supported) },
+    N_("Number of units supported"), nullptr, FUNC_TAG(supported) },
 
   { /* TRANS: Header "It will take this many turns before city grows" */
     TRUE,   14, N_("?food (population):Grow"),
     N_("?Stock/Target:(Have/Need)"),
     N_("Turns until growth/famine"),
-    NULL, FUNC_TAG(growturns) },
+    nullptr, FUNC_TAG(growturns) },
 
   { TRUE,   10, N_("Surplus"), N_("?food/production/trade:F/P/T"),
     N_("Surplus: Food, Production, Trade"),
-    NULL, FUNC_TAG(resources) },
-  { FALSE,   3, NULL, N_("?Food surplus [short]:+F"), N_("Surplus: Food"),
-    NULL, FUNC_TAG(foodplus) },
-  { FALSE,   3, NULL, N_("?Production surplus [short]:+P"),
-    N_("Surplus: Production"), NULL, FUNC_TAG(prodplus) },
-  { FALSE,   3, NULL, N_("?Production loss (waste) [short]:-P"),
-    N_("Waste"), NULL, FUNC_TAG(waste) },
-  { FALSE,   3, NULL, N_("?Trade surplus [short]:+T"), N_("Surplus: Trade"),
-    NULL, FUNC_TAG(tradeplus) },
-  { FALSE,   3, NULL, N_("?Trade loss (corruption) [short]:-T"),
-    N_("Corruption"), NULL, FUNC_TAG(corruption) },
+    nullptr, FUNC_TAG(resources) },
+  { FALSE,   3, nullptr, N_("?Food surplus [short]:+F"), N_("Surplus: Food"),
+    nullptr, FUNC_TAG(foodplus) },
+  { FALSE,   3, nullptr, N_("?Production surplus [short]:+P"),
+    N_("Surplus: Production"), nullptr, FUNC_TAG(prodplus) },
+  { FALSE,   3, nullptr, N_("?Production loss (waste) [short]:-P"),
+    N_("Waste"), nullptr, FUNC_TAG(waste) },
+  { FALSE,   3, nullptr, N_("?Trade surplus [short]:+T"), N_("Surplus: Trade"),
+    nullptr, FUNC_TAG(tradeplus) },
+  { FALSE,   3, nullptr, N_("?Trade loss (corruption) [short]:-T"),
+    N_("Corruption"), nullptr, FUNC_TAG(corruption) },
 
   { TRUE,   10, N_("Economy"), N_("?gold/luxury/science:G/L/S"),
                                  N_("Economy: Gold, Luxuries, Science"),
-    NULL, FUNC_TAG(output) },
-  { FALSE,   3, NULL, N_("?Gold:G"), N_("Economy: Gold"),
-    NULL, FUNC_TAG(gold) },
-  { FALSE,   3, NULL, N_("?Luxury:L"), N_("Economy: Luxury"),
-    NULL, FUNC_TAG(luxury) },
-  { FALSE,   3, NULL, N_("?Science:S"), N_("Economy: Science"),
-    NULL, FUNC_TAG(science) },
-  { FALSE,   3, NULL, N_("?Culture:Clt"), N_("Culture (History+Performance)"),
-    NULL, FUNC_TAG(culture) },
-  { FALSE,   3, NULL, N_("?History:Hst"),
+    nullptr, FUNC_TAG(output) },
+  { FALSE,   3, nullptr, N_("?Gold:G"), N_("Economy: Gold"),
+    nullptr, FUNC_TAG(gold) },
+  { FALSE,   3, nullptr, N_("?Luxury:L"), N_("Economy: Luxury"),
+    nullptr, FUNC_TAG(luxury) },
+  { FALSE,   3, nullptr, N_("?Science:S"), N_("Economy: Science"),
+    nullptr, FUNC_TAG(science) },
+  { FALSE,   3, nullptr, N_("?Culture:Clt"), N_("Culture (History+Performance)"),
+    nullptr, FUNC_TAG(culture) },
+  { FALSE,   3, nullptr, N_("?History:Hst"),
     N_("Culture: History (and gain per turn)"),
-    NULL, FUNC_TAG(history) },
-  { FALSE,   3, NULL, N_("?Performance:Prf"), N_("Culture: Performance"),
-    NULL, FUNC_TAG(performance) },
-  { FALSE,   3, NULL, N_("?Continent:C"), N_("Continent number"),
-    NULL, FUNC_TAG(continent) },
+    nullptr, FUNC_TAG(history) },
+  { FALSE,   3, nullptr, N_("?Performance:Prf"), N_("Culture: Performance"),
+    nullptr, FUNC_TAG(performance) },
+  { FALSE,   3, nullptr, N_("?Continent:C"), N_("Continent number"),
+    nullptr, FUNC_TAG(continent) },
   { FALSE,   6, N_("?number_trade_routes:Trade"),
     N_("?number_trade_routes:Routes"),
     N_("Number (and total value) of trade routes"),
-    NULL, FUNC_TAG(trade_routes) },
-  { FALSE,   3, NULL, N_("?pollution [short]:Pol"), N_("?stats:Pollution"),
-    NULL, FUNC_TAG(pollution) },
+    nullptr, FUNC_TAG(trade_routes) },
+  { FALSE,   3, nullptr, N_("?pollution [short]:Pol"), N_("?stats:Pollution"),
+    nullptr, FUNC_TAG(pollution) },
   { FALSE,   4, N_("?plague risk [short]:Pla"), N_("(%)"),
     N_("Plague risk per turn"),
-    NULL, FUNC_TAG(plague_risk) },
-  { FALSE,  15, NULL, N_("?cma:Governor"), N_("Citizen Governor"),
-    NULL, FUNC_TAG(cma) },
+    nullptr, FUNC_TAG(plague_risk) },
+  { FALSE,  15, nullptr, N_("?cma:Governor"), N_("Citizen Governor"),
+    nullptr, FUNC_TAG(cma) },
 
   /* TRANS: "BS" = "build slots" */
-  { FALSE,   3, NULL, N_("BS"), N_("Maximum units buildable per turn"),
-    NULL, FUNC_TAG(build_slots) },
+  { FALSE,   3, nullptr, N_("BS"), N_("Maximum units buildable per turn"),
+    nullptr, FUNC_TAG(build_slots) },
   { TRUE,    9, N_("Production"), N_("Turns/Buy"),
     /* N_("Turns or gold to complete production"), future menu needs translation */
     N_("Production"),
-    NULL, FUNC_TAG(build_cost) },
+    nullptr, FUNC_TAG(build_cost) },
   { TRUE,    0, N_("Currently Building"),
     N_("?Stock/Target:(Have/Need)"),
     N_("Currently Building"),
-    NULL, FUNC_TAG(building) }
+    nullptr, FUNC_TAG(building) }
 };
 
 struct city_report_spec *city_report_specs;
@@ -922,7 +923,7 @@ void init_city_report_game_data(void)
                 "%s", specialists_abbreviation_string());
     p->title2 = sp_summary;
     p->explanation = sp_explanations;
-    p->data = NULL;
+    p->data = nullptr;
     p->func = cr_entry_specialists;
     p->tagname = "specialists";
     p++;
@@ -1130,9 +1131,9 @@ int cityrepfield_compare(const char *str1, const char *str2)
 
   if (str1 == str2) {
     return 0;
-  } else if (NULL == str1) {
+  } else if (str1 == nullptr) {
     return 1;
-  } else if (NULL == str2) {
+  } else if (str2 == nullptr) {
     return -1;
   }
 
