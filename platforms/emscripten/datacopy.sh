@@ -30,6 +30,7 @@ if ! cp "${DATA_SRC}/data/helpdata.txt" "${DATA_TGT}/data/" ||
    ! cp "${DATA_SRC}/data/hexemplio.modpack" "${DATA_TGT}/data/" ||
    ! cp -R "${DATA_SRC}/data/hexemplio" "${DATA_TGT}/data/" ||
    ! cp "${DATA_SRC}/data/amplio2/units."* "${DATA_TGT}/data/amplio2/" ||
+   ! cp "${DATA_SRC}/data/amplio2/worker_unit."* "${DATA_TGT}/data/amplio2/" ||
    ! cp "${DATA_SRC}/data/amplio2/extra_units."* "${DATA_TGT}/data/amplio2/" ||
    ! cp "${DATA_SRC}/data/amplio2/animals."* "${DATA_TGT}/data/amplio2/" ||
    ! cp "${DATA_SRC}/data/amplio2/nuke."* "${DATA_TGT}/data/amplio2/" ||
