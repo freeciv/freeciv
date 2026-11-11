@@ -2626,19 +2626,20 @@ static void compat_load_030300(struct loaddata *loading,
 
   player_slots_iterate(pslot) {
     int plrno = player_slot_index(pslot);
-    int ncities;
-    int cnro;
+    int ndcities;
+    int dcnro;
 
     if (secfile_section_lookup(loading->file, "player%d", plrno) == nullptr) {
       continue;
     }
 
-    ncities = secfile_lookup_int_default(loading->file, 0,
-                                         "player%d.dc_total", plrno);
+    /* FoW cities seen, not real ones owned. */
+    ndcities = secfile_lookup_int_default(loading->file, 0,
+                                          "player%d.dc_total", plrno);
 
-    for (cnro = 0; cnro < ncities; cnro++) {
-      secfile_insert_int(loading->file, -1, "player%d.c%d.original",
-                         plrno, cnro);
+    for (dcnro = 0; dcnro < ndcities; dcnro++) {
+      secfile_insert_int(loading->file, -1, "player%d.dc%d.original",
+                         plrno, dcnro);
     }
   } player_slots_iterate_end;
 }
