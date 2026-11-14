@@ -2641,12 +2641,16 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->battlegroup = punit->battlegroup;
   packet->has_orders = punit->has_orders;
   if (punit->has_orders) {
-    packet->orders_length = punit->orders.length;
+    if (punit->orders.length > MAX_LEN_ROUTE) {
+      packet->orders_length = MAX_LEN_ROUTE;
+    } else {
+      packet->orders_length = punit->orders.length;
+    }
     packet->orders_index = punit->orders.index;
     packet->orders_repeat = punit->orders.repeat;
     packet->orders_vigilant = punit->orders.vigilant;
     memcpy(packet->orders, punit->orders.list,
-           punit->orders.length * sizeof(struct unit_order));
+           packet->orders_length * sizeof(struct unit_order));
   } else {
     packet->orders_length = packet->orders_index = 0;
     packet->orders_repeat = packet->orders_vigilant = FALSE;
