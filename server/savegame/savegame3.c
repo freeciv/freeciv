@@ -5723,8 +5723,8 @@ static void sg_save_player_cities(struct savedata *saving,
   city_list_iterate(plr->cities, pcity) {
     int routes;
 
-    /* Check the sanity of the city. */
-    city_refresh(pcity);
+    /* Check the sanity of the city. Do not city_refresh() it first:
+     * saving must not change the game state. */
     sanity_check_city(pcity);
 
     if (pcity->worklist.length > wlist_max_length) {
