@@ -50,7 +50,7 @@ static QRect check_box_rect(const QStyleOptionViewItem
 }
 
 /**********************************************************************//**
-  Slighty increase default cell height
+  Slightly increase default cell height
 **************************************************************************/
 QSize plr_item_delegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
