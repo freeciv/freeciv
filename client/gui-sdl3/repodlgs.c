@@ -1212,7 +1212,7 @@ static widget_id report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion
 
   motion_event->x -= motion->horiz_src->dst->dest_rect.x;
 
-  if ((abs(motion_event->x - motion->x) > 7)
+  if ((fabsf(motion_event->x - motion->x) > 7)
       && (motion_event->x >= motion->min)
       && (motion_event->x <= motion->max)) {
 
