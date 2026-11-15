@@ -579,8 +579,10 @@ bool FilterMouseMotionEvents(void *data, SDL_Event *event)
   if (event->type == SDL_EVENT_MOUSE_MOTION) {
     static int x = 0, y = 0;
 
-    if (((MOVE_STEP_X > 0) && (abs(event->motion.x - x) >= MOVE_STEP_X))
-        || ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
+    if (((MOVE_STEP_X > 0)
+         && (fabsf(event->motion.x - x) >= MOVE_STEP_X))
+        || ((MOVE_STEP_Y > 0)
+            && (fabsf(event->motion.y - y) >= MOVE_STEP_Y)) ) {
       x = event->motion.x;
       y = event->motion.y;
       return TRUE;     /* Catch it */
