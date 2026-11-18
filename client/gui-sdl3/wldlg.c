@@ -1244,7 +1244,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
   /*
      pwidget->data filed will contains position of target in worklist all
-     action on worklist (swap/romove/add) must correct this fields
+     action on worklist (swap/remove/add) must correct this fields
 
      Production Widget Label in worklist Widget list
      will have this field NULL
