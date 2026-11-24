@@ -54,10 +54,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 3.2\n"
+"Project-Id-Version: Freeciv 3.4\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2026-08-23 22:21+0300\n"
-"PO-Revision-Date: 2026-11-05 06:50+0200\n"
+"PO-Revision-Date: 2026-11-24 20:39+0200\n"
 "Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -4706,6 +4706,13 @@ msgid ""
 "and 19th centuries Dahomey was known for its fierce ahosi (gbeto) warriors: "
 "an army of women who were the king's official bodyguards and celibate wives."
 msgstr ""
+"Den södra tredjedelen av dagens Benin utgjorde en gång ett kungarike som "
+"gick under namnen Agbome (omkring 1600–1700), Danhome (omkring 1700–1730) "
+"och Dahomey (1730–1894). År 1730 blev landet tributskyldigt till grannriket "
+"Oyo. Frankrike erövrade landet i det andra fransk-dahomeiska kriget (1892–"
+"1894) och delade det i Agbome och Alada. Under 1700- och 1800-talen var "
+"Dahomey känt för sina fruktade ahosikrigare (gbeto). De bildade en armé av "
+"kvinnor som var kungens officiella livvakter och hustrur och levde i celibat."
 
 #: data/nation/darfuri.ruleset:3
 msgid "Darfuri"
@@ -5118,14 +5125,12 @@ msgid "?plural:Estonians"
 msgstr "esterna"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea. Its "
 "people and language are closely related to those of Finland."
 msgstr ""
-"Estland ligger vid Östersjön och har tillhört Tyska Orden, Danmark, Sverige, "
-"Ryssland och Sovjetunionen. Det var självständigt från 1918 till 1939 och "
-"blev självständigt igen när Sovjetunionen upplöstes."
+"Estland är ett litet land i östra Östersjöområdet, på Finska vikens södra "
+"strand. Esterna är nära besläktade med finnarna och estniskan med finskan."
 
 #: data/nation/estonian.ruleset:21 data/nation/peruvian.ruleset:25
 #, c-format
@@ -6845,7 +6850,6 @@ msgid "?plural:Irish"
 msgstr "irländarna"
 
 #: data/nation/irish.ruleset:6
-#, fuzzy
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
 "Normans in 1171. It was ruled by the English until 1922 when most of the "
@@ -6853,11 +6857,11 @@ msgid ""
 "of Ireland was settled in the 17th century by Scottish and English planters "
 "and is now part of the United Kingdom."
 msgstr ""
-"Irland höll ut mot romarna och vikingarna, men erövrades av normanderna år "
-"1171. Det var under engelskt styre till 1922 då större delen av landet "
-"erhöll begränsad självständighet, samt blev en republik 1949. Norra Irland "
-"bosattes under 1600-talet av skotska och engelska bönder och är idag en del "
-"av Storbritannien."
+"Irland stod emot romarna och vikingarna men erövrades av normanderna 1171. "
+"Engelsmännen styrde landet fram till 1922, då större delen av det fick "
+"begränsat självstyre. Den delen blev republik 1949. På 1600-talet bosatte "
+"sig skotska och engelska kolonisatörer i norr. Nordirland tillhör i dag "
+"Förenade kungariket."
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"

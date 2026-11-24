@@ -54,10 +54,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 3.2\n"
+"Project-Id-Version: Freeciv 3.4\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2026-07-26 04:27+0300\n"
-"PO-Revision-Date: 2026-10-31 11:04+0200\n"
+"PO-Revision-Date: 2026-11-24 20:39+0200\n"
 "Last-Translator: Codex (AI-assisted translation draft)\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
 "Language: sv\n"
@@ -397,7 +397,7 @@ msgstr "Okänt tillval: ”%s”\n"
 
 #: tools/ruledit/ruledit_qt.cpp:127
 msgid "built in Qt6x mode."
-msgstr ""
+msgstr "byggd för Qt6x."
 
 #: tools/ruledit/ruledit_qt.cpp:129
 msgid "built in Qt6 mode."
