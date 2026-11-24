@@ -16,7 +16,258 @@ MAJOR CHANGES FROM 3.3.x to 3.4.0
 MAJOR CHANGES FROM 3.2.x to 3.3.0
 ---------------------------------
 
-[TODO]
+   (from <https://www.freeciv.org/wiki/NEWS-3.3.0>, 2026-11-24)
+
+The major changes in 3.3 are animation support in gtk4-client,
+sdl3-client also for windows, flagless units, functional sdl2-client
+in a web browser, and a whole lot of extra flexibility to create
+custom rulesets.
+
+As is usual for major releases, 3.3 clients cannot interoperate with
+pre-3.3 servers, and vice versa. Most pre-3.3 savegames can however
+be loaded into 3.3, and in most cases, the supplied rulesets have
+not changed so much as to make it difficult to complete a game started
+with 3.2.x's rules.
+
+Server / General
+
+    * Autosettlers have been renamed as Autoworkers osdn#48578
+    * Map images are now saved also on Game Over osdn#47551
+    * New World Peace victory type. Not enabled by default osdn#48664
+    * New MOST CULTURAL historian report type RM#1010
+    * Excess food now carries over when city grows RM#1557
+    * Reworked notifications about extra (dis)appearance RM#1737
+    * Improved random seeds handling RM#1953
+    * Obsolete buildings are now always sold at turn change, not when
+      a new tech is gained. RM#2087
+    * Units added to a city are made field workers by default RM#1618
+    * Improved messages about obsoleted wonders RM#2052
+    * Functional client-in-a-web-browser (emscripten) RM#2389
+
+Changes affecting players (supplied rulesets)
+
+    * Croatian leaders updated RM#1415
+
+    * civ2civ3
+         + Storms are now flagless units osdn#48608
+         + Robbery disaster added RM#141
+
+    * classic
+         + Robbery disaster added RM#141
+
+    * sandbox
+         + Storms are now flagless units osdn#48608
+         + Robbery disaster added RM#141
+
+Changes affecting other rulesets / modders
+
+    * Dropped support for fallback entries named "prefered" when "preferred"
+      not found osdn#48881
+    * Maximum number of Custom Tech Flags is now 10 RM#732
+    * Added enablers support for events beyond unit actions osdn#47810
+         + actionenablers renamed as enablers osdn#48616
+         + Gain Veterancy enabler osdn#48000
+         + Escape enabler - replaces CanEscape unit type flag RM#391
+         + Civil War - replaces civil_war_enabled ruleset setting RM#1094
+    * NoVeteran unit type flag unhardcoded osdn#48028
+    * Added unit type flag Flagless osdn#48592
+    * Unit doing an activity now remembers which action started the activity,
+      and Action requirements work in distinguishing between them osdn#48866
+    * Fake Generalized more actions
+         + Teleport 2, Teleport 3 osdn#48657
+         + Build Road 2, Build Base 2, Build Irrigation 2, Build Mine 2 RM#107
+         + Cultivate 2, Plant 2, Transform Terrain 2 RM#134
+         + Fortify 2 RM#210
+         + Clean 2 RM#230
+         + Pillage 2 osdn#41526
+    * Completely new actions
+         + Stack Bribe RM#803
+    * Action Conquer City and fake generalized versions of it renamed as
+      Conquer City Shrink RM#765
+    * UnitFlag requirement type renamed as UnitTypeFlag RM#601
+    * New requirement types
+         + MinCities RM#151
+         + MaxDistanceSq RM#616
+         + MaxRegionTiles (size of a continent or ocean) RM#629
+         + TileRel (relative placement of the tiles; "Same Region" etc) RM#614
+    * New effect types
+         + Tech_Leakage RM#277
+         + Culture_Ptc RM#353
+         + Tile_Claimable, unhardcoding border claiming rules RM#588
+         + Veteran_Work osdn#43186
+         + Civil_War_City_Bonus, replaces civstyle civil war bonus values
+           RM#1009
+    * Martial_Law_Each effect renamed as Martial_Law_By_Unit RM#972
+    * Martial_Law_By_Unit effect can now take unit specific requirements
+      RM#948
+    * New supported ranges for existing requirements
+         + UnitType requirements supported in Tile, Cadjacent,
+           and Adjacent ranges RM#347
+         + UnitTypeFlag requirements supported in Tile, Cadjacent,
+           and Adjacent ranges RM#369
+         + UnitClass requirements supported in Tile, Cadjacent,
+           and Adjacent ranges osdn#43704
+         + UnitClassFlag requirements supported in Tile, Cadjacent,
+           and Adjacent ranges RM#401
+        Tech requirement supported in Local range RM#512
+        TechFlag requirement supported in Local range RM#573
+    * New select_priority field for Goods for controlling which one
+      gets selected when multiple are available osdn#48250
+    * New priority field for Goods for controlling if a new trade route
+      can replace existing one, and if yes, which one osdn#48253
+    * Requirement of the target to be a barbarian unhardcoded from
+      Collect Ransom action osdn#48885
+    * New unit type flag ProvidesRansom osdn#48934
+    * New disaster type Robbery RM#98
+    * Clauses can now have also either_reqs where either party, instead
+      of specifically giver or receiver, of the treaty can satisfy
+      the requirement RM#152
+    * New building flags
+         + Indestructible to make building safe from Surgical Strike actions
+           RM#168
+         + Infra to convert production (building the "building")
+           to infrapoints RM#563
+    * Removed limit on requirement list length RM#541
+    * Added ruleset hint std_tileset_compat for conrolling how automatic
+      ruleset upgrades should work in relation to tileset compatibility
+      osdn#45540
+    * Enablers have a new comment field that has no gameplay effect,
+      but which is preserved over ruleup and ruledit ruleset load + save
+      RM#1031
+    * Introduced action specific sections in actions.ruleset,
+      where the action ui_name is now contained in a systematic way RM#1092
+    * Original owners of cities stored to the savegame, for benefit of
+      the requirements that depend on the information RM#1065
+    * low_firepower_pearl_harbour ruleset setting renamed as
+      low_firepower_pearl_harbor RM#1149
+    * Shield2Gold_Pct effect improvements
+         + Former Shield2Gold_Factor renamed as Shield2Gold_Pct RM#1350
+         + Takes unit type specific requirements RM#1121
+         + Unhardcoded Shield2Gold unit type flag RM#1186
+    * City capital score now saved to savegame RM#1493
+    * Newly mandatory base effects in the ruleset
+         + Upkeep_Factor RM#1506
+         + Tech_Cost_Factor RM#2004
+    * Terrain can now have multiple animals defined RM#1677
+
+Changes in Lua scripting
+
+    * Lua engine updated to lua-5.5 RM#1568
+    * New Specialist class RM#1451
+    * New Specialist APIs RM#1464
+    * Other new methods and properties
+         + create_trade_route() osdn#46550
+         + edit.change_city_size() osdn#44230
+         + City:change_size() RM#841
+         + City:nationality_citizens() RM#844
+         + edit.city_create() with citizen nationality parameter,
+           deprecates edit.create_city() osdn#44627
+         + edit.change_citizen_nationality() RM#856
+         + Player:tag_score() to get various score values as tagged
+           in the scorelog RM#859
+         + Unit.nationality RM#862
+         + Player:diplstate() RM#876
+         + Player:love() RM#897
+         + Player:add_love() RM#904
+         + Player:cancel_pact() RM#989
+         + Player:has_embassy(), Player:team_has_embassy() RM#1237
+         + Tile:latitude() RM#2031
+    * New signals
+         + unit_transferred osdn#44888
+         + spontaneous_extra RM#1804
+    * error_log() and debug_log() now give a deprecation warning RM#971
+
+Changes affecting custom scenarios
+
+    * Savegame/scenario maps now have tile altitude info RM#69
+
+Changes affecting server operators
+
+    * Default for server setting animals reduced from 20 to 15 RM#1465
+    * Luasql has been updated to 2.8.1 RM#2093
+
+AI
+
+    * Limit number of Settlers AI builds when Found City action not enabled
+      RM#1084
+
+Clients
+
+    * Dropped support to load client options files saved by freeciv-2.1
+      or earlier osdn#48627
+    * Client tracks continent/ocean sizes, what continent surrounds lakes,
+      and what ocean surrounds islands. Client also shows that info to user
+      RM#642
+    * Map view animation support. Currently only gtk4-client implements it.
+         + action_decision_want icon animation support RM#1013
+         + Tile extras animation support RM#1096
+         + Units animation support RM#1480
+    * Unit selection animation frame count unhardcoded, like with
+      any other animation RM#1012
+    * Size of the help dialog is remembered on next time it's started RM#1287
+    * Size of the options dialog is remembered on next time it's started
+      RM#1288
+    * Some more work to unify shortcut keys between clients RM#1497
+
+    * gtk
+         + Added menu entries for zoom RM#943
+         + Added Counters Help menu entry RM#1998
+
+    * qt
+         + City Report column order saved to options file RM#1852
+         + Support standard "Ctrl+Q" keyboard shortcut RM#1947
+         + Added Counters Help menu entry RM#1977
+         + Improved city dialog UI design RM#2115
+
+    * sdl2
+         + Client now supports all graphics formats that underlying
+           SDL2_image library provides support for osdn#46413
+
+Tools
+
+    * rulesave (ruleup & ruledit)
+         + Gettext marking _() saved to more entries RM#1893
+
+Tilesets, Art, etc
+
+    * Tilesets have associated .modpack files now RM#505
+    * Supplied tilesets have animated action_decision_want icons RM#1034
+
+Translations
+
+    * Updated translations:
+      Finnish, Galician, German, Korean, Polish, Russian, Swedish
+
+Build/portability
+
+    * Changes to making meson based builds
+         + New configure option fcdb to enable mariadb or odbc player
+           authentication backend support RM#1152
+         + Silenced clang warnings when building included lua RM#1907
+    * Changes to making autotools based builds
+         + Making build in the source directory disallowed. Builds must
+           be made on a separate build directory osdn#45882
+         + One has to confirm that they really want to use autotools instead
+           of meson by a new configure option --enable-ack-legacy RM#1006
+         + Autoconf-2.69 is now minimum requirement osdn#48565
+         + Python-3.6 is now minimum requirement osdn#44767
+         + snapshot.project is no longer available RM#1591
+    * Added qtver value qt6x for making experimental builds against latest
+      Qt6 versions osdn#44911
+    * va_copy is now a hard requirement osdn#45980
+    * freeciv-web can no longer be built with autotools. Meson must be used.
+      osdn#47807
+    * Building flatpaks in source directory disallowed.
+      Builds must be made on a separate build directory osdn#48653
+    * Windows Installers updates
+         + Msys2 environment updated to 260927 level RM#2252
+         + 32-bit Windows support dropped completely RM#772
+         + clang64 toolchaing supported RM#1133
+         + sdl3-client installer added RM#1596
+    * Cross-compiled Windows Installers updates
+         + meson-winbuild.sh supports building from a separate builddir RM#662
+         + 32-bit Windows support dropped completely RM#731
+    * Reduced unnecessary requirements for build_tolua.sh RM#2144
 
 
 MAJOR CHANGES FROM 3.1.x to 3.2.0
