@@ -509,6 +509,7 @@ static void activated_topic(GtkTreeView *view, gpointer data)
 **************************************************************************/
 static void create_help_dialog(void)
 {
+  GtkRequisition size;
   GtkWidget *hbox;
   GtkWidget *button;
   GtkWidget *text;
@@ -603,9 +604,6 @@ static void create_help_dialog(void)
 
   help_frame = gtk_frame_new("");
   gtk_container_add(GTK_CONTAINER(hbox), help_frame);
-  gtk_widget_set_size_request(help_frame,
-                              GUI_GTK_OPTION(helpdlg_xsize),
-                              GUI_GTK_OPTION(helpdlg_ysize));
   gtk_widget_show(help_frame);
 
   help_box = gtk_grid_new();
@@ -799,6 +797,16 @@ static void create_help_dialog(void)
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
   gtk_container_add(GTK_CONTAINER(help_box), help_tree_buttons_hbox);
   gtk_widget_show_all(help_tree_buttons_hbox);
+
+  /* The saved dimensions describe the reading pane. Use them to size the
+   * complete dialog, then let the window manager fit it on smaller screens. */
+  gtk_widget_set_size_request(help_frame,
+                              GUI_GTK_OPTION(helpdlg_xsize),
+                              GUI_GTK_OPTION(helpdlg_ysize));
+  gtk_widget_get_preferred_size(help_dialog_shell, &size, NULL);
+  gtk_widget_set_size_request(help_frame, -1, -1);
+  gtk_window_set_default_size(GTK_WINDOW(help_dialog_shell),
+                              size.width, size.height);
 }
 
 /**********************************************************************//**
