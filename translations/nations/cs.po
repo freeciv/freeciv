@@ -2145,7 +2145,7 @@ msgstr "Car %s"
 #: data/nation/muscovite.ruleset:24 data/nation/ossetian.ruleset:24
 #, c-format
 msgid "Tsaritsa %s"
-msgstr "Carevna %s"
+msgstr "Carice %s"
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
