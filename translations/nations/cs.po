@@ -1708,6 +1708,12 @@ msgid ""
 "Gradually they lost power and political importance and eventually the Avars "
 "blended with Slavic peoples."
 msgstr ""
+"Avaři neboli eurasijští Avaři tvořili starověký svaz kočovných kmenů "
+"různého původu. Jejich hlavním jazykem byla patrně protobulharština z "
+"oghuzské podskupiny turkických jazyků, skutečný původ Avarů však není "
+"znám. Mohli původně patřit k Žoužanům nebo Hefthalitům. Po usazení v "
+"Panonii si podrobili místní slovanské kmeny. Postupně pozbyli moci i "
+"politického významu a nakonec splynuli se Slovany."
 
 #: data/nation/avar.ruleset:34 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
@@ -1773,6 +1779,9 @@ msgid ""
 "reorganized into a set of culturally close Aymara kingdoms that thrived "
 "around the Titicaca lake until they were conquered by the Incas."
 msgstr ""
+"Po zániku civilizace Tiwanaku v Andách se její potomci zformovali do "
+"několika kulturně příbuzných ajmarských království. Ta vzkvétala v okolí "
+"jezera Titicaca, dokud si je nepodrobili Inkové."
 
 #: data/nation/azeri.ruleset:3
 msgid "Azeri"
@@ -1791,6 +1800,11 @@ msgid ""
 "Islamic republic in history. Then Azerbaijan became part of the Soviet Union "
 "until its dissolution in 1991."
 msgstr ""
+"Ázerbájdžánci jsou obyvatelé Ázerbájdžánu. Na území dnešní země vznikaly a"
+" zanikaly různé starověké státy Kavkazu. V roce 1813 se Ázerbájdžán stal "
+"součástí Ruské říše. V letech 1918–1920 byl krátce nezávislý jako první "
+"islámská republika v dějinách. Poté byl součástí Sovětského svazu až do "
+"jeho rozpadu roku 1991."
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
 #: data/nation/khwarezmian.ruleset:28
@@ -1818,6 +1832,9 @@ msgid ""
 "it was merged with Wuerttemberg and Hohenzollern to form the land of Baden-"
 "Wuerttemberg."
 msgstr ""
+"Bádensko bylo zemí ve Švábsku na jihozápadě Německa. Po druhé světové "
+"válce se spojilo s Württemberskem a Hohenzollernskem do spolkové země "
+"Bádensko-Württembersko."
 
 #: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:28
 #: data/nation/friulian.ruleset:28
@@ -1867,6 +1884,10 @@ msgid ""
 "became a constitutional monarchy in 2001 but a pro-democracy uprising in "
 "2011 was violently crushed."
 msgstr ""
+"Bahrajn je ostrovní stát v Perském zálivu a nejmenší země Blízkého "
+"východu. Na Persii je nezávislý od 18. století, až do roku 1971 však byl "
+"britským protektorátem. Roku 2001 se stal konstituční monarchií. V roce "
+"2011 bylo prodemokratické povstání násilně potlačeno."
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:20
 #, c-format
@@ -1891,6 +1912,8 @@ msgid ""
 "The People's Republic of Bangladesh was formed from the former Pakistani "
 "territory of East Bengal following a war of independence."
 msgstr ""
+"Bangladéšská lidová republika vznikla po válce za nezávislost z někdejšího"
+" pákistánského území ve východním Bengálsku."
 
 #: data/nation/bangladeshi.ruleset:21 data/nation/bengali.ruleset:25
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
@@ -1967,6 +1990,12 @@ msgid ""
 "been independent since 1966. Barbados is a major international tourist "
 "destination and one of the most developed countries of the Caribbean."
 msgstr ""
+"Barbados je ostrovní stát v Atlantském oceánu asi 100 km východně od "
+"karibských Návětrných ostrovů. Původně jej obývali Aravakové. Portugalci "
+"ostrov objevili kolem roku 1500. Když roku 1627 dorazili první angličtí "
+"osadníci, našli ostrov bez obyvatel. Barbados je nezávislý od roku 1966. "
+"Je oblíbeným cílem zahraničních turistů a jednou z nejrozvinutějších zemí "
+"Karibiku."
 
 #: data/nation/bashkir.ruleset:3
 msgid "Bashkir"
@@ -1984,6 +2013,10 @@ msgid ""
 "Today most of the Bashkirs live in the Bashkortostan Republic which is part "
 "of the Russian Federation."
 msgstr ""
+"Baškirové jsou turkicky mluvící národ na jižním Urale. Od konce 16. "
+"století byli poddanými ruského cara, v průběhu dějin se však zúčastnili "
+"několika povstání proti ruské vládě. Dnes většina Baškirů žije v "
+"Baškortostánu, republice Ruské federace."
 
 #: data/nation/basque.ruleset:3
 msgid "Basque"
@@ -2002,6 +2035,11 @@ msgid ""
 "divided into seven historical provinces. Their language, Euskara, has no "
 "known relatives and its origins are unknown."
 msgstr ""
+"Baskové žijí odedávna v západním podhůří Pyrenejí. Posledním nezávislým "
+"baskickým státem bylo Navarrské království, které v 16. století připadlo "
+"Aragonii. Dnešní Baskicko neboli Euskal Herria leží na pomezí Španělska a "
+"Francie a dělí se na sedm historických provincií. Baskičtina neboli "
+"euskara nemá žádné známé příbuzné jazyky a její původ je nejasný."
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:41
 #: data/nation/iranian.ruleset:40
@@ -2086,6 +2124,9 @@ msgid ""
 "Union. Belarus became independent in 1991 with the dissolution of the Soviet "
 "Union."
 msgstr ""
+"Bělorusko bylo součástí starého slovanského státu Kyjevská Rus, později "
+"Litvy, Republiky obou národů, Ruské říše a Sovětského svazu. Osamostatnilo"
+" se roku 1991 při rozpadu Sovětského svazu."
 
 #: data/nation/belarusian.ruleset:33 data/nation/bulgarian.ruleset:30
 #: data/nation/muscovite.ruleset:24 data/nation/ossetian.ruleset:24
@@ -2163,6 +2204,12 @@ msgid ""
 "legions but eventually succumbed to the Romans. The modern country of "
 "Belgium derives its name from the Belgae."
 msgstr ""
+"Belgové byli starověký keltský kmen, který obýval území pozdější římské "
+"provincie Gallia Belgica. Patrně měli smíšený keltský a germánský původ. "
+"Do Galie přišli zpoza Rýna a patřily k nim i některé germánské skupiny. "
+"Jejich náčelníci však měli galská jména. Julius Caesar označoval Belgy za "
+"nejstatečnější obyvatele Galie. Jeho legiím kladli houževnatý odpor, ale "
+"nakonec Římanům podlehli. Od Belgů je odvozen název dnešní Belgie."
 
 #: data/nation/belgic.ruleset:32 data/nation/boian.ruleset:24
 #: data/nation/helvetian.ruleset:31
@@ -2259,6 +2306,11 @@ msgid ""
 "diverse, its population consisting of Creoles, Mayans, Spanish-speaking "
 "mestizos, Garifunas, Chinese, Mennonites, and Indians."
 msgstr ""
+"Belize je nejmenší země Střední Ameriky. Kdysi byla součástí mayské "
+"oblasti a v 17. století se zde usadili britští piráti a dřevorubci. Pod "
+"názvem Britský Honduras se roku 1862 stala korunní kolonií. Nezávislá je "
+"od roku 1981. Obyvatelstvo je etnicky velmi rozmanité: tvoří je Kreolové, "
+"Mayové, španělsky mluvící mestici, Garifunové, Číňané, mennonité a Indové."
 
 #: data/nation/belizean.ruleset:25
 #, c-format
@@ -2286,6 +2338,10 @@ msgid ""
 "eastern part of the region, while the western part is the Indian state of "
 "West Bengal."
 msgstr ""
+"Bengálsko je oblast na samém východě indického subkontinentu. Prvním "
+"doloženým nezávislým bengálským králem byl Šašánka, který vládl kolem roku"
+" 606 n. l. Východní část dnes zaujímá Bangladéšská lidová republika, "
+"západní část tvoří indický stát Západní Bengálsko."
 
 #: data/nation/beninese.ruleset:3
 msgid "Beninese"
@@ -2302,6 +2358,10 @@ msgid ""
 "in 1972 and renamed the country Benin three years later. Multiparty rule "
 "returned in 1990."
 msgstr ""
+"Území někdejšího Dahomejského království kolonizovala v 19. století "
+"Francie. Dahome získalo roku 1960 nezávislost. V roce 1972 převzali moc "
+"marxisté a o tři roky později zemi přejmenovali na Benin. Politická soutěž"
+" více stran se obnovila roku 1990."
 
 #: data/nation/benin.ruleset:3
 msgid "Benin"
@@ -2321,6 +2381,14 @@ msgid ""
 "Europeans chose other kingdoms to trade with after Benin's main port silted "
 "up. The Kingdom finally ended in 1897 when the British assumed control."
 msgstr ""
+"Beninské království založili mluvčí jazyka edo někdy mezi 12. a 14. "
+"stoletím. S dnešní Beninskou republikou se toto království nesmí "
+"zaměňovat. Sjednotilo rozsáhlé území na západ od delty Nigeru a největšího"
+" rozkvětu dosáhlo v 16. století. Eweka I. ustavil Uzamu, radu státních "
+"hodnostářů, která pomáhala při nástupu nového krále neboli oby. Když se "
+"hlavní beninský přístav zanesl naplaveninami, Evropané začali obchodovat s"
+" jinými královstvími a Benin ztrácel na významu. Království zaniklo roku "
+"1897, když moc převzali Britové."
 
 #: data/nation/bhutanese.ruleset:3
 msgid "Bhutanese"
@@ -2338,6 +2406,10 @@ msgid ""
 "under Shabdrung Ngawang Namgyal, who repelled a Mongol invasion and united "
 "the rivaling Bhutanese tribes."
 msgstr ""
+"Bhútán leží v Himálaji a patří k nejizolovanějším zemím světa. Už nejméně "
+"tisíc let jej nedobyli ani neobsadili cizí nájezdníci. V 17. století "
+"Bhútán sjednotil Žabdrung Ngawang Namgjal, který odrazil mongolský vpád a "
+"spojil soupeřící bhútánské kmeny."
 
 #: data/nation/bhutanese.ruleset:25 data/nation/buryat.ruleset:28
 #: data/nation/kalmyk.ruleset:25 data/nation/sikkimese.ruleset:22
@@ -2377,6 +2449,11 @@ msgid ""
 "because of famine and disease caused by the blockade of Biafran ports. "
 "Biafra surrendered in 1970."
 msgstr ""
+"Po letech etnického, náboženského a hospodářského napětí v nově nezávislé "
+"Nigérii vyhlásila Biafra roku 1967 nezávislost. Následná válka mezi "
+"Nigérií a Biafrou si vyžádala až dva miliony životů, převážně v důsledku "
+"hladomoru a nemocí způsobených blokádou biaferských přístavů. Biafra se "
+"vzdala v roce 1970."
 
 #: data/nation/biafran.ruleset:21 data/nation/hellenic.ruleset:20
 #: data/nation/nigerien.ruleset:23
@@ -2403,6 +2480,8 @@ msgid ""
 "Guinea-Bissau is a country in West Africa. Formerly known as Portuguese "
 "Guinea, it declared independence in 1973."
 msgstr ""
+"Guinea-Bissau je země v západní Africe. Dříve byla známá jako Portugalská "
+"Guinea a nezávislost vyhlásila roku 1973."
 
 #: data/nation/bissauguinean.ruleset:22
 #, c-format
@@ -2492,6 +2571,9 @@ msgid ""
 "Central Europe and Northern Italy. The names of both Bohemia and Bavaria "
 "probably derive from this people."
 msgstr ""
+"Bójové byli starověký keltský kmen nebo svaz kmenů, který obýval střední "
+"Evropu a severní Itálii. Od jejich jména se pravděpodobně odvozují "
+"latinské označení Čech Bohemia i název Bavorska."
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
@@ -2512,6 +2594,14 @@ msgid ""
 "democratic rule in the 1980s. In 2006 Evo Morales became the country's first "
 "indigenous president."
 msgstr ""
+"Bolívie je vnitrozemský stát Jižní Ameriky s výrazným dědictvím původních "
+"obyvatel. Je pojmenována po Simónu Bolívarovi. Nezávislost získala v roce "
+"1825, poté ji sužovala nestabilita a přišla o tichomořské pobřeží ve "
+"prospěch Chile. Válka o Gran Chaco proti Paraguayi v letech 1932–1936 "
+"skončila další ponižující porážkou. Nespokojenost s oligarchickou vládou "
+"vyústila v revoluci roku 1952. Po sérii vojenských převratů v 70. letech "
+"se země v 80. letech vrátila k demokracii. V roce 2006 se Evo Morales stal"
+" jejím prvním prezidentem z řad původního obyvatelstva."
 
 #: data/nation/bolivian.ruleset:38 data/nation/brandenburgian.ruleset:29
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
@@ -2544,6 +2634,8 @@ msgid ""
 "Bosnia and Herzegovina is a country in south-east Europe, and the home of "
 "three constituent peoples: Bosniaks, Serbs, and Croats."
 msgstr ""
+"Bosna a Hercegovina leží v jihovýchodní Evropě. Je domovem tří "
+"konstitutivních národů: Bosňáků, Srbů a Chorvatů."
 
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
@@ -2571,6 +2663,8 @@ msgid ""
 "The Bosporan Kingdom was an ancient state in eastern Crimea and the Taman "
 "Peninsula on the shores of the Cimmerian Bosporus."
 msgstr ""
+"Bosporská říše byla starověký stát na východním Krymu a na Tamaňském "
+"poloostrově, na březích Kimmerského Bosporu."
 
 #: data/nation/bosporan.ruleset:34 data/nation/cretan.ruleset:27
 #: data/nation/cypriot.ruleset:23 data/nation/macedon.ruleset:24
@@ -2622,6 +2716,9 @@ msgid ""
 "independence from the UK in 1966. Botswana is considered the least corrupt "
 "country in Africa and it has a rapidly developing economy."
 msgstr ""
+"Botswanská republika je stát v jižní Africe. Nezávislost na Spojeném "
+"království získala roku 1966. Botswana je považována za nejméně "
+"zkorumpovanou zemi Afriky a její hospodářství se rychle rozvíjí."
 
 #: data/nation/brandenburgian.ruleset:3
 msgid "Brandenburgian"
@@ -2640,6 +2737,11 @@ msgid ""
 "province of Prussia. Currently it is one of the states of the Federal "
 "Republic of Germany."
 msgstr ""
+"Braniborsko vzniklo z někdejší Severní marky Východofranské říše. Ve 12. "
+"století se stalo kurfiřtstvím Svaté říše římské. Braniborští vládci "
+"získali roku 1618 Prusko, do něhož bylo Braniborsko roku 1701 začleněno. "
+"Nominální samostatnost si zachovalo do roku 1806, kdy se stalo pruskou "
+"provincií. Dnes je jednou ze spolkových zemí Německa."
 
 #: data/nation/brandenburgian.ruleset:30 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
@@ -2671,6 +2773,12 @@ msgid ""
 "people speaking French instead. The Dukedom of Brittany itself was formally "
 "annexed to France in 1491."
 msgstr ""
+"Bretaň, Římanům známá jako Armorika, mluvila keltskými jazyky už po "
+"staletí před příchodem Britonů. Ti sem přišli jako žoldnéři, osadníci a "
+"uprchlíci v reakci na zmatek v Galii a vpád germánských kmenů do Británie "
+"v 5. století n. l. V dalších staletích bretonština ustupovala "
+"francouzštině a udržela se zejména na západě poloostrova. Bretaňské "
+"vévodství bylo formálně připojeno k Francii roku 1491."
 
 #: data/nation/british.ruleset:3
 msgid "British"
@@ -2687,6 +2795,9 @@ msgid ""
 "Great Britain - became the leading industrial and maritime power in the 19th "
 "century."
 msgstr ""
+"Spojené království vzniklo v roce 1707 dohodou mezi Anglickým a Skotským "
+"královstvím. Země, známá také jako Velká Británie, se v 19. století stala "
+"přední průmyslovou a námořní mocností."
 
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:34 data/nation/scottish.ruleset:23
@@ -2744,6 +2855,9 @@ msgid ""
 "Age. They spoke Brythonic Celtic languages and are the ancestors of the "
 "modern Welsh, Cornish and Breton people."
 msgstr ""
+"Britonové obývali v době železné většinu Velké Británie. Mluvili "
+"britonskými keltskými jazyky a jsou předky dnešních Velšanů, Kornů a "
+"Bretonců."
 
 #: data/nation/briton.ruleset:21 data/nation/cornish.ruleset:20
 #: data/nation/frankish.ruleset:41 data/nation/gallic.ruleset:29
@@ -2792,6 +2906,10 @@ msgid ""
 "century later thanks to its control of the maritime trade in much of "
 "Southeast Asia. Brunei was a British protectorate from 1888 to 1984."
 msgstr ""
+"Brunej Darussalam je stát na Borneu v Malajském souostroví. Sultanát "
+"vznikl ve 14. století. O století později se stal poměrně mocným státem, "
+"protože ovládal námořní obchod v rozsáhlé části jihovýchodní Asie. V "
+"letech 1888–1984 byla Brunej britským protektorátem."
 
 #: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:38
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
@@ -2851,6 +2969,10 @@ msgid ""
 "country with the court in Dijon outshining that of Paris. Today, it is one "
 "of the regions of France."
 msgstr ""
+"Po pádu Západořímské říše se v říčních údolích východní Galie usadil "
+"germánský kmen Burgundů a dal oblasti své jméno. O několik staletí později"
+" bylo Burgundské vévodství bohatou zemí a jeho dvůr v Dijonu zastiňoval "
+"pařížský. Dnes je Burgundsko jedním z francouzských regionů."
 
 #: data/nation/burgundian.ruleset:28 data/nation/cantonese.ruleset:29
 #: data/nation/crusader.ruleset:34 data/nation/frankish.ruleset:40
@@ -2910,6 +3032,8 @@ msgid ""
 "Formerly Upper Volta, Burkina Faso is a country in inland West Africa. It "
 "achieved its independence from France in 1960."
 msgstr ""
+"Burkina Faso, dříve Horní Volta, je vnitrozemský stát v západní Africe. "
+"Nezávislost na Francii získala roku 1960."
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
@@ -2924,6 +3048,8 @@ msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
 msgstr ""
+"Barmský svaz, oficiálně Myanmar, je největší zemí pevninské jihovýchodní "
+"Asie."
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundian"
@@ -2944,6 +3070,13 @@ msgid ""
 "Following international pressure after World War II, Burundi became an "
 "independent nation in January 1962."
 msgstr ""
+"Ve 12. století vznikla v oblasti Velkých jezer ve východní Africe "
+"monarchie, které vládl mwami (král) a několik ganwů (knížat). Rozšiřovala "
+"se až do 17. století, kdy zhruba pokrývala území dnešního Burundi. Na "
+"přelomu 18. a 19. století ji oslabil spor o nástupnictví a koncem 19. "
+"století se stala německou kolonií. Po první světové válce připadla kolonie"
+" Belgii. Pod mezinárodním tlakem po druhé světové válce získalo Burundi v "
+"lednu 1962 nezávislost."
 
 #: data/nation/buryat.ruleset:3
 msgid "Buryat"
@@ -2964,6 +3097,12 @@ msgid ""
 "half-million Buryats in the world as well as the center of Buddhism in "
 "Russia."
 msgstr ""
+"Mongolské letopisy popisují Burjaty jako mongolské kmeny obývající lesy u "
+"Bajkalu. Roku 1207 si je podrobil Džoči, nejstarší syn Čingischána. Po "
+"připojení jejich domoviny k Rusku smlouvami z let 1689 a 1728 se Burjati "
+"politicky oddělili od ostatních Mongolů a začali si vytvářet vlastní "
+"národní identitu. Dnes v Burjatské republice žije většina z přibližně půl "
+"milionu Burjatů a republika je také centrem buddhismu v Rusku."
 
 #: data/nation/californian.ruleset:3
 msgid "Californian"
@@ -2999,6 +3138,8 @@ msgid ""
 "the mighty Khmer Empire, which ruled most of the Indochinese Peninsula "
 "between the 11th and 14th centuries."
 msgstr ""
+"Kampučia, známá jako Kambodža, je dnešním nástupcem mocné Khmerské říše, "
+"která od 11. do 14. století ovládala většinu Indočínského poloostrova."
 
 #: data/nation/cameroonian.ruleset:3
 msgid "Cameroonian"
@@ -3014,6 +3155,9 @@ msgid ""
 "was divided between Britain and France after World War I. It has been "
 "independent since 1960."
 msgstr ""
+"Kamerun leží na západě střední Afriky. Kolonizovali jej Němci. Po první "
+"světové válce se území rozdělilo mezi Británii a Francii. Nezávislý je od "
+"roku 1960."
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -3090,6 +3234,11 @@ msgid ""
 "Atlantic slave trade. The islands declared independence from Portugal in "
 "1975. The Cape Verdean population is of mixed European and African descent."
 msgstr ""
+"Kapverdy jsou souostroví u pobřeží západní Afriky. Před příchodem "
+"portugalských osadníků v 15. století byly ostrovy patrně neobydlené. "
+"Později se staly významným střediskem atlantického obchodu s otroky. "
+"Nezávislost na Portugalsku vyhlásily roku 1975. Kapverďané mají evropské i"
+" africké kořeny."
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:25
 #, c-format
@@ -3137,6 +3286,9 @@ msgid ""
 "Its current territory is divided over several autonomous communities of "
 "Spain."
 msgstr ""
+"Kastilie se stala nejmocnějším ze středověkých španělských království. "
+"Pohltila León a později vstoupila do personální unie s Aragonií. Dnes je "
+"její území rozdělené mezi několik autonomních společenství Španělska."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -3173,6 +3325,9 @@ msgid ""
 "last millennium BCE. They were of mixed Celtic and Iberian descent and were "
 "defeated by Rome in the Numantian War."
 msgstr ""
+"Keltiberové obývali východní část středního Španělska v posledním "
+"tisíciletí př. n. l. Měli smíšený keltský a iberský původ. Řím je porazil "
+"v numantské válce."
 
 #: data/nation/centralafrican.ruleset:3
 msgid "Central African"
@@ -3189,6 +3344,9 @@ msgid ""
 "dictatorship in the 70s under Emperor Bokassa I during which it was called "
 "the Central African Empire."
 msgstr ""
+"Středoafrická republika je stát ve střední Africe, dříve francouzské území"
+" Ubangi-Šari. V 70. letech zde krátce diktátorsky vládl císař Bokassa I. "
+"Země se tehdy nazývala Středoafrické císařství."
 
 #: data/nation/centralamerican.ruleset:3
 msgid "Central American"
@@ -3209,6 +3367,13 @@ msgid ""
 "American republics cooperate in the Central American Integration System "
 "(SICA)."
 msgstr ""
+"Za koloniální éry tvořila Střední Amerika generální kapitanát Guatemala. "
+"Roku 1821 vyhlásila nezávislost na Španělsku, nakrátko se připojila k "
+"Mexiku a potom vytvořila federativní republiku. Spory mezi Guatemalou a "
+"dalšími provinciemi i mezi liberály a konzervativci vedly k rozpadu "
+"federace, která do roku 1840 zanikla. Pozdější pokusy o sjednocení "
+"selhaly, ale od roku 1993 středoamerické republiky spolupracují v rámci "
+"Středoamerického integračního systému (SICA)."
 
 #: data/nation/centralamerican.ruleset:29
 #, c-format
