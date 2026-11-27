@@ -39632,7 +39632,7 @@ msgstr ""
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
 #: tools/ruleup.c:74 tools/manual/fc_manual.c:491 server/civserver.c:352
 msgid "ruleset RULESET"
-msgstr ""
+msgstr "ruleset SADA_PRAVIDEL"
 
 #: tools/ruleup.c:75
 #, fuzzy
@@ -40051,9 +40051,8 @@ msgid "Multiple rulesets requested. Only one ruleset at a time is supported.\n"
 msgstr ""
 
 #: tools/manual/fc_manual.c:488 server/civserver.c:304
-#, fuzzy
 msgid "Use FILE as logfile"
-msgstr "  -l, --log SOUBOR\tPoužije SOUBOR jako logovací\n"
+msgstr "Zapisovat protokol do souboru SOUBOR"
 
 #: tools/manual/fc_manual.c:492
 msgid "Make manual for RULESET"
@@ -41989,9 +41988,10 @@ msgid "Illegal value \"%s\" for --Announce"
 msgstr "Neplatná hodnota \"%s\" pro --Announce"
 
 #: server/civserver.c:224
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load AI module \"%s\"\n"
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr ""
+"Nepodařilo se načíst modul AI „%s“\n"
 
 #: server/civserver.c:230
 #, c-format
@@ -42012,172 +42012,147 @@ msgstr "O Freeciv se lze více dozvědět na %s"
 #. TRANS: "Database" is exactly what user must type, do not translate.
 #: server/civserver.c:257
 msgid "Database FILE"
-msgstr ""
+msgstr "Database SOUBOR"
 
 #: server/civserver.c:258
-#, fuzzy
 msgid "Enable database connection with configuration from FILE."
-msgstr "  -a  --auth\t\tZapne autentifikaci serveru.\n"
+msgstr "Připojit databázi podle konfigurace ze souboru SOUBOR."
 
 #: server/civserver.c:261
 msgid "Enable server authentication (requires --Database)."
-msgstr ""
+msgstr "Zapnout ověřování uživatelů na serveru (vyžaduje --Database)."
 
 #: server/civserver.c:263
-#, fuzzy
 msgid "Allow guests to login if auth is enabled."
-msgstr ""
-"  -G  --Guests\t\tPovolí přihlášení hostům, když je zapnutá autentifikace.\n"
+msgstr "Při zapnutém ověřování povolit přihlášení hostů."
 
 #: server/civserver.c:265
-#, fuzzy
 msgid "Allow new users to login if auth is enabled."
-msgstr ""
-"  -N  --Newusers\tPovolí přihlášení novým hráčům, když je zapnutá "
-"autentifikace.\n"
+msgstr "Při zapnutém ověřování povolit přihlášení nových uživatelů."
 
 #. TRANS: "bind" is exactly what user must type, do not translate.
 #: server/civserver.c:269
 msgid "bind ADDR"
-msgstr ""
+msgstr "bind ADRESA"
 
 #: server/civserver.c:270
-#, fuzzy
 msgid "Listen for clients on ADDR"
-msgstr "  -b, --bind ADR\tOčekává spojení od klientů na adrese ADR\n"
+msgstr "Přijímat připojení klientů na adrese ADRESA"
 
 #: server/civserver.c:272
-#, fuzzy
 msgid "Connect to metaserver from this address"
-msgstr "Nehlásit se metaserveru v této hře."
+msgstr "Připojit se k metaserveru z této adresy"
 
 #. TRANS: "identity" is exactly what user must type, do not translate.
 #: server/civserver.c:299
 msgid "identity ADDR"
-msgstr ""
+msgstr "identity ADRESA"
 
 #: server/civserver.c:300
-#, fuzzy
 msgid "Be known as ADDR at metaserver or LAN client"
-msgstr "  -M, --Metaserver ADR\tNastaví ADR jako adresu metaserveru\n"
+msgstr "Uvádět před metaserverem či klientem v místní síti adresu ADRESA"
 
 #: server/civserver.c:306
-#, fuzzy
 msgid "Notify metaserver and send server's info"
-msgstr "  -m, --meta\t\tOhlásí se metaserveru a pošle info o serveru\n"
+msgstr "Oznámit metaserveru přítomnost serveru a odeslat jeho údaje"
 
 #. TRANS: "Metaserver" is exactly what user must type, do not translate.
 #: server/civserver.c:309
-#, fuzzy
 msgid "Metaserver ADDR"
-msgstr "Metaserver"
+msgstr "Metaserver ADRESA"
 
 #: server/civserver.c:310
-#, fuzzy
 msgid "Set ADDR as metaserver address"
-msgstr "metaserver <adresa>"
+msgstr "Použít ADRESA jako adresu metaserveru"
 
 #. TRANS: "type" is exactly what user must type, do not translate.
 #: server/civserver.c:314
-#, fuzzy
 #| msgid "Type"
 msgid "type TYPE"
-msgstr "Typ"
+msgstr "type TYP"
 
 #: server/civserver.c:315
 msgid "Set TYPE as server type in metaserver"
-msgstr ""
+msgstr "Uvádět na metaserveru TYP jako typ serveru"
 
 #: server/civserver.c:318
 msgid "Keep updating game information on metaserver even after failure"
-msgstr ""
+msgstr "Aktualizovat údaje o hře na metaserveru i po selhání"
 
 #: server/civserver.c:323
-#, fuzzy
 msgid "Listen for clients on port PORT"
-msgstr "  -p, --port PORT\tOčekává spojení od klientů na portu PORT\n"
+msgstr "Přijímat připojení klientů na portu PORT"
 
 #. TRANS: "quitidle" is exactly what user must type, do not translate.
 #: server/civserver.c:326
 msgid "quitidle TIME"
-msgstr ""
+msgstr "quitidle ČAS"
 
 #: server/civserver.c:327
-#, fuzzy
 msgid "Quit if no players for TIME seconds"
-msgstr ""
-"  -q, --quitidle ČAS\tUkončí se, pokud během doby ČAS sekund není žádný "
-"hráč\n"
+msgstr "Ukončit server po uplynutí ČAS sekund bez hráčů"
 
 #: server/civserver.c:329
-#, fuzzy
 msgid "When a game ends, exit instead of restarting"
-msgstr "  -e, --exit-on-end\tKdyž skončí hra, ukončení místo restartu\n"
+msgstr "Po skončení hry server ukončit místo restartu"
 
 #. TRANS: "saves" is exactly what user must type, do not translate.
 #: server/civserver.c:332
 msgid "saves DIR"
-msgstr ""
+msgstr "saves ADRESÁŘ"
 
 #: server/civserver.c:333
-#, fuzzy
 msgid "Save games to directory DIR"
-msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
+msgstr "Ukládat hry do adresáře ADRESÁŘ"
 
 #. TRANS: "scenarios" is exactly what user must type, do not translate.
 #: server/civserver.c:336
-#, fuzzy
 msgid "scenarios DIR"
-msgstr "Vyberte scénář"
+msgstr "scenarios ADRESÁŘ"
 
 #: server/civserver.c:337
-#, fuzzy
 msgid "Save scenarios to directory DIR"
-msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
+msgstr "Ukládat scénáře do adresáře ADRESÁŘ"
 
 #. TRANS: "Serverid" is exactly what user must type, do not translate.
 #: server/civserver.c:340
-#, fuzzy
 msgid "Serverid ID"
-msgstr "Server id: %s"
+msgstr "Serverid ID"
 
 #: server/civserver.c:341
-#, fuzzy
 msgid "Sets the server id to ID"
-msgstr "  -S, --Serverid ID\tNastaví server id na ID\n"
+msgstr "Nastavit identifikátor serveru na ID"
 
 #: server/civserver.c:345
-#, fuzzy
 msgid "Read startup script FILE"
-msgstr "  -r, --read SOUBOR\tPřečte spouštěc skript ze souboru SOUBOR\n"
+msgstr "Načíst úvodní skript ze souboru SOUBOR"
 
 #. TRANS: "Ranklog" is exactly what user must type, do not translate.
 #: server/civserver.c:348
 msgid "Ranklog FILE"
-msgstr ""
+msgstr "Ranklog SOUBOR"
 
 #: server/civserver.c:349
-#, fuzzy
 msgid "Use FILE as ranking logfile"
-msgstr "  -l, --log SOUBOR\tPoužije SOUBOR jako logovací\n"
+msgstr "Zapisovat pořadí do souboru SOUBOR"
 
 #: server/civserver.c:353
-#, fuzzy
 msgid "Load ruleset RULESET"
-msgstr "Nahrávám pravidla"
+msgstr "Načíst sadu pravidel SADA_PRAVIDEL"
 
 #. TRANS: "LoadAI" is exactly what user must type, do not translate.
 #: server/civserver.c:357
 msgid "LoadAI MODULE"
-msgstr ""
+msgstr "LoadAI MODUL"
 
 #: server/civserver.c:358
 msgid "Load ai module MODULE. Can appear multiple times"
-msgstr ""
+msgstr "Načíst modul AI MODUL. Volbu lze zadat opakovaně"
 
 #: server/civserver.c:376
 msgid "Requested authentication with --auth, but no --Database given\n"
 msgstr ""
+"Volba --auth vyžaduje --Database, které nebylo zadáno\n"
 
 #: server/commands.c:56
 msgid "Start the game, or restart after loading a savegame."
