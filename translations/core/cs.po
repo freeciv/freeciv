@@ -26527,30 +26527,26 @@ msgstr "%sProvést výsadek na sporném poli%s"
 #: data/civ2/buildings.ruleset:102 data/classic/buildings.ruleset:102
 #: data/sandbox/buildings.ruleset:102 data/civ2civ3/buildings.ruleset:102
 #: data/multiplayer/buildings.ruleset:101
-#, fuzzy
 msgid ""
 "Allows a city to produce veteran air units (including helicopters and "
 "missiles). Also, damaged air units (again, including helicopters) which stay "
 "in town for one full turn without moving are completely restored."
 msgstr ""
-"Umožňuje městu stavit námořní jednotky se statusem veterán. Poškozené "
-"námořní jednotky, které stráví celý tah ve městě, budou vyléčeny na maximum."
+"Umožňuje městu vyrábět letecké jednotky na úrovni veterána, včetně "
+"vrtulníků a střel. Poškozené letecké jednotky včetně vrtulníků se navíc "
+"zcela uzdraví, pokud ve městě stráví celý tah bez pohybu."
 
 #: data/civ2/buildings.ruleset:107 data/classic/buildings.ruleset:107
 #: data/multiplayer/buildings.ruleset:106
-#, fuzzy
 msgid ""
 "Two cities with Airports can airlift one unit per turn.  Airlifting "
 "instantly transports the unit from one city to another and will use all of "
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
-"Umožňuje městu stavět vzdušné jednotky se statusem veterán. Dále pak každá "
-"vzdušná jednotka, která ve městě stráví tah, bude plně vyléčena.\n"
-"\n"
-"Dvě města s letišti mohou zajistit letecký most. Ten přesune jednotku z "
-"jednoho města do druhého, spotřebuje mu však všechny pohybové jednotky. "
-"Jednotka musí mít před touto cestou nějaké body na pohyb k dispozici."
+"Dvě města s letišti mohou za tah letecky přepravit jednu jednotku. "
+"Přeprava ji okamžitě přemístí z jednoho města do druhého a spotřebuje "
+"všechny její body pohybu. Jednotce musí nějaké body pohybu zbývat."
 
 #: data/civ2/buildings.ruleset:133 data/classic/buildings.ruleset:133
 #: data/multiplayer/buildings.ruleset:161
@@ -26567,7 +26563,7 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:217
 #: data/multiplayer/buildings.ruleset:249
 #: data/multiplayer/buildings.ruleset:279
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid ""
 #| "With a Barracks, each new land unit built in a city will automatically "
 #| "have Veteran status, which means that its attack and defense strengths "
@@ -26578,10 +26574,8 @@ msgid ""
 "Veteran status, which means that its attack and defense strengths are "
 "increased by 50%."
 msgstr ""
-"S kasárnami získá každá pozemní jednotka, vyrobená ve městě, automaticky "
-"status veterán, který znamená, že jednotka bude mít o 50% vyšší obrannou i "
-"útočnou sílu. Pokud pozemní jednotka stráví celý tah bez pohybu ve městě s "
-"kasárnami, bude její zdraví obnoveno v plné výši."
+"Každá nová pozemní jednotka vyrobená ve městě s kasárnami je automaticky "
+"veterán, takže má sílu útoku i obrany vyšší o 50 %."
 
 #: data/civ2/buildings.ruleset:190 data/civ2/buildings.ruleset:221
 #: data/civ2/buildings.ruleset:251 data/classic/buildings.ruleset:193
@@ -26592,7 +26586,6 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:221
 #: data/multiplayer/buildings.ruleset:253
 #: data/multiplayer/buildings.ruleset:283
-#, fuzzy
 #| msgid ""
 #| "Allows a city to build veteran sea units.  Also, damaged sea units which "
 #| "stay in town for one full turn without moving are completely restored."
@@ -26600,12 +26593,11 @@ msgid ""
 "Also, damaged land units which stay in town for one full turn without moving "
 "are completely restored."
 msgstr ""
-"Umožňuje městu stavit námořní jednotky se statusem veterán. Poškozené "
-"námořní jednotky, které stráví celý tah ve městě, budou vyléčeny na maximum."
+"Poškozené pozemní jednotky se navíc zcela uzdraví, pokud ve městě stráví "
+"celý tah bez pohybu."
 
 #: data/civ2/buildings.ruleset:275 data/classic/buildings.ruleset:280
 #: data/multiplayer/buildings.ruleset:308
-#, fuzzy
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city; however, it does not affect citizens made "
@@ -26614,13 +26606,13 @@ msgid ""
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
 msgstr ""
-"Katedrála vytvoří 3 spokojené obyvetele na úkor nespokojených, což zlepší "
-"udržovatelnost města. Objev Teologie zvýší efekt katedrály o dalšího "
-"obyvatele. Objev Socialismu efekt o jednoho obyvatele sníží."
+"Katedrála změní ve městě 3 nešťastné obyvatele na spokojené a usnadní "
+"udržení pořádku. Na obyvatele nespokojené kvůli vojenské činnosti "
+"nepůsobí. Objev teologie účinek posílí, takže se spokojeným stane ještě "
+"jeden obyvatel. Objev komunismu účinek oslabí o jednoho obyvatele."
 
 #: data/civ2/buildings.ruleset:305 data/classic/buildings.ruleset:310
 #: data/multiplayer/buildings.ruleset:338
-#, fuzzy
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defense "
 "strength of units within the city against land and helicopter units.  They "
@@ -26628,11 +26620,10 @@ msgid ""
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
 msgstr ""
-"Hradby umožní lepší obranu města. Zvednou 3x obrannou sílu jednotkám ve "
-"městě, proti pozemním jednotkám a vrtulníkům. Nemají žádný efekt proti "
-"vzdušným a námořním jednotkám a taky nemají žádný efekt proti houfnici. "
-"Městské hradby taky zamezí snižování populace města, je-li obránce v bojii "
-"zničen pozemní jednotkou."
+"Hradby usnadňují obranu města. Proti pozemním jednotkám a vrtulníkům "
+"ztrojnásobují obrannou sílu jednotek uvnitř. Proti ostatním leteckým "
+"jednotkám, námořním jednotkám ani houfnicím neúčinkují. Také zabraňují "
+"ztrátě obyvatel, k níž by došlo, kdyby pozemní jednotka zničila obránce."
 
 #: data/civ2/buildings.ruleset:314 data/classic/buildings.ruleset:319
 #: data/sandbox/buildings.ruleset:414 data/civ2civ3/buildings.ruleset:411
@@ -26650,14 +26641,14 @@ msgstr ""
 "města nepřátelskými loděmi."
 
 #: data/civ2/buildings.ruleset:357
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
-"Obveselí 3 nespokojené lidi ve městě a učiní je spokojenými. (4 po vynálezu "
-"elektroniky)"
+"Baví obyvatele města a změní 3 nešťastné obyvatele na spokojené. Po objevu"
+" elektroniky takto ovlivní čtyři. Na obyvatele nespokojené kvůli vojenské "
+"činnosti nepůsobí."
 
 #: data/civ2/buildings.ruleset:383 data/multiplayer/buildings.ruleset:391
 #, no-c-format
@@ -26666,17 +26657,17 @@ msgid ""
 "of the city 4 times bigger. (These effects are redundant in your capital "
 "city.)"
 msgstr ""
+"Snižuje korupci a plýtvání ve městě o 50 % a čtyřnásobně zvyšuje cenu "
+"vyvolání vzpoury. V hlavním městě tyto účinky nepřinášejí další výhodu."
 
 #: data/civ2/buildings.ruleset:387 data/classic/buildings.ruleset:394
 #: data/multiplayer/buildings.ruleset:395
-#, fuzzy
 msgid ""
 "Under a Democracy, a Courthouse also makes 1 unhappy citizen content (unless "
 "that citizen is unhappy about military activity)."
 msgstr ""
-"Snižuje korupci a plýtvání ve městě o 50%. Pod Demokracií (kapitalismem) "
-"uklidní jednoho nespokojenejo obyvatele na spokojeného. Taky snižuje na "
-"polovinu efekt vzdálenosti od hlavního města, při výpočtech ceny revolucí."
+"Za demokracie budova soudu také změní 1 nešťastného obyvatele na "
+"spokojeného, pokud není nespokojený kvůli vojenské činnosti."
 
 #: data/civ2/buildings.ruleset:446 data/classic/buildings.ruleset:453
 #: data/sandbox/buildings.ruleset:561 data/civ2civ3/buildings.ruleset:558
@@ -26686,13 +26677,12 @@ msgstr "Přístav"
 
 #: data/civ2/buildings.ruleset:466 data/classic/buildings.ruleset:473
 #: data/multiplayer/buildings.ruleset:471
-#, fuzzy
 msgid ""
 "Gives one extra food resource on all Oceanic tiles. The city needs to be "
 "coastal to build this improvement."
 msgstr ""
-"Každé políčko moře dá o jednu jednotku jídla více. Jen pobřežní města mohou "
-"stavět toto vylepšení."
+"Přidává jeden bod jídla ze všech oceánských polí. Tuto stavbu lze postavit"
+" jen v pobřežním městě."
 
 #: data/civ2/buildings.ruleset:500
 msgid ""
@@ -26700,15 +26690,20 @@ msgid ""
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a River "
 "tile."
 msgstr ""
+"Město může mít jen jednu z těchto staveb: elektrárnu, hydroelektrárnu, "
+"jadernou nebo solární elektrárnu. Hydroelektrárnu lze postavit jen ve "
+"městě na poli s řekou nebo vedle takového pole."
 
 #: data/civ2/buildings.ruleset:602 data/classic/buildings.ruleset:612
 #: data/multiplayer/buildings.ruleset:607
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%. A Manufacturing Plant on its own increases "
 "shield production by 50%."
-msgstr "Spolu s Továrnou zvýší produkci ve městě o 100%."
+msgstr ""
+"Výrobní podnik společně s továrnou zvyšuje výrobu štítů ve městě o 100 %. "
+"Samotný výrobní podnik ji zvyšuje o 50 %."
 
 #: data/civ2/buildings.ruleset:636 data/civ2/buildings.ruleset:792
 #: data/civ2/buildings.ruleset:955
@@ -26727,16 +26722,14 @@ msgstr "Těžební plošina"
 
 #: data/civ2/buildings.ruleset:664 data/classic/buildings.ruleset:685
 #: data/multiplayer/buildings.ruleset:669
-#, fuzzy
 msgid ""
 "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The "
 "city needs to be coastal to build this improvement."
 msgstr ""
-"Zvýší produkci štítů ve městě o 1 na všech políčcích moře. Město musí ležet "
-"na pobřeží, aby mohlo Těžební plošinu postavit."
+"Přidává 1 štít ze všech oceánských polí obhospodařovaných městem. Tuto "
+"stavbu lze postavit jen v pobřežním městě."
 
 #: data/civ2/buildings.ruleset:689 data/multiplayer/buildings.ruleset:694
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption and "
 "waste in other cities is related to how far away from the capital they are, "
@@ -26744,14 +26737,10 @@ msgid ""
 "corruption and waste in your capital itself is half of what it would "
 "otherwise be (as if it had a Courthouse)."
 msgstr ""
-"Palác udělá z města hlavní město a centrum státní správy. Korupce v "
-"ostatních městech je úměrná vzdálenosti od hlavního města s výjimkou "
-"Demokracie a Socialismu. Cena vyprovokování revoluce ve městě taky záleží na "
-"vzdálenosti od hlavního města. (pod všemi typy státní správy)\n"
-"\n"
-"Dobře se starejte o své hlavní město, protože jeho ztráta může znamenat "
-"občanskou válku. Ztráta hlavního města taky znamená ztrátu vesmírné lodi, ať "
-"je v jakémkoliv stavu."
+"Učiní z města hlavní město a sídlo vlády. Korupce a plýtvání v ostatních "
+"městech závisejí na vzdálenosti od hlavního města, kromě demokracie a "
+"komunismu. V hlavním městě navíc klesnou na polovinu, jako kdyby mělo "
+"budovu soudu."
 
 #: data/civ2/buildings.ruleset:696 data/classic/buildings.ruleset:716
 #: data/sandbox/buildings.ruleset:842 data/civ2civ3/buildings.ruleset:840
@@ -26763,6 +26752,11 @@ msgid ""
 "enjoys a bonus when enemy agents try to evade your own agents stationed in "
 "the city, or sabotage your buildings."
 msgstr ""
+"Cena, kterou musí nepřátelští diplomaté a špióni zaplatit za vyvolání "
+"vzpoury, závisí za všech forem vlády také na vzdálenosti města od hlavního"
+" města. V hlavním městě vzpouru vyvolat nelze. Město navíc získává bonus, "
+"když se nepřátelští agenti pokoušejí uniknout vašim agentům nebo sabotovat"
+" vaše stavby."
 
 #: data/civ2/buildings.ruleset:714 data/classic/buildings.ruleset:739
 #: data/sandbox/buildings.ruleset:933 data/civ2civ3/buildings.ruleset:902
@@ -26771,15 +26765,16 @@ msgid "Police Station"
 msgstr "Policejní stanice"
 
 #: data/civ2/buildings.ruleset:732 data/classic/buildings.ruleset:757
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 2 under Democracy and 1 under Republic -- in other words, it "
 "neutralizes the unhappiness caused by a single military unit. This "
 "improvement has no effect under other governments."
 msgstr ""
-"Snižuje nespokojenost vyvolanou vojenskými jednotkami mimo město o 2 pod "
-"Demokracií a o 1 pod Republikou. V ostatních státních zřízeních nemá efekt."
+"Sníží nespokojenost vyvolanou útočně nasazenými vojenskými jednotkami "
+"města o 2 za demokracie a o 1 za republiky. Tím vyrovná nespokojenost "
+"vyvolanou jednou vojenskou jednotkou. U jiných forem vlády tato stavba "
+"nepůsobí."
 
 #: data/civ2/buildings.ruleset:740 data/classic/buildings.ruleset:768
 #: data/sandbox/buildings.ruleset:958 data/civ2civ3/buildings.ruleset:927
@@ -26821,13 +26816,12 @@ msgstr "Baterie protiletadlových střel"
 
 #: data/civ2/buildings.ruleset:869 data/classic/buildings.ruleset:902
 #: data/multiplayer/buildings.ruleset:881
-#, fuzzy
 msgid ""
 "Doubles the defense of all units inside the city when attacked by aircraft "
 "(not including helicopters or missiles)."
 msgstr ""
-"Zdvojnásobí obranyschopnost všem jednotkám ve městě proti leteckým "
-"jednotkám. (s výjimkou jaderných zbraní)"
+"Zdvojnásobí obranu jednotek ve městě při útoku letadel, s výjimkou "
+"vrtulníků a střel."
 
 #: data/civ2/buildings.ruleset:893 data/classic/buildings.ruleset:926
 #: data/multiplayer/buildings.ruleset:905
@@ -26838,6 +26832,11 @@ msgid ""
 "exploded) within range, is shot down and simply has no effect. Also, doubles "
 "defense for units in the city against non-nuclear missiles."
 msgstr ""
+"Chrání město i okolí do vzdálenosti 2 polí před útoky jaderných jednotek "
+"jiných národů. Jadernou jednotku, která nepatří vám ani spoluhráči z týmu,"
+" sestřelí bez účinku, když zaútočí na město s protiraketovou obranou SDI, "
+"zaútočí na jednotku v dosahu nebo je v dosahu úmyslně odpálena. "
+"Zdvojnásobuje také obranu jednotek ve městě proti konvenčním střelám."
 
 #: data/civ2/buildings.ruleset:904 data/classic/buildings.ruleset:937
 #: data/sandbox/buildings.ruleset:1133 data/civ2civ3/buildings.ruleset:1102
@@ -26861,20 +26860,17 @@ msgid "Solar Plant"
 msgstr "Solární elektrárna"
 
 #: data/civ2/buildings.ruleset:949
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
 "Factory and a Solar Plant together give a 100% production bonus, and a "
 "Factory, Mfg. Plant and Solar Plant together give a 150% production bonus."
 msgstr ""
-"Eliminuje veškeré znečištění ve městě, způsobené produkcí.Zvyšuje produkci "
-"města, pokud toto má Továrnu neno Výrobní podnik (mfg. plant). Továrna s "
-"Jadernou el. zvýší produkci o 75%, Výrobní podnik s Jadernou el. zvýší "
-"produkci o 150%.\n"
-"\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
-"elektrárnu, Jadernou el. nebo Solární elektrárnu. "
+"Odstraní veškeré znečištění z výroby ve městě. Zvyšuje také výrobu štítů v"
+" továrně či výrobním podniku. Továrna se solární elektrárnou dává výrobní "
+"bonus 100 %. Továrna, výrobní podnik i solární elektrárna dávají dohromady"
+" bonus 150 %."
 
 #: data/civ2/buildings.ruleset:1054 data/classic/buildings.ruleset:1097
 #: data/sandbox/buildings.ruleset:1342 data/civ2civ3/buildings.ruleset:1274
@@ -26884,13 +26880,14 @@ msgstr "Burza"
 
 #: data/civ2/buildings.ruleset:1074 data/classic/buildings.ruleset:1117
 #: data/multiplayer/buildings.ruleset:1094
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with a Bank, a Stock Exchange boosts tax and luxury production in a "
 "city by 50%. Together with a Marketplace and a Bank, a Stock Exchange boosts "
 "tax and luxury production in a city by 150%."
 msgstr ""
-"Spolu s Tržištěm a Bankou Vám Burza zvedne blahobyt a zisk z daní o 150%"
+"Burza spolu s bankou zvyšuje výnos daní a luxusu ve městě o 50 %. Společně"
+" s tržištěm a bankou jej burza zvyšuje o 150 %."
 
 #: data/civ2/buildings.ruleset:1082 data/classic/buildings.ruleset:1125
 #: data/sandbox/buildings.ruleset:1370 data/civ2civ3/buildings.ruleset:1302
@@ -26913,38 +26910,37 @@ msgstr "Supermarket"
 
 #: data/civ2/buildings.ruleset:1126 data/classic/buildings.ruleset:1171
 #: data/sandbox/buildings.ruleset:1423 data/civ2civ3/buildings.ruleset:1355
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland tile which is being "
 "used around the city.  Farmland tiles are those which have been irrigated a "
 "second time."
 msgstr ""
-"Zvyšuje produkci jídla každé obdělávané farmy kolem města. Farma je políčko, "
-"na kterém bylo podruhé vybudováno zavlažování."
+"Zvyšuje výnos jídla o 50 % na každém obhospodařovaném poli s farmou v "
+"okolí města. Farmy vznikají druhým zavlažením pole."
 
 #: data/civ2/buildings.ruleset:1151
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content. The Mysticism advance doubles this "
 "effect, as does Oracle wonder. With both Mysticism and the Oracle, 4 "
 "citizens are made content. Does not affect citizens made unhappy by military "
 "activity."
 msgstr ""
-"Získáte jednoho spokojeného obyvatele na úkor nespokojených. Obojí - "
-"Mysticismus i div světa Věšírna zdvojnásobí efekt. S Mysticismem a věštírnou "
-"udělá chrám 4 spokojené lidi na úkor nespokojených."
+"Změní jednoho nešťastného obyvatele na spokojeného. Technologie Mystika i "
+"div Věštírna tento účinek zdvojnásobují. Dohromady změní 4 obyvatele na "
+"spokojené. Nepůsobí na nespokojenost způsobenou vojenskou činností."
 
 #: data/civ2/buildings.ruleset:1203 data/classic/buildings.ruleset:1248
-#, fuzzy
 msgid ""
 "The entire map becomes permanently visible to the player who owns it -- the "
 "player always has up-to-date knowledge of all terrain and cities (but not "
 "units) despite fog-of-war. It allows all players to start building spaceship "
 "parts (assuming they have researched the necessary technologies)."
 msgstr ""
-"Pro hráče, který Program Apollo postaví, bude odkryta celá mapa. Program "
-"Apollo umožní všem hráčům zahájit stavbu vesmírné lodi, pokud jsou na "
-"dostatečné technologické úrovni."
+"Vlastníkovi trvale odkryje celou mapu. Navzdory válečné mlze bude mít vždy"
+" aktuální informace o terénu a městech, nikoli o jednotkách. Všem hráčům "
+"také umožní začít stavět díly kosmické lodi, pokud znají potřebné "
+"technologie."
 
 #: data/civ2/buildings.ruleset:1212 data/classic/buildings.ruleset:1257
 #: data/sandbox/buildings.ruleset:1550 data/civ2civ3/buildings.ruleset:1452
@@ -26976,7 +26972,6 @@ msgstr ""
 "rychleji."
 
 #: data/civ2/buildings.ruleset:1430 data/classic/buildings.ruleset:1479
-#, fuzzy
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -26984,10 +26979,11 @@ msgid ""
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (including "
 "those unhappy about military activity), making each content then happy."
 msgstr ""
-"Učiní jednoho spokojeného obyvatele štastným v každém městě. Navíc učiní dva "
-"spokojené lidi šťastnými ve městě, kde jsou postaveny (dohromady 3). Pokud "
-"ve městě nejsou spokojení lidé, efekt pracuje na nespokojených (činí "
-"jespokojenými)."
+"V každém městě udělá z jednoho spokojeného obyvatele šťastného. Ve městě s"
+" Visutými zahradami ovlivní další dva, tedy celkem 3. Pokud výjimečně "
+"nejsou k dispozici spokojení obyvatelé, div působí na nešťastné, včetně "
+"těch nespokojených kvůli vojenské činnosti. Nejdřív se z nich stanou "
+"spokojení a pak šťastní."
 
 #: data/civ2/buildings.ruleset:1458 data/classic/buildings.ruleset:1508
 msgid ""
@@ -26998,11 +26994,12 @@ msgstr ""
 "zvyšuje efekt továren a výrobních podniků)"
 
 #: data/civ2/buildings.ruleset:1506 data/classic/buildings.ruleset:1557
-#, fuzzy
 msgid ""
 "Makes two unhappy citizens content in every city (including citizens unhappy "
 "about military activity)."
-msgstr "Učiní dva nespokojené lidi spokojenými v každém městě s chrámem."
+msgstr ""
+"V každém městě změní dva nešťastné obyvatele na spokojené, včetně těch "
+"nespokojených kvůli vojenské činnosti."
 
 #: data/civ2/buildings.ruleset:1512 data/classic/buildings.ruleset:1563
 #: data/sandbox/buildings.ruleset:1932 data/civ2civ3/buildings.ruleset:1777
@@ -27031,14 +27028,12 @@ msgid "Upgrades one obsolete unit per game turn."
 msgstr "Vylepší jednu zastaralou jednotku každý herní tah."
 
 #: data/civ2/buildings.ruleset:1580
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all cities)."
 msgstr ""
-"Dá každé Vaší námořní jednotce jeden bod k pohybu navíc a eliminuje riziko "
-"ztráty triméry na otevřeném moři. Všechny nově postavené lodě budou mít "
-"status veterán. "
+"Přidá všem vašim námořním jednotkám 1 bod pohybu. Všechny nové vojenské "
+"námořní jednotky ze všech vašich měst jsou veteráni."
 
 #: data/civ2/buildings.ruleset:1604
 msgid "Gives all sea units 2 additional movement points."
@@ -27056,7 +27051,6 @@ msgid "The player who owns it gets an embassy with all players."
 msgstr "Hráč, který ji vlastní, získá ambasádu u každého hráče."
 
 #: data/civ2/buildings.ruleset:1673 data/classic/buildings.ruleset:1726
-#, fuzzy
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city; however, it does not affect citizens made "
@@ -27065,9 +27059,10 @@ msgid ""
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
 msgstr ""
-"Počítá se jako katedrála v každém městě. Ušiní 3 nespokojené lidi "
-"spokojenými v každém městě. Objev Teologie zvýší efekt katedrál o 1. Objev "
-"Socialismu efekt o 1 sníží."
+"Působí jako katedrála v každém vašem městě. Změní 3 nešťastné obyvatele na"
+" spokojené. Na obyvatele nespokojené kvůli vojenské činnosti nepůsobí. "
+"Objev teologie účinek katedrály posílí o jednoho obyvatele, objev "
+"komunismu jej o jednoho obyvatele oslabí."
 
 #: data/civ2/buildings.ruleset:1727
 msgid "Counts as having a Granary in every city."
@@ -27095,21 +27090,21 @@ msgid "Sun Tzu's War Academy"
 msgstr "Sun-c'ova vojenská akademie"
 
 #: data/civ2/buildings.ruleset:1827
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
 "chance of a land unit becoming a veteran after a battle increases from 50% "
 "to 100%."
 msgstr ""
-"Všechny Vaše nové jednotky budou veterány. Šance, že se jednotka po boji "
-"stane veteránem se zvýší z 50% na 100%."
+"Všechny nové pozemní vojenské jednotky ze všech vašich měst jsou veteráni."
+" Šance, že pozemní jednotka získá po bitvě úroveň veterána, vzroste z 50 %"
+" na 100 %."
 
 #: data/civ2/buildings.ruleset:1852 data/classic/buildings.ruleset:1908
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "Všechny jednotky se budou léčit každým tahem o 2 body zdraví."
 
 #: data/civ2/buildings.ruleset:1883 data/classic/buildings.ruleset:1931
-#, fuzzy
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
 "reduces the unhappiness caused by aggressively deployed military units owned "
@@ -27117,16 +27112,16 @@ msgid ""
 "neutralizes the unhappiness caused by a single military unit per city. This "
 "wonder has no effect under other governments.)"
 msgstr ""
-"Počítá se jako policejní stanice v každém městě. (to učiní 2 spokojené "
-"obyvatele z nespokojených pod Demokracií a jednoho pod Republikou. V "
-"ostatních typech vlády nemá vliv)"
+"Působí jako policejní stanice v každém městě. V každém městě sníží "
+"nespokojenost vyvolanou jeho útočně nasazenými vojenskými jednotkami o 2 "
+"za demokracie a o 1 za republiky. Tím v každém městě vyrovná nespokojenost"
+" vyvolanou jednou jednotkou. U ostatních forem vlády tento div nepůsobí."
 
 #: data/civ2/buildings.ruleset:1893
 msgid "Capitalization"
 msgstr "Kapitalizace"
 
 #: data/civ2/buildings.ruleset:1909
-#, fuzzy
 #| msgid ""
 #| "This is not a normal improvement.  Instead, setting a city's production "
 #| "to Capitalization means its shield production is converted to tax output "
@@ -27136,22 +27131,22 @@ msgid ""
 "Capitalization means its shield production is converted to tax output "
 "(money)."
 msgstr ""
-"Toto není normální vylepšení. Místo toho je produkce štítů ve městě "
-"přeměněna na tvorbu zisku. (peníze)."
+"Kapitalizace je zvláštní výrobní úkol. Pokud ji nastavíte jako cíl výroby "
+"města, jeho štíty se převádějí na příjem z daní, tedy na zlato."
 
 #: data/civ2/game.ruleset:26
 msgid "Civ2 ruleset"
 msgstr "Civ2 pravidla"
 
 #: data/civ2/game.ruleset:38
-#, fuzzy
 msgid ""
 "You are playing with civ2 style rules. These are somewhat close to classic "
 "(old default) Freeciv rules, but with some additions, and without certain "
 "more recent changes."
 msgstr ""
-"Hrajete s civ2 pravidly. Ty jsou velmi blízké výchozím Freeciv pravidlům, "
-"ale s nějakými dodatky."
+"Hrajete podle pravidel ve stylu Civ II. Blíží se klasickým, dříve výchozím"
+" pravidlům Freeciv, ale obsahují některé doplňky a chybějí jim některé "
+"novější změny."
 
 #: data/civ2/governments.ruleset:85
 msgid ""
@@ -27179,6 +27174,8 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
+"Za komunismu korupce ani plýtvání nezávisejí na vzdálenosti od hlavního "
+"města. Ve všech městech včetně hlavního je mírná korupce."
 
 #: data/civ2/governments.ruleset:168 data/civ2/techs.ruleset:363
 #: data/sandbox/governments.ruleset:274 data/civ2civ3/governments.ruleset:273
@@ -27208,6 +27205,8 @@ msgid ""
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
 "for actions and reactions of both the rulers and the people."
 msgstr ""
+"Fundamentalismus je forma vlády založená na souboru ústředních zásad víry."
+" Tyto zásady, obvykle náboženské, přísně určují jednání vládců i obyvatel."
 
 #: data/civ2/governments.ruleset:186 data/sandbox/governments.ruleset:292
 #: data/civ2civ3/governments.ruleset:291
@@ -27216,6 +27215,8 @@ msgid ""
 "In a fundamentalist society, the people and the rulers are entirely devoted "
 "to their beliefs, and are usually willing to die to preserve them."
 msgstr ""
+"Ve fundamentalistické společnosti jsou obyvatelé i vládci zcela oddáni své"
+" víře a zpravidla jsou ochotni za její zachování zemřít."
 
 #: data/civ2/governments.ruleset:190 data/sandbox/governments.ruleset:296
 #: data/civ2civ3/governments.ruleset:295
@@ -27225,6 +27226,9 @@ msgid ""
 "produce `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
+"Stavby, které běžně mění nešťastné obyvatele na spokojené, místo toho "
+"vybírají desátky ve zlatě. Jejich výše odpovídá počtu obyvatel, které by "
+"jinak uklidnily. Stavby nevyžadují údržbu."
 
 #: data/civ2/governments.ruleset:237
 msgid ""
@@ -27233,6 +27237,9 @@ msgid ""
 "potential for unhappiness.  There is no corruption or waste during "
 "Democracy, but citizens become very upset during wars."
 msgstr ""
+"V demokracii obyvatelé vládnou přímo hlasováním. Umožňuje nejvyšší úroveň "
+"obchodu a zároveň přináší největší riziko nespokojenosti. Korupce ani "
+"plýtvání v demokracii nejsou, ale války obyvatele velmi znepokojují."
 
 #: data/civ2/nations.ruleset:135 data/nation/american.ruleset:50
 #: data/nation/dutch.ruleset:40
@@ -27255,15 +27262,14 @@ msgid "?plural:Carthaginians"
 msgstr "?plural:Kartagiňané"
 
 #: data/civ2/nations.ruleset:406
-#, fuzzy
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed "
 "by Rome in 146 BC."
 msgstr ""
-"Kartagiňané, následníci Fénických obchodníků, vládli námořnímu impériu ve "
-"Středozemním moři v 5-2. století před naším letopočtem. Kartágo bylo zničeno "
-"Římem v roce 146 př.n.l."
+"Kartáginci, potomci fénických obchodníků, vládli námořní říši ve "
+"Středozemním moři od 5. do 2. století př. n. l. Římané Kartágo zničili "
+"roku 146 př. n. l."
 
 #: data/civ2/nations.ruleset:439 data/nation/celtic.ruleset:5
 msgid "Celtic"
@@ -27282,6 +27288,12 @@ msgid ""
 "civilized peoples of Europe and Asia Minor. The Celts colonized much of "
 "Europe and had a large influence on the development of European civilization."
 msgstr ""
+"Keltové byli souborem příbuzných indoevropských národů západní Evropy. "
+"Pocházeli patrně z oblasti mezi horním Rýnem a horním Dunajem, z kultury "
+"popelnicových polí a ze západní skupiny halštatské kultury. Ve starověku "
+"měli pověst krutých a divokých válečníků, kteří naháněli hrůzu národům "
+"Evropy a Malé Asie. Osídlili velkou část Evropy a výrazně ovlivnili vývoj "
+"evropské civilizace."
 
 #: data/civ2/nations.ruleset:458 data/nation/celtic.ruleset:39
 #, c-format
@@ -27361,6 +27373,8 @@ msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
 msgstr ""
+"Podle tradiční japonské mytologie založil Japonsko v 7. století př. n. l. "
+"císař Džimmu, předek císařského rodu."
 
 #: data/civ2/nations.ruleset:1429 data/nation/aztec.ruleset:30
 #: data/nation/brazilian.ruleset:30 data/nation/byzantium.ruleset:31
@@ -27388,13 +27402,12 @@ msgid "?plural:Persians"
 msgstr "?plural:Peršané"
 
 #: data/civ2/nations.ruleset:1603
-#, fuzzy
 msgid ""
 "The first Persian (Achaemenid) Empire lasted from 550 BC to 330 BC; the "
 "second (Sassanid) from 226 AD to 642 AD."
 msgstr ""
-"První Perské (Achaemenid) Impérium trvalo od 550 - 330 př.n.l.; druhé "
-"(Sassanid) od 226 - 642 n.l."
+"První perská říše, Achaimenovská, trvala od roku 550 do roku 330 př. n. l."
+" Druhá, Sásánovská, trvala od roku 226 do roku 642 n. l."
 
 #: data/civ2/nations.ruleset:1614 data/nation/persian.ruleset:25
 #, c-format
@@ -27443,6 +27456,9 @@ msgid ""
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
 msgstr ""
+"Siouxové byli severoamerický národ, který svedl několik rozhodujících "
+"bitev se Spojenými státy. Tvořily jej tři skupiny kmenů: Lakotové, "
+"Dakotové a Nakotové."
 
 #: data/civ2/nations.ruleset:1924 data/nation/spanish.ruleset:5
 msgid "Spanish"
@@ -27453,17 +27469,16 @@ msgid "?plural:Spanish"
 msgstr "?plural:Španělé"
 
 #: data/civ2/nations.ruleset:1927 data/nation/spanish.ruleset:8
-#, fuzzy
 msgid ""
 "The modern Spanish nation was formed when the rulers of the kingdoms of "
 "Castile and Aragon led the recapture of the Iberian peninsula from the "
 "Moslems. The Reconquista was completed in 1492, the same year Columbus "
 "sailed. Spain then went on to create an empire on which the sun never set."
 msgstr ""
-"Moderní španělský národ byl zformován, když se podařilo vládcům království "
-"Kastilského a Aragonského znovu dobýt Iberský poloostrov, ovládaný do té "
-"doby Muslimy. Znovudobytí bylo ukončeno v roce 1492 n.l., tedy ten samý rok, "
-"ve kterém připlul Kolumbus."
+"Dnešní španělský národ se zformoval, když vládci Kastilie a Aragonie vedli"
+" znovudobytí Pyrenejského poloostrova od muslimů. Reconquista skončila "
+"roku 1492, v témže roce, kdy vyplul Kolumbus. Španělsko pak vybudovalo "
+"říši, nad níž slunce nikdy nezapadalo."
 
 #: data/civ2/nations.ruleset:1941 data/nation/spanish.ruleset:42
 #, c-format
@@ -27495,15 +27510,14 @@ msgid "?plural:Vikings"
 msgstr "?plural:Vikingové"
 
 #: data/civ2/nations.ruleset:2004
-#, fuzzy
 msgid ""
 "The Vikings raided and traded along the coasts of Europe between 800 AD and "
 "1100 AD. Viking raiders eventually became the rulers of Normandy, Russia, "
 "and a short-lived kingdom in Sicily."
 msgstr ""
-"Vikingové válčili a obchodovali na pobřeží Evropy mezi 800-1100 n.l. "
-"Vikingští nájezdníci vládli Normandii, Rusku a krátce i království na "
-"Sicílii."
+"Vikingové mezi lety 800 a 1100 n. l. podnikali nájezdy a obchodovali podél"
+" evropského pobřeží. Vikinští nájezdníci nakonec vládli v Normandii, na "
+"Rusi a v krátce existujícím království na Sicílii."
 
 #: data/civ2/nations.ruleset:2016
 #, c-format
@@ -27723,6 +27737,8 @@ msgid ""
 "The pollution can only be cleared by dispatching Settlers or Engineers with "
 "the \"clean pollution\" order."
 msgstr ""
+"Znečištění mohou odstranit jen osadníci nebo ženisté s rozkazem „Odstranit"
+" znečištění“."
 
 #: data/civ2/terrain.ruleset:1134 data/classic/terrain.ruleset:1353
 #: data/sandbox/terrain.ruleset:1412 data/civ2civ3/terrain.ruleset:1411
@@ -27734,6 +27750,11 @@ msgid ""
 "Solar Plant -- will reduce pollution from production, as will a Recycling "
 "Center."
 msgstr ""
+"Znečištění z výroby nabývá na významu, když se civilizace zprůmyslňuje a "
+"získává stavby zvyšující výrobu, například továrny a elektrárny. "
+"Znečištění snížíte nahrazením elektrárny čistším zdrojem, tedy "
+"hydroelektrárnou, Hooverovou přehradou, jadernou nebo solární elektrárnou."
+" Pomůže i recyklační centrum."
 
 #: data/civ2/terrain.ruleset:1195 data/classic/terrain.ruleset:1414
 #: data/sandbox/terrain.ruleset:1475 data/civ2civ3/terrain.ruleset:1474
@@ -27742,6 +27763,8 @@ msgid ""
 "Later in the game, helicopters may also enter villages, but overflight by "
 "other aircraft will cause the villagers to take fright and disband."
 msgstr ""
+"Později ve hře mohou do vesnic vstupovat také vrtulníky. Přelet jiných "
+"letadel však vesničany vyplaší a vesnice se rozpadne."
 
 #: data/civ2/terrain.ruleset:1201 data/classic/terrain.ruleset:1420
 #: data/sandbox/terrain.ruleset:1511 data/civ2civ3/terrain.ruleset:1480
@@ -27758,6 +27781,10 @@ msgid ""
 "Supermarket, a farmland tile provides 50% more food. (Hence, farmland is "
 "only useful on tiles which with irrigation yield 2 or more food.)"
 msgstr ""
+"Po objevu chlazení můžete druhým zavlažením pole přestavět zavlažování na "
+"farmu. Pokud má město obhospodařující pole supermarket, farma přinese o 50"
+" % více jídla. Farmy proto mají smysl jen na polích, která po zavlažení "
+"dávají alespoň 2 body jídla."
 
 #: data/civ2/terrain.ruleset:1228
 msgid "Like irrigation, farmland is incompatible with mines."
@@ -27769,6 +27796,9 @@ msgid ""
 "effects, a land unit remaining in a fortress for a whole turn without moving "
 "recovers a quarter of its hit points."
 msgstr ""
+"Pevnosti zlepšují obranu pozemních jednotek mimo města. Pozemní jednotka, "
+"která v pevnosti stráví celý tah bez pohybu, si mimo jiné obnoví čtvrtinu "
+"bodů zdraví."
 
 #: data/civ2/terrain.ruleset:1269 data/civ2/units.ruleset:24
 #: data/classic/terrain.ruleset:1520 data/classic/units.ruleset:30
@@ -27783,6 +27813,9 @@ msgid ""
 "Airbases allow your air units to land and refuel outside cities. Air units "
 "in an airbase may be attacked also by land units."
 msgstr ""
+"Letecké základny umožňují leteckým jednotkám přistávat a doplňovat palivo "
+"mimo města. Na letecké jednotky na základně mohou útočit i pozemní "
+"jednotky."
 
 #: data/civ2/terrain.ruleset:1296 data/classic/terrain.ruleset:1546
 #: data/sandbox/terrain.ruleset:41 data/civ2civ3/terrain.ruleset:40
@@ -27793,13 +27826,13 @@ msgstr "Z tohoto pole mohou jednotky podniknout výsadek."
 #: data/civ2/terrain.ruleset:1362 data/classic/terrain.ruleset:1666
 #: data/sandbox/terrain.ruleset:1942 data/civ2civ3/terrain.ruleset:1834
 #: data/multiplayer/terrain.ruleset:1638
-#, fuzzy
 msgid ""
 "A railroad also increases any shield resources produced by a tile by half. A "
 "tile whose road is upgraded to a railroad retains any trade bonus from the "
 "road as well."
 msgstr ""
-" - Cesta může zvednout zdroje obchodu, produkované některými typy terénu."
+"Železnice také zvýší výnos štítů z pole o polovinu. Pole, kde cesta přešla"
+" na železnici, si zároveň zachová obchodní bonus cesty."
 
 #: data/civ2/terrain.ruleset:1366 data/classic/terrain.ruleset:1670
 #: data/sandbox/terrain.ruleset:1946 data/civ2civ3/terrain.ruleset:1838
@@ -27808,23 +27841,21 @@ msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
 "you learn the Railroad technology."
 msgstr ""
+"Jakmile objevíte železnici, cesty ve středu měst se automaticky přestavějí"
+" na železnice."
 
 #: data/civ2/terrain.ruleset:1389 data/classic/terrain.ruleset:1692
 #: data/multiplayer/terrain.ruleset:1664
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
 "resources produced by that tile.  It also increases a tile's defense factor "
 "by 50%.  Finally, land units may move along a River (but not diagonally) for "
 "fast travel."
 msgstr ""
-"Jakýkoliv terén (kromě oceánu) může obsahovat řeku.  Řeka přidává 1 obchod "
-"do zdrojů produkovaných tímto polem.  Také zvyšuje obranný faktor o 50%.  "
-"Pozemní jednotky se mohou přesouvat přes řeku (ale ne diagonálně); přesun "
-"přes řeku stojí pouze 1/3 of pohybového bodu.\n"
-"\n"
-"Cesty a železnice mohou být na polích s řekou postaveny pokud Vaše "
-"civilizace má objevenu technologii Stavba mostů."
+"Řeka může téct na libovolném typu souše. Přidá poli 1 bod obchodu a zvýší "
+"jeho obranný koeficient o 50 %. Pozemní jednotky se podél řek pohybují "
+"rychleji, úhlopříčně však nemohou."
 
 #: data/civ2/terrain.ruleset:1414 data/classic/terrain.ruleset:1717
 #: data/sandbox/terrain.ruleset:2042 data/civ2civ3/terrain.ruleset:1932
@@ -27976,6 +28007,9 @@ msgid ""
 "if its supporting city runs out of food. Settlers require twice as much food "
 "per turn under Republic, Democracy, Communism, or Fundamentalism."
 msgstr ""
+"Údržba osadníků stojí jídlo i výrobu. Pokud domovskému městu dojde jídlo, "
+"mohou osadníci zemřít. Za republiky, demokracie, komunismu a "
+"fundamentalismu spotřebují za tah dvojnásobek jídla."
 
 #: data/civ2/units.ruleset:481 data/classic/units.ruleset:543
 #: data/sandbox/units.ruleset:631 data/civ2civ3/units.ruleset:617
@@ -27984,7 +28018,6 @@ msgid "Engineers"
 msgstr "Inženýři"
 
 #: data/civ2/units.ruleset:512
-#, fuzzy
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -27992,22 +28025,17 @@ msgid ""
 "capabilities of Settlers; see the Terrain Alterations section for more "
 "details."
 msgstr ""
-"Inženýři jsou podobní osadníkům, ale pracují a pohybují se 2x rychleji. "
-"Inženýři mohou navíc provádět velé terénní úpravy (např. přeměnu tundry na "
-"poušť).\n"
-"\n"
-"TIP 1:  Povyšte osadníky na inženýry hned jak to bude možné, neboť inženýři "
-"potřebují stejné másobování jako původní osadníci. \n"
-"\n"
-"TIP 2:  Pokud stihnete postavit Leonardovu dílnu, snažte se vynaleznout "
-"výbušniny dřív než bude dílna zastaralá. Touto cestou povýšíte osadníky "
-"zdarma."
+"Ženisté se podobají osadníkům, ale pracují a pohybují se dvakrát rychleji."
+" Zvládnou také velké přeměny terénu, například přeměnit tundru v poušť, "
+"což osadníci nedokážou. Podrobnosti najdete v části Úpravy terénu."
 
 #: data/civ2/units.ruleset:518
 msgid ""
 "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
 "the same resources as ordinary Settlers."
 msgstr ""
+"TIP 1: Kdykoli můžete, vylepšete osadníky na ženisty. Ženisté potřebují "
+"stejné zdroje jako obyčejní osadníci."
 
 #: data/civ2/units.ruleset:521
 msgid ""
@@ -28015,6 +28043,8 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
+"TIP 2: Podaří-li se vám postavit Leonardovu dílnu, vyzkoumejte výbušniny, "
+"než dílna zastará. Vaši osadníci se tím vylepší zdarma."
 
 #: data/civ2/units.ruleset:528 data/classic/units.ruleset:597
 #: data/sandbox/units.ruleset:722 data/civ2civ3/units.ruleset:667
@@ -28097,7 +28127,6 @@ msgstr ""
 
 #: data/civ2/units.ruleset:818 data/classic/units.ruleset:848
 #: data/multiplayer/units.ruleset:888
-#, fuzzy
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -28107,16 +28136,13 @@ msgid ""
 " - You must know about Communism and Gunpowder.\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
-"Skupinu partyzánů dostanete zdarma, pokud Vám nepřítel obsadí město, ale jen "
-"pokud jsou splněny následující podmínky: \n"
-"\n"
-" - Partyzánská válka musí být známa alespoň jednomu národu. \n"
-"\n"
-" - Musíte být hráč, který město původně založil.\n"
-"\n"
-" - Musíte znát technologie Střelný prach a Socialismus.\n"
-"\n"
-" - Typ vlády musí být buď Socialismus nebo Demokracie."
+"Když nepřítel dobude vaše město, mohou se zdarma objevit partyzáni a "
+"automaticky zaujmout obranné pozice v okolí. Platí to jen za těchto "
+"podmínek:\n"
+" - Partyzánský boj musí znát alespoň jeden hráč.\n"
+" - Musíte být hráčem, který město původně založil.\n"
+" - Musíte znát komunismus a střelný prach.\n"
+" - Musíte mít demokratickou nebo komunistickou vládu."
 
 #: data/civ2/units.ruleset:829 data/classic/units.ruleset:859
 #: data/sandbox/units.ruleset:972 data/civ2civ3/units.ruleset:917
@@ -28145,16 +28171,20 @@ msgid ""
 "(Beware dropping into unseen territory, as Paratroopers landing on a tile "
 "occupied by enemy units are easy targets!)"
 msgstr ""
+"Výsadkáři se specializují na útoky ze vzduchu. Pokud zatím nespotřebovali "
+"žádný bod pohybu, mohou z přátelského města či letecké základny seskočit "
+"na kterékoli pole v dosahu a okamžitě tam jednat. Pozor na výsadek do "
+"neprozkoumaného území. Výsadkáři na poli obsazeném nepřátelskými "
+"jednotkami jsou snadným cílem."
 
 #: data/civ2/units.ruleset:1007 data/classic/units.ruleset:1037
 #: data/multiplayer/units.ruleset:1077
-#, fuzzy
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
 msgstr ""
-"Mechanizovaná pěchota má nejvyšší obrannou sílu ze všech pozemních jednotek, "
-"ale je umístěna až na konci technologického stromu."
+"Mechanizovaná pěchota má nejvyšší obrannou sílu ze všech pozemních "
+"jednotek, dostupná je ale až u konce technologického stromu."
 
 #: data/civ2/units.ruleset:1014 data/classic/units.ruleset:1044
 #: data/sandbox/units.ruleset:1218 data/civ2civ3/units.ruleset:1162
@@ -28189,6 +28219,8 @@ msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
 msgstr ""
+"Sloni jsou mohutná zvířata cvičená k boji. Často slouží jako silné úderné "
+"jednotky, ale proti většině ostatních jednotek se špatně brání."
 
 #: data/civ2/units.ruleset:1123 data/sandbox/units.ruleset:1331
 #: data/civ2civ3/units.ruleset:1275 data/multiplayer/units.ruleset:1193
@@ -28225,6 +28257,8 @@ msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
 msgstr ""
+"Dělostřelectvo je vylepšenou obdobou kanónu. Má silný útok a slabou obranu"
+" a k účinnému nasazení potřebuje doprovod."
 
 #: data/civ2/units.ruleset:1415 data/classic/units.ruleset:1373
 #: data/sandbox/units.ruleset:1629 data/civ2civ3/units.ruleset:1573
@@ -28234,21 +28268,19 @@ msgstr "Houfnice"
 
 #: data/civ2/units.ruleset:1445 data/classic/units.ruleset:1403
 #: data/multiplayer/units.ruleset:1515
-#, fuzzy
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities. They can shoot over city walls, ignoring their "
 "effect."
 msgstr ""
-"Houfnice je vylepšené dělostřelectvo s vylepšenou obranou a obrannými "
-"schopnostmi."
+"Houfnice jsou vylepšené dělostřelectvo se silnější obranou i útokem. "
+"Dokážou střílet přes městské hradby a obejít jejich účinek."
 
 #: data/civ2/units.ruleset:1493 data/civ2/units.ruleset:1614
 msgid "Fighters scramble from cities, repulsing enemy airstrikes."
 msgstr "Stíhačky vzlétají z měst, aby odrazily nepřátelské nálety."
 
 #: data/civ2/units.ruleset:1564 data/classic/units.ruleset:1521
-#, fuzzy
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities. Care must be exercised, because Helicopters lose a small amount of "
@@ -28256,9 +28288,10 @@ msgid ""
 "you have the United Nations wonder, and Helicopters may be attacked also by "
 "ground units."
 msgstr ""
-"Vrtulník je velmi silná jednotka, protože může létat, ale i dobývat města. "
-"Musíte však být opatrní, neboť vrtulníky ztrácí malé množství zdraví každý "
-"tah, který dokončí mimo město. (pokud nepostavíte div světa Spojené národy)."
+"Vrtulník je velmi silná jednotka, protože umí létat i dobývat města. Za "
+"každý tah mimo město, leteckou základnu nebo letadlovou loď ale ztratí "
+"trochu zdraví, pokud nemáte div Organizace spojených národů. Útočit na něj"
+" mohou i pozemní jednotky."
 
 #: data/civ2/units.ruleset:1573 data/classic/units.ruleset:1530
 #: data/sandbox/units.ruleset:1804 data/civ2civ3/units.ruleset:1747
@@ -28308,6 +28341,8 @@ msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
 msgstr ""
+"Galeona slouží výhradně k přepravě. Nemůže útočit na jiné lodě, při útoku "
+"se však dokáže bránit."
 
 #: data/civ2/units.ruleset:1842 data/classic/units.ruleset:1801
 #: data/sandbox/units.ruleset:2073 data/civ2civ3/units.ruleset:2010
@@ -28376,6 +28411,11 @@ msgid ""
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of global warming.  Eco-friendly nukes!"
 msgstr ""
+"TIP 2: Pokud jste ve hře vpadli do nepřátelské země a její města jsou "
+"příliš silná, připravte před použitím jaderné jednotky u města osadníky, "
+"ženisty nebo obojí. Spad mohou odklidit už v tahu, kdy vznikne, a tím "
+"snížit riziko globálního oteplování. Jaderné zbraně šetrné k hernímu "
+"prostředí!"
 
 #: data/civ2/units.ruleset:2299 data/classic/units.ruleset:2278
 #: data/sandbox/units.ruleset:2707 data/civ2civ3/units.ruleset:2528
@@ -28400,6 +28440,10 @@ msgid ""
 "are also more effective than Diplomats at defending cities against foreign "
 "Diplomats and Spies."
 msgstr ""
+"Špión může dělat všechno, co diplomat (viz jeho nápověda). Špión navíc "
+"může přežít akci v cizím městě, a tím získat další zkušenosti. Špióni jsou"
+" také účinnější než diplomaté při obraně měst proti cizím diplomatům a "
+"špiónům."
 
 #: data/civ2/units.ruleset:2342 data/classic/units.ruleset:2330
 #: data/civ2civ3/units.ruleset:2581 data/multiplayer/units.ruleset:2441
@@ -28414,6 +28458,15 @@ msgid ""
 "(although cities become more resistant each time they are stolen from);\n"
 " - sabotage predetermined city targets (with a reduced chance of success)."
 msgstr ""
+"Špión může také:\n"
+" - sabotovat nepřátelskou jednotku a snížit její zdraví na polovinu, pokud"
+" je na poli sama a hráči jsou ve válce,\n"
+" - otrávit zdroj vody nepřátelského města a snížit počet obyvatel o "
+"jednoho,\n"
+" - ukrást určitou technologii za cenu nižší šance na úspěch,\n"
+" - ukrást další technologie z města, kde už dříve došlo ke krádeži, "
+"přičemž každá krádež zvyšuje odolnost města,\n"
+" - sabotovat předem zvolené cíle ve městě za cenu nižší šance na úspěch."
 
 #: data/civ2/units.ruleset:2354 data/classic/units.ruleset:2342
 #: data/sandbox/units.ruleset:2775 data/civ2civ3/units.ruleset:2593
@@ -28422,6 +28475,8 @@ msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
+"Přežije-li špión útočnější akci, například sabotáž, krádež, vyvolání "
+"vzpoury či otrávení vody, unikne do bezpečí nejbližšího přátelského města."
 
 #: data/civ2/units.ruleset:2358
 msgid "Spies built under a Communist government will be built as veteran."
@@ -28434,12 +28489,12 @@ msgid "Freight"
 msgstr "Nákladní vůz"
 
 #: data/civ2/units.ruleset:2446
-#, fuzzy
 msgid ""
 "The Freight unit replaces the Caravan, moves at twice the speed and brings "
 "you twice bigger benefit at arrival."
 msgstr ""
-"Karavany byly postupně nahrazeny náklaďáky, jež se pohybují 2x rychleji."
+"Nákladní vůz nahrazuje karavanu, pohybuje se dvakrát rychleji a po "
+"příjezdu přináší dvojnásobný výnos."
 
 #: data/civ2/units.ruleset:2452 data/classic/units.ruleset:2443
 #: data/sandbox/units.ruleset:2876 data/civ2civ3/units.ruleset:2691
@@ -28458,14 +28513,14 @@ msgstr "Průzkumníci jsou velice užiteční při mapování neznámého územ�
 #: data/civ2/units.ruleset:2518 data/classic/units.ruleset:2558
 #: data/sandbox/units.ruleset:3006 data/civ2civ3/units.ruleset:2819
 #: data/multiplayer/units.ruleset:2657
-#, fuzzy
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units and helicopters. Usually the ransom "
 "is 100 gold, but can be less if the barbarian has less money."
 msgstr ""
-"Pokud je barbarský vůdce zabit na políčku bez obranných jednotek, je "
-"vyplacena odměna 100 zlatých, ale jen pozemním jednotkám nebo vrtulníkům."
+"Když padne vůdce barbarů na poli bez bránících se jednotek, vyplatí se "
+"výkupné, ale pouze pozemním jednotkám a vrtulníkům. Obvykle činí 100 "
+"jednotek zlata. Pokud mají barbaři méně peněz, bude nižší."
 
 #: data/default/default.lua:24
 #, c-format
@@ -28670,14 +28725,14 @@ msgstr "Vyděsit %sobyvatele osady z netypického terénu%s"
 
 #: data/classic/buildings.ruleset:362 data/sandbox/buildings.ruleset:461
 #: data/civ2civ3/buildings.ruleset:458 data/multiplayer/buildings.ruleset:136
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
-"Obveselí obyvatele města natolik, že získáte 3 spokojené obyvatele na úkor "
-"nespokojených. (4, po vynálezu elektřiny) "
+"Baví obyvatele města a změní 3 nešťastné obyvatele na spokojené. Po objevu"
+" elektřiny takto ovlivní čtyři. Na obyvatele nespokojené kvůli vojenské "
+"činnosti nepůsobí."
 
 #: data/classic/buildings.ruleset:390
 #, no-c-format
@@ -28685,9 +28740,11 @@ msgid ""
 "Reduces the corruption in a city by 50%, and makes the revolt cost of the "
 "city 4 times bigger. (These effects are redundant in your capital city.)"
 msgstr ""
+"Snižuje korupci ve městě o 50 % a čtyřnásobně zvyšuje cenu vyvolání "
+"vzpoury. V hlavním městě tyto účinky nepřinášejí další výhodu."
 
 #: data/classic/buildings.ruleset:500 data/multiplayer/buildings.ruleset:498
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also reduces the amount of pollution generated by that "
@@ -28698,13 +28755,13 @@ msgid ""
 "150% production bonus with pollution only 50% of the equivalent combination "
 "with a Power Plant."
 msgstr ""
-"Zvyšuje produkci města, pokud toto má Továrnu neno Výrobní podnik (mfg. "
-"plant). Továrna s Jadernou el. zvýší produkci o 75%, Výrobní podnik s "
-"Jadernou el. zvýší produkci o 150%. Zvýšená produkce však může vést ke "
-"zvýšení znečištění.\n"
-"\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
-"elektrárnu a Jadernou el. "
+"Zvyšuje účinek továrny a výrobního podniku na výrobu štítů ve městě a "
+"snižuje znečištění z této výroby. Hydroelektrárna v kombinaci s továrnou "
+"nebo výrobním podnikem poskytuje výrobní bonus 75 % oproti stavu bez "
+"těchto staveb. Znečištění přitom dosahuje jen 75 % stejné kombinace s "
+"běžnou elektrárnou. Hydroelektrárna, továrna i výrobní podnik dohromady "
+"poskytují bonus 150 % a jen 50 % znečištění stejné kombinace s běžnou "
+"elektrárnou."
 
 #: data/classic/buildings.ruleset:510 data/classic/buildings.ruleset:655
 #: data/classic/buildings.ruleset:822 data/classic/buildings.ruleset:995
@@ -28720,6 +28777,8 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"V každém městě může mít účinek vždy jen jedna elektrárna, ať už běžná, "
+"vodní, jaderná nebo solární."
 
 #: data/classic/buildings.ruleset:538 data/multiplayer/buildings.ruleset:533
 #, no-c-format
@@ -28732,9 +28791,11 @@ msgid ""
 "A Manufacturing Plant also has a small risk of suffering an industrial "
 "accident, which can lead to pollution and reduce the city's population."
 msgstr ""
+"Ve výrobním podniku je malé riziko průmyslové havárie, která může "
+"znečistit okolí a snížit počet obyvatel města."
 
 #: data/classic/buildings.ruleset:642 data/multiplayer/buildings.ruleset:634
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also reduces the amount of pollution generated by that "
@@ -28745,13 +28806,13 @@ msgid ""
 "150% production bonus with pollution only 50% of the equivalent combination "
 "with a Power Plant."
 msgstr ""
-"Zvyšuje produkci města, pokud toto má Továrnu neno Výrobní podnik (mfg. "
-"plant). Továrna s Jadernou el. zvýší produkci o 75%, Výrobní podnik s "
-"Jadernou el. zvýší produkci o 150%. Zvýšená produkce však může vést ke "
-"zvýšení znečištění.\n"
-"\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
-"elektrárnu a Jadernou el. "
+"Zvyšuje účinek továrny a výrobního podniku na výrobu štítů ve městě a "
+"snižuje znečištění z této výroby. Jaderná elektrárna v kombinaci s "
+"továrnou nebo výrobním podnikem poskytuje výrobní bonus 75 % oproti stavu "
+"bez těchto staveb. Znečištění přitom dosahuje jen 75 % stejné kombinace s "
+"běžnou elektrárnou. Jaderná elektrárna, továrna i výrobní podnik dohromady"
+" poskytují bonus 150 % a jen 50 % znečištění stejné kombinace s běžnou "
+"elektrárnou."
 
 #: data/classic/buildings.ruleset:652 data/sandbox/buildings.ruleset:779
 #: data/civ2civ3/buildings.ruleset:777
@@ -28759,6 +28820,8 @@ msgid ""
 "A Nuclear Plant has a small risk of suffering a nuclear accident, which can "
 "lead to fallout and reduce the city's population."
 msgstr ""
+"Jaderné elektrárně hrozí malé riziko havárie, která může způsobit "
+"radioaktivní spad a snížit počet obyvatel města."
 
 #: data/classic/buildings.ruleset:733 data/multiplayer/buildings.ruleset:718
 #, no-c-format
@@ -28766,9 +28829,11 @@ msgid ""
 "Under Despotism the city containing the palace gains a +75% production "
 "bonus, and under Monarchy a +50% production bonus."
 msgstr ""
+"Za despotismu získá město s palácem bonus +75 % k výrobě, za monarchie +50"
+" %."
 
 #: data/classic/buildings.ruleset:814 data/multiplayer/buildings.ruleset:796
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city.  A Power Plant in combination with either a Factory or Mfg. Plant "
@@ -28777,13 +28842,11 @@ msgid ""
 "production bonus. The extra production may lead to the city generating more "
 "pollution."
 msgstr ""
-"Zvyšuje produkci města, pokud toto má Továrnu neno Výrobní podnik (mfg. "
-"plant). Továrna s Jadernou el. zvýší produkci o 75%, Výrobní podnik s "
-"Jadernou el. zvýší produkci o 150%. Zvýšená produkce však může vést ke "
-"zvýšení znečištění.\n"
-"\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
-"elektrárnu a Jadernou el. "
+"Zvyšuje účinek továrny a výrobního podniku na výrobu štítů ve městě. "
+"Elektrárna s továrnou nebo výrobním podnikem poskytuje výrobní bonus 75 % "
+"oproti stavu bez těchto staveb. Elektrárna, továrna i výrobní podnik "
+"dohromady poskytují bonus 150 %. Vyšší výroba může zvýšit znečištění "
+"města."
 
 #: data/classic/buildings.ruleset:876 data/multiplayer/buildings.ruleset:855
 #, no-c-format
@@ -28796,7 +28859,7 @@ msgstr ""
 "450%."
 
 #: data/classic/buildings.ruleset:984 data/multiplayer/buildings.ruleset:961
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also greatly reduces the amount of pollution generated by that "
@@ -28808,24 +28871,24 @@ msgid ""
 "production bonus, and eliminates all pollution generated by production in "
 "that city."
 msgstr ""
-"Zvyšuje produkci města, pokud toto má Továrnu neno Výrobní podnik (mfg. "
-"plant). Továrna s Jadernou el. zvýší produkci o 75%, Výrobní podnik s "
-"Jadernou el. zvýší produkci o 150%. Zvýšená produkce však může vést ke "
-"zvýšení znečištění.\n"
-"\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
-"elektrárnu a Jadernou el. "
+"Zvyšuje účinek továrny a výrobního podniku na výrobu štítů ve městě a "
+"výrazně snižuje znečištění z této výroby. Se solární elektrárnou je "
+"celkové znečištění nižší než bez elektrárny. Solární elektrárna s továrnou"
+" nebo výrobním podnikem poskytuje výrobní bonus 75 % oproti stavu bez "
+"těchto staveb. Znečištění přitom dosahuje jen 50 % stejné kombinace s "
+"běžnou elektrárnou. Solární elektrárna, továrna i výrobní podnik dohromady"
+" poskytují bonus 150 % a odstraňují veškeré znečištění z výroby v tomto "
+"městě."
 
 #: data/classic/buildings.ruleset:1196 data/multiplayer/buildings.ruleset:1171
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content. The Mysticism advance doubles this "
 "effect. With both Mysticism and the Oracle, 4 citizens are made content. "
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
-"Získáte jednoho spokojeného obyvatele na úkor nespokojených. Obojí - "
-"Mysticismus i div světa Věšírna zdvojnásobí efekt. S Mysticismem a věštírnou "
-"udělá chrám 4 spokojené lidi na úkor nespokojených."
+"Změní jednoho nešťastného obyvatele na spokojeného. Technologie Mystika "
+"tento účinek zdvojnásobuje. Spolu s Věštírnou změní 4 obyvatele na "
+"spokojené. Nepůsobí na nespokojenost způsobenou vojenskou činností."
 
 #: data/classic/buildings.ruleset:1224 data/multiplayer/buildings.ruleset:1199
 #, no-c-format
@@ -28859,38 +28922,35 @@ msgstr ""
 "Zvyšuje vědecký výstup o 100% v každém městě, které ovládáme a má univerzitu."
 
 #: data/classic/buildings.ruleset:1632
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
 msgstr ""
-"Dá každé Vaší námořní jednotce jeden bod k pohybu navíc a eliminuje riziko "
-"ztráty triméry na otevřeném moři. Všechny nově postavené lodě budou mít "
-"status veterán. "
+"Všem vašim námořním jednotkám přidá 1 bod pohybu. Všechny nové vojenské "
+"námořní jednotky ze všech vašich měst jsou veteráni."
 
 #: data/classic/buildings.ruleset:1657
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Přidá všem námořním jednotkám navíc 2 pohybové body."
 
 #: data/classic/buildings.ruleset:1756
-#, fuzzy
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
-"Učiní dva nespokonené lidi spokojenými v každém městě na stejném kontinentě "
-"kde je postaveno."
+"V každém městě s chrámem změní další dva nešťastné obyvatele na spokojené."
+" Nepůsobí na nespokojenost kvůli vojenské činnosti."
 
 #: data/classic/buildings.ruleset:1782
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
 msgstr ""
-"Množství uloženého jídla bude nastaveno na polovinu, když je sýpka vybrána "
-"nebo naplněna. To pomůže městu rychleji růst a lépe se vyrovnávat s "
-"hladomorem."
+"Při růstu nebo zmenšení vašeho města se objem ztracených zásob jídla sníží"
+" o 25 %. Město tak rychleji roste a lépe odolává hladomoru. Účinek se "
+"sčítá s účinkem sýpky."
 
 #: data/classic/buildings.ruleset:1808
 #, no-c-format
@@ -28898,16 +28958,16 @@ msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr "Zvyšuje výkon výzkumu o 100 % v každém městě s výzkumnou laboratoří."
 
 #: data/classic/buildings.ruleset:1882
-#, fuzzy
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
 "are created as Hardened). The chance of a land unit getting the next veteran "
 "level after a battle increases by half."
 msgstr ""
-"Všechny vaše nové pozemní jednotky budou začínat na první úrovni statusu "
-"veteran. Šance, že Vaše jednotka získá další úroveň po boji se o polovinu "
-"zvýší."
+"Všechny vaše nové pozemní vojenské jednotky začínají o jednu veteránskou "
+"úroveň výše. Účinek se sčítá s kasárnami a jednotky pak vznikají na úrovni"
+" „Ostřílená“. Šance na další veteránskou úroveň po bitvě se u pozemní "
+"jednotky zvýší o polovinu."
 
 #: data/classic/buildings.ruleset:1944 data/sandbox/buildings.ruleset:2476
 #: data/civ2civ3/buildings.ruleset:2235 data/alien/buildings.ruleset:588
@@ -28918,7 +28978,6 @@ msgstr "Ražba mincí"
 #: data/classic/buildings.ruleset:1968 data/sandbox/buildings.ruleset:2500
 #: data/civ2civ3/buildings.ruleset:2259 data/alien/buildings.ruleset:604
 #: data/multiplayer/buildings.ruleset:1953
-#, fuzzy
 #| msgid ""
 #| "This is not a normal improvement.  Instead, setting a city's production "
 #| "to Coinage means its shield production is converted to tax output (money, "
@@ -28928,8 +28987,8 @@ msgid ""
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
 msgstr ""
-"Toto není normální stavba. Veškerá aktuální produkce štítů, bude přeměněna "
-"na zisk (peníze)."
+"Ražba mincí je zvláštní výrobní úkol. Pokud ji zadáte jako cíl výroby "
+"města, jeho štíty se převádějí na příjem z daní, tedy na mince."
 
 #: data/classic/cities.ruleset:72 data/multiplayer/cities.ruleset:71
 msgid ""
@@ -28946,14 +29005,17 @@ msgid "Classic ruleset"
 msgstr "Klasická pravidla"
 
 #: data/classic/game.ruleset:38
-#, fuzzy
 msgid ""
 "You are playing with classic Freeciv ruleset for single player games. Note "
 "that in addition to the ruleset, also server settings affect the rules of "
 "the game.\n"
 "\n"
 "This was the default ruleset until Freeciv 2.6."
-msgstr "Hrajete Freeciv s výchozími pravidly."
+msgstr ""
+"Hrajete s klasickou sadou pravidel Freeciv pro jednoho hráče. Pravidla hry"
+" ovlivňuje kromě sady také nastavení serveru.\n"
+"\n"
+"Tato sada byla výchozí do verze Freeciv 2.6."
 
 #. TRANS: year label (Common Era)
 #: data/classic/game.ruleset:413 data/sandbox/game.ruleset:416
@@ -29093,6 +29155,8 @@ msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
 "of food and other resources."
 msgstr ""
+"Mělký oceán najdete převážně u pobřeží a často poskytuje dostatek jídla a "
+"dalších zdrojů."
 
 #: data/classic/terrain.ruleset:362 data/sandbox/terrain.ruleset:370
 #: data/civ2civ3/terrain.ruleset:369 data/multiplayer/terrain.ruleset:358
@@ -29101,15 +29165,13 @@ msgstr "Hluboký oceán"
 
 #: data/classic/terrain.ruleset:407 data/sandbox/terrain.ruleset:415
 #: data/civ2civ3/terrain.ruleset:414 data/multiplayer/terrain.ruleset:401
-#, fuzzy
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
 msgstr ""
-"Oceány pokrývají velkou část světa, a pouze námořní jednotky (Triremy a "
-"ostatní lodě) po nich mohou plout.\n"
-"\n"
-"Oceán nemůže být znečištěn nebo zasažen spadem."
+"Hluboký oceán pokrývá velkou část světa daleko od pobřeží. Mohou se po něm"
+" pohybovat jen jednotky schopné plavby na širém moři, mezi něž triéry "
+"nepatří."
 
 #: data/classic/terrain.ruleset:462 data/multiplayer/terrain.ruleset:454
 msgid "Oil wells can be built when Refining is known."
@@ -29130,7 +29192,6 @@ msgid "?gui_type:Build Airbase"
 msgstr "?gui_type:Postavit leteckou základnu"
 
 #: data/classic/terrain.ruleset:1251 data/multiplayer/terrain.ruleset:1225
-#, fuzzy
 msgid ""
 "Building an irrigation system on a suitable tile causes it to produce one "
 "extra food each turn. This requires a nearby source of water: an ocean, "
@@ -29138,13 +29199,10 @@ msgid ""
 "an edge (not just a corner) with the target tile. However, once irrigated, "
 "land remains so even if the water source is removed."
 msgstr ""
-"Vhodné typy terénu mohou být zavlažovány.  To vyžaduje blízký zdroj vody: "
-"moře nebo řeku na sousedním políčku nebo sousední políčko s již fungujícím "
-"zavlažováním. Políčko se musí totýkat ze severu, z jihu, z východu nebo "
-"západu (tj. ne jen rožkem). Zavlažované políčko vyprodukuje každým tahem o "
-"nějaké množství jídla více. S dostatkem technologie jde postavit zavlažování "
-"podruhé na již zavlažovaném místě. Získate tím farmu s ještě vyšší produkci "
-"potravin."
+"Zavlažování na vhodném poli přidá za tah jeden bod jídla. Vyžaduje blízký "
+"zdroj vody. Pole s oceánem, jezerem, řekou či jiným zavlažováním musí s "
+"cílovým polem sdílet hranu, samotný roh nestačí. Dokončené zavlažování "
+"zůstane, i když zdroj vody zmizí."
 
 #: data/classic/terrain.ruleset:1258 data/sandbox/terrain.ruleset:1286
 #: data/civ2civ3/terrain.ruleset:1285 data/multiplayer/terrain.ruleset:1232
@@ -29160,6 +29218,11 @@ msgid ""
 "be built on the city tile simply to allow building further irrigation "
 "elsewhere, but will not give the tile any further bonus."
 msgstr ""
+"Střed města získává bonus ze zavlažování svého terénu automaticky, pokud "
+"na poli není důl ani ropný vrt, který mu brání. Samotné město se přesto "
+"nepočítá jako zdroj vody pro další zavlažování. Chcete-li z něj zavlažovat"
+" další pole, lze na něm zavlažování vybudovat. Samotné pole tím další "
+"bonus nezíská."
 
 #: data/classic/terrain.ruleset:1299 data/sandbox/terrain.ruleset:1329
 #: data/civ2civ3/terrain.ruleset:1328 data/multiplayer/terrain.ruleset:1273
@@ -29172,6 +29235,9 @@ msgid ""
 "more technology. Oil wells can be built on Desert with knowledge of "
 "Construction, and on Glacier with knowledge of Refining."
 msgstr ""
+"Ropné vrty fungují jako doly a přidávají jeden bod výroby, ale vyžadují "
+"pokročilejší technologie. Na pouštních polích lze ropné vrty stavět po "
+"objevu stavebnictví a na ledovcích po objevu rafinace."
 
 #: data/classic/terrain.ruleset:1322 data/multiplayer/terrain.ruleset:1296
 msgid "Building an oil well on an irrigated tile will destroy the irrigation."
@@ -29183,12 +29249,17 @@ msgid ""
 "population, or when a Mfg. Plant suffers an industrial accident. It halves "
 "all output from its tile, and contributes to the risk of global warming."
 msgstr ""
+"Znečištění se objevuje na souši kolem měst s vysokou výrobou či počtem "
+"obyvatel nebo po průmyslové havárii ve výrobním podniku. Půlí všechny "
+"výnosy zasaženého pole a zvyšuje riziko globálního oteplování."
 
 #: data/classic/terrain.ruleset:1350 data/multiplayer/terrain.ruleset:1324
 msgid ""
 "The pollution can only be cleared by dispatching Workers, Settlers, or "
 "Engineers with the \"clean pollution\" order."
 msgstr ""
+"Znečištění mohou odstranit jen dělníci, osadníci nebo ženisté s rozkazem "
+"„Odstranit znečištění“."
 
 #: data/classic/terrain.ruleset:1369 data/sandbox/terrain.ruleset:1430
 #: data/civ2civ3/terrain.ruleset:1429 data/multiplayer/terrain.ruleset:1344
@@ -29201,6 +29272,12 @@ msgid ""
 "tiles are lost to desert. This tends to devastate cities and leads to global "
 "impoverishment."
 msgstr ""
+"Když je znečištěné nevyužité pole, je lákavé se jeho úklidem nezabývat. "
+"Šíření znečištění má však kromě okamžitých hospodářských dopadů mnohem "
+"horší následky. Každé znečištěné pole zvyšuje pravděpodobnost globálního "
+"oteplování. Při každé další vlně oteplování se pobřežní půda po celém "
+"světě mění v moře, džungli a bažiny a vnitrozemí v poušť. Města tím často "
+"zpustnou a celý svět zchudne."
 
 #: data/classic/terrain.ruleset:1447 data/sandbox/terrain.ruleset:1542
 #: data/civ2civ3/terrain.ruleset:1511 data/multiplayer/terrain.ruleset:1420
@@ -29221,6 +29298,9 @@ msgid ""
 "or when a city's Nuclear Plant has an accident. It halves all output from "
 "its tile."
 msgstr ""
+"Radioaktivní spad může vzniknout na souši po odpálení jaderné jednotky "
+"nebo při havárii městské jaderné elektrárny. Půlí všechny výnosy "
+"zasaženého pole."
 
 #: data/classic/terrain.ruleset:1474 data/sandbox/terrain.ruleset:1569
 #: data/civ2civ3/terrain.ruleset:1538 data/multiplayer/terrain.ruleset:1446
@@ -29229,6 +29309,9 @@ msgid ""
 "winter. If nuclear winter occurs, land across the globe changes into desert, "
 "tundra, and ice, and lakes and oceans freeze."
 msgstr ""
+"Každé pole s radioaktivním spadem zvyšuje i riziko globální jaderné zimy. "
+"Pokud jaderná zima nastane, souš se po celém světě mění v poušť, tundru a "
+"led. Jezera a oceány zamrznou."
 
 #: data/classic/terrain.ruleset:1478 data/multiplayer/terrain.ruleset:1450
 msgid "Settlers, Workers, and Engineers can clean up nuclear fallout."
@@ -29241,6 +29324,10 @@ msgid ""
 "recovers a quarter of its hit points. With Invention, fortresses gain "
 "watchtowers from which land units can see further afield."
 msgstr ""
+"Pevnosti zlepšují obranu pozemních jednotek mimo města. Pozemní jednotka, "
+"která v pevnosti stráví celý tah bez pohybu, si mimo jiné obnoví čtvrtinu "
+"bodů zdraví. Po objevu vynálezu dostanou pevnosti strážní věže, z nichž "
+"pozemní jednotky dohlédnou dál."
 
 #: data/classic/terrain.ruleset:1551 data/sandbox/terrain.ruleset:1788
 #: data/civ2civ3/terrain.ruleset:1713 data/multiplayer/terrain.ruleset:1523
@@ -29252,6 +29339,8 @@ msgid ""
 "Buoys may be built in the ocean (by units on a sea-going vessel) to allow "
 "their owner to see the surrounding tiles."
 msgstr ""
+"Bóje lze stavět v oceánu pomocí jednotek na palubě námořní lodi. Vlastník "
+"díky nim vidí okolní pole."
 
 #: data/classic/terrain.ruleset:1579 data/sandbox/terrain.ruleset:1821
 #: data/civ2civ3/terrain.ruleset:1742 data/multiplayer/terrain.ruleset:1551
@@ -29264,6 +29353,8 @@ msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
 msgstr ""
+"Ruiny označují místo, na němž stálo zničené nebo opuštěné město. Průběh "
+"hry neovlivňují."
 
 #: data/classic/terrain.ruleset:1631 data/multiplayer/terrain.ruleset:1603
 msgid ""
@@ -29271,6 +29362,9 @@ msgid ""
 "center tiles automatically get roads (unless they are on a river tile and "
 "you do not yet know Bridge Building)."
 msgstr ""
+"Stavba cest na polích s řekou vyžaduje znalost stavby mostů. Střed města "
+"získá cestu automaticky, pokud neleží na řece, kde by ke stavbě chyběla "
+"znalost stavby mostů."
 
 #: data/classic/units.ruleset:35 data/sandbox/units.ruleset:39
 #: data/civ2civ3/units.ruleset:35 data/multiplayer/units.ruleset:35
@@ -29319,6 +29413,8 @@ msgid ""
 "Settlers can also perform most of the same terrain alterations as Workers "
 "(but cannot build Airbases or Buoys)."
 msgstr ""
+"Osadníci také zvládnou většinu stejných úprav terénu jako dělníci. Nemohou"
+" však stavět letecké základny ani bóje."
 
 #: data/classic/units.ruleset:498 data/sandbox/units.ruleset:591
 #: data/civ2civ3/units.ruleset:578 data/multiplayer/units.ruleset:499
@@ -29331,15 +29427,18 @@ msgid ""
 "Workers have the ability to improve terrain tiles. See the help on Terrain "
 "and Terrain Alterations for the effects of their actions."
 msgstr ""
+"Dělníci dokážou vylepšovat pole. Účinky jejich činností najdete v nápovědě"
+" k terénu a jeho úpravám."
 
 #: data/classic/units.ruleset:537 data/multiplayer/units.ruleset:538
 msgid ""
 "Workers can build airbases and buoys, which Settlers cannot. Workers must be "
 "on board a ship to build buoys."
 msgstr ""
+"Dělníci na rozdíl od osadníků dokážou stavět letecké základny i bóje. Ke "
+"stavbě bójí musí být na palubě lodi."
 
 #: data/classic/units.ruleset:579 data/multiplayer/units.ruleset:580
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast. Engineers may also perform major terrain transformations which are "
@@ -29348,22 +29447,19 @@ msgid ""
 "an ocean-going vessel, on a tile surrounded by sufficient existing land). "
 "See the Terrain Alterations section for more details."
 msgstr ""
-"Inženýři jsou podobní pracovníkům, ale pracují a pohybují se 2x rychleji. "
-"Inženýři mohou navíc provádět velé terénní úpravy (např. přeměnu tundry na "
-"poušť).\n"
-"\n"
-"TIP 1:  Povyšte pracovníky na inženýry hned jak to bude možné, neboť "
-"inženýři potřebují stejné másobování jako pracovníci. \n"
-"\n"
-"TIP 2:  Pokud stihnete postavit Leonardovu dílnu, snažte se vynaleznout "
-"výbušniny dřív než bude dílna zastaralá. Touto cestou povýšíte pracovníky "
-"zdarma."
+"Ženisté se podobají dělníkům, ale pracují a pohybují se dvakrát rychleji. "
+"Zvládnou i velké úpravy, na které dělníci ani osadníci nestačí, například "
+"přeměnit tundru v poušť nebo za vhodných okolností oceán v bažinu. U té "
+"druhé úpravy musejí být na zaoceánské lodi na poli obklopeném dostatkem "
+"souše. Podrobnosti najdete v části Úpravy terénu."
 
 #: data/classic/units.ruleset:587 data/multiplayer/units.ruleset:588
 msgid ""
 "TIP 1:  Upgrade Workers to Engineers when possible, as Engineers require the "
 "same resources as ordinary Workers."
 msgstr ""
+"TIP 1: Kdykoli můžete, vylepšete dělníky na ženisty. Ženisté potřebují "
+"stejné zdroje jako obyčejní dělníci."
 
 #: data/classic/units.ruleset:590 data/multiplayer/units.ruleset:591
 msgid ""
@@ -29371,12 +29467,16 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
 "upgraded for free."
 msgstr ""
+"TIP 2: Podaří-li se vám postavit Leonardovu dílnu, vyzkoumejte výbušniny, "
+"než dílna zastará. Vaši dělníci se tím vylepší zdarma."
 
 #: data/classic/units.ruleset:1644 data/multiplayer/units.ruleset:1755
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
 msgstr ""
+"Triéra je vaše první loď. Může přepravovat jednotky a má základní útočné "
+"schopnosti, ale nevpluje na pole hlubokého oceánu."
 
 #: data/classic/units.ruleset:1682 data/multiplayer/units.ruleset:1793
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
@@ -29391,6 +29491,10 @@ msgid ""
 "the blast area loses half its population, and land tiles within the blast "
 "area are subject to nuclear fallout."
 msgstr ""
+"Výbuch zničí všechny jednotky v oblasti široké 3 pole, na obdélníkové mapě"
+" jde o čtverec 3 × 3. Zničí i přátelské jednotky. Každé zasažené město "
+"přijde o polovinu obyvatel a zasažená souš může být pokryta radioaktivním "
+"spadem."
 
 #: data/classic/units.ruleset:2150 data/sandbox/units.ruleset:2500
 #: data/sandbox/units.ruleset:2562 data/civ2civ3/units.ruleset:2386
@@ -29399,6 +29503,8 @@ msgid ""
 "Nuclear fallout reduces tile output and increases the risk of global nuclear "
 "winter; see the help on Fallout."
 msgstr ""
+"Radioaktivní spad snižuje výnos pole a zvyšuje riziko globální jaderné "
+"zimy. Viz nápověda k radioaktivnímu spadu."
 
 #: data/classic/units.ruleset:2157 data/multiplayer/units.ruleset:2268
 msgid ""
@@ -29408,6 +29514,11 @@ msgid ""
 "the city and have them ready to fix the fallout on the same turn it occurs!  "
 "This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
+"TIP 2: Pokud jste ve hře vpadli do nepřátelské země a její města jsou "
+"příliš silná, připravte před použitím jaderné jednotky u města osadníky, "
+"dělníky nebo ženisty, případně je zkombinujte. Spad mohou odklidit už v "
+"tahu, kdy vznikne, a tím snížit riziko jaderné zimy. Jaderné zbraně šetrné"
+" k hernímu prostředí!"
 
 #. TRANS: diplomatic rank.
 #: data/classic/units.ruleset:2198 data/sandbox/units.ruleset:2611
@@ -29444,6 +29555,12 @@ msgid ""
 "against the Leader you will always die). If the defending unit dies, you "
 "lose one movement point and may try again."
 msgstr ""
+"Diplomaté mohou v cizím městě podniknout několik druhů akcí, každý "
+"diplomat se ale může pokusit jen o jednu. Většina akcí může selhat. "
+"Nepřátelští diplomaté a špióni ve městě se postaví proti nepřátelské akci,"
+" stejně jako nepřátelský vůdce ve hře s vůdci. Zahyne buď vaše jednotka, "
+"nebo obránce. Proti vůdci vaše jednotka zahyne vždy. Pokud zahyne obránce,"
+" ztratíte jeden bod pohybu a můžete to zkusit znovu."
 
 #: data/classic/units.ruleset:2272 data/multiplayer/units.ruleset:2383
 msgid ""
@@ -29496,6 +29613,13 @@ msgid ""
 "own one city, trade in each city is doubled, but you only get the benefit "
 "from one end of the route."
 msgstr ""
+"Karavany mohou zřizovat obchodní trasy s vlastními městy i s městy jiných "
+"národů, včetně nepřátel, tím, že do nich dorazí. Pravidelný výnos z trasy "
+"je dvojnásobný, leží-li města na různých kontinentech, a ještě jednou se "
+"zdvojnásobí, patří-li různým civilizacím. Vlastníte-li jen jedno město, "
+"vynáší sice trasa v každém městě dvojnásobek, vy však získáte výnos pouze "
+"na jednom konci. Čistý přínos je proto stejný, jako kdybyste vlastnili obě"
+" města."
 
 #: data/classic/units.ruleset:2394
 msgid ""
@@ -29503,6 +29627,9 @@ msgid ""
 "technologies Magnetism and The Corporation each increase this limit by one; "
 "knowing both allows cities to support four trade routes each."
 msgstr ""
+"Zpočátku může každé město udržovat nejvýše dvě obchodní trasy. Magnetismus"
+" a Korporace tento limit každý zvýší o jednu trasu. Se znalostí obou může "
+"mít každé město až čtyři trasy."
 
 #: data/classic/units.ruleset:2438
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -33128,6 +33255,10 @@ msgid ""
 "\n"
 "Without this improvement city cannot grow bigger than size 2."
 msgstr ""
+"Základní infrastruktura města. Stavba nevyžaduje údržbu a nepřátelský "
+"maskovaný špión ji nemůže sabotovat.\n"
+"\n"
+"Bez této stavby město nemůže růst nad velikost 2."
 
 #: data/alien/buildings.ruleset:156
 msgid "Bunker"
@@ -33185,6 +33316,8 @@ msgid ""
 "Force Walls doubles city defense against all kind of attacks. Bonus is "
 "increased to 150% when Strong Force technology is known."
 msgstr ""
+"Silové hradby zdvojnásobují obranu města proti všem druhům útoků. Po "
+"objevu silné interakce se bonus zvýší na 150 %."
 
 #: data/alien/buildings.ruleset:303
 msgid "Headquarters"
@@ -33196,6 +33329,8 @@ msgid ""
 "Headquarters building marks city as your capital. City with headquarters is "
 "also safe from enemy's incite revolt attacks."
 msgstr ""
+"Velitelství z města udělá hlavní město. Ve městě s velitelstvím navíc "
+"nepřátelé nemohou vyvolat vzpouru."
 
 #: data/alien/buildings.ruleset:326
 msgid "Hospital"
@@ -33220,6 +33355,8 @@ msgid ""
 "Improved information gathering. Only 2 other factions needs to know given "
 "technology before we gain access to it."
 msgstr ""
+"Lepší sběr informací. Stačí, aby danou technologii znaly 2 jiné frakce, a "
+"získáme ji také."
 
 #: data/alien/buildings.ruleset:374
 msgid "Mood Center"
@@ -33250,6 +33387,9 @@ msgid ""
 "transported from further away to city center. On hex maps city radius grows "
 "to 2 tiles. On square based maps increases city area by 8 tiles."
 msgstr ""
+"Obyvatelé mohou pracovat dál od středu města a zboží lze přivážet z větší "
+"vzdálenosti. Na šestiúhelníkových mapách roste poloměr města na 2 pole, na"
+" čtvercových se plocha města rozšíří o 8 polí."
 
 #: data/alien/buildings.ruleset:449
 msgid "Radar Tower"
@@ -33287,6 +33427,10 @@ msgid ""
 "Makes martial law possible. Each military unit in city makes one unhappy "
 "citizen content, to the maximum of 2."
 msgstr ""
+"Tajná policie umí dobře řídit vojsko.\n"
+"\n"
+"Umožňuje stanné právo. Každá vojenská jednotka v městě změní jednoho "
+"nešťastného obyvatele na spokojeného, celkem nejvýše 2."
 
 #: data/alien/buildings.ruleset:541
 msgid "Skyscraper"
@@ -33299,6 +33443,10 @@ msgid ""
 "\n"
 "Cities can grow 5 sizes bigger."
 msgstr ""
+"Ve výšce několika kilometrů je záření slabší. V nejvyšších patrech opravdu"
+" vysokých budov může bezpečně bydlet více lidí.\n"
+"\n"
+"Nejvyšší velikost měst se zvýší o 5."
 
 #: data/alien/buildings.ruleset:564
 msgid "Virtual Reality Theatre"
@@ -33314,30 +33462,32 @@ msgid "Earth Monument"
 msgstr "Památník Země"
 
 #: data/alien/buildings.ruleset:713
-#, fuzzy
 msgid ""
 "Monument to celebrate our true home planet, Earth.\n"
 "\n"
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
-"Každé políčko, které produkuje nějaké obchodní příležitosti, bude produkovat "
-"o 1 víc."
+"Památník oslavuje naši pravou domovskou planetu Zemi.\n"
+"\n"
+"Každé pole v okolí města s tímto divem, které už přináší obchod, získá "
+"jeden bod obchodu navíc."
 
 #: data/alien/buildings.ruleset:720
 msgid "Great Tunnel"
 msgstr "Velký tunel"
 
 #: data/alien/buildings.ruleset:738
-#, fuzzy
 msgid ""
 "Real deep mining.\n"
 "\n"
 "Each square around the city where this wonder is built that is already "
 "generating some production produces one extra shield resource."
 msgstr ""
-"Každé políčko, které produkuje nějaké obchodní příležitosti, bude produkovat "
-"o 1 víc."
+"Skutečně hlubinná těžba.\n"
+"\n"
+"Každé pole v okolí města s tímto divem, které už něco vyrábí, získá jeden "
+"štít navíc."
 
 #: data/alien/buildings.ruleset:745
 msgid "Antigrav Control Center"
@@ -33384,6 +33534,9 @@ msgid ""
 "cities player owns to grow 2 sizes bigger, unless growth is blocked by lack "
 "of the Basic Infrastructure."
 msgstr ""
+"Poskytuje dodatečnou ochranu před zářením. Nejvyšší velikost všech "
+"hráčových měst se zvýší o 2, pokud růstu nebrání chybějící základní "
+"infrastruktura."
 
 #: data/alien/cities.ruleset:52
 msgid "Culturists"
@@ -33398,12 +33551,16 @@ msgid ""
 "Culturists create works that keep people satisfied. They create two luxury "
 "points per turn, four if Specialist Training tech is known."
 msgstr ""
+"Kulturní pracovníci tvoří díla, která udržují obyvatele spokojené. Každý "
+"tah vytvářejí dva body luxusu, po objevu výcviku specialistů čtyři."
 
 #: data/alien/cities.ruleset:73
 msgid ""
 "Scientist research two bulbs worth of science each turn, four bulbs when "
 "Specialist Training tech is known."
 msgstr ""
+"Vědec přináší za tah dva body výzkumu, po objevu výcviku specialistů "
+"čtyři."
 
 #: data/alien/cities.ruleset:78
 msgid "Government Merchants"
@@ -33418,6 +33575,8 @@ msgid ""
 "Government Merchants produce two gold for the government each turn, four "
 "once Specialist Training tech is known."
 msgstr ""
+"Státní obchodníci přinášejí vládě za tah dvě jednotky zlata, po objevu "
+"výcviku specialistů čtyři."
 
 #: data/alien/game.ruleset:28
 msgid "Alien World"
@@ -33434,6 +33593,11 @@ msgid ""
 "See https://www.freeciv.org/wiki/Alien_World and https://www.cazfi.net/"
 "freeciv/alien/ for additional ruleset info."
 msgstr ""
+"Jedním z cílů této sady je nabídnout průběh hry odlišný od standardních "
+"pravidel. Pravidla známá z klasické sady tu nemusejí platit.\n"
+"\n"
+"Další informace najdete na https://www.freeciv.org/wiki/Alien_World a "
+"https://www.cazfi.net/freeciv/alien/."
 
 #. TRANS: Quarters
 #: data/alien/game.ruleset:406
@@ -33511,6 +33675,11 @@ msgid ""
 "\n"
 "Communism gains 20% bonus to production."
 msgstr ""
+"Forma vlády založená na vojenské síle.\n"
+"\n"
+"Nejvyšší sazba daní, výzkumu a luxusu je 60 %.\n"
+"\n"
+"Komunismus získává 20% bonus k výrobě."
 
 #: data/alien/governments.ruleset:150
 #, no-c-format
@@ -33540,6 +33709,11 @@ msgid ""
 "\n"
 "Dual Communism gains 40% production bonus, and 20% trade bonus."
 msgstr ""
+"Forma vlády založená na vojenské síle, pro lidi i mimozemšťany.\n"
+"\n"
+"Nejvyšší sazba daní, výzkumu a luxusu je 80 %.\n"
+"\n"
+"Duální komunismus získává 40% bonus k výrobě a 20% bonus k obchodu."
 
 #: data/alien/governments.ruleset:183
 msgid "Dual Democracy"
@@ -33554,6 +33728,11 @@ msgid ""
 "\n"
 "Dual Democracy gains 40% trade bonus, and 20% production bonus."
 msgstr ""
+"Forma vlády založená na svobodě, pro lidi i mimozemšťany.\n"
+"\n"
+"Nejvyšší sazba daní, výzkumu a luxusu je 90 %.\n"
+"\n"
+"Duální demokracie získává 40% bonus k obchodu a 20% bonus k výrobě."
 
 #: data/alien/script.lua:24
 #, c-format
@@ -33623,6 +33802,27 @@ msgid ""
 "You struggle to live on this planet, and read\n"
 "Roadside Picnic by Strugatsky brothers once more."
 msgstr ""
+"Vědělo se, že Deneb 7 obklopuje záhadné silové pole,\n"
+"kvůli němuž se s pozemskou technikou z roku 250\n"
+"galaktické éry nedalo k planetě přiblížit. Když jste ale\n"
+"prolétali kolem, účinek pole se náhle obrátil\n"
+"a vtáhlo vás k planetě.\n"
+"\n"
+"Ocitli jste se v podivném světě, poznamenaném zřejmě\n"
+"vyspělou technologií, kde velká část pozemské vědy\n"
+"neplatí. Musíte se naučit nová pravidla,\n"
+"pravidla tohoto světa.\n"
+"\n"
+"Smrtící záření nezastaví žádné známé stínění.\n"
+"Existuje tu mimozemský život a kupodivu také\n"
+"jedlé rostliny stejné jako na Zemi.\n"
+"\n"
+"Rádio nefunguje,\n"
+"ve vzduchu se nedá létat a některé základní zákony\n"
+"fyziky tu neplatí.\n"
+"\n"
+"Snažíte se na planetě přežít a znovu si čtete\n"
+"Piknik u cesty od bratří Strugackých."
 
 #: data/alien/styles.ruleset:30
 msgid "?style:Human"
@@ -33687,6 +33887,8 @@ msgid ""
 "Even if normal method of flying is impossible in this world antigravity "
 "works. We just need to master it."
 msgstr ""
+"Obyčejné létání je v tomto světě nemožné, ale antigravitace funguje. Stačí"
+" se ji naučit ovládat."
 
 #: data/alien/techs.ruleset:170
 msgid "Burrowing"
@@ -33700,6 +33902,11 @@ msgid ""
 " In addition to making first burrowing units available, knowledge of this "
 "tech allows mining of Thick Mountains."
 msgstr ""
+"Zdejší létání se zdá nemožné, proto zkoušíme opačný směr. Pod zemí lze "
+"hloubit tunely.\n"
+"\n"
+" Tato technologie zpřístupní první podzemní jednotky a umožní těžbu v "
+"mohutných horách."
 
 #: data/alien/techs.ruleset:184
 msgid "Brain Development"
@@ -33722,6 +33929,8 @@ msgid ""
 "Advanced form of force channeling allows us to protect city size objects "
 "with channeled radiation energy."
 msgstr ""
+"Pokročilé usměrňování síly nám dovoluje chránit objekty velikosti města "
+"energií ze záření."
 
 #: data/alien/techs.ruleset:211
 msgid "Commercial Antigravity"
@@ -33745,6 +33954,11 @@ msgid ""
 "Also your own bases can communicate more efficiently with each other, so "
 "number of bases you have is not causing as much unhappiness as before."
 msgstr ""
+"Běžné rádio tu nefunguje. Vyviňte funkční náhradu, která využívá místní "
+"záření. Navážete kontakt s ostatními frakcemi a hodně se o nich dozvíte.\n"
+"\n"
+"Také vlastní základny budou lépe komunikovat, takže jejich počet už nebude"
+" vyvolávat tolik nespokojenosti."
 
 #: data/alien/techs.ruleset:234
 msgid "Composites"
@@ -33764,6 +33978,8 @@ msgid ""
 "Bugs, Slimes, Molds. We can drive masses of them together and then control "
 "movement of that biomass to act like a one being."
 msgstr ""
+"Hmyz, sliz a plísně. Shromáždíme jich velké množství a pohyb té biomasy "
+"pak řídíme, jako by šlo o jediného tvora."
 
 #: data/alien/techs.ruleset:253
 msgid "Crust Defense"
@@ -33801,6 +34017,8 @@ msgid ""
 "Making old Earth technology better than before is relatively easy task to "
 "do. For small investment, cybernetics gives us much better attack units."
 msgstr ""
+"Vylepšit starou pozemskou techniku je poměrně snadné. Kybernetika nám za "
+"malou investici poskytne mnohem lepší útočné jednotky."
 
 #: data/alien/techs.ruleset:291
 msgid "Data Storage"
@@ -33811,6 +34029,8 @@ msgid ""
 "Needs to archive all the media produced for and by politics drive "
 "development of better data storage methods."
 msgstr ""
+"V politice vzniká spousta materiálů. Potřeba je uchovávat nás vede k "
+"vývoji lepších způsobů ukládání dat."
 
 #: data/alien/techs.ruleset:301
 msgid "Deep Pumping"
@@ -33821,6 +34041,8 @@ msgid ""
 "We can pump water from the depths of the crust. We no longer need any of the "
 "adjacent tiles to have water in order to build Greenhouses."
 msgstr ""
+"Dokážeme čerpat vodu z hlubin planetární kůry. Ke stavbě skleníků už "
+"nepotřebujeme vodu na žádném sousedním poli."
 
 #: data/alien/techs.ruleset:311
 msgid "Deneb Radar"
@@ -33831,6 +34053,8 @@ msgid ""
 "Not really an conventional radar, but named so as it fills similar role. "
 "It's based on Deneb 7 radiation and works on this planet."
 msgstr ""
+"O běžný radar vlastně nejde. Jméno dostal proto, že plní podobnou úlohu. "
+"Využívá místní záření a na Denebu 7 funguje."
 
 #: data/alien/techs.ruleset:321
 msgid "Dual Government"
@@ -33845,6 +34069,8 @@ msgid ""
 "We are finally able to escape force field surrounding Deneb 7. In addition "
 "to technical insight it requires correct attitude."
 msgstr ""
+"Konečně dokážeme uniknout ze silového pole kolem Denebu 7. Vedle "
+"technických znalostí je k tomu potřeba správný přístup."
 
 #: data/alien/techs.ruleset:341
 msgid "Faction Government"
@@ -33864,6 +34090,9 @@ msgid ""
 "to this strange planet, are quite unlike anything seen before. It very well "
 "deserves small study. Maybe we then can co-operate with other factions."
 msgstr ""
+"Vztahy mezi frakcemi, které uvázly na téhle podivné planetě, se nepodobají"
+" ničemu, co dosud známe. Stojí za to je prozkoumat. Třeba pak dokážeme s "
+"ostatními spolupracovat."
 
 #: data/alien/techs.ruleset:362
 msgid "Food Regeneration"
@@ -33877,6 +34106,10 @@ msgid ""
 "\n"
 "Protein Houses tiles get additional 50% food production bonus."
 msgstr ""
+"Když sklizené plodiny rychleji dorůstají, dostáváme víc jídla. Tak prosté "
+"to je.\n"
+"\n"
+"Pole s bílkovinnými domy získávají dalších 50 % k produkci jídla."
 
 #: data/alien/techs.ruleset:374
 msgid "Force Channeling"
@@ -33889,6 +34122,10 @@ msgid ""
 "\n"
 "Engineers can build Force Fortresses."
 msgstr ""
+"Záření nás omezuje, ale může posloužit i jako zdroj energie. Už víme, jak "
+"sílu Denebu 7 využít.\n"
+"\n"
+"Ženisté mohou stavět silové pevnosti."
 
 #: data/alien/techs.ruleset:385
 msgid "Gravity Manipulation"
@@ -33899,6 +34136,8 @@ msgid ""
 "From inside the crust we gather information required to understand how "
 "gravity works and what one can do with it."
 msgstr ""
+"Uvnitř planetární kůry získáváme poznatky potřebné k pochopení gravitace a"
+" možností jejího využití."
 
 #: data/alien/techs.ruleset:395
 msgid "Global Knowledge"
@@ -33937,12 +34176,19 @@ msgid ""
 "Makes Antigrav Ports more efficient. They can airlift three units instead of "
 "just one."
 msgstr ""
+"Pokrok v antigravitaci nám umožňuje dosáhnout oběžné dráhy, i když nás "
+"stále vězní silové pole kolem Denebu 7.\n"
+"\n"
+"Antigravitační přístavy fungují účinněji. Mohou letecky přepravit tři "
+"jednotky místo jedné."
 
 #: data/alien/techs.ruleset:442
 msgid ""
 "Using Deneb 7's own power available everywhere land travel speeds can reach "
 "levels never seen before."
 msgstr ""
+"Všudypřítomná energie Denebu 7 nám umožňuje cestovat po souši dosud "
+"nevídanou rychlostí."
 
 #: data/alien/techs.ruleset:446
 msgid "Manufacturing"
@@ -33967,6 +34213,11 @@ msgid ""
 "Maximum martial law for cities with Secret Police is increased from two to "
 "five."
 msgstr ""
+"Účinné stanné právo vyžaduje rychlou reakci, abychom mohli jednotky "
+"okamžitě vyslat tam, kde jsou potřeba.\n"
+"\n"
+"Nejvyšší účinek stanného práva v městech s tajnou policií se zvýší ze dvou"
+" na pět."
 
 #: data/alien/techs.ruleset:468
 msgid "Mental Powers"
@@ -33980,6 +34231,11 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 3 sizes bigger."
 msgstr ""
+"CHCI\n"
+"\n"
+"Jedním ze způsobů, jak odolat záření, je silná vůle.\n"
+"\n"
+"Už samotná znalost této technologie zvyšuje nejvyšší velikost měst o 3."
 
 #: data/alien/techs.ruleset:479
 #| msgid "Mining"
@@ -34035,6 +34291,10 @@ msgid ""
 "\n"
 "Increases max tax/science/lux rate by 10%."
 msgstr ""
+"Konečně si uvědomujeme, že nejsme omezeni tím, co jsme měli jako součást "
+"pozemské říše.\n"
+"\n"
+"Zvyšuje nejvyšší sazbu daní, výzkumu a luxusu o 10 %."
 
 #: data/alien/techs.ruleset:530
 msgid "Ocean Cities"
@@ -34055,6 +34315,10 @@ msgid ""
 "\n"
 "Cities can work radiating tiles."
 msgstr ""
+"Dovedeme vyrábět pancíř z mimozemských organismů odolných vůči podivnému "
+"záření Denebu 7. Díky tomu můžeme vstupovat do nových oblastí.\n"
+"\n"
+"Města mohou obhospodařovat pole, která vyzařují záření."
 
 #: data/alien/techs.ruleset:555
 msgid ""
@@ -34062,6 +34326,9 @@ msgid ""
 "ready to act immediately after landing are hard for aliens. They need extra "
 "mental powers for that."
 msgstr ""
+"Spadnout z oběžné dráhy je snadné. Pro mimozemské tvory je ale náročné "
+"zasáhnout malý cíl a být hned po dopadu připraveni jednat. Potřebují k "
+"tomu silnější duševní schopnosti."
 
 #: data/alien/techs.ruleset:560
 msgid "Personal Contact"
@@ -34076,6 +34343,12 @@ msgid ""
 "Stealth Spies protecting your cities against enemy Spies will get 40% bonus. "
 "It also gets 40% harder for enemies to sabotage specific buildings."
 msgstr ""
+"Ve virtuální realitě to vypadá, jako by herečka byla přímo u vás. Pokud se"
+" smí teleportovat za diváky, možná tam opravdu je.\n"
+"\n"
+"Maskovaní špióni chránící vaše města získají proti nepřátelským špiónům "
+"bonus 40 %. Sabotovat konkrétní stavby bude pro nepřátele o 40 % "
+"obtížnější."
 
 #: data/alien/techs.ruleset:573
 msgid "Protein Modifications"
@@ -34089,6 +34362,10 @@ msgid ""
 "Engineers can build Protein Houses, which increases tile food production by "
 "50%."
 msgstr ""
+"Ukazuje se, že mimozemské formy života lze upravit tak, aby byly jedlé.\n"
+"\n"
+"Ženisté mohou stavět bílkovinné domy, které zvýší výnos jídla na poli o 50"
+" %."
 
 #: data/alien/techs.ruleset:584
 msgid "Radiation Resistance"
@@ -34101,6 +34378,10 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 1 size bigger."
 msgstr ""
+"Důkladným zkoumáním mimozemských tvorů a způsobu, jak přežívají záření, "
+"dokážeme částečně ochránit i naše města. \n"
+"\n"
+"Už samotná znalost této technologie zvyšuje nejvyšší velikost měst o 1."
 
 #: data/alien/techs.ruleset:595
 msgid "Regeneration"
@@ -34111,6 +34392,8 @@ msgid ""
 "We know how aliens regenerate, we know how self-repairing machines "
 "regenerate, we know how Earth organisms regenerate."
 msgstr ""
+"Víme, jak se obnovují mimozemští tvorové, samoopravné stroje i pozemské "
+"organismy."
 
 #: data/alien/techs.ruleset:605
 msgid "Research Methods"
@@ -34124,6 +34407,10 @@ msgid ""
 "\n"
 "Simply knowing this tech increases science output by 35%."
 msgstr ""
+"Metody výzkumu přizpůsobené zdejším podmínkám nám umožňují získávat "
+"poznatky mnohem rychleji.\n"
+"\n"
+"Už samotná znalost této technologie zvyšuje výzkumný výnos o 35 %."
 
 #: data/alien/techs.ruleset:617
 msgid "Smart Aliens"
@@ -34134,6 +34421,8 @@ msgid ""
 "Once we have given some smarts, backed with some remote control, to them, "
 "they can work on more demanding tasks."
 msgstr ""
+"Jakmile jim dodáme trochu rozumu a schopnost řídit je na dálku, zvládnou i"
+" náročnější úkoly."
 
 #: data/alien/techs.ruleset:627
 msgid "Soul"
@@ -34148,6 +34437,12 @@ msgid ""
 "citizens is converted to unhappy in every city in the world unless owner of "
 "the city also knows Soul."
 msgstr ""
+"Spojením znalostí o lidech a mimozemšťanech konečně chápeme obecnou "
+"podstatu duše.\n"
+"\n"
+"Dokážeme v nepřátelích vyvolat hrůzu. Jakmile někdo objeví Duši, ve všech "
+"městech světa se dva spokojení obyvatelé stanou nešťastnými. Výjimkou jsou"
+" města vlastníků, kteří také znají Duši."
 
 #: data/alien/techs.ruleset:640
 msgid "Specialist Training"
@@ -34160,6 +34455,10 @@ msgid ""
 "\n"
 "Output of all specialists doubles."
 msgstr ""
+"Metodami vyzkoušenými při výuce taktiky můžeme specialisty naučit pár "
+"nových triků.\n"
+"\n"
+"Výnos všech specialistů se zdvojnásobí."
 
 #: data/alien/techs.ruleset:651
 msgid "Spitter Control"
@@ -34182,6 +34481,8 @@ msgid ""
 "expensive to be used for armies. It's perfect for individuals in espionage "
 "mission."
 msgstr ""
+"I když umíme své jednotky zneviditelnit, pro celé armády by to bylo příliš"
+" drahé. Pro jednotlivce při špionážní misi je tato technologie ideální."
 
 #: data/alien/techs.ruleset:672
 msgid "Strong Force"
@@ -34194,6 +34495,10 @@ msgid ""
 "\n"
 "Allows Engineers to build Towers instead of Force Fortresses."
 msgstr ""
+"Ze záření už umíme vytvářet různá energetická pole, ale ještě se máme co "
+"učit.\n"
+"\n"
+"Ženisté mohou místo silových pevností stavět věže."
 
 #: data/alien/techs.ruleset:683
 msgid "Strong Resistance"
@@ -34205,6 +34510,9 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 2 sizes bigger."
 msgstr ""
+"Učíme se stavět lepší ochranu před zářením.\n"
+"\n"
+"Už samotná znalost této technologie zvyšuje nejvyšší velikost měst o 2."
 
 #: data/alien/techs.ruleset:693
 msgid "Supermodule"
@@ -34226,6 +34534,10 @@ msgid ""
 "As their food consumption is no longer an problem, we can grow bigger, "
 "meaner, aliens."
 msgstr ""
+"Jde o úplně nový a mimořádně účinný způsob výroby syntetických potravin.\n"
+"\n"
+"Když nás už neomezuje jejich spotřeba jídla, můžeme vypěstovat větší a "
+"nebezpečnější mimozemské tvory."
 
 #: data/alien/techs.ruleset:715
 msgid "Teleportation"
@@ -34236,6 +34548,8 @@ msgid ""
 "We can teleport relatively small objects relatively short distances. This "
 "reduces problem of not being able to fly."
 msgstr ""
+"Dokážeme teleportovat poměrně malé předměty na poměrně krátké vzdálenosti."
+" Je tak o něco menší problém, že nemůžeme létat."
 
 #: data/alien/techs.ruleset:725
 msgid "Thermal Module"
@@ -34249,6 +34563,11 @@ msgid ""
 "\n"
 "Cities can work Boiling Ocean tiles."
 msgstr ""
+"Pro plavbu ve vroucí vodě musíme dobře ovládat teplotu kolem plavidel. "
+"Znalost základních modulů nám zároveň v budoucnu umožní vyvíjet "
+"pokročilejší.\n"
+"\n"
+"Města mohou obhospodařovat pole vroucího oceánu."
 
 #: data/alien/techs.ruleset:737
 msgid "Underground Habitat"
@@ -34271,6 +34590,8 @@ msgid ""
 "Once we master ship manufacturing, traveling more hospitable seas of Deneb 7 "
 "proved to be no different from other planets."
 msgstr ""
+"Jakmile jsme ovládli stavbu lodí, ukázalo se, že plavba po pohostinnějších"
+" mořích Denebu 7 se od plavby na jiných planetách neliší."
 
 #: data/alien/techs.ruleset:758
 msgid "Unified Theory"
@@ -34312,6 +34633,8 @@ msgid ""
 "they are the only thing that can wage war on radiating areas for the time "
 "being."
 msgstr ""
+"Dokážeme ochočit nestvůry pro boj. Jsou možná poměrně slabé, ale zatím "
+"jako jediné dokážou bojovat v oblastech se zářením."
 
 #: data/alien/techs.ruleset:798
 msgid "Water Flow"
@@ -34323,6 +34646,8 @@ msgid ""
 "want. Building Greenhouses becomes possible in tiles adjacent to cities and "
 "rivers."
 msgstr ""
+"Rozumíme proudění kapalin na Denebu 7 a dokážeme vodu vést tam, kam "
+"potřebujeme. Skleníky lze stavět na polích sousedících s městy a řekami."
 
 #: data/alien/terrain.ruleset:27
 msgid "Radiating"
@@ -34358,6 +34683,11 @@ msgid ""
 "Cities can work these tiles only when Organic Structures is known. Inventing "
 "Alien Rights gives +1 production bonus to Alien Forest tiles."
 msgstr ""
+"Tyto lesy obývají podivné mimozemské organismy. Pozemské organismy by "
+"zdejší záření nepřežily.\n"
+"\n"
+"Města mohou tato pole obhospodařovat až po objevu organických staveb. "
+"Objev práv mimozemšťanů přidává polím mimozemských lesů +1 bod výroby."
 
 #: data/alien/terrain.ruleset:363
 msgid "Radiating Rocks"
@@ -34369,6 +34699,9 @@ msgid ""
 "\n"
 "Cities can work these tiles only when Organic Structures is known."
 msgstr ""
+"Pozemské organismy by záření této planety nepřežily.\n"
+"\n"
+"Města mohou tato pole obhospodařovat až po objevu organických staveb."
 
 #: data/alien/terrain.ruleset:457
 msgid "Hills just like on Earth."
@@ -34385,6 +34718,10 @@ msgid ""
 "Burrowing units are unable to burrow through these mountains, but at least "
 "Burrowing technology makes mining them possible."
 msgstr ""
+"Z čeho ty hory jsou?!? Ani diamantový vrták na nich nezanechá škrábanec.\n"
+"\n"
+"Podzemní jednotky se těmito horami neprokopou, ale technologie hloubení "
+"tunelů v nich alespoň umožní těžit."
 
 #: data/alien/terrain.ruleset:554
 msgid "This is normal oceanic terrain."
@@ -34401,6 +34738,10 @@ msgid ""
 "Cities can work these tiles only when Thermal Module is known, and city can "
 "never be located on Boiling Ocean."
 msgstr ""
+"Tento oceán vře. Žádná loď do něj nevpluje bez zvláštního vybavení.\n"
+"\n"
+"Města mohou tato pole obhospodařovat až po objevu tepelného modulu. Na "
+"vroucím oceánu však město nikdy založit nelze."
 
 #: data/alien/terrain.ruleset:807
 msgid "Greenhouses"
@@ -34419,12 +34760,24 @@ msgid ""
 "- Deep Pumping allows water to be drawn from the depths of the crust, "
 "allowing Greenhouses to be built anywhere."
 msgstr ""
+"Skleníky lze na určitých terénech postavit ke zvýšení výnosu jídla. Ke "
+"stavbě musí mít pole zdroj vody:\n"
+"- Města mají skleníky automaticky, pokud na jejich poli není důl. Není je "
+"potřeba stavět.\n"
+"- Po objevu výroby můžete mimo města skleníky stavět přímo na polích s "
+"řekou nebo vedle oceánského pole, které s cílovým polem sdílí hranu.\n"
+"- Po objevu proudění vody můžete skleníky stavět i na polích, která "
+"sdílejí hranu s říčním polem nebo středem města.\n"
+"- Hlubinné čerpání umožňuje získávat vodu z hlubin planetární kůry a "
+"stavět skleníky kdekoli."
 
 #: data/alien/terrain.ruleset:853
 msgid ""
 "Mines can be built on Hills for an extra production point. Once Burrowing is "
 "known, Thick Mountains can also be mined."
 msgstr ""
+"V kopcích lze postavit doly za další bod výroby. Po objevu hloubení tunelů"
+" lze těžit i v mohutných horách."
 
 #: data/alien/terrain.ruleset:877
 msgid ""
@@ -34439,6 +34792,8 @@ msgid ""
 "The pollution can only be cleared by dispatching Engineer or Hunter units "
 "with the \"clean pollution\" order."
 msgstr ""
+"Znečištění mohou odstranit jen ženisté nebo lovci s rozkazem „Odstranit "
+"znečištění“."
 
 #: data/alien/terrain.ruleset:883
 msgid ""
@@ -34446,6 +34801,8 @@ msgid ""
 "once it exceeds a threshold, the excess is the percent chance of pollution "
 "appearing each turn."
 msgstr ""
+"Příspěvek výroby ke znečištění uvidíte v okně města. Jakmile překročí mez,"
+" přesah udává procentní pravděpodobnost vzniku znečištění v každém tahu."
 
 #: data/alien/terrain.ruleset:890
 msgid "Space Capsule"
@@ -34460,6 +34817,11 @@ msgid ""
 "Unfortunately it's also possible that Madmen or Lunatics have already found "
 "the capsule, and are there ready to kill anybody who enters."
 msgstr ""
+"Na Denebu 7 přistály vesmírné kapsle. Jakákoli jednotka může vstoupit na "
+"pole s kapslí a otevřít ji. Kapsle při tom zmizí z mapy. Může obsahovat "
+"zlato, plány nových technologií, vybavení jednotky nebo dokonce sadu k "
+"založení nové základny na místě. Možná ji ale už našli Šílenci či Pomatení"
+" a čekají tam, aby zabili každého, kdo vstoupí."
 
 #: data/alien/terrain.ruleset:919
 msgid "Protein Houses"
@@ -34473,6 +34835,10 @@ msgid ""
 "Protein Houses give a further 50% food. City center tiles automatically get "
 "Protein Houses as soon as they are available."
 msgstr ""
+"Po objevu úprav bílkovin můžete skleníky přestavět na bílkovinné domy, "
+"které dávají o 50 % více jídla. Po objevu obnovy potravin získají dalších "
+"50 %. Ve středu měst bílkovinné domy vzniknou automaticky, jakmile se "
+"zpřístupní."
 
 #: data/alien/terrain.ruleset:967
 msgid ""
@@ -34508,6 +34874,9 @@ msgid ""
 "\n"
 "Having Road on Savannah tile provides increase of +1 to trade on that tile."
 msgstr ""
+"Obyčejné cesty lze stavět od začátku hry.\n"
+"\n"
+"Cesta na poli savany zvyšuje výnos tohoto pole o +1 bod obchodu."
 
 #: data/alien/terrain.ruleset:1088
 msgid "Highway"
@@ -34525,6 +34894,10 @@ msgid ""
 "Units can move via Maglevs indefinitely, Shield production of any tile with "
 "Maglev is increased by 50%."
 msgstr ""
+"Dálnice můžete přestavět na magnetické dráhy.\n"
+"\n"
+"Jednotky se po magnetické dráze mohou pohybovat libovolně daleko a každé "
+"pole s drahou vyrábí o 50 % více štítů."
 
 #: data/alien/terrain.ruleset:1149
 msgid "Tunnel"
@@ -34536,6 +34909,8 @@ msgid ""
 "Earthly units can travel on radiating tiles with tunnel built on them. "
 "Tunnel provides no increase to unit speed, but they give 35% defense bonus."
 msgstr ""
+"Pozemské jednotky mohou přes pole se zářením projíždět tunelem. Tunely "
+"pohyb nezrychlují, ale poskytují bonus 35 % k obraně."
 
 #: data/alien/terrain.ruleset:1180
 msgid "Burrow Tube"
@@ -34547,24 +34922,23 @@ msgid ""
 "can be built on oceanic terrains only, but first part of the tube must be "
 "built cardinally adjacent to land and following parts must be built in order."
 msgstr ""
+"Podzemní chodby jsou jediným způsobem, jak mohou podzemní jednotky "
+"překonat oceán. Lze je budovat jen na oceánském terénu. První část musí se"
+" souší sdílet hranu a další části se stavějí postupně."
 
 #: data/alien/terrain.ruleset:1210
 msgid "Green River"
 msgstr "Zelená řeka"
 
 #: data/alien/terrain.ruleset:1227 data/alien/terrain.ruleset:1252
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Any river increases a tile's natural defense factor by 50%. Native and "
 "Amphibious units may move along a River (but not diagonally) for fast travel."
 msgstr ""
-"Jakýkoliv terén (kromě oceánu) může obsahovat řeku.  Řeka přidává 1 obchod "
-"do zdrojů produkovaných tímto polem.  Také zvyšuje obranný faktor o 50%.  "
-"Pozemní jednotky se mohou přesouvat přes řeku (ale ne diagonálně); přesun "
-"přes řeku stojí pouze 1/3 of pohybového bodu.\n"
-"\n"
-"Cesty a železnice mohou být na polích s řekou postaveny pokud Vaše "
-"civilizace má objevenu technologii Stavba mostů."
+"Řeka zvyšuje přirozený koeficient obrany pole o 50 %. Původní a "
+"obojživelné jednotky se podél řek pohybují rychleji, úhlopříčně však "
+"nemohou."
 
 #: data/alien/terrain.ruleset:1230
 msgid "Green River increases also tile's food production by 1."
@@ -34594,6 +34968,8 @@ msgid ""
 "Mine run by superior alien technology ready to operate. We have no idea who "
 "built it nor where they went."
 msgstr ""
+"Důl s vyspělou mimozemskou technikou je připraven k provozu. Netušíme, kdo"
+" ho postavil ani kam odešel."
 
 #: data/alien/terrain.ruleset:1298
 msgid "Huge Plant"
@@ -34682,6 +35058,8 @@ msgid ""
 "This is native Settler that can enter radiating areas. Most military enemy "
 "units can capture it instead of killing it."
 msgstr ""
+"Místní osadníci mohou vstoupit do oblastí se zářením. Většina "
+"nepřátelských vojenských jednotek je může zajmout místo zabití."
 
 #: data/alien/units.ruleset:517
 msgid "Engineer"
@@ -34708,6 +35086,8 @@ msgid ""
 "Amphibious Engineer that can also establish new cities on Ocean. Cities "
 "cannot be located on Boiling Ocean."
 msgstr ""
+"Obojživelná ženijní jednotka může také zakládat města na oceánu. Ve "
+"vroucím oceánu města zakládat nelze."
 
 #: data/alien/units.ruleset:623
 msgid "Star Marines"
@@ -34763,6 +35143,8 @@ msgid ""
 "Alien lifeform with cybernetic implants. Good in combat, and has better "
 "vision than any purely organic unit."
 msgstr ""
+"Mimozemský tvor s kybernetickými implantáty dobře bojuje a má delší dosah "
+"výhledu než jakákoli čistě organická jednotka."
 
 #. TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role
 #: data/alien/units.ruleset:833
@@ -34798,6 +35180,9 @@ msgid ""
 "Burrow through earth. Only some special units can attack against Earth Sub. "
 "These can pass ocean tiles only through Burrow Tubes."
 msgstr ""
+"Hloubí si cestu pod zemí. Na pozemskou ponorku mohou útočit jen některé "
+"speciální jednotky. Oceánská pole mohou tyto ponorky překonávat pouze "
+"podzemními chodbami."
 
 #: data/alien/units.ruleset:973
 msgid "Hunter"
@@ -34811,6 +35196,11 @@ msgid ""
 "It's also an settler type unit for hostile areas, well capable of defending "
 "itself."
 msgstr ""
+"Podzemní jednotka, která dokáže miniraketami útočit i na antigravitační "
+"jednotky.\n"
+"\n"
+"Slouží rovněž jako osadnická jednotka do nepříznivých oblastí a umí se "
+"dobře bránit."
 
 #: data/alien/units.ruleset:1012
 msgid "Light Saucer"
@@ -34821,6 +35211,8 @@ msgid ""
 "Nobody, but some of the other Antigravity units and Hunters can attack this "
 "unit. This unit itself can attack other Antigravity units."
 msgstr ""
+"Na tuto jednotku mohou útočit jen některé jiné antigravitační jednotky a "
+"lovci. Sama může útočit na jiné antigravitační jednotky."
 
 #: data/alien/units.ruleset:1047
 msgid "Bomb Saucer"
@@ -34863,12 +35255,16 @@ msgid ""
 "Just let the biomass to engulf your tank and pick it up, then enjoy the ride "
 "in the radiation-safe inside of the slimy being."
 msgstr ""
+"Nechte biomasu pohltit a zvednout váš tank. Pak si užijte jízdu uvnitř "
+"slizkého tvora, chráněni před zářením."
 
 #: data/alien/units.ruleset:1217
 msgid ""
 "Like all Earthly units, Explorer are unable to enter radiating tiles. They "
 "can maintain themselves, no upkeep cost to homecity."
 msgstr ""
+"Průzkumníci stejně jako ostatní pozemské jednotky nemohou na pole se "
+"zářením. Uživit se dokážou sami a své domovské město nic nestojí."
 
 #: data/alien/units.ruleset:1223
 msgid "Scout Animal"
@@ -34925,12 +35321,17 @@ msgid ""
 "Earth technology unit that can establish trade routes and transfer goods to "
 "help build wonders in other cities."
 msgstr ""
+"Jednotka s pozemskou technologií, která dokáže zřizovat obchodní trasy a "
+"převážet zboží na pomoc se stavbou divů v jiných městech."
 
 #: data/alien/units.ruleset:1467 data/alien/units.ruleset:1507
 msgid ""
 "Trade routes with other factions provide three times as much ongoing trade "
 "as routes within your faction. Each city can support up to four trade routes."
 msgstr ""
+"Obchodní trasy s jinými frakcemi dávají trojnásobný pravidelný obchodní "
+"výnos oproti trasám uvnitř vaší frakce. Každé město může mít až čtyři "
+"obchodní trasy."
 
 #: data/alien/units.ruleset:1505
 msgid "Native caravan unit, that can move on all land terrains."
@@ -34967,6 +35368,8 @@ msgid ""
 "Missile that can attack also against burrowing units. Since more expensive "
 "than normal Teleporting Missile, does not completely replace it."
 msgstr ""
+"Střela, která může útočit i na podzemní jednotky. Stojí více než běžná "
+"teleportující se střela, a tak ji zcela nenahrazuje."
 
 #: data/alien/nation/adventurers.ruleset:5
 msgid "Adventurers"
@@ -34984,6 +35387,10 @@ msgid ""
 "* All units have one extra movement point\n"
 "* City size limits one size bigger than for other factions"
 msgstr ""
+"Neměli žádný cíl, jen se toulali a hledali potíže.\n"
+"\n"
+"* Všechny jednotky mají jeden bod pohybu navíc\n"
+"* Nejvyšší velikost měst je o jedna větší než u ostatních frakcí"
 
 #: data/alien/nation/galacticsound.ruleset:5
 msgid "Galactic Sound"
@@ -34999,6 +35406,9 @@ msgid ""
 "\n"
 "* Three unhappy citizens in each city becomes content"
 msgstr ""
+"Loď plná hudebních fanoušků původně mířila na velký koncert.\n"
+"\n"
+"* Tři nešťastní obyvatelé v každém městě se změní na spokojené"
 
 #: data/alien/nation/jw.ruleset:5
 msgid "J&W Corporation"
@@ -35035,6 +35445,11 @@ msgid ""
 "\n"
 "* Granary is not emptied when city grows, but set to 25% full"
 msgstr ""
+"Deneb 7 ukončil prázdniny dětí a jejich rodičů. Všichni měli děti, takže "
+"se zjevně nenašel nikdo, kdo by podporoval bezdětnost.\n"
+"\n"
+"* Při růstu města se zásoba jídla nevyprázdní a nastaví se na 25 % "
+"kapacity"
 
 #: data/alien/nation/lunatics.ruleset:5
 msgid "Lunatic"
@@ -35076,6 +35491,10 @@ msgid ""
 "\n"
 "* 30% bonus to science output"
 msgstr ""
+"Matematický kroužek se vracel z matematické soutěže, když jeho loď "
+"zachytil Deneb 7.\n"
+"\n"
+"* Bonus 30 % k výkonu výzkumu"
 
 #: data/alien/nation/secretsociety.ruleset:5
 msgid "Secret Society"
@@ -35095,6 +35514,12 @@ msgid ""
 "* Has 50% spy resistance bonus\n"
 "* 20% bonus to trade"
 msgstr ""
+"Patří ke skutečně bohatým, o kterých nikdo nic neví, protože se stýkají "
+"jen mezi sebou.\n"
+"\n"
+"* Staví maskované špióny na úrovni veterána\n"
+"* Má bonus 50 % k odolnosti vůči špiónům\n"
+"* Bonus 20 % k obchodu"
 
 #: data/alien/nation/teamgladiators.ruleset:5
 msgid "Team Gladiators"
@@ -35112,6 +35537,11 @@ msgid ""
 "* Builds elite units, superb units in cities with Training Facility\n"
 "* Each city receives free unit upkeep worth one shield"
 msgstr ""
+"Vesmírný míč je sport obrovských týmů. Na lodi týmu gladiátorů bylo dost "
+"hráčů k založení celé planetární frakce.\n"
+"\n"
+"* Vyrábí elitní jednotky, ve městech s výcvikovým střediskem špičkové\n"
+"* Každé město má údržbu jednotek v hodnotě jednoho štítu zdarma"
 
 #: data/helpdata.txt:44
 msgid ""
@@ -38868,15 +39298,16 @@ msgid "For more information in general, visit the Freeciv website, at:"
 msgstr "Další obecné informace najdete na webu Freeciv:"
 
 #: data/multiplayer/buildings.ruleset:742
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 4 under Democracy and 2 under Republic -- in other words, it "
 "neutralizes the unhappiness caused by two military units. This improvement "
 "has no effect under other governments."
 msgstr ""
-"Snižuje nespokojenost vyvolanou vojenskými jednotkami mimo město o 2 pod "
-"Demokracií a o 1 pod Republikou. V ostatních státních zřízeních nemá efekt."
+"Sníží nespokojenost vyvolanou útočně nasazenými vojenskými jednotkami "
+"města o 4 za demokracie a o 2 za republiky. Tím vyrovná nespokojenost "
+"vyvolanou dvěma vojenskými jednotkami. U jiných forem vlády tato stavba "
+"nepůsobí."
 
 #: data/multiplayer/buildings.ruleset:1001
 #: data/multiplayer/buildings.ruleset:1039
@@ -38887,32 +39318,32 @@ msgstr ""
 "Než začnete stavět díly kosmické lodi, musíte dokončit program Apollo."
 
 #: data/multiplayer/buildings.ruleset:1146
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the food resources by 100% on each farmland tile which is being "
 "used around the city.  Farmland tiles are those which have been irrigated a "
 "second time."
 msgstr ""
-"Zvyšuje produkci jídla každé obdělávané farmy kolem města. Farma je políčko, "
-"na kterém bylo podruhé vybudováno zavlažování."
+"Zvyšuje výnos jídla o 100 % na každém obhospodařovaném poli s farmou v "
+"okolí města. Farmy vznikají druhým zavlažením pole."
 
 #: data/multiplayer/buildings.ruleset:1224
 msgid ""
 "Allows you to start building spaceship parts in cities with factories "
 "(assuming you have researched the necessary technologies)."
 msgstr ""
+"Umožňuje začít stavět díly kosmické lodi v městech s továrnami, pokud "
+"znáte potřebné technologie."
 
 #: data/multiplayer/buildings.ruleset:1250
-#, fuzzy
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities on the same continent."
 msgstr ""
-"Každé vybavení města, které potřebuje pro údržbu 1 jednotku (blbý překlad "
-"co?) bude s tímto divem světa zdarma ve všech městech."
+"Stavby, jejichž údržba by běžně stála 1 jednotku zlata, mají údržbu zdarma"
+" ve všech vašich městech na stejném kontinentu."
 
 #: data/multiplayer/buildings.ruleset:1325
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes two content citizens happy in "
 "all cities of all players who have researched Genetic Engineering. In the "
@@ -38920,10 +39351,11 @@ msgid ""
 "this effect in a city, the wonder applies to unhappy citizens (including "
 "those unhappy about military activity), making each content then happy."
 msgstr ""
-"Učiní jednoho spokojeného obyvatele štastným v každém městě. Navíc učiní dva "
-"spokojené lidi šťastnými ve městě, kde jsou postaveny (dohromady 3). Pokud "
-"ve městě nejsou spokojení lidé, efekt pracuje na nespokojených (činí "
-"jespokojenými)."
+"Tento pozoruhodný technický úspěch udělá ze dvou spokojených obyvatel "
+"šťastné ve všech městech všech hráčů, kteří vyzkoumali genetické "
+"inženýrství. Pokud v některém městě výjimečně není dost spokojených "
+"obyvatel, působí na nešťastné, včetně těch nespokojených kvůli vojenské "
+"činnosti. Nejdřív se z nich stanou spokojení a pak šťastní."
 
 #: data/multiplayer/buildings.ruleset:1354
 msgid ""
@@ -38948,26 +39380,24 @@ msgid "Works as a City Wall in all your cities on the same continent."
 msgstr "Ve všech vašich městech na stejném kontinentu nahrazuje hradby."
 
 #: data/multiplayer/buildings.ruleset:1456
-#, fuzzy
 msgid ""
 "Makes two content citizens happy in every city on the same continent. In the "
 "unlikely event where there are no content citizens to get the effect of "
 "Hanging Gardens, the wonder applies to unhappy citizens (including those "
 "unhappy about military activity), making each content then happy."
 msgstr ""
-"Učiní jednoho spokojeného obyvatele štastným v každém městě. Navíc učiní dva "
-"spokojené lidi šťastnými ve městě, kde jsou postaveny (dohromady 3). Pokud "
-"ve městě nejsou spokojení lidé, efekt pracuje na nespokojených (činí "
-"jespokojenými)."
+"V každém městě na stejném kontinentu udělá ze dvou spokojených obyvatel "
+"šťastné. Pokud výjimečně nejsou spokojení obyvatelé k dispozici, Visuté "
+"zahrady působí na nešťastné, včetně těch nespokojených kvůli vojenské "
+"činnosti. Nejdřív se z nich stanou spokojení a pak šťastní."
 
 #: data/multiplayer/buildings.ruleset:1485
-#, fuzzy
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent. (This "
 "reduces pollution and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
-"Funguje jako hydroelektrárna v každém městě. (to snižuje znečištění a "
-"zvyšuje efekt továren a výrobních podniků)"
+"Působí jako hydroelektrárna v každém městě na stejném kontinentu. Snižuje "
+"znečištění a posiluje účinek továren a výrobních podniků."
 
 #: data/multiplayer/buildings.ruleset:1512
 #, no-c-format
@@ -38979,26 +39409,26 @@ msgstr ""
 "kontinentu."
 
 #: data/multiplayer/buildings.ruleset:1537
-#, fuzzy
 msgid ""
 "Makes two unhappy citizens content in every city on the same continent "
 "(including citizens unhappy about military activity)."
-msgstr "Učiní dva nespokojené lidi spokojenými v každém městě s chrámem."
+msgstr ""
+"V každém městě na stejném kontinentu změní dva nešťastné obyvatele na "
+"spokojené, včetně těch nespokojených kvůli vojenské činnosti."
 
 #: data/multiplayer/buildings.ruleset:1589
 msgid "Upgrades two obsolete units per game turn."
 msgstr "Každý tah modernizuje dvě zastaralé jednotky."
 
 #: data/multiplayer/buildings.ruleset:1640
-#, fuzzy
 msgid ""
 "All your new sea units built in cities on the same continent start with an "
 "additional veteran level (this is cumulative with any Port Facility in a "
 "city; with both, units are created as Hardened)."
 msgstr ""
-"Všechny vaše nové pozemní jednotky budou začínat na první úrovni statusu "
-"veteran. Šance, že Vaše jednotka získá další úroveň po boji se o polovinu "
-"zvýší."
+"Všechny vaše nové námořní jednotky vyrobené ve městech na stejném "
+"kontinentu začínají o jednu veteránskou úroveň výše. Účinek se sčítá s "
+"vybavením přístavu a jednotky pak vznikají na úrovni „Ostřílená“."
 
 #: data/multiplayer/buildings.ruleset:1689
 #, no-c-format
@@ -39007,7 +39437,6 @@ msgstr ""
 "Zvyšuje výnos z obchodu o 40 % ve všech městech na stejném kontinentu."
 
 #: data/multiplayer/buildings.ruleset:1714
-#, fuzzy
 msgid ""
 "Counts as having a Cathedral in each of your cities on the same continent. "
 "This makes 3 unhappy citizens content in each city; however, it does not "
@@ -39016,19 +39445,19 @@ msgid ""
 "content. The discovery of Communism lessens the effect of a Cathedral, "
 "reducing by one the number of unhappy citizens made content."
 msgstr ""
-"Počítá se jako katedrála v každém městě. Ušiní 3 nespokojené lidi "
-"spokojenými v každém městě. Objev Teologie zvýší efekt katedrál o 1. Objev "
-"Socialismu efekt o 1 sníží."
+"Působí jako katedrála v každém vašem městě na stejném kontinentu. Změní 3 "
+"nešťastné obyvatele na spokojené. Na obyvatele nespokojené kvůli vojenské "
+"činnosti nepůsobí. Objev teologie účinek katedrály posílí o jednoho "
+"obyvatele, objev komunismu jej o jednoho obyvatele oslabí."
 
 #: data/multiplayer/buildings.ruleset:1745
-#, fuzzy
 msgid ""
 "Makes two of your unhappy citizens content in every city with a Temple on "
 "the same continent. Does not affect citizens made unhappy by military "
 "activity."
 msgstr ""
-"Učiní dva nespokonené lidi spokojenými v každém městě na stejném kontinentě "
-"kde je postaveno."
+"V každém vašem městě s chrámem na stejném kontinentu změní dva nešťastné "
+"obyvatele na spokojené. Nepůsobí na nespokojenost kvůli vojenské činnosti."
 
 #: data/multiplayer/buildings.ruleset:1772
 #, no-c-format
@@ -39051,15 +39480,14 @@ msgstr ""
 "stejném kontinentu."
 
 #: data/multiplayer/buildings.ruleset:1876
-#, fuzzy
 msgid ""
 "All your new military land units produced in cities on the same continent "
 "start with an additional veteran level (this is cumulative with any Barracks "
 "building in a city; with both, units are created as Hardened)."
 msgstr ""
-"Všechny vaše nové pozemní jednotky budou začínat na první úrovni statusu "
-"veteran. Šance, že Vaše jednotka získá další úroveň po boji se o polovinu "
-"zvýší."
+"Všechny vaše nové pozemní vojenské jednotky vyrobené ve městech na stejném"
+" kontinentu začínají o jednu veteránskou úroveň výše. Účinek se sčítá s "
+"kasárnami a jednotky pak vznikají na úrovni „Ostřílená“."
 
 #: data/multiplayer/buildings.ruleset:1901
 msgid ""
@@ -39067,9 +39495,11 @@ msgid ""
 "circumstances. If any player's city is in revolt for more than two turns, "
 "that player's government falls."
 msgstr ""
+"Zřizuje světový senát, který za určitých okolností může zabránit vyhlášení"
+" války. Pokud má některý hráč město ve vzpouře déle než dva tahy, padne "
+"jeho vláda."
 
 #: data/multiplayer/buildings.ruleset:1927
-#, fuzzy
 msgid ""
 "Counts as a Police Station in every city on the same continent. (That is, "
 "for each city, it reduces the unhappiness caused by aggressively deployed "
@@ -39077,9 +39507,11 @@ msgid ""
 "-- in other words, it neutralizes the unhappiness caused by two military "
 "units per city. This wonder has no effect under other governments.)"
 msgstr ""
-"Počítá se jako policejní stanice v každém městě. (to učiní 2 spokojené "
-"obyvatele z nespokojených pod Demokracií a jednoho pod Republikou. V "
-"ostatních typech vlády nemá vliv)"
+"Působí jako policejní stanice v každém městě na stejném kontinentu. V "
+"každém takovém městě sníží nespokojenost vyvolanou jeho útočně nasazenými "
+"vojenskými jednotkami o 4 za demokracie a o 2 za republiky. Tím v každém "
+"městě vyrovná nespokojenost vyvolanou dvěma jednotkami. U ostatních forem "
+"vlády tento div nepůsobí."
 
 #: data/multiplayer/game.ruleset:26
 msgid "Multiplayer ruleset"
@@ -39095,6 +39527,10 @@ msgid ""
 "only cities on the same continent. A full description of the differences "
 "from the classic ruleset can be found in README.multiplayer."
 msgstr ""
+"Hrajete Freeciv podle pravidel pro více hráčů. Oproti klasické sadě jsou "
+"vypnuté obchodní trasy a většinu divů může postavit každý hráč jednou. "
+"Takové divy ovlivňují pouze města na stejném kontinentu. Úplný popis "
+"rozdílů oproti klasické sadě najdete v README.multiplayer."
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #. TRANS: With this and other color team names, uniqueness is more
@@ -39347,6 +39783,9 @@ msgid ""
 "population. It halves all output from its tile, and contributes to the risk "
 "of global warming."
 msgstr ""
+"Znečištění se objevuje na souši v okolí měst s vysokou výrobou či počtem "
+"obyvatel. Půlí všechny výnosy zasaženého pole a zvyšuje riziko globálního "
+"oteplování."
 
 #: data/multiplayer/terrain.ruleset:1327
 msgid ""
@@ -39357,6 +39796,11 @@ msgid ""
 "Solar Plant -- will reduce pollution from production, as will a Recycling "
 "Center or knowledge of Environmentalism."
 msgstr ""
+"Znečištění z výroby nabývá na významu, když se civilizace zprůmyslňuje a "
+"získává stavby zvyšující výrobu, například továrny a elektrárny. "
+"Znečištění snížíte nahrazením elektrárny čistším zdrojem, tedy "
+"hydroelektrárnou, Hooverovou přehradou, jadernou nebo solární elektrárnou."
+" Pomůže i recyklační centrum nebo znalost environmentalismu."
 
 #: data/multiplayer/terrain.ruleset:1416
 #, no-c-format
@@ -39365,12 +39809,17 @@ msgid ""
 "by irrigating them a second time; if the city working the tile has a "
 "Supermarket, a farmland tile provides twice as much food."
 msgstr ""
+"Po objevu chlazení můžete druhým zavlažením proměnit zavlažované pole na "
+"farmu. Má-li město obhospodařující pole supermarket, farma poskytne "
+"dvojnásobek jídla."
 
 #: data/multiplayer/terrain.ruleset:1443
 msgid ""
 "Nuclear fallout can appear on land tiles when a Nuclear unit is detonated. "
 "It halves all output from its tile."
 msgstr ""
+"Radioaktivní spad může vzniknout na souši po odpálení jaderné jednotky. "
+"Půlí všechny výnosy zasaženého pole."
 
 #: data/multiplayer/units.ruleset:40
 msgid "Infra"
@@ -39387,18 +39836,20 @@ msgid ""
 "require twice as much food per turn, and in Fundamentalist societies, three "
 "times as much."
 msgstr ""
+"Údržba osadníků stojí jídlo i výrobu. Pokud domovskému městu dojde jídlo, "
+"mohou osadníci zemřít. V republice a demokracii spotřebují za tah "
+"dvojnásobek jídla a ve fundamentalistické společnosti trojnásobek."
 
 #: data/multiplayer/units.ruleset:1633
-#, fuzzy
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities. Care must be exercised, because Helicopters lose a small amount of "
 "health for every turn not spent in a city or airbase or on a Carrier, and "
 "they may be attacked also by ground units."
 msgstr ""
-"Vrtulník je velmi silná jednotka, protože může létat, ale i dobývat města. "
-"Musíte však být opatrní, neboť vrtulníky ztrácí malé množství zdraví každý "
-"tah, který dokončí mimo město. (pokud nepostavíte div světa Spojené národy)."
+"Vrtulník je velmi silná jednotka, protože umí létat i dobývat města. Za "
+"každý tah mimo město, leteckou základnu nebo letadlovou loď ale ztratí "
+"trochu zdraví. Útočit na něj mohou i pozemní jednotky."
 
 #: data/multiplayer/units.ruleset:2493
 msgid ""
@@ -39411,15 +39862,15 @@ msgstr ""
 msgid ""
 "Every Caravan that is used to build a wonder will add 30 shields towards the "
 "production of the wonder."
-msgstr ""
+msgstr "Každá karavana použitá na stavbu divu přidá k jeho výrobě 30 štítů."
 
 #: data/multiplayer/units.ruleset:2536
-#, fuzzy
 msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
 msgstr ""
-"Karavany byly postupně nahrazeny náklaďáky, jež se pohybují 2x rychleji."
+"Nákladní vůz nahrazuje karavanu a pohybuje se dvakrát rychleji. Každý "
+"nákladní vůz použitý na stavbu divu přidá 50 štítů."
 
 #: data/nation/american.ruleset:8
 msgid ""
@@ -39431,6 +39882,12 @@ msgid ""
 "had become a world superpower; its cultural, economic and political "
 "influence on the rest of the world is enormous."
 msgstr ""
+"Spojené státy americké získaly nezávislost na Velké Británii po revoluci v"
+" letech 1776 až 1783 n. l. Roku 1789 vyhlásily ústavu a staly se jednou z "
+"prvních moderních zastupitelských republik. Poté začaly rozšiřovat své "
+"území, nejprve na severoamerické pevnině a později v zámoří. Ve 20. "
+"století už byly světovou velmocí, jejíž kulturní, hospodářský a politický "
+"vliv na zbytek světa je mimořádný."
 
 #: data/nation/animals.ruleset:5
 #| msgid "Kingdom"
@@ -39447,6 +39904,8 @@ msgid ""
 "Before civilization claimed the lands, ancient man had to survive the "
 "wilderness with all kinds of dangerous animals."
 msgstr ""
+"Než se krajiny zmocnila civilizace, museli dávní lidé přežít v divočině "
+"plné nebezpečných zvířat."
 
 #: data/nation/apache.ruleset:5
 msgid "Apache"
@@ -39464,6 +39923,11 @@ msgid ""
 "the Far North around 1000 CE. The Apache are known as fierce warriors. In "
 "the 19th century it took the United States half a century to subdue them."
 msgstr ""
+"Apačové jsou skupina původních kmenů hovořících athabaskými jazyky. Žijí v"
+" Arizoně, Novém Mexiku a Oklahomě. Řadí se mezi ně západní Apačové, "
+"Čirikavové, Meskalerové, Chikarijové, Lipani a Apačové z plání. Přišli z "
+"dalekého severu kolem roku 1000 n. l. Prosluli jako houževnatí bojovníci. "
+"V 19. století trvalo Spojeným státům půl století, než si je podmanily."
 
 #: data/nation/apache.ruleset:27
 #, c-format
@@ -39542,6 +40006,16 @@ msgid ""
 "Germany in the Anschluss in 1938. This lasted until the end of World War II "
 "in 1945, after which Austria was occupied by the Allies."
 msgstr ""
+"Počátky Rakouska sahají do dob Římské říše. Římané kolem roku 15 př. n. l."
+" dobyli zdejší keltské království a v polovině 1. století n. l. z něj "
+"vznikla provincie Noricum, z velké části na území dnešního Rakouska. Roku "
+"788 oblast dobyl franský král Karel Veliký a zavedl zde křesťanství. Za "
+"domácí habsburské dynastie se Rakousko stalo jednou z evropských velmocí. "
+"Roku 1867 se Rakouské císařství přeměnilo v Rakousko-Uhersko, které se "
+"rozpadlo na konci první světové války v roce 1918. Po založení první "
+"Rakouské republiky roku 1919 bylo Rakousko při anšlusu v roce 1938 "
+"připojeno k nacistickému Německu. Po skončení druhé světové války v roce "
+"1945 obsadili Rakousko spojenci."
 
 #: data/nation/austrian.ruleset:49
 #, c-format
@@ -39571,14 +40045,14 @@ msgid "Mother Superior %s"
 msgstr "Matka představená %s"
 
 #: data/nation/babylonian.ruleset:8
-#, fuzzy
 msgid ""
 "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries "
 "BCE under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
 msgstr ""
-"Babylón byl dominantním městem Mezopotámie od 18-7.století před naším "
-"letopočtem a obyvatelé byli i Amorité, Kasité, Asyřané a Chaldeané."
+"Babylon byl od 18. do 7. století př. n. l. nejvýznamnějším městem "
+"Mezopotámie. Postupně mu vládli mimo jiné Amorejci, Kassité, Asyřané a "
+"Chaldejci."
 
 #: data/nation/brazilian.ruleset:5
 msgid "Brazilian"
@@ -39595,6 +40069,10 @@ msgid ""
 "first established as an empire under the exiled Portuguese royal family. The "
 "empire lasted until the establishment of a republican government in 1889."
 msgstr ""
+"Brazílie vznikla jako portugalská kolonie. Nezávislost získala v roce 1822"
+" v důsledku předchozí okupace Portugalska napoleonskou Francií. Nejprve "
+"vzniklo císařství pod vládou portugalské královské rodiny v exilu. "
+"Přetrvalo až do vzniku republiky v roce 1889."
 
 #: data/nation/brazilian.ruleset:31 data/nation/chinese.ruleset:30
 #, c-format
@@ -39628,17 +40106,21 @@ msgid ""
 "I, the Byzantines controlled nearly all of the Middle East, northern Africa, "
 "Italy, and parts of Spain."
 msgstr ""
+"V době úpadku staré Římské říše přesunul císař Konstantin její hlavní "
+"město do Byzantia a založil novou říši, obvykle označovanou jako "
+"Východořímská či Byzantská. Trvala až do roku 1453, kdy její metropoli "
+"dobyli Osmané. Za Justiniána I. Byzantinci ovládali téměř celý Blízký "
+"východ, severní Afriku, Itálii i části Španělska."
 
 #: data/nation/carthaginian.ruleset:8
-#, fuzzy
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BCE. Carthage was destroyed "
 "by Rome in 146 BCE."
 msgstr ""
-"Kartagiňané, následníci Fénických obchodníků, vládli námořnímu impériu ve "
-"Středozemním moři v 5-2. století před naším letopočtem. Kartágo bylo zničeno "
-"Římem v roce 146 př.n.l."
+"Kartáginci, potomci fénických obchodníků, vládli námořní říši ve "
+"Středozemním moři od 5. do 2. století př. n. l. Římané Kartágo zničili "
+"roku 146 př. n. l."
 
 #: data/nation/carthaginian.ruleset:23
 #, c-format
@@ -39665,7 +40147,6 @@ msgid ""
 msgstr "Čerokíové jsou dnes nejpočetnějším původním národem Severní Ameriky."
 
 #: data/nation/chinese.ruleset:8
-#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
 "with written records dating back over 3,500 years. After first being unified "
@@ -39675,12 +40156,12 @@ msgid ""
 "the mainland, while the former Nationalist government of the Republic of "
 "China governs the island of Taiwan."
 msgstr ""
-"Čína je nejstarší velká civilizace, která ještě stále existuje, jež byla "
-"připomínána písemnými zápisy datovanými před 3500 let.  Po té, co byla "
-"poprvé sjednocena dynastií Qin v roce 221 p.l. se nacházela střídavě ve "
-"stavu sjednocení a rozdrobenosti a byla často dobývána cizími národy. Nyní "
-"se Lidová Republika Čína, založená komunisty v r. 1949, nachází na pevnině, "
-"zatím co se původní vláda po občanské válce uchýlila na Taiwan."
+"Čína je nejstarší dosud existující velkou civilizací. Písemné záznamy "
+"sahají více než 3 500 let do minulosti. Po prvním sjednocení dynastií "
+"Čchin roku 221 př. n. l. se střídala období jednoty a rozdrobenosti a "
+"občas Čínu ovládly cizí národy. V současnosti pevninu spravuje Čínská "
+"lidová republika, kterou roku 1949 založili komunisté. Nad ostrovem "
+"Tchaj-wan vládne vláda Čínské republiky původně vedená nacionalisty."
 
 #: data/nation/danish.ruleset:5
 msgid "Danish"
@@ -39691,13 +40172,12 @@ msgid "?plural:Danes"
 msgstr "?plural:Dánové"
 
 #: data/nation/danish.ruleset:8
-#, fuzzy
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blåtand, who unified what is now Denmark between 958 CE and 988 CE."
 msgstr ""
-"Založení Dánského království je přisuzováno říši Haralda Blatanda, který "
-"spojil nynější Dánsko v letech 958 - 988 n.l.  "
+"Založení Dánského království se obvykle klade do vlády Haralda Modrozuba, "
+"který v letech 958 až 988 n. l. sjednotil území dnešního Dánska."
 
 #: data/nation/danish.ruleset:34 data/nation/swedish.ruleset:34
 #: data/nation/viking.ruleset:29
@@ -39726,6 +40206,10 @@ msgid ""
 "forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant "
 "maritime and economic power in the 17th century."
 msgstr ""
+"Když císař Svaté říše římské odsoudil celé obyvatelstvo k smrti, Nizozemci"
+" se vzbouřili, vyhlásili nezávislost a roku 1579 vytvořili Utrechtskou "
+"unii. V 17. století se Nizozemsko stalo přední námořní a hospodářskou "
+"mocností."
 
 #: data/nation/dutch.ruleset:39 data/nation/polish.ruleset:36
 #: data/nation/russian.ruleset:49
@@ -39804,6 +40288,8 @@ msgid ""
 "Ethiopia is the oldest nation in Africa and the only one to remain "
 "independent during European colonialism."
 msgstr ""
+"Etiopie je nejstarším africkým státem a jako jediná si zachovala "
+"nezávislost v době evropského kolonialismu."
 
 #: data/nation/french.ruleset:8
 msgid ""
@@ -39814,6 +40300,12 @@ msgid ""
 "part of the Frankish empire during the High Middle Ages. France - and indeed "
 "the world - was shaken on its foundations by the French Revolution of 1789."
 msgstr ""
+"Francie je už dlouho významnou evropskou mocností. Francouzští dobyvatelé,"
+" jako císař Napoleon nebo král Karel Veliký, sjednotili pod francouzskou "
+"vlajkou velké části Evropy. Francie také vybudovala druhou největší "
+"koloniální říši světa. Francouzské království vzniklo ve vrcholném "
+"středověku ze západní části Franské říše. Francouzská revoluce roku 1789 "
+"otřásla v základech Francií i celým světem."
 
 #: data/nation/french.ruleset:41
 #, c-format
@@ -39857,6 +40349,10 @@ msgid ""
 "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 "Babylon."
 msgstr ""
+"Chetitské království trvalo přibližně od roku 1680 do roku 1180 př. n. l. "
+"Chetité jako první civilizace objevili zpracování železa. Na vrcholu moci "
+"ovládali střední Anatolii, severozápadní Sýrii a Mezopotámii až k "
+"Babylonu."
 
 #: data/nation/hunnic.ruleset:5
 msgid "Hunnic"
@@ -39878,6 +40374,13 @@ msgid ""
 "link has still not been unequivocally proven. Hunnic ethnic relations and "
 "language are likewise controversial."
 msgstr ""
+"Evropští Hunové byli dávný kmenový svaz, který se poprvé objevil ve 4. "
+"století. Obývali euroasijské stepi a prosluli jako obávaní jízdní "
+"lučištníci. V 5. století n. l. vytvořili mocnou vojenskou říši pod vedením"
+" Attily, známého výpravami proti Římské říši. Attila zemřel roku 453 a "
+"říše se o rok později rozpadla. Původ Hunů je dodnes sporný. Dlouho byli "
+"spojováni s kmeny Siung-nu z čínských pramenů, ale tato spojitost nebyla "
+"jednoznačně prokázána. Sporná je i jejich etnická příslušnost a jazyk."
 
 #: data/nation/inca.ruleset:5
 msgid "Inca"
@@ -39903,6 +40406,16 @@ msgid ""
 "Wayna Qhapaq, who had died from disease - likely smallpox - that was "
 "sweeping through the land."
 msgstr ""
+"Inkové byli původní obyvatelé severních And. Dobyli říši podél západního "
+"pobřeží Jižní Ameriky od dnešního jižního Chile téměř k rovníku. Měli "
+"smůlu, že se tak stalo jen několik desetiletí před příchodem španělských "
+"dobyvatelů ve 30. letech 16. století n. l. I za tak krátkou dobu "
+"vybudovali více než 15 000 km cest. Jejich stát byl před španělským "
+"dobytím největší v Americe a udržoval se díky složité, hierarchické a "
+"účelně uspořádané správě. Stejně jako jiná království však trpěl "
+"nástupnickými spory. Když dorazili Španělé, vrcholil právě jeden z nich, "
+"válka mezi Atawallpou a Waskharem. Oba byli syny zesnulého vládce Wayny "
+"Qhapaqa, který podlehl nemoci, zřejmě neštovicím, jež se šířila zemí."
 
 #: data/nation/inca.ruleset:35
 #, c-format
@@ -39931,6 +40444,9 @@ msgid ""
 "inhabitants it is the world's second most populous country as well as the "
 "world's largest democracy."
 msgstr ""
+"Indická republika vznikla v roce 1950 po nenásilném hnutí za nezávislost "
+"pod vedením Mahátmy Gándhího. S více než miliardou obyvatel je druhou "
+"nejlidnatější zemí světa a největší demokracií."
 
 #: data/nation/indonesian.ruleset:5
 msgid "Indonesian"
@@ -39946,6 +40462,9 @@ msgid ""
 "government on the island of Java. The country has a Muslim majority and is "
 "one of the most populous in the world."
 msgstr ""
+"Indonésie je rozlehlá země na Malajském souostroví. Její ústřední vláda "
+"sídlí na ostrově Jáva. Obyvatelstvo je převážně muslimské a země patří k "
+"nejlidnatějším na světě."
 
 #: data/nation/indonesian.ruleset:21 data/nation/turk.ruleset:31
 #, c-format
@@ -39984,6 +40503,12 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
+"Irokézská konfederace, ve vlastním jazyce Haudenosaunee, byla "
+"severoamerickým svazkem národů se společným jazykem a kulturou. Její území"
+" leželo v dnešní severní části státu New York. Původně ji tvořilo pět "
+"národů: Senekové, Kajugové, Onondagové, Oneidové a Mohawkové. Konfederace "
+"měla psanou ústavu a měnový systém, a tak byla při příchodu Evropanů "
+"nejvyspělejším státem Severní Ameriky."
 
 #: data/nation/italian.ruleset:5
 msgid "Italian"
@@ -39994,17 +40519,16 @@ msgid "?plural:Italians"
 msgstr "?plural:Italové"
 
 #: data/nation/italian.ruleset:8
-#, fuzzy
 msgid ""
 "The Italian nation was unified in 1870 CE after decades of campaigning by "
 "indigenous nationalists. It was a monarchy under the House of Savoy until "
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the World War II victors."
 msgstr ""
-"Italský národ byl sjednocen roku 1870 po desetiletích bojů domorodých "
-"obyvatel. Do roku 1922 to byla monarchie spravovaná Domem Savojským, posléze "
-"do roku 1945 fašitický stát a nakonec zde byla vítězi druhé sv.války "
-"obnovena demokracie."
+"Italský národ se sjednotil roku 1870 n. l. po desetiletích úsilí domácích "
+"nacionalistů. Do roku 1922 byla Itálie monarchií pod vládou savojského "
+"rodu a poté do roku 1945 fašistickým státem. Demokracii následně obnovili "
+"vítězové druhé světové války."
 
 #: data/nation/italian.ruleset:43
 #, c-format
@@ -40021,6 +40545,8 @@ msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BCE by the ancestral Emperor Jimmu."
 msgstr ""
+"Podle tradiční japonské mytologie založil Japonsko v 7. století př. n. l. "
+"císař Džimmu, předek císařského rodu."
 
 #: data/nation/khmer.ruleset:5
 msgid "Khmer"
@@ -40037,6 +40563,11 @@ msgid ""
 "Khmers were great builders who erected innumerable stone temples to Hindu "
 "deities. The Khmers today are the majority ethnicity of Cambodia."
 msgstr ""
+"Khmerská říše vznikla roku 802 n. l. a ve středověku ovládala jihovýchodní"
+" Asii po mnoho staletí. Khmery silně ovlivnila indická kultura. Byli "
+"vynikajícími staviteli, kteří vybudovali nespočet kamenných chrámů "
+"zasvěcených hinduistickým božstvům. Dnes jsou v Kambodži nejpočetnějším "
+"národem."
 
 #: data/nation/korean.ruleset:5
 msgid "Korean"
@@ -40054,6 +40585,10 @@ msgid ""
 "North and South Korea, as a result of the stalemate after the Korean war in "
 "1953."
 msgstr ""
+"Podle pověsti založil první korejské království už v pravěku legendární "
+"předek Tangun v jižním Mandžusku. Korejská království sjednotil roku 668 "
+"král Munmu. Po patovém konci korejské války v roce 1953 je poloostrov "
+"dodnes rozdělen na dva státy, Severní a Jižní Koreu."
 
 #: data/nation/mali.ruleset:5
 msgid "Mali"
@@ -40072,6 +40607,10 @@ msgid ""
 "famed for its wealth and benevolent kings. The modern Republic of Mali "
 "derives its name from this empire."
 msgstr ""
+"V subsaharské Africe se po tisíciletí setkávaly různé kultury a národy. Ve"
+" středověku se zde vystřídaly říše zvané sahelská království. Nejvlivnější"
+" z nich byla islámská říše Mali. Vládla od 14. do 17. století a proslula "
+"bohatstvím a štědrými králi. Dnešní Republika Mali převzala její jméno."
 
 #. TRANS: Mansa = King of kings
 #: data/nation/mali.ruleset:28 data/nation/songhai.ruleset:28
@@ -40097,15 +40636,16 @@ msgid ""
 "The Mayans were a Mesoamerican civilization. They are famous for building "
 "great pyramids and palaces in the jungle."
 msgstr ""
+"Mayové byli mezoamerickou civilizací. Prosluli stavbami velkých pyramid a "
+"paláců v džungli."
 
 #: data/nation/persian.ruleset:8
-#, fuzzy
 msgid ""
 "The first Persian (Achaemenid) Empire lasted from 550 BCE to 330 BCE; the "
 "second (Sassanid) from 226 CE to 642 CE."
 msgstr ""
-"První Perské (Achaemenid) Impérium trvalo od 550 - 330 př.n.l.; druhé "
-"(Sassanid) od 226 - 642 n.l."
+"První perská říše, Achaimenovská, trvala od roku 550 do roku 330 př. n. l."
+" Druhá, Sásánovská, trvala od roku 226 do roku 642 n. l."
 
 #: data/nation/persian.ruleset:24
 #, c-format
@@ -40130,6 +40670,8 @@ msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
 msgstr ""
+"Polský stát vznikl přibližně před tisíciletím a svého zlatého věku dosáhl "
+"ke konci 16. století."
 
 #: data/nation/polynesian.ruleset:5
 msgid "Polynesian"
@@ -40145,6 +40687,8 @@ msgid ""
 "Polynesian culture stretches from Hawaii to New Zealand to Easter Island and "
 "covers all the islands in between."
 msgstr ""
+"Polynéská kultura sahá od Havaje přes Nový Zéland po Velikonoční ostrov a "
+"zahrnuje všechny ostrovy mezi nimi."
 
 #: data/nation/portuguese.ruleset:5
 msgid "Portuguese"
@@ -40155,7 +40699,6 @@ msgid "?plural:Portuguese"
 msgstr "?plural:Portugalci"
 
 #: data/nation/portuguese.ruleset:8
-#, fuzzy
 #| msgid ""
 #| "Portugal founded the first of the great mercantile empires in the 1400s "
 #| "on the shipbuilding advances funded by Prince Henry the Navigator."
@@ -40165,9 +40708,10 @@ msgid ""
 "great mercantile empires in the 1400s on the shipbuilding advances funded by "
 "Prince Henry the Navigator."
 msgstr ""
-"Portugalci založili první velkou kupeckou říši v letech kolem roku 1400, "
-"díky zkušenostem se stavbou lodí získaným za prince Henryho, řečeného "
-"Navigátor."
+"Portugalsko bylo původně kastilským hrabstvím, které získalo nezávislost. "
+"Po dokončení své reconquisty v roce 1249 založilo v 15. století první z "
+"velkých obchodních říší. Umožnil to pokrok ve stavbě lodí financovaný "
+"princem Jindřichem Mořeplavcem."
 
 #: data/nation/portuguese.ruleset:31
 #, c-format
@@ -40193,6 +40737,15 @@ msgid ""
 "CE, the Eastern Roman or Byzantine Empire survived almost a thousand years "
 "more; its capital Constantinople fell to the Turks in 1453."
 msgstr ""
+"Podle pověsti založil Řím Romulus roku 753 př. n. l. Na vrcholu moci Řím "
+"ovládal velkou část Evropy, severní Afriku a Přední východ. Římská kultura"
+" přijala mnoho prvků od podmaněných civilizací, například Řeků a Etrusků, "
+"a tvoří jeden ze základů západní kultury. Římský vliv v právu, filozofii a"
+" jazyce zůstává dodnes nesmírný. Římská civilizace trvala přes tisíc let, "
+"nejprve jako království, poté jako republika a od roku 27 př. n. l. jako "
+"císařství. Ve 4. století n. l. se říše rozdělila. Západořímská říše padla "
+"roku 476 n. l. Východořímská neboli Byzantská říše přežila o téměř tisíc "
+"let déle. Její hlavní město Konstantinopol dobyli Turci v roce 1453."
 
 #: data/nation/roman.ruleset:50
 #, c-format
@@ -40228,6 +40781,16 @@ msgid ""
 "dissolution of the USSR in 1991 Russia appeared on the world map again, now "
 "as a federal republic."
 msgstr ""
+"Rusko je největší zemí světa a zaujímá rozsáhlé území v Evropě i Asii. "
+"Podle pověsti pozvaly slovanské kmeny v Novgorodu varjažského, tedy "
+"vikinského, krále Olega, aby v jejich zemi nastolil pořádek. Oleg zde "
+"založil Kyjevskou Rus, první ruský stát. Do 11. století se Kyjevská Rus "
+"rozpadla na menší knížectví, která v 15. století znovu sjednotil Ivan III."
+" Po rozhodném vítězství nad Švédskem a rozsáhlých územních ziscích "
+"vyhlásil Petr I. v roce 1721 Ruské impérium. To trvalo do roku 1917, kdy "
+"posledního ruského císaře svrhla socialistická revoluce. Po rozpadu "
+"Sovětského svazu v roce 1991 se Rusko znovu objevilo na mapě světa jako "
+"federativní republika."
 
 #: data/nation/sioux.ruleset:32 data/nation/tupi.ruleset:27
 #, c-format
@@ -40256,6 +40819,10 @@ msgid ""
 "Songhai became known for their wealth as well as their devotion to the "
 "Muslim faith."
 msgstr ""
+"Songhajové založili v 11. století n. l. stát se střediskem v městě Gao. "
+"Když o několik staletí později upadala říše Mali, vytvořili vlastní říši, "
+"která se nakonec stala jednou z největších v afrických dějinách. "
+"Songhajští vládci prosluli bohatstvím i oddaností islámu."
 
 #: data/nation/sumerian.ruleset:5
 msgid "Sumerian"
@@ -40271,6 +40838,9 @@ msgid ""
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
 msgstr ""
+"Sumer ovládal jižní Mezopotámii až do vzestupu Babylonie. Nalezené tabulky"
+" se sumerským písmem jsou staré přibližně 5 500 let a předcházejí všem "
+"ostatním známým písmům."
 
 #: data/nation/swedish.ruleset:5
 msgid "Swedish"
@@ -40290,6 +40860,12 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
+"Do 12. století n. l. přijalo Švédské království křesťanství a sjednotilo "
+"se jako stát. V 17. století se po rozsáhlých výbojích takzvaných "
+"válečnických králů stalo jednou z evropských velmocí. Kvůli slábnoucímu "
+"hospodářství a několika zdrcujícím porážkám od Ruska však brzy ztratilo "
+"většinu získaného území. Od roku 1814 se země nezapojila do ozbrojeného "
+"konfliktu."
 
 #: data/nation/taino.ruleset:5
 msgid "Taino"
@@ -40313,6 +40889,16 @@ msgid ""
 "traders between islands. Recent genetic studies show that roughly half of "
 "Puerto Ricans have Taino maternal descent."
 msgstr ""
+"Taínové byli původními obyvateli Baham, Kuby, Hispanioly, Portorika, "
+"Jamajky a dalších karibských ostrovů. Z jejich jazyka pocházejí mimo jiné "
+"výrazy pro hurikán, tabák, batát, kánoi, barbecue, houpací síť a juku. "
+"Příbuzenství určovali po mateřské linii a roku 1492 byli prvním národem, s"
+" nímž se setkal Kolumbus. V celém Karibiku jich žily statisíce, ne-li "
+"miliony, ale otroctví a nemoci vedly k rychlému úbytku obyvatel. Španělské"
+" zprávy je líčí jako mírumilovnější než jejich karibské sousedy na jihu. "
+"Na kánoích vydlabaných z kmenů, často téměř tak dlouhých jako Kolumbovy "
+"lodě, se mezi ostrovy přepravovali obchodníci. Podle genetických studií má"
+" zhruba polovina Portoričanů po mateřské linii taínský původ."
 
 #: data/nation/thai.ruleset:5
 msgid "Thai"
@@ -40323,13 +40909,12 @@ msgid "?plural:Thai"
 msgstr "?plural:Thajové"
 
 #: data/nation/thai.ruleset:8
-#, fuzzy
 msgid ""
 "The Thai kingdom was the only country in Southeast Asia to preserve its "
 "independence through the colonial era of the 18th and 19th centuries CE."
 msgstr ""
-"Thajské království bylo jedinou zemí v Jižní asii, která si udržela svou "
-"nezávislost napříč koloniální érou 18. a 19. stolení n.l."
+"Thajské království bylo jedinou zemí jihovýchodní Asie, která si udržela "
+"nezávislost během koloniální éry v 18. a 19. století n. l."
 
 #: data/nation/tupi.ruleset:5
 msgid "Tupi"
@@ -40348,6 +40933,12 @@ msgid ""
 "disease. The Tupi intermarried with African slaves and Europeans alike and a "
 "great many Brazilian place names are derived from Tupi words. "
 msgstr ""
+"Tupíové jsou původní brazilský národ spřízněný s Guaraníi. Obývali mimo "
+"jiné území dnešních brazilských států Paraíba, Pernambuco, Ceará, Rio "
+"Grande do Norte, Alagoas a Sergipe. Jejich kmenová knížectví zničily "
+"portugalské nájezdy za otroky, zakládání misijních vesnic a nemoci. "
+"Tupíové uzavírali sňatky s africkými otroky i Evropany. Z jejich jazyka "
+"pochází mnoho brazilských místních názvů. "
 
 #: data/nation/turk.ruleset:5
 msgid "Turkish"
@@ -40358,16 +40949,16 @@ msgid "?plural:Turks"
 msgstr "?plural:Turkové"
 
 #: data/nation/turk.ruleset:8
-#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
 "Powers. The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
 msgstr ""
-"Moderní Turecko je nastupním státem Ottomanské Říše, která upadla a byla "
-"rozdělena vítězi První světové války. Země byla postupně reformována a "
-"zesvetštěna Kemalem Mustafou, hrdinou od obrany Gallipole."
+"Dnešní Turecko je nástupnickým státem Osmanské říše. Ta podporovala "
+"ústřední mocnosti a po první světové válce se zhroutila a vítězové ji "
+"rozdělili. Zemi poté reformoval a sekularizoval Mustafa Kemal, hrdina "
+"obrany u Gallipoli."
 
 #: data/nation/turk.ruleset:30
 #, c-format
@@ -40380,15 +40971,14 @@ msgid "?female:%s Pasha"
 msgstr "?female:Paša %s"
 
 #: data/nation/viking.ruleset:8
-#, fuzzy
 msgid ""
 "The Vikings raided and traded along the coasts of Europe between 800 CE and "
 "1100 CE. Viking raiders eventually became the rulers of Normandy, Russia, "
 "and a short-lived kingdom in Sicily."
 msgstr ""
-"Vikingové válčili a obchodovali na pobřeží Evropy mezi 800-1100 n.l. "
-"Vikingští nájezdníci vládli Normandii, Rusku a krátce i království na "
-"Sicílii."
+"Vikingové mezi lety 800 a 1100 n. l. podnikali nájezdy a obchodovali podél"
+" evropského pobřeží. Vikinští nájezdníci nakonec vládli v Normandii, na "
+"Rusi a v krátce existujícím království na Sicílii."
 
 #: data/alio.tilespec:18
 msgid "Tileset containing graphics suitable for playing with alien ruleset."
@@ -40461,6 +41051,9 @@ msgid ""
 "Start positions: Jason Dorje Short, Mateusz Stefek, Mathieu Roy, David "
 "Fernandez, Rhue"
 msgstr ""
+"Mapa: Daniel Gudlat, Daniel Markstedt\n"
+"Počáteční pozice: Jason Dorje Short, Mateusz Stefek, Mathieu Roy, David "
+"Fernandez, Rhue"
 
 #: data/scenarios/earth-large.sav:7
 msgid "Overhead 160x90 map of the Earth."
@@ -40475,6 +41068,8 @@ msgid ""
 "Map: Daniel Gudlat, Daniel Markstedt\n"
 "Start positions: Jason Dorje Short, Mateusz Stefek, David Fernandez"
 msgstr ""
+"Mapa: Daniel Gudlat, Daniel Markstedt\n"
+"Počáteční pozice: Jason Dorje Short, Mateusz Stefek, David Fernandez"
 
 #: data/scenarios/earth-small.sav:7
 msgid "Overhead 80x50 map of the Earth."
@@ -40489,6 +41084,8 @@ msgid ""
 "Map: Christian Grothoff, Jerzy Klek, Mateusz Stefek, Daniel Markstedt\n"
 "Start positions: Jason Dorje Short, Mateusz Stefek"
 msgstr ""
+"Mapa: Christian Grothoff, Jerzy Klek, Mateusz Stefek, Daniel Markstedt\n"
+"Počáteční pozice: Jason Dorje Short, Mateusz Stefek"
 
 #: data/scenarios/europe.sav:7
 msgid "Overhead 177x100 map of Europe."
@@ -40587,6 +41184,15 @@ msgid ""
 "\n"
 "(update: 28.07.2016) "
 msgstr ""
+"Evropa roku 1900\n"
+"\n"
+"Pokus o historicky věrnou rekonstrukci evropských velmocí těsně před "
+"vypuknutím první světové války.\n"
+"\n"
+"POZOR: Každému počítačovému hráči bude při přechodu mezi tahy rozhodování "
+"trvat dlouho.\n"
+"\n"
+"(aktualizace: 28. 7. 2016) "
 
 #: data/scenarios/tutorial.sav:5
 msgid "Tutorial"
@@ -40597,9 +41203,10 @@ msgid ""
 "Play this tutorial scenario to get an introduction to Freeciv. This is "
 "intended for single-player games. It uses the default (civ2civ3) rules."
 msgstr ""
+"Výukový scénář vás seznámí s Freeciv. Je určen pro jednoho hráče a používá"
+" výchozí sadu pravidel civ2civ3."
 
 #: data/scenarios/tutorial.sav:108
-#, fuzzy
 #| msgid ""
 #| "Welcome to Freeciv.  You lead a civilization.  Your\n"
 #| "task is to conquer the world!  You should start by\n"
@@ -40613,11 +41220,11 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city. Use the number pad to move units around."
 msgstr ""
-"Vítejte ve Freeciv.  Vedete civilizaci.  Vaším\n"
-"úkolem je dobýt svět!  Měli byste začít\n"
-"průzkumem země okolo vaším průzkumníkem,\n"
-"a použít své osadníky k nalezení dobrého místa\n"
-"pro stavbu města.  Pro pohyb použijte num. klávesnici."
+"Vítejte ve Freeciv. Vedete civilizaci a vaším úkolem\n"
+"je dobýt svět! Nejdřív s průzkumníkem prozkoumejte\n"
+"okolní krajinu a s osadníky vyhledejte dobré místo\n"
+"k založení prvního města. K pohybu jednotek používejte\n"
+"numerickou klávesnici."
 
 #: data/scenarios/tutorial.sav:129
 msgid ""
@@ -40627,6 +41234,11 @@ msgid ""
 "good idea to spread units out, avoiding 'stacks' of units like this,\n"
 "particularly on land."
 msgstr ""
+"Když mimo město někdo zaútočí na skupinu jednotek na témže poli,\n"
+"brání se nejsilnější jednotka. Pokud je poražena, zaniknou\n"
+"všechny jednotky na poli. Často je proto lepší jednotky\n"
+"rozptýlit na více polí a takovým skupinám se vyhnout,\n"
+"zejména na souši."
 
 #: data/scenarios/tutorial.sav:144
 #, c-format
@@ -40638,6 +41250,12 @@ msgid ""
 "is the most important resource for any city. Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"Tohle vypadá jako dobré místo pro město. Až se bude moci\n"
+"jednotka %s znovu pohnout, stiskněte b a založte město.\n"
+"\n"
+"Města je obecně nejlepší zakládat na otevřeném prostranství\n"
+"blízko vody. Jídlo je nejdůležitější zdroj každého města.\n"
+"Travnaté pláně a roviny ho mají dostatek."
 
 #: data/scenarios/tutorial.sav:157
 msgid ""
@@ -40653,6 +41271,17 @@ msgid ""
 "dialog. If all goes well the city should display the settler\n"
 "production on the map view."
 msgstr ""
+"Založili jste první město. Jeho okno se mělo otevřít\n"
+"automaticky. Pokud se neotevřelo, klikněte na město. Města jsou\n"
+"základem Freeciv. Vyzkoušejte si, co všechno se v okně dá dělat.\n"
+"Další informace najdete v nabídce nápovědy.\n"
+"\n"
+"Nejspíš budete chtít nejprve vyrobit další osadníky, abyste\n"
+"rozšířili civilizaci. Klikněte na kartu výroby a v seznamu\n"
+"dostupné výroby vyberte osadníky. Poté klikněte na „Změnit“\n"
+"a město na nich začne pracovat. Nakonec okno města zavřete.\n"
+"Povedlo-li se to, na mapě u města uvidíte, že vyrábí\n"
+"osadníky."
 
 #: data/scenarios/tutorial.sav:167
 msgid ""
@@ -40661,6 +41290,10 @@ msgid ""
 "because of the terrain around it. You probably want to build\n"
 "settlers here too."
 msgstr ""
+"Gratulujeme k založení druhého města. Bude fungovat téměř\n"
+"stejně jako první, jen se trochu projeví odlišná krajina\n"
+"v okolí. Nejspíš se i tady vyplatí vyrábět\n"
+"osadníky."
 
 #: data/scenarios/tutorial.sav:177
 msgid ""
@@ -40678,6 +41311,19 @@ msgid ""
 "append it to the worklist. As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"Založili jste třetí město! Vaší civilizaci se zjevně daří.\n"
+"Možná nastal čas myslet na armádu. Vyberte některé z měst\n"
+"s vysokou výrobou a udělejte z něj vojenské středisko.\n"
+"Nejprve v něm postavte kasárna a potom začněte vyrábět\n"
+"vojenskou jednotku. Vyberte nejlepší dostupnou. Na začátku\n"
+"máte jen válečníky,\n"
+"brzy ale přibudou další možnosti.\n"
+"\n"
+"Teď si můžete vyzkoušet seznam výroby na kartě výroby\n"
+"v okně města. Vyberte kasárna a kliknutím na „Změnit“\n"
+"zahajte jejich stavbu. Dvakrát klikněte na vojenskou\n"
+"jednotku a přidejte ji do seznamu. Po dokončení kasáren\n"
+"město automaticky začne vyrábět zvolenou jednotku."
 
 #: data/scenarios/tutorial.sav:187
 msgid ""
@@ -40693,6 +41339,17 @@ msgid ""
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
 msgstr ""
+"Další město! Už vám to opravdu jde. Nejspíš už víte,\n"
+"jak s novými městy zacházet. Podívejte se na lištu pod\n"
+"městem na mapě. Ukazuje několik užitečných údajů.\n"
+"Vlajka a barva pozadí označují civilizaci, které město\n"
+"patří. To se bude hodit při setkání s jinými civilizacemi.\n"
+"Nahoře je také název a velikost města.\n"
+"Jedna nebo více hvězdiček znamenají,\n"
+"že ve městě jsou jednotky. Na spodním řádku vidíte,\n"
+"co město staví a za jak dlouho to dokončí.\n"
+"Ukazuje\n"
+"také dobu do růstu města na další velikost."
 
 #: data/scenarios/tutorial.sav:197
 msgid ""
@@ -40705,6 +41362,14 @@ msgid ""
 "aspect of the cities from this report. The full power of the Cities\n"
 "report is beyond the scope of this tutorial, however."
 msgstr ""
+"S rostoucím počtem měst v říši je stále obtížnější řídit\n"
+"každé zvlášť. Pomůže vám přehled měst. Otevřete jej klávesou F4.\n"
+"Obsahuje seznam měst a různé údaje o každém z nich.\n"
+"Můžete si ho vyzkoušet. Na mapu se vrátíte klávesou F1\n"
+"nebo kliknutím na kartu mapy. S trochou cviku lze z tohoto\n"
+"přehledu řídit téměř vše, co se měst týká. Tato výuka\n"
+"však nepokrývá všechny jeho\n"
+"možnosti."
 
 #: data/scenarios/tutorial.sav:228
 #, c-format
@@ -40725,6 +41390,21 @@ msgid ""
 "all specialists - by default they are all entertainers which provide\n"
 "only luxuries (which will not be useful until later)."
 msgstr ""
+"Město %s vyrostlo! S růstem města přibývají obyvatelé,\n"
+"kteří mohou pracovat na polích nebo působit jako\n"
+"specialisté. Dva obyvatelé mohou obhospodařovat dvě\n"
+"různá pole a střed města se využívá\n"
+"zdarma. Mapa v okně města ukazuje, která pole se využívají\n"
+"a kolik jídla, štítů a obchodu každé dává. Jídlo pomáhá\n"
+"městu růst, štíty slouží k výrobě staveb\n"
+"a jednotek a obchodní výnos lze převést\n"
+"na výzkum, zlato nebo luxus.\n"
+"\n"
+"Kliknutím na obhospodařované pole obyvatele odvoláte. Pak\n"
+"klikněte na nevyužívané pole a přidělte mu je. V tomto městě\n"
+"můžete na pole vyslat nejvýše dva obyvatele. Ostatní\n"
+"jsou specialisté, standardně baviči, kteří přinášejí\n"
+"pouze luxus. Ten se bude hodit později."
 
 #: data/scenarios/tutorial.sav:232
 #, c-format
@@ -40739,6 +41419,15 @@ msgid ""
 "in gold (if you have enough of it) to instantly complete the\n"
 "production."
 msgstr ""
+"Město %s znovu vyrostlo! Se třemi obyvateli už máte\n"
+"dost možností, kam soustředit jeho výnosy. Město\n"
+"o velikosti tři nebo vyšší může také vyrábět\n"
+"osadníky, což stojí dva obyvatele.\n"
+"\n"
+"Pokud město osadníky právě vyrábí, zvažte jejich okamžitý\n"
+"nákup. Otevřete okno města a klikněte na „Koupit“.\n"
+"Máte-li dost zlata, tímto se\n"
+"výroba ihned dokončí."
 
 #: data/scenarios/tutorial.sav:236
 #, c-format
@@ -40758,6 +41447,20 @@ msgid ""
 "citizen). Building a marketplace enhances the benefit from this\n"
 "by providing +50%% luxuries to the city."
 msgstr ""
+"Město %s vyrostlo na velikost pět. Ve větších městech\n"
+"hrozí nepokoje. Město této velikosti mívá jednoho nešťastného\n"
+"obyvatele, pokud jej něco neuklidní. Bez jiné pomoci\n"
+"potřebujete jednoho baviče, aby byli ostatní spokojení.\n"
+"Ten pak nemůže dělat jinou práci.\n"
+"\n"
+"Možností je několik. Rychlé řešení je postavit chrám\n"
+"nebo jinou kulturní stavbu, která nešťastného obyvatele\n"
+"uklidní. Podrobnosti najdete v nápovědě k městským stavbám.\n"
+"Jakmile máte více velkých měst, může se vyplatit otevřít\n"
+"sazby klávesami Ctrl+T a věnovat část daňového výnosu\n"
+"přímo na luxus. Dva body luxusu uklidní jednoho\n"
+"obyvatele. Tržiště účinek posílí, protože městu dává\n"
+"+50 %% luxusu."
 
 #: data/scenarios/tutorial.sav:240
 #, c-format
@@ -40771,6 +41474,13 @@ msgid ""
 "an aqueduct requires the Construction technology, unless your city is next "
 "to lake or river."
 msgstr ""
+"Konečně jste město %s rozšířili na velikost osm. Takové město\n"
+"může mít značný výnos, pokud máte dost luxusu\n"
+"k udržení spokojenosti obyvatel.\n"
+"\n"
+"K růstu nad velikost osm potřebujete akvadukt. Pokud chcete,\n"
+"aby město dál rostlo, začněte ho brzy stavět. Akvadukt\n"
+"vyžaduje technologii Stavebnictví, pokud město neleží u jezera nebo řeky."
 
 #: data/scenarios/tutorial.sav:244
 #, c-format
@@ -40779,6 +41489,9 @@ msgid ""
 "it larger, however, you will need to build a Sewer System. This\n"
 "requires the Sanitation technology."
 msgstr ""
+"Město %s jste rozšířili na velikost 16. K dalšímu\n"
+"růstu musíte postavit Kanalizační systém. Ten vyžaduje\n"
+"technologii Hygiena."
 
 #: data/scenarios/tutorial.sav:248
 #, c-format
@@ -40795,6 +41508,17 @@ msgid ""
 "provide enough taxable revenue (gold) to allow you to purchase some\n"
 "buildings to accelerate their productions."
 msgstr ""
+"Gratulujeme, město %s dosáhlo velikosti 17. Správně\n"
+"vylepšené město této velikosti může mít obrovský výnos.\n"
+"Zajistěte dostatek daňových výnosů a kulturních staveb,\n"
+"aby obyvatelé zůstali spokojení. Vylepšete město také\n"
+"stavbami, které zvyšují výnos. Knihovna, tržiště,\n"
+"továrna a těžební plošina dávají velkým městům\n"
+"výrazné bonusy. Zvažte přínos každé stavby a porovnejte ho\n"
+"s náklady. Ve velmi velkých městech se vyplatí\n"
+"téměř všechny stavby. Taková města také přinášejí dost\n"
+"příjmů z daní ve zlatě, takže můžete některé stavby\n"
+"koupit a urychlit jejich dokončení."
 
 #: data/scenarios/tutorial.sav:268
 msgid ""
@@ -40811,6 +41535,18 @@ msgid ""
 "use to small cities. See the help on Terrain for more information\n"
 "about terrain specs."
 msgstr ""
+"Vyrobili jste jednotku osadníků. Nejlépe ji využijete\n"
+"k zakládání měst a rozšiřování civilizace. Odveďte ji\n"
+"od stávajících měst a najděte místo pro nové. Jakmile\n"
+"máte vybráno, stiskněte b a založte město.\n"
+"\n"
+"Města je nejlepší zakládat na otevřené půdě u vody.\n"
+"Travnaté pláně a roviny městu dávají jídlo. Lesy a kopce\n"
+"poskytují štíty na stavbu. Řeky a oceán přinášejí\n"
+"obchodní bonus s přínosem pro celou civilizaci. Poušť\n"
+"a tundra zpravidla dávají málo a malým městům příliš\n"
+"nepomohou. Další informace najdete v nápovědě\n"
+"k jednotlivým terénům."
 
 #: data/scenarios/tutorial.sav:271
 msgid ""
@@ -40825,6 +41561,16 @@ msgid ""
 "out cities properly gives each city access to more resources, allowing\n"
 "them to grow to larger sizes."
 msgstr ""
+"Také druhé osadníky použijte k založení města.\n"
+"Všimněte si, že jakmile se vzdálí od stávajících měst,\n"
+"objeví se kolem nich obrys. Ukazuje oblast, kterou by\n"
+"pokrývalo město založené na tomto místě. Navazuje na\n"
+"obrysy na mapě, které ukazují dosah stávajících měst.\n"
+"Při zakládání dalších měst je zpravidla dobré, aby každé\n"
+"pole bylo v dosahu alespoň jednoho města. Zároveň je\n"
+"výhodné, aby se oblasti měst co nejméně překrývaly.\n"
+"Dobrý rozestup dává každému městu více zdrojů a pomáhá\n"
+"mu dorůst větší velikosti."
 
 #: data/scenarios/tutorial.sav:276
 msgid ""
@@ -40841,6 +41587,18 @@ msgid ""
 "are at war, however, you may wish to move your unit toward an enemy\n"
 "city to attack. Be careful not to lose it though!"
 msgstr ""
+"Vyrobili jste první vojenskou jednotku! Tyto jednotky\n"
+"slouží k útoku i obraně. Každá má sílu útoku a obrany.\n"
+"Válečníci mají slabé hodnoty 1/1. Falanga je díky obraně 2\n"
+"(1/2) mnohem lepší obránce. Katapult je dobrý útočník\n"
+"se silou útoku 6 (6/1).\n"
+"\n"
+"V každém městě se obvykle hodí jeden nebo dva obránci.\n"
+"Významným městům, například hlavnímu, dejte silnější ochranu.\n"
+"Jednotku můžete poslat bránit jiné město. Klávesou g\n"
+"zvolíte přesun na vzdálenější místo. Za války můžete\n"
+"jednotku místo toho poslat proti nepřátelskému městu\n"
+"a zaútočit. Dávejte však pozor, ať o ni nepřijdete!"
 
 #: data/scenarios/tutorial.sav:289
 msgid ""
@@ -40853,6 +41611,14 @@ msgid ""
 "boat. When you want to disembark, select the transported unit and\n"
 "press U, or move it onto a land tile."
 msgstr ""
+"Vyrobili jste první plavidlo. Lodě převážejí jednotky\n"
+"přes vodu a umožní vám objevovat a osidlovat novou zemi.\n"
+"Pozemní jednotku naložíte dvěma způsoby. Pokud je loď\n"
+"s jednotkou ve stejném městě, vyberte jednotku a stiskněte l.\n"
+"Pokud loď sousedí s polem souše, můžete jednotku\n"
+"přesunout z tohoto pole přímo na loď. Při vyloďování\n"
+"vyberte přepravovanou jednotku a stiskněte u, nebo ji\n"
+"přesuňte na pole souše."
 
 #: data/scenarios/tutorial.sav:305
 msgid ""
@@ -40867,6 +41633,16 @@ msgid ""
 "and have a small upkeep as well, so it is not a good idea to let\n"
 "them go to waste."
 msgstr ""
+"Postavili jste kasárna. Nové vojenské jednotky z tohoto\n"
+"města vyjdou jako veteráni. Ti jsou silnější než\n"
+"nezkušené jednotky a v boji vydrží déle. Další informace\n"
+"o této stavbě i jiných najdete v nápovědě\n"
+"k městským stavbám.\n"
+"\n"
+"V městě, které postavilo kasárna, se nejspíš vyplatí\n"
+"začít vyrábět vojenskou jednotku. Kasárna jsou významná\n"
+"investice a stojí něco i na údržbě. Vyplatí se je\n"
+"využívat."
 
 #: data/scenarios/tutorial.sav:318
 msgid ""
@@ -40880,6 +41656,15 @@ msgid ""
 "founding a new city, make sure it is built on terrain that provides\n"
 "enough food - grassland is best; plains or hills are almost as good."
 msgstr ""
+"Vaše město nemůže vyrobit osadníky. Osadníci stojí\n"
+"dva obyvatele. Město o velikosti jedna nebo dvě by\n"
+"je nemohlo vyrobit, aniž by přitom zaniklo.\n"
+"\n"
+"Přesuňte obyvatele na pole, která přinesou více\n"
+"jídla a urychlí růst města. Ve městech, která jídla\n"
+"moc nemají, osadníky raději nevyrábějte. Nové město\n"
+"zakládejte na terénu s dostatkem jídla. Nejlepší jsou\n"
+"travnaté pláně, roviny nebo kopce jsou skoro stejně dobré."
 
 #: data/scenarios/tutorial.sav:331
 msgid ""
@@ -40901,6 +41686,23 @@ msgid ""
 "technology. When you are done playing around click on the View tab\n"
 "(F1) to return to the map view."
 msgstr ""
+"Získali jste první technologii! Technologický pokrok\n"
+"patří k základům Freeciv. S postupem výzkumu se vám\n"
+"zpřístupní nové jednotky, stavby, formy vlády a různé\n"
+"bonusy zdarma.\n"
+"\n"
+"Teď si můžete vyzkoušet přehled výzkumu. Stiskněte F6\n"
+"nebo klikněte na kartu Výzkum v hlavním okně.\n"
+"Najděte technologii Republika a klikněte na ni. Nastavíte\n"
+"ji tím jako dlouhodobý cíl. Hra automaticky vybere\n"
+"nejbližší technologii, která k cíli vede. Nahoře v okně\n"
+"vidíte, kolik výzkumu zvládáte za tah. Výzkumné body\n"
+"pocházejí ze zdanitelného obchodu ve vašich městech.\n"
+"Dole je technologický strom. Kliknutím levým tlačítkem\n"
+"zvolíte výzkum nebo dlouhodobý cíl, kliknutím pravým\n"
+"zobrazíte nápovědu k technologii. Po vyzkoušení se\n"
+"na mapu vraťte klávesou F1\n"
+"nebo kliknutím na její kartu."
 
 #: data/scenarios/tutorial.sav:334
 msgid ""
@@ -40918,6 +41720,19 @@ msgid ""
 "to worry about picking a new research target each time you finish\n"
 "researching a technology."
 msgstr ""
+"Získali jste druhou technologii. Otevřete znovu přehled\n"
+"výzkumu (F6) a zkontrolujte pokrok. Pokud jste dřív\n"
+"zvolili Republiku jako dlouhodobý cíl, hra by už měla\n"
+"automaticky vybrat další výzkum. Pokud nemáte stanovený\n"
+"žádný dlouhodobý cíl, nový výzkum se nevybere\n"
+"až do konce tahu.\n"
+"\n"
+"V tahu, v němž výzkum dokončíte, můžete vybrat novou\n"
+"technologii. Změníte-li cíl v průběhu výzkumu, ztratíte\n"
+"veškerý dosavadní pokrok na zkoumané technologii. Vhodně\n"
+"zvolený dlouhodobý cíl vám ušetří rozhodování o novém\n"
+"výzkumu po každém dokončení\n"
+"technologie."
 
 #: data/scenarios/tutorial.sav:337
 msgid ""
@@ -40937,6 +41752,21 @@ msgid ""
 "However Republic is a substantially better form of government\n"
 "than Despotism so the investment will soon pay off."
 msgstr ""
+"Úspěšně jste vyzkoumali Republiku. Tato technologie je\n"
+"zvlášť užitečná, protože umožňuje novou formu vlády.\n"
+"Forma vlády výrazně ovlivňuje rozvoj civilizace.\n"
+"Na začátku jste vládli despoticky, což je velmi neúčinné.\n"
+"Pozdější formy vlády vám dají na výběr, zda bude\n"
+"vaše civilizace pokojně obchodovat, nebo se vydá cestou\n"
+"dobývání. Každá z těchto cest\n"
+"má své výhody.\n"
+"\n"
+"Teď se nejspíš vyplatí přejít rovnou na republiku.\n"
+"V nabídce Civilizace otevřete podnabídku Vláda a vyberte\n"
+"Republiku. Ano, zahajte revoluci! Změna vlády má svou cenu,\n"
+"protože přinese několik tahů anarchie. Republika je\n"
+"oproti despotismu výrazně účinnější, takže se změna\n"
+"brzy vyplatí."
 
 #: data/scenarios/tutorial.sav:350
 #, c-format
@@ -40951,6 +41781,15 @@ msgid ""
 "unit instantly. On average, it is beneficial to search out and enter\n"
 "any huts you find as soon as possible."
 msgstr ""
+"Jednotka %s našla chýši. Tyto malé vesnice jsou\n"
+"roztroušené po krajině. Když do některé vstoupí jednotka,\n"
+"může se stát několik věcí. Nejspíš najdete zásoby\n"
+"v hodnotě menšího množství zlata. Můžete ale také najít\n"
+"technologii nebo žoldnéřskou jednotku. Některé chýše\n"
+"obývají osadníci, kteří se přidají k vaší civilizaci\n"
+"a přinesou nové město. Jiné obývají barbaři, kteří\n"
+"vaši jednotku okamžitě zabijí. Obvykle se vyplatí chýše\n"
+"vyhledávat a vstoupit do nich co nejdříve."
 
 #: data/scenarios/tutorial.sav:357
 msgid "Loading tutorial events."
