@@ -4868,6 +4868,10 @@ msgid ""
 "cuneiform, is of unknown origin. In 643 BCE the Elamite civilization was "
 "destroyed by the Assyrians under Assurbanipal."
 msgstr ""
+"Elam byla starověká civilizace na území dnešního jihozápadního Íránu. "
+"Vznikla kolem roku 3100 př. n. l. Původ elamštiny, zapisované klínovým "
+"písmem, je neznámý. V roce 643 př. n. l. vyvrátili Elam Asyřané pod "
+"vedením Aššurbanipala."
 
 #: data/nation/emirati.ruleset:3
 msgid "Emirati"
@@ -4884,6 +4888,10 @@ msgid ""
 "six emirates joined in a federative state as the United Arab Emirates. The "
 "following year, the seventh member emirate joined them."
 msgstr ""
+"Dějiny Spojených arabských emirátů sahají do 7. století. V 19. století se "
+"emiráty dostaly pod britskou nadvládu. V roce 1971 se šest emirátů spojilo"
+" ve federaci nazvanou Spojené arabské emiráty. Následujícího roku se "
+"přidal sedmý emirát."
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
@@ -4899,6 +4907,9 @@ msgid ""
 "northwestern Greece. Their most powerful ruler Pyrrhus launched a campaign "
 "against Rome in Italy, which ended in the famous \"Pyrrhic Victory\"."
 msgstr ""
+"Epíroté byli starověcí obyvatelé Épeiru na severozápadě Řecka. Jejich "
+"nejmocnější vládce Pyrrhos se vypravil do Itálie proti Římu. Tažení "
+"proslulo jeho „Pyrrhovým vítězstvím“."
 
 #: data/nation/epirote.ruleset:33 data/nation/italiangreek.ruleset:50
 #, c-format
@@ -4925,6 +4936,10 @@ msgid ""
 "the country achieved independence in 1968. Equatorial Guinea is one of the "
 "wealthier countries of Africa but also one of the most unequal."
 msgstr ""
+"Rovníková Guinea je africký stát, který tvoří pevninská část Río Muni a "
+"ostrovy Bioko a Annobón. Dříve se nazývala Španělská Guinea. V roce 1968 "
+"získala nezávislost. Patří k bohatším africkým zemím, ale také k zemím s "
+"největšími sociálními rozdíly."
 
 #: data/nation/eritrean.ruleset:3
 msgid "Eritrean"
@@ -5017,6 +5032,9 @@ msgid ""
 "fledgeling super state. But the question remains: Does such a thing as a "
 "common European identity and nation actually exist?"
 msgstr ""
+"Základy Evropské unie položily v roce 1957 Římské smlouvy. Evropská "
+"integrace od té doby pokročila a unie začíná připomínat vznikající "
+"nadstát. Existuje ale vůbec společná evropská identita a evropský národ?"
 
 #: data/nation/european.ruleset:23 data/nation/frankish.ruleset:42
 #: data/nation/holyroman.ruleset:34 data/nation/holysee.ruleset:31
@@ -5645,6 +5663,10 @@ msgid ""
 "19th century Ghana became a British colony. In 1957 Kwame Nkrumah proclaimed "
 "Ghana's independence."
 msgstr ""
+"Ghana převzala jméno po někdejší říši Ghana. Evropané zdejší oblast "
+"nazývali Zlaté pobřeží. Své základny tam založili Portugalci, Nizozemci i "
+"Švédové, ale v 19. století zemi ovládli Britové. V roce 1957 vyhlásil "
+"Kwame Nkrumah nezávislost Ghany."
 
 #: data/nation/ghana.ruleset:3
 msgid "Ghana"
@@ -5688,6 +5710,9 @@ msgid ""
 "977 to 1186 CE in Afghanistan and Northern India, and at the peak of their "
 "power also in eastern Iran and Central Asia."
 msgstr ""
+"Ghaznovci byli sunnitská muslimská dynastie turkického původu. V letech "
+"977 až 1186 n. l. vládli v Afghánistánu a severní Indii a na vrcholu své "
+"moci také ve východním Íránu a Střední Asii."
 
 #: data/nation/gokturk.ruleset:3
 msgid "Göktürk"
@@ -5807,6 +5832,9 @@ msgid ""
 "known of their origins, but it appears that they were related to the "
 "Berbers. In the 15th century they were subjugated by Castile."
 msgstr ""
+"Guančové byli původními obyvateli Kanárských ostrovů. O jejich původu se "
+"toho ví málo, patrně však byli spřízněni s Berbery. V 15. století si je "
+"podmanila Kastilie."
 
 #: data/nation/guarani.ruleset:3
 msgid "Guarani"
@@ -5856,6 +5884,9 @@ msgid ""
 "Sékou Touré continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
+"Guinea vyhlásila nezávislost na Francii v roce 1958. Její první prezident "
+"Ahmed Sékou Touré vládl zemi až do své smrti v roce 1984. Guinea a "
+"sousední Guinea-Bissau jsou dva různé státy."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -5888,6 +5919,10 @@ msgid ""
 "1966. Under Forbes Burnham Guyana became a Marxist oriented country, but in "
 "the 1980s it started its transition to a market democracy."
 msgstr ""
+"Guyanu původně obývali Aravakové. Kolonizovali ji Nizozemci a po "
+"napoleonských válkách se stala britskou kolonií. Nezávislost získala v "
+"roce 1966. Za Forbese Burnhama se přiklonila k marxismu, ale v 80. letech "
+"20. století zahájila přechod k demokracii a tržnímu hospodářství."
 
 #: data/nation/guyanese.ruleset:27 data/nation/lankese.ruleset:22
 #, c-format
@@ -5973,6 +6008,9 @@ msgid ""
 "to 1837 Hanover and the United Kingdom were united in a personal union. In "
 "1866 it was gobbled up by Prussia."
 msgstr ""
+"Hannoversko bylo státem na severu Německa, na území dnešního Dolního "
+"Saska. V letech 1714 až 1837 bylo se Spojeným královstvím spojeno "
+"personální unií. V roce 1866 ho připojilo Prusko."
 
 #: data/nation/hanoverian.ruleset:23 data/nation/lorrain.ruleset:31
 #: data/nation/montenegrin.ruleset:28 data/nation/rhenish.ruleset:35
@@ -6020,6 +6058,10 @@ msgid ""
 "Sea and Baltic regions. Members of the league had their own law system and "
 "occasionally the Hansa went to war with rival powers."
 msgstr ""
+"Hanza byla mocným svazkem obchodních měst, který existoval od 12. do 19. "
+"století. Hanzovní města ležela v oblastech kolem Severního a Baltského "
+"moře. Členové svazku měli vlastní právní systém a Hanza občas válčila se "
+"soupeřícími mocnostmi."
 
 #: data/nation/hasinay.ruleset:3
 msgid "Hasinay"
@@ -6053,6 +6095,9 @@ msgid ""
 "Abolished in 1893, and subsequently annexed to the United States, the former "
 "kingdom became the 50th state of the United States on August 21, 1959."
 msgstr ""
+"Havajské království založil roku 1810 král Kamehameha Veliký. Království "
+"bylo roku 1893 svrženo a později připojeno ke Spojeným státům. Dne 21. "
+"srpna 1959 se Havaj stala jejich 50. státem."
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -6233,6 +6278,10 @@ msgid ""
 "periods of dictatorship and of more or less democratic rule have followed "
 "each other. Its current constitution was adopted in 1982."
 msgstr ""
+"Honduras je nezávislou republikou od rozpadu Středoamerické federace v "
+"roce 1840. V této typické „banánové republice“ se střídaly diktatury s "
+"více či méně demokratickými vládami. Současná ústava byla přijata roku "
+"1982."
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
@@ -6297,6 +6346,10 @@ msgid ""
 "kept initially under the Norwegian and later the Danish crown until "
 "independence from Denmark in 1944."
 msgstr ""
+"Island byl dlouho jedním z největších neobydlených ostrovů na světě. "
+"Koncem 9. století jej osídlili norští Vikingové. Ostrov patřil nejprve pod"
+" norskou a později pod dánskou korunu. Roku 1944 získal nezávislost na "
+"Dánsku."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -6350,6 +6403,9 @@ msgid ""
 "population of Inuits; the name of the territory means \"our land\" in "
 "Inuktitut."
 msgstr ""
+"Inuité jsou skupina národů obývajících arktické oblasti Severní Ameriky a "
+"Sibiře. Na kanadském území Nunavut tvoří většinu obyvatel. V inuktitutu "
+"znamená Nunavut „naše země“."
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
@@ -6631,6 +6687,10 @@ msgid ""
 "formed a khanate that was allied with Russia. The Kalmyks are the only "
 "Buddhist nation of Europe."
 msgstr ""
+"Kalmykové jsou západomongolský národ žijící v Kalmycku na jihu Ruska. V "
+"17. století se přestěhovali do Kaspické nížiny a založili chanát, který "
+"uzavřel spojenectví s Ruskem. Kalmykové jsou jediným buddhistickým národem"
+" Evropy."
 
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
@@ -6775,6 +6835,9 @@ msgid ""
 "dissolution of the Soviet Union. It is one of the ten largest states in the "
 "world by area."
 msgstr ""
+"Kazaši jsou potomky turkických a mongolských kočovných kmenů. Kazachstán v"
+" 18. století ovládlo Rusko a nezávislost získal v roce 1991 po rozpadu "
+"Sovětského svazu. Rozlohou patří k deseti největším státům světa."
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
@@ -6901,6 +6964,10 @@ msgid ""
 "smallest federation. Saint Kitts was the site of some of the earliest French "
 "and English colonization attempts in the New World."
 msgstr ""
+"Svatý Kryštof a Nevis je karibský stát ležící na dvou stejnojmenných "
+"ostrovech. Je nejmenší zemí Ameriky a nejmenší federací na světě. Na "
+"Svatém Kryštofu proběhly jedny z prvních francouzských a anglických pokusů"
+" o kolonizaci Nového světa."
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
@@ -6917,6 +6984,9 @@ msgid ""
 "dominated by the Republic of Novgorod. In the 15th century, the Komi were "
 "subordinated to Moscow, becoming part of Russia."
 msgstr ""
+"Komijci jsou ugrofinský národ žijící na severu evropské části Ruska. Ve "
+"středověku území Komijců ovládala Novgorodská republika. V 15. století se "
+"dostalo pod vládu Moskvy a stalo se součástí Ruska."
 
 #: data/nation/kongo.ruleset:3
 msgid "Kongo"
@@ -7092,6 +7162,9 @@ msgid ""
 "the 6th century BCE and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
 msgstr ""
+"V 6. století př. n. l. přišel na Srí Lanku z Órisy na severovýchodě Indie "
+"princ Vidžaja a založil tam sinhálské království. Za britské koloniální "
+"vlády se země nazývala Cejlon."
 
 #: data/nation/lankese.ruleset:23
 #, c-format
@@ -7154,6 +7227,9 @@ msgid ""
 "Russia. In 1940, Latvia was forcibly occupied by the Soviet Union. After the "
 "collapse of Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
+"Po první světové válce vyhlásilo Lotyšsko nezávislost na Rusku. V roce "
+"1940 je násilně obsadil Sovětský svaz. Po rozpadu Sovětského svazu v roce "
+"1991 Lotyšsko obnovilo svou nezávislost."
 
 #: data/nation/lebanese.ruleset:3
 msgid "Lebanese"
@@ -7261,6 +7337,10 @@ msgid ""
 "from their neighbors, the Illyrians, and spoke an Italic language. They were "
 "Romanized after the annexation of their land by Rome."
 msgstr ""
+"Liburnové byli starověký indoevropský kmen žijící na severovýchodním "
+"pobřeží Jadranu v dnešním Chorvatsku. Od sousedních Ilyrů se patrně lišili"
+" a mluvili italickým jazykem. Poté, co jejich území připojil Řím, se "
+"romanizovali."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -7277,6 +7357,9 @@ msgid ""
 "of Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
 msgstr ""
+"Území dnešní Libye bylo římskou kolonií až do 7. století, kdy je dobyli "
+"Arabové. V roce 1912 se dostalo pod správu Itálie. Po druhé světové válce "
+"získala Libye nezávislost v souladu s mírovou smlouvou spojenců s Itálií."
 
 #: data/nation/liechtensteiner.ruleset:3
 msgid "Liechtensteiner"
@@ -7293,6 +7376,10 @@ msgid ""
 "Austria to its east. The Principality was formed by the merger of Vaduz and "
 "Schellenberg in 1719."
 msgstr ""
+"Lichtenštejnské knížectví je maličký alpský stát v západní Evropě. Na "
+"západě sousedí se Švýcarskem a na východě s Rakouskem, oběma rovněž "
+"vnitrozemskými státy. Knížectví vzniklo roku 1719 spojením Vaduzu a "
+"Schellenbergu."
 
 #: data/nation/liege.ruleset:3
 msgid "Liegean"
@@ -7422,6 +7509,10 @@ msgid ""
 "unambiguous (\"Time flies like an arrow. Fruit flies like a banana.\"), "
 "culturally neutral and simple to learn."
 msgstr ""
+"Lojbanistán je fiktivní země, kde se mluví lojbanem. Lojban je umělý jazyk"
+" určený k dorozumívání mezi lidmi. Má jednoznačnou větnou stavbu, takže se"
+" vyhýbá dvojznačnostem typu „Žena viděla muže s dalekohledem“, je kulturně"
+" neutrální a snadno se učí."
 
 #: data/nation/lorrain.ruleset:3
 msgid "Lorrain"
@@ -7540,6 +7631,9 @@ msgid ""
 "963. In 1815 it was elevated to a Grand Duchy in a personal union with the "
 "Netherlands, which was severed in 1890."
 msgstr ""
+"Lucembursko, jedna z nejmenších zemí Evropy, vzniklo roku 963 jako "
+"hrabství. Roku 1815 bylo povýšeno na velkovévodství v personální unii s "
+"Nizozemskem, která skončila roku 1890."
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
@@ -7556,6 +7650,10 @@ msgid ""
 "when they were led by the legendary heroes Sarpedon and Glaucus. Their state "
 "was subordinated to the Persian Empire in the 6th century BCE."
 msgstr ""
+"Lýkie byla starověkým státem na jihozápadě Anatolie, který existoval od "
+"15. do 6. století př. n. l. V trojské válce byli Lýkové spojenci Tróje a "
+"vedli je bájní hrdinové Sarpédón a Glaukos. V 6. století př. n. l. se "
+"Lýkie dostala pod nadvládu Perské říše."
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
@@ -7572,6 +7670,9 @@ msgid ""
 "dress and residence near the many game parks of East Africa, they are among "
 "the most well known of African ethnic groups."
 msgstr ""
+"Masajové jsou původní africký polokočovný národ z Keni a severní Tanzanie."
+" Díky svým osobitým zvykům, oděvu a blízkosti mnoha východoafrických "
+"přírodních rezervací patří k nejznámějším africkým etnikům."
 
 #: data/nation/macedonian.ruleset:3
 msgid "Macedonian"
@@ -7604,6 +7705,10 @@ msgid ""
 "but it splintered into several states after Alexander's death. Macedonia was "
 "eventually conquered by Rome in 146 BCE."
 msgstr ""
+"Makedonské království leželo na jihu Balkánu. Za Alexandra Velikého se "
+"stalo jedním z nejmocnějších států světa, ale po jeho smrti se rozpadlo na"
+" několik menších států. Makedonii nakonec roku 146 př. n. l. dobyli "
+"Římané."
 
 #: data/nation/macedon.ruleset:23
 #, c-format
@@ -7676,6 +7781,10 @@ msgid ""
 "were dominated by Dr. Hastings Banda for three decades, until he was "
 "stripped of his titles in 1993."
 msgstr ""
+"Britové nazývali Malawi Ňaskem. Po získání nezávislosti v roce 1964 "
+"přijala země dnešní jméno odkazující na někdejší říši Maravi. Politice "
+"země po tři desetiletí dominoval doktor Hastings Banda, dokud roku 1993 "
+"nepřišel o své tituly."
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -7742,6 +7851,10 @@ msgid ""
 "Hospitaller, French, and British. Malta became independent in 1964 and "
 "joined the EU in 2004."
 msgstr ""
+"Malta byla poprvé osídlena kolem roku 5200 př. n. l. Během staletí ostrovy"
+" ovládali Féničané, Římané, Fátimovci, Sicilané, johanité, Francouzi a "
+"Britové. Malta získala nezávislost roku 1964 a v roce 2004 vstoupila do "
+"Evropské unie."
 
 #: data/nation/maltese.ruleset:27 data/nation/templar.ruleset:40
 #: data/nation/teutonic.ruleset:30
@@ -7800,6 +7913,8 @@ msgid ""
 "Manchuria in Northeast Asia. In the 17th century they conquered and ruled "
 "China as the Manchu Empire until 1911."
 msgstr ""
+"Mandžuové byli polokočovný národ z Mandžuska v severovýchodní Asii. V 17. "
+"století dobyli Čínu a vládli jí jako mandžuská říše až do roku 1911."
 
 #: data/nation/manx.ruleset:3
 msgid "Manx"
@@ -7846,6 +7961,9 @@ msgid ""
 "group that is now New Zealand. According to archeological evidence, the "
 "migration commenced in the 900s and continued until the 1400s."
 msgstr ""
+"Maorové jsou polynéský národ, který se přistěhoval na ostrovy dnešního "
+"Nového Zélandu a osídlil je. Podle archeologických nálezů tato migrace "
+"začala v 10. století a pokračovala až do 15. století."
 
 #: data/nation/mapuche.ruleset:3
 msgid "Mapuche"
@@ -7862,6 +7980,9 @@ msgid ""
 "be stubborn opponents of the Spanish, too, who, along with their Chilean "
 "successors, took 300 years to conquer them."
 msgstr ""
+"Mapučové úspěšně vzdorovali rozpínání incké říše. Inky zastavili na řece "
+"Maule v dnešní střední části Chile. Tvrdě vzdorovali také Španělům, kterým"
+" spolu s jejich chilskými nástupci trvalo 300 let, než si je podmanili."
 
 #: data/nation/marathi.ruleset:3
 msgid "Marathi"
@@ -7878,6 +7999,9 @@ msgid ""
 "confederacy, waging war on the Moghul empire and eventually replacing the "
 "Moghuls as the main power on the Indian subcontinent."
 msgstr ""
+"Maráthové obývají indický stát Maháráštra. V 17. století založil maráthský"
+" kníže Šivádží Maráthskou konfederaci, která válčila s Mughalskou říší a "
+"nakonec ji vystřídala v postavení hlavní mocnosti indického subkontinentu."
 
 #: data/nation/marathi.ruleset:39
 #, c-format
@@ -7933,6 +8057,10 @@ msgid ""
 "onwards. Colonized by France in the 19th century, the country became an "
 "independent republic in 1960."
 msgstr ""
+"Mauritánie leží na severozápadě Afriky, kde se setkává arabský svět se "
+"subsaharskou Afrikou. Od 11. století se tu šířil islám. V 19. století "
+"oblast kolonizovala Francie. Roku 1960 se Mauritánie stala nezávislou "
+"republikou."
 
 #: data/nation/mauritian.ruleset:3
 msgid "Mauritian"
@@ -8120,6 +8248,10 @@ msgid ""
 "under French suzerainty. French rule gave way to English and English to "
 "Canadian."
 msgstr ""
+"Mi'kmaqové, kterých je dnes asi 25 000, obývali Nové Skotsko a z velké "
+"části tam žijí dodnes. První z nich přijali křesťanství v roce 1610 pod "
+"francouzskou svrchovaností. Francouzskou vládu vystřídala britská a tu "
+"později kanadská."
 
 #: data/nation/milanese.ruleset:3
 msgid "Milanese"
@@ -8135,6 +8267,10 @@ msgid ""
 "1797 it was the seat of the Duchy of Milan. Lombardy came under Austrian "
 "domination after the Napoleonic War. In 1859 it was annexed by Italy."
 msgstr ""
+"Milán je hlavním městem Lombardie, oblasti severní Itálie. V letech 1395 "
+"až 1797 byl sídlem Milánského vévodství. Po napoleonských válkách se "
+"Lombardie dostala pod nadvládu Rakouska. V roce 1859 byla připojena k "
+"Itálii."
 
 #: data/nation/minnesotan.ruleset:3
 msgid "Minnesotan"
@@ -8226,6 +8362,10 @@ msgid ""
 "Romania until inclusion in the Soviet Union in 1940. The modern Republic of "
 "Moldova gained independence from the Soviet Union in 1991."
 msgstr ""
+"Moldavsko dobyli v 16. století Osmané. Roku 1812 se stalo součástí Ruského"
+" impéria. Od roku 1918 náleželo Rumunsku, než se roku 1940 stalo součástí "
+"Sovětského svazu. Dnešní Moldavská republika získala na Sovětském svazu "
+"nezávislost v roce 1991."
 
 #: data/nation/moluccan.ruleset:3
 msgid "Moluccan"
@@ -8307,6 +8447,9 @@ msgid ""
 "the Ottomans and the first to become independent again. Part of Yugoslavia "
 "in the 20th century, it dissolved its union with Serbia in 2006."
 msgstr ""
+"Černá Hora je malá země na Balkáně. Osmané si ji podmanili jako poslední a"
+" nezávislost znovu získala jako první. Ve 20. století byla součástí "
+"Jugoslávie a roku 2006 ukončila státní svazek se Srbskem."
 
 #: data/nation/moravian.ruleset:3
 msgid "Moravian"
@@ -8513,6 +8656,9 @@ msgid ""
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
+"Navahové neboli Diné jsou nejpočetnějším původním národem Spojených států."
+" Jsou úzce spřízněni s Apači. Jejich jazyk je známý jako jeden z "
+"nejsložitějších na světě."
 
 #: data/nation/neapolitan.ruleset:3
 msgid "Neapolitan"
@@ -8529,6 +8675,10 @@ msgid ""
 "throne changed hands many times. After the Napoleonic Era it was merged with "
 "the Kingdom of Sicily."
 msgstr ""
+"Neapolské království bylo po staletí největším státem Apeninského "
+"poloostrova. Usilovala o ně řada evropských mocností a na trůnu se "
+"vystřídalo mnoho vládců. Po napoleonských válkách se spojilo se Sicilským "
+"královstvím."
 
 #: data/nation/nenets.ruleset:3
 msgid "Nenets"
@@ -8561,6 +8711,10 @@ msgid ""
 "location between India and China. The Nepalese principalities were united "
 "into one kingdom in the 18th century. Nepal became a republic in 2008."
 msgstr ""
+"Nepál je vnitrozemská země v Himálaji. Po dlouhou dobu se zde setkávají "
+"různé kultury a jazyky. Jeho dějiny utvářela poloha mezi Indií a Čínou. "
+"Nepálská knížectví se v 18. století spojila v jediné království. V roce "
+"2008 se Nepál stal republikou."
 
 #: data/nation/nestorian.ruleset:5
 msgid "Nestorian"
@@ -8616,6 +8770,9 @@ msgid ""
 "royal proclamation in 1907, the country became an independent dominion "
 "within the Commonwealth of Nations."
 msgstr ""
+"Británie si připojila ostrovy Nového Zélandu v roce 1840. Na základě "
+"královského prohlášení se v roce 1907 země stala samostatným dominiem v "
+"rámci Společenství národů."
 
 #: data/nation/nicaraguan.ruleset:3
 msgid "Nicaraguan"
@@ -8825,6 +8982,9 @@ msgid ""
 "from the Baltic Sea to the Ural Mountains. It existed between the 12th and "
 "15th centuries and was centered on the city of Novgorod."
 msgstr ""
+"Novgorodská republika byla rozlehlým středověkým ruským státem, který "
+"sahal od Baltského moře až k Uralu. Existovala od 12. do 15. století a "
+"jejím střediskem byl Novgorod."
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
@@ -8994,6 +9154,9 @@ msgid ""
 "Vistula and lower Nemen). They were conquered and germanized by the Teutonic "
 "Order."
 msgstr ""
+"Prusové byli baltské národy obývající oblast mezi Pomořany, Mazovskem, "
+"Litvou a Baltským mořem, tedy baltské pobřeží mezi dolní Vislou a dolním "
+"Němenem. Podmanil si je a germanizoval řád německých rytířů."
 
 #: data/nation/omani.ruleset:3
 msgid "Omani"
@@ -9361,6 +9524,10 @@ msgid ""
 "the satrap Arsakes they drove the Seleucids from Iran, where they created "
 "their own strong empire. Their culture was Hellenistic."
 msgstr ""
+"Parthové byli původně kočovníci ze Střední Asie. Usídlili se v Parthii na "
+"území Seleukovské říše. Pod vedením satrapy Arsaka vytlačili Seleukovce z "
+"Íránu a založili tam vlastní mocnou říši. Jejich kultura byla "
+"helénistická."
 
 #: data/nation/parthian.ruleset:37
 #, c-format
@@ -9386,6 +9553,9 @@ msgid ""
 "Pakistan. They speak Pashto, a language closely related to Persian, and live "
 "by an age-old code of honor known as Pashtunwali."
 msgstr ""
+"Paštuni jsou etnikum žijící hlavně v Afghánistánu a Pákistánu. Mluví "
+"paštštinou, jazykem blízce příbuzným perštině, a řídí se odvěkým kodexem "
+"cti zvaným paštunválí."
 
 #: data/nation/pelasgian.ruleset:3
 msgid "Pelasgian"
@@ -9533,6 +9703,10 @@ msgid ""
 "1821 to 1837 located in Central America, totally not a scam devised by "
 "MacGregor to sell people fake government bonds for land ill fit for farming."
 msgstr ""
+"Poyais je naprosto skutečný stát ve Střední Americe, který založil Gregor "
+"MacGregor a který existoval v letech 1821 až 1837. Rozhodně to nebyl žádný"
+" MacGregorův podvod, při němž lidem prodával falešné státní dluhopisy na "
+"území nevhodné k zemědělství."
 
 #: data/nation/poyaisian.ruleset:30
 #, c-format
@@ -9618,6 +9792,9 @@ msgid ""
 "the wealthiest countries of the world in terms of GDP per capita. Qatar is "
 "one of the world's few absolute monarchies."
 msgstr ""
+"Katar je emirát na poloostrově v Perském zálivu. Podle HDP na obyvatele "
+"patří k nejbohatším zemím na světě. Je jednou z mála zbývajících "
+"absolutních monarchií."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -9704,6 +9881,10 @@ msgid ""
 "Moroccans. The country was conquered by the Spanish and French in 1926. The "
 "area is now part of Morocco."
 msgstr ""
+"Konfederační republika rífských kmenů byla krátce existujícím státem, "
+"který vznikl v září 1921 po povstání obyvatel Rífu proti Španělům a "
+"Maročanům. V roce 1926 ji dobyli Španělé a Francouzi. Území je dnes "
+"součástí Maroka."
 
 #: data/nation/riograndense.ruleset:3
 msgid "Rio-Grandense"
@@ -9720,6 +9901,10 @@ msgid ""
 "against the Brazilian Imperial Army and was supported by Giuseppe Garibaldi "
 "amongst others."
 msgstr ""
+"Republika Rio-Grandense neboli Republika Piratini existovala na území "
+"brazilského státu Rio Grande do Sul v letech 1836 až 1845. Ve válce "
+"otrhanců bojovala proti brazilské císařské armádě. Podporoval ji mimo jiné"
+" Giuseppe Garibaldi."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -9800,6 +9985,10 @@ msgid ""
 "Rus' succumbed to a Mongol invasion. The Rus' were the precursors of the "
 "modern East Slavic nations."
 msgstr ""
+"Kyjevská Rus byla středověká slovanská monarchie. Jejím centrem se stal "
+"Kyjev poté, co jej dobyl Oleg z Novgorodu. Ve 13. století Rus podlehla "
+"mongolské invazi. Její obyvatelé byli předky dnešních východoslovanských "
+"národů."
 
 #: data/nation/rwandan.ruleset:3
 msgid "Rwandan"
@@ -9908,6 +10097,9 @@ msgid ""
 "were very closely related to the European Scythians, and were probably "
 "descendants of the Andronovo culture."
 msgstr ""
+"Sakové byli starověký íránský kmen ze středoasijských stepí. Úzce "
+"souviseli s evropskými Skyty a patrně byli potomky nositelů andronovské "
+"kultury."
 
 #: data/nation/salishan.ruleset:3
 msgid "Salishan"
@@ -9980,6 +10172,9 @@ msgid ""
 "oldest independent republic in the world. According to legend, it was "
 "founded by Saint Marinus in 301 CE."
 msgstr ""
+"San Marino je maličký vnitrozemský stát na Apeninském poloostrově. Je "
+"nejstarší nezávislou republikou na světě. Podle pověsti jej roku 301 n. l."
+" založil svatý Marinus."
 
 #: data/nation/sammarinese.ruleset:26
 #, c-format
@@ -10006,6 +10201,10 @@ msgid ""
 "losing the wars with Rome the Samnites were subjected to Rome and became "
 "Romanized. They were good soldiers and famed as Roman gladiators."
 msgstr ""
+"Samnité byli starověkým svazkem italických kmenů, které mluvily oskičtinou"
+" a žily ve střední Itálii jižně od Sabinů. Po prohraných válkách s Římem "
+"se dostali pod jeho nadvládu a romanizovali se. Byli zdatnými vojáky a "
+"prosluli jako římští gladiátoři."
 
 #: data/nation/samoan.ruleset:3
 msgid "Samoan"
@@ -10107,6 +10306,9 @@ msgid ""
 "of the origin from the Sarmatians formed the basis of the Polish culture "
 "from the 15th to the 18th century."
 msgstr ""
+"Sarmati byli íránské pastevecké kmeny ze Střední Asie a jihozápadní "
+"Sibiře. Byli blízce spřízněni se Saky a Skyty. Pověst o sarmatském původu "
+"byla součástí základů polské kultury od 15. do 18. století."
 
 #: data/nation/saudi.ruleset:3
 msgid "Saudi"
@@ -10415,6 +10617,11 @@ msgid ""
 "alliance against American expansionism but were ultimately unsuccessful and "
 "made to resettle in the Indian Territory (modern Oklahoma)."
 msgstr ""
+"Šavanové jsou algonkinský národ. Pod vedením Tikamthiho, známějšího jako "
+"Tecumseh, a jeho bratra Tenskwatawy se pokusili vytvořit spojenectví "
+"původních národů proti expanzi Spojených států. Pokus ztroskotal a "
+"Šavanové byli nuceni přesídlit do Indiánského teritoria na území dnešní "
+"Oklahomy."
 
 #: data/nation/sherpa.ruleset:3
 msgid "Sherpa"
@@ -10452,6 +10659,10 @@ msgid ""
 "Slavic colonists. In 1918 a Siberian Republic was proclaimed but it was "
 "annexed by the USSR after only a few months."
 msgstr ""
+"Sibiř je historická a zeměpisná oblast Ruska a bývalého Sovětského svazu. "
+"Za carské vlády se část slovanských osadníků přikláněla k odtržení. V roce"
+" 1918 byla vyhlášena Sibiřská republika, ale po pouhých několika měsících "
+"ji připojilo sovětské Rusko."
 
 #: data/nation/sicilian.ruleset:3
 msgid "Sicilian"
@@ -10503,6 +10714,9 @@ msgid ""
 "Pakistan and India, is the heartland of Sikhism. In the 19th century a Sikh "
 "Empire existed in the region."
 msgstr ""
+"Sikhové vyznávají monoteistické náboženství, které vzniklo v 15. století "
+"na Indickém subkontinentu. Centrem sikhismu je Paňdžáb na pomezí Pákistánu"
+" a Indie. V 19. století v této oblasti existovala sikhská říše."
 
 #: data/nation/sikkimese.ruleset:3
 msgid "Sikkimese"
@@ -10686,6 +10900,9 @@ msgid ""
 "Saxony and Southern Brandenburg (Lusatia). The region has historically been "
 "associated with Poland and Bohemia."
 msgstr ""
+"Lužičtí Srbové jsou západoslovanský národ, který žije na východě Německa, "
+"v Lužici na území východního Saska a jižního Braniborska. Tento kraj je "
+"historicky spjat s Polskem a Čechami."
 
 #: data/nation/sotho.ruleset:3
 msgid "Sotho"
@@ -10788,6 +11005,9 @@ msgid ""
 "state during the Vietnam War. The country was reunited with North Vietnam "
 "after it was conquered by communist forces in 1975."
 msgstr ""
+"Jižní Vietnam, oficiálně Vietnamská republika, byl během války ve Vietnamu"
+" státem podporovaným Spojenými státy. Poté, co jej v roce 1975 dobyly "
+"komunistické síly, byl sjednocen se Severním Vietnamem."
 
 #: data/nation/southvietnamese.ruleset:23
 #, c-format
@@ -10950,6 +11170,8 @@ msgid ""
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
 msgstr ""
+"Svazijci jsou bantuský národ z jihu Afriky. Pod vedením Mswatiho II. "
+"(1820–1868) rozšířili své území a upevnili jižní hranici se Zuly."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -11064,6 +11286,9 @@ msgid ""
 "their nation back to the Samanid Empire, one of the first Persian states to "
 "appear after the Arab conquest."
 msgstr ""
+"Tádžikistán je stát ve Střední Asii. Tádžikové odvozují počátky svého "
+"státu od říše Sámánovců, jednoho z prvních perských států vzniklých po "
+"arabském dobytí."
 
 #: data/nation/tanganyikan.ruleset:3
 msgid "Tanganyikan"
@@ -11080,6 +11305,10 @@ msgid ""
 "British during World War I and declared independence in 1961. Three years "
 "later it merged with Zanzibar to form the Union of Tanzania."
 msgstr ""
+"Tanganiku obývaly bantuské kmeny od počátku našeho letopočtu. Na konci 19."
+" století se stala německou kolonií. Za první světové války ji dobyli "
+"Britové. V roce 1961 vyhlásila nezávislost a o tři roky později se spojila"
+" se Zanzibarem. Vznikla tak dnešní Tanzanie."
 
 #: data/nation/tanzanian.ruleset:3
 msgid "Tanzanian"
@@ -11096,6 +11325,10 @@ msgid ""
 "Nyerere, who followed the tenets of African socialism. In 1985 Nyerere was "
 "the first African head of state to voluntarily step down."
 msgstr ""
+"Tanzanie vznikla v roce 1964 spojením někdejších britských kolonií "
+"Tanganiky a Zanzibaru. Dvě desetiletí v jejím čele stál Julius Nyerere, "
+"který se řídil zásadami afrického socialismu. V roce 1985 dobrovolně "
+"odstoupil jako první africká hlava státu."
 
 #: data/nation/tatar.ruleset:3
 msgid "Tatar"
@@ -11129,6 +11362,10 @@ msgid ""
 "immense power and wealth in the next 200 years, and were the innovators of "
 "many modern concepts such as Banking."
 msgstr ""
+"Templářský řád vznikl po první křížové výpravě na ochranu poutníků "
+"putujících Svatou zemí. Během dalších 200 let získal značnou moc a "
+"bohatství a zavedl řadu postupů, které známe dodnes, například v "
+"bankovnictví."
 
 #: data/nation/teutonic.ruleset:3
 msgid "Teutonic"
@@ -11352,6 +11589,9 @@ msgid ""
 "19th century, they are the only country in Oceania to have escaped actual "
 "colonization."
 msgstr ""
+"Tongu, souostroví v jižním Tichomoří, osídlili Polynésané kolem roku 1000 "
+"př. n. l. V 19. století se ostrovy sice staly britským protektorátem, ale "
+"Tonga jako jediná země Oceánie unikla přímé kolonizaci."
 
 #: data/nation/transnistrian.ruleset:3
 msgid "Transnistrian"
@@ -11425,6 +11665,10 @@ msgid ""
 "them. In South Africa they count about four million Batswana and in the "
 "Apartheid era they had the Bantustan of Bophuthatswana."
 msgstr ""
+"Čvanové neboli Batswana jsou bantuský národ z jihu Afriky. S přibližně 20 "
+"% obyvatel tvoří největší etnickou skupinu Botswany, která po nich dostala"
+" jméno. V Jihoafrické republice žijí zhruba čtyři miliony Čvanů. Za "
+"apartheidu tam měli vlastní bantustan Bophuthatswana."
 
 #: data/nation/tuareg.ruleset:3
 msgid "Tuareg"
@@ -11589,6 +11833,9 @@ msgid ""
 "southern part of the country was part of the Buganda kingdom. Modern Uganda "
 "gained independence in 1962."
 msgstr ""
+"Ugandská republika leží ve východní Africe. Patří k ní část Viktoriina "
+"jezera, o které se dělí s Keňou a Tanzanií. Jih země byl dříve součástí "
+"království Buganda. Dnešní Uganda získala nezávislost v roce 1962."
 
 #. TRANS: There are two titles for king, kabaka and
 #. ;    mujaguzo. Kabaka is the material king, while
@@ -11825,6 +12072,9 @@ msgid ""
 "mostly in the province of Limpopo. During the Apartheid Era there existed a "
 "Bantustan of Venda."
 msgstr ""
+"Vendové jsou bantuský národ žijící v Jihoafrické republice a Zimbabwe. "
+"Kdysi vládli království Mapungubwe. Dnes je jich asi milion a většina žije"
+" v provincii Limpopo. Za apartheidu existoval bantustan Venda."
 
 #: data/nation/venetian.ruleset:3
 msgid "Venetian"
@@ -11897,6 +12147,9 @@ msgid ""
 "States, both in population and area. Vermont is famous for its dairy "
 "products and maple syrup."
 msgstr ""
+"Vermont byl 14 let nezávislým státem, než se roku 1791 připojil ke "
+"Spojeným státům. Dnes patří k jejich nejmenším státům počtem obyvatel i "
+"rozlohou. Proslul mléčnými výrobky a javorovým sirupem."
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
@@ -12005,6 +12258,9 @@ msgid ""
 "the Ukrainian Steppe to the North. Their descendants are the modern "
 "Chuvashes and Volga Tatars."
 msgstr ""
+"Volžští Bulhaři byli středověký turkický národ obývající povodí střední "
+"Volhy. Mohli být potomky evropských Hunů, kteří se přesunuli z ukrajinské "
+"stepi na sever. Jejich potomky jsou dnešní Čuvaši a povolžští Tataři."
 
 #: data/nation/volgagerman.ruleset:3
 msgid "Volga German"
@@ -12041,6 +12297,10 @@ msgid ""
 "industrialize and the second in the world after England. It subsequently "
 "became a hotbed of socialist and labor union activity."
 msgstr ""
+"Valoni jsou francouzsky mluvící obyvatelé Belgie. V 19. století se "
+"Valonsko industrializovalo jako první oblast kontinentální Evropy a druhá "
+"na světě po Anglii. Poté se stalo jedním z center socialistického a "
+"odborového hnutí."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
@@ -12073,6 +12333,10 @@ msgid ""
 "to terrorize villages in search of human flesh and were often blamed for "
 "unexplained or particularly brutal killings."
 msgstr ""
+"Vlkodlak je člověk, který se za určitých okolností promění ve vlku "
+"podobnou šelmu. Ve středověké Evropě lidé věřili, že vlkodlaci terorizují "
+"vesnice a pátrají po lidském mase. Přisuzovali jim nevysvětlitelná nebo "
+"obzvlášť brutální zabití."
 
 #: data/nation/westernpomeranian.ruleset:3
 msgid "Western Pomeranian"
@@ -12152,6 +12416,9 @@ msgid ""
 "the Duchy of Saxony. Today it makes up the northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"Vestfálsko bývalo západní částí Saského vévodství, než se stalo pruskou "
+"provincií. Dnes tvoří severní část Severního Porýní-Vestfálska, největší "
+"německé spolkové země podle počtu obyvatel."
 
 #: data/nation/wuerttembergian.ruleset:3
 msgid "Wuerttembergian"
@@ -12242,6 +12509,9 @@ msgid ""
 "site of several ancient civilizations, Yemen only exists in its current form "
 "since North Yemen annexed South Yemen in 1990."
 msgstr ""
+"Jemen je jedinou republikou na Arabském poloostrově. Na jeho území vzniklo"
+" několik starověkých civilizací. V dnešní podobě existuje od roku 1990, "
+"kdy Severní Jemen připojil Jižní Jemen."
 
 #: data/nation/yucatecan.ruleset:3
 msgid "Yucatecan"
@@ -12291,6 +12561,9 @@ msgid ""
 "in the 19th century. Governed as Northern Rhodesia by the British, Zambia "
 "gained its independence in 1964."
 msgstr ""
+"Když Britové v 19. století kolonizovali území dnešní Zambie, žily tam "
+"bantuské národy. Britové zemi spravovali pod názvem Severní Rhodesie. "
+"Zambie získala nezávislost v roce 1964."
 
 #: data/nation/zanzibari.ruleset:3
 msgid "Zanzibari"
@@ -12327,6 +12600,11 @@ msgid ""
 "notable Zapotec center, Monte Albán, was built on a razed mountain top. "
 "Benito Juárez, Mexico's first indigenous president, was a Zapotec."
 msgstr ""
+"Zapotékové neboli Binnizá žijí v mexickém státě Oaxaca. Vytvořili jednu z "
+"nejstarších a nejdéle trvajících mezoamerických civilizací. Jejich "
+"nejvýznamnější centrum, Monte Albán, vzniklo na zarovnaném vrcholu hory. "
+"Benito Juárez, první mexický prezident z řad původních obyvatel, byl "
+"Zapoték."
 
 #: data/nation/zhuang.ruleset:3
 msgid "Zhuang"

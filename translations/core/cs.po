@@ -1861,9 +1861,8 @@ msgid "server disconnected"
 msgstr "odpojen"
 
 #: client/clinet.c:437 client/clinet.c:487 server/sernet.c:905
-#, fuzzy
 msgid "read error"
-msgstr "IO chyba"
+msgstr "chyba čtení"
 
 #: client/clinet.c:513
 #, c-format
@@ -1941,17 +1940,17 @@ msgstr ""
 #. * Nuclear.
 #. TRANS: Only Diplomat or Spy can do Steal Gold.
 #: client/control.c:1173 server/unithand.c:2517
-#, fuzzy, c-format
+#, c-format
 #| msgid "Only %s can add to a city."
 msgid "Only %s can do %s."
-msgstr "Pouze jednotky %s se mohou usadit ve městě."
+msgstr "Pouze %s může provést akci „%s“."
 
 #. TRANS: Spy can't do Explode Nuclear.
 #. TRANS: Spy can't do Capture Units.
 #: client/control.c:1181 server/unithand.c:2525
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do %s."
-msgstr "Pouze %s může útočit z moře."
+msgstr "%s nemůže provést akci „%s“."
 
 #: client/control.c:1530
 msgid "Only transporter units can be unloaded."
@@ -15347,7 +15346,7 @@ msgstr "Ping"
 
 #: client/plrdlg_common.c:585 server/report.c:181
 msgid "Culture"
-msgstr ""
+msgstr "Kultura"
 
 #: client/repodlgs_common.c:166
 msgid "You cannot sell improvements."
@@ -15407,9 +15406,8 @@ msgid ""
 msgstr ""
 
 #: client/servers.c:334 server/meta.c:257
-#, fuzzy
 msgid "Error connecting to metaserver"
-msgstr "Ztraceno spojení se serverem!"
+msgstr "Chyba při připojování k metaserveru"
 
 #: client/servers.c:434
 #, c-format
@@ -17840,7 +17838,7 @@ msgstr "Jméno serveru"
 #. TRANS: in place of player name or "global observer"
 #: common/actres.h:61 common/fc_types.h:1192 server/stdinhand.c:5675
 msgid "nothing"
-msgstr ""
+msgstr "nic"
 
 #: common/actres.h:63
 #, fuzzy
@@ -22393,14 +22391,12 @@ msgid "'Cause civilization should be free!"
 msgstr "Aby civilizace byla svobodná!"
 
 #: common/networking/connection.c:195 server/sernet.c:433 server/sernet.c:826
-#, fuzzy
 msgid "network exception"
-msgstr "Obrátit výběr"
+msgstr "chyba sítě"
 
 #: common/networking/connection.c:209 server/sernet.c:373
-#, fuzzy
 msgid "lagging connection"
-msgstr "<žádná spojení>"
+msgstr "zpožděné připojení"
 
 #: common/networking/connection.c:274
 #, fuzzy
@@ -40242,26 +40238,24 @@ msgstr "Může být použito pouze v serverové konzoli. "
 
 #: tools/manual/manual_settings.c:89 server/stdinhand.c:1814
 msgid "Minimum:"
-msgstr ""
+msgstr "Minimum:"
 
 #: tools/manual/manual_settings.c:90 tools/manual/manual_settings.c:128
 #: server/stdinhand.c:1815 server/stdinhand.c:1834 server/stdinhand.c:1850
-#, fuzzy
 msgid "Default:"
-msgstr "(výchozí)"
+msgstr "Výchozí hodnota:"
 
 #: tools/manual/manual_settings.c:91 server/stdinhand.c:1816
-#, fuzzy
 msgid "Maximum:"
-msgstr "žádné maximum, "
+msgstr "Maximum:"
 
 #: tools/manual/manual_settings.c:98 server/stdinhand.c:1823
 msgid "Possible values:"
-msgstr ""
+msgstr "Možné hodnoty:"
 
 #: tools/manual/manual_settings.c:111 server/stdinhand.c:1842
 msgid "Possible values (option can take any number of these):"
-msgstr ""
+msgstr "Možné hodnoty (lze vybrat libovolný počet):"
 
 #: tools/manual/manual_settings.c:131
 #, fuzzy, c-format
@@ -40442,49 +40436,61 @@ msgstr "Selhalo vytvoření nového hráče %s."
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:228
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s to %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr ""
+"Při pokusu o akci „%s“ proti cíli %s vás přistihli. Způsobili jste "
+"diplomatický incident."
 
 #. TRANS: Bribe Enemy Unit ... American ... Partisan
 #: server/actiontools.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s to %s "
 "%s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr ""
+"Při pokusu o akci „%s“ proti cíli %s %s vás přistihli. Způsobili jste "
+"diplomatický incident."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:249
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have caused an diplomatic incident getting caught trying to do %s at %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr ""
+"Při pokusu o akci „%s“ na místě %s vás přistihli. Způsobili jste "
+"diplomatický incident."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:285
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s to "
 "%s."
-msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
+msgstr ""
+"Přistihli národ %s při pokusu o akci „%s“ proti cíli %s. Došlo k "
+"diplomatickému incidentu."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:296
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s to "
 "your %s."
-msgstr "Hráč %s vyvolal incident svým pokusem o uplacení Vašeho %s."
+msgstr ""
+"Přistihli národ %s při pokusu o akci „%s“ proti vašemu cíli %s. Došlo k "
+"diplomatickému incidentu."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:307
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have caused an diplomatic incident getting caught trying to do %s at "
 "%s."
-msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
+msgstr ""
+"Přistihli národ %s při pokusu o akci „%s“ na místě %s. Došlo k "
+"diplomatickému incidentu."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:337
@@ -40493,6 +40499,8 @@ msgid ""
 "Getting caught while trying to do %s gives everyone a casus belli against "
 "you."
 msgstr ""
+"Pokud vás přistihnou při pokusu o akci „%s“, všichni získají záminku k "
+"válce proti vám."
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:344
@@ -40501,6 +40509,8 @@ msgid ""
 "Getting caught while trying to do %s to you gives everyone a casus belli "
 "against the %s."
 msgstr ""
+"Za odhalený pokus o akci „%s“ proti vám získají všichni záminku k válce "
+"proti národu %s."
 
 #. TRANS: Europeans ... Suitcase Nuke
 #: server/actiontools.c:352
@@ -40508,118 +40518,126 @@ msgstr ""
 msgid ""
 "You now have a casus belli against the %s. They got caught trying to do %s."
 msgstr ""
+"Získáváte záminku k válce proti národu %s. Přistihli ho při pokusu o akci "
+"„%s“."
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:360
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You now have a casus belli against the %s. They got caught trying to do %s "
 "to the %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr ""
+"Získáváte záminku k válce proti národu %s. Přistihli ho při pokusu o akci "
+"„%s“ proti národu %s."
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an diplomatic incident doing %s to %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr "Akcí „%s“ proti cíli %s jste způsobili diplomatický incident."
 
 #: server/actiontools.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an diplomatic incident doing %s to %s %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr "Akcí „%s“ proti cíli %s %s jste způsobili diplomatický incident."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an diplomatic incident doing %s at %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr "Akcí „%s“ na místě %s jste způsobili diplomatický incident."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:465
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an diplomatic incident doing %s to %s."
-msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
+msgstr "Národ %s způsobil diplomatický incident akcí „%s“ proti cíli %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:475
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an diplomatic incident doing %s to your %s."
-msgstr "Hráč %s vyvolal incident svým pokusem o uplacení Vašeho %s."
+msgstr ""
+"Národ %s způsobil diplomatický incident akcí „%s“ proti vašemu cíli %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an diplomatic incident doing %s at %s."
-msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
+msgstr "Národ %s způsobil diplomatický incident akcí „%s“ na místě %s."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:515
 #, c-format
 msgid "Doing %s gives everyone a casus belli against you."
-msgstr ""
+msgstr "Provedete-li akci „%s“, všichni získají záminku k válce proti vám."
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:521
 #, c-format
 msgid "Doing %s to you gives everyone a casus belli against the %s."
 msgstr ""
+"Za akci „%s“ proti vám získají všichni záminku k válce proti národu %s."
 
 #. TRANS: Europeans ... Suitcase Nuke
 #: server/actiontools.c:529
 #, c-format
 msgid "You now have a casus belli against the %s. They did %s."
-msgstr ""
+msgstr "Získáváte záminku k válce proti národu %s. Provedl akci „%s“."
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:537
-#, fuzzy, c-format
+#, c-format
 msgid "You now have a casus belli against the %s. They did %s to the %s."
-msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
+msgstr ""
+"Získáváte záminku k válce proti národu %s. Provedl akci „%s“ proti národu "
+"%s."
 
 #: server/aiiface.c:87
 #, c-format
 msgid "Cannot open AI module %s (%s)"
-msgstr ""
+msgstr "Nelze otevřít modul AI %s (%s)"
 
 #: server/aiiface.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find capstr function from ai module %s (%s)"
-msgstr "Nelze nalézt zvukový soubor %s"
+msgstr "V modulu AI %s nebyla nalezena funkce capstr (%s)"
 
 #: server/aiiface.c:101
 #, c-format
 msgid "Incompatible ai module %s:"
-msgstr ""
+msgstr "Nekompatibilní modul AI %s:"
 
 #: server/aiiface.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "  Module options:    %s"
-msgstr "volby souboru: %s"
+msgstr "  Volby modulu:    %s"
 
 #: server/aiiface.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "  Supported options: %s"
-msgstr "podporované volby: %s"
+msgstr "  Podporované volby: %s"
 
 #: server/aiiface.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find setup function from ai module %s (%s)"
-msgstr "Nelze nalézt zvukový soubor %s"
+msgstr "V modulu AI %s nebyla nalezena funkce setup (%s)"
 
 #: server/aiiface.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Setup of ai module %s failed."
-msgstr "Pokus o stabu divu světa %s selhal."
+msgstr "Inicializace modulu AI %s selhala."
 
 #: server/aiiface.c:168 server/aiiface.c:179 server/aiiface.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to setup \"%s\" AI module"
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Modul AI „%s“ se nepodařilo inicializovat"
 
 #: server/aiiface.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to setup default AI module \"%s\", cannot continue."
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Výchozí modul AI „%s“ se nepodařilo inicializovat. Nelze pokračovat."
 
 #: server/auth.c:86
 #, c-format
@@ -40632,9 +40650,9 @@ msgid "Guests are not allowed on this server. Sorry."
 msgstr "Hosté nejsou povoleni na tomto serveru. Lituji."
 
 #: server/auth.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s byl(a) odmítnut(a): Nesouhlasící vlastnosti."
+msgstr "Přihlášení uživatele %s bylo zamítnuto. Přístup hostů není povolen."
 
 #: server/auth.c:113
 #, c-format
@@ -40665,15 +40683,14 @@ msgstr "Zadejte heslo pro %s:"
 
 #. TRANS: Try not to make the translation much longer than the original.
 #: server/auth.c:137
-#, fuzzy
 #| msgid "Enter a new password (and remember it)."
 msgid "First time login. Set a new password and confirm it."
-msgstr "Zadejte nové heslo (a zapamatujte si ho)."
+msgstr "Přihlašujete se poprvé. Nastavte si nové heslo a potvrďte ho."
 
 #: server/auth.c:141
-#, fuzzy, c-format
+#, c-format
 msgid "Registration for %s requested."
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Byla vyžádána registrace uživatele %s."
 
 #: server/auth.c:143
 msgid "This server allows only preregistered users. Sorry."
@@ -40702,34 +40719,34 @@ msgstr ""
 "vaše statistisky nebudou uloženy."
 
 #: server/auth.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing to database for: %s"
-msgstr "Ztraceno spojení se serverem!"
+msgstr "Chyba při zápisu do databáze pro uživatele %s"
 
 #: server/auth.c:185
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s rules the %s."
 msgid "%s registered."
-msgstr "%s vládne %s."
+msgstr "Uživatel %s byl zaregistrován."
 
 #: server/auth.c:227
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s byl(a) odmítnut(a): Nesouhlasící vlastnosti."
+msgstr ""
+"Přihlášení uživatele %s bylo zamítnuto kvůli příliš mnoha pokusům s "
+"nesprávným heslem."
 
 #: server/auth.c:229 server/auth.c:249
-#, fuzzy
 msgid "auth failed"
-msgstr "Selhal"
+msgstr "ověření se nezdařilo"
 
 #: server/auth.c:236
 msgid "Your password is incorrect. Try again."
 msgstr "Vaše heslo je nesprávné. Zkuste to znovu."
 
 #: server/auth.c:246
-#, fuzzy
 msgid "Sorry, your connection timed out..."
-msgstr "Lituji, propojení letectvem není ještě implementováno."
+msgstr "Vypršel časový limit vašeho připojení."
 
 #: server/auth.c:247
 #, c-format
@@ -40752,9 +40769,9 @@ msgstr ""
 "[tisknutelných] znaků dlouhé. Zkuste to znovu."
 
 #: server/barbarian.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr "Barbaři mají nového vůdce jménem %s.  Mohou nastat těžkosti."
+msgstr "Národ %s má nového vůdce jménem %s. Možná přicházejí nebezpečné časy."
 
 #: server/barbarian.c:724
 #, c-format
@@ -40872,7 +40889,7 @@ msgstr "Domovské město jednotky %s změněno na %s."
 #: server/citytools.c:640
 #, c-format
 msgid "The %s already have a %s. Can't transfer yours."
-msgstr ""
+msgstr "Národ %s už má jednotku typu %s. Vaši jednotku nelze předat."
 
 #: server/citytools.c:659
 #, c-format
@@ -40886,9 +40903,9 @@ msgstr "%s patřící %s převedena na %s."
 
 #. TRANS: Polish Destroyer ... German <city>
 #: server/citytools.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr "%s %s ztracena při útoku %s %s."
+msgstr "Jednotka %s %s byla při předávání národu %s ztracena (%s)."
 
 #: server/citytools.c:817 server/unithand.c:450
 #, c-format
@@ -40907,44 +40924,44 @@ msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Již jsme měli město pojmenované %s. Město bylo přejmenováno na %s."
 
 #: server/citytools.c:1296
-#, fuzzy, c-format
+#, c-format
 #| msgid "Transf_orm to %s"
 msgid "Transfer of %s"
-msgstr "Transf_ormovat na %s"
+msgstr "Předání: %s"
 
 #: server/citytools.c:1314
-#, fuzzy, c-format
+#, c-format
 msgid "The people in %s are stunned by your technological insight!"
-msgstr ""
-"Lidé ve městě %s jsou ohromeni vaším technologickým postupem!\n"
-"      Dělníci spontáně vylepšili město stavbou železnice."
+msgstr "Obyvatelé města %s žasnou nad vašimi technologickými znalostmi!"
 
 #: server/citytools.c:1320
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s with %s."
-msgstr ""
+msgstr "Dělníci se sami sešli a vylepšili %s pomocí %s."
 
 #: server/citytools.c:1325
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s infrastructure."
-msgstr ""
+msgstr "Dělníci se sami sešli a vylepšili infrastrukturu ve městě %s."
 
 #. TRANS: Reason that a building was added to the city.
 #. *        Building is given for free to player's first city.
 #: server/citytools.c:1473 server/citytools.c:1496
 #, c-format
 msgid "?initbldg:Free %s"
-msgstr ""
+msgstr "?initbldg:Zdarma: %s"
 
 #: server/citytools.c:1643
-#, fuzzy, c-format
+#, c-format
 msgid "You have founded %s."
-msgstr "Založili jsme město %s"
+msgstr "Založili jste město %s."
 
 #: server/citytools.c:1786
-#, fuzzy, c-format
+#, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
-msgstr "Jednotka %s opustila zrušené město %s, aby neuvízla na souši."
+msgstr ""
+"Jednotka %s byla přesunuta ze zrušeného města %s, protože nemůže zůstat na"
+" poli %s."
 
 #: server/citytools.c:1798
 #, c-format
@@ -40955,12 +40972,12 @@ msgstr ""
 "nemohla dostat ven."
 
 #: server/citytools.c:1832
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
-"Protože byla jednotka %s rozpuštěna, byla ztracena jednotka %s, protože se "
-"nemohla dostat ven."
+"Když bylo město %s zrušeno, vaše jednotka %s na místě %s uvízla a byla "
+"ztracena."
 
 #: server/citytools.c:2042 server/unithand.c:4762
 #, c-format
@@ -40989,14 +41006,14 @@ msgstr[1] "Národ %s dobyl město %s a ukořistil %d zlaté."
 msgstr[2] "Národ %s dobyl město %s a ukořistil %d zlatých."
 
 #: server/citytools.c:2087
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s."
-msgstr "Při atomovém útoku jste ozářil(a) město %s."
+msgstr "Dobyli jste město %s."
 
 #: server/citytools.c:2090
-#, fuzzy, c-format
+#, c-format
 msgid "%s conquered %s."
-msgstr "%s se připojil z %s."
+msgstr "Národ %s dobyl město %s."
 
 #: server/citytools.c:2097
 #, c-format
@@ -41015,56 +41032,56 @@ msgstr[1] "Národ %s osvobodil město %s a ukořistil %d zlaté."
 msgstr[2] "Národ %s osvobodil město %s a ukořistil %d zlatých."
 
 #: server/citytools.c:2113
-#, fuzzy, c-format
+#, c-format
 msgid "You have liberated %s!"
-msgstr "Založili jsme město %s"
+msgstr "Osvobodili jste město %s!"
 
 #: server/citytools.c:2116
-#, fuzzy, c-format
+#, c-format
 msgid "%s liberated %s."
-msgstr "%s vládne %s."
+msgstr "Národ %s osvobodil město %s."
 
 #: server/citytools.c:2901
 #, c-format
 msgid "Trade between %s and %s lost along with city."
-msgstr ""
+msgstr "Se zánikem města zanikla i obchodní trasa mezi městy %s a %s."
 
 #: server/citytools.c:2906
 #, c-format
 msgid "Trade route between %s and %s canceled."
-msgstr ""
+msgstr "Obchodní trasa mezi městy %s a %s byla zrušena."
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
 #: server/citytools.c:2914
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
-msgstr ""
+msgstr "Se zánikem města %s %s zanikla i jeho obchodní trasa s městem %s."
 
 #: server/citytools.c:2922
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
-msgstr "Lituji, %s zrušil obchodní cestu z %s do Vašeho města %s."
+msgstr "Národ %s zrušil obchodní trasu z města %s do vašeho města %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
 #: server/citytools.c:2928
-#, fuzzy, c-format
+#, c-format
 msgid "We canceled the trade route from %s to %s city %s."
-msgstr "Lituji, %s zrušil obchodní cestu z %s do Vašeho města %s."
+msgstr "Zrušili jsme obchodní trasu z města %s do města národa %s (%s)."
 
 #: server/citytools.c:2982
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
-msgstr ""
+msgstr "Město %s zasáhl mor! Část obyvatel zemřela!"
 
 #: server/citytools.c:3046
-#, fuzzy, c-format
+#, c-format
 msgid "Moving %s"
-msgstr "v %s"
+msgstr "Přesun: %s"
 
 #: server/citytools.c:3049
-#, fuzzy, c-format
+#, c-format
 msgid "Acquiring %s"
-msgstr "v %s"
+msgstr "Získání: %s"
 
 #: server/citytools.c:3208
 #, c-format
@@ -41081,7 +41098,7 @@ msgstr " podle seznamu prací"
 #. * (in "<city> is building ..." sentence). Preserve leading space.
 #: server/citytools.c:3235
 msgid " as suggested by the advisor"
-msgstr ""
+msgstr " podle návrhu poradce"
 
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
@@ -41108,18 +41125,17 @@ msgstr[2] ""
 "Prodáváte %s ve městě %s, které už nemá přístup k moři, za %d zlatých."
 
 #: server/citytools.c:3570
-#, fuzzy, c-format
+#, c-format
 msgid "The size of the city map of %s is %s."
-msgstr "%s %s (%s)"
+msgstr "Rozloha mapy města %s se %s."
 
 #: server/citytools.c:3572
-#, fuzzy
 msgid "increased"
-msgstr "Letiště"
+msgstr "zvětšila"
 
 #: server/citytools.c:3573
 msgid "reduced"
-msgstr ""
+msgstr "zmenšila"
 
 #: server/cityturn.c:249
 #, c-format
@@ -42349,6 +42365,8 @@ msgid ""
 "Set message to send to clients when they connect.\n"
 "Empty message means that no message is sent."
 msgstr ""
+"Nastaví zprávu, která se pošle klientům při připojení.\n"
+"Pokud je zpráva prázdná, nic se neodesílá."
 
 #. TRANS: translate text between [] only; "vote" is as a process
 #: server/commands.c:191
@@ -43611,17 +43629,17 @@ msgstr "Vaši vyslanci byli popraveni!"
 
 #. TRANS: unit, action
 #: server/diplomats.c:134 server/diplomats.c:257
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s was caught in the attempt of sabotage!"
 msgid "Your %s was caught attempting to do %s!"
-msgstr "Váš %s byl chycen při pokusu o sabotáž!"
+msgstr "Vaši jednotku %s přistihli při pokusu o akci „%s“!"
 
 #. TRANS: nation, unit, action, city
 #: server/diplomats.c:140 server/diplomats.c:263
-#, fuzzy, c-format
+#, c-format
 #| msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgid "You caught %s %s attempting to do %s in %s!"
-msgstr "Byl chycen %2$s (%1$s) při pokusu o sabotáž %3$s ve městě %4$s!\""
+msgstr "Přistihli jste jednotku %s %s při pokusu o akci „%s“ ve městě %s!"
 
 #: server/diplomats.c:162
 #, c-format
@@ -43634,26 +43652,27 @@ msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Hráč %s je podezřelý z otrávení vody ve městě %s."
 
 #: server/diplomats.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s destroyed %s by poisoning its water supply."
-msgstr "Váš %s nemohl otrávit vodu ve městě %s."
+msgstr "Vaše jednotka %s zničila město %s otrávením jeho zdroje vody."
 
 #: server/diplomats.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "%s is suspected of destroying %s by poisoning its water supply."
-msgstr "Hráč %s je podezřelý z otrávení vody ve městě %s."
+msgstr ""
+"Jednotka %s je podezřelá, že město %s zničila otrávením jeho zdroje vody."
 
 #. TRANS: unit, action, city
 #: server/diplomats.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s did %s to %s."
-msgstr "Dostali jsme %d zlatých."
+msgstr "Vaše jednotka %s provedla akci „%s“ proti cíli %s."
 
 #. TRANS: action, city, nation
 #: server/diplomats.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "%s done to %s, %s suspected."
-msgstr "Úplně jste zničil(a) %s."
+msgstr "Akce „%s“ proti cíli %s se zdařila. Podezření padá na %s."
 
 #: server/diplomats.c:515
 #, c-format
@@ -43666,44 +43685,44 @@ msgid "The %s have established an embassy in %s."
 msgstr "%s založili vyslanectví ve městě %s."
 
 #: server/diplomats.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s's successful sabotage killed the %s %s."
-msgstr "Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
+msgstr "Vaše jednotka %s úspěšnou sabotáží zničila jednotku %s %s."
 
 #. TRANS: ... the Poles!
 #: server/diplomats.c:598
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s was nuked by %s."
 msgid "Your %s was killed by %s sabotage!"
-msgstr "Na náš %s podnikli %s jaderný útok!"
+msgstr "Vaše jednotka %s byla zničena při sabotáži národa %s!"
 
 #: server/diplomats.c:609
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
-msgstr "Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
+msgstr "Vaše jednotka %s úspěšně sabotovala jednotku %s %s."
 
 #. TRANS: ... the Poles!
 #: server/diplomats.c:616
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was sabotaged by the %s!"
-msgstr "Váš %s byl sabotován hráčem %s!"
+msgstr "Vaši jednotku %s sabotoval národ %s!"
 
 #: server/diplomats.c:690
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have enough gold to bribe the %s %s."
-msgstr "Nemáte dostatek peněz na uplacení jednotky %2$s hráče %1$s."
+msgstr "Nemáte dost zlata na podplacení jednotky %s %s."
 
 #. TRANS: <diplomat> ... <unit>
 #: server/diplomats.c:732
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr "Váš %s uspěl při uplácení jednotky %s."
+msgstr "Vaše jednotka %s úspěšně podplatila jednotku %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:740
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was bribed by the %s."
-msgstr "Jednotka %s byla uplacena hráčem %s."
+msgstr "Vaši jednotku %s podplatil národ %s."
 
 #. TRANS: Paris was expecting ... Your Spy was caught
 #: server/diplomats.c:1007
@@ -43712,14 +43731,18 @@ msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
 msgstr ""
+"Město %s očekávalo další pokus o krádež technologie. Vaši jednotku %s "
+"dopadli a popravili."
 
 #. TRANS: The Belgian Spy ... from Paris
 #: server/diplomats.c:1014
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
 "attempt."
-msgstr "%2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
+msgstr ""
+"Jednotce %s %s se opět nepodařilo ukrást technologii z města %s. Byli jsme"
+" na tento pokus připraveni."
 
 #. TRANS: Your Spy was caught ... from %s.
 #: server/diplomats.c:1023
@@ -43729,9 +43752,9 @@ msgstr "Váš %s byl chycen při pokusu o krádež technologie ve městě %s."
 
 #. TRANS: The Belgian Spy ... from Paris
 #: server/diplomats.c:1030
-#, fuzzy, c-format
+#, c-format
 msgid "The %s %s failed to steal technology from %s."
-msgstr "%2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
+msgstr "Jednotce %s %s se nepodařilo ukrást technologii z města %s."
 
 #: server/diplomats.c:1048
 #, c-format
@@ -43843,17 +43866,18 @@ msgid "The %s destroyed the %s in %s."
 msgstr "%s zničili %s ve městě %s."
 
 #: server/diplomats.c:1613
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s was caught in the attempt of sabotage!"
 msgid "Your %s was caught attempting to steal gold!"
-msgstr "Váš %s byl chycen při pokusu o sabotáž!"
+msgstr "Vaši jednotku %s přistihli při pokusu ukrást zlato!"
 
 #. TRANS: nation, unit, city
 #: server/diplomats.c:1618
-#, fuzzy, c-format
+#, c-format
 #| msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgid "You caught %s %s attempting to steal your gold in %s!"
-msgstr "Chytili jsme %s %s podněcující povstání v %s!"
+msgstr ""
+"Přistihli jste jednotku %s %s při pokusu ukrást vaše zlato ve městě %s!"
 
 #. TRANS: unit, gold, city
 #: server/diplomats.c:1664
@@ -43874,57 +43898,62 @@ msgstr[1] "Ukradeno %d zlaté. Místo krádeže: %s. Podezření: %s."
 msgstr[2] "Ukradeno %d zlatých. Místo krádeže: %s. Podezření: %s."
 
 #: server/diplomats.c:1750
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s was caught in the attempt of sabotage!"
 msgid "Your %s was caught in an attempt of stealing parts of the %s world map!"
-msgstr "Váš %s byl chycen při pokusu o sabotáž!"
+msgstr ""
+"Vaši jednotku %s přistihli při pokusu ukrást část mapy světa národa %s!"
 
 #: server/diplomats.c:1756
-#, fuzzy, c-format
+#, c-format
 #| msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgid "You caught %s %s attempting to steal parts of your world map in %s!"
-msgstr "Chytili jsme %s %s podněcující povstání v %s!"
+msgstr ""
+"Přistihli jste jednotku %s %s při pokusu ukrást část vaší mapy světa ve "
+"městě %s!"
 
 #: server/diplomats.c:1804
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s could not find the %s to sabotage in %s."
 msgid "Your %s stole parts of the %s world map in %s."
-msgstr "Váš %s nemohl sabotovat %s, protože ve městě %s není."
+msgstr "Vaše jednotka %s ukradla část mapy světa národa %s ve městě %s."
 
 #: server/diplomats.c:1809
-#, fuzzy, c-format
+#, c-format
 msgid "The %s are suspected of stealing parts of your world map in %s."
-msgstr "%2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
+msgstr "Národ %s je podezřelý z krádeže části vaší mapy světa ve městě %s."
 
 #: server/diplomats.c:1877
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgid "Your %s was caught in an attempt of hiding a nuke in %s!"
-msgstr "Váš %s byl chycen při pokusu o vyvolání převratu!"
+msgstr ""
+"Vaši jednotku %s přistihli při pokusu ukrýt jadernou nálož ve městě %s!"
 
 #: server/diplomats.c:1883
-#, fuzzy, c-format
+#, c-format
 #| msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgid "You caught %s %s attempting to hide a nuke in %s!"
-msgstr "Chytili jsme %s %s podněcující povstání v %s!"
+msgstr ""
+"Přistihli jste jednotku %s %s při pokusu ukrýt jadernou nálož ve městě %s!"
 
 #: server/diplomats.c:1902
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s was nuked by %s."
 msgid "Your %s hid a nuke in %s."
-msgstr "Na náš %s podnikli %s jaderný útok!"
+msgstr "Vaše jednotka %s ukryla ve městě %s jadernou nálož."
 
 #: server/diplomats.c:1906
-#, fuzzy, c-format
+#, c-format
 #| msgid "The %s have started building The %s in %s."
 msgid "The %s are suspected of hiding a nuke in %s."
-msgstr "%s zahájili stavbu %s ve městě %s."
+msgstr "Národ %s je podezřelý z ukrytí jaderné nálože ve městě %s."
 
 #. TRANS: <unit> ... <diplomat>
 #: server/diplomats.c:2075
-#, fuzzy, c-format
+#, c-format
 msgid "An enemy %s has been eliminated by your %s."
-msgstr "Nepřátelský %s byl zlikvidován při obraně %s."
+msgstr "Nepřátelskou jednotku %s zneškodnila vaše jednotka %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
 #: server/diplomats.c:2082
@@ -43935,29 +43964,31 @@ msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:2089
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
-msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
+msgstr ""
+"Jednotka %s %s byla zneškodněna při obraně místa %s proti jednotce %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:2096
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
-msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
+msgstr ""
+"Vaše jednotka %s byla zneškodněna při obraně cíle %s %s proti jednotce %s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
 #: server/diplomats.c:2105 server/diplomats.c:2116
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has been eliminated defending against a %s."
-msgstr "Váš %s byl zlikvidován při obraně města proti %s."
+msgstr "Vaše jednotka %s byla zneškodněna při obraně proti jednotce %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
 #: server/diplomats.c:2110
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s has been eliminated defending against a %s."
-msgstr "Váš %s byl zlikvidován při obraně města proti %s."
+msgstr "Jednotka %s %s byla zneškodněna při obraně proti jednotce %s."
 
 #: server/diplomats.c:2141
 #, c-format
@@ -43965,51 +43996,58 @@ msgid "Your %s was eliminated by a defending %s."
 msgstr "Váš %s byl zlikvidován při obraně %s."
 
 #: server/diplomats.c:2147
-#, fuzzy, c-format
+#, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
-msgstr "Byl zlikvidován %2$s (%1$s) při pokusu o infiltrování města %3$s."
+msgstr "Jednotka %s %s byla zneškodněna při pronikání do města %s."
 
 #: server/diplomats.c:2152
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
-msgstr "Byl zlikvidován %2$s (%1$s) při pokusu o infiltrování města %3$s."
+msgstr "Jednotka %s %s zneškodnila jednotku %s %s při pronikání do města %s."
 
 #: server/diplomats.c:2157
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
-msgstr "Byl zlikvidován %2$s (%1$s) při pokusu o infiltrování města %3$s."
+msgstr ""
+"Vaše jednotka %s zneškodnila jednotku %s %s při pronikání do města %s."
 
 #: server/diplomats.c:2165
-#, fuzzy, c-format
+#, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
-msgstr "Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek."
+msgstr ""
+"Jednotka %s %s byla zneškodněna při pokusu proniknout mezi naše jednotky."
 
 #: server/diplomats.c:2170
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
-msgstr "Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek."
+msgstr ""
+"Jednotka %s %s zneškodnila jednotku %s %s, která pronikala mezi naše "
+"jednotky."
 
 #. TRANS: ... <unit> ... <diplomat>
 #: server/diplomats.c:2176
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
-msgstr "Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek."
+msgstr ""
+"Vaše jednotka %s zneškodnila jednotku %s %s, která pronikala mezi naše "
+"jednotky."
 
 #: server/diplomats.c:2298
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
-msgstr "Váš %s úspěšně spnil misi a vrátil se nepozorovaně do města %s."
+msgstr ""
+"Vaše jednotka %s úspěšně splnila úkol a vrátila se bez úhony do města %s."
 
 #: server/diplomats.c:2319
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured after completing the mission in %s."
-msgstr "Váš %s byl zajat poté, co dokončil svoji misi ve městě %s."
+msgstr "Vaše jednotka %s byla po splnění úkolu ve městě %s zajata."
 
 #: server/diplomats.c:2325
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured after completing the mission."
-msgstr "Váš %s byl zajat poté, co dokončil svoji misi."
+msgstr "Vaše jednotka %s byla po splnění úkolu zajata."
 
 #: server/edithand.c:203
 #, c-format
@@ -44022,43 +44060,51 @@ msgid " *** Edit mode canceled by %s. *** "
 msgstr " *** Upravovací mód zrušen hráčem %s. *** "
 
 #: server/edithand.c:313 server/edithand.c:350 server/edithand.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
-msgstr "Nelze upravovat políčko (%d, %d), protože není na mapě!"
+msgstr "Pole nelze upravit, protože %d není platný index pole na této mapě!"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:322
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
-msgstr "Nelze upravovat políčko (%d, %d), protože není na mapě!"
+msgstr ""
+"Terén na poli %s nelze změnit, protože %d není platný identifikátor "
+"terénu."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:358
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot modify extras for the tile %s because %d is not a valid extra id."
-msgstr "Nelze upravovat políčko (%d, %d), protože není na mapě!"
+msgstr ""
+"Prvky na poli %s nelze změnit, protože %d není platný identifikátor prvku."
 
 #: server/edithand.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
-msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
+msgstr ""
+"Jednotky nelze vytvořit, protože %d není platný index pole na této mapě!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:465
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
-msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
+msgstr ""
+"Na poli %s nelze vytvořit jednotku, protože identifikátor typu jednotky %d"
+" je neplatný."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
 #: server/edithand.c:475
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
-msgstr "Nelze vytvořit jednotku typu %s v terénu na (%d, %d)."
+msgstr ""
+"Jednotku typu %s nelze vytvořit na poli %s, protože identifikátor "
+"vlastníka %d je neplatný."
 
 #: server/edithand.c:485
 #, c-format
@@ -44066,30 +44112,33 @@ msgid ""
 "Cannot create another instance of unique unit type %s. Player already has "
 "one such unit."
 msgstr ""
+"Nelze vytvořit další jednotku jedinečného typu %s. Hráč již jednotku "
+"tohoto typu má."
 
 #: server/edithand.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create multiple instances of unique unit type %s."
-msgstr "Nelze vytvořit jednotku typu %s v terénu na (%d, %d)."
+msgstr "Nelze vytvořit více jednotek jedinečného typu %s."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
 #: server/edithand.c:504
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
-msgstr "Nelze vytvořit jednotku typu %s v terénu na (%d, %d)."
+msgstr "Jednotku typu %s nelze vytvořit na nepřátelském poli %s."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
 #: server/edithand.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
-msgstr "Nelze vytvořit jednotku typu %s v terénu na (%d, %d)."
+msgstr "Jednotku typu %s nelze vytvořit na terénu na poli %s."
 
 #: server/edithand.c:557
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
-msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
+msgstr ""
+"Jednotky nelze odebrat, protože %d není platný index pole na této mapě!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:566
@@ -44097,6 +44146,8 @@ msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
 msgstr ""
+"Na poli %s nelze odebrat jednotku, protože identifikátor typu jednotky %d "
+"je neplatný."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
@@ -44106,6 +44157,8 @@ msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
+"Jednotku typu %s nelze odebrat z pole %s, protože identifikátor vlastníka "
+"%d je neplatný."
 
 #: server/edithand.c:608 server/edithand.c:631
 #, c-format
@@ -44118,22 +44171,24 @@ msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr "Neplatná úroveň %d veterána pro jednotku %d (%s)."
 
 #: server/edithand.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
-msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
+msgstr "Město nelze vytvořit, protože %d není platný index pole na této mapě!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:714
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
-msgstr "Nelze vytvořit město na (%d, %d), protože to není na mapě!"
+msgstr ""
+"Na poli %s nelze vytvořit město, protože identifikátor vlastníka %d je "
+"neplatný"
 
 #. TRANS: ..." at <tile-coordinates>."
 #: server/edithand.c:726
-#, fuzzy, c-format
+#, c-format
 msgid "A city may not be built at %s."
-msgstr "Město nemůže být postaveno na (%d, %d)."
+msgstr "Na poli %s nelze založit město."
 
 #: server/edithand.c:766
 #, c-format
@@ -44159,13 +44214,13 @@ msgstr "Není možné, aby město mělo %s!"
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
-msgstr ""
+msgstr "Neplatná zásoba jídla %d ve městě %s (povolený rozsah je %d až %d)."
 
 #: server/edithand.c:869
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
-msgstr ""
+msgstr "Neplatná zásoba štítů %d ve městě %s (povolený rozsah je %d až %d)."
 
 #: server/edithand.c:920
 #, c-format
@@ -44216,10 +44271,9 @@ msgid "Cannot edit player with invalid player ID %d."
 msgstr "Nelze upravit hráče s neplatným ID %d."
 
 #: server/edithand.c:1044
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
-msgstr ""
-"Nelze změnit jméno hráče (%d) '%s' na '%s': jiný hráč (%d) již má toto jméno."
+msgstr "Jméno hráče (%d) „%s“ nelze změnit na „%s“: %s"
 
 #: server/edithand.c:1055
 #, c-format
@@ -44227,6 +44281,8 @@ msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
+"Hráči %d (%s) nelze změnit národ, protože identifikátor národa %d je "
+"neplatný."
 
 #: server/edithand.c:1061
 #, c-format
@@ -44255,18 +44311,23 @@ msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
+"Hráči %d (%s) nelze nastavit množství zlata, protože hodnota %d je mimo "
+"povolený rozsah."
 
 #: server/edithand.c:1133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot set infrapoints for player %d (%s) because the value %d is outside "
 "the allowed range."
-msgstr "Nelze vytvořit jednotku typu %s v terénu na (%d, %d)."
+msgstr ""
+"Hráči %d (%s) nelze nastavit počet bodů infrastruktury, protože hodnota %d"
+" je mimo povolený rozsah."
 
 #: server/edithand.c:1239
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
-msgstr "Nelze upravovat políčko (%d, %d), protože není na mapě!"
+msgstr ""
+"Viditelnost nelze upravit, protože %d není platný index pole na této mapě!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:1248
@@ -44274,6 +44335,8 @@ msgstr "Nelze upravovat políčko (%d, %d), protože není na mapě!"
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
+"Viditelnost pole %s nelze upravit, protože identifikátor hráče %d je "
+"neplatný."
 
 #: server/edithand.c:1317
 #, c-format
@@ -44281,41 +44344,44 @@ msgid "No such city (ID %d)."
 msgstr "Žádné město (ID %d)."
 
 #: server/edithand.c:1343
-#, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
-msgstr "Nelze zahájit hru: hra již běží."
+msgstr "Válečnou mlhu nelze přepnout, protože je už vypnutá."
 
 #: server/edithand.c:1351
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
-msgstr "Nelze přepnout na hráče barbara."
+msgstr "Válečnou mlhu nelze přepnout pro neplatný identifikátor hráče %d."
 
 #: server/edithand.c:1379 server/edithand.c:1418
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid tile index %d for start position."
-msgstr "Neplatná velikost města %d pro město %s."
+msgstr "Neplatný index pole %d pro počáteční pozici."
 
 #: server/edithand.c:1426
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
 "position there."
-msgstr "Nelze umístit startovací pozici na (%d, %d), protože to není na mapě!"
+msgstr ""
+"Národy pro počáteční pozici na souřadnicích (%d, %d) nelze upravit, "
+"protože tam žádná taková pozice není."
 
 #: server/edithand.c:1525
 msgid "No permissions to remotely save scenario."
-msgstr ""
+msgstr "Chybí oprávnění k uložení scénáře na vzdálený server."
 
 #: server/edithand.c:1532
 msgid "Scenario information not set. Cannot save scenario."
-msgstr ""
+msgstr "Údaje o scénáři nejsou nastaveny. Scénář nelze uložit."
 
 #: server/fcdb.c:130 server/fcdb.c:136
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot load fcdb config file '%s':\n"
 "%s"
-msgstr "Nelze nalézt zvukový soubor %s"
+msgstr ""
+"Nelze načíst konfigurační soubor fcdb „%s“:\n"
+"%s"
 
 #: server/gamehand.c:438
 #, c-format
@@ -44339,7 +44405,7 @@ msgstr "Čas na jedno kolo je menší než nula, upraveno na nulu."
 
 #: server/generator/mapgen.c:1465
 msgid "The server couldn't allocate starting positions."
-msgstr ""
+msgstr "Serveru se nepodařilo přidělit počáteční pozice."
 
 #: server/generator/mapgen.c:2105
 msgid "High landmass - this may take a few seconds."
@@ -44357,12 +44423,12 @@ msgstr "Generátor 3 nezozmístil %li pevniny."
 #: server/generator/mapgen_topology.c:124
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
-msgstr ""
+msgstr "Vytváří se mapa o rozměrech %d × %d = %d polí (požadováno %d)."
 
 #: server/generator/mapgen_topology.c:180
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
-msgstr ""
+msgstr "Vytváří se mapa o rozměrech %d × %d = %d polí (velikost mapy: %d)."
 
 #: server/generator/mapgen_topology.c:192
 #, c-format
@@ -44384,6 +44450,8 @@ msgid ""
 "Setting map size to %d (approx. %d (land) tiles for each of the %d "
 "player(s))."
 msgstr ""
+"Velikost mapy se nastavuje na %d (přibližně %d polí pevniny na každého z "
+"hráčů, celkem %d hráčů)."
 
 #: server/generator/startpos.c:507
 #, fuzzy
@@ -44408,14 +44476,14 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s je nejednoznačný prefix jména spojení."
 
 #: server/handchat.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "%s is an anonymous name. Use connection name."
-msgstr "%s je anonymní jméno. Použijte název spojení"
+msgstr "%s je anonymní jméno. Použijte název připojení."
 
 #: server/handchat.c:136 server/handchat.c:173
 #, c-format
 msgid "You cannot send messages to %s; you are ignored."
-msgstr ""
+msgstr "Uživateli %s nemůžete posílat zprávy, protože vás ignoruje."
 
 #: server/handchat.c:232
 #, c-format
@@ -44423,9 +44491,9 @@ msgid "%s to allies: %s"
 msgstr "%s spojencům: %s"
 
 #: server/handchat.c:264
-#, fuzzy, c-format
+#, c-format
 msgid "%s to global observers: %s"
-msgstr "%s nyní pozoruje %s"
+msgstr "%s všem pozorovatelům: %s"
 
 #: server/handchat.c:354
 msgid "You are not attached to a player."
@@ -44447,21 +44515,21 @@ msgid "There is no player nor connection by the name %s."
 msgstr "Neexistuje žádný hráč ani spojení se jménem %s."
 
 #: server/infrapts.c:47
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s has been lost on unsafe terrain."
 msgid "Cannot place %s to unseen tile."
-msgstr "Jednotka %s se ztratila v nebezpečném terénu."
+msgstr "Prvek %s nelze umístit na pole, které nevidíte."
 
 #: server/infrapts.c:54
 #, c-format
 msgid "Cannot place %s for lack of infrapoints."
-msgstr ""
+msgstr "Prvek %s nelze umístit, protože nemáte dost bodů infrastruktury."
 
 #: server/infrapts.c:61
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cannot find sound spec-file \"%s\"."
 msgid "Cannot place unbuildable %s."
-msgstr "Nelze nalézt zvukový spec soubor \"%s\"."
+msgstr "Prvek %s nelze postavit ani umístit."
 
 #: server/maphand.c:110
 msgid "Global warming has occurred!"
@@ -44505,11 +44573,13 @@ msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "infrastructure."
 msgstr ""
+"Dělníci se sami sešli a vylepšili infrastrukturu ve všech městech, kde to "
+"bylo možné."
 
 #: server/maphand.c:334
 #, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
-msgstr ""
+msgstr "Dělníci se sami sešli a ve všech vhodných městech přidali prvek %s."
 
 #: server/maphand.c:1856
 #, c-format
@@ -44526,10 +44596,9 @@ msgid "Not reporting to the metaserver in this game."
 msgstr "Nehlásit se metaserveru v této hře."
 
 #: server/meta.c:220
-#, fuzzy
 #| msgid "Metaserver connection is already open."
 msgid "Metaserver connection currently failing."
-msgstr "Spojení s metaserverem je již navázáno."
+msgstr "Připojení k metaserveru se momentálně nedaří."
 
 #: server/plrhand.c:166
 #, c-format
@@ -44918,10 +44987,9 @@ msgstr "Rychlost výzkumu"
 
 #. TRANS: How literate people are.
 #: server/report.c:176
-#, fuzzy
 #| msgid "Literacy"
 msgid "?ability:Literacy"
-msgstr "Gramotnost"
+msgstr "?ability:Gramotnost"
 
 #: server/report.c:179
 msgid "Military Service"
@@ -45023,9 +45091,9 @@ msgstr "Historici uvádějí!"
 
 #. TRANS:"The French City of Lyon (team 3) of size 18".
 #: server/report.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s City of %s (%s) of size %d, "
-msgstr "%2d: %s - město %s o velikosti %d, "
+msgstr "%2d: %s město %s (%s) o velikosti %d, "
 
 #: server/report.c:385
 #, c-format
@@ -45033,10 +45101,10 @@ msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: %s - město %s o velikosti %d, "
 
 #: server/report.c:392
-#, fuzzy
 #| msgid "with no wonders\n"
 msgid "with no Great Wonders\n"
-msgstr "bez divů\n"
+msgstr ""
+"bez velkých divů\n"
 
 #: server/report.c:395
 #, c-format
@@ -45066,9 +45134,10 @@ msgstr "Cestovatelé tvrdí:"
 
 #. TRANS: "Colossus in Rhodes (Greek, team 2)".
 #: server/report.c:439 server/report.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "%s in %s (%s, %s)\n"
-msgstr "%s ve městě %s (%s)\n"
+msgstr ""
+"%s ve městě %s (%s, %s)\n"
 
 #: server/report.c:445 server/report.c:550
 #, c-format
@@ -45082,9 +45151,10 @@ msgstr "Div %s byl ZNIČEN\n"
 
 #. TRANS: "([...] (Roman, team 4))".
 #: server/report.c:493 server/report.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "(building %s in %s (%s, %s))\n"
-msgstr "(staví %s ve městě %s (%s))\n"
+msgstr ""
+"(staví se %s ve městě %s (%s, %s))\n"
 
 #: server/report.c:498 server/report.c:581
 #, c-format
@@ -45148,7 +45218,7 @@ msgstr[2] " bodů"
 #: server/report.c:1040
 #, c-format
 msgid "(ranked %d)"
-msgstr ""
+msgstr "(pořadí: %d)"
 
 #: server/report.c:1156 server/report.c:1183
 msgid "Demographics Report:"
@@ -45159,14 +45229,13 @@ msgid "Sorry, the Demographics report is unavailable."
 msgstr "Lituji, ale demografický přehled není k dispozici."
 
 #: server/report.c:1162 server/report.c:1199
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s (%s)"
-msgstr "%s ve městě %s (%s)\n"
+msgstr "%s %s (%s)"
 
 #: server/report.c:1213
-#, fuzzy
 msgid "Achievements List:"
-msgstr "?Scientist:V"
+msgstr "Seznam úspěchů:"
 
 #: server/report.c:1695
 msgid "Population\n"
@@ -45211,7 +45280,6 @@ msgid "Wonders\n"
 msgstr "Divy světa\n"
 
 #: server/report.c:1704
-#, fuzzy
 #| msgid ""
 #| "Research Speed\n"
 #| "(%)"
@@ -45220,7 +45288,7 @@ msgid ""
 "(bulbs)"
 msgstr ""
 "Rychlost výzkumu\n"
-"(%)"
+"(body výzkumu)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
 #: server/report.c:1706
@@ -45251,30 +45319,31 @@ msgstr ""
 #: server/report.c:1710
 msgid "Culture\n"
 msgstr ""
+"Kultura\n"
 
 #: server/report.c:1711
 msgid "Spaceship\n"
 msgstr "Kosmická loď\n"
 
 #: server/report.c:1712
-#, fuzzy
 msgid "Built Units\n"
-msgstr "Stavba jednotek"
+msgstr ""
+"Vytvořené jednotky\n"
 
 #: server/report.c:1713
-#, fuzzy
 msgid "Killed Units\n"
-msgstr "Dostupné jednotky"
+msgstr ""
+"Zničené jednotky\n"
 
 #: server/report.c:1714
-#, fuzzy
 msgid "Unit Losses\n"
-msgstr "Štít"
+msgstr ""
+"Ztracené jednotky\n"
 
 #: server/report.c:1715
-#, fuzzy
 msgid "Units Used\n"
-msgstr "Štít"
+msgstr ""
+"Použité jednotky\n"
 
 #: server/rscompat.c:687 server/settings.c:4502 server/settings.c:4522
 #: server/settings.c:4542 server/settings.c:4566 server/settings.c:4604
@@ -45296,28 +45365,36 @@ msgid ""
 msgstr ""
 
 #: server/rssanity.c:184
-#, fuzzy, c-format
+#, c-format
 #| msgid "World-ranged requirements are only supported for wonders."
 msgid ""
 "%s: World-ranged requirement not supported for %s (only great wonders "
 "supported)"
-msgstr "Celosvětové efekty jsou podporovány pouze pro divy světa."
+msgstr ""
+"%s: Požadavek na %s s dosahem po celém světě není podporován (podporovány "
+"jsou pouze velké divy)"
 
 #: server/rssanity.c:190
-#, fuzzy, c-format
+#, c-format
 #| msgid "Island-ranged requirements are only supported for wonders."
 msgid "%s: %s-ranged requirement not supported for %s (only wonders supported)"
-msgstr "Ostrovní efekty jsou podporovány pouze pro divy světa."
+msgstr ""
+"%s: Požadavek s dosahem %s pro %s není podporován (podporovány jsou pouze "
+"divy)"
 
 #: server/rssanity.c:203
 #, c-format
 msgid "%s: MinCalFrag requirement used in ruleset without calendar fragments"
 msgstr ""
+"%s: Požadavek MinCalFrag je použit v sadě pravidel bez dílčích období "
+"kalendáře"
 
 #: server/rssanity.c:208
 #, c-format
 msgid "%s: MinCalFrag requirement %d out of range (max %d in this ruleset)"
 msgstr ""
+"%s: Hodnota požadavku MinCalFrag %d je mimo rozsah (maximum v této sadě "
+"pravidel je %d)"
 
 #: server/rssanity.c:227
 #, c-format
@@ -45331,6 +45408,8 @@ msgstr ""
 #, c-format
 msgid "%s: ServerSetting requirement setting %s isn't about a game rule."
 msgstr ""
+"%s: Nastavení %s v požadavku ServerSetting se netýká žádného herního "
+"pravidla."
 
 #: server/rssanity.c:290
 #, c-format
@@ -45343,23 +45422,25 @@ msgstr ""
 #, c-format
 msgid "%s: Requirement list has both tile terrain and terrainclass requirement"
 msgstr ""
+"%s: Seznam požadavků obsahuje požadavek na terén i na třídu terénu daného "
+"pole"
 
 #: server/rssanity.c:325
 #, c-format
 msgid "%s: Requirement list has duplicate %s requirement at Tile range"
-msgstr ""
+msgstr "%s: Seznam požadavků obsahuje duplicitní požadavek %s pro dosah Tile"
 
 #: server/rssanity.c:364
 #, c-format
 msgid "%s: Requirement list has multiple %s requirements"
-msgstr ""
+msgstr "%s: Seznam požadavků obsahuje více požadavků %s"
 
 #: server/rssanity.c:373 server/rssanity.c:383 server/rssanity.c:394
 #: server/rssanity.c:405
 #, c-format
 msgid ""
 "%s: Requirement list has more %s requirements than can ever be fulfilled."
-msgstr ""
+msgstr "%s: Seznam obsahuje více požadavků %s, než lze splnit."
 
 #: server/rssanity.c:567
 #, c-format
@@ -45380,129 +45461,129 @@ msgstr ""
 msgid ""
 "The effect %s has the requirement {%s} but the action %s doesn't roll the "
 "dice to see if it fails."
-msgstr ""
+msgstr "Efekt %s má požadavek {%s}, ale výsledek akce %s se neurčuje losem."
 
 #: server/rssanity.c:617
 msgid "Effects have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Efekty mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:632
-#, fuzzy
 #| msgid "Cannot toggle a barbarian player."
 msgid "No role barbarian leader units"
-msgstr "Nelze přepnout na hráče barbara."
+msgstr "Chybí jednotky s rolí vůdce barbarů"
 
 #: server/rssanity.c:636
-#, fuzzy
 #| msgid "* Only barbarians may build this.\n"
 msgid "No role barbarian build units"
-msgstr "* Toto mohou stavět jen barbaři.\n"
+msgstr "Chybí jednotky s rolí jednotky stavěné barbary"
 
 #: server/rssanity.c:640
-#, fuzzy
 msgid "No role barbarian ship units"
-msgstr "Barbar"
+msgstr "Chybí jednotky s rolí barbarské lodi"
 
 #: server/rssanity.c:656
 #, c-format
 msgid "Barbarian boat (%s) needs to be able to move at sea."
-msgstr ""
+msgstr "Barbarská loď (%s) se musí umět pohybovat po moři."
 
 #: server/rssanity.c:662
 msgid "No role sea raider barbarian units"
-msgstr ""
+msgstr "Chybí jednotky s rolí barbarského nájezdníka z moře"
 
 #: server/rssanity.c:670
 #, c-format
 msgid "Barbarian boat %s has no capacity for both leader and at least one man."
 msgstr ""
+"Barbarská loď %s nemá místo pro vůdce i alespoň jednoho dalšího barbara."
 
 #: server/rssanity.c:682
 #, c-format
 msgid "Barbarian boat %s cannot transport barbarian cargo %s."
-msgstr ""
+msgstr "Barbarská loď %s nemůže přepravovat barbarskou jednotku %s."
 
 #: server/rssanity.c:704
-#, fuzzy
 msgid "No flag Settler units"
-msgstr "Vůdce"
+msgstr "Chybí jednotky s příznakem Settler"
 
 #: server/rssanity.c:708
 msgid "No role Start Explorer units"
-msgstr ""
+msgstr "Chybí jednotky s rolí Start Explorer"
 
 #: server/rssanity.c:712
 msgid "No role Ferryboat units"
-msgstr ""
+msgstr "Chybí jednotky s rolí Ferryboat"
 
 #: server/rssanity.c:716
-#, fuzzy
 #| msgid "Can't build a city."
 msgid "No role Firstbuild units"
-msgstr "Nelze založit město."
+msgstr "Chybí jednotky s rolí Firstbuild"
 
 #: server/rssanity.c:734
 #, c-format
 msgid "Ferryboat (%s) needs to be able to move at sea."
-msgstr ""
+msgstr "Přepravní loď (%s) se musí umět pohybovat po moři."
 
 #: server/rssanity.c:743
 msgid "Inspire_Partisans effect present, but no units with partisan role."
 msgstr ""
+"Efekt Inspire_Partisans je přítomen, ale chybí jednotky s rolí partyzána."
 
 #: server/rssanity.c:761
-#, fuzzy, c-format
+#, c-format
 msgid "%s has transport capacity %d, but no cargo types."
-msgstr "%s ztracena při útoku %s %s."
+msgstr "%s má přepravní kapacitu %d, ale nemá žádné typy nákladu."
 
 #: server/rssanity.c:767
 #, c-format
 msgid "%s has cargo types, but no transport capacity."
-msgstr ""
+msgstr "%s má typy nákladu, ale nemá žádnou přepravní kapacitu."
 
 #: server/rssanity.c:786
 #, c-format
 msgid "Gold producing improvement %s with genus other than \"Convert\""
-msgstr ""
+msgstr "Vylepšení %s vytváří zlato, ale jeho kategorie není „Convert“"
 
 #: server/rssanity.c:794
 #, c-format
 msgid "Disasterproof improvement %s with genus other than \"Improvement\""
 msgstr ""
+"Vylepšení %s odolává katastrofám, ale jeho kategorie není „Improvement“"
 
 #: server/rssanity.c:807
 #, c-format
 msgid "Space part %s with genus other than \"Special\""
-msgstr ""
+msgstr "Součást kosmické lodi %s nemá kategorii „Special“"
 
 #: server/rssanity.c:814
 #, c-format
 msgid "%s is a nonsellable building with a nonzero upkeep value"
-msgstr ""
+msgstr "Budovu %s nelze prodat a má nenulové náklady na údržbu"
 
 #: server/rssanity.c:861
 #, c-format
 msgid ""
 "Boolean effect %s can get disabled, but it can't get enabled before that."
-msgstr ""
+msgstr "Logický efekt %s lze vypnout, ale předtím jej nelze zapnout."
 
 #: server/rssanity.c:897
 msgid ""
 "Cost based free tech method, but tech cost style \"Civ I|II\" so all techs "
 "cost the same."
 msgstr ""
+"Bezplatná technologie se volí podle ceny, ale styl cen „Civ I|II“ "
+"přiřazuje všem technologiím stejnou cenu."
 
 #: server/rssanity.c:917
-#, fuzzy, c-format
+#, c-format
 #| msgid "tech \"%s\": requires itself"
 msgid "Tech \"%s\" requires itself."
-msgstr "tech \"%s\": vyžaduje sama sebe"
+msgstr "Technologie „%s“ vyžaduje sama sebe."
 
 #: server/rssanity.c:926
-#, fuzzy, c-format
+#, c-format
 #| msgid "tech \"%s\": requires itself"
 msgid "Tech \"%s\" requires itself indirectly via \"%s\"."
-msgstr "tech \"%s\": vyžaduje sama sebe"
+msgstr "Technologie „%s“ nepřímo vyžaduje sama sebe přes technologii „%s“."
 
 #: server/rssanity.c:940
 #, c-format
@@ -45522,6 +45603,8 @@ msgstr ""
 #, c-format
 msgid "Tech \"%s\" bonus message is not format with %%s for a bonus tech name."
 msgstr ""
+"Zpráva o bonusu u technologie „%s“ nemá značku %%s pro název bonusové "
+"technologie."
 
 #: server/rssanity.c:979
 #, c-format
@@ -45529,31 +45612,41 @@ msgid ""
 "The government form %s reserved for revolution handling has been set as "
 "default_government."
 msgstr ""
+"Forma vlády %s vyhrazená pro průběh revoluce je nastavena jako "
+"default_government."
 
 #: server/rssanity.c:998
 #, c-format
 msgid "Tech %s does not exist, but is initial tech for everyone."
 msgstr ""
+"Technologie %s neexistuje, ale je uvedena jako počáteční technologie pro "
+"všechny."
 
 #: server/rssanity.c:1006
 #, c-format
 msgid "Tech %s is initial for everyone, but %s has no root_req for it."
 msgstr ""
+"Technologie %s je počáteční pro všechny, ale pro %s k ní chybí root_req."
 
 #: server/rssanity.c:1023
 #, c-format
 msgid "Tech %s does not exist, but is initial tech for %s."
 msgstr ""
+"Technologie %s neexistuje, ale je uvedena jako počáteční technologie pro "
+"%s."
 
 #: server/rssanity.c:1031
 #, c-format
 msgid "Tech %s is initial for %s, but they have no root_req for it."
 msgstr ""
+"Technologie %s je počáteční pro %s, ale tento národ k ní nemá root_req."
 
 #: server/rssanity.c:1043
 #, c-format
 msgid "Nation %s has init_buildings set but as barbarians will never get them."
 msgstr ""
+"Národ %s má nastaveno init_buildings, ale jako barbaři své počáteční "
+"budovy nikdy nezíská."
 
 #: server/rssanity.c:1049
 #, c-format
@@ -45561,18 +45654,20 @@ msgid ""
 "The government form %s reserved for revolution handling has been set as "
 "initial government for %s."
 msgstr ""
+"Forma vlády %s vyhrazená pro průběh revoluce je nastavena jako počáteční "
+"vláda pro %s."
 
 #: server/rssanity.c:1068
 #, c-format
 msgid "There seems to be obsoleted_by loop in update chain that starts from %s"
-msgstr ""
+msgstr "Zdá se, že v řetězci obsoleted_by začínajícím u %s je smyčka"
 
 #: server/rssanity.c:1086
 #, c-format
 msgid ""
 "The unit type '%s' has the 'Spy' unit type flag but not the 'Diplomat' unit "
 "type flag."
-msgstr ""
+msgstr "Typ jednotky „%s“ má příznak „Spy“, ale chybí mu příznak „Diplomat“."
 
 #: server/rssanity.c:1099
 #, c-format
@@ -45580,111 +45675,122 @@ msgid ""
 "The paratroopers_range of the unit type '%s' is %d. That is out of range. "
 "Max range is %d."
 msgstr ""
+"Typ jednotky „%s“ má hodnotu paratroopers_range %d, která je mimo povolený"
+" rozsah. Maximum je %d."
 
 #: server/rssanity.c:1109
 #, c-format
 msgid ""
 "Unit type '%s' would build size %d cities. City sizes must be from 1 to %d."
 msgstr ""
+"Typ jednotky „%s“ by zakládal města o velikosti %d. Velikost města musí "
+"být od 1 do %d."
 
 #: server/rssanity.c:1129 server/rssanity.c:1148
-#, fuzzy, c-format
+#, c-format
 msgid "There is no base %s effect."
-msgstr "Neexistuje žádný hráč ani spojení se jménem %s."
+msgstr "Chybí základní efekt %s."
 
 #: server/rssanity.c:1143
 #, c-format
 msgid "Missing base %s effect. Please add one."
-msgstr ""
+msgstr "Chybí základní efekt %s. Přidejte ho."
 
 #: server/rssanity.c:1165
 msgid "Disasters have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Katastrofy mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1175
 msgid "Goods have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Zboží má vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1185
 msgid "Buildings have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Budovy mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1191
 msgid "Buildings have conflicting or invalid obsolescence req!"
-msgstr ""
+msgstr "Budovy mají vzájemně rozporné nebo neplatné podmínky zastarání!"
 
 #: server/rssanity.c:1201
 msgid "Governments have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Formy vlády mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1211
 msgid "Specialists have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Specialisté mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1221
 msgid "Extras have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Prvky mapy mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1227
 msgid "Extras have conflicting or invalid removal requirements!"
 msgstr ""
+"Prvky mapy mají vzájemně rozporné nebo neplatné požadavky na odstranění!"
 
 #: server/rssanity.c:1234
 msgid "Requirements for extra removal defined but not a valid remove cause!"
 msgstr ""
+"Prvek má nastavené požadavky na odstranění, ale žádný platný způsob "
+"odstranění!"
 
 #: server/rssanity.c:1251
 #, c-format
 msgid "Road '%s' integrates with '%s' but not vice versa!"
-msgstr ""
+msgstr "Cesta „%s“ navazuje na „%s“, opačným směrem však propojení chybí!"
 
 #: server/rssanity.c:1264
 msgid "City styles have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Styly měst mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1275
 #, c-format
 msgid "Action \"%s\": unsupported target kind %s."
-msgstr ""
+msgstr "Akce „%s“: nepodporovaný typ cíle %s."
 
 #: server/rssanity.c:1283
 #, c-format
 msgid "Action %s: negative min distance (%d)."
-msgstr ""
+msgstr "Akce %s: záporná minimální vzdálenost (%d)."
 
 #: server/rssanity.c:1290
 #, c-format
 msgid ""
 "Action %s: min distance (%d) larger than any distance on a map can be (%d)."
 msgstr ""
+"Akce %s: minimální vzdálenost (%d) je větší než největší možná vzdálenost "
+"na mapě (%d)."
 
 #: server/rssanity.c:1299
 #, c-format
 msgid "Action %s: max distance is %d. A map can't be that big."
-msgstr ""
+msgstr "Akce %s: maximální vzdálenost je %d. Tak velká mapa nemůže existovat."
 
 #: server/rssanity.c:1307
 #, c-format
 msgid "Action %s: min distance is %d but max distance is %d."
-msgstr ""
+msgstr "Akce %s: minimální vzdálenost je %d, ale maximální je %d."
 
 #: server/rssanity.c:1321
-#, fuzzy, c-format
+#, c-format
 #| msgid "The %s can't accept %s."
 msgid "The action %s can't block %s."
-msgstr "%s nemohou přijmout %s."
+msgstr "Akce %s nemůže blokovat akci %s."
 
 #: server/rssanity.c:1334
 #, c-format
 msgid "Action enabler for %s has conflicting or invalid requirements!"
-msgstr ""
+msgstr "Podmínky povolení akce %s jsou vzájemně rozporné nebo neplatné!"
 
 #: server/rssanity.c:1346
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An action enabler for %s has a target requirement vector. %s doesn't have a "
 "target."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Podmínky povolení akce %s obsahují seznam požadavků na cíl. Akce %s žádný "
+"cíl nemá."
 
 #: server/rssanity.c:1363
 #, c-format
@@ -45696,43 +45802,44 @@ msgstr ""
 #: server/rssanity.c:1420
 #, c-format
 msgid "diplchance_initial_odds: \"%s\" not supported."
-msgstr ""
+msgstr "diplchance_initial_odds: „%s“ není podporováno."
 
 #: server/rssanity.c:1428
-#, fuzzy, c-format
+#, c-format
 #| msgid "You are not attached to a player."
 msgid "%s both enters and frightens a hut at the same time."
-msgstr "Nejste připojeni k hráči."
+msgstr "%s současně vstupuje do chýše a plaší její obyvatele."
 
 #: server/rssanity.c:1452
 #, c-format
 msgid "auto_attack: %s not supported in attack_actions."
-msgstr ""
+msgstr "auto_attack: hodnota %s není v attack_actions podporována."
 
 #: server/rssanity.c:1464
 #, c-format
 msgid "There's no basic city style for nation style %s"
-msgstr ""
+msgstr "Chybí základní styl města pro styl národa %s"
 
 #: server/rssanity.c:1474
 msgid "Music Styles have conflicting or invalid requirements!"
-msgstr ""
+msgstr "Hudební styly mají vzájemně rozporné nebo neplatné požadavky!"
 
 #: server/rssanity.c:1483
 #, c-format
 msgid "%s has %s as animal to appear, but it's not native to the terrain."
 msgstr ""
+"V terénu %s se má objevovat zvíře %s, které v něm nemůže přirozeně žít."
 
 #: server/rssanity.c:1493
 #, c-format
 msgid "%s has %s as a resource, but it's not a resource extra."
-msgstr ""
+msgstr "Terén %s má jako surovinu prvek %s, který nepatří mezi suroviny."
 
 #: server/rssanity.c:1524
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unit %d does not exist."
 msgid "Unit class %s cannot exist anywhere."
-msgstr "Jednotka %d neexistuje."
+msgstr "Jednotky třídy %s nemohou existovat na žádném terénu."
 
 #: server/rssanity.c:1534
 #, c-format
@@ -45745,36 +45852,34 @@ msgstr ""
 #, c-format
 msgid ""
 "There's nation %s listed in embedded nations, but there's no such nation."
-msgstr ""
+msgstr "Mezi vestavěnými národy je uveden národ %s, který neexistuje."
 
 #: server/rssanity.c:1680
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
-msgstr ""
+msgstr "Nastavení „barbarians“ se vypíná, protože chybí vhodné typy jednotek."
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr "Nemohu najít čitelný soubor pravidel \"%s\"."
+msgstr "Čitelný soubor sady pravidel „%s.%s“ se nepodařilo najít."
 
 #: server/ruleset.c:3265
-#, fuzzy
 msgid "?gui_type:Build Type A Base"
-msgstr "Stavět letiště"
+msgstr "?gui_type:Postavit základnu typu A"
 
 #: server/ruleset.c:3270
-#, fuzzy
 msgid "?gui_type:Build Type B Base"
-msgstr "Stavět letiště"
+msgstr "?gui_type:Postavit základnu typu B"
 
 #: server/ruleset.c:9394
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr ""
+"Sadu pravidel se nepodařilo načíst. Zůstává v platnosti předchozí sada."
 
 #: server/ruleset.c:9416
-#, fuzzy
 msgid "Ruleset couldn't be loaded. Switching to default one."
-msgstr "= znamená, že volba má svou výchozí hodnotu"
+msgstr "Sadu pravidel se nepodařilo načíst. Použije se výchozí sada."
 
 #: server/ruleset.c:9423
 msgid ""
@@ -45783,15 +45888,16 @@ msgid ""
 msgstr ""
 
 #: server/ruleset.c:9467
-#, fuzzy
 msgid "Loading rulesets."
-msgstr "Nahrávám pravidla"
+msgstr "Načítají se sady pravidel."
 
 #: server/savegame/savecompat.c:165
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
+"Spouští se funkce kompatibility pro verzi < %d (uložená hra: %d, server: "
+"%d)."
 
 #: server/savegame/savecompat.c:194
 #, c-format
@@ -45799,6 +45905,8 @@ msgid ""
 "Run post load compatibility function for version: <%d (save file: %d; "
 "server: %d)."
 msgstr ""
+"Po načtení se spouští funkce kompatibility pro verzi < %d (uložená hra: "
+"%d, server: %d)."
 
 #: server/savegame/savecompat.c:1257
 #, c-format
@@ -45822,12 +45930,12 @@ msgstr ""
 #: server/savegame/savegame2.c:773 server/savegame/savegame3.c:926
 #: server/savegame/savegame3.c:937 server/savegame/savegame3.c:949
 msgid "Syntax error in attribute block."
-msgstr ""
+msgstr "Chyba syntaxe v bloku atributů."
 
 #: server/savegame/savegame2.c:1427 server/savegame/savegame3.c:1432
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Nepodařilo se načíst sadu pravidel „%s“ potřebnou pro uloženou hru."
 
 #: server/savegame/savegame2.c:2975 server/savegame/savegame3.c:3909
 #: server/srv_main.c:2541 server/srv_main.c:2546
@@ -45836,9 +45944,9 @@ msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s byl přidán jako počítačový hráč s obtížností %s (%s)."
 
 #: server/savegame/savegame2.c:2980 server/savegame/savegame3.c:3914
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as human player."
-msgstr "%s byl přidán jako počítačem ovládaný hráč."
+msgstr "Uživatel %s byl přidán jako lidský hráč."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
 #: server/savegame/savegame2.c:3004 server/savegame/savegame3.c:3937
@@ -45848,28 +45956,28 @@ msgstr "%s měl neplatný národ; změněno na %s."
 
 #: server/savegame/savegame2.c:3091 server/savegame/savegame2.c:3097
 #: server/savegame/savegame3.c:4028 server/savegame/savegame3.c:4034
-#, fuzzy, c-format
+#, c-format
 #| msgid "You give shared vision to %s."
 msgid "%s did not give shared vision to team member %s."
-msgstr "Dovolil(a) jste hráči %s nahlížet do vašich map."
+msgstr "Hráč %s neposkytl spoluhráči %s sdílený výhled."
 
 #: server/savegame/savegame2.c:5661 server/savegame/savegame3.c:8065
-#, fuzzy, c-format
+#, c-format
 #| msgid "You cannot research this technology."
 msgid "%s had invalid researching technology."
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "Hráč %s měl nastavenou neplatnou technologii k výzkumu."
 
 #: server/savegame/savegame2.c:5671 server/savegame/savegame3.c:8075
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had invalid technology goal."
-msgstr "%s měl neplatný národ; změněno na %s."
+msgstr "Hráč %s měl nastavený neplatný cíl výzkumu."
 
 #: server/savegame/savegame2.c:5680 server/savegame/savegame3.c:8084
-#, fuzzy, c-format
+#, c-format
 #| msgid "You cannot research this technology."
 msgid "%s had finished researches count wrong."
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "Hráč %s měl nesprávný počet dokončených výzkumů."
 
 #: server/savegame/savegame2.c:5706 server/savegame/savegame3.c:8129
 #, c-format
@@ -45877,30 +45985,32 @@ msgid ""
 "%s inconsistency: Has never had their first city, but has cities this very "
 "moment. Fixing."
 msgstr ""
+"Nesrovnalost u hráče %s: zatím nezískal první město, ale nějaká města má. "
+"Údaj se opravuje."
 
 #: server/savegame/savegame2.c:5732 server/savegame/savegame3.c:8102
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
 "one."
-msgstr ""
+msgstr "Hráč %s má více jednotek typu %s, ačkoli smí mít jen jednu."
 
 #: server/savegame/savegame3.c:1377
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load ruleset '%s'."
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Nepodařilo se načíst sadu pravidel „%s“."
 
 #: server/savegame/savegame3.c:1389
-#, fuzzy, c-format
+#, c-format
 #| msgid "Client capability string: %s"
 msgid "Scenario requires ruleset capabilities: %s"
-msgstr "Řetězec možností klienta: %s"
+msgstr "Scénář vyžaduje tyto vlastnosti sady pravidel: %s"
 
 #: server/savegame/savegame3.c:1390
-#, fuzzy, c-format
+#, c-format
 #| msgid "Client capability string: %s"
 msgid "Ruleset has capabilities: %s"
-msgstr "Řetězec možností klienta: %s"
+msgstr "Sada pravidel má tyto vlastnosti: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
 #: server/savegame/savegame3.c:1393
@@ -45915,22 +46025,24 @@ msgstr "Současná sada pravidel neobsahuje popis."
 #, c-format
 msgid "Failed to load either of rulesets '%s' or '%s' needed for savegame."
 msgstr ""
+"Nepodařilo se načíst žádnou ze sad pravidel „%s“ a „%s“ potřebných pro "
+"uloženou hru."
 
 #. TRANS: ruleset dir
 #: server/savegame/savegame3.c:1439
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
-msgstr ""
+msgstr "Sada pravidel scénáře %s byla úspěšně načtena."
 
 #: server/savegame/savegame3.c:1465
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find scenario luadata file %s.luadata."
-msgstr "Nelze nalézt zvukový spec soubor \"%s\"."
+msgstr "Nelze najít datový soubor Lua scénáře %s.luadata."
 
 #: server/savegame/savegame3.c:1472
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load scenario luadata file %s.luadata"
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Nelze načíst datový soubor Lua scénáře %s.luadata"
 
 #: server/savegame/savemain.c:142
 #, c-format
@@ -45938,10 +46050,9 @@ msgid "Failed saving game as %s"
 msgstr "Nepodařilo se uložit hru jako %s"
 
 #: server/savegame/savemain.c:144
-#, fuzzy
 #| msgid "Failed saving game as %s"
 msgid "Failed saving game."
-msgstr "Nepodařilo se uložit hru jako %s"
+msgstr "Hru se nepodařilo uložit."
 
 #: server/savegame/savemain.c:146
 #, c-format
@@ -45949,36 +46060,32 @@ msgid "Game saved as %s"
 msgstr "Hra uložena jako %s"
 
 #: server/savegame/savemain.c:255 server/savegame/savemain.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported compression type %d."
-msgstr "Nepodporovaný typ komprese %d"
+msgstr "Nepodporovaný typ komprese %d."
 
 #: server/savegame/savemain.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create saves directory %s!"
-msgstr "Nelze najít váš domovský adresář"
+msgstr "Nelze vytvořit složku pro ukládání her %s!"
 
 #: server/savegame/savemain.c:275
-#, fuzzy
 msgid "Can't create saves directory!"
-msgstr "Nelze najít váš domovský adresář"
+msgstr "Nelze vytvořit složku pro ukládání her!"
 
 #: server/savegame/savemain.c:289
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create scenario saves directory %s!"
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Nelze vytvořit složku %s pro ukládání scénářů!"
 
 #: server/savegame/savemain.c:293
-#, fuzzy
 msgid "Can't create scenario saves directory!"
-msgstr "Nelze najít váš domovský adresář"
+msgstr "Nelze vytvořit složku pro ukládání scénářů!"
 
 #: server/scripting/api_server_edit.c:902
-#, fuzzy, c-format
+#, c-format
 msgid "?fromscript:You acquire %s."
-msgstr ""
-"Seznamy prací\n"
-"%s"
+msgstr "?fromscript:Získáváte technologii %s."
 
 #. TRANS: "The Greeks ..." or "The members of
 #. * team Red ..."
@@ -45986,24 +46093,23 @@ msgstr ""
 #, c-format
 msgid "?fromscript:The %s acquire %s and share this advance with you."
 msgstr ""
+"?fromscript:Národ %s získává technologii %s a předává vám její poznatky."
 
 #. TRANS: "The Greeks ..." or "The members of
 #. * team Red ..."
 #: server/scripting/api_server_edit.c:912
-#, fuzzy, c-format
+#, c-format
 msgid "?fromscript:The %s acquire %s."
-msgstr ""
-"Seznamy prací\n"
-"%s"
+msgstr "?fromscript:Národ %s získává technologii %s."
 
 #: server/scripting/script_fcdb.c:311
 msgid "Database capabilities not compatible with server"
-msgstr ""
+msgstr "Možnosti databáze nejsou kompatibilní se serverem"
 
 #: server/scripting/script_fcdb.c:341
 #, c-format
 msgid "Database not compatible. Freeciv caps: %s, DB caps: %s"
-msgstr ""
+msgstr "Nekompatibilní databáze. Možnosti Freeciv: %s, možnosti databáze: %s"
 
 #: server/sernet.c:150
 msgid "Server cannot read standard input. Ignoring input."
@@ -46011,32 +46117,32 @@ msgstr "Server nemůže číst ze standardního vstupu. Ignorováno."
 
 #: server/sernet.c:509
 msgid "rejected"
-msgstr ""
+msgstr "zamítnuto"
 
 #: server/sernet.c:606
-#, fuzzy
 msgid "Shutting down for lack of players."
-msgstr "restartuje se později pro nedostatek hráčů"
+msgstr "Server se vypíná kvůli nedostatku hráčů."
 
 #: server/sernet.c:609
-#, fuzzy
 msgid "Restarting for lack of players."
-msgstr "restartuje se pro nedostatek hráčů"
+msgstr "Server se restartuje kvůli nedostatku hráčů."
 
 #: server/sernet.c:629
-#, fuzzy, c-format
+#, c-format
 msgid "Shutting down in %d seconds for lack of players."
-msgstr "restartuje se za %d sekund pro nedostatek hráčů"
+msgstr ""
+"Server se kvůli nedostatku hráčů vypne (zbývající čas v sekundách: %d)."
 
 #: server/sernet.c:632
-#, fuzzy
 msgid "shutting down soon for lack of players"
-msgstr "restartuje se později pro nedostatek hráčů"
+msgstr "server se brzy vypne kvůli nedostatku hráčů"
 
 #: server/sernet.c:634
-#, fuzzy, c-format
+#, c-format
 msgid "Restarting in %d seconds for lack of players."
-msgstr "restartuje se za %d sekund pro nedostatek hráčů"
+msgstr ""
+"Server se kvůli nedostatku hráčů restartuje (zbývající čas v sekundách: "
+"%d)."
 
 #: server/sernet.c:637
 msgid "restarting soon for lack of players"
@@ -46044,12 +46150,11 @@ msgstr "restartuje se později pro nedostatek hráčů"
 
 #: server/sernet.c:665
 msgid "ping timeout"
-msgstr ""
+msgstr "vypršel časový limit odezvy"
 
 #: server/sernet.c:902
-#, fuzzy
 msgid "client disconnected"
-msgstr "odpojen"
+msgstr "klient se odpojil"
 
 #: server/sernet.c:1169
 #, c-format
@@ -46467,14 +46572,12 @@ msgstr ""
 "startunits“."
 
 #: server/settings.c:1085
-#, fuzzy
 msgid ""
 "The first starting unit must be native to at least one \"Starter\" terrain. "
 "Try \"/help startunits\"."
 msgstr ""
-"Řetězec počátečních jednotek neobsahuje\n"
-"alespoň jednoho zakladatele města.  Zkuste \n"
-"\"help startunits\"."
+"První počáteční jednotka se musí přirozeně pohybovat alespoň na jednom "
+"terénu s příznakem „Starter“. Zkuste „/help startunits“."
 
 #: server/settings.c:1104
 msgid "Cannot set endturn earlier than current turn."
@@ -46490,11 +46593,13 @@ msgstr ""
 "hodnota."
 
 #: server/settings.c:1128
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requested value (%d) is greater than number of available start positions "
 "(%d). Keeping old value."
-msgstr "Počet hráčů je vyšší než požadovaná hodnota, zůstává původní hodnota"
+msgstr ""
+"Požadovaná hodnota (%d) je vyšší než počet dostupných počátečních pozic "
+"(%d). Zůstává původní hodnota."
 
 #. TRANS: do not translate 'list nationsets'
 #: server/settings.c:1152
