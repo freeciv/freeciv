@@ -83,7 +83,7 @@ ICU4C_PREFIX="$(brew --prefix icu4c)"
 
 export CPPFLAGS="-I${GETTEXT_PREFIX}/include -I${READLINE_PREFIX}/include"
 export LDFLAGS="-L${GETTEXT_PREFIX}/lib -L${ICU4C_PREFIX}/lib -L${READLINE_PREFIX}/lib"
-export PKG_CONFIG_PATH="${ICU4C_PREFIX}/lib/pkgconfig"
+export PKG_CONFIG_PATH="${ICU4C_PREFIX}/lib/pkgconfig:${READLINE_PREFIX}/lib/pkgconfig"
 
 mkdir build
 cd build
