@@ -5095,6 +5095,10 @@ msgid ""
 "possession in 1035 and passed to Denmark in 1814. The Faroes have home rule "
 "since 1948."
 msgstr ""
+"Faerské ostrovy jsou souostroví v severním Atlantiku. Podle ság je jako "
+"první osídlili Seveřané prchající před krutovládou norského krále Haralda "
+"Krásnovlasého. Roku 1035 se dostaly pod norskou správu a roku 1814 přešly "
+"pod Dánsko. Od roku 1948 mají samosprávu."
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
@@ -5851,6 +5855,10 @@ msgid ""
 "Paraguay in agricultural villages. Today their Guarani language is spoken by "
 "over 4 million people and is an official language of the nation of Paraguay."
 msgstr ""
+"Abaové, známější jako Guaraníové, žili v zemědělských vesnicích především "
+"na území dnešní Paraguaye. V době prvního kontaktu s Evropany jich mohlo "
+"být až 400 000. Dnes guaranštinou mluví přes čtyři miliony lidí a je "
+"jedním z úředních jazyků Paraguaye."
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
@@ -6170,6 +6178,10 @@ msgid ""
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
 msgstr ""
+"Hesensko se ve 13. století stalo lankrabstvím Svaté říše římské. V 16. "
+"století se rozpadlo na několik menších území. Mnoho Hesenců bojovalo v "
+"americké válce za nezávislost jako žoldnéři na obou stranách. Dnes je "
+"Hesensko spolkovou zemí Německa."
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
 #, c-format
@@ -6240,6 +6252,10 @@ msgid ""
 "wealthy, the Papal States grew to become the dominant power in Italy for "
 "centuries."
 msgstr ""
+"Papežský stát zahrnoval území na Apeninském poloostrově i jinde, kde "
+"vládli přímo římskokatoličtí papežové. Vznikl v 8. století n. l. z území, "
+"která církvi darovali zbožní a zámožní lidé, a na dlouhá staletí se stal "
+"vedoucí mocností v Itálii."
 
 #: data/nation/holysee.ruleset:28
 #, c-format
@@ -6527,6 +6543,11 @@ msgid ""
 "in the 1st century CE, leaving the Jews scattered around the world for "
 "nineteen centuries."
 msgstr ""
+"Izrael byl židovským královstvím, které vzniklo kolem roku 1000 př. n. l. "
+"na východním pobřeží Středozemního moře. Velkou část jeho dějin líčí "
+"posvátné knihy abrahámovských náboženství. Poslední židovské království "
+"zničili Římané v 1. století n. l. a Židé pak po devatenáct století žili "
+"rozptýleni po světě."
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:33
@@ -7004,6 +7025,10 @@ msgid ""
 "and slavers began to arrive and exerted considerable influence in the "
 "Kingdom."
 msgstr ""
+"Konžské království existovalo od doby kolem roku 1400 n. l. do konce 19. "
+"století na území dnešní Angoly a Demokratické republiky Kongo. Krátce po "
+"jeho vzniku sem začali přicházet portugalští průzkumníci, misionáři a "
+"otrokáři, kteří získali v království značný vliv."
 
 #: data/nation/kosovar.ruleset:3
 msgid "Kosovar"
@@ -7616,6 +7641,10 @@ msgid ""
 "dominant role in the region. One of the most important Neo-Hittite states "
 "was Tabal (biblical Tubal), located in Syria and Southeastern Anatolia."
 msgstr ""
+"Luvijci byli starověký indoevropský národ, který žil v Anatolii v pozdní "
+"době bronzové. Po pádu Chetitské říše měli v oblasti po určitou dobu "
+"vedoucí postavení. Jedním z nejvýznamnějších novochetitských států byl "
+"Tabal, biblický Túbal, na území Sýrie a jihovýchodní Anatolie."
 
 #: data/nation/luxembourgish.ruleset:3
 msgid "Luxembourgish"
@@ -8553,6 +8582,11 @@ msgid ""
 "eventually subduing surrounding cities and principalities including the "
 "Novgorod Republic."
 msgstr ""
+"Moskva se ve 12. století n. l. prosadila jako regionální mocnost a "
+"nástupce Kyjevské Rusi. Za dynastie Rurikovců Moskevští upevnili moc "
+"prostřednictvím spojenectví se Zlatou hordou a pravoslavnou církví. "
+"Nakonec si podmanili okolní města i knížectví včetně Novgorodské "
+"republiky."
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -8570,6 +8604,10 @@ msgid ""
 "tribes briefly formed a sovereign state known as the \"State of Muskogee\" "
 "during the early 1800s."
 msgstr ""
+"Muskogee byl svazek severoamerických národů, mezi něž patřili Kríkové, "
+"Seminolové, Čoktové a Čikasavové. Jejich území leželo v dnešních "
+"amerických státech Georgia a Alabama. Kríkové a Seminolové na začátku 19. "
+"století nakrátko vytvořili svrchovaný stát známý jako Stát Muskogee."
 
 #: data/nation/mwiska.ruleset:3
 msgid "Mwiska"
@@ -8949,6 +8987,10 @@ msgid ""
 "of Bernicia and Deira by king Aethelfrith. One of the main states of the "
 "Anglo-Saxon heptarchy, in the 10th century it was incorporated into England."
 msgstr ""
+"Northumbrie byla středověkým královstvím Anglů na území dnešní severní "
+"Anglie a jižního Skotska. Vznikla, když král Æthelfrith sjednotil Bernicii"
+" a Deiru. Patřila k nejvýznamnějším z tehdejších sedmi anglosaských států "
+"a v 10. století byla začleněna do Anglie."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -9286,6 +9328,10 @@ msgid ""
 "Munchkin Country, and Gillikin Country. Oz is surrounded by an impassable "
 "desert."
 msgstr ""
+"Zemi Oz vytvořil L. Frank Baum roku 1900 v knize Čaroděj ze země Oz a v "
+"dalších knihách ji dále rozvíjel. Má čtyři hlavní oblasti, v nichž žijí "
+"Winkieové, Quadlingové, Munchkinové a Gillikinové. Oz obklopuje "
+"neprůchodná poušť."
 
 #: data/nation/ozite.ruleset:26
 #, c-format
@@ -9447,6 +9493,10 @@ msgid ""
 "War I Papua New Guinea was transferred to Australia. It became an "
 "independent country in 1975."
 msgstr ""
+"Papua-Nová Guinea zaujímá východní část ostrova Nová Guinea. Od nepaměti "
+"ji obývají papuánské národy. Koncem 19. století ji kolonizovali Britové a "
+"Němci. Za první světové války přešla pod australskou správu. Samostatným "
+"státem se stala v roce 1975."
 
 #: data/nation/papuanewguinean.ruleset:22
 #, c-format
@@ -10065,6 +10115,10 @@ msgid ""
 "illegal occupation by most of the international community. The Moroccan Army "
 "and Sahrawi Polisario rebels have been fighting each other since 1975."
 msgstr ""
+"Sahrawiové obývají Západní Saharu, někdejší španělskou kolonii. Většinu "
+"území ovládá Maroko a většina mezinárodního společenství to považuje za "
+"nezákonnou okupaci. Marocká armáda a saharští povstalci z hnutí Polisario "
+"proti sobě bojují od roku 1975."
 
 #: data/nation/saintlucian.ruleset:3
 msgid "Saint Lucian"
@@ -10601,6 +10655,10 @@ msgid ""
 "controlled much of today's Myanmar, Laos, Thailand, as well as China's "
 "Yunnan Province."
 msgstr ""
+"Šanové jsou etnikum příbuzné Thajcům a Laosanům. Poté, co Mongolové roku "
+"1287 dobyli barmské Paganské království, ovládala řada šanských "
+"království, historiky nazývaných Šanské státy, velkou část dnešní Barmy, "
+"Laosu, Thajska a čínské provincie Jün-nan."
 
 #: data/nation/shawnee.ruleset:3
 msgid "Shawnee"
@@ -10990,6 +11048,11 @@ msgid ""
 "The war left two million dead and many more displaced until a ceasefire was "
 "signed in 2005. Southern Sudan achieved full independence in 2011."
 msgstr ""
+"V dlouhé občanské válce proti sobě stály jih Súdánu, obývaný především "
+"černými Afričany, z většiny animisty a křesťany, a muslimský arabský "
+"sever. Než bylo roku 2005 uzavřeno příměří, válka si vyžádala dva miliony "
+"obětí a ještě více lidí vyhnala z domovů. Jižní Súdán získal plnou "
+"nezávislost v roce 2011."
 
 #: data/nation/southvietnamese.ruleset:3
 msgid "South Vietnamese"
@@ -11122,6 +11185,10 @@ msgid ""
 "Suriname was granted self government in 1954 and became fully independent in "
 "1975."
 msgstr ""
+"Surinam je nejmenší nezávislý stát Jižní Ameriky. Původně jej obývali "
+"Aravakové. Jako první jej kolonizovali Angličané, kteří ho v roce 1667 "
+"vyměnili s Nizozemci za Nový Amsterdam, dnešní New York. V roce 1954 "
+"Surinam získal samosprávu a v roce 1975 plnou nezávislost."
 
 #: data/nation/surinamese.ruleset:28
 #, c-format
@@ -11188,6 +11255,9 @@ msgid ""
 "established a protective alliance at the end of the 13th century, forming a "
 "loose confederation of states which persisted for centuries."
 msgstr ""
+"Švýcarsko existuje v dnešní podobě od přijetí spolkové ústavy v roce 1848."
+" Předchůdci dnešního Švýcarska uzavřeli koncem 13. století obranné "
+"spojenectví a vytvořili volnou konfederaci států, která přetrvala staletí."
 
 #: data/nation/swiss.ruleset:38
 #, c-format
@@ -11382,6 +11452,10 @@ msgid ""
 "which remained a powerful country for three centuries. The State was "
 "secularized and replaced by the Duchy of Prussia in the 16th century."
 msgstr ""
+"Řád německých rytířů vedl ve vrcholném středověku sérii křížových výprav "
+"proti pohanským Baltům. V roce 1224 založil vlastní řádový stát, který "
+"zůstal mocným státem po tři staletí. V 16. století byl zesvětštěn a "
+"nahradilo jej Pruské vévodství."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -11531,6 +11605,10 @@ msgid ""
 "1960s the country's politics have been dominated by general Gnassingbe "
 "Eyadema, who was succeeded by his son Faure upon his death in 2005."
 msgstr ""
+"Togo se v roce 1885 stalo německým protektorátem a za druhé světové války "
+"je dobyli Francouzi a Britové. Togo získalo nezávislost roku 1960. Od "
+"konce 60. let 20. století ovládal tamní politiku generál Gnassingbé "
+"Eyadéma. Po jeho smrti v roce 2005 ho vystřídal jeho syn Faure."
 
 #: data/nation/tokiponan.ruleset:3
 msgid "Toki Ponan"
@@ -11686,6 +11764,11 @@ msgid ""
 "centuries they engaged in slave hunting, even influencing the slave trade to "
 "the Americas."
 msgstr ""
+"Tuaregové neboli Imuhaghové jsou berberský národ kočovných pastevců žijící"
+" v nitru Sahary, hlavně v Alžírsku, Nigeru a Mali. Vyznávají islám, "
+"přestože se jejich společnost řídí příbuzností po mateřské linii. Po "
+"staletí podnikali výpravy za zajatci a ovlivňovali i obchod s otroky do "
+"Ameriky."
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
@@ -12373,6 +12456,11 @@ msgid ""
 "invasions and economic disintegration. The last Western Roman emperor was "
 "deposed in 476 CE."
 msgstr ""
+"Římskou říši poprvé rozdělil Dioklecián roku 286 a definitivně se rozpadla"
+" na dvě části po smrti Theodosia roku 395. Západořímská říše na rozdíl od "
+"Východořímské, zvané též Byzantská, nedokázala odolat vpádům barbarů ani "
+"hospodářskému rozvratu. Poslední západořímský císař byl sesazen roku 476 "
+"n. l."
 
 #: data/nation/westernroman.ruleset:32
 #, c-format
@@ -12453,6 +12541,10 @@ msgid ""
 "two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
 "apartheid activists, including Nelson Mandela and Desmond Tutu, were Xhosa."
 msgstr ""
+"Xhosové jsou bantuský národ žijící v Jihoafrické republice. Z oblasti "
+"Velkých jezer sem dorazili nejpozději v 17. století. Za apartheidu "
+"existovaly dva xhoské bantustany, Transkei a Ciskei. Z Xhosů pocházela "
+"řada předních odpůrců apartheidu včetně Nelsona Mandely a Desmonda Tutua."
 
 #: data/nation/xiongnu.ruleset:3
 msgid "Xiongnu"
