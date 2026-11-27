@@ -490,17 +490,15 @@ msgstr ""
 #: client/agents/cma_fec.c:226 client/gui-gtk-3.22/cityrep.c:767
 #: client/gui-gtk-3.22/cityrep.c:793 client/gui-gtk-4.0/cityrep.c:709
 #: client/gui-gtk-4.0/cityrep.c:748
-#, fuzzy
 #| msgid "?cma:Governor"
 msgid "?cma:none"
-msgstr "?cma:Guvernér"
+msgstr "?cma:žádný"
 
 #: client/agents/cma_fec.c:242 client/gui-gtk-3.22/cityrep.c:814
 #: client/gui-gtk-4.0/cityrep.c:776
-#, fuzzy
 #| msgid "custom"
 msgid "?cma:custom"
-msgstr "vlastní"
+msgstr "?cma:vlastní"
 
 #. TRANS: city is not growing.  Keep short.
 #. TRANS: city is not growing. Keep short.
@@ -2308,15 +2306,14 @@ msgstr "Nechat rozhodnout jednotku %s"
 
 #: client/gui-gtk-3.22/action_dialog.c:773
 #: client/gui-gtk-4.0/action_dialog.c:772
-#, fuzzy
 #| msgid "Sell Improvements"
 msgid "Strike Improvements"
-msgstr "Prodej Vylepšení"
+msgstr "Sabotovat budovy"
 
 #: client/gui-gtk-3.22/action_dialog.c:776
 #: client/gui-gtk-4.0/action_dialog.c:775
 msgid "_Strike"
-msgstr ""
+msgstr "_Sabotovat"
 
 #: client/gui-gtk-3.22/action_dialog.c:779
 #: client/gui-gtk-4.0/action_dialog.c:778
@@ -2416,21 +2413,19 @@ msgstr[2] ""
 
 #: client/gui-gtk-3.22/action_dialog.c:1079
 #: client/gui-gtk-4.0/action_dialog.c:1076
-#, fuzzy
 #| msgid "Unit selection"
 msgid "Target unit selection"
-msgstr "Výběr jednotek"
+msgstr "Výběr cílové jednotky"
 
 #: client/gui-gtk-3.22/action_dialog.c:1080
 #: client/gui-gtk-4.0/action_dialog.c:1077
 msgid "Looking for target unit:"
-msgstr ""
+msgstr "Hledat cílovou jednotku:"
 
 #: client/gui-gtk-3.22/action_dialog.c:1081
 #: client/gui-gtk-4.0/action_dialog.c:1078
-#, fuzzy
 msgid "Units at tile:"
-msgstr "Jednotky"
+msgstr "Jednotky na poli:"
 
 #: client/gui-gtk-3.22/action_dialog.c:1082
 #: client/gui-gtk-3.22/action_dialog.c:1180
@@ -2444,10 +2439,9 @@ msgstr "Výběr"
 #. * selection dialog title.
 #: client/gui-gtk-3.22/action_dialog.c:1173
 #: client/gui-gtk-4.0/action_dialog.c:1170
-#, fuzzy
 #| msgid "Unit selection"
 msgid "Target extra selection"
-msgstr "Výběr jednotek"
+msgstr "Výběr cílového prvku pole"
 
 #. TRANS: GTK action selection dialog extra target
 #. * selection dialog actor unit label.
@@ -2458,16 +2452,15 @@ msgstr "Výběr jednotek"
 #: client/gui-gtk-3.22/action_dialog.c:1176 client/gui-gtk-3.22/dialogs.c:365
 #: client/gui-gtk-4.0/action_dialog.c:1173 client/gui-gtk-4.0/dialogs.c:365
 msgid "Looking for target extra:"
-msgstr ""
+msgstr "Hledat cílový prvek pole:"
 
 #. TRANS: GTK action selection dialog extra target
 #. * selection dialog extra list label.
 #: client/gui-gtk-3.22/action_dialog.c:1179
 #: client/gui-gtk-4.0/action_dialog.c:1176
-#, fuzzy
 #| msgid "Show future targets:"
 msgid "Extra targets:"
-msgstr "Zobrazit budoucí cíle:"
+msgstr "Dostupné prvky pole:"
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-3.22/action_dialog.c:1413
@@ -2513,24 +2506,21 @@ msgstr "Pane, špion očekává Vaše rozkazy"
 
 #: client/gui-gtk-3.22/action_dialog.c:1534
 #: client/gui-gtk-4.0/action_dialog.c:1529
-#, fuzzy
 #| msgid "Current Targets"
 msgid "Change unit target"
-msgstr "Současné cíle"
+msgstr "Změnit cílovou jednotku"
 
 #: client/gui-gtk-3.22/action_dialog.c:1542
 #: client/gui-gtk-4.0/action_dialog.c:1537
-#, fuzzy
 #| msgid "Current Targets"
 msgid "Change extra target"
-msgstr "Současné cíle"
+msgstr "Změnit cílový prvek pole"
 
 #: client/gui-gtk-3.22/action_dialog.c:1549
 #: client/gui-gtk-4.0/action_dialog.c:1544
-#, fuzzy
 #| msgid "_Goto Location"
 msgid "Show Location"
-msgstr "_Jít k umístění"
+msgstr "Zobrazit polohu"
 
 #: client/gui-gtk-3.22/action_dialog.c:1556 client/gui-gtk-3.22/menu.c:543
 #: client/gui-gtk-4.0/action_dialog.c:1551 client/gui-gtk-4.0/menu.c:791
@@ -2544,24 +2534,23 @@ msgid "Suggestions: %s."
 msgstr "volby souboru: %s"
 
 #: client/gui-gtk-3.22/chatline.c:487 client/gui-gtk-4.0/chatline.c:523
-#, fuzzy
 msgid "No visible unit on this tile."
-msgstr "Nemůžete uplácet jednotky tohoto národa."
+msgstr "Na tomto poli není vidět žádná jednotka."
 
 #: client/gui-gtk-3.22/chatline.c:633 client/gui-gtk-4.0/chatline.c:667
 #: client/gui-qt/chatline.cpp:387
 msgid "This city isn't known!"
-msgstr ""
+msgstr "Toto město neznáte!"
 
 #: client/gui-gtk-3.22/chatline.c:642 client/gui-gtk-4.0/chatline.c:676
 #: client/gui-qt/chatline.cpp:396
 msgid "This tile doesn't exist in this game!"
-msgstr ""
+msgstr "Toto pole v této hře neexistuje!"
 
 #: client/gui-gtk-3.22/chatline.c:652 client/gui-gtk-4.0/chatline.c:686
 #: client/gui-qt/chatline.cpp:405
 msgid "This unit isn't known!"
-msgstr ""
+msgstr "Tuto jednotku neznáte!"
 
 #: client/gui-gtk-3.22/chatline.c:945 client/gui-gtk-4.0/chatline.c:984
 #: client/gui-qt/chatline.cpp:791
@@ -2576,9 +2565,8 @@ msgstr "Zvolen nový cíl"
 
 #: client/gui-gtk-3.22/chatline.c:1134 client/gui-gtk-3.22/optiondlg.c:340
 #: client/gui-gtk-4.0/chatline.c:1175 client/gui-gtk-4.0/optiondlg.c:364
-#, fuzzy
 msgid "C_lear"
-msgstr "Smazat log"
+msgstr "_Vymazat"
 
 #: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/dialogs.c:873
 #: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/gamedlgs.c:319
@@ -2591,77 +2579,71 @@ msgstr "Smazat log"
 #: client/gui-gtk-4.0/inputdlg.c:82 client/gui-gtk-4.0/messagedlg.c:74
 #: client/gui-gtk-4.0/optiondlg.c:365 client/gui-gtk-4.0/optiondlg.c:399
 #: client/gui-gtk-4.0/pages.c:3105 client/gui-gtk-4.0/pages.c:3475
-#, fuzzy
 #| msgid "OK"
 msgid "_OK"
-msgstr "OK"
+msgstr "_OK"
 
 #: client/gui-gtk-3.22/chatline.c:1342
 msgid "Bold"
-msgstr ""
+msgstr "Tučné"
 
 #: client/gui-gtk-3.22/chatline.c:1348 client/gui-gtk-4.0/chatline.c:1394
 msgid "Bold (Ctrl-B)"
-msgstr ""
+msgstr "Tučné (Ctrl-B)"
 
 #: client/gui-gtk-3.22/chatline.c:1352
-#, fuzzy
 #| msgid "Italian"
 msgid "Italic"
-msgstr "Italský"
+msgstr "Kurzíva"
 
 #: client/gui-gtk-3.22/chatline.c:1357 client/gui-gtk-4.0/chatline.c:1405
 msgid "Italic (Ctrl-I)"
-msgstr ""
+msgstr "Kurzíva (Ctrl-I)"
 
 #: client/gui-gtk-3.22/chatline.c:1361
 msgid "Strikethrough"
-msgstr ""
+msgstr "Přeškrtnuté"
 
 #: client/gui-gtk-3.22/chatline.c:1366 client/gui-gtk-4.0/chatline.c:1415
 msgid "Strikethrough (Ctrl-S)"
-msgstr ""
+msgstr "Přeškrtnuté (Ctrl-S)"
 
 #: client/gui-gtk-3.22/chatline.c:1370
 msgid "Underline"
-msgstr ""
+msgstr "Podtržené"
 
 #: client/gui-gtk-3.22/chatline.c:1375 client/gui-gtk-4.0/chatline.c:1425
 msgid "Underline (Ctrl-U)"
-msgstr ""
+msgstr "Podtržené (Ctrl-U)"
 
 #: client/gui-gtk-3.22/chatline.c:1378 client/gui-gtk-4.0/chatline.c:1430
-#, fuzzy
 #| msgid "Colossus"
 msgid "Color"
-msgstr "Kolos"
+msgstr "Barva"
 
 #: client/gui-gtk-3.22/chatline.c:1383 client/gui-gtk-4.0/chatline.c:1436
 msgid "Color (Ctrl-C)"
-msgstr ""
+msgstr "Barva (Ctrl-C)"
 
 #: client/gui-gtk-3.22/chatline.c:1393 client/gui-gtk-4.0/chatline.c:1445
 msgid "foreground"
-msgstr ""
+msgstr "popředí"
 
 #: client/gui-gtk-3.22/chatline.c:1396 client/gui-gtk-3.22/optiondlg.c:634
 #: client/gui-gtk-4.0/chatline.c:1448 client/gui-gtk-4.0/optiondlg.c:667
 #: client/gui-qt/optiondlg.cpp:719
-#, fuzzy
 msgid "Select the text color"
-msgstr "Zvolen nový cíl"
+msgstr "Vyberte barvu textu"
 
 #: client/gui-gtk-3.22/chatline.c:1409 client/gui-gtk-4.0/chatline.c:1461
-#, fuzzy
 msgid "background"
-msgstr "Skok mezi vrstvami"
+msgstr "pozadí"
 
 #: client/gui-gtk-3.22/chatline.c:1413 client/gui-gtk-3.22/optiondlg.c:643
 #: client/gui-gtk-4.0/chatline.c:1465 client/gui-gtk-4.0/optiondlg.c:676
 #: client/gui-qt/optiondlg.cpp:731
-#, fuzzy
 msgid "Select the background color"
-msgstr "Neprůhledná barva pozadí jednotky"
+msgstr "Vyberte barvu pozadí"
 
 #: client/gui-gtk-3.22/chatline.c:1425 client/gui-gtk-4.0/chatline.c:1476
 #: client/gui-sdl2/dialogs.c:2937 client/gui-sdl2/dialogs.c:3385
@@ -2673,19 +2655,17 @@ msgstr "OK"
 
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-3.22/chatline.c:1431 client/gui-gtk-4.0/chatline.c:1482
-#, fuzzy
 msgid "Send the chat (Return)"
-msgstr "Zvukové znamení na začátku kola"
+msgstr "Odeslat zprávu (Enter)"
 
 #: client/gui-gtk-3.22/chatline.c:1445 client/gui-gtk-4.0/chatline.c:1496
-#, fuzzy
 msgid "Chat tools"
-msgstr "Změnit na %s"
+msgstr "Nástroje chatu"
 
 #: client/gui-gtk-3.22/citizensinfo.c:64 client/gui-gtk-4.0/citizensinfo.c:63
 #: client/gui-qt/citydlg.cpp:3085
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: client/gui-gtk-3.22/citizensinfo.c:65 client/gui-gtk-3.22/editprop.c:3732
 #: client/gui-gtk-3.22/editprop.c:3746 client/gui-gtk-3.22/pages.c:2750
@@ -2710,10 +2690,9 @@ msgstr "Populace:      %5d"
 
 #: client/gui-gtk-3.22/citydlg.c:753 client/gui-gtk-4.0/citydlg.c:757
 #: client/gui-qt/citydlg.h:54
-#, fuzzy
 #| msgid "Size"
 msgid "Size:"
-msgstr "Velikost"
+msgstr "Velikost:"
 
 #: client/gui-gtk-3.22/citydlg.c:754 client/gui-gtk-4.0/citydlg.c:758
 #: client/gui-qt/citydlg.h:56 client/gui-qt/helpdlg.cpp:1323
@@ -2723,7 +2702,7 @@ msgstr "Jídlo:"
 #: client/gui-gtk-3.22/citydlg.c:755 client/gui-gtk-4.0/citydlg.c:759
 #: client/gui-qt/citydlg.h:58
 msgid "Prod:"
-msgstr "Prod:"
+msgstr "Výroba:"
 
 #: client/gui-gtk-3.22/citydlg.c:756 client/gui-gtk-4.0/citydlg.c:760
 #: client/gui-qt/citydlg.h:60 client/gui-qt/helpdlg.cpp:1327
@@ -2774,9 +2753,8 @@ msgstr "Odpad:"
 #: client/gui-gtk-3.22/citydlg.c:764 client/gui-gtk-3.22/inteldlg.c:59
 #: client/gui-gtk-4.0/citydlg.c:768 client/gui-gtk-4.0/inteldlg.c:59
 #: client/gui-qt/citydlg.h:76 client/gui-qt/plrdlg.cpp:609
-#, fuzzy
 msgid "Culture:"
-msgstr "Tech. budoucnosti %d"
+msgstr "Kultura:"
 
 #: client/gui-gtk-3.22/citydlg.c:765 client/gui-gtk-4.0/citydlg.c:769
 #: client/gui-qt/citydlg.h:78
@@ -2785,21 +2763,19 @@ msgstr "Znečištění:"
 
 #: client/gui-gtk-3.22/citydlg.c:766 client/gui-gtk-4.0/citydlg.c:770
 #: client/gui-qt/citydlg.h:80
-#, fuzzy
 msgid "Plague risk:"
-msgstr "Hráči"
+msgstr "Riziko nákazy:"
 
 #: client/gui-gtk-3.22/citydlg.c:767 client/gui-gtk-4.0/citydlg.c:771
 #: client/gui-qt/citydlg.h:82
 msgid "Tech Stolen:"
-msgstr ""
+msgstr "Ukradená technologie:"
 
 #: client/gui-gtk-3.22/citydlg.c:768 client/gui-gtk-4.0/citydlg.c:772
 #: client/gui-qt/citydlg.h:84
-#, fuzzy
 #| msgid "Airlift"
 msgid "Airlift:"
-msgstr "Letecký most"
+msgstr "Letecká přeprava:"
 
 #: client/gui-gtk-3.22/citydlg.c:885 client/gui-gtk-3.22/citydlg.c:1365
 #: client/gui-gtk-4.0/citydlg.c:882 client/gui-gtk-4.0/citydlg.c:1357
@@ -2837,9 +2813,8 @@ msgid "_Buy"
 msgstr "_Koupit"
 
 #: client/gui-gtk-3.22/citydlg.c:1043 client/gui-gtk-4.0/citydlg.c:1045
-#, fuzzy
 msgid "I_mprovements:"
-msgstr "_Vylepšení:"
+msgstr "_Budovy:"
 
 #: client/gui-gtk-3.22/citydlg.c:1068 client/gui-gtk-3.22/citydlg.c:1336
 #: client/gui-gtk-3.22/wldlg.c:996 client/gui-gtk-4.0/citydlg.c:1068
@@ -2858,30 +2833,26 @@ msgid "Buildings"
 msgstr "Stavby"
 
 #: client/gui-gtk-3.22/citydlg.c:1274 client/gui-gtk-4.0/citydlg.c:1259
-#, fuzzy
 msgid "P_roduction"
-msgstr "Produkce"
+msgstr "_Výroba"
 
 #: client/gui-gtk-3.22/citydlg.c:1319 client/gui-gtk-4.0/citydlg.c:1311
-#, fuzzy
 msgid "Happ_iness"
-msgstr "Spokojenost"
+msgstr "_Spokojenost"
 
 #: client/gui-gtk-3.22/citydlg.c:1396 client/gui-gtk-4.0/citydlg.c:1407
 #: client/include/helpdlg_g.h:61
-#, fuzzy
 #| msgid "Computers"
 msgid "Counters"
-msgstr "Počítače"
+msgstr "Počitadla"
 
 #: client/gui-gtk-3.22/citydlg.c:1438 client/gui-gtk-4.0/citydlg.c:1792
-#, fuzzy
 msgid "Current value is: "
-msgstr "Současná datová cesta je: \"%s\""
+msgstr "Současná hodnota: "
 
 #: client/gui-gtk-3.22/citydlg.c:1446 client/gui-gtk-4.0/citydlg.c:1800
 msgid "Activated once value equal or higher than: "
-msgstr ""
+msgstr "Aktivuje se při hodnotě nejméně: "
 
 #: client/gui-gtk-3.22/citydlg.c:1483 client/gui-gtk-4.0/citydlg.c:1383
 msgid "_Governor"
@@ -2919,7 +2890,7 @@ msgstr "Zlato"
 
 #: client/gui-gtk-3.22/citydlg.c:1515 client/gui-gtk-4.0/citydlg.c:1440
 msgid "Allow unit production to disband city"
-msgstr ""
+msgstr "Povolit zánik města při výrobě jednotky"
 
 #: client/gui-gtk-3.22/citydlg.c:1518 client/gui-gtk-4.0/citydlg.c:1443
 msgid "Overview page"
@@ -2934,9 +2905,8 @@ msgid "Happiness page"
 msgstr "Spokojenost"
 
 #: client/gui-gtk-3.22/citydlg.c:1521 client/gui-gtk-4.0/citydlg.c:1447
-#, fuzzy
 msgid "Governor page"
-msgstr "Guvernér"
+msgstr "Karta správce"
 
 #: client/gui-gtk-3.22/citydlg.c:1522 client/gui-gtk-4.0/citydlg.c:1448
 msgid "This Settings page"
@@ -2957,9 +2927,8 @@ msgid "Next time open"
 msgstr "Příšte otevřít"
 
 #: client/gui-gtk-3.22/citydlg.c:1600 client/gui-gtk-4.0/citydlg.c:1535
-#, fuzzy
 msgid "R_ename..."
-msgstr "Přejmenovat..."
+msgstr "_Přejmenovat…"
 
 #: client/gui-gtk-3.22/citydlg.c:1774 client/gui-gtk-4.0/citydlg.c:1707
 msgid "_List present units..."
@@ -3033,7 +3002,7 @@ msgstr[2] "Sada dlaždic"
 #: client/gui-gtk-3.22/citydlg.c:2001 client/gui-gtk-4.0/citydlg.c:2007
 #: client/gui-qt/citydlg.cpp:3241
 msgid "Not stolen"
-msgstr ""
+msgstr "Neukradeno"
 
 #. TRANS: never actually used with built_slots <= 1
 #: client/gui-gtk-3.22/citydlg.c:2099 client/gui-gtk-4.0/citydlg.c:2104
@@ -3045,18 +3014,17 @@ msgstr[1] "Zlato: %d (%+d)"
 msgstr[2] "Zlato: %d (%+d)"
 
 #: client/gui-gtk-3.22/citydlg.c:2200 client/gui-gtk-4.0/citydlg.c:2212
-#, fuzzy
 #| msgid "Press ENTER or double-click to sell an improvement."
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
-msgstr "Stiskněte ENTER nebo dvojklikněte pro prodej vylepšení."
+msgstr "Budovu prodáte stiskem klávesy <b>Enter</b> nebo dvojklikem."
 
 #: client/gui-gtk-3.22/citydlg.c:2202 client/gui-gtk-4.0/citydlg.c:2214
 msgid "Great Wonder - cannot be sold."
-msgstr ""
+msgstr "Velký div nelze prodat."
 
 #: client/gui-gtk-3.22/citydlg.c:2203 client/gui-gtk-4.0/citydlg.c:2215
 msgid "Small Wonder - cannot be sold."
-msgstr ""
+msgstr "Malý div nelze prodat."
 
 #: client/gui-gtk-3.22/citydlg.c:2348 client/gui-gtk-4.0/citydlg.c:2379
 #: client/gui-qt/citydlg.cpp:3324
@@ -3111,31 +3079,27 @@ msgid "U_pgrade unit"
 msgstr "Vyle_pšit jednotku"
 
 #: client/gui-gtk-3.22/citydlg.c:3016 client/gui-gtk-4.0/citydlg.c:3148
-#, fuzzy
 msgid "There's no suitable extra to order."
-msgstr "Neexistuje žádný hráč ani spojení se jménem %s."
+msgstr "Pro rozkaz není k dispozici vhodný prvek pole."
 
 #: client/gui-gtk-3.22/citydlg.c:3060 client/gui-gtk-4.0/citydlg.c:3192
 msgid "What Action to Request"
-msgstr ""
+msgstr "Kterou akci vyžádat"
 
 #: client/gui-gtk-3.22/citydlg.c:3061 client/gui-gtk-4.0/citydlg.c:3193
-#, fuzzy
 #| msgid "Select a city:"
 msgid "Select autosettler activity:"
-msgstr "Vyberte město:"
+msgstr "Vyberte automatickou činnost osadníka:"
 
 #: client/gui-gtk-3.22/citydlg.c:3065 client/gui-gtk-4.0/citydlg.c:3197
-#, fuzzy
 msgid "Clear request"
-msgstr "Cílový _Seznam prací:"
+msgstr "Zrušit požadavek"
 
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.22/citydlg.c:3071 client/gui-gtk-4.0/citydlg.c:3203
 #: client/gui-qt/citydlg.cpp:1405 common/fc_types.h:143 common/unit.c:634
-#, fuzzy
 msgid "?act:Mine"
-msgstr "Důl"
+msgstr "?act:Vybudovat důl"
 
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.22/citydlg.c:3078 client/gui-gtk-3.22/menu.c:589
@@ -3144,15 +3108,13 @@ msgstr "Důl"
 #: client/gui-qt/menu.cpp:2345 client/gui-qt/menu.cpp:2348
 #: client/gui-qt/shortcuts.cpp:120 common/fc_types.h:182 common/unit.c:637
 #: tools/manual/manual_terrain.c:51
-#, fuzzy
 msgid "Plant"
-msgstr "Výrobní podnik (mfg. plant)"
+msgstr "Osázet"
 
 #: client/gui-gtk-3.22/citydlg.c:3083 client/gui-gtk-4.0/citydlg.c:3215
 #: client/gui-qt/citydlg.cpp:1413 common/fc_types.h:146 common/unit.c:639
-#, fuzzy
 msgid "Irrigate"
-msgstr "Závlaha (-I)"
+msgstr "Zavlažit"
 
 #: client/gui-gtk-3.22/citydlg.c:3090 client/gui-gtk-3.22/menu.c:585
 #: client/gui-gtk-4.0/citydlg.c:3222 client/gui-gtk-4.0/menu.c:814
@@ -3160,10 +3122,9 @@ msgstr "Závlaha (-I)"
 #: client/gui-qt/menu.cpp:2322 client/gui-qt/menu.cpp:2325
 #: client/gui-qt/shortcuts.cpp:124 common/fc_types.h:140 common/unit.c:641
 #: tools/manual/manual_terrain.c:51
-#, fuzzy
 #| msgid "Activate"
 msgid "Cultivate"
-msgstr "Aktivovat"
+msgstr "Zúrodnit"
 
 #: client/gui-gtk-3.22/citydlg.c:3102 client/gui-gtk-4.0/citydlg.c:3234
 #: client/gui-qt/citydlg.cpp:1419 client/gui-qt/shortcuts.cpp:138
@@ -3177,9 +3138,8 @@ msgstr "Transformovat"
 #: client/gui-gtk-3.22/citydlg.c:3108 client/gui-gtk-4.0/citydlg.c:3240
 #: client/gui-qt/citydlg.cpp:1428 client/gui-qt/menu.cpp:1373
 #: client/gui-qt/shortcuts.cpp:152 common/fc_types.h:170 common/unit.c:631
-#, fuzzy
 msgid "Clean"
-msgstr "Smazat log"
+msgstr "Vyčistit"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-3.22/citydlg.c:3209 client/gui-gtk-4.0/citydlg.c:3364
@@ -3275,15 +3235,13 @@ msgstr "Žádný %s nebyl prodán."
 
 #: client/gui-gtk-3.22/cityrep.c:972 client/gui-gtk-4.0/cityrep.c:945
 #: client/gui-qt/citydlg.cpp:2813 client/gui-qt/cityrep.cpp:477
-#, fuzzy
 msgid "(no worklists defined)"
-msgstr "(seznam prací)"
+msgstr "(žádné seznamy výroby)"
 
 #: client/gui-gtk-3.22/cityrep.c:1049 client/gui-gtk-4.0/cityrep.c:1055
 #: client/gui-gtk-4.0/cityrep.c:1619
-#, fuzzy
 msgid "_Production"
-msgstr "P_rodukce"
+msgstr "_Výroba"
 
 #: client/gui-gtk-3.22/cityrep.c:1056 client/gui-gtk-4.0/cityrep.c:1551
 msgid "Chan_ge"
@@ -3298,40 +3256,34 @@ msgid "Add _Next"
 msgstr "Přidat _Další"
 
 #: client/gui-gtk-3.22/cityrep.c:1068 client/gui-gtk-4.0/cityrep.c:1582
-#, fuzzy
 msgid "Add _2nd Last"
-msgstr "Přidat P_oslední"
+msgstr "Přidat jako _předposlední"
 
 #: client/gui-gtk-3.22/cityrep.c:1072 client/gui-gtk-4.0/cityrep.c:1566
 msgid "Add _Last"
 msgstr "Přidat P_oslední"
 
 #: client/gui-gtk-3.22/cityrep.c:1079 client/gui-gtk-4.0/cityrep.c:1586
-#, fuzzy
 msgid "Set Worklist"
-msgstr "Seznam prací"
+msgstr "Nastavit seznam výroby"
 
 #: client/gui-gtk-3.22/cityrep.c:1085 client/gui-gtk-4.0/cityrep.c:1590
-#, fuzzy
 msgid "Append Worklist"
-msgstr "Přejmenovat seznam prací"
+msgstr "Připojit seznam výroby"
 
 #: client/gui-gtk-3.22/cityrep.c:1091 client/gui-gtk-4.0/cityrep.c:1597
-#, fuzzy
 msgid "Clear _Worklist"
-msgstr "Cílový _Seznam prací:"
+msgstr "Vymazat _seznam výroby"
 
 #: client/gui-gtk-3.22/cityrep.c:1096 client/gui-gtk-4.0/cityrep.c:821
 #: client/gui-gtk-4.0/cityrep.c:1058
-#, fuzzy
 msgid "Gover_nor"
-msgstr "Guvernér"
+msgstr "S_právce"
 
 #: client/gui-gtk-3.22/cityrep.c:1101 client/gui-gtk-4.0/cityrep.c:1062
 #: client/gui-gtk-4.0/cityrep.c:1536
-#, fuzzy
 msgid "S_ell"
-msgstr "Prodat"
+msgstr "_Prodat"
 
 #: client/gui-gtk-3.22/cityrep.c:1106 client/gui-gtk-3.22/menu.c:522
 #: client/gui-gtk-3.22/unitselect.c:490 client/gui-gtk-4.0/cityrep.c:1063
@@ -3342,7 +3294,6 @@ msgstr "_Vybrat"
 
 #: client/gui-gtk-3.22/cityrep.c:1110 client/gui-gtk-3.22/plrdlg.c:554
 #: client/gui-gtk-4.0/cityrep.c:1066 client/gui-gtk-4.0/plrdlg.c:718
-#, fuzzy
 msgid "_Display"
 msgstr "_Zobrazit"
 
@@ -3360,9 +3311,8 @@ msgid "Cities"
 msgstr "Města"
 
 #: client/gui-gtk-3.22/cityrep.c:1171 client/gui-gtk-4.0/cityrep.c:1130
-#, fuzzy
 msgid "_Inspect"
-msgstr "_Samostatné"
+msgstr "P_rohlédnout"
 
 #: client/gui-gtk-3.22/cityrep.c:1518 client/gui-gtk-3.22/cityrep.c:1537
 #: client/gui-gtk-3.22/cityrep.c:1556 client/gui-gtk-3.22/cityrep.c:1575
@@ -3477,22 +3427,19 @@ msgstr ""
 "si prohlédněte README.cma."
 
 #: client/gui-gtk-3.22/cma_fe.c:283 client/gui-gtk-4.0/cma_fe.c:294
-#, fuzzy
 msgid "Prese_ts:"
-msgstr "_Předvolby:"
+msgstr "Př_edvolby:"
 
 #: client/gui-gtk-3.22/cma_fe.c:299 client/gui-gtk-4.0/cma_fe.c:311
-#, fuzzy
 msgid "Ne_w"
-msgstr "Nový"
+msgstr "_Nová"
 
 #: client/gui-gtk-3.22/cma_fe.c:306 client/gui-gtk-3.22/pages.c:599
 #: client/gui-gtk-3.22/wldlg.c:224 client/gui-gtk-4.0/cma_fe.c:318
 #: client/gui-gtk-4.0/pages.c:613 client/gui-gtk-4.0/wldlg.c:228
-#, fuzzy
 #| msgid "Delete"
 msgid "_Delete"
-msgstr "Smazat"
+msgstr "_Odstranit"
 
 #: client/gui-gtk-3.22/cma_fe.c:321 client/gui-gtk-4.0/cma_fe.c:333
 msgid "Results"
@@ -3518,7 +3465,7 @@ msgstr "Oslavuje"
 #: client/gui-gtk-3.22/cma_fe.c:422 client/gui-gtk-4.0/cma_fe.c:444
 #: client/gui-qt/citydlg.cpp:1941
 msgid "Maximize growth"
-msgstr ""
+msgstr "Maximalizovat růst"
 
 #: client/gui-gtk-3.22/cma_fe.c:441 client/gui-gtk-3.22/repodlgs.c:613
 #: client/gui-gtk-3.22/wldlg.c:1229 client/gui-gtk-4.0/cma_fe.c:462
@@ -3528,14 +3475,12 @@ msgid "Help"
 msgstr "Nápověda"
 
 #: client/gui-gtk-3.22/cma_fe.c:506 client/gui-gtk-4.0/cma_fe.c:523
-#, fuzzy
 msgid "Governor Enabl_ed"
-msgstr "Guvernér"
+msgstr "_Správce zapnut"
 
 #: client/gui-gtk-3.22/cma_fe.c:509 client/gui-gtk-4.0/cma_fe.c:526
-#, fuzzy
 msgid "Governor Disabl_ed"
-msgstr "ASM vy_pnut"
+msgstr "_Správce vypnut"
 
 #: client/gui-gtk-3.22/cma_fe.c:578 client/gui-gtk-4.0/cma_fe.c:595
 #: client/gui-qt/citydlg.cpp:2445 client/gui-sdl2/cma_fe.c:269
@@ -3564,15 +3509,13 @@ msgstr "Smazat tuto předvolbu?"
 #: client/gui-gtk-3.22/dialogs.c:211 client/gui-gtk-3.22/dialogs.c:217
 #: client/gui-gtk-3.22/messagewin.c:389 client/gui-gtk-4.0/dialogs.c:211
 #: client/gui-gtk-4.0/dialogs.c:217 client/gui-gtk-4.0/messagewin.c:393
-#, fuzzy
 msgid "Goto _Location"
-msgstr "Jít k po_loze"
+msgstr "Přejít na _místo"
 
 #: client/gui-gtk-3.22/dialogs.c:212 client/gui-gtk-3.22/messagewin.c:384
 #: client/gui-gtk-4.0/dialogs.c:212 client/gui-gtk-4.0/messagewin.c:388
-#, fuzzy
 msgid "I_nspect City"
-msgstr "_Ukázat město"
+msgstr "_Prohlédnout město"
 
 #: client/gui-gtk-3.22/dialogs.c:294 client/gui-gtk-4.0/dialogs.c:294
 #: client/gui-qt/dialogs.cpp:1360
@@ -3626,9 +3569,8 @@ msgid "Pick Nation"
 msgstr "Vyberte národ"
 
 #: client/gui-gtk-3.22/dialogs.c:871 client/gui-gtk-4.0/dialogs.c:878
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Náhodný národ"
+msgstr "_Náhodný národ"
 
 #: client/gui-gtk-3.22/dialogs.c:883 client/gui-gtk-4.0/dialogs.c:889
 msgid "Select a nation"
@@ -3645,14 +3587,12 @@ msgstr[1] "<b>%s</b> - %s obyvatel"
 msgstr[2] "<b>%s</b> - %s obyvatel"
 
 #: client/gui-gtk-3.22/dialogs.c:995 client/gui-gtk-4.0/dialogs.c:1006
-#, fuzzy
 msgid "_Nation Set:"
-msgstr "Výběr jednotek"
+msgstr "_Sada národů:"
 
 #: client/gui-gtk-3.22/dialogs.c:1028 client/gui-gtk-4.0/dialogs.c:1039
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Národy:"
+msgstr "S_kupiny národů:"
 
 #: client/gui-gtk-3.22/dialogs.c:1051 client/gui-gtk-3.22/wldlg.c:226
 #: client/gui-gtk-4.0/dialogs.c:1062 client/gui-gtk-4.0/wldlg.c:230
@@ -3664,14 +3604,12 @@ msgid "_Leader:"
 msgstr "_Vůdce:"
 
 #: client/gui-gtk-3.22/dialogs.c:1119 client/gui-gtk-4.0/dialogs.c:1135
-#, fuzzy
 msgid "City _Styles:"
-msgstr "_Styl měst:"
+msgstr "St_yly měst:"
 
 #: client/gui-gtk-3.22/dialogs.c:1157 client/gui-gtk-4.0/dialogs.c:1173
-#, fuzzy
 msgid "_Description"
-msgstr "L_egenda"
+msgstr "_Popis"
 
 #: client/gui-gtk-3.22/dialogs.c:1391 client/gui-gtk-4.0/dialogs.c:1411
 msgid "You must select your sex."
@@ -3679,9 +3617,8 @@ msgstr "Musíte si vybrat pohlaví."
 
 #: client/gui-gtk-3.22/dialogs.c:1396 client/gui-gtk-4.0/dialogs.c:1416
 #: client/gui-qt/dialogs.cpp:896
-#, fuzzy
 msgid "You must select your style."
-msgstr "Musíte si vybrat pohlaví."
+msgstr "Musíte vybrat styl."
 
 #: client/gui-gtk-3.22/dialogs.c:1405 client/gui-gtk-4.0/dialogs.c:1426
 #: client/gui-qt/dialogs.cpp:901 client/gui-sdl2/dialogs.c:2613
@@ -3766,9 +3703,8 @@ msgstr "_Objevy"
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-3.22/diplodlg.c:333 client/gui-gtk-4.0/diplodlg.c:374
 #: client/gui-qt/diplodlg.cpp:389
-#, fuzzy
 msgid "All advances"
-msgstr "Technologie"
+msgstr "Všechny technologie"
 
 #: client/gui-gtk-3.22/diplodlg.c:417 client/gui-gtk-3.22/menu.c:332
 #: client/gui-gtk-4.0/diplodlg.c:464 client/gui-gtk-4.0/menu.c:866
@@ -3784,9 +3720,8 @@ msgid "Give _embassy"
 msgstr "Dát _ambasádu"
 
 #: client/gui-gtk-3.22/diplodlg.c:456 client/gui-gtk-4.0/diplodlg.c:510
-#, fuzzy
 msgid "_Share tiles"
-msgstr "Města"
+msgstr "S_dílet pole"
 
 #: client/gui-gtk-3.22/diplodlg.c:475 client/gui-gtk-4.0/diplodlg.c:531
 #: client/gui-qt/diplodlg.cpp:462 client/gui-sdl2/diplodlg.c:542
@@ -3811,9 +3746,8 @@ msgid "_Pacts"
 msgstr "_Smlouvy"
 
 #: client/gui-gtk-3.22/diplodlg.c:564 client/gui-gtk-4.0/diplodlg.c:638
-#, fuzzy
 msgid "Cancel _all meetings"
-msgstr "Ukončit setkání"
+msgstr "Zrušit _všechna jednání"
 
 #: client/gui-gtk-3.22/diplodlg.c:641 client/gui-gtk-3.22/diplodlg.c:714
 #: client/gui-gtk-4.0/diplodlg.c:712 client/gui-gtk-4.0/diplodlg.c:789
@@ -3835,9 +3769,8 @@ msgstr "Ukončit setkání"
 
 #: client/gui-gtk-3.22/diplodlg.c:805 client/gui-gtk-3.22/diplodlg.c:887
 #: client/gui-qt/diplodlg.cpp:204 client/gui-qt/diplodlg.cpp:206
-#, fuzzy
 msgid "Add Clause..."
-msgstr "_Přidat klauzuli..."
+msgstr "Přidat ustanovení…"
 
 #: client/gui-gtk-3.22/diplodlg.c:951 client/gui-gtk-4.0/diplodlg.c:1017
 msgid "C_lauses:"
@@ -3874,9 +3807,8 @@ msgid "Show the property editor."
 msgstr "Zobrazit editor vlastností."
 
 #: client/gui-gtk-3.22/editgui.c:1008 client/gui-gtk-4.0/editgui.c:1000
-#, fuzzy
 msgid "Select Tool Value"
-msgstr "Zvolit ná_stroj a spustit..."
+msgstr "Vyberte hodnotu nástroje"
 
 #: client/gui-gtk-3.22/editgui.c:1178 client/gui-gtk-4.0/editgui.c:1178
 msgid "Editor Tool"
@@ -3887,9 +3819,8 @@ msgid "Click to change value if applicable."
 msgstr "Klikněte pro změnu hodnoty pokud je to vhodné."
 
 #: client/gui-gtk-3.22/editgui.c:1228 client/gui-gtk-4.0/editgui.c:1231
-#, fuzzy
 msgid "Click to change tool mode."
-msgstr "práva souboru %s se nepodařila změnit na %04lo (%s)\n"
+msgstr "Kliknutím změníte režim nástroje."
 
 #: client/gui-gtk-3.22/editgui.c:1245 client/gui-gtk-4.0/editgui.c:1247
 msgid "Mode"
@@ -3937,12 +3868,12 @@ msgstr "?play:Hra"
 #: client/gui-gtk-3.22/editprop.c:876 client/gui-gtk-4.0/editprop.c:876
 #: utility/shared.c:2277
 msgid "TRUE"
-msgstr ""
+msgstr "ANO"
 
 #: client/gui-gtk-3.22/editprop.c:876 client/gui-gtk-4.0/editprop.c:876
 #: utility/shared.c:2277
 msgid "FALSE"
-msgstr ""
+msgstr "NE"
 
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
@@ -3970,9 +3901,8 @@ msgstr "%d přítomných"
 #: client/gui-gtk-4.0/editprop.c:955 client/gui-gtk-4.0/editprop.c:3943
 #: client/gui-qt/dialogs.cpp:672 data/civ1/nations.ruleset:87
 #: data/civ2/nations.ruleset:89 data/alien/nations.ruleset:89
-#, fuzzy
 msgid "All nations"
-msgstr "Všechny možnosti"
+msgstr "Všechny národy"
 
 #: client/gui-gtk-3.22/editprop.c:957 client/gui-gtk-4.0/editprop.c:957
 #, fuzzy, c-format
@@ -4002,9 +3932,8 @@ msgstr "(zničeno)"
 
 #: client/gui-gtk-3.22/editprop.c:3587 client/gui-gtk-4.0/editprop.c:3597
 #: client/gui-qt/menu.cpp:1030
-#, fuzzy
 msgid "?verb:View"
-msgstr "Přehled"
+msgstr "?verb:Zobrazit"
 
 #: client/gui-gtk-3.22/editprop.c:3589 client/gui-gtk-4.0/editprop.c:3599
 msgid "Edit"
@@ -4055,9 +3984,8 @@ msgstr "Známý"
 
 #. TRANS: As in "the turn when this building was built".
 #: client/gui-gtk-3.22/editprop.c:3722 client/gui-gtk-4.0/editprop.c:3730
-#, fuzzy
 msgid "Turn Built"
-msgstr "Přeložen na %s %s %s\n"
+msgstr "Tah výstavby"
 
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-3.22/editprop.c:3728 client/gui-gtk-3.22/editprop.c:3741
@@ -4067,7 +3995,7 @@ msgstr "Nastavil"
 
 #: client/gui-gtk-3.22/editprop.c:3746 client/gui-gtk-4.0/editprop.c:3754
 msgid "Icon"
-msgstr ""
+msgstr "Ikona"
 
 #: client/gui-gtk-3.22/editprop.c:4445 client/gui-gtk-3.22/editprop.c:4494
 #: client/gui-gtk-3.22/editprop.c:4506 client/gui-gtk-3.22/editprop.c:4536
@@ -4081,7 +4009,6 @@ msgid "Resource"
 msgstr "Zdroj"
 
 #: client/gui-gtk-3.22/editprop.c:4451 client/gui-gtk-4.0/editprop.c:4460
-#, fuzzy
 msgid "Index"
 msgstr "Index"
 
@@ -4097,13 +4024,13 @@ msgstr "?coordinate:Y"
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-3.22/editprop.c:4459 client/gui-gtk-4.0/editprop.c:4468
 msgid "NAT X"
-msgstr "NAT X"
+msgstr "Nativní X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-3.22/editprop.c:4463 client/gui-gtk-4.0/editprop.c:4472
 msgid "NAT Y"
-msgstr "NAT Y"
+msgstr "Nativní Y"
 
 #: client/gui-gtk-3.22/editprop.c:4465 client/gui-gtk-4.0/editprop.c:4474
 #: client/gui-qt/gotodlg.cpp:51
@@ -4122,14 +4049,12 @@ msgid "Specials"
 msgstr "Speciality"
 
 #: client/gui-gtk-3.22/editprop.c:4472 client/gui-gtk-4.0/editprop.c:4481
-#, fuzzy
 msgid "Roads"
-msgstr "Cesta"
+msgstr "Cesty"
 
 #: client/gui-gtk-3.22/editprop.c:4475 client/gui-gtk-4.0/editprop.c:4484
-#, fuzzy
 msgid "Bases"
-msgstr "Základen"
+msgstr "Základny"
 
 #: client/gui-gtk-3.22/editprop.c:4479 client/gui-gtk-3.22/editprop.c:4509
 #: client/gui-gtk-3.22/editprop.c:4541 client/gui-gtk-3.22/editprop.c:4566
@@ -4141,12 +4066,11 @@ msgstr "Adresa"
 #. TRANS: Tile property "Label" label in editor
 #: client/gui-gtk-3.22/editprop.c:4489 client/gui-gtk-4.0/editprop.c:4498
 msgid "?property:Label"
-msgstr ""
+msgstr "?property:Popisek"
 
 #: client/gui-gtk-3.22/editprop.c:4498 client/gui-gtk-4.0/editprop.c:4507
-#, fuzzy
 msgid "Exclude Nations"
-msgstr "Upravit národ"
+msgstr "Vyloučit národy"
 
 #. TRANS: Nations report title
 #. TRANS: Nations report action
@@ -4179,21 +4103,18 @@ msgid "Fuel"
 msgstr "Palivo"
 
 #: client/gui-gtk-3.22/editprop.c:4522 client/gui-gtk-4.0/editprop.c:4531
-#, fuzzy
 msgid "Moved"
-msgstr "Skladba přesunuta"
+msgstr "Přesunutá"
 
 #: client/gui-gtk-3.22/editprop.c:4524 client/gui-gtk-4.0/editprop.c:4533
 #: client/gui-qt/shortcuts.cpp:103
-#, fuzzy
 msgid "Done Moving"
-msgstr "Přesunuji zprávy"
+msgstr "Pohyb dokončen"
 
 #. TRANS: HP = Hit Points of a unit.
 #: client/gui-gtk-3.22/editprop.c:4527 client/gui-gtk-4.0/editprop.c:4536
-#, fuzzy
 msgid "HP"
-msgstr "Životů"
+msgstr "Zdraví"
 
 #: client/gui-gtk-3.22/editprop.c:4529 client/gui-gtk-4.0/editprop.c:4538
 msgid "Veteran"
@@ -4201,20 +4122,19 @@ msgstr "Veterán"
 
 #: client/gui-gtk-3.22/editprop.c:4531 client/gui-gtk-4.0/editprop.c:4540
 msgid "Stay put"
-msgstr ""
+msgstr "Zůstat na místě"
 
 #: client/gui-gtk-3.22/editprop.c:4550 client/gui-gtk-4.0/editprop.c:4559
 msgid "History"
-msgstr ""
+msgstr "Historie"
 
 #: client/gui-gtk-3.22/editprop.c:4555 client/gui-gtk-4.0/editprop.c:4564
 msgid "Food Stock"
 msgstr "Zásoba jídla"
 
 #: client/gui-gtk-3.22/editprop.c:4557 client/gui-gtk-4.0/editprop.c:4566
-#, fuzzy
 msgid "Shield Stock"
-msgstr "Standardní tlačítko:"
+msgstr "Zásoba výroby"
 
 #: client/gui-gtk-3.22/editprop.c:4572 client/gui-gtk-3.22/menu.c:404
 #: client/gui-gtk-4.0/editprop.c:4581 client/gui-gtk-4.0/menu.c:978
@@ -4225,21 +4145,19 @@ msgstr "Státní zřízení"
 
 #: client/gui-gtk-3.22/editprop.c:4575 client/gui-gtk-4.0/editprop.c:4584
 msgid "Age"
-msgstr ""
+msgstr "Stáří"
 
 #: client/gui-gtk-3.22/editprop.c:4577 client/gui-gtk-4.0/editprop.c:4586
 msgid "Inventions"
 msgstr "Vynálezy"
 
 #: client/gui-gtk-3.22/editprop.c:4580 client/gui-gtk-4.0/editprop.c:4589
-#, fuzzy
 msgid "Reserved"
-msgstr "_Pozorovatel"
+msgstr "Rezervováno"
 
 #: client/gui-gtk-3.22/editprop.c:4582 client/gui-gtk-4.0/editprop.c:4591
-#, fuzzy
 msgid "Select Weight"
-msgstr "Kosmické lety"
+msgstr "Vybrat váhu"
 
 #: client/gui-gtk-3.22/editprop.c:4583 client/gui-gtk-4.0/editprop.c:4592
 msgid ""
@@ -4255,53 +4173,45 @@ msgstr "Body infrastruktury"
 
 #: client/gui-gtk-3.22/editprop.c:4597 client/gui-gtk-4.0/editprop.c:4606
 #: tools/fcmp/modinst.h:45
-#, fuzzy
 msgid "Scenario"
-msgstr "Vyberte scénář"
+msgstr "Scénář"
 
 #: client/gui-gtk-3.22/editprop.c:4601 client/gui-gtk-4.0/editprop.c:4610
-#, fuzzy
 msgid "Scenario Name"
-msgstr "Start s_cénáře"
+msgstr "Název scénáře"
 
 #: client/gui-gtk-3.22/editprop.c:4605 client/gui-gtk-4.0/editprop.c:4614
-#, fuzzy
 msgid "Scenario Authors"
-msgstr "Týmové vítězství pro %s"
+msgstr "Autoři scénáře"
 
 #: client/gui-gtk-3.22/editprop.c:4609 client/gui-gtk-4.0/editprop.c:4618
-#, fuzzy
 msgid "Scenario Description"
-msgstr "Popis:"
+msgstr "Popis scénáře"
 
 #: client/gui-gtk-3.22/editprop.c:4613 client/gui-gtk-4.0/editprop.c:4622
 msgid "Save Random Number State"
-msgstr ""
+msgstr "Uložit stav generátoru náhodných čísel"
 
 #: client/gui-gtk-3.22/editprop.c:4616 client/gui-gtk-4.0/editprop.c:4625
-#, fuzzy
 msgid "Save Players"
-msgstr "Města"
+msgstr "Uložit hráče"
 
 #: client/gui-gtk-3.22/editprop.c:4619 client/gui-gtk-4.0/editprop.c:4628
-#, fuzzy
 msgid "Nation Start Positions"
-msgstr "Startovní pozice"
+msgstr "Výchozí pozice národů"
 
 #: client/gui-gtk-3.22/editprop.c:4622 client/gui-gtk-4.0/editprop.c:4631
-#, fuzzy
 msgid "Prevent New Cities"
-msgstr "Přítomných jednotek %d"
+msgstr "Zakázat zakládání měst"
 
 #: client/gui-gtk-3.22/editprop.c:4625 client/gui-gtk-4.0/editprop.c:4634
 msgid "Saltwater Flooding Lakes"
-msgstr ""
+msgstr "Zaplavení jezer slanou vodou"
 
 #: client/gui-gtk-3.22/editprop.c:4628 client/gui-gtk-4.0/editprop.c:4637
-#, fuzzy
 #| msgid "About Ruleset"
 msgid "Lock to current Ruleset"
-msgstr "O pravidlech"
+msgstr "Pevně svázat s aktuální sadou pravidel"
 
 #: client/gui-gtk-3.22/editprop.c:4907 client/gui-gtk-4.0/editprop.c:4919
 msgid "Create"
@@ -4357,9 +4267,8 @@ msgstr ""
 
 #: client/gui-gtk-3.22/editprop.c:5056 client/gui-gtk-3.22/optiondlg.c:375
 #: client/gui-gtk-4.0/editprop.c:5079 client/gui-gtk-4.0/optiondlg.c:398
-#, fuzzy
 msgid "_Apply"
-msgstr "Použít jednou"
+msgstr "_Použít"
 
 #: client/gui-gtk-3.22/editprop.c:5059 client/gui-gtk-4.0/editprop.c:5082
 msgid ""
@@ -4374,20 +4283,18 @@ msgstr "Editor vlastností"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-3.22/editprop.c:6590 client/gui-gtk-4.0/editprop.c:6616
-#, fuzzy
 msgid "Seen (Main)"
-msgstr "hlavní autor"
+msgstr "Viditelnost (běžná)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-3.22/editprop.c:6593 client/gui-gtk-4.0/editprop.c:6619
-#, fuzzy
 msgid "Seen (Invis)"
-msgstr "Naposledy viděn"
+msgstr "Viditelnost (skrytých jednotek)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-3.22/editprop.c:6596 client/gui-gtk-4.0/editprop.c:6622
 msgid "Seen (Subsurface)"
-msgstr ""
+msgstr "Viditelnost (pod hladinou)"
 
 #: client/gui-gtk-3.22/editprop.c:6602 client/gui-gtk-3.22/pages.c:745
 #: client/gui-gtk-4.0/editprop.c:6628 client/gui-gtk-4.0/pages.c:756
@@ -4403,10 +4310,9 @@ msgid "Find City"
 msgstr "Najít město"
 
 #: client/gui-gtk-3.22/finddlg.c:75 client/gui-gtk-4.0/finddlg.c:75
-#, fuzzy
 #| msgid "Find City"
 msgid "_Find"
-msgstr "Najít město"
+msgstr "_Najít"
 
 #: client/gui-gtk-3.22/finddlg.c:117 client/gui-gtk-4.0/finddlg.c:117
 msgid "Ci_ties:"
@@ -4414,28 +4320,24 @@ msgstr "Měs_ta:"
 
 #. TRANS: current value of policy in force
 #: client/gui-gtk-3.22/gamedlgs.c:281 client/gui-gtk-4.0/gamedlgs.c:272
-#, fuzzy
 msgid "?multiplier:Now"
-msgstr "Výchozí pravidla"
+msgstr "?multiplier:Nyní"
 
 #: client/gui-gtk-3.22/gamedlgs.c:314 client/gui-gtk-4.0/gamedlgs.c:305
 #: client/gui-qt/ratesdlg.cpp:143
-#, fuzzy
 msgid "Change policies"
-msgstr "Přejmenovat seznam prací"
+msgstr "Změnit politiku"
 
 #: client/gui-gtk-3.22/gamedlgs.c:323 client/gui-gtk-3.22/menu.c:386
 #: client/gui-gtk-4.0/gamedlgs.c:314 client/gui-gtk-4.0/menu.c:951
 #: client/include/helpdlg_g.h:60 data/helpdata.txt:1460
-#, fuzzy
 #| msgid "Polish"
 msgid "Policies"
-msgstr "Polský"
+msgstr "Politika"
 
 #: client/gui-gtk-3.22/gamedlgs.c:336 client/gui-gtk-4.0/gamedlgs.c:326
-#, fuzzy
 msgid "Changes will not take effect until next turn."
-msgstr "Barbaři se neobjeví před tímto rokem."
+msgstr "Změny se projeví až v příštím tahu."
 
 #: client/gui-gtk-3.22/gamedlgs.c:409 client/gui-gtk-4.0/gamedlgs.c:397
 #: client/gui-qt/ratesdlg.cpp:70
@@ -4469,19 +4371,16 @@ msgid "Air_lift"
 msgstr "Letecký _most"
 
 #: client/gui-gtk-3.22/gotodlg.c:148 client/gui-gtk-4.0/gotodlg.c:147
-#, fuzzy
 msgid "_Goto"
-msgstr "Přesunout se (_G)"
+msgstr "_Přejít"
 
 #: client/gui-gtk-3.22/gotodlg.c:167 client/gui-gtk-4.0/gotodlg.c:165
-#, fuzzy
 msgid "Select destination ci_ty"
-msgstr "Zvolte místo určení"
+msgstr "Vyberte cílové _město"
 
 #: client/gui-gtk-3.22/gotodlg.c:201 client/gui-gtk-4.0/gotodlg.c:198
-#, fuzzy
 msgid "Id"
-msgstr "Nečinný"
+msgstr "ID"
 
 #: client/gui-gtk-3.22/gotodlg.c:225 client/gui-gtk-4.0/gotodlg.c:223
 #: client/gui-qt/gotodlg.cpp:55
@@ -4507,16 +4406,14 @@ msgstr "%s spojencům: %s"
 #. TRANS: goto/airlift dialog. Too many cities to list, some omitted.
 #. * Appears at the end of an "and"-separated list.
 #: client/gui-gtk-3.22/gotodlg.c:397 client/gui-gtk-4.0/gotodlg.c:397
-#, fuzzy
 msgid "?gotodlg:more"
-msgstr "Ovládat město"
+msgstr "?gotodlg:další"
 
 #. TRANS: goto/airlift dialog. For units not currently in a city.
 #. * Appears at the end of an "and"-separated list.
 #: client/gui-gtk-3.22/gotodlg.c:402 client/gui-gtk-4.0/gotodlg.c:402
-#, fuzzy
 msgid "?gotodlg:no city"
-msgstr "Ovládat město"
+msgstr "?gotodlg:žádné město"
 
 #. TRANS: goto/airlift dialog. Current location of units; %s is an
 #. * "and"-separated list of cities and associated info
@@ -4535,6 +4432,7 @@ msgstr ""
 #: client/gui-gtk-3.22/gui_main.c:271 client/gui-qt/gui_main.cpp:117
 msgid "Other gui-specific options are:\n"
 msgstr ""
+"Další volby grafického rozhraní:\n"
 
 #: client/gui-gtk-3.22/gui_main.c:274
 msgid ""
@@ -4564,14 +4462,13 @@ msgstr "Freeciv"
 
 #: client/gui-gtk-3.22/gui_main.c:866 client/gui-gtk-4.0/gui_main.c:867
 msgid "Detach/Attach the pane."
-msgstr ""
+msgstr "Odpojit nebo připojit panel."
 
 #: client/gui-gtk-3.22/gui_main.c:1111 client/gui-gtk-4.0/gui_main.c:1062
 #: client/gui-qt/sidebar.cpp:663
-#, fuzzy
 #| msgid "Fixed-length turns play mode"
 msgid "Fixed length turns"
-msgstr "Režim fixní délky kola"
+msgstr "Tahy s pevnou délkou"
 
 #: client/gui-gtk-3.22/gui_main.c:1116 client/gui-gtk-3.22/gui_main.c:1405
 #: client/gui-gtk-4.0/gui_main.c:1067 client/gui-gtk-4.0/gui_main.c:1356
@@ -4589,9 +4486,8 @@ msgstr "Shift+Enter"
 
 #: client/gui-gtk-3.22/gui_main.c:1493 client/gui-gtk-4.0/gui_main.c:1449
 #: client/gui-qt/menu.cpp:1548 client/gui-qt/pages.cpp:739
-#, fuzzy
 msgid "?noun:View"
-msgstr "_Zobrazit"
+msgstr "?noun:Pohled"
 
 #: client/gui-gtk-3.22/gui_main.c:1614 client/gui-gtk-4.0/gui_main.c:1581
 msgid "Chat"
@@ -4599,30 +4495,29 @@ msgstr "Chat"
 
 #: client/gui-gtk-3.22/gui_main.c:1644 client/gui-gtk-4.0/gui_main.c:1612
 msgid "Allies Only"
-msgstr ""
+msgstr "Pouze spojenci"
 
 #: client/gui-gtk-3.22/gui_main.c:1653 client/gui-gtk-4.0/gui_main.c:1621
 #: client/gui-qt/chatline.cpp:282
-#, fuzzy
 msgid "Clear links"
-msgstr "Cílový _Seznam prací:"
+msgstr "Vymazat odkazy"
 
 #: client/gui-gtk-3.22/gui_main.c:1770 client/gui-gtk-4.0/gui_main.c:1751
 msgid "Migrating options from gtk2 to gtk3 client"
-msgstr ""
+msgstr "Přenáším nastavení z klienta GTK2 do GTK3"
 
 #: client/gui-gtk-3.22/gui_main.c:1825 client/gui-gtk-4.0/gui_main.c:1806
 msgid "Migrating options from gtk3 to gtk3.22 client"
-msgstr ""
+msgstr "Přenáším nastavení z klienta GTK3 do GTK 3.22"
 
 #: client/gui-gtk-3.22/gui_main.c:1836 client/gui-gtk-4.0/gui_main.c:1817
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
-msgstr ""
+msgstr "Přenáším nastavení klienta GTK3 z Freecivu 2.5."
 
 #: client/gui-gtk-3.22/gui_main.c:1896 client/gui-gtk-4.0/gui_main.c:1922
 #: tools/fcmp/mpgui_gtk3.c:628 tools/fcmp/mpgui_gtk4.c:643
 msgid "Failed to open graphical mode."
-msgstr ""
+msgstr "Nepodařilo se spustit grafický režim."
 
 #: client/gui-gtk-3.22/gui_main.c:1950 client/gui-gtk-4.0/gui_main.c:2021
 #, fuzzy, c-format
@@ -4657,39 +4552,33 @@ msgstr "Ctrl+W"
 
 #: client/gui-gtk-3.22/happiness.c:208 client/gui-gtk-4.0/happiness.c:178
 #: client/gui-qt/citydlg.cpp:1870
-#, fuzzy
 msgid "Cities:"
-msgstr "Měs_ta:"
+msgstr "Města:"
 
 #: client/gui-gtk-3.22/happiness.c:209 client/gui-gtk-4.0/happiness.c:179
 #: client/gui-qt/citydlg.cpp:1870
-#, fuzzy
 msgid "Luxuries:"
 msgstr "Luxus:"
 
 #: client/gui-gtk-3.22/happiness.c:210 client/gui-gtk-4.0/happiness.c:180
 #: client/gui-qt/citydlg.cpp:1870
-#, fuzzy
 msgid "Buildings:"
-msgstr "Stavby: "
+msgstr "Budovy:"
 
 #: client/gui-gtk-3.22/happiness.c:211 client/gui-gtk-4.0/happiness.c:181
 #: client/gui-qt/citydlg.cpp:1871
-#, fuzzy
 msgid "Nationality:"
-msgstr "Národ"
+msgstr "Národnost:"
 
 #: client/gui-gtk-3.22/happiness.c:212 client/gui-gtk-4.0/happiness.c:182
 #: client/gui-qt/citydlg.cpp:1871
-#, fuzzy
 msgid "Units:"
-msgstr "Jednotek: "
+msgstr "Jednotky:"
 
 #: client/gui-gtk-3.22/happiness.c:213 client/gui-gtk-4.0/happiness.c:183
 #: client/gui-qt/citydlg.cpp:1871
-#, fuzzy
 msgid "Wonders:"
-msgstr "Divy: "
+msgstr "Divy:"
 
 #: client/gui-gtk-3.22/happiness.c:224 client/gui-gtk-4.0/happiness.c:194
 #: client/gui-qt/citydlg.cpp:1858 client/gui-sdl2/citydlg.c:2114
@@ -4797,21 +4686,20 @@ msgstr "Zdroje:"
 #. TRANS: Label for build cost for extras in help. Will be followed by
 #. * something like "3 MP" (where MP = Movement Points)
 #: client/gui-gtk-3.22/helpdlg.c:136 client/gui-gtk-4.0/helpdlg.c:136
-#, fuzzy
 msgid "Build:"
-msgstr "Stavby: "
+msgstr "Stavba:"
 
 #. TRANS: Extra conflicts in help. Will be followed by a list of extras
 #. * that can't be built on the same tile as this one.
 #: client/gui-gtk-3.22/helpdlg.c:139 client/gui-gtk-4.0/helpdlg.c:139
 msgid "Conflicts with:"
-msgstr ""
+msgstr "Nelze kombinovat s:"
 
 #. TRANS: Extra bonus in help. Will be followed by food/production/trade
 #. * stats like "0/0/+1", "0/+50%/0"
 #: client/gui-gtk-3.22/helpdlg.c:142 client/gui-gtk-4.0/helpdlg.c:142
 msgid "Bonus (F/P/T):"
-msgstr ""
+msgstr "Bonus (J/V/O):"
 
 #. TRANS: "None" tech
 #: client/gui-gtk-3.22/helpdlg.c:144 client/gui-gtk-4.0/helpdlg.c:144
@@ -4841,14 +4729,13 @@ msgid "Freeciv Help Browser"
 msgstr "Freeciv prohlížeč nápovědy"
 
 #: client/gui-gtk-3.22/helpdlg.c:529 client/gui-gtk-4.0/helpdlg.c:551
-#, fuzzy
 #| msgid "Back"
 msgid "_Back"
-msgstr "Zpět"
+msgstr "_Zpět"
 
 #: client/gui-gtk-3.22/helpdlg.c:531 client/gui-gtk-4.0/helpdlg.c:553
 msgid "_Forward"
-msgstr ""
+msgstr "_Vpřed"
 
 #: client/gui-gtk-3.22/helpdlg.c:788 client/gui-gtk-4.0/helpdlg.c:820
 msgid "Expand All"
@@ -4901,47 +4788,40 @@ msgid "(none)"
 msgstr "(žádný)"
 
 #: client/gui-gtk-3.22/helpdlg.c:1349 client/gui-gtk-4.0/helpdlg.c:1399
-#, fuzzy
 #| msgid "Mine Rslt/Time:"
 msgid "Cultivate Rslt/Time"
-msgstr "Důl výsledek/čas:"
+msgstr "Zúrodnění – výsledek a čas"
 
 #: client/gui-gtk-3.22/helpdlg.c:1359 client/gui-gtk-4.0/helpdlg.c:1409
-#, fuzzy
 #| msgid "Trans. Rslt/Time:"
 msgid "Plant Rslt/Time"
-msgstr "Transf. výsledek/čas:"
+msgstr "Osázení – výsledek a čas"
 
 #: client/gui-gtk-3.22/helpdlg.c:1370 client/gui-gtk-4.0/helpdlg.c:1420
-#, fuzzy
 #| msgid "Trans. Rslt/Time:"
 msgid "Trans. Rslt/Time"
-msgstr "Transf. výsledek/čas:"
+msgstr "Přeměna – výsledek a čas"
 
 #: client/gui-gtk-3.22/helpdlg.c:1377 client/gui-gtk-4.0/helpdlg.c:1427
 #: client/gui-qt/helpdlg.cpp:1412
-#, fuzzy
 msgid "Build as irrigation"
-msgstr "Stavět zavlažování"
+msgstr "Budovat jako závlahu"
 
 #: client/gui-gtk-3.22/helpdlg.c:1381 client/gui-gtk-4.0/helpdlg.c:1431
 #: client/gui-qt/helpdlg.cpp:1416
-#, fuzzy
 msgid "Build as mine"
-msgstr "Stavět důl"
+msgstr "Budovat jako důl"
 
 #: client/gui-gtk-3.22/helpdlg.c:1385 client/gui-gtk-4.0/helpdlg.c:1435
 #: client/gui-qt/helpdlg.cpp:1420
-#, fuzzy
 msgid "Build as road"
-msgstr "Stavět cestu"
+msgstr "Budovat jako cestu"
 
 #: client/gui-gtk-3.22/helpdlg.c:1389 client/gui-gtk-4.0/helpdlg.c:1439
 #: client/gui-qt/helpdlg.cpp:1424
-#, fuzzy
 #| msgid "Build Airbase"
 msgid "Build as base"
-msgstr "Stavět letiště"
+msgstr "Budovat jako základnu"
 
 #. TRANS: "MP" = movement points
 #: client/gui-gtk-3.22/helpdlg.c:1424 client/gui-gtk-4.0/helpdlg.c:1474
@@ -4955,28 +4835,25 @@ msgstr ""
 #. TRANS: Road bonus depends on terrain.
 #: client/gui-gtk-3.22/helpdlg.c:1427 client/gui-gtk-3.22/helpdlg.c:1458
 #: client/gui-gtk-4.0/helpdlg.c:1477 client/gui-gtk-4.0/helpdlg.c:1508
-#, fuzzy, c-format
+#, c-format
 msgid "Terrain specific"
-msgstr "Specialita terénu"
+msgstr "Podle terénu"
 
 #. TRANS: (Resource extra) Conflicts with:
 #: client/gui-gtk-3.22/helpdlg.c:1437 client/gui-gtk-4.0/helpdlg.c:1487
-#, fuzzy
 #| msgid "Resources"
 msgid "Other Resources"
-msgstr "Zdroje"
+msgstr "Další zdroje"
 
 #. TRANS: No output bonus from a road
 #: client/gui-gtk-3.22/helpdlg.c:1467 client/gui-gtk-4.0/helpdlg.c:1517
-#, fuzzy
 #| msgid "Wonders: "
 msgid "?bonus:None"
-msgstr "Divy: "
+msgstr "?bonus:Žádný"
 
 #: client/gui-gtk-3.22/infradlg.c:96 client/gui-gtk-4.0/infradlg.c:97
-#, fuzzy
 msgid "Place infrastructure"
-msgstr "Infrastruktura: "
+msgstr "Umístit infrastrukturu"
 
 #: client/gui-gtk-3.22/infradlg.c:97 client/gui-gtk-3.22/rallypointdlg.c:78
 #: client/gui-gtk-3.22/unitselextradlg.c:131
@@ -4989,13 +4866,12 @@ msgstr "Zavřít"
 
 #: client/gui-gtk-3.22/infradlg.c:108 client/gui-gtk-4.0/infradlg.c:109
 msgid "First click a tile."
-msgstr ""
+msgstr "Nejprve klikněte na pole."
 
 #: client/gui-gtk-3.22/infradlg.c:114 client/gui-gtk-4.0/infradlg.c:115
-#, fuzzy
 #| msgid "Hitpoints:"
 msgid "- infrapoints"
-msgstr "Výdrž:"
+msgstr "– body infrastruktury"
 
 #: client/gui-gtk-3.22/infradlg.c:144 client/gui-gtk-4.0/infradlg.c:145
 #, fuzzy, c-format
@@ -5007,13 +4883,12 @@ msgstr[1] "Výdrž:"
 msgstr[2] "Výdrž:"
 
 #: client/gui-gtk-3.22/infradlg.c:191 client/gui-gtk-4.0/infradlg.c:199
-#, fuzzy
 msgid "No infra possible. Select another tile."
-msgstr "Nemůžete uplácet jednotky tohoto národa."
+msgstr "Tady nelze vybudovat infrastrukturu. Vyberte jiné pole."
 
 #: client/gui-gtk-3.22/infradlg.c:194 client/gui-gtk-4.0/infradlg.c:202
 msgid "Select infra for the tile, or another tile."
-msgstr ""
+msgstr "Vyberte infrastrukturu pro toto pole nebo vyberte jiné pole."
 
 #: client/gui-gtk-3.22/inteldlg.c:49 client/gui-gtk-4.0/inteldlg.c:49
 #: client/gui-qt/plrdlg.cpp:590
@@ -5089,19 +4964,18 @@ msgstr "Divy světa"
 #: client/gui-gtk-3.22/inteldlg.c:650 client/gui-gtk-4.0/inteldlg.c:669
 #: client/gui-qt/plrdlg.cpp:720
 msgid "All Wonders are known"
-msgstr ""
+msgstr "Jsou známy všechny divy"
 
 #: client/gui-gtk-3.22/inteldlg.c:653 client/gui-gtk-4.0/inteldlg.c:672
 #: client/gui-qt/plrdlg.cpp:723
-#, fuzzy
 #| msgid "Small Wonder"
 msgid "Small Wonders not known"
-msgstr "Malý div světa"
+msgstr "Malé divy nejsou známy"
 
 #: client/gui-gtk-3.22/inteldlg.c:656 client/gui-gtk-4.0/inteldlg.c:675
 #: client/gui-qt/plrdlg.cpp:726
 msgid "Small Wonders visible if we have an embassy"
-msgstr ""
+msgstr "Malé divy uvidíme, pokud máme velvyslanectví"
 
 #: client/gui-gtk-3.22/inteldlg.c:675 client/gui-gtk-4.0/inteldlg.c:695
 #: client/gui-qt/plrdlg.cpp:746 client/gui-sdl2/inteldlg.c:455
@@ -5118,17 +4992,16 @@ msgstr "(ztraceno)"
 
 #: client/gui-gtk-3.22/luaconsole.c:196 client/gui-gtk-4.0/luaconsole.c:196
 msgid "Client Lua Console"
-msgstr ""
+msgstr "Konzole Lua klienta"
 
 #: client/gui-gtk-3.22/luaconsole.c:246 client/gui-gtk-4.0/luaconsole.c:246
-#, fuzzy
 msgid "Load Lua Script"
-msgstr "_Naložit jednotku"
+msgstr "Načíst skript Lua"
 
 #: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:472
 #: client/gui-gtk-4.0/luaconsole.c:320 client/gui-gtk-4.0/pages.c:486
 msgid "_Open"
-msgstr ""
+msgstr "_Otevřít"
 
 #: client/gui-gtk-3.22/mapctrl.c:200 client/gui-gtk-4.0/mapctrl.c:145
 #: client/gui-qt/mapctrl.cpp:60
@@ -5178,37 +5051,32 @@ msgid "_Edit"
 msgstr "_Upravit"
 
 #: client/gui-gtk-3.22/menu.c:275 client/gui-gtk-4.0/menu.c:3161
-#, fuzzy
 msgid "?verb:_View"
-msgstr "Přehled"
+msgstr "?verb:_Zobrazit"
 
 #: client/gui-gtk-3.22/menu.c:276
-#, fuzzy
 msgid "_Improvements"
-msgstr "_Vylepšení:"
+msgstr "_Budovy"
 
 #: client/gui-gtk-3.22/menu.c:278 client/gui-gtk-4.0/menu.c:3266
-#, fuzzy
 msgid "C_ivilization"
-msgstr "Kapitalizace"
+msgstr "_Civilizace"
 
 #: client/gui-gtk-3.22/menu.c:280 client/gui-gtk-4.0/menu.c:3287
-#, fuzzy
 msgid "_Battle Groups"
-msgstr "_Národy:"
+msgstr "_Bojové skupiny"
 
 #: client/gui-gtk-3.22/menu.c:282 client/gui-gtk-4.0/menu.c:3319
 msgid "_Help"
 msgstr "_Nápověda"
 
 #: client/gui-gtk-3.22/menu.c:283 client/gui-gtk-4.0/menu.c:549
-#, fuzzy
 msgid "_Clear Chat Log"
-msgstr "_Smazat Log"
+msgstr "V_ymazat protokol chatu"
 
 #: client/gui-gtk-3.22/menu.c:285 client/gui-gtk-4.0/menu.c:552
 msgid "Save Chat _Log"
-msgstr ""
+msgstr "Uložit _protokol chatu"
 
 #: client/gui-gtk-3.22/menu.c:287 client/gui-gtk-4.0/menu.c:556
 msgid "_Local Client"
@@ -5227,9 +5095,8 @@ msgid "Save Options _Now"
 msgstr "Uložit Možnosti _nyní"
 
 #: client/gui-gtk-3.22/menu.c:295 client/gui-gtk-4.0/menu.c:573
-#, fuzzy
 msgid "_Reload Tileset"
-msgstr "Sada dlaždic"
+msgstr "Znovu _načíst grafiku mapy"
 
 #: client/gui-gtk-3.22/menu.c:298 client/gui-gtk-4.0/menu.c:578
 msgid "_Save Game"
@@ -5240,24 +5107,22 @@ msgid "Save Game _As..."
 msgstr "Uložit hru _jako..."
 
 #: client/gui-gtk-3.22/menu.c:302 client/gui-gtk-4.0/menu.c:584
-#, fuzzy
 msgid "Save Map _Image"
-msgstr "Uložit hru"
+msgstr "Uložit _obrázek mapy"
 
 #: client/gui-gtk-3.22/menu.c:304 client/gui-gtk-4.0/menu.c:587
-#, fuzzy
 msgid "Save _Map Image As..."
-msgstr "Uložit hru _jako..."
+msgstr "Uložit obrázek mapy _jako…"
 
 #: client/gui-gtk-3.22/menu.c:306 client/gui-gtk-4.0/menu.c:590
 #: client/gui-qt/menu.cpp:1013
 msgid "Volume Up"
-msgstr ""
+msgstr "Zvýšit hlasitost"
 
 #: client/gui-gtk-3.22/menu.c:308 client/gui-gtk-4.0/menu.c:593
 #: client/gui-qt/menu.cpp:1017
 msgid "Volume Down"
-msgstr ""
+msgstr "Snížit hlasitost"
 
 #: client/gui-gtk-3.22/menu.c:310 client/gui-gtk-4.0/menu.c:596
 msgid "_Leave"
@@ -5276,23 +5141,21 @@ msgid "Work_lists"
 msgstr "Sezn_amy prací"
 
 #: client/gui-gtk-3.22/menu.c:318 client/gui-gtk-4.0/menu.c:610
-#, fuzzy
 #| msgid "Close Dialog"
 msgid "Rally point dialog"
-msgstr "Zavřít Dialog"
+msgstr "Nastavit shromaždiště"
 
 #: client/gui-gtk-3.22/menu.c:321 client/gui-gtk-4.0/menu.c:613
 msgid "Infra dialog"
-msgstr ""
+msgstr "Okno infrastruktury"
 
 #: client/gui-gtk-3.22/menu.c:324 client/gui-gtk-4.0/menu.c:628
 msgid "Client _Lua Script"
-msgstr ""
+msgstr "Klientský skript _Lua"
 
 #: client/gui-gtk-3.22/menu.c:326 client/gui-gtk-4.0/menu.c:857
-#, fuzzy
 msgid "?noun:_View"
-msgstr "_Zobrazit"
+msgstr "?noun:_Pohled"
 
 #: client/gui-gtk-3.22/menu.c:328 client/gui-gtk-3.22/menu.c:482
 #: client/gui-gtk-3.22/unitselect.c:264 client/gui-gtk-4.0/menu.c:696
@@ -5301,7 +5164,6 @@ msgid "_Units"
 msgstr "_Jednotky"
 
 #: client/gui-gtk-3.22/menu.c:330 client/gui-gtk-4.0/menu.c:863
-#, fuzzy
 msgid "_Nations"
 msgstr "_Národy"
 
@@ -5312,10 +5174,9 @@ msgstr "_Divy světa"
 #: client/gui-gtk-3.22/menu.c:336 client/gui-gtk-3.22/menu.c:2477
 #: client/gui-gtk-4.0/menu.c:889 client/gui-qt/menu.cpp:1576
 #: client/gui-qt/menu.cpp:2157
-#, fuzzy
 #| msgid "No Cities"
 msgid "Top Cities"
-msgstr "Žádná města"
+msgstr "Nejlepší města"
 
 #: client/gui-gtk-3.22/menu.c:338 client/gui-gtk-4.0/menu.c:892
 msgid "_Messages"
@@ -5328,73 +5189,71 @@ msgstr "D_emografické údaje"
 #: client/gui-gtk-3.22/menu.c:345 client/gui-gtk-4.0/menu.c:907
 #: client/gui-qt/menu.cpp:1599
 msgid "Select Battle Group 1"
-msgstr ""
+msgstr "Vybrat bojovou skupinu 1"
 
 #: client/gui-gtk-3.22/menu.c:348 client/gui-gtk-4.0/menu.c:910
 #: client/gui-qt/menu.cpp:1603
 msgid "Assign Battle Group 1"
-msgstr ""
+msgstr "Přiřadit k bojové skupině 1"
 
 #: client/gui-gtk-3.22/menu.c:351 client/gui-gtk-4.0/menu.c:913
 #: client/gui-qt/menu.cpp:1607
 msgid "Append to Battle Group 1"
-msgstr ""
+msgstr "Přidat k bojové skupině 1"
 
 #: client/gui-gtk-3.22/menu.c:354 client/gui-gtk-4.0/menu.c:916
 #: client/gui-qt/menu.cpp:1611
 msgid "Select Battle Group 2"
-msgstr ""
+msgstr "Vybrat bojovou skupinu 2"
 
 #: client/gui-gtk-3.22/menu.c:357 client/gui-gtk-4.0/menu.c:919
 #: client/gui-qt/menu.cpp:1615
 msgid "Assign Battle Group 2"
-msgstr ""
+msgstr "Přiřadit k bojové skupině 2"
 
 #: client/gui-gtk-3.22/menu.c:360 client/gui-gtk-4.0/menu.c:922
 #: client/gui-qt/menu.cpp:1619
 msgid "Append to Battle Group 2"
-msgstr ""
+msgstr "Přidat k bojové skupině 2"
 
 #: client/gui-gtk-3.22/menu.c:363 client/gui-gtk-4.0/menu.c:925
 #: client/gui-qt/menu.cpp:1623
 msgid "Select Battle Group 3"
-msgstr ""
+msgstr "Vybrat bojovou skupinu 3"
 
 #: client/gui-gtk-3.22/menu.c:366 client/gui-gtk-4.0/menu.c:928
 #: client/gui-qt/menu.cpp:1627
 msgid "Assign Battle Group 3"
-msgstr ""
+msgstr "Přiřadit k bojové skupině 3"
 
 #: client/gui-gtk-3.22/menu.c:369 client/gui-gtk-4.0/menu.c:931
 #: client/gui-qt/menu.cpp:1631
 msgid "Append to Battle Group 3"
-msgstr ""
+msgstr "Přidat k bojové skupině 3"
 
 #: client/gui-gtk-3.22/menu.c:372 client/gui-gtk-4.0/menu.c:934
 #: client/gui-qt/menu.cpp:1635
 msgid "Select Battle Group 4"
-msgstr ""
+msgstr "Vybrat bojovou skupinu 4"
 
 #: client/gui-gtk-3.22/menu.c:375 client/gui-gtk-4.0/menu.c:937
 #: client/gui-qt/menu.cpp:1639
 msgid "Assign Battle Group 4"
-msgstr ""
+msgstr "Přiřadit k bojové skupině 4"
 
 #: client/gui-gtk-3.22/menu.c:378 client/gui-gtk-4.0/menu.c:940
 #: client/gui-qt/menu.cpp:1643
 msgid "Append to Battle Group 4"
-msgstr ""
+msgstr "Přidat k bojové skupině 4"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-3.22/menu.c:382 client/gui-gtk-4.0/menu.c:945
 #: client/include/helpdlg_g.h:33 data/helpdata.txt:43
-#, fuzzy
 msgid "?help:Overview"
-msgstr "Přehled"
+msgstr "?help:Přehled"
 
 #: client/gui-gtk-3.22/menu.c:384 client/gui-gtk-4.0/menu.c:948
 #: client/include/helpdlg_g.h:34 data/helpdata.txt:82
-#, fuzzy
 msgid "Strategy and Tactics"
 msgstr "Strategie a taktika"
 
@@ -5437,30 +5296,26 @@ msgstr "Vesmírný závod"
 
 #: client/gui-gtk-3.22/menu.c:412 client/gui-gtk-4.0/menu.c:990
 #: client/include/helpdlg_g.h:41
-#, fuzzy
 #| msgid "About Ruleset"
 msgid "About Current Ruleset"
-msgstr "O pravidlech"
+msgstr "O aktuální sadě pravidel"
 
 #: client/gui-gtk-3.22/menu.c:414 client/gui-gtk-4.0/menu.c:993
 #: client/include/helpdlg_g.h:42
-#, fuzzy
 #| msgid "About Ruleset"
 msgid "About Current Tileset"
-msgstr "O pravidlech"
+msgstr "O aktuální grafice mapy"
 
 #: client/gui-gtk-3.22/menu.c:416 client/gui-gtk-4.0/menu.c:996
 #: client/include/helpdlg_g.h:43
-#, fuzzy
 #| msgid "About Ruleset"
 msgid "About Current Musicset"
-msgstr "O pravidlech"
+msgstr "O aktuální hudební sadě"
 
 #: client/gui-gtk-3.22/menu.c:418 client/gui-gtk-4.0/menu.c:999
 #: client/include/helpdlg_g.h:44 data/helpdata.txt:1599
-#, fuzzy
 msgid "About Nations"
-msgstr "Národy"
+msgstr "O národech"
 
 #: client/gui-gtk-3.22/menu.c:420 client/gui-gtk-4.0/menu.c:1002
 #: client/include/helpdlg_g.h:36 data/helpdata.txt:1614
@@ -5494,24 +5349,20 @@ msgstr "Licenční ujednání"
 
 #: client/gui-gtk-3.22/menu.c:434 client/gui-gtk-4.0/menu.c:1023
 #: client/include/helpdlg_g.h:59 data/helpdata.txt:2355
-#, fuzzy
 msgid "About Freeciv"
-msgstr "Freeciv"
+msgstr "O Freecivu"
 
 #: client/gui-gtk-3.22/menu.c:436 client/gui-gtk-4.0/menu.c:568
-#, fuzzy
 msgid "Save Options on _Exit"
-msgstr "Volby serveru (stávající)"
+msgstr "Uložit nastavení při _ukončení"
 
 #: client/gui-gtk-3.22/menu.c:438 client/gui-gtk-4.0/menu.c:616
-#, fuzzy
 msgid "_Editing Mode"
-msgstr "Mód úprav"
+msgstr "_Režim úprav"
 
 #: client/gui-gtk-3.22/menu.c:440 client/gui-gtk-4.0/menu.c:633
-#, fuzzy
 msgid "Cit_y Outlines"
-msgstr "Možnosti města"
+msgstr "_Dosah měst"
 
 #: client/gui-gtk-3.22/menu.c:442 client/gui-gtk-4.0/menu.c:636
 #: client/gui-qt/menu.cpp:1089 client/gui-qt/shortcuts.cpp:67
@@ -5529,13 +5380,12 @@ msgstr "Státní _Hranice"
 #: client/gui-gtk-3.22/menu.c:448 client/gui-gtk-4.0/menu.c:645
 #: client/gui-qt/menu.cpp:1107
 msgid "Native Tiles"
-msgstr ""
+msgstr "Přirozená pole"
 
 #: client/gui-gtk-3.22/menu.c:450 client/gui-gtk-4.0/menu.c:648
 #: client/gui-qt/menu.cpp:1112
-#, fuzzy
 msgid "City Full Bar"
-msgstr "Hradby"
+msgstr "Úplný panel města"
 
 #: client/gui-gtk-3.22/menu.c:452 client/gui-gtk-4.0/menu.c:651
 msgid "City _Names"
@@ -5546,120 +5396,101 @@ msgid "City G_rowth"
 msgstr "Růst mě_sta"
 
 #: client/gui-gtk-3.22/menu.c:456 client/gui-gtk-4.0/menu.c:657
-#, fuzzy
 #| msgid "City Production"
 msgid "City _Production"
-msgstr "Produkce města"
+msgstr "_Výroba měst"
 
 #: client/gui-gtk-3.22/menu.c:458 client/gui-gtk-4.0/menu.c:660
 #: client/gui-qt/menu.cpp:1135
-#, fuzzy
 msgid "City Buy Cost"
-msgstr "Celkem výdaje:"
+msgstr "Cena dokončení výroby"
 
 #: client/gui-gtk-3.22/menu.c:460 client/gui-gtk-4.0/menu.c:663
-#, fuzzy
 msgid "City Tra_deroutes"
-msgstr "Obchodní cesty:"
+msgstr "_Obchodní cesty měst"
 
 #: client/gui-gtk-3.22/menu.c:462 client/gui-gtk-4.0/menu.c:666
 msgid "_Terrain"
 msgstr "_Terén"
 
 #: client/gui-gtk-3.22/menu.c:464 client/gui-gtk-4.0/menu.c:669
-#, fuzzy
 msgid "C_oastline"
-msgstr "Pobřeží"
+msgstr "_Pobřežní čára"
 
 #: client/gui-gtk-3.22/menu.c:466 client/gui-gtk-4.0/menu.c:672
-#, fuzzy
 msgid "_Paths"
-msgstr "Hlídka"
+msgstr "_Cesty"
 
 #: client/gui-gtk-3.22/menu.c:468 client/gui-gtk-4.0/menu.c:675
-#, fuzzy
 msgid "_Irrigation"
-msgstr "Zavlažování"
+msgstr "_Zavlažování"
 
 #: client/gui-gtk-3.22/menu.c:470 client/gui-gtk-4.0/menu.c:678
-#, fuzzy
 msgid "_Mines"
-msgstr "Doly"
+msgstr "_Doly"
 
 #: client/gui-gtk-3.22/menu.c:472 client/gui-gtk-4.0/menu.c:681
-#, fuzzy
 msgid "_Bases"
-msgstr "Základen"
+msgstr "_Základny"
 
 #: client/gui-gtk-3.22/menu.c:474 client/gui-gtk-4.0/menu.c:684
-#, fuzzy
 #| msgid "Resources"
 msgid "_Resources"
-msgstr "Zdroje"
+msgstr "Z_droje"
 
 #: client/gui-gtk-3.22/menu.c:476 client/gui-gtk-4.0/menu.c:687
 msgid "_Huts"
-msgstr ""
+msgstr "_Osady"
 
 #: client/gui-gtk-3.22/menu.c:478 client/gui-gtk-4.0/menu.c:690
-#, fuzzy
 msgid "Po_llution & Fallout"
-msgstr "Znečištění a spad"
+msgstr "Z_nečištění a radioaktivní spad"
 
 #: client/gui-gtk-3.22/menu.c:480 client/gui-gtk-4.0/menu.c:693
-#, fuzzy
 msgid "Citi_es"
-msgstr "Města"
+msgstr "_Města"
 
 #: client/gui-gtk-3.22/menu.c:484 client/gui-gtk-4.0/menu.c:699
-#, fuzzy
 msgid "Unit Solid Background"
-msgstr "Neprůhledná barva pozadí jednotky"
+msgstr "Jednobarevné pozadí jednotek"
 
 #: client/gui-gtk-3.22/menu.c:486 client/gui-gtk-4.0/menu.c:702
-#, fuzzy
 msgid "Unit shields"
-msgstr "Štít"
+msgstr "Štíty jednotek"
 
 #: client/gui-gtk-3.22/menu.c:488 client/gui-gtk-4.0/menu.c:705
 #: client/gui-qt/menu.cpp:1145 client/gui-qt/shortcuts.cpp:176
-#, fuzzy
 msgid "Unit Stack Size"
-msgstr "Jednotky"
+msgstr "Počet jednotek ve skupině"
 
 #: client/gui-gtk-3.22/menu.c:491 client/gui-gtk-4.0/menu.c:708
-#, fuzzy
 msgid "Focu_s Unit"
-msgstr "Výběr jednotky"
+msgstr "Vy_braná jednotka"
 
 #: client/gui-gtk-3.22/menu.c:493 client/gui-gtk-4.0/menu.c:711
-#, fuzzy
 msgid "Fog of _War"
-msgstr "Clona války"
+msgstr "_Válečná mlha"
 
 #: client/gui-gtk-3.22/menu.c:495 client/gui-gtk-4.0/menu.c:715
-#, fuzzy
 msgid "_Fullscreen"
-msgstr "_Fullscreen"
+msgstr "Celá _obrazovka"
 
 #: client/gui-gtk-3.22/menu.c:498
 msgid "Recalculate _Borders"
 msgstr "Přepočítat _Hranice"
 
 #: client/gui-gtk-3.22/menu.c:500 client/gui-gtk-4.0/menu.c:619
-#, fuzzy
 msgid "Toggle Fog of _War"
-msgstr "Přepnout Clonu-války"
+msgstr "Přepnout válečnou _mlhu"
 
 #: client/gui-gtk-3.22/menu.c:503 client/gui-gtk-4.0/menu.c:622
 msgid "Game/Scenario Properties"
-msgstr ""
+msgstr "Vlastnosti hry a scénáře"
 
 #: client/gui-gtk-3.22/menu.c:505 client/gui-gtk-3.22/pages.c:3524
 #: client/gui-gtk-4.0/menu.c:625 client/gui-gtk-4.0/pages.c:3670
-#, fuzzy
 msgid "Save Scenario"
-msgstr "Start s_cénáře"
+msgstr "Uložit scénář"
 
 #: client/gui-gtk-3.22/menu.c:508 client/gui-gtk-4.0/menu.c:718
 msgid "_Center View"
@@ -5674,10 +5505,9 @@ msgid "_Research"
 msgstr "_Výzkum"
 
 #: client/gui-gtk-3.22/menu.c:514 client/gui-gtk-4.0/menu.c:879
-#, fuzzy
 #| msgid "Polish"
 msgid "_Policies..."
-msgstr "Polský"
+msgstr "_Politika…"
 
 #: client/gui-gtk-3.22/menu.c:517 client/gui-gtk-3.22/plrdlg.c:383
 #: client/gui-gtk-4.0/menu.c:898 client/gui-gtk-4.0/plrdlg.c:490
@@ -5685,74 +5515,64 @@ msgid "_Spaceship"
 msgstr "_Kosmická loď"
 
 #: client/gui-gtk-3.22/menu.c:519 client/gui-gtk-4.0/menu.c:901
-#, fuzzy
 msgid "_Achievements"
-msgstr "_Vylepšení:"
+msgstr "Ú_spěchy"
 
 #: client/gui-gtk-3.22/menu.c:523 client/gui-gtk-4.0/menu.c:3200
-#, fuzzy
 msgid "_Unit"
-msgstr "_Jednotky"
+msgstr "_Jednotka"
 
 #: client/gui-gtk-3.22/menu.c:524 client/gui-gtk-4.0/menu.c:3228
-#, fuzzy
 msgid "_Work"
-msgstr "Sezn_amy prací"
+msgstr "_Práce"
 
 #: client/gui-gtk-3.22/menu.c:525 client/gui-gtk-4.0/menu.c:3239
-#, fuzzy
 msgid "_Combat"
-msgstr "Boj"
+msgstr "_Boj"
 
 #: client/gui-gtk-3.22/menu.c:526 client/gui-gtk-4.0/menu.c:3237
 #: client/gui-gtk-4.0/menu.c:3730
-#, fuzzy
 msgid "Build _Base"
-msgstr "Stavět letiště"
+msgstr "Postavit _základnu"
 
 #: client/gui-gtk-3.22/menu.c:527 client/gui-gtk-4.0/menu.c:3208
 #: client/gui-gtk-4.0/menu.c:3631
-#, fuzzy
 msgid "Build _Path"
-msgstr "Stavět letiště"
+msgstr "Postavit _cestu"
 
 #: client/gui-gtk-3.22/menu.c:528 client/gui-gtk-4.0/menu.c:3214
 #: client/gui-gtk-4.0/menu.c:3704
-#, fuzzy
 #| msgid "Clean Pollution"
 msgid "_Clean Nuisance"
-msgstr "Odstranit Znečištění"
+msgstr "_Odstranit škodlivý prvek"
 
 #: client/gui-gtk-3.22/menu.c:529 client/gui-gtk-4.0/menu.c:723
 msgid "_Single Unit (Unselect Others)"
-msgstr ""
+msgstr "_Jedna jednotka (ostatní odebrat z výběru)"
 
 #: client/gui-gtk-3.22/menu.c:531 client/gui-gtk-4.0/menu.c:726
 msgid "_All On Tile"
-msgstr ""
+msgstr "_Všechny na poli"
 
 #: client/gui-gtk-3.22/menu.c:533 client/gui-gtk-4.0/menu.c:729
-#, fuzzy
 msgid "Same Type on _Tile"
-msgstr "Uloží hru do souboru."
+msgstr "Stejný typ na _poli"
 
 #: client/gui-gtk-3.22/menu.c:536 client/gui-gtk-4.0/menu.c:732
 msgid "Same Type on _Continent"
-msgstr ""
+msgstr "Stejný typ na _kontinentu"
 
 #: client/gui-gtk-3.22/menu.c:539 client/gui-gtk-4.0/menu.c:735
 msgid "Same Type _Everywhere"
-msgstr ""
+msgstr "Stejný typ _všude"
 
 #: client/gui-gtk-3.22/menu.c:541 client/gui-gtk-4.0/menu.c:738
-#, fuzzy
 msgid "Unit Selection Dialog"
-msgstr "Výběr jednotek"
+msgstr "Okno výběru jednotek"
 
 #: client/gui-gtk-3.22/menu.c:545 client/gui-gtk-4.0/menu.c:794
-#, fuzzy
 msgid "_Done"
-msgstr "Hotovo"
+msgstr "_Hotovo"
 
 #: client/gui-gtk-3.22/menu.c:547 client/gui-gtk-4.0/menu.c:743
 msgid "_Go to"
@@ -5760,38 +5580,33 @@ msgstr "Přesunout se (_G)"
 
 #: client/gui-gtk-3.22/menu.c:549 client/gui-gtk-4.0/menu.c:3180
 #: client/gui-gtk-4.0/menu.c:3577
-#, fuzzy
 #| msgid "Goto and Close"
 msgid "Go to a_nd..."
-msgstr "Jít a Zavřít"
+msgstr "_Přejít na pole a…"
 
 #: client/gui-gtk-3.22/menu.c:550 client/gui-gtk-4.0/menu.c:746
-#, fuzzy
 msgid "Go _to/Airlift to City..."
-msgstr "Přesun/Letecký most do města"
+msgstr "_Přejít nebo přepravit letecky do města…"
 
 #: client/gui-gtk-3.22/menu.c:552 client/gui-gtk-4.0/menu.c:749
-#, fuzzy
 msgid "_Return to Nearest City"
-msgstr "Návrat do nejbližšího města"
+msgstr "_Vrátit se do nejbližšího města"
 
 #: client/gui-gtk-3.22/menu.c:554 client/gui-gtk-4.0/menu.c:752
 msgid "Auto E_xplore"
 msgstr "Auto Průzkum (_X)"
 
 #: client/gui-gtk-3.22/menu.c:556 client/gui-gtk-4.0/menu.c:755
-#, fuzzy
 msgid "_Patrol"
-msgstr "Hlídka"
+msgstr "_Hlídkovat"
 
 #: client/gui-gtk-3.22/menu.c:558 client/gui-gtk-4.0/menu.c:761
 msgid "_Sentry"
 msgstr "Strážit (_S)"
 
 #: client/gui-gtk-3.22/menu.c:560 client/gui-gtk-4.0/menu.c:764
-#, fuzzy
 msgid "Uns_entry All On Tile"
-msgstr "_Strážit nečinné"
+msgstr "Pro_budit všechny na poli"
 
 #: client/gui-gtk-3.22/menu.c:562 client/gui-gtk-4.0/menu.c:767
 msgid "_Load"
@@ -5802,32 +5617,27 @@ msgid "_Unload"
 msgstr "_Vyložit"
 
 #: client/gui-gtk-3.22/menu.c:566 client/gui-gtk-4.0/menu.c:773
-#, fuzzy
 msgid "U_nload All From Transporter"
-msgstr "Vyložit transportér"
+msgstr "_Vyložit všechny jednotky z transportéru"
 
 #: client/gui-gtk-3.22/menu.c:569 client/gui-gtk-4.0/menu.c:776
-#, fuzzy
 msgid "Set _Home City"
-msgstr "Vytvořit _Domovské město"
+msgstr "Nastavit _domovské město"
 
 #: client/gui-gtk-3.22/menu.c:571 client/gui-gtk-3.22/menu.c:2786
 #: client/gui-gtk-4.0/menu.c:779 client/gui-gtk-4.0/menu.c:4034
-#, fuzzy
 msgid "Upgr_ade"
-msgstr "Vylepšit"
+msgstr "_Modernizovat"
 
 #: client/gui-gtk-3.22/menu.c:573 client/gui-gtk-3.22/menu.c:2807
 #: client/gui-gtk-4.0/menu.c:782 client/gui-gtk-4.0/menu.c:4054
-#, fuzzy
 msgid "C_onvert"
-msgstr "Přip_ojit"
+msgstr "_Přestavět"
 
 #: client/gui-gtk-3.22/menu.c:575 client/gui-gtk-3.22/repodlgs.c:1203
 #: client/gui-gtk-4.0/menu.c:785 client/gui-gtk-4.0/repodlgs.c:1234
-#, fuzzy
 msgid "_Disband"
-msgstr "Rozpustit"
+msgstr "_Rozpustit"
 
 #: client/gui-gtk-3.22/menu.c:577 client/gui-gtk-4.0/menu.c:799
 msgid "_Build City"
@@ -5859,24 +5669,20 @@ msgid "Build _Mine"
 msgstr "Postavit důl (_M)"
 
 #: client/gui-gtk-3.22/menu.c:591 client/gui-gtk-4.0/menu.c:823
-#, fuzzy
 msgid "Connect With Roa_d"
-msgstr "Připojit/Cesta"
+msgstr "Propojit _silnicí"
 
 #: client/gui-gtk-3.22/menu.c:593 client/gui-gtk-4.0/menu.c:826
-#, fuzzy
 msgid "Connect With Rai_l"
-msgstr "Připojit/Železnice"
+msgstr "Propojit ž_eleznicí"
 
 #: client/gui-gtk-3.22/menu.c:595 client/gui-gtk-4.0/menu.c:829
-#, fuzzy
 msgid "Connect With _Maglev"
-msgstr "Připojit/Železnice"
+msgstr "Propojit _maglevem"
 
 #: client/gui-gtk-3.22/menu.c:597 client/gui-gtk-4.0/menu.c:832
-#, fuzzy
 msgid "Connect With Irri_gation"
-msgstr "Připojit/Zavlažování"
+msgstr "Propojit _zavlažováním"
 
 #: client/gui-gtk-3.22/menu.c:600 client/gui-gtk-3.22/menu.c:2884
 #: client/gui-gtk-3.22/menu.c:2891 client/gui-gtk-4.0/menu.c:820
@@ -5885,9 +5691,8 @@ msgid "Transf_orm Terrain"
 msgstr "Transf_ormovat terén"
 
 #: client/gui-gtk-3.22/menu.c:602 client/gui-gtk-4.0/menu.c:835
-#, fuzzy
 msgid "_Clean"
-msgstr "Smazat log"
+msgstr "_Vyčistit"
 
 #: client/gui-gtk-3.22/menu.c:604 client/gui-gtk-4.0/menu.c:840
 #: client/gui-qt/shortcuts.cpp:132
@@ -5903,19 +5708,17 @@ msgid "Build Airbase"
 msgstr "Stavět letiště"
 
 #: client/gui-gtk-3.22/menu.c:610 client/gui-gtk-4.0/menu.c:849
-#, fuzzy
 #| msgid "Paradrop"
 msgid "P_aradrop"
-msgstr "Výsadek"
+msgstr "_Výsadek"
 
 #: client/gui-gtk-3.22/menu.c:612 client/gui-gtk-4.0/menu.c:852
-#, fuzzy
 msgid "_Pillage"
-msgstr "Drancovat"
+msgstr "_Drancovat"
 
 #: client/gui-gtk-3.22/menu.c:614 client/gui-gtk-4.0/menu.c:788
 msgid "_Do..."
-msgstr ""
+msgstr "P_rovést…"
 
 #: client/gui-gtk-3.22/menu.c:617 client/gui-gtk-4.0/menu.c:3257
 #: client/gui-gtk-4.0/menu.c:3606
@@ -5923,9 +5726,8 @@ msgid "_Government"
 msgstr "_Zřízení"
 
 #: client/gui-gtk-3.22/menu.c:619 client/gui-gtk-4.0/menu.c:876
-#, fuzzy
 msgid "_Tax Rates..."
-msgstr "Hodnota daní..."
+msgstr "_Daňové sazby…"
 
 #: client/gui-gtk-3.22/menu.c:621 client/gui-gtk-4.0/menu.c:882
 msgid "_Revolution..."
@@ -6000,16 +5802,14 @@ msgstr "Změnit na %s"
 
 #: client/gui-gtk-3.22/menu.c:2844 client/gui-gtk-3.22/menu.c:2888
 #: client/gui-gtk-4.0/menu.c:4091 client/gui-gtk-4.0/menu.c:4135
-#, fuzzy
 #| msgid "Activate"
 msgid "_Cultivate"
-msgstr "Aktivovat"
+msgstr "_Zúrodnit"
 
 #: client/gui-gtk-3.22/menu.c:2875 client/gui-gtk-3.22/menu.c:2890
 #: client/gui-gtk-4.0/menu.c:4122 client/gui-gtk-4.0/menu.c:4137
-#, fuzzy
 msgid "_Plant"
-msgstr "Výrobní podnik (mfg. plant)"
+msgstr "_Osázet"
 
 #: client/gui-gtk-3.22/menu.c:2880 client/gui-gtk-4.0/menu.c:4127
 #, c-format
@@ -6065,42 +5865,35 @@ msgid "Messages"
 msgstr "Zprávy"
 
 #: client/gui-gtk-3.22/optiondlg.c:207 client/gui-gtk-4.0/optiondlg.c:226
-#, fuzzy
 msgid "Refresh this option"
-msgstr ""
-"Vyžaduje %s národ.\n"
-"\n"
+msgstr "Načíst aktuální hodnotu"
 
 #: client/gui-gtk-3.22/optiondlg.c:212 client/gui-gtk-4.0/optiondlg.c:232
-#, fuzzy
 msgid "Reset this option"
-msgstr "Jít na tuto lokaci"
+msgstr "Obnovit výchozí hodnotu"
 
 #: client/gui-gtk-3.22/optiondlg.c:217 client/gui-gtk-4.0/optiondlg.c:239
 msgid "Apply the changes for this option"
-msgstr ""
+msgstr "Použít změny této volby"
 
 #: client/gui-gtk-3.22/optiondlg.c:337 client/gui-gtk-4.0/optiondlg.c:361
-#, fuzzy
 msgid "Select a color"
-msgstr "Zvolen nový cíl"
+msgstr "Vyberte barvu"
 
 #: client/gui-gtk-3.22/optiondlg.c:372 client/gui-gtk-3.22/pages.c:472
 #: client/gui-gtk-3.22/pages.c:601 client/gui-gtk-4.0/optiondlg.c:395
 #: client/gui-gtk-4.0/pages.c:486 client/gui-gtk-4.0/pages.c:615
-#, fuzzy
 msgid "_Save"
-msgstr "Uložit hru"
+msgstr "_Uložit"
 
 #: client/gui-gtk-3.22/optiondlg.c:374 client/gui-gtk-4.0/optiondlg.c:397
 #: client/gui-qt/optiondlg.cpp:147 client/gui-qt/shortcuts.cpp:632
-#, fuzzy
 msgid "Reset"
-msgstr "Poušť"
+msgstr "Obnovit výchozí"
 
 #: client/gui-gtk-3.22/pages.c:115 client/gui-gtk-4.0/pages.c:119
 msgid "Compiling scenario list."
-msgstr ""
+msgstr "Sestavuje se seznam scénářů."
 
 #. TRANS: "version 2.6.0, gui-gtk-3.22 client"
 #: client/gui-gtk-3.22/pages.c:187 client/gui-gtk-4.0/pages.c:192
@@ -6146,7 +5939,7 @@ msgstr "Nahrát u_loženou hru"
 #: client/gui-gtk-3.22/pages.c:335 client/gui-gtk-4.0/pages.c:344
 #: client/gui-qt/pages.cpp:233
 msgid "Continues previously saved single-player game."
-msgstr ""
+msgstr "Pokračuje v dříve uložené hře pro jednoho hráče."
 
 #: client/gui-gtk-3.22/pages.c:339 client/gui-gtk-4.0/pages.c:348
 msgid "C_onnect to Network Game"
@@ -6160,24 +5953,23 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-3.22/pages.c:348 client/gui-gtk-4.0/pages.c:357
-#, fuzzy
 #| msgid "Delete settings"
 msgid "Client Settings"
-msgstr "Smazat předvolbu"
+msgstr "Nastavení klienta"
 
 #: client/gui-gtk-3.22/pages.c:352 client/gui-gtk-4.0/pages.c:361
 #: client/gui-qt/pages.cpp:249
 msgid "Adjusting client-side options."
-msgstr ""
+msgstr "Upravuje místní nastavení klienta."
 
 #: client/gui-gtk-3.22/pages.c:355 client/gui-gtk-4.0/pages.c:364
 msgid "E_xit"
-msgstr ""
+msgstr "_Konec"
 
 #: client/gui-gtk-3.22/pages.c:360 client/gui-gtk-4.0/pages.c:369
 #: client/gui-qt/pages.cpp:254
 msgid "Gives you a break from playing freeciv."
-msgstr ""
+msgstr "Ukončí Freeciv."
 
 #: client/gui-gtk-3.22/pages.c:494 client/gui-gtk-4.0/pages.c:507
 msgid "Select Location to Save"
@@ -6197,10 +5989,9 @@ msgid "Pass_word:"
 msgstr "He_slo:"
 
 #: client/gui-gtk-3.22/pages.c:955 client/gui-gtk-4.0/pages.c:968
-#, fuzzy
 #| msgid "Pass_word:"
 msgid "New Pass_word:"
-msgstr "He_slo:"
+msgstr "Nové _heslo:"
 
 #: client/gui-gtk-3.22/pages.c:1072 client/gui-gtk-4.0/pages.c:1088
 #: client/gui-qt/pages.cpp:1655 client/gui-sdl2/connectdlg.c:936
@@ -6242,9 +6033,8 @@ msgstr "Hráči"
 
 #: client/gui-gtk-3.22/pages.c:1244 client/gui-gtk-3.22/pages.c:1289
 #: client/gui-gtk-4.0/pages.c:1266 client/gui-gtk-4.0/pages.c:1317
-#, fuzzy
 msgid "Humans"
-msgstr "Člověk"
+msgstr "Lidští hráči"
 
 #: client/gui-gtk-3.22/pages.c:1245 client/gui-gtk-3.22/pages.c:1290
 #: client/gui-gtk-4.0/pages.c:1267 client/gui-gtk-4.0/pages.c:1318
@@ -6258,11 +6048,11 @@ msgstr "Lo_kální síť"
 
 #: client/gui-gtk-3.22/pages.c:1292 client/gui-gtk-4.0/pages.c:1320
 msgid "Internet _Metaserver"
-msgstr "Internet _Metaserver"
+msgstr "Internetový _metaserver"
 
 #: client/gui-gtk-3.22/pages.c:1331 client/gui-gtk-4.0/pages.c:1361
 msgid "_Host:"
-msgstr "_Host:"
+msgstr "_Hostitel:"
 
 #: client/gui-gtk-3.22/pages.c:1345 client/gui-gtk-4.0/pages.c:1375
 msgid "_Port:"
@@ -6270,7 +6060,7 @@ msgstr "_Port:"
 
 #: client/gui-gtk-3.22/pages.c:1360 client/gui-gtk-4.0/pages.c:1390
 msgid "_Login:"
-msgstr "_Login:"
+msgstr "_Přihlášení:"
 
 #: client/gui-gtk-3.22/pages.c:1392 client/gui-gtk-4.0/pages.c:1422
 msgid "Conf_irm Password:"
@@ -6279,7 +6069,7 @@ msgstr "Heslo z_novu:"
 #: client/gui-gtk-3.22/pages.c:1410 client/gui-gtk-4.0/pages.c:1440
 #: client/gui-qt/pages.cpp:337 client/gui-qt/pages.cpp:667
 msgid "Host"
-msgstr "Host"
+msgstr "Hostitel"
 
 #: client/gui-gtk-3.22/pages.c:1439 client/gui-gtk-4.0/pages.c:1468
 msgid "C_onnect"
@@ -6298,22 +6088,20 @@ msgstr "Jméno hráče: %s"
 #: client/gui-gtk-3.22/pages.c:1775 client/gui-gtk-4.0/pages.c:1839
 #, c-format
 msgid "Host: %s"
-msgstr "Host: %s"
+msgstr "Hostitel: %s"
 
 #: client/gui-gtk-3.22/pages.c:1783 client/gui-gtk-4.0/pages.c:1847
-#, fuzzy
 msgid "Player/conn info"
-msgstr "  -v, --version              vytisknout informace o verzi\n"
+msgstr "Údaje o hráči a spojení"
 
 #: client/gui-gtk-3.22/pages.c:1816 client/gui-gtk-4.0/pages.c:1888
 #, c-format
 msgid "%s info"
-msgstr "%s info"
+msgstr "Informace – %s"
 
 #: client/gui-gtk-3.22/pages.c:1825 client/gui-gtk-4.0/pages.c:1901
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <jméno-hráče>"
+msgstr "Přepnout stav připravenosti hráče"
 
 #: client/gui-gtk-3.22/pages.c:1831 client/gui-gtk-4.0/pages.c:1910
 #: client/gui-qt/pages.cpp:2038
@@ -6326,26 +6114,22 @@ msgstr "Pozorovat tohoto hráče"
 
 #: client/gui-gtk-3.22/pages.c:1846 client/gui-gtk-4.0/pages.c:1923
 #: client/gui-qt/pages.cpp:2028
-#, fuzzy
 msgid "Take this player"
-msgstr "Města"
+msgstr "Převzít tohoto hráče"
 
 #: client/gui-gtk-3.22/pages.c:1858 client/gui-gtk-4.0/pages.c:1934
-#, fuzzy
 msgid "Cut connection"
-msgstr "Ruším spojení s %s."
+msgstr "Přerušit spojení"
 
 #: client/gui-gtk-3.22/pages.c:1869 client/gui-gtk-4.0/pages.c:1943
 #: client/gui-qt/pages.cpp:2095
-#, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <jméno-hráče>"
+msgstr "Přepnout ovládání počítačem"
 
 #: client/gui-gtk-3.22/pages.c:1877 client/gui-gtk-4.0/pages.c:1951
 #: client/gui-qt/pages.cpp:2020
-#, fuzzy
 msgid "Remove player"
-msgstr "Odstraňuji hráče %s."
+msgstr "Odebrat hráče"
 
 #. TRANS: Give access level to a connection.
 #: client/gui-gtk-3.22/pages.c:1893 client/gui-gtk-4.0/pages.c:1963
@@ -6360,9 +6144,8 @@ msgid "Put on %s"
 msgstr "Populace: %s"
 
 #: client/gui-gtk-3.22/pages.c:2205 client/gui-gtk-4.0/pages.c:2314
-#, fuzzy
 msgid "Not _ready"
-msgstr ", nepřipraven"
+msgstr "_Nepřipraven"
 
 #: client/gui-gtk-3.22/pages.c:2216 client/gui-gtk-3.22/pages.c:2823
 #: client/gui-gtk-4.0/pages.c:2325 client/gui-gtk-4.0/pages.c:2956
@@ -6385,9 +6168,8 @@ msgid "Pick _Nation"
 msgstr "Vyberte _národ"
 
 #: client/gui-gtk-3.22/pages.c:2251 client/gui-gtk-4.0/pages.c:2360
-#, fuzzy
 msgid "_Take a Player"
-msgstr "Města"
+msgstr "Pře_vzít hráče"
 
 #: client/gui-gtk-3.22/pages.c:2259 client/gui-gtk-4.0/pages.c:2368
 #, fuzzy, c-format
@@ -6396,14 +6178,12 @@ msgstr "Pozorovatel: %s"
 
 #: client/gui-gtk-3.22/pages.c:2264 client/gui-gtk-3.22/pages.c:2818
 #: client/gui-gtk-4.0/pages.c:2373 client/gui-gtk-4.0/pages.c:2951
-#, fuzzy
 msgid "_Observe"
-msgstr "_Pozorovatel"
+msgstr "_Pozorovat"
 
 #: client/gui-gtk-3.22/pages.c:2267 client/gui-gtk-4.0/pages.c:2376
-#, fuzzy
 msgid "Do not _observe"
-msgstr "nyní _pozoruje"
+msgstr "_Přestat pozorovat"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-3.22/pages.c:2400 client/gui-gtk-4.0/pages.c:2509
@@ -6425,27 +6205,25 @@ msgstr "Pozorovatel"
 
 #: client/gui-gtk-3.22/pages.c:2547 client/gui-gtk-4.0/pages.c:2656
 #: client/gui-qt/pages.cpp:1883
-#, fuzzy
 msgid "Detached"
-msgstr "Mrtvý"
+msgstr "Odpojeno"
 
 #. TRANS: Keep individual lines short
 #: client/gui-gtk-3.22/pages.c:2676 client/gui-gtk-4.0/pages.c:2796
-#, fuzzy
 msgid ""
 "Number of _Players\n"
 "(including AI):"
-msgstr "_Počet hráčů (včetně počítačových):"
+msgstr ""
+"Počet _hráčů\n"
+"(včetně počítačových):"
 
 #: client/gui-gtk-3.22/pages.c:2702 client/gui-gtk-4.0/pages.c:2822
-#, fuzzy
 msgid "AI Skill _Level:"
-msgstr "Úroveň počítačem ovládaných hráčů:"
+msgstr "Úroveň _obtížnosti AI:"
 
 #: client/gui-gtk-3.22/pages.c:2717 client/gui-gtk-4.0/pages.c:2837
-#, fuzzy
 msgid "Ruleset:"
-msgstr "Poušť"
+msgstr "Sada pravidel:"
 
 #: client/gui-gtk-3.22/pages.c:2724 client/gui-gtk-4.0/pages.c:2844
 msgid "_More Game Options..."
@@ -6461,9 +6239,8 @@ msgstr "Připraven"
 
 #: client/gui-gtk-3.22/pages.c:2748 client/gui-gtk-4.0/pages.c:2872
 #: client/gui-qt/pages.cpp:665
-#, fuzzy
 msgid "?player:Leader"
-msgstr "?Player:Jméno"
+msgstr "?player:Vůdce"
 
 #: client/gui-gtk-3.22/pages.c:2752 client/gui-gtk-4.0/pages.c:2876
 #: client/gui-qt/pages.cpp:666 client/plrdlg_common.c:571
@@ -6490,7 +6267,7 @@ msgstr "Vyberte uloženou hru pro _nahrání:"
 #: client/gui-gtk-3.22/pages.c:3017 client/gui-gtk-4.0/pages.c:3152
 #: client/gui-qt/pages.cpp:1520
 msgid "pre-2.6"
-msgstr ""
+msgstr "před verzí 2.6"
 
 #: client/gui-gtk-3.22/pages.c:3055 client/gui-gtk-4.0/pages.c:3190
 #: client/gui-qt/pages.cpp:588
@@ -6502,17 +6279,15 @@ msgid "Choose a _Scenario:"
 msgstr "Vyberte _scénář:"
 
 #: client/gui-gtk-3.22/pages.c:3275 client/gui-gtk-4.0/pages.c:3414
-#, fuzzy
 msgid "Filename:"
-msgstr "Uložit _soubor:"
+msgstr "Název souboru:"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-3.22/pages.c:3289 client/gui-gtk-4.0/pages.c:3432
 #: client/gui-qt/pages.cpp:1546
-#, fuzzy
 #| msgid "Normal"
 msgid "Format:"
-msgstr "Normální"
+msgstr "Formát:"
 
 #: client/gui-gtk-3.22/pages.c:3489 client/gui-gtk-4.0/pages.c:3635
 #: client/gui-qt/menu.cpp:1001 client/gui-sdl2/optiondlg.c:862
@@ -6529,74 +6304,62 @@ msgid "Save _Filename:"
 msgstr "Uložit _soubor:"
 
 #: client/gui-gtk-3.22/pages.c:3524 client/gui-gtk-4.0/pages.c:3670
-#, fuzzy
 msgid "Saved Sce_narios:"
-msgstr "Start s_cénáře"
+msgstr "Uložené _scénáře:"
 
 #: client/gui-gtk-3.22/pages.c:3525 client/gui-gtk-4.0/pages.c:3671
-#, fuzzy
 msgid "Save Sc_enario:"
-msgstr "Start s_cénáře"
+msgstr "Uložit s_cénář:"
 
 #: client/gui-gtk-3.22/pages.c:3553 client/gui-gtk-4.0/pages.c:3699
-#, fuzzy
 msgid "Save Map Image"
-msgstr "Uložit hru"
+msgstr "Uložit obrázek mapy"
 
 #: client/gui-gtk-3.22/pages.c:3553 client/gui-gtk-4.0/pages.c:3699
-#, fuzzy
 msgid "Saved Map _Images:"
-msgstr "Uložené _hry:"
+msgstr "Uložené _obrázky map:"
 
 #: client/gui-gtk-3.22/pages.c:3554 client/gui-gtk-4.0/pages.c:3700
-#, fuzzy
 msgid "Save _Map Images:"
-msgstr "Uložené _hry:"
+msgstr "Uložit obrázky _map:"
 
 #: client/gui-gtk-3.22/pages.c:3570 client/gui-gtk-4.0/pages.c:3716
 #: client/gui-qt/menu.cpp:3865
-#, fuzzy
 msgid "Error"
-msgstr "IO chyba"
+msgstr "Chyba"
 
 #: client/gui-gtk-3.22/pages.c:3571 client/gui-gtk-4.0/pages.c:3717
-#, fuzzy
 msgid "Error Creating the Map Image!"
-msgstr "Chyba vytvoření nového počítačem ovládaného hráče: %s."
+msgstr "Vytvoření obrázku mapy se nezdařilo!"
 
 #: client/gui-gtk-3.22/plrdlg.c:341 client/gui-gtk-4.0/plrdlg.c:445
 msgid "_Meet"
 msgstr "_Setkat se"
 
 #: client/gui-gtk-3.22/plrdlg.c:347 client/gui-gtk-4.0/plrdlg.c:451
-#, fuzzy
 msgid "Cancel _Treaty"
-msgstr "_Zrušit dohodu"
+msgstr "Zrušit _smlouvu"
 
 #: client/gui-gtk-3.22/plrdlg.c:353 client/gui-gtk-4.0/plrdlg.c:458
-#, fuzzy
 msgid "_Withdraw Vision"
-msgstr "_Zrušit nahlížení"
+msgstr "_Ukončit sdílení výhledu"
 
 #: client/gui-gtk-3.22/plrdlg.c:372 client/gui-gtk-4.0/plrdlg.c:479
-#, fuzzy
 msgid "_Report"
-msgstr "_Přehledy"
+msgstr "_Přehled"
 
 #: client/gui-gtk-3.22/plrdlg.c:378 client/gui-gtk-4.0/plrdlg.c:485
-#, fuzzy
 #| msgid "Wonders"
 msgid "_Wonders"
-msgstr "Divy světa"
+msgstr "_Divy"
 
 #: client/gui-gtk-3.22/plrdlg.c:415 client/gui-gtk-4.0/plrdlg.c:387
 msgid "?show:Dead Players"
 msgstr "?show:Mrtví hráči"
 
 #: client/gui-gtk-3.22/plrdlg.c:544 client/gui-gtk-4.0/plrdlg.c:712
-#, fuzzy
 msgid "Di_plomacy"
-msgstr "Diplomacie"
+msgstr "Di_plomacie"
 
 #: client/gui-gtk-3.22/plrdlg.c:549 client/gui-gtk-4.0/plrdlg.c:715
 msgid "_Intelligence"
@@ -6635,28 +6398,26 @@ msgid "Withdraw shared vision from the %s?"
 msgstr "%s získali %s od %s."
 
 #: client/gui-gtk-3.22/plrdlg.c:868 client/gui-gtk-4.0/plrdlg.c:1007
-#, fuzzy
 msgid "Withdraw Shared Vision"
-msgstr "_Zrušit nahlížení"
+msgstr "Ukončit sdílení výhledu"
 
 #: client/gui-gtk-3.22/rallypointdlg.c:77 client/gui-gtk-4.0/rallypointdlg.c:77
 msgid "Place Rally Point"
-msgstr ""
+msgstr "Umístit shromaždiště"
 
 #: client/gui-gtk-3.22/rallypointdlg.c:89 client/gui-gtk-4.0/rallypointdlg.c:87
 msgid "First click a city."
-msgstr ""
+msgstr "Nejprve klikněte na město."
 
 #: client/gui-gtk-3.22/rallypointdlg.c:95 client/gui-gtk-4.0/rallypointdlg.c:93
 msgid "Persistent rallypoint"
-msgstr ""
+msgstr "Trvalé shromaždiště"
 
 #: client/gui-gtk-3.22/rallypointdlg.c:156
 #: client/gui-gtk-4.0/rallypointdlg.c:154
-#, fuzzy
 #| msgid "Select a city:"
 msgid "Select another city."
-msgstr "Vyberte město:"
+msgstr "Vyberte jiné město."
 
 #: client/gui-gtk-3.22/rallypointdlg.c:171
 #: client/gui-gtk-4.0/rallypointdlg.c:169
@@ -6705,19 +6466,17 @@ msgstr "Cíl"
 #. TRANS: As in 'Show all (even not reachable) techs'.
 #: client/gui-gtk-3.22/repodlgs.c:671 client/gui-gtk-4.0/repodlgs.c:703
 msgid "Show all"
-msgstr ""
+msgstr "Zobrazit vše"
 
 #: client/gui-gtk-3.22/repodlgs.c:833 client/gui-gtk-4.0/repodlgs.c:865
 #: client/gui-qt/repodlgs.cpp:1219
-#, fuzzy
 msgid "?Building or Unit type:Name"
-msgstr "Název stavby"
+msgstr "?Building or Unit type:Název"
 
 #: client/gui-gtk-3.22/repodlgs.c:835 client/gui-gtk-4.0/repodlgs.c:867
 #: client/gui-qt/repodlgs.cpp:1219
-#, fuzzy
 msgid "Redundant"
-msgstr "?redundant:*"
+msgstr "Nadbytečné"
 
 #: client/gui-gtk-3.22/repodlgs.c:839 client/gui-gtk-3.22/wldlg.c:996
 #: client/gui-gtk-4.0/repodlgs.c:871 client/gui-gtk-4.0/wldlg.c:1019
@@ -6775,21 +6534,19 @@ msgstr "Prodat _Vše"
 
 #: client/gui-gtk-3.22/repodlgs.c:1211 client/gui-gtk-4.0/repodlgs.c:1242
 msgid "Sell _Redundant"
-msgstr ""
+msgstr "Prodat _nadbytečné"
 
 #: client/gui-gtk-3.22/repodlgs.c:1319 client/gui-gtk-4.0/repodlgs.c:1349
 msgid "Unit Type"
 msgstr "Typ jednotky"
 
 #: client/gui-gtk-3.22/repodlgs.c:1321 client/gui-gtk-4.0/repodlgs.c:1351
-#, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "V"
+msgstr "?Upgradable unit [short]:M"
 
 #: client/gui-gtk-3.22/repodlgs.c:1322 client/gui-gtk-4.0/repodlgs.c:1352
-#, fuzzy
 msgid "Upgradable"
-msgstr "Vylepšit"
+msgstr "Lze modernizovat"
 
 #. TRANS: "In progress" abbreviation.
 #. URD_COL_IN_PROGRESS
@@ -6798,9 +6555,8 @@ msgid "In-Prog"
 msgstr "Probíhá"
 
 #: client/gui-gtk-3.22/repodlgs.c:1327 client/gui-gtk-4.0/repodlgs.c:1357
-#, fuzzy
 msgid "In progress"
-msgstr "Konstrukce"
+msgstr "Probíhá"
 
 #: client/gui-gtk-3.22/repodlgs.c:1328 client/gui-gtk-4.0/repodlgs.c:1358
 msgid "Active"
@@ -6813,7 +6569,7 @@ msgstr "Štít"
 
 #: client/gui-gtk-3.22/repodlgs.c:1331 client/gui-gtk-4.0/repodlgs.c:1361
 msgid "Total shield upkeep"
-msgstr ""
+msgstr "Celková údržba ve výrobě"
 
 #: client/gui-gtk-3.22/repodlgs.c:1332 client/gui-gtk-4.0/repodlgs.c:1362
 #: client/gui-qt/citydlg.cpp:1939 common/city.c:89
@@ -6822,11 +6578,11 @@ msgstr "Jídlo"
 
 #: client/gui-gtk-3.22/repodlgs.c:1333 client/gui-gtk-4.0/repodlgs.c:1363
 msgid "Total food upkeep"
-msgstr ""
+msgstr "Celková údržba v jídle"
 
 #: client/gui-gtk-3.22/repodlgs.c:1335 client/gui-gtk-4.0/repodlgs.c:1365
 msgid "Total gold upkeep"
-msgstr ""
+msgstr "Celková údržba ve zlatě"
 
 #: client/gui-gtk-3.22/repodlgs.c:1478 client/gui-gtk-4.0/repodlgs.c:1508
 msgid "Totals:"
@@ -6871,9 +6627,9 @@ msgid "Player\n"
 msgstr "Hráč\n"
 
 #: client/gui-gtk-3.22/repodlgs.c:1834 client/gui-gtk-4.0/repodlgs.c:1861
-#, fuzzy
 msgid "Nation\n"
-msgstr "Národ"
+msgstr ""
+"Národ\n"
 
 #: client/gui-gtk-3.22/repodlgs.c:1836 client/gui-gtk-4.0/repodlgs.c:1863
 msgid "Score\n"
@@ -6885,19 +6641,16 @@ msgid "Score"
 msgstr "Skóre"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:60 client/gui-gtk-4.0/soundset_dlg.c:57
-#, fuzzy
 msgid "Preferred soundset"
-msgstr "Preferovaná sada dlaždic"
+msgstr "Upřednostňovaná zvuková sada"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:63 client/gui-gtk-4.0/soundset_dlg.c:60
-#, fuzzy
 msgid "_Load soundset"
-msgstr "_Naložit jednotku"
+msgstr "_Načíst zvukovou sadu"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:65 client/gui-gtk-4.0/soundset_dlg.c:62
-#, fuzzy
 msgid "_Keep current soundset"
-msgstr "Ponechat současnou sadu dlaždic"
+msgstr "_Ponechat aktuální zvukovou sadu"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:73 client/gui-gtk-4.0/soundset_dlg.c:70
 #, fuzzy, c-format
@@ -6911,19 +6664,16 @@ msgstr ""
 "Nyní se používá sada dlaždic %s."
 
 #: client/gui-gtk-3.22/soundset_dlg.c:114 client/gui-gtk-4.0/soundset_dlg.c:109
-#, fuzzy
 msgid "Preferred musicset"
-msgstr "Preferovaná sada dlaždic"
+msgstr "Upřednostňovaná hudební sada"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:117 client/gui-gtk-4.0/soundset_dlg.c:112
-#, fuzzy
 msgid "_Load musicset"
-msgstr "Sada dlaždic"
+msgstr "_Načíst hudební sadu"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:119 client/gui-gtk-4.0/soundset_dlg.c:114
-#, fuzzy
 msgid "_Keep current musicset"
-msgstr "Ponechat současnou sadu dlaždic"
+msgstr "_Ponechat aktuální hudební sadu"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:126 client/gui-gtk-4.0/soundset_dlg.c:121
 #, fuzzy, c-format
@@ -6951,9 +6701,8 @@ msgid "Theme suggested"
 msgstr "Doporučené téma"
 
 #: client/gui-gtk-3.22/theme_dlg.c:62 client/gui-gtk-4.0/theme_dlg.c:61
-#, fuzzy
 msgid "Load theme"
-msgstr "Nahrát hru"
+msgstr "Načíst motiv"
 
 #: client/gui-gtk-3.22/theme_dlg.c:64 client/gui-gtk-4.0/theme_dlg.c:63
 msgid "Keep current theme"
@@ -6970,25 +6719,22 @@ msgstr ""
 
 #: client/gui-gtk-3.22/tileset_dlg.c:49 client/gui-gtk-4.0/tileset_dlg.c:48
 #: client/gui-qt/dialogs.cpp:4396
-#, fuzzy
 #| msgid "Can't add %s to %s."
 msgid "Can't load requested tileset."
-msgstr "Jednotka %s se nemůže usadit ve městě %s."
+msgstr "Požadovanou grafiku mapy nelze načíst."
 
 #: client/gui-gtk-3.22/tileset_dlg.c:63 client/gui-gtk-4.0/tileset_dlg.c:62
 msgid "Preferred tileset"
 msgstr "Preferovaná sada dlaždic"
 
 #: client/gui-gtk-3.22/tileset_dlg.c:66 client/gui-gtk-4.0/tileset_dlg.c:65
-#, fuzzy
 msgid "_Load tileset"
-msgstr "Sada dlaždic"
+msgstr "_Načíst grafiku mapy"
 
 #: client/gui-gtk-3.22/tileset_dlg.c:68 client/gui-gtk-4.0/tileset_dlg.c:67
-#, fuzzy
 #| msgid "Keep current tileset"
 msgid "_Keep current tileset"
-msgstr "Ponechat současnou sadu dlaždic"
+msgstr "_Ponechat aktuální grafiku mapy"
 
 #: client/gui-gtk-3.22/tileset_dlg.c:76 client/gui-gtk-4.0/tileset_dlg.c:75
 #, c-format
@@ -7002,19 +6748,17 @@ msgstr ""
 "Nyní se používá sada dlaždic %s."
 
 #: client/gui-gtk-3.22/transportdlg.c:112 client/gui-gtk-4.0/transportdlg.c:112
-#, fuzzy
 msgid "Transport selection"
-msgstr "Transport"
+msgstr "Výběr transportéru"
 
 #: client/gui-gtk-3.22/transportdlg.c:113 client/gui-gtk-4.0/transportdlg.c:113
 msgid "Looking for transport:"
-msgstr ""
+msgstr "Hledat transportér:"
 
 #: client/gui-gtk-3.22/transportdlg.c:114 client/gui-gtk-4.0/transportdlg.c:114
-#, fuzzy
 #| msgid "All resolutions available."
 msgid "Transports available:"
-msgstr "Všechna dostupná rozlišení."
+msgstr "Dostupné transportéry:"
 
 #: client/gui-gtk-3.22/transportdlg.c:115 client/gui-gtk-4.0/transportdlg.c:115
 #: client/gui-qt/citydlg.cpp:849 client/gui-qt/menu.cpp:1238
@@ -7023,9 +6767,8 @@ msgid "Load"
 msgstr "Naložit"
 
 #: client/gui-gtk-3.22/unitselect.c:96 client/gui-gtk-4.0/unitselect.c:96
-#, fuzzy
 msgid "Description"
-msgstr "Popis:"
+msgstr "Popis"
 
 #: client/gui-gtk-3.22/unitselect.c:248 client/gui-gtk-4.0/unitselect.c:248
 #: client/gui-sdl2/dialogs.c:1113 client/gui-sdl3/dialogs.c:1109
@@ -7033,32 +6776,28 @@ msgid "Unit selection"
 msgstr "Výběr jednotek"
 
 #: client/gui-gtk-3.22/unitselect.c:265 client/gui-gtk-4.0/unitselect.c:264
-#, fuzzy
 msgid "_Tile"
-msgstr "Dlaždice"
+msgstr "_Pole"
 
 #: client/gui-gtk-3.22/unitselect.c:266 client/gui-gtk-4.0/unitselect.c:265
-#, fuzzy
 msgid "C_ontinent"
-msgstr "Kontinent"
+msgstr "_Kontinent"
 
 #: client/gui-gtk-3.22/unitselect.c:267 client/gui-gtk-4.0/unitselect.c:266
-#, fuzzy
 msgid "_Land"
-msgstr "Země"
+msgstr "_Pevnina"
 
 #: client/gui-gtk-3.22/unitselect.c:268 client/gui-gtk-4.0/unitselect.c:267
 msgid "_Sea"
-msgstr ""
+msgstr "_Moře"
 
 #: client/gui-gtk-3.22/unitselect.c:269 client/gui-gtk-4.0/unitselect.c:268
 msgid "_Both"
-msgstr ""
+msgstr "_Obojí"
 
 #: client/gui-gtk-3.22/unitselect.c:270 client/gui-gtk-4.0/unitselect.c:269
-#, fuzzy
 msgid "_World"
-msgstr "Sezn_amy prací"
+msgstr "_Svět"
 
 #: client/gui-gtk-3.22/unitselect.c:477 client/gui-gtk-4.0/unitselect.c:484
 #: client/gui-qt/menu.cpp:1227 client/gui-qt/shortcuts.cpp:130
@@ -7067,25 +6806,21 @@ msgid "Sentry"
 msgstr "Stráž"
 
 #: client/gui-gtk-3.22/unitselect.c:499 client/gui-gtk-4.0/unitselect.c:508
-#, fuzzy
 msgid "_Deselect"
-msgstr "_Vybrat"
+msgstr "Z_rušit výběr"
 
 #: client/gui-gtk-3.22/unitselect.c:512 client/gui-gtk-4.0/unitselect.c:522
-#, fuzzy
 msgid "C_enter"
-msgstr "Centrovat"
+msgstr "Vy_středit"
 
 #: client/gui-gtk-3.22/unitselect.c:521 client/gui-gtk-4.0/unitselect.c:532
-#, fuzzy
 msgid "_Focus"
-msgstr "Výběr jednotky"
+msgstr "_Vybrat jednotku"
 
 #. TRANS: used in place of unit home city name
 #: client/gui-gtk-3.22/unitselect.c:791 client/gui-gtk-4.0/unitselect.c:803
-#, fuzzy
 msgid "no home city"
-msgstr "Najít město"
+msgstr "bez domovského města"
 
 #. TRANS: used in place of unit home city name
 #: client/gui-gtk-3.22/unitselect.c:794 client/gui-gtk-4.0/unitselect.c:806
@@ -7122,49 +6857,45 @@ msgstr ""
 #: client/gui-gtk-3.22/unitselextradlg.c:65
 #: client/gui-gtk-4.0/unitselextradlg.c:65
 msgid "target"
-msgstr ""
+msgstr "cíl"
 
 #. TRANS: used below if the target tile doesn't have the target
 #. * extra (so it is assumed that it will be created).
 #: client/gui-gtk-3.22/unitselextradlg.c:70
 #: client/gui-gtk-4.0/unitselextradlg.c:70
-#, fuzzy
 #| msgid "Create"
 msgid "create"
-msgstr "Vytvořit"
+msgstr "vytvořit"
 
 #: client/gui-gtk-3.22/voteinfo_bar.c:156 client/gui-gtk-4.0/voteinfo_bar.c:154
 msgid "_YES"
-msgstr ""
+msgstr "_ANO"
 
 #: client/gui-gtk-3.22/voteinfo_bar.c:171 client/gui-gtk-4.0/voteinfo_bar.c:169
-#, fuzzy
 msgid "_NO"
-msgstr "_Ne"
+msgstr "_NE"
 
 #: client/gui-gtk-3.22/voteinfo_bar.c:186 client/gui-gtk-4.0/voteinfo_bar.c:184
 msgid "_ABSTAIN"
-msgstr ""
+msgstr "_ZDRŽET SE"
 
 #. TRANS: Describing a vote that passed.
 #: client/gui-gtk-3.22/voteinfo_bar.c:243 client/gui-gtk-4.0/voteinfo_bar.c:241
 #: client/gui-qt/voteinfo_bar.cpp:123
 msgid "[passed]"
-msgstr ""
+msgstr "[schváleno]"
 
 #. TRANS: Describing a vote that failed.
 #: client/gui-gtk-3.22/voteinfo_bar.c:247 client/gui-gtk-4.0/voteinfo_bar.c:245
 #: client/gui-qt/voteinfo_bar.cpp:127
-#, fuzzy
 msgid "[failed]"
-msgstr "Selhal"
+msgstr "[zamítnuto]"
 
 #. TRANS: Describing a vote that was removed.
 #: client/gui-gtk-3.22/voteinfo_bar.c:251 client/gui-gtk-4.0/voteinfo_bar.c:249
 #: client/gui-qt/voteinfo_bar.cpp:131
-#, fuzzy
 msgid "[removed]"
-msgstr "Odebrán"
+msgstr "[odstraněno]"
 
 #. TRANS: "Vote" as a process
 #: client/gui-gtk-3.22/voteinfo_bar.c:276 client/gui-gtk-4.0/voteinfo_bar.c:274
@@ -7213,15 +6944,13 @@ msgid "_Add Global Worklist"
 msgstr "Přidat do _globálního seznamu prací"
 
 #: client/gui-gtk-3.22/wldlg.c:1236 client/gui-gtk-4.0/wldlg.c:1321
-#, fuzzy
 msgid "Change Prod_uction"
-msgstr "Změnit produkci"
+msgstr "Změnit _výrobu"
 
 #: client/gui-gtk-4.0/citydlg.c:1446
-#, fuzzy
 #| msgid "Computers"
 msgid "Counters Page"
-msgstr "Počítače"
+msgstr "Karta počitadel"
 
 #: client/gui-gtk-4.0/cityrep.c:1505 client/gui-gtk-4.0/cityrep.c:1702
 #: client/gui-gtk-4.0/cityrep.c:1748 client/gui-gtk-4.0/cityrep.c:1772
@@ -7291,6 +7020,7 @@ msgstr "Dostupné jednotky"
 #: client/gui-gtk-4.0/gui_main.c:275
 msgid "gtk4-client gui-specific options are:\n"
 msgstr ""
+"Volby grafického rozhraní klienta GTK4:\n"
 
 #: client/gui-gtk-4.0/gui_main.c:278
 msgid "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
@@ -7311,7 +7041,7 @@ msgstr "Neznámá volba '%s'."
 
 #: client/gui-gtk-4.0/gui_main.c:1865
 msgid "Migrating options from gtk3.22 to gtk4 client"
-msgstr ""
+msgstr "Přenáším nastavení z klienta GTK 3.22 do GTK4"
 
 #: client/gui-gtk-4.0/gui_main.c:2586
 #, c-format
@@ -7322,10 +7052,9 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-4.0/menu.c:758
-#, fuzzy
 #| msgid "Report"
 msgid "_Teleport"
-msgstr "Přehled"
+msgstr "_Teleportovat"
 
 #: client/gui-gtk-4.0/pages.c:1987
 #, fuzzy, c-format
@@ -7334,14 +7063,12 @@ msgid "Difficulty: %s"
 msgstr ", úroveň obtížnosti %s"
 
 #: client/gui-qt/chatline.cpp:274
-#, fuzzy
 msgid "Allies only"
-msgstr "Týmové vítězství pro %s"
+msgstr "Pouze spojenci"
 
 #: client/gui-qt/citydlg.cpp:645
-#, fuzzy
 msgid "Sell improvement?"
-msgstr "Prodej Vylepšení"
+msgstr "Prodat budovu?"
 
 #: client/gui-qt/citydlg.cpp:814 client/gui-sdl2/citydlg.c:444
 #: client/gui-sdl3/citydlg.c:440
@@ -7349,9 +7076,8 @@ msgid "Activate unit"
 msgstr "Aktivovat jednotku"
 
 #: client/gui-qt/citydlg.cpp:816
-#, fuzzy
 msgid "Activate and close dialog"
-msgstr "Aktivovat jednotku, zavřít dialog"
+msgstr "Aktivovat a zavřít okno"
 
 #: client/gui-qt/citydlg.cpp:821 client/gui-sdl2/citydlg.c:470
 #: client/gui-sdl3/citydlg.c:466
@@ -7391,36 +7117,31 @@ msgid "Governor %1"
 msgstr "_Guvernér"
 
 #: client/gui-qt/citydlg.cpp:1395
-#, fuzzy
 #| msgid "Select a city:"
 msgid "Autosettler activity:"
-msgstr "Vyberte město:"
+msgstr "Automatická činnost osadníka:"
 
 #: client/gui-qt/citydlg.cpp:1432 client/gui-qt/citydlg.cpp:2804
 #: client/gui-qt/cityrep.cpp:476
-#, fuzzy
 msgid "Clear"
-msgstr "Smazat log"
+msgstr "Vymazat"
 
 #: client/gui-qt/citydlg.cpp:1546
-#, fuzzy
 msgid "Click to change city name"
-msgstr "práva souboru %s se nepodařila změnit na %04lo (%s)\n"
+msgstr "Kliknutím změníte název města"
 
 #: client/gui-qt/citydlg.cpp:1601 client/gui-qt/menu.cpp:1067
 msgid "Zoom in"
-msgstr ""
+msgstr "Přiblížit"
 
 #: client/gui-qt/citydlg.cpp:1607 client/gui-qt/menu.cpp:1075
-#, fuzzy
 msgid "Zoom out"
-msgstr "Host:"
+msgstr "Oddálit"
 
 #: client/gui-qt/citydlg.cpp:1668 client/gui-qt/citydlg.cpp:1672
-#, fuzzy
 #| msgid "Buildings"
 msgid "Show buildings"
-msgstr "Stavby"
+msgstr "Zobrazit budovy"
 
 #: client/gui-qt/citydlg.cpp:1678 client/gui-qt/citydlg.cpp:1680
 #: client/options.c:2487
@@ -7428,40 +7149,34 @@ msgid "Show units"
 msgstr "Zobrazit jednotky"
 
 #: client/gui-qt/citydlg.cpp:1687 client/gui-qt/citydlg.cpp:1689
-#, fuzzy
 msgid "Show wonders"
-msgstr "Státní hranice"
+msgstr "Zobrazit divy"
 
 #: client/gui-qt/citydlg.cpp:1696 client/gui-qt/citydlg.cpp:1698
 msgid "Show future targets"
 msgstr "Zobrazit budoucí cíle"
 
 #: client/gui-qt/citydlg.cpp:1710
-#, fuzzy
 #| msgid "Close Dialog"
 msgid "Close city dialog"
-msgstr "Zavřít Dialog"
+msgstr "Zavřít okno města"
 
 #: client/gui-qt/citydlg.cpp:1716
-#, fuzzy
 #| msgid "Next city"
 msgid "Show next city"
-msgstr "Další město"
+msgstr "Zobrazit další město"
 
 #: client/gui-qt/citydlg.cpp:1723
-#, fuzzy
 msgid "Show previous city"
-msgstr "_Předchozí město"
+msgstr "Zobrazit předchozí město"
 
 #: client/gui-qt/citydlg.cpp:1789
-#, fuzzy
 msgid "Worklist Option"
-msgstr "Editor seznamu prací"
+msgstr "Volby seznamu výroby"
 
 #: client/gui-qt/citydlg.cpp:1804
-#, fuzzy
 msgid "Click to change current production"
-msgstr "práva souboru %s se nepodařila změnit na %04lo (%s)\n"
+msgstr "Kliknutím změníte aktuální výrobu"
 
 #: client/gui-qt/citydlg.cpp:1807 client/gui-qt/cityrep.cpp:486
 #: client/gui-qt/cityrep.cpp:509
@@ -7469,44 +7184,37 @@ msgid "Change"
 msgstr "Změnit"
 
 #: client/gui-qt/citydlg.cpp:1808
-#, fuzzy
 msgid "Insert Before"
-msgstr "Vložit"
+msgstr "Vložit před"
 
 #: client/gui-qt/citydlg.cpp:1809
-#, fuzzy
 msgid "Insert After"
-msgstr "Vložit"
+msgstr "Vložit za"
 
 #: client/gui-qt/citydlg.cpp:1810
-#, fuzzy
 msgid "Add Last"
-msgstr "Přidat P_oslední"
+msgstr "Přidat na konec"
 
 #: client/gui-qt/citydlg.cpp:1830 client/gui-qt/cityrep.cpp:499
 msgid "Worklist"
 msgstr "Seznam prací"
 
 #: client/gui-qt/citydlg.cpp:1894
-#, fuzzy
 msgid "Presets:"
-msgstr "_Předvolby:"
+msgstr "Předvolby:"
 
 #: client/gui-qt/citydlg.cpp:1895
-#, fuzzy
 msgid "Governor settings"
-msgstr "Nastavení hry"
+msgstr "Nastavení správce města"
 
 #: client/gui-qt/citydlg.cpp:1896
-#, fuzzy
 msgid "Results:"
-msgstr "Přehledy"
+msgstr "Výsledky:"
 
 #: client/gui-qt/citydlg.cpp:1907 client/gui-qt/optiondlg.cpp:167
 #: client/gui-qt/shortcuts.cpp:646
-#, fuzzy
 msgid "Save"
-msgstr "Uložit hru"
+msgstr "Uložit"
 
 #: client/gui-qt/citydlg.cpp:1939 client/gui-qt/gotodlg.cpp:61 common/city.c:91
 #: data/civ1/techs.ruleset:641 data/civ2/techs.ruleset:809
@@ -7517,27 +7225,23 @@ msgstr "Obchod"
 
 #: client/gui-qt/citydlg.cpp:1946
 msgid "Priority"
-msgstr ""
+msgstr "Priorita"
 
 #: client/gui-qt/citydlg.cpp:2122 client/gui-qt/citydlg.cpp:2129
-#, fuzzy
 msgid "Show city production"
-msgstr "Zvol produkci města"
+msgstr "Zobrazit výrobu města"
 
 #: client/gui-qt/citydlg.cpp:2123 client/gui-qt/citydlg.cpp:2132
-#, fuzzy
 msgid "Show counters information"
-msgstr "Ukazovat animace boje"
+msgstr "Zobrazit údaje počitadel"
 
 #: client/gui-qt/citydlg.cpp:2126
-#, fuzzy
 msgid "Show happiness information"
-msgstr "Ukazovat animace boje"
+msgstr "Zobrazit údaje o spokojenosti"
 
 #: client/gui-qt/citydlg.cpp:2633
-#, fuzzy
 msgid "No governor defined"
-msgstr "(seznam prací)"
+msgstr "Správce není nastaven"
 
 #. TRANS: %1 is custom string chosen by player
 #: client/gui-qt/citydlg.cpp:2646
@@ -7546,40 +7250,33 @@ msgid "<h3>Governor Enabled<br>(%1)</h3>"
 msgstr "Guvernér"
 
 #: client/gui-qt/citydlg.cpp:2655
-#, fuzzy
 msgid "<h3>Governor Disabled</h3>"
-msgstr "ASM vy_pnut"
+msgstr "<h3>Správce vypnut</h3>"
 
 #: client/gui-qt/citydlg.cpp:2669
-#, fuzzy
 msgid "Disable"
-msgstr "Rozpustit"
+msgstr "Vypnout"
 
 #: client/gui-qt/citydlg.cpp:2671
-#, fuzzy
 msgid "Enable"
-msgstr "Selhal"
+msgstr "Zapnout"
 
 #: client/gui-qt/citydlg.cpp:2769
-#, fuzzy
 #| msgid "_Governor"
 msgid "Remove Governor"
-msgstr "_Guvernér"
+msgstr "Odebrat správce"
 
 #: client/gui-qt/citydlg.cpp:2802
-#, fuzzy
 msgid "Change worklist"
-msgstr "Přejmenovat seznam prací"
+msgstr "Změnit seznam výroby"
 
 #: client/gui-qt/citydlg.cpp:2803
-#, fuzzy
 msgid "Insert worklist"
-msgstr "prázdný seznam prací"
+msgstr "Vložit seznam výroby"
 
 #: client/gui-qt/citydlg.cpp:2829
-#, fuzzy
 msgid "Save worklist"
-msgstr "Seznam prací"
+msgstr "Uložit seznam výroby"
 
 #: client/gui-qt/citydlg.cpp:2831 client/gui-qt/menu.cpp:978
 #: client/gui-qt/menu.cpp:980 client/gui-qt/pages.cpp:207
@@ -7591,9 +7288,8 @@ msgid "Options"
 msgstr "Možnosti"
 
 #: client/gui-qt/citydlg.cpp:2832
-#, fuzzy
 msgid "Allow disbanding city"
-msgstr "Založit město (_B)"
+msgstr "Povolit zánik města"
 
 #: client/gui-qt/citydlg.cpp:2892
 #, fuzzy
@@ -7632,19 +7328,16 @@ msgid "Improvements - upkeep %1"
 msgstr "Vylepšení"
 
 #: client/gui-qt/citydlg.cpp:3763
-#, fuzzy
 msgid "What should we name new worklist?"
-msgstr "Jak se bude jmenovat nová předvolba?"
+msgstr "Jak pojmenujeme nový seznam výroby?"
 
 #: client/gui-qt/citydlg.cpp:3764
-#, fuzzy
 msgid "Save current worklist"
-msgstr "Současný seznam prací"
+msgstr "Uložit aktuální seznam výroby"
 
 #: client/gui-qt/citydlg.cpp:3765
-#, fuzzy
 msgid "New worklist"
-msgstr "seznam prací"
+msgstr "Nový seznam výroby"
 
 #. TRANS: city dialog title
 #: client/gui-qt/citydlg.cpp:3799
@@ -7715,30 +7408,25 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 #: client/gui-qt/cityrep.cpp:489
-#, fuzzy
 msgid "Add next"
-msgstr "Přidat _Další"
+msgstr "Přidat jako další"
 
 #: client/gui-qt/cityrep.cpp:492
-#, fuzzy
 msgid "Add before last"
-msgstr "Přejmenovat seznam prací"
+msgstr "Přidat jako předposlední"
 
 #: client/gui-qt/cityrep.cpp:495
-#, fuzzy
 msgid "Add last"
-msgstr "Přidat P_oslední"
+msgstr "Přidat na konec"
 
 #: client/gui-qt/cityrep.cpp:502
-#, fuzzy
 msgid "Add"
-msgstr "Vzduch"
+msgstr "Přidat"
 
 #: client/gui-qt/cityrep.cpp:515
-#, fuzzy
 #| msgid "_Governor"
 msgid "Governor"
-msgstr "_Guvernér"
+msgstr "Správce"
 
 #: client/gui-qt/cityrep.cpp:518 client/gui-sdl2/citydlg.c:1477
 #: client/gui-sdl2/repodlgs.c:1681 client/gui-sdl3/citydlg.c:1473
@@ -7747,10 +7435,9 @@ msgid "Sell"
 msgstr "Prodat"
 
 #: client/gui-qt/cityrep.cpp:529
-#, fuzzy
 #| msgid "City"
 msgid "City/Buy"
-msgstr "Město"
+msgstr "Město / cena dokončení"
 
 #: client/gui-qt/cityrep.cpp:531
 msgid "View"
@@ -7766,34 +7453,29 @@ msgid "Buy ( Cost: %d )"
 msgstr "Celkem výdaje:"
 
 #: client/gui-qt/cityrep.cpp:672
-#, fuzzy
 #| msgid "Sell"
 msgid "Sell?"
-msgstr "Prodat"
+msgstr "Prodat?"
 
 #: client/gui-qt/cityrep.cpp:1132 client/gui-qt/plrdlg.cpp:430
 msgid "Column visibility"
-msgstr ""
+msgstr "Viditelnost sloupců"
 
 #: client/gui-qt/dialogs.cpp:506
-#, fuzzy
 msgid "Select Nation"
-msgstr "Vyberte národ"
+msgstr "Vybrat národ"
 
 #: client/gui-qt/dialogs.cpp:525
-#, fuzzy
 msgid "Nation Set:"
-msgstr "Výběr jednotek"
+msgstr "Sada národů:"
 
 #: client/gui-qt/dialogs.cpp:555
-#, fuzzy
 msgid "Choose nation"
-msgstr "Vyberte scénář"
+msgstr "Vyberte národ"
 
 #: client/gui-qt/dialogs.cpp:556
-#, fuzzy
 msgid "Your leader name"
-msgstr "_Jméno vůdce"
+msgstr "Jméno vašeho vůdce"
 
 #: client/gui-qt/dialogs.cpp:619 client/gui-qt/messagedlg.cpp:69
 #: client/gui-qt/optiondlg.cpp:174 client/gui-qt/ratesdlg.cpp:79
@@ -7803,29 +7485,25 @@ msgstr "Ok"
 
 #: client/gui-qt/dialogs.cpp:908
 msgid "Nation has been chosen by other player"
-msgstr ""
+msgstr "Tento národ si již vybral jiný hráč"
 
 #: client/gui-qt/dialogs.cpp:1165
-#, fuzzy
 #| msgid "_Goto Location"
 msgid "Goto Location"
-msgstr "_Jít k umístění"
+msgstr "Přejít na místo"
 
 #: client/gui-qt/dialogs.cpp:1167
-#, fuzzy
 msgid "Inspect City"
-msgstr "_Ukázat město"
+msgstr "Prohlédnout město"
 
 #: client/gui-qt/dialogs.cpp:2355
-#, fuzzy
 #| msgid "Wait"
 msgid "&Wait"
-msgstr "Čekat"
+msgstr "Č&ekat"
 
 #: client/gui-qt/dialogs.cpp:2359
-#, fuzzy
 msgid "Do nothing"
-msgstr "Jednobožství"
+msgstr "Nedělat nic"
 
 #: client/gui-qt/dialogs.cpp:3535
 msgid "Steal"
@@ -7833,7 +7511,7 @@ msgstr "Ukrást"
 
 #: client/gui-qt/dialogs.cpp:4228
 msgid "Strike"
-msgstr ""
+msgstr "Sabotovat"
 
 #: client/gui-qt/dialogs.cpp:4233 client/gui-qt/menu.cpp:1441
 #: common/events.c:125 common/events.c:135
@@ -7874,10 +7552,9 @@ msgid "No"
 msgstr "Ne"
 
 #: client/gui-qt/dialogs.cpp:4337
-#, fuzzy
 #| msgid "Disband unit"
 msgid "Disband units"
-msgstr "Zrušit jednotku"
+msgstr "Rozpustit jednotky"
 
 #: client/gui-qt/dialogs.cpp:4381
 msgid "Modpack suggests using %1 tileset."
@@ -7888,48 +7565,42 @@ msgid "Keep current tileset"
 msgstr "Ponechat současnou sadu dlaždic"
 
 #: client/gui-qt/dialogs.cpp:4387
-#, fuzzy
 msgid "Load tileset"
-msgstr "Sada dlaždic"
+msgstr "Načíst grafiku mapy"
 
 #: client/gui-qt/dialogs.cpp:4412
 msgid "Modpack suggests using %1 soundset."
 msgstr ""
 
 #: client/gui-qt/dialogs.cpp:4417
-#, fuzzy
 msgid "Keep current soundset"
-msgstr "Ponechat současnou sadu dlaždic"
+msgstr "Ponechat aktuální zvukovou sadu"
 
 #: client/gui-qt/dialogs.cpp:4418
-#, fuzzy
 msgid "Load soundset"
-msgstr "_Naložit jednotku"
+msgstr "Načíst zvukovou sadu"
 
 #: client/gui-qt/dialogs.cpp:4437
 msgid "Modpack suggests using %1 musicset."
 msgstr ""
 
 #: client/gui-qt/dialogs.cpp:4442
-#, fuzzy
 msgid "Keep current musicset"
-msgstr "Ponechat současnou sadu dlaždic"
+msgstr "Ponechat aktuální hudební sadu"
 
 #: client/gui-qt/dialogs.cpp:4443
-#, fuzzy
 msgid "Load musicset"
-msgstr "Sada dlaždic"
+msgstr "Načíst hudební sadu"
 
 #: client/gui-qt/dialogs.cpp:4773
-#, fuzzy
 #| msgid "Tileset"
 msgid "Tileset error"
-msgstr "Sada dlaždic"
+msgstr "Chyba grafiky mapy"
 
 #. TRANS: MP = Movement points
 #: client/gui-qt/dialogs.cpp:4995
 msgid "MP:"
-msgstr ""
+msgstr "Pohyb:"
 
 #. TRANS: HP - hit points
 #: client/gui-qt/dialogs.cpp:5100
@@ -7998,54 +7669,45 @@ msgid "Welcome to Freeciv"
 msgstr "Vítejte ve Freeciv"
 
 #: client/gui-qt/fc_client.cpp:265
-#, fuzzy
 msgid "This is Qt-client for Freeciv."
-msgstr "Klient pro Freeciv"
+msgstr "Toto je klient Freecivu pro Qt."
 
 #: client/gui-qt/fc_client.cpp:557 client/gui-qt/pages.cpp:1914
-#, fuzzy
 msgid "Don't Observe"
-msgstr "nyní _pozoruje"
+msgstr "Nepozorovat"
 
 #: client/gui-qt/fc_client.cpp:560 client/gui-qt/pages.cpp:695
 #: client/gui-qt/pages.cpp:1916 client/gui-qt/pages.cpp:2011
-#, fuzzy
 msgid "Observe"
-msgstr "_Pozorovatel"
+msgstr "Pozorovat"
 
 #: client/gui-qt/fc_client.cpp:1178
-#, fuzzy
 #| msgid "City Options"
 msgid "Client Options"
-msgstr "Možnosti města"
+msgstr "Nastavení klienta"
 
 #: client/gui-qt/fc_client.cpp:1206
-#, fuzzy
 msgid "More Game Options"
-msgstr "Více M_ožností Hry..."
+msgstr "Další nastavení hry"
 
 #: client/gui-qt/fc_client.cpp:1212
-#, fuzzy
 #| msgid "Nation"
 msgid "Nation:"
-msgstr "Národ"
+msgstr "Národ:"
 
 #: client/gui-qt/fc_client.cpp:1213
-#, fuzzy
 #| msgid "Ruler:"
 msgid "Rules:"
-msgstr "Vládce:"
+msgstr "Pravidla:"
 
 #: client/gui-qt/fc_client.cpp:1218
-#, fuzzy
 #| msgid "Players"
 msgid "Players:"
-msgstr "Hráči"
+msgstr "Hráči:"
 
 #: client/gui-qt/fc_client.cpp:1354
-#, fuzzy
 msgid "Set server options"
-msgstr "Nastavena možnost serveru."
+msgstr "Nastavit volby serveru"
 
 #: client/gui-qt/fonts.cpp:141
 #, fuzzy, c-format
@@ -8053,40 +7715,34 @@ msgid "Failed to setup font for role %s."
 msgstr "Selhalo vytvoření nového hráče %s."
 
 #: client/gui-qt/gotodlg.cpp:53
-#, fuzzy
 #| msgid "Buildings"
 msgid "Building"
-msgstr "Stavby"
+msgstr "Budova"
 
 #: client/gui-qt/gotodlg.cpp:59
-#, fuzzy
 #| msgid "Alliance"
 msgid "Distance"
-msgstr "Aliance"
+msgstr "Vzdálenost"
 
 #: client/gui-qt/gotodlg.cpp:86
-#, fuzzy
 #| msgid "Goto"
 msgid "&Goto"
-msgstr "Přesun"
+msgstr "&Přejít"
 
 #: client/gui-qt/gotodlg.cpp:87
-#, fuzzy
 #| msgid "Airlift"
 msgid "&Airlift"
-msgstr "Letecký most"
+msgstr "Přepravit &letecky"
 
 #: client/gui-qt/gotodlg.cpp:88
-#, fuzzy
 #| msgid "Close"
 msgid "&Close"
-msgstr "Zavřít"
+msgstr "&Zavřít"
 
 #: client/gui-qt/gotodlg.cpp:93
-#, fuzzy
 #| msgid "Show _All Cities"
 msgid "Show All Cities"
-msgstr "Zobrazit _Všechna města"
+msgstr "Zobrazit všechna města"
 
 #: client/gui-qt/gui_main.cpp:113
 msgid ""
@@ -8098,20 +7754,21 @@ msgstr ""
 #: client/gui-qt/gui_main.cpp:120
 msgid "-s, --shortcutreset\tReset shortcut keys to default values\n"
 msgstr ""
+"-s, --shortcutreset\tObnovit výchozí klávesové zkratky\n"
 
 #: client/gui-qt/gui_main.cpp:159
 msgid "Migrating Qt-client options from freeciv-2.5 options."
-msgstr ""
+msgstr "Přenáším nastavení klienta Qt z Freecivu 2.5."
 
 #: client/gui-qt/gui_main.cpp:187
 msgid "svg flags not enabled in this freeciv build.\n"
 msgstr ""
+"Tato verze Freecivu nepodporuje vlajky SVG.\n"
 
 #: client/gui-qt/gui_main.cpp:571 tools/fcmp/mpgui_qt.cpp:498
-#, fuzzy
 #| msgid "Quit"
 msgid "Quit?"
-msgstr "Konec"
+msgstr "Ukončit?"
 
 #: client/gui-qt/gui_main.cpp:593
 #, c-format
@@ -8125,66 +7782,59 @@ msgid ""
 "\n"
 "Built in Qt6 mode."
 msgstr ""
+"\n"
+"Sestaveno s Qt 6."
 
 #: client/gui-qt/gui_main.cpp:599
 msgid ""
 "\n"
 "Built in Qt5 mode."
 msgstr ""
+"\n"
+"Sestaveno s Qt 5."
 
 #: client/gui-qt/helpdlg.cpp:167
-#, fuzzy
 msgid "About Qt"
-msgstr "O programu"
+msgstr "O Qt"
 
 #: client/gui-qt/helpdlg.cpp:912
-#, fuzzy
 #| msgid "Moves"
 msgid "Moves:"
-msgstr "Tahů"
+msgstr "Pohyb:"
 
 #: client/gui-qt/helpdlg.cpp:932
-#, fuzzy
 #| msgid "Basic Upkeep:"
 msgid "Basic upkeep:"
 msgstr "Základní údržba:"
 
 #. TRANS: this and similar literal strings interpreted as (Qt) HTML
 #: client/gui-qt/helpdlg.cpp:944
-#, fuzzy
 msgid "Requires"
-msgstr ""
-"Vyžaduje terén %s.\n"
-"\n"
+msgstr "Vyžaduje"
 
 #: client/gui-qt/helpdlg.cpp:956
-#, fuzzy
 #| msgid "No technology"
 msgid "No technology required."
-msgstr "Žádná technologie"
+msgstr "Není třeba žádná technologie."
 
 #: client/gui-qt/helpdlg.cpp:967
-#, fuzzy
 #| msgid "Obsolete by"
 msgid "Obsoleted by"
-msgstr "Zastarává"
+msgstr "Zastará po objevu"
 
 #: client/gui-qt/helpdlg.cpp:987
-#, fuzzy
 msgid "Never obsolete."
-msgstr "Příkaz %c%s je zastaralý"
+msgstr "Nikdy nezastará."
 
 #: client/gui-qt/helpdlg.cpp:1332
-#, fuzzy
 #| msgid "Move cost"
 msgid "Move cost:"
-msgstr "Pohyb stojí"
+msgstr "Cena pohybu:"
 
 #: client/gui-qt/helpdlg.cpp:1334
-#, fuzzy
 #| msgid "Defense bonus"
 msgid "Defense bonus:"
-msgstr "Obranný bonus"
+msgstr "Bonus k obraně:"
 
 #. TRANS: Display a percentage, eg "50%".
 #: client/gui-qt/helpdlg.cpp:1337
@@ -8192,16 +7842,14 @@ msgid "%1%"
 msgstr ""
 
 #: client/gui-qt/helpdlg.cpp:1350
-#, fuzzy
 #| msgid "Irrig. Rslt/Time:"
 msgid "Cultiv. Rslt/Time:"
-msgstr "Závlaha výsledek/čas:"
+msgstr "Zúrodnění – výsledek a čas:"
 
 #: client/gui-qt/helpdlg.cpp:1372
-#, fuzzy
 #| msgid "Trans. Rslt/Time:"
 msgid "Plant Rslt/Time:"
-msgstr "Transf. výsledek/čas:"
+msgstr "Osázení – výsledek a čas:"
 
 #: client/gui-qt/helpdlg.cpp:1395
 msgid "Trans. Rslt/Time:"
@@ -8220,7 +7868,7 @@ msgstr ""
 #. TRANS: MP = Movement points
 #: client/gui-qt/hudwidget.cpp:647
 msgid "MP: "
-msgstr ""
+msgstr "Pohyb: "
 
 #: client/gui-qt/hudwidget.cpp:649
 msgid "HP:%1/%2"
@@ -8249,35 +7897,30 @@ msgstr[2] "%d jednotek"
 
 #: client/gui-qt/hudwidget.cpp:1268
 msgid "MP"
-msgstr ""
+msgstr "Pohyb"
 
 #: client/gui-qt/hudwidget.cpp:1342
-#, fuzzy
 #| msgid "Unit Type"
 msgid "Unit type"
 msgstr "Typ jednotky"
 
 #: client/gui-qt/hudwidget.cpp:1343
-#, fuzzy
 #| msgid "Select same type"
 msgid "Selected type"
-msgstr "Vyberte stejný typ"
+msgstr "Vybraný typ"
 
 #: client/gui-qt/hudwidget.cpp:1345
-#, fuzzy
 #| msgid "All Cities"
 msgid "All types"
-msgstr "Všechna města"
+msgstr "Všechny typy"
 
 #: client/gui-qt/hudwidget.cpp:1359
-#, fuzzy
 msgid "Unit activity"
-msgstr "Aktivita: %s"
+msgstr "Činnost jednotky"
 
 #: client/gui-qt/hudwidget.cpp:1360
-#, fuzzy
 msgid "Any activity"
-msgstr "Aktivita: %s"
+msgstr "Libovolná činnost"
 
 #: client/gui-qt/hudwidget.cpp:1362 common/fc_types.h:149 common/unit.c:645
 msgid "Fortified"
@@ -8288,60 +7931,54 @@ msgid "Idle"
 msgstr "Nečinný"
 
 #: client/gui-qt/hudwidget.cpp:1364
-#, fuzzy
 #| msgid "Sentry idle"
 msgid "Sentried"
-msgstr "Strážit nečinné"
+msgstr "Na stráži"
 
 #: client/gui-qt/hudwidget.cpp:1379
 msgid "Unit HP and MP"
-msgstr ""
+msgstr "Zdraví a pohyb jednotky"
 
 #: client/gui-qt/hudwidget.cpp:1380
-#, fuzzy
 #| msgid " unit"
 msgid "Any unit"
-msgstr " jednotka"
+msgstr "Libovolná jednotka"
 
 #: client/gui-qt/hudwidget.cpp:1381
 msgid "Full HP"
-msgstr ""
+msgstr "Plné zdraví"
 
 #: client/gui-qt/hudwidget.cpp:1382
 msgid "Full MP"
-msgstr ""
+msgstr "Plný počet bodů pohybu"
 
 #: client/gui-qt/hudwidget.cpp:1383
 msgid "Full HP and MP"
-msgstr ""
+msgstr "Plné zdraví i pohyb"
 
 #: client/gui-qt/hudwidget.cpp:1399
-#, fuzzy
 #| msgid "_Goto Location"
 msgid "Location"
-msgstr "_Jít k umístění"
+msgstr "Poloha"
 
 #: client/gui-qt/hudwidget.cpp:1400
 msgid "Anywhere"
-msgstr ""
+msgstr "Kdekoli"
 
 #: client/gui-qt/hudwidget.cpp:1401
-#, fuzzy
 #| msgid "Keep current tileset"
 msgid "Current tile"
-msgstr "Ponechat současnou sadu dlaždic"
+msgstr "Aktuální pole"
 
 #: client/gui-qt/hudwidget.cpp:1402
-#, fuzzy
 #| msgid "Continent"
 msgid "Current continent"
-msgstr "Kontinent"
+msgstr "Aktuální kontinent"
 
 #: client/gui-qt/hudwidget.cpp:1403
-#, fuzzy
 #| msgid "Continent"
 msgid "Main continent"
-msgstr "Kontinent"
+msgstr "Hlavní kontinent"
 
 #: client/gui-qt/hudwidget.cpp:1633
 #, fuzzy
@@ -8393,14 +8030,12 @@ msgid "Gold: %1 (%2)"
 msgstr "Zlato: %d (%+d)"
 
 #: client/gui-qt/luaconsole.cpp:77
-#, fuzzy
 msgid "Lua scripts"
-msgstr "_Naložit jednotku"
+msgstr "Skripty Lua"
 
 #: client/gui-qt/luaconsole.cpp:79
-#, fuzzy
 msgid "Load lua script"
-msgstr "_Naložit jednotku"
+msgstr "Načíst skript Lua"
 
 #: client/gui-qt/mapctrl.cpp:260
 #, c-format
@@ -8408,9 +8043,8 @@ msgid "Selected city %s. Now choose rally point."
 msgstr ""
 
 #: client/gui-qt/mapctrl.cpp:264
-#, fuzzy
 msgid "No city selected. Aborted"
-msgstr "Výběr jednotek"
+msgstr "Nebylo vybráno žádné město. Akce byla zrušena."
 
 #: client/gui-qt/mapctrl.cpp:279
 #, c-format
@@ -8459,15 +8093,13 @@ msgstr[1] "Obchodní cesty:"
 msgstr[2] "Obchodní cesty:"
 
 #: client/gui-qt/menu.cpp:602
-#, fuzzy
 msgid "Revolution..."
-msgstr "_Revoluce..."
+msgstr "Revoluce…"
 
 #: client/gui-qt/menu.cpp:699
-#, fuzzy
 #| msgid "Goto and Close"
 msgid "Go to and..."
-msgstr "Jít a Zavřít"
+msgstr "Přejít na pole a…"
 
 #: client/gui-qt/menu.cpp:970
 msgid "Game"
@@ -8479,39 +8111,33 @@ msgstr "Možnosti serveru"
 
 #: client/gui-qt/menu.cpp:989
 msgid "Shortcuts"
-msgstr ""
+msgstr "Zkratky"
 
 #: client/gui-qt/menu.cpp:991
-#, fuzzy
 msgid "Load another tileset"
-msgstr "Sada dlaždic"
+msgstr "Načíst jinou grafiku mapy"
 
 #: client/gui-qt/menu.cpp:993
-#, fuzzy
 #| msgid "Save Options _Now"
 msgid "Save Options Now"
-msgstr "Uložit Možnosti _nyní"
+msgstr "Uložit nastavení nyní"
 
 #: client/gui-qt/menu.cpp:996
-#, fuzzy
 msgid "Save Options on Exit"
-msgstr "Volby serveru (stávající)"
+msgstr "Uložit nastavení při ukončení"
 
 #: client/gui-qt/menu.cpp:1006 client/gui-qt/menu.cpp:3895
-#, fuzzy
 #| msgid "Save Game _As..."
 msgid "Save Game As..."
-msgstr "Uložit hru _jako..."
+msgstr "Uložit hru jako…"
 
 #: client/gui-qt/menu.cpp:1010
-#, fuzzy
 msgid "Save Map to Image"
-msgstr "Uložit hru"
+msgstr "Uložit mapu jako obrázek"
 
 #: client/gui-qt/menu.cpp:1022
-#, fuzzy
 msgid "Leave game"
-msgstr "Uložit hru"
+msgstr "Opustit hru"
 
 #: client/gui-qt/menu.cpp:1025 client/gui-qt/pages.cpp:207
 #: client/gui-sdl2/optiondlg.c:897 client/gui-sdl2/pages.c:289
@@ -8530,42 +8156,35 @@ msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
 #: client/gui-qt/menu.cpp:1043
-#, fuzzy
 msgid "Minimap"
-msgstr "Minimální přebytek"
+msgstr "Minimapa"
 
 #: client/gui-qt/menu.cpp:1050
-#, fuzzy
 msgid "Show new turn information"
-msgstr "Ukazovat animace boje"
+msgstr "Zobrazit informace o novém tahu"
 
 #: client/gui-qt/menu.cpp:1055
-#, fuzzy
 #| msgid "Show combat animation"
 msgid "Show combat detailed information"
-msgstr "Ukazovat animace boje"
+msgstr "Zobrazit podrobnosti o boji"
 
 #: client/gui-qt/menu.cpp:1059
-#, fuzzy
 #| msgid "Interface"
 msgid "Lock interface"
-msgstr "Interface"
+msgstr "Zamknout rozhraní"
 
 #: client/gui-qt/menu.cpp:1071
-#, fuzzy
 #| msgid " (default)"
 msgid "Zoom default"
-msgstr "(výchozí)"
+msgstr "Výchozí měřítko"
 
 #: client/gui-qt/menu.cpp:1079
-#, fuzzy
 msgid "Scale fonts"
-msgstr "Schovat Info okno jednotky"
+msgstr "Změnit velikost písma"
 
 #: client/gui-qt/menu.cpp:1085
-#, fuzzy
 msgid "City Outlines"
-msgstr "Možnosti města"
+msgstr "Dosah měst"
 
 #: client/gui-qt/menu.cpp:1095 client/gui-qt/shortcuts.cpp:69
 msgid "Map Grid"
@@ -8586,33 +8205,28 @@ msgid "City Growth"
 msgstr "Růst města"
 
 #: client/gui-qt/menu.cpp:1139 client/gui-qt/shortcuts.cpp:97
-#, fuzzy
 msgid "City Trade Routes"
-msgstr "Obchodní cesty:"
+msgstr "Obchodní cesty měst"
 
 #: client/gui-qt/menu.cpp:1154
 msgid "Single Unit (Unselect Others)"
-msgstr ""
+msgstr "Jedna jednotka (ostatní odebrat z výběru)"
 
 #: client/gui-qt/menu.cpp:1158
-#, fuzzy
 msgid "All On Tile"
-msgstr "_Strážit nečinné"
+msgstr "Všechny na poli"
 
 #: client/gui-qt/menu.cpp:1163
-#, fuzzy
 msgid "Same Type on Tile"
-msgstr "Uloží hru do souboru."
+msgstr "Stejný typ na poli"
 
 #: client/gui-qt/menu.cpp:1167
-#, fuzzy
 msgid "Same Type on Continent"
-msgstr "Uloží hru do souboru."
+msgstr "Stejný typ na kontinentu"
 
 #: client/gui-qt/menu.cpp:1172
-#, fuzzy
 msgid "Same Type Everywhere"
-msgstr "Vyberte stejný typ"
+msgstr "Stejný typ všude"
 
 #: client/gui-qt/menu.cpp:1178 client/gui-qt/shortcuts.cpp:136
 #: client/gui-sdl2/action_dialog.c:1095 client/gui-sdl2/menu.c:422
@@ -8625,10 +8239,9 @@ msgid "Done"
 msgstr "Hotovo"
 
 #: client/gui-qt/menu.cpp:1189
-#, fuzzy
 #| msgid "Unit selection"
 msgid "Advanced unit selection"
-msgstr "Výběr jednotek"
+msgstr "Pokročilý výběr jednotek"
 
 #: client/gui-qt/menu.cpp:1196 client/gui-qt/shortcuts.cpp:134
 #: client/gui-sdl2/menu.c:538 client/gui-sdl3/menu.c:534
@@ -8636,14 +8249,12 @@ msgid "Go to Tile"
 msgstr "Přejít na pole"
 
 #: client/gui-qt/menu.cpp:1205
-#, fuzzy
 msgid "Go to Nearest City"
-msgstr "Návrat do nejbližšího města"
+msgstr "Přejít do nejbližšího města"
 
 #: client/gui-qt/menu.cpp:1209 client/gui-qt/shortcuts.cpp:105
-#, fuzzy
 msgid "Go to/Airlift to City..."
-msgstr "Přesun/Letecký most do města"
+msgstr "Přejít nebo přepravit letecky do města…"
 
 #: client/gui-qt/menu.cpp:1215 client/gui-qt/shortcuts.cpp:107
 #: client/gui-sdl2/menu.c:615 client/gui-sdl3/menu.c:611
@@ -8666,9 +8277,8 @@ msgid "Upgrade"
 msgstr "Vylepšit"
 
 #: client/gui-qt/menu.cpp:1266 common/fc_types.h:179 common/unit.c:661
-#, fuzzy
 msgid "Convert"
-msgstr "Přip_ojit"
+msgstr "Přestavět"
 
 #: client/gui-qt/menu.cpp:1270 client/gui-qt/repodlgs.cpp:1233
 #: client/gui-sdl2/dialogs.c:947 client/gui-sdl3/dialogs.c:943
@@ -8681,9 +8291,8 @@ msgid "Fortify Unit"
 msgstr "Opevnit jednotku"
 
 #: client/gui-qt/menu.cpp:1292
-#, fuzzy
 msgid "Build Base"
-msgstr "Stavět letiště"
+msgstr "Postavit základnu"
 
 #: client/gui-qt/menu.cpp:1294 client/gui-qt/shortcuts.cpp:178
 #: data/alien/techs.ruleset:550
@@ -8698,9 +8307,8 @@ msgid "Do..."
 msgstr "Provést…"
 
 #: client/gui-qt/menu.cpp:1311
-#, fuzzy
 msgid "Work"
-msgstr "Sezn_amy prací"
+msgstr "Práce"
 
 #: client/gui-qt/menu.cpp:1318 client/gui-qt/menu.cpp:2479
 #: client/gui-sdl2/menu.c:627 client/gui-sdl3/menu.c:623
@@ -8712,9 +8320,8 @@ msgid "Build Road"
 msgstr "Stavět cestu"
 
 #: client/gui-qt/menu.cpp:1329
-#, fuzzy
 msgid "Build Path"
-msgstr "Stavět letiště"
+msgstr "Postavit cestu"
 
 #: client/gui-qt/menu.cpp:1330 client/gui-qt/menu.cpp:2298
 #: client/gui-qt/menu.cpp:2301 client/gui-qt/shortcuts.cpp:122
@@ -8727,19 +8334,16 @@ msgid "Build Mine"
 msgstr "Stavět důl"
 
 #: client/gui-qt/menu.cpp:1351
-#, fuzzy
 msgid "Connect With Road"
-msgstr "Připojit/Cesta"
+msgstr "Propojit silnicí"
 
 #: client/gui-qt/menu.cpp:1355
-#, fuzzy
 msgid "Connect With Railroad"
-msgstr "Připojit/Železnice"
+msgstr "Propojit železnicí"
 
 #: client/gui-qt/menu.cpp:1359
-#, fuzzy
 msgid "Connect With Maglev"
-msgstr "Připojit/Železnice"
+msgstr "Propojit maglevem"
 
 #: client/gui-qt/menu.cpp:1363 client/gui-sdl2/menu.c:563
 #: client/gui-sdl3/menu.c:559
@@ -8751,153 +8355,135 @@ msgid "Transform Terrain"
 msgstr "Transformovat terén"
 
 #: client/gui-qt/menu.cpp:1390
-#, fuzzy
 msgid "Multiplayer"
-msgstr "Výchozí pravidla"
+msgstr "Hra pro více hráčů"
 
 #: client/gui-qt/menu.cpp:1391
 msgid "Delayed Goto"
-msgstr ""
+msgstr "Odložený přesun"
 
 #: client/gui-qt/menu.cpp:1394
 msgid "Delayed Orders Execute"
-msgstr ""
+msgstr "Provést odložené rozkazy"
 
 #: client/gui-qt/menu.cpp:1397
-#, fuzzy
 msgid "Clear Orders"
-msgstr "Cílový _Seznam prací:"
+msgstr "Zrušit rozkazy"
 
 #: client/gui-qt/menu.cpp:1400
 msgid "Add all cities to trade planning"
-msgstr ""
+msgstr "Přidat všechna města do plánu obchodních cest"
 
 #: client/gui-qt/menu.cpp:1402
 msgid "Calculate trade planning"
-msgstr ""
+msgstr "Vypočítat plán obchodních cest"
 
 #: client/gui-qt/menu.cpp:1404
-#, fuzzy
 msgid "Add/Remove City"
-msgstr "Odebrat"
+msgstr "Přidat nebo odebrat město"
 
 #: client/gui-qt/menu.cpp:1407
 msgid "Clear Trade Planning"
-msgstr ""
+msgstr "Vymazat plán obchodních cest"
 
 #: client/gui-qt/menu.cpp:1409
 msgid "Automatic caravan"
-msgstr ""
+msgstr "Automatická karavana"
 
 #: client/gui-qt/menu.cpp:1413
 msgid "Set/Unset rally point"
-msgstr ""
+msgstr "Nastavit nebo zrušit shromaždiště"
 
 #: client/gui-qt/menu.cpp:1416
-#, fuzzy
 #| msgid "Airlift"
 msgid "Quick Airlift"
-msgstr "Letecký most"
+msgstr "Rychlá letecká přeprava"
 
 #: client/gui-qt/menu.cpp:1420
 msgid "Unit type for quickairlifting"
-msgstr ""
+msgstr "Typ jednotky pro rychlou leteckou přepravu"
 
 #: client/gui-qt/menu.cpp:1425
 msgid "Default action vs unit"
-msgstr ""
+msgstr "Výchozí akce proti jednotce"
 
 #: client/gui-qt/menu.cpp:1427 client/gui-qt/menu.cpp:1456
 msgid "Ask"
-msgstr ""
+msgstr "Zeptat se"
 
 #: client/gui-qt/menu.cpp:1434 common/events.c:118 common/events.c:130
 msgid "Bribe"
 msgstr "Uplatit"
 
 #: client/gui-qt/menu.cpp:1448
-#, fuzzy
 msgid "Sabotage Unit Escape"
-msgstr "Sabotáž města"
+msgstr "Sabotovat jednotku a uniknout"
 
 #: client/gui-qt/menu.cpp:1455
-#, fuzzy
 msgid "Default action vs city"
-msgstr "Zvolte místo určení"
+msgstr "Výchozí akce proti městu"
 
 #: client/gui-qt/menu.cpp:1463
-#, fuzzy
 #| msgid "_Investigate city"
 msgid "Investigate city"
-msgstr "_Prozkoumat město"
+msgstr "Prozkoumat město"
 
 #: client/gui-qt/menu.cpp:1470
-#, fuzzy
 #| msgid "Investigate City (free)"
 msgid "Investigate city (spends the unit)"
-msgstr "Prozkoumat město (zdarma)"
+msgstr "Prozkoumat město (jednotka zanikne)"
 
 #: client/gui-qt/menu.cpp:1477
-#, fuzzy
 #| msgid "Establish Embassy"
 msgid "Establish embassy"
-msgstr "Zřízení Ambasády"
+msgstr "Založit velvyslanectví"
 
 #: client/gui-qt/menu.cpp:1484
 msgid "Become Ambassador"
-msgstr ""
+msgstr "Stát se velvyslancem"
 
 #: client/gui-qt/menu.cpp:1491
-#, fuzzy
 #| msgid "Steal _technology"
 msgid "Steal technology"
-msgstr "Ukrást _technologii"
+msgstr "Ukrást technologii"
 
 #: client/gui-qt/menu.cpp:1498
-#, fuzzy
 #| msgid "Steal _technology"
 msgid "Steal technology and escape"
-msgstr "Ukrást _technologii"
+msgstr "Ukrást technologii a uniknout"
 
 #: client/gui-qt/menu.cpp:1505
-#, fuzzy
 #| msgid "Incite a _revolt"
 msgid "Incite a revolt"
-msgstr "Podnítit _revoluci"
+msgstr "Vyvolat vzpouru"
 
 #: client/gui-qt/menu.cpp:1512
-#, fuzzy
 #| msgid "Incite a Revolt!"
 msgid "Incite a Revolt and Escape"
-msgstr "Podnítit revoluci!"
+msgstr "Vyvolat vzpouru a uniknout"
 
 #: client/gui-qt/menu.cpp:1519
-#, fuzzy
 #| msgid "_Poison city"
 msgid "Poison city"
-msgstr "_Otrávit město"
-
-#: client/gui-qt/menu.cpp:1526
-#, fuzzy
-#| msgid "Poison City"
-msgid "Poison City Escape"
 msgstr "Otrávit město"
 
+#: client/gui-qt/menu.cpp:1526
+#| msgid "Poison City"
+msgid "Poison City Escape"
+msgstr "Otrávit město a uniknout"
+
 #: client/gui-qt/menu.cpp:1534
-#, fuzzy
 msgid "Civilization"
-msgstr "Kapitalizace"
+msgstr "Civilizace"
 
 #: client/gui-qt/menu.cpp:1535
-#, fuzzy
 msgid "Tax Rates..."
-msgstr "Hodnota daní..."
+msgstr "Daňové sazby…"
 
 #: client/gui-qt/menu.cpp:1540
-#, fuzzy
 #| msgid "Polish"
 msgid "Policies..."
-msgstr "Polský"
+msgstr "Politika…"
 
 #: client/gui-qt/menu.cpp:1581
 msgid "Demographics"
@@ -8912,14 +8498,12 @@ msgid "Achievements"
 msgstr "Úspěchy"
 
 #: client/gui-qt/menu.cpp:1592
-#, fuzzy
 msgid "Endgame report"
-msgstr "Ekonomika: Zlato"
+msgstr "Závěrečný přehled"
 
 #: client/gui-qt/menu.cpp:1597
-#, fuzzy
 msgid "Battle Groups"
-msgstr "_Národy:"
+msgstr "Bojové skupiny"
 
 #: client/gui-qt/menu.cpp:2153
 #, fuzzy
@@ -8956,22 +8540,19 @@ msgid "Transform to %1"
 msgstr "Transformovat na %s"
 
 #: client/gui-qt/menu.cpp:2481
-#, fuzzy
 #| msgid "Auto Explore"
 msgid "Auto Worker"
-msgstr "Auto Průzkum"
+msgstr "Automatický dělník"
 
 #: client/gui-qt/menu.cpp:2988
-#, fuzzy
 #| msgid "Didn't find a route to the destination!"
 msgid "Didn't find any trade route to establish"
-msgstr "Nepodařilo se nalézt cestu k cíli!"
+msgstr "Nebyla nalezena žádná obchodní cesta k založení"
 
 #: client/gui-qt/menu.cpp:3660
-#, fuzzy
 #| msgid "Available targets"
 msgid "Available tilesets"
-msgstr "Dostupné cíle"
+msgstr "Dostupná grafika mapy"
 
 #: client/gui-qt/menu.cpp:3662
 msgid "Some tilesets might not be compatible with current map topology!"
@@ -8979,31 +8560,29 @@ msgstr ""
 
 #: client/gui-qt/menu.cpp:3863
 msgid "Success"
-msgstr ""
+msgstr "Hotovo"
 
 #: client/gui-qt/menu.cpp:3865
 msgid "Failed to save image of the map"
-msgstr ""
+msgstr "Obrázek mapy se nepodařilo uložit"
 
 #: client/gui-qt/menu.cpp:3892
-#, fuzzy
 #| msgid "Save Game"
 msgid "Save Games"
-msgstr "Uložit hru"
+msgstr "Uložené hry"
 
 #: client/gui-qt/menu.cpp:3966
 msgid "Selection will cancel current assignments!"
-msgstr ""
+msgstr "Výběrem zrušíte aktuální přiřazení!"
 
 #: client/gui-qt/menu.cpp:3967
-#, fuzzy
 #| msgid "Unit Selection"
 msgid "Confirm Disruptive Selection"
-msgstr "Výběr jednotky"
+msgstr "Potvrdit změnu přiřazení"
 
 #: client/gui-qt/optiondlg.cpp:93
 msgid "... read more in help"
-msgstr ""
+msgstr "… více v nápovědě"
 
 #: client/gui-qt/optiondlg.cpp:153 client/gui-qt/pages.cpp:411
 msgid "Refresh"
@@ -9011,19 +8590,16 @@ msgstr "Obnovit"
 
 #: client/gui-qt/optiondlg.cpp:160 client/gui-qt/ratesdlg.cpp:80
 #: client/gui-qt/shortcuts.cpp:639
-#, fuzzy
 msgid "Apply"
-msgstr "Použít jednou"
+msgstr "Použít"
 
 #: client/gui-qt/optiondlg.cpp:806
-#, fuzzy
 msgid "Select Font"
-msgstr "Vyberte národ"
+msgstr "Vybrat písmo"
 
 #: client/gui-qt/optiondlg.cpp:852
-#, fuzzy
 msgid "Select Color"
-msgstr "Zvolen nový cíl"
+msgstr "Vybrat barvu"
 
 #: client/gui-qt/pages.cpp:164
 #, fuzzy, c-format
@@ -9043,40 +8619,33 @@ msgid "commit: %s"
 msgstr "Jednotka: %s"
 
 #: client/gui-qt/pages.cpp:184
-#, fuzzy
 msgid "Qt5 client"
-msgstr "Tento příkaz je pouze pro klienta."
+msgstr "Klient Qt 5"
 
 #: client/gui-qt/pages.cpp:186
-#, fuzzy
 msgid "Qt6 client"
-msgstr "Tento příkaz je pouze pro klienta."
+msgstr "Klient Qt 6"
 
 #: client/gui-qt/pages.cpp:205
-#, fuzzy
 msgid "Start new game"
-msgstr "Start nové hry"
+msgstr "Začít novou hru"
 
 #: client/gui-qt/pages.cpp:205
-#, fuzzy
 msgid "Start scenario game"
-msgstr "Start s_cénáře"
+msgstr "Spustit scénář"
 
 #: client/gui-qt/pages.cpp:206
-#, fuzzy
 msgid "Load saved game"
-msgstr "Nahrát uloženou hru"
+msgstr "Načíst uloženou hru"
 
 #: client/gui-qt/pages.cpp:206
-#, fuzzy
 msgid "Connect to network game"
-msgstr "Přip_ojit k síťové hře"
+msgstr "Připojit se k síťové hře"
 
 #: client/gui-qt/pages.cpp:335
-#, fuzzy
 #| msgid "Players"
 msgid "?count:Players"
-msgstr "Hráči"
+msgstr "?count:Hráči"
 
 #: client/gui-qt/pages.cpp:395 client/gui-qt/pages.cpp:422
 #: client/gui-sdl2/connectdlg.c:618 client/gui-sdl3/connectdlg.c:614
@@ -9084,55 +8653,46 @@ msgid "Connect"
 msgstr "Připojit"
 
 #: client/gui-qt/pages.cpp:395
-#, fuzzy
 msgid "Login"
-msgstr "Login:"
+msgstr "Přihlášení"
 
 #: client/gui-qt/pages.cpp:396
-#, fuzzy
 msgid "Password"
-msgstr "Heslo:"
+msgstr "Heslo"
 
 #: client/gui-qt/pages.cpp:396
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Heslo z_novu:"
+msgstr "Potvrdit heslo"
 
 #: client/gui-qt/pages.cpp:436
-#, fuzzy
 #| msgid "Internet _Metaserver"
 msgid "Internet servers:"
-msgstr "Internet _Metaserver"
+msgstr "Internetové servery:"
 
 #: client/gui-qt/pages.cpp:439
-#, fuzzy
 msgid "Local servers:"
-msgstr "Globální Pozorovatel"
+msgstr "Místní servery:"
 
 #: client/gui-qt/pages.cpp:485
-#, fuzzy
 msgid "Loading..."
-msgstr "Nahrávám pravidla"
+msgstr "Načítání…"
 
 #: client/gui-qt/pages.cpp:508
-#, fuzzy
 msgid "Show preview"
-msgstr "Zobrazit _Všechna města"
+msgstr "Zobrazit náhled"
 
 #: client/gui-qt/pages.cpp:509
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: client/gui-qt/pages.cpp:547 client/gui-qt/pages.cpp:614
-#, fuzzy
 #| msgid "_Browse..."
 msgid "Browse..."
-msgstr "_Procházet..."
+msgstr "Procházet…"
 
 #: client/gui-qt/pages.cpp:631
-#, fuzzy
 msgid "Load Scenario"
-msgstr "Start s_cénáře"
+msgstr "Načíst scénář"
 
 #: client/gui-qt/pages.cpp:683
 msgid "Disconnect"
@@ -9145,34 +8705,29 @@ msgid "Start"
 msgstr "Start"
 
 #: client/gui-qt/pages.cpp:834
-#, fuzzy
 msgid "Save Files"
-msgstr "Města"
+msgstr "Soubory uložených her"
 
 #: client/gui-qt/pages.cpp:837
-#, fuzzy
 #| msgid "Save _Filename:"
 msgid "Open Save File"
-msgstr "Uložit _soubor:"
+msgstr "Otevřít uloženou hru"
 
 #: client/gui-qt/pages.cpp:869
-#, fuzzy
 msgid "Scenarios Files"
-msgstr "Start s_cénáře"
+msgstr "Soubory scénářů"
 
 #: client/gui-qt/pages.cpp:872
-#, fuzzy
 msgid "Open Scenario File"
-msgstr "Start s_cénáře"
+msgstr "Otevřít soubor scénáře"
 
 #: client/gui-qt/pages.cpp:1261
-#, fuzzy
 msgid "Turn"
-msgstr "Tahů"
+msgstr "Tah"
 
 #: client/gui-qt/pages.cpp:1549
 msgid "Authors: "
-msgstr ""
+msgstr "Autoři: "
 
 #: client/gui-qt/pages.cpp:1707 client/gui-sdl2/connectdlg.c:327
 #: client/gui-sdl2/plrdlg.c:365 client/gui-sdl3/connectdlg.c:323
@@ -9182,24 +8737,20 @@ msgid "?header:Players"
 msgstr "?header:Hráči"
 
 #: client/gui-qt/pages.cpp:1850
-#, fuzzy
 msgid "Global observers"
-msgstr "Globální Pozorovatel"
+msgstr "Globální pozorovatelé"
 
 #: client/gui-qt/pages.cpp:1923
-#, fuzzy
 msgid "Not ready"
-msgstr ", nepřipraven"
+msgstr "Nepřipraven"
 
 #: client/gui-qt/pages.cpp:2050
-#, fuzzy
 msgid "Set difficulty"
-msgstr ", úroveň obtížnosti %s"
+msgstr "Nastavit obtížnost"
 
 #: client/gui-qt/pages.cpp:2071
-#, fuzzy
 msgid "Put on team"
-msgstr "Populace: %s"
+msgstr "Přiřadit do týmu"
 
 #: client/gui-qt/pages.cpp:2160
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
@@ -9218,9 +8769,8 @@ msgid "<b>Techs unknown by %1:</b>"
 msgstr "neznámý"
 
 #: client/gui-qt/plrdlg.cpp:658
-#, fuzzy
 msgid "<b>Techs unknown by you :</b>"
-msgstr "neznámý"
+msgstr "<b>Technologie, které neznáte:</b>"
 
 #: client/gui-qt/plrdlg.cpp:703
 #, fuzzy
@@ -9234,10 +8784,9 @@ msgid "Wonders of %1 Empire"
 msgstr "Divy světa"
 
 #: client/gui-qt/plrdlg.cpp:732
-#, fuzzy
 #| msgid "Ruler:"
 msgid "Rule: "
-msgstr "Vládce:"
+msgstr "Pravidlo: "
 
 #: client/gui-qt/plrdlg.cpp:749 client/gui-sdl2/inteldlg.c:458
 #: client/gui-sdl3/inteldlg.c:454
@@ -9255,155 +8804,131 @@ msgid "Cancel Treaty"
 msgstr "Zrušit dohodu"
 
 #: client/gui-qt/plrdlg.cpp:827
-#, fuzzy
 msgid "Withdraw Vision"
-msgstr "_Zrušit nahlížení"
+msgstr "Ukončit sdílení výhledu"
 
 #: client/gui-qt/plrdlg.cpp:829 client/gui-qt/plrdlg.cpp:1126
 #: client/gui-qt/plrdlg.cpp:1131
-#, fuzzy
 #| msgid "Mode"
 msgid "AI Mode"
-msgstr "Mód"
+msgstr "Ovládání počítačem"
 
 #: client/gui-qt/plrdlg.cpp:833 client/gui-qt/plrdlg.cpp:1022
-#, fuzzy
 #| msgid "Video options"
 msgid "Hide Relations"
-msgstr "Možnosti zobrazení"
+msgstr "Skrýt vztahy"
 
 #: client/gui-qt/plrdlg.cpp:835 client/gui-qt/plrdlg.cpp:1018
-#, fuzzy
 #| msgid "_Goto Location"
 msgid "Show Relations"
-msgstr "_Jít k umístění"
+msgstr "Zobrazit vztahy"
 
 #: client/gui-qt/plrdlg.cpp:840 client/gui-qt/plrdlg.cpp:1038
-#, fuzzy
 #| msgid "_Techs"
 msgid "Hide Techs"
-msgstr "_Technologie"
+msgstr "Skrýt technologie"
 
 #: client/gui-qt/plrdlg.cpp:842 client/gui-qt/plrdlg.cpp:1034
-#, fuzzy
 #| msgid "_Techs"
 msgid "Show Techs"
-msgstr "_Technologie"
+msgstr "Zobrazit technologie"
 
 #: client/gui-qt/plrdlg.cpp:847 client/gui-qt/plrdlg.cpp:1054
-#, fuzzy
 #| msgid "Wonders"
 msgid "Hide Wonders"
-msgstr "Divy světa"
+msgstr "Skrýt divy"
 
 #: client/gui-qt/plrdlg.cpp:849 client/gui-qt/plrdlg.cpp:1050
-#, fuzzy
 msgid "Show Wonders"
-msgstr "Státní hranice"
+msgstr "Zobrazit divy"
 
 #: client/gui-qt/plrdlg.cpp:970
-#, fuzzy
 #| msgid "_Toggle AI Mode"
 msgid "Toggle AI Mode"
-msgstr "_Přepnout na PO mód"
+msgstr "Přepnout ovládání počítačem"
 
 #: client/gui-qt/plrdlg.cpp:1128
-#, fuzzy
 #| msgid "Mode"
 msgid "Away Mode"
-msgstr "Mód"
+msgstr "Režim nepřítomnosti"
 
 #: client/gui-qt/ratesdlg.cpp:56
-#, fuzzy
 msgid "Tax rates"
-msgstr "Hodnoty daní"
+msgstr "Daňové sazby"
 
 #: client/gui-qt/repodlgs.cpp:1235
 msgid "Sell All"
 msgstr "Prodat vše"
 
 #: client/gui-qt/repodlgs.cpp:1237
-#, fuzzy
 msgid "Sell Redundant"
-msgstr "?redundant:*"
+msgstr "Prodat nadbytečné"
 
 #: client/gui-qt/repodlgs.cpp:1474
-#, fuzzy
 msgid "Disband Results"
-msgstr "Zrušit jednotku"
+msgstr "Výsledek rozpouštění jednotek"
 
 #: client/gui-qt/shortcuts.cpp:65
-#, fuzzy
 msgid "Show minimap"
 msgstr "Zobrazit minimapu"
 
 #: client/gui-qt/shortcuts.cpp:73
 msgid "Quick buy from map"
-msgstr ""
+msgstr "Rychle dokončit výrobu přímo z mapy"
 
 #: client/gui-qt/shortcuts.cpp:75
 msgid "Quick production select from map"
-msgstr ""
+msgstr "Rychlý výběr výroby z mapy"
 
 #: client/gui-qt/shortcuts.cpp:77
-#, fuzzy
 msgid "Select button"
-msgstr "Vyberte národ"
+msgstr "Vybrat tlačítko"
 
 #: client/gui-qt/shortcuts.cpp:79
-#, fuzzy
 msgid "Adjust workers"
-msgstr "?Angry workers:R"
+msgstr "Upravit přidělení obyvatel"
 
 #: client/gui-qt/shortcuts.cpp:81
-#, fuzzy
 msgid "Append focus"
-msgstr "Přejmenovat seznam prací"
+msgstr "Přidat k výběru"
 
 #: client/gui-qt/shortcuts.cpp:83
 msgid "Popup tile info"
-msgstr ""
+msgstr "Zobrazit údaje o poli"
 
 #: client/gui-qt/shortcuts.cpp:85
-#, fuzzy
 #| msgid "Wake up"
 msgid "Wakeup sentries"
-msgstr "Probudit"
+msgstr "Probudit stráže"
 
 #: client/gui-qt/shortcuts.cpp:87
-#, fuzzy
 msgid "Show link to tile"
-msgstr "Zobrazit _Všechna města"
+msgstr "Zobrazit odkaz na pole"
 
 #: client/gui-qt/shortcuts.cpp:89
-#, fuzzy
 msgid "Paste production"
-msgstr "Změnit produkci"
+msgstr "Vložit výrobu"
 
 #: client/gui-qt/shortcuts.cpp:91
-#, fuzzy
 #| msgid "City Production"
 msgid "Copy production"
-msgstr "Produkce města"
+msgstr "Kopírovat výrobu"
 
 #: client/gui-qt/shortcuts.cpp:93
-#, fuzzy
 msgid "Show/hide workers"
-msgstr "Státní hranice"
+msgstr "Zobrazit nebo skrýt pracující"
 
 #: client/gui-qt/shortcuts.cpp:95
 msgid "Units selection (for tile under mouse position)"
-msgstr ""
+msgstr "Vybrat jednotky na poli pod ukazatelem"
 
 #: client/gui-qt/shortcuts.cpp:99
-#, fuzzy
 msgid "City Production Levels"
-msgstr "Produkce měst"
+msgstr "Úrovně městské výroby"
 
 #: client/gui-qt/shortcuts.cpp:116
-#, fuzzy
 msgid "Set Home City"
-msgstr "Vytvořit Domovské město"
+msgstr "Nastavit domovské město"
 
 #: client/gui-qt/shortcuts.cpp:128
 msgid "Build City"
@@ -9414,186 +8939,174 @@ msgid "Explode Nuclear"
 msgstr "Odpálit jadernou střelu"
 
 #: client/gui-qt/shortcuts.cpp:146
-#, fuzzy
 msgid "Quick buy current production from map"
-msgstr "práva souboru %s se nepodařila změnit na %04lo (%s)\n"
+msgstr "Rychle dokončit aktuální výrobu přímo z mapy"
 
 #: client/gui-qt/shortcuts.cpp:148
 msgid "Lock/unlock interface"
-msgstr ""
+msgstr "Zamknout nebo odemknout rozhraní"
 
 #: client/gui-qt/shortcuts.cpp:150
-#, fuzzy
 #| msgid "Auto Explore"
 msgid "Auto worker"
-msgstr "Auto Průzkum"
+msgstr "Automatický dělník"
 
 #: client/gui-qt/shortcuts.cpp:154
-#, fuzzy
 #| msgid "Show combat animation"
 msgid "Popup combat information"
-msgstr "Ukazovat animace boje"
+msgstr "Zobrazit informace o boji"
 
 #: client/gui-qt/shortcuts.cpp:156
-#, fuzzy
 msgid "Reload theme"
-msgstr "Nahrát hru"
+msgstr "Znovu načíst motiv"
 
 #: client/gui-qt/shortcuts.cpp:158
-#, fuzzy
 msgid "Reload tileset"
-msgstr "Sada dlaždic"
+msgstr "Znovu načíst grafiku mapy"
 
 #: client/gui-qt/shortcuts.cpp:160
 msgid "Toggle city full bar visibility"
-msgstr ""
+msgstr "Přepnout zobrazení úplného panelu města"
 
 #: client/gui-qt/shortcuts.cpp:162
-#, fuzzy
 msgid "Reload zoomed in tileset"
-msgstr "Sada dlaždic"
+msgstr "Znovu načíst zvětšenou grafiku mapy"
 
 #: client/gui-qt/shortcuts.cpp:164
-#, fuzzy
 msgid "Reload zoomed out tileset"
-msgstr "Sada dlaždic"
+msgstr "Znovu načíst zmenšenou grafiku mapy"
 
 #: client/gui-qt/shortcuts.cpp:166
-#, fuzzy
 msgid "Load Lua script"
-msgstr "_Naložit jednotku"
+msgstr "Načíst skript Lua"
 
 #: client/gui-qt/shortcuts.cpp:168
-#, fuzzy
 msgid "Load last loaded Lua script"
-msgstr "_Naložit jednotku"
+msgstr "Načíst naposledy použitý skript Lua"
 
 #: client/gui-qt/shortcuts.cpp:170
-#, fuzzy
 msgid "Reload tileset with default scale"
-msgstr "= znamená, že volba má svou výchozí hodnotu"
+msgstr "Znovu načíst grafiku mapy ve výchozím měřítku"
 
 #: client/gui-qt/shortcuts.cpp:172
-#, fuzzy
 msgid "Go And Build City"
-msgstr "Založit město (_B)"
+msgstr "Přejít a založit město"
 
 #: client/gui-qt/shortcuts.cpp:174
-#, fuzzy
 msgid "Go And Join City"
-msgstr "Založit město (_B)"
+msgstr "Přejít a připojit se k městu"
 
 #: client/gui-qt/shortcuts.cpp:457
 msgid "NoButton"
-msgstr ""
+msgstr "Žádné tlačítko"
 
 #: client/gui-qt/shortcuts.cpp:459
 msgid "LeftButton"
-msgstr ""
+msgstr "Levé tlačítko"
 
 #: client/gui-qt/shortcuts.cpp:461
 msgid "RightButton"
-msgstr ""
+msgstr "Pravé tlačítko"
 
 #: client/gui-qt/shortcuts.cpp:463
 msgid "MiddleButton"
-msgstr ""
+msgstr "Prostřední tlačítko"
 
 #: client/gui-qt/shortcuts.cpp:465
 msgid "BackButton"
-msgstr ""
+msgstr "Tlačítko Zpět"
 
 #: client/gui-qt/shortcuts.cpp:467
 msgid "ForwardButton"
-msgstr ""
+msgstr "Tlačítko Vpřed"
 
 #: client/gui-qt/shortcuts.cpp:469
 msgid "TaskButton"
-msgstr ""
+msgstr "Tlačítko úloh"
 
 #: client/gui-qt/shortcuts.cpp:471
 msgid "ExtraButton4"
-msgstr ""
+msgstr "Další tlačítko 4"
 
 #: client/gui-qt/shortcuts.cpp:473
 msgid "ExtraButton5"
-msgstr ""
+msgstr "Další tlačítko 5"
 
 #: client/gui-qt/shortcuts.cpp:475
 msgid "ExtraButton6"
-msgstr ""
+msgstr "Další tlačítko 6"
 
 #: client/gui-qt/shortcuts.cpp:477
 msgid "ExtraButton7"
-msgstr ""
+msgstr "Další tlačítko 7"
 
 #: client/gui-qt/shortcuts.cpp:479
 msgid "ExtraButton8"
-msgstr ""
+msgstr "Další tlačítko 8"
 
 #: client/gui-qt/shortcuts.cpp:481
 msgid "ExtraButton9"
-msgstr ""
+msgstr "Další tlačítko 9"
 
 #: client/gui-qt/shortcuts.cpp:483
 msgid "ExtraButton10"
-msgstr ""
+msgstr "Další tlačítko 10"
 
 #: client/gui-qt/shortcuts.cpp:485
 msgid "ExtraButton11"
-msgstr ""
+msgstr "Další tlačítko 11"
 
 #: client/gui-qt/shortcuts.cpp:487
 msgid "ExtraButton12"
-msgstr ""
+msgstr "Další tlačítko 12"
 
 #: client/gui-qt/shortcuts.cpp:489
 msgid "ExtraButton13"
-msgstr ""
+msgstr "Další tlačítko 13"
 
 #: client/gui-qt/shortcuts.cpp:491
 msgid "ExtraButton14"
-msgstr ""
+msgstr "Další tlačítko 14"
 
 #: client/gui-qt/shortcuts.cpp:493
 msgid "ExtraButton15"
-msgstr ""
+msgstr "Další tlačítko 15"
 
 #: client/gui-qt/shortcuts.cpp:495
 msgid "ExtraButton16"
-msgstr ""
+msgstr "Další tlačítko 16"
 
 #: client/gui-qt/shortcuts.cpp:497
 msgid "ExtraButton17"
-msgstr ""
+msgstr "Další tlačítko 17"
 
 #: client/gui-qt/shortcuts.cpp:499
 msgid "ExtraButton18"
-msgstr ""
+msgstr "Další tlačítko 18"
 
 #: client/gui-qt/shortcuts.cpp:501
 msgid "ExtraButton19"
-msgstr ""
+msgstr "Další tlačítko 19"
 
 #: client/gui-qt/shortcuts.cpp:503
 msgid "ExtraButton20"
-msgstr ""
+msgstr "Další tlačítko 20"
 
 #: client/gui-qt/shortcuts.cpp:505
 msgid "ExtraButton21"
-msgstr ""
+msgstr "Další tlačítko 21"
 
 #: client/gui-qt/shortcuts.cpp:507
 msgid "ExtraButton22"
-msgstr ""
+msgstr "Další tlačítko 22"
 
 #: client/gui-qt/shortcuts.cpp:509
 msgid "ExtraButton23"
-msgstr ""
+msgstr "Další tlačítko 23"
 
 #: client/gui-qt/shortcuts.cpp:511
 msgid "ExtraButton24"
-msgstr ""
+msgstr "Další tlačítko 24"
 
 #. TRANS: Given shortcut(%1) is already assigned
 #: client/gui-qt/shortcuts.cpp:567
@@ -9603,10 +9116,9 @@ msgid "%1 is already assigned to"
 msgstr "%s již pozoruje %s."
 
 #: client/gui-qt/shortcuts.cpp:583
-#, fuzzy
 #| msgid "Sound options"
 msgid "Shortcuts options"
-msgstr "Možnosti zvuku"
+msgstr "Nastavení zkratek"
 
 #: client/gui-qt/sidebar.cpp:726
 #, fuzzy
@@ -9614,10 +9126,9 @@ msgid "Observe %1"
 msgstr "Pozorovatel: %s"
 
 #: client/gui-qt/sidebar.cpp:737
-#, fuzzy
 #| msgid "Observe this player"
 msgid "Observe globally"
-msgstr "Pozorovat tohoto hráče"
+msgstr "Pozorovat celou hru"
 
 #: client/gui-qt/spaceshipdlg.cpp:56 client/gui-sdl2/spaceshipdlg.c:191
 #: client/gui-sdl3/spaceshipdlg.c:191
@@ -9635,7 +9146,7 @@ msgstr ""
 
 #: client/gui-qt/voteinfo_bar.cpp:41
 msgid "Abstain"
-msgstr ""
+msgstr "Zdržet se"
 
 #: client/gui-qt/voteinfo_bar.cpp:151
 msgid "<b>%1 called a vote for:</b>"
@@ -10206,7 +9717,7 @@ msgstr "Diplomatické setkání"
 #: client/gui-sdl2/diplodlg.c:1462 client/gui-sdl3/diplodlg.c:1458
 #, c-format
 msgid "%s incident !"
-msgstr "%s incident !"
+msgstr "Incident: %s!"
 
 #: client/gui-sdl2/diplodlg.c:1480 client/gui-sdl3/diplodlg.c:1476
 msgid "Shall we declare WAR on them?"
@@ -15271,7 +14782,7 @@ msgstr "Zvuk"
 
 #: client/options.c:3392
 msgid "Interface"
-msgstr "Interface"
+msgstr "Rozhraní"
 
 #: client/options.c:3394
 msgid "Map Image"
@@ -15283,7 +14794,7 @@ msgstr "Síť"
 
 #: client/options.c:3398
 msgid "Font"
-msgstr "Font"
+msgstr "Písmo"
 
 #: client/options.c:5169
 msgid "Deprecated event type E_UNIT_WIN in client options."
@@ -15430,7 +14941,7 @@ msgstr "Dipl.Stav"
 
 #: client/plrdlg_common.c:581
 msgid "?Player_dlg:Host"
-msgstr "?Player_dlg:Host"
+msgstr "?Player_dlg:Hostitel"
 
 #: client/plrdlg_common.c:582
 msgid "?Player_dlg:Idle"
@@ -16285,17 +15796,17 @@ msgstr "?seconds:%02ds"
 #: client/text.c:1608
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
-msgstr "?mins/secs:%02dm %02ds"
+msgstr "?mins/secs:%02d min %02d s"
 
 #: client/text.c:1610
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
-msgstr "?hrs/mns:%02dh %02dm"
+msgstr "?hrs/mns:%02d h %02d min"
 
 #: client/text.c:1612
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
-msgstr "?dys/hrs:%02dd %02dh"
+msgstr "?dys/hrs:%02d d %02d h"
 
 #: client/text.c:1615
 msgid "?duration:overflow"
@@ -23346,7 +22857,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:1259 data/civ2/buildings.ruleset:1732
 #: data/classic/buildings.ruleset:1789
 msgid "SETI Program"
-msgstr "SETI Program"
+msgstr "Program SETI"
 
 #: data/civ1/buildings.ruleset:1278
 #, no-c-format
@@ -27405,7 +26916,7 @@ msgstr "Mořeplavectví"
 #: data/sandbox/techs.ruleset:774 data/civ2civ3/techs.ruleset:749
 #: data/multiplayer/techs.ruleset:736
 msgid "Stealth"
-msgstr "Stealth"
+msgstr "Technologie stealth"
 
 #: data/civ2/techs.ruleset:760 data/classic/techs.ruleset:762
 #: data/sandbox/techs.ruleset:810 data/civ2civ3/techs.ruleset:785
@@ -49554,7 +49065,7 @@ msgstr "Metaserver je nyní [%s]."
 #: server/stdinhand.c:667
 #, c-format
 msgid "Server id: %s"
-msgstr "Server id: %s"
+msgstr "ID serveru: %s"
 
 #: server/stdinhand.c:680 server/stdinhand.c:697
 #, fuzzy
