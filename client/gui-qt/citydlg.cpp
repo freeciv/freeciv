@@ -1705,7 +1705,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   prev_city_but->setFixedSize(64, 64);
   next_city_but->setFixedSize(64, 64);
   happiness_button->setFixedSize(64, 32);
-  settings_button->setFixedSize(64, 32);
+  settings_button->setFixedHeight(32);
   vbox_layout = new QVBoxLayout;
   vbox_layout->addWidget(prev_city_but);
   vbox_layout->addWidget(next_city_but);
