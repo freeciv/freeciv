@@ -6,15 +6,16 @@
 # Dusan Hokuv <dusan@mirc.cz>, 2004.
 # Mti., 2005.
 # Dusan Hokuv <dusan@mirc.cz>, 2005.
+# Martin Sova <52962881+msov19@users.noreply.github.com>, 2026.
 #
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.0.3\n"
+"Project-Id-Version: freeciv 3.2.7\n"
 "Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
 "POT-Creation-Date: 2026-09-04 07:27+0300\n"
-"PO-Revision-Date: 2008-01-21 15:42+0100\n"
-"Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
+"PO-Revision-Date: 2026-11-27 09:26+0100\n"
+"Last-Translator: Martin Sova <52962881+msov19@users.noreply.github.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
