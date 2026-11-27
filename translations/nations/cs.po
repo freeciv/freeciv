@@ -24,12 +24,11 @@ msgstr ""
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
-msgstr ""
+msgstr "Abchazský"
 
 #: data/nation/abkhaz.ruleset:4
-#, fuzzy
 msgid "?plural:Abkhazians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Abchazové"
 
 #: data/nation/abkhaz.ruleset:7
 msgid ""
@@ -38,6 +37,9 @@ msgid ""
 "Greeks, Romans, Byzantines, Turks, Russians and Georgians. Nowadays Abkhazia "
 "is a partially recognized republic."
 msgstr ""
+"Předkové Abchazů žijí na západním Kavkaze od nepaměti. Krátká období "
+"nezávislosti se střídala s nadvládou Řeků, Římanů, Byzantinců, Turků, Rusů"
+" a Gruzínů. Dnes je Abcházie částečně uznanou republikou."
 
 #: data/nation/abkhaz.ruleset:24 data/nation/acehnese.ruleset:29
 #: data/nation/bashkir.ruleset:27 data/nation/chechen.ruleset:31
@@ -62,14 +64,12 @@ msgid "Imama %s"
 msgstr "Imámka %s"
 
 #: data/nation/aborigines.ruleset:3
-#, fuzzy
 msgid "Australian Aboriginal"
-msgstr "Australský"
+msgstr "Australský domorodý"
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "?plural:Argentinci"
+msgstr "?plural:Australští domorodci"
 
 #: data/nation/aborigines.ruleset:7
 msgid ""
@@ -78,6 +78,9 @@ msgid ""
 "to themselves with different names, including Koori, Yamaji, Nunga, and "
 "Murri."
 msgstr ""
+"Australští domorodci jsou souhrnným označením původních obyvatel "
+"australského kontinentu. Skupiny z různých částí Austrálie se označují "
+"různými jmény, například Koori, Yamaji, Nunga a Murri."
 
 #: data/nation/aborigines.ruleset:27 data/nation/akwe.ruleset:25
 #: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:30
@@ -158,14 +161,12 @@ msgid "?female:Great Chief %s"
 msgstr "?female:Velká náčelnice %s"
 
 #: data/nation/abyssinian.ruleset:3
-#, fuzzy
 msgid "Abyssinian"
-msgstr "Arménský"
+msgstr "Habešský"
 
 #: data/nation/abyssinian.ruleset:4
-#, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "?plural:Íránci"
+msgstr "?plural:Habešané"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -173,6 +174,9 @@ msgid ""
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"Habešané, známí též jako Habeša nebo Etiopané, jsou semitský národ, který "
+"vládl v historických státech Afrického rohu. K nejvýznamnějším patřilo "
+"Aksúmské království a Etiopské císařství."
 
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
 #: data/nation/belarusian.ruleset:34 data/nation/bulgarian.ruleset:31
@@ -233,14 +237,12 @@ msgid "Empress %s"
 msgstr "Císařovna %s"
 
 #: data/nation/acadian.ruleset:3
-#, fuzzy
 msgid "Acadian"
-msgstr "Kanadský"
+msgstr "Akadský"
 
 #: data/nation/acadian.ruleset:4
-#, fuzzy
 msgid "?plural:Acadians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Akadové"
 
 #: data/nation/acadian.ruleset:6
 msgid ""
@@ -252,6 +254,13 @@ msgid ""
 "distrust of British colonial authorities who would forcefully deport them in "
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
+"Akádie byla založena roku 1604 jako první francouzská kolonie v Severní "
+"Americe. Brzy se ocitla uprostřed francouzsko-anglických válek a opakovaně"
+" měnila vládce. Akadové si proto vytvořili vlastní identitu i samosprávu. "
+"Protože se ve válkách nepřiklonili k žádné straně, říkalo se jim "
+"„neutrální Francouzi“. Zároveň jim však nedůvěřovaly britské koloniální "
+"úřady, které je roku 1755 násilně vysídlily. Akadové se později vrátili a "
+"obnovili své osady."
 
 #: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
@@ -311,14 +320,12 @@ msgid "Mother Superior %s"
 msgstr "Matka představená %s"
 
 #: data/nation/acehnese.ruleset:3
-#, fuzzy
 msgid "Acehnese"
-msgstr "Čínský"
+msgstr "Acežský"
 
 #: data/nation/acehnese.ruleset:4
-#, fuzzy
 msgid "?plural:Acehnese"
-msgstr "?plural:Číňané"
+msgstr "?plural:Acežané"
 
 #: data/nation/acehnese.ruleset:6
 msgid ""
@@ -327,6 +334,9 @@ msgid ""
 "trade through the Strait of Malacca. Aceh was subjugated by the Dutch in the "
 "bloody Aceh War of 1873-1903."
 msgstr ""
+"Acežský sultanát ležel na západním cípu Sumatry. V 16. a 17. století byl "
+"regionální mocností a ovládal značnou část obchodu přes Malacký průliv. "
+"Nizozemci si Aceh podrobili v krvavé acežské válce v letech 1873–1903."
 
 #: data/nation/acehnese.ruleset:27 data/nation/bruneian.ruleset:24
 #: data/nation/comorian.ruleset:26 data/nation/darfuri.ruleset:28
@@ -379,14 +389,12 @@ msgid "?female:Governor %s"
 msgstr "?female:Guvernérka %s"
 
 #: data/nation/acrean.ruleset:3
-#, fuzzy
 msgid "Acrean"
-msgstr "Korejský"
+msgstr "Acrejský"
 
 #: data/nation/acrean.ruleset:4
-#, fuzzy
 msgid "?plural:Acreans"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Obyvatelé Acre"
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -396,6 +404,11 @@ msgid ""
 "Petropolis of 1903, after which Acre was annexed to Brazil. Acre is one of "
 "the world's most important rubber producing regions."
 msgstr ""
+"Acre je nejzápadnější stát Brazílie. Do roku 1899 patřilo toto území "
+"Bolívii. Tehdy se brazilští osadníci vzbouřili a vyhlásili nezávislý stát "
+"Acre. Bolívie se vzdala svých nároků smlouvou z Petrópolisu roku 1903 a "
+"Acre bylo připojeno k Brazílii. Acre patří k nejvýznamnějším oblastem "
+"produkce kaučuku na světě."
 
 #: data/nation/acrean.ruleset:31
 #, c-format
@@ -441,6 +454,10 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
+"Afghánistán, často označovaný za křižovatku střední Asie, má velmi "
+"bouřlivou historii. V různých dobách jej ovládla například Perská říše, "
+"Čingischán nebo Alexandr Veliký. Základy dnešního afghánského státu "
+"položil v roce 1746 Ahmad Šáh, když založil Durránskou říši."
 
 #: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bahraini.ruleset:27 data/nation/bashkir.ruleset:25
@@ -511,15 +528,16 @@ msgid "African"
 msgstr "Africký"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:Africans"
-msgstr "?plural:Američané"
+msgstr "?plural:Afričané"
 
 #: data/nation/african.ruleset:6
 msgid ""
 "Africa: the cradle of humanity. It is the world's second largest continent "
 "and also its second most populous."
 msgstr ""
+"Afrika je kolébkou lidstva. Mezi světadíly jí patří druhé místo rozlohou i"
+" počtem obyvatel."
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
@@ -534,15 +552,16 @@ msgid ""
 "The Ainu are the indigenous people of northern Japan, the Kuril islands, "
 "Sakhalin, and the southern part of the Kamchatka peninsula."
 msgstr ""
+"Ajnové jsou původní obyvatelé severního Japonska, Kurilských ostrovů, "
+"Sachalinu a jižní části poloostrova Kamčatka."
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr ""
+msgstr "Akweský"
 
 #: data/nation/akwe.ruleset:4
-#, fuzzy
 msgid "?plural:Akwe"
-msgstr "Forma plurálů:"
+msgstr "?plural:Akweové"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -554,15 +573,21 @@ msgid ""
 "in large ring villages since about the 9th century CE. They are Ge speakers "
 "who farm maize, manioc, sweet potatoes and yams."
 msgstr ""
+"Akweové jsou v portugalštině známí také pod třemi kmenovými jmény: "
+"Xavante, Xakriaba a Xerente. Jejich klany se odvozují po otcovské linii. "
+"Žijí v brazilských státech Mato Grosso a Tocantins, brazilské úřady je "
+"však v minulosti několikrát přinutily k přesídlení. Tradičně jim vládnou "
+"rady starších, které volí náčelníka. Ve velkých kruhových vesnicích žijí "
+"patrně už od 9. století n. l. Mluví jazyky skupiny gê a pěstují kukuřici, "
+"maniok, batáty a jamy."
 
 #: data/nation/alandalus.ruleset:3
 msgid "Andalusi"
-msgstr ""
+msgstr "Andaluský"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Andalusis"
-msgstr "?plural:Ajnové"
+msgstr "?plural:Andalusané"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -572,6 +597,11 @@ msgid ""
 "kingdoms gradually pushed back the Islamic states of Al-Andalus. Their last "
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
+"Al-Andalus označuje části Pyrenejského poloostrova, které ve středověku "
+"ovládali muslimové. Muslimští Andalusané po sobě zanechali pozoruhodné "
+"architektonické dědictví. Během reconquisty křesťanská království islámské"
+" státy Al-Andalusu postupně vytlačila. Jejich poslední město na "
+"poloostrově, Granada, padlo roku 1492."
 
 #: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
 #: data/nation/bahraini.ruleset:25 data/nation/cyrenaican.ruleset:26
@@ -644,14 +674,12 @@ msgid "?female:Vizier %s"
 msgstr "?female:Vezírka %s"
 
 #: data/nation/alander.ruleset:3
-#, fuzzy
 msgid "Ålander"
-msgstr "Velký div světa"
+msgstr "Ålandský"
 
 #: data/nation/alander.ruleset:6
-#, fuzzy
 msgid "?plural:Ålanders"
-msgstr "?plural:Islanďané"
+msgstr "?plural:Ålanďané"
 
 #: data/nation/alander.ruleset:8
 msgid ""
@@ -661,6 +689,10 @@ msgid ""
 "long period in which the islands were contested between Sweden and Finland. "
 "Åland's special and demilitarized status is protected by international law."
 msgstr ""
+"Ålandy jsou souostroví v Baltském moři mezi Švédskem a Finskem. Obyvatelé "
+"mluví švédsky, souostroví je však autonomní součástí Finska. Toto "
+"uspořádání vzniklo v roce 1921 po dlouhém sporu mezi Švédskem a Finskem. "
+"Zvláštní a demilitarizované postavení Åland chrání mezinárodní právo."
 
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:23 data/nation/norwegian.ruleset:29
@@ -688,12 +720,11 @@ msgstr "?female:Vikářka %s"
 
 #: data/nation/alaskan.ruleset:3
 msgid "Alaska"
-msgstr ""
+msgstr "Aljašský"
 
 #: data/nation/alaskan.ruleset:4
-#, fuzzy
 msgid "?plural:Alaskans"
-msgstr "?plural:Íránci"
+msgstr "?plural:Aljašané"
 
 #: data/nation/alaskan.ruleset:6
 msgid ""
@@ -703,6 +734,10 @@ msgid ""
 "The question of Alaskan independence became more relevant with the election "
 "of Wally Hickel in 1990."
 msgstr ""
+"Aljaška je stát Spojených států amerických, které ji v roce 1867 koupily "
+"od Ruské říše. Dne 11. května 1912 se stala organizovaným teritoriem a 3. "
+"ledna 1959 byla přijata jako 49. stát Unie. Otázka nezávislosti Aljašky "
+"získala na významu po zvolení Wallyho Hickela roku 1990."
 
 #: data/nation/alaskan.ruleset:29 data/nation/californian.ruleset:34
 #: data/nation/florida.ruleset:31 data/nation/texan.ruleset:31
@@ -741,14 +776,12 @@ msgid "?female:Reverend %s"
 msgstr "?female:Reverendka %s"
 
 #: data/nation/albanian.ruleset:3
-#, fuzzy
 msgid "Albanian"
-msgstr "Arménský"
+msgstr "Albánský"
 
 #: data/nation/albanian.ruleset:4
-#, fuzzy
 msgid "?plural:Albanians"
-msgstr "?plural:Íránci"
+msgstr "?plural:Albánci"
 
 #: data/nation/albanian.ruleset:6
 msgid ""
@@ -758,6 +791,10 @@ msgid ""
 "It has been an independent state again since 1912. For much of the 20th "
 "century Albania was ruled by communist dictator Envër Hoxha."
 msgstr ""
+"Původ Albánců z Balkánského poloostrova je nejistý. Podle jedné teorie "
+"jsou potomky antických Ilyrů. Albánie během dějin několikrát změnila "
+"vládce a od roku 1912 je opět nezávislým státem. Značnou část 20. století "
+"jí vládl komunistický diktátor Enver Hodža."
 
 #: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:27
@@ -821,14 +858,12 @@ msgid "?female:First Secretary %s"
 msgstr "?female:První tajemnice %s"
 
 #: data/nation/aleut.ruleset:3
-#, fuzzy
 msgid "Aleut"
-msgstr "Akvadukt"
+msgstr "Aleutský"
 
 #: data/nation/aleut.ruleset:4
-#, fuzzy
 msgid "?plural:Aleuts"
-msgstr "?plural:Poláci"
+msgstr "?plural:Aleuti"
 
 #: data/nation/aleut.ruleset:6
 msgid ""
@@ -840,6 +875,12 @@ msgid ""
 "Russians to their other colonial entrepots such as Ft. Ross in northern "
 "California and Ft. Elizabeth in Hawai'i."
 msgstr ""
+"Unanganové neboli Aleuti žili v loveckých a rybářských osadách ve stálých "
+"obydlích zahloubených do země. Na Aleutských ostrovech žili tisíce let "
+"před příchodem Evropanů. Navázali vztahy s ruskými misionáři a obchodníky."
+" Mnozí přijali pravoslaví a uzavírali sňatky s Rusy. Někteří Rusy "
+"doprovázeli i do dalších koloniálních osad, například do pevnosti Ross v "
+"severní Kalifornii a pevnosti Elizabeth na Havaji."
 
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
 #: data/nation/chumash.ruleset:24 data/nation/comanche.ruleset:26
@@ -905,14 +946,12 @@ msgid "?female:%s Dey"
 msgstr "?female:Dej %s"
 
 #: data/nation/alsatian.ruleset:3
-#, fuzzy
 msgid "Alsatian"
-msgstr "Havajský"
+msgstr "Alsaský"
 
 #: data/nation/alsatian.ruleset:4
-#, fuzzy
 msgid "?plural:Alsatians"
-msgstr "?plural:Íránci"
+msgstr "?plural:Alsasané"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -924,6 +963,12 @@ msgid ""
 "and France 4 times in less than a century. Since 1944 it has been in French "
 "hands."
 msgstr ""
+"Alsasko leží na hranici Francie a Německa. Ve středověku bylo součástí "
+"Svaté říše římské a zahrnovalo několik poměrně bohatých městských států. V"
+" 17. a 18. století Francie alsaská města postupně připojovala. Poté se "
+"Alsasko stalo jedním z nejspornějších území v Evropě a za necelé století "
+"čtyřikrát přešlo mezi Německem a Francií. Od roku 1944 je pod francouzskou"
+" správou."
 
 #: data/nation/alsatian.ruleset:26 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
@@ -1038,14 +1083,12 @@ msgid "?female:Burgomaster %s"
 msgstr "?female:Purkmistryně %s"
 
 #: data/nation/amazigh.ruleset:3
-#, fuzzy
 msgid "Amazigh"
-msgstr "Arménský"
+msgstr "Berberský"
 
 #: data/nation/amazigh.ruleset:4
-#, fuzzy
 msgid "?plural:Imazighen"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Berbeři"
 
 #: data/nation/amazigh.ruleset:6
 msgid ""
@@ -1058,16 +1101,21 @@ msgid ""
 "Tachelhit or Tarifit, collectively known as Berber languages, using an age-"
 "old writing system called Tifinagh."
 msgstr ""
+"Berberská civilizace patří k nejstarším ve Středomoří a existovala už v "
+"době starověkého Egypta. Sebeoznačení Imazighen znamená „svobodní lidé“. "
+"Berbeři jsou odolní a silní, ale také veselí a štědří. Rodina a kmen pro "
+"ně mají velký význam. Každý kmen má vlastní zvyky a kulturu, což se "
+"projevuje rozmanitostí tradic dnešního Maroka, Alžírska a Tuniska. K "
+"jejich starobylým jazykům patří tamazight, tašelhit a tarifit. Souhrnně se"
+" označují jako berberské jazyky a užívají starobylé písmo tifinagh."
 
 #: data/nation/amazonian.ruleset:3
-#, fuzzy
 msgid "Amazonian"
-msgstr "Arménský"
+msgstr "Amazonský"
 
 #: data/nation/amazonian.ruleset:4
-#, fuzzy
 msgid "?plural:Amazons"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Amazonky"
 
 #: data/nation/amazonian.ruleset:6
 msgid ""
@@ -1076,15 +1124,18 @@ msgid ""
 "Asia Minor, or Libya. The Amazons were reported to remove their right "
 "breasts in order to better use the bow and other weapons."
 msgstr ""
+"Amazonky jsou bájný národ bojovnic ze starořecké literatury a umění. Různí"
+" autoři je umisťovali na území dnešní Ukrajiny, do Malé Asie nebo do "
+"Libye. Podle pověsti si odstraňovaly pravý prs, aby mohly lépe zacházet s "
+"lukem a dalšími zbraněmi."
 
 #: data/nation/andorran.ruleset:3
 msgid "Andorran"
-msgstr ""
+msgstr "Andorrský"
 
 #: data/nation/andorran.ruleset:4
-#, fuzzy
 msgid "?plural:Andorrans"
-msgstr "?plural:Indové"
+msgstr "?plural:Andořané"
 
 #: data/nation/andorran.ruleset:6
 msgid ""
@@ -1094,6 +1145,11 @@ msgid ""
 "their successors - the current bishop of Urgell and the President of the "
 "French Republic - bear the (mostly honorific) title of co-prince of Andorra."
 msgstr ""
+"Andorra je malá země ve východních Pyrenejích. Roku 1278 urovnali biskup z"
+" Urgellu a hrabě z Foix svůj spor dohodou o společné svrchovanosti nad "
+"Andorrou. Uspořádání platí dodnes a jejich nástupci, nynější biskup z "
+"Urgellu a prezident Francouzské republiky, nosí převážně čestný titul "
+"andorrských spoluknížat."
 
 #: data/nation/andorran.ruleset:23 data/nation/palmyrene.ruleset:20
 #: data/nation/paraguayan.ruleset:37 data/nation/ugandan.ruleset:32
@@ -1117,14 +1173,12 @@ msgid "Co-Princess %s"
 msgstr "Spolukněžna %s"
 
 #: data/nation/angolan.ruleset:3
-#, fuzzy
 msgid "Angolan"
-msgstr "Mongolský"
+msgstr "Angolský"
 
 #: data/nation/angolan.ruleset:4
-#, fuzzy
 msgid "?plural:Angolans"
-msgstr "?plural:Indové"
+msgstr "?plural:Angolané"
 
 #: data/nation/angolan.ruleset:6
 msgid ""
@@ -1136,16 +1190,20 @@ msgid ""
 "fighting each other. After half a century of war a peace agreement was "
 "finally reached in 2002."
 msgstr ""
+"Když Portugalci v 15. století dorazili do Angoly, ovládalo oblast několik "
+"bantuských království. Angola byla pro obchodníky s otroky významným "
+"zdrojem zotročených lidí ještě hluboko do 19. století. Po dvaceti letech "
+"partyzánské války proti portugalské koloniální správě získala roku 1975 "
+"nezávislost. Brzy proti sobě začaly bojovat různé partyzánské skupiny. Po "
+"půlstoletí válek byla v roce 2002 konečně uzavřena mírová dohoda."
 
 #: data/nation/anhaltian.ruleset:3
-#, fuzzy
 msgid "Anhaltian"
-msgstr "Havajský"
+msgstr "Anhaltský"
 
 #: data/nation/anhaltian.ruleset:4
-#, fuzzy
 msgid "?plural:Anhaltians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Anhalťané"
 
 #: data/nation/anhaltian.ruleset:6
 msgid ""
@@ -1158,6 +1216,14 @@ msgid ""
 "Anhalt finally ceased to exist when the allies decided to merge it with the "
 "former Prussian Province of Saxony to form the state of Saxony-Anhalt."
 msgstr ""
+"Anhaltsko bylo německým státem. Původně šlo o hrabství, které se oddělilo "
+"od Saska v roce 1212. Po většinu dějin bylo rozděleno na několik území "
+"spravovaných stejným rodem. Když Napoleon v roce 1806 rozpustil Svatou "
+"říši římskou, byla anhaltská hrabata povýšena na vévody. V roce 1863 se "
+"Anhaltsko opět spojilo v jedno vévodství. Po pádu německých monarchií roku"
+" 1918 se stalo svobodným státem. Po druhé světové válce je spojenci "
+"sloučili s někdejší pruskou provincií Sasko a vytvořili zemi "
+"Sasko-Anhaltsko."
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -1211,12 +1277,11 @@ msgstr "Velkovévodkyně %s"
 
 #: data/nation/anishinaabe.ruleset:3
 msgid "Anishinaabe"
-msgstr ""
+msgstr "Anišinábský"
 
 #: data/nation/anishinaabe.ruleset:4
-#, fuzzy
 msgid "?plural:Anishinaabeg"
-msgstr "?plural:Tunisané"
+msgstr "?plural:Anišinábové"
 
 #: data/nation/anishinaabe.ruleset:6
 msgid ""
@@ -1225,6 +1290,10 @@ msgid ""
 "Algonkin and Potawatomi. They speak Algonquian languages. Together they are "
 "one of the most numerous indigenous peoples of North America."
 msgstr ""
+"Anišinábové jsou skupina úzce příbuzných původních kmenů z oblasti Velkých"
+" jezer v Severní Americe. Patří mezi ně Ottawové, Odžibvejové, Algonkinové"
+" a Potawatomiové. Mluví algonkinskými jazyky. Společně tvoří jednu z "
+"nejpočetnějších skupin původních obyvatel Severní Ameriky."
 
 #: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:42
 #: data/nation/komi.ruleset:27 data/nation/navajo.ruleset:27
@@ -1254,12 +1323,11 @@ msgstr "Nezávislý Jižní pól, země tučňáků."
 
 #: data/nation/antiguan.ruleset:3
 msgid "Antiguan and Barbudan"
-msgstr ""
+msgstr "Antigujský a barbudský"
 
 #: data/nation/antiguan.ruleset:4
-#, fuzzy
 msgid "?plural:Antiguans and Barbudans"
-msgstr "?plural:Rwanďané"
+msgstr "?plural:Antigujci a Barbuďané"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -1267,16 +1335,17 @@ msgid ""
 "two eponymous islands as well as a number of smaller islets. The country has "
 "been independent from the United Kingdom since 1981."
 msgstr ""
+"Antigua a Barbuda je stát ve východním Karibiku. Tvoří ho dva stejnojmenné"
+" ostrovy a několik menších ostrůvků. Na Spojeném království je nezávislý "
+"od roku 1981."
 
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "Dělostřelectvo"
+msgstr "Antilský"
 
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "?plural:Indové"
+msgstr "?plural:Antilané"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -1288,16 +1357,20 @@ msgid ""
 "Kingdom of the Netherlands; the other three islands have been directly "
 "integrated into the Netherlands as special municipalities."
 msgstr ""
+"Ostrovy Aruba, Bonaire, Curaçao, Saba, Svatý Martin a Svatý Eustach "
+"osídlili Nizozemci v 17. století. Jejich obyvatelé mají evropské, africké "
+"a latinskoamerické kořeny. Nizozemské Antily získaly vnitřní samosprávu "
+"roku 1954 a roku 2010 zanikly. Aruba, Curaçao a Svatý Martin jsou zeměmi v"
+" rámci Nizozemského království. Zbývající tři ostrovy byly přímo začleněny"
+" do Nizozemska jako zvláštní obce."
 
 #: data/nation/aragonese.ruleset:3
-#, fuzzy
 msgid "Aragonese"
-msgstr "Dragouni"
+msgstr "Aragonský"
 
 #: data/nation/aragonese.ruleset:4
-#, fuzzy
 msgid "?plural:Aragonese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Aragonci"
 
 #: data/nation/aragonese.ruleset:6
 msgid ""
@@ -1308,6 +1381,12 @@ msgid ""
 "the base of the Spanish unification. The kingdom was legally dissolved in "
 "1707 but today Aragon continues to exist as an autonomous community of Spain."
 msgstr ""
+"Aragonie vznikla jako franské hrabství a v 11. století byla povýšena na "
+"království. Během reconquisty rozšířila své území směrem na jih a později "
+"ovládla značnou část Středomoří. Roku 1469 si král Ferdinand II. vzal "
+"Isabelu Kastilskou. Jejich svazek položil základ sjednocení Španělska. "
+"Království bylo právně zrušeno roku 1707. Dnes je Aragonie autonomním "
+"společenstvím Španělska."
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
@@ -1321,7 +1400,7 @@ msgstr "?plural:Aramejci"
 msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
-msgstr ""
+msgstr "Podle pověsti pocházejí Aramejci od Arama, vnuka Noema."
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
@@ -1339,6 +1418,10 @@ msgid ""
 "politics was dominated by Juan Perón and his charismatic wife Eva \"Evita\" "
 "Perón."
 msgstr ""
+"Argentina leží na jihovýchodním pobřeží Jižní Ameriky. Od získání "
+"nezávislosti na Španělsku roku 1816 ji sužovalo několik vnitřních i "
+"vnějších konfliktů. V desetiletích po druhé světové válce dominovali její "
+"politice Juan Perón a jeho charismatická manželka Eva „Evita“ Perónová."
 
 #: data/nation/argentine.ruleset:25 data/nation/bolivian.ruleset:36
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
@@ -1409,6 +1492,8 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from the Soviet Union in 1991."
 msgstr ""
+"Podle pověsti jsou Arméni potomky Hajka, prapravnuka Noema. Dnešní "
+"Arménská republika získala nezávislost na Sovětském svazu roku 1991."
 
 #: data/nation/armenian.ruleset:24 data/nation/assyrian.ruleset:21
 #: data/nation/atlantean.ruleset:22 data/nation/bosporan.ruleset:33
@@ -1452,18 +1537,19 @@ msgstr "?female:Uzurpátorka %s"
 
 #: data/nation/ashanti.ruleset:3
 msgid "Ashanti"
-msgstr ""
+msgstr "Ašantský"
 
 #: data/nation/ashanti.ruleset:4
-#, fuzzy
 msgid "?plural:Ashantis"
-msgstr "?plural:Afgánský"
+msgstr "?plural:Ašantové"
 
 #: data/nation/ashanti.ruleset:6
 msgid ""
 "The Ashanti were an ancient kingdom in a region that is currently a part of "
 "Ghana. The first Ashanti kingdom was founded in the 11th century."
 msgstr ""
+"Ašantové měli staré království na území dnešní Ghany. První ašantské "
+"království bylo založeno v 11. století."
 
 #: data/nation/ashanti.ruleset:35 data/nation/benin.ruleset:29
 #: data/nation/hansa.ruleset:26 data/nation/novgorodian.ruleset:42
@@ -1493,12 +1579,11 @@ msgstr "?female:Asantehene %s"
 
 #: data/nation/assamese.ruleset:3
 msgid "Assamese"
-msgstr ""
+msgstr "Ásámský"
 
 #: data/nation/assamese.ruleset:4
-#, fuzzy
 msgid "?plural:Assamese"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Ásámci"
 
 #: data/nation/assamese.ruleset:6
 msgid ""
@@ -1508,6 +1593,10 @@ msgid ""
 "by the mighty Mughal Empire, effectively halting the Mughals' eastward "
 "expansion."
 msgstr ""
+"Ásámské království Ahom založili roku 1228 v jihovýchodním podhůří "
+"Himálaje Šanové, kteří přišli z území dnešního severovýchodního Myanmaru. "
+"Ásámští králové porazili několik výprav mocné Mughalské říše, a zastavili "
+"tak její postup na východ."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -1521,16 +1610,16 @@ msgstr "?plural:Asyřanský"
 msgid ""
 "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
+"Asýrie byla říše v severní Mezopotámii, pojmenovaná podle hlavního města "
+"Aššuru."
 
 #: data/nation/asturian.ruleset:3
-#, fuzzy
 msgid "Asturian"
-msgstr "Rakouský"
+msgstr "Asturský"
 
 #: data/nation/asturian.ruleset:4
-#, fuzzy
 msgid "?plural:Asturians"
-msgstr "?plural:Rakušané"
+msgstr "?plural:Asturijci"
 
 #: data/nation/asturian.ruleset:6
 msgid ""
@@ -1543,20 +1632,26 @@ msgid ""
 "capital town was moved from Oviedo to Leon. Nowadays, Asturias is an "
 "autonomous community of Spain."
 msgstr ""
+"Asturové byli keltský národ, který obýval většinu severního pobřeží "
+"Španělska. Bojovali s Římskou říší, dokud je v letech 29–19 př. n. l. "
+"neporazily legie císaře Augusta. Za Vizigótského království s centrem v "
+"Toledu panovaly mezi Vizigóty a Asturijci napjaté vztahy. Roku 722 n. l. "
+"porazil král Pelayo u Covadongy muslimské vojsko Umajjovců a založil "
+"Asturské království. Existovalo do roku 910 n. l., kdy se hlavní město "
+"přesunulo z Ovieda do Leónu. Dnes je Asturie autonomním společenstvím "
+"Španělska."
 
 #: data/nation/atlantean.ruleset:3
-#, fuzzy
 msgid "Atlantean"
-msgstr "Aramejský"
+msgstr "Atlantidský"
 
 #: data/nation/atlantean.ruleset:4
-#, fuzzy
 msgid "?plural:Atlantean"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Atlanťané"
 
 #: data/nation/atlantean.ruleset:6
 msgid "The mythical continent of Atlantis"
-msgstr ""
+msgstr "Bájný kontinent Atlantida"
 
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
 #: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
@@ -1589,15 +1684,19 @@ msgid ""
 "Australia, Western Australia and Tasmania) it became a single country in "
 "1902. It is the only country on Earth to occupy an entire continent."
 msgstr ""
+"Austrálie byla založena roku 1788 n. l. jako britská trestanecká kolonie. "
+"Původně ji tvořilo několik kolonií (Nový Jižní Wales, Victoria, "
+"Queensland, Jižní Austrálie, Západní Austrálie a Tasmánie). Roku 1902 se "
+"spojily v jediný stát. Austrálie je jediným státem na Zemi, který zabírá "
+"celý světadíl."
 
 #: data/nation/avar.ruleset:3
 msgid "Avar"
-msgstr ""
+msgstr "Avarský"
 
 #: data/nation/avar.ruleset:4
-#, fuzzy
 msgid "?plural:Avars"
-msgstr "Forma plurálů:"
+msgstr "?plural:Avaři"
 
 #: data/nation/avar.ruleset:6
 msgid ""
@@ -1661,14 +1760,12 @@ msgid "?female:%s Khagan"
 msgstr "?female:Kagan %s"
 
 #: data/nation/aymara.ruleset:3
-#, fuzzy
 msgid "Aymara"
-msgstr "Aymara"
+msgstr "Ajmarský"
 
 #: data/nation/aymara.ruleset:4
-#, fuzzy
 msgid "?plural:Aymaras"
-msgstr "Forma plurálů:"
+msgstr "?plural:Ajmarové"
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -1678,14 +1775,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/azeri.ruleset:3
-#, fuzzy
 msgid "Azeri"
-msgstr "Alžírský"
+msgstr "Ázerbájdžánský"
 
 #: data/nation/azeri.ruleset:4
-#, fuzzy
 msgid "?plural:Azeris"
-msgstr "Forma plurálů:"
+msgstr "?plural:Ázerbájdžánci"
 
 #: data/nation/azeri.ruleset:6
 msgid ""
@@ -1710,14 +1805,12 @@ msgid "%s Shahbanu"
 msgstr "Šáhbánú %s"
 
 #: data/nation/badian.ruleset:3
-#, fuzzy
 msgid "Badian"
-msgstr "Bavorský"
+msgstr "Badenský"
 
 #: data/nation/badian.ruleset:4
-#, fuzzy
 msgid "?plural:Badians"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Badeňané"
 
 #: data/nation/badian.ruleset:6
 msgid ""
@@ -1739,14 +1832,12 @@ msgid "Margravine %s"
 msgstr "Markraběnka %s"
 
 #: data/nation/bahamian.ruleset:3
-#, fuzzy
 msgid "Bahamian"
-msgstr "Předseda"
+msgstr "Bahamský"
 
 #: data/nation/bahamian.ruleset:4
-#, fuzzy
 msgid "?plural:Bahamians"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Bahamané"
 
 #: data/nation/bahamian.ruleset:6
 msgid ""
@@ -1762,12 +1853,11 @@ msgstr ""
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
-msgstr ""
+msgstr "Bahrajnský"
 
 #: data/nation/bahraini.ruleset:4
-#, fuzzy
 msgid "?plural:Bahrainis"
-msgstr "?plural:Barbaři"
+msgstr "?plural:Bahrajnci"
 
 #: data/nation/bahraini.ruleset:6
 msgid ""
@@ -1789,14 +1879,12 @@ msgid "?female:Mahdi %s"
 msgstr "?female:Mahdí %s"
 
 #: data/nation/bangladeshi.ruleset:3
-#, fuzzy
 msgid "Bangladeshi"
-msgstr "Bitevní loď"
+msgstr "Bangladéšský"
 
 #: data/nation/bangladeshi.ruleset:4
-#, fuzzy
 msgid "?plural:Bangladeshis"
-msgstr "?plural:Baskové"
+msgstr "?plural:Bangladéšané"
 
 #: data/nation/bangladeshi.ruleset:6
 msgid ""
@@ -1863,14 +1951,12 @@ msgid "?female:Nabob %s"
 msgstr "?female:Nabobka %s"
 
 #: data/nation/barbadian.ruleset:3
-#, fuzzy
 msgid "Barbadian"
-msgstr "Barbar"
+msgstr "Barbadoský"
 
 #: data/nation/barbadian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbadians"
-msgstr "?plural:Barbaři"
+msgstr "?plural:Barbadošané"
 
 #: data/nation/barbadian.ruleset:6
 msgid ""
@@ -1883,14 +1969,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/bashkir.ruleset:3
-#, fuzzy
 msgid "Bashkir"
-msgstr "Základ"
+msgstr "Baškirský"
 
 #: data/nation/bashkir.ruleset:4
-#, fuzzy
 msgid "?plural:Bashkirs"
-msgstr "?plural:Baskové"
+msgstr "?plural:Baškirové"
 
 #: data/nation/bashkir.ruleset:6
 msgid ""
@@ -1902,9 +1986,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/basque.ruleset:3
-#, fuzzy
 msgid "Basque"
-msgstr "Baskická"
+msgstr "Baskický"
 
 #: data/nation/basque.ruleset:4
 msgid "?plural:Basques"
@@ -1951,13 +2034,12 @@ msgid "?plural:Bavarians"
 msgstr "?plural:Bavoráci"
 
 #: data/nation/bavarian.ruleset:6
-#, fuzzy
 msgid ""
 "Bavaria, before national unification in 1870 CE, was one of the largest of "
 "the German kingdoms."
 msgstr ""
-"Bavorsko bylo před národním sjednocením v roce 1870 jedním z největších "
-"německých království."
+"Před sjednocením Německa v roce 1870 n. l. patřilo Bavorsko k největším "
+"německým královstvím."
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
@@ -2026,17 +2108,15 @@ msgid "?plural:Belgians"
 msgstr "?plural:Belgičané"
 
 #: data/nation/belgian.ruleset:6
-#, fuzzy
 msgid ""
 "Belgium gained independence from the Dutch Kingdom in 1830. Belgium is "
 "mainly characterized by its movement from a unified state to a federal one. "
 "This is the result of the Flemish and the Walloon's nationalist (almost) "
 "peaceful fights."
 msgstr ""
-"Belgie získala samostatnost na Německém Království v roce 1830 n.l. Je "
-"hlavně charaterizovatelná svým přesunem od jednolitého státu k federaci. To "
-"byl totiž výsledek téměř mírumilovného boje nacionalních Flámských a "
-"Walloonských nacionalistů."
+"Belgie získala nezávislost na Nizozemském království roku 1830. Typickým "
+"rysem jejího vývoje je přechod od jednotného státu k federaci. Přispělo k "
+"němu převážně pokojné úsilí vlámských a valonských národních hnutí."
 
 #: data/nation/belgian.ruleset:24 data/nation/liege.ruleset:29
 #, c-format
@@ -2065,14 +2145,12 @@ msgid "Stadtholdress %s"
 msgstr "Místodržitelka %s"
 
 #: data/nation/belgic.ruleset:3
-#, fuzzy
 msgid "Belgic"
-msgstr "Belgický"
+msgstr "Belgický keltský"
 
 #: data/nation/belgic.ruleset:4
-#, fuzzy
 msgid "?plural:Belgae"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Belgové"
 
 #: data/nation/belgic.ruleset:6
 msgid ""
@@ -2166,12 +2244,11 @@ msgstr "?female:Předsedkyně sněmovny %s"
 
 #: data/nation/belizean.ruleset:3
 msgid "Belizean"
-msgstr ""
+msgstr "Belizský"
 
 #: data/nation/belizean.ruleset:4
-#, fuzzy
 msgid "?plural:Belizeans"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Belizané"
 
 #: data/nation/belizean.ruleset:6
 msgid ""
@@ -2198,9 +2275,8 @@ msgid "Bengali"
 msgstr "Bengálský"
 
 #: data/nation/bengali.ruleset:4
-#, fuzzy
 msgid "?plural:Bengalis"
-msgstr "?plural:Angličané"
+msgstr "?plural:Bengálci"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -2212,14 +2288,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/beninese.ruleset:3
-#, fuzzy
 msgid "Beninese"
-msgstr "Bankovnictví"
+msgstr "Beninský"
 
 #: data/nation/beninese.ruleset:4
-#, fuzzy
 msgid "?plural:Beninese"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Beninčané"
 
 #: data/nation/beninese.ruleset:6
 msgid ""
@@ -2230,14 +2304,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/benin.ruleset:3
-#, fuzzy
 msgid "Benin"
-msgstr "Bankovnictví"
+msgstr "Beninské království"
 
 #: data/nation/benin.ruleset:4
-#, fuzzy
 msgid "?plural:Benin"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Obyvatelé Beninského království"
 
 #: data/nation/benin.ruleset:6
 msgid ""
@@ -2251,14 +2323,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/bhutanese.ruleset:3
-#, fuzzy
 msgid "Bhutanese"
-msgstr "Súdánský"
+msgstr "Bhútánský"
 
 #: data/nation/bhutanese.ruleset:4
-#, fuzzy
 msgid "?plural:Bhutanese"
-msgstr "?plural:Súdánci"
+msgstr "?plural:Bhútánci"
 
 #: data/nation/bhutanese.ruleset:6
 msgid ""
@@ -2293,12 +2363,11 @@ msgstr "Dračí královna %s"
 
 #: data/nation/biafran.ruleset:3
 msgid "Biafran"
-msgstr ""
+msgstr "Biaferský"
 
 #: data/nation/biafran.ruleset:4
-#, fuzzy
 msgid "?plural:Biafrans"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Biafřané"
 
 #: data/nation/biafran.ruleset:6
 msgid ""
@@ -2323,12 +2392,11 @@ msgstr "?female:Plukovnice %s"
 
 #: data/nation/bissauguinean.ruleset:3
 msgid "Bissau-Guinean"
-msgstr ""
+msgstr "Guinejsko-bissauský"
 
 #: data/nation/bissauguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Bissau-Guineans"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Obyvatelé Guineje-Bissau"
 
 #: data/nation/bissauguinean.ruleset:6
 msgid ""
@@ -2355,7 +2423,6 @@ msgid "?plural:Boers"
 msgstr "?plural:Boerové"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were descendants of Dutch colonists who settled in South Africa "
 "after 1650 CE. After migrating into the hinterland after the British "
@@ -2363,9 +2430,11 @@ msgid ""
 "including the Transvaal and the Orange Free State, before being defeated by "
 "the British in the war of 1899-1902."
 msgstr ""
-"Boeři byli Dánští osadníci v Jižní Africe, ovládané Britanií od roku1650 nl. "
-"Než byli poraženi ve válce s Brity v letech 1899-1902,ovládali dvě republiky "
-"- Transvall a Orange Free State."
+"Búrové byli potomci nizozemských osadníků, kteří se po roce 1650 n. l. "
+"usadili na jihu Afriky. Poté, co Britové ovládli jižní Afriku, se "
+"přesunuli do vnitrozemí. Na čas ovládli několik republik, mezi nimi "
+"Transvaal a Oranžský svobodný stát. Britové je nakonec porazili ve válce v"
+" letech 1899–1902."
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
 #: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
@@ -2411,12 +2480,11 @@ msgstr "?female:Státní prezidentka %s"
 
 #: data/nation/boian.ruleset:3
 msgid "Boian"
-msgstr ""
+msgstr "Bójský"
 
 #: data/nation/boian.ruleset:4
-#, fuzzy
 msgid "?plural:Boii"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Bójové"
 
 #: data/nation/boian.ruleset:6
 msgid ""
@@ -2426,14 +2494,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/bolivian.ruleset:3
-#, fuzzy
 msgid "Bolivian"
-msgstr "Belgický"
+msgstr "Bolivijský"
 
 #: data/nation/bolivian.ruleset:4
-#, fuzzy
 msgid "?plural:Bolivians"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Bolivijci"
 
 #: data/nation/bolivian.ruleset:6
 msgid ""
@@ -2494,12 +2560,11 @@ msgstr "?female:Bánka %s"
 
 #: data/nation/bosporan.ruleset:3
 msgid "Bosporan"
-msgstr ""
+msgstr "Bosporský"
 
 #: data/nation/bosporan.ruleset:4
-#, fuzzy
 msgid "?plural:Bosporans"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Bospóřané"
 
 #: data/nation/bosporan.ruleset:6
 msgid ""
@@ -2544,14 +2609,12 @@ msgid "?female:Consul %s"
 msgstr "?female:Konzulka %s"
 
 #: data/nation/botswanan.ruleset:3
-#, fuzzy
 msgid "Botswanan"
-msgstr "Námořní pěchota"
+msgstr "Botswanský"
 
 #: data/nation/botswanan.ruleset:4
-#, fuzzy
 msgid "?plural:Botswanans"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Botswaňané"
 
 #: data/nation/botswanan.ruleset:6
 msgid ""
@@ -2561,14 +2624,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/brandenburgian.ruleset:3
-#, fuzzy
 msgid "Brandenburgian"
-msgstr "Barbar"
+msgstr "Braniborský"
 
 #: data/nation/brandenburgian.ruleset:4
-#, fuzzy
 msgid "?plural:Brandenburgians"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Braniboři"
 
 #: data/nation/brandenburgian.ruleset:6
 msgid ""
@@ -2616,7 +2677,6 @@ msgid "British"
 msgstr "Britský"
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:British"
 msgstr "?plural:Britové"
 
@@ -2671,14 +2731,12 @@ msgid "Lady Protector %s"
 msgstr "Lady protektorka %s"
 
 #: data/nation/briton.ruleset:3
-#, fuzzy
 msgid "Briton"
-msgstr "Bretonský"
+msgstr "Britonský"
 
 #: data/nation/briton.ruleset:4
-#, fuzzy
 msgid "?plural:Britons"
-msgstr "?plural:Britové"
+msgstr "?plural:Britonové"
 
 #: data/nation/briton.ruleset:6
 msgid ""
@@ -2721,12 +2779,11 @@ msgstr "?female:Druidka %s"
 
 #: data/nation/bruneian.ruleset:3
 msgid "Bruneian"
-msgstr ""
+msgstr "Brunejský"
 
 #: data/nation/bruneian.ruleset:4
-#, fuzzy
 msgid "?plural:Bruneians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Brunejci"
 
 #: data/nation/bruneian.ruleset:6
 msgid ""
@@ -2779,14 +2836,12 @@ msgstr ""
 "Bulharsko v roce 681. Byl to první slovanský stát v historii."
 
 #: data/nation/burgundian.ruleset:3
-#, fuzzy
 msgid "Burgundian"
-msgstr "Bulharský"
+msgstr "Burgundský"
 
 #: data/nation/burgundian.ruleset:4
-#, fuzzy
 msgid "?plural:Burgundians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Burgunďané"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -2822,14 +2877,12 @@ msgid "?female:Chancellor %s"
 msgstr "?female:Kancléřka %s"
 
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
-msgstr "Burundský"
+msgstr "Burgundský germánský"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
-msgstr "Forma plurálů:"
+msgstr "?plural:Burgundi"
 
 #: data/nation/burgundic.ruleset:6
 msgid ""
@@ -2845,14 +2898,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/burkinabe.ruleset:3
-#, fuzzy
 msgid "Burkinabé"
-msgstr "Uplatit"
+msgstr "Burkinafaský"
 
 #: data/nation/burkinabe.ruleset:6
-#, fuzzy
 msgid "?plural:Burkinabés"
-msgstr "?plural:Britové"
+msgstr "?plural:Obyvatelé Burkiny Faso"
 
 #: data/nation/burkinabe.ruleset:8
 msgid ""
@@ -2865,9 +2916,8 @@ msgid "Burmese"
 msgstr "Barmský"
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "?plural:Turkové"
+msgstr "?plural:Barmánci"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -2876,14 +2926,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/burundi.ruleset:3
-#, fuzzy
 msgid "Burundian"
-msgstr "Bulharský"
+msgstr "Burundský"
 
 #: data/nation/burundi.ruleset:4
-#, fuzzy
 msgid "?plural:Burundians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Burunďané"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -2899,12 +2947,11 @@ msgstr ""
 
 #: data/nation/buryat.ruleset:3
 msgid "Buryat"
-msgstr ""
+msgstr "Burjatský"
 
 #: data/nation/buryat.ruleset:4
-#, fuzzy
 msgid "?plural:Buryats"
-msgstr "?plural:Arabové"
+msgstr "?plural:Burjati"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -2919,14 +2966,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/californian.ruleset:3
-#, fuzzy
 msgid "Californian"
-msgstr "Babylónský"
+msgstr "Kalifornský"
 
 #: data/nation/californian.ruleset:4
-#, fuzzy
 msgid "?plural:Californians"
-msgstr "?plural:Babylóňané"
+msgstr "?plural:Kaliforňané"
 
 #: data/nation/californian.ruleset:6
 msgid ""
@@ -2956,14 +3001,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cameroonian.ruleset:3
-#, fuzzy
 msgid "Cameroonian"
-msgstr "Íránský"
+msgstr "Kamerunský"
 
 #: data/nation/cameroonian.ruleset:4
-#, fuzzy
 msgid "?plural:Cameroonians"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Kamerunci"
 
 #: data/nation/cameroonian.ruleset:6
 msgid ""
@@ -2981,22 +3024,20 @@ msgid "?plural:Canadians"
 msgstr "?plural:Kanaďané"
 
 #: data/nation/canadian.ruleset:6
-#, fuzzy
 msgid ""
 "Geographically, Canada is the second largest country in world. The magnetic "
 "north pole currently lies on Canadian territory."
 msgstr ""
-"Kanada je geograficky nejsevernější zemí ve světě. Severní magnetický pól "
-"leží na území Kanady."
+"Kanada je rozlohou druhý největší stát světa. Severní magnetický pól v "
+"současnosti leží na kanadském území."
 
 #: data/nation/canari.ruleset:3
 msgid "Cañari"
-msgstr ""
+msgstr "Cañarijský"
 
 #: data/nation/canari.ruleset:6
-#, fuzzy
 msgid "?plural:Cañaris"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Cañariové"
 
 #: data/nation/canari.ruleset:8
 msgid ""
@@ -3013,14 +3054,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cantonese.ruleset:3
-#, fuzzy
 msgid "Cantonese"
-msgstr "Súdánský"
+msgstr "Kantonský"
 
 #: data/nation/cantonese.ruleset:4
-#, fuzzy
 msgid "?plural:Cantonese"
-msgstr "?plural:Súdánci"
+msgstr "?plural:Kantoňané"
 
 #: data/nation/cantonese.ruleset:6
 msgid ""
@@ -3037,12 +3076,11 @@ msgstr ""
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
-msgstr ""
+msgstr "Kapverdský"
 
 #: data/nation/capeverdean.ruleset:4
-#, fuzzy
 msgid "?plural:Cape Verdean"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Kapverďané"
 
 #: data/nation/capeverdean.ruleset:6
 msgid ""
@@ -3064,14 +3102,12 @@ msgid "?female:Admiral %s"
 msgstr "?female:Admirálka %s"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "Kartaginský"
+msgstr "Karantánský"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "?plural:Kartagiňané"
+msgstr "?plural:Karantánci"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3087,14 +3123,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/castilian.ruleset:3
-#, fuzzy
 msgid "Castilian"
-msgstr "Pobřeží"
+msgstr "Kastilský"
 
 #: data/nation/castilian.ruleset:4
-#, fuzzy
 msgid "?plural:Castilians"
-msgstr "?plural:Katalánci"
+msgstr "?plural:Kastilci"
 
 #: data/nation/castilian.ruleset:6
 msgid ""
@@ -3126,14 +3160,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/celtiberian.ruleset:3
-#, fuzzy
 msgid "Celtiberian"
-msgstr "Nigérijský"
+msgstr "Keltiberský"
 
 #: data/nation/celtiberian.ruleset:4
-#, fuzzy
 msgid "?plural:Celtiberians"
-msgstr "?plural:Srbové"
+msgstr "?plural:Keltiberové"
 
 #: data/nation/celtiberian.ruleset:6
 msgid ""
@@ -3143,14 +3175,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/centralafrican.ruleset:3
-#, fuzzy
 msgid "Central African"
-msgstr "Americký"
+msgstr "Středoafrický"
 
 #: data/nation/centralafrican.ruleset:4
-#, fuzzy
 msgid "?plural:Central Africans"
-msgstr "?plural:Američané"
+msgstr "?plural:Středoafričané"
 
 #: data/nation/centralafrican.ruleset:6
 msgid ""
@@ -3161,14 +3191,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/centralamerican.ruleset:3
-#, fuzzy
 msgid "Central American"
-msgstr "Americký"
+msgstr "Středoamerický"
 
 #: data/nation/centralamerican.ruleset:4
-#, fuzzy
 msgid "?plural:Central Americans"
-msgstr "?plural:Američané"
+msgstr "?plural:Středoameričané"
 
 #: data/nation/centralamerican.ruleset:7
 msgid ""
@@ -3193,14 +3221,12 @@ msgid "Supreme Directrice %s"
 msgstr "Nejvyšší ředitelka %s"
 
 #: data/nation/centrallithuanian.ruleset:3
-#, fuzzy
 msgid "Central Lithuanian"
-msgstr "Lotyšský"
+msgstr "Středolitevský"
 
 #: data/nation/centrallithuanian.ruleset:4
-#, fuzzy
 msgid "?plural:Central Lithuanians"
-msgstr "?plural:Lotyši"
+msgstr "?plural:Obyvatelé Střední Litvy"
 
 #: data/nation/centrallithuanian.ruleset:6
 msgid ""
@@ -3234,14 +3260,12 @@ msgid "?female:People's Commissar %s"
 msgstr "?female:Lidová komisařka %s"
 
 #: data/nation/chadian.ruleset:3
-#, fuzzy
 msgid "Chadian"
-msgstr "Kanadský"
+msgstr "Čadský"
 
 #: data/nation/chadian.ruleset:4
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Čaďané"
 
 #: data/nation/chadian.ruleset:6
 msgid ""
@@ -3253,12 +3277,11 @@ msgstr ""
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
-msgstr ""
+msgstr "Čamský"
 
 #: data/nation/cham.ruleset:4
-#, fuzzy
 msgid "?plural:Chams"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čamové"
 
 #: data/nation/cham.ruleset:6
 msgid ""
@@ -3272,14 +3295,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:3
-#, fuzzy
 msgid "Chananean"
-msgstr "Kanadský"
+msgstr "Kanaánský"
 
 #: data/nation/chananean.ruleset:4
-#, fuzzy
 msgid "?plural:Chananeans"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Kanaánci"
 
 #: data/nation/chananean.ruleset:6
 msgid ""
@@ -3305,12 +3326,11 @@ msgstr "?female:Alfa %s"
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
-msgstr ""
+msgstr "Čečenský"
 
 #: data/nation/chechen.ruleset:4
-#, fuzzy
 msgid "?plural:Chechens"
-msgstr "?plural:Češi"
+msgstr "?plural:Čečenci"
 
 #: data/nation/chechen.ruleset:7
 msgid ""
@@ -3324,12 +3344,11 @@ msgstr ""
 
 #: data/nation/chiapanec.ruleset:3
 msgid "Chiapanec"
-msgstr ""
+msgstr "Chiapanécký"
 
 #: data/nation/chiapanec.ruleset:4
-#, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "?plural:Číňané"
+msgstr "?plural:Chiapanékové"
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -3344,12 +3363,11 @@ msgstr ""
 
 #: data/nation/chickasaw.ruleset:3
 msgid "Chickasaw"
-msgstr ""
+msgstr "Čikasavský"
 
 #: data/nation/chickasaw.ruleset:4
-#, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čikasavové"
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -3389,14 +3407,12 @@ msgid "?female:Captain General %s"
 msgstr "?female:Generální kapitánka %s"
 
 #: data/nation/chimu.ruleset:3
-#, fuzzy
 msgid "Chimu"
-msgstr "Předseda"
+msgstr "Čimúský"
 
 #: data/nation/chimu.ruleset:4
-#, fuzzy
 msgid "?plural:Chimu"
-msgstr "?plural:Ajnové"
+msgstr "?plural:Čimúové"
 
 #: data/nation/chimu.ruleset:6
 msgid ""
@@ -3411,12 +3427,11 @@ msgstr ""
 
 #: data/nation/chinook.ruleset:3
 msgid "Chinook"
-msgstr ""
+msgstr "Činúcký"
 
 #: data/nation/chinook.ruleset:4
-#, fuzzy
 msgid "?plural:Chinooks"
-msgstr "?plural:Číňané"
+msgstr "?plural:Činúkové"
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -3431,12 +3446,11 @@ msgstr ""
 
 #: data/nation/choctaw.ruleset:3
 msgid "Choctaw"
-msgstr ""
+msgstr "Čoktavský"
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čoktavové"
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -3452,14 +3466,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chola.ruleset:3
-#, fuzzy
 msgid "Chola"
-msgstr "Uhlí"
+msgstr "Čólský"
 
 #: data/nation/chola.ruleset:4
-#, fuzzy
 msgid "?plural:Cholas"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čólové"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -3473,14 +3485,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chrobatian.ruleset:3
-#, fuzzy
 msgid "Chrobatian"
-msgstr "Chorvatský"
+msgstr "Bílochorvatský"
 
 #: data/nation/chrobatian.ruleset:4
-#, fuzzy
 msgid "?plural:Chrobatians"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Bílí Chorvati"
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -3543,12 +3553,11 @@ msgstr "Velkokněžna %s"
 
 #: data/nation/chumash.ruleset:3
 msgid "Chumash"
-msgstr ""
+msgstr "Čumašský"
 
 #: data/nation/chumash.ruleset:4
-#, fuzzy
 msgid "?plural:Chumash"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čumašové"
 
 #: data/nation/chumash.ruleset:6
 msgid ""
@@ -3564,12 +3573,11 @@ msgstr ""
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "Čuvašský"
 
 #: data/nation/chuvash.ruleset:4
-#, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čuvaši"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -3580,14 +3588,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/circassian.ruleset:3
-#, fuzzy
 msgid "Circassian"
-msgstr "Pruský"
+msgstr "Čerkeský"
 
 #: data/nation/circassian.ruleset:4
-#, fuzzy
 msgid "?plural:Circassians"
-msgstr "?plural:Prusové"
+msgstr "?plural:Čerkesové"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -3619,12 +3625,10 @@ msgid "?female:%s Bey"
 msgstr "?female:Bej %s"
 
 #: data/nation/colombian.ruleset:3
-#, fuzzy
 msgid "Colombian"
 msgstr "Kolumbijský"
 
 #: data/nation/colombian.ruleset:4
-#, fuzzy
 msgid "?plural:Colombians"
 msgstr "?plural:Kolumbijci"
 
@@ -3637,14 +3641,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/comanche.ruleset:3
-#, fuzzy
 msgid "Comanche"
-msgstr "Zrušit"
+msgstr "Komančský"
 
 #: data/nation/comanche.ruleset:4
-#, fuzzy
 msgid "?plural:Comanches"
-msgstr "?plural:Římané"
+msgstr "?plural:Komančové"
 
 #: data/nation/comanche.ruleset:6
 msgid ""
@@ -3655,14 +3657,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/comorian.ruleset:3
-#, fuzzy
 msgid "Comorian"
-msgstr "Íránský"
+msgstr "Komorský"
 
 #: data/nation/comorian.ruleset:4
-#, fuzzy
 msgid "?plural:Comorians"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Komořané"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -3699,12 +3699,11 @@ msgstr "Předsedkyně %s"
 
 #: data/nation/conch.ruleset:3
 msgid "Conch"
-msgstr ""
+msgstr "Republika Conch"
 
 #: data/nation/conch.ruleset:4
-#, fuzzy
 msgid "?plural:Conch"
-msgstr "?plural:Římané"
+msgstr "?plural:Obyvatelé republiky Conch"
 
 #: data/nation/conch.ruleset:6
 msgid ""
@@ -3721,14 +3720,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Oslavuje"
+msgstr "Konfederační"
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "?plural:Boerové"
+msgstr "?plural:Konfederovaní"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -3747,14 +3744,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:3
-#, fuzzy
 msgid "Brazzaville-Congolese"
-msgstr "?plural:Mongolové"
+msgstr "Konžský (Brazzaville)"
 
 #: data/nation/congolesebrazzaville.ruleset:4
-#, fuzzy
 msgid "?plural:Brazzaville-Congolese"
-msgstr "?plural:Mongolové"
+msgstr "?plural:Konžané (Brazzaville)"
 
 #: data/nation/congolesebrazzaville.ruleset:6
 msgid ""
@@ -3767,14 +3762,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/congolese.ruleset:3
-#, fuzzy
 msgid "Congolese"
-msgstr "Ovládání"
+msgstr "Konžský (Kinshasa)"
 
 #: data/nation/congolese.ruleset:4
-#, fuzzy
 msgid "?plural:Congolese"
-msgstr "?plural:Mongolové"
+msgstr "?plural:Konžané (Kinshasa)"
 
 #: data/nation/congolese.ruleset:7
 msgid ""
@@ -3807,14 +3800,12 @@ msgstr ""
 "domov krále Artuše."
 
 #: data/nation/corsican.ruleset:3
-#, fuzzy
 msgid "Corsican"
-msgstr "Perský"
+msgstr "Korsický"
 
 #: data/nation/corsican.ruleset:4
-#, fuzzy
 msgid "?plural:Corsicans"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Korsičané"
 
 #: data/nation/corsican.ruleset:6
 msgid ""
@@ -3839,14 +3830,12 @@ msgid "?female:General-in-Chief %s"
 msgstr "?female:Vrchní velitelka %s"
 
 #: data/nation/cossack.ruleset:3
-#, fuzzy
 msgid "Cossack"
-msgstr "Zrušit"
+msgstr "Kozácký"
 
 #: data/nation/cossack.ruleset:4
-#, fuzzy
 msgid "?plural:Cossacks"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kozáci"
 
 #: data/nation/cossack.ruleset:6
 msgid ""
@@ -3870,14 +3859,12 @@ msgid "?female:Hetman %s"
 msgstr "?female:Hejtmanka %s"
 
 #: data/nation/costarican.ruleset:3
-#, fuzzy
 msgid "Costa Rican"
-msgstr "Chorvatský"
+msgstr "Kostarický"
 
 #: data/nation/costarican.ruleset:4
-#, fuzzy
 msgid "?plural:Costa Ricans"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Kostaričané"
 
 #: data/nation/costarican.ruleset:6
 msgid ""
@@ -3887,14 +3874,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cree.ruleset:3
-#, fuzzy
 msgid "Cree"
-msgstr "krí"
+msgstr "Krijský"
 
 #: data/nation/cree.ruleset:4
-#, fuzzy
 msgid "?plural:Cree"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kríové"
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -3905,14 +3890,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cretan.ruleset:3
-#, fuzzy
 msgid "Cretan"
-msgstr "Tibetský"
+msgstr "Krétský"
 
 #: data/nation/cretan.ruleset:4
-#, fuzzy
 msgid "?plural:Cretans"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Kréťané"
 
 #: data/nation/cretan.ruleset:6
 msgid ""
@@ -3926,14 +3909,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/crimeantatar.ruleset:3
-#, fuzzy
 msgid "Crimean Tatar"
-msgstr "Kanadský"
+msgstr "Krymskotatarský"
 
 #: data/nation/crimeantatar.ruleset:4
-#, fuzzy
 msgid "?plural:Crimean Tatars"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Krymští Tataři"
 
 #: data/nation/crimeantatar.ruleset:6
 msgid ""
@@ -3966,14 +3947,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/crusader.ruleset:3
-#, fuzzy
 msgid "Crusader"
-msgstr "Křižáci"
+msgstr "Křižácký"
 
 #: data/nation/crusader.ruleset:4
-#, fuzzy
 msgid "?plural:Crusaders"
-msgstr "?plural:Kubánci"
+msgstr "?plural:Křižáci"
 
 #: data/nation/crusader.ruleset:6
 msgid ""
@@ -4005,14 +3984,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/curonian.ruleset:3
-#, fuzzy
 msgid "Curonian"
-msgstr "Íránský"
+msgstr "Kurský"
 
 #: data/nation/curonian.ruleset:4
-#, fuzzy
 msgid "?plural:Curonians"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Kurové"
 
 #: data/nation/curonian.ruleset:6
 msgid ""
@@ -4023,14 +4000,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cuyavian.ruleset:3
-#, fuzzy
 msgid "Cuyavian"
-msgstr "Litevský"
+msgstr "Kujavský"
 
 #: data/nation/cuyavian.ruleset:4
-#, fuzzy
 msgid "?plural:Cuyavians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Kujavané"
 
 #: data/nation/cuyavian.ruleset:6
 msgid ""
@@ -4039,14 +4014,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cypriot.ruleset:3
-#, fuzzy
 msgid "Cypriot"
-msgstr "Válečný vůz"
+msgstr "Kyperský"
 
 #: data/nation/cypriot.ruleset:4
-#, fuzzy
 msgid "?plural:Cypriots"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Kypřané"
 
 #: data/nation/cypriot.ruleset:6
 msgid ""
@@ -4056,14 +4029,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cyrenaican.ruleset:3
-#, fuzzy
 msgid "Cyrenaican"
-msgstr "Arménský"
+msgstr "Kyrenaický"
 
 #: data/nation/cyrenaican.ruleset:4
-#, fuzzy
 msgid "?plural:Cyrenaicans"
-msgstr "?plural:Arméni"
+msgstr "?plural:Obyvatelé Kyrenaiky"
 
 #: data/nation/cyrenaican.ruleset:6
 msgid ""
@@ -4078,14 +4049,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/czechoslovak.ruleset:3
-#, fuzzy
 msgid "Czechoslovakian"
-msgstr "Slovenský"
+msgstr "Československý"
 
 #: data/nation/czechoslovak.ruleset:4
-#, fuzzy
 msgid "?plural:Czechoslovakians"
-msgstr "?plural:Slováci"
+msgstr "?plural:Čechoslováci"
 
 #: data/nation/czechoslovak.ruleset:6
 msgid ""
@@ -4123,14 +4092,12 @@ msgid "Prophetess %s"
 msgstr "Prorokyně %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "Terén"
+msgstr "Dácký"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Dákové"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -4145,13 +4112,12 @@ msgstr ""
 
 #: data/nation/dagestan.ruleset:3
 msgid "Dagestan"
-msgstr ""
+msgstr "Dagestánský"
 
 #: data/nation/dagestan.ruleset:4
-#, fuzzy
 #| msgid "?plural:Pakistanis"
 msgid "?plural:Dagestani"
-msgstr "?plural:Pakistánci"
+msgstr "?plural:Dagestánci"
 
 #: data/nation/dagestan.ruleset:7
 msgid ""
@@ -4168,14 +4134,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/dahomean.ruleset:3
-#, fuzzy
 msgid "Dahomean"
-msgstr "Aramejský"
+msgstr "Dahomejský"
 
 #: data/nation/dahomean.ruleset:4
-#, fuzzy
 msgid "?plural:Dahomeans"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Dahomejci"
 
 #: data/nation/dahomean.ruleset:6
 msgid ""
@@ -4190,12 +4154,11 @@ msgstr ""
 
 #: data/nation/darfuri.ruleset:3
 msgid "Darfuri"
-msgstr ""
+msgstr "Dárfúrský"
 
 #: data/nation/darfuri.ruleset:4
-#, fuzzy
 msgid "?plural:Darfuris"
-msgstr "?plural:Barbaři"
+msgstr "?plural:Obyvatelé Dárfúru"
 
 #: data/nation/darfuri.ruleset:7
 msgid ""
@@ -4211,12 +4174,11 @@ msgstr ""
 
 #: data/nation/djiboutian.ruleset:3
 msgid "Djiboutian"
-msgstr ""
+msgstr "Džibutský"
 
 #: data/nation/djiboutian.ruleset:4
-#, fuzzy
 msgid "?plural:Djiboutians"
-msgstr "?plural:Havajané"
+msgstr "?plural:Džibuťané"
 
 #: data/nation/djiboutian.ruleset:6
 msgid ""
@@ -4227,12 +4189,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/dominicano.ruleset:3
-#, fuzzy
 msgid "Dominicano"
 msgstr "Dominikánský"
 
 #: data/nation/dominicano.ruleset:4
-#, fuzzy
 msgid "?plural:Dominicanos"
 msgstr "?plural:Dominikánci"
 
@@ -4263,13 +4223,12 @@ msgstr ""
 
 #: data/nation/donetsk.ruleset:3
 msgid "Donetsk"
-msgstr ""
+msgstr "Doněcký"
 
 #: data/nation/donetsk.ruleset:4
-#, fuzzy
 #| msgid "?plural:Dominicans"
 msgid "?plural:Donchyani"
-msgstr "?plural:Dominikánci"
+msgstr "?plural:Doněčané"
 
 #: data/nation/donetsk.ruleset:6
 msgid ""
@@ -4307,14 +4266,12 @@ msgid "?female:Kremlin %s"
 msgstr "?female:Kreml %s"
 
 #: data/nation/dryad.ruleset:3
-#, fuzzy
 msgid "Dryad"
-msgstr "Mrtvý"
+msgstr "Dryádský"
 
 #: data/nation/dryad.ruleset:4
-#, fuzzy
 msgid "?plural:Dryads"
-msgstr "?plural:Arabové"
+msgstr "?plural:Dryády"
 
 #: data/nation/dryad.ruleset:6
 msgid ""
@@ -4324,14 +4281,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/eastgerman.ruleset:3
-#, fuzzy
 msgid "East German"
-msgstr "Německý"
+msgstr "Východoněmecký"
 
 #: data/nation/eastgerman.ruleset:4
-#, fuzzy
 msgid "?plural:East Germans"
-msgstr "?plural:Němci"
+msgstr "?plural:Východní Němci"
 
 #: data/nation/eastgerman.ruleset:6
 msgid ""
@@ -4369,12 +4324,11 @@ msgstr "?female:Komisařka %s"
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
-msgstr ""
+msgstr "Východotimorský"
 
 #: data/nation/easttimorese.ruleset:4
-#, fuzzy
 msgid "?plural:East Timorese"
-msgstr "?plural:Němci"
+msgstr "?plural:Východní Timořané"
 
 #: data/nation/easttimorese.ruleset:6
 msgid ""
@@ -4385,14 +4339,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ecuadorian.ruleset:3
-#, fuzzy
 msgid "Ecuadorian"
-msgstr "Bulharský"
+msgstr "Ekvádorský"
 
 #: data/nation/ecuadorian.ruleset:4
-#, fuzzy
 msgid "?plural:Ecuadorians"
-msgstr "?plural:Bulhaři"
+msgstr "?plural:Ekvádorci"
 
 #: data/nation/ecuadorian.ruleset:6
 msgid ""
@@ -4407,14 +4359,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/egyptianarab.ruleset:3
-#, fuzzy
 msgid "Egyptian Arab"
-msgstr "Egyptský"
+msgstr "Egyptský arabský"
 
 #: data/nation/egyptianarab.ruleset:4
-#, fuzzy
 msgid "?plural:Egyptian Arabs"
-msgstr "?plural:Egypťané"
+msgstr "?plural:Egyptští Arabové"
 
 #: data/nation/egyptianarab.ruleset:6
 msgid ""
@@ -4424,14 +4374,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/elamite.ruleset:3
-#, fuzzy
 msgid "Elamite"
-msgstr "elita"
+msgstr "Elamský"
 
 #: data/nation/elamite.ruleset:4
-#, fuzzy
 msgid "?plural:Elamites"
-msgstr "?plural:Elfové"
+msgstr "?plural:Elamité"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
@@ -4442,14 +4390,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/emirati.ruleset:3
-#, fuzzy
 msgid "Emirati"
-msgstr "Emír"
+msgstr "Emirátský"
 
 #: data/nation/emirati.ruleset:4
-#, fuzzy
 msgid "?plural:Emiratis"
-msgstr "Forma plurálů:"
+msgstr "?plural:Obyvatelé Spojených arabských emirátů"
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -4461,12 +4407,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "Épeirský"
 
 #: data/nation/epirote.ruleset:4
-#, fuzzy
 msgid "?plural:Epirotes"
-msgstr "?plural:Piráti"
+msgstr "?plural:Épeirové"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4487,12 +4432,11 @@ msgstr "?female:Tyranka %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
-msgstr ""
+msgstr "Rovníkovoguinejský"
 
 #: data/nation/equatoguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Equatoguineans"
-msgstr "?plural:Bulhaři"
+msgstr "?plural:Obyvatelé Rovníkové Guineje"
 
 #: data/nation/equatoguinean.ruleset:6
 msgid ""
@@ -4503,14 +4447,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/eritrean.ruleset:3
-#, fuzzy
 msgid "Eritrean"
-msgstr "Evropský"
+msgstr "Eritrejský"
 
 #: data/nation/eritrean.ruleset:4
-#, fuzzy
 msgid "?plural:Eritreans"
-msgstr "?plural:Evropané"
+msgstr "?plural:Eritrejci"
 
 #: data/nation/eritrean.ruleset:6
 msgid ""
@@ -4561,12 +4503,11 @@ msgstr "?female:Ochránkyně %s"
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
-msgstr ""
+msgstr "Etruský"
 
 #: data/nation/etruscan.ruleset:4
-#, fuzzy
 msgid "?plural:Etruscans"
-msgstr "?plural:Prusové"
+msgstr "?plural:Etruskové"
 
 #: data/nation/etruscan.ruleset:6
 msgid ""
@@ -4624,14 +4565,12 @@ msgid "?female:Commissioner %s"
 msgstr "?female:Komisařka %s"
 
 #: data/nation/evenki.ruleset:3
-#, fuzzy
 msgid "Evenki"
-msgstr "Událost"
+msgstr "Evencký"
 
 #: data/nation/evenki.ruleset:4
-#, fuzzy
 msgid "?plural:Evenks"
-msgstr "?plural:Řekové"
+msgstr "?plural:Evenkové"
 
 #: data/nation/evenki.ruleset:6
 msgid ""
@@ -4644,12 +4583,11 @@ msgstr ""
 
 #: data/nation/faroese.ruleset:3
 msgid "Faroese"
-msgstr ""
+msgstr "Faerský"
 
 #: data/nation/faroese.ruleset:4
-#, fuzzy
 msgid "?plural:Faroese"
-msgstr "Forma plurálů:"
+msgstr "?plural:Faeřané"
 
 #: data/nation/faroese.ruleset:6
 msgid ""
@@ -4662,12 +4600,11 @@ msgstr ""
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
-msgstr ""
+msgstr "Fidžijský"
 
 #: data/nation/fijian.ruleset:4
-#, fuzzy
 msgid "?plural:Fijians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Fidžijci"
 
 #: data/nation/fijian.ruleset:6
 msgid ""
@@ -4742,14 +4679,12 @@ msgid "?female:Archbishop %s"
 msgstr "?female:Arcibiskupka %s"
 
 #: data/nation/flemish.ruleset:3
-#, fuzzy
 msgid "Flemish"
-msgstr "Ryby"
+msgstr "Vlámský"
 
 #: data/nation/flemish.ruleset:4
-#, fuzzy
 msgid "?plural:Flemings"
-msgstr "?plural:Finové"
+msgstr "?plural:Vlámové"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
@@ -4761,14 +4696,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/florentine.ruleset:3
-#, fuzzy
 msgid "Florentine"
-msgstr "Argentinský"
+msgstr "Florentský"
 
 #: data/nation/florentine.ruleset:4
-#, fuzzy
 msgid "?plural:Florentines"
-msgstr "?plural:Argentinci"
+msgstr "?plural:Florenťané"
 
 #: data/nation/florentine.ruleset:6
 msgid ""
@@ -4814,14 +4747,12 @@ msgid "?female:Captain %s"
 msgstr "?female:Kapitánka %s"
 
 #: data/nation/florida.ruleset:3
-#, fuzzy
 msgid "Floridian"
-msgstr "Argentinský"
+msgstr "Floridský"
 
 #: data/nation/florida.ruleset:4
-#, fuzzy
 msgid "?plural:Floridians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Floriďané"
 
 #: data/nation/florida.ruleset:6
 msgid ""
@@ -4838,12 +4769,11 @@ msgstr ""
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "Formoský"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "?plural:Normané"
+msgstr "?plural:Formosané"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -4859,14 +4789,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/franconian.ruleset:3
-#, fuzzy
 msgid "Franconian"
-msgstr "Íránský"
+msgstr "Franský (Franky)"
 
 #: data/nation/franconian.ruleset:4
-#, fuzzy
 msgid "?plural:Franconians"
-msgstr "?plural:Íránci"
+msgstr "?plural:Obyvatelé Frank"
 
 #: data/nation/franconian.ruleset:6
 msgid ""
@@ -4887,14 +4815,12 @@ msgid "Prince-Bishop %s"
 msgstr "Kníže-biskup %s"
 
 #: data/nation/frankish.ruleset:3
-#, fuzzy
 msgid "Frankish"
-msgstr "Turecký"
+msgstr "Franský"
 
 #: data/nation/frankish.ruleset:4
-#, fuzzy
 msgid "?plural:Franks"
-msgstr "?plural:Peršané"
+msgstr "?plural:Frankové"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -4923,14 +4849,12 @@ msgid "?female:Mayor of the Palace %s"
 msgstr "?female:Majordomka %s"
 
 #: data/nation/frisian.ruleset:3
-#, fuzzy
 msgid "Frisian"
-msgstr "Perský"
+msgstr "Fríský"
 
 #: data/nation/frisian.ruleset:4
-#, fuzzy
 msgid "?plural:Frisians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Frísové"
 
 #: data/nation/frisian.ruleset:6
 msgid ""
@@ -4946,14 +4870,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/friulian.ruleset:3
-#, fuzzy
 msgid "Friulian"
-msgstr "Brazilský"
+msgstr "Furlanský"
 
 #: data/nation/friulian.ruleset:4
-#, fuzzy
 msgid "?plural:Friulian"
-msgstr "?plural:Peršané"
+msgstr "?plural:Furlané"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -4966,12 +4888,11 @@ msgstr ""
 
 #: data/nation/fulani.ruleset:3
 msgid "Fulani"
-msgstr ""
+msgstr "Fulbský"
 
 #: data/nation/fulani.ruleset:4
-#, fuzzy
 msgid "?plural:Fulani"
-msgstr "?plural:Peršané"
+msgstr "?plural:Fulbové"
 
 #: data/nation/fulani.ruleset:6
 msgid ""
@@ -4985,14 +4906,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gabonese.ruleset:3
-#, fuzzy
 msgid "Gabonese"
-msgstr "Súdánský"
+msgstr "Gabonský"
 
 #: data/nation/gabonese.ruleset:4
-#, fuzzy
 msgid "?plural:Gabonese"
-msgstr "?plural:Súdánci"
+msgstr "?plural:Gabonci"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -5004,14 +4923,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gaelic.ruleset:3
-#, fuzzy
 msgid "Gaelic"
-msgstr "Galicijský"
+msgstr "Gaelský"
 
 #: data/nation/gaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Gaels"
-msgstr "?plural:Zuluové"
+msgstr "?plural:Gaelové"
 
 #: data/nation/gaelic.ruleset:6
 msgid ""
@@ -5046,14 +4963,12 @@ msgid "Galicia is a region in the northwest of Spain, just above Portugal."
 msgstr ""
 
 #: data/nation/gallic.ruleset:3
-#, fuzzy
 msgid "Gallic"
-msgstr "Galicijský"
+msgstr "Galský"
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "?plural:Zuluové"
+msgstr "?plural:Galové"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -5068,14 +4983,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gambian.ruleset:3
-#, fuzzy
 msgid "Gambian"
-msgstr "Nigérijský"
+msgstr "Gambijský"
 
 #: data/nation/gambian.ruleset:4
-#, fuzzy
 msgid "?plural:Gambians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Gambijci"
 
 #: data/nation/gambian.ruleset:6
 msgid ""
@@ -5097,12 +5010,11 @@ msgstr "?female:Mansa %s"
 
 #: data/nation/genoese.ruleset:3
 msgid "Genoese"
-msgstr ""
+msgstr "Janovský"
 
 #: data/nation/genoese.ruleset:4
-#, fuzzy
 msgid "?plural:Genoese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Janované"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -5127,14 +5039,12 @@ msgid "Dogaressa %s"
 msgstr "Dogaressa %s"
 
 #: data/nation/georgian.ruleset:3
-#, fuzzy
 msgid "Georgian"
-msgstr "Německý"
+msgstr "Gruzínský"
 
 #: data/nation/georgian.ruleset:4
-#, fuzzy
 msgid "?plural:Georgians"
-msgstr "?plural:Němci"
+msgstr "?plural:Gruzíni"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
@@ -5144,12 +5054,11 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Gepidský"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "?plural:Angličané"
+msgstr "?plural:Gepidové"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5193,14 +5102,12 @@ msgid "?female:Great Warrior %s"
 msgstr "?female:Velká válečnice %s"
 
 #: data/nation/germanbelgian.ruleset:3
-#, fuzzy
 msgid "German Belgian"
-msgstr "Belgický"
+msgstr "Německobelgický"
 
 #: data/nation/germanbelgian.ruleset:4
-#, fuzzy
 msgid "?plural:German Belgians"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Německy mluvící Belgičané"
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -5216,14 +5123,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/germanic.ruleset:3
-#, fuzzy
 msgid "Germanic"
-msgstr "Německý"
+msgstr "Germánský"
 
 #: data/nation/germanic.ruleset:4
-#, fuzzy
 msgid "?plural:Germanics"
-msgstr "?plural:Němci"
+msgstr "?plural:Germáni"
 
 #: data/nation/germanic.ruleset:6
 msgid ""
@@ -5241,14 +5146,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghanaian.ruleset:3
-#, fuzzy
 msgid "Ghanaian"
-msgstr "Kanadský"
+msgstr "Ghanský"
 
 #: data/nation/ghanaian.ruleset:4
-#, fuzzy
 msgid "?plural:Ghanaian"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Ghaňané"
 
 #: data/nation/ghanaian.ruleset:6
 msgid ""
@@ -5259,14 +5162,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:3
-#, fuzzy
 msgid "Ghana"
-msgstr "Kanadský"
+msgstr "Staroghanský"
 
 #: data/nation/ghana.ruleset:4
-#, fuzzy
 msgid "?plural:Ghana"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Obyvatelé Ghanské říše"
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -5290,12 +5191,11 @@ msgstr "?female:Ghana %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
-msgstr ""
+msgstr "Ghaznovský"
 
 #: data/nation/ghaznavid.ruleset:4
-#, fuzzy
 msgid "?plural:Ghaznavids"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Ghaznovci"
 
 #: data/nation/ghaznavid.ruleset:6
 msgid ""
@@ -5306,12 +5206,11 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Göktürk"
-msgstr ""
+msgstr "Göktürkský"
 
 #: data/nation/gokturk.ruleset:6
-#, fuzzy
 msgid "?plural:Göktürks"
-msgstr "?plural:Turkové"
+msgstr "?plural:Göktürkové"
 
 #: data/nation/gokturk.ruleset:8
 msgid ""
@@ -5323,14 +5222,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/goldenhorde.ruleset:3
-#, fuzzy
 msgid "Golden Horde"
-msgstr "Zlato: %d"
+msgstr "Zlatá horda"
 
 #: data/nation/goldenhorde.ruleset:4
-#, fuzzy
 msgid "?plural:Golden Horde"
-msgstr "?plural:Mordoři"
+msgstr "?plural:Zlatá horda"
 
 #: data/nation/goldenhorde.ruleset:6
 msgid ""
@@ -5345,14 +5242,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gothic.ruleset:3
-#, fuzzy
 msgid "Gothic"
-msgstr "Nahlížení"
+msgstr "Gótský"
 
 #: data/nation/gothic.ruleset:4
-#, fuzzy
 msgid "?plural:Goths"
-msgstr "?plural:Skotové"
+msgstr "?plural:Gótové"
 
 #: data/nation/gothic.ruleset:6
 msgid ""
@@ -5364,14 +5259,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/greaterpolish.ruleset:3
-#, fuzzy
 msgid "Greater Polish"
-msgstr "Velký Faraon"
+msgstr "Velkopolský"
 
 #: data/nation/greaterpolish.ruleset:4
-#, fuzzy
 msgid "?plural:Greater Poles"
-msgstr "?plural:Poláci"
+msgstr "?plural:Velkopolané"
 
 #: data/nation/greaterpolish.ruleset:6
 msgid ""
@@ -5380,14 +5273,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/greenlander.ruleset:3
-#, fuzzy
 msgid "Greenlander"
-msgstr "Velký div světa"
+msgstr "Grónský"
 
 #: data/nation/greenlander.ruleset:4
-#, fuzzy
 msgid "?plural:Greenlanders"
-msgstr "?plural:Islanďané"
+msgstr "?plural:Gróňané"
 
 #: data/nation/greenlander.ruleset:6
 msgid ""
@@ -5399,14 +5290,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/grenadian.ruleset:3
-#, fuzzy
 msgid "Grenadian"
-msgstr "Arménský"
+msgstr "Grenadský"
 
 #: data/nation/grenadian.ruleset:4
-#, fuzzy
 msgid "?plural:Grenadians"
-msgstr "?plural:Arméni"
+msgstr "?plural:Grenaďané"
 
 #: data/nation/grenadian.ruleset:6
 msgid ""
@@ -5416,14 +5305,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/guanche.ruleset:3
-#, fuzzy
 msgid "Guanche"
-msgstr "Zrušit"
+msgstr "Guančský"
 
 #: data/nation/guanche.ruleset:4
-#, fuzzy
 msgid "?plural:Guanches"
-msgstr "?plural:Inkové"
+msgstr "?plural:Guančové"
 
 #: data/nation/guanche.ruleset:6
 msgid ""
@@ -5433,14 +5320,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/guarani.ruleset:3
-#, fuzzy
 msgid "Guarani"
-msgstr "Maharadža"
+msgstr "Guaraníjský"
 
 #: data/nation/guarani.ruleset:4
-#, fuzzy
 msgid "?plural:Guarani"
-msgstr "?plural:Burunďané"
+msgstr "?plural:Guaraníové"
 
 #: data/nation/guarani.ruleset:6
 msgid ""
@@ -5451,14 +5336,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/guatemalan.ruleset:3
-#, fuzzy
 msgid "Guatemalan"
-msgstr "Katalánský"
+msgstr "Guatemalský"
 
 #: data/nation/guatemalan.ruleset:4
-#, fuzzy
 msgid "?plural:Guatemalans"
-msgstr "?plural:Katalánci"
+msgstr "?plural:Guatemalci"
 
 #: data/nation/guatemalan.ruleset:6
 msgid ""
@@ -5472,12 +5355,11 @@ msgstr ""
 
 #: data/nation/guinean.ruleset:3
 msgid "Guinean"
-msgstr ""
+msgstr "Guinejský"
 
 #: data/nation/guinean.ruleset:4
-#, fuzzy
 msgid "?plural:Guinean"
-msgstr "?plural:Dunedánové"
+msgstr "?plural:Guinejci"
 
 #: data/nation/guinean.ruleset:6
 msgid ""
@@ -5488,12 +5370,11 @@ msgstr ""
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
-msgstr ""
+msgstr "Guptovský"
 
 #: data/nation/gupta.ruleset:4
-#, fuzzy
 msgid "?plural:Gupta"
-msgstr "Forma plurálů:"
+msgstr "?plural:Guptovci"
 
 #: data/nation/gupta.ruleset:7
 msgid ""
@@ -5502,14 +5383,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/guyanese.ruleset:3
-#, fuzzy
 msgid "Guyanese"
-msgstr "Súdánský"
+msgstr "Guyanský"
 
 #: data/nation/guyanese.ruleset:4
-#, fuzzy
 msgid "?plural:Guyanese"
-msgstr "?plural:Súdánci"
+msgstr "?plural:Guyanci"
 
 #: data/nation/guyanese.ruleset:7
 msgid ""
@@ -5562,14 +5441,12 @@ msgid "?female:1337 %s"
 msgstr "?female:1337 %s"
 
 #: data/nation/haitian.ruleset:3
-#, fuzzy
 msgid "Haitian"
-msgstr "Havajský"
+msgstr "Haitský"
 
 #: data/nation/haitian.ruleset:4
-#, fuzzy
 msgid "?plural:Haitians"
-msgstr "?plural:Havajané"
+msgstr "?plural:Haiťané"
 
 #: data/nation/haitian.ruleset:6
 msgid ""
@@ -5589,14 +5466,12 @@ msgid "?female:President-for-Life %s"
 msgstr "?female:Doživotní prezidentka %s"
 
 #: data/nation/hanoverian.ruleset:3
-#, fuzzy
 msgid "Hanoverian"
-msgstr "Bavorský"
+msgstr "Hannoverský"
 
 #: data/nation/hanoverian.ruleset:4
-#, fuzzy
 msgid "?plural:Hanoverians"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Hannoveřané"
 
 #: data/nation/hanoverian.ruleset:6
 msgid ""
@@ -5614,14 +5489,12 @@ msgid "Princess-Bishop %s"
 msgstr "Kněžna-biskupka %s"
 
 #: data/nation/han.ruleset:3
-#, fuzzy
 msgid "Han"
-msgstr "Člověk"
+msgstr "Chanský"
 
 #: data/nation/han.ruleset:4
-#, fuzzy
 msgid "?plural:Han"
-msgstr "Forma plurálů:"
+msgstr "?plural:Chanové"
 
 #: data/nation/han.ruleset:6
 msgid ""
@@ -5637,14 +5510,12 @@ msgid "Empress Dowager %s"
 msgstr "Císařovna vdova %s"
 
 #: data/nation/hansa.ruleset:3
-#, fuzzy
 msgid "Hanseatic"
-msgstr "Fanatici"
+msgstr "Hanzovní"
 
 #: data/nation/hansa.ruleset:4
-#, fuzzy
 msgid "?plural:Hanseatic League"
-msgstr "?plural:Antarktiďané"
+msgstr "?plural:Hanza"
 
 #: data/nation/hansa.ruleset:6
 msgid ""
@@ -5655,14 +5526,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hasinay.ruleset:3
-#, fuzzy
 msgid "Hasinay"
-msgstr "Královna"
+msgstr "Hasinajský"
 
 #: data/nation/hasinay.ruleset:4
-#, fuzzy
 msgid "?plural:Hasinay"
-msgstr "Forma plurálů:"
+msgstr "?plural:Hasinajové"
 
 #: data/nation/hasinay.ruleset:6
 msgid ""
@@ -5690,14 +5559,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hellenic.ruleset:3
-#, fuzzy
 msgid "Hellenic"
-msgstr "Výzvědná služba"
+msgstr "Helénský"
 
 #: data/nation/hellenic.ruleset:4
-#, fuzzy
 msgid "?plural:Hellenes"
-msgstr "?plural:Islanďané"
+msgstr "?plural:Heléni"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -5708,14 +5575,12 @@ msgstr ""
 "získáním nezávislosti na Otomanské říši v roce 1832."
 
 #: data/nation/helvetian.ruleset:3
-#, fuzzy
 msgid "Helvetian"
-msgstr "Veterán"
+msgstr "Helvétský"
 
 #: data/nation/helvetian.ruleset:4
-#, fuzzy
 msgid "?plural:Helvetians"
-msgstr "?plural:Venezuelané"
+msgstr "?plural:Helvétové"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -5730,14 +5595,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hephthalite.ruleset:3
-#, fuzzy
 msgid "Hephthalite"
-msgstr "elita"
+msgstr "Hefthalitský"
 
 #: data/nation/hephthalite.ruleset:4
-#, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "?plural:Angličané"
+msgstr "?plural:Hefthalité"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -5752,14 +5615,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hessian.ruleset:3
-#, fuzzy
 msgid "Hessian"
-msgstr "Perský"
+msgstr "Hesenský"
 
 #: data/nation/hessian.ruleset:4
-#, fuzzy
 msgid "?plural:Hessians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Hesané"
 
 #: data/nation/hessian.ruleset:6
 msgid ""
@@ -5780,14 +5641,12 @@ msgid "Landgravine %s"
 msgstr "Lantkraběnka %s"
 
 #: data/nation/himyarite.ruleset:3
-#, fuzzy
 msgid "Himyarite"
-msgstr "Postoj"
+msgstr "Himjarský"
 
 #: data/nation/himyarite.ruleset:4
-#, fuzzy
 msgid "?plural:Himyar"
-msgstr "Forma plurálů:"
+msgstr "?plural:Himjařané"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -5806,14 +5665,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/holyroman.ruleset:3
-#, fuzzy
 msgid "Holy Roman"
-msgstr "Římský"
+msgstr "Svatý římský"
 
 #: data/nation/holyroman.ruleset:4
-#, fuzzy
 msgid "?plural:Holy Romans"
-msgstr "?plural:Římané"
+msgstr "?plural:Obyvatelé Svaté říše římské"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -5827,14 +5684,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/holysee.ruleset:3
-#, fuzzy
 msgid "Papal"
-msgstr "Populace"
+msgstr "Papežský"
 
 #: data/nation/holysee.ruleset:4
-#, fuzzy
 msgid "?plural:Papal States"
-msgstr "?plural:Dánové"
+msgstr "?plural:Papežský stát"
 
 #: data/nation/holysee.ruleset:6
 msgid ""
@@ -5869,12 +5724,11 @@ msgstr "Velmistryně %s"
 
 #: data/nation/honduran.ruleset:3
 msgid "Honduran"
-msgstr ""
+msgstr "Honduraský"
 
 #: data/nation/honduran.ruleset:4
-#, fuzzy
 msgid "?plural:Hondurans"
-msgstr "?plural:Indové"
+msgstr "?plural:Hondurasané"
 
 #: data/nation/honduran.ruleset:7
 msgid ""
@@ -5885,14 +5739,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hopi.ruleset:3
-#, fuzzy
 msgid "Hopi"
-msgstr "Hobitský"
+msgstr "Hopijský"
 
 #: data/nation/hopi.ruleset:4
-#, fuzzy
 msgid "?plural:Hopis"
-msgstr "Forma plurálů:"
+msgstr "?plural:Hopiové"
 
 #: data/nation/hopi.ruleset:7
 msgid ""
@@ -5914,14 +5766,12 @@ msgid "Legend says that Hungary was founded by Arpad in the 9th century."
 msgstr ""
 
 #: data/nation/iberian.ruleset:3
-#, fuzzy
 msgid "Iberian"
-msgstr "Nigérijský"
+msgstr "Iberský"
 
 #: data/nation/iberian.ruleset:4
-#, fuzzy
 msgid "?plural:Iberians"
-msgstr "?plural:Srbové"
+msgstr "?plural:Iberové"
 
 #: data/nation/iberian.ruleset:6
 msgid ""
@@ -5947,14 +5797,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/illyrian.ruleset:3
-#, fuzzy
 msgid "Illyrian"
-msgstr "Italský"
+msgstr "Ilyrský"
 
 #: data/nation/illyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Illyrians"
-msgstr "?plural:Italové"
+msgstr "?plural:Ilyrové"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -5966,14 +5814,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/indoeuropean.ruleset:3
-#, fuzzy
 msgid "Indo-European"
-msgstr "Evropský"
+msgstr "Indoevropský"
 
 #: data/nation/indoeuropean.ruleset:4
-#, fuzzy
 msgid "?plural:Indo-Europeans"
-msgstr "?plural:Evropané"
+msgstr "?plural:Indoevropané"
 
 #: data/nation/indoeuropean.ruleset:6
 msgid ""
@@ -5988,14 +5834,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/inuit.ruleset:3
-#, fuzzy
 msgid "Inuit"
-msgstr "Konec"
+msgstr "Inuitský"
 
 #: data/nation/inuit.ruleset:4
-#, fuzzy
 msgid "?plural:Inuits"
-msgstr "?plural:Indové"
+msgstr "?plural:Inuité"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -6031,14 +5875,12 @@ msgid "?female:Ayatollah %s"
 msgstr "?female:Ajatolláh %s"
 
 #: data/nation/iraqi.ruleset:3
-#, fuzzy
 msgid "Iraqi"
-msgstr "Izraelský"
+msgstr "Irácký"
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "?plural:Irové"
+msgstr "?plural:Iráčané"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -6056,7 +5898,6 @@ msgid "?plural:Irish"
 msgstr "?plural:Irové"
 
 #: data/nation/irish.ruleset:6
-#, fuzzy
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
 "Normans in 1171.  It was ruled by the English until 1922 when most of the "
@@ -6064,10 +5905,10 @@ msgid ""
 "North of Ireland was settled in the 17th century by Scottish and English "
 "planters and is now part of the United Kingdom."
 msgstr ""
-"Irsko odolávalo Římanům a Vikingům, ale bylo dobito Normany v roce 1171. "
-"Ovládáno bylo roku do 1922 Anglií, než dostala většina země omezenou "
-"autonomii a stala se republikou v roce 1949. Sever Irska byl obydlen v 17. "
-"stoleti skotskými a anglickými osadníky a nyní je součástí Spojeného "
+"Irsko odolalo Římanům i Vikingům, ale roku 1171 je dobyli Normané. "
+"Angličané mu vládli do roku 1922, kdy většina země získala omezenou "
+"samosprávu. Roku 1949 se tato část stala republikou. Sever Irska osídlili "
+"v 17. století skotští a angličtí kolonisté. Dnes je součástí Spojeného "
 "království."
 
 #: data/nation/israeli.ruleset:3
@@ -6079,14 +5920,13 @@ msgid "?plural:Israelis"
 msgstr "?plural:Izraelci"
 
 #: data/nation/israeli.ruleset:6
-#, fuzzy
 msgid ""
 "The nation of Israel was founded in 1948 as a scattered collection of "
 "cantons in British Palestine, and has gradually expanded through winning "
 "wars in 1948, 1967 and 1973."
 msgstr ""
-"Izrael vznikl v roce 1948 jako společenství kantonů v britské Palestině a "
-"expandoval během vítězství v sérii válek vedených proti němu v letech 1948, "
+"Stát Izrael vznikl roku 1948 jako soubor rozptýlených kantonů v britské "
+"Palestině. Postupně se rozšířil díky vítězstvím ve válkách v letech 1948, "
 "1967 a 1973."
 
 #: data/nation/israeli.ruleset:23
@@ -6110,14 +5950,12 @@ msgid "?female:Rabbi %s"
 msgstr "?female:Rabínka %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "Izraelský"
+msgstr "Izraelitský"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "?plural:Izraelci"
+msgstr "?plural:Izraelité"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -6141,14 +5979,12 @@ msgid "?female:Judge %s"
 msgstr "?female:Soudkyně %s"
 
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "Italský"
+msgstr "Italořecký"
 
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "?plural:Italové"
+msgstr "?plural:Italští Řekové"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -6170,14 +6006,12 @@ msgid "Tyranne %s"
 msgstr "Tyranka %s"
 
 #: data/nation/ivoirian.ruleset:3
-#, fuzzy
 msgid "Ivoirian"
-msgstr "Íránský"
+msgstr "Ivorský"
 
 #: data/nation/ivoirian.ruleset:4
-#, fuzzy
 msgid "?plural:Ivoirian"
-msgstr "?plural:Íránci"
+msgstr "?plural:Obyvatelé Pobřeží slonoviny"
 
 #: data/nation/ivoirian.ruleset:6
 msgid ""
@@ -6188,12 +6022,11 @@ msgstr ""
 
 #: data/nation/jaffna.ruleset:3
 msgid "Jaffna"
-msgstr ""
+msgstr "Džafenský"
 
 #: data/nation/jaffna.ruleset:4
-#, fuzzy
 msgid "?plural:Jaffnas"
-msgstr "?plural:Rwanďané"
+msgstr "?plural:Obyvatelé Džafny"
 
 #: data/nation/jaffna.ruleset:7
 msgid ""
@@ -6203,14 +6036,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/jamaican.ruleset:3
-#, fuzzy
 msgid "Jamaican"
-msgstr "Americký"
+msgstr "Jamajský"
 
 #: data/nation/jamaican.ruleset:4
-#, fuzzy
 msgid "?plural:Jamaicans"
-msgstr "?plural:Američané"
+msgstr "?plural:Jamajčané"
 
 #: data/nation/jamaican.ruleset:6
 msgid ""
@@ -6233,14 +6064,12 @@ msgid "?female:Rasta %s"
 msgstr "?female:Rasta %s"
 
 #: data/nation/jolof.ruleset:3
-#, fuzzy
 msgid "Jolof"
-msgstr "Jordánsko (ar_JO)"
+msgstr "Džolofský"
 
 #: data/nation/jolof.ruleset:4
-#, fuzzy
 msgid "?plural:Jolof"
-msgstr "?plural:Konžané"
+msgstr "?plural:Džolofové"
 
 #: data/nation/jolof.ruleset:6
 msgid ""
@@ -6257,14 +6086,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/jordanian.ruleset:3
-#, fuzzy
 msgid "Jordanian"
-msgstr "Íránský"
+msgstr "Jordánský"
 
 #: data/nation/jordanian.ruleset:4
-#, fuzzy
 msgid "?plural:Jordanian"
-msgstr "?plural:Íránci"
+msgstr "?plural:Jordánci"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -6280,12 +6107,11 @@ msgstr ""
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
-msgstr ""
+msgstr "Kalmycký"
 
 #: data/nation/kalmyk.ruleset:4
-#, fuzzy
 msgid "?plural:Kalmyks"
-msgstr "?plural:Kazaši"
+msgstr "?plural:Kalmykové"
 
 #: data/nation/kalmyk.ruleset:6
 msgid ""
@@ -6297,12 +6123,11 @@ msgstr ""
 
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
-msgstr ""
+msgstr "Kanem-Bornu"
 
 #: data/nation/kanem-bornu.ruleset:4
-#, fuzzy
 msgid "?plural:Kanem-Bornu"
-msgstr "Množné číslo jednotky."
+msgstr "?plural:Obyvatelé Kanem-Bornu"
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid ""
@@ -6312,12 +6137,11 @@ msgstr ""
 
 #: data/nation/karabakhi.ruleset:3
 msgid "Karabakhi"
-msgstr ""
+msgstr "Karabašský"
 
 #: data/nation/karabakhi.ruleset:4
-#, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "?plural:Kazaši"
+msgstr "?plural:Karabašci"
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -6333,14 +6157,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/karelian.ruleset:3
-#, fuzzy
 msgid "Karelian"
-msgstr "Předseda"
+msgstr "Karelský"
 
 #: data/nation/karelian.ruleset:4
-#, fuzzy
 msgid "?plural:Karelians"
-msgstr "?plural:Korejci"
+msgstr "?plural:Karelové"
 
 #: data/nation/karelian.ruleset:6
 msgid ""
@@ -6350,14 +6172,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/karen.ruleset:3
-#, fuzzy
 msgid "Karen"
-msgstr "Předseda"
+msgstr "Karenský"
 
 #: data/nation/karen.ruleset:4
-#, fuzzy
 msgid "?plural:Karens"
-msgstr "?plural:Korejci"
+msgstr "?plural:Karenové"
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -6370,14 +6190,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kashmiri.ruleset:3
-#, fuzzy
 msgid "Kashmiri"
-msgstr "Základ"
+msgstr "Kašmírský"
 
 #: data/nation/kashmiri.ruleset:4
-#, fuzzy
 msgid "?plural:Kashmiris"
-msgstr "?plural:Baskové"
+msgstr "?plural:Kašmířané"
 
 #: data/nation/kashmiri.ruleset:6
 msgid ""
@@ -6387,14 +6205,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kashubian.ruleset:3
-#, fuzzy
 msgid "Kashubian"
-msgstr "núbijské jazyky"
+msgstr "Kašubský"
 
 #: data/nation/kashubian.ruleset:4
-#, fuzzy
 msgid "?plural:Kashubians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kašubové"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -6409,14 +6225,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/katangan.ruleset:3
-#, fuzzy
 msgid "Katangan"
-msgstr "Šaman"
+msgstr "Katangský"
 
 #: data/nation/katangan.ruleset:4
-#, fuzzy
 msgid "?plural:Katangans"
-msgstr "?plural:Katalánci"
+msgstr "?plural:Katanžané"
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -6457,14 +6271,12 @@ msgid "Kenya gained independence from Britain in December 1963."
 msgstr ""
 
 #: data/nation/khazar.ruleset:3
-#, fuzzy
 msgid "Khazar"
-msgstr "Chán"
+msgstr "Chazarský"
 
 #: data/nation/khazar.ruleset:4
-#, fuzzy
 msgid "?plural:Khazars"
-msgstr "?plural:Kazaši"
+msgstr "?plural:Chazaři"
 
 #: data/nation/khazar.ruleset:6
 msgid ""
@@ -6485,12 +6297,11 @@ msgstr "?female:Tarchan %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
-msgstr ""
+msgstr "Khoisanský"
 
 #: data/nation/khoisan.ruleset:4
-#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "?plural:Thajové"
+msgstr "?plural:Khoisanové"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -6504,14 +6315,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/khwarezmian.ruleset:3
-#, fuzzy
 msgid "Khwarezmian"
-msgstr "Předseda"
+msgstr "Chórezmský"
 
 #: data/nation/khwarezmian.ruleset:4
-#, fuzzy
 msgid "?plural:Khwarezmians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Chórezmané"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -6539,12 +6348,11 @@ msgstr "?female:Satrapka %s"
 
 #: data/nation/kiribati.ruleset:3
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribatský"
 
 #: data/nation/kiribati.ruleset:4
-#, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "?plural:Íránci"
+msgstr "?plural:Obyvatelé Kiribati"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -6559,12 +6367,11 @@ msgstr ""
 
 #: data/nation/kittitian.ruleset:3
 msgid "Kittitian and Nevisian"
-msgstr ""
+msgstr "Svatokryštofský a neviský"
 
 #: data/nation/kittitian.ruleset:4
-#, fuzzy
 msgid "?plural:Kittitians and Nevisians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Obyvatelé Svatého Kryštofa a Nevisu"
 
 #: data/nation/kittitian.ruleset:6
 msgid ""
@@ -6576,12 +6383,11 @@ msgstr ""
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "Komijský"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "?plural:Thajové"
+msgstr "?plural:Komijci"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -6610,12 +6416,11 @@ msgstr ""
 
 #: data/nation/kosovar.ruleset:3
 msgid "Kosovar"
-msgstr ""
+msgstr "Kosovský"
 
 #: data/nation/kosovar.ruleset:4
-#, fuzzy
 msgid "?plural:Kosovars"
-msgstr "?plural:Moldavané"
+msgstr "?plural:Kosované"
 
 #: data/nation/kosovar.ruleset:6
 msgid ""
@@ -6626,12 +6431,11 @@ msgstr ""
 
 #: data/nation/kuna.ruleset:3
 msgid "Kuna"
-msgstr ""
+msgstr "Kunský"
 
 #: data/nation/kuna.ruleset:4
-#, fuzzy
 msgid "?plural:Kunas"
-msgstr "?plural:Keňané"
+msgstr "?plural:Kunové"
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -6667,12 +6471,11 @@ msgstr ""
 
 #: data/nation/kushan.ruleset:3
 msgid "Kushan"
-msgstr ""
+msgstr "Kušánský"
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "?plural:Keňané"
+msgstr "?plural:Kušáni"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -6699,14 +6502,12 @@ msgid "?female:Guru %s"
 msgstr "?female:Guru %s"
 
 #: data/nation/kuwaiti.ruleset:3
-#, fuzzy
 msgid "Kuwaiti"
-msgstr "čekání"
+msgstr "Kuvajtský"
 
 #: data/nation/kuwaiti.ruleset:4
-#, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "?plural:Havajané"
+msgstr "?plural:Kuvajťané"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -6728,22 +6529,20 @@ msgid "?plural:Kyrgyzs"
 msgstr "?plural:Kyrgyzové"
 
 #: data/nation/kyrgyz.ruleset:6
-#, fuzzy
 msgid ""
 "Nation in Central Asia. Conquered by the Russian Empire in the 19th century, "
 "Kyrgyzstan got independence from the Soviet Union in 1991."
 msgstr ""
-"Národ ve střední Ázii. Dobyt ruským impériem v 19.století, nezávislost "
-"Kyrgizstán získal po rozpadu Sovětského svazu v roce 1991."
+"Kyrgyzstán je stát ve střední Asii. V 19. století jej dobyla Ruská říše a "
+"roku 1991 získal nezávislost na Sovětském svazu."
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "Langobardský"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "?plural:Malajci"
+msgstr "?plural:Langobardi"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -6757,14 +6556,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lankese.ruleset:3
-#, fuzzy
 msgid "Lankese"
-msgstr "Japonský"
+msgstr "Srílanský"
 
 #: data/nation/lankese.ruleset:4
-#, fuzzy
 msgid "?plural:Lankese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Srílančané"
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -6784,14 +6581,12 @@ msgid "?female:Supreme Commander %s"
 msgstr "?female:Vrchní velitelka %s"
 
 #: data/nation/laotian.ruleset:3
-#, fuzzy
 msgid "Laotian"
-msgstr "Litevský"
+msgstr "Laoský"
 
 #: data/nation/laotian.ruleset:4
-#, fuzzy
 msgid "?plural:Laotians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Laosané"
 
 #: data/nation/laotian.ruleset:6
 msgid ""
@@ -6805,14 +6600,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/latin.ruleset:3
-#, fuzzy
 msgid "Latin"
-msgstr "čekání"
+msgstr "Latinský"
 
 #: data/nation/latin.ruleset:4
-#, fuzzy
 msgid "?plural:Latins"
-msgstr "?plural:Litevci"
+msgstr "?plural:Latinové"
 
 #: data/nation/latin.ruleset:6
 msgid ""
@@ -6840,14 +6633,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lebanese.ruleset:3
-#, fuzzy
 msgid "Lebanese"
-msgstr "Japonský"
+msgstr "Libanonský"
 
 #: data/nation/lebanese.ruleset:4
-#, fuzzy
 msgid "?plural:Lebanese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Libanonci"
 
 #: data/nation/lebanese.ruleset:6
 msgid ""
@@ -6859,14 +6650,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lendian.ruleset:3
-#, fuzzy
 msgid "Lendian"
-msgstr "Indický"
+msgstr "Lenďanský"
 
 #: data/nation/lendian.ruleset:4
-#, fuzzy
 msgid "?plural:Lendians"
-msgstr "?plural:Indové"
+msgstr "?plural:Lenďané"
 
 #: data/nation/lendian.ruleset:6
 msgid ""
@@ -6879,14 +6668,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/leonese.ruleset:3
-#, fuzzy
 msgid "Leonese"
-msgstr "Japonský"
+msgstr "Leónský"
 
 #: data/nation/leonese.ruleset:4
-#, fuzzy
 msgid "?plural:Leonese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Leóňané"
 
 #: data/nation/leonese.ruleset:6
 msgid ""
@@ -6897,12 +6684,11 @@ msgstr ""
 
 #: data/nation/lesothoan.ruleset:3
 msgid "Lesothoan"
-msgstr ""
+msgstr "Lesothský"
 
 #: data/nation/lesothoan.ruleset:4
-#, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "?plural:Rakušané"
+msgstr "?plural:Obyvatelé Lesotha"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -6915,14 +6701,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liberian.ruleset:3
-#, fuzzy
 msgid "Liberian"
-msgstr "Nigérijský"
+msgstr "Liberijský"
 
 #: data/nation/liberian.ruleset:4
-#, fuzzy
 msgid "?plural:Liberians"
-msgstr "?plural:Srbové"
+msgstr "?plural:Liberijci"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -6938,14 +6722,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "Lotyšský"
+msgstr "Liburnský"
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "?plural:Lotyši"
+msgstr "?plural:Liburnové"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -6956,14 +6738,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/libyan.ruleset:3
-#, fuzzy
 msgid "Libyan"
-msgstr "Rozpustit"
+msgstr "Libyjský"
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "?plural:Litevci"
+msgstr "?plural:Libyjci"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -6975,12 +6755,11 @@ msgstr ""
 
 #: data/nation/liechtensteiner.ruleset:3
 msgid "Liechtensteiner"
-msgstr ""
+msgstr "Lichtenštejnský"
 
 #: data/nation/liechtensteiner.ruleset:4
-#, fuzzy
 msgid "?plural:Liechtensteiners"
-msgstr "?plural:Argentinci"
+msgstr "?plural:Lichtenštejnci"
 
 #: data/nation/liechtensteiner.ruleset:6
 msgid ""
@@ -6992,12 +6771,11 @@ msgstr ""
 
 #: data/nation/liege.ruleset:3
 msgid "Liegean"
-msgstr ""
+msgstr "Lutyšský"
 
 #: data/nation/liege.ruleset:4
-#, fuzzy
 msgid "?plural:Liegeans"
-msgstr "?plural:Srbové"
+msgstr "?plural:Lutyšané"
 
 #: data/nation/liege.ruleset:6
 msgid ""
@@ -7026,14 +6804,12 @@ msgid "Regent %s"
 msgstr "Regent %s"
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "Nigérijský"
+msgstr "Ligurský"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "?plural:Lotyši"
+msgstr "?plural:Ligurové"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7053,14 +6829,12 @@ msgid "?female:Paramount Ruler %s"
 msgstr "?female:Nejvyšší vládkyně %s"
 
 #: data/nation/lipkatatar.ruleset:3
-#, fuzzy
 msgid "Lipka Tatar"
-msgstr "Kanadský"
+msgstr "Lipkotatarský"
 
 #: data/nation/lipkatatar.ruleset:4
-#, fuzzy
 msgid "?plural:Lipka Tatars"
-msgstr "?plural:Malajci"
+msgstr "?plural:Lipkovští Tataři"
 
 #: data/nation/lipkatatar.ruleset:6
 msgid ""
@@ -7072,14 +6846,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lippe.ruleset:3
-#, fuzzy
 msgid "Lippian"
-msgstr "Etiopský"
+msgstr "Lippský"
 
 #: data/nation/lippe.ruleset:4
-#, fuzzy
 msgid "?plural:Lippians"
-msgstr "?plural:Litevci"
+msgstr "?plural:Obyvatelé Lippe"
 
 #: data/nation/lippe.ruleset:6
 msgid ""
@@ -7096,25 +6868,22 @@ msgid "?plural:Lithuanians"
 msgstr "?plural:Lotyši"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland. Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages."
 msgstr ""
-"Lotyšsko je malá země na severním pobřeží Baltského moře, severovýchodně od "
-"Polska. Lotyšština je nejarchaičtější a komplexní ze severních Indo-"
-"Evropských jazyků."
+"Litva je malý stát na jižním pobřeží Baltského moře, severovýchodně od "
+"Polska. Litevština je nejarchaičtějším a nejsložitějším ze severních "
+"indoevropských jazyků."
 
 #: data/nation/lojbanistani.ruleset:3
-#, fuzzy
 msgid "Lojbanistani"
-msgstr "Rumunský"
+msgstr "Lojbanistánský"
 
 #: data/nation/lojbanistani.ruleset:4
-#, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "Forma plurálů:"
+msgstr "?plural:Lojbanistánci"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -7125,14 +6894,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lorrain.ruleset:3
-#, fuzzy
 msgid "Lorrain"
-msgstr "Terén"
+msgstr "Lotrinský"
 
 #: data/nation/lorrain.ruleset:4
-#, fuzzy
 msgid "?plural:Lorrains"
-msgstr "?plural:Korejci"
+msgstr "?plural:Lotrinčané"
 
 #: data/nation/lorrain.ruleset:6
 msgid ""
@@ -7145,16 +6912,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/louisianian.ruleset:3
-#, fuzzy
 #| msgid "Lithuanian"
 msgid "Louisianian"
-msgstr "Lotyšský"
+msgstr "Louisianský"
 
 #: data/nation/louisianian.ruleset:4
-#, fuzzy
 #| msgid "?plural:Bosnians"
 msgid "?plural:Louisianians"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Louisianané"
 
 #: data/nation/louisianian.ruleset:6
 msgid ""
@@ -7187,12 +6952,11 @@ msgstr "?female:Guvernérka %s"
 
 #: data/nation/luhansk.ruleset:3
 msgid "Luhansk"
-msgstr ""
+msgstr "Luhanský"
 
 #: data/nation/luhansk.ruleset:4
-#, fuzzy
 msgid "?plural:Luhansk"
-msgstr "?plural:Litevci"
+msgstr "?plural:Luhanšťané"
 
 #: data/nation/luhansk.ruleset:6
 msgid ""
@@ -7218,12 +6982,11 @@ msgstr ""
 
 #: data/nation/luwian.ruleset:3
 msgid "Luwian"
-msgstr ""
+msgstr "Luvijský"
 
 #: data/nation/luwian.ruleset:4
-#, fuzzy
 msgid "?plural:Luwians"
-msgstr "?plural:Litevci"
+msgstr "?plural:Luvijci"
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -7234,14 +6997,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/luxembourgish.ruleset:3
-#, fuzzy
 msgid "Luxembourgish"
-msgstr "Luxus:"
+msgstr "Lucemburský"
 
 #: data/nation/luxembourgish.ruleset:4
-#, fuzzy
 msgid "?plural:Luxembourgians"
-msgstr "?plural:Němci"
+msgstr "?plural:Lucemburčané"
 
 #: data/nation/luxembourgish.ruleset:6
 msgid ""
@@ -7252,12 +7013,11 @@ msgstr ""
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
-msgstr ""
+msgstr "Lýkijský"
 
 #: data/nation/lycian.ruleset:4
-#, fuzzy
 msgid "?plural:Lycians"
-msgstr "?plural:Litevci"
+msgstr "?plural:Lýkijci"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -7268,14 +7028,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/maasai.ruleset:3
-#, fuzzy
 msgid "Maasai"
-msgstr "Námořní pěchota"
+msgstr "Masajský"
 
 #: data/nation/maasai.ruleset:4
-#, fuzzy
 msgid "?plural:Maasais"
-msgstr "?plural:Malajci"
+msgstr "?plural:Masajové"
 
 #: data/nation/maasai.ruleset:6
 msgid ""
@@ -7286,14 +7044,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/macedonian.ruleset:3
-#, fuzzy
 msgid "Macedonian"
-msgstr "Oceán"
+msgstr "Makedonský"
 
 #: data/nation/macedonian.ruleset:4
-#, fuzzy
 msgid "?plural:Macedonians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Makedonci"
 
 #: data/nation/macedonian.ruleset:6
 msgid ""
@@ -7303,12 +7059,11 @@ msgstr ""
 
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
-msgstr ""
+msgstr "Staromakedonský"
 
 #: data/nation/macedon.ruleset:4
-#, fuzzy
 msgid "?plural:Macedons"
-msgstr "?plural:Španělé"
+msgstr "?plural:Starověcí Makedonci"
 
 #: data/nation/macedon.ruleset:6
 msgid ""
@@ -7330,12 +7085,11 @@ msgstr "Diadocha %s"
 
 #: data/nation/majapahit.ruleset:3
 msgid "Majapahit"
-msgstr ""
+msgstr "Madžapahitský"
 
 #: data/nation/majapahit.ruleset:4
-#, fuzzy
 msgid "?plural:Majapahit"
-msgstr "Forma plurálů:"
+msgstr "?plural:Obyvatelé Madžapahitu"
 
 #: data/nation/majapahit.ruleset:7
 msgid ""
@@ -7350,14 +7104,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/malagasy.ruleset:3
-#, fuzzy
 msgid "Malagasy"
-msgstr "Král"
+msgstr "Malgašský"
 
 #: data/nation/malagasy.ruleset:4
-#, fuzzy
 msgid "?plural:Malagasies"
-msgstr "?plural:Malajci"
+msgstr "?plural:Malgaši"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -7376,14 +7128,12 @@ msgid "?female:High Commissioner %s"
 msgstr "?female:Vysoká komisařka %s"
 
 #: data/nation/malawian.ruleset:3
-#, fuzzy
 msgid "Malawian"
-msgstr "Malajský"
+msgstr "Malawijský"
 
 #: data/nation/malawian.ruleset:4
-#, fuzzy
 msgid "?plural:Malawians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Malawijci"
 
 #: data/nation/malawian.ruleset:6
 msgid ""
@@ -7408,14 +7158,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/maldivian.ruleset:3
-#, fuzzy
 msgid "Maldivian"
-msgstr "Belgický"
+msgstr "Maledivský"
 
 #: data/nation/maldivian.ruleset:4
-#, fuzzy
 msgid "?plural:Maldivians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Maledivané"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -7428,14 +7176,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/malian.ruleset:3
-#, fuzzy
 msgid "Malian"
-msgstr "Malajský"
+msgstr "Malijský"
 
 #: data/nation/malian.ruleset:4
-#, fuzzy
 msgid "?plural:Malians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Malijci"
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -7444,14 +7190,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/maltese.ruleset:3
-#, fuzzy
 msgid "Maltese"
-msgstr "Muž"
+msgstr "Maltský"
 
 #: data/nation/maltese.ruleset:4
-#, fuzzy
 msgid "?plural:Maltese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Malťané"
 
 #: data/nation/maltese.ruleset:6
 msgid ""
@@ -7475,12 +7219,11 @@ msgstr "Mistryně %s"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
-msgstr ""
+msgstr "Mamlúcký"
 
 #: data/nation/mamluk.ruleset:4
-#, fuzzy
 msgid "?plural:Mamluks"
-msgstr "?plural:Malajci"
+msgstr "?plural:Mamlúci"
 
 #: data/nation/mamluk.ruleset:6
 msgid ""
@@ -7506,14 +7249,12 @@ msgid "?female:%s Pasha"
 msgstr "?female:Paša %s"
 
 #: data/nation/manchu.ruleset:3
-#, fuzzy
 msgid "Manchu"
-msgstr "Březnu"
+msgstr "Mandžuský"
 
 #: data/nation/manchu.ruleset:4
-#, fuzzy
 msgid "?plural:Manchus"
-msgstr "?plural:Inkové"
+msgstr "?plural:Mandžuové"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -7524,12 +7265,11 @@ msgstr ""
 
 #: data/nation/manx.ruleset:3
 msgid "Manx"
-msgstr ""
+msgstr "Manský"
 
 #: data/nation/manx.ruleset:4
-#, fuzzy
 msgid "?plural:Manx"
-msgstr "?plural:Inkové"
+msgstr "?plural:Manxové"
 
 #: data/nation/manx.ruleset:6
 msgid ""
@@ -7555,14 +7295,12 @@ msgid "?female:Chief Minister %s"
 msgstr "?female:Hlavní ministryně %s"
 
 #: data/nation/maori.ruleset:3
-#, fuzzy
 msgid "Maori"
-msgstr "Marťanský"
+msgstr "Maorský"
 
 #: data/nation/maori.ruleset:4
-#, fuzzy
 msgid "?plural:Maori"
-msgstr "?plural:Marťané"
+msgstr "?plural:Maorové"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -7572,14 +7310,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mapuche.ruleset:3
-#, fuzzy
 msgid "Mapuche"
-msgstr "mapudungun; mapuche"
+msgstr "Mapučský"
 
 #: data/nation/mapuche.ruleset:4
-#, fuzzy
 msgid "?plural:Mapuche"
-msgstr "mapudungun; mapuche"
+msgstr "?plural:Mapučové"
 
 #: data/nation/mapuche.ruleset:7
 msgid ""
@@ -7591,12 +7327,11 @@ msgstr ""
 
 #: data/nation/marathi.ruleset:3
 msgid "Marathi"
-msgstr ""
+msgstr "Maráthský"
 
 #: data/nation/marathi.ruleset:4
-#, fuzzy
 msgid "?plural:Marathis"
-msgstr "?plural:Marťané"
+msgstr "?plural:Maráthové"
 
 #: data/nation/marathi.ruleset:6
 msgid ""
@@ -7617,14 +7352,12 @@ msgid "?female:High Brahmin %s"
 msgstr "?female:Nejvyšší bráhmanka %s"
 
 #: data/nation/marshallese.ruleset:3
-#, fuzzy
 msgid "Marshallese"
-msgstr "Ovládání"
+msgstr "Marshallský"
 
 #: data/nation/marshallese.ruleset:4
-#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "?plural:Dánové"
+msgstr "?plural:Obyvatelé Marshallových ostrovů"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -7644,19 +7377,16 @@ msgid "?plural:Martians"
 msgstr "?plural:Marťané"
 
 #: data/nation/martian.ruleset:6
-#, fuzzy
 msgid "Marsmen landed on Earth in 4000 BCE!"
-msgstr "Marťané přistáli na Zemi v roce 4000 př.n.l.!"
+msgstr "Marťané přistáli na Zemi roku 4000 př. n. l.!"
 
 #: data/nation/mauritanian.ruleset:3
-#, fuzzy
 msgid "Mauritanian"
-msgstr "Kartaginský"
+msgstr "Mauritánský"
 
 #: data/nation/mauritanian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritanians"
-msgstr "?plural:Marťané"
+msgstr "?plural:Mauritánci"
 
 #: data/nation/mauritanian.ruleset:6
 msgid ""
@@ -7667,14 +7397,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mauritian.ruleset:3
-#, fuzzy
 msgid "Mauritian"
-msgstr "Marťanský"
+msgstr "Mauricijský"
 
 #: data/nation/mauritian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritians"
-msgstr "?plural:Marťané"
+msgstr "?plural:Mauricijci"
 
 #: data/nation/mauritian.ruleset:6
 msgid ""
@@ -7689,14 +7417,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mazovian.ruleset:3
-#, fuzzy
 msgid "Mazovian"
-msgstr "Malajský"
+msgstr "Mazovský"
 
 #: data/nation/mazovian.ruleset:4
-#, fuzzy
 msgid "?plural:Mazovians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Mazované"
 
 #: data/nation/mazovian.ruleset:6
 msgid "Mazovia is a historic and geographic region of central-eastern Poland."
@@ -7704,12 +7430,11 @@ msgstr ""
 
 #: data/nation/mecklenburgian.ruleset:3
 msgid "Mecklenburgian"
-msgstr ""
+msgstr "Meklenburský"
 
 #: data/nation/mecklenburgian.ruleset:4
-#, fuzzy
 msgid "?plural:Mecklenburgians"
-msgstr "?plural:Belgičané"
+msgstr "?plural:Meklenburčané"
 
 #: data/nation/mecklenburgian.ruleset:6
 msgid ""
@@ -7724,14 +7449,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/median.ruleset:3
-#, fuzzy
 msgid "Median"
-msgstr "Indický"
+msgstr "Médský"
 
 #: data/nation/median.ruleset:4
-#, fuzzy
 msgid "?plural:Medians"
-msgstr "?plural:Indové"
+msgstr "?plural:Médové"
 
 #: data/nation/median.ruleset:6
 msgid ""
@@ -7749,14 +7472,12 @@ msgid "%s Shahanshah"
 msgstr "Šáhanšáh %s"
 
 #: data/nation/messapian.ruleset:3
-#, fuzzy
 msgid "Messapian"
-msgstr "Možnosti zpráv"
+msgstr "Mesapský"
 
 #: data/nation/messapian.ruleset:4
-#, fuzzy
 msgid "?plural:Messapians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Mesapové"
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -7767,12 +7488,11 @@ msgstr ""
 
 #: data/nation/metis.ruleset:3
 msgid "Métis"
-msgstr ""
+msgstr "Métiský"
 
 #: data/nation/metis.ruleset:6
-#, fuzzy
 msgid "?plural:Métis"
-msgstr "?plural:Mexičané"
+msgstr "?plural:Métisové"
 
 #: data/nation/metis.ruleset:8
 msgid ""
@@ -7810,12 +7530,11 @@ msgstr ""
 
 #: data/nation/miao.ruleset:3
 msgid "Miao"
-msgstr ""
+msgstr "Miaoský"
 
 #: data/nation/miao.ruleset:4
-#, fuzzy
 msgid "?plural:Miao"
-msgstr "?plural:Marťané"
+msgstr "?plural:Miaové"
 
 #: data/nation/miao.ruleset:6
 msgid ""
@@ -7829,14 +7548,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/micronesian.ruleset:3
-#, fuzzy
 msgid "Micronesian"
-msgstr "Indonézský"
+msgstr "Mikronéský"
 
 #: data/nation/micronesian.ruleset:4
-#, fuzzy
 msgid "?plural:Micronesian"
-msgstr "?plural:Polynéský"
+msgstr "?plural:Mikronésané"
 
 #: data/nation/micronesian.ruleset:6
 msgid ""
@@ -7847,12 +7564,11 @@ msgstr ""
 
 #: data/nation/mikmaq.ruleset:3
 msgid "Mi'kmaq"
-msgstr ""
+msgstr "Mi'kmaqský"
 
 #: data/nation/mikmaq.ruleset:4
-#, fuzzy
 msgid "?plural:Mi'kmaq"
-msgstr "Forma plurálů:"
+msgstr "?plural:Mi'kmaqové"
 
 #: data/nation/mikmaq.ruleset:6
 msgid ""
@@ -7863,14 +7579,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/milanese.ruleset:3
-#, fuzzy
 msgid "Milanese"
-msgstr "Thajvanský"
+msgstr "Milánský"
 
 #: data/nation/milanese.ruleset:4
-#, fuzzy
 msgid "?plural:Milanese"
-msgstr "?plural:Thajvanci"
+msgstr "?plural:Miláňané"
 
 #: data/nation/milanese.ruleset:6
 msgid ""
@@ -7881,12 +7595,11 @@ msgstr ""
 
 #: data/nation/minnesotan.ruleset:3
 msgid "Minnesotan"
-msgstr ""
+msgstr "Minnesotský"
 
 #: data/nation/minnesotan.ruleset:4
-#, fuzzy
 msgid "?plural:Minnesotans"
-msgstr "?plural:Rakušané"
+msgstr "?plural:Minnesoťané"
 
 #: data/nation/minnesotan.ruleset:6
 msgid ""
@@ -7896,14 +7609,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/miskito.ruleset:3
-#, fuzzy
 msgid "Miskito"
-msgstr "Nahlížení"
+msgstr "Miskitský"
 
 #: data/nation/miskito.ruleset:4
-#, fuzzy
 msgid "?plural:Miskito"
-msgstr "Forma plurálů:"
+msgstr "?plural:Miskitové"
 
 #: data/nation/miskito.ruleset:6
 msgid ""
@@ -7919,12 +7630,11 @@ msgstr ""
 
 #: data/nation/mitanni.ruleset:3
 msgid "Mitanni"
-msgstr ""
+msgstr "Mitannský"
 
 #: data/nation/mitanni.ruleset:4
-#, fuzzy
 msgid "?plural:Mitanni"
-msgstr "?plural:Marťané"
+msgstr "?plural:Obyvatelé Mitanni"
 
 #: data/nation/mitanni.ruleset:6
 msgid ""
@@ -7934,14 +7644,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mixtec.ruleset:3
-#, fuzzy
 msgid "Mixtec"
-msgstr "Důl"
+msgstr "Mixtécký"
 
 #: data/nation/mixtec.ruleset:4
-#, fuzzy
 msgid "?plural:Mixtecs"
-msgstr "?plural:Aztékové"
+msgstr "?plural:Mixtékové"
 
 #: data/nation/mixtec.ruleset:6
 msgid ""
@@ -7972,14 +7680,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/moluccan.ruleset:3
-#, fuzzy
 msgid "Moluccan"
-msgstr "Moldavský"
+msgstr "Molucký"
 
 #: data/nation/moluccan.ruleset:4
-#, fuzzy
 msgid "?plural:Moluccans"
-msgstr "?plural:Moldavané"
+msgstr "?plural:Molučané"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -7995,14 +7701,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/monegasque.ruleset:3
-#, fuzzy
 msgid "Monegasque"
-msgstr "Baskická"
+msgstr "Monacký"
 
 #: data/nation/monegasque.ruleset:4
-#, fuzzy
 msgid "?plural:Monegasque"
-msgstr "?plural:Mongolové"
+msgstr "?plural:Monačané"
 
 #: data/nation/monegasque.ruleset:6
 msgid ""
@@ -8026,14 +7730,12 @@ msgid "?female:Minister of State %s"
 msgstr "?female:Státní ministryně %s"
 
 #: data/nation/mon.ruleset:3
-#, fuzzy
 msgid "Mon"
-msgstr "Nemys..."
+msgstr "Monský"
 
 #: data/nation/mon.ruleset:4
-#, fuzzy
 msgid "?plural:Mons"
-msgstr "?plural:Mongolové"
+msgstr "?plural:Monové"
 
 #: data/nation/mon.ruleset:6
 msgid ""
@@ -8042,14 +7744,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/montenegrin.ruleset:3
-#, fuzzy
 msgid "Montenegrin"
-msgstr "Kontinent"
+msgstr "Černohorský"
 
 #: data/nation/montenegrin.ruleset:4
-#, fuzzy
 msgid "?plural:Montenegrins"
-msgstr "?plural:Mongolové"
+msgstr "?plural:Černohorci"
 
 #: data/nation/montenegrin.ruleset:6
 msgid ""
@@ -8059,14 +7759,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/moravian.ruleset:3
-#, fuzzy
 msgid "Moravian"
-msgstr "Malajský"
+msgstr "Moravský"
 
 #: data/nation/moravian.ruleset:4
-#, fuzzy
 msgid "?plural:Moravians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Moravané"
 
 #: data/nation/moravian.ruleset:6
 msgid ""
@@ -8081,14 +7779,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mordvin.ruleset:3
-#, fuzzy
 msgid "Mordvin"
-msgstr "Mordorský"
+msgstr "Mordvinský"
 
 #: data/nation/mordvin.ruleset:4
-#, fuzzy
 msgid "?plural:Mordvins"
-msgstr "?plural:Moldavané"
+msgstr "?plural:Mordvinci"
 
 #: data/nation/mordvin.ruleset:6
 msgid ""
@@ -8098,14 +7794,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/moroccan.ruleset:3
-#, fuzzy
 msgid "Moroccan"
-msgstr "Moldavský"
+msgstr "Marocký"
 
 #: data/nation/moroccan.ruleset:4
-#, fuzzy
 msgid "?plural:Moroccans"
-msgstr "?plural:Moldavané"
+msgstr "?plural:Maročané"
 
 #: data/nation/moroccan.ruleset:6
 msgid ""
@@ -8115,14 +7809,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mozambican.ruleset:3
-#, fuzzy
 msgid "Mozambican"
-msgstr "Americký"
+msgstr "Mosambický"
 
 #: data/nation/mozambican.ruleset:4
-#, fuzzy
 msgid "?plural:Mozambicans"
-msgstr "?plural:Malajci"
+msgstr "?plural:Mosambičané"
 
 #: data/nation/mozambican.ruleset:6
 msgid ""
@@ -8131,14 +7823,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mughal.ruleset:3
-#, fuzzy
 msgid "Mughal"
-msgstr "Muž"
+msgstr "Mughalský"
 
 #: data/nation/mughal.ruleset:4
-#, fuzzy
 msgid "?plural:Mughals"
-msgstr "?plural:Malajci"
+msgstr "?plural:Mughalové"
 
 #: data/nation/mughal.ruleset:6
 msgid ""
@@ -8148,12 +7838,11 @@ msgstr ""
 
 #: data/nation/muscovite.ruleset:3
 msgid "Muscovite"
-msgstr ""
+msgstr "Moskevský"
 
 #: data/nation/muscovite.ruleset:4
-#, fuzzy
 msgid "?plural:Muscovites"
-msgstr "?plural:Aztékové"
+msgstr "?plural:Moskvané"
 
 #: data/nation/muscovite.ruleset:6
 msgid ""
@@ -8165,14 +7854,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/muskogee.ruleset:3
-#, fuzzy
 msgid "Muskogee"
-msgstr "Muskogee"
+msgstr "Muskogijský"
 
 #: data/nation/muskogee.ruleset:4
-#, fuzzy
 msgid "?plural:Muskogee"
-msgstr "Forma plurálů:"
+msgstr "?plural:Muskogijové"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -8184,14 +7871,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mwiska.ruleset:3
-#, fuzzy
 msgid "Mwiska"
-msgstr "Královna"
+msgstr "Muiscký"
 
 #: data/nation/mwiska.ruleset:4
-#, fuzzy
 msgid "?plural:Mwiska"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Muiskové"
 
 #: data/nation/mwiska.ruleset:6
 msgid ""
@@ -8215,14 +7900,12 @@ msgid "?female:Cacique %s"
 msgstr "?female:Kasika %s"
 
 #: data/nation/namibian.ruleset:3
-#, fuzzy
 msgid "Namibian"
-msgstr "Nigérijský"
+msgstr "Namibijský"
 
 #: data/nation/namibian.ruleset:4
-#, fuzzy
 msgid "?plural:Namibians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Namibijci"
 
 #: data/nation/namibian.ruleset:7
 msgid ""
@@ -8235,12 +7918,11 @@ msgstr ""
 
 #: data/nation/nauruan.ruleset:3
 msgid "Nauruan"
-msgstr ""
+msgstr "Nauruský"
 
 #: data/nation/nauruan.ruleset:4
-#, fuzzy
 msgid "?plural:Nauruans"
-msgstr "?plural:Nigerijci"
+msgstr "?plural:Nauruané"
 
 #: data/nation/nauruan.ruleset:6
 msgid ""
@@ -8261,12 +7943,11 @@ msgstr ""
 
 #: data/nation/navajo.ruleset:3
 msgid "Navajo"
-msgstr ""
+msgstr "Navahský"
 
 #: data/nation/navajo.ruleset:4
-#, fuzzy
 msgid "?plural:Navajo"
-msgstr "?plural:OSN"
+msgstr "?plural:Navahové"
 
 #: data/nation/navajo.ruleset:6
 msgid ""
@@ -8276,14 +7957,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/neapolitan.ruleset:3
-#, fuzzy
 msgid "Neapolitan"
-msgstr "Malajský"
+msgstr "Neapolský"
 
 #: data/nation/neapolitan.ruleset:4
-#, fuzzy
 msgid "?plural:Neapolitans"
-msgstr "?plural:Malajci"
+msgstr "?plural:Neapolitáni"
 
 #: data/nation/neapolitan.ruleset:6
 msgid ""
@@ -8295,12 +7974,11 @@ msgstr ""
 
 #: data/nation/nenets.ruleset:3
 msgid "Nenets"
-msgstr ""
+msgstr "Něnecký"
 
 #: data/nation/nenets.ruleset:4
-#, fuzzy
 msgid "?plural:Nenets"
-msgstr "?plural:Venezuelané"
+msgstr "?plural:Něnci"
 
 #: data/nation/nenets.ruleset:6
 msgid ""
@@ -8309,14 +7987,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/nepali.ruleset:3
-#, fuzzy
 msgid "Nepali"
-msgstr "Bengálský"
+msgstr "Nepálský"
 
 #: data/nation/nepali.ruleset:4
-#, fuzzy
 msgid "?plural:Nepalis"
-msgstr "?plural:Angličané"
+msgstr "?plural:Nepálci"
 
 #: data/nation/nepali.ruleset:6
 msgid ""
@@ -8327,14 +8003,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/nestorian.ruleset:5
-#, fuzzy
 msgid "Nestorian"
-msgstr "Síťové"
+msgstr "Nestoriánský"
 
 #: data/nation/nestorian.ruleset:6
-#, fuzzy
 msgid "?plural:Nestorians"
-msgstr "?plural:Rakušané"
+msgstr "?plural:Nestoriáni"
 
 #: data/nation/nestorian.ruleset:8
 msgid ""
@@ -8349,14 +8023,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/newfoundland.ruleset:3
-#, fuzzy
 msgid "Newfoundland"
-msgstr "Nový Zéland"
+msgstr "Newfoundlandský"
 
 #: data/nation/newfoundland.ruleset:4
-#, fuzzy
 msgid "?plural:Newfoundlanders"
-msgstr "?plural:Novozélanďané"
+msgstr "?plural:Obyvatelé Newfoundlandu"
 
 #: data/nation/newfoundland.ruleset:7
 msgid ""
@@ -8387,12 +8059,11 @@ msgstr ""
 
 #: data/nation/nicaraguan.ruleset:3
 msgid "Nicaraguan"
-msgstr ""
+msgstr "Nikaragujský"
 
 #: data/nation/nicaraguan.ruleset:4
-#, fuzzy
 msgid "?plural:Nicaraguans"
-msgstr "?plural:Nigerijci"
+msgstr "?plural:Nikaragujci"
 
 #: data/nation/nicaraguan.ruleset:6
 msgid ""
@@ -8413,21 +8084,20 @@ msgid "?plural:Nigerians"
 msgstr "?plural:Nigerijci"
 
 #: data/nation/nigerian.ruleset:6
-#, fuzzy
 msgid ""
 "Nigeria won full independence from British rule in 1960. It is the most "
 "populous country of Africa."
-msgstr "Nigérie zvítězila v boji o nezávislost na Velké Británii v roce 1960."
+msgstr ""
+"Nigérie získala úplnou nezávislost na britské vládě roku 1960. Je "
+"nejlidnatějším státem Afriky."
 
 #: data/nation/nigerien.ruleset:3
-#, fuzzy
 msgid "Nigerien"
-msgstr "Nigérijský"
+msgstr "Nigerský"
 
 #: data/nation/nigerien.ruleset:4
-#, fuzzy
 msgid "?plural:Nigeriens"
-msgstr "?plural:Nigerijci"
+msgstr "?plural:Nigeřané"
 
 #: data/nation/nigerien.ruleset:6
 msgid ""
@@ -8442,12 +8112,11 @@ msgstr ""
 
 #: data/nation/nimiipuu.ruleset:3
 msgid "Nimíipuu"
-msgstr ""
+msgstr "Nimíipuuský"
 
 #: data/nation/nimiipuu.ruleset:6
-#, fuzzy
 msgid "?plural:Nimíipuu"
-msgstr "Forma plurálů:"
+msgstr "?plural:Nimíipuuové"
 
 #: data/nation/nimiipuu.ruleset:8
 msgid ""
@@ -8479,13 +8148,12 @@ msgstr ""
 
 #: data/nation/northirish.ruleset:3
 msgid "Northern Irish"
-msgstr ""
+msgstr "Severoirský"
 
 #: data/nation/northirish.ruleset:4
-#, fuzzy
 #| msgid "?plural:Cornish"
 msgid "?plural:Northern Irish"
-msgstr "?plural:Korňané"
+msgstr "?plural:Severní Irové"
 
 #: data/nation/northirish.ruleset:6
 msgid ""
@@ -8520,15 +8188,14 @@ msgid "?plural:North Koreans"
 msgstr "?plural:Severokorejci"
 
 #: data/nation/northkorean.ruleset:6
-#, fuzzy
 msgid ""
 "In 1945 Korea was split by the Soviet Union and the United States into two "
 "states along the 38th parallel, forming North Korea and South Korea. 60 "
 "years on, North Korea remains a communist state of the Stalinist type."
 msgstr ""
-"V roce 1945 byla Korea rozdělena Sovětským svazem a USA do dvou států v "
-"místech, které protíná 38.rovnoběžka. Po 60ti letech zůstává Severní Korea "
-"(KLDR) socialistickým státem Stalinského typu."
+"Roku 1945 rozdělily Sovětský svaz a Spojené státy Koreu podél 38. "
+"rovnoběžky na dva státy: Severní a Jižní Koreu. I po šedesáti letech "
+"zůstává Severní Korea komunistickým státem stalinského typu."
 
 #: data/nation/northkorean.ruleset:25
 #, c-format
@@ -8551,14 +8218,12 @@ msgid "?female:Great Leader %s"
 msgstr "?female:Velká vůdkyně %s"
 
 #: data/nation/northumbrian.ruleset:3
-#, fuzzy
 msgid "Northumbrian"
-msgstr "Severokorejský"
+msgstr "Northumbrijský"
 
 #: data/nation/northumbrian.ruleset:4
-#, fuzzy
 msgid "?plural:Northumbrians"
-msgstr "?plural:Normané"
+msgstr "?plural:Northumbrijci"
 
 #: data/nation/northumbrian.ruleset:6
 msgid ""
@@ -8585,12 +8250,11 @@ msgstr ""
 
 #: data/nation/novgorodian.ruleset:3
 msgid "Novgorodian"
-msgstr ""
+msgstr "Novgorodský"
 
 #: data/nation/novgorodian.ruleset:4
-#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "?plural:Nigerijci"
+msgstr "?plural:Novgoroďané"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -8600,14 +8264,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/nubian.ruleset:3
-#, fuzzy
 msgid "Nubian"
-msgstr "núbijské jazyky"
+msgstr "Núbijský"
 
 #: data/nation/nubian.ruleset:4
-#, fuzzy
 msgid "?plural:Nubians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Núbijci"
 
 #: data/nation/nubian.ruleset:6
 msgid ""
@@ -8647,14 +8309,12 @@ msgid "?female:Great Pharaoh %s"
 msgstr "?female:Velká faraonka %s"
 
 #: data/nation/numidian.ruleset:3
-#, fuzzy
 msgid "Numidian"
-msgstr "Nigérijský"
+msgstr "Numidský"
 
 #: data/nation/numidian.ruleset:4
-#, fuzzy
 msgid "?plural:Numidians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Numidové"
 
 #: data/nation/numidian.ruleset:7
 msgid ""
@@ -8671,12 +8331,11 @@ msgstr ""
 
 #: data/nation/nuu-chah-nulth.ruleset:3
 msgid "Nuu-chah-nulth"
-msgstr ""
+msgstr "Nuu-chah-nulthský"
 
 #: data/nation/nuu-chah-nulth.ruleset:4
-#, fuzzy
 msgid "?plural:Nuu-chah-nulth"
-msgstr "?plural:Kambodžané"
+msgstr "?plural:Nuu-chah-nulthové"
 
 #: data/nation/nuu-chah-nulth.ruleset:7
 msgid ""
@@ -8688,14 +8347,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/occitan.ruleset:3
-#, fuzzy
 msgid "Occitan"
-msgstr "Oceán"
+msgstr "Okcitánský"
 
 #: data/nation/occitan.ruleset:4
-#, fuzzy
 msgid "?plural:Occitans"
-msgstr "?plural:Otomané"
+msgstr "?plural:Okcitánci"
 
 #: data/nation/occitan.ruleset:6
 msgid ""
@@ -8718,14 +8375,12 @@ msgid "Viscountess %s"
 msgstr "Vikomtka %s"
 
 #: data/nation/ohlone.ruleset:3
-#, fuzzy
 msgid "Ohlone"
-msgstr "Zavřít"
+msgstr "Ohlonský"
 
 #: data/nation/ohlone.ruleset:4
-#, fuzzy
 msgid "?plural:Ohlone"
-msgstr "?plural:Číňané"
+msgstr "?plural:Ohlonové"
 
 #: data/nation/ohlone.ruleset:6
 msgid ""
@@ -8741,14 +8396,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/oldenburgian.ruleset:3
-#, fuzzy
 msgid "Oldenburgian"
-msgstr "Alžírský"
+msgstr "Oldenburský"
 
 #: data/nation/oldenburgian.ruleset:4
-#, fuzzy
 msgid "?plural:Oldenburgians"
-msgstr "?plural:Němci"
+msgstr "?plural:Oldenburčané"
 
 #: data/nation/oldenburgian.ruleset:6
 msgid ""
@@ -8764,14 +8417,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/oldprussian.ruleset:3
-#, fuzzy
 msgid "Old Prussian"
-msgstr "Pruský"
+msgstr "Staropruský"
 
 #: data/nation/oldprussian.ruleset:4
-#, fuzzy
 msgid "?plural:Old Prussians"
-msgstr "?plural:Prusové"
+msgstr "?plural:Staří Prusové"
 
 #: data/nation/oldprussian.ruleset:6
 msgid ""
@@ -8782,14 +8433,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/omani.ruleset:3
-#, fuzzy
 msgid "Omani"
-msgstr "Oceánský"
+msgstr "Ománský"
 
 #: data/nation/omani.ruleset:4
-#, fuzzy
 msgid "?plural:Omanis"
-msgstr "?plural:Otomané"
+msgstr "?plural:Ománci"
 
 #: data/nation/omani.ruleset:6
 msgid ""
@@ -8809,14 +8458,12 @@ msgid "?female:General Commander %s"
 msgstr "?female:Hlavní velitelka %s"
 
 #: data/nation/ossetian.ruleset:3
-#, fuzzy
 msgid "Ossetian"
-msgstr "Ruský"
+msgstr "Osetský"
 
 #: data/nation/ossetian.ruleset:4
-#, fuzzy
 msgid "?plural:Ossetians"
-msgstr "?plural:Rusové"
+msgstr "?plural:Oseti"
 
 #: data/nation/ossetian.ruleset:6
 msgid ""
@@ -8829,14 +8476,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ostrogothic.ruleset:3
-#, fuzzy
 msgid "Ostrogothic"
-msgstr "Nahlížení"
+msgstr "Ostrogótský"
 
 #: data/nation/ostrogothic.ruleset:4
-#, fuzzy
 msgid "?plural:Ostrogoths"
-msgstr "?plural:Vikingové"
+msgstr "?plural:Ostrogótové"
 
 #: data/nation/ostrogothic.ruleset:6
 msgid ""
@@ -8849,14 +8494,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/otomi.ruleset:3
-#, fuzzy
 msgid "Otomí"
-msgstr "Otomanský"
+msgstr "Otomijský"
 
 #: data/nation/otomi.ruleset:6
-#, fuzzy
 msgid "?plural:Otomíes"
-msgstr "?plural:Otomané"
+msgstr "?plural:Otomíové"
 
 #: data/nation/otomi.ruleset:9
 msgid ""
@@ -8899,14 +8542,12 @@ msgid "?female:Padishah %s"
 msgstr "?female:Pádišáh %s"
 
 #: data/nation/ozite.ruleset:3
-#, fuzzy
 msgid "Ozite"
-msgstr "elita"
+msgstr "Ozský"
 
 #: data/nation/ozite.ruleset:4
-#, fuzzy
 msgid "?plural:Ozites"
-msgstr "?plural:Aztékové"
+msgstr "?plural:Obyvatelé země Oz"
 
 #: data/nation/ozite.ruleset:8
 msgid ""
@@ -8928,14 +8569,12 @@ msgid "Witch %s"
 msgstr "Čarodějnice %s"
 
 #: data/nation/paeonian.ruleset:3
-#, fuzzy
 msgid "Paeonian"
-msgstr "Oceán"
+msgstr "Paionský"
 
 #: data/nation/paeonian.ruleset:4
-#, fuzzy
 msgid "?plural:Paeonians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Paionové"
 
 #: data/nation/paeonian.ruleset:6
 msgid ""
@@ -8964,14 +8603,12 @@ msgstr ""
 "roce 1947."
 
 #: data/nation/palatinate.ruleset:3
-#, fuzzy
 msgid "Palatinate"
-msgstr "Kreslit"
+msgstr "Falcký"
 
 #: data/nation/palatinate.ruleset:4
-#, fuzzy
 msgid "?plural:Palatinate Germans"
-msgstr "?plural:Němci"
+msgstr "?plural:Falčtí Němci"
 
 #: data/nation/palatinate.ruleset:6
 msgid ""
@@ -8996,12 +8633,11 @@ msgstr "Falckraběnka %s"
 
 #: data/nation/palauan.ruleset:3
 msgid "Palauan"
-msgstr ""
+msgstr "Palauský"
 
 #: data/nation/palauan.ruleset:4
-#, fuzzy
 msgid "?plural:Palauans"
-msgstr "?plural:Japonci"
+msgstr "?plural:Palauané"
 
 #: data/nation/palauan.ruleset:6
 msgid ""
@@ -9010,14 +8646,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/palestinian.ruleset:3
-#, fuzzy
 msgid "Palestinian"
-msgstr "Perský"
+msgstr "Palestinský"
 
 #: data/nation/palestinian.ruleset:4
-#, fuzzy
 msgid "?plural:Palestinian"
-msgstr "?plural:Polynéský"
+msgstr "?plural:Palestinci"
 
 #: data/nation/palestinian.ruleset:6
 msgid ""
@@ -9027,12 +8661,11 @@ msgstr ""
 
 #: data/nation/palmyrene.ruleset:3
 msgid "Palmyrene"
-msgstr ""
+msgstr "Palmýrský"
 
 #: data/nation/palmyrene.ruleset:4
-#, fuzzy
 msgid "?plural:Palmyrenes"
-msgstr "?plural:Kazaši"
+msgstr "?plural:Palmýřané"
 
 #: data/nation/palmyrene.ruleset:6
 msgid ""
@@ -9046,14 +8679,12 @@ msgid "Dictatrix %s"
 msgstr "Diktátorka %s"
 
 #: data/nation/panamanian.ruleset:3
-#, fuzzy
 msgid "Panamanian"
-msgstr "Kanadský"
+msgstr "Panamský"
 
 #: data/nation/panamanian.ruleset:4
-#, fuzzy
 msgid "?plural:Panamanians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Panamci"
 
 #: data/nation/panamanian.ruleset:6
 msgid ""
@@ -9068,12 +8699,11 @@ msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr ""
+msgstr "Papua-novoguinejský"
 
 #: data/nation/papuanewguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Papua New Guineans"
-msgstr "?plural:Japonci"
+msgstr "?plural:Obyvatelé Papuy-Nové Guineje"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -9095,14 +8725,12 @@ msgid "?female:Governor-General %s"
 msgstr "?female:Generální guvernérka %s"
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Populace"
+msgstr "Papuánský"
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "?plural:Japonci"
+msgstr "?plural:Papuánci"
 
 #: data/nation/papuan.ruleset:6
 msgid ""
@@ -9122,14 +8750,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/paraguayan.ruleset:3
-#, fuzzy
 msgid "Paraguayan"
-msgstr "Uruguayské peso"
+msgstr "Paraguayský"
 
 #: data/nation/paraguayan.ruleset:4
-#, fuzzy
 msgid "?plural:Paraguayans"
-msgstr "Forma plurálů:"
+msgstr "?plural:Paraguayci"
 
 #: data/nation/paraguayan.ruleset:6
 msgid ""
@@ -9150,14 +8776,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/parthian.ruleset:3
-#, fuzzy
 msgid "Parthian"
-msgstr "Partizán"
+msgstr "Parthský"
 
 #: data/nation/parthian.ruleset:4
-#, fuzzy
 msgid "?plural:Parthians"
-msgstr "?plural:Marťané"
+msgstr "?plural:Parthové"
 
 #: data/nation/parthian.ruleset:6
 msgid ""
@@ -9178,14 +8802,12 @@ msgid "Shahbanu %s"
 msgstr "Šáhbánú %s"
 
 #: data/nation/pashtun.ruleset:3
-#, fuzzy
 msgid "Pashtun"
-msgstr "Vložit"
+msgstr "Paštunský"
 
 #: data/nation/pashtun.ruleset:4
-#, fuzzy
 msgid "?plural:Pashtuns"
-msgstr "?plural:Japonci"
+msgstr "?plural:Paštunové"
 
 #: data/nation/pashtun.ruleset:6
 msgid ""
@@ -9195,14 +8817,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/pelasgian.ruleset:3
-#, fuzzy
 msgid "Pelasgian"
-msgstr "Belgický"
+msgstr "Pelasgický"
 
 #: data/nation/pelasgian.ruleset:4
-#, fuzzy
 msgid "?plural:Pelasgians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Pelasgové"
 
 #: data/nation/pelasgian.ruleset:6
 msgid ""
@@ -9212,14 +8832,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/peruvian.ruleset:3
-#, fuzzy
 msgid "Peruvian"
-msgstr "Peruánský inti"
+msgstr "Peruánský"
 
 #: data/nation/peruvian.ruleset:4
-#, fuzzy
 msgid "?plural:Peruvians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Peruánci"
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
@@ -9248,14 +8866,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/phrygian.ruleset:3
-#, fuzzy
 msgid "Phrygian"
-msgstr "Německý"
+msgstr "Frýžský"
 
 #: data/nation/phrygian.ruleset:4
-#, fuzzy
 msgid "?plural:Phrygians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Frýgové"
 
 #: data/nation/phrygian.ruleset:6
 msgid ""
@@ -9269,14 +8885,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/pictish.ruleset:3
-#, fuzzy
 msgid "Pictish"
-msgstr "Britský"
+msgstr "Piktský"
 
 #: data/nation/pictish.ruleset:4
-#, fuzzy
 msgid "?plural:Picts"
-msgstr "?plural:Piráti"
+msgstr "?plural:Piktové"
 
 #: data/nation/pictish.ruleset:6
 msgid ""
@@ -9290,12 +8904,11 @@ msgstr ""
 
 #: data/nation/piedmontese.ruleset:3
 msgid "Piedmontese"
-msgstr ""
+msgstr "Piemontský"
 
 #: data/nation/piedmontese.ruleset:4
-#, fuzzy
 msgid "?plural:Piedmontese"
-msgstr "?plural:Němci"
+msgstr "?plural:Piemonťané"
 
 #: data/nation/piedmontese.ruleset:6
 msgid ""
@@ -9310,12 +8923,11 @@ msgstr ""
 
 #: data/nation/pontic.ruleset:3
 msgid "Pontic"
-msgstr ""
+msgstr "Pontský"
 
 #: data/nation/pontic.ruleset:4
-#, fuzzy
 msgid "?plural:Pontians"
-msgstr "?plural:Malajci"
+msgstr "?plural:Ponťané"
 
 #: data/nation/pontic.ruleset:6
 msgid ""
@@ -9334,11 +8946,11 @@ msgstr ""
 
 #: data/nation/poyaisian.ruleset:3
 msgid "Poyais"
-msgstr ""
+msgstr "Poyais"
 
 #: data/nation/poyaisian.ruleset:4
 msgid "Poyaisians"
-msgstr ""
+msgstr "Obyvatelé Poyais"
 
 #: data/nation/poyaisian.ruleset:6
 msgid ""
@@ -9377,14 +8989,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/puertorican.ruleset:3
-#, fuzzy
 msgid "Puerto Rican"
-msgstr "Chorvatský"
+msgstr "Portorický"
 
 #: data/nation/puertorican.ruleset:4
-#, fuzzy
 msgid "?plural:Puerto Ricans"
-msgstr "?plural:Peršané"
+msgstr "?plural:Portoričané"
 
 #: data/nation/puertorican.ruleset:6
 msgid ""
@@ -9397,12 +9007,11 @@ msgstr ""
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
-msgstr ""
+msgstr "Purépečský"
 
 #: data/nation/purhepecha.ruleset:4
-#, fuzzy
 msgid "?plural:P'urhepecha"
-msgstr "Forma plurálů:"
+msgstr "?plural:Purépečové"
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -9421,14 +9030,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/qatari.ruleset:3
-#, fuzzy
 msgid "Qatari"
-msgstr "Car"
+msgstr "Katarský"
 
 #: data/nation/qatari.ruleset:4
-#, fuzzy
 msgid "?plural:Qataris"
-msgstr "?plural:Malajci"
+msgstr "?plural:Katařané"
 
 #: data/nation/qatari.ruleset:6
 msgid ""
@@ -9455,12 +9062,11 @@ msgstr ""
 
 #: data/nation/rapanui.ruleset:3
 msgid "Rapa Nui"
-msgstr ""
+msgstr "Rapanuský"
 
 #: data/nation/rapanui.ruleset:4
-#, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "?plural:Barbaři"
+msgstr "?plural:Rapanuiové"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -9473,12 +9079,11 @@ msgstr ""
 
 #: data/nation/raramuri.ruleset:3
 msgid "Rarámuri"
-msgstr ""
+msgstr "Rarámurský"
 
 #: data/nation/raramuri.ruleset:6
-#, fuzzy
 msgid "?plural:Rarámuris"
-msgstr "?plural:Barbaři"
+msgstr "?plural:Rarámuriové"
 
 #: data/nation/raramuri.ruleset:8
 msgid ""
@@ -9490,14 +9095,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/rhenish.ruleset:3
-#, fuzzy
 msgid "Rhenish"
-msgstr "Litevský"
+msgstr "Porýnský"
 
 #: data/nation/rhenish.ruleset:4
-#, fuzzy
 msgid "?plural:Rhenish"
-msgstr "?plural:Rusové"
+msgstr "?plural:Porýňané"
 
 #: data/nation/rhenish.ruleset:6
 msgid ""
@@ -9513,12 +9116,11 @@ msgstr ""
 
 #: data/nation/riffian.ruleset:3
 msgid "Riffian"
-msgstr ""
+msgstr "Rífský"
 
 #: data/nation/riffian.ruleset:4
-#, fuzzy
 msgid "?plural:Riffians"
-msgstr "?plural:Peršané"
+msgstr "?plural:Rífané"
 
 #: data/nation/riffian.ruleset:6
 msgid ""
@@ -9530,12 +9132,11 @@ msgstr ""
 
 #: data/nation/riograndense.ruleset:3
 msgid "Rio-Grandense"
-msgstr ""
+msgstr "Riograndenský"
 
 #: data/nation/riograndense.ruleset:4
-#, fuzzy
 msgid "?plural:Rio-Grandenses"
-msgstr "?plural:Rwanďané"
+msgstr "?plural:Obyvatelé Rio Grande"
 
 #: data/nation/riograndense.ruleset:6
 msgid ""
@@ -9573,14 +9174,12 @@ msgid "?female:Director-President %s"
 msgstr "?female:Prezidentka a ředitelka %s"
 
 #: data/nation/romansh.ruleset:3
-#, fuzzy
 msgid "Romansh"
-msgstr "Římský"
+msgstr "Rétorománský"
 
 #: data/nation/romansh.ruleset:4
-#, fuzzy
 msgid "?plural:Romansh"
-msgstr "?plural:Římané"
+msgstr "?plural:Rétorománi"
 
 #: data/nation/romansh.ruleset:6
 msgid ""
@@ -9595,12 +9194,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr ""
+msgstr "Rusínský"
 
 #: data/nation/rusyn.ruleset:4
-#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "?plural:Rusové"
+msgstr "?plural:Rusíni"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -9614,12 +9212,11 @@ msgstr ""
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
-msgstr ""
+msgstr "Kyjevská Rus"
 
 #: data/nation/ruthenian.ruleset:4
-#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "?plural:Keňané"
+msgstr "?plural:Obyvatelé Kyjevské Rusi"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -9645,12 +9242,11 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr ""
+msgstr "Rjúkjúský"
 
 #: data/nation/ryukyuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "?plural:Rusové"
+msgstr "?plural:Obyvatelé Rjúkjú"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -9660,12 +9256,11 @@ msgstr ""
 
 #: data/nation/sabine.ruleset:3
 msgid "Sabine"
-msgstr ""
+msgstr "Sabinský"
 
 #: data/nation/sabine.ruleset:4
-#, fuzzy
 msgid "?plural:Sabines"
-msgstr "?plural:Španělé"
+msgstr "?plural:Sabinové"
 
 #: data/nation/sabine.ruleset:6
 msgid ""
@@ -9688,12 +9283,11 @@ msgstr "?female:Tribunka %s"
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
-msgstr ""
+msgstr "Západosaharský"
 
 #: data/nation/sahrawi.ruleset:4
-#, fuzzy
 msgid "?plural:Sahrawis"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Západosahařané"
 
 #: data/nation/sahrawi.ruleset:6
 msgid ""
@@ -9704,14 +9298,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/saintlucian.ruleset:3
-#, fuzzy
 msgid "Saint Lucian"
-msgstr "Galicijský"
+msgstr "Svatolucijský"
 
 #: data/nation/saintlucian.ruleset:4
-#, fuzzy
 msgid "?plural:Saint Lucian"
-msgstr "?plural:Syrové"
+msgstr "?plural:Obyvatelé Svaté Lucie"
 
 #: data/nation/saintlucian.ruleset:6
 msgid ""
@@ -9724,12 +9316,11 @@ msgstr ""
 
 #: data/nation/saka.ruleset:3
 msgid "Saka"
-msgstr ""
+msgstr "Sacký"
 
 #: data/nation/saka.ruleset:4
-#, fuzzy
 msgid "?plural:Saka"
-msgstr "?plural:Thajové"
+msgstr "?plural:Sakové"
 
 #: data/nation/saka.ruleset:6
 msgid ""
@@ -9740,12 +9331,11 @@ msgstr ""
 
 #: data/nation/salishan.ruleset:3
 msgid "Salishan"
-msgstr ""
+msgstr "Sališský"
 
 #: data/nation/salishan.ruleset:4
-#, fuzzy
 msgid "?plural:Salishans"
-msgstr "?plural:Malajci"
+msgstr "?plural:Sališové"
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -9759,14 +9349,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/salvadoran.ruleset:3
-#, fuzzy
 msgid "Salvadoran"
-msgstr "Bulharský"
+msgstr "Salvadorský"
 
 #: data/nation/salvadoran.ruleset:4
-#, fuzzy
 msgid "?plural:Salvadorans"
-msgstr "?plural:Bavoráci"
+msgstr "?plural:Salvadořané"
 
 #: data/nation/salvadoran.ruleset:6
 msgid ""
@@ -9783,14 +9371,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sami.ruleset:3
-#, fuzzy
 msgid "Sami"
-msgstr "Plachetnice"
+msgstr "Sámský"
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "?plural:Thajové"
+msgstr "?plural:Sámové"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -9799,14 +9385,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sammarinese.ruleset:3
-#, fuzzy
 msgid "Sammarinese"
-msgstr "Ponorka"
+msgstr "Sanmarinský"
 
 #: data/nation/sammarinese.ruleset:4
-#, fuzzy
 msgid "?plural:Sammarinese"
-msgstr "?plural:Turkové"
+msgstr "?plural:Sanmariňané"
 
 #: data/nation/sammarinese.ruleset:6
 msgid ""
@@ -9827,12 +9411,11 @@ msgstr "?female:Kapitánka-regentka %s"
 
 #: data/nation/samnite.ruleset:3
 msgid "Samnite"
-msgstr ""
+msgstr "Samnitský"
 
 #: data/nation/samnite.ruleset:4
-#, fuzzy
 msgid "?plural:Samnites"
-msgstr "?plural:Elfové"
+msgstr "?plural:Samnité"
 
 #: data/nation/samnite.ruleset:6
 msgid ""
@@ -9843,14 +9426,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/samoan.ruleset:3
-#, fuzzy
 msgid "Samoan"
-msgstr "Šaman"
+msgstr "Samojský"
 
 #: data/nation/samoan.ruleset:4
-#, fuzzy
 msgid "?plural:Samoans"
-msgstr "?plural:Španělé"
+msgstr "?plural:Samojci"
 
 #: data/nation/samoan.ruleset:6
 msgid ""
@@ -9873,14 +9454,12 @@ msgid "?female:Chief of the Government %s"
 msgstr "?female:Předsedkyně vlády %s"
 
 #: data/nation/samogitian.ruleset:3
-#, fuzzy
 msgid "Samogitian"
-msgstr "Šaman"
+msgstr "Žemaitský"
 
 #: data/nation/samogitian.ruleset:4
-#, fuzzy
 msgid "?plural:Samogitians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Žemaité"
 
 #: data/nation/samogitian.ruleset:6
 msgid ""
@@ -9889,14 +9468,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/santomean.ruleset:3
-#, fuzzy
 msgid "Santomean"
-msgstr "Aramejský"
+msgstr "Svatotomášský"
 
 #: data/nation/santomean.ruleset:4
-#, fuzzy
 msgid "?plural:Santomeans"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Obyvatelé Svatého Tomáše a Princova ostrova"
 
 #: data/nation/santomean.ruleset:6
 msgid ""
@@ -9909,14 +9486,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sardinian.ruleset:3
-#, fuzzy
 msgid "Sardinian"
-msgstr "Kartaginský"
+msgstr "Sardinský"
 
 #: data/nation/sardinian.ruleset:4
-#, fuzzy
 msgid "?plural:Sardinians"
-msgstr "?plural:Syrové"
+msgstr "?plural:Sardové"
 
 #: data/nation/sardinian.ruleset:6
 msgid ""
@@ -9933,14 +9508,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sarmatian.ruleset:3
-#, fuzzy
 msgid "Sarmatian"
-msgstr "Marťanský"
+msgstr "Sarmatský"
 
 #: data/nation/sarmatian.ruleset:4
-#, fuzzy
 msgid "?plural:Sarmatians"
-msgstr "?plural:Marťané"
+msgstr "?plural:Sarmati"
 
 #: data/nation/sarmatian.ruleset:6
 msgid ""
@@ -9951,14 +9524,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/saudi.ruleset:3
-#, fuzzy
 msgid "Saudi"
-msgstr "Plachetnice"
+msgstr "Saúdskoarabský"
 
 #: data/nation/saudi.ruleset:4
-#, fuzzy
 msgid "?plural:Saudis"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Saúdští Arabové"
 
 #: data/nation/saudi.ruleset:6
 msgid ""
@@ -9971,14 +9542,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/savoyard.ruleset:3
-#, fuzzy
 msgid "Savoyard"
-msgstr "Šaman"
+msgstr "Savojský"
 
 #: data/nation/savoyard.ruleset:4
-#, fuzzy
 msgid "?plural:Savoyards"
-msgstr "?plural:Malajci"
+msgstr "?plural:Savojané"
 
 #: data/nation/savoyard.ruleset:6
 msgid ""
@@ -9991,14 +9560,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/saxon.ruleset:3
-#, fuzzy
 msgid "Saxon"
-msgstr "Zvuk"
+msgstr "Saský"
 
 #: data/nation/saxon.ruleset:4
-#, fuzzy
 msgid "?plural:Saxons"
-msgstr "?plural:Španělé"
+msgstr "?plural:Sasové"
 
 #: data/nation/saxon.ruleset:6
 msgid ""
@@ -10007,14 +9574,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/scanian.ruleset:3
-#, fuzzy
 msgid "Scanian"
-msgstr "Oceán"
+msgstr "Skanijský"
 
 #: data/nation/scanian.ruleset:4
-#, fuzzy
 msgid "?plural:Scanians"
-msgstr "?plural:Íránci"
+msgstr "?plural:Obyvatelé Skåne"
 
 #: data/nation/scanian.ruleset:6
 msgid ""
@@ -10027,12 +9592,11 @@ msgstr ""
 
 #: data/nation/schleswig-holsteinian.ruleset:3
 msgid "Schleswig-Holsteinian"
-msgstr ""
+msgstr "Šlesvicko-holštýnský"
 
 #: data/nation/schleswig-holsteinian.ruleset:4
-#, fuzzy
 msgid "?plural:Schleswig-Holsteinians"
-msgstr "?plural:Slovinci"
+msgstr "?plural:Obyvatelé Šlesvicka-Holštýnska"
 
 #: data/nation/schleswig-holsteinian.ruleset:6
 msgid ""
@@ -10046,14 +9610,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:3
-#, fuzzy
 msgid "Scottish Gaelic"
-msgstr "Skotský"
+msgstr "Skotský gaelský"
 
 #: data/nation/scottishgaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "?plural:Skotové"
+msgstr "?plural:Skotští Gaelové"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -10087,25 +9649,22 @@ msgid "?plural:Scots"
 msgstr "?plural:Skotové"
 
 #: data/nation/scottish.ruleset:6
-#, fuzzy
 msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034 CE "
 "to the Union of Crowns with England in 1701."
 msgstr ""
-"Skotsko, původně obývané Irskými nájezdníky v pozdních Římských dobách, "
-"kteří vytlačili rodilé obyvatele, bylo nezavislé království od roku 1034 "
-"n.l. až do Unie Korun s Anglií v roce 1701."
+"Skotsko v závěru římské doby osídlili irští nájezdníci, kteří vytlačili "
+"původní Pikty. Přibližně od roku 1034 n. l. až do sjednocení korun s "
+"Anglií roku 1701 bylo nezávislým královstvím."
 
 #: data/nation/scythian.ruleset:3
-#, fuzzy
 msgid "Scythian"
-msgstr "Syrský"
+msgstr "Skytský"
 
 #: data/nation/scythian.ruleset:4
-#, fuzzy
 msgid "?plural:Scythians"
-msgstr "?plural:Syrové"
+msgstr "?plural:Skytové"
 
 #: data/nation/scythian.ruleset:6
 msgid ""
@@ -10120,14 +9679,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/seleucid.ruleset:3
-#, fuzzy
 msgid "Seleucid"
-msgstr "Výběr"
+msgstr "Seleukovský"
 
 #: data/nation/seleucid.ruleset:4
-#, fuzzy
 msgid "?plural:Seleucids"
-msgstr "?plural:Švédi"
+msgstr "?plural:Seleukovci"
 
 #: data/nation/seleucid.ruleset:6
 msgid ""
@@ -10140,12 +9697,11 @@ msgstr ""
 
 #: data/nation/seljuk.ruleset:3
 msgid "Seljuk"
-msgstr ""
+msgstr "Seldžucký"
 
 #: data/nation/seljuk.ruleset:4
-#, fuzzy
 msgid "?plural:Seljuks"
-msgstr "?plural:Švédi"
+msgstr "?plural:Seldžukové"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -10161,12 +9717,11 @@ msgstr ""
 
 #: data/nation/seminole.ruleset:3
 msgid "Seminole"
-msgstr ""
+msgstr "Seminolský"
 
 #: data/nation/seminole.ruleset:4
-#, fuzzy
 msgid "?plural:Seminoles"
-msgstr "?plural:Angličané"
+msgstr "?plural:Seminolové"
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -10185,14 +9740,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/senegalese.ruleset:3
-#, fuzzy
 msgid "Senegalese"
-msgstr "Ovládání"
+msgstr "Senegalský"
 
 #: data/nation/senegalese.ruleset:4
-#, fuzzy
 msgid "?plural:Senegalese"
-msgstr "?plural:Angličané"
+msgstr "?plural:Senegalci"
 
 #: data/nation/senegalese.ruleset:6
 msgid ""
@@ -10221,12 +9774,11 @@ msgstr ""
 
 #: data/nation/seychellois.ruleset:3
 msgid "Seychellois"
-msgstr ""
+msgstr "Seychelský"
 
 #: data/nation/seychellois.ruleset:4
-#, fuzzy
 msgid "?plural:Seychellois"
-msgstr "?plural:Skotové"
+msgstr "?plural:Seychelané"
 
 #: data/nation/seychellois.ruleset:6
 msgid ""
@@ -10243,12 +9795,11 @@ msgstr ""
 
 #: data/nation/shan.ruleset:3
 msgid "Shan"
-msgstr ""
+msgstr "Šanský"
 
 #: data/nation/shan.ruleset:4
-#, fuzzy
 msgid "?plural:Shans"
-msgstr "?plural:Španělé"
+msgstr "?plural:Šanové"
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -10260,14 +9811,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/shawnee.ruleset:3
-#, fuzzy
 msgid "Shawnee"
-msgstr "Zeman"
+msgstr "Šavanský"
 
 #: data/nation/shawnee.ruleset:4
-#, fuzzy
 msgid "?plural:Shawnee"
-msgstr "?plural:Súdánci"
+msgstr "?plural:Šavani"
 
 #: data/nation/shawnee.ruleset:6
 msgid ""
@@ -10279,12 +9828,11 @@ msgstr ""
 
 #: data/nation/sherpa.ruleset:3
 msgid "Sherpa"
-msgstr ""
+msgstr "Šerpský"
 
 #: data/nation/sherpa.ruleset:4
-#, fuzzy
 msgid "?plural:Sherpas"
-msgstr "?plural:Španělé"
+msgstr "?plural:Šerpové"
 
 #: data/nation/sherpa.ruleset:6
 msgid ""
@@ -10300,14 +9848,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/siberian.ruleset:3
-#, fuzzy
 msgid "Siberian"
-msgstr "Nigérijský"
+msgstr "Sibiřský"
 
 #: data/nation/siberian.ruleset:4
-#, fuzzy
 msgid "?plural:Siberians"
-msgstr "?plural:Srbové"
+msgstr "?plural:Sibiřané"
 
 #: data/nation/siberian.ruleset:6
 msgid ""
@@ -10318,14 +9864,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sicilian.ruleset:3
-#, fuzzy
 msgid "Sicilian"
-msgstr "Slezský"
+msgstr "Sicilský"
 
 #: data/nation/sicilian.ruleset:4
-#, fuzzy
 msgid "?plural:Sicilians"
-msgstr "?plural:Slezané"
+msgstr "?plural:Sicilané"
 
 #: data/nation/sicilian.ruleset:6
 msgid ""
@@ -10339,12 +9883,11 @@ msgstr ""
 
 #: data/nation/sierraleonean.ruleset:3
 msgid "Sierra Leonean"
-msgstr ""
+msgstr "Sierraleonský"
 
 #: data/nation/sierraleonean.ruleset:4
-#, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "?plural:Srbové"
+msgstr "?plural:Obyvatelé Sierry Leone"
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -10356,14 +9899,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sikh.ruleset:3
-#, fuzzy
 msgid "Sikh"
-msgstr "Šejk"
+msgstr "Sikhský"
 
 #: data/nation/sikh.ruleset:4
-#, fuzzy
 msgid "?plural:Sikhs"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Sikhové"
 
 #: data/nation/sikh.ruleset:6
 msgid ""
@@ -10374,14 +9915,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sikkimese.ruleset:3
-#, fuzzy
 msgid "Sikkimese"
-msgstr "Barmský"
+msgstr "Sikkimský"
 
 #: data/nation/sikkimese.ruleset:4
-#, fuzzy
 msgid "?plural:Sikkimese"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Obyvatelé Sikkimu"
 
 #: data/nation/sikkimese.ruleset:6
 msgid ""
@@ -10423,14 +9962,12 @@ msgstr ""
 "jihu Malajského poloostrova. Nyní součástí Číny."
 
 #: data/nation/sinhalese.ruleset:3
-#, fuzzy
 msgid "Sinhalese"
-msgstr "Ovládání"
+msgstr "Sinhálský"
 
 #: data/nation/sinhalese.ruleset:4
-#, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "?plural:Angličané"
+msgstr "?plural:Sinhálci"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -10440,14 +9977,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/slavic.ruleset:3
-#, fuzzy
 msgid "Slavic"
-msgstr "Plachetnice"
+msgstr "Slovanský"
 
 #: data/nation/slavic.ruleset:4
-#, fuzzy
 msgid "?plural:Slavs"
-msgstr "?plural:Elfové"
+msgstr "?plural:Slované"
 
 #: data/nation/slavic.ruleset:6
 msgid ""
@@ -10491,14 +10026,12 @@ msgstr ""
 "federace."
 
 #: data/nation/solomonislander.ruleset:3
-#, fuzzy
 msgid "Solomon Islander"
-msgstr "Stejný ostrov"
+msgstr "Šalomounský"
 
 #: data/nation/solomonislander.ruleset:4
-#, fuzzy
 msgid "?plural:Solomon Islanders"
-msgstr "?plural:Islanďané"
+msgstr "?plural:Obyvatelé Šalomounových ostrovů"
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -10510,14 +10043,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/somaliland.ruleset:3
-#, fuzzy
 msgid "Somaliland"
-msgstr "Normální"
+msgstr "Somalilandský"
 
 #: data/nation/somaliland.ruleset:4
-#, fuzzy
 msgid "?plural:Somalilanders"
-msgstr "?plural:Římané"
+msgstr "?plural:Obyvatelé Somalilandu"
 
 #: data/nation/somaliland.ruleset:6
 msgid ""
@@ -10529,14 +10060,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/somali.ruleset:3
-#, fuzzy
 msgid "Somali"
-msgstr "Normální"
+msgstr "Somálský"
 
 #: data/nation/somali.ruleset:4
-#, fuzzy
 msgid "?plural:Somalis"
-msgstr "?plural:Římané"
+msgstr "?plural:Somálci"
 
 #: data/nation/somali.ruleset:6
 msgid ""
@@ -10549,14 +10078,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sorbian.ruleset:3
-#, fuzzy
 msgid "Sorbian"
-msgstr "Srbský"
+msgstr "Lužickosrbský"
 
 #: data/nation/sorbian.ruleset:4
-#, fuzzy
 msgid "?plural:Sorbs"
-msgstr "?plural:Skotové"
+msgstr "?plural:Lužičtí Srbové"
 
 #: data/nation/sorbian.ruleset:6
 msgid ""
@@ -10567,12 +10094,11 @@ msgstr ""
 
 #: data/nation/sotho.ruleset:3
 msgid "Sotho"
-msgstr ""
+msgstr "Sothský"
 
 #: data/nation/sotho.ruleset:4
-#, fuzzy
 msgid "?plural:Basotho"
-msgstr "?plural:Baskové"
+msgstr "?plural:Basothové"
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -10604,14 +10130,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/southamerican.ruleset:3
-#, fuzzy
 msgid "South American"
-msgstr "Jihoafrický"
+msgstr "Jihoamerický"
 
 #: data/nation/southamerican.ruleset:4
-#, fuzzy
 msgid "?plural:South Americans"
-msgstr "?plural:Jihoafričané"
+msgstr "?plural:Jihoameričané"
 
 #: data/nation/southamerican.ruleset:6
 msgid ""
@@ -10638,14 +10162,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/southsudanese.ruleset:3
-#, fuzzy
 msgid "South Sudanese"
-msgstr "Súdánský"
+msgstr "Jihosúdánský"
 
 #: data/nation/southsudanese.ruleset:4
-#, fuzzy
 msgid "?plural:South Sudanese"
-msgstr "?plural:Súdánci"
+msgstr "?plural:Jihosúdánci"
 
 #: data/nation/southsudanese.ruleset:6
 msgid ""
@@ -10656,14 +10178,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/southvietnamese.ruleset:3
-#, fuzzy
 msgid "South Vietnamese"
-msgstr "Vietnamský"
+msgstr "Jihovietnamský"
 
 #: data/nation/southvietnamese.ruleset:4
-#, fuzzy
 msgid "?plural:South Vietnamese"
-msgstr "?plural:Vietnamci"
+msgstr "?plural:Jižní Vietnamci"
 
 #: data/nation/southvietnamese.ruleset:6
 msgid ""
@@ -10678,14 +10198,12 @@ msgid "Madame %s"
 msgstr "Paní %s"
 
 #: data/nation/southyemeni.ruleset:3
-#, fuzzy
 msgid "South Yemeni"
-msgstr "Jihokorejský"
+msgstr "Jihojemenský"
 
 #: data/nation/southyemeni.ruleset:4
-#, fuzzy
 msgid "?plural:South Yemenis"
-msgstr "?plural:Jihokorejci"
+msgstr "?plural:Jižní Jemenci"
 
 #: data/nation/southyemeni.ruleset:6
 msgid ""
@@ -10713,14 +10231,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/srivijaya.ruleset:3
-#, fuzzy
 msgid "Sri Vijaya"
-msgstr "Srí Lanka"
+msgstr "Šrívidžajský"
 
 #: data/nation/srivijaya.ruleset:4
-#, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "Srí Lanka, Rupie"
+msgstr "?plural:Obyvatelé Šrívidžaji"
 
 #: data/nation/srivijaya.ruleset:6
 msgid ""
@@ -10746,14 +10262,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/suebian.ruleset:3
-#, fuzzy
 msgid "Suebian"
-msgstr "Srbský"
+msgstr "Svébský"
 
 #: data/nation/suebian.ruleset:4
-#, fuzzy
 msgid "?plural:Suebians"
-msgstr "?plural:Srbové"
+msgstr "?plural:Svébové"
 
 #: data/nation/suebian.ruleset:6
 msgid ""
@@ -10771,14 +10285,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/surinamese.ruleset:3
-#, fuzzy
 msgid "Surinamese"
-msgstr "Barmský"
+msgstr "Surinamský"
 
 #: data/nation/surinamese.ruleset:4
-#, fuzzy
 msgid "?plural:Surinamese"
-msgstr "?plural:Turkové"
+msgstr "?plural:Surinamci"
 
 #: data/nation/surinamese.ruleset:7
 msgid ""
@@ -10801,12 +10313,11 @@ msgstr "?female:Seržantka %s"
 
 #: data/nation/swahili.ruleset:3
 msgid "Swahili"
-msgstr ""
+msgstr "Svahilský"
 
 #: data/nation/swahili.ruleset:4
-#, fuzzy
 msgid "?plural:Swahili"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Svahilci"
 
 #: data/nation/swahili.ruleset:6
 msgid ""
@@ -10824,14 +10335,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/swazi.ruleset:3
-#, fuzzy
 msgid "Swazi"
-msgstr "Plachetnice"
+msgstr "Svazijský"
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "?plural:Švýcaři"
+msgstr "?plural:Svazijci"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -10881,14 +10390,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tahitian.ruleset:3
-#, fuzzy
 msgid "Tahitian"
-msgstr "Havajský"
+msgstr "Tahitský"
 
 #: data/nation/tahitian.ruleset:4
-#, fuzzy
 msgid "?plural:Tahitians"
-msgstr "?plural:Havajané"
+msgstr "?plural:Tahiťané"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -10902,14 +10409,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tairona.ruleset:3
-#, fuzzy
 msgid "Tairona"
-msgstr "Železnice"
+msgstr "Taironský"
 
 #: data/nation/tairona.ruleset:4
-#, fuzzy
 msgid "?plural:Tairona"
-msgstr "Forma plurálů:"
+msgstr "?plural:Taironové"
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -10958,12 +10463,11 @@ msgstr ""
 
 #: data/nation/tanganyikan.ruleset:3
 msgid "Tanganyikan"
-msgstr ""
+msgstr "Tanganický"
 
 #: data/nation/tanganyikan.ruleset:4
-#, fuzzy
 msgid "?plural:Tanganyikans"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Obyvatelé Tanganiky"
 
 #: data/nation/tanganyikan.ruleset:6
 msgid ""
@@ -10974,14 +10478,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tanzanian.ruleset:3
-#, fuzzy
 msgid "Tanzanian"
-msgstr "Kanadský"
+msgstr "Tanzanský"
 
 #: data/nation/tanzanian.ruleset:4
-#, fuzzy
 msgid "?plural:Tanzanians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Tanzanci"
 
 #: data/nation/tanzanian.ruleset:6
 msgid ""
@@ -10992,14 +10494,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tatar.ruleset:3
-#, fuzzy
 msgid "Tatar"
-msgstr "Car"
+msgstr "Tatarský"
 
 #: data/nation/tatar.ruleset:4
-#, fuzzy
 msgid "?plural:Tatars"
-msgstr "?plural:Malajci"
+msgstr "?plural:Tataři"
 
 #: data/nation/tatar.ruleset:7
 msgid ""
@@ -11027,14 +10527,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/teutonic.ruleset:3
-#, fuzzy
 msgid "Teutonic"
-msgstr "Elektronika"
+msgstr "Řád německých rytířů"
 
 #: data/nation/teutonic.ruleset:4
-#, fuzzy
 msgid "?plural:Teutonic Order"
-msgstr "?plural:Islanďané"
+msgstr "?plural:Řád německých rytířů"
 
 #: data/nation/teutonic.ruleset:6
 msgid ""
@@ -11045,14 +10543,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/texan.ruleset:3
-#, fuzzy
 msgid "Texan"
-msgstr "Náčelník"
+msgstr "Texaský"
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "?plural:Mexičané"
+msgstr "?plural:Texasané"
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -11068,14 +10564,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/thracian.ruleset:3
-#, fuzzy
 msgid "Thracian"
-msgstr "Terén"
+msgstr "Thrácký"
 
 #: data/nation/thracian.ruleset:4
-#, fuzzy
 msgid "?plural:Thracians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Thrákové"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
@@ -11083,12 +10577,11 @@ msgstr ""
 
 #: data/nation/thuringian.ruleset:3
 msgid "Thuringian"
-msgstr ""
+msgstr "Durynský"
 
 #: data/nation/thuringian.ruleset:4
-#, fuzzy
 msgid "?plural:Thuringians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Duryňané"
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -11140,12 +10633,11 @@ msgstr "?female:Dalajláma %s"
 
 #: data/nation/timurid.ruleset:3
 msgid "Timurid"
-msgstr ""
+msgstr "Tímúrovský"
 
 #: data/nation/timurid.ruleset:4
-#, fuzzy
 msgid "?plural:Timurids"
-msgstr "?plural:Kurdové"
+msgstr "?plural:Tímúrovci"
 
 #: data/nation/timurid.ruleset:6
 msgid ""
@@ -11158,14 +10650,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tocharian.ruleset:3
-#, fuzzy
 msgid "Tocharian"
-msgstr "Marťanský"
+msgstr "Tocharský"
 
 #: data/nation/tocharian.ruleset:4
-#, fuzzy
 msgid "?plural:Tocharians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Tocharové"
 
 #: data/nation/tocharian.ruleset:7
 msgid ""
@@ -11186,14 +10676,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/togolese.ruleset:3
-#, fuzzy
 msgid "Togolese"
-msgstr "Ovládání"
+msgstr "Tožský"
 
 #: data/nation/togolese.ruleset:4
-#, fuzzy
 msgid "?plural:Togolese"
-msgstr "?plural:Mongolové"
+msgstr "?plural:Tožané"
 
 #: data/nation/togolese.ruleset:6
 msgid ""
@@ -11205,12 +10693,11 @@ msgstr ""
 
 #: data/nation/tokiponan.ruleset:3
 msgid "Toki Ponan"
-msgstr ""
+msgstr "Tokiponský"
 
 #: data/nation/tokiponan.ruleset:4
-#, fuzzy
 msgid "?plural:Toki Ponans"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Tokipoňané"
 
 #: data/nation/tokiponan.ruleset:6
 msgid ""
@@ -11221,12 +10708,11 @@ msgstr ""
 
 #: data/nation/toltec.ruleset:3
 msgid "Toltec"
-msgstr ""
+msgstr "Toltécký"
 
 #: data/nation/toltec.ruleset:4
-#, fuzzy
 msgid "?plural:Toltecs"
-msgstr "?plural:Poláci"
+msgstr "?plural:Toltékové"
 
 #: data/nation/toltec.ruleset:6
 msgid ""
@@ -11247,12 +10733,11 @@ msgstr ""
 
 #: data/nation/tongan.ruleset:3
 msgid "Tongan"
-msgstr ""
+msgstr "Tonžský"
 
 #: data/nation/tongan.ruleset:4
-#, fuzzy
 msgid "?plural:Tongans"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Tonžané"
 
 #: data/nation/tongan.ruleset:6
 msgid ""
@@ -11263,14 +10748,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/transnistrian.ruleset:3
-#, fuzzy
 msgid "Transnistrian"
-msgstr "Fiktivní"
+msgstr "Podněsterský"
 
 #: data/nation/transnistrian.ruleset:4
-#, fuzzy
 msgid "?plural:Transnistrians"
-msgstr "?plural:Tunisané"
+msgstr "?plural:Podněstřané"
 
 #: data/nation/transnistrian.ruleset:6
 msgid ""
@@ -11282,14 +10765,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/transylvanian.ruleset:3
-#, fuzzy
 msgid "Transylvanian"
-msgstr "Kanadský"
+msgstr "Sedmihradský"
 
 #: data/nation/transylvanian.ruleset:4
-#, fuzzy
 msgid "?plural:Transylvanians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Sedmihradci"
 
 #: data/nation/transylvanian.ruleset:6
 msgid ""
@@ -11303,12 +10784,11 @@ msgstr ""
 
 #: data/nation/trinidadian.ruleset:3
 msgid "Trinidadian and Tobagonian"
-msgstr ""
+msgstr "Trinidadský a tobažský"
 
 #: data/nation/trinidadian.ruleset:4
-#, fuzzy
 msgid "?plural:Trinidadians and Tobagonians"
-msgstr "?plural:Kanaďané"
+msgstr "?plural:Obyvatelé Trinidadu a Tobaga"
 
 #: data/nation/trinidadian.ruleset:6
 msgid ""
@@ -11324,14 +10804,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tswana.ruleset:3
-#, fuzzy
 msgid "Tswana"
-msgstr "Námořní pěchota"
+msgstr "Tswanský"
 
 #: data/nation/tswana.ruleset:4
-#, fuzzy
 msgid "?plural:Batswana"
-msgstr "?plural:Bosenci"
+msgstr "?plural:Batswanové"
 
 #: data/nation/tswana.ruleset:7
 #, no-c-format
@@ -11344,12 +10822,11 @@ msgstr ""
 
 #: data/nation/tuareg.ruleset:3
 msgid "Tuareg"
-msgstr ""
+msgstr "Tuarežský"
 
 #: data/nation/tuareg.ruleset:4
-#, fuzzy
 msgid "?plural:Tuaregs"
-msgstr "?plural:Turkové"
+msgstr "?plural:Tuaregové"
 
 #: data/nation/tuareg.ruleset:6
 msgid ""
@@ -11381,14 +10858,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/turkishcypriot.ruleset:3
-#, fuzzy
 msgid "Turkish Cypriot"
-msgstr "Válečný vůz"
+msgstr "Tureckokyperský"
 
 #: data/nation/turkishcypriot.ruleset:4
-#, fuzzy
 msgid "?plural:Turkish Cypriots"
-msgstr "?plural:Chorvatský"
+msgstr "?plural:Kyperští Turci"
 
 #: data/nation/turkishcypriot.ruleset:6
 msgid ""
@@ -11429,12 +10904,11 @@ msgstr "?female:Türkmenbaši %s"
 
 #: data/nation/tuvaluan.ruleset:3
 msgid "Tuvaluan"
-msgstr ""
+msgstr "Tuvalský"
 
 #: data/nation/tuvaluan.ruleset:4
-#, fuzzy
 msgid "?plural:I-Tuvaluan"
-msgstr "?plural:Mexičané"
+msgstr "?plural:Tuvaluané"
 
 #: data/nation/tuvaluan.ruleset:6
 msgid ""
@@ -11449,12 +10923,11 @@ msgstr ""
 
 #: data/nation/tuvan.ruleset:3
 msgid "Tuvan"
-msgstr ""
+msgstr "Tuvinský"
 
 #: data/nation/tuvan.ruleset:4
-#, fuzzy
 msgid "?plural:Tuvans"
-msgstr "?plural:Mexičané"
+msgstr "?plural:Tuvinci"
 
 #: data/nation/tuvan.ruleset:6
 msgid ""
@@ -11468,14 +10941,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tyrolian.ruleset:3
-#, fuzzy
 msgid "Tyrolian"
-msgstr "Předseda"
+msgstr "Tyrolský"
 
 #: data/nation/tyrolian.ruleset:4
-#, fuzzy
 msgid "?plural:Tyrolians"
-msgstr "?plural:Syrové"
+msgstr "?plural:Tyrolané"
 
 #: data/nation/tyrolian.ruleset:6
 msgid ""
@@ -11495,14 +10966,12 @@ msgid "Princely Countess %s"
 msgstr "Okněžněná hraběnka %s"
 
 #: data/nation/ugandan.ruleset:3
-#, fuzzy
 msgid "Ugandan"
-msgstr "Rwandský"
+msgstr "Ugandský"
 
 #: data/nation/ugandan.ruleset:4
-#, fuzzy
 msgid "?plural:Ugandans"
-msgstr "?plural:Rwanďané"
+msgstr "?plural:Uganďané"
 
 #: data/nation/ugandan.ruleset:6
 msgid ""
@@ -11537,13 +11006,12 @@ msgid "?plural:Ukrainians"
 msgstr "?plural:Ukrainci"
 
 #: data/nation/ukrainian.ruleset:6
-#, fuzzy
 msgid ""
 "Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
 msgstr ""
-"Ukrajina je veliká oblast západní části bývalého Sovětského svazu. Obsahuje "
-"nejúrodnější půdu na Zemi vůbec - černozem."
+"Ukrajina je rozlehlá země v nejzápadnějších končinách bývalého Sovětského "
+"svazu. Leží v ní jedny z nejúrodnějších černozemních polí na světě."
 
 #: data/nation/un.ruleset:3
 msgid "UN"
@@ -11569,14 +11037,12 @@ msgid "?female:Secretary-General %s"
 msgstr "?female:Generální tajemnice %s"
 
 #: data/nation/urartian.ruleset:3
-#, fuzzy
 msgid "Urartian"
-msgstr "Marťanský"
+msgstr "Urartský"
 
 #: data/nation/urartian.ruleset:4
-#, fuzzy
 msgid "?plural:Urartians"
-msgstr "?plural:Marťané"
+msgstr "?plural:Obyvatelé Urartu"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
@@ -11589,14 +11055,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/uruguayan.ruleset:3
-#, fuzzy
 msgid "Uruguayan"
-msgstr "Uruguayské peso"
+msgstr "Uruguayský"
 
 #: data/nation/uruguayan.ruleset:4
-#, fuzzy
 msgid "?plural:Uruguayans"
-msgstr "Forma plurálů:"
+msgstr "?plural:Uruguayci"
 
 #: data/nation/uruguayan.ruleset:6
 msgid ""
@@ -11606,14 +11070,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/uyghur.ruleset:3
-#, fuzzy
 msgid "Uyghur"
-msgstr "ujgurština"
+msgstr "Ujgurský"
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "?plural:Turkové"
+msgstr "?plural:Ujguři"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -11634,25 +11096,24 @@ msgid "?plural:Uzbeks"
 msgstr "?plural:Uzbekové"
 
 #: data/nation/uzbek.ruleset:6
-#, fuzzy
 msgid ""
 "The Central Asian nation of Uzbekistan has been the site of many ancient "
 "states such as Khwarezm, the Khanate of Bukhara, and the Khanate of Kokand. "
 "The Uzbeks regard themselves as descendants of Timur, founder of the Timurid "
 "dynasty, who ruled from his capital at Samarkand."
 msgstr ""
-"Národ ve střední Ázii. Dobyt ruským impériem v 19.století, nezávislost "
-"Kyrgizstán získal po rozpadu Sovětského svazu v roce 1991."
+"Na území středoasijského Uzbekistánu existovalo mnoho starých států, "
+"například Chórezm, Bucharský chanát a Kokandský chanát. Uzbekové se "
+"považují za potomky Tímúra, zakladatele tímúrovské dynastie, který vládl "
+"ze Samarkandu."
 
 #: data/nation/vampire.ruleset:4
-#, fuzzy
 msgid "Vampire"
-msgstr "Hladomor"
+msgstr "Upírský"
 
 #: data/nation/vampire.ruleset:5
-#, fuzzy
 msgid "?plural:Vampires"
-msgstr "?plural:Thajové"
+msgstr "?plural:Upíři"
 
 #: data/nation/vampire.ruleset:7
 msgid "Bloodsucking creatures of legend."
@@ -11660,12 +11121,11 @@ msgstr ""
 
 #: data/nation/vandalic.ruleset:3
 msgid "Vandalic"
-msgstr ""
+msgstr "Vandalský"
 
 #: data/nation/vandalic.ruleset:4
-#, fuzzy
 msgid "?plural:Vandals"
-msgstr "?plural:Rwanďané"
+msgstr "?plural:Vandalové"
 
 #: data/nation/vandalic.ruleset:6
 msgid ""
@@ -11678,12 +11138,11 @@ msgstr ""
 
 #: data/nation/vanuatuan.ruleset:3
 msgid "Vanuatuan"
-msgstr ""
+msgstr "Vanuatský"
 
 #: data/nation/vanuatuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ni-Vanuatu"
-msgstr "?plural:Ajnové"
+msgstr "?plural:Obyvatelé Vanuatu"
 
 #: data/nation/vanuatuan.ruleset:6
 msgid ""
@@ -11695,14 +11154,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/vedic.ruleset:3
-#, fuzzy
 msgid "Vedic"
-msgstr "Medicína"
+msgstr "Védský"
 
 #: data/nation/vedic.ruleset:4
-#, fuzzy
 msgid "?plural:Vedics"
-msgstr "?plural:Mexičané"
+msgstr "?plural:Védské národy"
 
 #: data/nation/vedic.ruleset:6
 msgid ""
@@ -11721,14 +11178,12 @@ msgid "?female:Mahatma %s"
 msgstr "?female:Mahátma %s"
 
 #: data/nation/veletian.ruleset:3
-#, fuzzy
 msgid "Veletian"
-msgstr "Veterán"
+msgstr "Veletský"
 
 #: data/nation/veletian.ruleset:4
-#, fuzzy
 msgid "?plural:Veletians"
-msgstr "?plural:Venezuelané"
+msgstr "?plural:Veleti"
 
 #: data/nation/veletian.ruleset:6
 msgid ""
@@ -11744,12 +11199,11 @@ msgstr ""
 
 #: data/nation/venda.ruleset:3
 msgid "Venda"
-msgstr ""
+msgstr "Vendský"
 
 #: data/nation/venda.ruleset:4
-#, fuzzy
 msgid "?plural:Vhavenda"
-msgstr "?plural:Rwanďané"
+msgstr "?plural:Vendové"
 
 #: data/nation/venda.ruleset:6
 msgid ""
@@ -11760,14 +11214,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/venetian.ruleset:3
-#, fuzzy
 msgid "Venetian"
-msgstr "Veterán"
+msgstr "Benátský"
 
 #: data/nation/venetian.ruleset:4
-#, fuzzy
 msgid "?plural:Venetians"
-msgstr "?plural:Venezuelané"
+msgstr "?plural:Benátčané"
 
 #: data/nation/venetian.ruleset:6
 msgid ""
@@ -11781,14 +11233,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/venetic.ruleset:3
-#, fuzzy
 msgid "Venetic"
-msgstr "Veterán"
+msgstr "Venetský"
 
 #: data/nation/venetic.ruleset:4
-#, fuzzy
 msgid "?plural:Veneti"
-msgstr "?plural:Venezuelané"
+msgstr "?plural:Venetové"
 
 #: data/nation/venetic.ruleset:6
 msgid ""
@@ -11820,14 +11270,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/vermont.ruleset:3
-#, fuzzy
 msgid "Vermont"
-msgstr "Verze"
+msgstr "Vermontský"
 
 #: data/nation/vermont.ruleset:4
-#, fuzzy
 msgid "?plural:Vermonters"
-msgstr "?plural:Němci"
+msgstr "?plural:Vermonťané"
 
 #: data/nation/vermont.ruleset:6
 msgid ""
@@ -11846,23 +11294,20 @@ msgid "?plural:Vietnamese"
 msgstr "?plural:Vietnamci"
 
 #: data/nation/vietnamese.ruleset:6
-#, fuzzy
 msgid ""
 "The Vietnamese nation was founded in the first century CE by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
 msgstr ""
-"Vietnamský národ se datuje v prvním století našeho letopočtu, kdy dvě sestry "
-"stály v čele povstání proti Čínskému vojenskému guvernérovi."
+"Podle tradice založily vietnamský národ v 1. století n. l. "
+"sestry-dvojčata, které vedly povstání proti čínskému vojenskému správci."
 
 #: data/nation/vincentian.ruleset:3
-#, fuzzy
 msgid "Vincentian"
-msgstr "Vynálezy"
+msgstr "Svatovincentský"
 
 #: data/nation/vincentian.ruleset:4
-#, fuzzy
 msgid "?plural:Vincentians"
-msgstr "?plural:Venezuelané"
+msgstr "?plural:Obyvatelé Svatého Vincence a Grenadin"
 
 #: data/nation/vincentian.ruleset:6
 msgid ""
@@ -11875,14 +11320,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/visigothic.ruleset:3
-#, fuzzy
 msgid "Visigothic"
-msgstr "Nahlížení"
+msgstr "Vizigótský"
 
 #: data/nation/visigothic.ruleset:4
-#, fuzzy
 msgid "?plural:Visigoths"
-msgstr "?plural:Vikingové"
+msgstr "?plural:Vizigótové"
 
 #: data/nation/visigothic.ruleset:6
 msgid ""
@@ -11899,12 +11342,11 @@ msgstr ""
 
 #: data/nation/vistulan.ruleset:3
 msgid "Vistulan"
-msgstr ""
+msgstr "Vislanský"
 
 #: data/nation/vistulan.ruleset:4
-#, fuzzy
 msgid "?plural:Vistulans"
-msgstr "?plural:Rakušané"
+msgstr "?plural:Vislané"
 
 #: data/nation/vistulan.ruleset:6
 msgid ""
@@ -11919,12 +11361,11 @@ msgstr ""
 
 #: data/nation/volapuk.ruleset:3
 msgid "Volapükan"
-msgstr ""
+msgstr "Volapücký"
 
 #: data/nation/volapuk.ruleset:6
-#, fuzzy
 msgid "?plural:Volapükans"
-msgstr "?plural:Japonci"
+msgstr "?plural:Volapükisté"
 
 #: data/nation/volapuk.ruleset:8
 msgid ""
@@ -11938,12 +11379,11 @@ msgstr ""
 
 #: data/nation/volgabulgar.ruleset:3
 msgid "Volga Bulgar"
-msgstr ""
+msgstr "Volžskobulharský"
 
 #: data/nation/volgabulgar.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Bulgars"
-msgstr "?plural:Bulhaři"
+msgstr "?plural:Volžští Bulhaři"
 
 #: data/nation/volgabulgar.ruleset:6
 msgid ""
@@ -11954,14 +11394,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/volgagerman.ruleset:3
-#, fuzzy
 msgid "Volga German"
-msgstr "Německý"
+msgstr "Volžskoněmecký"
 
 #: data/nation/volgagerman.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Germans"
-msgstr "?plural:Němci"
+msgstr "?plural:Volžští Němci"
 
 #: data/nation/volgagerman.ruleset:6
 msgid ""
@@ -11976,14 +11414,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/walloon.ruleset:3
-#, fuzzy
 msgid "Walloon"
-msgstr "Galeona"
+msgstr "Valonský"
 
 #: data/nation/walloon.ruleset:4
-#, fuzzy
 msgid "?plural:Walloons"
-msgstr "?plural:Španělé"
+msgstr "?plural:Valoni"
 
 #: data/nation/walloon.ruleset:6
 msgid ""
@@ -12011,12 +11447,11 @@ msgstr ""
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "Vlkodlačí"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "?plural:Welšané"
+msgstr "?plural:Vlkodlaci"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
@@ -12027,14 +11462,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/westernpomeranian.ruleset:3
-#, fuzzy
 msgid "Western Pomeranian"
-msgstr "Veterán"
+msgstr "Západopomořanský"
 
 #: data/nation/westernpomeranian.ruleset:4
-#, fuzzy
 msgid "?plural:Western Pomeranians"
-msgstr "?plural:Římané"
+msgstr "?plural:Západní Pomořané"
 
 #: data/nation/westernpomeranian.ruleset:6
 msgid ""
@@ -12048,14 +11481,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/westernroman.ruleset:3
-#, fuzzy
 msgid "Western Roman"
-msgstr "Veterán"
+msgstr "Západořímský"
 
 #: data/nation/westernroman.ruleset:4
-#, fuzzy
 msgid "?plural:West Romans"
-msgstr "?plural:Římané"
+msgstr "?plural:Západní Římané"
 
 #: data/nation/westernroman.ruleset:6
 msgid ""
@@ -12077,14 +11508,12 @@ msgid "%s Augusta"
 msgstr "Augusta %s"
 
 #: data/nation/westindian.ruleset:3
-#, fuzzy
 msgid "West Indian"
-msgstr "Indický"
+msgstr "Západoindický"
 
 #: data/nation/westindian.ruleset:4
-#, fuzzy
 msgid "?plural:West Indians"
-msgstr "?plural:Indové"
+msgstr "?plural:Obyvatelé Západní Indie"
 
 #: data/nation/westindian.ruleset:6
 msgid ""
@@ -12097,14 +11526,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
-msgstr "Italský"
+msgstr "Vestfálský"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "?plural:Italové"
+msgstr "?plural:Vestfálci"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -12114,14 +11541,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/wuerttembergian.ruleset:3
-#, fuzzy
 msgid "Wuerttembergian"
-msgstr "Sumerský"
+msgstr "Württemberský"
 
 #: data/nation/wuerttembergian.ruleset:4
-#, fuzzy
 msgid "?plural:Wuerttembergians"
-msgstr "?plural:Sumeřané"
+msgstr "?plural:Württemberčané"
 
 #: data/nation/wuerttembergian.ruleset:6
 msgid ""
@@ -12132,12 +11557,11 @@ msgstr ""
 
 #: data/nation/xhosa.ruleset:3
 msgid "Xhosa"
-msgstr ""
+msgstr "Xhoský"
 
 #: data/nation/xhosa.ruleset:4
-#, fuzzy
 msgid "?plural:amaXhosa"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Xhosové"
 
 #: data/nation/xhosa.ruleset:6
 msgid ""
@@ -12149,12 +11573,11 @@ msgstr ""
 
 #: data/nation/xiongnu.ruleset:3
 msgid "Xiongnu"
-msgstr ""
+msgstr "Siungnuský"
 
 #: data/nation/xiongnu.ruleset:4
-#, fuzzy
 msgid "?plural:Xiongnu"
-msgstr "?plural:Ajnové"
+msgstr "?plural:Siungnuové"
 
 #: data/nation/xiongnu.ruleset:6
 msgid ""
@@ -12169,12 +11592,11 @@ msgstr ""
 
 #: data/nation/yakut.ruleset:3
 msgid "Yakut"
-msgstr ""
+msgstr "Jakutský"
 
 #: data/nation/yakut.ruleset:4
-#, fuzzy
 msgid "?plural:Yakuts"
-msgstr "?plural:Zuluové"
+msgstr "?plural:Jakuti"
 
 #: data/nation/yakut.ruleset:6
 msgid ""
@@ -12191,14 +11613,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/yemeni.ruleset:3
-#, fuzzy
 msgid "Yemeni"
-msgstr "Pikiníci"
+msgstr "Jemenský"
 
 #: data/nation/yemeni.ruleset:4
-#, fuzzy
 msgid "?plural:Yemenis"
-msgstr "?plural:Arméni"
+msgstr "?plural:Jemenci"
 
 #: data/nation/yemeni.ruleset:6
 msgid ""
@@ -12209,12 +11629,11 @@ msgstr ""
 
 #: data/nation/yucatecan.ruleset:3
 msgid "Yucatecan"
-msgstr ""
+msgstr "Yucatánský"
 
 #: data/nation/yucatecan.ruleset:4
-#, fuzzy
 msgid "?plural:Yucatecans"
-msgstr "?plural:Aramejci"
+msgstr "?plural:Yucatánci"
 
 #: data/nation/yucatecan.ruleset:6
 msgid ""
@@ -12227,12 +11646,11 @@ msgstr ""
 
 #: data/nation/yugoslav.ruleset:3
 msgid "Yugoslav"
-msgstr ""
+msgstr "Jugoslávský"
 
 #: data/nation/yugoslav.ruleset:4
-#, fuzzy
 msgid "?plural:Yugoslavs"
-msgstr "Forma plurálů:"
+msgstr "?plural:Jugoslávci"
 
 #: data/nation/yugoslav.ruleset:6
 msgid ""
@@ -12244,14 +11662,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/zambian.ruleset:3
-#, fuzzy
 msgid "Zambian"
-msgstr "Nigérijský"
+msgstr "Zambijský"
 
 #: data/nation/zambian.ruleset:4
-#, fuzzy
 msgid "?plural:Zambians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Zambijci"
 
 #: data/nation/zambian.ruleset:6
 msgid ""
@@ -12262,12 +11678,11 @@ msgstr ""
 
 #: data/nation/zanzibari.ruleset:3
 msgid "Zanzibari"
-msgstr ""
+msgstr "Zanzibarský"
 
 #: data/nation/zanzibari.ruleset:4
-#, fuzzy
 msgid "?plural:Zanzibaris"
-msgstr "?plural:Kazaši"
+msgstr "?plural:Zanzibařané"
 
 #: data/nation/zanzibari.ruleset:6
 msgid ""
@@ -12283,12 +11698,11 @@ msgstr ""
 
 #: data/nation/zapotec.ruleset:3
 msgid "Zapotec"
-msgstr ""
+msgstr "Zapotécký"
 
 #: data/nation/zapotec.ruleset:4
-#, fuzzy
 msgid "?plural:Zapotecs"
-msgstr "?plural:Aztékové"
+msgstr "?plural:Zapotékové"
 
 #: data/nation/zapotec.ruleset:6
 msgid ""
@@ -12300,12 +11714,11 @@ msgstr ""
 
 #: data/nation/zhuang.ruleset:3
 msgid "Zhuang"
-msgstr ""
+msgstr "Čuangský"
 
 #: data/nation/zhuang.ruleset:4
-#, fuzzy
 msgid "?plural:Zhuang"
-msgstr "Forma plurálů:"
+msgstr "?plural:Čuangové"
 
 #: data/nation/zhuang.ruleset:6
 msgid ""
@@ -12322,12 +11735,11 @@ msgstr ""
 
 #: data/nation/zimbabwean.ruleset:3
 msgid "Zimbabwean"
-msgstr ""
+msgstr "Zimbabwský"
 
 #: data/nation/zimbabwean.ruleset:4
-#, fuzzy
 msgid "?plural:Zimbabweans"
-msgstr "?plural:Tibeťané"
+msgstr "?plural:Zimbabwané"
 
 #: data/nation/zimbabwean.ruleset:6
 msgid ""
