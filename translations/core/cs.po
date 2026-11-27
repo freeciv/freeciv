@@ -340,15 +340,15 @@ msgstr ""
 "našim nepřátelům, %s. Proč Ti to musím připomínat?"
 
 #: ai/default/daidiplomacy.c:1887
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
-"*%s (řízen počítačem)* Bezpáteřníče! Spojili jsme se v aliance a ty si "
-"klidně vegetuješ v míru s naším smrtelným protivníkem, %s! To nepřipustíme, "
-"rušíme alianci!"
+"*%s (AI)* Vy proradní! Uzavřeli jsme spojenectví, a přesto zůstáváte v "
+"míru s naším úhlavním nepřítelem, národem %s! To je nepřijatelné. Naše "
+"spojenectví končí!"
 
 #: ai/default/daidiplomacy.c:1921
 #, c-format
@@ -380,25 +380,28 @@ msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
 "our glorious alliance and your name will never be forgotten!"
 msgstr ""
+"*%s (AI)* Národ %s na nás surově zaútočil a potřebujeme vaši pomoc! "
+"Dostojte našemu slavnému spojenectví a vaše jméno nikdy nebude zapomenuto!"
 
 #: ai/difficulty.c:252
-#, fuzzy
 #| msgid "The AI will govern your nation but do minimal changes."
 msgid ""
 "Toggles 'away' mode for your nation. In away mode, the AI will govern your "
 "nation but make only minimal changes."
-msgstr "Počítač bude řídit váš národ, ale s minimálními změnami."
+msgstr ""
+"Přepíná režim nepřítomnosti pro váš národ. V tomto režimu národ řídí AI a "
+"provádí pouze nejnutnější změny."
 
 #: ai/difficulty.c:258
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "With no arguments, sets all AI players to skill level '%s', and sets the "
 "default level for any new AI players to '%s'. With an argument, sets the "
 "skill level for the specified player only."
 msgstr ""
-"Při volání bez argumentu nastaví úroveň všech počítačových hráčů na 'easy' a "
-"současně nastaví výchozí úroveň pro nové počítačové hráče na 'easy'.  S "
-"argumentem nastaví úroveň pouze uvedeného hráče."
+"Bez argumentů nastaví všem současným počítačovým hráčům obtížnost „%s“ a "
+"novým hráčům výchozí obtížnost „%s“. S argumentem změní obtížnost jen "
+"zadanému hráči."
 
 #: ai/difficulty.c:276
 msgid "Has erratic decision-making."
@@ -419,6 +422,9 @@ msgid ""
 "This skill level has the same features as 'Novice', but may suffer "
 "additional ruleset-defined penalties."
 msgstr ""
+"\n"
+"Tato obtížnost má stejné vlastnosti jako „Začátečník“, ale sada pravidel "
+"může přidat další postihy."
 
 #: ai/difficulty.c:300
 msgid ""
@@ -426,6 +432,9 @@ msgid ""
 "This skill level has the same features as 'Hard', but may enjoy additional "
 "ruleset-defined bonuses."
 msgstr ""
+"\n"
+"Tato obtížnost má stejné vlastnosti jako „Těžká“, ale sada pravidel může "
+"přidat další bonusy."
 
 #: ai/difficulty.c:309
 msgid ""
@@ -433,6 +442,9 @@ msgid ""
 "This skill level's features include the following. (Some rulesets may define "
 "extra level-specific behavior.)"
 msgstr ""
+"\n"
+"Tato obtížnost má následující vlastnosti. Některé sady pravidel mohou pro "
+"tuto úroveň přidat další změny chování."
 
 #: ai/handicaps.c:86
 msgid "Doesn't build offensive diplomatic units."
@@ -452,6 +464,8 @@ msgid ""
 "THIS IS ONLY FOR TESTING OF NEW AI FEATURES! For ordinary servers, this "
 "level is no different to 'Hard'."
 msgstr ""
+"POUZE PRO TESTOVÁNÍ NOVÝCH FUNKCÍ AI! Na běžných serverech se tato úroveň "
+"chová stejně jako „Těžká“."
 
 #: ai/handicaps.c:99
 msgid "Has no restrictions on tax rates."
@@ -587,7 +601,7 @@ msgid " happy"
 msgstr " spokojeni"
 
 #: client/agents/cma_fec.c:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Food:       %10s Gold:    %10s\n"
@@ -599,13 +613,13 @@ msgid ""
 "Production completed: %s"
 msgstr ""
 "Název: %s\n"
-"Jídlo:         %10s Zlata:    %10s\n"
-"Production: %10s Luxus:  %10s\n"
-"Obchod:     %10s Věda:   %10s\n"
+"Jídlo:  %10s Zlato:  %10s\n"
+"Výroba: %10s Luxus:  %10s\n"
+"Obchod: %10s Výzkum: %10s\n"
 "\n"
-"    Lidé (D/B/V/D): %s\n"
-"          Růst města: %s\n"
-"Dokončení produkce: %s"
+"%*s%s: %s\n"
+"         Růst města: %s\n"
+" Dokončení výroby: %s"
 
 #: client/agents/cma_fec.c:430
 msgid "?cma:Very happy"
@@ -2033,7 +2047,7 @@ msgid ""
 "Select terrain type: shift+t or right-click here."
 msgstr ""
 "Změnit terén pole.\n"
-"Klávesová zkratka: T\n"
+"Klávesová zkratka: t\n"
 "Výběr typu terénu: Shift+T nebo kliknutí pravým tlačítkem sem."
 
 #: client/editor.c:204
@@ -2047,7 +2061,7 @@ msgid ""
 "Select resource type: shift+r or right-click here."
 msgstr ""
 "Změnit surovinu pole.\n"
-"Klávesová zkratka: R\n"
+"Klávesová zkratka: r\n"
 "Výběr typu suroviny: Shift+R nebo kliknutí pravým tlačítkem sem."
 
 #: client/editor.c:208
@@ -2061,7 +2075,7 @@ msgid ""
 "Select special type: shift+s or right-click here."
 msgstr ""
 "Upravit zvláštní prvky na poli.\n"
-"Klávesová zkratka: S\n"
+"Klávesová zkratka: s\n"
 "Výběr typu prvku: Shift+S nebo kliknutí pravým tlačítkem sem."
 
 #: client/editor.c:212 client/gui-gtk-3.22/citydlg.c:3095
@@ -2080,7 +2094,7 @@ msgid ""
 "Select road type: shift+p or right-click here."
 msgstr ""
 "Upravit cesty na poli.\n"
-"Klávesová zkratka: P\n"
+"Klávesová zkratka: p\n"
 "Výběr typu cesty: Shift+P nebo kliknutí pravým tlačítkem sem."
 
 #: client/editor.c:216
@@ -2094,7 +2108,7 @@ msgid ""
 "Select base type: shift+m or right-click here."
 msgstr ""
 "Vytvořit vojenskou základnu.\n"
-"Klávesová zkratka: M\n"
+"Klávesová zkratka: m\n"
 "Výběr typu základny: Shift+M nebo kliknutí pravým tlačítkem sem."
 
 #: client/editor.c:220 client/gui-gtk-3.22/editprop.c:675
@@ -2113,7 +2127,7 @@ msgid ""
 "Select unit type: shift+u or right-click here."
 msgstr ""
 "Vytvořit jednotku.\n"
-"Klávesová zkratka: U\n"
+"Klávesová zkratka: u\n"
 "Výběr typu jednotky: Shift+U nebo kliknutí pravým tlačítkem sem."
 
 #: client/editor.c:224 client/gui-gtk-3.22/citydlg.c:1590
@@ -2142,7 +2156,7 @@ msgid ""
 "Shortcut: v"
 msgstr ""
 "Upravit, zda hráč pole zná.\n"
-"Klávesová zkratka: V"
+"Klávesová zkratka: v"
 
 #: client/editor.c:228 client/gui-gtk-3.22/editprop.c:673
 #: client/gui-gtk-4.0/editprop.c:673
@@ -2156,6 +2170,10 @@ msgid ""
 "position on the map and use the property editor.\n"
 "Shortcut: b"
 msgstr ""
+"Vytvoří na poli počáteční pozici pro libovolný národ. Chcete-li ji "
+"vyhradit určitým národům, klikněte na ni na mapě prostředním tlačítkem a "
+"použijte editor vlastností.\n"
+"Klávesová zkratka: b"
 
 #: client/editor.c:234
 msgid "Copy/Paste"
@@ -3481,17 +3499,16 @@ msgid "Total Buy Cost: %d"
 msgstr "Celková cena nákupu: %d"
 
 #: client/gui-gtk-3.22/cma_fe.c:268 client/gui-gtk-4.0/cma_fe.c:279
-#, fuzzy
 msgid ""
 "For information on\n"
 "the citizen governor and governor presets,\n"
 "including sample presets,\n"
 "see README.governor."
 msgstr ""
-"Pro informace o:\n"
-"ASM a předvolbách\n"
-"včetně vzorů,\n"
-"si prohlédněte README.cma."
+"Informace o správci města\n"
+"a jeho předvolbách,\n"
+"včetně ukázek předvoleb,\n"
+"najdete v souboru README.governor."
 
 #: client/gui-gtk-3.22/cma_fe.c:283 client/gui-gtk-4.0/cma_fe.c:294
 msgid "Prese_ts:"
@@ -3878,6 +3895,8 @@ msgid ""
 "Switch player point-of-view. Use this to edit from the perspective of "
 "different players, or even as a global observer."
 msgstr ""
+"Přepněte pohled hráče. Můžete tak upravovat hru z pohledu různých hráčů "
+"nebo jako pozorovatel celé hry."
 
 #: client/gui-gtk-3.22/editgui.c:597 client/gui-gtk-4.0/editgui.c:604
 msgid "Show the property editor."
@@ -3909,12 +3928,16 @@ msgid ""
 "controls for example the half-width of the square of tiles that will be "
 "affected by the tool, or the size of a created city."
 msgstr ""
+"Změní velikost nástroje. Určuje například polovinu šířky čtverce polí "
+"zasažených nástrojem nebo velikost vytvářeného města."
 
 #: client/gui-gtk-3.22/editgui.c:1282 client/gui-gtk-4.0/editgui.c:1286
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
 msgstr ""
+"Změní parametr počtu. U nástroje pro jednotky například určuje, kolik "
+"jednotek umístíte najednou."
 
 #: client/gui-gtk-3.22/editgui.c:1290 client/gui-gtk-3.22/repodlgs.c:837
 #: client/gui-gtk-3.22/unitselect.c:97 client/gui-gtk-4.0/editgui.c:1294
@@ -3928,6 +3951,8 @@ msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
 msgstr ""
+"Určuje, pro kterého hráče se nástroj použije, například kdo bude "
+"vlastníkem vytvářených měst a jednotek."
 
 #: client/gui-gtk-3.22/editprop.c:671 client/gui-gtk-4.0/editprop.c:671
 msgid "Tile"
@@ -4303,6 +4328,10 @@ msgid ""
 "the objects is taken from the editor tool state. So for example, the \"tool "
 "value\" of the unit tool and its \"count\" parameter affect unit creation."
 msgstr ""
+"Vytvoří nový objekt stejného druhu, jaký zobrazuje otevřená karta "
+"vlastností, a přidá ho na tuto kartu. Konkrétní typ a počet objektů určuje"
+" nastavení nástroje. Například při vytváření jednotek rozhoduje zvolený "
+"typ jednotky a nastavený počet."
 
 #: client/gui-gtk-3.22/editprop.c:4924 client/gui-gtk-4.0/editprop.c:4934
 msgid "Destroy"
@@ -4312,7 +4341,7 @@ msgstr "Zničit"
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
-msgstr ""
+msgstr "Pošle serveru požadavek na smazání objektů označených v seznamu."
 
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
@@ -4332,6 +4361,9 @@ msgid ""
 "has higher precedence than |. A pattern may also be negated by prefixing it "
 "with !."
 msgstr ""
+"Filtrem určete, které vlastnosti se zobrazí. Filtr tvoří jeden či více "
+"vzorů oddělených znakem | („nebo“) nebo & („a“). Znak & má přednost před "
+"|. Vzor můžete vyloučit předponou !."
 
 #: client/gui-gtk-3.22/editprop.c:5046 client/gui-gtk-3.22/optiondlg.c:373
 #: client/gui-gtk-4.0/editprop.c:5069 client/gui-gtk-4.0/optiondlg.c:396
@@ -4343,6 +4375,8 @@ msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
 msgstr ""
+"Vrátí všechny upravené vlastnosti vybraných objektů na aktuální hodnoty "
+"uložené na serveru."
 
 #: client/gui-gtk-3.22/editprop.c:5056 client/gui-gtk-3.22/optiondlg.c:375
 #: client/gui-gtk-4.0/editprop.c:5079 client/gui-gtk-4.0/optiondlg.c:398
@@ -4355,6 +4389,8 @@ msgid ""
 "selected in the object list to the server. Modified properties' names are "
 "shown in red in the properties panel."
 msgstr ""
+"Odešle serveru všechny změněné vlastnosti objektů vybraných v seznamu. "
+"Názvy změněných vlastností jsou v panelu vlastností červené."
 
 #: client/gui-gtk-3.22/editprop.c:6212 client/gui-gtk-4.0/editprop.c:6237
 msgid "Property Editor"
@@ -5919,16 +5955,14 @@ msgid "Message Options"
 msgstr "Možnosti zpráv"
 
 #: client/gui-gtk-3.22/messagedlg.c:79 client/gui-gtk-4.0/messagedlg.c:83
-#, fuzzy
 msgid ""
 "Where to display messages?\n"
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual "
 "window"
 msgstr ""
 "Kde zobrazovat zprávy?\n"
-"\t<b>Výs</b>tupní okno ;\n"
-"\t<b>Zpr</b>ávové okno ;\n"
-"\t<b>Sam</b>ostatné okno"
+"Okno <b>výstupu</b> | Okno <b>zpráv</b> | Samostatné <b>vyskakovací</b> "
+"okno"
 
 #: client/gui-gtk-3.22/messagedlg.c:126 client/gui-gtk-4.0/messagedlg.c:130
 #: client/gui-qt/messagedlg.cpp:53
@@ -6751,15 +6785,15 @@ msgid "_Keep current soundset"
 msgstr "_Ponechat aktuální zvukovou sadu"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:73 client/gui-gtk-4.0/soundset_dlg.c:70
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Modpack suggests using %s soundset.\n"
 "It might not work with other soundsets.\n"
 "You are currently using soundset %s."
 msgstr ""
-"Modpack doporučuje použít sadu dlaždic %s.\n"
-"To nemusí fungovat s jinými.\n"
-"Nyní se používá sada dlaždic %s."
+"Modifikace doporučuje sadu zvuků %s.\n"
+"S jinými zvuky nemusí fungovat správně.\n"
+"Nyní používáte sadu zvuků %s."
 
 #: client/gui-gtk-3.22/soundset_dlg.c:114 client/gui-gtk-4.0/soundset_dlg.c:109
 msgid "Preferred musicset"
@@ -6774,15 +6808,15 @@ msgid "_Keep current musicset"
 msgstr "_Ponechat aktuální hudební sadu"
 
 #: client/gui-gtk-3.22/soundset_dlg.c:126 client/gui-gtk-4.0/soundset_dlg.c:121
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Modpack suggests using %s musicset.\n"
 "It might not work with other musicsets.\n"
 "You are currently using musicset %s."
 msgstr ""
-"Modpack doporučuje použít sadu dlaždic %s.\n"
-"To nemusí fungovat s jinými.\n"
-"Nyní se používá sada dlaždic %s."
+"Modifikace doporučuje sadu hudby %s.\n"
+"S jinou sadou nemusí fungovat správně.\n"
+"Nyní používáte sadu hudby %s."
 
 #: client/gui-gtk-3.22/spaceshipdlg.c:232 client/gui-gtk-4.0/spaceshipdlg.c:231
 msgid "_Launch"
@@ -11481,6 +11515,8 @@ msgid ""
 "free in another of your cities (if the 'savepalace' server setting is "
 "enabled).\n"
 msgstr ""
+"%s Pokud přijdete o město s touto stavbou, bude zdarma postavena v jiném "
+"vašem městě, je-li zapnutá serverová volba „savepalace“.\n"
 
 #. TRANS: indented unit class property, preserve leading spaces
 #: client/helpdata.c:1940
@@ -11900,6 +11936,8 @@ msgid ""
 "even if it has better odds when defending against it than when attacking "
 "it.\n"
 msgstr ""
+"%s Nepřátelská jednotka při automatickém útoku na tuto jednotku zaútočí, i"
+" když by proti ní měla při obraně větší šanci na vítězství.\n"
 
 #: client/helpdata.c:2491
 #, c-format
@@ -12175,6 +12213,8 @@ msgid ""
 "  %s %s performing this action during %s causes international outrage: the "
 "whole world gets Casus Belli against you.\n"
 msgstr ""
+"  %s %s provedení této akce během stavu %s vyvolá mezinárodní pobouření. "
+"Celý svět proti vám získá záminku k válce.\n"
 
 #. TRANS: successfully ... Peace, or Alliance
 #: client/helpdata.c:2868
@@ -12280,6 +12320,8 @@ msgid ""
 "  %s weaker when tired. If performed with less than a single move point left "
 "the attack power is reduced accordingly.\n"
 msgstr ""
+"  %s má při únavě menší sílu. Je-li akce provedena s méně než jedním bodem"
+" pohybu, síla útoku se úměrně sníží.\n"
 
 #: client/helpdata.c:2960
 #, c-format
@@ -18824,6 +18866,53 @@ msgid ""
 " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
 " 'zoom=1:map=t:show=none:format=magick|jpg'"
 msgstr ""
+"Příkaz řídí vytváření obrázků mapy. Podporované argumenty:\n"
+"  define <mapdef>  - vytvoří definici obrázku a vrátí číselné <id>\n"
+"  show <id>|all    - vypíše všechny definice nebo zobrazí jednu\n"
+"  create <id>|all  - ručně uloží obrázky aktuálního stavu mapy\n"
+"  delete <id>|all  - odstraní definice obrázků\n"
+"  colortest        - vytvoří zkušební obrázky se všemi barvami\n"
+"\n"
+"Současně může být aktivních více definic. Definice <mapdef> je seznam "
+"voleb oddělených dvojtečkou:\n"
+"\n"
+"volba                  (výchozí)  popis\n"
+"\n"
+"format=<[tool|]format> %-10s formát souboru\n"
+"show=<show>            %-10s kteří hráči se zobrazí\n"
+"  plrname=<name>                    jméno hráče\n"
+"  plrid=<id>                        číselný identifikátor hráče\n"
+"  plrbv=<bit vector>                viz příklad, první znak odpovídá id "
+"0\n"
+"turns=<turns>          %-10s uloží obrázek každých <turns> tahů\n"
+"                                  (0 = jen ruční uložení pomocí "
+"„create“)\n"
+"zoom=<zoom>            %-10s míra zvětšení (1–5)\n"
+"map=<map>              %-10s které vrstvy mapy vykreslit\n"
+"\n"
+"<[tool|]format> použije formát obrázku <format>, případně s uvedenou "
+"knihovnou <tool>. Dostupné knihovny a formáty:\n"
+"%s\n"
+"\n"
+"<show> určuje, kteří hráči se zobrazí a kolik obrázků se pro tuto definici"
+" uloží:\n"
+"%s\n"
+"\n"
+"<map> může obsahovat jednu či více těchto vrstev:\n"
+" - 'a' zobrazí území uvnitř hranic určených hráčů\n"
+" - 'b' zobrazí hranice určených hráčů\n"
+" - 'c' zobrazí města určených hráčů\n"
+" - 'f' zobrazí válečnou mlhu (jen obrázky pro jednoho hráče)\n"
+" - 'k' zobrazí jen to, co zná daný hráč (jen obrázky pro jednoho hráče)\n"
+" - 't' zobrazí všechny typy terénu\n"
+" - 'u' zobrazí jednotky určených hráčů\n"
+"\n"
+"Příklady <mapdef>:\n"
+" 'zoom=1:map=tcub:show=all:format=ppm|ppm'\n"
+" 'zoom=2:map=tcub:show=each:format=png'\n"
+" 'zoom=1:map=tcub:show=plrname:plrname=Otto:format=gif'\n"
+" 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
+" 'zoom=1:map=t:show=none:format=magick|jpg'"
 
 #: common/mapimg.c:779
 msgid "no map definition"
@@ -19474,6 +19563,8 @@ msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point, and for it not to have been rendered obsolete."
 msgstr ""
+"Některý ze současných spojenců musel někdy postavit %s a stavba ještě "
+"nesmí být zastaralá."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:511
@@ -20145,11 +20236,13 @@ msgstr ""
 "hráčem."
 
 #: common/reqtext.c:1460
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that somebody on the tile owner's team has the relationship '%s' "
 "with at least one other living player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje, aby někdo z týmu vlastníka pole měl vztah „%s“ s alespoň jedním "
+"dalším hráčem, který je ještě ve hře."
 
 #: common/reqtext.c:1466
 #, c-format
@@ -20161,11 +20254,13 @@ msgstr ""
 "nevyřazeným hráčem."
 
 #: common/reqtext.c:1475
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that somebody in the tile owner's alliance has the relationship "
 "'%s' with at least one other living player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje, aby někdo z aliance vlastníka pole měl vztah „%s“ s alespoň "
+"jedním dalším hráčem, který je ještě ve hře."
 
 #: common/reqtext.c:1481
 #, c-format
@@ -20205,11 +20300,13 @@ msgstr "Vyžaduje, aby vlastník pole neměl vztah „%s“ s druhým hráčem."
 #. * 'Never met', 'Foreign', 'Hosts embassy',
 #. * 'Provided Casus Belli'
 #: common/reqtext.c:1555
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that the tile has at least one unit whose owner has the "
 "relationship '%s' with at least one other living player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje na poli alespoň jednu jednotku, jejíž vlastník má vztah „%s“ s "
+"alespoň jedním dalším hráčem, který je ještě ve hře."
 
 #: common/reqtext.c:1561
 #, c-format
@@ -20221,33 +20318,42 @@ msgstr ""
 "s dosud nevyřazeným hráčem."
 
 #: common/reqtext.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that the tile has at least one unit whose owner is on a team where "
 "a member has the relationship '%s' with at least one other living player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje na poli alespoň jednu jednotku, v jejímž týmu má některý člen "
+"vztah „%s“ s alespoň jedním dalším hráčem, který je ještě ve hře."
 
 #: common/reqtext.c:1577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that no unit at the tile is owned by a player who is on a team "
 "where a member has the relationship '%s' with at least one other living "
 "player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Na poli nesmí být jednotka, v jejímž týmu má některý člen vztah „%s“ s "
+"alespoň jedním dalším hráčem, který je ještě ve hře."
 
 #: common/reqtext.c:1588
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that the tile has at least one unit whose owner is allied to "
 "someone that has the relationship '%s' with at least one other living player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Vyžaduje na poli alespoň jednu jednotku, jejíž vlastník je spojencem "
+"někoho, kdo má vztah „%s“ s alespoň jedním dalším hráčem, který je ještě "
+"ve hře."
 
 #: common/reqtext.c:1595
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that no unit at the tile is owned by a player allied to someone "
 "that has the relationship '%s' with any living player."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Na poli nesmí být jednotka, jejíž vlastník je spojencem někoho, kdo má "
+"vztah „%s“ s některým hráčem, který je ještě ve hře."
 
 #: common/reqtext.c:1605
 #, c-format
@@ -20813,11 +20919,13 @@ msgstr ""
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:2459
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius or "
 "the city radius of a trade partner."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"?terrainclass:Brání tomu terén %s na kterémkoli poli v dosahu města nebo "
+"některého města, s nímž obchoduje."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2485
@@ -20889,11 +20997,13 @@ msgstr ""
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2555
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Brání tomu terén s příznakem „%s“ na kterémkoli poli v dosahu města nebo "
+"některého města, s nímž obchoduje."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2580
@@ -20977,11 +21087,13 @@ msgstr ""
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2666
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Brání tomu cesta s příznakem „%s“ na kterémkoli poli v dosahu města nebo "
+"některého města, s nímž obchoduje."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2690
@@ -21068,11 +21180,13 @@ msgstr ""
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2776
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
 "radius or the city radius of a trade partner."
-msgstr "* Vyžaduje %d populace pro stavbu.\n"
+msgstr ""
+"Brání tomu prvek s příznakem „%s“ na kterémkoli poli v dosahu města nebo "
+"některého města, s nímž obchoduje."
 
 #: common/reqtext.c:2800
 #, c-format
@@ -22971,7 +23085,7 @@ msgstr ""
 #: data/civ2civ3/buildings.ruleset:1169 data/alien/buildings.ruleset:612
 #: data/multiplayer/buildings.ruleset:978
 msgid "Space Component"
-msgstr "Příslušenství vesmírné lodi. "
+msgstr "Součást kosmické lodi"
 
 #: data/civ1/buildings.ruleset:707 data/civ2/buildings.ruleset:979
 #: data/classic/buildings.ruleset:1020 data/sandbox/buildings.ruleset:1222
@@ -23009,7 +23123,7 @@ msgstr "* Vyžaduje %d populace pro stavbu.\n"
 #: data/civ2civ3/buildings.ruleset:1201 data/alien/buildings.ruleset:637
 #: data/multiplayer/buildings.ruleset:1007
 msgid "Space Module"
-msgstr "Modul vesmírné lodi"
+msgstr "Modul kosmické lodi"
 
 #: data/civ1/buildings.ruleset:735 data/civ2/buildings.ruleset:1007
 #: data/classic/buildings.ruleset:1049 data/sandbox/buildings.ruleset:1291
@@ -23059,7 +23173,7 @@ msgstr "Od každého druhu lze postavit až čtyři moduly kosmické lodi."
 #: data/civ2civ3/buildings.ruleset:1242 data/alien/buildings.ruleset:671
 #: data/multiplayer/buildings.ruleset:1045
 msgid "Space Structural"
-msgstr "Konstrukce vesmírné lodi"
+msgstr "Konstrukce kosmické lodi"
 
 #: data/civ1/buildings.ruleset:772 data/civ2/buildings.ruleset:1044
 #: data/classic/buildings.ruleset:1087 data/sandbox/buildings.ruleset:1332
@@ -26568,7 +26682,7 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:1081 data/civ2civ3/buildings.ruleset:1050
 #: data/multiplayer/buildings.ruleset:863
 msgid "SAM Battery"
-msgstr "SAM Baterie"
+msgstr "Baterie protiletadlových střel"
 
 #: data/civ2/buildings.ruleset:869 data/classic/buildings.ruleset:902
 #: data/multiplayer/buildings.ruleset:881
@@ -26843,7 +26957,7 @@ msgstr "Socha svobody"
 #: data/sandbox/buildings.ruleset:2346 data/civ2civ3/buildings.ruleset:2151
 #: data/multiplayer/buildings.ruleset:1856
 msgid "Sun Tzu's War Academy"
-msgstr "Sun Tzuova Bojová akademie"
+msgstr "Sun-c'ova vojenská akademie"
 
 #: data/civ2/buildings.ruleset:1827
 #, fuzzy, no-c-format
@@ -28084,7 +28198,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:2151 data/civ2civ3/units.ruleset:2088
 #: data/multiplayer/units.ruleset:1985
 msgid "AEGIS Cruiser"
-msgstr "AEGIS Křižník"
+msgstr "Křižník Aegis"
 
 #: data/civ2/units.ruleset:1949 data/classic/units.ruleset:1908
 #: data/sandbox/units.ruleset:2185 data/civ2civ3/units.ruleset:2122
@@ -28182,7 +28296,7 @@ msgstr "Za komunistické vlády špióni začínají na úrovni veterána."
 #: data/sandbox/units.ruleset:2839 data/civ2civ3/units.ruleset:2655
 #: data/alien/units.ruleset:1434 data/multiplayer/units.ruleset:2506
 msgid "Freight"
-msgstr "Náklaďák"
+msgstr "Nákladní vůz"
 
 #: data/civ2/units.ruleset:2446
 #, fuzzy
@@ -28330,6 +28444,8 @@ msgid ""
 "variety, but not all of these may have been localized into languages other "
 "than English."
 msgstr ""
+"Úplná sada hratelných národů umožňuje hrát s více hráči nebo větším "
+"výběrem národů. Některé národy nemusí být do všech jazyků přeložené."
 
 #: data/default/nationlist.ruleset:63
 msgid "?nationgroup:Medieval"
@@ -32252,26 +32368,25 @@ msgid "Storms move randomly at seas."
 msgstr "Bouře se po moři pohybují náhodně."
 
 #: data/civ2civ3/buildings.ruleset:107
-#, fuzzy
 msgid ""
 "Two cities with Airports can airlift one unit per turn (including aircraft). "
 "Airlifting instantly transports the unit from one city to another and will "
 "use all of the unit's movement points. A unit must have some movement points "
 "left to be airlifted, and cannot carry cargo."
 msgstr ""
-"Umožňuje městu stavět vzdušné jednotky se statusem veterán. Dále pak každá "
-"vzdušná jednotka, která ve městě stráví tah, bude plně vyléčena.\n"
-"\n"
-"Dvě města s letišti mohou zajistit letecký most. Ten přesune jednotku z "
-"jednoho města do druhého, spotřebuje mu však všechny pohybové jednotky. "
-"Jednotka musí mít před touto cestou nějaké body na pohyb k dispozici."
+"Dvě města s letišti mohou za tah letecky přepravit jednu jednotku, včetně "
+"letadel. Jednotka se ihned přemístí z jednoho města do druhého a "
+"spotřebuje všechny body pohybu. Musí jí ještě nějaké body zbývat a nesmí "
+"nic přepravovat."
 
 #: data/civ2civ3/buildings.ruleset:649
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by 50%, or by 100% once the Great "
 "Library has been built by any player."
-msgstr "Zvyšuje vědecké zdroje ve městě o 100%."
+msgstr ""
+"Zvyšuje výzkumný výnos města o 50 %, nebo o 100 %, jakmile některý hráč "
+"postaví Velkou knihovnu."
 
 #: data/civ2civ3/buildings.ruleset:1042
 #, no-c-format
@@ -32280,6 +32395,9 @@ msgid ""
 "all present in the same city, increasing to 300% once the Great Library, "
 "Isaac Newton's College, and the Internet have all been built."
 msgstr ""
+"Pokud má město knihovnu, univerzitu i výzkumnou laboratoř, celkový bonus "
+"je 150 %. Jakmile jsou postaveny Velká knihovna, Univerzita Izáka Newtona "
+"i Internet, vzroste na 300 %."
 
 #: data/civ2civ3/buildings.ruleset:1413
 #, no-c-format
@@ -32288,6 +32406,8 @@ msgid ""
 "in the same city, increasing to 200% once the Great Library and Isaac "
 "Newton's College have both been built."
 msgstr ""
+"Pokud má město knihovnu i univerzitu, celkový bonus je 100 %. Jakmile jsou"
+" postaveny Velká knihovna a Univerzita Izáka Newtona, zvýší se na 200 %."
 
 #: data/civ2civ3/buildings.ruleset:1636
 msgid ""
@@ -32315,6 +32435,15 @@ msgid ""
 "The differences from the former default ruleset, 'classic', are listed in "
 "full in README.civ2civ3."
 msgstr ""
+"Hrajete Freeciv se sadou pravidel civ2civ3:\n"
+"\n"
+"Průběh hry se více blíží Civ III, bojový systém vychází z Civ II.\n"
+"\n"
+"Sada je přizpůsobena hře jednoho hráče. AI je zpočátku méně útočná a v "
+"závěru náročnější.\n"
+"\n"
+"Úplný seznam rozdílů proti dřívější výchozí sadě „classic“ najdete v "
+"souboru README.civ2civ3."
 
 #: data/civ2civ3/terrain.ruleset:1792
 msgid ""
@@ -32322,12 +32451,18 @@ msgid ""
 "units such as Chariots and Catapults to travel through otherwise difficult "
 "terrain (Mountains, Jungle, and Swamp)."
 msgstr ""
+"Cesty urychlují pohyb pozemních jednotek. Těžkým kolovým jednotkám, jako "
+"jsou válečné vozy a katapulty, umožňují projet jinak obtížným terénem, "
+"například horami, džunglí a bažinami."
 
 #: data/civ2civ3/terrain.ruleset:1905
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally). "
 "Triremes may also travel up rivers (although later boats cannot)."
 msgstr ""
+"Pozemní jednotky se podél řek pohybují rychleji, ovšem bez pohybu "
+"úhlopříčně. Triéry mohou plout i proti proudu, pozdější plavidla to "
+"nedokážou."
 
 #: data/civ2civ3/units.ruleset:58 data/alien/units.ruleset:45
 #| msgid "Airlift"
@@ -35444,10 +35579,10 @@ msgid ""
 "from the city that originally produced it) and the destination."
 msgstr ""
 "Obchodní trasa vznikne, když vhodná jednotka, v klasické sadě karavana "
-"nebo nákladní doprava, vstoupí do vhodného města. Ve vlastním nebo "
-"spojeneckém městě musíte zadat rozkaz „Zřídit obchodní trasu“. Trasa spojí"
-" domovské město jednotky, které se nemusí shodovat s místem její výroby, s"
-" cílovým městem."
+"nebo nákladní vůz, vstoupí do vhodného města. Ve vlastním nebo spojeneckém"
+" městě musíte zadat rozkaz „Zřídit obchodní trasu“. Trasa spojí domovské "
+"město jednotky, které se nemusí shodovat s místem její výroby, s cílovým "
+"městem."
 
 #: data/helpdata.txt:612
 msgid ""
@@ -35536,6 +35671,8 @@ msgid ""
 "Cities are your sole instrument for developing natural resources and "
 "channeling them toward expansion, technological progress, and warfare."
 msgstr ""
+"Města jsou jediným prostředkem, jak získávat přírodní zdroje a využívat je"
+" k rozšiřování říše, technologickému rozvoji a vedení války."
 
 #: data/helpdata.txt:663
 msgid ""
@@ -35547,6 +35684,12 @@ msgid ""
 "citizen a city disappears (in the classic ruleset, this can leave ruins, "
 "although these have no effect on gameplay)."
 msgstr ""
+"Město založíte rozkazem „Založit město“ pro osadníky na vhodném terénu. "
+"Jednotka zmizí z mapy a stane se prvními obyvateli města. Město může "
+"vyrůst na desítky obyvatel. Část z nich v něm pracuje a další mohou odejít"
+" jako noví osadníci. Hlad, válka a mor obyvatele zabíjejí a město se "
+"zmenšuje. Přijde-li o posledního obyvatele, zanikne. V klasické sadě po "
+"něm mohou zůstat ruiny, které průběh hry neovlivňují."
 
 #: data/helpdata.txt:672
 msgid ""
@@ -35555,6 +35698,10 @@ msgid ""
 "own section. Depending on the ruleset, pollution (described in the Terrain "
 "help), plague, and migration can also be issues."
 msgstr ""
+"Růst měst je zpravidla žádoucí, ale přináší i potíže. Ve větších městech "
+"je těžší udržet obyvatele spokojené, čemuž se věnuje samostatná část "
+"nápovědy. Podle sady pravidel může být třeba řešit i znečištění (viz "
+"nápověda k terénu), mor a migraci."
 
 #: data/helpdata.txt:677
 msgid ""
@@ -35564,6 +35711,11 @@ msgid ""
 "city center tile. In other rulesets it may be different, and may vary "
 "depending on factors such as the size of the city and known technologies."
 msgstr ""
+"Každé město může obhospodařovat terén ve svém dosahu. V klasické sadě jde "
+"o pevný poloměr přibližně tří polí. Kromě středu města je tak na "
+"obdélníkové mapě dostupných 20 polí a na šestiúhelníkové 18. V jiných "
+"sadách se dosah může lišit a záviset například na velikosti města a "
+"objevených technologiích."
 
 #: data/helpdata.txt:684
 msgid ""
@@ -35575,6 +35727,12 @@ msgid ""
 "can also be ordered to pillage, which damages improvements. Worker units "
 "could even transform the terrain to make the tile less productive."
 msgstr ""
+"Chcete-li z pole něco získat, musí na něm pracovat obyvatel. Nemůžete "
+"začít obhospodařovat pole, na němž už pracuje sousední město, kde stojí "
+"nepřátelská jednotka nebo které leží na území jiného hráče. Rozmístěním "
+"jednotek na cenná pole kolem nepřátelského města tak můžete napodobit "
+"obléhání. Jednotkám můžete také nařídit plenění, které poškodí vylepšení. "
+"Dělnické jednotky mohou dokonce terén přeměnit na méně výnosný."
 
 #: data/helpdata.txt:693
 msgid ""
@@ -35588,6 +35746,13 @@ msgid ""
 "with an irrigation system (because cities come with water systems built-in); "
 "and is usually developed with roads. Other rulesets may differ in detail."
 msgstr ""
+"Část Terén popisuje, jak výnos pole ovlivňuje základní terén, zvláštní "
+"suroviny, například zvěř nebo nerosty, a vylepšení postavená jednotkami. "
+"Pole pod samotným městem se využívá automaticky bez přidělení obyvatele. "
+"Má i další výhody. V klasické sadě vždy přináší nejméně jeden bod jídla a "
+"jeden bod výroby bez ohledu na terén. Získává také výhody zavlažování, "
+"které daný terén nabízí, protože město má vlastní rozvod vody. Obvykle na "
+"něm vede i cesta. V jiných sadách se podrobnosti mohou lišit."
 
 #: data/helpdata.txt:704
 msgid ""
@@ -35599,6 +35764,11 @@ msgid ""
 "another tile to assign the citizen to work it, or click on the specialist "
 "icon to change their specialist role."
 msgstr ""
+"Práci obyvatel rozdělujete v okně města. Obyvatele pracujícího na poli "
+"označují tři čísla jeho výnosu. Kliknutím na čísla obyvatele z pole "
+"odvoláte a uděláte z něj specialistu (viz Specialisté). Změnu uvidíte v "
+"řadě ikon obyvatel. Kliknutím na jiné pole mu přidělíte práci na něm a "
+"kliknutím na ikonu specialisty změníte jeho obor."
 
 #: data/helpdata.txt:713
 msgid ""
@@ -35609,6 +35779,12 @@ msgid ""
 "role in which the new citizen has been placed. You can set different "
 "priorities for a city with the Citizen Governor; see its help section."
 msgstr ""
+"Kliknutím na střed města na jeho mapě se automaticky rozdělí práce a "
+"vyberou obhospodařovaná pole s důrazem na výnos jídla a růst. Práce se "
+"automaticky přidělí také novému obyvateli při růstu města. U takového "
+"města stojí za to zkontrolovat, co nový obyvatel dělá, a případně to "
+"změnit. Jiné priority můžete nastavit ve Správci města, viz příslušná část"
+" nápovědy."
 
 #: data/helpdata.txt:721
 msgid ""
@@ -35620,6 +35796,11 @@ msgid ""
 "These 'worker tasks' will be carried out by any units capable of them that "
 "are in 'auto settler' mode."
 msgstr ""
+"Namísto přímého rozkazu jednotce můžete zadat úpravu pole i z mapy města. "
+"V klientech s touto možností klikněte pravým tlačítkem na pole. Nabídka "
+"zobrazí možné úpravy, například zavlažování a stavbu cest (viz Úpravy "
+"terénu). Na každém poli lze současně zvolit jednu úpravu. Takové pracovní "
+"úkoly provedou vhodné jednotky v režimu automatického řízení osadníků."
 
 #: data/helpdata.txt:730
 msgid ""
@@ -35630,6 +35811,12 @@ msgid ""
 "immigrants. Units founding or contributing citizens to a city can also bring "
 "their own nationality."
 msgstr ""
+"Obyvatelé mohou mít jinou národnost než stát, v němž žijí. Při růstu města"
+" z přebytku jídla získají noví obyvatelé národnost současného vlastníka "
+"města. Obyvatelé dobytého nebo jinak předaného města si naopak ponechávají"
+" původní národnost, stejně jako přistěhovalci. Vlastní národnost mohou do "
+"města přinést také jednotky, které je zakládají nebo zvýší počet jeho "
+"obyvatel."
 
 #: data/helpdata.txt:737
 msgid ""
@@ -35641,6 +35828,12 @@ msgid ""
 "state's cities. Over time, citizens may be assimilated into their home city, "
 "depending on ruleset settings."
 msgstr ""
+"Obyvatelé jiné národnosti pracují a zpravidla se chovají stejně jako vaši "
+"vlastní. Mohou však být nešťastní, pokud vedete válku s jejich domovským "
+"státem. Jejich přítomnost také zlevňuje jeho agentům vyvolání vzpoury ve "
+"vašich městech. Pokud je povolena migrace, častěji se stěhují do měst "
+"svého státu. Podle nastavení sady pravidel mohou časem splynout s "
+"ostatními obyvateli svého města."
 
 #: data/helpdata.txt:745
 msgid ""
@@ -35649,6 +35842,10 @@ msgid ""
 "enabled, you can see the cultural makeup of your cities and any consequent "
 "effects on happiness in the City dialog, on the Happiness tab."
 msgstr ""
+"Některé sady pravidel národnost nerozlišují. Obyvatelé pak vždy přijímají "
+"národnost svého domovského města. Je-li národnost zapnutá, uvidíte "
+"národnostní složení měst a případné dopady na náladu v okně města na kartě"
+" Spokojenost."
 
 #: data/helpdata.txt:751
 msgid ""
@@ -35657,6 +35854,9 @@ msgid ""
 "the sections on City Improvements and Wonders of the World for more "
 "information."
 msgstr ""
+"Města lze zdokonalit nejrůznějšími stavbami. Mohou zvýšit výnos, posílit "
+"obranu či dát městu nové schopnosti. Podrobnosti najdete v částech Městské"
+" stavby a Divy světa."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:760
@@ -35671,6 +35871,11 @@ msgid ""
 "can stop working. A city may outgrow the land available for it to work, in "
 "which case some citizens must become specialists."
 msgstr ""
+"První obyvatelé obvykle pracují v okolí města a každý získává výnos z "
+"jednoho pole. Mohou však mít i specializaci. Změna na specialistu je "
+"jediný způsob, jak obyvatele uvolnit z práce na poli. Pokud se město "
+"rozroste natolik, že už nemá volná pole, musí se část obyvatel stát "
+"specialisty."
 
 #: data/helpdata.txt:768
 msgid ""
@@ -35678,12 +35883,16 @@ msgid ""
 "do not contribute to unhappiness or to celebration. See the section on "
 "Happiness for more details."
 msgstr ""
+"Specialisté jsou díky svému postavení trvale spokojení. Nepřispívají k "
+"nespokojenosti ani k oslavám. Podrobnosti najdete v části Spokojenost."
 
 #: data/helpdata.txt:772
 msgid ""
 "This section describes the available specialist roles, their effects, and "
 "their requirements, if any."
 msgstr ""
+"Tato část popisuje dostupné specializace, jejich účinky a případné "
+"požadavky."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:782
@@ -35691,7 +35900,6 @@ msgid " Happiness"
 msgstr " Spokojenost"
 
 #: data/helpdata.txt:783
-#, fuzzy
 msgid ""
 "Keeping your citizens happy (or at least content) is one of the most "
 "important objectives in Freeciv. When your citizens become unhappy, your "
@@ -35700,11 +35908,11 @@ msgid ""
 "increase greatly. (If migration is enabled, happiness also affects the "
 "relative desirability of cities; see the section on Migration for details.)"
 msgstr ""
-"Obyvatelé mohou být šťastni, spokojení nebo nespokojení.  Udržovat obyvatele "
-"šťastné (nebo alespoň spokojené) je jeden z nejdůležitějších úkolů ve hře. "
-"Pokud bude obyvatelstvo nespokojené, ve Vašem městě vypuknou výtržnosti (což "
-"přeruší produkci). Kdežto, pokud jsou Vaši lidé šťastni, budou oslavovat a "
-"Vaše produkce se značně zvýší."
+"Udržet obyvatele šťastné nebo alespoň spokojené patří k nejdůležitějším "
+"cílům ve Freeciv. Pokud převládne nespokojenost, ve městech propuknou "
+"nepokoje a naruší výrobu. Šťastní obyvatelé naopak mohou začít slavit a "
+"výrazně zvýšit výrobu. Při zapnuté migraci ovlivňuje spokojenost také "
+"přitažlivost měst, viz část Migrace."
 
 #: data/helpdata.txt:791
 msgid ""
@@ -35714,9 +35922,12 @@ msgid ""
 "classic rules, each citizen in a city after the fourth will be generated "
 "unhappy, instead of content."
 msgstr ""
+"Obyvatel pracující na poli může být šťastný, spokojený, nešťastný nebo "
+"rozzlobený. Za běžných okolností je spokojený. S růstem města však "
+"přelidnění vyvolává nespokojenost. V klasické sadě jsou noví obyvatelé od "
+"pátého dál nešťastní místo spokojených."
 
 #: data/helpdata.txt:797
-#, fuzzy
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder. A city in disorder produces no food "
@@ -35725,11 +35936,11 @@ msgid ""
 "revolt. Prolonged disorder under certain governments can lead to a "
 "spontaneous national revolution, overthrowing your government."
 msgstr ""
-"Pokud počet nespokojených obyvatel překročí počet šťastných, ve městě "
-"vypuknou výtržnosti. Město s výtržnostma neprodukuje nic. Pro diplomata je "
-"jednodušší vyvolat převrat ve městě s výtržnostmi. Dlouhodobé výtržnosti v "
-"Demokracii (kapitalismu) mohou vést k samovolné revoluci, jež vyvrátí Vaši "
-"vládu."
+"Převýší-li ve městě počet nešťastných obyvatel počet šťastných, vypuknou "
+"nepokoje. Nepokojné město nevytváří přebytky jídla ani výroby, body "
+"výzkumu ani daně. Dál vyrábí pouze luxus. Nepřátelští agenti v něm také "
+"snáze vyvolají vzpouru. Za některých forem vlády mohou dlouhé nepokoje "
+"vyvolat spontánní revoluci a svrhnout vládu."
 
 #: data/helpdata.txt:805
 msgid ""
@@ -35740,6 +35951,10 @@ msgid ""
 "cities are ever to work more than four terrain tiles at once, the problem of "
 "morale must be confronted more directly."
 msgstr ""
+"Nálada se mění jen obyvatelům pracujícím na polích. Specialisté jsou díky "
+"svému postavení trvale spokojení (viz Specialisté). Nešťastného obyvatele "
+"tedy můžete přeřadit mezi specialisty. Má-li ovšem město obhospodařovat "
+"současně více než čtyři pole, musíte nespokojenost začít řešit přímo."
 
 #: data/helpdata.txt:813
 msgid ""
@@ -35747,6 +35962,9 @@ msgid ""
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
 msgstr ""
+"Nešťastné obyvatele můžete různými způsoby změnit na spokojené. Tím "
+"předejdete nepokojům. Šťastní obyvatelé navíc vyvažují nešťastné a "
+"přinášejí další výhody."
 
 #: data/helpdata.txt:818
 msgid ""
@@ -35754,31 +35972,30 @@ msgid ""
 "citizens are happy and none remain unhappy. The effects of celebration vary; "
 "in the classic ruleset, they depend on your government type:"
 msgstr ""
+"Dostatečně velké město slaví, pokud je nejméně polovina jeho obyvatel "
+"šťastná a nikdo nezůstává nešťastný. Účinky oslav se liší a v klasické "
+"sadě závisejí na formě vlády:"
 
 #: data/helpdata.txt:822
-#, fuzzy
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for tiles which produce more than 2 points of any resource (food, "
 "production, or trade)."
 msgstr ""
-" -  Pod Anarchii nebo despotismem, neobdržíte normální penalizaci, která "
-"postihuje políčka s produkcí vyšší jak 2 jednotky kteréhokoliv zdroje "
-"(jídlo, štíty, obchod)."
+" - Za anarchie nebo despotismu se neuplatní obvyklý postih na polích, "
+"která dávají více než 2 body jídla, výroby nebo obchodu."
 
 #: data/helpdata.txt:826
-#, fuzzy
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade point in any tile which "
 "already produces at least 1 trade."
 msgstr ""
-" - Monarchie a Socialismus (komunismus) získá obchodní bonusy Republiky/"
-"Demokracie, tj. 1 jednotka obchodu ke každému políčku, které produkuje "
-"alespoň 1."
+" - Za monarchie nebo komunismu získá město obchodní bonus republiky a "
+"demokracie: 1 bod navíc z každého pole, které už přináší nejméně 1 bod "
+"obchodu."
 
 #: data/helpdata.txt:830
-#, fuzzy
 msgid ""
 " - Under a Republic or a Democracy, your city will enter \"rapture\": its "
 "population will increase by 1 each turn until there is no excess food or "
@@ -35787,9 +36004,11 @@ msgid ""
 "surplus -- which can be difficult enough -- and then waiting dozens of turns "
 "for their granary to fill."
 msgstr ""
-" - Pod Republikou nebo Demokracii se budou oslavující města zvětšovat o 1 "
-"každým tahem, pokud jim nepochybí jídlo nebo pokud se vlivem velikosti města "
-"neobjeví víc spokojených/nespokojených lidí, takže město přestane oslavovat."
+" - Za republiky nebo demokracie město zažije prudký růst. V každém tahu "
+"přibude 1 obyvatel, dokud má město přebytek jídla a dost šťastných "
+"obyvatel k oslavám. Bez prudkého růstu musí velká města nejprve obtížně "
+"dosáhnout přebytku a pak čekat desítky tahů, než se jim naplní zásoby "
+"jídla."
 
 #: data/helpdata.txt:837
 msgid ""
@@ -35799,6 +36018,10 @@ msgid ""
 "precise thresholds depend on government type; see the section on Government "
 "for details."
 msgstr ""
+"Jak už bylo uvedeno, v malých říších je prvním nešťastným obyvatelem města"
+" jeho pátý obyvatel. S každým rozšířením říše se hranice může snížit, což "
+"napodobuje obtížnost udržení pořádku ve velké říši. Přesné hranice "
+"závisejí na formě vlády, viz Formy vlády."
 
 #: data/helpdata.txt:845
 msgid ""
@@ -35809,6 +36032,12 @@ msgid ""
 "unhappy before any unhappy citizens can be made content, but in all other "
 "respects behave as unhappy citizens."
 msgstr ""
+"Založení nebo dobytí města proto může vyvolat nepokoje v celé říši. S "
+"dalším rozšiřováním mohou následovat další stupně postihu. Pokud říše "
+"přeroste mez, za níž už nikdo není přirozeně spokojený, objeví se "
+"rozzlobení obyvatelé. Nejprve musíte všechny rozzlobené změnit na "
+"nešťastné a teprve pak můžete nešťastné změnit na spokojené. Jinak se "
+"rozzlobení chovají jako nešťastní."
 
 #: data/helpdata.txt:855
 msgid ""
@@ -35819,6 +36048,11 @@ msgid ""
 "rates; see the section on Trade. Luxury points may also be produced by other "
 "means, such as entertainer specialists in the classic ruleset."
 msgstr ""
+"Luxus zlepšuje náladu. Za každé dva body luxusu se jeden spokojený "
+"obyvatel změní na šťastného. Pokud už žádní spokojení nezbývají, nešťastní"
+" se nejprve změní na spokojené a poté na šťastné. Část výnosu z obchodu se"
+" městu vrací jako luxus podle sazeb platných v celé říši (viz Obchod). "
+"Luxus lze získat i jinak, například od bavičů v klasické sadě pravidel."
 
 #: data/helpdata.txt:863
 msgid ""
@@ -35827,6 +36061,9 @@ msgid ""
 "the classic rules. Some wonders of the world can also have this effect. See "
 "the appropriate sections for details."
 msgstr ""
+"Některé stavby, například chrámy a kolosea v klasických pravidlech, "
+"uklidní zbývající obyvatele nešťastné kvůli přelidnění. Totéž dokážou "
+"některé divy světa. Podrobnosti najdete v příslušných částech nápovědy."
 
 #: data/helpdata.txt:868
 msgid ""
@@ -35840,12 +36077,21 @@ msgid ""
 "units (\"field units\") are inherently aggressive and cause unhappiness "
 "regardless of location."
 msgstr ""
+"Náladu mohou ovlivňovat vojenské jednotky. V autoritářských režimech "
+"pomáhají posádky ve městech potlačovat nespokojenost stanným právem. V "
+"zastupitelských režimech jsou obyvatelé nešťastní, pokud jejich město živí"
+" jednotky nasazené útočně. Patří mezi ně jednotky nacházející se mimo vaše"
+" území, mimo přátelská města včetně měst spojenců a mimo vhodnou základnu "
+"do tří polí od přátelského města. Určité polní jednotky jsou však ze své "
+"podstaty útočné a vyvolávají nespokojenost kdekoli."
 
 #: data/helpdata.txt:879
 msgid ""
 "If you are at war with a civilization and some of your citizens are of that "
 "nationality, those citizens may also become unhappy."
 msgstr ""
+"Pokud vedete válku s jinou civilizací, vaši obyvatelé její národnosti "
+"mohou být nešťastní."
 
 #: data/helpdata.txt:882
 msgid ""
@@ -35856,12 +36102,19 @@ msgid ""
 "Cathedral -- can offset any kind of unhappiness, even that caused by "
 "military or diplomatic tensions."
 msgstr ""
+"Tato nespokojenost se liší od nespokojenosti z přelidnění a neodstraní ji "
+"luxus ani většina staveb. V klasické sadě mohou policejní stanice a div "
+"Volební právo žen mírnit nespokojenost způsobenou jednotkami. Jen některé "
+"divy, například Katedrála J. S. Bacha, mohou odstranit jakýkoli druh "
+"nespokojenosti včetně té způsobené vojenským či diplomatickým napětím."
 
 #: data/helpdata.txt:889
 msgid ""
 "The Happiness tab on the city dialog will give detailed insight into the "
 "mood of the citizenry and its causes."
 msgstr ""
+"Na kartě Spokojenost v okně města najdete podrobný přehled nálady obyvatel"
+" a jejích příčin."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:896
@@ -35879,6 +36132,9 @@ msgid ""
 "on city size. Rulesets which enable plague will typically have city "
 "improvements or other means to reduce the risk of plague."
 msgstr ""
+"Když město zasáhne mor, přijde o jednoho obyvatele. Pokud riziko moru "
+"nesnížíte, omezuje přirozeně velikost města. Sady, které mor používají, "
+"zpravidla nabízejí stavby či jiné způsoby, jak riziko omezit."
 
 #: data/helpdata.txt:906
 msgid ""
@@ -35889,6 +36145,11 @@ msgid ""
 "several turns, increasing the risk of plague in those cities by a factor "
 "depending on the size of both cities."
 msgstr ""
+"Riziko moru závisí na velikosti města, protože přelidnění zhoršuje "
+"hygienu, a na znečištění, které město vytváří. Mor se může šířit po "
+"obchodních trasách bez ohledu na národnost. Po vypuknutí moru zůstává "
+"město několik tahů infekční pro obchodní partnery a zvyšuje riziko nákazy "
+"v jejich městech podle velikosti obou měst."
 
 #: data/helpdata.txt:913
 msgid ""
@@ -35909,6 +36170,9 @@ msgid ""
 "relative attractions of living in each city. Whether migration is enabled is "
 "controlled by the server option 'migration'; it is disabled by default."
 msgstr ""
+"Migrace je stěhování obyvatel mezi městy podle přitažlivosti života v "
+"nich. O tom, zda je povolená, rozhoduje nastavení serveru „migration“. Ve "
+"výchozím nastavení je vypnutá."
 
 #: data/helpdata.txt:926
 msgid ""
@@ -35916,6 +36180,10 @@ msgid ""
 "game may migrate to a nearby, more attractive city, either within the same "
 "nation or even across national borders (to a lesser extent, by default)."
 msgstr ""
+"Je-li migrace povolená, může se každých několik tahů jeden obyvatel z "
+"každého města přestěhovat do nedalekého přitažlivějšího města. Může přejít"
+" do jiného města téhož národa nebo překročit hranici. Přeshraniční migrace"
+" je standardně méně častá."
 
 #: data/helpdata.txt:931
 msgid ""
@@ -35925,6 +36193,10 @@ msgid ""
 "order of importance. (Each factor counts for much more in the citizen's "
 "current city, as they prefer not to move without a compelling reason.)"
 msgstr ""
+"Migraci nemůžete přímo zastavit ani řídit. Můžete však ovlivnit, jak "
+"přitažlivá jsou vaše města. Následující faktory jsou seřazeny zhruba od "
+"nejdůležitějšího. Každý z nich má v současném městě obyvatele větší váhu, "
+"protože bez silného důvodu raději zůstane."
 
 #: data/helpdata.txt:938
 msgid " - City size."
@@ -35935,12 +36207,16 @@ msgid ""
 " - The number of happy citizens. (To a lesser extent, unhappy and angry "
 "citizens reduce the desirability of a city.)"
 msgstr ""
+" - Počet šťastných obyvatel. Nešťastní a rozzlobení obyvatelé přitažlivost"
+" města v menší míře snižují."
 
 #: data/helpdata.txt:943
 msgid ""
 " - In rulesets where nationality is enabled, citizens have a strong "
 "preference to move to cities of their own nationality."
 msgstr ""
+" - V sadách s národností dávají obyvatelé výrazně přednost stěhování do "
+"měst svého národa."
 
 #: data/helpdata.txt:946
 msgid ""
@@ -35948,12 +36224,16 @@ msgid ""
 "desirability (further wonders do not contribute except by the lesser effect "
 "of their build cost)."
 msgstr ""
+" - Přítomnost libovolného divu výrazně zvýší přitažlivost města. Další "
+"divy ji zvýší už jen menším přínosem svých stavebních nákladů."
 
 #: data/helpdata.txt:950
 msgid ""
 " - Capital cities are more attractive than other cities, all other factors "
 "being equal; in addition, citizens will never migrate out of a capital city."
 msgstr ""
+" - Za jinak stejných okolností přitahují hlavní města více obyvatel než "
+"ostatní města. Z hlavního města se navíc obyvatelé nikdy neodstěhují."
 
 #: data/helpdata.txt:954
 msgid " - A high risk of plague reduces a city's attractiveness."
@@ -35969,6 +36249,8 @@ msgid ""
 "distance that a citizen is prepared to migrate is controlled by the server "
 "option 'mgr_dist'."
 msgstr ""
+" - Vzdálenější města jsou méně přitažlivá. Největší vzdálenost, na jakou "
+"se obyvatel přestěhuje, omezuje serverová volba „mgr_distance“."
 
 #: data/helpdata.txt:962
 msgid " - Trade surplus."
@@ -35990,6 +36272,9 @@ msgid ""
 "cities; these are noted in other sections of the help. (The classic ruleset "
 "contains no such effects.)"
 msgstr ""
+" - Podle sady pravidel mohou přitažlivost měst zvýšit nebo snížit i jiné "
+"okolnosti, například forma vlády a městské stavby. Uvádějí je další části "
+"nápovědy. V klasické sadě takové účinky nejsou."
 
 #: data/helpdata.txt:974
 msgid ""
@@ -35998,6 +36283,9 @@ msgid ""
 "the server option 'mgr_foodneeded' is set, they will not migrate to cities "
 "which would not have enough food to support them."
 msgstr ""
+"Obyvatelé se nepřestěhují do města, které už kvůli nějakému omezení nemůže"
+" růst, například pokud mu chybí akvadukt. Pokud je zapnuta serverová volba"
+" „mgr_foodneeded“, nepřestěhují se ani do města, které by je neuživilo."
 
 #: data/helpdata.txt:979
 msgid ""
@@ -36007,6 +36295,10 @@ msgid ""
 "and the last citizen from your only remaining city will never migrate to "
 "another nation."
 msgstr ""
+"Migrace může způsobit i úplné opuštění města, přičemž jeho jednotky "
+"přejdou pod vaše nejbližší zbývající město. Město s divem však nikdy tímto"
+" způsobem nezanikne, takže div zůstane zachován. Poslední obyvatel vašeho "
+"jediného zbývajícího města se nikdy nepřestěhuje k jinému národu."
 
 #: data/helpdata.txt:985
 msgid ""
@@ -36020,6 +36312,9 @@ msgid ""
 "different effect. Each city may have only one of each improvement, and some "
 "improvements require others to have been built first."
 msgstr ""
+"Města lze vylepšovat různými stavbami s různými účinky. V každém městě "
+"může stát jen jedna stavba každého druhu. Některé vyžadují, abyste nejprve"
+" postavili jinou."
 
 #: data/helpdata.txt:996
 msgid ""
@@ -36032,6 +36327,13 @@ msgid ""
 "obviously this should be avoided as the improvements chosen might not be "
 "ones you would have preferred to sell."
 msgstr ""
+"Stavby vyžadují body výroby. Mnoho dokončených staveb stojí na údržbě "
+"každý tah jednu či více jednotek zlata. Stavbu můžete rozebrat a prodat, a"
+" získat tak jednu jednotku zlata za každý bod výroby použitý na její "
+"stavbu. Každý tah lze prodat nejvýše jednu stavbu v každém městě. Pokud v "
+"některém tahu nedokážete zaplatit údržbu všech staveb, část se automaticky"
+" prodá. Vyhněte se tomu, pokud můžete, protože hra nemusí vybrat stavby, "
+"které byste se rozhodli prodat sami."
 
 #: data/helpdata.txt:1006
 msgid ""
@@ -36039,6 +36341,8 @@ msgid ""
 "technologies, and some improvements can become obsolete, at which point they "
 "are automatically sold."
 msgstr ""
+"Většina staveb se zpřístupní po objevu určitých technologií. Některé mohou"
+" také zastarat a v takovém případě se automaticky prodají."
 
 #: data/helpdata.txt:1017
 msgid ""
@@ -36049,6 +36353,11 @@ msgid ""
 "classic ruleset) can contribute their full cost in production points towards "
 "the construction of a wonder in another city."
 msgstr ""
+"Divy jsou zvláštní stavby. Každý z nich může v dané hře dokončit jen "
+"jediný hráč a účinek často prospívá celé jeho civilizaci. Běžné městské "
+"stavby se musí platit z místní výroby. Určité jednotky, v klasické sadě "
+"karavany a nákladní vozy, však mohou na stavbu divu v jiném městě přispět "
+"plným počtem bodů výroby, které stála jejich vlastní výroba."
 
 #: data/helpdata.txt:1025
 msgid ""
@@ -36059,6 +36368,11 @@ msgid ""
 "must personally achieve the advance required by each wonder to build it, it "
 "will be disabled when any player achieves the obsoleting advance."
 msgstr ""
+"Dokončený div zůstane ve městě, které jej postavilo. Nelze jej prodat ani "
+"zničit bez zničení celého města. Některé divy ale za podmínek daných sadou"
+" pravidel zastarávají a ztrácejí účinek. V mnoha sadách musíte technologii"
+" potřebnou ke stavbě sami znát, ale k vyřazení divu stačí, aby příslušnou "
+"technologii objevil kterýkoli hráč."
 
 #: data/helpdata.txt:1040
 msgid ""
@@ -36067,6 +36381,9 @@ msgid ""
 "as military units, whose talents are those of defense and aggression, and a "
 "few noncombatants which support expansion, diplomacy, and trade."
 msgstr ""
+"Jednotky umožňují vaší civilizaci pohybovat se, přežít a rozšiřovat říši. "
+"Dělí se na vojenské, které slouží k útoku a obraně, a na několik "
+"nebojových typů, které pomáhají s osidlováním, diplomacií a obchodem."
 
 #: data/helpdata.txt:1046
 msgid ""
@@ -36080,12 +36397,23 @@ msgid ""
 "section on Production. A few units, particularly those that you start the "
 "game with, have no home city and thus require no upkeep."
 msgstr ""
+"Jednotky se obvykle vyrábějí ve městech za body výroby. Město, které "
+"jednotku vyrobilo, je jejím domovem a zajišťuje jí údržbu. Jednotce "
+"navštěvující jiné město můžete domovské město změnit. Údržba jednotek "
+"patří k hlavním výdajům. Většině jednotek musí domovské město každý tah "
+"odvádět například body výroby, některé autokratické formy vlády však "
+"umožňují vydržovat několik jednotek zdarma. Pokud náklady na jednotku "
+"převáží přínos, můžete ji rozpustit (viz Výroba). Některé jednotky, "
+"zejména ty z počátku hry, nemají domovské město, a proto údržbu "
+"nevyžadují."
 
 #: data/helpdata.txt:1057
 msgid ""
 "Most units begin every turn with one or more movement points. Every action "
 "undertaken by a unit consumes movement points."
 msgstr ""
+"Většina jednotek na začátku každého tahu dostane jeden či více bodů "
+"pohybu. Každá jejich akce tyto body spotřebovává."
 
 #: data/helpdata.txt:1060
 msgid ""
@@ -36096,6 +36424,11 @@ msgid ""
 "section on Zones of Control). The number of movement points consumed may "
 "depend on the type of terrain; see the Terrain help."
 msgstr ""
+"Základní akcí je pohyb. Jednotky mohou vstoupit na sousední pole s "
+"omezeními podle své povahy, tedy terénu, který jim vyhovuje, podle "
+"diplomatických závazků (viz Diplomacie) a podle nepřátelských jednotek "
+"(viz Zóny kontroly). Cena přesunu v bodech pohybu může záviset na terénu "
+"(viz Terén)."
 
 #: data/helpdata.txt:1068
 msgid ""
@@ -36106,6 +36439,11 @@ msgid ""
 "firepower); the Combat section describes the process in detail, and the "
 "following sections list specific units' attributes."
 msgstr ""
+"Jednotka nemůže vstoupit na pole obsazené nepřítelem. Pokud to nařídíte "
+"jednotce schopné útoku, místo toho zaútočí a boj probíhá, dokud jedna z "
+"jednotek není zničena. Výsledek závisí na bodech zdraví, síle útoku a "
+"obrany a palebné síle obou jednotek. Průběh podrobně popisuje část Boj. V "
+"následujících částech jsou vlastnosti konkrétních jednotek."
 
 #: data/helpdata.txt:1076
 msgid ""
@@ -36115,9 +36453,12 @@ msgid ""
 "surviving combat), which may provide further levels of bonuses beyond those "
 "available from their initial training."
 msgstr ""
+"Vlastnosti jednotky může zlepšit její veteránská úroveň. Některé městské "
+"stavby či jiné vlivy umožňují vyrobit jednotku rovnou jako veterána. "
+"Jednotky mohou získat zkušenosti i po výrobě, například přežitím boje, a "
+"získat tak další bonusy nad rámec počátečního výcviku."
 
 #: data/helpdata.txt:1084
-#, fuzzy
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved. Normally, a unit which has not moved will regain "
@@ -36130,17 +36471,15 @@ msgid ""
 "recovery (such as the United Nations in the classic ruleset). Damaged units "
 "in Sentry mode will wake up when they have regained all of their hit points."
 msgstr ""
-"Jednotky poškozené v boji regenerují každý tah, pokud se nepohybují. Za "
-"normálních okolností se jednotka, která se nepohne, uzdraví o jeden bod za "
-"kolo.  Pozemní jednotky ve městě s kasárnami nebo námořní jednotky ve městě "
-"s loděnicí nebo vzdušná jednotka ve městě s letištěm získá všechny ztracené "
-"body zdraví, pokud stráví ve městě tah. Jinak jednotka, kerá zůstane jeden "
-"tah ve městě, získá jednu třetinu zdraví.  Jednotka, která stráví tah v "
-"pevnosti, se uzdraví o jednu čtvrtinu.  Opevněné jednotky se léčí o jeden "
-"bod rychleji.  Div světa Spojené Národy urychlí léčení o další dva body, bez "
-"ohledu na to, zda-li se jednotka pohla nebo ne.  Vrtulníky musí počítat "
-"kromě tohoto ještě se ztrátou dvou bodů zdraví, pokud neukončí tah ve městě. "
-"Poškozené jednotky v režimu střežení se aktivují, pokud se kompletně uzdraví."
+"Jednotky poškozené v boji si obnovují body zdraví každý tah, v němž se "
+"nepohnou. Obvykle získají jeden bod za tah a opevněné jednotky o jeden "
+"více. Jednotka, která stráví tah ve městě, si obnoví třetinu základního "
+"počtu bodů zdraví. Vhodné městské stavby mohou hojení ještě urychlit. V "
+"terénu mohou hojení zlepšit základny, například pevnosti v klasické sadě. "
+"Jednotka musí na poli zůstat celý tah, aby získala tento bonus. Hojení "
+"mohou urychlit i divy, například Organizace spojených národů v klasické "
+"sadě. Poškozená jednotka v režimu hlídky se probudí, jakmile se zcela "
+"uzdraví."
 
 #: data/helpdata.txt:1097
 msgid ""
@@ -36154,17 +36493,23 @@ msgid ""
 "of the total; however, in some rulesets (but not the classic rules) it will "
 "lose some or all of its veteran levels."
 msgstr ""
+"S pokrokem se zpřístupní nové typy jednotek a některé staré zastarají. "
+"Objev příslušné technologie neovlivní stávající jednotky, ale další "
+"jednotky zastaralého typu už nevyrobíte. Ve vlastním městě můžete "
+"zastaralou jednotku za zlato vylepšit na nejnovější obdobu. Cena roste s "
+"rozdílem nákladů na výrobu obou typů. Při vylepšení zůstane zachován poměr"
+" aktuálních bodů zdraví a pohybu k jejich maximu. V některých sadách může "
+"jednotka přijít o část nebo celou veteránskou úroveň, v klasické sadě se "
+"to nestává."
 
 #: data/helpdata.txt:1115
-#, fuzzy
 msgid ""
 "In standard combat, when one unit attacks another unit, either the attacker "
 "will be destroyed, or the defender will be destroyed -- never both (unless "
 "the attacker was a missile)."
 msgstr ""
-"Pokud jedna jednotka útočí na jinou, bude útočník nebo obránce zničen - "
-"nikdy ne oba (pokud není útočníkem raketa).  Výsledek záleží na několika "
-"faktorech, včetně náhody."
+"Když v běžném boji jednotka zaútočí na jinou, je zničen útočník, nebo "
+"obránce. Oba zároveň mohou být zničeni jen tehdy, pokud útočila střela."
 
 #: data/helpdata.txt:1119
 msgid ""
@@ -36173,6 +36518,9 @@ msgid ""
 "no damage, and damages every unit in the target tile or city, but defenders "
 "are never completely destroyed.)"
 msgstr ""
+"V některých sadách pravidel mohou určité jednotky použít odlišný typ útoku"
+" zvaný ostřelování. Útočník při něm neutrpí žádnou újmu a poškodí každou "
+"jednotku na cílovém poli nebo ve městě, žádného obránce ale úplně nezničí."
 
 #: data/helpdata.txt:1124
 msgid "The outcome of combat depends on several factors, including chance."
@@ -36186,17 +36534,23 @@ msgid ""
 "attackers, aside from veteran status; an attacking unit can mostly expect "
 "circumstance to work against it."
 msgstr ""
+"Následující popis platí pro klasickou sadu pravidel. Současná výchozí sada"
+" civ2civ3 má v detailech jiné hodnoty. Základní principy jsou ve všech "
+"sadách podobné. Obránce má k dispozici řadu bonusů, zatímco útočník jich "
+"kromě veteránské úrovně získává jen málo a většina okolností hraje proti "
+"němu."
 
 #: data/helpdata.txt:1134
 msgid "First, the attacker's strength is modified."
 msgstr "První je modifikována síla útočníka."
 
 #: data/helpdata.txt:1136
-#, fuzzy
 msgid ""
 " - If the attacker is a veteran, its strength is multiplied by the bonus "
 "associated with its veteran level."
-msgstr " - pokud má útočník status veterán, je jeho síla násobena 1.5."
+msgstr ""
+" - Je-li útočník veterán, jeho síla se vynásobí bonusem podle jeho "
+"veteránské úrovně."
 
 #: data/helpdata.txt:1139
 msgid ""
@@ -36204,17 +36558,21 @@ msgid ""
 "that attacks with less than a full movement point will have its strength "
 "proportionally reduced."
 msgstr ""
+" - V některých sadách se uplatňuje únava při útoku. Má-li jednotka méně "
+"než jeden celý bod pohybu, její síla se úměrně sníží. V klasické sadě se "
+"únava neuplatňuje."
 
 #: data/helpdata.txt:1145
 msgid "Next, the defender's strength is modified."
 msgstr "Následně se počítá síla obránce."
 
 #: data/helpdata.txt:1147
-#, fuzzy
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by the "
 "bonus associated with its veteran level."
-msgstr " - obránci se statusem veterán je síla násobena 1,5."
+msgstr ""
+" - Je-li obránce veterán, jeho síla se vynásobí bonusem podle jeho "
+"veteránské úrovně."
 
 #: data/helpdata.txt:1152
 msgid ""
@@ -36225,13 +36583,12 @@ msgstr ""
 "se brání."
 
 #: data/helpdata.txt:1157
-#, fuzzy
 msgid ""
 " - If the defender is fortified, or is of a type that could fortify and is "
 "inside a city, its strength is multiplied by 1.5."
 msgstr ""
-" - a konečně - pokud je jednotka opevněna nebo je ve městě, je její síla "
-"násobena 1.5."
+" - Je-li obránce opevněný nebo jde o jednotku schopnou opevnění, která se "
+"nachází ve městě, jeho síla se násobí 1,5."
 
 #: data/helpdata.txt:1160
 msgid " - Ruleset-specific bonuses are applied:"
@@ -36244,23 +36601,22 @@ msgid ""
 msgstr "   - Síla bránících se pikenýrů je proti jízdní jednotce dvojnásobná."
 
 #: data/helpdata.txt:1169
-#, fuzzy
 msgid ""
 "   - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
 msgstr ""
-" - Pokud je obráncem AEGIS křižník a útočníkem libovolná vzdušná jednotka "
-"(včetně vrtulníku nebo raket), je síla obránce nasobena čtyřmi."
+"   - Křižník Aegis bránící se proti leteckým jednotkám, včetně střel a "
+"vrtulníků, má pětinásobnou obranu."
 
 #: data/helpdata.txt:1175
-#, fuzzy
 msgid ""
 "   - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than a Helicopter or a "
 "missile)."
 msgstr ""
-" - Obráncova síla je zvdojnásobena, pokud je ve městě vybaveném SAM baterií "
-"a útočníkem je vzdušná jednotka (jiná než vrtulník) nebo raketa."
+"   - Síla obránce se znovu zdvojnásobí, je-li ve městě s baterií "
+"protiletadlových střel a útočí na něj letecká jednotka jiná než vrtulník "
+"nebo střela."
 
 #: data/helpdata.txt:1181
 msgid ""
@@ -36270,22 +36626,20 @@ msgstr ""
 "útokům."
 
 #: data/helpdata.txt:1186
-#, fuzzy
 msgid ""
 "   - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
 msgstr ""
-" - Pokud je útočník loď a obránce je ve městě s pobřežní pevností, obrancova "
-"síla je zdvojnásobena."
+"   - Pokud útočí loď a obránce stojí ve městě s pobřežní pevností, jeho "
+"síla se zdvojnásobí."
 
 #: data/helpdata.txt:1191
-#, fuzzy
 msgid ""
 "   - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
 msgstr ""
-" - Všechny pozemní jednotky (kromě houfnic) a vrtulníky, bránící se ve městě "
-"s hradbami mají sílu trojnásobenu."
+"   - Jednotky bránící město s hradbami mají proti pozemním jednotkám kromě"
+" houfnic a proti vrtulníkům trojnásobnou sílu."
 
 #: data/helpdata.txt:1197
 msgid ""
@@ -36294,23 +36648,21 @@ msgid ""
 msgstr "   - Obránce v pevnosti mimo město má dvojnásobnou sílu."
 
 #: data/helpdata.txt:1202
-#, fuzzy
 msgid ""
 "   - Finally, if the attacker is a fighter and the defender is a helicopter, "
 "the defender's strength is halved."
 msgstr ""
-" - Pokud je útočník loď a obránce je ve městě s pobřežní pevností, obrancova "
-"síla je zdvojnásobena."
+"   - Pokud stíhačka útočí na vrtulník, síla bránícího se vrtulníku se "
+"sníží na polovinu."
 
 #: data/helpdata.txt:1205
-#, fuzzy
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses. Otherwise, if the defender has a strength of 0, the "
 "defender loses."
 msgstr ""
-"Pokud po těchto úpravách má útočník sílu 0, automaticky prohraje. V "
-"ostatních případech, má-li obránce sílu 0, prohraje on."
+"Má-li útočník po těchto úpravách sílu 0, automaticky prohraje. Jinak "
+"platí, že při síle obránce 0 prohraje obránce."
 
 #: data/helpdata.txt:1211
 msgid "The firepower of the attacker and defender are also modified."
@@ -36333,16 +36685,14 @@ msgstr ""
 "1."
 
 #: data/helpdata.txt:1225
-#, fuzzy
 msgid ""
 " - If neither unit could move to where the other is, such as a ship "
 "attacking a land unit on land, the firepower of both is set to 1."
 msgstr ""
-" - pokud loď útočí na pozemní jednotku na pevnině, je palebná síla obou "
-"nastavena na 1."
+" - Pokud ani jedna jednotka nemůže vstoupit na pole druhé, například když "
+"loď útočí na pozemní jednotku na souši, má každá z nich palebnou sílu 1."
 
 #: data/helpdata.txt:1228
-#, fuzzy
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0). Each round, a random number "
@@ -36352,43 +36702,44 @@ msgid ""
 "attacker loses hit points equal to the defender's firepower. The first unit "
 "to reach 0 hit points (or negative hit points) loses."
 msgstr ""
-"Po těchto úpravách začne boj a trvá, dokud jsou obě jednotky živé (zdraví "
-"obou je větší jak 0). Každé kolo je vygenerováno náhodné číslo od 1 do "
-"součtu síly obránce a útočníka. Pokud je toto číslo větší, jak síla obránce, "
-"obránce ztrácí jeden bod zdraví. Jinak ztrácí bod zdraví útočník. První "
-"jednotka, která dosáhne 0 bodú zdraví (nebo méně) prohrává."
+"Po těchto úpravách začne boj, jsou-li obě jednotky naživu, tedy mají-li "
+"více než 0 bodů zdraví. V každém kole se vylosuje číslo od 1 do součtu "
+"síly útočníka a obránce. Pokud je větší než síla obránce, obránce ztratí "
+"tolik bodů zdraví, kolik činí palebná síla útočníka. Jinak útočník ztratí "
+"tolik bodů zdraví, kolik činí palebná síla obránce. Prohrává jednotka, "
+"jejíž body zdraví jako první klesnou na 0 nebo níže."
 
 #: data/helpdata.txt:1243
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of being promoted a veteran "
 "level. In the classic ruleset, if the winner's civilization has the Sun "
 "Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
 "half in case of land units."
 msgstr ""
-"Kterákoliv z jednotek, která přežije, má šanci stát se veteránem. Pokud "
-"národ vítěze postavil Sun Tzuovu bojovou akademii (a není-li ještě "
-"zastaralá), je tato šance 2x vyšší."
+"Jednotka, která boj přežije, může být povýšena o jednu veteránskou úroveň."
+" V klasické sadě je tato šance pro pozemní jednotky o polovinu vyšší, "
+"má-li vítězná civilizace Sun-c'ovu vojenskou akademii a tento div ještě "
+"nezastaral."
 
 #: data/helpdata.txt:1250
-#, fuzzy
 msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1. (This can be changed "
 "with the 'killcitizen' server option.)"
 msgstr ""
-"Pokud útočník vyhraje a obránce byl ve městě bez hradeb, sníží se populace "
-"města o jedno."
+"Pokud pozemní jednotka zvítězí a obránce je ve městě bez hradeb, město se "
+"zmenší o 1. Toto chování lze změnit serverovou volbou „killcitizen“."
 
 #: data/helpdata.txt:1256
-#, fuzzy
 msgid ""
 "If the defender loses, and is not inside a city, fortress, or airbase, all "
 "other units at the defender's location may be destroyed along with the "
 "defender. (This can be changed with the 'killstack' server option.)"
 msgstr ""
-"Pokud obránce není ve městě nebo pevnosti, všechny ostatní jednotky ze "
-"stejného políčka budou ztraceny s obráncem."
+"Pokud obránce prohraje mimo město, pevnost či leteckou základnu, mohou být"
+" spolu s ním zničeny všechny ostatní jednotky na jeho poli. Toto chování "
+"lze změnit serverovou volbou „killstack“."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:1265
@@ -36396,15 +36747,14 @@ msgid " Combat example 1"
 msgstr "Příklad boje 1"
 
 #: data/helpdata.txt:1266
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, FP:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Předpokládejme, že kanón se statusem veterán (útok 8, obrana 1,zdraví 20, "
-"síla 1) s 2/3 pohybových bodů útočí na ne-veteran Mušketýry (útok 3, obrana "
-"3,zdraví 20, síla 1) ve městě s hradbami postaveném v lese."
+"Představte si, že kanón (útok 8, obrana 1, zdraví 20, palebná síla 1) "
+"útočí na mušketýry (útok 3, obrana 3, zdraví 20, palebná síla 1) ve městě "
+"s hradbami na lesním poli. Ani jedna jednotka není veterán."
 
 #: data/helpdata.txt:1270
 msgid ""
@@ -36468,15 +36818,15 @@ msgstr ""
 "civ2civ3 má jiné hodnoty."
 
 #: data/helpdata.txt:1308
-#, fuzzy
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement "
 "points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city "
 "built on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
-"Předpokládejme veterána Bitevní loď (U12,O12,Zd40,P2) se třemi body na "
-"pohyb, která útočí na veteran Alpine troops (U5,D5,Zd20,F1) ve městě "
-"postaveném na pastvinách, včetně hradeb a pobřežní pevnosti."
+"Představte si, že veteránská bitevní loď (útok 12, obrana 12, zdraví 40, "
+"palebná síla 2) se 3 body pohybu útočí na veteránské alpské jednotky (útok"
+" 5, obrana 5, zdraví 20, palebná síla 1) ve městě na travnatém poli. Město"
+" má hradby i pobřežní pevnost."
 
 #: data/helpdata.txt:1313
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
@@ -36533,6 +36883,8 @@ msgid ""
 "Once a counter for a specific thing, such as turns since the city was "
 "conquered, reach its trigger value, ruleset specified effects are enabled."
 msgstr ""
+"Počítadlo sleduje určitý údaj, například tahy od dobytí města. Jakmile "
+"dosáhne určené hodnoty, spustí se účinky stanovené sadou pravidel."
 
 #: data/helpdata.txt:1358
 msgid ""
@@ -36543,7 +36895,6 @@ msgstr ""
 "volný pohyb po oblastech, které kontroluje alespoň částečně nepřítel."
 
 #: data/helpdata.txt:1362
-#, fuzzy
 msgid ""
 "Zones of control are only enforceable on some terrain -- in the classic "
 "rules, only on land tiles. When ZOC applies, the general rule is that a unit "
@@ -36553,12 +36904,15 @@ msgid ""
 "an Alliance pact with that nation. Adjacency means any of the eight tiles "
 "surrounding a unit for rectangular grids, or six tiles for hexagonal grids."
 msgstr ""
-"Obecně platí, že pokud stojí pozemní jednotka na poli u nepřátelské "
-"jednotky, nemůže přejít přímo na jiné políčko v okolí nepřítele. Kdy za "
-"okolí nepřítele je považováno všech 8 políček kolem nepřátelské jednotky."
+"Zóny kontroly lze uplatnit jen v některých typech terénu. V klasické sadě "
+"jsou to jen pozemní pole. Kde zóna kontroly platí, jednotka z pole "
+"sousedícího s nepřítelem nemůže přímo přejít na jiné pole, které také "
+"sousedí s nepřítelem. Za pole obsazené nepřítelem se považuje pole s cizí "
+"jednotkou, která vytváří zónu kontroly, pokud s jejím národem nejste v "
+"alianci. V obdélníkové síti sousedí s jednotkou osm polí a v "
+"šestiúhelníkové šest."
 
 #: data/helpdata.txt:1371
-#, fuzzy
 msgid ""
 "In the following special cases, units can move regardless of ZOC:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -36569,12 +36923,15 @@ msgid ""
 "- A unit type which explicitly ignores ZOC, such as Diplomats and Spies in "
 "the classic rules."
 msgstr ""
-"Ve speciálních případech se ZOC neuplatní:\n"
-" - Jednotka se přesunuje přímo do/z vlastního města.\n"
-" - Jednotka se přesunuje na políčko obsazené přátelskou jednotkou.\n"
-" - Jednotka se přesunuje z moře na souš. (vylodění).\n"
-" - Jedná se o jednotku která z principu ignoruje ZOC, například diplomat "
-"nebo špion."
+"V těchto případech se jednotky mohou pohybovat bez ohledu na zónu "
+"kontroly:\n"
+"- Jednotka vstupuje přímo do města nebo z něj vychází.\n"
+"- Jednotka vstupuje na pole, které už obsadila přátelská jednotka.\n"
+"- Jednotka vstupuje do terénu, kde se zóna kontroly neuplatní, nebo jej "
+"opouští. Například v klasické sadě pozemní jednotka vystupuje z lodi na "
+"oceánském poli.\n"
+"- Daný typ jednotky zónu kontroly výslovně ignoruje, například diplomaté a"
+" špióni v klasické sadě."
 
 #: data/helpdata.txt:1380
 msgid "Notes:"
@@ -36590,15 +36947,18 @@ msgid ""
 "units that are not native to terrain effectively cannot impose ZOC except "
 "for the special case where they are in a city."
 msgstr ""
+"- Jednotky mohou vytvářet zónu kontroly jen v terénu, který ji umožňuje. V"
+" nevhodném terénu ji tedy nevytvářejí, ledaže jsou ve městě."
 
 #: data/helpdata.txt:1388
 msgid ""
 "- An enemy city counts as an enemy occupied tile if there are any units "
 "inside the city, but not if the city is empty."
 msgstr ""
+"- Nepřátelské město se počítá jako pole obsazené nepřítelem, pouze pokud "
+"jsou v něm jednotky."
 
 #: data/helpdata.txt:1391
-#, fuzzy
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the tile "
@@ -36606,11 +36966,11 @@ msgid ""
 "leaving some units behind to keep tiles occupied), you can make a path "
 "through enemy territory."
 msgstr ""
-"TIP:  Můžete projít nepřátelskou ZOC tak, že políčko obsadíte jednotkou, "
-"která ZOC ignoruje (třeba diplomat) a teprve pak tam vstoupíte ostatními "
-"jednotkami. Opakováním tohoto postupu, případně zanecháváním některých "
-"jednotek po cestě (takže budou dál držet políčko obsazené), můžete vytvořit "
-"cestu nepřátelským územím."
+"TIP: Do nepřátelské zóny kontroly můžete nejprve poslat diplomata nebo "
+"jinou jednotku, která ji ignoruje. Poté na stejné pole přesuňte běžné "
+"jednotky. Opakováním tohoto postupu si můžete otevřít cestu nepřátelským "
+"územím. Na obsazených polích můžete některé jednotky ponechat, aby cesta "
+"zůstala průchodná."
 
 #: data/helpdata.txt:1402
 msgid ""
@@ -36621,7 +36981,6 @@ msgstr ""
 "spokojenost obyvatel a další vlastnosti hry."
 
 #: data/helpdata.txt:1405
-#, fuzzy
 msgid ""
 "In the classic rules, your start out ruling your civilization through "
 "Despotism. As your technology improves, you can select other forms of "
@@ -36630,37 +36989,32 @@ msgid ""
 "period of Anarchy (lasting 1-5 turns); at the end of this time, you will be "
 "able to choose your new government."
 msgstr ""
-"Vaše civilizace začíná s Despotismem.  Jak Vaše technologie postupují, "
-"můžete si vybrat další typy státní správy. Aby jste mohli změnit státní "
-"zřízení, musíte vyvolat revoluci.  To strhne Vaši civilizaci do anarchie "
-"(trvající 1-5 tahů), na jejímž konci si budete schopni vybrat nové státní "
-"zřízení."
+"V klasické sadě pravidel začínáte s despotismem. S technologickým pokrokem"
+" se zpřístupňují další formy vlády, které najdete níže. Chcete-li formu "
+"vlády změnit, musíte zahájit revoluci. Nastane období anarchie trvající 1 "
+"až 5 tahů, na jehož konci si budete moci vybrat novou formu vlády."
 
 #: data/helpdata.txt:1413
-#, fuzzy
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
 "keep them happy. When conquering other civilizations, it may be helpful to "
 "switch to one of the more militant styles of government."
 msgstr ""
-"TIP 1:  Útočné vojenské akce jsou obtížnější se státním zřízením Republika a "
-"Demokracie (kapitalismus), pokud nedáte obyvatelstvu dostatek luxusu, aby "
-"jste je udrzeli spokojené. Pokud dobýváte cizí civilizace, může být užitečné "
-"přejít pod více militantní státní správu."
+"TIP 1: V republice a demokracii je obtížné vést útočná tažení, pokud "
+"obyvatele neudržujete šťastné vysokým přídělem luxusu. Při dobývání jiných"
+" civilizací může pomoci přejít na formu vlády vhodnější pro válku."
 
 #: data/helpdata.txt:1419
-#, fuzzy
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments. Consider "
 "switching to the Republic as soon as you can; gaining advanced technology "
 "early in the game puts you at an advantage."
 msgstr ""
-"TIP 2:  Technologický pokrok vyžaduje vysoké úrovně obchodu, které jsou "
-"daleko lépe dosažitelné v Republice nebo Demokracii (kapitalismu). Zvažte "
-"použití Republiky co nejdříve ze začátku hry, aby jste se dříve dostali k "
-"dokonalejším technologiím."
+"TIP 2: Rozvoj vědy vyžaduje silný obchod, kterého lze mnohem snáze "
+"dosáhnout v republice a demokracii. Zvažte brzký přechod na republiku. "
+"Včasné získání pokročilých technologií vám poskytne výhodu."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:1432
@@ -36668,17 +37022,16 @@ msgid " Civil War"
 msgstr "Občanská válka"
 
 #: data/helpdata.txt:1433
-#, fuzzy
 msgid ""
 "Civil war is devastating to any empire. In rulesets with civil war, it is "
 "triggered by the loss of your capital. Up to half of your cities will rebel "
 "and declare allegiance to a new (AI) leader, who will loot half of your "
 "treasury and retain all of your scientific advances."
 msgstr ""
-"Občanská válka je pro impérium devastující. Odstartuje ji ztráta hlavního "
-"města (Paláce).  Až polovina Vašich měst se vzbouří a přidá se k novému "
-"vůdci (řízenému počítačem), který ukrade polovinu vašeho bohatství a získá "
-"veškeré vaše technologie."
+"Občanská válka je pro každou říši ničivá. V sadách, v nichž je možná, ji "
+"vyvolá ztráta hlavního města. Až polovina vašich měst se vzbouří a přidá k"
+" novému počítačovému vůdci. Ten ukořistí polovinu vaší pokladny a ponechá "
+"si všechny technologie, které jste objevili."
 
 #: data/helpdata.txt:1439
 msgid ""
@@ -36687,40 +37040,36 @@ msgid ""
 msgstr "Hráč zůstává v občanské válce jeden tah, ta pak přejde do anarchie."
 
 #: data/helpdata.txt:1442
-#, fuzzy
 msgid ""
 "The capture of your capital does not always lead to civil war. If you have "
 "treated your people with kindness, you are more likely to retain their "
 "loyalty. Each city that is celebrating reduces the chance of civil war, "
 "while each city in disorder increases the likelihood."
 msgstr ""
-"Obsazení Vašeho hlavního města nevede k občanské válce vždy. Pokud jste "
-"přistupoval k obyvatelstvu vlídně, máte větší šanci si uchovat jejich "
-"loajalitu. Každé oslavující město snižuje šanci na občanskou válku, každé "
-"vzbouřené město šanci zvyšuje."
+"Dobytí hlavního města nemusí vždy vést k občanské válce. Pokud jste s "
+"obyvateli zacházeli dobře, je pravděpodobnější, že vám zůstanou věrní. "
+"Každé slavící město riziko snižuje a každé město v nepokojích ho zvyšuje."
 
 #: data/helpdata.txt:1448
-#, fuzzy
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war. Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
 msgstr ""
-"K tomu je dobré vědět, že státní zřízení přímo ovlivňuje šance na občanskou "
-"válku. Státní zřízení s všeobecným volebním právem inklinují ke vzpourám "
-"méně, než despotičtěji zaměřené."
+"Pravděpodobnost občanské války přímo ovlivňuje i forma vlády. Při "
+"všeobecném volebním právu je vzpoura mnohem méně pravděpodobná než za "
+"despotických režimů."
 
 #: data/helpdata.txt:1452
-#, fuzzy
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10. That is, empires with fewer than 10 cities are immune from "
 "civil war. However, this is a server option ('civilwarsize'), and may vary "
 "upwards from a minimum of 6."
 msgstr ""
-"Výchozí počet měst, kdy může impérium propadnout občanské válce, je 10.  To "
-"znamená, že stát s méně než 10ti městy je proti civilní válce imunní.  "
-"Nicméně je to nastavení serveru které se může lišit, minimální počet je 6."
+"Ve výchozím nastavení může občanská válka vypuknout v říši s nejméně 10 "
+"městy. Menší říše jsou tedy vůči ní odolné. Počet lze změnit serverovou "
+"volbou „civilwarsize“. Nejnižší možná hodnota je 6."
 
 #: data/helpdata.txt:1461
 msgid ""
@@ -36728,6 +37077,10 @@ msgid ""
 "trade-offs similar to tax rates. If the current ruleset defines any "
 "policies, they are described in the following sections."
 msgstr ""
+"Některé sady pravidel určují „politiky“. Jsou to nastavení platná pro "
+"celou říši, u nichž obvykle hledáte kompromis podobně jako u daňových "
+"sazeb. Pokud aktuální sada nějaké politiky nabízí, popisují je následující"
+" části."
 
 #: data/helpdata.txt:1465
 msgid ""
@@ -36743,12 +37096,17 @@ msgid ""
 "Armistice, Peace, and Alliance. The first is the natural state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
+"Mezi hráči může nastat pět diplomatických stavů: Válka, Příměří, Zastavení"
+" bojů, Mír a Aliance. Válka je výchozí stav. Ostatní nastanou po uzavření "
+"diplomatických smluv."
 
 #: data/helpdata.txt:1479
 msgid ""
 "During War, you can freely move your units inside enemy territory and attack "
 "their units and cities at will."
 msgstr ""
+"Za války můžete volně přesouvat jednotky na nepřátelském území a útočit na"
+" nepřátelské jednotky a města."
 
 #: data/helpdata.txt:1482
 msgid ""
@@ -36758,6 +37116,10 @@ msgid ""
 "number of turns, the Cease-fire will lead back to War. Upon first contact "
 "with an AI player, it will automatically offer you a Cease-fire treaty."
 msgstr ""
+"Když chtějí dva hráči ukončit nepřátelství, mohou uzavřít příměří. Oběma "
+"zabrání v útoku, jednotky se však dál mohou pohybovat na území druhého "
+"hráče. Po určeném počtu tahů příměří skončí návratem k válce. Po prvním "
+"kontaktu vám počítačový hráč automaticky nabídne příměří."
 
 #: data/helpdata.txt:1489
 msgid ""
@@ -36766,6 +37128,10 @@ msgid ""
 "which after another set number of turns will turn into a permanent Peace. "
 "Breaking an Armistice will drop you directly back to War."
 msgstr ""
+"Pro trvalejší soužití můžete uzavřít mírovou smlouvu. Nejdřív nastane "
+"přechodný stav „Zastavení bojů“, který po určeném počtu tahů přejde v "
+"trvalý mír. Pokud dohodu o zastavení bojů porušíte, vrátíte se rovnou k "
+"válce."
 
 #: data/helpdata.txt:1495
 msgid ""
@@ -36776,6 +37142,11 @@ msgid ""
 "you either declare War, or forge an Alliance. Breaking a Peace treaty will "
 "drop you directly back to War."
 msgstr ""
+"Když mezi dvěma hráči nastane mír, všechny jejich vojenské jednotky na "
+"území druhého hráče se podle smlouvy automaticky rozpustí. Poté tam "
+"nesmíte přesouvat vojenské jednotky, dokud nevyhlásíte válku nebo "
+"neuzavřete alianci. Porušení mírové smlouvy znamená okamžitý návrat k "
+"válce."
 
 #: data/helpdata.txt:1502
 msgid ""
@@ -36790,6 +37161,16 @@ msgid ""
 "and shared vision, and will seriously consider trading technologies and "
 "cities, but in return will expect you to join its wars against other players."
 msgstr ""
+"Aliance představuje nejtěsnější diplomatický vztah. Jednotky mohou "
+"vstupovat do měst druhého hráče a sdílet s jeho jednotkami stejná pole. "
+"Vůči spojenci působení zón kontroly přestává. Aliance však přináší "
+"závazky. Spojenectví s hráčem, který válčí s vaším stávajícím spojencem, "
+"můžete uzavřít až po vypovězení původní smlouvy. Vyhlásí-li jeden váš "
+"spojenec válku jinému, aliance s útočníkem se automaticky zruší. Po "
+"vypovězení aliance nastane zastavení bojů. Počítačový spojenec vám ochotně"
+" předá mapu světa a sdílený výhled a vážně zváží výměnu technologií a "
+"měst. Na oplátku očekává, že se přidáte k jeho válkám proti ostatním "
+"hráčům."
 
 #: data/helpdata.txt:1518
 msgid ""
@@ -36807,6 +37188,10 @@ msgid ""
 "might grant technology in the terms of a pact. But otherwise advances must "
 "be discovered through the efforts of your own people."
 msgstr ""
+"Technologie lze od jiných civilizací získat různě. Někdy je objevíte při "
+"dobytí města, vaši agenti je mohou ukrást, mohou je poskytnout divy nebo "
+"vám je jiný hráč předá smlouvou. Jinak je musíte objevit vlastním "
+"výzkumem."
 
 #: data/helpdata.txt:1529
 msgid ""
@@ -36815,6 +37200,9 @@ msgid ""
 "section). While it is possible to change which advance you are currently "
 "researching, by default all progress is lost by doing so."
 msgstr ""
+"Výzkum pohání především obchod (viz Obchod) a v klasické sadě také vědci "
+"(viz Specialisté). Zkoumanou technologii můžete změnit, ale ve výchozím "
+"nastavení přijdete o veškerý dosavadní pokrok."
 
 #: data/helpdata.txt:1534
 msgid ""
@@ -36828,6 +37216,12 @@ msgid ""
 "your civilization will forget an advance, requiring it to be researched "
 "again."
 msgstr ""
+"Většina bodů výzkumu obvykle slouží k objevování technologií. V některých "
+"sadách, mimo klasickou, se část může spotřebovat na udržování již známých "
+"technologií. Tyto náklady rostou se součtem výzkumných nákladů všech "
+"technologií, které znáte. Kdy je začnete platit, může záviset například na"
+" formě vlády. Jestliže výzkum na údržbu nestačí, civilizace zapomene "
+"některou technologii a musí ji znovu vyzkoumat."
 
 #: data/helpdata.txt:1544
 msgid ""
@@ -36837,21 +37231,23 @@ msgid ""
 "immediately sold, and obsolete wonders lose their effect. See the relevant "
 "sections for more information."
 msgstr ""
+"Technologický pokrok může způsobit, že jednotky, stavby a divy zastarají. "
+"Zastaralé jednotky už nelze vyrábět, stávající ale zůstanou. Zastaralé "
+"stavby se okamžitě prodají a divy ztratí účinek. Podrobnosti najdete v "
+"příslušných částech nápovědy."
 
 #: data/helpdata.txt:1557
-#, fuzzy
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations. If your spaceship arrives first at Alpha Centauri, the "
 "game is over and you have won. (However it is possible for this to be "
 "disabled on the server.)"
 msgstr ""
-"Závod v dobývání vesmíru je druhou možností, jak vyhrá hru, bez vyhubení "
-"protivníků. Pokud Vsše loď dorazí k Alfě kentauri jako první, hra končí a vy "
-"jste vyhrál (nicméně tato volba může být vypnuta na serveru)."
+"Kromě porážky ostatních civilizací můžete vyhrát i ve vesmírném závodě. "
+"Pokud vaše kosmická loď dorazí k Alfě Centauri jako první, hra končí vaším"
+" vítězstvím. Tuto možnost lze na serveru vypnout."
 
 #: data/helpdata.txt:1562
-#, fuzzy
 msgid ""
 "In the classic rules, before you can build spaceship parts, the Apollo "
 "Program wonder must have been built by any player. You also need specific "
@@ -36861,34 +37257,32 @@ msgid ""
 "the 'SPACERACE' victory type is not enabled in the 'victories' server "
 "setting for your game.)"
 msgstr ""
-"Div světa Program Apollo musí být dokončen před tím, než budete moci "
-"postavit jednotlivé díly vesmírné lodi. Taky potřebujete specifické "
-"technologie, aby jste mohli jednotlivé díly stavět. Podívejte se do nápovědy "
-"k Space structural (konstrukce vesmírné lodi), Space component a Space "
-"Module, pod Vylepšeními města. (pokud tam není žádná nápověda, znamenáto "
-"zřejmě, že je volba Vesmírného závodu zakázána na serveru)"
+"V klasické sadě můžete stavět díly kosmické lodi až poté, co některý hráč "
+"dokončí div Program Apollo. Pro stavbu jednotlivých dílů potřebujete i "
+"určité technologie. Viz nápověda k položkám Konstrukce kosmické lodi, "
+"Součást kosmické lodi a Modul kosmické lodi v části Městské stavby. Pokud "
+"nápověda k těmto položkám chybí, ve volbě serveru „victories“ zřejmě není "
+"povolen způsob vítězství „SPACERACE“."
 
 #: data/helpdata.txt:1570
-#, fuzzy
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu. To see spaceships of other "
 "players, select the player in the Nations report and click \"Spaceship\"."
 msgstr ""
-"Po té co zahájíte stavbu vesmírné lodi, můžete ji vidět v přehledu Vesmírná "
-"loď. Pokud chcete vidět loď ostatních hráčů, zvolte položku Vesmírná loď v "
-"dialogu hráči."
+"Rozestavěnou kosmickou loď zobrazíte příkazem „Kosmická loď“ v nabídce "
+"přehledů. Chcete-li si prohlédnout loď jiného hráče, vyberte ho v přehledu"
+" národů a klikněte na „Kosmická loď“."
 
 #: data/helpdata.txt:1575
-#, fuzzy
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey. This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
 msgstr ""
-"Pokud je šance na úspěch nižší, než 100%, několik skupin lidí na palubě to "
-"nemusí přežít. To sníží celkové skóre z vesmírné lodi, ale stále se počítá "
-"jako výhra."
+"Pokud je šance na úspěch nižší než 100 %, část lidí na palubě nemusí cestu"
+" přežít. Sníží se tím bodová odměna za kosmickou loď, přílet se však stále"
+" počítá jako vítězství."
 
 #: data/helpdata.txt:1579
 msgid ""
@@ -36899,15 +37293,14 @@ msgstr ""
 "hlavní město laskavě braňte."
 
 #: data/helpdata.txt:1582
-#, fuzzy
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive earlier. "
 "The only other option is to capture their capital."
 msgstr ""
-"TIP: Pokud jiný národ vypustí vesmírnou loď, pokuste se postavit a vypustit "
-"lehčí a rychlejší, aby dorazila dříve. (tj. co nejvíce pohonných jednotek, "
-"malo modulu...). Druhá možnost je rychle dobýt protivníkovo hlavní město."
+"TIP: Pokud nepřátelská civilizace vypustila kosmickou loď, zkuste rychle "
+"postavit lehkou loď s mnoha pohonnými jednotkami, aby dorazila dřív. "
+"Jedinou další možností je dobýt nepřátelské hlavní město."
 
 #: data/helpdata.txt:1600
 msgid ""
@@ -36915,6 +37308,8 @@ msgid ""
 "day nation state, a historical state or empire, an ethnic group, or even a "
 "fictional nation."
 msgstr ""
+"Každý hráč ve hře zastupuje určitý národ. Může to být dnešní národní stát,"
+" historický stát či říše, etnická skupina nebo fiktivní národ."
 
 #: data/helpdata.txt:1604
 msgid ""
@@ -36922,35 +37317,32 @@ msgid ""
 "classic rules they are identical in all other aspects and play by the same "
 "rules, but other rules may have nation-specific behavior."
 msgstr ""
+"Národy se liší vlajkami, vůdci a názvy měst. V klasické sadě jsou jinak "
+"shodné a hrají podle stejných pravidel. Jiné sady mohou jednotlivým "
+"národům přisuzovat zvláštní vlastnosti."
 
 #: data/helpdata.txt:1615
-#, fuzzy
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5556 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
-"Před spuštěním hry se může kdokoliv připojit na server, zadáním jeho "
-"hostname a čísla portu (5555 je výchozí). Pokud se server spustí s "
-"přepínačem -m, bude se hlásit na metaserveru,"
+"Než hra začne, může se kdokoli připojit zadáním názvu hostitele a portu "
+"serveru (standardně 5556). Pokud je server spuštěn s volbou -m, ohlásí se "
+"metaserveru,"
 
 #: data/helpdata.txt:1622
-#, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check whether your WWW "
 "browser is using a HTTP proxy; to make the client use the same proxy, before "
 "starting the client, set the $http_proxy environment variable to:"
 msgstr ""
-"I klient se může dostat na tuto stránku: použijte tlačítko Metaserver v "
-"dialohu Připojení.  Pokud to neukáže žádné výsledky, skontrolujte, jestli "
-"Váš www prohlížeč nepoužívá proxy; civclientu umožníte používat stejnou "
-"proxy, pokud před jeho spuštěním nastavíte proměnnou prostředí "
-"$http_proxy.na\n"
-"\n"
-"  http://nazevproxy:cisloportu/\n"
-"\n"
-"."
+"Tuto stránku může načíst i klient. V okně připojení použijte tlačítko "
+"Metaserver. Pokud se žádné výsledky neukazují, zkontrolujte, zda webový "
+"prohlížeč používá proxy HTTP. Chcete-li stejnou proxy použít i v "
+"klientovi, před spuštěním klienta nastavte proměnnou prostředí $http_proxy"
+" na:"
 
 #: data/helpdata.txt:1630
 msgid ""
@@ -36971,7 +37363,6 @@ msgstr ""
 #. TRANS: This text mentions the names of some client options. These names
 #. ;  * are separately translated elsewhere; they should match!
 #: data/helpdata.txt:1644
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -37021,44 +37412,51 @@ msgid ""
 "  U:      (U)pgrade unit\n"
 "  x:      unit auto e(x)plore\n"
 msgstr ""
-"Rozkazy jednotky:\n"
-"================\n"
-"  a: (a)utomatický osadník  (osadník/pracovník)\n"
-"  a: (a)utomatický útok  (vojenské jednotky)\n"
-"  b: (b) založit město  (osadník)\n"
-"  b: pomoci se stav(b)ou divu světa  (karavana)\n"
-"  c: vy(c)entrovat výhled na jednotku\n"
-"  C: spojit  (následováno levým kliknutím pro volbu cíle)\n"
-"  d: akce pro (d)iplomata/špióna  (diplomat/špión)\n"
-"  D: Rozpustit je(D)notku\n"
-"  e: Postavit leteckou základnu  (osadník/pracovník)\n"
-"  f: Opevnit jednotku (f)  (vojenské jednotky)\n"
-"  f: postavit opevnění (f)  (osadníci/pracovníci)\n"
-"  g: jdi (g)  (následováno udáním pozice levým kliknutím)\n"
-"  g: zadání pomocných bodů pro pohyb (g) (při zadávání cesty)\n"
-"  h: zvol nové domovské město (h)  (na město, ve kterém se zrovna nachází)\n"
-"  i: postav zavlažování (i) nebo změň terén  (osadníci/pracovníci)\n"
-"  l: na(l)ožit jednotku na loď\n"
-"  L: (l)etecký most do města\n"
-"  m: postav doly (m) nebo změna terénu (osadníci/pracovníci)\n"
-"  n: odstraň nukleární odpad\n"
-"  N: Odpal (N) Jadernou střelu\n"
-"  o: přeměň terén (o)\n"
-"  p: odstraň od(p)ad  (osadníci/pracovníci/inženýři)\n"
-"  p: výsadek (p)  (výsadkáři)\n"
-"  P: (P)lenit\n"
-"  q: hlídkovat  (následováno udáním pozice levým kliknutím)\n"
-"\n"
-"  q: přidat další místo při cestě hlídky (při zadávání hlídky)\n"
-"  r: postavit cestu/železnici (r)  (osadníci/pracovníci)\n"
-"  r: vybudovat obchodní cestu (r)  (karavana)\n"
-"  s: nechat jednotku (s)trážit\n"
-"  u: vyložit loď (u)\n"
-"  U: (U) Vyložit všechny jednotky z lodi\n"
-"  w: počkej na pozdější část kola (w)\n"
-"  W: probudit ostatní jednotky na políčku (W)\n"
-"  x: automatický průzkum (x)\n"
-"mezerník: jednotka vynechá tah\n"
+"Rozkazy jednotkám:\n"
+"==================\n"
+"  a:      automatické řízení osadníků (osadníci a dělníci)\n"
+"  b:      založit město (osadníci)\n"
+"  b:      pomoci stavět div (karavany)\n"
+"  B:      přesunout se na cílové pole a založit město (osadníci)\n"
+"  d:      provést akci na vybraném poli (dvakrát pro vlastní pole)\n"
+"  d:      provést akci na vybraném poli (při zadávání trasy)\n"
+"  D:      rozpustit jednotku\n"
+"  E:      postavit leteckou základnu (příslušné jednotky)\n"
+"  f:      opevnit jednotku (vojenské jednotky)\n"
+"  F:      postavit pevnost (osadníci a dělníci)\n"
+"  g:      přesunout se na pole (poté klikněte na cíl levým tlačítkem)\n"
+"  g:      přidat bod trasy (při zadávání trasy)\n"
+"  G:      vrátit se do nejbližšího přátelského města\n"
+"  h:      nastavit domovské město jednotky (město na současném poli)\n"
+"  i:      zavlažit (osadníci a dělníci)\n"
+"  I:      změnit terén obděláním\n"
+"  Ctrl+I: spojit současné a cílové pole zavlažováním\n"
+"  Ctrl+I: přidat bod trasy zavlažování (při zadávání zavlažování)\n"
+"  j:      provést výsadek (výsadkáři)\n"
+"  l:      naložit jednotku\n"
+"  Ctrl+L: spojit současné a cílové pole železnicí\n"
+"  Ctrl+L: přidat bod železniční trasy (při zadávání stavby železnice)\n"
+"  m:      vybudovat důl (osadníci a dělníci)\n"
+"  M:      změnit terén výsadbou\n"
+"  Ctrl+M: spojit současné a cílové pole magnetickou dráhou\n"
+"  N:      odpálit jadernou nálož\n"
+"  o:      přeměnit terén (ženisté)\n"
+"  O:      přestavět jednotku na jiný typ\n"
+"  p:      odstranit znečištění (osadníci a dělníci)\n"
+"  P:      plenit (zničit vylepšení terénu)\n"
+"  q:      hlídkovat (poté klikněte levým tlačítkem na druhý konec trasy)\n"
+"  q:      přidat bod trasy hlídky (při zadávání hlídky)\n"
+"  r:      postavit cestu či železnici (osadníci a dělníci)\n"
+"  r:      zřídit obchodní trasu (karavany)\n"
+"  Ctrl+R: spojit současné a cílové pole cestou\n"
+"  Ctrl+R: přidat bod trasy cesty (při zadávání stavby cesty)\n"
+"  s:      přejít na stráž\n"
+"  S:      probudit všechny strážící jednotky na poli\n"
+"  t:      přesunout či letecky přepravit jednotku do města\n"
+"  T:      vyložit všechny jednotky z přepravní jednotky\n"
+"  u:      vyložit jednotku z přepravní jednotky\n"
+"  U:      vylepšit jednotku\n"
+"  x:      automaticky prozkoumávat\n"
 
 #: data/helpdata.txt:1690
 msgid ""
@@ -37074,6 +37472,18 @@ msgid ""
 "  5:   focus on previous unit\n"
 "space: done giving orders  (unit stays put)\n"
 msgstr ""
+"Výběr jednotek:\n"
+"===============\n"
+"  z:       vybrat jen první jednotku vybrané skupiny\n"
+"  v:       vybrat všechny jednotky na poli\n"
+"  V:       vybrat všechny jednotky stejného typu jako aktivní jednotka na "
+"poli\n"
+"  C:       vybrat všechny jednotky stejného typu na kontinentu\n"
+"  X:       vybrat všechny jednotky stejného typu na celé mapě\n"
+"\n"
+"  w:       počkat a přejít na další jednotku\n"
+"  5:       přejít na předchozí jednotku\n"
+"mezerník:  ukončit zadávání rozkazů (jednotka zůstane na místě)\n"
 
 #: data/helpdata.txt:1702
 msgid ""
@@ -37090,9 +37500,20 @@ msgid ""
 "  8,Up:        move up\n"
 "  9,Page Up:   move up and right\n"
 msgstr ""
+"Pohyb jednotek:\n"
+"===============\n"
+"  (Některé směry u určitých uspořádání mapy neplatí.)\n"
+"\n"
+"  1, End:       dolů doleva\n"
+"  2, šipka dolů: dolů\n"
+"  3, Page Down: dolů doprava\n"
+"  4, šipka vlevo: doleva\n"
+"  6, šipka vpravo: doprava\n"
+"  7, Home:      nahoru doleva\n"
+"  8, šipka nahoru: nahoru\n"
+"  9, Page Up:   nahoru doprava\n"
 
 #: data/helpdata.txt:1714
-#, fuzzy
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -37113,15 +37534,22 @@ msgid ""
 "  Ctrl-Y: show/hide city outlines\n"
 msgstr ""
 "Hlavní mapa (klávesy):\n"
-"===================\n"
-"    Shift-home: centrovat na hlavní město\n"
-"    Shift-šipky: skrolování mapou\n"
-"        Ctrl-G: zobrazit mřížku zap/vyp\n"
-"        Ctrl-B: zobrazit státní hranice zap/vyp\n"
-"        Ctrl-N: zobrazit názvy měst zap/vyp\n"
-"        Ctrl-R: zobrazit růst měst zap/vyp\n"
-"        Ctrl-P: zobrazit produkci měst zap/vyp\n"
-"             t: zobrazit pracovníky města (myš nad nebo blízko města)\n"
+"=====================\n"
+"  Někteří klienti umožňují klávesami + a - přibližovat nebo oddalovat "
+"mapu.\n"
+"  Někteří klienti umožňují klávesami < a > nastavovat hlasitost.\n"
+"  c:           vystředit na aktivní jednotku\n"
+"  Shift+Home:  vystředit na hlavní město\n"
+"  Shift+šipky: posouvat mapu\n"
+"\n"
+"  Ctrl+B: zobrazit či skrýt státní hranice\n"
+"  Ctrl+D: zobrazit či skrýt obchodní trasy měst\n"
+"  Ctrl+G: zobrazit či skrýt mřížku mapy\n"
+"  Ctrl+N: zobrazit či skrýt názvy měst\n"
+"  Ctrl+P: zobrazit či skrýt výrobu měst\n"
+"  Ctrl+O: zobrazit či skrýt růst měst\n"
+"  Ctrl+V: zobrazit či skrýt výnosy měst\n"
+"  Ctrl+Y: zobrazit či skrýt obrysy měst\n"
 
 #: data/helpdata.txt:1731
 msgid ""
@@ -37139,6 +37567,20 @@ msgid ""
 "  Right-click:                   Center tile in view\n"
 "  Ctrl-center-click:             Wake up sentried units"
 msgstr ""
+"Hlavní mapa (myš):\n"
+"=================\n"
+"  Kliknutí levým na město:       otevřít okno města\n"
+"  Kliknutí levým na jednotku:    vybrat jednu jednotku\n"
+"                                 (zruší aktuální činnost, pokud je "
+"zapnuto\n"
+"                                 „Při výběru zrušit rozkazy jednotek“)\n"
+"  Shift a kliknutí levým na jednotku: přidat jednotku k výběru (GTK)\n"
+"  Tažení jednotky levým:          zadat jednotce trasu\n"
+"                                 (pokud je zapnut „Pohyb bez "
+"klávesnice“)\n"
+"  Kliknutí prostředním, Alt a kliknutí levým: zobrazit údaje o poli\n"
+"  Kliknutí pravým:               vystředit pohled na pole\n"
+"  Ctrl a kliknutí prostředním:   probudit strážící jednotky"
 
 #: data/helpdata.txt:1744
 msgid ""
@@ -37152,6 +37594,17 @@ msgid ""
 "preferred. If keyboardless goto is enabled, dragging allows the unit to be "
 "selected and moved in one gesture."
 msgstr ""
+"  Rychlý výběr jednotky:\n"
+"  =====================\n"
+"  Ctrl a kliknutí levým na pole:   vybrat námořní jednotku (přednost má "
+"transportní)\n"
+"  Ctrl a kliknutí pravým na pole:  vybrat pozemní jednotku (přednost má "
+"vojenská)\n"
+"\n"
+"  Tyto kombinace vyberou jednu z jednotek na poli. Za jinak stejných "
+"okolností mají přednost jednotky se zbývajícími body pohybu. Je-li zapnutý"
+" pohyb bez klávesnice, tažením lze jednotku vybrat a přemístit v jediném "
+"kroku."
 
 #: data/helpdata.txt:1754
 msgid ""
@@ -37163,6 +37616,13 @@ msgid ""
 "  Shift-right-click:             Copy production (from city or unit)\n"
 "  Shift-Ctrl-right-click:        Paste production into city"
 msgstr ""
+"  Ovládání měst (GTK):\n"
+"  ===================\n"
+"  Shift+Ctrl a kliknutí levým:   přerozdělit práci obyvatel\n"
+"  Shift+Alt a kliknutí pravým:   zobrazit pracující obyvatele (kurzor nad "
+"městem nebo poblíž)\n"
+"  Shift a kliknutí pravým:       zkopírovat výrobu (z města či jednotky)\n"
+"  Shift+Ctrl a kliknutí pravým:  vložit výrobu do města"
 
 #: data/helpdata.txt:1761
 msgid ""
@@ -37182,6 +37642,21 @@ msgid ""
 "the highlighted cities can be changed with Shift-Ctrl-right-click (see "
 "previous section). Right-clicking leaves this mode."
 msgstr ""
+"  Výběr oblasti (GTK):\n"
+"  ===================\n"
+"  Tažení pravým:        vybrat jednotky a města v oblasti\n"
+"  Shift a tažení pravým: přidat obsah oblasti k aktuálnímu výběru\n"
+"\n"
+"  V tomto režimu vybíráte více jednotek nebo měst najednou. Pokud obdélník"
+" výběru obsahuje města a je zapnutá volba „Při výběru upřednostnit města“,"
+" vyberou se pouze města a výběr jednotek zůstane beze změny. Jinak se "
+"vyberou města i jednotky.\n"
+"\n"
+"  Vybraná města se zvýrazní na mapě a v přehledu měst pro další hromadné "
+"akce. Hned po výběru můžete klikáním levým tlačítkem na jednotlivá města "
+"výběr upravit. Výrobu všech zvýrazněných měst změníte kliknutím pravým "
+"tlačítkem se stisknutými Shift+Ctrl (viz předchozí část). Kliknutím pravým"
+" tlačítkem režim opustíte."
 
 #: data/helpdata.txt:1777
 msgid ""
@@ -37194,6 +37669,15 @@ msgid ""
 "  These controls allow map elements to be referred to in chat. See the "
 "Chatline help for more details.\n"
 msgstr ""
+"  Řádek chatu (GTK):\n"
+"  =================\n"
+"  ' (apostrof):                   přejít na řádek chatu\n"
+"  Ctrl+Alt a kliknutí pravým:     vložit do chatu odkaz na město nebo "
+"pole\n"
+"  Shift+Ctrl+Alt a kliknutí pravým: vložit do chatu odkaz na jednotku\n"
+"\n"
+"  Těmito zkratkami můžete v chatu odkazovat na prvky mapy. Podrobnosti "
+"najdete v nápovědě k chatu.\n"
 
 #: data/helpdata.txt:1786
 msgid ""
@@ -37202,9 +37686,12 @@ msgid ""
 "  Left-click, Shift-left-click, and Right-click have the same functions as "
 "they do on the main map.\n"
 msgstr ""
+"Přehledová mapa (myš):\n"
+"=====================\n"
+"  Kliknutí levým tlačítkem, Shift a kliknutí levým i kliknutí pravým mají "
+"stejnou funkci jako na hlavní mapě.\n"
 
 #: data/helpdata.txt:1791
-#, fuzzy
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -37229,25 +37716,28 @@ msgid ""
 "\n"
 "Shift-Return: Turn done\n"
 msgstr ""
-"Dialogy a Přehledy:\n"
+"Okna a přehledy:\n"
 "================\n"
-"     F1: otevře Přehled města\n"
-"     F2: otevře Přehled jednotek\n"
-"     F3: otevře dialog Hráčů\n"
-"     F5: otevře Ekonomický přehled\n"
-"     F6: otevře Vědecký přehled\n"
-"     F7: otevře Divy Světa\n"
-"     F8: otevře Pět Nej Měst\n"
-"     F9: otevře dialog Zpráv\n"
-"    F11: otevře Demografii\n"
-"    F12: optevře Kosmickou loď\n"
+"     F1: zobrazit mapu\n"
+"     F2: otevřít přehled jednotek\n"
+"     F3: otevřít přehled národů\n"
+"     F4: otevřít přehled měst\n"
+"     F5: otevřít přehled hospodářství\n"
+"     F6: otevřít přehled výzkumu\n"
+"     F7: zobrazit divy světa\n"
+"     F8: zobrazit nejlepší města\n"
+"     F9: otevřít okno zpráv\n"
+"    F11: zobrazit demografický přehled\n"
+"    F12: zobrazit kosmickou loď\n"
 "\n"
-"      T: otevře dialog Daň/Lux/Věd hodnot\n"
-"      F: otevře dialog Hledání města\n"
-" Ctrl-L: otevře dialog Seznamu prací\n"
-"      R: otevře dialog Revoluce\n"
+"    Ctrl+F:       otevřít hledání města\n"
+"    Shift+Ctrl+L: otevřít seznamy výroby\n"
+"    Ctrl+T:       otevřít sazby daní, luxusu a výzkumu\n"
+"    Shift+Ctrl+G: otevřít okno revoluce\n"
+"    Shift+Ctrl+I: otevřít okno bodů infrastruktury\n"
+"    Shift+Ctrl+R: otevřít nastavení shromaždiště\n"
 "\n"
-"Shift-Return: Konec tahu"
+"Shift+Enter: ukončit tah\n"
 
 #: data/helpdata.txt:1814
 msgid ""
@@ -37256,6 +37746,10 @@ msgid ""
 "    Ctrl-E:       toggle editing mode\n"
 "    Ctrl-Shift-W: toggle fog of war in editing mode\n"
 msgstr ""
+"Režim úprav (GTK):\n"
+"==================\n"
+"    Ctrl+E:       zapnout či vypnout režim úprav\n"
+"    Ctrl+Shift+W: zapnout či vypnout válečnou mlhu v režimu úprav\n"
 
 #: data/helpdata.txt:1819
 msgid ""
@@ -37266,6 +37760,13 @@ msgid ""
 "    Ctrl-Shift-F?: Add selected units to a Battle Group\n"
 "    Shift-F?:      Select a Battle Group\n"
 msgstr ""
+"Bojové skupiny (GTK a Qt):\n"
+"==========================\n"
+"    Hra podporuje čtyři bojové skupiny ovládané klávesami F1, F2, F3 a "
+"F4.\n"
+"    Ctrl+F?:       vytvořit bojovou skupinu z vybraných jednotek\n"
+"    Ctrl+Shift+F?: přidat vybrané jednotky do bojové skupiny\n"
+"    Shift+F?:      vybrat bojovou skupinu\n"
 
 #: data/helpdata.txt:1830
 msgid ""
@@ -37275,6 +37776,10 @@ msgid ""
 "appropriate. And the governor has another ability: whenever possible, it "
 "keeps your cities content."
 msgstr ""
+"Správce města (dříve CMA) pomáhá řídit města. Rozmístí volné pracovníky na"
+" dostupná pole kolem města, aby byl jeho výnos co nejvyšší. Podle potřeby "
+"mění pracovníky na specialisty a pokud to jde, udržuje obyvatele "
+"spokojené."
 
 #: data/helpdata.txt:1836
 msgid ""
@@ -37288,6 +37793,14 @@ msgid ""
 "can set different factors for each kind of production, according to your "
 "needs."
 msgstr ""
+"Správci můžete určit, jaké výnosy má upřednostnit. Otevřete okno města a "
+"kartu správce. Jsou tu dva druhy posuvníků. Vlevo nastavíte minimální "
+"přebytek pro každý druh výnosu. Například zlato +3 znamená, že město získá"
+" o 3 jednotky zlata víc, než spotřebuje na údržbu staveb. Posuvníky vpravo"
+" určují, o kolik jeden druh výnosu upřednostníte před jiným. Hodnota 3 u "
+"výzkumu znamená, že jeden bod výzkumu má pro vás hodnotu tří štítů, "
+"jednotek zlata či bodů obchodu. Váhu každého výnosu můžete nastavit podle "
+"potřeby."
 
 #: data/helpdata.txt:1847
 msgid ""
@@ -37296,18 +37809,25 @@ msgid ""
 "the ongoing game, it passes back control to you. So you'd better not define "
 "too high a surplus; instead, use factors to achieve your goals."
 msgstr ""
+"Pokud nastavíte nesplnitelné minimální přebytky, správce nepřevezme "
+"řízení. Když je nedokáže dodržet během hry, vrátí řízení vám. Nenastavujte"
+" proto příliš vysoké přebytky a k dosažení cílů využijte nastavení vah."
 
 #: data/helpdata.txt:1853
 msgid ""
 "The Celebrate checkbox lets your city - celebrate. This will work only with "
 "a high luxury rate. See help about 'Happiness'."
 msgstr ""
+"Zaškrtávací pole „Oslavuje“ umožní městu slavit. Funguje to jen při vysoké"
+" sazbě luxusu. Viz nápověda Spokojenost."
 
 #: data/helpdata.txt:1856
 msgid ""
 "Clicking on 'Control city' puts the city under control of the governor, "
 "'Release city' passes control back to you."
 msgstr ""
+"Kliknutím na „Ovládat město“ svěříte město správci. Kliknutím na „Uvolnit "
+"město“ si řízení převezmete zpět."
 
 #: data/helpdata.txt:1859
 msgid ""
@@ -37318,6 +37838,11 @@ msgid ""
 "can change it from there (use 'change' --> 'Citizen Governor'), if you have "
 "saved it as a preset."
 msgstr ""
+"Nastavení posuvníků můžete uložit jako pojmenovanou předvolbu. Klikněte na"
+" přidání předvolby a zadejte název. V každém městě ji poté použijete "
+"kliknutím na její název. Aktuální nastavení můžete zkontrolovat i ve "
+"sloupci správce v přehledu měst. Pokud je uložené jako předvolba, můžete "
+"ho odtud i změnit přes „Změnit“ → „Správce města“."
 
 #: data/helpdata.txt:1866
 msgid ""
@@ -37334,9 +37859,12 @@ msgid ""
 "hints, some background information, and some preset examples in the file "
 "README.governor, included with Freeciv."
 msgstr ""
+"Používáte-li správce jen pro část měst, ruční řízení sousedních měst může "
+"být obtížnější. Na jednom ostrově je nejlepší řídit všechna města buď "
+"ručně, nebo správcem. Další rady, souvislosti a ukázky předvoleb najdete v"
+" souboru README.governor, který je součástí Freeciv."
 
 #: data/helpdata.txt:1879
-#, fuzzy
 #| msgid ""
 #| "The client has a primitive chat interface.  The lines you type are sent "
 #| "to all players, except:"
@@ -37345,8 +37873,8 @@ msgid ""
 "all players, or only to your allies if the client is configured for that, "
 "except:"
 msgstr ""
-"Klient má primitivní chatovací rozhraní.  Řádky, které napíšete jsou poslány "
-"všem hráčům, kromě:"
+"Klient má jednoduchý chat. Napsané řádky dostanou všichni hráči, případně "
+"jen spojenci podle nastavení klienta, s těmito výjimkami:"
 
 #: data/helpdata.txt:1883
 msgid ""
@@ -37357,7 +37885,6 @@ msgstr ""
 "spouštějí se, pokud máte příslušná přístupová práva."
 
 #: data/helpdata.txt:1886
-#, fuzzy
 #| msgid ""
 #| "  - Messages starting with 'John:' are private messages to 'John'. Names "
 #| "can be abbreviated. The server looks for players named 'John' and if that "
@@ -37368,12 +37895,12 @@ msgid ""
 "server looks for players named 'John' and if that fails tries to match a "
 "username beginning with 'John' (like 'Johnathan')."
 msgstr ""
-"  - Zprávy začínající na 'John:' jsou soukromé zprávy pro 'John'. Jména "
-"mohou být zkrácena. Server hledá hráče se jménem 'John' a pokud niho "
-"nenajde, zkusí uživatelské jméno začínající na 'John' (např. 'Johnathan')."
+"  - Zprávy začínající „John:“ dostane pouze John. Jména lze zkrátit nebo "
+"při použití mezer uzavřít do dvojitých rovných uvozovek. Server nejprve "
+"hledá hráče jménem John. Pokud žádného nenajde, zkusí uživatelské jméno "
+"začínající na John, například Johnathan."
 
 #: data/helpdata.txt:1891
-#, fuzzy
 #| msgid ""
 #| "  - Messages starting with 'John::' are private messages as above, but "
 #| "will match only users (not players) named 'John'.  'Johnathan' will still "
@@ -37383,25 +37910,27 @@ msgid ""
 "match only users (not players) named 'John'. A user name 'Johnathan' will "
 "still be matched."
 msgstr ""
-"  - Zprávy začínající 'John::' jsou soukromé zprávy jako výše, ale obsahují "
-"pouze uživatele (ne hráče) se jmény hráči se jmény 'John'.  'Johnathan' také "
-"bude souhlasit."
+"  - Zprávy začínající „John::“ jsou také soukromé, ale server hledá jen "
+"uživatele se jménem John, bez ohledu na jména jejich hráčů. Uživatelské "
+"jméno Johnathan se stále počítá."
 
 #: data/helpdata.txt:1895
-#, fuzzy
 #| msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgid ""
 "  - Messages starting with ':' will be sent to everyone (even if your client "
 "is configured to send only to allies by default)."
-msgstr "  - Zprávy začínající '.' budou poslány pouze vašim spojencům."
+msgstr ""
+"  - Zprávy začínající dvojtečkou dostanou všichni, i když klient "
+"standardně posílá zprávy jen spojencům."
 
 #: data/helpdata.txt:1898
-#, fuzzy
 #| msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgid ""
 "  - Messages starting with '.' will be sent only to all your allies (or, if "
 "you're a global observer, only to other global observers)."
-msgstr "  - Zprávy začínající '.' budou poslány pouze vašim spojencům."
+msgstr ""
+"  - Zprávy začínající tečkou dostanou jen vaši spojenci. Jste-li "
+"pozorovatel celé hry, dostanou je pouze ostatní pozorovatelé celé hry."
 
 #: data/helpdata.txt:1901
 msgid ""
@@ -37412,6 +37941,12 @@ msgid ""
 "users to format the chat messages they are sending using boldface, italic, "
 "colors, links, etc...  Such changes are performed using escape sequences."
 msgstr ""
+"Formátovaný text (GTK):\n"
+"======================\n"
+"\n"
+"Od verze 2.2 podporuje klient GTK formátování chatu. Zprávy můžete psát "
+"tučně, kurzívou, barevně nebo do nich vkládat odkazy. Formátování se "
+"zapisuje pomocí značek."
 
 #: data/helpdata.txt:1908
 msgid ""
@@ -37421,6 +37956,11 @@ msgid ""
 "Short cut in the entry: Ctrl-B\n"
 "Example: '[b]bold[/b]' will display the word 'bold' in bold style."
 msgstr ""
+"* Tučné písmo:\n"
+"Plný zápis: '[bold] ... [/bold]'\n"
+"Zkrácený zápis: '[b] ... [/b]'\n"
+"Klávesová zkratka v poli zprávy: Ctrl+B\n"
+"Příklad: '[b]tučně[/b]' zobrazí slovo „tučně“ tučným písmem."
 
 #: data/helpdata.txt:1914
 msgid ""
@@ -37437,6 +37977,17 @@ msgid ""
 "Example: '[c fg=\"blue\" bg=\"yellow\"]color[/c]' will display the word "
 "'color' in blue on a yellow background."
 msgstr ""
+"* Barvy:\n"
+"Plný zápis: '[color] ... [/color]' \n"
+"Zkrácený zápis: '[c] ... [/c]'\n"
+"Klávesová zkratka v poli zprávy: Ctrl+C (barvu vyberte na liště nad "
+"polem)\n"
+"Úvodní značka barvy vždy vyžaduje nejméně jeden z těchto parametrů:\n"
+"- 'foreground' (zkráceně 'fg'): název barvy, například red, nebo "
+"šestnáctkový zápis, například #3050b2 nebo #35b.\n"
+"- 'background' (zkráceně 'bg'): stejný zápis jako výše.\n"
+"Příklad: '[c fg=\"blue\" bg=\"yellow\"]barva[/c]' zobrazí slovo „barva“ "
+"modře na žlutém pozadí."
 
 #: data/helpdata.txt:1927
 msgid ""
@@ -37446,6 +37997,11 @@ msgid ""
 "Short cut in the entry: Ctrl-I\n"
 "Example: '[i]italic[/i]' will display the word 'italic' in italic style."
 msgstr ""
+"* Kurzíva:\n"
+"Plný zápis: '[italic] ... [/italic]'\n"
+"Zkrácený zápis: '[i] ... [/i]'\n"
+"Klávesová zkratka v poli zprávy: Ctrl+I\n"
+"Příklad: '[i]kurzíva[/i]' zobrazí slovo „kurzíva“ kurzívou."
 
 #: data/helpdata.txt:1933
 msgid ""
@@ -37456,6 +38012,11 @@ msgid ""
 "Example: '[s]strikethrough[/s]' will display the word 'strikethrough' with a "
 "strike."
 msgstr ""
+"* Přeškrtnutí:\n"
+"Plný zápis: '[strike] ... [/strike]'\n"
+"Zkrácený zápis: '[s] ... [/s]'\n"
+"Klávesová zkratka v poli zprávy: Ctrl+S\n"
+"Příklad: '[s]přeškrtnuto[/s]' zobrazí slovo „přeškrtnuto“ přeškrtnuté."
 
 #: data/helpdata.txt:1940
 msgid ""
@@ -37466,6 +38027,11 @@ msgid ""
 "Example: '[u]underlined[/u]' will display the word 'underlined' with an "
 "underline."
 msgstr ""
+"* Podtržení:\n"
+"Plný zápis: '[underline] ... [/underline]'\n"
+"Zkrácený zápis: '[u] ... [/u]'\n"
+"Klávesová zkratka v poli zprávy: Ctrl+U\n"
+"Příklad: '[u]podtrženo[/u]' zobrazí slovo „podtrženo“ podtržené."
 
 #: data/helpdata.txt:1947
 msgid ""
@@ -37484,6 +38050,19 @@ msgid ""
 "'[l tgt=\"city\" id=65 name=\"noname\" /]' will display the name of the city "
 "id 65 if known, else, the word 'noname'."
 msgstr ""
+"* Odkazy na města:\n"
+"Plný zápis: '[link target=\"city\"] ... [/link]'\n"
+"Zkrácený zápis: '[l tgt=\"city\"] ... [/l]'\n"
+"Zkratka: Ctrl+Alt a kliknutí pravým tlačítkem na město na mapě.\n"
+"Parametr 'id' nastavte na identifikátor cílového města.\n"
+"Nepovinný parametr 'name' nastaví zobrazovaný název pro příjemce, který "
+"město na své mapě nezná.\n"
+"Zápis lze začít i ukončit v jedněch hranatých závorkách, například '[link "
+"target=\"city\" id=121 /]'. Všimněte si závěrečného lomítka.\n"
+"Příklady: '[l tgt=\"city\" id=65]město[/l]' vytvoří klikací odkaz „město“ "
+"na město s identifikátorem 65.\n"
+"'[l tgt=\"city\" id=65 name=\"neznámé\" /]' zobrazí název města s "
+"identifikátorem 65, je-li známý, jinak slovo „neznámé“."
 
 #: data/helpdata.txt:1962
 msgid ""
@@ -37499,6 +38078,15 @@ msgid ""
 "Example: '[l tgt=\"tile\" x=17 y=3]this tile[/l]' will make the string 'this "
 "tile' clickable and pointing to the tile (17, 3)."
 msgstr ""
+"* Odkazy na pole:\n"
+"Plný zápis: '[link target=\"tile\"] ... [/link]'\n"
+"Zkrácený zápis: '[l tgt=\"tile\"] ... [/l]'\n"
+"Zkratka: Ctrl+Alt a kliknutí pravým tlačítkem na pole bez města.\n"
+"Parametry 'x' a 'y' nastavte na souřadnice cílového pole.\n"
+"Zápis lze začít i ukončit v jedněch hranatých závorkách, například '[link "
+"target=\"tile\" x=5 y=36 /]'. Všimněte si závěrečného lomítka.\n"
+"Příklad: '[l tgt=\"tile\" x=17 y=3]toto pole[/l]' vytvoří klikací odkaz "
+"„toto pole“ na pole (17, 3)."
 
 #: data/helpdata.txt:1974
 msgid ""
@@ -37517,6 +38105,19 @@ msgid ""
 "'[l tgt=\"unit\" id=235 name=\"Warrior\" /]' will display the name of the "
 "unit id 235 if known, else, the word 'Warrior'."
 msgstr ""
+"* Odkazy na jednotky:\n"
+"Plný zápis: '[link target=\"unit\"] ... [/link]'\n"
+"Zkrácený zápis: '[l tgt=\"unit\"] ... [/l]'\n"
+"Zkratka: Shift+Ctrl+Alt a kliknutí pravým tlačítkem na jednotku na mapě.\n"
+"Parametr 'id' nastavte na identifikátor cílové jednotky. Nepovinný "
+"parametr 'name' nastaví název pro příjemce, který jednotku na své mapě "
+"nezná.\n"
+"Zápis lze začít i ukončit v jedněch hranatých závorkách, například '[link "
+"target=\"unit\" id=109 /]'. Všimněte si závěrečného lomítka.\n"
+"Příklady: '[l tgt=\"unit\" id=235]jednotka[/l]' vytvoří klikací odkaz "
+"„jednotka“ na jednotku s identifikátorem 235.\n"
+"'[l tgt=\"unit\" id=235 name=\"Válečníci\" /]' zobrazí název jednotky s "
+"identifikátorem 235, pokud je známý, jinak „Válečníci“."
 
 #: data/helpdata.txt:1989
 msgid ""
@@ -37524,6 +38125,9 @@ msgid ""
 "sentence, like '[i][c fg=\"blue\"]this [b]is [s]funny[c bg=\"green\"] [u]to[/"
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
+"Různé formátovací značky lze spojit v jedné větě, například '[i][c "
+"fg=\"blue\"]tohle [b]je [s]zábava[c bg=\"green\"] [u]při[/i] zkoušení[/b] "
+"této[/s] [/c]nové[/u] funkce[/c]'."
 
 #: data/helpdata.txt:1997
 msgid ""
@@ -37608,6 +38212,9 @@ msgid ""
 "(including source) freely, but see the full license text below for full "
 "details."
 msgstr ""
+"Freeciv se vydává pod licencí GNU General Public License verze 2 nebo "
+"kterékoli novější podle vaší volby. Program včetně zdrojového kódu můžete "
+"volně kopírovat. Přesné podmínky najdete v úplném textu licence níže."
 
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2360
@@ -37619,13 +38226,12 @@ msgstr ""
 "návštěvy Freeciv Bug Tracking System, na:"
 
 #: data/helpdata.txt:2365
-#, fuzzy
 msgid ""
 "Please quote the above version information. For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution."
 msgstr ""
-"Pro více informací o zasílání bugreportů se podívejte do souboru BUGS v "
-"distribuci Freeciv.  Pro další informace, navštivte Freeciv web, na:"
+"Uveďte výše zobrazené údaje o verzi. Další pokyny k hlášení chyb najdete v"
+" souboru BUGS přiloženém k Freeciv."
 
 #: data/helpdata.txt:2369
 msgid ""
@@ -37643,6 +38249,11 @@ msgid ""
 "                                   - private project administration\n"
 "                                     list (for security issues, etc)"
 msgstr ""
+"    freeciv-dev_at_freelists.org   - veřejná konference pro vývoj\n"
+"                                     (archiv je veřejný)\n"
+"    freeciv-private_at_lists.sourceforge.net\n"
+"                                   - neveřejná konference správců\n"
+"                                     (pro bezpečnostní záležitosti apod.)"
 
 #: data/helpdata.txt:2378
 msgid ""
@@ -40188,6 +40799,9 @@ msgid ""
 "after '--'. See the Gtk documentation.\n"
 "\n"
 msgstr ""
+"Tento instalátor přijímá standardní volby příkazového řádku GTK\n"
+"za oddělovačem „--“. Podrobnosti najdete v dokumentaci GTK.\n"
+"\n"
 
 #: tools/fcmp/mpgui_gtk3.c:599
 msgid "Freeciv modpack installer (gtk3)"
@@ -40203,6 +40817,9 @@ msgid ""
 "after '--'. See the Qt documentation.\n"
 "\n"
 msgstr ""
+"Tento instalátor přijímá standardní volby příkazového řádku Qt\n"
+"za oddělovačem „--“. Podrobnosti najdete v dokumentaci Qt.\n"
+"\n"
 
 #: tools/fcmp/mpgui_qt.cpp:129
 msgid "Freeciv modpack installer (Qt)"
@@ -53541,17 +54158,17 @@ msgid "Missing argument for \"%s\".\n"
 msgstr "Chybějící argument pro \"%s\".\n"
 
 #: utility/fciconv.c:139
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
 "you are using the UTF-8 character set, some characters\n"
 "may not be displayed properly. You can download iconv\n"
 "at https://gnu.org/.\n"
 msgstr ""
-"Máte spuštěno Freeciv bez podpory iconv.  Pokud\n"
-"použijete znakovou sadu latin1, některé znaky\n"
-"mohou být zobrazeny nekorektně.  Iconv můžete stáhnout\n"
-"na http://gnu.org/.\n"
+"Freeciv běží bez podpory iconv. Pokud nepoužíváte\n"
+"znakovou sadu UTF-8, některé znaky se mohou\n"
+"zobrazit nesprávně. Iconv je k dispozici na\n"
+"https://gnu.org/.\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
@@ -53589,6 +54206,8 @@ msgid ""
 "Do not provide log level with a numerical value. Use one of the levels "
 "Fatal, Error, Warning, Normal, Verbose, Debug"
 msgstr ""
+"Úroveň protokolování zadávejte názvem. Použijte Fatal, Error, Warning, "
+"Normal, Verbose nebo Debug"
 
 #: utility/log.c:133
 #, c-format
