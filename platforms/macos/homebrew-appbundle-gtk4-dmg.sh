@@ -29,7 +29,7 @@ BREW="$(brew --prefix)"
 export CXXFLAGS=-std=c++17
 export CPPFLAGS="-I$(brew --prefix readline)/include -I$(brew --prefix gettext)/include -I${BREW}/include"
 export LDFLAGS="-L$(brew --prefix icu4c)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix gettext)/lib"
-export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig:$(brew --prefix lua@5.4)/lib/pkgconfig"
+export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig:$(brew --prefix lua@5.4)/lib/pkgconfig:$(brew --prefix readline)/lib/pkgconfig"
 export PATH="$(brew --prefix gettext)/bin:$PATH"
 
 if ! command -v dylibbundler >/dev/null ; then
