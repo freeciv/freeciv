@@ -20,8 +20,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -47,9 +46,9 @@ msgstr ""
 #: data/nation/omani.ruleset:29 data/nation/riffian.ruleset:20
 #: data/nation/southyemeni.ruleset:22 data/nation/yemeni.ruleset:23
 #: data/nation/zanzibari.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Imam %s"
-msgstr "Obrázek"
+msgstr "Imám %s"
 
 #: data/nation/abkhaz.ruleset:24 data/nation/acehnese.ruleset:29
 #: data/nation/bashkir.ruleset:27 data/nation/chechen.ruleset:31
@@ -58,9 +57,9 @@ msgstr "Obrázek"
 #: data/nation/omani.ruleset:29 data/nation/riffian.ruleset:20
 #: data/nation/southyemeni.ruleset:22 data/nation/yemeni.ruleset:23
 #: data/nation/zanzibari.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Imama %s"
-msgstr "Láma"
+msgstr "Imámka %s"
 
 #: data/nation/aborigines.ruleset:3
 #, fuzzy
@@ -90,9 +89,9 @@ msgstr ""
 #: data/nation/nuu-chah-nulth.ruleset:22 data/nation/ohlone.ruleset:27
 #: data/nation/salishan.ruleset:26 data/nation/seminole.ruleset:36
 #: data/nation/shawnee.ruleset:25 data/nation/swazi.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Principal Chief %s"
-msgstr "Šéf obrů"
+msgstr "Hlavní náčelník %s"
 
 #: data/nation/aborigines.ruleset:27 data/nation/akwe.ruleset:25
 #: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:30
@@ -104,9 +103,9 @@ msgstr "Šéf obrů"
 #: data/nation/nuu-chah-nulth.ruleset:22 data/nation/ohlone.ruleset:27
 #: data/nation/salishan.ruleset:26 data/nation/seminole.ruleset:36
 #: data/nation/shawnee.ruleset:25 data/nation/swazi.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Principal Chief %s"
-msgstr "?female:Velká Náčelnice"
+msgstr "?female:Hlavní náčelnice %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/maori.ruleset:26 data/nation/pelasgian.ruleset:28
@@ -114,9 +113,9 @@ msgstr "?female:Velká Náčelnice"
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Elder %s"
-msgstr "S_elektor"
+msgstr "Stařešina %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/maori.ruleset:26 data/nation/pelasgian.ruleset:28
@@ -124,9 +123,9 @@ msgstr "S_elektor"
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Elder %s"
-msgstr "?female:Soudružka"
+msgstr "?female:Stařešinka %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
 #: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:28
@@ -139,9 +138,9 @@ msgstr "?female:Soudružka"
 #: data/nation/nuu-chah-nulth.ruleset:24 data/nation/ohlone.ruleset:29
 #: data/nation/otomi.ruleset:28 data/nation/salishan.ruleset:25
 #: data/nation/seminole.ruleset:34 data/nation/shawnee.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Great Chief %s"
-msgstr "Velký Náčelník"
+msgstr "Velký náčelník %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
 #: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:28
@@ -154,9 +153,9 @@ msgstr "Velký Náčelník"
 #: data/nation/nuu-chah-nulth.ruleset:24 data/nation/ohlone.ruleset:29
 #: data/nation/otomi.ruleset:28 data/nation/salishan.ruleset:25
 #: data/nation/seminole.ruleset:34 data/nation/shawnee.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Chief %s"
-msgstr "?female:Velká Náčelnice"
+msgstr "?female:Velká náčelnice %s"
 
 #: data/nation/abyssinian.ruleset:3
 #, fuzzy
@@ -189,9 +188,9 @@ msgstr ""
 #: data/nation/serbian.ruleset:35 data/nation/siberian.ruleset:23
 #: data/nation/transnistrian.ruleset:23 data/nation/ukrainian.ruleset:40
 #: data/nation/venetian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Patriarch %s"
-msgstr "Patriarcha"
+msgstr "Patriarcha %s"
 
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
 #: data/nation/belarusian.ruleset:34 data/nation/bulgarian.ruleset:31
@@ -207,9 +206,9 @@ msgstr "Patriarcha"
 #: data/nation/ruthenian.ruleset:31 data/nation/serbian.ruleset:35
 #: data/nation/siberian.ruleset:23 data/nation/transnistrian.ruleset:23
 #: data/nation/ukrainian.ruleset:40 data/nation/venetian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Matriarch %s"
-msgstr "Matriarcha"
+msgstr "Matriarcha %s"
 
 #: data/nation/abyssinian.ruleset:24 data/nation/antarctican.ruleset:16
 #: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:23
@@ -219,9 +218,9 @@ msgstr "Matriarcha"
 #: data/nation/nestorian.ruleset:28 data/nation/southvietnamese.ruleset:25
 #: data/nation/taiwanese.ruleset:24 data/nation/toltec.ruleset:34
 #: data/nation/vietnamese.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Emperor %s"
-msgstr "Císař"
+msgstr "Císař %s"
 
 #: data/nation/abyssinian.ruleset:24 data/nation/antarctican.ruleset:16
 #: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:23
@@ -229,9 +228,9 @@ msgstr "Císař"
 #: data/nation/latin.ruleset:45 data/nation/mexican.ruleset:53
 #: data/nation/nestorian.ruleset:28 data/nation/southvietnamese.ruleset:25
 #: data/nation/toltec.ruleset:34 data/nation/vietnamese.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Empress %s"
-msgstr "Císařovna"
+msgstr "Císařovna %s"
 
 #: data/nation/acadian.ruleset:3
 #, fuzzy
@@ -256,21 +255,21 @@ msgstr ""
 
 #: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Premier %s"
-msgstr "Premiér"
+msgstr "Premiér %s"
 
 #: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Premiere %s"
-msgstr "Premiér"
+msgstr "Premiérka %s"
 
 #: data/nation/acadian.ruleset:32 data/nation/germanbelgian.ruleset:27
 #: data/nation/paraguayan.ruleset:38 data/nation/sammarinese.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Abbot %s"
-msgstr "O programu"
+msgstr "Opat %s"
 
 #: data/nation/acadian.ruleset:32 data/nation/aragonese.ruleset:30
 #: data/nation/argentine.ruleset:27 data/nation/asturian.ruleset:30
@@ -307,9 +306,9 @@ msgstr "O programu"
 #: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:20
 #: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
 #: data/nation/venezuelan.ruleset:31 data/nation/yucatecan.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Mother Superior %s"
-msgstr "Matka představená"
+msgstr "Matka představená %s"
 
 #: data/nation/acehnese.ruleset:3
 #, fuzzy
@@ -338,9 +337,9 @@ msgstr ""
 #: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:23
 #: data/nation/sudanese.ruleset:21 data/nation/swahili.ruleset:32
 #: data/nation/turkmen.ruleset:26 data/nation/zanzibari.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Sultan %s"
-msgstr "Sultán"
+msgstr "Sultán %s"
 
 #: data/nation/acehnese.ruleset:27 data/nation/bruneian.ruleset:24
 #: data/nation/comorian.ruleset:26 data/nation/darfuri.ruleset:28
@@ -351,9 +350,9 @@ msgstr "Sultán"
 #: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:23
 #: data/nation/sudanese.ruleset:21 data/nation/swahili.ruleset:32
 #: data/nation/turkmen.ruleset:26 data/nation/zanzibari.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Sultana %s"
-msgstr "Sultán"
+msgstr "Sultánka %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/alaskan.ruleset:30 data/nation/californian.ruleset:37
@@ -363,9 +362,9 @@ msgstr "Sultán"
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
 #: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Governor %s"
-msgstr "Guvernér"
+msgstr "Guvernér %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/alaskan.ruleset:30 data/nation/californian.ruleset:37
@@ -375,9 +374,9 @@ msgstr "Guvernér"
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
 #: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Governor %s"
-msgstr "?female:Guvernérka"
+msgstr "?female:Guvernérka %s"
 
 #: data/nation/acrean.ruleset:3
 #, fuzzy
@@ -399,22 +398,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baron %s"
-msgstr "v %s"
+msgstr "Baron %s"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
-msgstr "Princezna"
+msgstr "Baronka %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
 #: data/nation/mexican.ruleset:52 data/nation/nicaraguan.ruleset:33
 #: data/nation/puertorican.ruleset:29 data/nation/santomean.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Padre %s"
-msgstr "Řídký"
+msgstr "Otec %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -422,9 +421,9 @@ msgstr "Řídký"
 #: data/nation/neapolitan.ruleset:26 data/nation/nicaraguan.ruleset:33
 #: data/nation/puertorican.ruleset:29 data/nation/santomean.ruleset:26
 #: data/nation/sicilian.ruleset:30 data/nation/southamerican.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Madre %s"
-msgstr "Řídký"
+msgstr "Matka %s"
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
@@ -454,9 +453,9 @@ msgstr ""
 #: data/nation/riffian.ruleset:21 data/nation/syrian.ruleset:22
 #: data/nation/tajik.ruleset:21 data/nation/timurid.ruleset:26
 #: data/nation/tuareg.ruleset:39 data/nation/uzbek.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Emir %s"
-msgstr "Emír"
+msgstr "Emír %s"
 
 #: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bahraini.ruleset:27 data/nation/bashkir.ruleset:25
@@ -469,43 +468,43 @@ msgstr "Emír"
 #: data/nation/riffian.ruleset:21 data/nation/syrian.ruleset:22
 #: data/nation/tajik.ruleset:21 data/nation/timurid.ruleset:26
 #: data/nation/tuareg.ruleset:39 data/nation/uzbek.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Emira %s"
-msgstr "Emír"
+msgstr "Emírka %s"
 
 #: data/nation/afghani.ruleset:24 data/nation/bashkir.ruleset:26
 #: data/nation/cypriot.ruleset:22 data/nation/czechoslovak.ruleset:30
 #: data/nation/czech.ruleset:32 data/nation/slovakian.ruleset:25
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:28
 #: data/nation/uzbek.ruleset:25 data/nation/yemeni.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "General Secretary %s"
-msgstr "První sekretář"
+msgstr "Generální tajemník %s"
 
 #: data/nation/afghani.ruleset:24 data/nation/bashkir.ruleset:26
 #: data/nation/cypriot.ruleset:22 data/nation/czechoslovak.ruleset:30
 #: data/nation/czech.ruleset:32 data/nation/slovakian.ruleset:25
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:28
 #: data/nation/uzbek.ruleset:25 data/nation/yemeni.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:General Secretary %s"
-msgstr "?female:Hlavní sekretářka"
+msgstr "?female:Generální tajemnice %s"
 
 #: data/nation/afghani.ruleset:25 data/nation/bangladeshi.ruleset:24
 #: data/nation/cyrenaican.ruleset:27 data/nation/malaysian.ruleset:21
 #: data/nation/pakistani.ruleset:21 data/nation/pashtun.ruleset:24
 #: data/nation/swahili.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Mullah %s"
-msgstr "Muláh"
+msgstr "Mulla %s"
 
 #: data/nation/afghani.ruleset:25 data/nation/bangladeshi.ruleset:24
 #: data/nation/cyrenaican.ruleset:27 data/nation/malaysian.ruleset:21
 #: data/nation/pakistani.ruleset:21 data/nation/pashtun.ruleset:24
 #: data/nation/swahili.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mullah %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Mulla %s"
 
 #: data/nation/african.ruleset:3
 msgid "African"
@@ -583,9 +582,9 @@ msgstr ""
 #: data/nation/palestinian.ruleset:22 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
 #: data/nation/syrian.ruleset:20 data/nation/tuareg.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "Sheikh %s"
-msgstr "Šejk"
+msgstr "Šejk %s"
 
 #: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
 #: data/nation/bahraini.ruleset:25 data/nation/cyrenaican.ruleset:26
@@ -596,9 +595,9 @@ msgstr "Šejk"
 #: data/nation/palestinian.ruleset:22 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
 #: data/nation/syrian.ruleset:20 data/nation/tuareg.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "Shaykha %s"
-msgstr "Šach"
+msgstr "Šejka %s"
 
 #: data/nation/alandalus.ruleset:32 data/nation/algerian.ruleset:23
 #: data/nation/amazigh.ruleset:72 data/nation/egyptianarab.ruleset:27
@@ -609,9 +608,9 @@ msgstr "Šach"
 #: data/nation/saudi.ruleset:26 data/nation/seljuk.ruleset:40
 #: data/nation/syrian.ruleset:21 data/nation/timurid.ruleset:27
 #: data/nation/tuareg.ruleset:40 data/nation/tunisian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Caliph %s"
-msgstr "Kalif"
+msgstr "Chalífa %s"
 
 #: data/nation/alandalus.ruleset:32 data/nation/algerian.ruleset:23
 #: data/nation/amazigh.ruleset:72 data/nation/egyptianarab.ruleset:27
@@ -622,27 +621,27 @@ msgstr "Kalif"
 #: data/nation/saudi.ruleset:26 data/nation/seljuk.ruleset:40
 #: data/nation/syrian.ruleset:21 data/nation/timurid.ruleset:27
 #: data/nation/tuareg.ruleset:40 data/nation/tunisian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Calipha %s"
-msgstr "Kalif"
+msgstr "Chalífka %s"
 
 #: data/nation/alandalus.ruleset:34 data/nation/bahraini.ruleset:28
 #: data/nation/emirati.ruleset:27 data/nation/fulani.ruleset:37
 #: data/nation/kuwaiti.ruleset:31 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Vizier %s"
-msgstr "Laser"
+msgstr "Vezír %s"
 
 #: data/nation/alandalus.ruleset:34 data/nation/bahraini.ruleset:28
 #: data/nation/emirati.ruleset:27 data/nation/fulani.ruleset:37
 #: data/nation/kuwaiti.ruleset:31 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vizier %s"
-msgstr "?female:Soudružka"
+msgstr "?female:Vezírka %s"
 
 #: data/nation/alander.ruleset:3
 #, fuzzy
@@ -666,26 +665,26 @@ msgstr ""
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:23 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Earl %s"
-msgstr "Kardinál"
+msgstr "Hrabě %s"
 
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:23 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Earl %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Hraběnka %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Vicar %s"
-msgstr "Fregata"
+msgstr "Vikář %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vicar %s"
-msgstr "?female:Major"
+msgstr "?female:Vikářka %s"
 
 #: data/nation/alaskan.ruleset:3
 msgid "Alaska"
@@ -708,16 +707,16 @@ msgstr ""
 #: data/nation/alaskan.ruleset:29 data/nation/californian.ruleset:34
 #: data/nation/florida.ruleset:31 data/nation/texan.ruleset:31
 #: data/nation/vermont.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Sheriff %s"
-msgstr "Šejk"
+msgstr "Šerif %s"
 
 #: data/nation/alaskan.ruleset:29 data/nation/californian.ruleset:34
 #: data/nation/florida.ruleset:31 data/nation/texan.ruleset:31
 #: data/nation/vermont.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Sheriff %s"
-msgstr "Soudruh"
+msgstr "?female:Šerifka %s"
 
 #: data/nation/alaskan.ruleset:31 data/nation/boer.ruleset:29
 #: data/nation/confederate.ruleset:36 data/nation/florida.ruleset:32
@@ -726,9 +725,9 @@ msgstr "Soudruh"
 #: data/nation/minnesotan.ruleset:30 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
 #: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Reverend %s"
-msgstr "Reverend"
+msgstr "Reverend %s"
 
 #: data/nation/alaskan.ruleset:31 data/nation/boer.ruleset:29
 #: data/nation/confederate.ruleset:36 data/nation/florida.ruleset:32
@@ -737,9 +736,9 @@ msgstr "Reverend"
 #: data/nation/minnesotan.ruleset:30 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
 #: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Reverend %s"
-msgstr "?female:Reverendka"
+msgstr "?female:Reverendka %s"
 
 #: data/nation/albanian.ruleset:3
 #, fuzzy
@@ -775,9 +774,9 @@ msgstr ""
 #: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
 #: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:34
 #: data/nation/westernpomeranian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Prince %s"
-msgstr "Princezna"
+msgstr "Princ %s"
 
 #: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:27
@@ -793,9 +792,9 @@ msgstr "Princezna"
 #: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
 #: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
 #: data/nation/urartian.ruleset:34 data/nation/westernpomeranian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Princess %s"
-msgstr "Princezna"
+msgstr "Princezna %s"
 
 #: data/nation/albanian.ruleset:28 data/nation/anhaltian.ruleset:30
 #: data/nation/brandenburgian.ruleset:27 data/nation/catalan.ruleset:31
@@ -805,9 +804,9 @@ msgstr "Princezna"
 #: data/nation/prussian.ruleset:30 data/nation/tajik.ruleset:22
 #: data/nation/thuringian.ruleset:41 data/nation/transnistrian.ruleset:21
 #: data/nation/turkmen.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "First Secretary %s"
-msgstr "První sekretář"
+msgstr "První tajemník %s"
 
 #: data/nation/albanian.ruleset:28 data/nation/anhaltian.ruleset:30
 #: data/nation/brandenburgian.ruleset:27 data/nation/catalan.ruleset:31
@@ -817,9 +816,9 @@ msgstr "První sekretář"
 #: data/nation/prussian.ruleset:30 data/nation/tajik.ruleset:22
 #: data/nation/thuringian.ruleset:41 data/nation/transnistrian.ruleset:21
 #: data/nation/turkmen.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:First Secretary %s"
-msgstr "?female:První sekretářka"
+msgstr "?female:První tajemnice %s"
 
 #: data/nation/aleut.ruleset:3
 #, fuzzy
@@ -851,9 +850,9 @@ msgstr ""
 #: data/nation/otomi.ruleset:29 data/nation/raramuri.ruleset:25
 #: data/nation/sami.ruleset:22 data/nation/seminole.ruleset:37
 #: data/nation/shawnee.ruleset:26 data/nation/yakut.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Shaman %s"
-msgstr "Šaman"
+msgstr "Šaman %s"
 
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
 #: data/nation/chumash.ruleset:24 data/nation/comanche.ruleset:26
@@ -864,9 +863,9 @@ msgstr "Šaman"
 #: data/nation/otomi.ruleset:29 data/nation/raramuri.ruleset:25
 #: data/nation/sami.ruleset:22 data/nation/seminole.ruleset:37
 #: data/nation/shawnee.ruleset:26 data/nation/yakut.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Shaman %s"
-msgstr "?female:Šamanka"
+msgstr "?female:Šamanka %s"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
@@ -885,25 +884,25 @@ msgstr ""
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
 #: data/nation/santomean.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Secretary General %s"
-msgstr "Hlavní sekretář"
+msgstr "Generální tajemník %s"
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
 #: data/nation/santomean.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Secretary General %s"
-msgstr "?female:Hlavní sekretářka"
+msgstr "?female:Generální tajemnice %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "%s Dey"
-msgstr "%s základna"
+msgstr "Dej %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Dey"
-msgstr "Despotka"
+msgstr "?female:Dej %s"
 
 #: data/nation/alsatian.ruleset:3
 #, fuzzy
@@ -935,9 +934,9 @@ msgstr ""
 #: data/nation/rhenish.ruleset:33 data/nation/saxon.ruleset:20
 #: data/nation/schleswig-holsteinian.ruleset:30
 #: data/nation/thuringian.ruleset:45 data/nation/wuerttembergian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Minister-President %s"
-msgstr "Ředitel-prezident"
+msgstr "Ministerský předseda %s"
 
 #: data/nation/alsatian.ruleset:26 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
@@ -948,21 +947,21 @@ msgstr "Ředitel-prezident"
 #: data/nation/rhenish.ruleset:33 data/nation/saxon.ruleset:20
 #: data/nation/schleswig-holsteinian.ruleset:30
 #: data/nation/thuringian.ruleset:45 data/nation/wuerttembergian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Minister-President %s"
-msgstr "?female:Ředitelka-prezidentka"
+msgstr "?female:Ministerská předsedkyně %s"
 
 #: data/nation/alsatian.ruleset:27 data/nation/romansh.ruleset:28
 #: data/nation/swiss.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Bailiff %s"
-msgstr "Brazilský"
+msgstr "Zemský správce %s"
 
 #: data/nation/alsatian.ruleset:27 data/nation/romansh.ruleset:28
 #: data/nation/swiss.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Bailiff %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Zemská správkyně %s"
 
 #: data/nation/alsatian.ruleset:28 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
@@ -999,9 +998,9 @@ msgstr "Podstatné jméno ženského rodu"
 #: data/nation/volgagerman.ruleset:36 data/nation/westindian.ruleset:24
 #: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:29
 #: data/nation/zimbabwean.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Bishop %s"
-msgstr "Arcibiskup"
+msgstr "Biskup %s"
 
 #: data/nation/alsatian.ruleset:28 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
@@ -1020,23 +1019,23 @@ msgstr "Arcibiskup"
 #: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:36
 #: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
 #: data/nation/zimbabwean.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Bishop %s"
-msgstr "?female:Arcibiskup"
+msgstr "?female:Biskupka %s"
 
 #: data/nation/alsatian.ruleset:29 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:46 data/nation/rhenish.ruleset:37
 #: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Burgomaster %s"
-msgstr "Barmský"
+msgstr "Purkmistr %s"
 
 #: data/nation/alsatian.ruleset:29 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:46 data/nation/rhenish.ruleset:37
 #: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Burgomaster %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Purkmistryně %s"
 
 #: data/nation/amazigh.ruleset:3
 #, fuzzy
@@ -1098,24 +1097,24 @@ msgstr ""
 
 #: data/nation/andorran.ruleset:23 data/nation/palmyrene.ruleset:20
 #: data/nation/paraguayan.ruleset:37 data/nation/ugandan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Dictator %s"
-msgstr "Diktátor"
+msgstr "Diktátor %s"
 
 #: data/nation/andorran.ruleset:23 data/nation/ugandan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Dictator %s"
-msgstr "?female:Major"
+msgstr "?female:Diktátorka %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Prince %s"
-msgstr "Princezna"
+msgstr "Spolukníže %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Princess %s"
-msgstr "Princezna"
+msgstr "Spolukněžna %s"
 
 #: data/nation/angolan.ruleset:3
 #, fuzzy
@@ -1168,9 +1167,9 @@ msgstr ""
 #: data/nation/piedmontese.ruleset:32 data/nation/rhenish.ruleset:34
 #: data/nation/sicilian.ruleset:29 data/nation/tyrolian.ruleset:22
 #: data/nation/vampire.ruleset:51 data/nation/walloon.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Count %s"
-msgstr "Počet"
+msgstr "Hrabě %s"
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -1180,9 +1179,9 @@ msgstr "Počet"
 #: data/nation/piedmontese.ruleset:32 data/nation/rhenish.ruleset:34
 #: data/nation/sicilian.ruleset:29 data/nation/tyrolian.ruleset:22
 #: data/nation/vampire.ruleset:51 data/nation/walloon.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Countess %s"
-msgstr "Počet"
+msgstr "Hraběnka %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
 #: data/nation/carantanian.ruleset:32 data/nation/centrallithuanian.ruleset:42
@@ -1193,9 +1192,9 @@ msgstr "Počet"
 #: data/nation/oldenburgian.ruleset:34 data/nation/rhenish.ruleset:36
 #: data/nation/schleswig-holsteinian.ruleset:29
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Duke %s"
-msgstr "Velkovévoda"
+msgstr "Velkovévoda %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
 #: data/nation/carantanian.ruleset:32 data/nation/centrallithuanian.ruleset:42
@@ -1206,9 +1205,9 @@ msgstr "Velkovévoda"
 #: data/nation/oldenburgian.ruleset:34 data/nation/rhenish.ruleset:36
 #: data/nation/schleswig-holsteinian.ruleset:29
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Duchess %s"
-msgstr "Velkovévodkyně"
+msgstr "Velkovévodkyně %s"
 
 #: data/nation/anishinaabe.ruleset:3
 msgid "Anishinaabe"
@@ -1230,16 +1229,16 @@ msgstr ""
 #: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:42
 #: data/nation/komi.ruleset:27 data/nation/navajo.ruleset:27
 #: data/nation/tuvan.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Great Shaman %s"
-msgstr "Velký šaman"
+msgstr "Velký šaman %s"
 
 #: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:42
 #: data/nation/komi.ruleset:27 data/nation/navajo.ruleset:27
 #: data/nation/tuvan.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Shaman %s"
-msgstr "?female:Velká šamanka"
+msgstr "?female:Velká šamanka %s"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -1348,9 +1347,9 @@ msgstr ""
 #: data/nation/nicaraguan.ruleset:31 data/nation/paraguayan.ruleset:36
 #: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:34
 #: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Comandante %s"
-msgstr "Soudruh"
+msgstr "Velitel %s"
 
 #: data/nation/argentine.ruleset:25 data/nation/bolivian.ruleset:36
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
@@ -1359,42 +1358,42 @@ msgstr "Soudruh"
 #: data/nation/nicaraguan.ruleset:31 data/nation/paraguayan.ruleset:36
 #: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:34
 #: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Comandanta %s"
-msgstr "Kanadský"
+msgstr "Velitelka %s"
 
 #: data/nation/argentine.ruleset:26 data/nation/cuban.ruleset:23
 #: data/nation/southamerican.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "Caudillo %s"
-msgstr "Caudillo"
+msgstr "Caudillo %s"
 
 #: data/nation/argentine.ruleset:26 data/nation/cuban.ruleset:23
 #: data/nation/southamerican.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "Caudilla %s"
-msgstr "Caudilla"
+msgstr "Caudilla %s"
 
 #: data/nation/argentine.ruleset:27 data/nation/castilian.ruleset:32
 #: data/nation/cuban.ruleset:24 data/nation/filipino.ruleset:21
 #: data/nation/neapolitan.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Cardinal %s"
-msgstr "Kardinál"
+msgstr "Kardinál %s"
 
 #: data/nation/argentine.ruleset:28 data/nation/colombian.ruleset:30
 #: data/nation/dominicano.ruleset:28 data/nation/peruvian.ruleset:26
 #: data/nation/venetian.ruleset:29
 #, c-format
 msgid "Viceroy %s"
-msgstr ""
+msgstr "Místokrál %s"
 
 #: data/nation/argentine.ruleset:28 data/nation/colombian.ruleset:30
 #: data/nation/dominicano.ruleset:28 data/nation/peruvian.ruleset:26
 #: data/nation/venetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Vicereine %s"
-msgstr "Verze"
+msgstr "Místokrálovna %s"
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
@@ -1427,9 +1426,9 @@ msgstr ""
 #: data/nation/samnite.ruleset:25 data/nation/seleucid.ruleset:28
 #: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:38
 #: data/nation/westernroman.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Usurper %s"
-msgstr "Uzurpátor"
+msgstr "Uzurpátor %s"
 
 #: data/nation/armenian.ruleset:24 data/nation/assyrian.ruleset:21
 #: data/nation/atlantean.ruleset:22 data/nation/bosporan.ruleset:33
@@ -1447,9 +1446,9 @@ msgstr "Uzurpátor"
 #: data/nation/samnite.ruleset:25 data/nation/seleucid.ruleset:28
 #: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:38
 #: data/nation/westernroman.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Usurper %s"
-msgstr "?female:Uzurpátorka"
+msgstr "?female:Uzurpátorka %s"
 
 #: data/nation/ashanti.ruleset:3
 msgid "Ashanti"
@@ -1470,27 +1469,27 @@ msgstr ""
 #: data/nation/hansa.ruleset:26 data/nation/novgorodian.ruleset:42
 #: data/nation/romansh.ruleset:27 data/nation/sammarinese.ruleset:24
 #: data/nation/un.ruleset:23 data/nation/uruguayan.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Councillor %s"
-msgstr "Kancléř"
+msgstr "Radní %s"
 
 #: data/nation/ashanti.ruleset:35 data/nation/benin.ruleset:29
 #: data/nation/hansa.ruleset:26 data/nation/novgorodian.ruleset:42
 #: data/nation/romansh.ruleset:27 data/nation/sammarinese.ruleset:24
 #: data/nation/un.ruleset:23 data/nation/uruguayan.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Councillor %s"
-msgstr "?female:Kancléřka"
+msgstr "?female:Radní %s"
 
 #: data/nation/ashanti.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "Asantehene %s"
-msgstr "Aramejský"
+msgstr "Asantehene %s"
 
 #: data/nation/ashanti.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Asantehene %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Asantehene %s"
 
 #: data/nation/assamese.ruleset:3
 msgid "Assamese"
@@ -1563,17 +1562,17 @@ msgstr ""
 #: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
 #: data/nation/etruscan.ruleset:32 data/nation/gaelic.ruleset:26
 #: data/nation/irish.ruleset:41 data/nation/pictish.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "High King %s"
-msgstr "Nejvyšší Král"
+msgstr "Velekrál %s"
 
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
 #: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
 #: data/nation/etruscan.ruleset:32 data/nation/gaelic.ruleset:26
 #: data/nation/irish.ruleset:41 data/nation/pictish.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "High Queen %s"
-msgstr "Nejvyšší Královna"
+msgstr "Velekrálovna %s"
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
@@ -1621,9 +1620,9 @@ msgstr ""
 #: data/nation/turkmen.ruleset:25 data/nation/tuvan.ruleset:31
 #: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #: data/nation/xiongnu.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "%s Khan"
-msgstr "Chán"
+msgstr "Chán %s"
 
 #: data/nation/avar.ruleset:34 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
@@ -1635,9 +1634,9 @@ msgstr "Chán"
 #: data/nation/turkmen.ruleset:25 data/nation/tuvan.ruleset:31
 #: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #: data/nation/xiongnu.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "%s Khatan"
-msgstr "Chán"
+msgstr "Chatun %s"
 
 #: data/nation/avar.ruleset:35 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
@@ -1646,9 +1645,9 @@ msgstr "Chán"
 #: data/nation/kyrgyz.ruleset:23 data/nation/tatar.ruleset:29
 #: data/nation/tuvan.ruleset:32 data/nation/uyghur.ruleset:29
 #: data/nation/volgabulgar.ruleset:26 data/nation/xiongnu.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "%s Khagan"
-msgstr "Chán"
+msgstr "Kagan %s"
 
 #: data/nation/avar.ruleset:35 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
@@ -1657,9 +1656,9 @@ msgstr "Chán"
 #: data/nation/kyrgyz.ruleset:23 data/nation/tatar.ruleset:29
 #: data/nation/tuvan.ruleset:32 data/nation/uyghur.ruleset:29
 #: data/nation/volgabulgar.ruleset:26 data/nation/xiongnu.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Khagan"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Kagan %s"
 
 #: data/nation/aymara.ruleset:3
 #, fuzzy
@@ -1700,15 +1699,15 @@ msgstr ""
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
 #: data/nation/khwarezmian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shah"
-msgstr "Šach"
+msgstr "Šáh %s"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
 #: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shahbanu"
-msgstr "Šaman"
+msgstr "Šáhbánú %s"
 
 #: data/nation/badian.ruleset:3
 #, fuzzy
@@ -1729,15 +1728,15 @@ msgstr ""
 
 #: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:28
 #: data/nation/friulian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Margrave %s"
-msgstr "Karavela"
+msgstr "Markrabě %s"
 
 #: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:28
 #: data/nation/friulian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Margravine %s"
-msgstr "Námořní pěchota"
+msgstr "Markraběnka %s"
 
 #: data/nation/bahamian.ruleset:3
 #, fuzzy
@@ -1780,14 +1779,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "Mahdi %s"
-msgstr "v %s"
+msgstr "Mahdí %s"
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahdi %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Mahdí %s"
 
 #: data/nation/bangladeshi.ruleset:3
 #, fuzzy
@@ -1813,9 +1812,9 @@ msgstr ""
 #: data/nation/pakistani.ruleset:20 data/nation/sikh.ruleset:32
 #: data/nation/sikkimese.ruleset:21 data/nation/srivijaya.ruleset:24
 #: data/nation/vedic.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Raja %s"
-msgstr "Rádža"
+msgstr "Rádža %s"
 
 #: data/nation/bangladeshi.ruleset:21 data/nation/bengali.ruleset:25
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
@@ -1825,9 +1824,9 @@ msgstr "Rádža"
 #: data/nation/pakistani.ruleset:20 data/nation/sikh.ruleset:32
 #: data/nation/sikkimese.ruleset:21 data/nation/srivijaya.ruleset:24
 #: data/nation/vedic.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Rani %s"
-msgstr "Železnice"
+msgstr "Rání %s"
 
 #: data/nation/bangladeshi.ruleset:22 data/nation/bengali.ruleset:26
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
@@ -1837,9 +1836,9 @@ msgstr "Železnice"
 #: data/nation/pakistani.ruleset:22 data/nation/sikh.ruleset:34
 #: data/nation/sikkimese.ruleset:23 data/nation/srivijaya.ruleset:25
 #: data/nation/vedic.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Maharaja %s"
-msgstr "Maharadža"
+msgstr "Mahárádža %s"
 
 #: data/nation/bangladeshi.ruleset:22 data/nation/bengali.ruleset:26
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
@@ -1849,19 +1848,19 @@ msgstr "Maharadža"
 #: data/nation/pakistani.ruleset:22 data/nation/sikh.ruleset:34
 #: data/nation/sikkimese.ruleset:23 data/nation/srivijaya.ruleset:25
 #: data/nation/vedic.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Maharani %s"
-msgstr "Maharadža"
+msgstr "Mahárání %s"
 
 #: data/nation/bangladeshi.ruleset:23 data/nation/bengali.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Nabob %s"
-msgstr "Národ: %s"
+msgstr "Nabob %s"
 
 #: data/nation/bangladeshi.ruleset:23 data/nation/bengali.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Nabob %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Nabobka %s"
 
 #: data/nation/barbadian.ruleset:3
 #, fuzzy
@@ -1923,25 +1922,25 @@ msgstr ""
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:41
 #: data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Leader %s"
-msgstr "Velký vůdce"
+msgstr "Vůdce %s"
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:41
 #: data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Leader %s"
-msgstr "?female:Soudružka"
+msgstr "?female:Vůdkyně %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Lehendakari %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "Lehendakari %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Lehendakari %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Lehendakari %s"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -1971,9 +1970,9 @@ msgstr ""
 #: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:27
 #: data/nation/wuerttembergian.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Duke %s"
-msgstr "Vévoda"
+msgstr "Vévoda %s"
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
@@ -1986,9 +1985,9 @@ msgstr "Vévoda"
 #: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:27
 #: data/nation/wuerttembergian.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Duchess %s"
-msgstr "Velkovévodkyně"
+msgstr "Vévodkyně %s"
 
 #: data/nation/belarusian.ruleset:3
 msgid "Belarusian"
@@ -2008,15 +2007,15 @@ msgstr ""
 
 #: data/nation/belarusian.ruleset:33 data/nation/bulgarian.ruleset:30
 #: data/nation/muscovite.ruleset:24 data/nation/ossetian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Tsar %s"
-msgstr "Car"
+msgstr "Car %s"
 
 #: data/nation/belarusian.ruleset:33 data/nation/bulgarian.ruleset:30
 #: data/nation/muscovite.ruleset:24 data/nation/ossetian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Tsaritsa %s"
-msgstr "Carevna"
+msgstr "Carevna %s"
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
@@ -2040,30 +2039,30 @@ msgstr ""
 "Walloonských nacionalistů."
 
 #: data/nation/belgian.ruleset:24 data/nation/liege.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Prime Minister %s"
-msgstr "První ministr"
+msgstr "Předseda vlády %s"
 
 #: data/nation/belgian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Prime Minister %s"
-msgstr "?female:První ministryně"
+msgstr "?female:Předsedkyně vlády %s"
 
 #: data/nation/belgian.ruleset:26 data/nation/burgundian.ruleset:31
 #: data/nation/flemish.ruleset:32 data/nation/frisian.ruleset:37
 #: data/nation/luxembourgish.ruleset:31 data/nation/tyrolian.ruleset:25
 #: data/nation/walloon.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Stadtholder %s"
-msgstr "Stealth bombardér"
+msgstr "Místodržitel %s"
 
 #: data/nation/belgian.ruleset:26 data/nation/burgundian.ruleset:31
 #: data/nation/flemish.ruleset:32 data/nation/frisian.ruleset:37
 #: data/nation/luxembourgish.ruleset:31 data/nation/tyrolian.ruleset:25
 #: data/nation/walloon.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Stadtholdress %s"
-msgstr "Diktátor"
+msgstr "Místodržitelka %s"
 
 #: data/nation/belgic.ruleset:3
 #, fuzzy
@@ -2089,33 +2088,33 @@ msgstr ""
 
 #: data/nation/belgic.ruleset:32 data/nation/boian.ruleset:24
 #: data/nation/helvetian.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "High Druid %s"
-msgstr "Ovoce"
+msgstr "Velekněz druidů %s"
 
 #: data/nation/belgic.ruleset:32 data/nation/boian.ruleset:24
 #: data/nation/helvetian.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Druid %s"
-msgstr "?female:Druidka"
+msgstr "?female:Velekněžka druidů %s"
 
 #: data/nation/belgic.ruleset:33 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:48 data/nation/kushan.ruleset:44
 #: data/nation/latin.ruleset:42 data/nation/nestorian.ruleset:27
 #: data/nation/urartian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Brother %s"
-msgstr "Bratr"
+msgstr "Bratr %s"
 
 #: data/nation/belgic.ruleset:33 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:48 data/nation/kushan.ruleset:44
 #: data/nation/latin.ruleset:42 data/nation/nestorian.ruleset:27
 #: data/nation/urartian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Sister %s"
-msgstr "Sestra"
+msgstr "Sestra %s"
 
 #: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:29
 #: data/nation/choctaw.ruleset:31 data/nation/gepid.ruleset:45
@@ -2126,9 +2125,9 @@ msgstr "Sestra"
 #: data/nation/sami.ruleset:23 data/nation/seminole.ruleset:35
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:22
 #: data/nation/urartian.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "Spokesman %s"
-msgstr "Singapurský"
+msgstr "Mluvčí %s"
 
 #: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:29
 #: data/nation/choctaw.ruleset:31 data/nation/gepid.ruleset:45
@@ -2139,9 +2138,9 @@ msgstr "Singapurský"
 #: data/nation/sami.ruleset:23 data/nation/seminole.ruleset:35
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:22
 #: data/nation/urartian.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "Spokeswoman %s"
-msgstr "Mluvčí"
+msgstr "Mluvčí %s"
 
 #: data/nation/belgic.ruleset:35 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:32 data/nation/faroese.ruleset:30
@@ -2150,9 +2149,9 @@ msgstr "Mluvčí"
 #: data/nation/marshallese.ruleset:23 data/nation/minnesotan.ruleset:29
 #: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
 #: data/nation/urartian.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Speaker %s"
-msgstr "Mluvčí"
+msgstr "Předseda sněmovny %s"
 
 #: data/nation/belgic.ruleset:35 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:32 data/nation/faroese.ruleset:30
@@ -2161,9 +2160,9 @@ msgstr "Mluvčí"
 #: data/nation/marshallese.ruleset:23 data/nation/minnesotan.ruleset:29
 #: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
 #: data/nation/urartian.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Speaker %s"
-msgstr "?female:Mluvčí"
+msgstr "?female:Předsedkyně sněmovny %s"
 
 #: data/nation/belizean.ruleset:3
 msgid "Belizean"
@@ -2185,14 +2184,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Superintendent %s"
-msgstr "Srbský"
+msgstr "Správce %s"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Superintendent %s"
-msgstr "?female:Reverendka"
+msgstr "?female:Správkyně %s"
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
@@ -2272,25 +2271,25 @@ msgstr ""
 
 #: data/nation/bhutanese.ruleset:25 data/nation/buryat.ruleset:28
 #: data/nation/kalmyk.ruleset:25 data/nation/sikkimese.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Lama %s"
-msgstr "Láma"
+msgstr "Láma %s"
 
 #: data/nation/bhutanese.ruleset:25 data/nation/buryat.ruleset:28
 #: data/nation/kalmyk.ruleset:25 data/nation/sikkimese.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Lama %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Láma %s"
 
 #: data/nation/bhutanese.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Dragon King %s"
-msgstr "Král Turongar"
+msgstr "Dračí král %s"
 
 #: data/nation/bhutanese.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Dragon Queen %s"
-msgstr "Dragouni"
+msgstr "Dračí královna %s"
 
 #: data/nation/biafran.ruleset:3
 msgid "Biafran"
@@ -2312,15 +2311,15 @@ msgstr ""
 
 #: data/nation/biafran.ruleset:21 data/nation/hellenic.ruleset:20
 #: data/nation/nigerien.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Colonel %s"
-msgstr "Zavřít"
+msgstr "Plukovník %s"
 
 #: data/nation/biafran.ruleset:21 data/nation/hellenic.ruleset:20
 #: data/nation/nigerien.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Colonel %s"
-msgstr "?female:Konzulka"
+msgstr "?female:Plukovnice %s"
 
 #: data/nation/bissauguinean.ruleset:3
 msgid "Bissau-Guinean"
@@ -2338,14 +2337,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Major %s"
-msgstr "Generálmajor"
+msgstr "Vrchní kapitán %s"
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Major %s"
-msgstr "Náčelník trpaslíků"
+msgstr "?female:Vrchní kapitánka %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -2380,9 +2379,9 @@ msgstr ""
 #: data/nation/salvadoran.ruleset:33 data/nation/siberian.ruleset:22
 #: data/nation/southvietnamese.ruleset:23 data/nation/uruguayan.ruleset:23
 #: data/nation/venezuelan.ruleset:30 data/nation/westernroman.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "General %s"
-msgstr "Interní"
+msgstr "Generál %s"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
 #: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
@@ -2396,19 +2395,19 @@ msgstr "Interní"
 #: data/nation/salvadoran.ruleset:33 data/nation/siberian.ruleset:22
 #: data/nation/uruguayan.ruleset:23 data/nation/venezuelan.ruleset:30
 #: data/nation/westernroman.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:General %s"
-msgstr "?female:Hlavní sekretářka"
+msgstr "?female:Generálka %s"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "State President %s"
-msgstr "Prezident"
+msgstr "Státní prezident %s"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:State President %s"
-msgstr "?female:Prezidentka"
+msgstr "?female:Státní prezidentka %s"
 
 #: data/nation/boian.ruleset:3
 msgid "Boian"
@@ -2462,9 +2461,9 @@ msgstr ""
 #: data/nation/salvadoran.ruleset:35 data/nation/southafrican.ruleset:25
 #: data/nation/southamerican.ruleset:21 data/nation/southvietnamese.ruleset:24
 #: data/nation/teutonic.ruleset:29 data/nation/westernpomeranian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Archbishop %s"
-msgstr "Arcibiskup"
+msgstr "Arcibiskup %s"
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
@@ -2483,15 +2482,15 @@ msgstr ""
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "Ban %s"
-msgstr "v %s"
+msgstr "Bán %s"
 
 #: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:39
 #: data/nation/slovenian.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ban %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Bánka %s"
 
 #: data/nation/bosporan.ruleset:3
 msgid "Bosporan"
@@ -2511,16 +2510,16 @@ msgstr ""
 #: data/nation/bosporan.ruleset:34 data/nation/cretan.ruleset:27
 #: data/nation/cypriot.ruleset:23 data/nation/macedon.ruleset:24
 #: data/nation/pelasgian.ruleset:27 data/nation/pontic.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Despot %s"
-msgstr "Despota"
+msgstr "Despota %s"
 
 #: data/nation/bosporan.ruleset:34 data/nation/cretan.ruleset:27
 #: data/nation/cypriot.ruleset:23 data/nation/macedon.ruleset:24
 #: data/nation/pelasgian.ruleset:27 data/nation/pontic.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Despot %s"
-msgstr "Despotka"
+msgstr "?female:Despotka %s"
 
 #: data/nation/bosporan.ruleset:35 data/nation/etruscan.ruleset:33
 #: data/nation/gallic.ruleset:31 data/nation/holysee.ruleset:33
@@ -2529,9 +2528,9 @@ msgstr "Despotka"
 #: data/nation/sabine.ruleset:30 data/nation/samnite.ruleset:27
 #: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:39
 #: data/nation/westernroman.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Consul %s"
-msgstr "Konzul"
+msgstr "Konzul %s"
 
 #: data/nation/bosporan.ruleset:35 data/nation/etruscan.ruleset:33
 #: data/nation/gallic.ruleset:31 data/nation/holysee.ruleset:33
@@ -2540,9 +2539,9 @@ msgstr "Konzul"
 #: data/nation/sabine.ruleset:30 data/nation/samnite.ruleset:27
 #: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:39
 #: data/nation/westernroman.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Consul %s"
-msgstr "?female:Konzulka"
+msgstr "?female:Konzulka %s"
 
 #: data/nation/botswanan.ruleset:3
 #, fuzzy
@@ -2583,15 +2582,15 @@ msgstr ""
 
 #: data/nation/brandenburgian.ruleset:30 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Elector %s"
-msgstr "S_elektor"
+msgstr "Kurfiřt %s"
 
 #: data/nation/brandenburgian.ruleset:30 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Electress %s"
-msgstr "S_elektor"
+msgstr "Kurfiřtka %s"
 
 #: data/nation/breton.ruleset:3
 msgid "Breton"
@@ -2632,44 +2631,44 @@ msgstr ""
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:34 data/nation/scottish.ruleset:23
 #: data/nation/urartian.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Pretender %s"
-msgstr "Prezident"
+msgstr "Uchazeč o trůn %s"
 
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:34 data/nation/scottish.ruleset:23
 #: data/nation/urartian.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Pretender %s"
-msgstr "?female:Premiérka"
+msgstr "?female:Uchazečka o trůn %s"
 
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/frisian.ruleset:36 data/nation/galician.ruleset:21
 #: data/nation/hansa.ruleset:27 data/nation/manx.ruleset:36
 #: data/nation/mixtec.ruleset:31 data/nation/northirish.ruleset:37
 #: data/nation/toltec.ruleset:32 data/nation/zapotec.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Lord %s"
-msgstr "Naložit"
+msgstr "Lord %s"
 
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/frisian.ruleset:36 data/nation/galician.ruleset:21
 #: data/nation/hansa.ruleset:27 data/nation/manx.ruleset:36
 #: data/nation/mixtec.ruleset:31 data/nation/northirish.ruleset:37
 #: data/nation/toltec.ruleset:32 data/nation/zapotec.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Lady %s"
-msgstr "%d %s"
+msgstr "Lady %s"
 
 #: data/nation/british.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Lord Protector %s"
-msgstr "Lord Protektor"
+msgstr "Lord protektor %s"
 
 #: data/nation/british.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Lady Protector %s"
-msgstr "Lady Protektor"
+msgstr "Lady protektorka %s"
 
 #: data/nation/briton.ruleset:3
 #, fuzzy
@@ -2693,32 +2692,32 @@ msgstr ""
 #: data/nation/helvetian.ruleset:30 data/nation/irish.ruleset:40
 #: data/nation/northirish.ruleset:36 data/nation/scottish.ruleset:24
 #: data/nation/vistulan.ruleset:25 data/nation/welsh.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "Chieftain %s"
-msgstr "Náčelník"
+msgstr "Náčelník %s"
 
 #: data/nation/briton.ruleset:21 data/nation/cornish.ruleset:20
 #: data/nation/frankish.ruleset:41 data/nation/gallic.ruleset:29
 #: data/nation/helvetian.ruleset:30 data/nation/irish.ruleset:40
 #: data/nation/northirish.ruleset:36 data/nation/scottish.ruleset:24
 #: data/nation/vistulan.ruleset:25 data/nation/welsh.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chieftain %s"
-msgstr "Náčelník trpaslíků"
+msgstr "?female:Náčelnice %s"
 
 #: data/nation/briton.ruleset:22 data/nation/gaelic.ruleset:27
 #: data/nation/gallic.ruleset:30 data/nation/pictish.ruleset:26
 #: data/nation/vistulan.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Druid %s"
-msgstr "Ovoce"
+msgstr "Druid %s"
 
 #: data/nation/briton.ruleset:22 data/nation/gaelic.ruleset:27
 #: data/nation/gallic.ruleset:30 data/nation/pictish.ruleset:26
 #: data/nation/vistulan.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Druid %s"
-msgstr "?female:Druidka"
+msgstr "?female:Druidka %s"
 
 #: data/nation/bruneian.ruleset:3
 msgid "Bruneian"
@@ -2746,9 +2745,9 @@ msgstr ""
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:19 data/nation/tatar.ruleset:30
 #: data/nation/turkishcypriot.ruleset:29 data/nation/volgabulgar.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Mufti %s"
-msgstr "Hlavní server:\n"
+msgstr "Velký muftí %s"
 
 #: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:38
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
@@ -2759,9 +2758,9 @@ msgstr "Hlavní server:\n"
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:19 data/nation/tatar.ruleset:30
 #: data/nation/turkishcypriot.ruleset:29 data/nation/volgabulgar.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Grand Mufti %s"
-msgstr "?female:Druidka"
+msgstr "?female:Velká muftí %s"
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
@@ -2806,9 +2805,9 @@ msgstr ""
 #: data/nation/occitan.ruleset:27 data/nation/pontic.ruleset:34
 #: data/nation/prussian.ruleset:28 data/nation/templar.ruleset:42
 #: data/nation/teutonic.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Chancellor %s"
-msgstr "Kancléř"
+msgstr "Kancléř %s"
 
 #: data/nation/burgundian.ruleset:28 data/nation/cantonese.ruleset:29
 #: data/nation/crusader.ruleset:34 data/nation/frankish.ruleset:40
@@ -2818,9 +2817,9 @@ msgstr "Kancléř"
 #: data/nation/occitan.ruleset:27 data/nation/pontic.ruleset:34
 #: data/nation/prussian.ruleset:28 data/nation/templar.ruleset:42
 #: data/nation/teutonic.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chancellor %s"
-msgstr "?female:Kancléřka"
+msgstr "?female:Kancléřka %s"
 
 #: data/nation/burgundic.ruleset:3
 #, fuzzy
@@ -3055,14 +3054,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Admiral %s"
-msgstr "Emír"
+msgstr "Admirál %s"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Admiral %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Admirálka %s"
 
 #: data/nation/carantanian.ruleset:3
 #, fuzzy
@@ -3184,14 +3183,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/centralamerican.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Supreme Director %s"
-msgstr "Generální ředitel"
+msgstr "Nejvyšší ředitel %s"
 
 #: data/nation/centralamerican.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Supreme Directrice %s"
-msgstr "Generální ředitel"
+msgstr "Nejvyšší ředitelka %s"
 
 #: data/nation/centrallithuanian.ruleset:3
 #, fuzzy
@@ -3224,15 +3223,15 @@ msgstr ""
 
 #: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
 #: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "?female:Nejvyšší komisařka"
+msgstr "Lidový komisař %s"
 
 #: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
 #: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "Despotka"
+msgstr "?female:Lidová komisařka %s"
 
 #: data/nation/chadian.ruleset:3
 #, fuzzy
@@ -3295,14 +3294,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Alpha"
-msgstr "Abeceda"
+msgstr "Alfa %s"
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Alpha"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Alfa %s"
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
@@ -3379,15 +3378,15 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
 #: data/nation/yucatecan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Captain General %s"
-msgstr "Generálmajor"
+msgstr "Generální kapitán %s"
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
 #: data/nation/yucatecan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain General %s"
-msgstr "Generálmajor"
+msgstr "?female:Generální kapitánka %s"
 
 #: data/nation/chimu.ruleset:3
 #, fuzzy
@@ -3497,22 +3496,22 @@ msgstr ""
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:24
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
 #: data/nation/veletian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Voivode %s"
-msgstr "Host: %s"
+msgstr "Vojvoda %s"
 
 #: data/nation/chrobatian.ruleset:31 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:24
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
 #: data/nation/veletian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Voivode %s"
-msgstr "?female:Soudružka"
+msgstr "?female:Vojvodkyně %s"
 
 #: data/nation/chrobatian.ruleset:32 data/nation/slovakian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Priestess %s"
-msgstr "Kněžka"
+msgstr "Kněžka %s"
 
 #: data/nation/chrobatian.ruleset:33 data/nation/cossack.ruleset:30
 #: data/nation/cuyavian.ruleset:28 data/nation/donetsk.ruleset:41
@@ -3524,9 +3523,9 @@ msgstr "Kněžka"
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
 #: data/nation/veletian.ruleset:29 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Prince %s"
-msgstr "Princezna"
+msgstr "Velkokníže %s"
 
 #: data/nation/chrobatian.ruleset:33 data/nation/cossack.ruleset:30
 #: data/nation/cuyavian.ruleset:28 data/nation/donetsk.ruleset:41
@@ -3538,9 +3537,9 @@ msgstr "Princezna"
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
 #: data/nation/veletian.ruleset:29 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Princess %s"
-msgstr "Princezna"
+msgstr "Velkokněžna %s"
 
 #: data/nation/chumash.ruleset:3
 msgid "Chumash"
@@ -3608,16 +3607,16 @@ msgstr ""
 #: data/nation/circassian.ruleset:36 data/nation/ghaznavid.ruleset:32
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
 #: data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "%s Bey"
-msgstr "Koupit"
+msgstr "Bej %s"
 
 #: data/nation/circassian.ruleset:36 data/nation/ghaznavid.ruleset:32
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
 #: data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Bey"
-msgstr "Soudruh"
+msgstr "?female:Bej %s"
 
 #: data/nation/colombian.ruleset:3
 #, fuzzy
@@ -3682,9 +3681,9 @@ msgstr ""
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
 #: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Chairman %s"
-msgstr "Předseda"
+msgstr "Předseda %s"
 
 #: data/nation/comorian.ruleset:24 data/nation/congolesebrazzaville.ruleset:27
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
@@ -3694,9 +3693,9 @@ msgstr "Předseda"
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
 #: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Chairwoman %s"
-msgstr "Předseda"
+msgstr "Předsedkyně %s"
 
 #: data/nation/conch.ruleset:3
 msgid "Conch"
@@ -3830,14 +3829,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/corsican.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "General-in-Chief %s"
-msgstr "Interní"
+msgstr "Vrchní velitel %s"
 
 #: data/nation/corsican.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:General-in-Chief %s"
-msgstr "?female:Hlavní sekretářka"
+msgstr "?female:Vrchní velitelka %s"
 
 #: data/nation/cossack.ruleset:3
 #, fuzzy
@@ -3859,16 +3858,16 @@ msgstr ""
 #: data/nation/cossack.ruleset:31 data/nation/donetsk.ruleset:42
 #: data/nation/lipkatatar.ruleset:29 data/nation/luhansk.ruleset:39
 #: data/nation/ukrainian.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "Hetman %s"
-msgstr "Hejtman"
+msgstr "Hejtman %s"
 
 #: data/nation/cossack.ruleset:31 data/nation/donetsk.ruleset:42
 #: data/nation/lipkatatar.ruleset:29 data/nation/luhansk.ruleset:39
 #: data/nation/ukrainian.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Hetman %s"
-msgstr "?female:Šamanka"
+msgstr "?female:Hejtmanka %s"
 
 #: data/nation/costarican.ruleset:3
 #, fuzzy
@@ -4113,15 +4112,15 @@ msgstr ""
 "roku 1918 částí Rakousko-Uherské monarchie."
 
 #: data/nation/czech.ruleset:34 data/nation/xhosa.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Prophet %s"
-msgstr "Prorokyně"
+msgstr "Prorok %s"
 
 #: data/nation/czech.ruleset:34 data/nation/moravian.ruleset:35
 #: data/nation/xhosa.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Prophetess %s"
-msgstr "Prorokyně"
+msgstr "Prorokyně %s"
 
 #: data/nation/dacian.ruleset:3
 #, fuzzy
@@ -4298,14 +4297,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/donetsk.ruleset:40 data/nation/luhansk.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Kremlin %s"
-msgstr "Hejtman"
+msgstr "Kreml %s"
 
 #: data/nation/donetsk.ruleset:40 data/nation/luhansk.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kremlin %s"
-msgstr "?female:Šamanka"
+msgstr "?female:Kreml %s"
 
 #: data/nation/dryad.ruleset:3
 #, fuzzy
@@ -4346,27 +4345,27 @@ msgstr ""
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy of the People %s"
-msgstr "Selhalo vytvoření nového hráče %s."
+msgstr "Nepřítel lidu %s"
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Enemy of the People %s"
-msgstr "?female:První ministryně"
+msgstr "?female:Nepřítelkyně lidu %s"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Commissar %s"
-msgstr "Nejvyšší komisař"
+msgstr "Komisař %s"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Commissar %s"
-msgstr "?female:Nejvyšší komisařka"
+msgstr "?female:Komisařka %s"
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
@@ -4477,14 +4476,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/epirote.ruleset:33 data/nation/italiangreek.ruleset:50
-#, fuzzy, c-format
+#, c-format
 msgid "Tyrant %s"
-msgstr "Námořní pěchota"
+msgstr "Tyran %s"
 
 #: data/nation/epirote.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tyrant %s"
-msgstr "?female:Hackerka"
+msgstr "?female:Tyranka %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
@@ -4551,14 +4550,14 @@ msgstr ""
 "jazyk jsou příbuzné Finsku."
 
 #: data/nation/estonian.ruleset:21 data/nation/peruvian.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Protector %s"
-msgstr "Lady Protektor"
+msgstr "Ochránce %s"
 
 #: data/nation/estonian.ruleset:21 data/nation/peruvian.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Protector %s"
-msgstr "?female:Premiérka"
+msgstr "?female:Ochránkyně %s"
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
@@ -4601,28 +4600,28 @@ msgstr ""
 #: data/nation/european.ruleset:23 data/nation/frankish.ruleset:42
 #: data/nation/holyroman.ruleset:34 data/nation/holysee.ruleset:31
 #: data/nation/slovakian.ruleset:24 data/nation/westernroman.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Pope %s"
-msgstr "Sam"
+msgstr "Papež %s"
 
 #: data/nation/european.ruleset:23 data/nation/frankish.ruleset:42
 #: data/nation/holyroman.ruleset:34 data/nation/holysee.ruleset:31
 #: data/nation/westernroman.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Popess %s"
-msgstr "Sam"
+msgstr "Papežka %s"
 
 #: data/nation/european.ruleset:24 data/nation/frisian.ruleset:35
 #: data/nation/micronesian.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Commissioner %s"
-msgstr "Nejvyšší komisař"
+msgstr "Komisař %s"
 
 #: data/nation/european.ruleset:24 data/nation/frisian.ruleset:35
 #: data/nation/micronesian.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Commissioner %s"
-msgstr "?female:Nejvyšší komisařka"
+msgstr "?female:Komisařka %s"
 
 #: data/nation/evenki.ruleset:3
 #, fuzzy
@@ -4687,9 +4686,9 @@ msgstr ""
 #: data/nation/tairona.ruleset:26 data/nation/tswana.ruleset:30
 #: data/nation/vanuatuan.ruleset:25 data/nation/venda.ruleset:22
 #: data/nation/xhosa.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Paramount Chief %s"
-msgstr "Velký Náčelník"
+msgstr "Nejvyšší náčelník %s"
 
 #: data/nation/fijian.ruleset:24 data/nation/maasai.ruleset:21
 #: data/nation/maori.ruleset:23 data/nation/marshallese.ruleset:24
@@ -4698,9 +4697,9 @@ msgstr "Velký Náčelník"
 #: data/nation/tairona.ruleset:26 data/nation/tswana.ruleset:30
 #: data/nation/vanuatuan.ruleset:25 data/nation/venda.ruleset:22
 #: data/nation/xhosa.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Paramount Chief %s"
-msgstr "?female:Velká Náčelnice"
+msgstr "?female:Nejvyšší náčelnice %s"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -4738,9 +4737,9 @@ msgstr ""
 #: data/nation/prussian.ruleset:29 data/nation/southafrican.ruleset:25
 #: data/nation/southvietnamese.ruleset:24
 #: data/nation/westernpomeranian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Archbishop %s"
-msgstr "?female:Arcibiskup"
+msgstr "?female:Arcibiskupka %s"
 
 #: data/nation/flemish.ruleset:3
 #, fuzzy
@@ -4785,34 +4784,34 @@ msgstr ""
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiere %s"
-msgstr "Div: %s"
+msgstr "Kondotiér %s"
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiera %s"
-msgstr "Div: %s"
+msgstr "Kondotiérka %s"
 
 #: data/nation/florentine.ruleset:40 data/nation/milanese.ruleset:27
 #: data/nation/piedmontese.ruleset:33 data/nation/sardinian.ruleset:34
 #: data/nation/sicilian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Fra %s"
-msgstr "Emír"
+msgstr "Bratr %s"
 
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:51
 #: data/nation/milanese.ruleset:29 data/nation/poyaisian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Captain %s"
-msgstr "Generálmajor"
+msgstr "Kapitán %s"
 
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:51
 #: data/nation/milanese.ruleset:29 data/nation/poyaisian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain %s"
-msgstr "Náčelník trpaslíků"
+msgstr "?female:Kapitánka %s"
 
 #: data/nation/florida.ruleset:3
 #, fuzzy
@@ -4883,9 +4882,9 @@ msgstr ""
 #: data/nation/montenegrin.ruleset:28 data/nation/palatinate.ruleset:30
 #: data/nation/rhenish.ruleset:35 data/nation/tyrolian.ruleset:23
 #: data/nation/walloon.ruleset:26 data/nation/westphalian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Prince-Bishop %s"
-msgstr "Princezna"
+msgstr "Kníže-biskup %s"
 
 #: data/nation/frankish.ruleset:3
 #, fuzzy
@@ -4914,14 +4913,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "Mayor of the Palace %s"
-msgstr "Hrabě"
+msgstr "Majordomus %s"
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mayor of the Palace %s"
-msgstr "?female:První ministryně"
+msgstr "?female:Majordomka %s"
 
 #: data/nation/frisian.ruleset:3
 #, fuzzy
@@ -5025,14 +5024,14 @@ msgstr ""
 
 #. TRANS: Taoiseach = Prime Minister
 #: data/nation/gaelic.ruleset:28 data/nation/irish.ruleset:44
-#, fuzzy, c-format
+#, c-format
 msgid "Taoiseach %s"
-msgstr "Premiér"
+msgstr "Taoiseach %s"
 
 #: data/nation/gaelic.ruleset:28 data/nation/irish.ruleset:44
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Taoiseach %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Taoiseach %s"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
@@ -5086,15 +5085,15 @@ msgstr ""
 
 #: data/nation/gambian.ruleset:19 data/nation/malian.ruleset:20
 #: data/nation/senegalese.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "Mansa %s"
-msgstr "Námořní pěchota"
+msgstr "Mansa %s"
 
 #: data/nation/gambian.ruleset:19 data/nation/malian.ruleset:20
 #: data/nation/senegalese.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mansa %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Mansa %s"
 
 #: data/nation/genoese.ruleset:3
 msgid "Genoese"
@@ -5118,14 +5117,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/genoese.ruleset:51 data/nation/venetian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Doge %s"
-msgstr "Hotovo"
+msgstr "Dóže %s"
 
 #: data/nation/genoese.ruleset:51 data/nation/venetian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Dogaressa %s"
-msgstr "Diktátor"
+msgstr "Dogaressa %s"
 
 #: data/nation/georgian.ruleset:3
 #, fuzzy
@@ -5173,25 +5172,25 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:42 data/nation/ostrogothic.ruleset:31
 #: data/nation/vandalic.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Presbyter %s"
-msgstr "Prezident"
+msgstr "Presbyter %s"
 
 #: data/nation/gepid.ruleset:42 data/nation/ostrogothic.ruleset:31
 #: data/nation/vandalic.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Presbyter %s"
-msgstr "?female:Premiérka"
+msgstr "?female:Presbyterka %s"
 
 #: data/nation/gepid.ruleset:44
-#, fuzzy, c-format
+#, c-format
 msgid "Great Warrior %s"
-msgstr "Velký Faraon"
+msgstr "Velký válečník %s"
 
 #: data/nation/gepid.ruleset:44
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Warrior %s"
-msgstr "?female:Velký Faraon"
+msgstr "?female:Velká válečnice %s"
 
 #: data/nation/germanbelgian.ruleset:3
 #, fuzzy
@@ -5280,14 +5279,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Ghana %s"
-msgstr "v %s"
+msgstr "Ghana %s"
 
 #: data/nation/ghana.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ghana %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Ghana %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
@@ -5521,14 +5520,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/guyanese.ruleset:27 data/nation/lankese.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Executive President %s"
-msgstr "Ředitel-prezident"
+msgstr "Prezident s výkonnou pravomocí %s"
 
 #: data/nation/guyanese.ruleset:27 data/nation/lankese.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Executive President %s"
-msgstr "?female:Prezidentka"
+msgstr "?female:Prezidentka s výkonnou pravomocí %s"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
@@ -5543,24 +5542,24 @@ msgid "h4xx0r r0xx0rz!"
 msgstr "h4xx0r r0xx0rz!"
 
 #: data/nation/hacker.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?title:Hacker %s"
-msgstr "?title:Hacker"
+msgstr "?title:Hacker %s"
 
 #: data/nation/hacker.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Hacker %s"
-msgstr "?female:Hackerka"
+msgstr "?female:Hackerka %s"
 
 #: data/nation/hacker.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "?title:1337 %s"
-msgstr "?attitude:Genocidní"
+msgstr "?title:1337 %s"
 
 #: data/nation/hacker.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "?female:1337 %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:1337 %s"
 
 #: data/nation/haitian.ruleset:3
 #, fuzzy
@@ -5580,14 +5579,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/haitian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "President-for-Life %s"
-msgstr "Prezident"
+msgstr "Doživotní prezident %s"
 
 #: data/nation/haitian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:President-for-Life %s"
-msgstr "?female:Prezidentka"
+msgstr "?female:Doživotní prezidentka %s"
 
 #: data/nation/hanoverian.ruleset:3
 #, fuzzy
@@ -5610,9 +5609,9 @@ msgstr ""
 #: data/nation/montenegrin.ruleset:28 data/nation/rhenish.ruleset:35
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:26
 #: data/nation/westphalian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Princess-Bishop %s"
-msgstr "Princezna"
+msgstr "Kněžna-biskupka %s"
 
 #: data/nation/han.ruleset:3
 #, fuzzy
@@ -5633,9 +5632,9 @@ msgstr ""
 
 #: data/nation/han.ruleset:26 data/nation/manchu.ruleset:26
 #: data/nation/taiwanese.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Empress Dowager %s"
-msgstr "Dědic trůnu"
+msgstr "Císařovna vdova %s"
 
 #: data/nation/hansa.ruleset:3
 #, fuzzy
@@ -5771,14 +5770,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Landgrave %s"
-msgstr "Karavela"
+msgstr "Lantkrabě %s"
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Landgravine %s"
-msgstr "Námořní pěchota"
+msgstr "Lantkraběnka %s"
 
 #: data/nation/himyarite.ruleset:3
 #, fuzzy
@@ -5847,26 +5846,26 @@ msgid ""
 msgstr ""
 
 #: data/nation/holysee.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Antipope %s"
-msgstr "Sam"
+msgstr "Vzdoropapež %s"
 
 #: data/nation/holysee.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Antipopess %s"
-msgstr "Sam"
+msgstr "Vzdoropapežka %s"
 
 #: data/nation/holysee.ruleset:32 data/nation/maltese.ruleset:28
 #: data/nation/templar.ruleset:41 data/nation/teutonic.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Master %s"
-msgstr "Hlavní server:\n"
+msgstr "Velmistr %s"
 
 #: data/nation/holysee.ruleset:32 data/nation/maltese.ruleset:28
 #: data/nation/templar.ruleset:41 data/nation/teutonic.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Mistress %s"
-msgstr "Ano, paní."
+msgstr "Velmistryně %s"
 
 #: data/nation/honduran.ruleset:3
 msgid "Honduran"
@@ -6022,14 +6021,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/iranian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Ayatollah %s"
-msgstr "Ajatoláh"
+msgstr "Ajatolláh %s"
 
 #: data/nation/iranian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ayatollah %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Ajatolláh %s"
 
 #: data/nation/iraqi.ruleset:3
 #, fuzzy
@@ -6093,22 +6092,22 @@ msgstr ""
 #: data/nation/israeli.ruleset:23
 #, c-format
 msgid "Kibbutznik %s"
-msgstr ""
+msgstr "Kibucník %s"
 
 #: data/nation/israeli.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kibbutznikit %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Kibucnice %s"
 
 #: data/nation/israeli.ruleset:25 data/nation/khazar.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Rabbi %s"
-msgstr "Železnice"
+msgstr "Rabín %s"
 
 #: data/nation/israeli.ruleset:25 data/nation/khazar.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Rabbi %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Rabínka %s"
 
 #: data/nation/israelite.ruleset:3
 #, fuzzy
@@ -6131,15 +6130,15 @@ msgstr ""
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Judge %s"
-msgstr "Hotovo"
+msgstr "Soudce %s"
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Judge %s"
-msgstr "Despotka"
+msgstr "?female:Soudkyně %s"
 
 #: data/nation/italiangreek.ruleset:3
 #, fuzzy
@@ -6166,9 +6165,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/italiangreek.ruleset:50
-#, fuzzy, c-format
+#, c-format
 msgid "Tyranne %s"
-msgstr "Námořní pěchota"
+msgstr "Tyranka %s"
 
 #: data/nation/ivoirian.ruleset:3
 #, fuzzy
@@ -6224,14 +6223,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/jamaican.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Rasta %s"
-msgstr " na %s"
+msgstr "Rasta %s"
 
 #: data/nation/jamaican.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Rasta %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Rasta %s"
 
 #: data/nation/jolof.ruleset:3
 #, fuzzy
@@ -6475,14 +6474,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/khazar.ruleset:34 data/nation/volgabulgar.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Tarkhan %s"
-msgstr "Zeman"
+msgstr "Tarchan %s"
 
 #: data/nation/khazar.ruleset:34 data/nation/volgabulgar.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tarkhan %s"
-msgstr "?female:Hackerka"
+msgstr "?female:Tarchan %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
@@ -6528,15 +6527,15 @@ msgstr ""
 
 #: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:33
 #: data/nation/parthian.ruleset:36 data/nation/seleucid.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Satrap %s"
-msgstr " na %s"
+msgstr "Satrapa %s"
 
 #: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:33
 #: data/nation/parthian.ruleset:36 data/nation/seleucid.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Satrap %s"
-msgstr "?female:Šamanka"
+msgstr "?female:Satrapka %s"
 
 #: data/nation/kiribati.ruleset:3
 msgid "Kiribati"
@@ -6689,15 +6688,15 @@ msgstr ""
 
 #: data/nation/kushan.ruleset:45 data/nation/sikh.ruleset:33
 #: data/nation/vedic.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Guru %s"
-msgstr "uživatel %s, "
+msgstr "Guru %s"
 
 #: data/nation/kushan.ruleset:45 data/nation/sikh.ruleset:33
 #: data/nation/vedic.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Guru %s"
-msgstr "?female:Druidka"
+msgstr "?female:Guru %s"
 
 #: data/nation/kuwaiti.ruleset:3
 #, fuzzy
@@ -6775,14 +6774,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/lankese.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Supreme Commander %s"
-msgstr "Generální ředitel"
+msgstr "Vrchní velitel %s"
 
 #: data/nation/lankese.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Supreme Commander %s"
-msgstr "?female:Vrchní Velitelka"
+msgstr "?female:Vrchní velitelka %s"
 
 #: data/nation/laotian.ruleset:3
 #, fuzzy
@@ -7012,19 +7011,19 @@ msgid ""
 msgstr ""
 
 #: data/nation/liege.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Princess %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Princezna %s"
 
 #: data/nation/liege.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Prime Ministress %s"
-msgstr "?female:První ministryně"
+msgstr "?female:Předsedkyně vlády %s"
 
 #: data/nation/liege.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Regent %s"
-msgstr "Srbský"
+msgstr "Regent %s"
 
 #: data/nation/ligurian.ruleset:3
 #, fuzzy
@@ -7044,14 +7043,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/ligurian.ruleset:24 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Paramount Ruler %s"
-msgstr "Velký Náčelník"
+msgstr "Nejvyšší vládce %s"
 
 #: data/nation/ligurian.ruleset:24 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "?female:Velká Náčelnice"
+msgstr "?female:Nejvyšší vládkyně %s"
 
 #: data/nation/lipkatatar.ruleset:3
 #, fuzzy
@@ -7167,24 +7166,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/louisianian.ruleset:45
-#, fuzzy, c-format
+#, c-format
 msgid "Kingfish %s"
-msgstr "Nejvyšší Král"
+msgstr "Kingfish %s"
 
 #: data/nation/louisianian.ruleset:45
-#, fuzzy, c-format
+#, c-format
 msgid "Queenfish %s"
-msgstr "Nejvyšší Královna"
+msgstr "Queenfish %s"
 
 #: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Governeror %s"
-msgstr "Guvernér"
+msgstr "Guvernér %s"
 
 #: data/nation/louisianian.ruleset:46 data/nation/minnesotan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Governeror %s"
-msgstr "?female:Guvernérka"
+msgstr "?female:Guvernérka %s"
 
 #: data/nation/luhansk.ruleset:3
 msgid "Luhansk"
@@ -7320,14 +7319,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/macedon.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Diadochos %s"
-msgstr "Diktátorka"
+msgstr "Diadoch %s"
 
 #: data/nation/macedon.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Diadocha %s"
-msgstr "Diktátorka"
+msgstr "Diadocha %s"
 
 #: data/nation/majapahit.ruleset:3
 msgid "Majapahit"
@@ -7367,14 +7366,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/malagasy.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "High Commissioner %s"
-msgstr "Nejvyšší komisař"
+msgstr "Vysoký komisař %s"
 
 #: data/nation/malagasy.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Commissioner %s"
-msgstr "?female:Nejvyšší komisařka"
+msgstr "?female:Vysoká komisařka %s"
 
 #: data/nation/malawian.ruleset:3
 #, fuzzy
@@ -7464,15 +7463,15 @@ msgstr ""
 
 #: data/nation/maltese.ruleset:27 data/nation/templar.ruleset:40
 #: data/nation/teutonic.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Master %s"
-msgstr "Laser"
+msgstr "Mistr %s"
 
 #: data/nation/maltese.ruleset:27 data/nation/templar.ruleset:40
 #: data/nation/teutonic.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Mistress %s"
-msgstr "Ano, paní."
+msgstr "Mistryně %s"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
@@ -7495,16 +7494,16 @@ msgstr ""
 #: data/nation/mamluk.ruleset:35 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:19
 #: data/nation/turkishcypriot.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "%s Pasha"
-msgstr "Základ"
+msgstr "Paša %s"
 
 #: data/nation/mamluk.ruleset:35 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:19
 #: data/nation/turkishcypriot.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Pasha"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Paša %s"
 
 #: data/nation/manchu.ruleset:3
 #, fuzzy
@@ -7545,15 +7544,15 @@ msgstr ""
 
 #: data/nation/manx.ruleset:35 data/nation/westindian.ruleset:23
 #: data/nation/zanzibari.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Chief Minister %s"
-msgstr "První ministr"
+msgstr "Hlavní ministr %s"
 
 #: data/nation/manx.ruleset:35 data/nation/westindian.ruleset:23
 #: data/nation/zanzibari.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief Minister %s"
-msgstr "?female:První ministryně"
+msgstr "?female:Hlavní ministryně %s"
 
 #: data/nation/maori.ruleset:3
 #, fuzzy
@@ -7608,14 +7607,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/marathi.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "High Brahmin %s"
-msgstr "Nejvyšší Král"
+msgstr "Nejvyšší bráhman %s"
 
 #: data/nation/marathi.ruleset:39
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Brahmin %s"
-msgstr "?female:Druidka"
+msgstr "?female:Nejvyšší bráhmanka %s"
 
 #: data/nation/marshallese.ruleset:3
 #, fuzzy
@@ -7745,9 +7744,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/median.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shahanshah"
-msgstr "Chán"
+msgstr "Šáhanšáh %s"
 
 #: data/nation/messapian.ruleset:3
 #, fuzzy
@@ -8017,14 +8016,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/monegasque.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Minister of State %s"
-msgstr "?female:První ministryně"
+msgstr "Státní ministr %s"
 
 #: data/nation/monegasque.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Minister of State %s"
-msgstr "?female:První ministryně"
+msgstr "?female:Státní ministryně %s"
 
 #: data/nation/mon.ruleset:3
 #, fuzzy
@@ -8206,14 +8205,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/mwiska.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Cacique %s"
-msgstr "Zrušit"
+msgstr "Kasik %s"
 
 #: data/nation/mwiska.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Cacique %s"
-msgstr "?female:Hackerka"
+msgstr "?female:Kasika %s"
 
 #: data/nation/namibian.ruleset:3
 #, fuzzy
@@ -8502,15 +8501,15 @@ msgstr ""
 
 #: data/nation/northirish.ruleset:39 data/nation/scottishgaelic.ruleset:37
 #: data/nation/scottish.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "First Minister %s"
-msgstr "První ministr"
+msgstr "První ministr %s"
 
 #: data/nation/northirish.ruleset:39 data/nation/scottishgaelic.ruleset:37
 #: data/nation/scottish.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:First Minister %s"
-msgstr "?female:První ministryně"
+msgstr "?female:První ministryně %s"
 
 #: data/nation/northkorean.ruleset:3
 msgid "North Korean"
@@ -8532,24 +8531,24 @@ msgstr ""
 "(KLDR) socialistickým státem Stalinského typu."
 
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Dear Leader %s"
-msgstr "Velký vůdce"
+msgstr "Drahý vůdce %s"
 
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Dear Leader %s"
-msgstr "?female:Velká vůdkyně"
+msgstr "?female:Drahá vůdkyně %s"
 
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Great Leader %s"
-msgstr "Velký vůdce"
+msgstr "Velký vůdce %s"
 
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Leader %s"
-msgstr "?female:Velká vůdkyně"
+msgstr "?female:Velká vůdkyně %s"
 
 #: data/nation/northumbrian.ruleset:3
 #, fuzzy
@@ -8628,24 +8627,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/nubian.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Pharaoh %s"
-msgstr "Faraon"
+msgstr "Faraon %s"
 
 #: data/nation/nubian.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Pharaoh %s"
-msgstr "?female:Faraon"
+msgstr "?female:Faraonka %s"
 
 #: data/nation/nubian.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "Great Pharaoh %s"
-msgstr "Velký Faraon"
+msgstr "Velký faraon %s"
 
 #: data/nation/nubian.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Pharaoh %s"
-msgstr "?female:Velký Faraon"
+msgstr "?female:Velká faraonka %s"
 
 #: data/nation/numidian.ruleset:3
 #, fuzzy
@@ -8709,14 +8708,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/occitan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Viscount %s"
-msgstr "Nahlížení"
+msgstr "Vikomt %s"
 
 #: data/nation/occitan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Viscountess %s"
-msgstr "Počet"
+msgstr "Vikomtka %s"
 
 #: data/nation/ohlone.ruleset:3
 #, fuzzy
@@ -8800,14 +8799,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/omani.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "General Commander %s"
-msgstr "Generální ředitel"
+msgstr "Hlavní velitel %s"
 
 #: data/nation/omani.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:General Commander %s"
-msgstr "?female:Vrchní Velitelka"
+msgstr "?female:Hlavní velitelka %s"
 
 #: data/nation/ossetian.ruleset:3
 #, fuzzy
@@ -8890,14 +8889,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Padishah %s"
-msgstr "Padišáh"
+msgstr "Pádišáh %s"
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Padishah %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Pádišáh %s"
 
 #: data/nation/ozite.ruleset:3
 #, fuzzy
@@ -8919,14 +8918,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/ozite.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Wizard %s"
-msgstr "Válečník"
+msgstr "Čaroděj %s"
 
 #: data/nation/ozite.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Witch %s"
-msgstr "Šířka"
+msgstr "Čarodějnice %s"
 
 #: data/nation/paeonian.ruleset:3
 #, fuzzy
@@ -8986,14 +8985,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/palatinate.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "Count Palatine %s"
-msgstr "Populace: %s"
+msgstr "Falckrabě %s"
 
 #: data/nation/palatinate.ruleset:29
 #, c-format
 msgid "Countess Palatine %s"
-msgstr ""
+msgstr "Falckraběnka %s"
 
 #: data/nation/palauan.ruleset:3
 msgid "Palauan"
@@ -9042,9 +9041,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/palmyrene.ruleset:20 data/nation/paraguayan.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Dictatrix %s"
-msgstr "Diktátorka"
+msgstr "Diktátorka %s"
 
 #: data/nation/panamanian.ruleset:3
 #, fuzzy
@@ -9086,14 +9085,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Governor-General %s"
-msgstr "Guvernérka"
+msgstr "Generální guvernér %s"
 
 #: data/nation/papuanewguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Governor-General %s"
-msgstr "?female:Guvernérka"
+msgstr "?female:Generální guvernérka %s"
 
 #: data/nation/papuan.ruleset:3
 #, fuzzy
@@ -9169,14 +9168,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/parthian.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Shah %s"
-msgstr "Šejk"
+msgstr "Šáh %s"
 
 #: data/nation/parthian.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Shahbanu %s"
-msgstr "Šaman"
+msgstr "Šáhbánú %s"
 
 #: data/nation/pashtun.ruleset:3
 #, fuzzy
@@ -9349,14 +9348,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/poyaisian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Cazique %s"
-msgstr "Zrušit"
+msgstr "Kasik %s"
 
 #: data/nation/poyaisian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Cazica %s"
-msgstr "Kalif"
+msgstr "Kasika %s"
 
 #: data/nation/prussian.ruleset:3
 msgid "Prussian"
@@ -9564,14 +9563,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/romanian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Director-President %s"
-msgstr "Ředitel-prezident"
+msgstr "Prezident a ředitel %s"
 
 #: data/nation/romanian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Director-President %s"
-msgstr "?female:Ředitelka-prezidentka"
+msgstr "?female:Prezidentka a ředitelka %s"
 
 #: data/nation/romansh.ruleset:3
 #, fuzzy
@@ -9678,14 +9677,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/sabine.ruleset:29 data/nation/samnite.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Tribune %s"
-msgstr "Princezna"
+msgstr "Tribun %s"
 
 #: data/nation/sabine.ruleset:29 data/nation/samnite.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tribune %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Tribunka %s"
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
@@ -9817,14 +9816,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/sammarinese.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Regent %s"
-msgstr "Generálmajor"
+msgstr "Kapitán-regent %s"
 
 #: data/nation/sammarinese.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Regent %s"
-msgstr "Generálmajor"
+msgstr "?female:Kapitánka-regentka %s"
 
 #: data/nation/samnite.ruleset:3
 msgid "Samnite"
@@ -9864,14 +9863,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/samoan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Chief of the Government %s"
-msgstr "Vyberte Vaše nové státní zřízení"
+msgstr "Předseda vlády %s"
 
 #: data/nation/samoan.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief of the Government %s"
-msgstr "?female:Guvernérka"
+msgstr "?female:Předsedkyně vlády %s"
 
 #: data/nation/samogitian.ruleset:3
 #, fuzzy
@@ -10070,14 +10069,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
-msgstr "Náčelník"
+msgstr "Náčelník klanu %s"
 
 #: data/nation/scottishgaelic.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
-msgstr "Soudruh"
+msgstr "?female:Náčelnice klanu %s"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -10674,9 +10673,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/southvietnamese.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Madame %s"
-msgstr "Nahrát hru"
+msgstr "Paní %s"
 
 #: data/nation/southyemeni.ruleset:3
 #, fuzzy
@@ -10791,14 +10790,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/surinamese.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Sergeant %s"
-msgstr "Srbský"
+msgstr "Seržant %s"
 
 #: data/nation/surinamese.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Sergeant %s"
-msgstr "?female:Reverendka"
+msgstr "?female:Seržantka %s"
 
 #: data/nation/swahili.ruleset:3
 msgid "Swahili"
@@ -10858,14 +10857,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/swiss.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "Federal Councillor %s"
-msgstr "Kancléř"
+msgstr "Spolkový radní %s"
 
 #: data/nation/swiss.ruleset:38
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Federal Councillor %s"
-msgstr "?female:Federální Kancléřka"
+msgstr "?female:Spolková radní %s"
 
 #: data/nation/syrian.ruleset:3
 msgid "Syrian"
@@ -11130,14 +11129,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Dalai Lama %s"
-msgstr "Dalajláma"
+msgstr "Dalajláma %s"
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Dalai Lama %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Dalajláma %s"
 
 #: data/nation/timurid.ruleset:3
 msgid "Timurid"
@@ -11419,14 +11418,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/turkmen.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Turkmenbashi %s"
-msgstr "Turkménský"
+msgstr "Türkmenbaši %s"
 
 #: data/nation/turkmen.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Turkmenbashi %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Türkmenbaši %s"
 
 #: data/nation/tuvaluan.ruleset:3
 msgid "Tuvaluan"
@@ -11486,14 +11485,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Count %s"
-msgstr "Princezna"
+msgstr "Okněžněný hrabě %s"
 
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Countess %s"
-msgstr "Počet"
+msgstr "Okněžněná hraběnka %s"
 
 #: data/nation/ugandan.ruleset:3
 #, fuzzy
@@ -11520,14 +11519,14 @@ msgstr ""
 #. ;    ancient kingdom which occupied much of present-day
 #. ;    Uganda.
 #: data/nation/ugandan.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Kabaka %s"
-msgstr "Kazašký"
+msgstr "Kabaka %s"
 
 #: data/nation/ugandan.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kabaka %s"
-msgstr "Podstatné jméno ženského rodu"
+msgstr "?female:Kabaka %s"
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -11560,14 +11559,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/un.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Secretary-General %s"
-msgstr "Hlavní sekretář"
+msgstr "Generální tajemník %s"
 
 #: data/nation/un.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Secretary-General %s"
-msgstr "?female:Hlavní sekretářka"
+msgstr "?female:Generální tajemnice %s"
 
 #: data/nation/urartian.ruleset:3
 #, fuzzy
@@ -11712,14 +11711,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/vedic.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Mahatma %s"
-msgstr "Mahátma"
+msgstr "Mahátma %s"
 
 #: data/nation/vedic.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahatma %s"
-msgstr "?female:Mahátma"
+msgstr "?female:Mahátma %s"
 
 #: data/nation/veletian.ruleset:3
 #, fuzzy
@@ -12068,14 +12067,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/westernroman.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Augustus"
-msgstr "Srpnu"
+msgstr "Augustus %s"
 
 #: data/nation/westernroman.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Augusta"
-msgstr "Srpnu"
+msgstr "Augusta %s"
 
 #: data/nation/westindian.ruleset:3
 #, fuzzy

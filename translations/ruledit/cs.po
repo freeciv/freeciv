@@ -20,217 +20,216 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/helpeditor.cpp:54 tools/ruledit/req_vec_fix.cpp:191
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 #: tools/ruledit/edit_extra.cpp:60 tools/ruledit/edit_gov.cpp:52
 #: tools/ruledit/edit_impr.cpp:101 tools/ruledit/edit_tech.cpp:71
 #: tools/ruledit/edit_terrain.cpp:81 tools/ruledit/edit_utype.cpp:149
 msgid "Graphics tag"
-msgstr ""
+msgstr "Značka grafiky"
 
 #: tools/ruledit/edit_extra.cpp:69 tools/ruledit/edit_gov.cpp:61
 #: tools/ruledit/edit_impr.cpp:110 tools/ruledit/edit_tech.cpp:80
 #: tools/ruledit/edit_terrain.cpp:90 tools/ruledit/edit_utype.cpp:158
 msgid "Alt graphics tag"
-msgstr ""
+msgstr "Náhradní značka grafiky"
 
 #: tools/ruledit/edit_extra.cpp:78
 msgid "Activity graphics tag"
-msgstr ""
+msgstr "Značka grafiky činnosti"
 
 #: tools/ruledit/edit_extra.cpp:87
 msgid "Alt activity gfx tag"
-msgstr ""
+msgstr "Náhradní značka grafiky činnosti"
 
 #: tools/ruledit/edit_extra.cpp:96
 msgid "Second alt activity gfx tag"
-msgstr ""
+msgstr "Druhá náhradní značka grafiky činnosti"
 
 #: tools/ruledit/edit_extra.cpp:105
 msgid "Removal activity graphics tag"
-msgstr ""
+msgstr "Značka grafiky odstraňování"
 
 #: tools/ruledit/edit_extra.cpp:114
 msgid "Alt removal activity gfx tag"
-msgstr ""
+msgstr "Náhradní značka grafiky odstraňování"
 
 #: tools/ruledit/edit_extra.cpp:123
 msgid "Second alt removal activity gfx tag"
-msgstr ""
+msgstr "Druhá náhradní značka grafiky odstraňování"
 
 #: tools/ruledit/edit_extra.cpp:132 tools/ruledit/edit_gov.cpp:97
 #: tools/ruledit/edit_impr.cpp:155 tools/ruledit/edit_tech.cpp:89
 #: tools/ruledit/edit_terrain.cpp:108 tools/ruledit/edit_utype.cpp:216
 msgid "Helptext"
-msgstr ""
+msgstr "Text nápovědy"
 
 #: tools/ruledit/edit_extra.cpp:136 tools/ruledit/edit_terrain.cpp:112
 msgid "Native to"
-msgstr ""
+msgstr "Přirozené pro"
 
 #: tools/ruledit/edit_gov.cpp:70 tools/ruledit/edit_impr.cpp:128
 msgid "Sound tag"
-msgstr ""
+msgstr "Značka zvuku"
 
 #: tools/ruledit/edit_gov.cpp:79 tools/ruledit/edit_impr.cpp:137
 msgid "Alt sound tag"
-msgstr ""
+msgstr "Náhradní značka zvuku"
 
 #: tools/ruledit/edit_gov.cpp:88 tools/ruledit/edit_impr.cpp:146
 msgid "Second alt sound tag"
-msgstr ""
+msgstr "Druhá náhradní značka zvuku"
 
 #: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:78
 msgid "Build Cost"
-msgstr ""
+msgstr "Cena výstavby"
 
 #: tools/ruledit/edit_impr.cpp:73
 msgid "Upkeep"
-msgstr ""
+msgstr "Údržba"
 
 #: tools/ruledit/edit_impr.cpp:83
 msgid "Genus"
-msgstr ""
+msgstr "Kategorie"
 
 #: tools/ruledit/edit_impr.cpp:119 tools/ruledit/edit_utype.cpp:167
 msgid "Second alt gfx tag"
-msgstr ""
+msgstr "Druhá náhradní značka grafiky"
 
 #: tools/ruledit/edit_tech.cpp:60
 msgid "Cost"
-msgstr ""
+msgstr "Cena"
 
 #: tools/ruledit/edit_terrain.cpp:61
 msgid "Move Cost"
-msgstr ""
+msgstr "Cena pohybu"
 
 #: tools/ruledit/edit_terrain.cpp:71
 msgid "Defense Bonus %"
-msgstr ""
+msgstr "Bonus k obraně v %"
 
 #: tools/ruledit/edit_terrain.cpp:99
 msgid "Second alt graphics tag"
-msgstr ""
+msgstr "Druhá náhradní značka grafiky"
 
 #: tools/ruledit/edit_utype.cpp:60
 msgid "Class"
-msgstr ""
+msgstr "Třída"
 
 #: tools/ruledit/edit_utype.cpp:89
 msgid "Attack Strength"
-msgstr ""
+msgstr "Síla útoku"
 
 #: tools/ruledit/edit_utype.cpp:99
 msgid "Defense Strength"
-msgstr ""
+msgstr "Síla obrany"
 
 #: tools/ruledit/edit_utype.cpp:109
 msgid "Hitpoints"
-msgstr ""
+msgstr "Body zdraví"
 
 #: tools/ruledit/edit_utype.cpp:119
 msgid "Firepower"
-msgstr ""
+msgstr "Palebná síla"
 
 #: tools/ruledit/edit_utype.cpp:129
 msgid "Move Rate"
-msgstr ""
+msgstr "Dosah pohybu"
 
 #: tools/ruledit/edit_utype.cpp:139
 msgid "Transport Capacity"
-msgstr ""
+msgstr "Přepravní kapacita"
 
 #: tools/ruledit/edit_utype.cpp:176
 msgid "Move sound tag"
-msgstr ""
+msgstr "Značka zvuku pohybu"
 
 #: tools/ruledit/edit_utype.cpp:186
 msgid "Alt move sound tag"
-msgstr ""
+msgstr "Náhradní značka zvuku pohybu"
 
 #: tools/ruledit/edit_utype.cpp:196
 msgid "Fight sound tag"
-msgstr ""
+msgstr "Značka zvuku boje"
 
 #: tools/ruledit/edit_utype.cpp:206
 msgid "Alt fight sound tag"
-msgstr ""
+msgstr "Náhradní značka zvuku boje"
 
 #: tools/ruledit/edit_utype.cpp:220
 msgid "Cargo"
-msgstr ""
+msgstr "Náklad"
 
 #: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
-msgstr ""
+msgstr "Typ:"
 
 #: tools/ruledit/effect_edit.cpp:92 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
-msgstr ""
+msgstr "Hodnota:"
 
 #: tools/ruledit/effect_edit.cpp:115
 msgid "Comment"
-msgstr ""
+msgstr "Komentář"
 
 #: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:87 tools/ruledit/tab_multiplier.cpp:84
 #: tools/ruledit/tab_unit.cpp:87
 msgid "Requirements"
-msgstr ""
+msgstr "Podmínky"
 
 #: tools/ruledit/effect_edit.cpp:125
 msgid "Add Effect"
-msgstr ""
+msgstr "Přidat efekt"
 
 #: tools/ruledit/effect_edit.cpp:129
 msgid "Delete Effect"
-msgstr ""
+msgstr "Odstranit efekt"
 
 #: tools/ruledit/effect_edit.cpp:206
 #, c-format
 msgid "Effect #%d: %s"
-msgstr ""
+msgstr "Efekt č. %d: %s"
 
 #: tools/ruledit/effect_edit.cpp:315
 #, c-format
 msgid "%s effect #%d"
-msgstr ""
+msgstr "%s, efekt č. %d"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
 #: tools/ruledit/req_vec_fix.cpp:80
 msgid "No problem found"
-msgstr ""
+msgstr "Nebyl nalezen žádný problém"
 
 #. TRANS: Trying to fix a requirement vector problem but
 #. * don't know how to solve it.
 #: tools/ruledit/req_vec_fix.cpp:93
 #, c-format
 msgid "Don't know how to fix %s: %s"
-msgstr ""
+msgstr "Pro %s není známa oprava: %s"
 
 #. TRANS: Apply the selected requirement vector problem fix.
 #: tools/ruledit/req_vec_fix.cpp:121
 msgid "Accept selected solution"
-msgstr ""
+msgstr "Přijmout vybrané řešení"
 
 #: tools/ruledit/req_vec_fix.cpp:159
 msgid "Requirement problem"
-msgstr ""
+msgstr "Problém s podmínkou"
 
 #. TRANS: Button text in the requirement vector fixer dialog. Cancels all
 #. * changes done since the last time all accepted changes were done.
 #: tools/ruledit/req_vec_fix.cpp:169
 msgid "Undo all"
-msgstr ""
+msgstr "Odvolat vše"
 
 #. TRANS: Tool tip text in the requirement vector fixer dialog. Cancels
 #. * all changes done since the last time all accepted changes were done.
@@ -239,12 +238,14 @@ msgid ""
 "Undo all accepted solutions since you started or since last time you ordered "
 "all accepted changes done."
 msgstr ""
+"Odvolá všechna řešení přijatá od začátku úprav nebo od posledního použití "
+"přijatých změn."
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Button text in the requirement vector fixer dialog.
 #: tools/ruledit/req_vec_fix.cpp:180
 msgid "Do accepted changes"
-msgstr ""
+msgstr "Použít přijaté změny"
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Tool tip text in the requirement vector fixer dialog.
@@ -253,93 +254,100 @@ msgid ""
 "Perform all the changes you have accepted to the ruleset item. You can then "
 "fix the current issue by hand and come back here to find the next issue."
 msgstr ""
+"Použije všechny přijaté změny této položky sady pravidel. Poté můžete "
+"aktuální problém opravit ručně a sem se vrátit kvůli hledání dalšího "
+"problému."
 
 #: tools/ruledit/req_vec_fix.cpp:279
 msgid "Unable to apply solution"
-msgstr ""
+msgstr "Řešení nelze použít"
 
 #. TRANS: requirement vector fix failed to apply
 #: tools/ruledit/req_vec_fix.cpp:283
 msgid "Failed to apply solution %1 for %2 to %3."
-msgstr ""
+msgstr "Řešení %1 problému %2 se nepodařilo použít na %3."
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Odstraňuje se %s"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
 #: tools/ruledit/requirers_dlg.cpp:72
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "Vyžaduje: %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
 #: tools/ruledit/ruledit.cpp:119
 #, c-format
 msgid "Failed to load %s."
-msgstr ""
+msgstr "Nepodařilo se načíst %s."
 
 #: tools/ruledit/ruledit.cpp:155
-#, fuzzy
 msgid "Print a summary of the options"
-msgstr "  -h, --help\t\tVytiskne přehled voleb\n"
+msgstr "Vypsat přehled voleb"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:159 tools/ruledit/ruledit.cpp:165
 msgid "debug LEVEL"
-msgstr ""
+msgstr "debug ÚROVEŇ"
 
 #: tools/ruledit/ruledit.cpp:160
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
+"Nastavit úroveň ladicího protokolu (f, e, w, n, v, d nebo "
+"d:file1,min,max:…)"
 
 #: tools/ruledit/ruledit.cpp:166
 msgid "Set debug log level (one of f,e,w,n,v)"
-msgstr ""
+msgstr "Nastavit úroveň ladicího protokolu (f, e, w, n nebo v)"
 
 #: tools/ruledit/ruledit.cpp:169
-#, fuzzy
 msgid "Print the version number"
-msgstr "  -v, --version\t\tVypiš číslo verze\n"
+msgstr "Vypsat číslo verze"
 
 #. TRANS: argument (don't translate) VALUE (translate)
 #: tools/ruledit/ruledit.cpp:172
 msgid "ruleset RULESET"
-msgstr ""
+msgstr "ruleset SADA_PRAVIDEL"
 
 #: tools/ruledit/ruledit.cpp:173
 msgid "Ruleset to use as the starting point."
-msgstr ""
+msgstr "Výchozí sada pravidel pro úpravy."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:177
 msgid "Fatal [SIGNAL]"
-msgstr ""
+msgstr "Fatal [SIGNÁL]"
 
 #: tools/ruledit/ruledit.cpp:178
 msgid "Raise a signal on failed assertion"
-msgstr ""
+msgstr "Vyvolat signál při selhání kontrolní podmínky"
 
 #: tools/ruledit/ruledit.cpp:192
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
+"Lze upravovat pouze jednu sadu pravidel najednou.\n"
 
 #: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
+"U volby --debug byla zadána neplatná úroveň „%s“.\n"
 
 #: tools/ruledit/ruledit.cpp:201 tools/ruledit/ruledit.cpp:214
 msgid "Try using --help.\n"
 msgstr ""
+"Zkuste použít volbu --help.\n"
 
 #: tools/ruledit/ruledit.cpp:212
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr ""
+"Neplatné číslo signálu „%s“.\n"
 
 #: tools/ruledit/ruledit.cpp:221
 #, c-format
@@ -348,11 +356,11 @@ msgstr "Neznámá volba: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:127
 msgid "built in Qt6 mode."
-msgstr ""
+msgstr "sestaveno s Qt 6."
 
 #: tools/ruledit/ruledit_qt.cpp:129
 msgid "built in Qt5 mode."
-msgstr ""
+msgstr "sestaveno s Qt 5."
 
 #: tools/ruledit/ruledit_qt.cpp:136
 #, c-format
@@ -361,108 +369,105 @@ msgid ""
 "commit: %s\n"
 "%s"
 msgstr ""
+"%s%s\n"
+"Revize: %s\n"
+"%s"
 
 #: tools/ruledit/ruledit_qt.cpp:151
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Zadejte výchozí sadu pravidel pro úpravy."
 
 #: tools/ruledit/ruledit_qt.cpp:159
-#, fuzzy
 msgid "Start editing"
-msgstr "Startovní pozice"
+msgstr "Začít upravovat"
 
 #: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
-msgstr ""
+msgstr "Ostatní"
 
 #: tools/ruledit/ruledit_qt.cpp:172
-#, fuzzy
 msgid "Tech"
-msgstr "_Technologie"
+msgstr "Technologie"
 
 #: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
-msgstr ""
+msgstr "Budovy"
 
 #: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
-msgstr ""
+msgstr "Jednotky"
 
 #: tools/ruledit/ruledit_qt.cpp:178
 msgid "Achievements"
-msgstr ""
+msgstr "Úspěchy"
 
 #: tools/ruledit/ruledit_qt.cpp:180
 msgid "Goods"
-msgstr ""
+msgstr "Zboží"
 
 #: tools/ruledit/ruledit_qt.cpp:182
 msgid "Governments"
-msgstr ""
+msgstr "Státní zřízení"
 
 #: tools/ruledit/ruledit_qt.cpp:184
 msgid "Enablers"
-msgstr ""
+msgstr "Podmínky akcí"
 
 #: tools/ruledit/ruledit_qt.cpp:186
 msgid "Extras"
-msgstr ""
+msgstr "Prvky polí"
 
 #: tools/ruledit/ruledit_qt.cpp:188
 msgid "Terrains"
-msgstr ""
+msgstr "Terény"
 
 #: tools/ruledit/ruledit_qt.cpp:190
 msgid "Multipliers"
-msgstr ""
+msgstr "Násobitele"
 
 #: tools/ruledit/ruledit_qt.cpp:192
 msgid "Counters"
-msgstr ""
+msgstr "Počitadla"
 
 #: tools/ruledit/ruledit_qt.cpp:194
 msgid "Nations"
-msgstr ""
+msgstr "Národy"
 
 #: tools/ruledit/ruledit_qt.cpp:203
-#, fuzzy
 msgid "Welcome to freeciv-ruledit"
-msgstr "Vítejte ve Freeciv"
+msgstr "Vítejte v editoru pravidel Freecivu"
 
 #: tools/ruledit/ruledit_qt.cpp:250
 msgid "Old ruleset to a new format"
-msgstr ""
+msgstr "Převést starou sadu pravidel do nového formátu"
 
 #: tools/ruledit/ruledit_qt.cpp:253
-#, fuzzy
 msgid "Ruleset loaded"
-msgstr "Poušť"
+msgstr "Sada pravidel načtena"
 
 #: tools/ruledit/ruledit_qt.cpp:277
 msgid "Ruleset loading failed!"
-msgstr ""
+msgstr "Sadu pravidel se nepodařilo načíst!"
 
 #: tools/ruledit/ruledit_qt.cpp:455
-#, fuzzy
 msgid "Freeciv Ruleset Editor"
-msgstr "Freeciv seznam serverů"
+msgstr "Editor pravidel Freecivu"
 
 #: tools/ruledit/ruledit_qt.cpp:488
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Opravdu chcete editor ukončit?"
 
 #: tools/ruledit/ruledit_qt.cpp:492
 msgid "Quit?"
-msgstr ""
+msgstr "Ukončit?"
 
 #: tools/ruledit/tab_achievement.cpp:68 tools/ruledit/tab_building.cpp:67
 #: tools/ruledit/tab_counters.cpp:82 tools/ruledit/tab_extras.cpp:68
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:64
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:67
 #: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:64
-#, fuzzy
 msgid "Rule Name"
-msgstr "Jméno hráče:"
+msgstr "Název v pravidlech"
 
 #: tools/ruledit/tab_achievement.cpp:71 tools/ruledit/tab_achievement.cpp:81
 #: tools/ruledit/tab_achievement.cpp:103 tools/ruledit/tab_achievement.cpp:181
@@ -487,7 +492,7 @@ msgstr "Jméno hráče:"
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
 #: tools/ruledit/tab_unit.cpp:148 tools/ruledit/tab_unit.cpp:149
 msgid "None"
-msgstr ""
+msgstr "Žádné"
 
 #: tools/ruledit/tab_achievement.cpp:76 tools/ruledit/tab_building.cpp:75
 #: tools/ruledit/tab_counters.cpp:89 tools/ruledit/tab_extras.cpp:76
@@ -499,11 +504,11 @@ msgstr "Jméno"
 
 #: tools/ruledit/tab_achievement.cpp:87 tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: tools/ruledit/tab_achievement.cpp:108
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 #: tools/ruledit/tab_achievement.cpp:118 tools/ruledit/tab_building.cpp:94
 #: tools/ruledit/tab_counters.cpp:135 tools/ruledit/tab_extras.cpp:95
@@ -511,163 +516,153 @@ msgstr ""
 #: tools/ruledit/tab_tech.cpp:116 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
-msgstr ""
+msgstr "Efekty"
 
 #: tools/ruledit/tab_achievement.cpp:122
 msgid "Add Achievement"
-msgstr ""
+msgstr "Přidat úspěch"
 
 #: tools/ruledit/tab_achievement.cpp:127
-#, fuzzy
 msgid "Remove this Achievement"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tento úspěch"
 
 #: tools/ruledit/tab_achievement.cpp:218
 msgid "An achievement with that rule name already exists!"
-msgstr ""
+msgstr "Úspěch s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
 #: tools/ruledit/tab_gov.cpp:83 tools/ruledit/tab_tech.cpp:86
 #: tools/ruledit/tab_terrains.cpp:87 tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
-msgstr ""
+msgstr "Upravit hodnoty"
 
 #: tools/ruledit/tab_building.cpp:98
 msgid "Add Building"
-msgstr ""
+msgstr "Přidat budovu"
 
 #: tools/ruledit/tab_building.cpp:102
-#, fuzzy
 msgid "Remove this Building"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tuto budovu"
 
 #: tools/ruledit/tab_building.cpp:184
 msgid "A building with that rule name already exists!"
-msgstr ""
+msgstr "Budova s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_counters.cpp:100
 msgid "Default Value"
-msgstr ""
+msgstr "Výchozí hodnota"
 
 #: tools/ruledit/tab_counters.cpp:109
 msgid "Checkpoint"
-msgstr ""
+msgstr "Prahová hodnota"
 
 #: tools/ruledit/tab_counters.cpp:121
 msgid "Behavior"
-msgstr ""
+msgstr "Chování"
 
 #: tools/ruledit/tab_counters.cpp:139
 msgid "Add Counter"
-msgstr ""
+msgstr "Přidat počitadlo"
 
 #: tools/ruledit/tab_counters.cpp:142
-#, fuzzy
 msgid "Remove this Counter"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit toto počitadlo"
 
 #: tools/ruledit/tab_counters.cpp:275
 msgid "A counter with that rule name already exists!"
-msgstr ""
+msgstr "Počitadlo s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_enablers.cpp:138
 msgid "Actor Requirements"
-msgstr ""
+msgstr "Podmínky pro vykonavatele"
 
 #: tools/ruledit/tab_enablers.cpp:145
 msgid "Target Requirements"
-msgstr ""
+msgstr "Podmínky pro cíl"
 
 #: tools/ruledit/tab_enablers.cpp:152
 msgid "Add Enabler"
-msgstr ""
+msgstr "Přidat podmínky akce"
 
 #: tools/ruledit/tab_enablers.cpp:156
-#, fuzzy
 msgid "Remove this Enabler"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tyto podmínky akce"
 
 #: tools/ruledit/tab_enablers.cpp:164 tools/ruledit/tab_enablers.cpp:235
 #: tools/ruledit/tab_enablers.cpp:247
 msgid "Enabler Issues"
-msgstr ""
+msgstr "Problémy s podmínkami akcí"
 
 #. TRANS: Fix an error in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:226
 msgid "Repair Enabler"
-msgstr ""
+msgstr "Opravit podmínky akce"
 
 #. TRANS: Fix a non error issue in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:231
 msgid "Improve Enabler"
-msgstr ""
+msgstr "Vylepšit podmínky akce"
 
 #: tools/ruledit/tab_enablers.cpp:390
 msgid "Enabler (target)"
-msgstr ""
+msgstr "Podmínky akce (cíl)"
 
 #: tools/ruledit/tab_enablers.cpp:401
 msgid "Enabler (actor)"
-msgstr ""
+msgstr "Podmínky akce (vykonavatel)"
 
 #: tools/ruledit/tab_enablers.cpp:420
 #, c-format
 msgid "action enabler for %s"
-msgstr ""
+msgstr "podmínky akce %s"
 
 #: tools/ruledit/tab_extras.cpp:99
 msgid "Add Extra"
-msgstr ""
+msgstr "Přidat prvek pole"
 
 #: tools/ruledit/tab_extras.cpp:104
-#, fuzzy
 msgid "Remove this Extra"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tento prvek pole"
 
 #: tools/ruledit/tab_extras.cpp:188
 msgid "An extra with that rule name already exists!"
-msgstr ""
+msgstr "Prvek pole s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
-msgstr ""
+msgstr "Přidat druh zboží"
 
 #: tools/ruledit/tab_good.cpp:98
-#, fuzzy
 msgid "Remove this Good"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tento druh zboží"
 
 #: tools/ruledit/tab_good.cpp:182
 msgid "A good with that rule name already exists!"
-msgstr ""
+msgstr "Druh zboží s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_gov.cpp:95
 msgid "Add Government"
-msgstr ""
+msgstr "Přidat státní zřízení"
 
 #: tools/ruledit/tab_gov.cpp:100
-#, fuzzy
 msgid "Remove this Government"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit toto státní zřízení"
 
 #: tools/ruledit/tab_gov.cpp:184
 msgid "A government with that rule name already exists!"
-msgstr ""
+msgstr "Státní zřízení s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_misc.cpp:74
-#, fuzzy
 msgid "Ruleset name"
-msgstr "Poušť"
+msgstr "Název sady pravidel"
 
 #: tools/ruledit/tab_misc.cpp:79
-#, fuzzy
 msgid "Ruleset version"
-msgstr "Vládce:"
+msgstr "Verze sady pravidel"
 
 #: tools/ruledit/tab_misc.cpp:84
-#, fuzzy
 msgid "Save to directory"
-msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
+msgstr "Uložit do adresáře"
 
 #: tools/ruledit/tab_misc.cpp:106
 #, c-format
@@ -676,196 +671,189 @@ msgid ""
 "a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
+"Chcete-li sadu pravidel načítat přímo ve Freecivu, uložte ji do "
+"podadresáře v %s%s%s\n"
+"Ve Freecivu ji načtete serverovým příkazem „/rulesetdir <podadresář>“."
 
 #: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
-msgstr ""
+msgstr "Připojit verzi k názvu adresáře"
 
 #: tools/ruledit/tab_misc.cpp:120
-#, fuzzy
 msgid "Save now"
-msgstr "Start s_cénáře"
+msgstr "Uložit teď"
 
 #: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
-msgstr ""
+msgstr "Načíst popis ze souboru"
 
 #: tools/ruledit/tab_misc.cpp:131
 msgid "Description file"
-msgstr ""
+msgstr "Soubor s popisem"
 
 #: tools/ruledit/tab_misc.cpp:137
 msgid "Sanity check rules"
-msgstr ""
+msgstr "Zkontrolovat platnost pravidel"
 
 #: tools/ruledit/tab_misc.cpp:141
 msgid "Always active Effects"
-msgstr ""
+msgstr "Trvale aktivní efekty"
 
 #: tools/ruledit/tab_misc.cpp:144
 msgid "All Effects"
-msgstr ""
+msgstr "Všechny efekty"
 
 #: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Terrains"
-msgstr ""
+msgstr "?stat:Terény"
 
 #: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Resources"
-msgstr ""
+msgstr "?stat:Zdroje"
 
 #: tools/ruledit/tab_misc.cpp:159
-#, fuzzy
 msgid "?stat:Tech Classes"
-msgstr "_Technologie"
+msgstr "?stat:Třídy technologií"
 
 #: tools/ruledit/tab_misc.cpp:163
-#, fuzzy
 msgid "?stat:Techs"
-msgstr "_Technologie"
+msgstr "?stat:Technologie"
 
 #: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Unit Classes"
-msgstr ""
+msgstr "?stat:Třídy jednotek"
 
 #: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Unit Types"
-msgstr ""
+msgstr "?stat:Typy jednotek"
 
 #: tools/ruledit/tab_misc.cpp:175
-#, fuzzy
 msgid "?stat:Enablers"
-msgstr "_Technologie"
+msgstr "?stat:Podmínky akcí"
 
 #: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Buildings"
-msgstr ""
+msgstr "?stat:Budovy"
 
 #: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Nations"
-msgstr ""
+msgstr "?stat:Národy"
 
 #: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Styles"
-msgstr ""
+msgstr "?stat:Styly"
 
 #: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Specialists"
-msgstr ""
+msgstr "?stat:Specialisté"
 
 #: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Governments"
-msgstr ""
+msgstr "?stat:Státní zřízení"
 
 #: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Disasters"
-msgstr ""
+msgstr "?stat:Katastrofy"
 
 #: tools/ruledit/tab_misc.cpp:203
-#, fuzzy
 msgid "?stat:Counters"
-msgstr "_Technologie"
+msgstr "?stat:Počitadla"
 
 #: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Achievements"
-msgstr ""
+msgstr "?stat:Úspěchy"
 
 #: tools/ruledit/tab_misc.cpp:211
 msgid "?stat:Extras"
-msgstr ""
+msgstr "?stat:Prvky polí"
 
 #: tools/ruledit/tab_misc.cpp:215
 msgid "?stat:Bases"
-msgstr ""
+msgstr "?stat:Základny"
 
 #: tools/ruledit/tab_misc.cpp:219
 msgid "?stat:Roads"
-msgstr ""
+msgstr "?stat:Cesty"
 
 #: tools/ruledit/tab_misc.cpp:223
-#, fuzzy
 msgid "?stat:Goods"
-msgstr "_Technologie"
+msgstr "?stat:Zboží"
 
 #: tools/ruledit/tab_misc.cpp:227
 msgid "?stat:Multipliers"
-msgstr ""
+msgstr "?stat:Násobitele"
 
 #: tools/ruledit/tab_misc.cpp:231
-#, fuzzy
 msgid "?stat:Effects"
-msgstr "_Technologie"
+msgstr "?stat:Efekty"
 
 #: tools/ruledit/tab_misc.cpp:239
 msgid "Refresh Stats"
-msgstr ""
+msgstr "Aktualizovat statistiky"
 
 #: tools/ruledit/tab_misc.cpp:317
-#, fuzzy
 msgid "Ruleset saved"
-msgstr "Poušť"
+msgstr "Sada pravidel uložena"
 
 #: tools/ruledit/tab_misc.cpp:468
 msgid "Always active"
-msgstr ""
+msgstr "Trvale aktivní"
 
 #: tools/ruledit/tab_misc.cpp:489
 msgid "Sanity Check"
-msgstr ""
+msgstr "Kontrola platnosti"
 
 #: tools/ruledit/tab_misc.cpp:496
 msgid "Sanity check failed!"
-msgstr ""
+msgstr "Kontrola platnosti selhala!"
 
 #: tools/ruledit/tab_misc.cpp:498
 msgid "Sanity check success"
-msgstr ""
+msgstr "Kontrola platnosti proběhla úspěšně"
 
 #: tools/ruledit/tab_misc.cpp:507
 msgid "All effects"
-msgstr ""
+msgstr "Všechny efekty"
 
 #: tools/ruledit/tab_multiplier.cpp:88
 msgid "Add Multiplier"
-msgstr ""
+msgstr "Přidat násobitel"
 
 #: tools/ruledit/tab_multiplier.cpp:93
-#, fuzzy
 msgid "Remove this Multiplier"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tento násobitel"
 
 #: tools/ruledit/tab_multiplier.cpp:177
 msgid "A multiplier with that rule name already exists!"
-msgstr ""
+msgstr "Násobitel s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
-msgstr ""
+msgstr "Použít seznam národů"
 
 #: tools/ruledit/tab_nation.cpp:54
 msgid "Nationlist"
-msgstr ""
+msgstr "Seznam národů"
 
 #: tools/ruledit/tab_tech.cpp:90
 msgid "Req1"
-msgstr ""
+msgstr "Podmínka 1"
 
 #: tools/ruledit/tab_tech.cpp:99
 msgid "Req2"
-msgstr ""
+msgstr "Podmínka 2"
 
 #: tools/ruledit/tab_tech.cpp:107
 msgid "Root Req"
-msgstr ""
+msgstr "Základní podmínka"
 
 #: tools/ruledit/tab_tech.cpp:120
 msgid "Add tech"
-msgstr ""
+msgstr "Přidat technologii"
 
 #: tools/ruledit/tab_tech.cpp:124
-#, fuzzy
 msgid "Remove this tech"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tuto technologii"
 
 #: tools/ruledit/tab_tech.cpp:202
 msgid "Never"
@@ -873,84 +861,81 @@ msgstr "Nikdy"
 
 #: tools/ruledit/tab_tech.cpp:359
 msgid "A tech with that rule name already exists!"
-msgstr ""
+msgstr "Technologie s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_terrains.cpp:95
 msgid "Add Terrain"
-msgstr ""
+msgstr "Přidat terén"
 
 #: tools/ruledit/tab_terrains.cpp:100
-#, fuzzy
 msgid "Remove this Terrain"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tento terén"
 
 #: tools/ruledit/tab_terrains.cpp:184
 msgid "A terrain with that rule name already exists!"
-msgstr ""
+msgstr "Terén s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/tab_unit.cpp:95
 msgid "Add Unit"
-msgstr ""
+msgstr "Přidat jednotku"
 
 #: tools/ruledit/tab_unit.cpp:100
-#, fuzzy
 msgid "Remove this Unit"
-msgstr "Smazat tuto předvolbu?"
+msgstr "Odstranit tuto jednotku"
 
 #: tools/ruledit/tab_unit.cpp:183
 msgid "A unit type with that rule name already exists!"
-msgstr ""
+msgstr "Typ jednotky s tímto názvem už v pravidlech existuje!"
 
 #: tools/ruledit/req_edit.cpp:102
 msgid "Range:"
-msgstr ""
+msgstr "Dosah:"
 
 #: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:311
 msgid "Allows"
-msgstr ""
+msgstr "Povoluje"
 
 #: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:313
 #: tools/ruledit/req_edit.cpp:361
 msgid "Prevents"
-msgstr ""
+msgstr "Zakazuje"
 
 #: tools/ruledit/req_edit.cpp:127
 msgid "Add Requirement"
-msgstr ""
+msgstr "Přidat podmínku"
 
 #: tools/ruledit/req_edit.cpp:131
 msgid "Delete Requirement"
-msgstr ""
+msgstr "Odstranit podmínku"
 
 #: tools/ruledit/req_edit.cpp:162
 #, c-format
 msgid "%s prevents"
-msgstr ""
+msgstr "%s zabraňuje"
 
 #: tools/ruledit/validity.c:50 tools/ruledit/validity.c:385
 msgid "Effect"
-msgstr ""
+msgstr "Efekt"
 
 #: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
-msgstr ""
+msgstr "podmínky akce %s"
 
 #: tools/ruledit/validity.c:154
-#, fuzzy
 msgid "Music Style"
-msgstr "Styl měst:"
+msgstr "Hudební styl"
 
 #. TRANS: e.g. "Advance clause"
 #: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
-msgstr ""
+msgstr "ustanovení %s"
 
 #: tools/ruledit/validity.c:316
 msgid "Conflicting extra"
-msgstr ""
+msgstr "Neslučitelný prvek pole"
 
 #: tools/ruledit/validity.c:319
 msgid "Hidden extra"
-msgstr ""
+msgstr "Skrytý prvek pole"
